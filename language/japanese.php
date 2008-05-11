@@ -1316,20 +1316,20 @@ $LANG_LOGIN = array(
 );
 
 $LANG_PDF = array(
-    1 => 'The PDF feature has been disabled',
-    2 => 'The document provided was not rendered. The document was received but could not be processed.  Please make sure to submit only html formatted documents that have been written to the xHTML standard. Please note that overly complex html documents may not render correctly or at all.The document resulting from your attempt was 0 bytes in length, and has been deleted. If you\'re sure that your document should render fine, please re-submit it.',
-    3 => 'Unknown error during PDF generation',
-    4 => "No page data was given or you want to use the ad-hoc PDF generation tool below.  If you think you are getting this page\n          in error then please contact the system administrator.  Otherwise, you may use the form below to generate PDF's in an ad-hoc fashion.",
-    5 => 'Loading your document.',
-    6 => 'Please wait while your document is loaded.',
-    7 => 'You may right click the button below and choose \'save target...\' or \'save link location...\' to save a copy of your document.',
-    8 => "The path given in the configuration file to the HTMLDoc binary is invalid or this system cannot execute it.  Please contact the site administrator if this problem\n          persists.",
-    9 => 'PDF Generator',
-    10 => "This is the Ad-hoc PDF Generation tool. It will attempt to convert any URL you give into a PDF.  Please note that some web pages will not render properly with this feature.  This\n           is a limitation of the HTMLDoc PDF generation tool and such errors should not be reported to the administrators of this site",
+    1 => 'PDF生成ができません。',
+    2 => 'ドキュメントは書き出しできませんでした。受理しましたが処理できません。XHTML標準で書き出されたものか確認してください。複雑なドキュメントは生成できない場合があります。0バイトのドキュメントは自動的に削除されます。ただしいドキュメントであれば再度実行してください。',
+    3 => '不明なPDF生成エラーです。',
+    4 => "生成できない場合，あるいはアドホックPDF生成ツールは以下をご覧ください。生成したい場合にはシステム管理者に連絡してください。そうでなければ，アドホックPDFスタイルのフォームを利用してください。",
+    5 => 'ドキュメントロード中',
+    6 => 'ドキュメントをロード中ですのでおまちください。',
+    7 => '右クリックして選べます。...またはリンク...ドキュメントを保存するために。',
+    8 => "HTMLバイナリドキュメントのコンフィギュレーションの設定でパスが不正であれば実行できません。システム管理者にご連絡ください。",
+    9 => 'PDFジェネレータ',
+    10 => "これはアドホックPDF生成ツールです。どのようなURLからでもPDFを生成できますが，すべてのページでただしく生成されるわけではありません。これはHTMLドキュメントからPDFを生成するツールの制限でもあります。そのため，その制限に関してシステム管理者に一々報告しないようにお願いします。",
     11 => 'URL',
-    12 => 'Generate PDF!',
-    13 => 'The PHP configuration on this server does not allow URLs to be used with the fopen() command.  The system administrator must edit the php.ini file and set allow_url_fopen to On',
-    14 => 'The PDF you requested either does not exist or you tried to illegally access a file.'
+    12 => 'PDFを生成！',
+    13 => 'このサーバのPHPの設定で，URLがfopen()コマンドで利用することが許可されていません。システム管理者は，php.iniを編集し，allow_url_fopen を Onにする必要があります。',
+    14 => 'PDF生成のために，不正なファイルをアクセスしました。'
 );
 
 ###############################################################################
@@ -1854,7 +1854,7 @@ $LANG_configselects['Core'] = array(
     9 => array('ページを表示する' => 'item', 'リストを表示する' => 'list', 'HOMEリンクを表示する' => 'home', '管理者専用メニューを表示する' => 'admin'),
     10 => array('なし'=>'', 'Netpbm'=>'netpbm', 'ImageMagick'=>'imagemagick', 'GDライブラリ' =>'gdlib'),
     11 => array_flip($LANG_commentmodes),
-    12 => array('アクセス不可'=>0, '呼出のみ可'=>2,'呼出・書込可'=>3),
+    12 => array('アクセス不可'=>0, '表示'=>2,'表示・編集'=>3),
     13 => array('スキップする' => 0, '許可する(速度制限あり)' => 1, '許可する(速度制限なし)' => 2),
     14 => array('日曜日' => 'Sun', '月曜日' => 'Mon'),
     15 => array('番号順' => 'sortnum', 'アルファベット順' => 'alpha'),
