@@ -195,23 +195,23 @@ $PLG_calendar_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['calendar'] = array(
-    'label' => 'Calendar',
-    'title' => 'Calendar Configuration'
+    'label' => 'カレンダー',
+    'title' => 'カレンダーの設定'
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'Calendar Login Required?',
-    'hidecalendarmenu' => 'Hide Calendar Menu Entry?',
-    'personalcalendars' => 'Enable Personal Calendars?',
-    'eventsubmission' => 'Enable Submission Queue?',
+    'calendarloginrequired' => 'カレンダーにはログインが必要ですか?',
+    'hidecalendarmenu' => 'カレンダーのメニュ項目を隠しますか?',
+    'personalcalendars' => '個人カレンダーを有効にしますか?',
+    'eventsubmission' => 'Submission Queueを有効にしますか?',
     'showupcomingevents' => 'Show upcoming Events?',
     'upcomingeventsrange' => 'Upcoming Events Range',
-    'event_types' => 'Event Types',
-    'hour_mode' => 'Hour Mode',
-    'notification' => 'Notification Email?',
-    'delete_event' => 'Delete Events with Owner?',
-    'aftersave' => 'After Saving Event',
-    'default_permissions' => 'Event Default Permissions'
+    'event_types' => 'イベントの種類',
+    'hour_mode' => '時間モード',
+    'notification' => 'メールで通知しますか?',
+    'delete_event' => '所有者が削除された時イベントも一緒に削除しますか?',
+    'aftersave' => 'イベントを保存した後何を表示しますか？',
+    'default_permissions' => 'イベントのパーミションの初期値'
 );
 
 $LANG_configsubgroups['calendar'] = array(
@@ -219,8 +219,8 @@ $LANG_configsubgroups['calendar'] = array(
 );
 
 $LANG_fs['calendar'] = array(
-    'fs_main' => 'General Calendar Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => 'カレンダーの一般設定',
+    'fs_permissions' => 'デフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
