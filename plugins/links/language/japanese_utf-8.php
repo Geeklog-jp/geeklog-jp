@@ -66,17 +66,17 @@ $LANG_LINKS = array(
     88 => '新しいリンクはありません',
     114 => 'リンク',
     116 => 'リンクの追加',
-    117 => 'Report Broken Link',
-    118 => 'Broken Link Report',
-    119 => 'The following link has been reported to be broken: ',
-    120 => 'To edit the link, click here: ',
-    121 => 'The broken Link was reported by: ',
-    122 => 'Thank you for reporting this broken link. The administrator will correct the problem as soon as possible',
-    123 => 'Thank you',
-    124 => 'Go',
-    125 => 'Categories',
-    126 => 'You are here:',
-    'root' => 'Root' // title used for top level category
+    117 => 'リンク切れをご報告ください。',
+    118 => 'リンク切れの報告',
+    119 => '次のリンクは切れていると報告されました： ',
+    120 => 'リンクの編集は、ここをクリック： ',
+    121 => 'リンク切れの報告者： ',
+    122 => 'リンク切れをご報告いただきありがとうございます。できるだけ速やかに修正いたします。',
+    123 => 'ありがとうございます。',
+    124 => '表示',
+    125 => 'カテゴリ',
+    126 => '現在の位置：',
+    'root' => 'ルート' // title used for top level category
 );
 
 ###############################################################################
@@ -162,17 +162,17 @@ $PLG_links_MESSAGE3002 = $LANG32[9];
 */
 $LANG_LINKS_ADMIN = array(
     1 => 'リンクの編集',
-    2 => 'ID',
+    2 => 'リンク ID',
     3 => 'タイトル',
     4 => 'URL',
     5 => 'カテゴリ',
     6 => '(http://を含む)',
     7 => 'その他',
-    8 => 'リンクの参照',
+    8 => 'ヒット数',
     9 => '説明',
-    10 => 'タイトル，URL，説明が必要です',
+    10 => 'タイトル，URL，説明の入力が必要です',
     11 => 'リンクの管理',
-    12 => 'リンクを修正，削除する場合は各リンクの「編集」アイコンをクリックしてください。新規作成は上の「新規」をクリックしてください。',
+    12 => 'リンクを修正・削除する場合は各リンクの「編集」アイコンをクリックしてください。リンクまたはカテゴリを作成する場合は、上の「リンクの作成」または「カテゴリの作成」をクリックしてください。マルチカテゴリを編集する場合は、上の「カテゴリの編集」をクリックしてください。',
     14 => 'カテゴリ',
     16 => 'アクセスが拒否されました',
     17 => "権限のないリンクにアクセスしようとしましたのでログに記録しました。<a href=\"{$_CONF['site_admin_url']}/plugins/links/index.php\">リンクの管理画面に戻って</a>ください。",
@@ -188,7 +188,7 @@ $LANG_LINKS_ADMIN = array(
     29 => '以下の項目を入力または編集してください。',
     30 => 'カテゴリ',
     31 => '説明',
-    32 => 'カテゴリID',
+    32 => 'カテゴリ ID',
     33 => '話題',
     34 => '親カテゴリ',
     35 => 'すべて',
@@ -196,18 +196,18 @@ $LANG_LINKS_ADMIN = array(
     41 => '子カテゴリを作成する',
     42 => 'このカテゴリを削除する',
     43 => 'サイトカテゴリ',
-    44 => '追加&nbsp;子',
-    46 => 'ユーザー %s は、アクセス権限がないカテゴリを削除しようとしました。',
+    44 => '子カテゴリの追加',
+    46 => 'ユーザ %s は、アクセス権限がないカテゴリを削除しようとしました。',
     50 => 'カテゴリの一覧',
     51 => 'リンクの作成',
     52 => 'カテゴリの作成',
     53 => 'リンクの一覧',
-    54 => 'カテゴリマネージャ',
-    55 => '以下のカテゴリを編集してください。 Note that you cannot delete a category that contains other categories or links - you should delete these first, or move them to another category.',
-    56 => 'カテゴリエディタ',
+    54 => 'カテゴリの管理',
+    55 => '以下のカテゴリを編集してください。 リンクやカテゴリを含むカテゴリは削除できません。先にこれらを削除するか、ほかのカテゴリに移す必要があります。',
+    56 => 'カテゴリの編集',
     57 => 'まだ確認されていません。',
     58 => 'リンクの確認',
-    59 => '<p>表示されている全てのリンクを確認する場合は、下の「リンクの確認」をクリックしてください。この処理はリンクの数に応じてかなりの時間がかかるかもしれない点に注意してください。</p>',
+    59 => '<p>表示されている全てのリンクを確認する場合は、下の「リンクの確認」をクリックしてください。この処理はリンクの数に応じてかなりの時間がかかるかもしれません。</p>',
     60 => 'ユーザ %s は権限なしにカテゴリ %s を編集しようとしました。'
 );
 
@@ -258,35 +258,35 @@ $LANG_LINKS_STATUS = array(
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['links'] = array(
-    'label' => 'Links',
-    'title' => 'Links Configuration'
+    'label' => 'リンク',
+    'title' => 'リンクの設定'
 );
 
 $LANG_confignames['links'] = array(
-    'linksloginrequired' => 'Links Login Required?',
-    'linksubmission' => 'Enable Submission Queue?',
-    'newlinksinterval' => 'New Links Interval',
-    'hidenewlinks' => 'Hide New Links?',
-    'hidelinksmenu' => 'Hide Links Menu Entry?',
-    'linkcols' => 'Categories per Column',
-    'linksperpage' => 'Links per Page',
-    'show_top10' => 'Show Top 10 Links?',
-    'notification' => 'Notification Email?',
-    'delete_links' => 'Delete Links with Owner?',
-    'aftersave' => 'After Saving Link',
-    'show_category_descriptions' => 'Show Category Description?',
-    'root' => 'ID of Root Category',
-    'default_permissions' => 'Link Default Permissions'
+    'linksloginrequired' => 'リンクにはログインが必要?',
+    'linksubmission' => '送信キューを有効にする?',
+    'newlinksinterval' => 'リンク作成の間隔',
+    'hidenewlinks' => '新しいリンクを隠す?',
+    'hidelinksmenu' => 'メニューエントリーを隠す?',
+    'linkcols' => 'カテゴリの表示カラム数',
+    'linksperpage' => 'ページあたりのリンク数',
+    'show_top10' => 'リンクのトップ10を表示する?',
+    'notification' => 'メールで通知する?',
+    'delete_links' => 'オーナーだけリンクを削除できる?',
+    'aftersave' => '保存後のリンク先',
+    'show_category_descriptions' => 'カテゴリの説明を表示する?',
+    'root' => 'ルートカテゴリの ID',
+    'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['links'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['links'] = array(
-    'fs_public' => 'Public Links List Settings',
-    'fs_admin' => 'Links Admin Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_public' => 'リンクリスト公開の設定',
+    'fs_admin' => 'リンク管理の設定',
+    'fs_permissions' => 'リンクのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
