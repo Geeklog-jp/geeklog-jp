@@ -11,14 +11,37 @@ the 2007 Google Summer of Code:
 + New Webservices API based on the Atom Publishing Protocol by Ramnath R. Iyer
 
 Other changes:
-- Removed an extra } from the Static Pages staticpage.thtml template file
-  (reported by Markus Wollschläger) [Dirk]
+- Hard-coded the text direction as "ltr" for some input fields and the date/time
+  selection in the story editor (bug #0000150). Also removed "text-align:left"
+  for the HTML body from the Professional theme's style sheet as it interferes
+  with the ability to switch the text direction [Dirk]
+- Removed references to config.php from the documentation, some READMEs, and
+  some source files (bug #0000627) [Dirk]
+- Don't include the (internal) 'subgroup' and 'fieldset' entries in the $_CONF
+  arrays [Dirk]
 - COM_numberFormat wouldn't handle decimals correctly (bug #0000624) [Dirk]
 - Make sure the XHTML constant is defined if the theme doesn't already define
   it (bug #0000622) [Dirk]
 - Fixed invalid <brXHTML> tag in some language files (bug #0000621) [Dirk]
-- The URL sent in a user registration notification contained a &amp; where it
+- The URL sent in a user registration notification contained an &amp; where it
   should have been a simple & [Dirk]
+
+Polls plugin
+------------
+- Renamed 'open' column in the gl_polltopics table to 'is_open' as "open" is
+  a reserved keyword in MS SQL server [Matt]
+- Fixed duplicate sort_order value in the Polls config [Dirk]
+- Cosmetic changes in the Polls topic and results (bug #0000625) [Dirk]
+
+Static Pages plugin
+-------------------
+- Moved the print and edit icons to the bottom of a static page in the default
+  staticpage.thtml template file. Also removed the icons from the default
+  centerblock.thtml template file and defined the {lastupdate} and {hits}
+  variables there (bug #0000628) [Dirk]
+- Removed an extra } from the Static Pages staticpage.thtml template file
+  (reported by Markus Wollschläger) [Dirk]
+
 
 
 May 5, 2008 (1.5.0b1)
