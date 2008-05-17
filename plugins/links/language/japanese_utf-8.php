@@ -133,12 +133,12 @@ $LANG_LINKS_SUBMIT = array(
 ###############################################################################
 # Messages for COM_showMessage the submission form
 
-$PLG_links_MESSAGE1 = "{$_CONF['site_name']}にリンクを登録していただき、ありがとうございます。このリンクは承認のためにスタッフに送られました。承認されますと、あなたのリンクは<a href={$_CONF['site_url']}/links/index.php>リンク</a>セクションに表示されます。";
+$PLG_links_MESSAGE1 = "{$_CONF['site_name']}にリンクを登録していただき、ありがとうございます。このリンクは承認のためにスタッフに送られました。承認されますと、あなたのリンクは<a href={$_CONF['site_url']}/links/index.php>リンクセクション</a>に表示されます。";
 $PLG_links_MESSAGE2 = 'リンクは保存されました。';
 $PLG_links_MESSAGE3 = 'リンクは削除されました。';
 $PLG_links_MESSAGE4 = "{$_CONF['site_name']}にリンクを登録していただき、ありがとうございます。<a href={$_CONF['site_url']}/links/index.php>リンク</a>セクションでご覧いただけます。";
-$PLG_links_MESSAGE5 = "あなたには、このカテゴリを見るためのアクセス権がありません。";
-$PLG_links_MESSAGE6 = 'あなたには、このカテゴリを編集する権利がありません。';
+$PLG_links_MESSAGE5 = "あなたには、このカテゴリを見るための十分なアクセス権がありません。";
+$PLG_links_MESSAGE6 = 'あなたには、このカテゴリを編集する十分な権利がありません。';
 $PLG_links_MESSAGE7 = 'カテゴリの名前と説明を入力してください。';
 
 $PLG_links_MESSAGE10 = 'カテゴリは保存されました。';
@@ -147,7 +147,7 @@ $PLG_links_MESSAGE11 = 'カテゴリ IDを「site」または「user」に設定
 $PLG_links_MESSAGE12 = 'あなたは、子カテゴリが、それ自身をサブカテゴリとする、親カテゴリを作成しようとしています。これは孤立するカテゴリを作成するので、先に子カテゴリまたはカテゴリを、より高いレベルへ移動させてください。';// 自信なし。
 $PLG_links_MESSAGE13 = 'カテゴリは削除されました。';
 $PLG_links_MESSAGE14 = 'カテゴリはリンクやカテゴリを含んでいます。先にそれらを取り除いてください。';
-$PLG_links_MESSAGE15 = 'あなたには、このカテゴリを削除する権利がありません。';
+$PLG_links_MESSAGE15 = 'あなたには、このカテゴリを削除する十分な権利がありません。';
 $PLG_links_MESSAGE16 = 'そのようなカテゴリは存在しません。';
 
 // Messages for the plugin upgrade
