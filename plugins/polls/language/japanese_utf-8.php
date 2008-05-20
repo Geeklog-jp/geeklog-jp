@@ -110,30 +110,30 @@ $PLG_polls_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['polls'] = array(
-    'label' => 'Polls',
-    'title' => 'Polls Configuration'
+    'label' => 'アンケート',
+    'title' => 'アンケートの設定'
 );  
 
 $LANG_confignames['polls'] = array(
-    'pollsloginrequired' => 'Polls Login Required?',
-    'hidepollsmenu' => 'Hide Polls Menu Entry?',
-    'maxquestions' => 'Max. Questions per Poll',
-    'maxanswers' => 'Max. Options per Question',
-    'answerorder' => 'Sort Results ...',
-    'pollcookietime' => 'Voter Cookie valid for',
-    'polladdresstime' => 'Voter IP Address valid for',
-    'delete_polls' => 'Delete Polls with Owner?',
-    'aftersave' => 'After Saving Poll',
-    'default_permissions' => 'Poll Default Permissions'
+    'pollsloginrequired' => '投票にはログインが必要？',
+    'hidepollsmenu' => '投票メニューを隠す?',
+    'maxquestions' => 'アンケート毎の質問数の上限',
+    'maxanswers' => '質問ごとのオプション数の上限',
+    'answerorder' => '状況の並び替え ...',
+    'pollcookietime' => 'クッキーを使用して投票者を確認する',
+    'polladdresstime' => 'IPアドレスを元に投票者を確認する',
+    'delete_polls' => '所有者が削除されたらアンケートも削除する？',
+    'aftersave' => '投票が保存された後の移動先',
+    'default_permissions' => 'アンケートの標準パーミッション'
 );
 
 $LANG_configsubgroups['polls'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => '設定'
 );
 
 $LANG_fs['polls'] = array(
-    'fs_main' => 'General Polls Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => 'アンケートの全体設定',
+    'fs_permissions' => '標準のパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -141,7 +141,7 @@ $LANG_configselects['polls'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
     2 => array('As Submitted' => 'submitorder', 'By Votes' => 'voteorder'),
-    9 => array('Forward to Poll' => 'item', 'Display Admin List' => 'list', 'Display Public List' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
+    9 => array('Forward to Poll' => 'item', 'Admin Listを表示' => 'list', 'Public 一覧を表示' => 'plugin', 'ホームを表示' => 'home', '管理画面を表示' => 'admin'),
     12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
 );
 

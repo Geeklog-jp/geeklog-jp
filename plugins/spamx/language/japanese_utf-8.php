@@ -146,19 +146,19 @@ $LANG_configsections['spamx'] = array(
 );
 
 $LANG_confignames['spamx'] = array(
-    'action' => 'Spam-X Actions',
-    'notification_email' => 'Notification Email',
-    'admin_override' => "Don't Filter Admin Posts",
-    'logging' => 'Enable Logging',
-    'timeout' => 'Timeout'
+    'action' => 'Spam-X の動作',
+    'notification_email' => 'メールでお知らせ',
+    'admin_override' => "管理者の入力はフィルターしない",
+    'logging' => 'ログを有効にする',
+    'timeout' => 'タイムアウト'
 );
 
 $LANG_configsubgroups['spamx'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => '設定'
 );
 
 $LANG_fs['spamx'] = array(
-    'fs_main' => 'Spam-X Main Settings'
+    'fs_main' => 'Spam-X の設定'
 );
 
 $LANG_configselects['spamx'] = array(
