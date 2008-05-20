@@ -32,7 +32,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.52 2008/05/13 19:42:16 dhaun Exp $
+// $Id: index.php,v 1.55 2008/05/18 16:58:51 dhaun Exp $
 
 // Set this to true if you want to log debug messages to error.log
 $_POLL_VERBOSE = false;
@@ -155,7 +155,6 @@ function savepoll ($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults
                            COM_getBlockTemplate ('_msg_block', 'header'));
         $retval .= $LANG25[2];
         $retval .= COM_endBlock(COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= editpoll ($pid);
         $retval .= COM_siteFooter ();
         return $retval;
     }
@@ -288,7 +287,6 @@ function editpoll ($pid = '')
 
     $retval = '';
 
-
     // writing the menu on top
     require_once( $_CONF['path_system'] . 'lib-admin.php' );
     $menu_arr = array (
@@ -347,6 +345,7 @@ function editpoll ($pid = '')
         $T['voters'] = 0;
         $T['display'] = 1;
         $T['is_open'] = 1;
+        $T['hideresults'] = 0;
         $T['owner_id'] = $_USER['uid'];
         if (isset ($_GROUPS['Polls Admin'])) {
             $T['group_id'] = $_GROUPS['Polls Admin'];
@@ -455,7 +454,8 @@ function editpoll ($pid = '')
     }
     $navbar->set_selected($LANG25[31] . " 1");
     $poll_templates->set_var ('navbar', $navbar->generate());
-
+    $poll_templates->set_var('gltoken_name', CSRF_TOKEN);
+    $poll_templates->set_var('gltoken', SEC_createToken());
 
     $poll_templates->parse('output','editor');
     $retval .= $poll_templates->finish($poll_templates->get_var('output'));
@@ -511,7 +511,7 @@ if ($mode == 'edit') {
     }
     $display .= editpoll ($pid);
     $display .= COM_siteFooter ();
-} else if (($mode == $LANG_ADMIN['save']) && !empty ($LANG_ADMIN['save'])) {
+} elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) {
     $pid = COM_applyFilter ($_POST['pid']);
     if (!empty ($pid)) {
         $statuscode = 0;
@@ -547,7 +547,7 @@ if ($mode == 'edit') {
         $display .= editpoll ();
         $display .= COM_siteFooter ();
     }
-} else if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
+} elseif (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete'])) {
     $pid = '';
     if (isset ($_POST['pid'])) {
         $pid = COM_applyFilter ($_POST['pid']);
@@ -555,8 +555,11 @@ if ($mode == 'edit') {
     if (empty ($pid)) {
         COM_errorLog ('Ignored possibly manipulated request to delete a poll.');
         $display .= COM_refresh ($_CONF['site_admin_url'] . '/plugins/polls/index.php');
-    } else {
+    } elseif (SEC_checkToken()) {
         $display .= deletePoll ($pid);
+    } else {
+        COM_accessLog("User {$_USER['username']} tried to illegally delete poll $pid and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
 } else { // 'cancel' or no mode at all
 
