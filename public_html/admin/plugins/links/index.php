@@ -32,7 +32,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.57 2008/04/12 19:51:15 dhaun Exp $
+// $Id: index.php,v 1.60 2008/05/18 13:55:40 dhaun Exp $
 
 /**
  * Geeklog links administration page.
@@ -207,6 +207,8 @@ function editlink ($mode, $lid = '')
     $link_templates->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
     $link_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
     $link_templates->set_var('lang_lockmsg', $LANG_ACCESS['permmsg']);
+    $link_templates->set_var('gltoken_name', CSRF_TOKEN);
+    $link_templates->set_var('gltoken', SEC_createToken());
     $link_templates->parse('output', 'editor');
     $retval .= $link_templates->finish($link_templates->get_var('output'));
 
@@ -371,24 +373,23 @@ function listlinks ()
     );
 
     $validate = '';
-    $token = SEC_createToken();
-    if (isset($_GET['validate']) && SEC_checkToken()) {
+    if (isset($_GET['validate'])) {
+        $token = SEC_createToken();
         $menu_arr[] = array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php',
             'text' => $LANG_LINKS_ADMIN[53]);
-        $dovalidate_url = $_CONF['site_admin_url'] . '/plugins/links/index.php?validate=validate'
-                          . '&amp;'.CSRF_TOKEN.'='.$token;
+        $dovalidate_url = $_CONF['site_admin_url'] . '/plugins/links/index.php?validate=validate' . '&amp;'.CSRF_TOKEN.'='.$token;
         $dovalidate_text = $LANG_LINKS_ADMIN[58];
         $form_arr['top'] = COM_createLink($dovalidate_text, $dovalidate_url);
         if ($_GET['validate'] == 'enabled') {
             $header_arr[] = array('text' => $LANG_LINKS_ADMIN[27], 'field' => 'beforevalidate', 'sort' => false);
-            $validate = '?validate=enabled&amp;'.CSRF_TOKEN.'='.$token;
-        } else if ($_GET['validate'] == 'validate'){
+            $validate = '?validate=enabled';
+        } else if ($_GET['validate'] == 'validate') {
             $header_arr[] = array('text' => $LANG_LINKS_ADMIN[27], 'field' => 'dovalidate', 'sort' => false);
             $validate = '?validate=validate&amp;'.CSRF_TOKEN.'='.$token;
         }
         $validate_help = $LANG_LINKS_ADMIN[59];
     } else {
-        $menu_arr[] = array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php?validate=enabled&amp;'.CSRF_TOKEN.'='.$token,
+        $menu_arr[] = array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php?validate=enabled',
               'text' => $LANG_LINKS_ADMIN[26]);
         $form_arr = array();
         $validate_help = '';
@@ -483,17 +484,24 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     if (!isset ($lid) || empty ($lid)) {  // || ($lid == 0)
         COM_errorLog ('Attempted to delete link lid=' . $lid );
         $display .= COM_refresh ($_CONF['site_admin_url'] . '/plugins/links/index.php');
-    } else {
+    } elseif (SEC_checkToken()) {
         $type = '';
         if (isset($_POST['type'])) {
             $type = COM_applyFilter($_POST['type']);
         }
         $display .= deleteLink($lid, $type);
+    } else {
+        COM_accessLog("User {$_USER['username']} tried to illegally delete link $lid and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
-} else if (($mode == $LANG_ADMIN['save']) && !empty ($LANG_ADMIN['save'])) {
+} elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) {
+    $cid = '';
+    if (isset($_POST['cid'])) {
+        $cid = $_POST['cid'];
+    }
     $display .= savelink (COM_applyFilter ($_POST['lid']),
             COM_applyFilter ($_POST['old_lid']),
-            $_POST['cid'], $_POST['categorydd'],
+            $cid, $_POST['categorydd'],
             $_POST['url'], $_POST['description'], $_POST['title'],
             COM_applyFilter ($_POST['hits'], true),
             COM_applyFilter ($_POST['owner_id'], true),

@@ -33,7 +33,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: block.php,v 1.121 2008/04/19 15:14:41 mjervis Exp $
+// $Id: block.php,v 1.123 2008/05/18 08:19:35 dhaun Exp $
 
 require_once '../lib-common.php';
 require_once 'auth.inc.php';
@@ -166,6 +166,8 @@ function editdefaultblock ($A, $access)
     $block_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
     $block_templates->set_var('permissions_msg', $LANG_ACCESS['permmsg']);
     $block_templates->set_var('max_url_length', 255);
+    $block_templates->set_var('gltoken_name', CSRF_TOKEN);
+    $block_templates->set_var('gltoken', SEC_createToken());
     $block_templates->parse('output','editor');
     $retval .= $block_templates->finish($block_templates->get_var('output'));
     $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
@@ -354,6 +356,8 @@ function editblock ($bid = '')
     } else {
         $block_templates->set_var ('allow_autotags', '');
     }
+    $block_templates->set_var('gltoken_name', CSRF_TOKEN);
+    $block_templates->set_var('gltoken', SEC_createToken());
     $block_templates->set_var ('end_block',
             COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer')));
     $block_templates->parse('output', 'editor');
@@ -710,9 +714,10 @@ function moveBlock()
 /**
 * Enable and Disable block
 */
-function changeBlockStatus ($side, $bid_arr)
+function changeBlockStatus($side, $bid_arr)
 {
     global $_CONF, $_TABLES;
+
     // first, disable all on the requested side
     $side = COM_applyFilter($side, true);
     $sql = "UPDATE {$_TABLES['blocks']} SET is_enabled = '0' WHERE onleft='$side';";
@@ -764,18 +769,25 @@ if (!empty($_REQUEST['bid'])) {
     $bid = COM_applyFilter ($_REQUEST['bid']);
 }
 
-if (isset ($_POST['blockenabler'])) {
-    changeBlockStatus ($_POST['blockenabler'], $_POST['enabledblocks']);
+if (isset($_POST['blockenabler']) && SEC_checkToken()) {
+    $enabledblocks = array();
+    if (isset($_POST['enabledblocks'])) {
+        $enabledblocks = $_POST['enabledblocks'];
+    }
+    changeBlockStatus($_POST['blockenabler'], $enabledblocks);
 }
 
 if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     if (!isset ($bid) || empty ($bid) || ($bid == 0)) {
         COM_errorLog ('Attempted to delete block, bid empty or null, value =' . $bid);
         $display .= COM_refresh ($_CONF['site_admin_url'] . '/block.php');
-    } else {
+    } elseif (SEC_checkToken()) {
         $display .= deleteBlock ($bid);
+    } else {
+        COM_accessLog("User {$_USER['username']} tried to illegally delete block $bid and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
-} else if (($mode == $LANG_ADMIN['save']) && !empty ($LANG_ADMIN['save'])) {
+} elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) {
     $help = '';
     if (isset ($_POST['help'])) {
         $help = COM_sanitizeUrl ($_POST['help'], array ('http', 'https'));
