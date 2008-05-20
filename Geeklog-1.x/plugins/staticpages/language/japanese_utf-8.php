@@ -121,32 +121,32 @@ $PLG_staticpages_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['staticpages'] = array(
-    'label' => 'Static Pages',
-    'title' => 'Static Pages Configuration'
+    'label' => '静的ページ',
+    'title' => '静的ページの設定'
 );
 
 $LANG_confignames['staticpages'] = array(
-    'allow_php' => 'Allow PHP?',
-    'sort_by' => 'Sort Centerblocks by',
-    'sort_menu_by' => 'Sort Menu Entries by',
-    'delete_pages' => 'Delete Pages with Owner?',
+    'allow_php' => 'PHPを許可する?',
+    'sort_by' => 'センターブロックでの並び替え順序',
+    'sort_menu_by' => 'メニューでの並び替え順序',
+    'delete_pages' => '所有者が削除されたら一緒に静的ページも削除する?',
     'in_block' => 'Wrap Pages in Block?',
-    'show_hits' => 'Show Hits?',
-    'show_date' => 'Show Date?',
-    'filter_html' => 'Filter HTML?',
+    'show_hits' => 'Hitsを表示?',
+    'show_date' => '日付を表示?',
+    'filter_html' => 'HTMLをフィルターする?',
     'censor' => 'Censor Content?',
-    'default_permissions' => 'Page Default Permissions',
-    'aftersave' => 'After Saving Page',
-    'atom_max_items' => 'Max. Pages in Webservices Feed'
+    'default_permissions' => 'ページの標準パーミッション',
+    'aftersave' => 'パージの保存後の動作',
+    'atom_max_items' => 'Feed に使用するページの最大数'
 );
 
 $LANG_configsubgroups['staticpages'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => '設定'
 );
 
 $LANG_fs['staticpages'] = array(
-    'fs_main' => 'Static Pages Main Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => '背的ページの設定',
+    'fs_permissions' => '標準パーミッション'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
