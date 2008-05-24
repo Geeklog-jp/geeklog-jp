@@ -32,7 +32,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.33 2008/04/19 15:05:34 dhaun Exp $
+// $Id: index.php,v 1.36 2008/05/23 20:24:57 dhaun Exp $
 
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
@@ -71,7 +71,6 @@ if (!SEC_hasRights('calendar.edit')) {
 * @return   string          HTML for event editor or error message
 *
 */
-
 function CALENDAR_editEvent ($mode, $A, $msg = '')
 {
     global $_CONF, $_GROUPS, $_TABLES, $_USER, $_CA_CONF, $LANG_CAL_1,
@@ -329,6 +328,8 @@ function CALENDAR_editEvent ($mode, $A, $msg = '')
     $event_templates->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $event_templates->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
     $event_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
+    $event_templates->set_var('gltoken_name', CSRF_TOKEN);
+    $event_templates->set_var('gltoken', SEC_createToken());
     $event_templates->parse('output', 'editor');
     $retval .= $event_templates->finish($event_templates->get_var('output'));
     $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
@@ -339,20 +340,7 @@ function CALENDAR_editEvent ($mode, $A, $msg = '')
 /**
 * Saves an event to the database
 *
-* @param    string  $eid            Event ID
-* @param    string  $title          Event Title
-* @param    string  $url            URL for the event
-* @param    string  $datestart      Date the event begins on
-* @param    string  $dateend        Date the event ends on
-* @param    string  $location       Where the event will be held at
-* @param    string  $description    Description about the event
-* @param    string  $postmode       Is this HTML or plain text?
-* @param    string  $owner_id       ID of owner
-* @param    string  $group_id       ID of group event belongs to
-* @param    string  $perm_owner     Permissions the owner has on event
-* @param    string  $perm_group     Permissions the groups has on the event
-* @param    string  $perm_members   Permisssions members have on the event
-* @param    string  $perm_anon      Permissions anonymous users have
+* (parameters should be obvious - old list was incomplete anyway)
 * @return   string                  HTML redirect or error message
 *
 */
@@ -517,6 +505,12 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
     }
 
     if (!empty ($eid) AND !empty ($description) AND !empty ($title)) {
+        if (!SEC_checkToken()) {
+            COM_accessLog("User {$_USER['username']} tried to save event $eid and failed CSRF checks.");
+            return COM_refresh($_CONF['site_admin_url']
+                               . '/plugins/calendar/index.php');
+        }
+
         DB_delete ($_TABLES['eventsubmission'], 'eid', $eid);
 
         DB_save($_TABLES['events'],
@@ -572,30 +566,38 @@ $mode = '';
 if (isset($_REQUEST['mode'])) {
     $mode = $_REQUEST['mode'];
 }
-if (isset($_POST["delbutton_x"])) {
-    $mode = batchdeleteexec;
+if (isset($_POST['delbutton_x'])) {
+    $mode = 'batchdeleteexec';
 }
 
 if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $eid = COM_applyFilter ($_REQUEST['eid']);
     if (!isset ($eid) || empty ($eid) || ($eid == 0)) {
-        COM_errorLog ('Attempted to delete event eid=\''
-                      . $eid . "'");
-        $display .= COM_refresh ($_CONF['site_admin_url'] . '/plugins/calendar/index.php');
-    } else {
+        COM_errorLog ('Attempted to delete event eid=\'' . $eid . "'");
+        $display .= COM_refresh($_CONF['site_admin_url']
+                                . '/plugins/calendar/index.php');
+    } elseif (SEC_checkToken()) {
         $type = '';
         if (isset($_POST['type'])) {
             $type = COM_applyFilter($_POST['type']);
         }
         $display .= CALENDAR_deleteEvent($eid, $type);
+    } else {
+        COM_accessLog("User {$_USER['username']} tried to illegally delete event $eid and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
-} else if (($mode == $LANG_ADMIN['save']) && !empty ($LANG_ADMIN['save'])) {
+} elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save'])) {
     if (!isset ($_POST['allday'])) {
         $_POST['allday'] = '';
     }
     $hour_mode = 12;
-    if (isset ($_POST['hour_mode']) && ($_POST['hour_mode'] == 24)) {
+    if (isset($_POST['hour_mode']) && ($_POST['hour_mode'] == 24)) {
         $hour_mode = 24;
+    }
+    if ($hour_mode == 24) {
+        // these aren't set in 24 hour mode
+        $_POST['start_ampm'] = '';
+        $_POST['end_ampm'] = '';
     }
     $display .= CALENDAR_saveEvent (COM_applyFilter ($_POST['eid']),
             $_POST['title'], $_POST['event_type'],
@@ -667,7 +669,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     }
     $display .= CALENDAR_listOld();
     $display .= COM_siteFooter ();
-} else if ($mode == 'batchdeleteexec') {
+} elseif (($mode == 'batchdeleteexec') && SEC_checkToken()) {
     $msg = CALENDAR_deleteOld();
     $display .= COM_siteHeader ('menu', $LANG_CAL_ADMIN[11])
         . COM_showMessage($msg)
