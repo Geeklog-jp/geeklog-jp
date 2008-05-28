@@ -135,7 +135,7 @@ $PLG_spamx_MESSAGE128 = 'Spam 削除。投稿は削除されました。';
 $PLG_spamx_MESSAGE8   = 'Spam 削除。メールが管理者に送られました。';
 
 // Messages for the plugin upgrade
-$PLG_spamx_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_spamx_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_spamx_MESSAGE3002 = $LANG32[9];
 
 
