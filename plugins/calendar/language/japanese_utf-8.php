@@ -190,7 +190,7 @@ $PLG_calendar_MESSAGE24 = 'イベントが個人カレンダに保存されま�
 $PLG_calendar_MESSAGE26 = 'イベントが削除されました。';
 
 // Messages for the plugin upgrade
-$PLG_calendar_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_calendar_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_calendar_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
@@ -201,7 +201,7 @@ $LANG_configsections['calendar'] = array(
 
 $LANG_confignames['calendar'] = array(
     'calendarloginrequired' => 'カレンダーにはログインが必要ですか?',
-    'hidecalendarmenu' => 'カレンダーのメニュ項目を隠しますか?',
+    'hidecalendarmenu' => 'カレンダーのメニュー項目を隠しますか?',
     'personalcalendars' => '個人カレンダーを有効にしますか?',
     'eventsubmission' => 'Submission Queueを有効にしますか?',
     'showupcomingevents' => 'Show upcoming Events?',
@@ -211,7 +211,7 @@ $LANG_confignames['calendar'] = array(
     'notification' => 'メールで通知しますか?',
     'delete_event' => '所有者が削除された時イベントも一緒に削除しますか?',
     'aftersave' => 'イベントを保存した後何を表示しますか？',
-    'default_permissions' => 'イベントのパーミションの初期値'
+    'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['calendar'] = array(
@@ -220,7 +220,7 @@ $LANG_configsubgroups['calendar'] = array(
 
 $LANG_fs['calendar'] = array(
     'fs_main' => 'カレンダーの一般設定',
-    'fs_permissions' => 'デフォルトパーミッション'
+    'fs_permissions' => 'カレンダーのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
@@ -228,8 +228,8 @@ $LANG_configselects['calendar'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
     6 => array('12' => '12', '24' => '24'),
-    9 => array('Forward to Event' => 'item', 'Display Admin List' => 'list', 'Display Calendar' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダーを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>

@@ -104,7 +104,7 @@ $PLG_polls_MESSAGE19 = 'アンケートが登録されました。';
 $PLG_polls_MESSAGE20 = 'アンケートは削除されました。';
 
 // Messages for the plugin upgrade
-$PLG_polls_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_polls_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_polls_MESSAGE3002 = $LANG32[9];
 
 
@@ -124,7 +124,7 @@ $LANG_confignames['polls'] = array(
     'polladdresstime' => 'IPアドレスを元に投票者を確認する',
     'delete_polls' => '所有者が削除されたらアンケートも削除する？',
     'aftersave' => '投票が保存された後の移動先',
-    'default_permissions' => 'アンケートの標準パーミッション'
+    'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['polls'] = array(
@@ -133,7 +133,7 @@ $LANG_configsubgroups['polls'] = array(
 
 $LANG_fs['polls'] = array(
     'fs_main' => 'アンケートの全体設定',
-    'fs_permissions' => '標準のパーミッション'
+    'fs_permissions' => 'リンクのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -141,8 +141,8 @@ $LANG_configselects['polls'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
     2 => array('As Submitted' => 'submitorder', 'By Votes' => 'voteorder'),
-    9 => array('Forward to Poll' => 'item', 'Admin Listを表示' => 'list', 'Public 一覧を表示' => 'plugin', 'ホームを表示' => 'home', '管理画面を表示' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>

@@ -115,7 +115,7 @@ $LANG_STATIC = array(
 
 
 // Messages for the plugin upgrade
-$PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_staticpages_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_staticpages_MESSAGE3002 = $LANG32[9];
 
 
@@ -135,7 +135,7 @@ $LANG_confignames['staticpages'] = array(
     'show_date' => '日付を表示?',
     'filter_html' => 'HTMLをフィルターする?',
     'censor' => 'Censor Content?',
-    'default_permissions' => 'ページの標準パーミッション',
+    'default_permissions' => 'デフォルトパーミッション',
     'aftersave' => 'パージの保存後の動作',
     'atom_max_items' => 'Feed に使用するページの最大数'
 );
@@ -145,8 +145,8 @@ $LANG_configsubgroups['staticpages'] = array(
 );
 
 $LANG_fs['staticpages'] = array(
-    'fs_main' => '背的ページの設定',
-    'fs_permissions' => '標準パーミッション'
+    'fs_main' => '静的ページの設定',
+    'fs_permissions' => '静的ページのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
@@ -155,8 +155,8 @@ $LANG_configselects['staticpages'] = array(
     1 => array('True' => TRUE, 'False' => FALSE),
     2 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title'),
     3 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Label' => 'label'),
-    9 => array('Forward to page' => 'item', 'Display List' => 'list', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    9 => array('作成した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>
