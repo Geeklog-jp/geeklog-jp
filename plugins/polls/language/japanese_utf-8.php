@@ -133,7 +133,7 @@ $LANG_configsubgroups['polls'] = array(
 
 $LANG_fs['polls'] = array(
     'fs_main' => 'アンケートの全体設定',
-    'fs_permissions' => 'リンクのデフォルトパーミッション'
+    'fs_permissions' => 'アンケートのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
