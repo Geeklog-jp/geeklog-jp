@@ -79,7 +79,7 @@ $LANG_STATIC = array(
     'stats_no_hits' => '静的ページがないか，閲覧者がいないかのどちらかです。',
     'id' => 'ID',
     'duplicate_id' => '指定したIDはすでに使われています。別のIDをご使用ください。',
-    'instructions' => 'ページを編集・削除は，各ページの先頭の編集アイコンをクリック。ページの閲覧は，タイトルをクリック。新しいページを作成する場合は「新規作成」リンクをクリック。ページのコピーは[C]をクリックしてください。',
+    'instructions' => '静的ページを編集・削除する場合は各ページの先頭の編集アイコンをクリックしてください。静的ページを閲覧する場合は，閲覧したいページのタイトルをクリックしてください。新しい静的ページを作成する場合は「新規作成」をクリックしてください。静的ページのコピーは[C]をクリックしてください。',
     'centerblock' => 'センターエリア: ',
     'centerblock_msg' => 'チェックすると，トップページまたは話題のトップページのセンターエリアに表示されます。表示はIDでソートされます。',
     'topic' => '話題: ',
@@ -127,21 +127,21 @@ $LANG_configsections['staticpages'] = array(
 
 $LANG_confignames['staticpages'] = array(
     'allow_php' => 'PHPを許可する?',
-    'sort_by' => 'センターブロックでの並び替え順序',
-    'sort_menu_by' => 'メニューでの並び替え順序',
-    'delete_pages' => '所有者が削除されたら一緒に静的ページも削除する?',
-    'in_block' => 'Wrap Pages in Block?',
-    'show_hits' => 'Hitsを表示?',
-    'show_date' => '日付を表示?',
+    'sort_by' => 'センターブロックでのソート項目',
+    'sort_menu_by' => 'メニューでのソート項目',
+    'delete_pages' => '所有者の削除と共にページも削除する?',
+    'in_block' => 'ページをブロックで囲む?',
+    'show_hits' => 'ヒット数を表示する?',
+    'show_date' => '日付を表示する?',
     'filter_html' => 'HTMLをフィルターする?',
-    'censor' => 'Censor Content?',
+    'censor' => '内容を検閲する?',
     'default_permissions' => 'デフォルトパーミッション',
-    'aftersave' => 'パージの保存後の動作',
-    'atom_max_items' => 'Feed に使用するページの最大数'
+    'aftersave' => 'ページの保存後の動作',
+    'atom_max_items' => 'フィードに使用するページの最大数'
 );
 
 $LANG_configsubgroups['staticpages'] = array(
-    'sg_main' => '設定'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['staticpages'] = array(
@@ -153,8 +153,8 @@ $LANG_fs['staticpages'] = array(
 $LANG_configselects['staticpages'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
-    2 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title'),
-    3 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Label' => 'label'),
+    2 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title'),
+    3 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title', 'ラベル' => 'label'),
     9 => array('作成した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );

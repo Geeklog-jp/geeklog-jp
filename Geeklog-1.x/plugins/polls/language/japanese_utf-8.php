@@ -115,24 +115,24 @@ $LANG_configsections['polls'] = array(
 );  
 
 $LANG_confignames['polls'] = array(
-    'pollsloginrequired' => '投票にはログインが必要？',
-    'hidepollsmenu' => '投票メニューを隠す?',
-    'maxquestions' => 'アンケート毎の質問数の上限',
-    'maxanswers' => '質問ごとのオプション数の上限',
-    'answerorder' => '状況の並び替え ...',
-    'pollcookietime' => 'クッキーを使用して投票者を確認する',
-    'polladdresstime' => 'IPアドレスを元に投票者を確認する',
-    'delete_polls' => '所有者が削除されたらアンケートも削除する？',
-    'aftersave' => '投票が保存された後の移動先',
+    'pollsloginrequired' => 'アンケートにはログインが必要?',
+    'hidepollsmenu' => 'メニューエントリーを隠す?',
+    'maxquestions' => 'アンケート毎の質問の最大数',
+    'maxanswers' => '質問毎の選択肢の最大数',
+    'answerorder' => 'アンケート結果の表示順序',
+    'pollcookietime' => '投票者のクッキーの有効期間',
+    'polladdresstime' => '投票者のIPアドレスの有効期間',
+    'delete_polls' => '所有者の削除と共にアンケートも削除する？',
+    'aftersave' => 'アンケート保存後の動作',
     'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['polls'] = array(
-    'sg_main' => '設定'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['polls'] = array(
-    'fs_main' => 'アンケートの全体設定',
+    'fs_main' => 'アンケートの一般的な設定',
     'fs_permissions' => 'アンケートのデフォルトパーミッション'
 );
 
@@ -140,7 +140,7 @@ $LANG_fs['polls'] = array(
 $LANG_configselects['polls'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
-    2 => array('As Submitted' => 'submitorder', 'By Votes' => 'voteorder'),
+    2 => array('登録順に固定' => 'submitorder', '得票順にソート' => 'voteorder'),
     9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
