@@ -200,22 +200,22 @@ $LANG_configsections['calendar'] = array(
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'カレンダーにはログインが必要ですか?',
-    'hidecalendarmenu' => 'カレンダーのメニュー項目を隠しますか?',
-    'personalcalendars' => '個人カレンダーを有効にしますか?',
+    'calendarloginrequired' => 'カレンダーにはログインが必要?',
+    'hidecalendarmenu' => 'メニューエントリーを隠す?',
+    'personalcalendars' => '個人カレンダーを有効にする?',
     'eventsubmission' => 'Submission Queueを有効にしますか?',
     'showupcomingevents' => 'Show upcoming Events?',
     'upcomingeventsrange' => 'Upcoming Events Range',
     'event_types' => 'イベントの種類',
     'hour_mode' => '時間モード',
-    'notification' => 'メールで通知しますか?',
-    'delete_event' => '所有者が削除された時イベントも一緒に削除しますか?',
+    'notification' => 'メールで通知する?',
+    'delete_event' => '所有者の削除と共にイベントも削除する?',
     'aftersave' => 'イベントを保存した後何を表示しますか？',
     'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['calendar'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['calendar'] = array(
