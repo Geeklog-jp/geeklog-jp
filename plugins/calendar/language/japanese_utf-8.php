@@ -195,14 +195,14 @@ $PLG_calendar_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['calendar'] = array(
-    'label' => 'カレンダー',
-    'title' => 'カレンダーの設定'
+    'label' => 'カレンダ',
+    'title' => 'カレンダの設定'
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'カレンダーにはログインが必要?',
+    'calendarloginrequired' => 'カレンダにはログインが必要?',
     'hidecalendarmenu' => 'メニューエントリーを隠す?',
-    'personalcalendars' => '個人カレンダーを有効にする?',
+    'personalcalendars' => '個人カレンダを有効にする?',
     'eventsubmission' => 'イベント登録申請キューを有効にする?',
     'showupcomingevents' => '近いイベントを予告表示する?',
     'upcomingeventsrange' => '近いイベントを予告表示する日',
@@ -219,8 +219,8 @@ $LANG_configsubgroups['calendar'] = array(
 );
 
 $LANG_fs['calendar'] = array(
-    'fs_main' => 'カレンダーの一般設定',
-    'fs_permissions' => 'カレンダーのデフォルトパーミッション'
+    'fs_main' => 'カレンダの一般設定',
+    'fs_permissions' => 'カレンダのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
@@ -228,7 +228,7 @@ $LANG_configselects['calendar'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
     6 => array('12' => '12', '24' => '24'),
-    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダーを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
