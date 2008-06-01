@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Japanese language file for the Geeklog installation script                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2007 by the following authors:                         |
+// | Copyright (C) 2000-2008 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -17,6 +17,7 @@
 // |          Randy Kolenko     - randy AT nextide DOT ca                      |
 // |          Matt West         - matt AT mattdanger DOT net                   |
 // |          Geeklog.jp group  - geeklog AT ivysoho DOT jp                    |
+// |          mystral-kk        - geeklog AT mystral-kk DOT net                !
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -72,7 +73,7 @@ $LANG_INSTALL = array(
     18 => '記事に画像を添付する機能が無効になっています。<code>articles</code>ディレクトリのテストを行いませんでした。',
     19 => 'Geeklogでは，いくつかのファイルとディレクトリがWebサーバから書き込める必要があります。以下は，変更する必要のあるファイルとディレクトリの一覧です。',
     20 => '警告!',
-    21 => '上記のエラーが解消されるまで，あなたのGeeklogとサイトはきちんと動作しないでしょう。先へ進む前に，必要な変更を行ってください。',
+    21 => '上記のエラーが解消されるまで，あなたのGeeklogサイトは正常に動作しないでしょう。先へ進む前に，必要な変更を行ってください。',
     22 => '不明',
     23 => 'インストールの種類を選択してください:',
     24 => '新規インストール',
@@ -108,7 +109,7 @@ $LANG_INSTALL = array(
     54 => 'データベース情報が不正確です',
     55 => '残念ですが，入力したデータベース情報が不正確なようです。戻ってやり直してください。',
     56 => 'データベースに接続できません',
-    57 => '残念ですが，指定されているデータベースが見つかりません。データベースが存在しないか，綴りが違うのでしょう。戻ってやり直してください。',
+    57 => '残念ですが，指定されているデータベースが見つかりません。データベースが存在しないか，綴り（大文字小文字）が違うのでしょう。戻ってやり直してください。',
     58 => '。このファイルはWebサーバから書き込みできますか?',
     59 => '情報:',
     60 => 'お使いのMySQLのバージョンではInnoDBテーブルはサポートされていません。InnoDBサポートなしで，インストールを続けますか?',
@@ -139,11 +140,11 @@ $LANG_INSTALL = array(
     85 => '" は正しくありません。戻ってやり直してください。',
     86 => '言語',
     87 => 'http://www.geeklog.net/forum/index.php?forum=1',
-    88 => 'Change directory and containing files to',
-    89 => 'Current Version:',
-    90 => 'Empty database?',
-    91 => 'It appears that either your database is empty or the database credentials you entered are incorrect. Or maybe you wanted to perform a New Install (instead of an Upgrade)? Please go back and try again.',
-    92 => 'Use UTF-8'
+    88 => '以下のファイルを含むディレクトリに変更してください：',
+    89 => '現在のバージョン:',
+    90 => 'データベースは空?',
+    91 => 'データベースが空のままか，入力してデータベースの情報が不正確なようです。ひょっとすると，アップグレードではなく，新規インストールするつもりだったのではないでしょうか?　戻ってやり直してください。',
+    92 => 'UTF-8を使用する'
 );
 
 // +---------------------------------------------------------------------------+
@@ -169,9 +170,9 @@ $LANG_SUCCESS = array(
     16 => '',
     17 => 'と',
     18 => 'のパーミッションを次のものに変更する: ',
-    19 => '<strong>情報:</strong> セキュリティモデルを変更したので，新しいサイトの管理を行うのに必要な権限を持ったアカウントを作成しました。ユーザ名は <b>NewAdmin</b> で，パスワードは <b>password</b> です。',
-    20 => 'installed',
-    21 => 'upgraded'
+    19 => '<strong>情報:</strong> セキュリティモデルを変更したので，新しいサイトの管理を行うのに必要な権限を持ったアカウントを作成しました。ユーザ名は <strong>NewAdmin</strong> で，パスワードは <strong>password</strong> です。',
+    20 => 'インストールされました',
+    21 => 'アップグレードされました'
 );
 
 // +---------------------------------------------------------------------------+
@@ -191,7 +192,7 @@ $LANG_HELP = array(
     10 => 'AdminディレクトリのURLを入力します。',
     11 => 'サイト管理者のEmailアドレスを入力します。',
     12 => 'サイト管理者のNo-Reply Email（返信を受け付けないEmailアドレス）を入力します。',
-    13 => 'Indicate whether to use UTF-8 as the default character set for your site. Recommended especially for multi-lingual setups.'
+    13 => 'サイトのデフォルト言語としてUTF-8を使用するかどうかを指示します。多言語サイトを作成するなら，チェックを入れることをお勧めします。'
 );
 
 ?>
