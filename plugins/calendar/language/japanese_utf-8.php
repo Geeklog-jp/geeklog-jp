@@ -10,6 +10,8 @@
 # Copyright (C) 2005 Trinity Bays
 # trinity93 AT gmail DOT com
 # Tranlated by Geeklog Japanese group SaY and Ivy
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2007/02/19 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -200,17 +202,17 @@ $LANG_configsections['calendar'] = array(
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'カレンダにはログインが必要?',
-    'hidecalendarmenu' => 'メニューエントリーを隠す?',
-    'personalcalendars' => '個人カレンダを有効にする?',
-    'eventsubmission' => 'イベント登録申請キューを有効にする?',
-    'showupcomingevents' => '近いイベントを予告表示する?',
-    'upcomingeventsrange' => '近いイベントを予告表示する日',
+    'calendarloginrequired' => 'カレンダにはログインが必要',
+    'hidecalendarmenu' => 'メニューに表示しない',
+    'personalcalendars' => '個人カレンダを有効にする',
+    'eventsubmission' => 'イベント登録申請キューを有効にする',
+    'showupcomingevents' => 'イベント予告を表示する',
+    'upcomingeventsrange' => 'イベント予告を表示する期間',
     'event_types' => 'イベントの種類',
     'hour_mode' => '時間制',
-    'notification' => 'メールで通知する?',
-    'delete_event' => '所有者の削除と共にイベントも削除する?',
-    'aftersave' => 'イベントの保存後の動作？',
+    'notification' => 'メールで通知する',
+    'delete_event' => '所有者の削除と共に削除する',
+    'aftersave' => 'イベント保存後の画面遷移',
     'default_permissions' => 'デフォルトパーミッション'
 );
 
@@ -225,10 +227,10 @@ $LANG_fs['calendar'] = array(
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['calendar'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
     6 => array('12' => '12', '24' => '24'),
-    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 

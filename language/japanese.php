@@ -9,8 +9,10 @@
 # Copyright (C) 2000 Jason Whittenburg
 # jwhitten AT securitygeeks DOT com
 # Copyright (C) 2002,2003,2004,2005 SAKATA Yusuke
-#               2006,2007 Geeklog IvySOHO Project Ivy(KOMMA Tetsuko), SAKATA Yusuke
+#               2006,2007,2008 Geeklog Japanese Project Ivy(KOMMA Tetsuko), SAKATA Yusuke
 # sakata@ecofirm.com
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,10 +29,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ################################################################################
-# これは，Geeklog1.5コア用日本語言語ファイルです。
-# language/japanese.php
-# http://www.geeklog.jp/
-# Last Update 2007/09/12
+# Last Update 2008/06/01 by Geeklog.jp group  - info AT geeklog DOT jp
 
 $LANG_CHARSET = 'euc-jp';
 
@@ -40,14 +39,6 @@ $LANG_CHARSET = 'euc-jp';
 #               XX    - file id number
 #               YY    - phrase id number
 ###############################################################################
-
-# @@@@@ Geeklog Japanese 日本語対応版用　一部追加----->ここから
-
-$LANG_JPN = array(
-    1 => ' さん',
-);
-
-# @@@@@ Geeklog Japanese 日本語対応版用　一部追加<-----ここまで
 
 ###############################################################################
 # USER PHRASES - These are file phrases used in end user scripts
@@ -247,11 +238,11 @@ $LANG04 = array(
     19 => 'ユーザ名かメールアドレスがすでに使われています。',
     20 => 'このメールアドレスは，有効なアドレスではないようです',
     21 => 'エラー',
-    22 => "新規登録",
+    22 => '新規登録',
     23 => "{$_CONF['site_name']}にユーザアカウントを登録すると，コメントや記事の投稿をあなたの名前で投稿できます。そうでなければゲストユーザとしてしか投稿できません。なお，サイト上でメールアドレスが表示されることはありませんのでご安心ください。ユーザ名は30文字以内で，半角・全角どちらも利用できます。",
     24 => 'パスワードは，ここに入力されたメールアドレス宛てに，送信されます。',
     25 => 'パスワードを忘れた方',
-    26 => "ご登録頂いているユーザ名またはメールアドレスの<font color='red'>どちらかを入力</font>して『送信』ボタンを押してください。ご登録のメールアドレス宛にパスワード再発行用のURL を記載したメールが送信されます。",
+    26 => "ご登録頂いているユーザ名またはメールアドレスの<strong>どちらかを入力</strong>して『送信』ボタンを押してください。ご登録のメールアドレス宛にパスワード再発行用のURL を記載したメールが送信されます。",
     27 => '新規登録',
     28 => '送　　信',
     29 => 'ログアウトしました：',
@@ -280,7 +271,7 @@ $LANG04 = array(
     52 => '初期値:',
     53 => 'その日の記事を毎晩メールで受け取る。',
     54 => '読みたくない投稿者名と話題をチェックする。',
-    55 => 'すべてのチェックをはずした場合は，初期値が反映されます。一つでもチェックした場合，初期値は無視されますので，読みたいものを全部チェックするようにしてください。 初期値は太字で表示されている話題です。',
+    55 => 'すべてのチェックをはずした場合は，初期値が反映されます。一つでもチェックした場合，初期値は無視されますので，読みたいものを全部チェックするようにしてください。 初期値は強調表示されている話題です。',
     56 => '投稿者名',
     57 => '表示モード',
     58 => 'ソート順',
@@ -383,7 +374,7 @@ $LANG04 = array(
 );
 
 ###############################################################################
-# マイアカウントのナビゲーションバーのカスタマイズ
+# Customize if need to modify the Tabbed navbar MyAccount panels used. Array index key matches preference div id
 
 $LANG_MYACCOUNT = array(
     'pe_preview'   => 'プレビュー',
@@ -400,7 +391,7 @@ $LANG_MYACCOUNT = array(
 
 $LANG05 = array(
     1 => '記事がありません',
-    2 => '記事がありません。このテーマに関する投稿がないのか表示設定を絞り過ぎなのかのどちらかです。',
+    2 => '記事がありません。この話題の記事がないか表示設定を絞り過ぎなのかのどちらかです。',
     3 => '話題 %s に関する記事',
     4 => '今日の注目記事',
     5 => '次へ',
@@ -474,7 +465,7 @@ $LANG09 = array(
     18 => '所有者',
     19 => " {$_CONF['site_name']} 全体のすべての記事を検索する",
     20 => '日付',
-    21 => '〜',
+    21 => ' - ',
     22 => '(書式は YYYY-MM-DD)',
     23 => '件の閲覧',
     24 => '%d件，見つかりました',
@@ -527,13 +518,13 @@ $LANG10 = array(
     4 => '',
     5 => '',
     6 => '',
-    7 => '記事（上位10件）',
+    7 => '閲覧された記事（上位10件）',
     8 => '記事のタイトル',
     9 => '件',
     10 => 'このサイトには記事が一件もないか，閲覧した人がいません。',
-    11 => '記事コメント（上位10件）',
+    11 => 'コメントされた記事（上位10件）',
     12 => '件',
-    13 => 'このサイトに記事が一件もないか，コメントした人がいません。',
+    13 => 'このサイトには記事が一件もないか，コメントした人がいません。',
     14 => '',
     15 => '',
     16 => '',
@@ -542,10 +533,10 @@ $LANG10 = array(
     19 => '',
     20 => '',
     21 => '',
-    22 => '記事紹介（上位10件）',
+    22 => 'メールで紹介された記事（上位10件）',
     23 => 'メールアドレス',
     24 => '友達に紹介された記事はありません。',
-    25 => 'トラックバック（上位10件）',
+    25 => 'トラックバックされた記事（上位10件）',
     26 => 'トラックバックはありません。',
     27 => '登録ユーザの数',
     28 => '',
@@ -679,7 +670,7 @@ $LANG21 = array(
     30 => 'PHPを使用したブロックを使う場合，接頭子「phpblock_」（例 phpblock_themetester）のPHP関数名を入力してください。この接頭子が付いていない関数は呼び出されません。これは，悪意を持ったユーザがサイトに有害な関数を定義することを避けるためです。関数名に（）は不要です。すべてのPHPブロック関数は，/path/to/geeklog/system/lib-custom.phpにまとめてください。そうすることで，Geeklogをアップグレードしても使用し続けることができます。',
     31 => 'PHPブロックにエラーがあります。%sが存在しません',
     32 => 'エラー。未入力の項目があります',
-    33 => 'ポータルブロックのシンジケーション フィードファイルにはURLが入力されている必要があります',
+    33 => 'ポータルブロックのシンジケーション・フィードファイルにはURLが入力されている必要があります',
     34 => 'PHPブロックにはタイトルと関数名を入力してください',
     35 => '普通のブロックにはタイトルと内容を入力してください',
     36 => 'レイアウト用ブロックには内容を入力してください',
@@ -714,7 +705,7 @@ $LANG21 = array(
     65 => '順番',
     66 => '自動タグ',
     67 => '自動タグ使用許可',
-    68 => 'The feed for this portal block is too long to display. Please set a maximum number of articles to import for the block in the block setup screen, or a global maximum in Geeklog Configuration.'
+    68 => 'このポータルブロックのフィードは表示するには長すぎます。ブロック設定画面でブロックに表示する記事の最大数を設定するか、コンフィギュレーションで標準の最大数を設定してください。'
 );
 
 ###############################################################################
@@ -748,7 +739,7 @@ $LANG24 = array(
     25 => '記事の登録中にエラーがありました。',
     26 => '記事のプレビュー',
     27 => '<p>自動タグ[imageX]のかわりに[unscaledX]を使うと，画像はオリジナルのサイズで表示されます。</p>',
-    28 => '<b>プレビュー</b>: 画像付きの記事をプレビューする場合，プレビューボタンをクリックしないで一旦ドラフトモードで保存してください。プレビューボタンは画像がない場合にのみクリックしてください。</p>',
+    28 => '<strong>プレビュー</strong>: 画像付きの記事をプレビューする場合，プレビューボタンをクリックしないで一旦ドラフトモードで保存してください。プレビューボタンは画像がない場合にのみクリックしてください。</p>',
     29 => 'トラックバック数',
     30 => 'ファイルのアップロード時にエラーが発生しました',
     31 => 'タイトルと冒頭文を入力してください',
@@ -766,12 +757,12 @@ $LANG24 = array(
     43 => '',
     44 => '',
     45 => '',
-    46 => '<b>注意:</b> 記事の日付を将来の日付に変更すると，その日まで記事は表示されません。また，フィードにも反映せず，検索やサイト情報にも反映されません。',
-    47 => 'image',
-    48 => 'image',
-    49 => 'right',
-    50 => 'left',
-    51 => '<p>添付した画像は，自動タグで記述してください。書式は，[imageX]，[imageX_right]，[imageX_left]（Xは添付した画像の番号）（例 [image1]）。注意：添付した画像は記事内ですべて使用しなければ記事を保存できません。<br' . XHTML . '><p><b>プレビュー</b>: 画像付きの記事はドラフト（下書き）として保存して閲覧してください。プレビューボタンは画像が無いときにのみ利用できます。</p>',
+    46 => '<strong>注意:</strong> 記事の日付を将来の日付に変更すると，その日まで記事は公開されません。また，フィードにも反映せず，検索やサイト情報にも反映されません。',
+    47 => '画像',
+    48 => '画像',
+    49 => '右',
+    50 => '左',
+    51 => '<p>添付した画像は，自動タグで記述してください。書式は，[imageX]，[imageX_right]，[imageX_left]（Xは添付した画像の番号）（例 [image1]）。注意：添付した画像は記事内ですべて使用しなければ記事を保存できません。<br' . XHTML . '><p><strong>プレビュー</strong>: 画像付きの記事はドラフト（下書き）として保存して閲覧してください。プレビューボタンは画像が無いときにのみ利用できます。</p>',
     52 => '',
     53 => 'は使用されていません。保存する前に冒頭文または本文で画像を使用しなければなりません。',
     54 => '添付された画像が使用されていません。',
@@ -797,7 +788,7 @@ $LANG24 = array(
     74 => '拡張ツールバーその２',
     75 => '全機能',
     76 => '公開オプション',
-    77 => 'アドバンストエディタの利用は，ブラウザでJavaScriptが使える環境にする必要があります。このオプションはコンフィギュレーションのアドミンパネルで無効にできます。 ',
+    77 => 'アドバンストエディタの利用は，ブラウザでJavaScriptが使える環境にする必要があります。このオプションはコンフィギュレーションの管理パネルで無効にできます。',
     78 => '<a href="%s/story.php?mode=edit&sid=%s&editopt=default">ノーマルエディタを使う場合</a>',
     79 => 'プレビュー',
     80 => 'エディタ',
@@ -905,7 +896,7 @@ $LANG28 = array(
     52 => '<br' . XHTML . '>注: 「オンライン期間」とは，最初にアカウントを登録してから前回ログインした時までの日数です。',
     53 => '登録済み',
     54 => '一括削除',
-    55 => 'コンフィギュレーションのアドミンパネルで「最終ログインを記録する」を有効に設定している場合しか，この機能は働きません。',
+    55 => 'この機能はコンフィギュレーションの管理パネルで「最終ログインを記録する」を有効に設定している場合にのみ動作します。',
     56 => '削除したいユーザの種類を選択して「リスト更新」をクリックしてください。次に，削除したくないユーザのチェックを外して「削除」アイコンをクリックしてください。このリストがページをまたがっている場合，現在表示されているユーザしか削除されないことに注意してください。',
     57 => '幽霊ユーザ',
     58 => '一時的ユーザ',
@@ -927,15 +918,15 @@ $LANG28 = array(
     74 => '最近のユーザ',
     75 => '最後に登録したユーザ ',
     76 => ' ヶ月の間に登録したユーザ',
-    77 => 'Email site login reminder to selected users',
-    78 => 'Send Reminder',
-    79 => 'No User selected for reminders',
-    80 => 'Successfully sent Reminders',
-    81 => 'Reminder to verify account for %s',
-    82 => "Your account on {$_CONF['site_name']} has not been accesssed since %s and will be disabled if not accessed in the 30 days.",
-    83 => "Your account on {$_CONF['site_name']} has not been used since it was created and will deleted soon if not accessed.",
-    84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
-    85 => 'If you have forgotten the password use the following link: %s'
+    77 => '選択したユーザにログインのリマインダーをメールで送信',
+    78 => 'リマインダーを送信',
+    79 => 'リマインダーを送信するユーザが選択されていません',
+    80 => 'リマインダーの送信に成功しました',
+    81 => '%sのアカウントを検証するためのリマインダー',
+    82 => "あなたの{$_CONF['site_name']}のアカウントは%sからアクセスがありませんので、30日以内にアクセスがありませんと無効となります。",
+    83 => "あなたの{$_CONF['site_name']}のアカウントは作成されてから使用されていませんので、アクセスがありませんと近日中に削除されます。",
+    84 => "あなたのログイン名 : %s  サイト名 : {$_CONF['site_url']}",
+    85 => 'もしパスワードをお忘れでしたら、以下のリンクをご使用ください : %s'
 );
 
 ###############################################################################
@@ -960,7 +951,7 @@ $LANG29 = array(
     36 => '',
     37 => '',
     38 => '実行',
-    39 => 'ただいま申請はありません',
+    39 => '現在のところ申請はありません',
     40 => 'ユーザの登録申請'
 );
 
@@ -1009,7 +1000,7 @@ $LANG32 = array(
     7 => 'インストールしようとしているプラグインはすでに存在しています。再インストールする前に一旦削除してください。',
     8 => 'プラグインの互換性チェックに失敗しました。',
     9 => 'このプラグインは新しいバージョンのGeeklogが必要です。<a href=http://www.geeklog.net>Geeklog</a>をアップグレードするか，新しいバージョンのプラグインを入手してください。',
-    10 => '<br' . XHTML . '><b>プラグインはインストールされていません</b><br' . XHTML . '><br' . XHTML . '>',
+    10 => '<br' . XHTML . '><strong>プラグインはインストールされていません</strong><br' . XHTML . '><br' . XHTML . '>',
     11 => 'プラグインを修正・削除するにはプラグインの編集アイコンをクリックしてください。プラグインの作者のページへのリンクも併せて表示されます。プラグインのバージョンは，インストール中のものとファイルから得られたものが表示されます。これによってプラグインの更新の必要性を判断することができます。',
     12 => 'plugineditor()にプラグイン名が渡されませんでした',
     13 => 'プラグイン編集',
@@ -1019,8 +1010,8 @@ $LANG32 = array(
     17 => 'プラグインバージョン',
     18 => 'GLバージョン',
     19 => '有効',
-    20 => 'Yes',
-    21 => 'No',
+    20 => 'はい',
+    21 => 'いいえ',
     22 => 'インストール',
     23 => '保存',
     24 => 'キャンセル',
@@ -1030,8 +1021,8 @@ $LANG32 = array(
     28 => 'プラグインバージョン',
     29 => 'GLバージョン',
     30 => 'このプラグインを削除しますか？',
-    31 => 'このプラグインを削除してよいですか？削除すると関連するファイルやデータがすべて削除されます。削除する場合は「削除」ボタンをもう一度クリックしてください。',
-    32 => '<p><b>オートリンクタグのフォーマットが正しくありません。</b></p>',
+    31 => 'このプラグインを削除してよいですか？　削除すると関連するファイルやデータがすべて削除されます。削除する場合は「削除」ボタンをもう一度クリックしてください。',
+    32 => '<p><strong>オートリンクタグのフォーマットが正しくありません。</strong></p>',
     33 => '最新のバージョン',
     34 => '更新',
     35 => '編集',
@@ -1188,11 +1179,12 @@ $MESSAGE = array(
     89 => 'OpenIDサーバのURLが見つかりません。',
     90 => 'OpenID認識がキャンセルされました。',
     91 => '無効なURLが指定されました。',
-    92 => 'ご使用の前に<a href="' . $_CONF['site_admin_url'] . '/sectest.php">あなたのサイトのセキュリティをチェックしてください！</a>',
+    92 => "使用する前に<a href=\"{$_CONF['site_admin_url']}/sectest.php\">セキュリティをチェックを確認</a>してください！",
     93 => 'データベースのバックアップに成功しました。',
     94 => 'バックアップ失敗: ファイルサイズが1KByte未満です。',
     95 => 'エラーが発生しました。',
-    96 => '申し訳ありません。あなたにはコンフィギュレーション管理ページへのアクセスが許可されていません。許可されていない機能へアクセスしようとする行為のすべてが記録される点に注意してください。'
+    96 => '申し訳ありません。あなたにはコンフィギュレーション管理ページへのアクセスが許可されていません。許可されていない機能へアクセスしようとする行為のすべてが記録される点に注意してください。',
+    97 => 'Not all required fields have been passed validation - default custom membership message'
 );
 
 ###############################################################################
@@ -1219,8 +1211,8 @@ $LANG_ACCESS = array(
     'newgroupmsg' => 'グループの編集・削除は各グループの編集アイコンをクリック，グループ作成は「新規作成」リンクをクリックしてください。ただし，「コア（中核）グループ」はシステムで使用するため削除できません。',
     'groupname' => 'グループ名',
     'coregroup' => 'コアグループ',
-    'yes' => 'Yes',
-    'no' => 'No',
+    'yes' => 'はい',
+    'no' => 'いいえ',
     'corerightsdescr' => "このグループは，{$_CONF['site_name']}の「コア（中核）グループ」です。そのため，本グループの権限を編集することはできないため，下記の権限リストは読みとり専用となっています。",
     'groupmsg' => '本サイトのセキュリティグループは階層的になっています。本グループを下記のグループに追加する場合，そのグループの持つ権限と同じ権限を本グループにも与えることになります。可能であれば，本グループに権限を与える場合，下記のグループの権限を継承させることが望ましい方法です。本グループに個別に権限を与える場合は，下記の「権限」部分から様々な機能に関する権限を選択することができます。本グループを追加する場合は，下記のグループの横にあるボックスをチェックするだけです。',
     'coregroupmsg' => "本グループは{$_CONF['site_name']}の「コア（中核）グループ」です。そのため，本グループの所属するグループは編集できません。下記のリストは読みとり専用となっています。",
@@ -1253,10 +1245,10 @@ $LANG_ACCESS = array(
     'canteditgroup' => 'グループを編集するためには，グループのメンバーでなければなりません。このメッセージがエラーである場合は，システム管理者に連絡してください。',
     'cantlistgroup' => 'メンバーリストを閲覧するためには，グループのメンバーでなければなりません。このメッセージがエラーである場合は，システム管理者に連絡してください。',
     'editgroupmsg' => 'グループメンバーを編集するには，メンバー名をクリックして「追加」または「削除」ボタンをクリックしてください。ユーザがグループメンバーのときは右側だけに表示されます。編集が終わったら，「保存」ボタンをクリックしてください。管理画面に戻ります。',
-    'listgroupmsg' => 'グループ<b>%s</b>に含まれるユーザ：',
+    'listgroupmsg' => 'グループ<strong>%s</strong>に含まれるユーザ：',
     'search' => '検索',
     'submit' => '実行',
-    'limitresults' => 'リスト',
+    'limitresults' => '件数',
     'group_id' => 'グループID',
     'plugin_access_denied_msg' => 'このプラグインの管理権限がないのに管理画面にアクセスしようとしました。この行為は記録されます。',
     'groupexists' => 'このグループ名はすでに存在しています。',
@@ -1281,6 +1273,7 @@ $LANG_DB_BACKUP = array(
     'total_number' => 'バックアップ総数は，%dです。',
     'download' => 'ファイルダウンロード'
 );
+
 ###############################################################################
 
 $LANG_BUTTONS = array(
@@ -1302,7 +1295,7 @@ $LANG_BUTTONS = array(
 
 $LANG_404 = array(
     1 => '404 Error',
-    2 => '<b>%s</b>はどこにも見つかりませんでした。',
+    2 => '<strong>%s</strong>はどこにも見つかりませんでした。',
     3 => '指定されたファイルは存在しません。メインページをチェックしてみるか，検索ページで探してみてください。'
 );
 
@@ -1317,25 +1310,25 @@ $LANG_LOGIN = array(
 
 $LANG_PDF = array(
     1 => 'PDF生成ができません。',
-    2 => 'ドキュメントは書き出しできませんでした。受理しましたが処理できません。XHTML標準で書き出されたものか確認してください。複雑なドキュメントは生成できない場合があります。0バイトのドキュメントは自動的に削除されます。ただしいドキュメントであれば再度実行してください。',
-    3 => '不明なPDF生成エラーです。',
-    4 => "生成できない場合，あるいはアドホックPDF生成ツールは以下をご覧ください。生成したい場合にはシステム管理者に連絡してください。そうでなければ，アドホックPDFスタイルのフォームを利用してください。",
-    5 => 'ドキュメントロード中',
-    6 => 'ドキュメントをロード中ですのでおまちください。',
-    7 => '右クリックして選べます。...またはリンク...ドキュメントを保存するために。',
-    8 => "HTMLバイナリドキュメントのコンフィギュレーションの設定でパスが不正であれば実行できません。システム管理者にご連絡ください。",
-    9 => 'PDFジェネレータ',
-    10 => "これはアドホックPDF生成ツールです。どのようなURLからでもPDFを生成できますが，すべてのページでただしく生成されるわけではありません。これはHTMLドキュメントからPDFを生成するツールの制限でもあります。そのため，その制限に関してシステム管理者に一々報告しないようにお願いします。",
+    2 => 'ドキュメントは変換されませんでした。受け取ったドキュメントを処理できませんでした。XHTML標準によって書かれたHTML形式のドキュメントだけを用意したことを確認して下さい。過度に複雑なHTMLのドキュメントは正しく変換されなかったり、まったく変換されなかったり、することがあります。ドキュメントの変換結果は0バイトのサイズだったので、削除しました。ドキュメントが変換可能だと確信されてる場合は、もう一度実行してみてください。',
+    3 => 'PDFの生成に不明なエラーが発生しました。',
+    4 => 'ページのデータが与えられていないか、以下の、この場限りのPDF生成ツールを使用してください。このページが何かエラーのためだと思う場合は、システムの管理者に連絡してください。もしくは以下のフォームから、ad-hocな方式によるPDFの生成を行ってみてください。',
+    5 => 'ドキュメントを読み込み中です。',
+    6 => 'ドキュメントを読み込むまでしばらくお待ちください。',
+    7 => '下のボタンでマウスの右ボタンをクリックしたメニューから、「対象を保存...」または「リンクの場所を保存...」を選択してドキュメントのコピーを保存してください。',
+    8 => '設定ファイルに指定された HTMLDoc バイナリのパスが誤っているか、システムが実行できません。この問題がずっと続く場合は、サイトの管理者に連絡を取って下さい。',
+    9 => 'PDF生成',
+    10 => 'これはad-hocなPDF生成ツールです。URLで指定した内容をPDFに変換しようとします。この機能では適切に変換されないWebページもあることに注意してください。これはHTMLDoc PDF生成ツールの制限なので、このサイトの管理者に報告しないで下さい。',
     11 => 'URL',
     12 => 'PDFを生成！',
-    13 => 'このサーバのPHPの設定で，URLがfopen()コマンドで利用することが許可されていません。システム管理者は，php.iniを編集し，allow_url_fopen を Onにする必要があります。',
-    14 => 'PDF生成のために，不正なファイルをアクセスしました。'
+    13 => 'このサーバのPHP設定はURLをfopen()コマンドに使用することを許可していません。システム管理者はphp.iniを編集して、allow_url_fopenをOnにしなければなりません。',
+    14 => '要求したPDFは存在しないか、ファイルへ不正なアクセスをしようとしました。'
 );
 
 ###############################################################################
 # trackback
 
-$LANG_TRB = array (
+$LANG_TRB = array(
     'trackback'          => 'トラックバック',
     'from'               => 'from',
     'tracked_on'         => 'トラックバック　オン',
@@ -1430,7 +1423,7 @@ $LANG_DIR = array (
     'no_articles'      => '記事がありません'
 );
 
-################################################################################
+###############################################################################
 # "What's New" Time Strings
 
 $LANG_WHATSNEW = array (
@@ -1480,7 +1473,7 @@ $LANG_WEEK = array(
     7 => '土'
 );
 
-################################################################################
+###############################################################################
 # Admin - Strings
 #
 # These are some standard strings used by core functions as well as plugins to
@@ -1488,7 +1481,7 @@ $LANG_WEEK = array(
 
 $LANG_ADMIN = array (
     'search'        => '検索',
-    'limit_results' => 'リスト',
+    'limit_results' => '件数',
     'submit'        => '実行',
     'edit'          => '編集',
     'edit_adv'      => 'アドバンストエディタ',
@@ -1509,9 +1502,9 @@ $LANG_ADMIN = array (
     'data_error'    => '送信データに問題があります。データをチェックしてください',
     'preview'       => 'プレビュー',
     'records_found' => '件数',
-    'addchild'      => '子の追加',
+    'addchild'      => '子を追加',
     'list'          => 'リスト',
-    'list_all'      => '全てのリスト'
+    'list_all'      => 'すべてのリスト'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1552,7 +1545,7 @@ $LANG_featurecodes = array(
 );
 
 $LANG_frontpagecodes = array(
-    0 => '該当する話題にだけ表示',
+    0 => '該当する話題にのみ表示',
     1 => 'トップページに表示'
 );
 
@@ -1571,32 +1564,32 @@ $LANG_trackbackcodes = array(
     -1  => 'トラックバック停止'
 );
 
-################################################################################
+###############################################################################
 # Localization of the Admin Configuration UI
 
 $LANG_CONFIG = array(
-    'home'          => 'Home',
-    'admin_home'    => 'Site Administration',
-    'sections'      => 'Configuration Sections',
-    'restore'       => 'Restore',
-    'add_element'   => 'Add Element',
+    'home'          => 'ホーム',
+    'admin_home'    => 'サイト管理',
+    'sections'      => 'コンフィギュレーション',
+    'restore'       => 'リストア',
+    'add_element'   => '要素を追加する',
     'save_changes'  => '変更を保存する',
     'reset_form'    => 'フォームを初期化する',
-    'changes_made'  => 'Changes were successfully made to',
-    'title'         => 'Configuration Manager'
+    'changes_made'  => '変更が完了しました',
+    'title'         => 'コンフィギュレーション管理'
 );
 
 $LANG_configsections['Core'] = array(
     'label' => 'Geeklog',
-    'title' => 'Geeklog Configuration'
+    'title' => 'Geeklogの設定'
 );
 
 $LANG_confignames['Core'] = array(
     'path_html' => "HTMLパス",
     'site_url' => "サイトURL",
-    'site_admin_url' => "管理画面URL",
-    'site_mail' => "サイトE-Mail",
-    'noreply_mail' => "No-Reply E-Mail",
+    'site_admin_url' => "管理画面の URL",
+    'site_mail' => "サイトのメールアドレス",
+    'noreply_mail' => "No-Reply メールアドレス",
     'site_name' => "サイト名",
     'site_slogan' => "スローガン",
     'microsummary_short' => "サイトの要約",
@@ -1605,25 +1598,25 @@ $LANG_confignames['Core'] = array(
     'backup_path' => "バックアップ",
     'path_data' => "データ",
     'path_images' => "画像",
-    'path_pear' => "Pearへのパス",
-    'have_pear' => "Pearの有無",
+    'path_pear' => "Pearのパス",
+    'have_pear' => "Pearが有る",
     'mail_settings' => "メール設定",
-    'allow_mysqldump' => "MySQLダンプ許可",
-    'mysqldump_path' => 'Path of Executable',
-    'mysqldump_options' => "MySQLダンプオプション",
+    'allow_mysqldump' => "MySQLのダンプを許可する",
+    'mysqldump_path' => 'mysqldump のパス',
+    'mysqldump_options' => "mysqldump のオプション",
     'theme' => "テーマ",
     'menu_elements' => "メニュー項目",
     'path_themes' => "テーマパス",
-    'disable_new_user_registration' => "新規ユーザ登録拒否",
-    'allow_user_themes' => "ユーザテーマ",
-    'allow_user_language' => "ユーザ言語",
-    'allow_user_photo' => "ユーザ写真",
-    'allow_username_change' => "ユーザ名変更許可",
-    'allow_account_delete' => "アカウント削除",
+    'disable_new_user_registration' => "新規ユーザ登録を拒否する",
+    'allow_user_themes' => "テーマ選択を許可する",
+    'allow_user_language' => "言語選択を許可する",
+    'allow_user_photo' => "写真登録を許可する",
+    'allow_username_change' => "ユーザ名変更を許可する",
+    'allow_account_delete' => "アカウント削除を許可する",
     'hide_author_exclusion' => "所有者を隠す",
-    'show_fullname' => "氏名を表示する",
+    'show_fullname' => "フルネームを表示する",
     'show_servicename' => "サービス名を表示する",
-    'custom_registration' => "カスタム登録",
+    'custom_registration' => "カスタム登録を有効にする",
     'user_login_method' => "ユーザログイン方法",
     'spamx' => "Spam-X",
     'sort_admin' => "リンクをソートする",
@@ -1636,57 +1629,57 @@ $LANG_confignames['Core'] = array(
     'timeonly' => "時間のみ",
     'week_start' => "週のはじまり",
     'hour_mode' => "時間制",
-    'thousand_separator' => "セパレータ",
-    'decimal_separator' => "デシマルセパレータ",
-    'decimal_count' => "デシマルカウント",
-    'language_files' => "言語ファイル",
-    'languages' => "言語",
+    'thousand_separator' => '千単位の区切り文字',
+    'decimal_separator' => '少数点',
+    'decimal_count' => '小数点以下の桁数',
+    'language_files' => '言語ファイル[多言語モード]',
+    'languages' => '言語名[多言語モード]',
     'timezone' => "タイムゾーン",
-    'site_disabled_msg' => "サイト閉鎖メッセージ",
-    'rootdebug' => "Rootデバッグ",
+    'site_disabled_msg' => "サイト無効のメッセージまたはURL",
+    'rootdebug' => "Rootのデバッグ",
     'cookie_session' => "セッションのクッキー名",
-    'cookie_name' => "クッキー名",
+    'cookie_name' => "永久的なクッキー名",
     'cookie_password' => "パスワードのクッキー名",
     'cookie_theme' => "テーマのクッキー名",
     'cookie_language' => "言語のクッキー名",
     'cookie_tzid' => "タイムゾーンのクッキー名",
-    'cookie_ip' => "クッキーにIPを埋め込む?",
-    'default_perm_cookie_timeout' => "クッキーのタイムアウト時間",
-    'session_cookie_timeout' => "セッションのタイムアウト時間",
-    'cookie_path' => "パスのクッキー名",
-    'cookiedomain' => "ドメインのクッキー名",
+    'cookie_ip' => "クッキーにIPを埋め込む",
+    'default_perm_cookie_timeout' => "クッキーの有効期限",
+    'session_cookie_timeout' => "セッションの有効期限",
+    'cookie_path' => "クッキーのパス",
+    'cookiedomain' => "クッキーのドメイン",
     'cookiesecure' => "セキュア(HTTPS)なクッキー",
-    'lastlogin' => "ログイン日時を保持する?",
-    'pdf_enabled' => "PDF有効?",
-    'num_search_results' => "検索結果数",
-    'loginrequired' => "ログインを要求する?",
-    'submitloginrequired' => "記事投稿にログインが必要?",
-    'commentsloginrequired' => "コメント投稿にログインが必要?",
-    'statsloginrequired' => "アクセス情報閲覧にログインが必要?",
-    'searchloginrequired' => "検索にログインが必要?",
-    'profileloginrequired' => "プロフィール閲覧にログインが必要?",
-    'emailuserloginrequired' => "メール送信にログインが必要?",
-    'emailstoryloginrequired' => "記事をメールで送るにログインが必要?",
-    'directoryloginrequired' => "記事一覧閲覧にログインが必要?",
-    'storysubmission' => "記事投稿にログインが必要?",
-    'usersubmission' => "ユーザ投稿キュー有効?",
-    'listdraftstories' => "ドラフト記事をリストする?",
+    'lastlogin' => "最終のログインを記録する",
+    'pdf_enabled' => "PDFを有効にする",
+    'num_search_results' => "検索結果表示数",
+    'loginrequired' => "すべてにログインを要求する",
+    'submitloginrequired' => "投稿[ログイン要求]",
+    'commentsloginrequired' => "コメント投稿[ログイン要求]",
+    'statsloginrequired' => "統計の参照[ログイン要求]",
+    'searchloginrequired' => "検索[ログイン要求]",
+    'profileloginrequired' => "プロフィール閲覧[ログイン要求]",
+    'emailuserloginrequired' => "メール送信[ログイン要求]",
+    'emailstoryloginrequired' => "記事メール送信[ログイン要求]",
+    'directoryloginrequired' => "記事一覧表示[ログイン要求]",
+    'storysubmission' => "記事投稿申請キューを有効にする",
+    'usersubmission' => "ユーザ登録申請キューを有効にする",
+    'listdraftstories' => "ドラフト記事の一覧を表示する",
     'notification' => "通知",
-    'postmode' => "投稿モード",
+    'postmode' => "デフォルトの投稿モード",
     'speedlimit' => "投稿間隔制限",
-    'skip_preview' => "プレビューしないで投稿",
-    'advanced_editor' => "アドバンストエディタ?",
-    'wikitext_editor' => "ウィキテキストエディタ?",
+    'skip_preview' => "プレビューしないで投稿する",
+    'advanced_editor' => "アドバンストエディタを使う",
+    'wikitext_editor' => "ウィキテキストエディタを使う",
     'cron_schedule_interval' => "Cronスケジュール間隔",
-    'sortmethod' => "記事のソート方法",
-    'showstorycount' => "記事数を表示する?",
-    'showsubmissioncount' => "記事投稿数を表示する?",
-    'hide_home_link' => "Homeへのリンクを隠す?",
-    'whosonline_threshold' => "しきい値",
-    'whosonline_anonymous' => "ゲストユーザ?",
-    'emailstories' => "１日のダイジェストを送信する?",
-    'emailstorieslength' => "メールの記事の長さ",
-    'emailstoriesperdefault' => "新規ユーザに許可する?",
+    'sortmethod' => "ソート方法",
+    'showstorycount' => "記事数を表示する",
+    'showsubmissioncount' => "記事投稿数を表示する",
+    'hide_home_link' => "Homeへのリンクを隠す",
+    'whosonline_threshold' => "セッションのしきい値",
+    'whosonline_anonymous' => "ゲストユーザには表示しない",
+    'emailstories' => "デイリーダイジェストを送信する",
+    'emailstorieslength' => "記事の長さ",
+    'emailstoriesperdefault' => "新規ユーザのデフォルト",
     'allow_domains' => "自動的に許可するドメイン",
     'disallow_domains' => "自動的に拒否するドメイン",
     'newstoriesinterval' => "記事の\"新着\"の期間",
@@ -1697,86 +1690,86 @@ $LANG_confignames['Core'] = array(
     'hidenewtrackbacks' => "新規トラックバックを隠す",
     'hidenewplugins' => "新規プラグインを隠す",
     'title_trim_length' => "タイトルトリミング",
-    'trackback_enabled' => "トラックバックを有効にする?",
-    'pingback_enabled' => "ピングバックを有効にする?",
-    'ping_enabled' => "ピングを有効にする?",
+    'trackback_enabled' => "トラックバックを有効にする",
+    'pingback_enabled' => "ピングバックを有効にする",
+    'ping_enabled' => "ピングを有効にする",
     'trackback_code' => "トラックバックのデフォルト",
     'multiple_trackbacks' => "マルチプルトラックバック",
     'trackbackspeedlimit' => "トラックバック速度制限",
-    'check_trackback_link' => "トラックバックチェック",
-    'pingback_self' => "自身へピングバックする?",
-    'pingback_excerpt' => "ピングバックを要約(Excerpt)する?",
-    'link_documentation' => "ドキュメントをリンクする?",
-    'link_versionchecker' => "バージョンチェッカーをリンクする?",
-    'maximagesperarticle' => "記事で配置する画像の最大数",
+    'check_trackback_link' => "トラックバックのリンクをチェック",
+    'pingback_self' => "自身へピングバックする",
+    'pingback_excerpt' => "ピングバックを要約する",
+    'link_documentation' => "ドキュメントをリンクする",
+    'link_versionchecker' => "バージョンチェッカーをリンクする",
+    'maximagesperarticle' => "記事に配置する画像の最大数",
     'limitnews' => "1ページあたりの記事の表示数",
     'minnews' => "記事の最小数",
-    'contributedbyline' => "所有者を表示する?",
-    'hideviewscount' => "閲覧回数を隠す?",
-    'hideemailicon' => "メールアイコンを隠す?",
-    'hideprintericon' => "プリントアイコンを隠す?",
-    'allow_page_breaks' => "ページブレークを許可する?",
+    'contributedbyline' => "所有者名を表示する",
+    'hideviewscount' => "閲覧回数を隠す",
+    'hideemailicon' => "メールアイコンを隠す",
+    'hideprintericon' => "プリントアイコンを隠す",
+    'allow_page_breaks' => "ページブレークを許可する",
     'page_break_comments' => "ページブレークのコメント",
-    'article_image_align' => "記事の画像配置",
-    'show_topic_icon' => "トピックアイコンを表示する?",
-    'draft_flag' => "ドラフトフラグ?",
-    'frontpage' => "トップページ配置?",
-    'hide_no_news_msg' => "記事がない場合のメッセージを表示する?",
-    'hide_main_page_navigation' => "メインページナビゲーションを隠す?",
-    'onlyrootfeatures' => "Rootユーザだけが注目記事を設定できる?",
-    'aftersave_story' => "記事の保存後の動作",
-    'aftersave_user' => "ユーザの保存後の動作",
-    'show_right_blocks' => "右ブロックを常時表示する?",
-    'showfirstasfeatured' => "最初の記事を注目記事にする?",
-    'backend' => "フィードを有効にする?",
-    'rdf_file' => "シンジケーション出力フォルダ",
+    'article_image_align' => "話題アイコンの表示位置",
+    'show_topic_icon' => "話題アイコンを表示する",
+    'draft_flag' => "ドラフト設定の初期値",
+    'frontpage' => "トップページ配置の初期値",
+    'hide_no_news_msg' => "記事がない場合のメッセージ表示",
+    'hide_main_page_navigation' => "メインページへのナビゲーションを隠す",
+    'onlyrootfeatures' => "Rootユーザだけが注目記事を設定",
+    'aftersave_story' => "記事保存後の画面遷移",
+    'aftersave_user' => "ユーザ保存後の画面遷移",
+    'show_right_blocks' => "右ブロックを常時表示する",
+    'showfirstasfeatured' => "最初の記事を注目記事にする",
+    'backend' => "フィードを有効にする",
+    'rdf_file' => "出力ファイル",
     'rdf_limit' => "フィード制限",
     'rdf_storytext' => "フィード中の記事の長さ",
-    'rdf_language' => "フィード言語",
-    'syndication_max_headlines' => "タイトル文字制限 (ポータルブロック)",
+    'rdf_language' => "フィードの言語",
+    'syndication_max_headlines' => "タイトルの文字数制限",
     'copyrightyear' => "コピーライトの年",
     'image_lib' => "画像ライブラリ",
     'path_to_mogrify' => "Mogrifyへのパス",
     'path_to_netpbm' => "Netpbmへのパス",
-    'debug_image_upload' => "画像アップロードのデバッグを行う?",
-    'keep_unscaled_image' => "元画像を保存する?",
-    'allow_user_scaling' => "ユーザによる画像サイズ調整を許可する?",
-    'max_image_width' => "幅の最大値?",
-    'max_image_height' => "高さの最大値?",
-    'max_image_size' => "ファイルサイズの最大値?",
-    'max_topicicon_width' => "幅の最大値?",
-    'max_topicicon_height' => "高さの最大値?",
-    'max_topicicon_size' => "ファイルサイズの最大値?",
-    'max_photo_width' => "幅の最大値?",
-    'max_photo_height' => "高さの最大値?",
-    'max_photo_size' => "ファイルサイズの最大値?",
-    'use_gravatar' => "Gravatarを使用する?",
-    'gravatar_rating' => "レーティングのパラメータ",
+    'debug_image_upload' => "画像アップロードのデバッグを行う",
+    'keep_unscaled_image' => "元画像を保存する",
+    'allow_user_scaling' => "ユーザに画像サイズ変更を許可",
+    'max_image_width' => "幅の最大値",
+    'max_image_height' => "高さの最大値",
+    'max_image_size' => "ファイルサイズ制限",
+    'max_topicicon_width' => "幅の最大値",
+    'max_topicicon_height' => "高さの最大値",
+    'max_topicicon_size' => "ファイルサイズ制限",
+    'max_photo_width' => "幅の最大値",
+    'max_photo_height' => "高さの最大値",
+    'max_photo_size' => "ファイルサイズ制限",
+    'use_gravatar' => "Gravatarを使用する",
+    'gravatar_rating' => "Gravatar評価を許可",
     'force_photo_width' => "幅を固定する",
-    'default_photo' => "デフォルト写真",
+    'default_photo' => "デフォルトの写真",
     'commentspeedlimit' => "コメント投稿間隔制限",
     'comment_limit' => "コメント制限",
-    'comment_mode' => "コメントモード",
-    'comment_code' => "コメントコード",
-    'passwordspeedlimit' => "パスワード取得間隔制限",
-    'login_attempts' => "ログイン要求",
-    'login_speedlimit' => "ログイン要求間隔制限",
+    'comment_mode' => "コメント形状",
+    'comment_code' => "コメント許可",
+    'passwordspeedlimit' => "パスワード入力間隔制限",
+    'login_attempts' => "ログイン試行回数制限",
+    'login_speedlimit' => "ログイン試行間隔制限",
     'user_html' => "ユーザHTML",
     'admin_html' => "管理者HTML",
-    'skip_html_filter_for_root' => "RootユーザはHTMLフィルタをスキップする?",
+    'skip_html_filter_for_root' => "RootユーザはHTMLフィルタを無効にする",
     'allowed_protocols' => "許可されたプロトコル",
-    'disable_autolinks' => "自動リンクを無効にする?",
-    'censormode' => "バッドワードチェック?",
-    'censorreplace' => "バッドワード置換",
-    'censorlist' => "バッドワードリスト",
+    'disable_autolinks' => "自動リンクを無効にする",
+    'censormode' => "チェックモード",
+    'censorreplace' => "置き換え",
+    'censorlist' => "バッドワード",
     'ip_lookup' => "IP検索",
     'url_rewrite' => "URLリライト",
-    'default_permissions_block' => "ブロックデフォルトパーミッション",
-    'default_permissions_story' => "記事デフォルトパーミッション",
-    'default_permissions_topic' => "話題デフォルトパーミッション",
-    'atom_max_stories' => "Webサービスのフィードの最大数",
-    'disable_webservices' => "Webサービスを無効にする?",
-    'restrict_webservices' => "Webサービスを制限する?"
+    'default_permissions_block' => "パーミッション",
+    'default_permissions_story' => "パーミッション",
+    'default_permissions_topic' => "パーミッション",
+    'atom_max_stories' => "フィードの最大記事数",
+    'disable_webservices' => "無効にする",
+    'restrict_webservices' => "制限する"
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1805,10 +1798,10 @@ $LANG_fs['Core'] = array(
     'fs_language' => '言語',
     'fs_debug' => 'デバッグ',
     'fs_cookies' => 'クッキー',
-    'fs_login' => 'ログイン設定',
+    'fs_login' => 'ログイン',
     'fs_search' => '検索',
     'fs_user_submission' => 'ユーザ投稿',
-    'fs_submission' => '投稿設定',
+    'fs_submission' => '投稿',
     'fs_topics_block' => '話題ブロック',
     'fs_whosonline_block' => 'オンラインメンバブロック',
     'fs_daily_digest' => 'デイリーダイジェスト',
@@ -1816,27 +1809,27 @@ $LANG_fs['Core'] = array(
     'fs_trackback' => 'トラックバック',
     'fs_pingback' => 'ピングバック',
     'fs_story' => '記事',
-    'fs_theme_advanced' => 'アドバンストエディタ設定',
+    'fs_theme_advanced' => 'テーマの拡張設定',
     'fs_syndication' => 'シンジケーション',
     'fs_imagelib' => '画像ライブラリ',
     'fs_upload' => 'アップロード',
     'fs_articleimg' => '記事の画像',
     'fs_topicicon' => '話題アイコン',
-    'fs_userphoto' => '写真',
-    'fs_gravatar' => 'Gravatar',
+    'fs_userphoto' => 'ユーザの写真',
+    'fs_gravatar' => 'Gravatarの画像を使用する',
     'fs_comments' => 'コメント',
     'fs_htmlfilter' => 'HTMLフィルタ',
     'fs_censoring' => 'バッドワードチェック',
     'fs_iplookup' => 'IP検索',
-    'fs_perm_story' => '記事のデフォルトパーミッション',
-    'fs_perm_topic' => '話題のデフォルトパーミッション',
-    'fs_perm_block' => 'ブロックのデフォルトパーミッション',
+    'fs_perm_story' => '記事のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
+    'fs_perm_topic' => '話題のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
+    'fs_perm_block' => 'ブロックのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
     'fs_webservices' => 'Webサービス'
 );
 
 $LANG_configselects['Core'] = array(
-    0 => array('True'=>1,'False'=>0),
-    1 => array('True'=>TRUE,'False'=>FALSE),
+    0 => array('はい'=>1,'いいえ'=>0),
+    1 => array('はい'=>TRUE,'いいえ'=>FALSE),
     2 => array('拒否する'=>0,'最新ポストのみ保存する'=>1, 'マルチポストを許可する'=>2),
     3 => array_flip($LANG_trackbackcodes),
     4 => array("ノーチェック" => 0,
@@ -1851,15 +1844,22 @@ $LANG_configselects['Core'] = array(
     6 => array('12'=>'12','24'=>'24'),
     7 => array('最後のページ'=>'last','最初のページ'=>'first', '全ページ'=>'all'),
     8 => array('右'=>'right', '左'=>'left'),
-    9 => array('ページを表示する' => 'item', 'リストを表示する' => 'list', 'HOMEリンクを表示する' => 'home', '管理者専用メニューを表示する' => 'admin'),
+    9 => array('作成した記事を表示する' => 'item', '記事管理を表示する' => 'list', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
     10 => array('なし'=>'', 'Netpbm'=>'netpbm', 'ImageMagick'=>'imagemagick', 'GDライブラリ' =>'gdlib'),
     11 => array_flip($LANG_commentmodes),
-    12 => array('アクセス不可'=>0, '表示'=>2,'表示・編集'=>3),
+    12 => array('アクセス不可'=>0, '表示'=>2, '表示・編集'=>3),
     13 => array('スキップする' => 0, '許可する(速度制限あり)' => 1, '許可する(速度制限なし)' => 2),
     14 => array('日曜日' => 'Sun', '月曜日' => 'Mon'),
     15 => array('番号順' => 'sortnum', 'アルファベット順' => 'alpha'),
     16 => array('ログイン不要' => 0, 'アドバンスドサーチのみ' => 1, 'シンプル + アドバンスドサーチ' => 2),
     17 => array('コメントを許可する' => 0, 'コメントを許可しない' => -1)
+);
+
+################################################################################
+# Added for Geeklog Japanese Edition
+
+$LANG_JPN = array(
+    1 => ' さん',
 );
 
 ?>
