@@ -1179,7 +1179,8 @@ $MESSAGE = array(
     93 => 'Database back up war erfolgreich.',
     94 => 'Backup Failed: Dateigröße unter 1kb',
     95 => 'Es gab einen Fehler.',
-    96 => 'Sorry, you do not have access to the configuration administration page.  Please note that all attempts to access unauthorized features are logged.'
+    96 => 'Sorry, you do not have access to the configuration administration page.  Please note that all attempts to access unauthorized features are logged.',
+    97 => 'Not all required fields have been passed validation - default custom membership message'
 );
 
 ###############################################################################
@@ -1576,7 +1577,7 @@ $LANG_CONFIG = array(
     'home' => 'Home',
     'admin_home' => 'Verwaltung der Site',
     'sections' => 'Bereich Konfiguration',
-    'restore' => 'Rauskramen',
+    'restore' => 'Aktivieren',
     'add_element' => 'Element hinzufügen',
     'save_changes' => 'Änderungen speichern',
     'reset_form' => 'Angaben zurücksetzen',
