@@ -7,6 +7,8 @@
 # Copyright (C) 2001 Tony Bibbs
 # tony@tonybibbs.com
 # Tranlated by Geeklog Japanese group SaY and Ivy
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -23,7 +25,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2007/01/30 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -79,7 +81,7 @@ $LANG_STATIC = array(
     'stats_no_hits' => '静的ページがないか，閲覧者がいないかのどちらかです。',
     'id' => 'ID',
     'duplicate_id' => '指定したIDはすでに使われています。別のIDをご使用ください。',
-    'instructions' => 'ページを編集・削除は，各ページの先頭の編集アイコンをクリック。ページの閲覧は，タイトルをクリック。新しいページを作成する場合は「新規作成」リンクをクリック。ページのコピーは[C]をクリックしてください。',
+    'instructions' => '静的ページを編集・削除する場合は各ページの先頭の編集アイコンをクリックしてください。静的ページを閲覧する場合は，閲覧したいページのタイトルをクリックしてください。新しい静的ページを作成する場合は「新規作成」をクリックしてください。静的ページのコピーは[C]をクリックしてください。',
     'centerblock' => 'センターエリア: ',
     'centerblock_msg' => 'チェックすると，トップページまたは話題のトップページのセンターエリアに表示されます。表示はIDでソートされます。',
     'topic' => '話題: ',
@@ -115,48 +117,48 @@ $LANG_STATIC = array(
 
 
 // Messages for the plugin upgrade
-$PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_staticpages_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_staticpages_MESSAGE3002 = $LANG32[9];
 
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['staticpages'] = array(
-    'label' => 'Static Pages',
-    'title' => 'Static Pages Configuration'
+    'label' => '静的ページ',
+    'title' => '静的ページの設定'
 );
 
 $LANG_confignames['staticpages'] = array(
-    'allow_php' => 'Allow PHP?',
-    'sort_by' => 'Sort Centerblocks by',
-    'sort_menu_by' => 'Sort Menu Entries by',
-    'delete_pages' => 'Delete Pages with Owner?',
-    'in_block' => 'Wrap Pages in Block?',
-    'show_hits' => 'Show Hits?',
-    'show_date' => 'Show Date?',
-    'filter_html' => 'Filter HTML?',
-    'censor' => 'Censor Content?',
-    'default_permissions' => 'Page Default Permissions',
-    'aftersave' => 'After Saving Page',
-    'atom_max_items' => 'Max. Pages in Webservices Feed'
+    'allow_php' => 'PHPを許可する',
+    'sort_by' => 'センターブロックでのソート項目',
+    'sort_menu_by' => 'メニューでのソート項目',
+    'delete_pages' => '所有者の削除と共に削除する',
+    'in_block' => 'ページをブロックで囲む',
+    'show_hits' => 'ヒット数を表示する',
+    'show_date' => '日付を表示する',
+    'filter_html' => 'HTMLをフィルターする',
+    'censor' => '内容を検閲する',
+    'default_permissions' => 'デフォルトパーミッション',
+    'aftersave' => 'ページ保存後の画面遷移',
+    'atom_max_items' => 'フィードに使用するページの最大数'
 );
 
 $LANG_configsubgroups['staticpages'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['staticpages'] = array(
-    'fs_main' => 'Static Pages Main Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => '静的ページの設定',
+    'fs_permissions' => '静的ページのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
-    2 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title'),
-    3 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Label' => 'label'),
-    9 => array('Forward to page' => 'item', 'Display List' => 'list', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    2 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title'),
+    3 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title', 'ラベル' => 'label'),
+    9 => array('作成した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>
