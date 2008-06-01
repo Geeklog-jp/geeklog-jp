@@ -7,12 +7,14 @@
  * Copyright (C) 2004-2008 by the following authors:
  * Author        Tom Willett        tomw AT pigstye DOT net
  * Tranlated by Ivy (Geeklog Japanese)
+ * Copyright (C) 2008 Takahiro Kambe
+ * Additional translation to Japanese by taca AT back-street DOT net
  * 
  * Licensed under GNU General Public License
  *
  * $Id: english_utf-8.php,v 1.10 2008/03/17 21:12:54 dhaun Exp $
  */
-# Last Update 2007/01/30 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -28,7 +30,7 @@ $LANG_SX00 = array (
     'sitename' => 'サイト名: ',
     'URL' => 'URL Spam-X リスト: ',
     'RDF' => 'RDF url: ',
-    'impinst1a' => 'Spam-Xを使う前に、 Spamブロッカー機能のパーソナルブラックリストを閲覧してインポートします。',
+    'impinst1a' => 'Spam-Xを使う前に、スパムブロッカー機能のパーソナルブラックリストを閲覧してインポートします。',
     'impinst1b' => 'サイト、つぎのボタンを。 (最後のボタンをクリック)',
     'impinst2' => 'Gplugs/Spam-X の最初の実行はマスターリストに加えられます ',
     'impinst2a' => 'ブラックリストが反映。 (註: 複数サイトあるのなら、 その中のひとつを指定したいかもしれない',
@@ -109,7 +111,7 @@ $LANG_SX00 = array (
     'allow_url_fopen' => '<p>申し訳ありませんがあなたのウェブサーバのコンフィギュレーションはリモートファイルの読み込みを許可していません。 (<code>allow_url_fopen</code> がオフ). 次のURLからブラックリストをダウンロードしてGeeklogの "データ" ディレクトリにアップロードしてください。<tt>%s</tt>, 再実行の前に:',
     'documentation' => 'Spam-X プラグインドキュメント',
     'emailmsg' => "新しいスパム投稿 \"%s\"\nUser UID: \"%s\"\n\nコンテンツ:\"%s\"",
-    'emailsubject' => 'Spam ポスト %s',
+    'emailsubject' => 'スパムポスト %s',
     'ipblack' => 'Spam-X IP ブラックリスト',
     'ipofurlblack' => 'Spam-X IP of URL ブラックリスト',
     'headerblack' => 'Spam-X HTTP Header ブラックリスト',
@@ -131,39 +133,39 @@ $LANG_SX00 = array (
 
 
 /* Define Messages that are shown when Spam-X module action is taken */
-$PLG_spamx_MESSAGE128 = 'Spam 削除。投稿は削除されました。';
-$PLG_spamx_MESSAGE8   = 'Spam 削除。メールが管理者に送られました。';
+$PLG_spamx_MESSAGE128 = 'スパム削除。投稿は削除されました。';
+$PLG_spamx_MESSAGE8   = 'スパム削除。メールが管理者に送られました。';
 
 // Messages for the plugin upgrade
-$PLG_spamx_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_spamx_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_spamx_MESSAGE3002 = $LANG32[9];
 
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['spamx'] = array(
     'label' => 'Spam-X',
-    'title' => 'Spam-X Configuration'
+    'title' => 'Spam-X の設定'
 );
 
 $LANG_confignames['spamx'] = array(
-    'action' => 'Spam-X Actions',
-    'notification_email' => 'Notification Email',
-    'admin_override' => "Don't Filter Admin Posts",
-    'logging' => 'Enable Logging',
-    'timeout' => 'Timeout'
+    'action' => 'Spam-X の動作',
+    'notification_email' => 'メールで通知する',
+    'admin_override' => "管理者の入力はフィルターしない",
+    'logging' => 'ログを有効にする',
+    'timeout' => 'タイムアウト'
 );
 
 $LANG_configsubgroups['spamx'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['spamx'] = array(
-    'fs_main' => 'Spam-X Main Settings'
+    'fs_main' => 'Spam-X の設定'
 );
 
 $LANG_configselects['spamx'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE)
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE)
 );
 
 ?>

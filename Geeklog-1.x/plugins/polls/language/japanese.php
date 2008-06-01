@@ -10,6 +10,8 @@
 # Copyright (C) 2005 Trinity Bays
 # trinity93 AT gmail DOT com
 # Tranlated by Geeklog Japanese group SaY and Ivy
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2007/10/03 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -104,45 +106,45 @@ $PLG_polls_MESSAGE19 = 'アンケートが登録されました。';
 $PLG_polls_MESSAGE20 = 'アンケートは削除されました。';
 
 // Messages for the plugin upgrade
-$PLG_polls_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_polls_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_polls_MESSAGE3002 = $LANG32[9];
 
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['polls'] = array(
-    'label' => 'Polls',
-    'title' => 'Polls Configuration'
+    'label' => 'アンケート',
+    'title' => 'アンケートの設定'
 );  
 
 $LANG_confignames['polls'] = array(
-    'pollsloginrequired' => 'Polls Login Required?',
-    'hidepollsmenu' => 'Hide Polls Menu Entry?',
-    'maxquestions' => 'Max. Questions per Poll',
-    'maxanswers' => 'Max. Options per Question',
-    'answerorder' => 'Sort Results ...',
-    'pollcookietime' => 'Voter Cookie valid for',
-    'polladdresstime' => 'Voter IP Address valid for',
-    'delete_polls' => 'Delete Polls with Owner?',
-    'aftersave' => 'After Saving Poll',
-    'default_permissions' => 'Poll Default Permissions'
+    'pollsloginrequired' => 'アンケートにはログインが必要',
+    'hidepollsmenu' => 'メニューに表示しない',
+    'maxquestions' => 'アンケート毎の質問の最大数',
+    'maxanswers' => '質問毎の選択肢の最大数',
+    'answerorder' => 'アンケート結果の表示順序',
+    'pollcookietime' => '投票者のクッキーの有効期間',
+    'polladdresstime' => '投票者のIPアドレスの有効期間',
+    'delete_polls' => '所有者の削除と共に削除する',
+    'aftersave' => 'アンケート保存後の画面遷移',
+    'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['polls'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['polls'] = array(
-    'fs_main' => 'General Polls Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => 'アンケートの一般的な設定',
+    'fs_permissions' => 'アンケートのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['polls'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
-    2 => array('As Submitted' => 'submitorder', 'By Votes' => 'voteorder'),
-    9 => array('Forward to Poll' => 'item', 'Display Admin List' => 'list', 'Display Public List' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    2 => array('登録順に固定' => 'submitorder', '得票順にソート' => 'voteorder'),
+    9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>

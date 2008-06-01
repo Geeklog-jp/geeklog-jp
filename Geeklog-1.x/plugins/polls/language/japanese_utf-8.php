@@ -10,6 +10,8 @@
 # Copyright (C) 2005 Trinity Bays
 # trinity93 AT gmail DOT com
 # Tranlated by Geeklog Japanese group SaY and Ivy
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2007/10/03 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -115,15 +117,15 @@ $LANG_configsections['polls'] = array(
 );  
 
 $LANG_confignames['polls'] = array(
-    'pollsloginrequired' => 'アンケートにはログインが必要?',
-    'hidepollsmenu' => 'メニューエントリーを隠す?',
+    'pollsloginrequired' => 'アンケートにはログインが必要',
+    'hidepollsmenu' => 'メニューに表示しない',
     'maxquestions' => 'アンケート毎の質問の最大数',
     'maxanswers' => '質問毎の選択肢の最大数',
     'answerorder' => 'アンケート結果の表示順序',
     'pollcookietime' => '投票者のクッキーの有効期間',
     'polladdresstime' => '投票者のIPアドレスの有効期間',
-    'delete_polls' => '所有者の削除と共にアンケートも削除する？',
-    'aftersave' => 'アンケート保存後の動作',
+    'delete_polls' => '所有者の削除と共に削除する',
+    'aftersave' => 'アンケート保存後の画面遷移',
     'default_permissions' => 'デフォルトパーミッション'
 );
 
@@ -138,10 +140,10 @@ $LANG_fs['polls'] = array(
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['polls'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
     2 => array('登録順に固定' => 'submitorder', '得票順にソート' => 'voteorder'),
-    9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
