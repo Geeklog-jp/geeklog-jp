@@ -3,13 +3,15 @@
 ###############################################################################
 # japanese.php
 #
-# This is the Japanese EUC language file for the Geeklog Calendar plugin
+# This is the Japanese UTF-8 language file for the Geeklog Calendar plugin
 #
 # Copyright (C) 2001 Tony Bibbs
 # tony AT tonybibbs DOT com
 # Copyright (C) 2005 Trinity Bays
 # trinity93 AT gmail DOT com
 # Tranlated by Geeklog Japanese group SaY and Ivy
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -26,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2007/02/19 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -157,9 +159,9 @@ $LANG_CAL_ADMIN = array(
     20 => '保存',
     21 => 'キャンセル',
     22 => '削除',
-    23 => '開始日時をただしく入力してください。',
-    24 => '終了日時をただしく入力してください。',
-    25 => '終了日時をただしく入力してください。',
+    23 => '開始日時を正しく入力してください。',
+    24 => '終了日時を正しく入力してください。',
+    25 => '終了日時を正しく入力してください。',
     26 => '古いイベントの削除',
     27 => '以下のリストは ',
     28 => ' ヶ月以上前のイベントです。 これらを削除する場合はゴミ箱アイコンをクリックしてください。または、異なる期間を選択してください：<br' . XHTML . '> ',
@@ -190,46 +192,46 @@ $PLG_calendar_MESSAGE24 = 'イベントが個人カレンダに保存されました。';
 $PLG_calendar_MESSAGE26 = 'イベントが削除されました。';
 
 // Messages for the plugin upgrade
-$PLG_calendar_MESSAGE3001 = 'Plugin upgrade not supported.';
+$PLG_calendar_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
 $PLG_calendar_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['calendar'] = array(
-    'label' => 'Calendar',
-    'title' => 'Calendar Configuration'
+    'label' => 'カレンダ',
+    'title' => 'カレンダの設定'
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'Calendar Login Required?',
-    'hidecalendarmenu' => 'Hide Calendar Menu Entry?',
-    'personalcalendars' => 'Enable Personal Calendars?',
-    'eventsubmission' => 'Enable Submission Queue?',
-    'showupcomingevents' => 'Show upcoming Events?',
-    'upcomingeventsrange' => 'Upcoming Events Range',
-    'event_types' => 'Event Types',
-    'hour_mode' => 'Hour Mode',
-    'notification' => 'Notification Email?',
-    'delete_event' => 'Delete Events with Owner?',
-    'aftersave' => 'After Saving Event',
-    'default_permissions' => 'Event Default Permissions'
+    'calendarloginrequired' => 'カレンダにはログインが必要',
+    'hidecalendarmenu' => 'メニューに表示しない',
+    'personalcalendars' => '個人カレンダを有効にする',
+    'eventsubmission' => 'イベント登録申請キューを有効にする',
+    'showupcomingevents' => 'イベント予告を表示する',
+    'upcomingeventsrange' => 'イベント予告を表示する期間',
+    'event_types' => 'イベントの種類',
+    'hour_mode' => '時間制',
+    'notification' => 'メールで通知する',
+    'delete_event' => '所有者の削除と共に削除する',
+    'aftersave' => 'イベント保存後の画面遷移',
+    'default_permissions' => 'デフォルトパーミッション'
 );
 
 $LANG_configsubgroups['calendar'] = array(
-    'sg_main' => 'Main Settings'
+    'sg_main' => 'メイン'
 );
 
 $LANG_fs['calendar'] = array(
-    'fs_main' => 'General Calendar Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_main' => 'カレンダの一般設定',
+    'fs_permissions' => 'カレンダのデフォルトパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['calendar'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
     6 => array('12' => '12', '24' => '24'),
-    9 => array('Forward to Event' => 'item', 'Display Admin List' => 'list', 'Display Calendar' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
 ?>

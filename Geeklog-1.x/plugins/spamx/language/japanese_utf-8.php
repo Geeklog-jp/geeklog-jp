@@ -7,12 +7,14 @@
  * Copyright (C) 2004-2008 by the following authors:
  * Author        Tom Willett        tomw AT pigstye DOT net
  * Tranlated by Ivy (Geeklog Japanese)
+ * Copyright (C) 2008 Takahiro Kambe
+ * Additional translation to Japanese by taca AT back-street DOT net
  * 
  * Licensed under GNU General Public License
  *
  * $Id: english_utf-8.php,v 1.10 2008/03/17 21:12:54 dhaun Exp $
  */
-# Last Update 2007/01/30 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 global $LANG32;
 
@@ -162,8 +164,8 @@ $LANG_fs['spamx'] = array(
 );
 
 $LANG_configselects['spamx'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE)
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE)
 );
 
 ?>

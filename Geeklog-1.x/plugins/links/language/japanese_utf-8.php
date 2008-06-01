@@ -10,6 +10,8 @@
 # Copyright (C) 2005 Trinity Bays
 # trinity93 AT gmail DOT com
 # Tranlated by Geeklog Japanese group
+# Copyright (C) 2008 Takahiro Kambe
+# Additional translation to Japanese by taca AT back-street DOT net
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -27,7 +29,7 @@
 #
 ###############################################################################
 # $Id: japanese_utf-8.php,v 1.30 2008/03/17 21:12:54 dhaun Exp $
-# Last Update 2008/01/01 by Ivy (Geeklog Japanese)
+# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
 
 /**
  * This is the english language page for the Geeklog links Plug-in!
@@ -263,19 +265,19 @@ $LANG_configsections['links'] = array(
 );
 
 $LANG_confignames['links'] = array(
-    'linksloginrequired' => 'リンクにはログインが必要?',
-    'linksubmission' => '送信キューを有効にする?',
+    'linksloginrequired' => 'リンクにはログインが必要',
+    'linksubmission' => '送信キューを有効にする',
     'newlinksinterval' => 'リンク作成の間隔',
-    'hidenewlinks' => '新しいリンクを隠す?',
-    'hidelinksmenu' => 'メニューエントリーを隠す?',
+    'hidenewlinks' => 'リンク追加ボタンを隠す',
+    'hidelinksmenu' => 'メニューに表示しない',
     'linkcols' => 'カテゴリの表示カラム数',
     'linksperpage' => 'ページあたりのリンク数',
-    'show_top10' => 'リンクのトップ10を表示する?',
-    'notification' => 'メールで通知する?',
-    'delete_links' => '所有者の削除と共にリンクも削除する?',
-    'aftersave' => 'リンクの保存後の動作',
-    'show_category_descriptions' => 'カテゴリの説明を表示する?',
-    'root' => 'ルートカテゴリの ID',
+    'show_top10' => 'リンクのトップ10を表示する',
+    'notification' => 'メールで通知する',
+    'delete_links' => '所有者の削除と共に削除する',
+    'aftersave' => 'リンク保存後の画面遷移',
+    'show_category_descriptions' => 'カテゴリの説明を表示する',
+    'root' => 'ルートカテゴリのID',
     'default_permissions' => 'デフォルトパーミッション'
 );
 
@@ -291,9 +293,9 @@ $LANG_fs['links'] = array(
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['links'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
-    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'ホームページを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
