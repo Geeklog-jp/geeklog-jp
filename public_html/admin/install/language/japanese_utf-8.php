@@ -16,8 +16,8 @@
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
 // |          Randy Kolenko     - randy AT nextide DOT ca                      |
 // |          Matt West         - matt AT mattdanger DOT net                   |
-// |          Geeklog.jp group  - geeklog AT ivysoho DOT jp                    |
-// |          mystral-kk        - geeklog AT mystral-kk DOT net                !
+// |          Geeklog.jp group  - info AT geeklog DOT jp                       |
+// |          mystral-kk        - geeklog AT mystral-kk DOT net                |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
