@@ -542,7 +542,7 @@ $LANG10 = array(
 );
 
 ###############################################################################
-#文章.php
+# article.php
 
 $LANG11 = array(
     1 => '有什麽是相关的',
@@ -1178,7 +1178,8 @@ $MESSAGE = array(
     93 => '资料库备份成功。',
     94 => '备份失败: 文件小于 1kb',
     95 => '有错误。',
-    96 => '对不起, 你没权进入设定管理区。 请注意所有登入企图都被记录。'
+    96 => '对不起, 你没权进入设定管理区。 请注意所有登入企图都被记录。',
+    97 => 'Not all required fields have been passed validation - default custom membership message'
 );
 
 ###############################################################################
@@ -1851,4 +1852,5 @@ $LANG_configselects['Core'] = array(
     16 => array('No Login required' => 0, 'Advanced Search only' => 1, 'Simple + Advanced Search' => 2),
     17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1)
 );
+
 ?>
