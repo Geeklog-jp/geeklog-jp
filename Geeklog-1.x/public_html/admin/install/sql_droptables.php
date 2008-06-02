@@ -257,8 +257,7 @@ $_SQL[] = "DROP TABLE IF EXISTS  "
     .$_DB_table_prefix."conf_values"
     ;
 $_SQL[] = "DROP TABLE IF EXISTS  "
-    .$_DB_table_prefix."linkcategories"
+    .$_DB_table_prefix."polltopics"
     ;
-
 
 ?>
