@@ -1,7 +1,7 @@
 <?php
 
 /**
- * File: japanese.php
+ * File: japanese_utf-8.php
  * This is the Japanese language file for the Geeklog Spam-X plugin
  * 
  * Copyright (C) 2004-2008 by the following authors:
@@ -14,18 +14,18 @@
  *
  * $Id: english_utf-8.php,v 1.10 2008/03/17 21:12:54 dhaun Exp $
  */
-# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
 $LANG_SX00 = array (
     'inst1' => '<p>もしこれをおこなったら他も ',
-    'inst2' => '見えます。そしてあなたのブラックリストをインポートしてより効果を発揮します。',
+    'inst2' => '見えます。そしてあなたのブラックリストをインポートするとさらに効果を発揮します。',
     'inst3' => 'データベースが構築されました。</p><p>もし、ウェブサイトを作ってもリスティングされないためには',
     'inst4' => ' <a href="mailto:spamx@pigstye.net">spamx@pigstye.net</a>までメールを送信してください。',
     'inst5' => 'リクエストは尊重されます。',
     'submit' => '実行',
-    'subthis' => 'このSpam-X情報は、中央データベースです。',
+    'subthis' => 'このSpam-X情報は、Spam-X Central Databaseを参照しています。',
     'secbut' => '2番目のボタンは、RDFフィードを作成します。他サイトから呼ぶことができます。',
     'sitename' => 'サイト名: ',
     'URL' => 'URL Spam-X リスト: ',
@@ -101,8 +101,8 @@ $LANG_SX00 = array (
     'note4'     => 'ここに戻り、最近のコメントを Spam-X チェック</li></ul><p>',
     'note5'     => '最新コメントを最後のコメントに追加チェック -- コメントチェック ',
     'note6'     => 'チェックをより多く要求します。</p>',
-    'masshead'  => '<hr' . XHTML . '><h1 align="center">マスデリート〜スパムコメント</h1>',
-    'masstb' => '<hr' . XHTML . '><h1 align="center">マスデリート〜トラックバックスパム</h1>',
+    'masshead'  => '<hr' . XHTML . '><h1 align="center">マスデリート - スパムコメント</h1>',
+    'masstb' => '<hr' . XHTML . '><h1 align="center">マスデリート - トラックバックスパム</h1>',
     'comdel'    => 'コメントが削除されました。',
     'initial_Pimport' => '<p>パーソナルブラックリスト インポート"',
     'initial_import' => '初期 MT-ブラックリスト インポート',
@@ -117,18 +117,18 @@ $LANG_SX00 = array (
     'headerblack' => 'Spam-X HTTP Header ブラックリスト',
     'headers' => 'リクエストヘッダ:',
 
-    'stats_headline' => 'Spam-X ステータス',
+    'stats_headline' => 'Spam-Xステータス',
     'stats_page_title' => 'ブラックリスト',
     'stats_entries' => 'エントリ',
     'stats_mtblacklist' => 'MT-ブラックリスト',
     'stats_pblacklist' => 'パーソナルブラックリスト',
     'stats_ip' => 'ブロックIP',
     'stats_ipofurl' => 'URLのIPによってブロックされました',
-    'stats_header' => 'HTTP ヘッダ',
-    'stats_deleted' => 'スパムとして投稿削除',
+    'stats_header' => 'HTTPヘッダ',
+    'stats_deleted' => 'スパム投稿削除数',
 
     'plugin_name' => 'Spam-X',
-    'slvwhitelist' => 'SLV ホワイトリスト'
+    'slvwhitelist' => 'SLVホワイトリスト'
 );
 
 
@@ -144,7 +144,7 @@ $PLG_spamx_MESSAGE3002 = $LANG32[9];
 // Localization of the Admin Configuration UI
 $LANG_configsections['spamx'] = array(
     'label' => 'Spam-X',
-    'title' => 'Spam-X の設定'
+    'title' => 'Spam-Xの設定'
 );
 
 $LANG_confignames['spamx'] = array(
@@ -160,7 +160,7 @@ $LANG_configsubgroups['spamx'] = array(
 );
 
 $LANG_fs['spamx'] = array(
-    'fs_main' => 'Spam-X の設定'
+    'fs_main' => 'Spam-Xの設定'
 );
 
 $LANG_configselects['spamx'] = array(

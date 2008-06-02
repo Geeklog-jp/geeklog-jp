@@ -29,7 +29,7 @@
 #
 ###############################################################################
 # $Id: japanese_utf-8.php,v 1.30 2008/03/17 21:12:54 dhaun Exp $
-# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 /**
  * This is the english language page for the Geeklog links Plug-in!
@@ -67,7 +67,7 @@ $LANG_LINKS = array(
     84 => 'リンク',
     88 => '新しいリンクはありません',
     114 => 'リンク',
-    116 => 'リンクの追加',
+    116 => 'リンク投稿',
     117 => 'リンク切れをご報告ください。',
     118 => 'リンク切れの報告',
     119 => '次のリンクは切れていると報告されました： ',
@@ -78,7 +78,7 @@ $LANG_LINKS = array(
     124 => '表示',
     125 => 'カテゴリ',
     126 => '現在の位置：',
-    'root' => 'ルート' // title used for top level category
+    'root' => 'トップ' // title used for top level category
 );
 
 ###############################################################################
@@ -89,7 +89,7 @@ $LANG_LINKS = array(
 * @global array $LANG_LINKS_STATS
 */
 $LANG_LINKS_STATS = array(
-    'links' => '登録されているリンク（クリック数）',
+    'links' => 'リンク数（クリック数）',
     'stats_headline' => 'リンク(上位10件)',
     'stats_page_title' => 'リンク',
     'stats_hits' => 'ヒット',
@@ -106,7 +106,7 @@ $LANG_LINKS_STATS = array(
 $LANG_LINKS_SEARCH = array(
  'results' => 'リンクの検索結果',
  'title' => 'タイトル',
- 'date' => '追加した日時',
+ 'date' => '投稿した日時',
  'author' => '投稿者',
  'hits' => 'クリック数'
 );
@@ -119,7 +119,7 @@ $LANG_LINKS_SEARCH = array(
 * @global array $LANG_LINKS_SUBMIT
 */
 $LANG_LINKS_SUBMIT = array(
-    1 => 'リンクの登録',
+    1 => 'リンクを投稿する',
     2 => 'リンク',
     3 => 'カテゴリ',
     4 => 'その他',
@@ -129,7 +129,7 @@ $LANG_LINKS_SUBMIT = array(
     8 => 'タイトル',
     9 => 'URL',
     10 => 'カテゴリ',
-    11 => 'リンクの登録申請'
+    11 => 'リンクの投稿'
 );
 
 ###############################################################################
@@ -164,7 +164,7 @@ $PLG_links_MESSAGE3002 = $LANG32[9];
 */
 $LANG_LINKS_ADMIN = array(
     1 => 'リンクの編集',
-    2 => 'リンク ID',
+    2 => 'リンクID',
     3 => 'タイトル',
     4 => 'URL',
     5 => 'カテゴリ',
@@ -190,7 +190,7 @@ $LANG_LINKS_ADMIN = array(
     29 => '以下の項目を入力または編集してください。',
     30 => 'カテゴリ',
     31 => '説明',
-    32 => 'カテゴリ ID',
+    32 => 'カテゴリID',
     33 => '話題',
     34 => '親カテゴリ',
     35 => 'すべて',
@@ -265,10 +265,10 @@ $LANG_configsections['links'] = array(
 );
 
 $LANG_confignames['links'] = array(
-    'linksloginrequired' => 'リンクにはログインが必要',
-    'linksubmission' => '送信キューを有効にする',
+    'linksloginrequired' => 'ログインを要求する',
+    'linksubmission' => 'リンクの投稿を管理者が承認する',
     'newlinksinterval' => 'リンク作成の間隔',
-    'hidenewlinks' => 'リンク追加ボタンを隠す',
+    'hidenewlinks' => 'リンク投稿ボタンを隠す',
     'hidelinksmenu' => 'メニューに表示しない',
     'linkcols' => 'カテゴリの表示カラム数',
     'linksperpage' => 'ページあたりのリンク数',
@@ -277,8 +277,8 @@ $LANG_confignames['links'] = array(
     'delete_links' => '所有者の削除と共に削除する',
     'aftersave' => 'リンク保存後の画面遷移',
     'show_category_descriptions' => 'カテゴリの説明を表示する',
-    'root' => 'ルートカテゴリのID',
-    'default_permissions' => 'デフォルトパーミッション'
+    'root' => 'トップカテゴリのID',
+    'default_permissions' => 'パーミッション'
 );
 
 $LANG_configsubgroups['links'] = array(
@@ -286,9 +286,9 @@ $LANG_configsubgroups['links'] = array(
 );
 
 $LANG_fs['links'] = array(
-    'fs_public' => 'リンクリスト公開の設定',
-    'fs_admin' => 'リンク管理の設定',
-    'fs_permissions' => 'リンクのデフォルトパーミッション'
+    'fs_public' => 'リンクの表示',
+    'fs_admin' => 'リンクの管理',
+    'fs_permissions' => 'リンクのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']

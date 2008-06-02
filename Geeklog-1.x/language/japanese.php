@@ -8,11 +8,12 @@
 #
 # Copyright (C) 2000 Jason Whittenburg
 # jwhitten AT securitygeeks DOT com
-# Copyright (C) 2002,2003,2004,2005 SAKATA Yusuke
-#               2006,2007,2008 Geeklog Japanese Project Ivy(KOMMA Tetsuko), SAKATA Yusuke
+# Copyright (C) 2002,2003,2004,2005,2006 SAKATA Yusuke
 # sakata@ecofirm.com
 # Copyright (C) 2008 Takahiro Kambe
-# Additional translation to Japanese by taca AT back-street DOT net
+# taca AT back-street DOT net
+# Copyright (C) 2006,2007,2008 Tetsuko Komma
+# ivy AT geeklog DOT jp
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -29,7 +30,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ################################################################################
-# Last Update 2008/06/01 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 $LANG_CHARSET = 'euc-jp';
 
@@ -463,7 +464,7 @@ $LANG09 = array(
     16 => 'タイトル',
     17 => '日付',
     18 => '所有者',
-    19 => " {$_CONF['site_name']} 全体のすべての記事を検索する",
+    19 => " {$_CONF['site_name']} サイト内を検索します。",
     20 => '日付',
     21 => ' - ',
     22 => '(書式は YYYY-MM-DD)',
@@ -514,17 +515,17 @@ $LANG09 = array(
 $LANG10 = array(
     1 => 'サイトに関する統計',
     2 => 'システム全体のアクセス数',
-    3 => '記事（コメント）の数',
+    3 => '記事数（コメント数）',
     4 => '',
     5 => '',
     6 => '',
-    7 => '閲覧された記事（上位10件）',
+    7 => '記事（上位10件）',
     8 => '記事のタイトル',
     9 => '件',
-    10 => 'このサイトには記事が一件もないか，閲覧した人がいません。',
+    10 => 'このサイトには記事が1件もないか，閲覧した人がいません。',
     11 => 'コメントされた記事（上位10件）',
     12 => '件',
-    13 => 'このサイトには記事が一件もないか，コメントした人がいません。',
+    13 => 'このサイトには記事が1件もないか，コメントした人がいません。',
     14 => '',
     15 => '',
     16 => '',
@@ -535,10 +536,10 @@ $LANG10 = array(
     21 => '',
     22 => 'メールで紹介された記事（上位10件）',
     23 => 'メールアドレス',
-    24 => '友達に紹介された記事はありません。',
+    24 => 'メールで紹介された記事はありません。',
     25 => 'トラックバックされた記事（上位10件）',
     26 => 'トラックバックはありません。',
-    27 => '登録ユーザの数',
+    27 => '登録ユーザ数',
     28 => '',
     29 => '',
     30 => 'ヒット',
@@ -1587,9 +1588,9 @@ $LANG_configsections['Core'] = array(
 $LANG_confignames['Core'] = array(
     'path_html' => "HTMLパス",
     'site_url' => "サイトURL",
-    'site_admin_url' => "管理画面の URL",
+    'site_admin_url' => "管理画面のURL",
     'site_mail' => "サイトのメールアドレス",
-    'noreply_mail' => "No-Reply メールアドレス",
+    'noreply_mail' => "No-Replyメールアドレス",
     'site_name' => "サイト名",
     'site_slogan' => "スローガン",
     'microsummary_short' => "サイトの要約",
@@ -1661,8 +1662,8 @@ $LANG_confignames['Core'] = array(
     'emailuserloginrequired' => "メール送信[ログイン要求]",
     'emailstoryloginrequired' => "記事メール送信[ログイン要求]",
     'directoryloginrequired' => "記事一覧表示[ログイン要求]",
-    'storysubmission' => "記事投稿申請キューを有効にする",
-    'usersubmission' => "ユーザ登録申請キューを有効にする",
+    'storysubmission' => "管理者が承認する",
+    'usersubmission' => "管理者が承認する",
     'listdraftstories' => "ドラフト記事の一覧を表示する",
     'notification' => "通知",
     'postmode' => "デフォルトの投稿モード",
@@ -1715,8 +1716,8 @@ $LANG_confignames['Core'] = array(
     'draft_flag' => "ドラフト設定の初期値",
     'frontpage' => "トップページ配置の初期値",
     'hide_no_news_msg' => "記事がない場合のメッセージ表示",
-    'hide_main_page_navigation' => "メインページへのナビゲーションを隠す",
-    'onlyrootfeatures' => "Rootユーザだけが注目記事を設定",
+    'hide_main_page_navigation' => "ページナビゲーションを隠す",
+    'onlyrootfeatures' => "Rootユーザのみ注目記事を設定",
     'aftersave_story' => "記事保存後の画面遷移",
     'aftersave_user' => "ユーザ保存後の画面遷移",
     'show_right_blocks' => "右ブロックを常時表示する",
@@ -1800,10 +1801,10 @@ $LANG_fs['Core'] = array(
     'fs_cookies' => 'クッキー',
     'fs_login' => 'ログイン',
     'fs_search' => '検索',
-    'fs_user_submission' => 'ユーザ投稿',
+    'fs_user_submission' => 'ユーザ登録',
     'fs_submission' => '投稿',
     'fs_topics_block' => '話題ブロック',
-    'fs_whosonline_block' => 'オンラインメンバブロック',
+    'fs_whosonline_block' => 'オンラインメンバーブロック',
     'fs_daily_digest' => 'デイリーダイジェスト',
     'fs_whatsnew_block' => '新着情報ブロック',
     'fs_trackback' => 'トラックバック',
@@ -1821,9 +1822,9 @@ $LANG_fs['Core'] = array(
     'fs_htmlfilter' => 'HTMLフィルタ',
     'fs_censoring' => 'バッドワードチェック',
     'fs_iplookup' => 'IP検索',
-    'fs_perm_story' => '記事のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
-    'fs_perm_topic' => '話題のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
-    'fs_perm_block' => 'ブロックのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバ [3]ゲスト）',
+    'fs_perm_story' => '記事のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
+    'fs_perm_topic' => '話題のデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
+    'fs_perm_block' => 'ブロックのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_webservices' => 'Webサービス'
 );
 
