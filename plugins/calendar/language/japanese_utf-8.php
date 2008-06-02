@@ -28,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
@@ -66,7 +66,7 @@ $LANG_CAL_1 = array(
     23 => '個人イベント',
     24 => '全体イベント',
     25 => '-',
-    26 => 'イベントを投稿しますか',
+    26 => 'イベントを投稿する',
     27 => "{$_CONF['site_name']}にイベントを投稿すると，サイト全体のカレンダに登録されます。<br" . XHTML . ">全体カレンダのイベントは，各ユーザが必要に応じて個人カレンダに登録できます。",
     28 => 'タイトル',
     29 => '日時',
@@ -87,7 +87,7 @@ $LANG_CAL_1 = array(
     44 => 'HTMLタグは使用できません',
     45 => '投稿',
     46 => 'システムのイベント',
-    47 => 'イベント上位10件',
+    47 => 'イベント（上位10件）',
     48 => '閲覧数',
     49 => 'このサイトにはイベントがないか，誰もイベントをクリックしていないかどちらかのようです。',
     50 => 'イベント',
@@ -107,7 +107,7 @@ $_LANG_CAL_SEARCH = array(
 # calendar.php ($LANG30)
 
 $LANG_CAL_2 = array(
-    8 => '個人のイベントを追加',
+    8 => '個人イベント登録',
     9 => '%s イベント',
     10 => 'イベント：',
     11 => '全体カレンダ',
@@ -124,12 +124,12 @@ $LANG_CAL_2 = array(
     34 => '時間',
     35 => '簡単追加',
     36 => '投稿',
-    37 => 'このサイトでは，個人カレンダを有効にしていません。',
-    38 => '個人イベントエディタ',
+    37 => 'このサイトでは，個人カレンダは無効です。',
+    38 => '個人イベントの編集',
     39 => '日',
     40 => '週',
     41 => '月',
-    42 => '全体イベントを追加',
+    42 => '全体イベント投稿',
     43 => 'イベント投稿',
 );
 
@@ -137,7 +137,7 @@ $LANG_CAL_2 = array(
 # admin/plugins/calendar/index.php, formerly admin/event.php ($LANG22)
 
 $LANG_CAL_ADMIN = array(
-    1 => 'イベントエディタ',
+    1 => 'イベントの編集',
     2 => 'エラー',
     3 => '投稿モード',
     4 => 'URL',
@@ -202,10 +202,10 @@ $LANG_configsections['calendar'] = array(
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'カレンダにはログインが必要',
+    'calendarloginrequired' => 'ログインを要求する',
     'hidecalendarmenu' => 'メニューに表示しない',
     'personalcalendars' => '個人カレンダを有効にする',
-    'eventsubmission' => 'イベント登録申請キューを有効にする',
+    'eventsubmission' => 'イベント投稿を管理者が承認する',
     'showupcomingevents' => 'イベント予告を表示する',
     'upcomingeventsrange' => 'イベント予告を表示する期間',
     'event_types' => 'イベントの種類',
@@ -213,7 +213,7 @@ $LANG_confignames['calendar'] = array(
     'notification' => 'メールで通知する',
     'delete_event' => '所有者の削除と共に削除する',
     'aftersave' => 'イベント保存後の画面遷移',
-    'default_permissions' => 'デフォルトパーミッション'
+    'default_permissions' => 'パーミッション'
 );
 
 $LANG_configsubgroups['calendar'] = array(
@@ -221,8 +221,8 @@ $LANG_configsubgroups['calendar'] = array(
 );
 
 $LANG_fs['calendar'] = array(
-    'fs_main' => 'カレンダの一般設定',
-    'fs_permissions' => 'カレンダのデフォルトパーミッション'
+    'fs_main' => 'カレンダのメイン設定',
+    'fs_permissions' => 'カレンダのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']

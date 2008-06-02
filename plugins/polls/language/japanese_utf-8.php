@@ -28,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
@@ -39,15 +39,15 @@ $LANG_POLLS = array(
     'votes'             => '投票',
     'vote'              => '投票する',
     'pastpolls'         => 'アンケートの一覧',
-    'savedvotetitle'    => '投票が登録されました',
-    'savedvotemsg'      => '今の投票が登録されました',
-    'pollstitle'        => '募集中のアンケート',
+    'savedvotetitle'    => '投票ありがとうございました',
+    'savedvotemsg'      => 'テーマ：',
+    'pollstitle'        => '受付中のアンケート',
     'polltopics'        => '他のアンケートを見る',
-    'stats_top10'       => 'アンケート上位10位',
+    'stats_top10'       => 'アンケート（上位10件）',
     'stats_topics'      => 'アンケートの質問',
     'stats_votes'       => '投票',
     'stats_none'        => 'このサイトにはアンケートがないか，まだ誰も投票していないようです。',
-    'stats_summary'     => 'このシステムの質問(答え)',
+    'stats_summary'     => 'アンケート数(投票数)',
     'open_poll'         => '投票可能',
     'answer_all'        => '残りのすべての質問にお答えください',
     'not_saved'         => '結果は保存されませんでした',
@@ -61,14 +61,14 @@ $LANG_POLLS = array(
 
 $LANG25 = array(
     1 => 'モード',
-    2 => '主題と質問と少なくとも1つの回答を入力してください。',
+    2 => 'テーマと質問と少なくとも1つの回答を入力してください。',
     3 => '作成日時',
     4 => "アンケート（ %s ）が保存されました",
     5 => 'アンケートの編集',
     6 => 'アンケートID',
     7 => '(スペースを含まないこと)',
     8 => 'ホームページに表示する',
-    9 => '主題',
+    9 => 'テーマ',
     10 => '回答 / 投票数',
     11 => "アンケート( %s )の選択肢にエラーがありました",
     12 => "アンケート( %s )の質問項目にエラーがありました",
@@ -93,12 +93,12 @@ $LANG25 = array(
     31 => '質問',
     32 => '質問のテキストを削除すると、アンケートから質問が削除されます。',
     33 => '投票可能',
-    34 => '主題:',
-    35 => 'このアンケートには',
-    36 => 'さらに質問があります。',
+    34 => 'テーマ:',
+    35 => 'このアンケートにはさらにもう',
+    36 => '件，質問があります。',
     37 => '投票時は結果非公開',
     38 => 'アンケート実施中は，オーナーとルート管理者だけが結果を見ることができます。',
-    39 => '主題は1つ以上の質問がある場合に表示されます。',
+    39 => 'テーマは1つ以上の質問がある場合に表示されます。',
     40 => 'アンケートの結果を見る'
 );
 
@@ -117,16 +117,16 @@ $LANG_configsections['polls'] = array(
 );  
 
 $LANG_confignames['polls'] = array(
-    'pollsloginrequired' => 'アンケートにはログインが必要',
+    'pollsloginrequired' => 'ログインを要求する',
     'hidepollsmenu' => 'メニューに表示しない',
     'maxquestions' => 'アンケート毎の質問の最大数',
     'maxanswers' => '質問毎の選択肢の最大数',
-    'answerorder' => 'アンケート結果の表示順序',
+    'answerorder' => 'アンケート結果の表示順',
     'pollcookietime' => '投票者のクッキーの有効期間',
     'polladdresstime' => '投票者のIPアドレスの有効期間',
     'delete_polls' => '所有者の削除と共に削除する',
     'aftersave' => 'アンケート保存後の画面遷移',
-    'default_permissions' => 'デフォルトパーミッション'
+    'default_permissions' => 'パーミッション'
 );
 
 $LANG_configsubgroups['polls'] = array(
@@ -134,15 +134,15 @@ $LANG_configsubgroups['polls'] = array(
 );
 
 $LANG_fs['polls'] = array(
-    'fs_main' => 'アンケートの一般的な設定',
-    'fs_permissions' => 'アンケートのデフォルトパーミッション'
+    'fs_main' => 'アンケートのメイン設定',
+    'fs_permissions' => 'アンケートのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['polls'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
-    2 => array('登録順に固定' => 'submitorder', '得票順にソート' => 'voteorder'),
+    2 => array('登録順' => 'submitorder', '得票順' => 'voteorder'),
     9 => array('作成したアンケートを表示する' => 'item', 'アンケート一覧を表示する' => 'list', '公開アンケートリストを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
