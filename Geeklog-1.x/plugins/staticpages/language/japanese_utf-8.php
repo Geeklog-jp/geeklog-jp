@@ -25,7 +25,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2008/06/01 by dengen and Ivy (Geeklog Japanese)
+# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
@@ -137,7 +137,7 @@ $LANG_confignames['staticpages'] = array(
     'show_date' => '日付を表示する',
     'filter_html' => 'HTMLをフィルターする',
     'censor' => '内容を検閲する',
-    'default_permissions' => 'デフォルトパーミッション',
+    'default_permissions' => 'パーミッション',
     'aftersave' => 'ページ保存後の画面遷移',
     'atom_max_items' => 'フィードに使用するページの最大数'
 );
@@ -147,8 +147,8 @@ $LANG_configsubgroups['staticpages'] = array(
 );
 
 $LANG_fs['staticpages'] = array(
-    'fs_main' => '静的ページの設定',
-    'fs_permissions' => '静的ページのデフォルトパーミッション'
+    'fs_main' => '静的ページのメイン設定',
+    'fs_permissions' => '静的ページのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
