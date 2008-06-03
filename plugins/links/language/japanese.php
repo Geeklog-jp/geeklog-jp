@@ -28,7 +28,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# $Id: japanese_utf-8.php,v 1.30 2008/03/17 21:12:54 dhaun Exp $
+# $Id: japanese.php,v 1.16 2008/06/03 19:28:46 dhaun Exp $
 # Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 /**
@@ -129,7 +129,7 @@ $LANG_LINKS_SUBMIT = array(
     8 => 'タイトル',
     9 => 'URL',
     10 => 'カテゴリ',
-    11 => 'リンクの投稿'
+    11 => 'リンクの投稿申請'
 );
 
 ###############################################################################
@@ -295,7 +295,7 @@ $LANG_fs['links'] = array(
 $LANG_configselects['links'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
-    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
