@@ -157,7 +157,7 @@ $LANG_configselects['staticpages'] = array(
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
     2 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title'),
     3 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title', 'ラベル' => 'label'),
-    9 => array('作成した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'Homeへのリンクを表示する' => 'home', '管理画面を表示する' => 'admin'),
+    9 => array('作成した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
