@@ -504,7 +504,7 @@ function INST_installEngine($install_type, $install_step)
                                     </form>
                                 </div>
 
-                                <div style="position: relative; left: 55px; top: 5px">
+                                <div style="position: relative; left: 60px; top: 5px">
                                     <form action="index.php" method="post">
                                     <input type="hidden" name="mode" value="upgrade"' . XHTML . '>
                                     <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
