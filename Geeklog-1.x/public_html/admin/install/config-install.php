@@ -256,22 +256,22 @@ function install_config()
 
     $c->add('fs_language', NULL, 'fieldset', 6, 28, NULL, 0, TRUE);
     $c->add('language','english','select',6,28,NULL,350,TRUE);
-    $c->add('language_files',array('en'=>'english_utf-8', 'de'=>'german_formal_utf-8'),'*text',6,28,NULL,470,FALSE);
-    $c->add('languages',array('en'=>'English', 'de'=>'Deutsch'),'*text',6,28,NULL,480,FALSE);
+    $c->add('language_files',array('ja'=>'japanese_utf-8', 'en'=>'english_utf-8', 'de'=>'german_formal_utf-8'),'*text',6,28,NULL,470,FALSE);
+    $c->add('languages',array('ja'=>'Japanese', 'en'=>'English', 'de'=>'Deutsch'),'*text',6,28,NULL,480,FALSE);
 
     $c->add('fs_locale', NULL, 'fieldset', 6, 29, NULL, 0, TRUE);
-    $c->add('locale','en_GB','text',6,29,NULL,360,TRUE);
-    $c->add('date','%A, %B %d %Y @ %I:%M %p %Z','text',6,29,NULL,370,TRUE);
-    $c->add('daytime','%m/%d %I:%M%p','text',6,29,NULL,380,TRUE);
+    $c->add('locale','ja_JP.UTF-8','text',6,29,NULL,360,TRUE);
+    $c->add('date','%Y年%B%e日(%a) %p%I:%M %Z','text',6,29,NULL,370,TRUE);
+    $c->add('daytime','%m/%d %p%I:%M %Z','text',6,29,NULL,380,TRUE);
     $c->add('shortdate','%x','text',6,29,NULL,390,TRUE);
-    $c->add('dateonly','%d-%b','text',6,29,NULL,400,TRUE);
-    $c->add('timeonly','%I:%M%p','text',6,29,NULL,410,TRUE);
+    $c->add('dateonly','%Y年%B%e日','text',6,29,NULL,400,TRUE);
+    $c->add('timeonly','%p%I:%M','text',6,29,NULL,410,TRUE);
     $c->add('week_start','Sun','select',6,29,14,420,TRUE);
     $c->add('hour_mode',12,'select',6,29,6,430,TRUE);
     $c->add('thousand_separator',",",'text',6,29,NULL,440,TRUE);
     $c->add('decimal_separator',".",'text',6,29,NULL,450,TRUE);
     $c->add('decimal_count',"2",'text',6,29,NULL,460,TRUE);
-    $c->add('timezone','Etc/GMT-6','text',6,29,NULL,490,FALSE);
+    $c->add('timezone','Asia/Tokyo','text',6,29,NULL,490,FALSE);
 
     // Subgroup: Miscellaneous
     $c->add('sg_misc', NULL, 'subgroup', 7, 0, NULL, 0, TRUE);
