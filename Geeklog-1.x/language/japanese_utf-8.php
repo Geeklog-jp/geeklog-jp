@@ -30,7 +30,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ################################################################################
-# Last Update 2008/06/05 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/06/07 by Geeklog.jp group  - info AT geeklog DOT jp
 
 $LANG_CHARSET = 'utf-8';
 
@@ -88,7 +88,7 @@ $LANG01 = array(
     37 => '-',
     38 => 'シンジケーション',
     39 => '更新',
-    40 => ' あなたの <tt>php.ini</tt> で，<tt>register_globals = Off</tt> になっているようです。Geeklogは， <tt>register_globals</tt> が <strong>on</strong> になっていなければなりません。 Geeklogを使うために， <strong>on</strong> にして，Webサーバーを再起動してください。',
+    40 => ' あなたの <tt>php.ini</tt> で，<tt>register_globals = Off</tt> になっているようです。Geeklogは， <tt>register_globals</tt> が <strong>on</strong> になっていなければなりません。 Geeklogを使うために， <strong>on</strong> にして，Webサーバを再起動してください。',
     41 => 'ゲストユーザ',
     42 => '投稿者:',
     43 => 'コメントを追加',
@@ -245,7 +245,7 @@ $LANG04 = array(
     25 => 'パスワードを忘れた方',
     26 => "ご登録頂いているユーザ名またはメールアドレスの<strong>どちらかを入力</strong>して『送信』ボタンを押してください。ご登録のメールアドレス宛にパスワード再発行用のURL を記載したメールが送信されます。",
     27 => '新規登録',
-    28 => '送　　信',
+    28 => '送信',
     29 => 'ログアウトしました：',
     30 => 'ログインしました:',
     31 => 'ログインが必要です。',
@@ -1165,7 +1165,7 @@ $MESSAGE = array(
     74 => 'ピングバックが無事送られました。',
     75 => 'トラックバックはPOSTリクエストで送信する必要があります。',
     76 => 'この項目を削除してもよいですか?',
-    77 => '警告:<br' . XHTML . '>デフォルトのエンコーディングをUTF-8に設定していますが，サーバーがマルチバイトエンコーディングをサポートしていません。PHP用に mbstring モジュールをインストールするか，UTF-8ではないキャラクタセットないし言語に変更してください。',
+    77 => '警告:<br' . XHTML . '>デフォルトのエンコーディングをUTF-8に設定していますが，サーバがマルチバイトエンコーディングをサポートしていません。PHP用に mbstring モジュールをインストールするか，UTF-8ではないキャラクタセットないし言語に変更してください。',
     78 => 'メールアドレスと確認用メールアドレスには同じものを入力してください。',
     79 => '開こうしたページは，このサイトにもはや存在していない関数を参照しています。',
     80 => 'このフィードを作成したプラグインは，現在無効にされています。そのプラグインを再び有効にしなければ，フィードを編集できません。',
@@ -1694,7 +1694,7 @@ $LANG_confignames['Core'] = array(
     'trackback_enabled' => "トラックバックを有効にする",
     'pingback_enabled' => "ピングバックを有効にする",
     'ping_enabled' => "ピングを有効にする",
-    'trackback_code' => "トラックバックのデフォルト",
+    'trackback_code' => "新規記事のトラックバック初期値",
     'multiple_trackbacks' => "マルチプルトラックバック",
     'trackbackspeedlimit' => "トラックバック速度制限",
     'check_trackback_link' => "トラックバックのリンクをチェック",
@@ -1845,7 +1845,7 @@ $LANG_configselects['Core'] = array(
     6 => array('12'=>'12','24'=>'24'),
     7 => array('最後のページ'=>'last','最初のページ'=>'first', '全ページ'=>'all'),
     8 => array('右'=>'right', '左'=>'left'),
-    9 => array('作成した記事を表示する' => 'item', '記事管理を表示する' => 'list', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
+    9 => array('作成した記事を表示する' => 'item', '記事一覧を表示する' => 'list', 'サイトのトップページを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
     10 => array('なし'=>'', 'Netpbm'=>'netpbm', 'ImageMagick'=>'imagemagick', 'GDライブラリ' =>'gdlib'),
     11 => array_flip($LANG_commentmodes),
     12 => array('アクセス不可'=>0, '表示'=>2, '表示・編集'=>3),
