@@ -37,7 +37,7 @@
 // | Please read docs/install.html which describes how to install Geeklog.     |
 // +---------------------------------------------------------------------------+
 //
-// $Id: index.php,v 1.43 2008/05/31 21:36:15 dhaun Exp $
+// $Id: index.php,v 1.45 2008/06/07 13:38:48 dhaun Exp $
 
 // this should help expose parse errors even when
 // display_errors is set to Off in php.ini
@@ -504,7 +504,7 @@ function INST_installEngine($install_type, $install_step)
                                     </form>
                                 </div>
 
-                                <div style="position: relative; left: 60px; top: 5px">
+                                <div style="position: relative; left: 55px; top: 5px">
                                     <form action="index.php" method="post">
                                     <input type="hidden" name="mode" value="upgrade"' . XHTML . '>
                                     <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
@@ -932,6 +932,11 @@ function INST_personalizeAdminAccount($site_mail, $site_url)
 */
 function INST_getDefaultLanguage($langpath, $language, $utf8 = false)
 {
+    $pos = strpos($language, '_utf-8');
+    if ($pos !== false) {
+        $language = substr($language, 0, $pos);
+    }
+
     if ($utf8) {
         $lngname = $language . '_utf-8';
     } else {
@@ -1603,7 +1608,6 @@ if (isset($_POST['language'])) {
     // Okay, so the name of the language cookie is configurable, so it may not
     // be named 'language' after all. Still worth a try ...
     $lng = $_COOKIE['language'];
-//    $lng = str_replace('_utf-8', '', $lng); // for now
 } else {
     $lng = $language;
 }
