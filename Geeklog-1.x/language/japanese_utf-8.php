@@ -30,7 +30,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ################################################################################
-# Last Update 2008/06/07 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/06/09 by Geeklog.jp group  - info AT geeklog DOT jp
 
 $LANG_CHARSET = 'utf-8';
 
@@ -1614,7 +1614,7 @@ $LANG_confignames['Core'] = array(
     'allow_user_photo' => "写真登録を許可する",
     'allow_username_change' => "ユーザ名変更を許可する",
     'allow_account_delete' => "アカウント削除を許可する",
-    'hide_author_exclusion' => "所有者を隠す",
+    'hide_author_exclusion' => "所有者を表示しない",
     'show_fullname' => "フルネームを表示する",
     'show_servicename' => "サービス名を表示する",
     'custom_registration' => "カスタム登録を有効にする",
@@ -1675,7 +1675,7 @@ $LANG_confignames['Core'] = array(
     'sortmethod' => "ソート方法",
     'showstorycount' => "記事数を表示する",
     'showsubmissioncount' => "記事投稿数を表示する",
-    'hide_home_link' => "Homeへのリンクを隠す",
+    'hide_home_link' => "Homeへのリンクを表示しない",
     'whosonline_threshold' => "セッションのしきい値",
     'whosonline_anonymous' => "ゲストユーザには表示しない",
     'emailstories' => "デイリーダイジェストを送信する",
@@ -1686,11 +1686,11 @@ $LANG_confignames['Core'] = array(
     'newstoriesinterval' => "記事の\"新着\"の期間",
     'newcommentsinterval' => "コメントの\"新着\"の期間",
     'newtrackbackinterval' => "トラックバックの\"新着\"の期間",
-    'hidenewstories' => "新着記事を隠す",
-    'hidenewcomments' => "新規コメントを隠す",
-    'hidenewtrackbacks' => "新規トラックバックを隠す",
-    'hidenewplugins' => "新規プラグインを隠す",
-    'title_trim_length' => "タイトルトリミング",
+    'hidenewstories' => "新着記事を表示しない",
+    'hidenewcomments' => "新規コメントを表示しない",
+    'hidenewtrackbacks' => "新規トラックバックを表示しない",
+    'hidenewplugins' => "プラグインの新着データを表示しない",
+    'title_trim_length' => "タイトル最大長",
     'trackback_enabled' => "トラックバックを有効にする",
     'pingback_enabled' => "ピングバックを有効にする",
     'ping_enabled' => "ピングを有効にする",
@@ -1716,7 +1716,7 @@ $LANG_confignames['Core'] = array(
     'draft_flag' => "ドラフト設定の初期値",
     'frontpage' => "トップページ配置の初期値",
     'hide_no_news_msg' => "記事がない場合のメッセージ表示",
-    'hide_main_page_navigation' => "ページナビゲーションを隠す",
+    'hide_main_page_navigation' => "ページナビゲーションを表示しない",
     'onlyrootfeatures' => "Rootユーザのみ注目記事を設定",
     'aftersave_story' => "記事保存後の画面遷移",
     'aftersave_user' => "ユーザ保存後の画面遷移",
