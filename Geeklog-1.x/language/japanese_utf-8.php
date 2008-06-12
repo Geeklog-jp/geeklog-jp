@@ -30,7 +30,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ################################################################################
-# Last Update 2008/06/09 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/06/12 by Geeklog.jp group  - info AT geeklog DOT jp
 
 $LANG_CHARSET = 'utf-8';
 
@@ -1737,21 +1737,21 @@ $LANG_confignames['Core'] = array(
     'allow_user_scaling' => "ユーザに画像サイズ変更を許可",
     'max_image_width' => "幅の最大値",
     'max_image_height' => "高さの最大値",
-    'max_image_size' => "ファイルサイズ制限",
+    'max_image_size' => "ファイルサイズの最大値",
     'max_topicicon_width' => "幅の最大値",
     'max_topicicon_height' => "高さの最大値",
-    'max_topicicon_size' => "ファイルサイズ制限",
+    'max_topicicon_size' => "ファイルサイズの最大値",
     'max_photo_width' => "幅の最大値",
     'max_photo_height' => "高さの最大値",
-    'max_photo_size' => "ファイルサイズ制限",
+    'max_photo_size' => "ファイルサイズの最大値",
     'use_gravatar' => "Gravatarを使用する",
     'gravatar_rating' => "Gravatar評価を許可",
     'force_photo_width' => "幅を固定する",
     'default_photo' => "デフォルトの写真",
     'commentspeedlimit' => "コメント投稿間隔制限",
-    'comment_limit' => "コメント制限",
-    'comment_mode' => "コメント形状",
-    'comment_code' => "コメント許可",
+    'comment_limit' => "コメント表示件数",
+    'comment_mode' => "コメント表示モード",
+    'comment_code' => "コメント許可の初期値",
     'passwordspeedlimit' => "パスワード入力間隔制限",
     'login_attempts' => "ログイン試行回数制限",
     'login_speedlimit' => "ログイン試行間隔制限",
@@ -1853,7 +1853,7 @@ $LANG_configselects['Core'] = array(
     14 => array('日曜日' => 'Sun', '月曜日' => 'Mon'),
     15 => array('番号順' => 'sortnum', 'アルファベット順' => 'alpha'),
     16 => array('ログイン不要' => 0, '高度な検索のみ' => 1, 'すべての検索機能' => 2),
-    17 => array('コメントを許可する' => 0, 'コメントを許可しない' => -1)
+    17 => array('許可する' => 0, '許可しない' => -1)
 );
 
 ################################################################################
