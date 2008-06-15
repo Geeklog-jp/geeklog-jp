@@ -14,7 +14,7 @@
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
-// |          Randy Kolenko     - randy AT nextide DOT ca
+// |          Randy Kolenko     - randy AT nextide DOT ca                      |
 // |          Matt West         - matt AT mattdanger DOT net                   |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -117,7 +117,7 @@ function mysql_v($_DB_host, $_DB_user, $_DB_pass)
  */
 function INST_installEngine($install_type, $install_step)
 {
-    global $_CONF, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_TABLES, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $label_dir;
+    global $_CONF, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_TABLES, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $locale, $timezone, $label_dir;
 
     switch ($install_step) {
 
@@ -191,6 +191,8 @@ function INST_installEngine($install_type, $install_step)
                 <form action="index.php" method="post">
                 <input type="hidden" name="mode" value="' . $install_type . '"' . XHTML . '>
                 <input type="hidden" name="step" value="2"' . XHTML . '>
+                <input type="hidden" name="locale" value="' . $locale . '"' . XHTML . '>
+                <input type="hidden" name="timezone" value="' . $timezone . '"' . XHTML . '>
                 <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
                 <input type="hidden" name="dbconfig_path" value="' . $dbconfig_path . '"' . XHTML . '>
 
@@ -215,7 +217,7 @@ function INST_installEngine($install_type, $install_step)
 
             if ($install_type == 'install') {
                 $display .= '
-                    <p><label class="' . $label_dir . '">' . $LANG_INSTALL[92] . ' ' . INST_helpLink('utf8') . '</label> <input type="checkbox" name="utf8"' . ($utf8 ? ' checked="checked"' : '') . XHTML . '></p>';
+                <p><label class="' . $label_dir . '">' . $LANG_INSTALL[92] . ' ' . INST_helpLink('utf8') . '</label> <input type="checkbox" name="utf8"' . ($utf8 ? ' checked="checked"' : '') . XHTML . '></p>';
             }
 
             $display .= '
@@ -346,6 +348,8 @@ function INST_installEngine($install_type, $install_step)
                         require_once $_CONF['path_system'] . 'lib-database.php';
                         $req_string = 'index.php?mode=' . $install_type . '&step=3&dbconfig_path=' . $dbconfig_path
                                     . '&language=' . $language
+                                    . '&locale=' . $locale
+                                    . '&timezone=' . urlencode($timezone)
                                     . '&site_name=' . urlencode($site_name)
                                     . '&site_slogan=' . urlencode($site_slogan)
                                     . '&site_url=' . urlencode($site_url)
@@ -361,6 +365,8 @@ function INST_installEngine($install_type, $install_step)
                         case 'install':
                             $hidden_fields = '<input type="hidden" name="mode" value="' . $install_type . '"' . XHTML . '>
                                         <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
+                                        <input type="hidden" name="locale" value="' . $locale . '"' . XHTML . '>
+                                        <input type="hidden" name="timezone" value="' . urlencode($timezone) . '"' . XHTML . '>
                                         <input type="hidden" name="dbconfig_path" value="' . urlencode($dbconfig_path) . '"' . XHTML . '>
                                         <input type="hidden" name="site_name" value="' . urlencode($site_name) . '"' . XHTML . '>
                                         <input type="hidden" name="site_slogan" value="' . urlencode($site_slogan) . '"' . XHTML . '>
@@ -498,16 +504,20 @@ function INST_installEngine($install_type, $install_step)
                                     <input type="hidden" name="mode" value="install"' . XHTML . '>
                                     <input type="hidden" name="step" value="3"' . XHTML . '>
                                     <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
+                                    <input type="hidden" name="locale" value="' . $locale . '"' . XHTML . '>
+                                    <input type="hidden" name="timezone" value="' . $timezone . '"' . XHTML . '>
                                     <input type="hidden" name="dbconfig_path" value="' . $dbconfig_path . '"' . XHTML . '>
                                     <input type="hidden" name="innodb" value="' . (($use_innodb) ? 'true' : 'false') . '"' . XHTML . '>
                                     <input type="submit" value="' . $LANG_INSTALL[66] . '"' . XHTML . '>
                                     </form>
                                 </div>
 
-                                <div style="position: relative; left: 55px; top: 5px">
+                                <div style="position: relative; left: 65px; top: 5px">
                                     <form action="index.php" method="post">
                                     <input type="hidden" name="mode" value="upgrade"' . XHTML . '>
                                     <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
+                                    <input type="hidden" name="locale" value="' . $locale . '"' . XHTML . '>
+                                    <input type="hidden" name="timezone" value="' . $timezone . '"' . XHTML . '>
                                     <input type="hidden" name="dbconfig_path" value="' . $dbconfig_path . '"' . XHTML . '>
                                     <input type="submit" value="' . $LANG_INSTALL[25] . '"' . XHTML . '>
                                     </form>
@@ -524,6 +534,9 @@ function INST_installEngine($install_type, $install_step)
                             $site_admin_url = isset($_POST['site_admin_url']) ? $_POST['site_admin_url'] : (isset($_GET['site_admin_url']) ? $_GET['site_admin_url'] : '') ;
                             $site_mail      = isset($_POST['site_mail']) ? $_POST['site_mail'] : (isset($_GET['site_mail']) ? $_GET['site_mail'] : '') ;
                             $noreply_mail   = isset($_POST['noreply_mail']) ? $_POST['noreply_mail'] : (isset($_GET['noreply_mail']) ? $_GET['noreply_mail'] : '') ;
+                            $locale         = isset($_POST['locale']) ? $_POST['locale'] : (isset($_GET['locale']) ? $_GET['locale'] : '') ;
+                            $timezone       = isset($_POST['timezone']) ? $_POST['timezone'] : (isset($_GET['timezone']) ? $_GET['timezone'] : '') ;
+                            $timezone = urldecode($timezone);
 
                             INST_personalizeAdminAccount($site_mail, $site_url);
 
@@ -785,7 +798,7 @@ function INST_identifyGeeklogVersion ()
         break;
 
     case 'mssql':
-	    $test = array(
+        $test = array(
             '1.5.0'  => array("DESCRIBE {$_TABLES['storysubmission']} bodytext",''),
             '1.4.1'  => array("SELECT ft_name FROM {$_TABLES['features']} WHERE ft_name = 'syndication.edit'", 'syndication.edit')
             // 1.4.1 was the first version with MS SQL support
@@ -849,7 +862,7 @@ function INST_identifyGeeklogVersion ()
  */
 function INST_createDatabaseStructures ($use_innodb = false)
 {
-    global $_CONF, $_TABLES, $_DB, $_DB_dbms, $_DB_host, $_DB_user, $_DB_pass;
+    global $_CONF, $_TABLES, $_DB, $_DB_dbms, $_DB_host, $_DB_user, $_DB_pass, $language;
 
     $_DB->setDisplayError (true);
 
@@ -867,18 +880,18 @@ function INST_createDatabaseStructures ($use_innodb = false)
     }
 
     switch($_DB_dbms){
-        case 'mysql':
+    case 'mysql':
 
-            INST_updateDB($_SQL);
-            if ($use_innodb) {
-                DB_query ("INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('database_engine', 'InnoDB')");
-            }
-            break;
-        case 'mssql';
-            foreach ($_SQL as $sql) {
-                $_DB->dbQuery($sql, 0, 1);
-            }
-            break;
+        INST_updateDB($_SQL);
+        if ($use_innodb) {
+            DB_query ("INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('database_engine', 'InnoDB')");
+        }
+        break;
+    case 'mssql':
+        foreach ($_SQL as $sql) {
+            $_DB->dbQuery($sql, 0, 1);
+        }
+        break;
     }
 
     // Now insert mandatory data and a small subset of initial data
@@ -886,6 +899,18 @@ function INST_createDatabaseStructures ($use_innodb = false)
         $progress .= "executing " . $data . "<br" . XHTML . ">\n";
 
         DB_query ($data);
+    }
+
+    $_SQL = null;
+    $_DATA = null;
+    if(file_exists($_CONF['path'] . 'sql/sql_' . $language . '.php')) {
+        require_once $_CONF['path'] . 'sql/sql_' . $language . '.php';
+        foreach ($_SQL as $sql) {
+            DB_query($sql);
+        }
+        foreach ($_DATA as $data) {
+            DB_query($data);
+        }
     }
 
     return true;
@@ -1577,6 +1602,107 @@ function INST_setDefaultCharset($siteconfig_path, $charset)
     return $result;
 }
 
+/**
+*
+*
+*
+*
+*
+*
+*/
+
+function INST_getLanguageStatus() {
+    $httpAcceptlanguage = INST_getServerVar('HTTP_ACCEPT_LANGUAGE');
+    if (!empty($httpAcceptlanguage)) {
+        foreach (explode(',', $httpAcceptlanguage) as $code) {
+            $languagecode = INST_getSupportedLanguage($code);
+            if (isset($languagecode)) {
+                return $languagecode;
+            }
+        }
+    }
+    return null;
+}
+
+function INST_getServerVar($key) {
+    if (!isset($_SERVER[$key])) {
+        return null;
+    }
+
+    $value = $_SERVER[$key];
+    INST_sanitizeInputValues($value);
+    return $value;
+}
+
+function INsT_sanitizeInputValues(&$value) {
+    if (is_array($value)) {
+        foreach (array_keys($value) as $key) {
+            $newKey = $key;
+            INST_sanitizeInputValues($newKey);
+            if ($key != $newKey) {
+                $value[$newKey] =& $value[$key];
+                unset($value[$key]);
+            }
+
+            INST_sanitizeInputValues($value[$newKey]);
+        }
+    } else {
+        $value = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $value);
+
+        if (get_magic_quotes_gpc()) {
+            $value = stripslashes($value);
+        }
+    }
+}
+
+function INST_getSupportedLanguage($languageCode) {
+    static $supportedLanguages;
+    static $defaultCountry;
+
+    if (!isset($supportedLanguages)) {
+        list ($supportedLanguages, $defaultCountry) = INST_getLanguageData();
+    }
+
+    list ($language, $country) = preg_split('/[-_]/', "${languageCode}_");
+    $country = strtoupper($country);
+    if ((empty($country) || !isset($supportedLanguages[$language][$country]))
+        && isset($defaultCountry[$language])) {
+        $country = $defaultCountry[$language];
+    }
+    if (isset($supportedLanguages[$language][$country])) {
+        $supportedLanguages[$language][$country]['locale'] = "${language}_${country}";
+        $timezone = INST_getTimeZoneCode();
+        if(isset($timezone)) {
+            $supportedLanguages[$language][$country]['timezone'] = $timezone;
+        }
+        return $supportedLanguages[$language][$country];
+    }
+
+    return null;
+}
+
+function INST_getLanguageData() {
+    static $supportedLanguages = array();
+    static $defaultCountry = array();
+
+    if (empty($supportedLanguages)) {
+        require_once('language/supportedlanguages.php');
+    }
+
+    return array($supportedLanguages, $defaultCountry);
+}
+
+function INST_getTimeZoneCode() {
+    if(function_exists('date_default_timezone_get')) {
+        $timezone = date_default_timezone_get();
+    } else {
+        $timezone = date('T');
+    }
+    if(isset($timezone)) {
+        return $timezone;
+    }
+    return null;
+}
 
 // +---------------------------------------------------------------------------+
 // | Main                                                                      |
@@ -1600,30 +1726,51 @@ $step               = isset($_GET['step']) ? $_GET['step'] : (isset($_POST['step
 $mode               = isset($_GET['mode']) ? $_GET['mode'] : (isset($_POST['mode']) ? $_POST['mode'] : '');
 
 $language = 'english';
+$locale = 'en_GB';
+$timezone = 'Etc/GMT-6';
 if (isset($_POST['language'])) {
     $lng = $_POST['language'];
+    $locale = $_POST['locale'];
+    $timezone = $_POST['timezone'];
 } elseif (isset($_GET['language'])) {
     $lng = $_GET['language'];
+    $locale = $_GET['locale'];
+    $timezone = $_GET['timezone'];
 } else if (isset($_COOKIE['language'])) {
     // Okay, so the name of the language cookie is configurable, so it may not
     // be named 'language' after all. Still worth a try ...
     $lng = $_COOKIE['language'];
+    $locale = $_COOKIE['locale'];
+    $timezone = $_COOKIE['timezone'];
 } else {
-    $lng = $language;
+    $svrlng = INST_getLanguageStatus();
+    if (isset($svrlng)) {
+        $lng = $svrlng['language'];
+        $locale = $svrlng['locale'];
+        $timezone = $svrlng['timezone'];
+    }
 }
 // sanitize value and check for file
 $lng = preg_replace('/[^a-z0-9\-_]/', '', $lng);
-if (!empty($lng) && is_file('language/' . $lng . '.php')) {
-    $language = $lng;
+if (!empty($lng)){
+    if (is_file('language/' . $lng . '.php')) {
+        $language = $lng;
+    } elseif (is_file('language/' . $lng . '_utf-8.php')) {
+        $language = $lng . '_utf-8';
+        $locale = $locale . '.UTF-8';
+    } else {
+        $language = 'english';
+        $timezone = 'Etc/GMT-6';
+    }
 }
 require_once 'language/' . $language . '.php';
 
 // $display holds all the outputted HTML and content
 if (defined('XHTML')) {
-	$display = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    $display = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">';
 } else {
-	$display = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+    $display = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>';
 }
 if (empty($LANG_DIRECTION)) {
@@ -1933,6 +2080,8 @@ switch ($mode) {
             $req_string = 'index.php?mode=write_paths'
                         . '&amp;dbconfig_path=' . urlencode($_PATH['db-config.php'])
                         . '&amp;public_html_path=' . urlencode($_PATH['public_html/'])
+                        . '&amp;locale=' . $locale
+                        . '&amp;timezone=' . $timezone
                         . '&amp;language=' . $language;
 
             if ($LANG_DIRECTION == 'rtl') {
@@ -1994,7 +2143,9 @@ switch ($mode) {
             fclose ($siteconfig_file);
 
             // Continue to the next step: Fresh install or Upgrade
-            header('Location: index.php?mode=' . $_GET['op'] . '&dbconfig_path=' . urlencode($_PATH['db-config.php']) . '&language=' . $language);
+            header('Location: index.php?mode=' . $_GET['op'] . '&dbconfig_path=' 
+                   . urlencode($_PATH['db-config.php']) . '&locale=' . $locale . '&timezone='
+                   . urlencode($timezone) . '&language=' . $language);
 
         }
         break;

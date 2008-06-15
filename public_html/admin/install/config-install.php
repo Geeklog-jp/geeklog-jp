@@ -37,7 +37,12 @@ if (strpos($_SERVER['PHP_SELF'], 'config-install.php') !== false) {
 
 function install_config()
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_TABLES, $locale, $timezone;
+    if(is_file('locale/' . $locale . '.php')) {
+        require_once('locale/' . $locale . '.php');
+    } else {
+        require_once('locale/en_GB.php');
+    }
 
     $c = config::get_instance();
 
@@ -64,7 +69,7 @@ function install_config()
     $c->add('rdf_file','','text',0,2,NULL,1390,TRUE);
     $c->add('rdf_limit',10,'text',0,2,NULL,1400,TRUE);
     $c->add('rdf_storytext',1,'text',0,2,NULL,1410,TRUE);
-    $c->add('rdf_language','en-gb','text',0,2,NULL,1420,TRUE);
+    $c->add('rdf_language',$LOCALE_CONF[0],'text',0,2,NULL,1420,TRUE);
     $c->add('syndication_max_headlines',0,'text',0,2,NULL,1430,TRUE);
 
     $c->add('fs_paths', NULL, 'fieldset', 0, 3, NULL, 0, TRUE);
@@ -256,22 +261,22 @@ function install_config()
 
     $c->add('fs_language', NULL, 'fieldset', 6, 28, NULL, 0, TRUE);
     $c->add('language','english','select',6,28,NULL,350,TRUE);
-    $c->add('language_files',array('en'=>'english_utf-8', 'de'=>'german_formal_utf-8'),'*text',6,28,NULL,470,FALSE);
-    $c->add('languages',array('en'=>'English', 'de'=>'Deutsch'),'*text',6,28,NULL,480,FALSE);
+    $c->add('language_files',$LOCALE_CONF[1],'*text',6,28,NULL,470,FALSE);
+    $c->add('languages',$LOCALE_CONF[2],'*text',6,28,NULL,480,FALSE);
 
     $c->add('fs_locale', NULL, 'fieldset', 6, 29, NULL, 0, TRUE);
-    $c->add('locale','en_GB','text',6,29,NULL,360,TRUE);
-    $c->add('date','%A, %B %d %Y @ %I:%M %p %Z','text',6,29,NULL,370,TRUE);
-    $c->add('daytime','%m/%d %I:%M%p','text',6,29,NULL,380,TRUE);
-    $c->add('shortdate','%x','text',6,29,NULL,390,TRUE);
-    $c->add('dateonly','%d-%b','text',6,29,NULL,400,TRUE);
-    $c->add('timeonly','%I:%M%p','text',6,29,NULL,410,TRUE);
-    $c->add('week_start','Sun','select',6,29,14,420,TRUE);
-    $c->add('hour_mode',12,'select',6,29,6,430,TRUE);
-    $c->add('thousand_separator',",",'text',6,29,NULL,440,TRUE);
-    $c->add('decimal_separator',".",'text',6,29,NULL,450,TRUE);
-    $c->add('decimal_count',"2",'text',6,29,NULL,460,TRUE);
-    $c->add('timezone','Etc/GMT-6','text',6,29,NULL,490,FALSE);
+    $c->add('locale',$locale,'text',6,29,NULL,360,TRUE);
+    $c->add('date',$LOCALE_CONF[3],'text',6,29,NULL,370,TRUE);
+    $c->add('daytime',$LOCALE_CONF[4],'text',6,29,NULL,380,TRUE);
+    $c->add('shortdate',$LOCALE_CONF[5],'text',6,29,NULL,390,TRUE);
+    $c->add('dateonly',$LOCALE_CONF[6],'text',6,29,NULL,400,TRUE);
+    $c->add('timeonly',$LOCALE_CONF[7],'text',6,29,NULL,410,TRUE);
+    $c->add('week_start',$LOCALE_CONF[8],'select',6,29,14,420,TRUE);
+    $c->add('hour_mode',$LOCALE_CONF[9],'select',6,29,6,430,TRUE);
+    $c->add('thousand_separator',$LOCALE_CONF[10],'text',6,29,NULL,440,TRUE);
+    $c->add('decimal_separator',$LOCALE_CONF[11],'text',6,29,NULL,450,TRUE);
+    $c->add('decimal_count',$LOCALE_CONF[12],'text',6,29,NULL,460,TRUE);
+    $c->add('timezone',$timezone,'text',6,29,NULL,490,FALSE);
 
     // Subgroup: Miscellaneous
     $c->add('sg_misc', NULL, 'subgroup', 7, 0, NULL, 0, TRUE);
