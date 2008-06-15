@@ -497,8 +497,11 @@ $_DATA[] = "
 //$_DATA[] = "INSERT INTO {$_TABLES['storysubmission']} (sid, uid, tid, title, introtext, date, postmode) VALUES ('security-reminder',2,'Geeklog','Are you secure?','<p>This is a reminder to secure your site once you have Geeklog up and running. What you should do:</p>\r\r<ol>\r<li>Change the default password for the Admin account.</li>\r<li>Remove the install directory (you won\'t need it any more).</li>\r</ol>',NOW(),'html') ";
 
 //$_DATA[] = "INSERT INTO {$_TABLES['syndication']} (type, topic, header_tid, format, limits, content_length, title, description, filename, charset, language, is_enabled, updated, update_info) VALUES ('geeklog', '::all', 'all', 'RSS-2.0', 10, 1, 'Geeklog Site', 'Another Nifty Geeklog Site', 'geeklog.rss', 'iso-8859-1', 'en-gb', 1, '0000-00-00 00:00:00', NULL)";
-
-// (13)  utf-8 →euc-jp (syndication)
+$_DATA[] = "
+    UPDATE {$_TABLES['syndication']} SET
+    language = 'ja'
+    ";
+// utf-8 →euc-jp (syndication)
 //$_DATA[] = "
 //    ALTER TABLE {$_TABLES['syndication']} MODIFY
 //    charset varchar(20) NOT NULL default 'euc-jp'
