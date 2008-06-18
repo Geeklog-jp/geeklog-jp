@@ -6,7 +6,7 @@
 # This is the formal German language file for the Geeklog Calendar Plugin
 #
 # Authors: Dirk Haun <dirk AT haun-online DOT de>
-#          Markus Wollschlﾃ､ger
+#          Markus Wollschläger
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -40,20 +40,20 @@ $LANG_CAL_1 = array(
     3 => 'Wann',
     4 => 'Wo',
     5 => 'Beschreibung',
-    6 => 'Termin hinzufﾃｼgen',
+    6 => 'Termin hinzufügen',
     7 => 'Anstehende Termine',
-    8 => 'Wenn Sie diesen Termin zu Ihrem Kalender hinzufﾃｼgen, kﾃｶnnen Sie sich schneller einen ﾃ彙erblick ﾃｼber die Termine verschaffen, die Sie interessieren, indem Sie einfach auf "Mein Kalender" klicken.',
-    9 => 'Zu Meinem Kalender hinzufﾃｼgen',
+    8 => 'Wenn Sie diesen Termin zu Ihrem Kalender hinzufügen, können Sie sich schneller einen Überblick über die Termine verschaffen, die Sie interessieren, indem Sie einfach auf "Mein Kalender" klicken.',
+    9 => 'Zu Meinem Kalender hinzufügen',
     10 => 'Aus Meinem Kalender entfernen',
-    11 => 'Termin wird zum Kalender von %s hinzugefﾃｼgt',
+    11 => 'Termin wird zum Kalender von %s hinzugefügt',
     12 => 'Termin',
     13 => 'Beginnt',
     14 => 'Endet',
-    15 => 'Zurﾃｼck zum Kalender',
+    15 => 'Zurück zum Kalender',
     16 => 'Kalender',
     17 => 'Startdatum',
     18 => 'Enddatum',
-    19 => 'Beitrﾃ､ge: Kalender',
+    19 => 'Beiträge: Kalender',
     20 => 'Titel',
     21 => 'Startdatum',
     22 => 'URL',
@@ -61,22 +61,22 @@ $LANG_CAL_1 = array(
     24 => 'Allgemeine Termine',
     25 => 'Es stehen keine Termine an',
     26 => 'Einen Termin einreichen',
-    27 => "Wenn Sie einen Termin bei {$_CONF['site_name']} einreichen, wird er in den Kalender aufgenommen, von wo aus ihn andere User in ihren persﾃｶnlichen Kalender ﾃｼbernehmen kﾃｶnnen. Dies ist <b>NICHT</b> dazu gedacht, private Termine und Ereignisse wie etwa Geburtstage zu verwalten.<br" . XHTML . "><br" . XHTML . ">Wenn Sie einen Termin einreichen, wird er an die Administratoren weitergeleitet und sobald er von diesen akzeptiert wird, wird er im Kalender erscheinen.",
+    27 => "Wenn Sie einen Termin bei {$_CONF['site_name']} einreichen, wird er in den Kalender aufgenommen, von wo aus ihn andere User in ihren persönlichen Kalender übernehmen können. Dies ist <b>NICHT</b> dazu gedacht, private Termine und Ereignisse wie etwa Geburtstage zu verwalten.<br" . XHTML . "><br" . XHTML . ">Wenn Sie einen Termin einreichen, wird er an die Administratoren weitergeleitet und sobald er von diesen akzeptiert wird, wird er im Kalender erscheinen.",
     28 => 'Titel',
     29 => 'Endzeit',
     30 => 'Startzeit',
-    31 => 'Ganztﾃ､giger Termin',
+    31 => 'Ganztägiger Termin',
     32 => 'Addresse, Zeile 1',
     33 => 'Addresse, Zeile 2',
     34 => 'Stadt',
     35 => 'Bundesland',
     36 => 'Postleitzahl',
     37 => 'Art des Termins',
-    38 => 'Termin-Arten ﾃ､ndern',
+    38 => 'Termin-Arten ändern',
     39 => 'Ort',
-    40 => 'Termin hinzufﾃｼgen zu',
+    40 => 'Termin hinzufügen zu',
     41 => 'Kalender',
-    42 => 'Persﾃｶnlicher Kalender',
+    42 => 'Persönlicher Kalender',
     43 => 'Link',
     44 => 'HTML ist nicht erlaubt',
     45 => 'Abschicken',
@@ -85,7 +85,7 @@ $LANG_CAL_1 = array(
     48 => 'Angezeigt',
     49 => 'Es gibt keine Termine oder sie wurden von niemandem gelesen.',
     50 => 'Termine',
-    51 => 'Lﾃｶschen'
+    51 => 'Löschen'
 );
 
 $_LANG_CAL_SEARCH = array(
@@ -105,25 +105,25 @@ $LANG_CAL_2 = array(
     10 => 'Termine am',
     11 => 'Kalender',
     12 => 'Mein Kalender',
-    25 => 'Zurﾃｼck zum ',
-    26 => 'ganztﾃ､gig',
+    25 => 'Zurück zum ',
+    26 => 'ganztägig',
     27 => 'Woche',
-    28 => 'Persﾃｶnlicher Kalender fﾃｼr',
-    29 => 'ﾃ貿fentlicher Kalender',
-    30 => 'Termin lﾃｶschen',
-    31 => 'Hinzufﾃｼgen',
+    28 => 'Persönlicher Kalender für',
+    29 => 'Öffentlicher Kalender',
+    30 => 'Termin löschen',
+    31 => 'Hinzufügen',
     32 => 'Termin',
     33 => 'Datum',
     34 => 'Uhrzeit',
     35 => 'Neuer Termin',
     36 => 'Abschicken',
-    37 => 'Der persﾃｶnliche Kalender ist auf dieser Website nicht verfﾃｼgbar.',
-    38 => 'Persﾃｶnlicher Termin-Editor',
+    37 => 'Der persönliche Kalender ist auf dieser Website nicht verfügbar.',
+    38 => 'Persönlicher Termin-Editor',
     39 => 'Tag',
     40 => 'Woche',
     41 => 'Monat',
     42 => 'Neuer Termin',
-    43 => 'Beitrﾃ､ge: Termine'
+    43 => 'Beiträge: Termine'
 );
 
 ###############################################################################
@@ -139,50 +139,50 @@ $LANG_CAL_ADMIN = array(
     7 => 'Ort',
     8 => 'Beschreibung',
     9 => '(mit http://)',
-    10 => 'Es mﾃｼssen mindestens Datum und Uhrzeit, Titel und Beschreibung eingegeben werden!',
+    10 => 'Es müssen mindestens Datum und Uhrzeit, Titel und Beschreibung eingegeben werden!',
     11 => 'Kalender-Manager',
-    12 => 'Auf das ﾃ�dern-Icon klicken, um einen Termin zu ﾃ､ndern oder zu lﾃｶschen. Mit Neu anlegen (s.o.) wird ein neuer Termin angelegt. Das Kopie-Icon erzeugt eine Kopie eines vorhandenen Termins.',
+    12 => 'Auf das Ändern-Icon klicken, um einen Termin zu ändern oder zu löschen. Mit Neu anlegen (s.o.) wird ein neuer Termin angelegt. Das Kopie-Icon erzeugt eine Kopie eines vorhandenen Termins.',
     13 => 'Autor',
     14 => 'Startdatum',
     15 => 'Enddatum',
     16 => '',
-    17 => "Sie haben keine Zugriffsrechte fﾃｼr diesen Termin. Dieser Zugriffsversuch wurde protokolliert. <a href=\"{$_CONF['site_admin_url']}/plugins/calendar/index.php\">Zurﾃｼck zum Administrator-Menﾃｼ</a>.",
+    17 => "Sie haben keine Zugriffsrechte für diesen Termin. Dieser Zugriffsversuch wurde protokolliert. <a href=\"{$_CONF['site_admin_url']}/plugins/calendar/index.php\">Zurück zum Administrator-Menü</a>.",
     18 => '',
     19 => '',
     20 => 'Speichern',
     21 => 'Abbruch',
-    22 => 'Lﾃｶschen',
-    23 => 'Ungﾃｼltiges Startdatum.',
-    24 => 'Ungﾃｼltiges Enddatum.',
+    22 => 'Löschen',
+    23 => 'Ungültiges Startdatum.',
+    24 => 'Ungültiges Enddatum.',
     25 => 'Enddatum ist vor dem Startdatum.',
-    26 => 'Alte Eintrﾃ､ge lﾃｶschen',
-    27 => 'Diese Termine sind ﾃ､lter als ',
-    28 => ' Monate. Bite auf das Mﾃｼlleimer-Icon klicken, um sie zu entfernen, oder eine andere Zeitspanne auswﾃ､hlen:<brXHTML>Suche alle Eintrﾃ､ge ﾃ､lter als ',
+    26 => 'Alte Einträge löschen',
+    27 => 'Diese Termine sind älter als ',
+    28 => ' Monate. Bite auf das Mülleimer-Icon klicken, um sie zu entfernen, oder eine andere Zeitspanne auswählen:<brXHTML>Suche alle Einträge älter als ',
     29 => ' Monate.',
     30 => 'Liste aktualisieren',
-    31 => 'Sind Sie sicher, dass Sie alle ausgewﾃ､hlten User permanent lﾃｶschen mﾃｶchten?',
+    31 => 'Sind Sie sicher, dass Sie alle ausgewählten User permanent löschen möchten?',
     32 => 'Alle auflisten',
-    33 => 'Keine Termine zum Lﾃｶschen ausgewﾃ､hlt',
+    33 => 'Keine Termine zum Löschen ausgewählt',
     34 => 'Termin ID',
-    35 => 'konnte nicht gelﾃｶscht werden',
-    36 => 'Erfolgreich gelﾃｶscht'
+    35 => 'konnte nicht gelöscht werden',
+    36 => 'Erfolgreich gelöscht'
 );
 
 $LANG_CAL_MESSAGE = array(
     'save' => 'Der Termin wurde gespeichert.',
-    'delete' => 'Der Termin wurde gelﾃｶscht.',
+    'delete' => 'Der Termin wurde gelöscht.',
     'private' => 'Der Termin wurde in Ihren Kalender eingetragen.',
-    'login' => 'Sie mﾃｼssen angemeldet sein, um auf Ihren persﾃｶnlichen Kalender zugreifen zu kﾃｶnnen.',
-    'removed' => 'Der Termin wurde aus Ihrem persﾃｶnlichen Kalender entfernt',
-    'noprivate' => 'Persﾃｶnliche Kalender sind auf dieser Site nicht verfﾃｼgbar.',
+    'login' => 'Sie müssen angemeldet sein, um auf Ihren persönlichen Kalender zugreifen zu können.',
+    'removed' => 'Der Termin wurde aus Ihrem persönlichen Kalender entfernt',
+    'noprivate' => 'Persönliche Kalender sind auf dieser Site nicht verfügbar.',
     'unauth' => 'Sie haben keinen Zugriff auf die Termin-Administrationsseite. Alle Versuche, auf Bereiche ohne entsprechende Berechtigung zuzugreifen, werden protokolliert.'
 );
 
-$PLG_calendar_MESSAGE4 = "Danke fﾃｼr Ihren Beitrag zu {$_CONF['site_name']}. Ihr Termin wurde an unser Team weitergeleitet. Wenn er akzeptiert wird, wird er bald im <a href=\"{$_CONF['site_url']}/calendar/index.php\">Kalender</a> aufgelistet werden.";
+$PLG_calendar_MESSAGE4 = "Danke für Ihren Beitrag zu {$_CONF['site_name']}. Ihr Termin wurde an unser Team weitergeleitet. Wenn er akzeptiert wird, wird er bald im <a href=\"{$_CONF['site_url']}/calendar/index.php\">Kalender</a> aufgelistet werden.";
 $PLG_calendar_MESSAGE17 = 'Ihr Termin wurde gespeichert.';
-$PLG_calendar_MESSAGE18 = 'Der Termin wurde gelﾃｶscht.';
+$PLG_calendar_MESSAGE18 = 'Der Termin wurde gelöscht.';
 $PLG_calendar_MESSAGE24 = 'Der Termin wurde in Ihren Kalender eingetragen.';
-$PLG_calendar_MESSAGE26 = 'Der Termin wurde gelﾃｶscht.';
+$PLG_calendar_MESSAGE26 = 'Der Termin wurde gelöscht.';
 
 // Messages for the plugin upgrade
 $PLG_calendar_MESSAGE3001 = 'Plugin upgrade not supported.';
@@ -195,16 +195,16 @@ $LANG_configsections['calendar'] = array(
 );
 
 $LANG_confignames['calendar'] = array(
-    'calendarloginrequired' => 'Zur Einsicht einloggen nﾃｶtig?',
-    'hidecalendarmenu' => 'Menﾃｼeintrag ausblenden?',
-    'personalcalendars' => 'Persﾃｶnliche Kalender?',
-    'eventsubmission' => 'Eintrﾃ､ge moderieren?',
-    'showupcomingevents' => 'Zukﾃｼnftige Termine anzeigen?',
-    'upcomingeventsrange' => 'Zeitraum zukﾃｼnftige Termine',
+    'calendarloginrequired' => 'Zur Einsicht einloggen nötig?',
+    'hidecalendarmenu' => 'Menüeintrag ausblenden?',
+    'personalcalendars' => 'Persönliche Kalender?',
+    'eventsubmission' => 'Einträge moderieren?',
+    'showupcomingevents' => 'Zukünftige Termine anzeigen?',
+    'upcomingeventsrange' => 'Zeitraum zukünftige Termine',
     'event_types' => 'Art der Termine',
     'hour_mode' => 'Stunden-Modus',
     'notification' => 'Benachrichtigungs-eMail?',
-    'delete_event' => 'Termine mit User lﾃｶschen?',
+    'delete_event' => 'Termine mit User löschen?',
     'aftersave' => 'Nach Speichern des Termins',
     'default_permissions' => 'Grundeinstellungen Termine'
 );
