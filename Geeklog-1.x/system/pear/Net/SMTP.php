@@ -18,7 +18,7 @@
 // |          Damian Alejandro Fernandez Sosa <damlists@cnba.uba.ar>      |
 // +----------------------------------------------------------------------+
 //
-// $Id: SMTP.php,v 1.62 2008/04/24 20:27:46 chagenbu Exp $
+// $Id: SMTP.php,v 1.63 2008/06/10 05:39:12 jon Exp $
 
 require_once 'PEAR.php';
 require_once 'Net/Socket.php';
@@ -296,8 +296,8 @@ class Net_SMTP
         /* Compare the server's response code with the valid code/codes. */
         if (is_int($valid) && ($this->_code === $valid)) {
             return true;
-        } elseif (is_array($valid)) {
-            return in_array($this->_code, $valid, true);
+        } elseif (is_array($valid) && in_array($this->_code, $valid, true)) {
+            return true;
         }
 
         return PEAR::raiseError('Invalid response code received from server',
