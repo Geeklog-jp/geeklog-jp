@@ -1,0 +1,22 @@
+{start_block_postacomment}
+<form action="{site_url}/comment.php" method="post">
+  <b>{lang_username}:</b>
+  {username} [ <a href="{action_url}" rel="nofollow">{lang_logoutorcreateaccount}</a> ]
+  <input type="hidden" name="sid" value="{sid}"{xhtml}>
+  <input type="hidden" name="pid" value="{pid}"{xhtml}>
+  <input type="hidden" name="type" value="{type}"{xhtml}>
+  <input type="hidden" name="uid" value="{uid}"{xhtml}>
+  <br{xhtml}>
+  <b>{lang_title}:</b>
+  <br{xhtml}>
+  <input type="text" name="title" size="32" value="{title}" maxlength="96"{xhtml}>
+  <br{xhtml}>
+  <b>{lang_comment}:</b>
+  <br{xhtml}>
+  <textarea name="comment" rows="10" style="width:95%">{comment}</textarea>
+  <br{xhtml}>
+  <hr{xhtml}>
+  <input type="submit" name="mode" value="{lang_preview}"{xhtml}>
+  {save_option}
+</form>
+{end_block}
