@@ -1,2 +1,0 @@
-　　loginform_openid.thtml（未着手）
-    admin/config
