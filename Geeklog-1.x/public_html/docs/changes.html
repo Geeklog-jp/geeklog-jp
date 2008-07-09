@@ -1,1145 +1,519 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Changes</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>変更点 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Changes</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - 変更点</div>
 
-<h1>Changes</h1>
+<h1>変更点</h1>
 
-<p>This document is intended to give a quick overview over the most important
-and / or obvious changes. For a detailed list of changes, please consult the
-<a href="history">ChangeLog</a>. The file <tt>docs/changed-files</tt> has a list
-of files that have been changed since the last release.</p>
+<p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更点の詳細なリストは，
+<a href="history">ChangeLog</a>をご覧ください。<tt>docs/changed-files</tt>には，前回リリース以来変更されたファイルの一覧があります。</p>
 
 <h2><a name="changes150">Geeklog 1.5.0</a></h2>
 
-<h3>Results from the Summer of Code</h3>
+<h3>Google Summer of Codeの成果をフィードバック</h3>
 
-<p>This release incorporates the following projects implemented during the
-the 2007 Google Summer of Code:</p>
+<p>今回のリリースには，2007 Google Summer of Codeで実装された次のプロジェクトの成果を取り込んでいます。</p>
 
 <ul>
-<li>New user-friendly install script by Matt West</li>
-<li>New Configuration GUI (replacing config.php) by Aaron Blankstein</li>
-<li>New Webservices API based on the Atom Publishing Protocol by Ramnath R. Iyer</li>
+<li>新たな使いやすいインストールスクリプト（作者：Matt West）</li>
+<li>（config.phpを直接編集した従来の方式に代わる）新たな設定用GUI（作者：Aaron Blankstein）</li>
+<li>Atom Publishing ProtocolをベースとしたWebサービスAPI（作者：Ramnath R. Iyer）</li>
 </ul>
 
-<h3>Other New Features and Improvements</h3>
+<h3>上記以外の新機能や改善</h3>
 
 <ul>
-<li>OpenID support: You can now allow users to log into your site using an
-    OpenID, so that they don't need to create a new account with your site but
-    still get all the benefits of a normal registered user.</li>
-<li>New LDAP remote authentication module.</li>
-<li>The Links plugin now has hierarchical (sub-)categories.</li>
-<li>Updated <a href="http://fckeditor.net/">FCKeditor</a> to version 2.6.</li>
-<li>Rewrite of the underlying story code. Amongst other things, this should
-    finally resolve all outstanding issues with the handling of special
-    characters, HTML entities, etc. in stories. Also introduces a new
-    <code>[raw]</code> tag as an inline complement to <code>[code]</code> when
-    you want to post pieces of code (e.g. HTML) "as is", so that they are not
-    interpreted.</li>
-<li>Comments can now be closed, i.e. existing comments will still be displayed
-    but no new comment can be posted.</li>
-<li>The Polls plugin now allows for multiple questions per poll.</li>
-<li>The Static Pages plugin now supports comments.</li>
-<li>The database backup admin panel now lets you delete and download
-    backups.</li>
-<li>The default Professional theme is now HTML 4.01 Strict compliant. Geeklog
-    now also <a href="theme.html#xhtml">supports XHTML</a> (given an XHTML
-    compliant theme).</li>
+<li>OpenIDサポート: OpenIDを使用したユーザのログインが可能になりました。Geeklogサイトにアカウントを新規作成しなくても，通常のユーザと同様の恩恵を受けられます。</li>
+<li><acronym title="Lightweight Directory Access Protocol">LDAP</acronym>リモート認証モジュールの追加</li>
+<li>リンク(links)プラグインで階層化されたサブカテゴリを持てるようになりました。</li>
+<li><a href="http://fckeditor.net/">FCKeditor</a>をversion 2.6にアップグレード</li>
+<li>記事処理用コードの書き直し。とりわけ，記事に含まれる特殊文字やHTMLエンティティの扱いに関する主要な問題が全て解消するはずです。また，（ブロックレベルの）<code>[code]</code>に対して，行レベルの<code>[raw]</code>タグが新たにサポートされるようになりました。このタグを使うと，HTMLなどのコードをそのまま投稿する際，HTMLタグとして解釈されないようになります。</li>
+<li>コメントを閉じることができるようになりました。つまり，既存のコメントは表示されるが，新規コメントを投稿できないようにできます。</li>
+<li>アンケート(polls)プラグインでアンケートごとに複数の質問をできるようになりました。</li>
+<li>静的ページ(static pages)プラグインでコメントをサポートするようになりました。</li>
+<li>データベースのバックアップ画面で，バックアップしたファイルを削除したり，ダウンロードできるようになりました。</li>
+<li>デフォルトのProfessionalテーマがHTML 4.01 Strict準拠になりました。また，<a href="theme.html#xhtml">XHTMLもサポートしています</a>(XHTML準拠のテーマが必要です)。</li>
 </ul>
 
-<h3>Security</h3>
+<h3>セキュリティ</h3>
 
 <ul>
-<li>Geeklog now includes protection against <a href="http://www.geeklog.net/article.php/csrf">cross-site request forgery</a> attacks.</li>
-<li>Lukasz Pilorz reported <a href="http://www.geeklog.net/article.php/kses">security issues in kses</a>, the HTML filter we're using in Geeklog.</li>
+<li>Geeklogは，<a href="http://www.geeklog.net/article.php/csrf">クロスサイト・リクエスト・フォージェリ(cross-site request forgery)</a>攻撃に対する防御を備えています。</li>
+<li>Lukasz Pilorzが，Geeklogで使用しているHTMLフィルタのksesに関して，<a href="http://www.geeklog.net/article.php/kses">ksesのセキュリティ上の問題点(security issues in kses)</a>を報告してくれました。</li>
 </ul>
 
 
 <h2><a name="changes141">Geeklog 1.4.1</a></h2>
 
-<h3>New Features</h3>
+<h3>新機能</h3>
 
 <ul>
-<li>Support for Microsoft SQL Server. Starting with this release, Geeklog can
-    now also be installed on Microsoft SQL Server, so it's no longer restricted
-    to just MySQL. The MS SQL support was developed by Randy Kolenko.
-    Thanks, Randy!<br>
-    Please note that any third-party plugins will have to offer support for
-    MS SQL before they can be installed on Microsoft SQL Server. The bundled
-    plugins (Calendar, Links, Polls, Spam-X, Static Pages) have already been
-    updated accordingly.</li>
-<li><a href="calendar.html">Calendar plugin</a>. The formerly built-in calendar
-    and events have now been moved into a separate plugin. This complements the
-    move of the <a href="polls.html">polls</a> and <a href="links.html">links</a> sections into plugins in Geeklog 1.4.0 and makes Geeklog more modular as you
-    can now easily disable or replace functionality that you don't need for
-    your site.</li>
-<li><a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">Multi-language support</a>. It is now possible to build truly multi-lingual sites
-    with Geeklog where not only the navigation but also the content of the site
-    changes with the language.</li>
-<li>Ships with <a href="http://fckeditor.net/">FCKeditor</a> 2.3.1, which once
-    again includes a file manager for uploading images.</li>
-<li>A function for mass-deletion of old or inactive users. The list automatically
-    searches for users that have never logged in, only used the site for a very
-    short time or have not been online since a very long time. The time span can
-    be varied, and found users can be selectively deleted.</li>
+<li>Microsoft SQL Serverをサポート。今回のリリースより，GeeklogをMicrosoft SQL Serverにインストールできるようになりました。MySQLだけではなくなったのです。MS SQLサポートはRandy Kolenkoにより開発されました。Randy，ありがとう!<br>
+    サードパーティによるプラグインがMicrosoft SQL Serverで動作するには，MS SQLをサポートする必要があります。同梱されているプラグイン(カレンダ, リンク, アンケート, Spam-X, 静的ページ)は既にMS SQLをサポートするようアップグレード済みです。</li>
+<li><a href="calendar.html">カレンダプラグイン</a>: 以前は本体に組み込まれていたカレンダとイベント機能は今回からプラグインとして分離されました。Geeklog 1.4.0で実施された<a href="polls.html">アンケート</a>と<a href="links.html">リンク</a>機能に始まるプラグイン化の流れはこれで終了し，Geeklogのモジュール化が進みました。サイトに不要な機能を無効にしたり差し替えることが容易になっています。</li>
+<li><a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">多言語サポート(Multi-language support)</a>： Geeklogを用いて真の多言語サイトの構築が可能になりました。ナビゲーションだけでなくサイトのコンテンツもまた，言語を切り替えれば追随します。</li>
+<li><a href="http://fckeditor.net/">FCKeditor</a> 2.3.1を同梱。画像をアップロードするファイルマネージャを再び同梱するようにしました。</li>
+<li>古いないし活動していないユーザを一括削除する機能を追加。一度もログインしていないユーザやサイトを短期間しか使用していないユーザ，長期間ログインしていないユーザが自動的に検索され，一覧表示されます。期間の長さは変えることができ，検索されたユーザは個別に削除できます。</li>
 </ul>
 
-<h3>Security</h3>
+<h3>セキュリティ</h3>
 
-<p>In the light of the security issues discovered in Geeklog 1.4.0 and earlier
-versions, the Geeklog source code has undergone a code review. We have
-identified and addressed several minor issues and introduced new measures to
-enhance security in this release. As a welcome side effect, the code reviews
-have also uncovered a few bugs and inconsistencies that we also fixed in this
-release.</p>
+<p>Geeklog 1.4.0以前のバージョンで発見されたセキュリティの問題を考慮して，Geeklogのソースコードの見直しを行いました。今回のリリースでは，いくつか些細な問題を発見して対応し，セキュリティを高める対策をいくつか導入しています。嬉しい副作用として，いくつかのバグと不整合が見つかり，今回のリリースでは修正しています。</p>
 
-<h3>Spam Protection</h3>
+<h3>スパム防御</h3>
 
-<p>With this release we are finally removing support for the <a href="http://www.geeklog.net/article.php/mt-blacklist-discontinued">discontinued</a> MT-Blacklist. In its place, we are now using a system called Spam Link Verification (SLV) run by Russ Jones at <a href="http://www.linksleeve.org/">www.linksleeve.org</a>. SLV could be described as a community-driven, automatically updated blacklist. See the documentation of the <a href="spamx.html" rel="nofollow">Spam-X plugin</a> for details.</p>
+<p>今回のリリースで，<a href="http://www.geeklog.net/article.php/mt-blacklist-discontinued">更新されていない</a>MT-Blacklistのサポートを完全に廃止しました。代わりに，Russ Jonesが<a href="http://www.linksleeve.org/">www.linksleeve.org</a>で運営している Spam Link Verification (SLV)という手法を採用しています。SLVとは，いわばコミュニティが運営する，自動的に更新されるブラックリストです。詳細は，<a href="spamx.html" rel="nofollow">Spam-Xプラグイン</a>をご覧ください。</p>
 
 
 <h2><a name="changes140sr5-1">Geeklog 1.4.0sr5-1</a></h2>
 
-<p>This release fixes display problems in the comment preview that were only
-introduced in Geeklog 1.4.0sr5.</p>
+<p>今回のリリースでは，Geeklog 1.4.0sr5で導入されたばかりのコメントのプレビューで生じる問題を修正しています。</p>
 
 
 <h2><a name="changes140sr5">Geeklog 1.4.0sr5</a></h2>
 
-<p>JPCERT/CC informed us about a possible <a href="http://en.wikipedia.org/wiki/XSS" title="Click to look up 'XSS' on Wikipedia" style="text-decoration: none; color: black; border-bottom: 1px dotted black;">XSS</a> in the comment handling that we're fixing with this release.</p>
+<p>JPCERT/CCより，コメントの扱いに関する<a href="http://en.wikipedia.org/wiki/XSS" title="Click to look up 'XSS' on Wikipedia" style="text-decoration: none; color: black; border-bottom: 1px dotted black;">クロスサイト・スクリプティング</a>の可能性に関して通知がありました。今回のリリースではこの問題に対処しています。</p>
 
 
 <h2><a name="changes140sr4">Geeklog 1.4.0sr4</a></h2>
 
-<p>Two exploits have been released by "rgod" for insecure Geeklog installations and for a bug in the "mcpuk" file manager that we've been shipping as part of FCKeditor in all previous 1.4.0 releases.</p>
+<p>"rgod"により，セキュアではない方法でインストールされたGeeklogとFCKeditorに含まれている"mcpuk"ファイルマネージャのバグが，以前の1.4.0系のリリースすべてに含まれていることが報告されました。</p>
 
 <ul>
-<li>Some of the files outside of the public_html directory were not protected
-    against direct execution. If Geeklog was installed such that those files
-    were accessible from a URL (which has always been strongly discouraged in
-    the installation instructions) then those files could be used to load and
-    execute malicious code from a remote server.
+<li>public_htmlディレクトリの外にあるファイルの一部が直接実行される可能性がありました。これらのファイルがURL経由でアクセス可能なようにGeeklogがインストールされている場合(これは，インストール方法では全然お勧めしていない方法です)，リモートサーバから悪意のあるコードをアップロードして，実行するために利用される可能性がありました。
     <br><br>
-    More information: <a
-    href="http://www.geeklog.net/article.php/so-called-exploit">So-called
-    Geeklog "exploit" posted</a>
+    詳細は，<a href="http://www.geeklog.net/article.php/so-called-exploit">いわゆるGeeklogの脆弱性投稿(So-called Geeklog "exploit" posted)</a>をご覧ください。
     <br><br>
-    In this release, we've added the missing execution prevention for all files
-    outside of public_html. We would still, however, suggest that you fix your
-    Geeklog install if the files outside of public_html are accessible from a
-    URL (see our <a
-    href="http://www.geeklog.net/faqman/index.php?op=view&amp;t=56">FAQ</a> for
-    details).
+    今回のリリースでは，public_htmlディレクトリの外にあるファイルが直接実行されるのを防ぐ機能を追加しました。とはいえ，public_htmlディレクトリの外にあるファイルがURL経由でアクセス可能なようにGeeklogをインストールしているなら，修正することをお勧めします(詳細は，<a href="http://www.geeklog.net/faqman/index.php?op=view&amp;t=56">FAQ</a>をご覧くださいdetails)。
 </li>
-<li>The "mcpuk" file manager that we've integrated into FCKeditor allowed the
-    upload of arbitrary PHP code (even if FCKeditor was disabled in Geeklog's
-    config.php). Depending on your webserver's configuration, it was then
-    possible to execute that uploaded code.
+<li>(Geeklogのconfig.phpでFCKeditorを無効にしていても)，FCKeditorに統合されている"mcpuk"ファイルマネージャを使えば，任意のPHPコードをアップロードすることが可能になっていました。Webサーバの設定しだいでは，アップロードしたコードを実行することも可能でした。
     <br><br>
-    More information: <a href="http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager">Exploit for FCKeditor's mcpuk file manager</a>
+    詳細は，<a href="http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager">FCKeditorのmcpukファイルマネージャの脆弱性(Exploit for FCKeditor's mcpuk file manager)</a>をご覧ください。
     <br><br>
-    The file manager has been removed from this release. You will therefore no
-    longer be able to upload files, e.g. images, through FCKeditor. Future
-    versions of Geeklog will ship with an updated version of FCKeditor and its
-    included file manager.
+    今回のリリースでは，該当ファイルマネージャは取り除かれています。したがって，FCKeditor経由で画像などのファイルをアップロードすることはできなくなっています。Geeklogの将来のバージョンでは，更新されたFCKeditorとファイルマネージャを同梱することになるでしょう。
 </li>
 </ul>
 
-<p>Note: This release also includes the <a
-href="http://www.geeklog.net/article.php/fighting-trackback-spam">updated
-lib-trackback.php</a> for better protection against Trackback spam.</p>
+<p>注: 今回のリリースには，トラックバックスパムを防ぐために<a href="http://www.geeklog.net/article.php/fighting-trackback-spam">更新されたlib-trackback.php</a>も含まれています。</p>
 
 
 <h2><a name="changes140sr3">Geeklog 1.4.0sr3</a></h2>
 
-<p>This release addresses the following security issues:</p>
+<p>今回のリリースでは，以下のセキュリティ問題に対応しています。</p>
 <ol>
-<li>Possible SQL injection and authentication bypass in <tt>auth.inc.php</tt>
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Possible XSS in <tt>getimage.php</tt>
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Path disclosure in <tt>getimage.php</tt> and the <tt>functions.php</tt> of
-    some themes, e.g. the Professional theme
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Possible SQL injection in story submissions.</li>
+<li><tt>auth.inc.php</tt>でのSQLインジェクションと認証迂回の可能性(the Security Science Researchers Institute Of Iranの報告による)。</li>
+<li><tt>getimage.php</tt>でのクロスサイト・スクリプティングの可能性(the Security Science Researchers Institute Of Iranの報告による)。</li>
+<li><tt>getimage.php</tt>と，たとえば，Professionalテーマなどの<tt>functions.php</tt>によるパス漏洩(the Security Science Researchers Institute Of Iranの報告による)。</li>
+<li>記事投稿の際のSQLインジェクションの可能性。</li>
 </ol>
 
 
 <h2><a name="changes140sr2">Geeklog 1.4.0sr2</a></h2>
 
-<p>This release addresses the following security issues:</p>
+<p>今回のリリースでは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Konstantin Dyakoff found an old bug in the session handling that would
-    allow anyone to log in as any user.</li>
-<li>HTML was not stripped from the Location field in a user's profile.</li>
+<li>誰でも任意のユーザとしてログインが可能になるセッションハンドリングのバグ(Konstantin Dyakoffの報告による)。</li>
+<li>ユーザプロフィールの場所(Location)フィールドでHTMLタグが除去されていなかった。</li>
 </ul>
 
 
 <h2><a name="changes140sr1">Geeklog 1.4.0sr1</a></h2>
 
-<p>This release addresses the following security issues:</p>
+<p>今回のリリースでは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>James Bercegay of GulfTech Security Research reported several issues with
-    Geeklog's cookie handling that made it vulnerable to SQL injections,
-    arbitrary file access, and even injection and execution of arbitrary
-    code.</li>
+<li>Geeklogのクッキーの扱いに起因するいくつかの問題(GulfTech Security ResearchのJames Bercegayによる報告)。SQLインジェクションや任意ファイルへのアクセス，任意のコードの埋め込み及び実行が可能になる脆弱性でした。</li>
+</ul>
+
+<p style="padding:5px; border: solid 2px blue;">訳注：以下の和訳は，IvySOHOが公開していたGeeklog-1.4.0日本語版に付属するchanges.htmlを修正して使用しています。</p>
+
+<h2><a name="changes140" id="changes140">Geeklog 1.4.0</a></h2>
+<p>(Geeklog 1.4.0 は，元は1.3.12ですので，バージョン1.3.12を参照した場合1.4.0に該当します。)</p>
+<h3>新機能</h3>
+<ul>
+    <li>Geeklogは現在公式には <code>register_globals = off</code> で動いていますが，まだいくつかのプラグインでは，<code>register_globals = on</code> にしなくてはいけないことに注意してください。</li>
+    <li><a href="http://en.wikipedia.org/wiki/Trackback">トラックバック</a>や<a href="http://en.wikipedia.org/wiki/Pingback">ピングバック</a>のコメントの送受信向けのサポートが追加されています。それぞれ記事ごとにサポートされていますが，プラグインがこの機能を使えるように新しいプラグインAPIもあります。トラックバックやピングバックはconfig.phpで機能を抑止することが可能です。</li>
+    <li>サイトのアップデートを通知するために，ウェブログ・ディレクトリ・サービス<a href="http://blo.gs/">blo.gs</a>など）に更新ピングを送る機能が追加されました。トラックバックやピングバックによって，この機能は記事ごとにサポートされていますが，プラグインもプラグインAIP経由でこの機能を利用することができます。</li>
+    <li>Geeklogが<strong>読み取りと書き込み</strong>ができるように，新しいシンジケーション・フレームワークが，RSS1.0だけではなく，複数のフォーマット（現在はRSS，RDF，Atom）でフィードできるようになりました。</li>
+    <li>管理者によるユーザ状態の管理機能追加。アカウントの停止・アクティベーションを含む。</li>
+    <li>Blogger.comやLiveJournal.comなどのような別のサービスのアカウントを持っている利用者が，サイトに直接登録しなくても自動的にログインできる新しい遠隔認証システムが追加されました（リモートアカウントは，通常アカウントとして禁止することもできます。）。</li>
+    <li>管理部分が改訂され，より見やすく分類されたリストとなっています。&ldquo;コマンドとコントロール&rdquo; (moderation.php) も新たなアイコンででき，管理部分ごとにアイコンがあります。さらに，管理ブロック，コマンド，コントロールはアルファベット順にソートできるようになりました。</li>
+    <li>FCKeditor(WYSIWYGエディタ)が付いています。作動させるには，config.phpの <code>$_CONF['advanced_editor'] = true</code> に設定してください。</li>
+    <li>検索では，大きなデータベースを検索する際のタイムアウトを防ぐため，ページごとの検索結果を指定した件数だけ表示するようになりました。<br><strong>注意</strong><strong>:</strong>「ページ」検索をサポートするには，プラグインをアップデートする必要があります。アップデートをしないと，Geeklogはプラグイン検索ページの結果を正しく表示しません。プラグインがアップデートされていないと，全データベースを検索することになりますが，Geeklogは現在の検索結果のページしか表示しないことになります。</li>
+    <li>「記事一覧」が導入され，過去の記事が年ごと月ごとにソートされ，見やすく表示できるようになりました。</li>
+    <li>新たなオブジェクト（記事，話題，ブロックなど）のデフォルトパーミッションを，config.phpで設定できるようになりました。</li>
+</ul>
+<h3>互換性</h3>
+<ul>
+    <li>変更するには，Geeklog1.4.0で動くようにテーマをアップデートしなくてはいけません。詳細は<a href="theme.html#changes">テーマ変更リスト</a>をご参照ください。</li>
+    <li>コメント用のプラグインAPIが改変されました。コメントを利用しているプラグインは，Geeklog1.4.0で動くようにアップデートする必要があります。</li>
+</ul>
+<h2><a name="changes1311sr2" id="changes1311sr2">Geeklog 1.3.11sr2</a></h2>
+<p>このリリースは，Geeklog1.3.12用に独自に開発されたセキュリティ強化と，スパム防御を提供しています。また，バグフィックスが適切な仕事量で，少数のバグを処理しています。（その他のバグフィックスは1.3.12のリリースをお待ちください。）</p>
+<h3>セキュリティとスパム防御</h3>
+<ul>
+    <li>ログインの試行には速度制限があり，初期値は5分間に3回までの試行です。(config.phpの<a href="config.html#login">login</a>)で設定可能。</li>
+    <li>COM_mailではEメールのTo:, From: Subject:のフィールドに含まれる改行コードを除去します。</li>
+    <li>新しいユーザアカウントが作成され，ユーザによる投稿承認がconfig.phpで許可されると，万一アカウントの作成が途中で失敗した場合には，新しいアカウントが適切に承認待ちになることを保証しています。</li>
+    <li>メールがスパムと確認されると，速度制限が生じます。 (例えば，新たに投稿を行う前に，送信者は速度制限が終了となるのを待つ必要があります。)</li>
+    <li>スパムメールは，403&ldquo;禁止&rdquo; HTTP結果コードを取得します。</li>
+    <li>スパムチェックは，コメント，記事，リンク，イベントの投稿や「友だちに記事を送信する」オプションで送信されたメッセージや，ユーザプロフィールのコンテンツに対して行われます。</li>
+    <li><a href="http://www.geeklog.net/article.php/spam-x-1.0.2">Spam-Xプラグイン1.0.2</a>が含まれています。</li>
+</ul>
+<p>最近，(Spam-Xで使用されている)MT-Blacklistが<a href="http://www.geeklog.net/article.php/mt-blacklist-discontinued">中止</a>されたことにご注意ください。本リリースに含まれるSpam-Xプラグインは，geeklog.netからブラックリストの最新バージョンを取得するように設定されていますが，アップデートはされません。</p>
+<h3>バグフィックス</h3>
+<ul>
+    <li>記事ページを閲覧する場合，PHP5.0.5以降で送られるエラーメッセージを修正します。 (bug #483)</li>
+    <li>空白を除き，アルファベットでない文字を含んでいるときは，すぐにEメールアドレスの名前を引き出します。 (bug #368)名前に特別な文字があるユーザにEメールをするときに役立ちます。</li>
+    <li>日本語やタイ語でのトラブルを修正するバージョン0.2.2に，ksesクラスを組み込んでアップグレードされています。(bugs #94 and #119)</li>
+    <li>[staticpage:] 自動タグを使用する時のSQLエラーが修正されています。(bug #373)</li>
+</ul>
+<p>バグフィックスの全リストは，Changelogを参照ください。</p>
+<h3>改良点</h3>
+<ul>
+    <li>custom_usercheck関数 (顧客登録コード)のサポートが追加されています。詳細はlib-custom.phpをご参照ください。</li>
+    <li>index.phpの自動アーカイブオプションの操作が改良され，ページのロード時間が少し改善されました。</li>
+    <li>アップデートされた新しい言語ファイルがいくつか含まれています。</li>
+    <li>アップデートされたPEARクラスが含まれています。</li>
 </ul>
 
 
-<h2><a name="changes140">Geeklog 1.4.0</a></h2>
-
-<p><small>(Geeklog 1.4.0 was originally supposed to be called 1.3.12, so any
-references you may find to a version 1.3.12 apply to version 1.4.0)</small></p>
-
-<h3>New Features</h3>
-
+<h2><a name="changes1311sr1" id="changes1311sr1">Geeklog 1.3.11sr1</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Geeklog now officially works with <code>register_globals = off</code>.
-    Please note that some plugins may still require it to be <code>on</code>,
-    though.</li>
-<li>Added support for sending and receiving <a
-    href="http://en.wikipedia.org/wiki/Trackback">Trackback</a> and <a
-    href="http://en.wikipedia.org/wiki/Pingback">Pingback</a> comments. Both
-    are supported for stories, but there is also a new plugin API so that
-    plugins can use this feature, too.  Trackback and Pingback can be disabled
-    in <tt>config.php</tt>.</li>
-<li>Added the ability to "ping" weblog directory services to advertise site
-    updates (preconfigured to ping <a
-    href="http://pingomatic.com">Ping-o-Matic</a>). As with Trackback and
-    Pingback, this is supported for stories, but plugins can also make use of
-    this feature via the plugin API.</li>
-<li>New syndication framework so that Geeklog can now <strong>read and
-    write</strong> feeds in different formats (currently supported: RSS, RDF,
-    and Atom).</li>
-<li>New administrator controlled user status. Including banning and
-    administrator activation of accounts.</li>
-<li>New Remote Authentication system to allow people with accounts on remote
-    services such as Blogger.com or LiveJournal.com to login to your site
-    without having to directly register on your site. (Remote accounts can be
-    banned as normal accounts).</li>
-<li>The Admin sections have been revamped to provide a more consistent look and
-    sortable lists. "Command and Control" (<tt>moderation.php</tt>) now also
-    comes with a new set of icons and has one icon for every Admin section.
-    Furthermore, the Admin block and Command and Control can be <a
-    href="config.html#desc_sort_admin">sorted</a> alphabetically.</li>
-<li>Ships with <a href="http://www.fckeditor.net/">FCKeditor</a> (WYSIWYG
-    editor). To <a href="config.html#desc_advanced_editor">enable</a>, set
-    <code>$_CONF['advanced_editor'] = true;</code> in your
-    <tt>config.php</tt>.</li>
-<li>The search now only displays a specified amount of results per page to
-    avoid running into timeouts when searching through large databases.<br>
-    <b>Note:</b> Plugins will have to be updated to support the "paged" search.
-    Until then, Geeklog fakes the paged results for plugin searches, which
-    means that a plugin that hasn't been updated will still search through the
-    entire database, but Geeklog will only display the results for the current
-    result page.</li>
-<li>Introduced an "Article Directory", providing an overview of all past
-    articles, sorted by year and month.</li>
-<li>The default permissions for new objects (stories, topics, blocks, etc.) can
-    now be set in config.php.</li>
+    <li>Stefan Esser が，ユーザのパスワード・ハッシュのようなユーザデータを，ある状況で取り出すように開発できるSQLインジェクションを発見しました。</li>
 </ul>
-
-<h3>Compatibility</h3>
-
+<h2><a name="changes1311" id="changes1311">Geeklog1.3.11</a></h2>
+<p>Geeklog 1.3.11 は，Geeklog1.3.10を上回るバグフィックスとセキュリティリリースであり，1.3.10に替わるものです。1つのバグフィックスが1つのデータベースの変更を伴うので，バージョン番号の変更が必要となりました。</p>
+<h3>セキュリティ問題</h3>
 <ul>
-<li>Due to the changes, themes will have to be updated to work with Geeklog
-    1.4.0. See the <a href="theme.html#changes">list of theme changes</a> for
-    details.</li>
-<li>The plugin API for comments has changed. Plugins using comments will have
-    to be updated to work with Geeklog 1.4.0.</li>
+    <li>ゲストユーザによる投稿がconfig.phpで無効にされていても，ゲストユーザが記事を投稿することが可能でした。 (Barry Wongの報告)<br>しかし，config.phpで無効にしていない限り，これらの記事は承認待ちの状態になっていました。</li>
+    <li>リンクやイベント投稿のパラメータがフィルタリングされておらず，SQLインジェクションの可能性がありました。。</li>
+    <li>関連ブロック用のリンクが，フィルタリングされていない記事テキストから作成され，クロスサイト・スクリプティング攻撃の可能性がありました。(Vincent Furiaの報告)</li>
 </ul>
-
-<h3>More Information</h3>
-
-<p>We have posted a series of stories on the Geeklog homepage that highlight and explain some of the new features:</p>
+<h3>バグフィックス</h3>
 <ul>
-<li><a href="http://www.geeklog.net/article.php/advanced-editor">Geeklog's Advanced Editor</a></li>
-<li><a href="http://www.geeklog.net/article.php/remote-authentication">Remote Authentication</a></li>
-<li><a href="http://www.geeklog.net/article.php/trackback-pingback">Trackback and Pingback</a></li>
-<li><a href="http://www.geeklog.net/article.php/ping">Sending a Ping</a></li>
-<li><a href="http://www.geeklog.net/article.php/comment-plugin-api">New Comment Plugin API</a></li>
+    <li>gl_commentsテーブルの&lsquo;sid&rsquo;フィールドの長さが修正されました。20字以上の記事IDを使用することで，コメントメールが記事と取り違えられることを防ぎます。</li>
+    <li>PHP 4.1.x (アップデートされた PEARパッケージを含む)との互換性を保証します。</li>
+    <li>すばやく起動するアーカイブオプションに修正しています。 (bug #345)</li>
+    <li>全話題を削除する場合，コメントや記事画像を的確に削除します。 (bug #339)</li>
+    <li>アンケートを削除する場合，コメントを削除します。</li>
+    <li>カレンダ内のいくつかのバグを修正し，サイトカレンダとパーソナルカレンダ両方を総合的に処理するように改良します。(bug #268, #336, #338,その他)</li>
+    <li>記事内での &quot;More by <em>author</em>&quot; と &quot;More from <em>topic</em>&quot;のリンクを修正します。</li>
+    <li>その他いろいろな修正があります。詳細はdocs/historyをご参照ください。</li>
 </ul>
-
-
-<h2><a name="changes1311sr7">Geeklog 1.3.11sr7</a></h2>
-
-<p>JPCERT/CC informed us about a possible <a href="http://en.wikipedia.org/wiki/XSS" title="Click to look up 'XSS' on Wikipedia" style="text-decoration: none; color: black; border-bottom: 1px dotted black;">XSS</a> in the comment handling that we're fixing with this release.</p>
-
-
-<h2><a name="changes1311sr6">Geeklog 1.3.11sr6</a></h2>
-
-<p>This release addresses the following security issues:</p>
-<ol>
-<li>Possible SQL injection and authentication bypass in <tt>auth.inc.php</tt>
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Possible XSS in <tt>getimage.php</tt>
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Path disclosure in <tt>getimage.php</tt> and the <tt>functions.php</tt> of
-    some themes, e.g. the Professional theme
-    (reported by the Security Science Researchers Institute Of Iran).</li>
-<li>Possible SQL injection in story submissions.</li>
-</ol>
-
-
-<h2><a name="changes1311sr5">Geeklog 1.3.11sr5</a></h2>
-
+<p>Geeklog1.3.10のユーザの方には，1.3.11へできるだけ速やかにアップグレードすることをお勧めします。テーマや言語ファイルあるいは1.3.10以上のconfig.phpでの変更がありませんので，アップグレードは比較的簡単です。</p>
+<h2><a name="changes1310" id="changes1310">Geeklog 1.3.10</a></h2>
+<h3>新しいデフォルトテーマ</h3>
+<p>本リリースには，新しいデフォルトテーマが含まれます。Victor B. Gonzalez ( <a href="http://aeonserv.com/">Aeonserv</a>で有名です)によって提供された専門的なテーマを選びました。テーマは少し修正され，現在HTML4.01とCSS準拠となっています。</p>
+<p>また，古いテーマ（クラシック，クリーン，デジタル・モノクローム，ゲームサーバ，スムース・ブルー，Xシルバー，ヤフー）の配信を取りやめることに決定しました。それらは別のターボールとして利用できます。</p>
+<h3>新機能</h3>
 <ul>
-<li>Konstantin Dyakoff found an old bug in the session handling that would
-    allow anyone to log in as any user.</li>
+    <li><a href="spamx.html">Spam-Xプラグイン</a>が含まれています。Tom Willetによりスパム検出プラグインが提供され，それはデフォルトでGeeklogの一部としてインストールされます。<br>プラグインが，データベースにブラックリストを保存するために少し修正されました。プラグインの旧バージョンのユーザの方は，プラグインの管理パネルを通して各ブラックリストをインポートする必要があります。</li>
+    <li>記事アーカイブ機能: 記事を「アーカイブ」話題に移動するか，所定の時間に自動的に削除することが可能です。</li>
+    <li>カスタマイズ・メニュー・バー: サイトのメニューバーは，config.phpで<a href="config.html#menu_elements">設定</a>できます。例えば，どんなエントリがどんな順番で表示されるかを選択できます。また，lib-custom.phpに関数を入れてカスタム項目を追加することもできます。</li>
+    <li>テキスト・メールのクリック可能なリンク: HTML ではないメール内のURLはGeeklogにより認識され，クリック可能のリンクとして表示されます。</li>
+    <li>編集可能記事ID: 記事のID (静的ページのIDのような)は変更でき，読み取り可能なURLにできます。（検索エンジンによって，特にURLの書き換えをして利用する場合，検出されるチャンスがずっと増えます。） </li>
+    <li>自動リンクは記事やコメント内で利用できる新しいフォームのリンクです。自動リンクは名前がタグネームになっていて，IDがリンク先のオブジェクトのIDで，リンクテキストがリンクのテキストとして使われている[<em>name</em>:<em>id</em><em>link text</em>]フォームを取っています。<br>例: [story:email-bug About the email bug]は&lt;a href=&quot;http://example.com/article.php/email-bug&quot;&gt;About the email bug&lt;/a&gt;となります。<br>搭載自動タグに関しては，リンクテキストはオプションで，所定のものがない場合，Geeklogはオブジェクトのタイトル（story, event, static page）を利用します。<br>記事にリンクする[story:]とイベントにリンクする[event:]が，あらかじめ定義された自動タグです。プラグインは自分自身の自動タグを定義して，自分のコントロール下でオブジェクトにリンクすることができます。静的ページのプラグインは，すでに[staticpage:]という自動タグを提供しています。</li>
+    <li>カスタマイズ可能のEメール: あなたのサイトに登録しているユーザに送信されたEメールは，テキストファイル(/path/to/geeklog/data/welcome_email.txt)のテキストを利用することで，完全にカスタマイズできます。</li>
+    <li>タイムゾーンハック: 一般的な &quot;<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=40196">タイムゾーンハック</a>&quot; が含まれています。あなたのサーバが別のタイムゾーンにある場合，サイトのタイムゾーンを設定できます。</li>
 </ul>
-
-
-<h2><a name="changes1311sr4">Geeklog 1.3.11sr4</a></h2>
-
-<p>This release addresses the following security issues:</p>
+<h3>その他の改良点</h3>
 <ul>
-<li>James Bercegay of GulfTech Security Research reported several issues with
-    Geeklog's cookie handling that made it vulnerable to SQL injections,
-    arbitrary file access, and even injection and execution of arbitrary
-    code.</li>
+    <li>すべての動作を改善するため，さまざまな変更が行われました。</li>
+    <li>新しいインストール用に，あなたのMySQLバージョンがInnoDBのテーブル現在のMySQL4.0または3.x&rdquo;Max&rdquo;で作られている）をサポートしていれば，InnoDBテーブル（MyISAMの代わり）を利用できるオプション機能があります。既存のデータベースは，スクリプト admin/install/toinnodb.php.を利用してInnoDBに変換できます。<br>警告:InnoDB テーブルを使用すると，データベースのバックアップがいくらか複雑になります。小さいサイズや中程度のサイズのサイトは，MyISAMテーブルで十分に作動するので，不安な場合はInnoDBテーブルを使用しないでください。</li>
+    <li>カレンダの週は，日曜日か月曜日から始められます。</li>
+    <li>静的ページのプラグインには，静的ページの印刷用ページを表示するためのオプションがあります。</li>
 </ul>
-
-
-<h2><a name="changes1311sr3">Geeklog 1.3.11sr3</a></h2>
-
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>Provided you knew the story id, it was possible to submit comments for
-    stories even if you did not have access to those stories
-    (reported by LWC). The same problem also existed with poll comments.</li>
-<li>Supplying an illegal start or end date to the advanced search resulted in a
-    warning message that disclosed the path to the Geeklog install on the
-    server (reported by r0t3d3Vil).<br>
-    It was <strong>not</strong> possible to use this for SQL injections.</li>
-</ol>
-
-<p>Also included in this release are bugfixes, e.g. for the problems editing
-static pages when URL rewriting was enabled, that were introduced in
-1.3.11sr2.</p>
-
-
-<h2><a name="changes1311sr2">Geeklog 1.3.11sr2</a></h2>
-
-<p>This release provides security enhancements and better spam protection
-originally developed for Geeklog 1.3.12. It also addresses a few bugs where
-the bugfix could be integrated with a reasonable amount of work (other bugfixes
-will have to wait for the 1.3.12 release).
-
-<h3>Security and Spam protection</h3>
+<h3>注釈</h3>
 <ul>
-<li>There is now a speed limit for login attempts, defaulting to three tries
-    in a five minute period (<a
-    href="config.html#desc_login_attempts">configurable</a> in
-    <tt>config.php</tt>).</li>
-<li>Linefeeds are filtered from the To:, From:, and Subject: fields of any
-    email sent through <code>COM_mail</code>.</li>
-<li>When a new user account is created and the user submission queue is enabled
-    in <tt>config.php</tt>, Geeklog now ensures that the new account is properly
-    queued even in the unlikely event that the account creation fails halfway
-    through.</li>
-<li>When a post is identified as spam, it now also triggers the speed limit
-    (ie. posters will have to wait for the speed limit to expire before they
-    can make another submission).</li>
-<li>Spam posts now get a 403 "Forbidden" HTTP response code.</li>
-<li>Spam checks are now done for comments, story, link, and event submissions,
-    the message sent with the "email story to a friend" option, and for the
-    contents of the user profile.</li>
-<li><a href="http://www.geeklog.net/article.php/spam-x-1.0.2"
-    rel="nofollow">Spam-X plugin 1.0.2</a> included.</li>
+    <li>コメントコードは大きく変更されて動作が改善され，個々のコメントやページコメントなどにリンクできるような改良が加えられました。</li>
+    <li>ユーザは，サイトの管理者に対し悪意のあるコメントを報告することができるようになりました。</li>
+    <li>サイトの管理者は，新しいコメントが送信された場合，Eメール通知を受け取ることができます。（新しい記事，リンク，イベント，ユーザに対するEメール通知と同じです。） </li>
+    <li>コメント送信者のIPアドレスは記録され，Whoisサービスにリンクして直接見ることができます。(または，Whois機能を備えたTom Willetの<a href="http://sf.net/project/showfiles.php?group_id=68255&amp;package_id=95743">NetTools</a> をインストールすることができます。)</li>
 </ul>
-
-<p>Please note that MT-Blacklist (used by Spam-X) has recently been <a href="http://www.geeklog.net/article.php/mt-blacklist-discontinued">discontinued</a>. The
-Spam-X plugin as included in this release is configured to get the last version
-of the blacklist from geeklog.net, but there will be no more updates.</p>
-
-<h3>Bugfixes</h3>
+<h3>セキュリティ関連の修正</h3>
+<p>注意:以下のバグはすべてGeeklogのパーミッションシステムのトラブルや，「情報漏洩」の類です。たとえば，ある状況下で，サイトのコンテンツが閲覧できなかった人が閲覧できるようになります。これらのバグを使って，特典を得たり，Geeklogやその運営環境にダメージを与えるようには開発されていません。</p>
 <ul>
-<li>Fixed an error message thrown up by PHP 5.0.5 or later when viewing the
-    article page (bug #483).</li>
-<li>Quote names in email addresses as soon as they contain any non-alphanumeric
-    characters, apart from the blank (bug #368). This should help when trying
-    to email users with special characters in their name.</li>
-<li>Upgraded included kses class to version 0.2.2 which fixes problems with
-    Japanese and Thai characters (bugs #94 and #119).</li>
-<li>Fixed SQL error when using the [staticpage:] autotag (bug #373).</li>
+    <li>管理者グループは，そのグループのメンバでなくても，すべてのグループのメンバをリストに可能でした。</li>
+    <li>管理者グループは，そのグループのメンバでなくても，システム内のすべてのグループリストがもらえました。(bug #280)</li>
+    <li>記事およびイベント管理者は，アクセスして読み込まなくても，すべての記事やイベントのリストを常にもらえました。(bug #269)</li>
+    <li>ユーザがその記事を読む許可を持っていなくても（記事とコメントID両方を知っていれば），その記事からコメントを要求することが可能でした。</li>
+    <li>カレンダの日付と週の画面のイベント許可が適切にチェックされず，イベントが見ることができないはずのユーザにそのイベントが閲覧可能でした。</li>
+    <li>サイトカレンダの中で閲覧許可がない場合でも（イベントのIDを知っていれば），パーソナルカレンダに何らかのイベントを追加することが可能でした。</li>
 </ul>
-<p>For a complete list of bugfixes, please see the Changelog.</p>
-
-<h3>Improvements</h3>
+<h3>その他のバグフィックス</h3>
 <ul>
-<li>Added support for a <code>custom_usercheck</code> function (for the
-    custom registration code). See the included <tt>lib-custom.php</tt> for
-    details.</li>
-<li>Improved handling of the auto-archive option in <tt>index.php</tt>, which
-    should slightly improve page load times.</li>
-<li>Includes several new and updated language files.</li>
-<li>Includes updated PEAR classes.</li>
+    <li>投稿された記事をプレビューしたり保存したりしても，投稿された記事は承認待ちのままでしたが，実際には新しい記事として保存されていました。</li>
+    <li>パーソナルカレンダからのイベント削除が，作動しませんでした。 (bug #199)</li>
+    <li>古いユーザフォトは，フォトが異なったファイル形式の場合移動されました。たとえば，.gifから.jpg へ変わる場合です。(bug #228)</li>
+    <li>画像の高さは最大値を越えるが，幅は最大値を越えない場合，画像のリサイズは作動しませんでした。(bug #242)</li>
+    <li>画像を再リサイズするためにGDライブラリを使用すると，リサイズしていない画像を保存することはできませんでした。(bug #197)</li>
+    <li>GDライブラリを使用すると， GIF画像はPNGフォーマットに変換されましたが，GeeklogはGIFバージョンを表示しようとしていました。 LZW パテントが<a href="http://www.unisys.com/about__unisys/lzw">終了</a>してから，再びGIF画像を使用することが安全となり，PNG変換はなくなりました。</li>
+    <li>ターボールにも，ユーザが抱えているEメールトラブルが報告されている，アップグレードされたPEARパッケージが含まれています。(bug #246)<br>注意:これらは，Geeklog1.3.9srに同梱されたのと同じPEARパッケージです。</li>
 </ul>
-
-
-<h2><a name="changes1311sr1">Geeklog 1.3.11sr1</a></h2>
-<p>This release addresses the following security issue:</p>
+<p><a href="theme.html#changes">テーマ変更</a>もあり，その中のいつくかは，新しい機能を動作させるために重要であることにご注意ください。（たとえば，編集可能な記事IDとその記事・アーカイブのオプション）!</p>
+<p>本リリースには，Geeklogのコミュニティによって提供された様々な改良点が含まれています。 (確認のためdocsまたはhistoryファイルをご参照ください。)</p>
+<h2><a name="changes139sr3" id="changes139sr3">Geeklog 1.3.9sr3</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Stefan Esser found an SQL injection that can, under certain circumstances,
-be exploited to extract user data such as the user's password hash.</li>
+    <li>ゲストユーザの投稿がconfig.phpで無効にされていても，投稿することが可能でした(Barry Wongの報告)。<br>config.phpで無効にしない限り，これらの記事はまだ承認待ちの状態になっていました。<br></li>
+    <li>リンクやイベント投稿のパラメータがフィルタリングされておらず，SQLインジェクションの可能性がありました。</li>
 </ul>
-
-<h2><a name="changes1311">Geeklog 1.3.11</a></h2>
-
-<p>Geeklog 1.3.11 is a <strong>bugfix and security release</strong> over Geeklog 1.3.10 and is meant to replace 1.3.10. The change in the version number was necessary since one of the bugfixes involves a change in the database.</p>
-
-<h3>Security issues</h3>
-<ol>
-<li>It was possible to submit stories anonymously even if anonymous submissions
-    were turned off in <tt>config.php</tt> (reported by Barry Wong).<br>
-    These stories still ended up in the submission queue, though, unless you
-    disabled it in <tt>config.php</tt>.</li>
-<li>Some of the parameters in link and event submissions weren't filtered,
-    leaving them open to potential SQL injections.</li>
-<li>The links for the What's Related block were created from the unfiltered
-    story text, opening the possibility of XSS attacks (reported by Vincent
-    Furia).</li>
-</ol>
-
-<h3>Bugfixes</h3>
+<h2><a name="changes139sr2" id="changes139sr2">Geeklog 1.3.9sr2</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Fixes the length of the 'sid' field in the gl_comments table. Using story
-    IDs longer than 20 characters prevented comment posts from being associated
-    with the story.</li>
-<li>Ensures compatibility with PHP 4.1.x (includes updated PEAR packages).</li>
-<li>Fixes the archiving option being activated too early (bug #345).</li>
-<li>Properly deletes comments and story images when deleting entire topics
-    (bug #339).</li>
-<li>Deletes comments when deleting polls.</li>
-<li>Fixes several bugs in the calendar and improves overall handling of both
-    the site calendar and the personal calendars (bugs #268, #336, #338, and
-    others).</li>
-<li>Fixes "More by <i>author</i>" and "More from <i>topic</i>" links in
-    articles.</li>
-<li>Various other fixes, see <tt>docs/history</tt> for details.</li>
+    <li>言語ファイル内の変数$topicを使うことで生じたクロスサイト・スクリプティングの脆弱性が修正されました。(bug #293)</li>
+    <li>記事やアンケートに関するコメントメールの差し止めで，コメント送信が機能停止になりました。</li>
 </ul>
-
-<p>We strongly advise users of Geeklog 1.3.10 to upgrade to 1.3.11 ASAP. Upgrading should be relatively painless, as there weren't any changes in the themes, language files, or config.php over 1.3.10.</p>
-
-
-<h2><a name="changes1310">Geeklog 1.3.10</a></h2>
-
-<h3>New Default Theme</h3>
-
-<p>This release comes with a new default theme: We've chosen the Professional
-theme, kindly provided by Victor B. Gonzalez (of <a href="http://aeonserv.com">Aeonserv</a> fame). The theme has been modified slightly and is now fully HTML 4.01 and CSS compliant.</p>
-
-<p>We've also decided to remove the old set of themes (Classic, Clean, Digital Monchrome, Gameserver, Smooth Blue, XSilver, Yahoo) from the distribution. They are now available as a separate tarball.</p>
-
-<h3>New Features</h3>
-
+<h3>その他の修正</h3>
 <ul>
-<li><a href="spamx.html" rel="nofollow">Spam-X plugin</a> included. Tom Willet
-    has kindly provided his spam detection plugin, which is now part of the
-    default Geeklog install.<br>
-    The plugin has been modified slightly to store the blacklists in the
-    database. Users of the previous version of the plugin will have to import
-    their personal blacklist via the plugin's admin panel.</li>
-<li>Story Archive feature: It is now possible to move stories to an "archive"
-    topic or have them deleted automatically at a given time.</li>
-<!-- li>PDF support: Stories can be converted into PDFs (requires installation
-    of third-party software - see config.php for details).</li -->
-<li>Customizable menu bar: The site's menu bar can now be <a
-    href="config.html#desc_menu_elements">configured</a> in config.php, i.e.
-    you can choose which entries should be displayed there and in which order.
-    It's also possible to add custom entries by providing a function in
-    lib-custom.php.</li>
-<li>Clickable links in text postings: URLs in non-HTML postings are now
-    recognized by Geeklog and displayed as clickable links.</li>
-<li>Editable story IDs: The IDs of stories can now be changed (like the IDs of
-    static pages) to provide more readable URLs (and further improve the
-    chances of being picked up by seach engines, especially when used with
-    URL rewriting).</li>
-<li>Autolinks are a new form of links that can be used in stories and comments.
-    An autolink takes the form
-    <code>[<i>name</i>:<i>id</i> <i>link text</i>]</code> where <i>name</i> is
-    the tag name, <i>id</i> is the ID of an object the link should be pointing
-    to, and <i>link text</i> is used as the text of the link.<br>
-    Example: <code>[story:email-bug About the email bug]</code> would be
-    translated into <code>&lt;a href="http://example.com/article.php/email-bug"&gt;About the email bug&lt;/a&gt;</code><br>
-    For the built-in autotags, the <i>link text</i> is optional and Geeklog
-    will use the title of the object (story / event / static page) if it is not
-    given.<br>
-    Predefined autotags are <code>[story:]</code> to link to stories and
-    <code>[event:]</code> to link to events. Plugins can define their own
-    autotags to provide links to objects under their control. The Static Pages
-    plugin already provides a <code>[staticpage:]</code> autotag.</li>
-<li>Customizable welcome email: The email that is sent out to users
-    registering with your site is now fully customizable by providing the
-    text in a text file (/path/to/geeklog/data/welcome_email.txt).</li>
-<li>Timezone hack: The popular "<a
-    href="http://www.geeklog.net/forum/viewtopic.php?showtopic=40196">timezone
-    hack</a>" is now included. It lets you set the site's timezone for when
-    your server is located in another timezone.</li>
+    <li>PHP5で正確に動作するように，lib-plugins.phpが修正されました。</li>
+    <li>完全なターボールには，報告されたEメールトラブルを修正するアップデートされたPEARパッケージも含まれています。</li>
 </ul>
-
-<h3>Other Improvements</h3>
-
+<h2><a name="changes139sr1" id="changes139sr1">Geeklog 1.3.9sr1</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Various changes have been made to improve the overall performance.</li>
-<li>On fresh installs, there is now an option to use InnoDB tables (instead of
-    MyISAM) if your MySQL version supports them (as of MySQL 4.0, or 3.x "Max"
-    builds). Existing databases can be converted to InnoDB by using the script
-    <tt>admin/install/toinnodb.php</tt>.<br>
-    <strong>Warning:</strong> Using InnoDB tables makes database backups
-    somewhat more complicated. Small and medium-sized sites should work just
-    fine with MyISAM tables, so if in doubt <em>don't</em> use InnoDB
-    tables.</li>
-<li>The calendar's week can now either start on a Sunday or a Monday.</li>
-<li>The Static Pages plugin now has an option to display a printer-friendly
-    version of a static page.</li>
+    <li>ゲストユーザのコメント投稿がconfig.phpで無効になっていても，投稿することができていました。<br>このバグは，明らかに一定のGeeklogのサイトへ数百のスパムメールを送信するために，スパマーによって開発されたものです。</li>
+    <li>コメント投稿をチェックする速度制限が付加されました。</li>
+    <li>どの話題もゲストユーザには見えなかった場合，記事の閲覧許可によっては，サイトのインデックスページがゲストユーザに対して記事を表示していた可能性があります。</li>
+    <li>話題に関するデイリーダイジェスト・Eメールを，ユーザがまだ移動した話題から取得していました。(bug #178)</li>
+    <li>ユーザが一定の話題にアクセスしなくても，話題すべてに関するデイリーダイジェストを購読することが可能でした。</li>
+    <li>プロフィールを見ているユーザが，コメントの掲載されている記事にアクセスする許可を持っていなくても，記事に対するコメントが，ユーザのプロフィールに掲載されることがありました。</li>
 </ul>
-
-<h3>Comments</h3>
-
+<h3>その他の修正</h3>
 <ul>
-<li>The comment code has undergone major changes to improve performance and
-    add improvements like the ability to link to individual comments,
-    paging comments, etc.</li>
-<li>Users can now report abusive comments to the site admin.</li>
-<li>The site admin can get an email notification when a new comment is
-    posted (similar to the notification emails for new stories, links,
-    events, and users).</li>
-<li>The IP addresses of comment posters are now tracked and can be looked up
-    directly by linking to a Whois service (or you can install Tom Willet's
-    <a href="http://sf.net/project/showfiles.php?group_id=68255&amp;package_id=95743">NetTools</a>, which include a Whois function).</li>
+    <li>ユーザが自分のレファレンスから話題を除外した場合のCOM_showTopicsのSQLエラーが修正されました。</li>
+    <li>ゲストユーザに対する仮セッションIDを処理することで生じたerror.logの &quot;Duplicate entry '...' for key 1.&quot;のメッセージが修正されました。</li>
+    <li>デイリーダイジェストの間違った作者名が修正されました。 (bug #207). </li>
+    <li>plugin_profileblocksedit_<em>plugin-name</em>プラグインAPI機能が，usersettings.phpのコードの一部を紛失したため作動しませんでした。</li>
 </ul>
-
-<h3>Security-related fixes</h3>
-
-<p><strong>Note:</strong> All of the following bugs were problems with
-Geeklog's permissions system and fall into the "information leakage" category,
-i.e. under certain circumstances, site content was visible to persons who
-shouldn't be able to see it. None of these bugs were exploitable in the sense
-that they could be used to gain privileges or cause damage to Geeklog or the
-environment it's running in.</p>
-
+<p>COM_extractLinksは，&quot;href&quot; を含まないアンカータグを無視することになります。 (bug #183)</p>
+<h2><a name="changes139" id="changes139">Geeklog 1.3.9</a></h2>
+<h3>新機能</h3>
 <ul>
-<li>Group Admins were able to list the members of all groups, even if they were
-    not members of those groups.</li>
-<li>Group Admins were given a list of all the groups in the system, even if
-    they were not members of those groups (bug #280).</li>
-<li>Story and Event Admins were always given a list of all the stories / all
-    the events, even when they didn't have read access to them (bug #269).</li>
-<li>It was possible to request comments from stories even if the user didn't
-    have permission to read the story (provided you knew both the story and
-    the comment id).</li>
-<li>Event permissions in the calendar's day and week view weren't checked
-    properly, so that events may have been visible to users who shouldn't
-    have been able to see them.</li>
-<li>It was possible to add any event to the personal calender, even if you
-    didn't have permissions to see it in the site calendar (provided you knew
-    the event id).</li>
+    <li>Geeklogは，すべてのEメールを送信するため，PEAR::Mailを使用しています。それにより，PHPの搭載メール機能（前述）やsendmail，SMTPを介してEメールを送信することができます。</li>
+    <li>RSSフィードを作成したり設定したりするContent Syndicationという新しい管理オプションがあります。新たな記事をすべて含んでいる標準フィードに加え，話題ごとや次のイベント用，リンク用のフィードを作成することができます。<br>この機能は，プラグインがフィードを追加できることで拡張可能です。フィードクラスを追加することで，RSS0.91以外のフォーマットでフィードを提供することも可能です。</li>
+    <li>管理者は，ブロックのリストからブロックの順番を簡単に変更することができます。</li>
+    <li>グループにユーザを追加する代わりとなるインターフェースがあります（JavaScriptが必要です。）。</li>
+    <li>管理者グループのユーザは，自分自身がメンバになっているグループに他のユーザを割り当てることだけできます。</li>
+    <li>画像のアップロードも，画像をリサイズするためにGDライブラリを使うことができます。</li>
+    <li>コメントはテンプレートを使用します。</li>
+    <li>ファイルのアップロードを許さない厳しいウェブホストを，標準の画像ディレクトリに適応させるために，新しい設定用変数 <code>$_CONF['path_images']</code> を設定して，記事画像とユーザプロフィールが保存されるウェブツリー外部のディレクトリに進むことができます。</li>
+    <li>Geeklogは，記事のURL用のURLリライトをサポートしています。たとえば，Googleのクローラが訪問しやすい http://www.geeklog.net/article.php/20031229225326631 のようなURLを持つことができます。</li>
+    <li>プラグインは，Geeklogの新しいブロックに独自のセクションを追加できます。</li>
+    <li>すべてのURLフィールドは，255文字まで保存ができます（テーマのアップデートが必要です。）。</li>
 </ul>
-
-<h3>Other bugfixes</h3>
-
+<p>テーマ変更の完全なリストは，<a href="theme.html#changes">テーマの説明</a>をご参照ください。</p>
+<p><a href="staticpages.html">静的ページプラグイン1.4</a>も他の改良点に含まれており，PHPのreturn文を使わずに，静的ページにPHPを組み込む追加のオプション機能があります。</p>
+<h3>バグフィックス</h3>
 <ul>
-<li>Previewing and saving a story submission left the submitted story in the
-    submission queue, but did additionally save it as a new story.</li>
-<li>Deleting an event from the personal calendar didn't work (bug #199).</li>
-<li>Old userphotos weren't removed when the new photo had a different file
-    type, e.g. when changing from a .gif to a .jpg (bug #228).</li>
-<li>Scaling images didn't work when the image exceeded the max. height but
-    not the max. width (bug #242).</li>
-<li>Keeping an unscaled image wasn't possible when using gdlib to rescale
-    images (bug #197).</li>
-<li>When using gdlib, GIF images were converted to PNG format, but Geeklog
-    was still trying to display the GIF version. Since the LZW patent has
-    now <a href="http://www.unisys.com/about__unisys/lzw">expired</a>, it is
-    safe to use GIF images again and the PNG conversion has been dropped.</li>
-<li>The tarball also includes updated PEAR packages which should address the
-    email problems some users were having (bug #246).<br>
-    <strong>Note:</strong> These are the same PEAR packages that already
-    shipped with Geeklog 1.3.9sr2.</li>
+    <li>検索クエリからの文字は，コメント内でハイライトされています。また，検索クエリが'*' 文字を含む時は，ハイライトすることで問題を修正しました。</li>
+    <li>検索クラスでのさまざまな修正</li>
+    <li>空のユーザ名でユーザが登録できるバグが修正されました。</li>
+    <li>ユーザを一括インポートしている時，そのユーザはみな自動的にデイリーダイジェストを購読していました。(代わりに <code>$_CONF['emailstoriesperdefault']</code> の設定を使います。)</li>
+    <li>Rootグループ（たとえば管理者）のユーザが以前利用できたコメント削除のオプション機能が修正されました。実際の記事に対して記事編集許可を持っているユーザは，コメントを削除できます。</li>
+    <li>グループの削除は， group_assignments テーブルに孤立した項目が残る場合があります。 (これは現在修正されました。)1.3.9にアップグレードする場合，インストールのスクリプトは，データベースから孤立した項目を移動することになります。</li>
 </ul>
-
-<p>Please note that there have also been <a href="theme.html#changes">theme
-changes</a>, some of which are important to make the new features work (e.g.
-the editable story IDs and the story archive options)!</p>
-
-<p>This release contains various improvements provided by the Geeklog community
-(see the <tt>docs/history</tt> file for proper credits). Thank you!</p>
-
-<h2><a name="changes139sr3">Geeklog 1.3.9sr3</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>It was possible to submit stories anonymously even if anonymous submissions
-    were turned off in <tt>config.php</tt> (reported by Barry Wong).<br>
-    These stories still ended up in the submission queue, though, unless you
-    disabled it in <tt>config.php</tt>.</li>
-<li>Some of the parameters in link and event submissions weren't filtered,
-    leaving them open to potential SQL injections.</li>
-</ol>
-
-
-<h2><a name="changes139sr2">Geeklog 1.3.9sr2</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>Fixed a cross site scripting vulnerability caused by using the variable
-    <code>$topic</code> in the language files (bug #293).</li>
-<li>Prevent comment posts on stories or polls were comment posting has been
-    disabled.</li>
-</ol>
-
-<h3>Other fixes</h3>
+<p>セキュリティ，特にSQLインジェクションに対するセキュリティを改善するために多くの変更がありました。</p>
+<h2>Geeklog<a name="changes138-1sr6" id="changes138-1sr6"> 1.3.8-1sr6</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Fixed <tt>lib-plugins.php</tt> to work properly with PHP 5.</li>
-<li>The complete tarball also includes updated PEAR packaged that fix
-    some of the reported email problems.</li>
+    <li>言語ファイル内の変数$topicを使うことで生じたクロスサイト・スクリプティングの脆弱性が修正されました。 (bug #293)</li>
+    <li>記事やアンケートに関するコメントの差し止めで，コメントの送信が機能停止になりました。</li>
 </ul>
-
-
-<h2><a name="changes139sr1">Geeklog 1.3.9sr1</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>It was possible to post anonymous comments, even when anonymous comment
-    posting had been switched off in config.php.<br>
-    This bug was apparently exploited by spammers to send hundreds of spam
-    posts to certain Geeklog sites.</li>
-<li>Added additional speed limit checks for comments and submissions.</li>
-<li>If none of the topics were visible for anonymous users, the site's index
-    page may still have displayed some stories for anonymous users, depending
-    on the stories' permissions.</li>
-<li>Users still got Daily Digest emails for topics from which they had been
-    removed (bug #178).</li>
-<li>It was possible to subscribe to the Daily Digest for all topics, even if
-    the user did not have access to certain topics.</li>
-<li>Comments to stories were sometimes listed in a user's profile, even if the
-    user viewing the profile didn't have permissions to access the story the
-    comments belonged to.</li>
-</ol>
-
-<h3>Other fixes</h3>
+<h2>Geeklog<a name="changes138-1sr5" id="changes138-1sr5"> 1.3.8-1sr5</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Fixed an SQL error in <code>COM_showTopics</code> if users excluded topics
-    from their preferences.</li>
-<li>Fixed sporadic "Duplicate entry '...' for key 1." messages in error.log,
-    caused by the handling of pseudo-session ids for anonymous users.</li>
-<li>Fixed incorrect author names in Daily Digest (bug #207).</li>
-<li>The <code>plugin_profileblocksedit_<i>plugin-name</i></code> Plugin API
-    function wasn't working due to a missing piece of code in
-    usersettings.php.</li>
-<li><code>COM_extractLinks</code> will now ignore anchor tags that do not
-    contain "<code>href</code>" (bug #183).</li>
+    <li>ゲストユーザのコメント投稿がconfig.phpで無効にされていても，コメント投稿が可能でした。<br>このバグは，明らかに一定のGeeklogのサイトへ数百のスパムメールを送信するために，スパマーによって開発されたものです。</li>
 </ul>
-
-
-<h2><a name="changes139">Geeklog 1.3.9</a></h2>
-
-<h3>New Features</h3>
-
+<h2>Geeklog<a name="changes138-1sr4" id="changes138-1sr4"> 1.3.8-1sr4</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-<li>Geeklog now uses PEAR::Mail to send all emails. This gives you the option
-    to send emails via PHP's built-in mail() function (as before), via
-    sendmail or via SMTP.</li>
-<li>There is a new admin option called Content Syndication that lets you
-    create and configure (RSS) feeds. In addition to the standard feed
-    containing all the new stories, you can now create feeds per topic, for
-    upcoming events, and for links.<br>
-    This feature is extensible in that plugins can provide additional feeds.
-    It is also possible to provide feeds in formats other than RSS 0.91 by
-    providing additional feed classes.</li>
-<li>Admins can change the block order easily from the list of blocks now.</li>
-<li>There is an alternative interface to adding users to groups (requires
-    JavaScript).</li>
-<li>Users in the Group Admin group can now only assign other users to groups
-    of which they themselves are a member.</li>
-<li>Image upload can now also use the GD library to scale images.</li>
-<li>Comments now use templates.</li>
-<li>To accomodate strict webhosts who don't allow file uploads to the standard
-    image directory, you can now set a new configuration variable,
-    <code>$_CONF['path_images']</code> to point to a directory outside of your
-    webtree where article images and user profile pictures will be saved.</li>
-<li>Geeklog now supports URL rewriting for story URLs, i.e. you can have URLs
-    like <tt>http://www.geeklog.net/article.php/20031229225326631</tt> which
-    are known to be picked up by Google.</li>
-<li>Plugins can add their own section to Geeklog's What's New block.</li>
-<li>All URL fields can now hold up to 255 characters (requires theme updates).</li>
+    <li>管理者グループのユーザやユーザ管理者グループが，Rootグループのメンバになることが可能でした。 (Samuel M. Stoneの報告，bug #135)</li>
+    <li>あるエリアの管理者になると（記事に関する記事管理者など），ユーザがそこにアクセスを許可されていなくても，オブジェクトのIDを知っていれば，そのエリア内（記事など）のすべてのオブジェクトを削除することが可能でした。</li>
+    <li>イベントIDを知っていれば，他の人のパーソナルイベントを削除することが可能でした。</li>
+    <li>ユーザが実際の記事にアクセスしなくても，記事のコメントを見ることが可能でした。(Peter Roozemaalの報告)</li>
+    <li>クロスサイト・スクリプティング問題のために，誰かのアカウント設定を取得して，特に巧妙に作られたリンクをクリックした場合，その設定（パスワードを含む）を変更することが可能でした。 (Jelmerの報告，Vincent Furiaにより提案された修正)</li>
+    <li>SQLのインジェクションの可能性から，コメント表示に障害が起きました。 (Jelmerの報告)</li>
+    <li>カレンダにJavascriptコードを入れることが可能でした。 (Jelmerの報告)</li>
+    <li>コメントプレビューのJavascriptコードを実行することが可能でした。(Jelmerの報告)</li>
 </ul>
-
-<p>Please see the <a href="theme.html#changes">themes documentation</a> for a
-complete list of theme changes.</p>
-
-<p>Also included is the <a href="staticpages.html">Static Pages plugin 1.4</a>,
-which now has, among other improvements, a second option to include PHP in
-static pages without having to use the PHP <code>return</code> statement.</p>
-
-
-<h3>Bugfixes</h3>
-
+<h2>Geeklog<a name="changes138-1sr3" id="changes138-1sr3"> 1.3.8-1sr3</a></h2>
+<p>本リリースは，以下のセキュリティ関連の問題に対応しました。</p>
 <ul>
-<li>Words from a search query are now properly highlighted in comments. Also
-    fixed a problem with highlighting when the search query contained '*'
-    characters.</li>
-<li>Various fixes in the search class.</li>
-<li>Fixed a bug that let users register with an empty username.</li>
-<li>When batch-importing users, those users were all subscribed to the
-    Daily Digest automatically (uses the $_CONF['emailstoriesperdefault']
-    setting instead now).</li>
-<li>Fixed option to delete comments, which previously was only available to
-    users in the Root group (e.g. Admin). Now those users that have story.edit
-    permissions for the actual story can delete comments.</li>
-<li>Deleting a group may have left orphaned entries in the group_assignments
-    table (this has been fixed now). When upgrading to 1.3.9, the install
-    script will remove any orphaned entries from the database.</li>
+    <li>指摘されている&quot;dr.wh0&quot;のように，リンク投稿用のカテゴリ・フィールドは，まったくフィルタリングされていませんでした。32文字で多くの障害を生じさせることはおそらくできませんが，現在これは修正されました。</li>
+    <li>Vincent Furiaが，ユーザ向けのEメールのフォームに対する制約を回避することができ，その制約をスパムユーザに使用することもできることを発見しました。これらの問題の修正に加え，そのフォームには速度制限もあります。（記事投稿の速度制限に対するデフォルト）</li>
+    <li>ゲストユーザのコメント送信が停止された場合でも，送信する方法がありました。</li>
+    <li>ほかの誰かのユーザ名でコメントを送信することが可能でした。</li>
 </ul>
-
-<p>There have also been a lot of changes to improve security, especially
-against SQL injections.</p>
-
-
-<h2><a name="changes138-1sr6">Geeklog 1.3.8-1sr6</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>Fixed a cross site scripting vulnerability caused by using the variable
-    <code>$topic</code> in the language files (bug #293).</li>
-<li>Prevent comment posts on stories or polls were comment posting has been
-    disabled.</li>
-</ol>
-
-
-<h2><a name="changes138-1sr5">Geeklog 1.3.8-1sr5</a></h2>
-<p>This release addresses the following security issue:</p>
-
-<ol>
-<li>It was possible to post anonymous comments, even when anonymous comment
-    posting had been switched off in config.php.<br>
-    This bug was apparently exploited by spammers to send hundreds of spam
-    posts to certain Geeklog sites.</li>
-</ol>
-
-
-<h2><a name="changes138-1sr4">Geeklog 1.3.8-1sr4</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>It was possible for users in the Group Admin and User Admin groups to
-    become a member of the Root group (reported by Samuel M. Stone,
-    bug #135).</li>
-<li>Being admin for a certain area (e.g. Story Admin for stories) made it
-    possible to delete all objects in that area (e.g. stories) even if the user
-    was not supposed to have access to them, provided the id of the object was
-    known.</li>
-<li>It was possible to delete other people's personal events if you knew the
-    event ID.</li>
-<li>It was possible to browse through the comments of a story even if the user
-    did not have access to the actual story (reported by Peter Roozemaal).</li>
-<li>Due to an XSS issue, it was possible to change someone's account settings
-    (including the password) if you got them to click on a specially crafted
-    link (reported by Jelmer, fix suggested by Vincent Furia).</li>
-<li>The comment display suffered from the possibility of an SQL injection
-    (reported by Jelmer).</li>
-<li>It was possible to inject Javascript code in the calendar (reported by
-    Jelmer).</li>
-<li>It was possible to execute (but not save) Javascript code in the comment
-    preview (reported by Jelmer).</li>
-</ol>
-
-
-<h2><a name="changes138-1sr3">Geeklog 1.3.8-1sr3</a></h2>
-<p>This release addresses the following security-related issues:</p>
-
-<ol>
-<li>As "dr.wh0" pointed out, the category field for link submissions was not
-    filtered at all. Although you probably can't cause too much harm with
-    those 32 characters, this has now been fixed.</li>
-<li>Vincent Furia found that the restrictions for the form to email users
-    could be circumvented and could even be used to spam users.
-    In addition to fixing theses issues, there is now also a speed limit
-    on that form (defaults to the speed limit for story submissions).</li>
-<li>There was a way to post comments anonymously even when posting for
-    anonymous users had been disabled.</li>
-<li>It was possible to post comments under someone else's username.</li>
-</ol>
-
-
-<h2><a name="changes138-1sr2">Geeklog 1.3.8-1sr2</a></h2>
-
-<p>Jouko Pynnonen found a way to trick the new "forgot password" feature, introduced in 1.3.8, into letting an attacker change the password for <em>any</em> account. This release addresses this issue - there were no other changes.</p>
-
-<p>Obviously, we strongly recommend to upgrade as soon as possible.</p>
-
-
-<h2><a name="changes138-1sr1">Geeklog 1.3.8-1sr1</a></h2>
-
-<p>The purpose of this release is to address some of the security issues reported in September and early October 2003. We strongly recommend upgrading to this version.</p>
-
-<h3>Security issues</h3>
-<ol>
-<li>By including Ulf Harnhammar's <a href="http://sourceforge.net/projects/kses/" title="kses homepage">kses</a> HTML filter, this release addresses a variety of possible Javascript injection and CSS defacement issues.</li>
-<li>Details of SQL errors will not be reported in the browser any more (but only in Geeklog's error.log file). This will avoid disclosing any sensitive information as part of the error message (which is so far the only problem we have found with the alleged SQL injection issues that have been reported).
-</ol>
-
-<p>Please note that at the moment we do <strong>not</strong> recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway). An upcoming release of Geeklog will include more thorough filtering of SQL injections attempts, thus also fixing the problems with MySQL 4.1.</p>
-
-<h3>Other fixes</h3>
+<h2>Geeklog<a name="changes138-1sr2" id="changes138-1sr2"> 1.3.8-1sr2</a></h2>
+<p>Jouko Pynnonen が，1.3.8で導入した新たな「パスワード再発行」の機能を使って，攻撃者がアカウントのパスワードを変えてしまう方法を発見しました。このリリースは，この問題に対応しました。その他の変更はありませんでした。</p>
+<p>できるだけ早くアップグレードすることをお勧めします。</p>
+<h2>Geeklog<a name="changes138-1sr1" id="changes138-1sr1"> 1.3.8-1sr1</a></h2>
+<p>本リリースの掲載目的は，2003年の9月と10月初旬に報告されたセキュリティ問題に対応することです。本バージョンにアップグレードすることを強くお勧めします。</p>
+<h3>セキュリティ問題</h3>
 <ul>
-<li>Fixed the auto-detection of the value for the <code>$_CONF['cookiedomain']</code> variable if the URL included a port number (such as <tt>example.com:8080</tt>). This will fix the login problems some users were reporting.</li>
-<li>The full 1.3.8-1sr1 tarball also includes updated French (Canada) and Turkish language files.</li>
+    <li>Ulf Harnhammar's <a href="http://sourceforge.net/projects/kses/">kses</a> HTMLフィルタを組み込むことにより，このリリースは種々の実行可能なJavascriptインジェクションとCSSの改変問題に対応しています。</li>
+    <li>SQLエラーの詳細は，ブラウザではこれ以上報告されることはありません。(Geeklogの error.logファイルだけで報告されます。) これは，エラーメッセージ（報告されたSQLインジェクション問題でわかったトラブルに限り）の一部として重要な情報が漏洩することを防ぐものです。</li>
 </ul>
-
-
-<h2><a name="changes138-1">Geeklog 1.3.8-1</a></h2>
-
-<p>Geeklog 1.3.8-1 is a bugfix release over Geeklog 1.3.8. It contains a
-variety of (mostly minor) bugfixes. None of those fixes are security-related.</p>
-
-<h3>Bugfixes</h3>
-
+<p>現在はMySQL4.1でGeeklogを使用することを推奨<strong>していない</strong>ことにご注意ください。（これが書かれた時点では，アルファリリース段階で実際に稼働しているサイト上では使用されていません。）Geeklogの次のリリースには，SQLインジェクションをより完全にフィルタリングする機能がつき，MySQL4.1でのトラブルを修正します。</p>
+<h3>その他の修正</h3>
 <ul>
-<li>Fixes to the new search to restore pre-1.3.8 behavior (display search form
-    again if no results are returned, handling of
-    <tt>$_CONF['searchloginrequired']</tt>, etc.). Also fixed the search by
-    date.</li>
-<li>Fixed problems in the install script when trying to identify the MySQL
-    version. The install script failed silently on PHP 4.0.4 and earlier
-    versions.</li>
-<li>Fixed a problem with the What's Related block on stories that contain
-    images.</li>
-<li>Skip user "Anonymous" when sending out the Daily Digest.
-<li>Prevent admin from changing a user's email address to one that's already
-    used by another user.</li>
-<li>Update RSS feed and Older Stories block when deleting a story.</li>
+    <li>URLにポート番号（example.com:8080など）が含まれていた場合，変数 <code>$_CONF['cookiedomain']</code> の値の自動検索が修正されました。これで，一部のユーザが報告していたログインのトラブルが修正されます。</li>
+    <li>1.3.8-1sr1の完全なターボールにも，アップデートされたフランス語（カナダ）やトルコ語のファイルが含まれます。</li>
 </ul>
-
-<p>The full 1.3.8-1 tarball also includes new and updated language files
-(see the Changelog for details).</p>
-
-
-<h2><a name="changes138">Geeklog 1.3.8</a></h2>
-
-<h3>New Features</h3>
-
-<p>Geeklog 1.3.8 Includes the <strong>Static Pages 1.3 plugin</strong> which
-replaces <em>both</em> the Static Pages 1.1 and 1.2 plugins. See the <a
-href="staticpages.html">Static Pages documentation</a> for details.</p>
-
+<h2>Geeklog<a name="changes138-1" id="changes138-1"> 1.3.8-1</a></h2>
+<p>Geeklog 1.3.8-1は，Geeklog1.3.8に対するバグフィックスのリリースです。さまざまな（ほとんどマイナーな）バグフィックスが含まれています。それらの問題は，どれもセキュリティに関連していません。</p>
+<h3>バグフィックス</h3>
 <ul>
-  <li>The search function has been rewritten. You can now search for the
-    exact phrase, all the words, or any of the words from a query. Search
-    words are also highlighted in stories.
-  <li>New Privacy options: Users can decide whether they want to receive
-    email from other users and/or admins and whether they want to show up in
-    the Who's Online block.
-  <li>You can now get a list of all users who are in a certain group (from the
-    Admin's group editor).
-  <li>When scaling is configured for images in stories, you can now keep the
-    unscaled image (has to be enabled in config.php first). In that case, the
-    scaled-down image in the story will serve as a thumbnail and link to the
-    unscaled image.
-  <li>You can now make one topic the default topic. The topic selection in the
-    story submission form will then default to that topic. However, when
-    browsing by topic (index.php?topic=Geeklog etc.) new story submissions will
-    default to the current topic.
-  <li>You can give your users the ability to change their username and delete
-    their account. Both features have to be enabled in config.php.
-  <li>Extended Plugin API: Plugins can now display content in Geeklog's
-    center area, add their own information to the user profile, and add
-    information to the site's header (<code>&lt;head&gt;</code> section).
-  <li>There's a new API for custom registration forms (see
-    <tt>lib-custom.php</tt> for sample code).
-  <li>There have been quite a few theme changes in order to move most larger
-    portions of hard-coded HTML to template files and to give theme designers
-    more control over the layout. Please consult the <a
-    href="theme.html#changes138">themes documentation</a> for a list of changes.</li>
+    <li>以前の1.3.8の動作（検索結果が戻ってこない場合， <code>$_CONF['searchloginrequired']</code> を使ってもう一度検索フォームを表示するなど）を復活させる新しい検索機能に修正します。また日付による検索を修正しました。</li>
+    <li>MySQLバージョンの確認を試みた場合の，インストールスクリプトの問題は修正されました。インストールスクリプトは，PHP-4.0.4以前のバージョンでは作動しませんでした。</li>
+    <li>画像を含む記事の関連ブロックのトラブルは修正されました。</li>
+    <li>デイリーダイジェストを送信するとき，ゲストユーザを対象から外すようにしました。</li>
+    <li>管理者がユーザのEメールアドレスを変更する際，別のユーザがすでに使用しているアドレスと重複しないようにしました。</li>
+    <li>記事を削除するときは，RSSフィードと古い記事ブロックをアップデートするようにしました。</li>
 </ul>
-
-<h3>Bugfixes</h3>
-
+<p>1.3.8-1の完全なターボールにも，新しくアップデートされた言語ファイルが含まれます。（詳細はChangelogをご参照ください。）</p>
+<h2><a name="changes138" id="changes138">Geeklog 1.3.8</a></h2>
+<h3>新機能</h3>
+<p>Geeklog 1.3.8には，静的ページ1.1と1.2のプラグインの両方に替わる<strong>静的ページ</strong><strong>1.3</strong><strong>プラグイン</strong>が含まれています。詳細については<a href="staticpages.html">静的ページの説明</a>をご覧ください。</p>
 <ul>
-  <li>The "forgot password" function has been rewritten. Instead of resetting
-    your old password and sending you a new one, you will now receive an
-    email with a unique link in it. If you follow this link, you can enter a
-    new password directly. Otherwise, you can simply ignore the email and your
-    old password will remain valid.
-  <li>Topic access was not always checked properly. If Story Admins report
-    getting access denied messages after upgrading to 1.3.8, check your topic
-    permissions carefully.
-  <li>The poll editor let you enter one answer too many (i.e. when the max.
-    number of answers was set to 10 you could actually enter 11). Please check
-    your existing polls or you may lose the last answer if you exceeded the
-    max. number of answers in a poll (adjust $_CONF['maxanswers'] accordingly,
-    if necessary).
-  <li>Geeklog should install and run again on old versions of MySQL
-    (specifically, 3.22.xx). Please note that some of these old versions aren't
-    even supported by MySQL AB any more and MySQL installs older than 3.23.54
-    are having security issues.
+    <li>検索機能が更新されました。ページやすべての言葉，クエリからのどんな言葉も適切に検索できます。検索する言葉は記事の中でハイライトされます。</li>
+    <li>新たなプライバシー・オプション: ユーザは，他のユーザや管理者からのEメールを受け取るかどうか，オンラインブロックに自分の名前を出すかどうかを決めることができます。</li>
+    <li>あるグループにいるすべてのユーザのリストを取得することができます（管理者グループのエディタから）。</li>
+    <li>リサイズが記事の画像用に設定されている場合，リサイズされていない画像を保管できます（最初にconfig.phpで設定されていなければいけません。）。そのような場合，記事の中のリサイズした画像は小さくなって，オリジナルの画像にリンクされます。</li>
+    <li>ある話題をデフォルトの話題にできます。記事の投稿フォームでの話題選択で，その話題が初期値になります。しかし，話題 (index.php?topic=Geeklog など)で閲覧する場合，新しい記事の投稿は，現在の話題が初期値になります。</li>
+    <li>ユーザにユーザ名を変更させたり，アカウントを削除させたりすることができます。両方の機能ともにconfig.phpで有効にする必要があります。</li>
+    <li>拡張プラグインAPI: プラグインは，Geeklogのセンターブロックのコンテンツを表示することができ，ユーザのプロフィールにプラグイン自身の情報を追加でき，またサイトのヘッダ(&lt;head&gt;セクション)に情報を追加することもできます。</li>
+    <li>カスタム登録フォーム用に新しいAPIがあります (サンプルコードはlib-custom.phpをご参照ください。)。</li>
+    <li>ハードコードされたHTMLの大部分をテンプレートファイルに移動し，テーマデザイナーにレイアウトの管理をさせるために，少しテーマの変更がありました。変更リストは<a href="theme.html#changes138">テーマの説明</a>をご覧ください。</li>
 </ul>
-
-
-<h2><a name="changes137sr5">Geeklog 1.3.7sr5</a></h2>
-<p>This release addresses the following security issues:</p>
-
-<ol>
-<li>It was possible for users in the Group Admin and User Admin groups to
-    become a member of the Root group (reported by Samuel M. Stone,
-    bug #135).</li>
-<li>Being admin for a certain area (e.g. Story Admin for stories) made it
-    possible to delete all objects in that area (e.g. stories) even if the user
-    was not supposed to have access to them, provided the id of the object was
-    known.</li>
-<li>It was possible to delete other people's personal events if you knew the
-    event ID.</li>
-<li>It was possible to browse through the comments of a story even if the user
-    did not have access to the actual story (reported by Peter Roozemaal).</li>
-<li>Due to an XSS issue, it was possible to change someone's account settings
-    (including the password) if you got them to click on a specially crafted
-    link (reported by Jelmer, fix suggested by Vincent Furia).</li>
-<li>The comment display suffered from the possibility of an SQL injection
-    (reported by Jelmer).</li>
-<li>It was possible to inject Javascript code in the calendar (reported by
-    Jelmer).</li>
-<li>It was possible to execute (but not save) Javascript code in the comment
-    preview (reported by Jelmer).</li>
-</ol>
-
-
-<h2><a name="changes137sr4">Geeklog 1.3.7sr4</a></h2>
-<p>This release addresses the following security-related issues:</p>
-
-<ol>
-<li>As "dr.wh0" pointed out, the category field for link submissions was not
-    filtered at all. Although you probably can't cause too much harm with
-    those 32 characters, this has now been fixed.</li>
-<li>Vincent Furia found that the restrictions for the form to email users
-    could be circumvented and could even be used to spam users.</li>
-<li>There was a way to post comments anonymously even when posting for
-    anonymous users had been disabled.</li>
-<li>It was possible to post comments under someone else's username.</li>
-</ol>
-
-
-<h2><a name="changes137sr3">Geeklog 1.3.7sr3</a></h2>
-
-<p>The purpose of this release is to address some of the security issues reported in September and early October 2003. If you don't plan to upgrade to the latest version of Geeklog (1.3.8-1sr1, at the time of this writing), we strongly suggest you upgrade to at least 1.3.7sr3 instead.</p>
-
-<h3>Security issues</h3>
-<ol>
-<li>By including Ulf Harnhammar's <a href="http://sourceforge.net/projects/kses/" title="kses homepage">kses</a> HTML filter, this release addresses a variety of possible Javascript injection and CSS defacement issues.</li>
-<li>Details of SQL errors will not be reported in the browser any more (but only in Geeklog's error.log file). This will avoid disclosing any sensitive information as part of the error message (which is so far the only problem we have found with the alleged SQL injection issues that have been reported).
-</ol>
-
-<p>Please note that at the moment we do <strong>not</strong> recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway). An upcoming release of Geeklog will include more thorough filtering of SQL injections attempts, thus also fixing the problems with MySQL 4.1.</p>
-
-
-<h2><a name="changes137sr2">Geeklog 1.3.7sr2</a></h2>
-
-<h3>Security issues</h3>
-
-<p>The purpose of this release is to fix the following security issues.
-All users are <em>strongly</em> encouraged to upgrade to this version ASAP.</p>
-<ol>
-<li>It was possible to obtain valid session ids for every account on a Geeklog
-    site, including the Admin account (reported by SCAN Associates).</li>
-<li>Using Internet Explorer, it was possible to upload an image with embedded
-    PHP code and execute it (reported by SCAN Associates).</li>
-<li>Story permissions could override topic permissions, resulting in the display
-    of stories to users who shouldn't have access to them (reported by Andrew
-    Lawlor). This was already fixed with the new <tt>index.php</tt>, released
-    2003-05-15.</li>
-<li>Added a warning in <tt>config.php</tt> that adding any of the following
-    tags to the list of allowable HTML can make the site vulnerable to
-    scripting attacks:<br>
-    <code>&lt;img&gt; &lt;span&gt; &lt;marquee&gt; &lt;script&gt;
-          &lt;embed&gt; &lt;object&gt; &lt;iframe&gt;</code><br>
-    (pointed out by Joat Dede).</li>
-</ol>
-
-<p>This update also includes fixes for the notorious "permission denied"
-error messages that some users would get in the Admin area (e.g. when trying
-to save a story and being "only" a user with Story Admin permissions).</p>
-
-<p>The full 1.3.7sr2 tarball also includes various new and updated language
-files (see the Changelog for details).</p>
-
-
-<h2><a name="changes137sr1">Geeklog 1.3.7sr1</a></h2>
-
-<h3>Security issues</h3>
-
-<p>The main purpose of this release is to fix the following security issues.
-All users are strongly recommended to upgrade to this version.</p>
-<ol>
-<li>Javascript code could be injected in the homepage field of a user's profile (reported by Jin Yean Tan).</li>
-<li>Javascript code could be injected in certain URLs to be used in a cross-site scripting attack (reported by Jin Yean Tan).</li>
-<li>Comments could be deleted by anybody if they knew the comment id (which is not normally visible).</li>
-<li>A StoryAdmin could manipulate stories even if s/he did not have access to them (e.g. when s/he was not a member of a certain group). The same applied to Admins for events, links, polls, topics, and blocks (reported by Kobaz).</li>
-</ol>
-
-<h3>Other Bugfixes</h3>
-
+<h3>バグフィックス</h3>
 <ul>
-<li>Fixed possible causes for endless loops with the redirect in index.php: No redirect will be done if $HTTP_SERVER_VARS['HTTP_HOST'] is not set. Also, the comparison of the configured and actual server name is not case-sensitive any more.</li>
-<li>Fixed image resizing when using ImageMagick.</li>
-<li>The new user notification email (introduced in Geeklog 1.3.7) was always
- sent out, even if 'user' was not listed in $_CONF['notification'].
-<li>The Admin menu will now be displayed for users who have Admin access to plugins only, but not to one of the core Admin features.</li>
-<li>The default for the daily digest is now back to "off", i.e. new users will not receive it automatically. To enable the daily digest for new users again, set $_CONF['emailstoriesperdefault'] = 1 in config.php.</li>
+    <li>「パスワード再設定」機能がリライトされました。古いパスワードをリセットして新しいパスワードを送信する代わりに，特定のリンクを含むEメールを受信します。このリンクに従えば，直接新しいパスワードを登録することができます。登録しない場合は，単にそのEメールを無視することができ，古いパスワードが有効のままとなります。</li>
+    <li>話題のアクセスが必ずしも適切にチェックされてはいませんでした。記事の管理者が，1.3.8にアップグレードした後で定義されたメッセージにアクセスしたことを伝えてきたら，あなたの話題パーミッションを注意してチェックしてください。</li>
+    <li>アンケートエディタで，回答を1回余計に入力できていました（たとえば，回答の最大回数が10回に設定されている場合，実際には11回入力可能でした。）。アンケートをチェックしてください。アンケート回答の最大回数を超えていたら，最後の回答が無効になっているかもしれません。 (必要に応じて， <code>$_CONF['maxanswers']</code> としてください。)</li>
+    <li>Geeklogは，MySQLの古いバージョン（特に3.22.ｘｘ）でインストールして再び動作するようになりました。これらの古いバージョンは，MySQL ABでサポートできないものもあり，3.23.54より古いものをインストールしているMySQLには，セキュリティ問題があることにご注意ください。</li>
 </ul>
-
-<p>Documentation and hard-coded links (version check, link to Geeklog in a site's footer) have been updated to point to <a href="http://www.geeklog.net/">www.geeklog.net</a>.</p>
-
-
-<h2><a name="changes137">Geeklog 1.3.7</a></h2>
-
-<h3>New Features</h3>
-
+<h2><a name="changes137sr5" id="changes137sr5">Geeklog 1.3.7sr5</a></h2>
+<p>本リリースは，以下のセキュリティ問題に対応しました。</p>
 <ul>
-  <li>A notification email can now be sent when a new story, link, or event
-    has been submitted or a new user has registered with the site (see the
-    <a href="config.html#submission">submission settings</a> for details).<br>
-    Please note that this feature doesn't tie in with Geeklog's security
-    features - it's really more of a hack, since many people asked for this
-    functionality.</li>
-  <li>Following the "X stories in last 24 hours" link in the What's New block
-    will now display just those new stories.</li>
-  <li>User photos are now resized, just like images in stories (if the use
-    of an image library is configured). The max. dimensions for user photos
-    can be set with a separate set of config variables in
-    <tt>config.php</tt>.</li>
-  <li>The plugin menu now lists all plugins which exist in the file system
-    but haven't been installed yet. It also provides a link to the install
-    script of those plugins for easy installation.</li>
-  <li>Several new config variables have been added to config.php (notification,
-    showfirstasfeatured, dateonly, timeonly, skip_preview, upcomingeventsrange,
-    emailstoryloginrequired, hideemailicon, hideprintericon, hidenewstories,
-    hidenewcomments, hidenewlinks, max_photo_width, max_photo_height,
-    max_photo_size).  Please see the <a
-    href="config.html">config documentation</a> for details.</li>
-  <li>Theme changes: Please consult the <a href="theme.html#changes137">themes
-    documentation</a> for a list of changes.</li>
+    <li>管理者グループのユーザとユーザ管理グループが，Rootグループのメンバになることが可能でした。 (Samuel M. Stoneの報告 bug #135)</li>
+    <li>ユーザが記事にアクセスすることが許されていなくても，オブジェクトのIDを知っていれば，あるエリア（たとえば，記事の記事管理者）の管理者になることで，そのエリアのすべてのオブジェクト（たとえば，記事）を削除可能でした。</li>
+    <li>イベントIDを知っていれば，他の人のパーソナルイベントを削除することが可能でした。</li>
+    <li>ユーザが実際の記事にアクセスしなくても，記事のコメントを閲覧することが可能でした。(Peter Roozemaalの報告)</li>
+    <li>クロスサイト・スクリプティング問題のために，誰かのアカウント設定を取得して，特に巧妙に作られたリンクをクリックした場合，その設定（パスワードを含む）を変更することが可能でした。 (Jelmerの報告，Vincent Furiaにより提案された修正)</li>
+    <li>SQLインジェクションの可能性から，コメント表示に障害が起きました。 (Jelmerの報告)</li>
+    <li>カレンダにJavascriptコードを不正に挿入することが可能でした (Jelmerの報告)。</li>
+    <li>コメントプレビューのJavascriptコードを実行可能でした。（保存はできない。）(Jelmerの報告)</li>
 </ul>
-
-
-<h3>Bugfixes</h3>
-
+<h2><a name="changes137sr4" id="changes137sr4">Geeklog 1.3.7sr4</a></h2>
+<p>本リリースは，以下のセキュリティ関連の問題に対応しました。</p>
 <ul>
-  <li>Added sanity checks in the Admin story editor to prevent the loss of all
-    stories when using an incomplete language file (or when manipulating the
-    URL).</li>
-  <li>Fixed a nasty bug in lib-security.php that let any user with UserAdmin
-    permissions change the Root user's password, thus effectively becoming
-    root.</li>
-  <li>Fixed problems with blocks disappearing when they were set to
-    "homeonly".</li>
-  <li>Fixed problems with multiple [code] ... [/code] sections in stories
-    and comments.</li>
-  <li>Fixed double line spacing in [code] sections and HTML-formatted comments
-    on PHP 4.2.0 and up.</li>
-  <li>Fixed problems with slashes and HTML entities in emails sent by
-    Geeklog.</li>
-  <li>Fixes and improvements to the plugin API.</li>
+    <li>指摘されている&quot;dr.wh0&quot;のように，リンク投稿用のカテゴリ・フィールドは，まったくフィルタリングされていませんでした。32文字で多くの障害を生じさせることはおそらくできませんが，現在これは修正されました。</li>
+    <li>Vincent Furia が，ユーザ向けのEメールのフォームに対する制約を回避することができ，その制約をスパムユーザに使用することもできることを発見しました。</li>
+    <li>ゲストユーザのコメント送信が停止された場合でも，送信できる方法がありました。</li>
+    <li>ほかの誰かのユーザ名でコメントを送ることが可能でした。</li>
 </ul>
-
-<p><strong>Contributors:</strong> Blaine Lang, Vincent Furia, and Kenn Osborne
-have contributed to this release. Thank you!</p>
-
-<h3><a name="addindex">Speeding up Geeklog (a bit)</a></h3>
-
-<p>If you're upgrading from 1.3.6 or older versions, you may want to run the
-script called <tt>addindex.php</tt> that you will find in the <tt>install</tt>
-directory. This script adds index fields to some of Geeklog's database tables
-which should improve overall access times a bit.</p>
-
-<p>This has been implemented as a separate script (and not as part of the
-upgrade process of the install script) since it may take some time to run,
-depending on how many users / stories / etc. you have in your database. Some
-people may even run into timeouts, e.g. when their hosting service limits the
-execution time of PHP scripts. If that happens to you - <strong>Don't
-Panic</strong>. Simply run the script again (and again and ...) until it
-reports that it didn't add any fields to any tables.</p>
-
-<p>Please note that you do <em>not</em> need to run this script if you're doing
-a fresh install of Geeklog 1.3.7. A database created during a fresh install
-already has the new index fields.</p>
-
-
-<h2><a name="changes136">Geeklog 1.3.6</a></h2>
-
-<h3>New Features</h3>
-
+<h2><a name="changes137sr3" id="changes137sr3">Geeklog 1.3.7sr3</a></h2>
+<p>本リリースの目的は，2003年の9月と10月初旬に報告されたセキュリティ問題を対応することです。Geeklogの最新バージョン（これが書かれている時点で，1.3.8-1sr1）にアップグレードする予定がない方には，代わりに少なくとも1.3.7sr3にアップグレードすることをお勧めします。</p>
+<h3>セキュリティ問題</h3>
 <ul>
-  <li>Images in articles can now be resized automatically during upload
-    (provided you have either ImageMagick or netpbm installed). See the
-    <a href="config.html#image">configuration description</a> for details.</li>
-  <li>The contents of a static page entitled "Frontpage" will be displayed
-    before the first story on the front page of a Geeklog site. If the static
-    page additionally carries the label "nonews", then it will completely
-    replace the news on the front page.</li>
-  <li>User submission queue: When activated (in <tt><a
-    href="config.html#submission">config.php</a></tt>), new users will need to
-    be approved by an admin before they receive their password.</li>
-  <li>The submission queues can be switched off separately, either completely
-    (in <tt><a href="config.html#submission">config.php</a></tt>) or only for
-    certain groups of users (by using the new features story.submit,
-    links.submit, and event.submit).</li>
-  <li>When posting source code (e.g. PHP, HTML, ...), you can now use the
-    [code] ... [/code] pseudo tags to enclose those portions of your posting
-    that should be reproduced verbatim.</li>
-  <li>The links section now uses a categorized and paged display (can be
-    <a href="config.html#links">switched off</a> separately and even back to the
-    pre-1.3.6 style listing).</li>
-  <li>Anonymous users can now be <a href="config.html#login">blocked</a> from
-    almost every part of the site (e.g. links section, site stats, ...), if
-    needed.</li>
-  <li>A Geeklog site can now be disabled easily (e.g. for maintenance) by
-    setting a flag in <tt><a href="config.html#site">config.php</a></tt>.</li>
-  <li>Theme changes: Please consult the <a href="theme.html#changes136">themes
-    documentation</a> for a list of changes.</li>
+    <li>Ulf Harnhammar's <a href="http://sourceforge.net/projects/kses/">kses</a> HTMLフィルタを組み込むことにより，このリリースは種々の実行可能なJavascriptのインジェクションとCSSの改変問題に対応しています。</li>
+    <li>SQLエラーの詳細はブラウザではこれ以上報告されることはありません(Geeklogの error.log ファイルだけで報告されます。)。これは，エラーメッセージ（報告されたSQLインジェクション問題でわかったトラブルに限り）の一部として重要な情報の漏洩を防ぐものです。</li>
 </ul>
-
-<h3>Bugfixes</h3>
-
+<p>現在はMySQL4.1でGeeklogを使用することを推奨<strong>していない</strong>ことにご注意ください（これが書かれた時点では，アルファリリース段階で実際に運用されているサイト上では使用されていません。）。Geeklogの次のリリースには，SQLインジェクションをより完全にフィルタリングする機能がつき，MySQL4.1でトラブルを修正します。</p>
+<h2><a name="changes137sr2" id="changes137sr2">Geeklog 1.3.7sr2</a></h2>
+<h3>セキュリティ問題</h3>
+<p>本リリースの目的は，以下のセキュリティ問題を修正することです。すべてのユーザには，本バージョンにできるだけ速やかにアップグレードすることを強くお勧めします。</p>
 <ul>
-  <li>Several fixes have been made to ensure that permissions are taken into
-    account properly (e.g. not revealing titles of stories that the user has no
-    access to).</li>
-  <li>Several fixes have been made to make sure that Geeklog can now be
-    properly localized (provided you have a language file that is up to date
-    and have chosen the proper <a href="config.html#locale">locale settings</a>
-    for your country and language).</li>
-  <li>The variable $_CONF['site_admin_url'] is now used properly so that you
-    can rename Geeklog's <tt>admin</tt> directory if needed.</li>
-  <li>New RDF parser will now import most (if not all) RDF news feeds
-    properly</li>
+    <li>管理者アカウントを含め，Geeklogサイトのアカウントごとに有効なセッションIDを取得することが可能でした。 (SCANアソシエイツの報告)</li>
+    <li>Internet Explorerを使うと，埋め込まれたPHPコードで画像をアップロードでき，実行することが可能でした。 (SCAN アソシエイツの報告)</li>
+    <li>記事のパーミッションが話題のパーミッションを無効にしてしまい，アクセスできなかったユーザに記事を表示する結果となりました(Andrew Lawlorの報告)。これは2003年5月15日にリリースされた新しいindex.phpで既に修正されました。</li>
+    <li>以下のタグのいずれかを許可されたHTMLのリストに追加すると，サイトがスクリプトの攻撃を受けやすくなってしまうという警告がconfig.phpに追加されました。<br>&lt;img&gt; &lt;span&gt; &lt;marquee&gt; &lt;script&gt; &lt;embed&gt; &lt;object&gt; &lt;iframe&gt;<br>( Joat Dedeの指摘)</li>
 </ul>
-
-<h3>Notes</h3>
-
+<p>このアップデートには，ユーザが管理エリアで見る「アクセスが拒否されました」というよく見られるエラーメッセージに対する修正が含まれています。（たとえば，記事を保存しようとしたり，記事管理者許可のあるユーザ「のみ」とする場合）</p>
+<p>1.3.7sr2の完全なターボールにも，アップデートされた種々の新しい言語ファイルが含まれています（詳細はChangelogをご参照ください。）。</p>
+<h2><a name="changes137sr1" id="changes137sr1">Geeklog 1.3.7sr1</a></h2>
+<h3>セキュリティ問題</h3>
+<p>本リリースの主な目的は，以下のセキュリティ問題を修正することです。ユーザの方には，本バージョンにアップグレードすることを強く推奨いたします。</p>
 <ul>
-  <li>Since there are a lot of new variables in <tt>config.php</tt>, it is
-    recommended you start with a fresh copy of that file instead of copying
-    over your old <tt>config.php</tt> from your previous installation.</li>
-  <li>Please note that currently only the English, German, Italian, Polish,
-    and Japanese language files are up to date. Using one of the other
-    language files may result in your Geeklog site not working properly.</li>
+    <li>Javascriptコードをユーザのプロフィールのホームページ面に埋め込むことが可能でした。 (Jin Yean Tanの報告)</li>
+    <li>Javascriptコードを，クロスサイト・スクリプティング攻撃で使用するために，一定のURLに埋め込むことが可能でした。(Jin Yean Tanの報告)</li>
+    <li>コメントID（通常は見えません）を知っていれば，コメントを誰かが削除することが可能でした。</li>
+    <li>記事にアクセスしなくても（たとえば，あるグループのメンバでない場合），記事管理者が記事を操作可能でした。イベント，リンク，アンケート，話題，ブロックの管理者にも同じことが可能でした。（Kobazの報告)</li>
 </ul>
-
-<p><strong>Contributors:</strong> Gene Wood, Blaine Lang, Tom Willet, and
-Roger Webster have contributed to this release. Thank you!</p>
+<h3>その他のバグフィックス</h3>
+<ul>
+    <li>index.phpで，リダイレクトが無限ループになる可能性を修正しました。 <code>$HTTP_SERVER_VARS['HTTP_HOST']</code> が設定されていなければ，リダイレクトを起こしません。また，設定と実際のサーバネームを比較すれば，もう不安定な状態にはなりません。</li>
+    <li>ImageMagickを使用する時に，リサイズする画像を修正しました。</li>
+    <li>「ユーザ」が，<code>$_CONF['notification']</code> に登録されていなくても，新しいユーザ通知Eメール（Geeklog1.3.7で導入されている）が常に送信されました。</li>
+    <li>管理メニューは，管理機能のコアの一部ではなくプラグインのみに対して管理者アクセスしているユーザに表示されています。</li>
+    <li>デイリーダイジェスト用のデフォルトは， <code>off</code> に戻ります。たとえば，新しいユーザは自動的にダイジェストを受け取りません。新しいユーザ向けのデイリーダイジェストを再び可能にするには，config.phpに <code>$_CONF['emailstoriesperdefault'] = 1</code> を設定してください。</li>
+</ul>
+<p>ドキュメント及びハードコードされたリンク（バージョンチェック，サイトのフッタのGeeklogへのリンク）は，<a href="http://www.geeklog.net/">http://www.geeklog.net/</a> へ行くようにアップデートされました。</p>
+<h2><a name="changes137" id="changes137">Geeklog 1.3.7</a></h2>
+<h3>新機能</h3>
+<ul>
+    <li>通知Eメールは，新しい記事，リンク，あるいはイベントが掲載されたか，新しいユーザがそのサイトに登録したときに送信されます(詳細は<a href="config.html#submission">投稿の設定</a>をご参照ください。)。<br>この機能がGeeklogのセキュリティ機能と一緒にはなっていないことにご注意ください。多くの方からこの機能性が望まれたので，本当にハック以上のものでした。</li>
+    <li>新着ブロックの「過去24時間の記事」をクリックすると，新しい記事が表示されます。</li>
+    <li>ユーザの写真は，記事の画像と同じくリサイズされています（画像ライブラリの使用が設定されている場合）。ユーザの写真の最大サイズは，config.phpの別々の設定変数で設定できます。</li>
+    <li>プラグインメニューは，ファイルシステムに存在するがまだインストールしていないプラグインすべてを表示しています。また，容易にインストールできるように，それらのプラグインのインストールスクリプトへのリンクも提供しています。</li>
+    <li>いくつかの新しい設定変数が，config.phpに追加されました。(<code>notification, showfirstasfeatured, dateonly, timeonly, skip_preview, upcomingeventsrange, emailstoryloginrequired, hideemailicon, hideprintericon, hidenewstories, hidenewcomments, hidenewlinks, max_photo_width, max_photo_height, max_photo_size</code>). 詳細は<a href="config.html">configの説明</a>をご参照ください。</li>
+    <li>テーマ変更: 変更リストは<a href="theme.html#changes137">テーマの説明</a>をご参照ください。</li>
+</ul>
+<h3>バグフィックス</h3>
+<ul>
+    <li>不完全な言語ファイルを使った場合（あるいはURLを利用した場合）に，すべての記事を消去させないように，管理者記事エディタにしっかりしたチェックを加えました。</li>
+    <li>UserAdminパーミッションを持つユーザに，Rootユーザのパスワードを変更させ，実際にRootになるlib-security.phpの危険なバグを修正しました。</li>
+    <li>&quot;homeonly&quot;と設定されるとブロックが消えるトラブルを修正しました。</li>
+    <li>記事とコメントの複数の [code] ... [/code]部分のトラブルを修正しました。</li>
+    <li>[code]部分とPHP4.2.0以上のHTMLフォーマットのコメントでの2行スペーシングを修正しました。</li>
+    <li>Geeklogで送信されたEメールのスラッシュ'/'とHTMLエンティティのトラブルを修正しました。</li>
+    <li>プラグインAPIへの修正と改良 </li>
+</ul>
+<p>寄稿者: Blaine Lang, Vincent Furia, 及びKenn Osborneが本リリースに寄稿いたしました。</p>
+<h3><a name="addindex" id="addindex">Geeklog</a>のスピードアップ (少しだけ)</h3>
+<p>1.3.6以前の古いバージョンからアップグレードする場合，installディレクトリにあるaddindex.phpと呼ばれるスクリプトを実行する必要が出てくるかもしれません。このスクリプトは，Geeklogのデータベーステーブルのいくつかにインデックスフィールドを付加し，アクセス時間全体を少し改善します。</p>
+<p>データベースにどれくらいのユーザや記事などがあるかによって，実行時間がかかるかもしれないので，これは別々のスクリプト（インストールスクリプトのアップグレード処理の一部ではなく）として実行されました。たとえば，ホスティングサービスがPHPスクリプトの実行時間に制限を与えている場合，タイムアウトになる人がいるかもしれません。そういうことになっても，慌てないでください。どのテーブルにもフィールドが追加されませんでしたと通知されるまで，何度もそのスクリプトを実行してください。 (何度も何度も ...)</p>
+<p>Geeklog1.3.7を新しくインストールすれば，このスクリプトを実行する必要がないことにご注意ください。新たにインストールしている間に生成されたデータベースには，すでに新しいインデックスフィールドがあります。</p>
+<h2><a name="changes136" id="changes136">Geeklog 1.3.6</a></h2>
+<h3>新機能</h3>
+<ul>
+    <li>記事の画像は，アップロード中に自動的にリサイズできます（ImageMagickかnetpbmのどちらかがインストールされている場合）。詳細については，<a href="config.html#image">コンフィギュレーションの説明</a>をご参照ください。</li>
+    <li>&quot;Frontpage&quot; というタイトルの静的ページのコンテンツは，Geeklogサイトでフロントページ上の最初の記事の前に表示されます。静的ページがさらに&rdquo;nonews&rdquo;ラベルをつけている場合は，完全にフロントページのニュースを入れ替えることになります。</li>
+    <li>ユーザによる投稿を承認する: 有効な場合(<a href="config.html#submission">config.php</a>で)，新しいユーザは自分のパスワードを受け取る前に，管理者によって承認される必要があります。</li>
+    <li>投稿承認は別々に，完全に（<a href="config.html#submission">config.php</a>で）かまたは一定のユーザグループのみで取り消すことができます。(新しい機能 story.submit，links.submit， event.submitを使って)</li>
+    <li>ソースコード（PHP，HTMLなど）を送信すると，[code] ... [/code]という擬似タグを使って，一字一句変えずに再生された送信文を封入できます。</li>
+    <li>リンクセクションでは，分類，ページ分けされたディスプレイ（別々に<a href="config.html">オフ</a>できて，以前の1.3.6スタイルのリスティングにも戻れます。）が使われています。</li>
+    <li>必要ならば，ゲストユーザをサイトのほとんどすべての部分（たとえば，リンクセクション，サイト統計）から締め出すことができます。</li>
+    <li>Geeklogサイトは，<a href="config.html#site">config.php</a>にフラグを設定して簡単に機能停止することができます。（たとえばメンテナンスの場合など） </li>
+    <li>テーマ変更: 変更リストは<a href="theme.html#changes136">テーマの説明</a>をご参照ください。</li>
+</ul>
+<h3>バグフィックス</h3>
+<ul>
+    <li>いくつかの修正で，アカウントに対するパーミッションが適切に設定されることが保証されました（たとえば，ユーザがアクセス権を持たない記事のタイトルを表示しない。）。</li>
+    <li>Geeklogが適切にローカライズされることを確認できるように，いくつか修正が行われました。（最新の言語ファイルを持っていて，国と言語に適した<a href="config.html#locale">ローカル設定</a>を選択した場合。） </li>
+    <li>変数 <code>$_CONF['site_admin_url']</code> を，Geeklogの管理ディレクトリをリネームすることができるように，適切に使用しています。</li>
+    <li>新しい RDFパーサは，（全部ではないにせよ）ほとんどのRDFニュースフィードを適切にインポートします。</li>
+</ul>
+<h3>注意</h3>
+<ul>
+    <li>config.phpには新しい変数がたくさんあるので，前回のインストールから古いconfig.phpをコピーする代わりに，そのファイルを新たにコピーすることをお勧めします。</li>
+    <li>英語，ドイツ語，イタリア語，ポーランド語，日本語のファイルが，最近アップデートされたことにご注意ください。その他の言語ファイルを使用すると，あなたのGeeklogサイトがきちんと動かない場合があります。</li>
+</ul>
+<p>寄稿者: Gene Wood， Blaine Lang， Tom Willet，及び Roger Websterが本リリースに寄稿いたしました。</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
+    <a href="http://wiki.geeklog.net">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 
 </body>
