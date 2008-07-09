@@ -3090,7 +3090,7 @@ function COM_emailEscape( $string )
     global $_CONF;
 
     /**
-	*  @author  geeklog.jp
+    *  @author  geeklog.jp
     *  @note    This hack is to return a string WITHOUT being escaped when
     *           CUSTOM_mail() is defined.  The string will be escaped later in
     *           CUSTOM_emailEscape(().
@@ -3137,7 +3137,7 @@ function COM_emailEscape( $string )
 function COM_formatEmailAddress( $name, $address )
 {
     /**
-	*  @author  geeklog.jp
+    *  @author  geeklog.jp
     *  @note    This hack is to return an email address WITHOUT being escaped
     *           when CUSTOM_mail() is defined.  The email address will be
     *           escaped and formatted later in CUSTOM_formatEmailAddress().
