@@ -3089,6 +3089,16 @@ function COM_emailEscape( $string )
 {
     global $_CONF;
 
+    /**
+	*  @author  geeklog.jp
+    *  @note    This hack is to return a string WITHOUT being escaped when
+    *           CUSTOM_mail() is defined.  The string will be escaped later in
+    *           CUSTOM_emailEscape(().
+    */
+    if (function_exists('CUSTOM_mail')) {
+        return $string;
+    }
+
     $charset = COM_getCharset();
     if(( $charset == 'utf-8' ) && ( $string != utf8_decode( $string )))
     {
@@ -3126,6 +3136,15 @@ function COM_emailEscape( $string )
 */
 function COM_formatEmailAddress( $name, $address )
 {
+    /**
+	*  @author  geeklog.jp
+    *  @note    This hack is to return an email address WITHOUT being escaped
+    *           when CUSTOM_mail() is defined.  The email address will be
+    *           escaped and formatted later in CUSTOM_formatEmailAddress().
+    */
+    if (function_exists('CUSTOM_mail')) {
+        return $name . ' <' . $address . '>';
+    }
     $formatted_name = COM_emailEscape( $name );
 
     // if the name comes back unchanged, it's not UTF-8, so preg_match is fine
