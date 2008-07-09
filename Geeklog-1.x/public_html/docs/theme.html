@@ -1,44 +1,35 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Theme How-To</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>テーマ作成 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Theme How-To</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマ作成</div>
 
-<p><small>(see below for a list of <a href="#changes">theme changes</a> in
-recent Geeklog versions)</small></p>
+<p><small>(Geeklogの最近のバージョンにおける<a href="#changes">テーマ変更</a>一覧については，下記参照のこと。)</small></p>
 
 
-<h1>Creating a Theme for Geeklog</h1>
+<h1>Geeklog用のテーマ作成</h1>
 
-<p>Creating a theme for Geeklog is easy and quite fast. If you can
-manipulate HTML files then you can create a theme! There's no need to learn
-PHP.
+<p>Geeklog用にテーマを作成するのは簡単ですぐにできる。HTMLファイルを編集できるなら，テーマを作成できる。PHPを習得する必要はない。
 
-<h2>Creating a theme</h2>
+<h2>テーマ作成</h2>
 
-<p>First, copy an existing theme that is most similar to what you want to
-implement (if one exists). If what you will do is radically different (and
-we hope so!) then copying any one will do. Copy the existing theme to the
-name you want your theme to have (please, <em>no</em> spaces in the theme name):
+<p>最初に，自分が作成したいテーマに最も似ている既存のテーマがあれば，それをコピーする。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのだが），どのテーマをコピーしてもよい。既存のテーマを自分が希望するテーマ名でコピーしよう(テーマ名に<strong>スペースを含めない</strong>こと。)。
 
-<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/My_Theme_Name_No_Spaces</kbd>
+<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
 
-<p>Change into your new theme directory:
+<p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下，同様。）に移動する。
 
-<p><kbd>cd /path/to/geeklog/public_html/layout/My_Theme_Name_No_Spaces</kbd>
+<p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
 
-<p>Now edit the templates to suit your needs. Keep in mind that templates,
-generally are partial HTML files. The directory you just created holds ALL
-templates Geeklog needs but you will only need to modify a small few to
-make a huge impact on the look.
+<p>必要に応じてテンプレートを編集する。一般的に，GeeklogでいうテンプレートとはHTMLファイルの断片である。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められているが，外見を大きく変えるのに変更する必要があるのはほんの少数であろう。
 
-<p>In particular these are the templates you will undoubtedly want to
-change:
+<p>特に次のテンプレートは間違いなく変更する必要があるだろう。
 
 <ul>
 <li>header.thtml
@@ -54,199 +45,101 @@ change:
 <li>style.css
 </ul>
 
-<h3><a name="how-themes-work">How themes work</a></h3>
+<h3><a name="how-themes-work">テーマはどのように機能するか</a></h3>
 
-<p>When rendering a theme, Geeklog starts with <tt>header.thtml</tt> which
-builds the site's header and then goes on to include the left column of blocks
-(look for the variable {left_blocks} and the <tt>leftblocks.thtml</tt> file).
-The middle part of a site consists of the stories which are built using the
-<tt>storytext.thtml</tt> and <tt>storybodytext.thtml</tt> (for normal stories)
-and <tt>featuredstorytext.thtml</tt> and <tt>featuredstorybodytext.thtml</tt>
-(for featured stories) template files. The <tt>footer.thtml</tt> file then
-builds the right column of blocks (variable {right_blocks}, file
-<tt>right_blocks.thtml</tt>) and the site's footer. Blocks themselves consist
-of the <tt>blockheader.thtml</tt> and <tt>blockfooter.thtml</tt> files.
+<p>テーマを用いて表示するとき，Geeklogはサイトのヘッダになる <tt>header.thtml</tt> から始め，次に左ブロック(<code>{left_blocks}</code> テンプレート変数と <tt>leftblocks.thtml</tt> テンプレートファイルを探そう)を処理する。サイトの中央部分は記事で構成されるが，普通の記事の場合は <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> テンプレートファイル，注目記事の場合は <tt>featuredstorytext.thtml</tt> と <tt>featuredstorybodytext.thtml</tt> テンプレートファイルが使用される。最後に，<tt>footer.thtml</tt> テンプレートファイルを使用して，右ブロック（<code>{right_blocks}</code> テンプレート変数と <tt>right_blocks.thtml</tt> テンプレートファイルを探そう）とサイトのフッタを表示する。ブロック自体は <tt>blockheader.thtml</tt> と <tt>blockfooter.thtml</tt> テンプレートファイルで構成されている。
 
-<p>The above only describes how Geeklog's main page and stories are rendered.
-More templates exist for the various editors and lists you will see in Geeklog,
-as well as for the calendar and almost every other part of Geeklog.</p>
+<p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけである。Geeklogで見かける様々なエディタやリストだけでなく，カレンダプラグインなど，Geeklogのあらゆる部分を構成するために様々なテンプレートが存在している。</p>
 
-<p>There is currently no complete list available that explains which template
-file is used for which part of Geeklog. However, in most cases the use should
-be obvious when you have a look at the file and directory names in your theme's
-layout directory. If you're unsure which template file is used to render a
-certain part of Geeklog, have a look at the URL. You will notice the name of
-a PHP file there, e.g. the <tt>users.php</tt> file when you view a user's
-profile. Open that file and search for '<kbd>.thtml</kbd>'. For the profile
-you will find these lines (in <code>function userprofile()</code>):</p>
+<p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していない。とはいえ，たいていの場合は，テンプレートのあるディレクトリ名とファイル名を見れば，用途は明らかなはずである。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は，URLを見るとよい。たとえば，ユーザのプロフィールを表示しているときなら，<tt>users.php</tt> というPHPのファイル名に気がつくだろう。そのファイルをテキストエディタで開き， <kbd>.thtml</kbd> を検索する。プロフィールの場合は，次の行が <code>function userprofile()</code> の中に見つかる。</p>
 <blockquote><code>
     $user_templates = new Template ($_CONF['path_layout'] . 'users');<br>
     $user_templates->set_file (array ('profile'=>'profile.thtml', 'row'=>'commentrow.thtml', 'strow'=>'storyrow.thtml'));
 </code></blockquote>
-<p>You don't need to understand PHP code to see that this uses the template
-files <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, and
-<tt>storyrow.thtml</tt>. The first line also indicates that these are taken
-from the <tt>users</tt> directory within the theme's layout directory.</p>
+<p>PHPを理解していなくても，この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されているのは分かるだろう。最初の行を見れば，これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かる。</p>
 
-<p>An <a href="themevars.html">incomplete list of variables</a> that can be
-used in templates files is also included.</p>
+<p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数の不完全なリスト</a>もドキュメントに含まれている。</p>
 
-<h3><a name="testing">Testing a theme and further information</a></h3>
+<h3><a name="testing">テーマのテストと追加情報</a></h3>
 
-<p>After you have edited your themes, you are now ready to test it out.
-Simply go to http://mygeeklogsite/usersettings.php?mode=preferences - in the
-theme drop-down select your newly created theme (note the name of your theme is
-the <em>same</em> name as the directory for your theme).
+<p>自分のテーマを編集し終わったら，次はテストだ。 <tt>http://自分のサイトのURL/usersettings.php?mode=preferences</tt> へ行き，テーマのドロップダウンリストから作成したばかりのテーマを選ぶ（テーマ名はテーマを収めているディレクトリ名と同じである）。
 
-<p>Finally, you may want to update the logo and other images in your
-theme's images directory.
+<p>最後に，テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるだろう。
 
-<p>For the template system we are using PHPLib's template class (<a
-href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>).
-Read their documentation and, optionally, look at
-/path/to/geeklog/system/classes/template.class.php to see how it is
-implemented. Even with this knowledge it may not be clear which templates
-are used in conjunction with one another (i.e. <tt>storybody.thtml</tt> and
-<tt>storybodytext.thtml</tt> together make up the complete format of a
-<em>single</em>
-story). If you have questions join our mailing list at <a
-href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>
-or check us out in IRC at irc.freenode.net in #geeklog.</p>
+<p>テンプレートシステムとしては，GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用している。彼らが作成したドキュメントを読み，できれば，<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて，どのように実装されているか調べてみるのもよい。この知識があっても，あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりとわからないかもしれない（たとえば， <tt>storybody.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって，<strong>1つの</strong>記事の完全なフォーマットができあがる）。疑問があるなら，<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか，IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよい。</p>
 
-<h3><a name="tips">Tips and tricks</a></h3>
+<h3><a name="tips">ヒントと注意点</a></h3>
 
-<p><strong><a name="wysiwyg">Themes and WYSIWYG editors:</a></strong>
-The template files used by Geeklog are not complete HTML files - they contain
-only parts of the HTML that Geeklog puts together to build a proper HTML
-document. This, however, seems to confuse some WYSIWYG HTML editors and some of
-them tend to add the HTML which they think is missing from the file, thus
-making it unusable for Geeklog.<br>
-We suggest you use a simple text editor to edit your themes.</p>
+<p><strong><a name="wysiwyg">テーマとWYSIWYGエディタ：</a></strong>
+Geeklogが使用するテンプレートファイルは完全なHTMLファイルではなく，断片に過ぎない。Geeklogはこの断片を組み合わせて適切なHTMLドキュメントを作成する。しかし，このため一部のWYSIWYG HTMLエディタが誤動作し，ファイルに不足しているHTML要素を勝手に追加して，Geeklogにとっては使い物にならないにしてしまうことがある。<br>テーマの編集には，単純なテキストエディタを使用することをお勧めする。</p>
 
-<p><strong><a name="php">PHP in themes:</a></strong>
-You can use PHP in the <em>header</em> of a theme, i.e. in the
-<tt>header.thtml</tt> file. If you want to use custom PHP functions, you can
-put them in the file <tt>functions.php</tt> within your themes directory.</p>
+<p><strong><a name="php">テンプレートファイル中のPHP：</a></strong>
+テーマの<em>ヘッダ</em>，つまり，<tt>header.thtml</tt> の中ではPHPのコードを使用できる。カスタム関数を使用したいなら，テーマディレクトリ内の <tt>functions.php</tt> ファイル内で定義すればよい。</p>
 
-<p><strong><a name="different-look">Different look for left and right blocks:</a></strong>
-You can give the blocks on the left and right a different look. See
-<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=21070">this story on the Geeklog homepage</a> for details.</p>
+<p><strong><a name="different-look">左右のブロックで見た目を変える：</a></strong>
+左右のブロックの外見を変えることができる。詳細は，<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=21070">Geeklogホームページのこの記事</a>を参照のこと。</p>
 
-<p><strong><a name="polls">Polls:</a></strong>
-To use multi-colored bars in the graphical display of poll results, you can use
-the <code>{answer_counter}</code> and <code>{answer_odd}</code> variables in
-the <tt>pollbooth/pollvotes_bar.thtml</tt> template file.
-<code>{answer_counter}</code> will be replaced with a running number for each
-answer, hence <code>bar{answer_counter}.gif</code> would result in
-<tt>bar1.gif</tt>, <tt>bar2.gif</tt>, etc. Giving each of those GIFs a different
-color would give you a different color for each answer.<br>
-<code>{answer_odd}</code> will alternate between 0 and 1 for every answer, hence
-<code>bar{answer_odd}.gif</code> will result in <tt>bar0.gif</tt> for the first,
-third, fifth, etc. answer and <tt>bar1.gif</tt> for the second, fourth, etc.
-answer.</p>
+<p><strong><a name="polls">アンケート：</a></strong>
+投票結果をグラフで表示する際，複数の色の棒グラフを使用するには，<code>{answer_counter}</code> と <code>{answer_odd}</code> テーマ変数を <tt>pollbooth/pollvotes_bar.thtml</tt> テンプレートファイル内で使用するとよい。<code>{answer_counter}</code> はそれぞれの回答数に置き換えられるので， <tt>bar{answer_counter}.gif</tt> と記述すると，結果として <tt>bar1.gif</tt>, <tt>bar2.gif</tt> のようになる。GIFファイルごとに色を変えておけば，回答ごとに色も変わることになる。<br>
+<code>{answer_odd}</code> は回答ごとに 0 から 1，1 から 0 と変わるので，<tt>bar{answer_odd}.gif</tt> と記述すると，結果として奇数番目の回答は <tt>bar0.gif</tt> ，偶数番目の回答は <tt>bar1.gif</tt> となる。</p>
 
-<p><strong><a name="left-blocks">Left blocks in the right column:</a></strong>
-<code>$_CONF['left_blocks_in_footer']</code> is a
-rather curious option. It makes the <code>{left_blocks}</code> variable
-available in the site's footer (i.e. <tt>footer.thtml</tt>) while at the same
-time disabling it in the header (<tt>header.thtml</tt>).<br>
-The idea is that this can be used for two-column layouts (one column for the
-blocks and one column for the content) but when you want to have the blocks
-on the right side. Simply moving all blocks to the right will not work as
-expected, as you'd end up with <em>no blocks</em> at all on those pages that
-normally only display the left blocks (e.g. <tt>article.php</tt> or the
-admin pages). Setting <code>$_CONF['left_blocks_in_footer'] = 1</code> will
-fix this, so that the blocks, while internally still treated as <em>left</em>
-blocks, will actually be displayed on the <em>right</em>.<br>
-The theme's <tt>header.thtml</tt>, <tt>footer.thtml</tt>, and
-<tt>leftblocks.thtml</tt> will probably need some adjustments. The
-'left_blocks_in_footer' option is therefore not available in the main
-configuration but should instead be set in the theme's <tt>functions.php</tt>
-file.  That way, you can even leave your users a choice between, for example,
-a "normal" theme and one with the blocks on the right.</p>
+<p><strong><a name="left-blocks">右ブロック内で左ブロックを表示する：</a></strong>
+<code>$_CONF['left_blocks_in_footer']</code> はかなり変わったオプションである。このオプションを使用すると，サイトのフッタ（つまり <tt>footer.thtml</tt>）内で <code>{left_blocks}</code> テンプレート変数が使用できるようになる一方，ヘッダ（<tt>header.thtml</tt>）内で <code>{left_blocks}</code> テンプレート変数が使用できなくなる。<br>
+これを利用すると，2列レイアウト（1列は右ブロック用，もう1列はコンテンツ用）を実現できる。単にすべてのブロックを右ブロックに移動しただけでは期待した動作にならない。ふつう左ブロックしか表示しないようなページ（たとえば，<tt>article.php</tt> や管理者用のページ）では，<em>全くブロックが表示されない</em> からだ。 <code>$_CONF['left_blocks_in_footer'] = 1</code> にすると，この動作が修正され，システム内部では依然として<strong>左</strong>ブロックとして扱われていても，実際には<strong>右</strong>ブロックに表示されるようになる。<br>
+テーマの <tt>header.thtml</tt>, <tt>footer.thtml</tt>, <tt>leftblocks.thtml</tt> はたぶん，修正する必要があるだろう。だから，<tt>left_blocks_in_footer</tt> オプションはコンフィギュレーションでは設定できず，テーマの <tt>functions.php</tt> 内で設定すべきである。そうすることで，たとえば，ユーザに「普通の」テーマと右ブロックテーマを選択する余地を与えることさえできるようになる。</p>
 
-<p><strong><a name="error-message">Error Message:</a></strong>
-Since Geeklog 1.4.1 it is possible to control what HTML is displayed to
-non-root users in the event of an error occurring (a crash bug). To do
-so, you need to change the function <code>CUSTOM_handleError</code> in
-lib-custom.php to output any HTML you like.</p>
+<p><strong><a name="error-message">エラーメッセージ：</a></strong>
+Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユーザにどのようなHTMLを表示するか制御できるようになった。好みのHTMLを表示するには，<tt>lib-custom.php</tt> 内の <code>CUSTOM_handleError</code> 関数を変更する必要がある。</p>
 
-<p><strong><a name="permalink">Adding a "permalink" to stories:</a></strong>
-Many websites offer a so-called permalink, i.e. a link to a permanent URL for
-the story. In Geeklog's default Professional theme, the article's headline
-already provides the same functionality - it links to a permanent URL for the
-story (pointing to article.php). However, since this is not very obvious and
-since visitors often expect to find a "permalink" somewhere on the page, here's
-how to add one yourself:</p>
+<p><strong><a name="permalink">記事に永続リンク(permalink)を追加する：</a></strong>
+多くのWebサイトでは，永続リンク，つまり記事に対応する永続的なURLを提供している。Geeklogでデフォルトの Professional テーマでは，記事の見出しが既にその機能を果たしている。つまり，記事の永続的なURLへのリンクとなっている（article.phpを指している）。しかし，この方法はあまり目につかないし，訪問者がページのどこかに永続リンクがあるのを期待することが多いため，自分で永続リンクを追加する方法を次に示す。</p>
 <ol>
-<li>Find a place in the story template files. The "story-footer" section in
-<tt>storytext.thtml</tt> may be a good place since it already contains quite a
-few story-related links.</li>
-<li>Once you've found a place to put the permalink entry, enter this piece of
-code:<br>
+<li>記事のテンプレートファイル内に適当な場所を探す。既に記事関係のリンクが多数含まれているので，<tt>storytext.thtml</tt> 内の story-footer セクションがよいかもしれない。</li>
+<li>永続リンクを設置する場所を決めたら，次のコードを入力する。<br>
 <code style="margin-left:2em">&lt;a href="{article_url}"&gt;{lang_permalink}&lt;a&gt;</code><br>
-This will add a link to the article (<code>article_url</code>) using the word
-"Permalink" from the current language file (<code>lang_permalink</code>).</li>
-<li>Try it out. Be aware that at this point, your permalink entry only shows up
-for non-featured articles. You may want to tweak the appearance a bit (using
-CSS) or move the link around.</li>
-<li>Add the same piece of code to the <tt>featuredstorytext.thtml</tt> and
-<tt>archivestorytext.thtml</tt> templates so that the link also appears for
-featured and archived stories.</li>
+これで，記事へのリンク(<tt>article_url</tt>)が，現在の言語ファイルの「永続リンク(Permalink)」に相当する語句(<tt>lang_permalink</tt>)を用いて追加された。</li>
+<li>徹底的にやろう。この時点では，永続リンクは注目記事以外の記事でしか表示されない。また，<acronym title="Cascading Style Sheet">CSS</acronym>を使用して外見を変更したり，リンクの場所を調節する必要があるだろう。</li>
+<li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば，注目記事にも永続リンクが表示されるようになる。</li>
 </ol>
 
 
-<h2><a name="changes">Theme changes in Geeklog 1.5.0</a></h2>
+<h2><a name="changes">Geeklog 1.5.0でのテーマの変更点</a></h2>
 
-<h3><a name="xhtml">XHTML support</a></h3>
+<h3><a name="xhtml">XHTMLをサポート</a></h3>
 
-<p>Geeklog now supports XHTML compliant themes. These themes should define the
-following constant in their <tt>functions.php</tt> file:</p>
+<p>XHTML準拠のテーマがサポートされた。テーマの <tt>functions.php</tt> ファイルの中で，次の定数を定義する必要がある。</p>
 <pre style="margin-left:4em;"><code>define('XHTML', ' /');</code></pre>
-<p>This will ensure that Geeklog switches to XHTML internally. If you want your
-theme be working both as an HTML and an XHTML theme, you should use the
-<code>{xhtml}</code> variable wherever XHTML requires a self-closing tag,
-e.g. <code>&lt;br /&gt;</code> would be written as <code>&lt;br{xhtml}&gt;</code>. If you don't plan to use the theme for HTML, feel free to hard-code your
-theme for XHTML only.</p>
-<p><strong>Note:</strong> If you're using XHTML, it is your responsibility to
-ensure that your site's content (stories, comments, etc.) is XHTML compliant.
-Geeklog does <em>not</em> convert your content to XHTML.</p>
+<p>こうすることで，内部的にXHTMLに切り替わる。テーマをHTMLとXHTMLの両方でサポートしたいなら，XHTMLの空要素タグがあるところすべてで <code>{xhtml}</code> テーマ変数を使用する必要がある。たとえば， <code>&lt;br /&gt;</code> タグは <code>&lt;br{xhtml}&gt;</code> と書く必要がある。HTMLをサポートするつもりがないなら，XHTMLタグを直接記述しても構わない。</p>
+<p><strong>注意:</strong> XHTMLを使用するなら，サイトのコンテンツ（記事，コメントなど）をXHTML準拠にしなければならない。Geeklogは自動的にコンテンツをXHTMLに<strong>変換しない</strong>。</p>
 
-<h3><a name="story-submission">"Contribute" - User submitted stories</a></h3>
+<h3><a name="story-submission">「記事投稿」 - ユーザによる記事投稿</a></h3>
 
-<p>Geeklog 1.5.0 supports the ability for users to specify story intro text
-  and body text seperately rather than just the intro text. This can be
-turned on and off by changing the templates. The files:</p>
+<p>Geeklog 1.5.0では，ユーザが記事を投稿する際，記事を単に冒頭文だけでなく冒頭文と本文に分ける機能をサポートしている。テンプレートを変更することでこの機能は有効/無効にできる。該当するファイルは，</p>
 <ul>
     <li>submit/submitstory.thtml</li>
     <li>submit/submitstory_advanced.thtml</li>
 </ul>
-<p>Contain table rows containing the bodytext inputs. Simply removing these
-inputs returns behaviour to the original.</p>
+<p>である。有効にするには， <code>{bodytext}</code> テンプレート変数を含むテーブルの列がテンプレートファイルに含まれるようにしよう。 <code>{bodytext}</code> テンプレート変数を含むテーブルの列をテンプレートファイルから削除すれば，元の動作に戻る。</p>
 
-<h3><a name="admin-menu">Admin Menu, User Menu &amp; Topic List</a></h3>
+<h3><a name="admin-menu">管理者メニュー，ユーザメニュー，話題リスト</a></h3>
 
-<p>All the above mentioned items are now lists, using <code>ul</code> and
-<code>li</code> tags (and a new CSS class, <tt>blocklist</tt>, to hide the list
-bullets). Two new template files have been added to create these blocks:</p>
+<p>これらの項目は今ではリストを使用している。 <code>&lt;ul&gt;</code> タグと <code>&lt;li&gt;</code> タグとリストの黒丸を表示しないための新しい <tt>blocklist</tt> クラスが使用されている。ブロックを作成するために新しいテンプレートファイルが追加されている。</p>
 <ul>
     <li>blockheader-list.thtml</li>
     <li>blockfooter-list.thtml</li>
 </ul>
-<p>Please note that the <code>{blockid}</code> variable that was present in
-pre-release versions of Geeklog 1.5.0 has since been removed.</p>
+<p>Geeklog-1.5.0のベータ版やリリース候補版で使用されていた <code>{blockid}</code> テンプレート変数は削除された。</p>
 
-<h3><a name="gltoken">Security Changes</a></h3>
+<h3><a name="gltoken">セキュリティ上の変更</a></h3>
 
-<p>Many forms, particularly in the admin section of the site need a new hidden
-form field in order for saving the form/processing the action to work. Add:</p>
+<p>特に管理者セクションで使用される多くのフォームには，フォーム保存・アクション処理がきちんと実行されるよう，新しいhiddenフィールドが必要になっている（訳注：<acronym title="Cross-Site Request Forgery">CSRF</acronym>攻撃を防ぐため）。次の記述を</p>
 
 <pre style="margin-left:4em;"><code>&lt;input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}&gt;</code></pre>
-<p>To the following templates:</p>
+<p>以下のテンプレートに追加すること。</p>
 <ul>
     <li>admin/block/blockeditor.thtml</li>
     <li>admin/block/defaultblockeditor.thtml</li>
-    <li>admin/config/configuration.thtml (new theme file for 1.5)</li>
+    <li>admin/config/configuration.thtml (Geeklog-1.5.0用の新しいテンプレートファイル)</li>
     <li>admin/group/groupeditor.thtml</li>
     <li>admin/group/groupmembers.thtml</li>
     <li>admin/mail/mailform.thtml</li>
@@ -261,23 +154,22 @@ form field in order for saving the form/processing the action to work. Add:</p>
     <li>admin/user/edituser.thtml</li>
     <li>comment/reportcomment.thtml</li>
 </ul>
-<p>Some plugin specific templates have also been changed, you may also need to
-check:</p>
+<p>プラグイン固有のテンプレートファイルが一部変更されているので，以下のテンプレートファイルを確認すること。</p>
 <ul>
     <li>plugins/calendar/templates/addevent.thtml</li>
     <li>plugins/calendar/templates/editpersonalevent.thtml</li>
     <li>plugins/calendar/templates/dayview/quickaddform.thtml</li>
-    <li>plugins/calendar/templates/submitevent.thtml (<code>{hidden_fields}</code> variable)</li>
-    <li>plugins/links/templates/admin/categoryeditor.thtml (new theme file for 1.5)</li>
+    <li>plugins/calendar/templates/submitevent.thtml (<code>{hidden_fields}</code> テンプレート変数)</li>
+    <li>plugins/links/templates/admin/categoryeditor.thtml （Geeklog-1.5.0用に追加されたテンプレートファイル）</li>
     <li>plugins/links/templates/admin/linkeditor.thtml</li>
     <li>plugins/polls/templates/admin/polleditor.thtml</li>
     <li>plugins/staticpages/templates/admin/editor.thtml</li>
     <li>plugins/staticpages/templates/admin/editor_advanced.thtml</li>
 </ul>
 
-<h3><a name="removed">Removed Files</a></h3>
+<h3><a name="removed">削除されたファイル</a></h3>
 
-<p>The following template files have been removed and are no longer needed:</p>
+<p>以下のテンプレートファイルは削除され，不要になった。</p>
 
 <ul>
     <li>admin/lists/menufields.thtml</li>
@@ -286,43 +178,26 @@ check:</p>
     <li>admin/plugins/newpluginlist.thtml</li>
 </ul>
 
-<h3><a name="sysmessage">System Message</a></h3>
+<h3><a name="sysmessage">システムメッセージ</a></h3>
 
-<p>The previously hard-coded CSS for the System Messages has been moved to the
-stylesheet (new CSS class <tt>sysmessage</tt>).</p>
+<p>以前，システムメッセージ用にハードコードされていたCSSは，新しく <tt>sysmessage</tt> クラスとしてスタイルシートに移された。</p>
 
 
-<h2><a name="changes141">Theme changes in Geeklog 1.4.1</a></h2>
+<h2><a name="changes141">Geeklog 1.4.1でのテーマの変更点</a></h2>
 
-<p>The css in 1.4.1 has been changed to a wider extent. More and more layout
-components are beeing moved to the stylesheet so more change in looks can be
-achieved with less change in the files. There is a reduction of tables and DIV,
-and a stronger focus on semantics and consistency. Please also notice that the
-styles.css includes additional documentation on the use of classes now.</p>
+<p>1.4.1ではCSSが以前よりも大幅に変更された。レイアウト用のコンポーネントがスタイルシートに移されている途中なので，外見を変えるのに，テンプレートファイルをいじる必要は少なくなっている。テーブルと &lt;div&gt; タグの使用が減り，セマンティックス（意味）と一貫性がさらに重視されている。 <tt>style.css</tt> ファイルには，CSSクラスの使用に関する説明が増えている。</p>
 
-<p>As usual, any missing new theme files can simply be copied over from the
-default theme (Professional) that ships with Geeklog.</p>
+<p>従来通り，不足しているテンプレートファイルはGeeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよい。</p>
 
-<h3>Header-Tags</h3>
+<h3>見出しタグ</h3>
 
-<p>From now on, all headlines in blocks & stories are made with header-tags. The
-biggest title in a story is always h1, in a block always h2.</p>
+<p>今後，ブロックと記事のタイトルは見出しタグで表現される。記事の中で最大のタイトルは <tt>&lt;h1&gt;</tt> タグであり，ブロックのそれは常に <tt>&lt;h2&gt;</tt> タグである。</p>
 
-<h3>Story layout</h3>
-<p>The blocks for stories have no more tables, and the classes have been renamed
-for consistency. There is a box now around the story called class "story" or
-"story-featured". The components inside that box are story-icons,
-story-information, story-body and story-footer. The title is a h1-tag. For
-featured stories, only the outer box has a different class, the rest has to be
-cascaded for changes.</p>
+<h3>記事のレイアウト</h3>
+<p>記事のブロックはもはやテーブルを含まなくなり，対応するCSSのクラス名も一貫性を持たせるために変更された。記事を囲むボックスは， <tt>story<tt> クラスないし <tt>story-featured</tt> クラスという名前がついている。ボックス内のコンポーネントは，記事アイコン，記事情報，記事本体，記事フッタである。タイトルは <tt>&lt;h1&gt;</tt> タグを使用。注目記事は外側のボックスのクラスが違うだけで，残りは同じ。</p>
 
-<h3>Blocks</h3>
-<p>The blocks changed in the same way as the stories. There are no more tables,
-only one div-tag as a frame around called block-box, block-box-left or
-block-box-right. The title is a h2-tag and the help icon for the block is a span
- with a class called block-helpicon. Sub-titles in blocks have the h3-tag (such
- such as in the What's new or Older Stories block). The changes affect (next to
- styles.css) the follwing files:</p>
+<h3>ブロック</h3>
+<p>ブロックは記事と同じように変化した。テーブルはなくなり，block-box, block-box-left, block-box-right という名前の &lt;div&gt; タグが1個使用されているだけである。タイトルは &lt;h2&gt; タグであり，ブロックのヘルプアイコンは block-helpicon というクラスの &lt;span&gt; タグになった。ブロックのサブタイトルは，（新着記事ブロックや過去の記事ブロックのように） &lt;h3&gt; タグである。これらの変更は <tt>style.css</tt> についで，以下のファイルに影響を与える。</p>
 <ul>
 <li>blockfooter-left.thtml</li>
 <li>blockfooter-related.thtml</li>
@@ -335,80 +210,31 @@ block-box-right. The title is a h2-tag and the help icon for the block is a span
 <li>blockheader.thtml</li>
 </ul>
 
-<h3>Admin templates</h3>
+<h3>管理者用テンプレート</h3>
 
-<p>Many of the admin template files have had minor changes to tweak appearance
-or functionality. If you didn't modify the admin templates in your theme, the
-easiest way to upgrade your theme's admin templates is to simply replace the
-entire 'admin' directory with the one from Geeklog's Professional theme.</p>
+<p>管理者用テンプレートの多くには，外見や機能の変更のため少しずつ変更が加えられている。自作テーマの管理者用テンプレートを変更していない場合，更新する最も簡単な方法は，Professional テーマの admin ディレクトリからファイルを一式，コピーすることである。</p>
 
 <ul>
-<li>All the "delete" buttons in the admin's editors (story editor, etc.) now
-    pop up a JavaScript confirmation box as a simple measure against
-    accidental deletion. If you'd rather not have that confirmation box,
-    replace the <code>{delete_option}</code> variable with
-    <code>{delete_option_no_confirmation}</code> in the admin templates.</li>
-<li>The order of the save / cancel / delete buttons is now consistent across
-    all admin template files (changed <tt>group/groupeditor.thtml</tt> and
-    <tt>user/edituser.thtml</tt>).</li>
-<li>Changed the top links in <tt>lists/topmenu_nosearch.thtml</tt> and
-    <tt>topic/topiclist.thtml</tt> to be consistent with the other admin areas
-    (i.e. the links are no longer enclosed in square brackets).</li>
-<li>To enable changing the group ownership of "gldefault" blocks, the
-    <tt>defaultblockeditor.thtml</tt> has to be changed to include a
-    <code>{group_dropdown}</code> variable.
+<li>記事エディタなどの管理者用エディタで削除ボタンをクリックすると，意図しない削除を防ぐためにJavaScriptを用いた確認ダイアローグが表示されるようになった。確認ダイアローグが不要なら，管理者用テンプレートの <code>{delete_option}</code> テンプレート変数を <code>{delete_option_no_confirmation}</code> テンプレート変数に置き換えるとよい。</li>
+<li>保存/キャンセル/削除のボタンの配列が管理者用テンプレートで統一された（<tt>group/groupeditor.thtml</tt> と <tt>user/edituser.thtml</tt> が変更された）。</li>
+<li><tt>lists/topmenu_nosearch.thtml</tt> と <tt>topic/topiclist.thtml</tt> テンプレートの最上部にあるリンクが変更され，他のテンプレートと揃えられた（つまり，リンクが[]で囲まれなくなった）。</li>
+<li>"gldefault" ブロックのグループ所有権の変更を可能にするために，<tt>defaultblockeditor.thtml</tt> テンプレートに <code>{group_dropdown}</code> テンプレート変数を含めなければならなくなった。</li>
 </ul>
 
-<h3>Other theme changes</h3>
+<h3>テーマの他の変更点</h3>
 
 <ul>
-<li>There was a div for spreading the with of the blocks to a minimum in the
-    files leftblocks.thtml and rightblocks.thtml. The format of those has been
-    transferred to the stylesheet with the class name block-bg-spreader</li>
-<li>The template for the Polls-plugin has renamed classes block-vote-results to
-    poll-vote-results and block-vote to poll-vote to avoid confustion with
-    block-related classes.</li>
-<li>The template files used by the Calendar plugin are now located in the
-    plugin's directory, (<tt>/path/to/geeklog/plugins/calendar/templates</tt>),
-    so the entire 'calendar' directory can be removed from the theme
-    directory.<br>
-    The <tt>submitevent.thtml</tt>, <tt>editpersonalevent.thtml</tt>,
-    <tt>admin/eventeditor.thtml</tt>, and <tt>dayview/quickaddform.thtml</tt>
-    have also been changed to (optionally) support entering the time in <a
-    href="calendar.html#desc_hour_mode">24 hour mode</a>: A hidden input field
-    "hour_mode" is now required, the am/pm dropdowns are available as variables
-    <code>{startampm_selection}</code>, <code>{endampm_selection}</code>,
-    <code>{ampm_selection}</code>, depending on the template file), and the
-    dropdowns for the minutes are available as variables
-    (<code>{startminute_options}</code>, <code>{endminute_options}</code>,
-    <code>{minute_options}</code>, depending on the template file).</li>
-<li>The variables <code>{author}</code> and <code>{owner}</code> are now
-    available in every template where an object's author (e.g. story or
-    comment author) or owner (e.g. owner of a block) name can be displayed.
-    They will also respect the <a
-    href="config.html#desc_show_fullname">$_CONF['show_fullname']</a> setting,
-    i.e. display either the user's full name or username.</li>
-<li>The Article Author's tag in <tt>storytext.thtml</tt> and
-    <tt>featuredstorytext.thtml</tt> is now called
-    <code>{contributedby_author}.</code></li>
-<li>To enable a remarks field in the answer to polls, the
-    <tt>pollvotes_bar.thtml</tt>, <tt>pollansweroption.thtml</tt> and
-    <tt>polleditor.thtml</tt> were changed. The
-    <tt>pollvotes_bar.thtml</tt> is now colored and has two lines, a class
-    for color coding each line and the <code>{answer_text}</code>. The
-    <tt>polleditor.thtml</tt> has an aditional field to enter the remarks,
-    same as the <tt>pollansweroption.thtml</tt>.
-<li>A user's Account Information page has been redesigned. While there were no
-    technical changes (i.e. template files from earlier versions will still
-    work), some options have been rearranged and a note has been added to tell
-    the user that the current password is required to change those. Affected
-    files in the <tt>preferences</tt> directory: <tt>profile.thtml</tt>,
-    <tt>username.thtml</tt>, and <tt>userphoto.thtml</tt>.</li>
-<li>The <tt>navbar</tt> directory now contains four files,
-    <tt>menuitem.thtml</tt>,<tt>navbar.thtml</tt>,<tt>breadcrumbs.thtml</tt>,<tt>breadcrumb_link</tt> as well as two images,
-    <tt>button.gif</tt> and <tt>button_over.gif</tt>.</li>
-<li>A <a name="captcha"><code>{captcha}</code></a> variable has been added to
-    the following files:
+<li><tt>leftblocks.thtml</tt> と <tt>rightblocks.thtml</tt> にはブロックの横幅の最小値を維持するために &lt;div&gt; タグが使用されていたが，CSSの <tt>block-bg-spreader</tt> というクラスに置き換えられた。</li>
+<li>アンケートプラグインのテンプレートで，CSSのブロック関係のクラスとの混同を避けるため， block-vote-results クラスが poll-vote-results に， block-vote クラスが poll-vote に変更された。</li>
+<li>カレンダプラグインが使用するテンプレートファイルがプラグイン用のディレクトリ(<tt>/非公開領域/plugins/calendar/templates</tt>)へ移動され，テーマディレクトリ内の calendar ディレクトリをそっくり削除できるようになった。<br>
+    <tt>submitevent.thtml</tt>, <tt>editpersonalevent.thtml</tt>,
+    <tt>admin/eventeditor.thtml</tt>, <tt>dayview/quickaddform.thtml</tt> テンプレートで，<a href="calendar.html#desc_hour_mode">24時間制</a>で時刻を入力できるようになった。hidden 属性の hour_mode フィールドが必要になり，テンプレートに応じて，am/pmを選ぶドロップダウンリストが <code>{startampm_selection}</code>, <code>{endampm_selection}</code>, <code>{ampm_selection}</code> テンプレート変数として，また，分を選ぶドロップダウンリストが <code>{startminute_options}</code>, <code>{endminute_options}</code>, <code>{minute_options}</code> テンプレート変数として利用できるようになった。</li>
+<li>オブジェクトの作成者（たとえば，記事やコメントの作成者）やオブジェクトの所有者（たとえば，ブロックの所有者）が表示されるテンプレートならどれでも，<code>{author}</code> と <code>{owner}</code> テンプレート変数が利用できるようになった。この2つの変数は <a href="config.html#desc_show_fullname">$_CONF['show_fullname']</a> の設定に従って，ユーザのフルネームかユーザ名（アカウント名）のいずれかを表示する。</li>
+<li><tt>storytext.thtml</tt> と <tt>featuredstorytext.thtml</tt> テンプレート中の記事の作成者タグの名前が <code>{contributedby_author}</code> に変わった。</li>
+<li>アンケートの回答でコメントを残せるようにするため， <tt>pollvotes_bar.thtml</tt>, <tt>pollansweroption.thtml</tt>, <tt>polleditor.thtml</tt> が変更された。<tt>pollvotes_bar.thtml</tt> には色がつき，2つの行と，それぞれの行の色を指定するクラス， <code>{answer_text}</code> テンプレート変数が含まれる。<tt>polleditor.thtml</tt> は <tt>pollansweroption.thtml</tt> と同じく，コメントを残すためのフィールドが追加された。</li>
+<li>ユーザのアカウント情報ページが設計し直された。技術上の変更点はないが（つまり，旧バージョンのテンプレートは依然として機能するが），一部のオプションの配列が見直され，オプションを変更するのにパスワードを入力する必要がある旨を表示する注意書きが追加された。変更されたのは， <tt>preferences</tt> ディレクトリ内の <tt>profile.thtml</tt>, <tt>username.thtml</tt>, <tt>userphoto.thtml</tt> テンプレートファイルである。</li>
+<li><tt>navbar</tt> ディレクトリには2つの画像(<tt>button.gif</tt> と <tt>button_over.gif</tt>)に加えて，4つのテンプレートファイル(<tt>menuitem.thtml</tt>, <tt>navbar.thtml</tt>, <tt>breadcrumbs.thtml</tt>, <tt>breadcrumb_link</tt>)が格納されている。</li>
+<li>以下のファイルに <a name="captcha"><code>{captcha}</code></a> テンプレート変数が追加された。
     <ul>
     <li><tt>comment/commentform.thtml</tt></li>
     <li><tt>comment/commentform_advanced.thtml</tt></li>
@@ -418,106 +244,58 @@ entire 'admin' directory with the one from Geeklog's Professional theme.</p>
     <li><tt>submit/submitstory_advanced.thtml</tt></li>
     <li><tt>users/registrationform.thtml</tt></li>
     </ul>
-    This variable is supposed to be used by a plugin that implements <a
-    href="http://en.wikipedia.org/wiki/Captcha">CAPTCHA</a>s and will simply be
-    empty when no such plugin is installed.</li>
+    このテンプレート変数は <a href="http://en.wikipedia.org/wiki/Captcha">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり，該当するプラグインがインストールされていない場合は空白になる。</li>
 </ul>
 
-<h3>Professional theme</h3>
+<h3>Professionalテーマ</h3>
 
-<p>The following changes are specific to the Professional theme. There is
-probably no need to port them over to other themes.</p>
+<p>以下の変更はProfessionalテーマ固有のものである。他のテーマに移植する必要はたぶんないだろう。</p>
 
 <ul>
-<li>The theme now uses CSS everywhere for spacing and dividers instead of
-    relying on a 1x1 pixel transparent GIF image (<tt>speck.gif</tt>).</li>
-<li>The amount of nested tables has been reduced, e.g. in the block
-    headers.</li>
-<li>Two unused template files, <tt>customlogin-header.thtml</tt> and
-    <tt>customlogin-footer.thtml</tt>, have been removed.</li>
+<li>Professionalテーマでは，間隔調整やセクション分けのために従来は1x1の透明GIF画像(<tt>speck.gif</tt>)を使用していたが，スタイルシートで指定するようになった。</li>
+<li>ブロックヘッダなどで，テーブルのネスト（入れ子）が減った。</li>
+<li>使用されていない <tt>customlogin-header.thtml</tt> と <tt>customlogin-footer.thtml</tt> テンプレートファイルが削除された。</li>
 </ul>
 
 
-<h2><a name="changes140">Theme changes in Geeklog 1.4.0</a></h2>
+<h2><a name="changes140">Geeklog 1.4.0でのテーマの変更点</a></h2>
 
-<p>As usual, any missing new theme files can simply be copied over from the
-default theme (Professional) that ships with Geeklog.</p>
+<p>従来通り，不足している新しいテンプレートファイルは，Geeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよい。</p>
 
-<h3>Admin templates</h3>
+<h3>管理者用テンプレート</h3>
 
-<p>Geeklog 1.4.0 comes with revamped Admin sections which required a lot of
-theme changes. We therefore suggest that you simply replace the entire
-<tt>admin</tt> directory of your theme with the <tt>admin</tt> directory
-from Geeklog's default theme (Professional) as it ships with Geeklog 1.4.0
-and apply any modfications you may have made to your Admin templates again
-afterwards.</p>
+<p>Geeklog 1.4.0の管理者用セクションはかなりの変更を伴って改訂されている。したがって，従来のテーマの <tt>admin</tt> ディレクトリをGeeklog-1.4.0に同梱のProfessionalテーマの <tt>admin</tt> ディレクトリでそっくり置き換えてから，今まで自分が加えた改造を適用することをお勧めする。</p>
 
-<p><strong>Note:</strong> The new icons for "Command and Control"
-(<tt>moderation.php</tt>) in the Professional theme use a white background.
-For themes with a dark (or other non-white) background, you can <a
-href="http://www.geeklog.net/filemgmt/singlefile.php?lid=623">download</a> these
-icons as PNGs with alpha transparency (note that Internet Explorer can not
-display images with alpha transparency unless you include a JavaScript "<a
-href="http://homepage.ntlworld.com/bobosola/">hack</a>" into your theme, so you
-may want to convert those icons to normal transparency or simply set the
-background to that of your theme).</p>
+<p><strong>注意:</strong> コントロールパネル(<tt>moderation.php</tt>)用の新アイコンは背景が白になっている。背景が暗い色（や白以外の色）のテーマ用には，<a href="http://www.geeklog.net/filemgmt/singlefile.php?lid=623">アルファチャネルつきのPNG形式のアイコンをダウンロード</a>するとよい。この場合は，JavaScriptを用いた<a href="http://homepage.ntlworld.com/bobosola/">ハック</a>を行わないと，インターネットエクスプローラでは表示できないことに注意。場合によっては，これらのアイコンを変換して，背景を透明にしたりテーマの背景色に合わせたりする必要があるだろう。</p>
 
 
-<h3>Advanced editor</h3>
+<h3>アドバンストエディタ（WYSIWYGエディタ）</h3>
 
-<p>To use the included advanced editor (FCKeditor) you will need the following
-new template files:</p>
+<p>同梱されているアドバンストエディタ(FCKeditor)を使用するには，次の新しいテンプレートが必要である。</p>
 <ul>
-<li><tt>comment/commentform_advanced.thtml</tt> (for comments)</li>
-<li><tt>submit/submitstory_advanced.thtml</tt> (for story submissions)</li>
-<li><tt>admin/story/storyeditor_advanced.thtml</tt> (Admin's story editor)</li>
-<li><tt>staticpages/templates/admin/editor_advanced.thtml</tt> (for the Static
-    Pages editor, located in <tt>/path/to/geeklog/plugins</tt>)</li>
-<li><tt>advanced_editor_header.thtml</tt> (included by all of the above)</li>
+<li><tt>comment/commentform_advanced.thtml</tt> （コメント用）</li>
+<li><tt>submit/submitstory_advanced.thtml</tt> （記事投稿用）</li>
+<li><tt>admin/story/storyeditor_advanced.thtml</tt> （管理者の記事エディタ用）</li>
+<li><tt>staticpages/templates/admin/editor_advanced.thtml</tt> （<tt>/非公開領域/plugins</tt> にある静的ページエディタ用）</li>
+<li><tt>advanced_editor_header.thtml</tt> （上述のテンプレートファイルすべてから呼び出される）</li>
 </ul>
-<p>You also have to add <code>{advanced_editor}</code> to the <code>&lt;head&gt;</code> section of your theme's <tt>header.thtml</tt> file.</p>
+<p>テーマの <tt>header.thtml</tt> テンプレートファイルの <code>&lt;head&gt;</code> セクションに <code>{advanced_editor}</code> テンプレート変数を追加する必要がある。</p>
 
-<h3>Other changes</h3>
+<h3>他の変更点</h3>
 
 <ul>
-<li>The comment templates <tt>commentbar.thtml</tt> and <tt>thread.thtml</tt>
-    have changed due to changes in the comment handling.</li>
-<li>New directories <tt>trackback</tt> and <tt>admin/trackback</tt> containing
-    several new template files have been added for the trackback support.</li>
-<li>New variables <code>{send_trackback_link}</code>,
-    <code>{send_trackback_url}</code>, and
-    <code>{lang_send_trackback_text}</code> are available in the story and
-    article template files. They provide a complete link as well as the URL and
-    link text allowing you to send a trackback comment for the current
-    story.</li>
-<li>The <tt>links</tt> and <tt>admin/link</tt> directories have been
-    removed. Links are now a plugin and the plugin's templates can be found in
-    <tt>/path/to/geeklog/plugins/links/templates</tt>.</li>
-<li>The <tt>pollbooth</tt> and <tt>admin/poll</tt> directories have been
-    removed. Polls are now a plugin and the plugin's templates can be found in
-    <tt>/path/to/geeklog/plugins/polls/templates</tt>.</li>
-<li>The <tt>preferences/profile.thtml</tt> template now has additional fields
-    for the password change (old password, confirmation field for the new
-    password).</li>
-<li>The search form, <tt>search/searchform.thtml</tt> has a new option for the
-    number of search results per page, while the hard-coded option to search
-    for links has been removed (since Links are in plugin now, it will show up
-    as part of the <code>{plugin_types}</code> option).</li>
-<li>An additional variable, <code>{services}</code>, has to be added to the
-    <tt>loginform.thtml</tt> template file if you plan to allow users to log in
-    to your site using remote authentication.</li>
-<li>If you plan to enable Trackbacks on your site, you may want to add links to
-    a story's trackbacks section to your story template files, e.g.
-    <code>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</code>. See the Professional theme's story template files for
-    examples.</li>
-<li>For the site statistics, the file <tt>stats/sitestatistics.thtml</tt> has
-    changed (entries for the links and poll have been removed and a new entry
-    for the number of active users has been added). There is also a new file,
-    <tt>stats/singlesummary.thtml</tt>, that is used for plugin entries.</li>
-<li>The <tt>navbar</tt> directory is now part of a Geeklog theme (previously
-    used by some plugins, e.g. the Forum plugin). It contains two files,
-    <tt>menuitem.thtml</tt> and <tt>navbar.thtml</tt>, as well as two images,
-    <tt>button.gif</tt> and <tt>button_over.gif</tt>.</li>
+<li>コメントの扱いが変更されたため，コメント用のテンプレート(<tt>commentbar.thtml</tt> と <tt>thread.thtml</tt>)が変更された。</li>
+<li>トラックバックをサポートするために，新しいテンプレートファイルを含むディレクトリ(<tt>trackback</tt> と <tt>admin/trackback</tt>)が追加された。</li>
+<li>記事用のテンプレートで，新しい <code>{send_trackback_link}</code>, <code>{send_trackback_url}</code>, <code>{lang_send_trackback_text}</code> テンプレート変数が利用できるようになった。現在の記事に対するトラックバックコメントを送るための完全なリンクとURL，リンク文字列を提供する。</li>
+<li><tt>links</tt> と <tt>admin/link</tt> ディレクトリが削除された。リンク集はプラグインとなり，そのテンプレートは <tt>/非公開領域/plugins/links/templates</tt> にある。</li>
+<li><tt>pollbooth</tt> と <tt>admin/poll</tt> ディレクトリが削除された。アンケート機能はプラグインとなり，そのテンプレートは <tt>/非公開領域/plugins/polls/templates</tt> にある。</li>
+<li><tt>preferences/profile.thtml</tt> テンプレートに，パスワードを変更するためのフィールド（現在のパスワード，新規パスワードの確認用）が追加された。</li>
+<li>検索フォーム(<tt>search/searchform.thtml</tt>)に1ページあたりの検索結果の表示数を設定するオプションが追加され，ハードコードされていたオプションが削除された（リンクはプラグインになったので，<code>{plugin_types}</code> オプションの一部として表示されるからである）。</li>
+<li>自分のサイトにユーザがリモート認証を利用してログインするのを許可する場合，<tt>loginform.thtml</tt> テンプレートファイルに <code>{services}</code> テンプレート変数を追加しなければならなくなった。</li>
+<li>自分のサイトでトラックバックを有効にする場合，記事のテンプレートファイルにたとえば次のように，トラックバック用のセクションを追加する必要がある。<br>
+    <code>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</code><br>具体例は，Professionalテーマの記事用テンプレートを参照のこと。</li>
+<li>サイトの統計情報用の <tt>stats/sitestatistics.thtml</tt> テンプレートファイルが変更された（リンクとアンケート用の項目が削除され，登録ユーザ数を表す項目が追加された）。プラグインの項目を表示するための <tt>stats/singlesummary.thtml</tt> というテンプレートファイルが追加された。</li>
+<li>以前，掲示板プラグインなどが使用していた <tt>navbar</tt> ディレクトリがGeeklogテーマの一部になった。テンプレートファイルファイルが2つ(<tt>menuitem.thtml</tt> と <tt>navbar.thtml</tt>)と画像ファイルが2つ(<tt>button.gif</tt> と <tt>button_over.gif</tt>）が含まれている。</li>
 </ul>
 
 
@@ -785,7 +563,7 @@ will probably only want to copy over the code for those four classes:
 <tt>highlight</tt>.</p>
 
 <p>If the <tt>header.thtml</tt> of your theme is using the
-<tt>{menu_elements}</tt> variable, then you do <em>not</em> need to make any
+<code>{menu_elements}</code> variable, then you do <em>not</em> need to make any
 changes to it. If it is not using that variable, then you will need to make one
 change to it. In that case, search your <tt>header.thtml</tt> for the link
 to the story submission form, i.e. something like</p>
@@ -825,13 +603,13 @@ are necessary.</p>
     <tt>whats_related_block</tt> and <tt>story_options_block</tt> as the block
     names.</li>
   <li>The What's Related and Story Options blocks are now available as
-    separate variables using <tt>{whats_related}</tt> and
-    <tt>{story_options}</tt>, respectively
-    (the <tt>{whats_related_story_options}</tt> variable for both blocks is
+    separate variables using <code>{whats_related}</code> and
+    <code>{story_options}</code>, respectively
+    (the <code>{whats_related_story_options}</code> variable for both blocks is
     still available).</li>
   <li>Several new variables can now be used in the story templates, e.g.
-    <tt>{contributedby_fullname}</tt> for the full name of a story author and
-    <tt>{contributedby_photo}</tt> for his/her user photo.</li>
+    <code>{contributedby_fullname}</code> for the full name of a story author and
+    <code>{contributedby_photo}</code> for his/her user photo.</li>
   <li>When the new config variable <tt>$_CONF['showfirstasfeatured']</tt> is set
     to 1, then the first story on <em>every</em> page is rendered using the
     template files for featured stories, even when the story is not marked as
@@ -938,8 +716,8 @@ you put the above line <em>before</em> the <code>&lt;title&gt;</code> tag in
 the <code>&lt;head&gt;</code> section of your <tt>header.thtml</tt> file.</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 </body>
 </html>

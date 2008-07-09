@@ -1,132 +1,114 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Polls Plugin</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>アンケートプラグイン | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Polls Plugin</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - アンケート(Polls)プラグイン</div>
 
-<h1>Polls Plugin</h1>
+<h1>アンケート(Polls)プラグイン</h1>
 
-<p>Polls used to be an integral part of the Geeklog core code, but have been
-moved to a plugin as of Geeklog 1.4.0.</p>
+<p>アンケート機能はかつてGeeklogのコアコードの一部であったが，Geeklog 1.4.0よりプラグインとして分離された。</p>
 
-<h2><a name="config.php">Configuration</a></h2>
+<h2><a name="config.php">設定</a></h2>
 
-<p>The Polls plugin's configuration can be changed from the Configuration admin
-panel:</p>
+<p>アンケートプラグインの設定は，「管理者用メニュー - コンフィギュレーション - アンケート」から変更できる。</p>
 
-<h3><a name="general">General Polls Settings</a></h3>
+<h3><a name="general">アンケートのメイン設定</a></h3>
 
 <table>
-<tr><th width="25%">Variable</th>
-    <th width="25%">Default Value</th>
-    <th width="50%">Description</th>
+<tr><th width="25%">項目</th>
+    <th width="25%">初期値</th>
+    <th width="50%">説明</th>
 </tr>
 <tr>
-  <td><a name="desc_pollsloginrequired">pollsloginrequired</a></td>
-  <td>0</td>
-  <td>When set to 1, only registered users can access the list of recent
-    polls.<br>
-    Please note that <code>$_CONF['<a
-    href="config.html#desc_loginrequired">loginrequired</a>']</code> in
-    Geeklog's main configuration takes precedence over this setting. So when
-    <code>'loginrequired'</code> is set to 1, anonymous users can not access
-    the recent polls even when <code>'pollsloginrequired'</code> is set
-    to 0.</td>
+  <td><a name="desc_pollsloginrequired">ログインを要求する(pollsloginrequired)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，登録ユーザしか最近のアンケートにアクセスできなくなる。<br>
+    この設定値よりも，「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザと投稿」の「<a href="config.html#desc_loginrequired">すべてにログインを要求する(loginrequired)</a>」の設定の方が優先されることに注意。「すべてにログインを要求する」をはい(1)にすると，アンケートプラグインでログインを要求していなくても，ゲストユーザはアンケートにアクセスできなくなる。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_hidepollsmenu">hidepollsmenu</a></td>
-  <td>0</td>
-  <td>Whether to hide the "Polls" entry from Geeklog's menu bar (when set to 1)
-    or to show it (when set to 0).</td>
+  <td><a name="desc_hidepollsmenu">メニューに表示しない(hidepollsmenu)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，サイトのメニューに「アンケート」メニューを表示しない。</td>
 </tr>
 <tr>
-  <td><a name="desc_maxquestions">maxquestions</a></td>
+  <td><a name="desc_maxquestions">アンケート毎の質問の最大数(maxquestions)</a></td>
   <td>10</td>
-  <td>Maximum number of questions in a poll.</td>
+  <td>アンケート毎の質問の最大数。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_maxanswers">maxanswers</a></td>
+  <td><a name="desc_maxanswers">質問毎の選択肢の最大数(maxanswers)</a></td>
   <td>10</td>
-  <td>Maximum number of options per question.</td>
+  <td>質問毎の選択肢の最大数。</td>
 </tr>
 <tr>
-  <td><a name="desc_answerorder">answerorder</a></td>
-  <td>submitorder</td>
-  <td>Sort answers by the number of results ('voteorder') or keep the order
-    in which they were entered ('submitorder').</td>
+  <td><a name="desc_answerorder">アンケート結果の表示順(answerorder)</a></td>
+  <td>登録順(submitorder)</td>
+  <td>アンケート結果を「得票順(voteorder)」に並び替えるか，アンケートの「登録順(submitorder)」で並び替えるかを指定する。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_pollcookietime">pollcookietime</a></td>
-  <td>86400</td>
-  <td>Number of seconds to set a poll answer cookie to time out on.</td>
+  <td><a name="desc_pollcookietime">投票者のクッキーの有効期間(pollcookietime)</a></td>
+  <td>86400（秒）</td>
+  <td>投票者のクッキーの有効期間を秒数で指定する。いったん投票すると，この期間は同じ質問に投票できない。初期値は86,400秒（＝24時間）。</td>
 </tr>
 <tr>
-  <td><a name="desc_polladdresstime">polladdresstime</a></td>
+  <td><a name="desc_polladdresstime">投票者のIPアドレスの有効期間(polladdresstime)</a></td>
   <td>604800</td>
-  <td>Number of seconds to set a poll answer IP address to time out on.</td>
+  <td>投票者のIPアドレスの有効期間を秒数で指定する。いったん投票すると，この期間は同じIPから投票できない。初期値は604,800秒（＝7日間）。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_delete_polls">delete_polls</a></td>
-  <td>0</td>
-  <td>Defines what to do when a user is deleted that is the owner of a poll.
-    When set to 0, all polls owned by the deleted user will be assigned to a
-    user of the "Root" group (e.g. the site admin). When set to 1, the polls
-    are deleted, including all the comments posted on that poll.</td>
+  <td><a name="desc_delete_polls">所有者の削除と共に削除する(delete_polls)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，アンケート所有者のアカウントが削除されたときに，所有していたすべてのアンケートが全コメントと共に削除され，いいえ(0)にすると，Rootグループに属するユーザ（たとえば，サイトの管理者）に引き継がれる。</td>
 </tr>
 <tr>
-  <td><a name="desc_aftersave">aftersave</a></td>
-  <td>'list'</td>
-  <td>Which page to go to after a poll has been saved:
+  <td><a name="desc_aftersave">アンケート保存後の画面遷移(aftersave)</a></td>
+  <td>アンケート管理を表示する(list)</td>
+  <td>アンケートを保存した後にどのページへ移動するかを設定する。
     <ul>
-    <li>'item': display the poll</li>
-    <li>'list': show admin's list of polls (default)</li>
-    <li>'plugin': display the public list of polls</li>
-    <li>'home': display the site's homepage</li>
-    <li>'admin': go to the "Admin Home" page, i.e. Command &amp; Control</li>
+    <li>作成したアンケートを表示する(item): 作成したアンケートを表示する</li>
+    <li>アンケート管理一覧を表示する(list): 管理者用のアンケートのリストを表示する（初期値）</li>
+    <li>アンケート一覧を表示する(plugin): 公開されているアンケート一覧を表示する</li>
+    <li>Homeを表示する(home): サイトのHomeページ（トップページ）を表示する</li>
+    <li>管理画面TOPを表示する(admin): 管理画面を表示する</li>
     </ul></td>
 </tr>
 </table>
 
-<h2>How do the polls work?</h2>
+<h2>アンケートの仕組み</h2>
 
-<p><small>(Taken from the <a href="http://www.geeklog.net/faqman/">Geeklog
-FAQ</a>)</small></p>
+<p><small>(<a href="http://www.geeklog.net/faqman/">Geeklog
+FAQ</a>より転載)</small></p>
 
-<p>In order to prevent manipulation of polls (or at least make it harder),
-Geeklog does two things when you vote:</p>
+<p>アンケートの操作を防ぐ（少なくとも困難にする）ために，Geeklogは投票時に次の2つのことを行う。</p>
 
 <ol>
-  <li>It stores a cookie</li>
-  <li>It stores your IP address</li>
+  <li>クッキーを保存する</li>
+  <li>投票者のIPアドレスを記録する</li>
 </ol>
 
-<p>Both the cookie and the IP are valid for a certain amount of time (see below)
-and during that time, you can't vote again on the same poll.</p>
+<p>クッキーとIPアドレスは一定期間有効で（下記参照），その期間中は同じアンケートに答えることはできない。</p>
 
-<p>The amount of time your cookie and IP are stored can be changed in the polls
-plugin's configuration (see above):</p>
+<p>クッキーとIPアドレスの有効期間は「管理者用メニュー - コンフィギュレーション - アンケート」で変更できる（上記参照）。</p>
 
 <pre>$_PO_CONF['<a href="#desc_pollcookietime">pollcookietime</a>']    = 86400;
 $_PO_CONF['<a href="#desc_polladdresstime">polladdresstime</a>']   = 604800;</pre>
 
-<p>Both times are in seconds, i.e. the cookie is valid for 24 hours and the IP
-is stored for a week.</p>
+<p>単位は共に秒で，上記の例ではクッキーの有効期間は24時間であり，IPアドレスは1週間記録されることになる。</p>
 
-<p>In setups where more than one person uses the same computer or the same IP
-address, you can set one (or both) of them to 1.</p>
+<p>複数の人間が同一コンピュータや同一IPアドレスを使用する状況では，いずれか（ないし両方の）数値を <code>1</code> に設定するとよい。</p>
 
-<p>Please keep in mind that <strong>any</strong> poll can be manipulated, so
-you shouldn't take the results too seriously.</p>
+<p><strong>どんな</strong>アンケートでも操作される可能性があること忘れないで欲しい。だから結果をあまり重大に受け止めない方がよい。</p>
 
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 
 </body>

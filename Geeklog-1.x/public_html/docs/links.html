@@ -1,159 +1,132 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Links Plugin</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>リンクプラグイン | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Links Plugin</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - リンクプラグイン</div>
 
-<h1>Links Plugin</h1>
+<h1>リンクプラグイン</h1>
 
-<p>The links section used to be an integral part of the Geeklog core code, but have been moved to a plugin as of Geeklog 1.4.0.</p>
+<p>リンクセクションはかつてGeeklogのコアコードの一部であったが，Geeklog 1.4.0よりプラグインとして分離された。</p>
 
-<h2><a name="config.php">Configuration</a></h2>
+<h2><a name="config.php">設定</a></h2>
 
-<p>The configuration of the Links plugin can be changed from the Configuration admin panel:</p>
+<p>リンクプラグインの設定は，「管理者用メニュー - コンフィギュレーション - リンク」から変更できる。</p>
 
-<h3><a name="public">Public Links List Settings</a></h3>
+<h3><a name="public">リンクの表示に関する設定</a></h3>
 
 <table>
-<tr><th width="25%">Variable</th>
-    <th width="25%">Default Value</th>
-    <th width="50%">Description</th>
+<tr><th width="25%">項目</th>
+    <th width="25%">初期値</th>
+    <th width="50%">説明</th>
 </tr>
 <tr>
-  <td><a name="desc_linksloginrequired">linksloginrequired</a></td>
-  <td>0</td>
-  <td>When set to 1, only registered users can access the links section.<br>
-    Please note that <code>$_CONF['<a
-    href="config.html#desc_loginrequired">loginrequired</a>']</code> in
-    Geeklog's main configuration takes precedence over this setting. So when
-    <code>'loginrequired'</code> is set to 1, anonymous users can not access
-    the links section even when <code>'linksloginrequired'</code> is set
-    to 0.</td>
+  <td><a name="desc_linksloginrequired">ログインを要求する(linksloginrequired)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，登録ユーザしかリンクセクションにアクセスできなくなる。<br>
+    この設定値よりも，「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザと投稿」の「<a href="config.html#desc_loginrequired">すべてにログインを要求する(loginrequired)</a>」の設定の方が優先されることに注意。「すべてにログインを要求する」をはい(1)にすると，リンクプラグインでログインを要求していなくても，ゲストユーザはリンクセクションにアクセスできなくなる。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_linkcols">linkcols</a></td>
+  <td><a name="desc_linkcols">カテゴリの表示カラム数(linkcols)</a></td>
   <td>3</td>
-  <td>The number of link categories to display per column.</td>
+  <td>1カラム（列）ごとに表示するリンクカテゴリの数。</td>
 </tr>
 <tr>
-  <td><a name="desc_linksperpage">linksperpage</a></td>
+  <td><a name="desc_linksperpage">ページあたりのリンク数(linksperpage)</a></td>
   <td>10</td>
-  <td>The number of links to show per page.</td>
+  <td>1ページごとに表示するリンクの数。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_show_top10">show_top10</a></td>
-  <td><code>true</code></td>
-  <td>When both <code>$_LI_CONF['linkcols']</code> and
-    <code>$_LI_CONF['linksperpage']</code> are <em>not</em> 0, the plugin will
-    show a list of the 10 most clicked-on links on the Links plugin's index
-    page automatically. If you do not want that "top 10" list there, set this
-    option to <code>false</code>.</td>
+  <td><a name="desc_show_top10">トップ10を表示する(show_top10)</a></td>
+  <td><code>はい(true)</code></td>
+  <td>「カテゴリの表示カラム数(linkcols)」と「ページあたりのリンク数(linksperpage)」がともに 0 で<strong>ない</strong>とき，リンクプラグインはそのトップページに最もクリックされたリンクの上位10位を自動的に表示する。表示したくなければ，この設定をいいえ(<code>false</code>)にする。</td>
 </tr>
 <tr>
-  <td><a name="desc_show_category_descriptions">show_category_descriptions</a></td>
-  <td><code>true</code></td>
-  <td>Whether to show subcategory descriptions when viewing a category or not.</td>
+  <td><a name="desc_show_category_descriptions">カテゴリの説明を表示する(show_category_descriptions)</a></td>
+  <td><code>はい(true)</code></td>
+  <td>はい(true)にすると，カテゴリを表示するときにサブカテゴリの説明を表示する。</td>
 </tr>
 </table>
 
-<h3><a name="admin">Links Admin Settings</a></h3>
+<h3><a name="admin">リンクの管理(Links Admin Settings)</a></h3>
 
 <table>
-<tr><th width="25%">Variable</th>
-    <th width="25%">Default Value</th>
-    <th width="50%">Description</th>
+<tr><th width="25%">項目</th>
+    <th width="25%">初期値</th>
+    <th width="50%">説明</th>
 </tr>
 <tr>
-  <td><a name="desc_hidenewlinks">hidenewlinks</a></td>
-  <td>0</td>
-  <td>Whether new links should be hidden from the "What's New" block (when set
-    = 1) or whether to list them there (when set to = 0).</td>
+  <td><a name="desc_hidenewlinks">新着情報ブロックに表示しない(hidenewlinks)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，新規リンクが新着情報ブロックに表示されなくなる。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_newlinksinterval">newlinksinterval</a></td>
-  <td>1209600</td>
-  <td>For how long a link should be considered "new" and show up in the "What's
-    New" block on the site. The interval is given in seconds, so the default
-    value equals 14 days.</td>
+  <td><a name="desc_newlinksinterval">新規リンクと見なす期間(newlinksinterval)</a></td>
+  <td>1209600（秒）</td>
+  <td>リンクが登録されてどれくらいの間，新着とみなされ，サイトの新着情報ブロックに表示されるかを決める期間（単位：秒）。初期値は1,209,600秒，つまり2週間。</td>
 </tr>
 <tr>
-  <td><a name="desc_hidelinksmenu">hidelinksmenu</a></td>
-  <td>0</td>
-  <td>Whether to hide the "Links" entry from Geeklog's menu bar (when set to 1)
-    or to show it (when set to 0).</td>
+  <td><a name="desc_hidelinksmenu">メニューに表示しない(hidelinksmenu)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，サイトのメニューに「リンク」メニューを表示しない。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_linksubmission">linksubmission</a></td>
-  <td>1</td>
-  <td>Whether links submitted by users will have to be approved by an admin
-    first (when set = 1) or show up immediately (when set = 0).</td>
+  <td><a name="desc_linksubmission">リンクの投稿を管理者が承認する(linksubmission)</a></td>
+  <td>はい(1)</td>
+  <td>はい(1)にすると，ユーザが投稿したリンクは管理者の承認待ちの状態になり，いいえ(0)にすると，即座に登録・表示される。</td>
 </tr>
 <tr>
-  <td><a name="desc_notification">notification</a></td>
-  <td>0</td>
-  <td>Whether to send an email notification when a new link was submitted (when
-    set to = 1) or not (when set to = 0).</td>
+  <td><a name="desc_notification">メールで通知する(notification)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，新規リンクが投稿されたときに，管理者にEメールで通知する。</td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_delete_links">delete_links</a></td>
-  <td>0</td>
-  <td>Defines what to do when a user is deleted that is the owner of a link.
-    When set to 0, all links owned by the deleted user will be assigned to a
-    user of the "Root" group (e.g. the site admin). When set to 1, the links
-    are deleted.</td>
+  <td><a name="desc_delete_links">所有者の削除と共に削除する(delete_links)</a></td>
+  <td>いいえ(0)</td>
+  <td>はい(1)にすると，リンク所有者のアカウントが削除されたときに，所有していたすべてのリンクが削除され，いいえ(0)にすると，Rootグループに属するユーザ（たとえば，サイトの管理者）に引き継がれる。</td>
 </tr>
 <tr>
-  <td><a name="desc_aftersave">aftersave</a></td>
-  <td>'list'</td>
-  <td>Which page to go to after a links has been saved:
+  <td><a name="desc_aftersave">リンク保存後の画面遷移(aftersave)</a></td>
+  <td>リンク管理を表示する(list)</td>
+  <td>リンクを保存した後にどのページへ移動するかを設定する。
     <ul>
-    <li>'item': go to the linked site(!)</li>
-    <li>'list': show admin's list of links (default)</li>
-    <li>'plugin': display the public list of links</li>
-    <li>'home': display the site's homepage</li>
-    <li>'admin': go to the "Admin Home" page, i.e. Command &amp; Control</li>
+    <li>リンク先サイトを表示する(item): リンク先サイトへ移動する(!)</li>
+    <li>リンク管理を表示する(list): 管理者用のリンクのリストを表示する（初期値）</li>
+    <li>公開リンクリストを表示する(plugin): 公開されているリンク一覧を表示する</li>
+    <li>Homeを表示する(home): サイトのHomeページ（トップページ）を表示する</li>
+    <li>管理画面TOPを表示する(admin): 管理画面を表示する</li>
     </ul></td>
 </tr>
 <tr class="r2">
-  <td><a name="desc_root">root</a></td>
-  <td>'site'</td>
-  <td>ID to use for the root of the link categories tree.</td>
+  <td><a name="desc_root">トップカテゴリのID(root)</a></td>
+  <td>site</td>
+  <td>最上位のリンクカテゴリに使用するリンクID</td>
 </tr>
 </table>
 
 
-<h2><a name="layout">Layout of the Links plugin's index page</a></h2>
+<h2><a name="layout">リンクプラグインのインデックスページのレイアウト</a></h2>
 
-<p>The general layout of the index page of the Links plugin is defined by the
-options <code>$_LI_CONF['linkcols']</code> and <code>$_LI_CONF['linksperpage']</code>, as explained above.</p>
+<p>リンクプラグインのインデックスページ（トップページ）のレイアウト全般は，上述の「カテゴリの表示カラム数(linkcols)」と「ページあたりのリンク数(linksperpage)」で決まる。</p>
 
-<p>If you'd rather have a straight list of all your links, you can set both
-of these options to 0. This probably makes the most sense when you only have
-a few links. Setting only <code>$_LI_CONF['linksperpage']</code> to 0 zero will
-list all the links of the current category on one page. Setting only
-<code>$_LI_CONF['linkcols']</code> to 0 will hide the categories and will
-display all your links spread over several pages.</p>
+<p>すべてのリンクを1列に並べたいなら，この2つに 0 を設定するとよい。リンクの数が少ないなら，これが最も理にかなうだろう。「ページあたりのリンク数(linksperpage)」だけを 0 にすると，現在のカテゴリがすべて1ページで表示される。「カテゴリの表示カラム数(linkcols)」だけを 0 に設定すると，複数ページにわたってすべてのリンクが表示される（カテゴリは表示されない）。</p>
 
 
-<h3><a name="templates">Template files</a></h3>
+<h3><a name="templates">テンプレートファイル</a></h3>
 
-<p>To further change the layout of your Links section, you can change the
-template files. Please note that they are now located in the plugin's directory,
-i.e. in</p>
-<p align="center"><tt>/path/to/geeklog/plugins/links/templates/</tt></p>
-<p>If you're using a theme that was made for an older version of Geeklog (prior
-to Geeklog 1.4.0), you may still have a "links" directory in your theme's
-directory - but that is not used any more and can be safely removed.</p>
+<p>リンクセクションのレイアウトをさらに変更するには，テンプレートファイルを変更すればよい。現在ではプラグインのディレクトリ，つまり，</p>
+<p align="center"><tt>/path/to/geeklog/plugins/links/templates/</tt></p><p>にある。</p>
+<p>旧バージョン(1.4.0よりも前)のGeeklog用に作成されたテーマを使用しているなら，テーマのディレクトリに "links" ディレクトリがあるかもしれないが，ここはもはや使用されていないので，安全のために削除しよう。</p>
 
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 
 </body>
