@@ -62,6 +62,14 @@ $_CST_VERBOSE = false;
 require_once('custom/custom_cellular.php');
 
 /**
+* 日本語メール対応
+*
+* GL-1.4.1以降でUTF-8に変更されたメールの文字セットをISO-2022-JP(JIS)
+* に戻します。
+*/
+require_once('custom/custom_mail_jp.php');
+
+/**
 * Sample PHP Block function
 *
 * this is a sample function used by a PHP block.  This will show the rights that
