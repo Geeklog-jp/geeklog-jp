@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
   <title>設定方法 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
@@ -16,7 +17,7 @@
 
 <p>旧バージョンのGeeklogでは，<tt>config.php</tt>という主要な設定を網羅した巨大なファイルを使用していた。Geeklog 1.5.0では，設定の大部分はデータベースに記録され，管理者機能内の<b>コンフィギュレーション(Configuration)</b>からアクセスできるようになった。</p>
 
-<p>技術上の理由で，依然としてファイルに保存する必要のある設定もある。そのような設定ファイルは次の2つ：
+<p>技術上の理由で，依然としてファイルに保存する必要のある設定もある。そのような設定ファイルは次の2つ：</p>
 <ul>
 <li><a href="#db-config.php">db-config.php</a></li>
 <li><a href="#siteconfig.php">siteconfig.php</a></li>
@@ -178,7 +179,7 @@
     <td valign="top">データディレクトリのパス。</td></tr>
 <tr><td valign="top"><a name="desc_path_images">画像(path_images)</a></td>
     <td valign="top">/path/to/geeklog/public_html/images/</td>
-    <td valign="top">ユーザの写真や記事の写真を含めて，画像ファイルを置くディレクトリのパス。</td>
+    <td valign="top">ユーザの写真や記事の写真を含めて，画像ファイルを置くディレクトリのパス。</td></tr>
 </table>
 
 <h3><a name="site_pear">サイト: PEAR</a></h3>
@@ -828,7 +829,7 @@
 <tr>
   <td valign="top"><a name="desc_max_topicicon_size">ファイルサイズの最大値(max_topicicon_size)</a></td>
   <td valign="top">65536 <i>(= 64 KB)</i></td>
-  <td valign="top">ファイルサイズの最大値。この数値を超えた場合は，リサイズ用の画像ライブラリを使っていても，その画像ファイルは拒否される。</td>
+  <td valign="top">ファイルサイズの最大値。この数値を超えた場合は，リサイズ用の画像ライブラリを使っていても，その画像ファイルは拒否される。</td></tr>
 </table>
 
 <h3><a name="images_photos">画像: ユーザの写真</a></h3>
@@ -1047,7 +1048,7 @@
 			<li><tt>user</tt></li>
 		</ul>
 		である。必要なものを組み合わせて登録する。<br>
-    <strong>例:</strong> <code>story と user</code> とすると，新規記事が投稿された場合とユーザが登録された場合に通知される。たとえば，新規コメントが投稿された場合には，通知は来ない。</td>
+    <strong>例:</strong> <code>story と user</code> とすると，新規記事が投稿された場合とユーザが登録された場合に通知される。たとえば，新規コメントが投稿された場合には，通知は来ない。</td></tr>
 <tr>
   <td valign="top"><a name="desc_cron_schedule_interval">Cronスケジュール間隔(cron_schedule_interval)</a></td>
   <td valign="top">86400（秒）</td>
@@ -1196,11 +1197,11 @@
 <tr><td valign="top">_DB_dbms</td>
     <td valign="top">mysql</td>
     <td valign="top">Geeklogが使用するデータベースシステムの種類。<br>
-			<ul>
-				<li><code>mysql</code> (MySQL)</li>
-				<li><code>mssql</code> (Microsoft SQL Server)</li>
-			</ul>
-			のいずれかを指定する。</td></tr>
+            <ul>
+                <li><code>mysql</code> (MySQL)</li>
+                <li><code>mssql</code> (Microsoft SQL Server)</li>
+            </ul>
+            のいずれかを指定する。</td></tr>
 </table>
 
 
@@ -1251,7 +1252,7 @@
 <p>ロケールと時間フォーマットの設定はコンフィギュレーションで行える。ロケールを設定するには，適切な文字列を設定するか空白のままにしておく。後者の場合は，オペレーティングシステムのロケールの既定値が使用される。時間フォーマットはロケールによって処理が決まる。ロケール名はオペレーティングシステムに依存する。ほとんどのUNIX系のホストでは，ロケールコードは<i>/usr/share/locale/locale.alias</i> ファイルに記述されており，<i>locale -a</i> コマンドで利用可能なロケールすべてを表示できるシステムもある。ロケールが存在しない場合は，<i>localedef</i> コマンドで作成できる。
 
 <p>ロケールに関する詳細は，<a href="http://www.opengroup.org/onlinepubs/7908799/xbd/locale.html">http://www.opengroup.org/onlinepubs/7908799/xbd/locale.html</a>，<br>
-<code>localdef</code> コマンドに関する詳細は，<a href="http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html">http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html</a><br>を参照のこと，
+<code>localdef</code> コマンドに関する詳細は，<a href="http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html">http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html</a><br>を参照のこと，</p>
 
 <h3>時間のフォーマット</h3>
 <p>（訳注：以下の表現は，<a href="http://jp.php.net/manual/ja/function.strftime.php">PHPマニュアル</a>の表現を使用，一部改変している。）</p>
