@@ -1,233 +1,234 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Installation Instructions</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>インストール方法 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Installation Instructions</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - インストール方法</div>
 
-<h1>Installing Geeklog</h1>
+<h1>Geeklogのインストール</h1>
 
 <ul>
-  <li><a href="#glossary">Glossary</a></li>
-  <li><a href="#installation_requirements">Installation Requirements</a>
+  <li><a href="#glossary">用語</a></li>
+  <li><a href="#installation_requirements">インストールに必要なもの</a>
     <ul>
-      <li><a href="#preinstall">Required Software</a></li>
-      <li><a href="#things_you_should_know">Things You Should Know</a></li>
+      <li><a href="#preinstall">必要なソフトウェア</a></li>
+      <li><a href="#things_you_should_know">必要な技術力</a></li>
     </ul></li>
-  <li><a href="#install">New Installation</a>
-  <li><a href="#upgrade">Upgrading</a>
-  <li><a href="#installprob">Common Problems and Troubleshooting</a></li>
+  <li><a href="#install">新規インストール</a>
+  <li><a href="#upgrade">旧バージョンからのアップグレード</a>
+  <li><a href="#installprob">よくある問題と解決法</a></li>
 </ul>
 
 
-<h2><a name="glossary">Glossary</a></h2>
+<h2><a name="glossary">用語</a></h2>
 
     <ul>
-        <li type="disc">Directory: Same as a folder.</li>
-        <li type="disc">Path: A physical location on a server that describes where files and directories are. On Windows paths begin with the drive letter (<code>c:/inetpub/wwwroot/</code>), on *nix paths start at root (<code>/</code>) like (<code>/var/www/</code>) </li>
-        <li type="disc">URL: Uniform Resource Locator, the address of a specific piece of information on the web (<code>http://www.foo.com/</code>)</li>
+        <li type="disc">ディレクトリ: フォルダと同じ。</li>
+        <li type="disc">パス: Webサーバ上で，ファイルやディレクトリが実際にある場所。Windowsのパスはドライブ文字(<code>c:/inetpub/wwwroot/</code>)で始まり，*nix系列のパスは <code>/var/www/</code> のようにルート(<code>/</code>)から始まる。</li>
+        <li type="disc"><acronym title="Uniform Resource Locator">URL</acronym>: <code>http://www.foo.com/</code> などの，Web上での情報のありかを示すもの。</li>
     </ul>
     
 
-<h2><a name="installation_requirements">Installation Requirements</a></h2>
+<h2><a name="installation_requirements">インストールに必要なもの</a></h2>
 
-    <h3><a name="preinstall">Required Software</a></h3>
+    <h3><a name="preinstall">必要なソフトウェア</a></h3>
 
-        <p>To install and use Geeklog you will need to have a server running Apache or Microsoft IIS with PHP 4.1.0 or higher installed. You will also need either <a href="http://dev.mysql.com/downloads/" target="_blank">MySQL 3.23.2</a> or greater or <a href="http://www.microsoft.com/sql/default.mspx" target="_blank">Microsoft SQL Server 2000</a> or newer.</p>
+        <p>Geeklogをインストールして使用するには，ApacheやMicrosoft IISなどのWebサーバとPHPのバージョン4.1.0以降が必要である（訳注：PHPの4.x系列はほぼメンテナンスが終了しているので，今さら選択する理由はない。5.x系列のできるだけ新しいバージョンを選ぶとよい。2008年6月16日の時点では，最新バージョンは5.2.6である）。また，データベースとして，<a href="http://dev.mysql.com/downloads/" target="_blank">MySQL 3.23.2</a>以降か，<a href="http://www.microsoft.com/sql/default.mspx" target="_blank">Microsoft SQL Server 2000</a>以降が必要である。</p>
 
-    <h3><a name="things_you_should_know">Things You Should Know</a></h3>
+    <h3><a name="things_you_should_know">必要な技術力</a></h3>
 
-    <p>Before installing Geeklog for the first time, please make sure you:</p>
+    <p>はじめてGeeklogをインストールするなら，次のことを確認しよう。</p>
     <ul>
-        <li>Know how to determine the path of your root web directory. (<a href="#glossary">What is a path?</a>)
-        <li>Have the ability to unpack the downloaded Geeklog tarball file.
-        <li>Have the ability to create a new database or have access to an existing one.
-        <li>Have access to your web server via SSH or FTP so you can change permissions on a few files and directories.
+        <li>Webディレクトリのルート（ドキュメントルート）の決め方を知っている(<a href="#glossary">パスとは?</a>)。
+        <li>ダウンロードしたGeeklogのターボール（圧縮ファイル）を伸張（解凍）できる。
+        <li>データベースを新規作成するか，既存のデータベースにアクセスできる。
+        <li>WebサーバにSSHやFTPでアクセスして，いくつかのファイルとディレクトリのパーミッションを変更できる。
     </ul>
     
 
-<h2><a name="install">New Installation</a></h2>
+<h2><a name="install">新規インストール</a></h2>
 
     <ol>
         <li>
-            <p>Download the current version of Geeklog from <a href="http://www.geeklog.net/" target="_blank">Geeklog.net</a>.</p>
+            <p>Geeklogの現バージョンのターボール（圧縮ファイル）を<a href="http://www.geeklog.net/" target="_blank">Geeklog.net</a>や<a href="http://www.geeklog.jp/" target="_blank">Geeklog.jp</a>からダウンロードする。</p>
         </li>
         <li>
-            <p>Unpack the downloaded tarball file by running: </p>
+            <p>次のコマンドを実行して，ダウンロードしたターボールを伸張（解凍）する。</p>
             <p><code>tar -zxvf geeklog-1.5.0.tar.gz</code> </p>
             
-            <p><strong>Note:</strong> Some users have reported that WinZip corrupts certain Geeklog files during decompression. This will cause errors during the installation process. You are strongly urged not to use WinZip. Try <a href="http://www.7-zip.org/" target="_blank">7-Zip</a> or <a href="http://www.rarlab.com/" target="_blank">WinRAR</a> if you must decompress the file locally.</p>
+            <p><strong>注意:</strong> WinZipを使用すると，そののバージョンによっては，ファイルが壊れると報告しているユーザがいる。こうなるとインストールの最中にエラーになるので，ローカルでファイルを解凍する必要がある場合は，WinZipの代わりに<a href="http://www.7-zip.org/" target="_blank">7-Zip</a>や<a href="http://www.rarlab.com/" target="_blank">WinRAR</a>を使うことを強く勧める。</p>
         </li>
         <li>
-            <p>Create a blank MySQL or Microsoft SQL database and a user account with privileges to modify it. Your hosting provider may have already set up a database and account for you, contact them if you need assistance with this step.</p>
+            <p>MySQLやMicrosoft SQLを使用し，空のデータベースと変更権限のあるユーザを作成する。ホスティング会社がデータベースを作成してアカウントを作成している場合もあるので，必要ならホスティング会社に尋ねてみること。</p>
         </li>
         <li>
-            <p>Place the contents of <code>geeklog-1.5.0/public_html/</code> into your web root directory on your web server. The web root directory is often named "public_html", "htdocs", or "www".</p>
+            <p><code>geeklog-1.5.0/public_html/</code> ディレクトリの中身をWebサーバのドキュメントルートに転送する。ドキュメントルートには，"public_html"や"htdocs"，"www"などの名前がつけられていることが多い。</p>
         
-            <p>Next, place the remaining contents of <code>geeklog-1.5.0/</code> into either the parent directory of your root web directory (recommended) or any other non public folder and the installation wizard will attempt to locate them automatically. If it cannot you will be asked to specify their paths during installation. This is done as a security measure to prevent access to Geeklog system files by Internet users. </p>
+            <p>次に，<code>geeklog-1.5.0/</code> ディレクトリの中身の残りをドキュメントルートの親ディレクトリ（お勧め!）かWebからアクセスできないディレクトリに転送する。インストールウィザードはこれらの場所を自動的に検出しようとする。検出できない場合は，インストールの過程でパスを入力するよう要求される。インターネットからのアクセスを防ぐセキュリティ対策としてこのような仕様になっている。</p>
             
-            <p><strong>Note:</strong> If your hosting provider does not allow you to place files outside of your root web directory:</p>
-            <ul>
-                <li>Create an inconspicuous directory (i.e. don't name it "geeklog") in your root web directory.</li>
-                <li>Place these system files in that directory.</li>
-                <li>Password protect it using an .htaccess file or similar.</li>
-            </ul>
+            <p><strong>注意:</strong> ホスティング会社がドキュメントツリーの外にファイルを置くのを許可していない場合は，</p>
+            <ol>
+                <li>ドキュメントルート内に推測されにくい名前でディレクトリを作成する(つまり，"geeklog"などと名付けるのはダメ)。</li>
+                <li>作成したディレクトリ内に残りのファイルを転送する。</li>
+                <li>.htaccessファイルなどを用いて，そのディレクトリにBASIC認証をかける。</li>
+            </ol>
         </li>
         <li>
-            <p>Open your browser and navigate to the Geeklog installation wizard file <code>admin/install/index.php</code> on your web server. The path to this file will depend on where you chose to put the Geeklog files on your web server. The default location is: </p>
+            <p>Webブラウザを起動し，Geeklogのインストールウィザードを実行（<code>http://サイトのURL/admin/install/index.php</code> をアドレス欄に入力）。Geeklogのファイルをサブドメインに置いた場合は，<code>http://サイトのURL/サブドメイン名/admin/install/index.php</code> などとなる。</p>
             
-            <p><code>http://[your_geeklog_site]/admin/install/index.php</code></p>
-            
-            <p>The Geeklog installation wizard was designed to automate the install process. Simply follow the installation steps.</p>
+            <p>Geeklogのインストールウィザードは自動的にインストールを行うので，単に表示される手順に従えばよい。</p>
         </li>
         <li>
-            <p>Once you have completed the installation be sure to delete the <code>admin/install</code> directory. Also, read the first story on your Geeklog site to learn how to log in as the administrator and change the default password.<br>
+            <p><strong>インストールが終了したら，必ず， <code>admin/install</code> ディレクトリを削除すること。サイトに最初に表示される記事を読んで，管理者としてのログイン情報を知り，初期値として設定されているパスワードをすみやかに変更すること。</strong><br>
 </p>
         </li>        
     </ol>
    
 
-<h2><a name="upgrade">Upgrading</a></h2>
+<h2><a name="upgrade">旧バージョンからのアップグレード</a></h2>
 
-    <p>Upgrading is no different than a New Installation except your database already exists and needs to be updated.</p> 
+    <p>データベースが既に存在していて更新する必要があるということを除けば，アップグレードは新規インストールと全く同じである。</p> 
 
-    <p>Take extreme care to back up any files from your current Geeklog installation that have any custom code in them, especially lib-custom.php (where all custom code should reside). Be sure to back up any modified themes, images, and static pages from your current installation.</p>
+    <p>現在インストールしているGeeklogの中で自分で変更したカスタムコードがあれば（特に <code>lib-custom.php</code>。カスタムしたコードはすべてこのファイルの中に入れることをお勧めする），必ずバックアップを取っておくこと。修正したテーマ，画像，静的ページのバックアップを必ず取っておくこと。</p>
             
-    <p>Also, please be sure to back up your database. We can't stress the importance of backing up your files and database enough. </p>
+    <p>また，データベースのバックアップも必ず取っておくこと。ファイル類とデータベースをバックアップする重要性はいくら強調してもし足りないくらいである。</p>
 
-    <p><strong>YOU HAVE BEEN WARNED.</strong></p>
+    <p><strong>警告しましたよ!</strong></p>
     <ol>
         <li>
-            <p>Download the current version of Geeklog from <a href="http://www.geeklog.net/" target="_blank">Geeklog.net</a>.</p>
+            <p>Geeklogの現バージョンのターボール（圧縮ファイル）を<a href="http://www.geeklog.net/" target="_blank">Geeklog.net</a>や<a href="http://www.geeklog.jp/" target="_blank">Geeklog.jp</a>からダウンロードする。</p>
         </li>
         <li>
-            <p>Unpack the downloaded tarball file by running: </p>
+            <p>次のコマンドを実行して，ダウンロードしたターボールを伸張（解凍）する。</p>
             <p><code>tar -zxvf geeklog-1.5.0.tar.gz</code> </p>
             
-            <p><strong>Note:</strong> Some users have reported that WinZip corrupts certain Geeklog files during decompression. This will cause errors during the installation process. You are strongly urged not to use WinZip. Try <a href="http://www.7-zip.org/" target="_blank">7-Zip</a> or <a href="http://www.rarlab.com/" target="_blank">WinRAR</a> if you must decompress the file locally.</p>
+            <p><strong>注意:</strong> WinZipを使用すると，そのバージョンによっては，ファイルが壊れると報告しているユーザがいる。こうなるとインストールの最中にエラーになるので，ローカルでファイルを解凍する必要がある場合は，WinZipの代わりに<a href="http://www.7-zip.org/" target="_blank">7-Zip</a>や<a href="http://www.rarlab.com/" target="_blank">WinRAR</a>を使うことを強く勧める。</p>
         </li>
         <li>
-            <p>Place the contents of <code>geeklog-1.5.0/</code> into the same directory your old installation was located. For instance, if your old Geeklog was in <code>/usr/home/www/geeklog/</code>, then your new installation should also be in <code>/usr/home/www/geeklog/</code>.</p>
+            <p><code>geeklog-1.5.0/</code> ディレクトリの中身を，現在インストールしているバージョンの同じディレクトリに転送する。たとえば，現在のバージョンを <code>/usr/home/www/geeklog/</code> にインストールしているなら，新しいバージョンも <code>/usr/home/www/geeklog/</code> に転送する。</p>
         </li>
         <li>
-            <p><strong>When upgrading from Geeklog 1.4.1 or earlier</strong>: Put the <tt>config.php</tt> files from your old install back into their place now (the main <tt>config.php</tt> and those for the plugins). The install script will read these files during the upgrade to pre-populate the new Configuration admin panel with your settings. If you skip this step, you will end up with default settings for Geeklog and the pre-installed plugins.</p>
+            <p><strong>Geeklog 1.4.1及びそれ以前のバージョンからアップグレードする場合は，</strong> <tt>config.php</tt> ファイル（メインの <code>config.php</code> と各プラグインの <code>config.php</code>）をバックアップしておき，新しいバージョンを転送した後で，コピーをそれぞれの場所に戻すこと。インストールウィザードはアップグレードの最中にこれらの設定ファイルからデータを読み取り，新しいコンフィギュレーション用に値を設定する。このステップを省くと，Geeklogとインストール済みプラグインの初期値に戻されてしまう。</p>
         </li>
         <li>
-            <p>Open your browser and navigate to the Geeklog installation wizard file <code>admin/install/index.php</code> on your web server. The path to this file will depend on where you chose to put the Geeklog files on your web server. The default location is: </p>
+            <p>Webブラウザを起動し，Geeklogのインストールウィザードを実行（<code>http://サイトのURL/admin/install/index.php</code> をアドレス欄に入力）。Geeklogのファイルをサブドメインに置いた場合は，<code>http://サイトのURL/サブドメイン名/admin/install/index.php</code> などとなる。</p>
             
-            <p><code>http://[your_geeklog_site]/admin/install/index.php</code></p>
-            
-            <p>The Geeklog installation wizard was designed to automate the upgrade process. Simply follow the installation steps.</p>
+            <p>Geeklogのインストールウィザードは自動的にインストールを行うので，単に表示される手順に従えばよい。</p>
         </li>
         <li>
-            <p>Once you have completed the upgrade be sure to delete the <code>admin/install</code> directory.</p>
+            <p><strong>インストールが終了したら，必ず， <code>admin/install</code> ディレクトリを削除すること。</strong>
+</p>
         </li>        
+				<li>
+						<p>必要なら <code>lib-custom.php</code> などのバックアップしておいたコードやテーマなどのファイル類を戻す。</p>
+				</li>
     </ol>
    
 
-<h2><a name="installprob">Common Problems and Troubleshooting</a></h2>
+<h2><a name="installprob">よくある問題と解決法</a></h2>
 
-    <p>Before you go any further, please open siteconfig.php and <strong>double check your paths!</strong> Bad paths, or typos in the paths, will cause all sorts of errors in Geeklog.</p>   
+    <p>先に進む前に， <code>siteconfig.php</code> を開き，<strong>パスを確認すること</strong>。パスが不正であったり，まちがいがあったりすると，様々な種類のエラーが発生する。</p>   
 
-<p>When you get an error message, please read it carefully. Even if you're not familiar with PHP, it will give you a hint about what is wrong. Pay special attention at the paths contained in the error message. As mentioned before, wrong paths are the most common cause for problems.</p>
+<p>エラーメッセージが出たら，それを注意深く読むこと。PHPに詳しくなくても，エラーに関するヒントは得られる。エラーメッセージに含まれるパス情報に特に注意すること。上述の通り，パスの間違いは最もよく見られる原因である。</p>
 
-<p>If you get more than one error message, always start with the very first error - the others will often go away automatically once you've fixed the first one.</p>
+<p>複数のエラーメッセージが表示される場合は，必ず最初のエラーメッセージから手をつけること。最初のエラーを解決したら，残りのエラーが消えることもよくある。</p>
 
-    <h3>Common errors (Line numbers will vary):</h3>
+    <h3>よくあるエラー(以下の例で行番号は状況に応じ，違うものになりうる):</h3>
         <ul>
-            <li><p><strong>Error:</strong> <code>Parse error: parse error in /path/to/your/siteconfig.php on line 20</code></p>
-                <p><strong>Answer:</strong> A parse error usually hints at a typo you've made. Check the file at the given line (the actual error may be in the line preceding the one mentioned in the error message).</p>
-                <p>Common problems are:</p>
+            <li><p><strong>エラー:</strong> <code>Parse error: parse error in /path/to/your/siteconfig.php on line 20</code></p>
+                <p><strong>答え:</strong> Parse errorは，自分のtypo（綴り間違い）が原因で起こることが多い。表示された行やその直前の行をチェックすること。</p>
+                <p>よくある間違いは:</p>
                 <ul>
-                    <li>not enclosing paths in single quotes properly</li>
-                    <li>missing semicolon at the end of the line</li>
-                    <li>using single quotes within a string (you need to write <code>Joe's Site</code> as <code>Joe\'s Site</code>, escaping the extra quote)
+                    <li>パスをシングルクォート(')できちんと閉じていない</li>
+                    <li>行末のセミコロン(;)が抜けている</li>
+                    <li>文字列内でシングルクォート(')を使っているのにエスケープし忘れている(たとえば， <code>Joe&yen;'s Site</code> と書かなければならないのに， <code>Joe's Site</code> と書いている)
                 </ul>
             </li>
             <li>
-                <p><strong>Error:</strong> <code>Warning: main(some/path/to/system/databases/mysql.class.php): failed to open stream: No such file or directory in /path/to/your/system/lib-database.php on line 100</code></p>
+                <p><strong>エラー:</strong> <code>Warning: main(some/path/to/system/databases/mysql.class.php): failed to open stream: No such file or directory in /path/to/your/system/lib-database.php on line 100</code></p>
                 <p><code>Fatal error: main(): Failed opening required 'some/path/to/system/databases/mysql.class.php' (include_path='.:/some/other/path/') in /some/path/to/system/lib-database.php on line 100</code></p>
-                <p><strong>Answer:</strong> The path that you've entered for the <code>$_CONF['path']</code> variable in siteconfig.php is not correct. Make sure you typed it correctly. Also make sure it uses an <em>absolute</em> path, i.e. one that starts at the root of your file system (and that it starts with a / under Unix/Linux or a drive letter under Windows).</p>
+                <p><strong>答え:</strong> <code>siteconfig.php</code> 中の <code>$_CONF['path']</code> (Geeklogのシステムファイルのパス）の値が正しくない。また， <em>絶対</em> パス，つまり，ファイルシステムのルートから始まるパスを指定しているか確認すること（Unix/Linux系のOSなら / ，Windowsならドライブ文字から始まる)。</p>
             </li>
             <li>
-                <p><strong>Error:</strong> <code>1050: Table 'gl_access' already exists</code></p>
-                <p><strong>Answer:</strong> You must have run the install script once before (possibly unsuccessfully). To be on the safe side, drop the database and create a new, empty database and try running the install script again.</p>
+                <p><strong>エラー:</strong> <code>1050: Table 'gl_access' already exists</code></p>
+                <p><strong>答え:</strong> 以前インストールを実行したことがある（たぶん，失敗しているはず）。念のために，既存のデータベースを削除してから新しく空のデータベースを作り直し，インストールし直した方がよい。</p>
             </li>
             <li>
-                <p><strong>Error:</strong> <code>Parse error: parse error in ../../lib-common.php on line 2231 </code></p>
+                <p><strong>エラー:</strong> <code>Parse error: parse error in ../../lib-common.php on line 2231 </code></p>
                 <p><code>Fatal error: Cannot instantiate non-existent class: template in ../../lib-common.php on line 335 </code></p>
 
-                <p>Or:</p>
+                <p>または:</p>
                 <p><code>Parse error: parse error in /path/to/geeklog/public_html/lib-common.php on line 3036</code></p>
                 <p><code>Fatal error: Call to undefined function: plg_showcenterblock() in /path/to/geeklog/public_html/index.php on line 67</code></p>
 
-                <p>Or:</p>
+                <p>または:</p>
                 <p><code>Parse error: parse error, unexpected T_CONSTANT_ENCAPSED_STRING in /path/to/geeklog/public_html/lib-common.php on line 3815</code></p>
                 <p><code>Fatal error: Cannot instantiate non-existent class: template in /path/to/geeklog/public_html/lib-common.php on line 709</code></p>
 
-                <p><p><strong>Answer:</strong> All of the above cases (and similar "parse error" messages you may get for lib-common.php, typically with a line number in the 3000 or 4000 range) indicate a corrupted <code>lib-common.php</code> file.</p>
-                <p>As noted at the top of this document this is usually caused by one of the following:</p>
+                <p><strong>答え:</strong> 上記の例はすべて(また， <code>lib-common.php</code> で発生する "parse error" で，エラーが発生した行番号が特に3000から4000台の場合)， <code>lib-common.php</code> が破損していることを示している。</p>
+                <p>このドキュメントの冒頭に示したとおり，このエラーの原因はふつう，次のうちの1つである:</p>
                 <ul>
-                    <li>Uncompressing the tarball with certain versions of WinZip (try using <a href="http://www.7-zip.org/" target="_blank">7-Zip</a> or <a href="http://www.rarlab.com/" target="_blank">WinRAR</a> instead)</li>
-                    <li>Editing the lib-common.php with Dreamweaver or other so-called WYSIWYG HTML editors (use a simple text editor instead)</li>
-                    <li>Editing the lib-common.php with "on-site" text editors built into tools like Cpanel (again, use a simple text editor instead)</li>
+                    <li>あるバージョンのWinZipを用いてターボールを伸張（展開）した(WinZipの代わりに<a href="http://www.7-zip.org/" target="_blank">7-Zip</a>や<a href="http://www.rarlab.com/" target="_blank">WinRAR</a>を試してみること)</li>
+                    <li><code>lib-common.php</code> をDreamweaverなどのいわゆる<acronym title="What You See Is What You Get: 編集画面で表示されているとおりに実際に表示されること">WYSIWYG</acronym> HTMLエディタで編集した(代わりに，シンプルなテキストエディタを使用すること)</li>
+                    <li><code>lib-common.php</code> をCpanelなどの管理ツールに組み込まれているオンラインのエディタで編集した(代わりに，シンプルなテキストエディタを使用すること)</li>
                 </ul>
             </li>
             <li>
-                <p><strong>Error:</strong> <code>Warning: mysql_connect(): Access denied for user: 'username@localhost' (Using password: YES) in /path/to/geeklog/system/databases/mysql.class.php on line 104<br>
+                <p><strong>エラー:</strong> <code>Warning: mysql_connect(): Access denied for user: 'username@localhost' (Using password: YES) in /path/to/geeklog/system/databases/mysql.class.php on line 104<br>
 Cannnot connect to DB server</code></p>
 
-                <p><strong>Answer:</strong> First of all, make sure the database settings in <code>siteconfig.php</code> are correct, specifically the name and password of your MySQL user, the name of your database, and the name of your MySQL server.</p>
+                <p><strong>答え:</strong> まず最初に， <code>siteconfig.php</code> 中のデータベースの設定が正しいか確認すること。特にMySQLユーザのアカウント名とパスワード，データベース名，MySQLサーバ名。</p>
 
-                <p>If you're running your own server, you may need to give your MySQL user proper permissions. Log in to MySQL as the MySQL root user and issue these commands:</p>
+                <p>自分でサーバを運営しているなら，MySQLのユーザに適切な権限を与える必要があるのかもしれない。その場合は，管理者としてMySQLサーバにログインし，次のコマンドを発行する:</p>
 
-                <p><code>GRANT ALL PRIVILEGES ON <em>[database_name]</em> TO <em>[user@host]</em> IDENTIFIED BY '<em>[password]</em>';<br>
+                <p><code>GRANT ALL PRIVILEGES ON <strong>[database_name]</strong> TO <strong>[user@host]</strong> IDENTIFIED BY '<strong>[password]</strong>';<br>
                 FLUSH PRIVILEGES;</code></p>
                 
-                <p>Replace the <em>[lower-case]</em> strings with the actual values.</p>
+                <p><strong>[小文字]</strong> の部分は適切な値に置き換えること。</p>
                 
-                <p>If you want (or need) to be more restrictive with database permissions: You will need to at least grant the ALTER, CREATE, DELETE, INSERT, SELECT, and UPDATE permissions to your database user. ALTER and CREATE permissions are only needed for installing and upgrading Geeklog, as well as for installing plugins and other add-ons.</p>
+                <p>データベースの権限をもっと制限したい，ないし制限する必要がある場合でも，少なくとも ALTER, CREATE, DELETE, INSERT, SELECT, UPDATE 権限をデータベースユーザに与える必要がある。ALTER と CREATE 権限は，Geeklogのインストールとアップグレード，プラグインやアッドオン(add-ons)のインストールを行うときしか必要ではない。</p>
             </li>
             <li>
-                <p><strong>Error:</strong> <code>Warning: fopen("/some/path/logs/error.log", "a") - Permission denied in /some/path/public_html/lib-common.php on line 1440</code></p>
-                <p><strong>Answer:</strong> Make sure that the logs/ directory AND the files in it have permissions of at least 775. You may need to make the permissions 777 if 775 isn't working for you. For good measure, make sure the <code>public_html/backend</code> directory and the geeklog.rss file have the same 775 or 777 permissions.</p>
+                <p><strong>エラー:</strong> <code>Warning: fopen("/some/path/logs/error.log", "a") - Permission denied in /some/path/public_html/lib-common.php on line 1440</code></p>
+                <p><strong>答え:</strong> logsディレクトリとその中に含まれるファイルの両方に少なくとも 775 のパーミッションがあるのを確認する。775 でうまくいかないなら，777 にする必要があるだろう。同様に， <code>public_html/backend</code> ディレクトリとその中に含まれるファイル(geeklog.rssなど)にも 775 ないし 777 のパーミッションが必要である。</p>
     
-                <p><strong>Tip:</strong> Use the script that is located at <code>http://yourgeeklogsite/admin/install/check.php</code> to test if all the permissions have been set up correctly.</p>
+                <p><strong>ヒント:</strong> <code>http://自分のサイトのURL/admin/install/check.php</code> を利用して，パーミッションがすべて適切に設定されているか確認するとよい。</p>
             </li>
             <li>
-                <p><strong>Whenever someone tries to log in or out, the following error is produced:</strong></p>
+                <p><strong>誰かがログイン・ログアウトするたびに，次のエラーが発生する:</strong></p>
                 <p><code>Cannot add header information - headers already sent by (output started at /usr###/home/&lt;userid&gt;/public_html/geeklog/siteconfig.php:589) in /usr###/home/&lt;userid&gt;/public_html/geeklog/system/lib-sessions.php on line 133</code></p>
 
-                <p><strong>Answer:</strong> Make sure that your siteconfig.php file does not contain any "whitespace" after the closing <code>?&gt;</code> at the end of the file. I.e. there should not be anything (not even blanks or empty lines) after those two characters.</p>
+                <p><strong>答え:</strong> <code>siteconfig.php</code> 末尾の <code>?&gt;</code> の後に余分なホワイトスペース（スペース，タブ，改行コードなど）が含まれていないか確認すること。（訳注：ファイル末尾の <code>?&gt;</code> がなくてもPHPの動作に支障はないので，取り除くとよい。）</p>
 
             </li>
         </ul>
 
-        <p>If you still have problems, please do one or more of the following:</p>
+        <p>これでも問題が生じるなら，次のことを試してみよう。</p>
         <ol>
             <li>
-                <p>Go to <a href="http://www.geeklog.net">http://www.geeklog.net</a> and check out the Support section. The Support section includes a <a href="http://www.geeklog.net/faqman/">FAQ</a> and a <a href="http://www.geeklog.net/search.php">search system</a> (try searching for the error message, if you get one).</p>
+                <p><a href="http://www.geeklog.net">http://www.geeklog.net</a> を訪問して，「サポート(Support)」のセクションを調べてみる。サポートセクションには， <a href="http://www.geeklog.net/faqman/">よくある質問(FAQ)</a> と <a href="http://www.geeklog.net/search.php">検索(Search)システム</a>がある。表示されたエラーメッセージを（行番号を除いて）検索してみるとよい。</p>
             </li>
             <li>
-                <p>Visit the mailing list archives at <a href="http://lists.geeklog.net/pipermail/geeklog-users/">http://lists.geeklog.net/pipermail/geeklog-users/</a>. You can also <a href="http://lists.geeklog.net/listinfo/geeklog-users">subscribe to the mailing list</a> and post your question to the Geeklog community.</p>
+                <p><a href="http://lists.geeklog.net/pipermail/geeklog-users/">http://lists.geeklog.net/pipermail/geeklog-users/</a> に保存されているメーリングリストの過去ログを読む。<a href="http://lists.geeklog.net/listinfo/geeklog-users">このメーリングリストを購読</a>し，Geeklogコミュニティに（英語で）質問を投稿してもよい。</p>
             </li>
             <li>
-                <p>Try the chat room at <code>irc.freenode.net, channel #geeklog</code>. Please have all your path information in siteconfig.php and lib-common.php readily available.</p>
+                <p><code>irc.freenode.net, channel #geeklog</code> のIRCを試す。<code>siteconfig.php</code> に含まれるパス情報と <code>lib-common.php</code> を手元に用意しておくこと。</p>
             </li>
             <li>
-                <p>Try entering the text of the error message on Google. Chances are you will find someone else who had the same problem and fixed it.  And sometimes searching for a specific error will cause Google to bring up broken pages that have the same error.</p>
+                <p>エラーメッセージをGoogleで検索してみる。他の人が同じ問題に遭遇し，解決している可能性がある。Googleで検索していると，同じエラーが発生している壊れたページが表示されることもある。</p>
             </li>
         </ol>
 
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft. <br>
-    Extended version of this document created by Jason C. Levine and Matt West
+    <a href="http://wiki.geeklog.net">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。<br>
+    このドキュメントの拡張版は，Jason C. LevineとMatt Westにより作成されました。
 </div>
 
 </body>
