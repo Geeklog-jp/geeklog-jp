@@ -1,564 +1,430 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <title>Geeklog Documentation - Plugin Development</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>プラグイン開発 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
 
 <body>
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
-<div class="menu"><a href="index.html">Geeklog Documentation</a> - Plugin Development</div>
+<div class="menu"><a href="index.html">Geeklogドキュメント</a> - プラグイン開発</div>
 
-<h1>Plugin Development</h1>
+<h1>プラグイン開発</h1>
 
-<p><strong>Note:</strong> Unfortunately, this document is slightly out of date.
-While the API functions described in here are still correct, several new
-functions are missing. If in doubt, please also see the file
-<tt>system/lib-plugins.php</tt> which implements the plugin interface.</p>
+<p><strong>注意:</strong> 残念ながら，このドキュメントは少し古くなっている（訳注：<strong>かなり古くなっている</strong>箇所もある。本家の<a href="http://wiki.geeklog.net/wiki/index.php/Plugin_Developers_Handbook">Wiki</a>や<a href="http://wiki.geeklog.jp/index.php/PluginDev">Geeklog.jpのWiki</a>も参照してほしい。）。ここに記述されているAPI機能は今でも正常に機能するが，新しい関数の中には取り上げられていないものもある。はっきりしない場合は，プラグインインターフェースを実装している <tt>system/lib-plugins.php</tt> を見ること。</p>
 
-<p>If you find these API descriptions too terse, you may also want to consult
-the more extensive <a href="http://gplugs.sourceforge.net/pluginman/">Plugin
-Developers Guide</a>.</p>
+<p>以下のAPIの記述が簡潔すぎると思うなら，より広範囲をカバーする<a href="http://gplugs.sourceforge.net/pluginman/">プラグイン開発者ガイド</a>を見る必要があるだろう。</p>
 
 <ul>
-  <li><a href="#overview">Overview</a></li>
-  <li><a href="#Functions_for_writing">Geeklog Plugin API Functions</a>
+  <li><a href="#overview">概要</a></li>
+  <li><a href="#Functions_for_writing">GeeklogプラグインAPI関数</a>
     <ul>
-      <li><a href="#mod_functions">Moderation Functions</a></li>
-      <li><a href="#admin_user_functions">Admin and User Menu Functions</a></li>
-      <li><a href="#Search_Functions">Search Functions</a></li>
-      <li><a href="#Comment_Functions">Comment Functions</a></li>
-      <li><a href="#Stats_Function">Stats Function</a></li>
-      <li><a href="#Uninstall_Function">Uninstall Function</a></li>
-      <li><a href="#User_Functions">User Functions</a></li>
-      <li><a href="#Profile_Functions">Profile Functions</a></li>
-      <li><a href="#Misc_Functions">Misc. Functions</a></li>
-      <li><a href="#Feed_Functions">Feed Functions</a></li>
+      <li><a href="#mod_functions">モデレーション用関数</a></li>
+      <li><a href="#admin_user_functions">管理者及びユーザメニュー用関数</a></li>
+      <li><a href="#Search_Functions">検索用関数</a></li>
+      <li><a href="#Comment_Functions">コメント用関数</a></li>
+      <li><a href="#Stats_Function">統計用関数</a></li>
+      <li><a href="#Uninstall_Function">アンインストール用関数</a></li>
+      <li><a href="#User_Functions">ユーザ用関数</a></li>
+      <li><a href="#Profile_Functions">プロフィール用関数</a></li>
+      <li><a href="#Misc_Functions">その他の関数</a></li>
+      <li><a href="#Feed_Functions">フィード用関数</a></li>
     </ul></li>
-  <li><a href="#Implementing_your_Admin_Interface">Implementing your Admin Interface</a></li>
-  <li><a href="#Preparing_your_Geeklog_Plugin">Preparing your Geeklog Plugin Distribution</a></li>
-  <li><a href="#How_Geeklog_Installs_Plugins">How To Install A Geeklog Plugin</a></li>
-  <li><a href="#Deliver_Your_Plugin">Deliver Your Plugin!</a></li>
+  <li><a href="#Implementing_your_Admin_Interface">独自の管理者インターフェースの実装</a></li>
+  <li><a href="#Preparing_your_Geeklog_Plugin">プラグイン配布の準備</a></li>
+  <li><a href="#How_Geeklog_Installs_Plugins">プラグインのインストール方法</a></li>
+  <li><a href="#Deliver_Your_Plugin">プラグインの配布</a></li>
 </ul>
 
-<h2><a name="overview">Overview</a></h2>
+<h2><a name="overview">概要</a></h2>
 
-<p>Geeklog is becoming more and more popular each day and   we,   the
-Geeklog developers,  are amazed at some of the great  hacks   people   have
-made to extend   their Geeklog  installation to fit their   own
-needs.&nbsp;     At the  same time,   the Geeklog development  team is
-continually adding   new  features  that make   Geeklog even better. We
-have realized the   need  for Geeklog  to support   two threads of
-development:  core geeklog  code and  plugin-code. By building  in the
-infrastructure   needed to  extend Geeklog's  functionality  through
-plugins  we can make  a clean seperation    between the  Geeklog codebase
-and plugin code  so that we can concentrate    on making Geeklog's  core
-code  better while others     can develop plugins   so that Geeklog fits
-their needs. With that    said,  Geeklog now has   a Plugin application
-program interface (API).
+<p>Geeklogは日々人気が高まり，独自の要求を満たすためGeeklogの機能拡張を行うためにユーザが行うハックに開発者たちは驚いている。それと同時に，開発者チームはGeeklogを改良するために絶えず新機能を追加している。私たちはGeeklogのコアコードとプラグインの2系統をサポートする必要があることを理解している。プラグインによってGeeklogの機能を拡張するのに必要なインフラを整備することにより，私たちはGeeklogのコアコードとプラグインを明確に分離することができる。そうすることで，私たちはコアコードの開発に，他のユーザは自分の要求にあったプラグインの開発に専念することができる。そういうわけで，GeeklogにはプラグインAPIが備わっている。
 
-<p>At the highest level, the Geeklog Plugin API is generic     code   that
-is  called   in strategic places in the Geeklog codebase  that   allow   function
-of plugins to be called. This will allow your plugin the following features:
+<p>最上位のレベルで考えると，GeeklogのプラグインAPIはGeeklogのコアコードの要所要所で呼び出される汎用のコードであり，プラグインの関数を呼び出すことが可能になる。プラグインは以下の機能を与えられている。
 
 <ul>
-  <li>Ability for your plugin to be submission-based so that users can submit
-    objects to your plugin.&nbsp; You can then visit the command and
-    control center in Geeklog to moderate the submissions for your plugin.</li>
-  <li>Allow your plugin to show up in the Admin block and User block on each
-    Geeklog page.</li>
-  <li>Allow your plugin to be searched via the Geeklog search page.</li>
-  <li>Allow stats for your plugin to show up on the site statistics page.</li>
-  <li> Allow your plugin the ability to use Geeklog's comment engine.</li>
-  <li>Allow you to use the power of Geeklog's code library (lib-common.php) in
-    your own plugin code.</li>
-  <li>Allow you full flexibility on what your plugin does. Geeklog does not
-    dictate your plugins power.</li>
+  <li>プラグインはユーザの投稿を受け付けることができる。管理者はコントロールパネルでプラグイン宛に投稿されたデータのモデレーションを行える。</li>
+  <li>プラグインはGeeklogのページごとにプラグインを管理者ブロックとユーザブロックに表示することができる。</li>
+  <li>プラグインはGeeklogの検索ページ経由でプラグインを検索対象とすることができる。</li>
+  <li>プラグインはプラグインの統計情報をサイトの統計情報に表示することができる。</li>
+  <li>プラグインはGeeklogのコメントエンジンを使用できる。</li>
+  <li>プラグインは，Geeklogのコアコード(<tt>lib-common.php</tt>)を使用できる。</li>
+  <li>プラグインには完全な柔軟性が与えられる。Geeklogはプラグインにあれこれ要求したりしない。</li>
 </ul>
 
-<h2><a name="Functions_for_writing">Functions for writing plugins</a></h2>
+<h2><a name="Functions_for_writing">プラグインを書くための関数</a></h2>
 
-<p>The below functions are what you need to write your own plugin including
-any extra parameters that you need to pass in. Towards the end of the
-page,    there is also a Description of the API, just incase you need it to
-help  understand  in the plugin process.
+<p>以下の関数は，必須パラメータに加えて追加パラメータを含めて独自のプラグインを書くのに必要なものである。プラグインの処理を理解する必要がある場合に備えて，このページの最後付近にAPIの記述がある。
 
 <p>
-<strong>Note about &lt;plugin name&gt;:</strong> You will see references to
-&lt;plugin name&gt; in all the functions below.&nbsp; The &lt;plugin
-name&gt; values will come from you the name of your plugin tarfile. All plugin
-tarfiles have a strict naming convention that they <em>must</em> follow and it is:
+<strong>&lt;プラグイン名&gt;</strong> の表記に注意：以下の関数で &lt;プラグイン名&gt; という記述があるが，これはプラグインのアーカイブフィル名に由来するものである（訳注：正確には，プラグイン名）。プラグインのアーカイブファイル名は以下の記法に<strong>従わなければならない</strong>。
 
 <blockquote>
-  &lt;plugin name&gt;_&lt;plugin version&gt;_&lt;geeklog version&gt;.tar.gz<br>
-  e.g. <tt>photos_1.0_1.3.tar.gz</tt>
+  &lt;プラグイン名&gt;_&lt;プラグインのバージョン&gt;_&lt;Geeklogのバージョン&gt;.tar.gz<br>
+  例：<tt>photos_1.0_1.3.tar.gz</tt>
 </blockquote>
 
-<h2><a name="mod_functions">Moderation functions</a></h2>
+<h2><a name="mod_functions">モデレーション用関数</a></h2>
 
-<p>First note that there are limitations in the current Geeklog codebase that
-will force you to name your plugin tables used  for submission in a
-specific manner.&nbsp; All moderated Geeklog items such  as stories and
-links are comprised of two tables.&nbsp; The first is a main  table where
-all visible items are stored.&nbsp; The second is a submission table where
-submitted user items sit until an administrator approves them.&nbsp; When
-approved the item is moved from the submission table to the main
-table.&nbsp;    So for example, if you are writing a book review plugin
-that  allows users    to submit book reviews then we will pick bookreviews
-for your main table   (this MUST also be your plugin name you pick) and
-then your submission table   MUST be named bookreviewssubmission.&nbsp; Why
-force the names? Because in  the geeklog code the submission table for all
-stories is coded as &lt;main   name&gt;submission.&nbsp; So since we picked
-bookreviews for our main table   (and plugin name) the submission table
-must be named&nbsp; bookreviewssubmission.
+<p>現在のGeeklogのコアコードでは，投稿物を処理するためのデータベースのテーブル名には従わなければならない規約がある。記事やリンクなどのモデレーションされるアイテムは2つのテーブルを使用する。最初のテーブルは主要なもので，公開されるすべてのアイテムが保存される。2番目のテーブルは管理者が承認するまで投稿物が保存されるテーブルである。アイテムが承認されると，2番目のテーブルから1番目のテーブルに移される。たとえば，ユーザの書評投稿を受け付ける書評プラグインを制作しているなら，1番目のテーブルの名前を <tt>bookreviews</tt> とし（また，プラグイン名も <tt>bookreviews</tt>と<strong>しなければならない</strong>），2番目のテーブル名を <tt>bookreviewssubmission</tt> としなければならない。このような命名を強制するのは，Geeklogのコアコードで<br><code>2番目のテーブル名 = &lt;1番目のテーブル名&gt;submission</code><br>とコーディングされているからである。だから，プラグイン名を <tt>bookreviews</tt> とするなら，1番目のテーブル名は <tt>bookreviews</tt> ，2番目のテーブル名は <tt>bookreviewssubmission</tt> としなければならない。
 
-<p>If you want your plugin to be moderated like Geeklog stories
-and links then you must implement these functions.</p>
+<p>Geeklogの記事やリンクプラグインのように，プラグインにモデレートさせたいなら，以下の関数を実装しなければならない。</p>
 
 <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-<caption align="bottom">Table 1. Moderation functions<br></caption>
+<caption align="bottom">表1. モデレーション用関数<br></caption>
 <tr>
-  <th valign="top">Function</th>
-  <th valign="top">Description of Function</th></tr>
+  <th valign="top">関数名</th>
+  <th valign="top">関数の説明</th></tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_submit_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Shows the submission form for your plugin.</td>
+  <td valign="top" class="codeheader">plugin_submit_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">プラグインの投稿フォームを表示する。</td>
   </tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_itemlist_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Shows any items needing moderation for your plugin on moderation.php</td>
+  <td valign="top" class="codeheader">plugin_itemlist_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">プラグインへ投稿されたアイテムでモデレーションを必要とするものを <tt>moderation.php</tt> で表示する。</td>
   </tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_savesubmission_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Saves submitted item from a user in &lt;plugin name&gt;submission table</td>
+  <td valign="top" class="codeheader">plugin_savesubmission_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">ユーザが投稿したアイテムを &lt;プラグイン名&gt;submission テーブルに保存する。</td>
   </tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_moderationdelete_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Takes an ID into &lt;plugin name&gt;submission table and deletes it</td>
+  <td valign="top" class="codeheader">plugin_moderationdelete_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">&lt;プラグイン名&gt;submission テーブルで該当するIDのデータを削除する。</td>
   </tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_moderationapprove_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Takes an ID into &lt;plugin name&gt;submission and moves it to the main table called &lt;plugin name&gt;</td>
+  <td valign="top" class="codeheader">plugin_moderationapprove_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">&lt;プラグイン名&gt;submission テーブルで該当するIDのデータを主テーブル（&lt;プラグイン名&gt;）へ移す。</td>
   </tr>
 <tr>
-  <td valign="top" class="codeheader">plugin_moderationvalues_&lt;plugin name&gt;</td>
-  <td valign="top" class="code">Returns the primary key column name, the main
-    table name (called &lt;plugin name&gt;) and the list of fields from that
-    table that you'd like to have show up on the moderation page.</td>
+  <td valign="top" class="codeheader">plugin_moderationvalues_&lt;プラグイン名&gt;</td>
+  <td valign="top" class="code">主テーブル（&lt;プラグイン名&gt;）のプライマリキーのあるフィールド名，テーブル名，モデレーション用のページに表示したいフィールド名のリストを返す。</td>
   </tr>
 </table>
 
-<h2><a name="admin_user_functions">Admin and User Menu functions</a></h2>
+<h2><a name="admin_user_functions">管理者及びユーザメニュー用関数</a></h2>
 
-<p>If you want your plugin to effect the Admin and User Function blocks
-that show up on every Geeklog page then you must implement these
-functions.</p>
+<p>Geeklogのページごとに管理者機能ブロックとユーザ機能ブロックにプラグインを表示したいなら，以下の関数を実装しなければならない。</p>
 
       <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">Table 2. Admin and User functions</caption>
+        <caption align="bottom">表2. 管理者及びユーザメニュー用関数</caption>
           <tr>
-            <th valign="top">Function</th>
-            <th valign="top">Description of Function</th>
+            <th valign="top">関数名</th>
+            <th valign="top">関数の説明</th>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_adminoptions_&lt;plugin name&gt;</td>
-            <td valign="top" class="code">Will show options under the Admin
-      Functions block for your plugin</td>
+            <td valign="top" class="codeheader">plugin_adminoptions_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">管理者機能ブロックにプラグインのオプションを表示する。</td>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_getuseroption_&lt;plugin
-      name&gt;</td>
-            <td valign="top" class="code">Will show options under the User
-      Functions block for your plugin</td>
+            <td valign="top" class="codeheader">plugin_getuseroption_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">ユーザ機能ブロックにプラグインのオプションを表示する。</td>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_adminedit_&lt;plugin
-      name&gt;</td>
-            <td valign="top" class="code">Shows the links at the top of admin/plugins/&lt;plugin
-     name&gt;.php for New and Admin Home. This is for consistency sake only</td>
+            <td valign="top" class="codeheader">plugin_adminedit_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code"><tt>admin/plugins/&lt;プラグイン名&gt;.php</tt> のトップに「新規作成」と「管理者機能HOME」へのリンクを表示する。この関数は整合性を取るためにのみ存在する。</td>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_submissioncount_&lt;plugin
-      name&gt;</td>
-            <td valign="top" class="code">Shows the number of submissions
-      pending for you plugin.&nbsp; This is usually just "dbcount(&lt;plugin
-   name&gt;submission);"</td>
+            <td valign="top" class="codeheader">plugin_submissioncount_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">プラグインに投稿されたアイテムで承認待ちの投稿数を表示する。ふつう，これは <code>"SELECT (*) FROM `&lt;プラグイン名&gt;submission`"</code> と等価の動作である。</td>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_cclabel_&lt;plugin
-      name&gt;</td>
-            <td valign="top" class="code">Returns array of your plugin image
-      and a label for your plugin.&nbsp; This is called to show your plugin
-  in   the command and control block on moderation.php</td>
+            <td valign="top" class="codeheader">plugin_cclabel_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">プラグインのアイコンとリンクテキストの配列を返す。<tt>moderation.php</tt> のコントロールパネルでプラグインのデータを表示するために使用される。</td>
           </tr>
       </table>
 
-<h2><a name="Search_Functions">Search Functions</a></h2>
+<h2><a name="Search_Functions">検索用関数</a></h2>
 
-<p>If you want your plugin to be searchable, implement these functions.</p>
+<p>プラグインのデータを検索可能にしたいなら，以下の関数を実装しなければならない。</p>
 
       <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">Table 3. Search functions</caption>
+        <caption align="bottom">表3. 検索用関数</caption>
           <tr>
-            <th valign="top">Function</th>
-            <th valign="top">Description of Function</th>
+            <th valign="top">関数名</th>
+            <th valign="top">関数の説明</th>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_getsearchtypes_&lt;plugin
-     name&gt;</td>
-            <td valign="top" class="code">You will probably want to add a
-     new type in the Type drop down on search.php.&nbsp; This function prints
-    the option tags needed. make sure that the value tag is &lt;plugin name&gt;</td>
+            <td valign="top" class="codeheader">plugin_getsearchtypes_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code"><tt>search.php</tt> の検索タイプにプラグインに対応する新しいタイプを追加しなければならないだろう。この関数では必要とされる <tt>&lt;options&gt;</tt> タグを表示する。<tt>value属性</tt> は &lt;プラグイン名&gt; でなければならない。</td>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_dopluginsearch_&lt;plugin
-     name&gt;</td>
-            <td valign="top" class="code">Takes the search criteria and lets
-     you build search results for your plugin.&nbsp; This returns a string
- array    of table rows, one row for each record returned by your search.</td>
+            <td valign="top" class="codeheader">plugin_dopluginsearch_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">検索条件を受け取り，プラグインの検索結果を返す。返り値はテーブルの列を文字列の配列にしたもので，1列が検索によって返される1レコードに対応するものとなっている。</td>
           </tr>
       </table>
 
-<h2><a name="Comment_Functions">Comment Function</a></h2>
+<h2><a name="Comment_Functions">コメント用関数</a></h2>
 
-<p>If you want your plugin to support comments and use the Geeklog comment
-engine, then you need to implement these functions in your plugin
-functions.inc file:</p>
+<p>プラグインがコメントをサポートし，Geeklogのコメントエンジンを使用したいなら，以下の関数をプラグインの <tt>functions.inc</tt> ファイル内に実装する必要がある。</p>
 
 <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-<caption align="bottom">Table 4. Comment functions</caption>
+<caption align="bottom">表4. コメント用関数</caption>
   <tr>
-    <th valign="top">Function</th>
-    <th valign="top">Description of Function</th>
+    <th valign="top">関数名</th>
+    <th valign="top">関数の説明</th>
   </tr>
   <tr>
-    <td valign="top" class="codeheader">plugin_commentsupport_&lt;plugin name&gt;</td>
+    <td valign="top" class="codeheader">plugin_commentsupport_&lt;プラグイン名&gt;</td>
     <td valign="top" class="code">
-    This function does not take any parameters but simply returns true if this plugin supports comments. This call is made in Geeklog code (example: article.php) to determine if it should redirect handling to the plugin.</td>
+    この関数は引数を取らない。プラグインがコメントをサポートする場合には <tt>true</tt> を返すだけである。この関数はGeeklogのコード内（たとえば，<tt>article.php</tt>）で呼び出され，コードがコメントの扱いをプラグインに委ねるかどうかが判断される。</td>
   </tr>
   <tr>
-    <td valign="top" class="codeheader">plugin_handlecomment_&lt;plugin name&gt;</td>
+    <td valign="top" class="codeheader">plugin_handlecomment_&lt;プラグイン名&gt;</td>
     <td valign="top" class="code">
-    This function expects the comment id (primary index in the comment table) and and type of operation (either 'save' or 'delete') to perform on the comment. It will update the plugin record with the total number of comments for this plugin item. It then handles the refresh or redirection of the user back to the plugin instead of the main site page.</td>
+    この関数はコメントID（コメント用テーブルでプライマリキーのあるフィールド）とコメントに対する操作のタイプ（'save'か'delete'のどちらか）を受け取る。プラグインのレコードのコメントの総数が更新される。それから，サイトのメインページにではなくプラグインのページにユーザをリダイレクトないしリフレッシュする。</td>
   </tr>
   <tr>
-    <td valign="top" class="codeheader">plugin_commentform_&lt;plugin name&gt;</td>
+    <td valign="top" class="codeheader">plugin_commentform_&lt;プラグイン名&gt;</td>
     <td valign="top" class="code">
-    This function expects a number of parameters and is called from Geeklog article.php and comment.php. Parameters are: comment_id (primary key), comment_mode (nested, flat, threaded, none, order (Ascending or Descending) and reply (Was the reply submit button used on the comment bar).<br>
-    Only comment_id is mandatory.</td>
+    この関数は多数のパラメータを受け取り，Geeklogの <tt>article.php</tt> と <tt>comment.php</tt> から呼ばれる。パラメータは，コメントID（プライマリキー），コメントモード（nested, flat, threaded, none），順序（昇順・降順），返答（コメントバーの「コメントを追加」ボタンが使用されたかどうか）である。<br>
+    コメントIDのみ必須である。</td>
   </tr>
   <tr>
-    <td valign="top" class="codeheader">plugin_commentparent_&lt;plugin name&gt;</td>
+    <td valign="top" class="codeheader">plugin_commentparent_&lt;プラグイン名&gt;</td>
     <td valign="top" class="code">
-    Optional function which can be called from your plugin_commentform function to also display the plugin parent above the comments. This is how Geeklog articles are displayed with the story and then the comment bar and associated comments.</td>
+    プラグインのコメントフォーム関数から親コメントを表示するために呼び出すことが可能なオプションの関数。このやり方で，Geeklogは記事と共にコメントバーと関連するコメントを表示している。</td>
   </tr>
 </table>
 
 
-<h2><a name="Stats_Function">Stats Function</a></h2>
+<h2><a name="Stats_Function">統計用関数</a></h2>
 
-<p>If you want your plugin to show up on the stats page then you must
-implement this function.</p>
+<p>プラグインの統計情報をサイトの統計情報に表示したいなら，以下の関数を実装しなければならない。</p>
 
       <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">Table 5. Stats function</caption>
+        <caption align="bottom">表5. 統計用関数</caption>
           <tr>
-            <th valign="top">Function</th>
-            <th valign="top">Description of Function</th>
+            <th valign="top">関数名</th>
+            <th valign="top">関数の説明</th>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_showstats_&lt;plugin
-     name&gt;</td>
-            <td valign="top" class="code">This function takes a showsitestats
-     flag.&nbsp; If set to 1, this function shows the overall stats for your
-   plugin  in the site statistics box.&nbsp; If it is set to 2 it shows the
-  statistic  blocks for you plugin (similar to Top Ten Viewed Stories and
-Top  Ten Commented  Stories).</td>
+            <td valign="top" class="codeheader">plugin_showstats_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">この関数はshowsitestatsフラグを取る。1 に設定すると，この関数はプラグインの全般的な統計情報をサイトの統計情報ページに表示する。2 に設定すると，プラグインの詳細な統計情報を表示する（記事の中で閲覧回数の上位10位，コメント数の多い上位10位などに似た情報）。</td>
           </tr>
       </table>
 
-<h2><a name="Uninstall_Function">Uninstall Function</a></h2>
+<h2><a name="Uninstall_Function">アンインストール用関数</a></h2>
 
-<p>If you want to give your plugin the ability to uninstall itself then you must implement this function.</p>
+<p>自動的にアンインストールする機能をプラグインに与えるなら，以下の関数を実装しなければならない。</p>
 
       <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">Table 6. Uninstall function</caption>
+        <caption align="bottom">表6. アンインストール用関数</caption>
           <tr>
-            <th valign="top">Function</th>
-            <th valign="top">Description of Function</th>
+            <th valign="top">関数名</th>
+            <th valign="top">関数の説明</th>
           </tr>
           <tr>
-            <td valign="top" class="codeheader">plugin_uninstall_&lt;plugin
-     name&gt;</td>
-            <td valign="top" class="code">This function does not take any parameters. The plugin should try and uninstall itself, especially removing all its tables and data structures from the database.<br>
-The function should return <code>true</code> if the uninstall succeeded and <code>false</code> if it failed.</td>
+            <td valign="top" class="codeheader">plugin_uninstall_&lt;プラグイン名&gt;</td>
+            <td valign="top" class="code">この関数は引数を取らない。アンインストールを試み，データベースから該当するテーブルと情報を削除する。<br>
+アンインストールが成功したら <code>true</code> ，失敗したら <code>false</code> を返さなければならない。</td>
           </tr>
       </table>
 
-<h2><a name="User_Functions">User Functions</a></h2>
+<h2><a name="User_Functions">ユーザ用関数</a></h2>
 
-<p>For some plugins, it may be necessary to track creation and deletion of user accounts.</p>
+<p>プラグインの中には，ユーザアカウントの作成・削除を監視しなければならないものがある。</p>
 
   <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-    <caption align="bottom">Table 7. User functions</caption>
+    <caption align="bottom">表7. ユーザ用関数</caption>
       <tr>
-        <th valign="top">Function</th>
-        <th valign="top">Description of Function</th>
+        <th valign="top">関数名</th>
+        <th valign="top">関数の説明</th>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_user_create_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when a new user account has been created. The only parameter passed is the user id.<br>
-This function does not have a return value.</td>
+        <td valign="top" class="codeheader">plugin_user_create_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザアカウントが新規作成されたとき，この関数が呼び出される。渡される唯一のパラメータはユーザIDである。<br>
+この関数は返り値を持たない。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_user_delete_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when a user account has been deleted. The only parameter passed is the user id.<br>
-This function does not have a return value.</td>
+        <td valign="top" class="codeheader">plugin_user_delete_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザアカウントが削除されたとき，この関数が呼び出される。渡される唯一のパラメータはユーザIDである。<br>
+この関数は返り値を持たない。</td>
       </tr>
   </table>
 
-<h2><a name="Profile_Functions">Profile Functions</a></h2>
+<h2><a name="Profile_Functions">プロフィール用関数</a></h2>
 
-<p>Plugins can add blocks or individual items to the user profile.</p>
+<p>プラグインは，ユーザのプロフィールにブロックや個々の項目を追加できる。</p>
 
   <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">Table 8. Profile Functions</caption>
+    <caption align="bottom">表8. プロフィール用関数</caption>
       <tr>
-        <th valign="top">Function</th>
-        <th valign="top">Description of Function</th>
+        <th valign="top">関数名</th>
+        <th valign="top">関数の説明</th>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_profilevariablesedit_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when Geeklog is about to display the edit form for a user's profile. The plugin is given the user id and a reference to the template of the edit form. It can now add its own variables and input fields to the form.<br>
-This function does not return anything. The plugin should use the template functions (<code>set_var</code> etc.) to add things to the template.</td>
+        <td valign="top" class="codeheader">plugin_profilevariablesedit_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザプロフィールを編集するフォームが表示される直前に，この関数は呼び出される。パラメータとして，ユーザIDと編集用テンプレートへの参照（レファレンス）が渡される。この関数は，独自のテンプレート変数（{変数名}）と入力フィールドをテンプレートに追加できる。<br>
+この関数は返り値を持たない。テンプレートにデータを追加するには，Templateクラスのメソッド（<code>set_var</code> など）を用いる。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_profileblocksedit_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when Geeklog is about to display the edit form for a user's profile. The user id is passed as a parameter to this function. The plugin can return the HTML for a block (including block header and footer) that it wants to be displayed on the profile edit form. When a plugin asks for several items, it may make more sense to group the items this way. Otherwise, you may want to use <code>plugin_profilevariablesedit_&lt;plugin name&gt;</code> (see above) instead.<br>
-The function is expected to return the HTML for a block or an empty string.</td>
+        <td valign="top" class="codeheader">plugin_profileblocksedit_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザプロフィールを編集するフォームが表示される直前に，この関数は呼び出される。パラメータとしてユーザIDが渡される。この関数は，ユーザプロフィールを編集するフォームに表示したいブロック（ブロックのヘッダ・フッタを含む）のHTMLを返すことができる。複数のデータを要求する場合は，こちらの関数を使って項目をグループ化した方がよいだろう。それ以外の場合は，上述の <code>plugin_profilevariablesedit_&lt;プラグイン名&gt;</code> を使う方がよいだろう。<br>
+この関数は，ブロックのHTMLか空文字列を返さなければならない。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_profilevariablesdisplay_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when Geeklog is about to display a user's profile. The plugin is given the user id and a reference to the template of the profile. It can now add its own variables to the profile.<br>
-This function does not return anything. The plugin should use the template functions (<code>set_var</code> etc.) to add things to the template.</td>
+        <td valign="top" class="codeheader">plugin_profilevariablesdisplay_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザプロフィールが表示される直前に，この関数は呼び出される。パラメータとして，ユーザIDと編集用テンプレートへの参照（レファレンス）を受け取る。この関数は，独自のテンプレート変数（{変数名}）をテンプレートに追加できる。<br>
+この関数は返り値を持たない。テンプレートにデータを追加するには，Templateクラスのメソッド（<code>set_var</code> など）を用いる。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_profileblocksdisplay_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function is called when Geeklog is about to display a user's profile. The plugin is given the user id and can now return the HTML for any additional blocks that it wants to be displayed on the profile page.<br>
-The function is expected to return the HTML for a block or an empty string.</td>
+        <td valign="top" class="codeheader">plugin_profileblocksdisplay_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">ユーザプロフィールが表示される直前に，この関数は呼び出される。パラメータとしてユーザIDが渡される。この関数では，ユーザプロフィールに表示したいブロックのHTMLを返すことができる。<br>
+この関数は，ブロックのHTMLか空文字列を返さなければならない。</td>
       </tr>
     </table>
 
-<h2><a name="Misc_Functions">Misc. Functions</a></h2>
+<h2><a name="Misc_Functions">その他の関数</a></h2>
 
-<p>The following is a list of (optional) functions for misc. purposes.</p>
+<p>以下の関数は上記以外の用途のためのオプションの関数である。</p>
 
   <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">Table 9. Misc. functions</caption>
+    <caption align="bottom">表9. その他の関数</caption>
       <tr>
-        <th valign="top">Function</th>
-        <th valign="top">Description of Function</th>
+        <th valign="top">関数名</th>
+        <th valign="top">関数の説明</th>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_centerblock_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins can display a block in the site's center area, i.e. among the stories. This function is called several times during rendering of the site's index page. The parameters will tell the plugin where on the index page the block would appear.<br>
-Parameters are <code>where</code> (1 = top of page, 2 = after the featured story, 3 = bottom of page), <code>page number</code> and the <code>topic id</code>. <code>where</code> can also be 0 which means that the plugin can take over the entire page if it wants to (in this case, it will have to return the HTML for the <em>entire page</em>, i.e. including site header and footer).<br>
-The function should return the complete HTML for the block (including header and footer) or an empty string.</td>
+        <td valign="top" class="codeheader">plugin_centerblock_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数では，サイトのセンターエリア，つまり，記事と記事の間にブロックを表示することができる。この関数は，サイトのインデックスページを表示する間に数回呼ばれる。パラメータはインデックスページのどこにセンターブロックを表示するかを指定する。<br>
+パラメータは， <code>場所(where)</code> (1 = ページの最上部, 2 = 注目記事の後, 3 = ページの最下部)，<code>ページ数(page number)</code>，<code>話題ID(topic id)</code>である。<code>where</code> を 0 にすると，全画面表示になる（この場合，サイトのヘッダ・フッタを含めて<strong>全画面</strong>に相当するHTMLを返さなければならない）。<br>
+この関数は，ブロックのHTML（ヘッダ・フッタを含む）か空文字列を返さなければならない。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_getheadercode_&lt;plugin
-     name&gt;</td>
-        <td valign="top" class="code">Plugins may add additional lines to the site's <code>&lt;head&gt;</code> tag by implementing this function, e.g. Javascript functions or additional Meta tags.<br>
-The function should return a concatenated string of all its extra header code.</td>
+        <td valign="top" class="codeheader">plugin_getheadercode_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">サイトの <code>&lt;head&gt;</code> ブロックに追加するJavaScriptや <code>&lt;meta&gt; タグを返す。<br>
+この関数では，追加のヘッダ全部を改行文字(&yen;n)でつないだものを返さなければならない。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_templatesetvars_&lt;plugin
-     name&gt;</td>
-        <td valign="top" class="code">Plugins may set additional template variables. Currently this function is only called in COM_siteHeader and COM_siteFooter, but could in the future be called in other locations. The parameters passed are the template name and the reference to the template object. The plugin API can check the template name (in this case it will currently be 'header' or 'footer') and then using the passed template object reference - set any required new template variables.</td>
+        <td valign="top" class="codeheader">plugin_templatesetvars_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">追加のテンプレート変数をセットできる。現時点では，この関数が呼ばれるのは <code>COM_siteHeader</code> と <code>COM_siteFooter</code> の中だけであるが，将来は他の場所で呼び出されるようになるだろう。渡されるパラメータは，テンプレート名とテンプレートオブジェクトへの参照（レファレンス）である。プラグインAPI側では，テンプレート名（上述の通り，現時点ではヘッダかヘッダ）をチェックし，渡されたテンプレートオブジェクトのレファレンスを使用して，必要なテンプレート変数を設定する。</td>
       </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_whatsnewsupported_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins can add their own section to Geeklog's What's New block by implementing this and the following function.<br>
-        The function should return an array of 2 strings. The first string is used as the headline for the plugin's section in What's New and the second string is used to indicate the timespan that the entries in this section cover (e.g. "last 2 weeks").</td>
+        <td valign="top" class="codeheader">plugin_whatsnewsupported_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数と次の関数を実装することで，プラグイン独自のセクションを新着情報ブロックに表示できる。<br>
+        この関数は2つの文字列から構成される配列を返す。1番目の文字列はプラグインのセクションの見出しとして，2番目の文字列はそのセクションが表示する期間（"last 2 weeks"など）として使用される。</td>
     </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_getwhatsnew_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function should return the actual new entries to be listed in the What's New block (as an array) or a string to be displayed in case there are no new entries.</td>
+        <td valign="top" class="codeheader">plugin_getwhatsnew_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数は，新着情報ブロックに表示する新規項目の配列を返す（新規項目がない場合はその旨を表示する文字列）。</td>
     </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_chkVersion_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins should implement this function and return the code version. Plugins should use a variable in the plugin's functions.inc for the code version which allows the developer to easily update it before releasing a new version. As of Geeklog 1.3.10, this API function is called in the plugin Editor to show the version of the current installed version and plugin code version. The plugin installed version is pulled from the plugins table and should be updated as part of the plugin install or future updates. This API function allows the site admin to know if the current plugin code is newer then the installed version. Plugin developers can read the installed version from the plugins table and determine automatically if any SQL updates are required or atleast update the plugin record to be the same as the code version.</td>
+        <td valign="top" class="codeheader">plugin_chkVersion_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">プラグインではこの関数を実装し，コードのバージョンを返さなければならない。新しいバージョンを公開する前に，プラグイン利用者が容易に更新できるようにするため，プラグインの <tt>functions.inc</tt> に含まれるコードのバージョンを表す変数を使用するべきである（訳注：プラグインのバージョンは，<tt>functions.inc</tt> よりもプラグインの <tt>config.php</tt> 内に記述した方がメンテナンスしやすい）。Geeklog 1.3.10の時点では，このAPI関数が呼び出されるのは，インストールされているプラグインのバージョンとコードのバージョンを表示するプラグインエディタの中である。インストールされているプラグインのバージョンは，<code>plugins</code> テーブルから取り出され，プラグインのインストール・アップグレード時に更新すべきである。このAPI関数を使うと，サイト管理者は現在のプラグインのコードがインストールされているバージョンより新しいか知ることができる。プラグイン開発者は <code>plugins</code> テーブルからインストールされているバージョンを読み取り，SQLを用いたアップデートが必要かどうかや <code>plugins</code> テーブルの情報を更新してコードのバージョンに合わせるかどうかを自動的に決定することができる。</td>
     </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_runScheduledTask_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">This function allows plugin developers to schedule a task to be run. This API will only be called when someone accesses the site but should be sufficient for most plugins that want to schedule some maintenance process or clean-up routine. The interval this API is called is set in the site's configuration and all plugins that have this function will then be called.</td>
+        <td valign="top" class="codeheader">plugin_runScheduledTask_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数を使用すると，作業を定期的に実行することができる。（OSレベルで実行されるcronジョブと違い，）この関数が呼び出されるのはサイトに訪問者があるときだけだが，メンテナンスやクリーンアップを定期的に行う大半のプラグインにとってはそれで十分であろう。この関数が呼び出される間隔はサイトのコンフィギュレーションで設定されるので，このAPIを実装するすべてのプラグインが一度にまとめて呼び出される（訳注：したがって，時間のかかる作業を実行させると，PHPやWebサーバが時間切れになってしまう。そのような作業にはcronジョブを用いるべき。）。</td>
     </tr>
 
   </table>
 
-  <h2><a name="Feed_Functions">Feed Functions</a></h2>
+  <h2><a name="Feed_Functions">フィード用関数</a></h2>
 
-<p>The following is a list of (optional) functions for syndication feed purposes.</p>
+<p>以下の関数は，シンジケーションフィード（RSSフィード）を作成するためのオプションの関数一覧である。</p>
 
   <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">Table 10. Feed functions</caption>
+    <caption align="bottom">表10. フィード用関数</caption>
       <tr>
-        <th valign="top">Function</th>
-        <th valign="top">Description of Function</th>
+        <th valign="top">関数名</th>
+        <th valign="top">関数の説明</th>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_getfeednames_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins can provide content for the creation of syndication feeds. This function allows the plugin to return a list of feed content it can supply. For example, the links plugin provides a feed for all links, and a feed for each link category. The plugin should return an array of id/name pairs where id is the plugins internal id for the field and name is what is displayed to the user.</td>
+        <td valign="top" class="codeheader">plugin_getfeednames_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">プラグインはシンジケーションフィードを作成するためのコンテンツを提供できるが，この関数では提供できるフィードコンテンツのリストを返す。たとえば，リンクプラグインはすべてのリンクに対するフィードとリンクカテゴリに対するフィードを提供する。この関数では，IDと名前をペアにした配列を返す。IDはコンテンツの種類を表すプラグイン内部で使用されるIDであり，名前はユーザに表示される名前である。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_getfeedcontent_&lt;plugin
-     name&gt;</td>
-        <td valign="top" class="code">Where a plugin has returned a list of feeds from the plugin_getfeednames_&lt;plugin name&gt; function, it must also return feed content using this function. The plugin is expected to return an array holding the content of the feed and to fill in 'link' (some link that represents the same content on the site as that in the feed) and 'update_data' (to be stored for later up-to-date checks).</td>
+        <td valign="top" class="codeheader">plugin_getfeedcontent_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">プラグインが上述の <code>plugin_getfeednames_&lt;プラグイン名&gt;</code> APIでフィードのリストを返す場合，この関数を用いてフィードのコンテンツを返さなければならない。フィードのコンテンツを保持する配列と，フィードに含まれサイト上にあるそのコンテンツを指す 'link' と更新チェック用に保存される 'update_data' を返す。</td>
       </tr>
       <tr>
-        <td valign="top" class="codeheader">plugin_feedExtensionTags_&lt;plugin
-     name&gt;</td>
-        <td valign="top" class="code">Plugins may enter additional elements in the top level of a feed format by supporting this function. The function receives the type and version of a feed (e.g. RSS version 2.0) and is expected to return an array of valid XML tags. (See the <a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">Syndication Extensions</a> plugin for an example.)</td>
+        <td valign="top" class="codeheader">plugin_feedExtensionTags_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数を実装することで，フィードフォーマットのトップレベルに要素を追加することができる。フィードの種類とバージョン（たとえば，RSS version 2.0）を受け取り，有効なXMLタグの配列を返す。具体例は，<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
       </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_feedNSExtensions_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins which add their own elements to feeds may require extra XML Namespaces adding to the XML. This function should return an array of valid namespace attributes. (See the <a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">Syndication Extensions</a> plugin for an example.)</td>
+        <td valign="top" class="codeheader">plugin_feedNSExtensions_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">フィードに独自の要素を追加するプラグインは，XMLに名前空間を追加しなければならないことがある。その場合，この関数を使用して有効な名前空間の属性の配列を返さなければならない。具体例は，<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
     </tr>
     <tr>
-        <td valign="top" class="codeheader">plugin_feedElementExtensions_&lt;plugin name&gt;</td>
-        <td valign="top" class="code">Plugins may add additional elements to feed items by supporting this function. The function is supplied the version and type of feed, plus the content type and identifier and must return an array of valid XML Elements. (See the <a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">Syndication Extensions</a> plugin for an example.)</td>
+        <td valign="top" class="codeheader">plugin_feedElementExtensions_&lt;プラグイン名&gt;</td>
+        <td valign="top" class="code">この関数を実装することで，フィードの項目に要素を追加することができる。フィードの種類とバージョン及びコンテンツの種類とIDを受け取り，有効なXML要素の配列を返さなければならない。具体例は，<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
     </tr>
   </table>
 
 
-<h2><a name="Implementing_your_Admin_Interface">Implementing your Admin Interface</a></h2>
+<h2><a name="Implementing_your_Admin_Interface">独自の管理者インターフェースの実装</a></h2>
 
-<p>The Geeklog Plugin API is just that an API.&nbsp; You obviously have   to
-write all your plugin code yourself.&nbsp; We have put stubs in place   to
-link to you Admin Interface.&nbsp; You admin page(s) will be in
-http://yourgeeklogdomain/admin/plugins/&lt;plugin name&gt;/
+<p>GeeklogのプラグインAPIはしょせんAPIにすぎないので，プラグインのコードは全部自分で書かなければならない。私たちは，プラグインの管理者インターフェース用のスタブをしかるべき場所に配置しただけである。プラグインの管理者用ページのURLは <tt>http://yourgeeklogdomain/admin/plugins/&lt;プラグイン名&gt;/</tt> になる。
 
-<p>The first page of your administration interface must be named
-index.php and it must be in the above directory.&nbsp; Whether or not
-you use more than one page for your Admin interface is completely up to you.
+<p>管理者用インターフェースの最初のページは <tt>index.php</tt> という名前で，上述のディレクトリ内になければならない。管理者用インターフェースに複数ページを使用するかどうかは開発者に委ねられている。
 
-<p>Please note that the location of your admin page isn't optional.&nbsp; For
-organizational purposes it is important that you follow the standards
-outlined  in this document.
+<p><strong>管理者用ページの位置は自由に変更できない</strong>ことに注意。全体に整合性を持たせるために，このドキュメントで触れている標準規約に従うことが重要である。
 
-<h2><a name="Preparing_your_Geeklog_Plugin">Preparing your Geeklog Plugin Distribution</a></h2>
+<h2><a name="Preparing_your_Geeklog_Plugin">プラグイン配布の準備</a></h2>
 
-<h3>The plugin tarfile</h3>
+<h3>プラグインのアーカイブファイル</h3>
 
-<p>All Geeklog plugin tarfiles should use the following naming convention:
+<p>Geeklogプラグインのアーカイブファイルは，次の命名規約に従うべきである。
 
 <blockquote>
-&lt;plugin name&gt;_&lt;plugin version&gt;_&lt;geeklog version&gt;.tar.gz
+&lt;プラグイン名&gt;_&lt;プラグインのバージョン&gt;_&lt;Geeklogのバージョン&gt;.tar.gz
 </blockquote>
 
-<h3>Descriptions</h3>
+<h3>説明</h3>
 <dl>
-<dt>&lt;plugin name&gt;:</dt><dd>this is one of the single most important
-   values you  will choose for your plugin as it dictates the following:
+<dt>&lt;プラグイン名&gt;：</dt><dd>これはプラグイン作成時に決めなければならない最重要事項の1つである。なぜなら，このプラグイン名によって
       <ul>
-        <li>The exact API function names that the Geeklog code will try to
-   call for your plugin</li>
-        <li>The exact directory within the webtree to put all your plugin
-    code</li>
-        <li>The exact directory within the admin directory to put your admin
-    code</li>
-        <li>If using moderation, the exact table name main table being moderated</li>
-        <li>If using moderation, the submission table will be &lt;plugin
- name&gt;submission</li>
-      </ul></dd>
+        <li>Geeklogのコアコードが呼び出すAPI関数名</li>
+        <li>プラグイン関係のすべてのファイルを置くドキュメントツリー内の位置</li>
+        <li>管理者用コードを置くadminディレクトリ内のディレクトリ名</li>
+        <li>モデレーションを行う場合は，主テーブルの名前</li>
+        <li>モデレーションを行う場合は，副テーブルの名前（主テーブル名 + submission）</li>
+      </ul>が決まるからである。</dd><br>
 
-<dt>&lt;plugin version&gt;:</dt><dd>used during the installation process
-   to determine  if you are attempting to upgrade a plugin or do a new installation.
-   It is  also checked to verify that you aren't trying to install and old
-version    of  the plugin when a new installation already exists.</dd>
-<dt>&lt;geeklog version&gt;:</dt><dd>this is the Geeklog version the plugin
-  works under.</dd>
+<dt>&lt;プラグインのバージョン&gt;：</dt><dd>プラグインをインストール中に，新規インストールするのかアップグレードするのかを判断するために使用される。インストールされているバージョンより古いバージョンをインストールしようとしていないか検証するためにも使用される。</dd><br>
+<dt>&lt;Geeklogのバージョン&gt;：</dt><dd>プラグインが動作するGeeklogのバージョン。</dd>
 </dl>
 
-<p>The organization of your tarfile is standardized as well.&nbsp; For each
-directory and file a description is given.&nbsp; Your base plugin directory
-when you create the tarfile should be &lt;plugin name&gt;.&nbsp; Under
-there   you will have the following:
+<p>アーカイブファイルの構成も標準化されている。ディレクトリとファイル名ごとに説明する。アーカイブファイルを作成するとき，トップのディレクトリ名は &lt;プラグイン名&gt; と同じにすべきである。そのディレクトリ内に以下のディレクトリ・ファイルを配置する。
 
 <dl>
-<dt>config.php:</dt><dd>configuration file for your plugin.&nbsp; We'd suggest
-    that you try and use Geeklog's built-in configuration admin panel (as of
-    Geeklog 1.5) if at all possible instead, since it makes things much easier
-    for the users of your plugin. The Geeklog Wiki has some more information
-    on <a href="http://wiki.geeklog.net/wiki/index.php/PluginConfiguration">how
-    to use the configuration for a plugin</a>.</dd>
-<dt>functions.inc:</dt><dd>this is the file where you implement the Geeklog
-   API and where your plugin code should reside.&nbsp; It MUST be named this
-   because we automatically include all enabled plugins function.inc files
- at  the bottom of lib-common.php.&nbsp; Note that this means you have access
-to all  the functions in lib-common.php in your plugin code.</dd>
-<dt>lang.php or language/ directory:</dt><dd>the language file(s) for your
-   plugin.&nbsp; You should include this file in your functions.inc.<br>We
-   recommend that you use a language directory and have a seperate language
-   file for each supported language (english.php, etc.), mirroring Geeklog's
-   behaviour and selecting the language file based on the user's preferred
-   language (falling back to english.php if you can't find a language file for
-   the selected language).</dd>
+<dt>config.php：</dt><dd>プラグインの設定用ファイル。可能なら（Geeklog-1.5に関しては）Geeklogに組み込まれているコンフィギュレーションインターフェースを使用することをお勧めする。そちらの方がプラグインを使用する人にとっては遙かに簡単だからである。Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/PluginConfiguration">プラグインでコンフィギュレーションを使用する方法(how to use the configuration for a plugin)</a>に追加情報がある。</dd><br>
+<dt>functions.inc：</dt><dd>このファイルにGeeklogのAPI関数とプラグインのコードを置くべきである。<tt>lib-common.php</tt> の最後の部分で，有効になっているプラグインの <tt>functions.inc</tt> ファイルを読み込むので，ファイル名は <tt>functions.inc</tt> でなければならない。逆に言うと，プラグインのコード内では，<tt>lib-common.php</tt> 内のすべての関数を呼び出すことができるということである。</dd><br>
+<dt>language/ ディレクトリ：</dt><dd>プラグインの言語ファイルの置き場所。言語ファイルはプラグインの <tt>functions.inc</tt> の先頭で読み込むべきである。<br>Geeklogの振る舞いを模倣し，ユーザが設定した言語に対応できるよう <tt>language</tt> ディレクトリ内に言語ファイル（<tt>english.php</tt> など）を置くことを勧める。選択した言語に対応する言語ファイルが存在しない場合は，既定の言語ファイル（<tt>english.php</tt>など）が選ばれる。</dd><br>
 
-<dt>README</dt><dd>standard readme for software</dd>
-<dt>/docs:</dt><dd>includes any documentation you may want to provide
-  for your plugin  such as history, to-do, etc</dd>
-<dt>/admin:</dt><dd>includes only your admininstation pages</dd>
-<dt>/public_html:</dt><dd>include your regular web pages</dd>
-<dt>/updates:</dt><dd>includes all update sql and scripts</dd>
+<dt>README</dt><dd>標準的な，ソフトウェアのREADMEファイル。</dd><br>
+<dt>/docs:</dt><dd>プラグインの改訂履歴やTO-DOなどを置く。</dd><br>
+<dt>/admin:</dt><dd>管理者用ページを置く。</dd><br>
+<dt>/public_html:</dt><dd>標準的な，サイトを構成するファイルを置く。</dd><br>
+<dt>/updates:</dt><dd>更新用のSQLとPHPスクリプトを置く。</dd><br>
 </dl>
 
-<h2><a name="How_Geeklog_Installs_Plugins">How To Install A Geeklog Plugin</a></h2>
+<h2><a name="How_Geeklog_Installs_Plugins">プラグインのインストール方法</a></h2>
 
-<p><strong>Note:</strong> Up until Geeklog version 1.3.4, there was an
-automatic install procedure for plugins. This, however, caused too many
-problems and support issues and has been removed from later versions. The
-manual install as outlined below is now the recommended way to install a
-plugin and should work for both old and new versions of Geeklog.
+<p><strong>注意：</strong> Geeklog-1.3.4までは，プラグインを自動的にインストールする機構があった。しかしながら，多くのトラブルとサポートの問題が生じたので，以降のバージョンでは廃止されている。以下に述べる手動インストールの手順がプラグインをインストールする標準的な方法で，Geeklogのバージョンを問わず機能する。
 
-<p>For details, you should always refer to the README that comes with the
-plugin. A general overview of plugins and install details is also provided as part of the Geeklog Documentation Project <a href="http://wiki.geeklog.net/index.php/Plugins">here</a> . In general, however, a plugin will be installed like this:
+<p>詳細は，プラグインに添付されている <tt>README</tt> ファイルを常に参照すべきである。プラグインの概要とインストールの詳細な手順は，Geeklogドキュメント作成プロジェクトの一環として，<a href="http://wiki.geeklog.net/index.php/Plugins">ここで公開されている</a>。しかしながら，一般的には，次のようにしてプラグインをインストールする。
 
 <ol>
-<li>Depending on your setup and server access, you should either upload
-  the tarball and unpack it remotely or unpack the tarball locally and
-  upload the extracted files and folders afterwards.</li>
-<li>The public_html directory in the tarfile is copied to the webtree
-  under &lt;plugin name&gt;. e.g. if my geeklog web is in /path/to/geeklog/public_html/
-  then the public_html from the tarfile is copied to /path/to/geeklog/public_html/&lt;plugin
-  name&gt;</li>
-<li>The admin directory in the tarfile is copied to the admin webtree.&nbsp;
-  e.g. if my geeklog admin webtree is in /path/to/geeklog/public_html/admin/
-  then the admin directory from the tarfile is copied to /path/to/geeklog/public_html/admin/plugins/&lt;plugin
-  name&gt;&nbsp; </li>
-<li>Call the plugins install script at
-http://yourgeeklogsite/admin/plugins/&lt;plugin name&gt;/install.php
+<li>セットアップとサーバへのアクセスにもよるが，アーカイブファイルをアップロードしてリモートで展開（伸張・解凍）するか，ローカルで展開した後でできたディレクトリとファイルをアップロードするかのどちらかである。</li>
+<li>アーカイブファイル中の <tt>public_html</tt> は，Webサーバの公開領域の下に &lt;プラグイン名&gt; の名前でコピーする。たとえば，Geeklogのサイトが <tt>/path/to/geeklog/public_html/</tt> にある場合，アーカイブファイルの <tt>public_html</tt> ディレクトリの内容は <tt>/path/to/geeklog/public_html/&lt;プラグイン名&gt;</tt> の中にコピーする。</li>
+<li>アーカイブファイルの <tt>admin</tt> ディレクトリは，管理者用エリアにコピーする。たとえば，管理者用エリアが <tt>/path/to/geeklog/public_html/admin/</tt> の場合，アーカイブファイルの <tt>admin</tt> ディレクトリの内容は， <tt>/path/to/geeklog/public_html/admin/plugins/&lt;プラグイン名&gt;</tt> の中にコピーする。</li>
+<li>プラグインのインストール用スクリプト（<tt>http://yourgeeklogsite/admin/plugins/&lt;プラグイン名&gt;/install.php</tt>）を呼び出す。
   <ul>
-  <li>If this is a new install (plugin doesn't exist in plugins table)
-    then the install script should execute the needed install SQL to create the required tables and default data</li>
-  <li>If this is an upgrade, you will need to refer to the provided plugin documentation. Newer plugin may support the Plugin API to perform an update. The plugin Editor has the ability for the site admin to execute the update function if available.</li>
+  <li>新規インストールの場合（プラグインが <tt>plugins</tt> テーブルに存在しない場合），インストールスクリプトは必要なSQLを発行してテーブルと初期データを作成する。</li>
+  <li>アップグレードの場合，提供されているプラグインのドキュメントを参照する必要がある。比較的新しいプラグインAPIはアップグレードを実行するAPIを提供している。プラグインエディタを使用すれば，必要なら更新をブラウザから実行できる。</li>
   </ul></li>
-<li>That's it!</li>
+<li>これでおしまい!</li>
 </ol>
 
-<h2><a name="Deliver_Your_Plugin">Deliver Your Plugin!</a></h2>
+<h2><a name="Deliver_Your_Plugin">プラグインの配布</a></h2>
 
-<p>Because Geeklog Plugins can affect a Geeklog installation and the users
-filesystem, our policy is we will not endorse third party plugins unless
-they have been tested by the Geeklog Development team.&nbsp; Why?&nbsp; We
-will make sure that your plugin installs successfully and doesn't have any
-adverse behavior.&nbsp; Assuming your plugin checks out, we will put your
-tarfile on our site where it can be downloaded by Geeklog users.&nbsp; You
-can sumbit your plugin to our site at http://www.geeklog.net/</p>
+<p>GeeklogのプラグインはインストールされているGeeklogやユーザのファイルシステムに影響を与える可能性があるので，開発者チームが検証したものでなければサードパーティ製のプラグインを承認しないことになっている。プラグインをきちんとインストールでき，トラブルを引き起こさないことを確認したいからである。確認できれば，開発者がアップロードしたアーカイブファイルをGeeklogユーザがダウンロードできる場所に置く。開発したプラグインを http://www.geeklog.net/ に投稿してもよい。</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
-    All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 
 </body>
