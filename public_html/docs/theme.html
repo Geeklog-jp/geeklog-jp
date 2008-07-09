@@ -1,7 +1,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
   <title>テーマ作成 | Geeklogドキュメント</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
 </head>
@@ -15,7 +16,7 @@
 
 <h1>Geeklog用のテーマ作成</h1>
 
-<p>Geeklog用にテーマを作成するのは簡単ですぐにできる。HTMLファイルを編集できるなら，テーマを作成できる。PHPを習得する必要はない。
+<p>Geeklog用にテーマを作成するのは簡単ですぐにできる。HTMLファイルを編集できるなら，テーマを作成できる。PHPを習得する必要はない。</p>
 
 <h2>テーマ作成</h2>
 
@@ -29,7 +30,7 @@
 
 <p>必要に応じてテンプレートを編集する。一般的に，GeeklogでいうテンプレートとはHTMLファイルの断片である。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められているが，外見を大きく変えるのに変更する必要があるのはほんの少数であろう。
 
-<p>特に次のテンプレートは間違いなく変更する必要があるだろう。
+<p>特に次のテンプレートは間違いなく変更する必要があるだろう。</p>
 
 <ul>
 <li>header.thtml
@@ -54,7 +55,7 @@
 <p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していない。とはいえ，たいていの場合は，テンプレートのあるディレクトリ名とファイル名を見れば，用途は明らかなはずである。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は，URLを見るとよい。たとえば，ユーザのプロフィールを表示しているときなら，<tt>users.php</tt> というPHPのファイル名に気がつくだろう。そのファイルをテキストエディタで開き， <kbd>.thtml</kbd> を検索する。プロフィールの場合は，次の行が <code>function userprofile()</code> の中に見つかる。</p>
 <blockquote><code>
     $user_templates = new Template ($_CONF['path_layout'] . 'users');<br>
-    $user_templates->set_file (array ('profile'=>'profile.thtml', 'row'=>'commentrow.thtml', 'strow'=>'storyrow.thtml'));
+    $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));
 </code></blockquote>
 <p>PHPを理解していなくても，この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されているのは分かるだろう。最初の行を見れば，これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かる。</p>
 
@@ -194,7 +195,7 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 <p>今後，ブロックと記事のタイトルは見出しタグで表現される。記事の中で最大のタイトルは <tt>&lt;h1&gt;</tt> タグであり，ブロックのそれは常に <tt>&lt;h2&gt;</tt> タグである。</p>
 
 <h3>記事のレイアウト</h3>
-<p>記事のブロックはもはやテーブルを含まなくなり，対応するCSSのクラス名も一貫性を持たせるために変更された。記事を囲むボックスは， <tt>story<tt> クラスないし <tt>story-featured</tt> クラスという名前がついている。ボックス内のコンポーネントは，記事アイコン，記事情報，記事本体，記事フッタである。タイトルは <tt>&lt;h1&gt;</tt> タグを使用。注目記事は外側のボックスのクラスが違うだけで，残りは同じ。</p>
+<p>記事のブロックはもはやテーブルを含まなくなり，対応するCSSのクラス名も一貫性を持たせるために変更された。記事を囲むボックスは， <tt>story</tt> クラスないし <tt>story-featured</tt> クラスという名前がついている。ボックス内のコンポーネントは，記事アイコン，記事情報，記事本体，記事フッタである。タイトルは <tt>&lt;h1&gt;</tt> タグを使用。注目記事は外側のボックスのクラスが違うだけで，残りは同じ。</p>
 
 <h3>ブロック</h3>
 <p>ブロックは記事と同じように変化した。テーブルはなくなり，block-box, block-box-left, block-box-right という名前の &lt;div&gt; タグが1個使用されているだけである。タイトルは &lt;h2&gt; タグであり，ブロックのヘルプアイコンは block-helpicon というクラスの &lt;span&gt; タグになった。ブロックのサブタイトルは，（新着記事ブロックや過去の記事ブロックのように） &lt;h3&gt; タグである。これらの変更は <tt>style.css</tt> についで，以下のファイルに影響を与える。</p>
