@@ -3,7 +3,7 @@
  * Geeklog hack for cellular phones.
  * Copyright (c) 2006 - 2008 Tatsumi Imai(http://im-ltd.ath.cx)
  * License: GPL v2 or later
- * Time-stamp: <2008-03-07 02:45:36 imai>
+ * Time-stamp: <2008-07-14 23:42:55 imai>
  */
 
 // 設定
@@ -11,7 +11,7 @@ $CUSTOM_MOBILE_CONF['debug'] = false;
 $CUSTOM_MOBILE_CONF['use_mobile_content'] = true; // モバイル用、PC用のコンテンツ変換を行う
 $CUSTOM_MOBILE_CONF['force_2g_content'] = false; // 強制的に2G用コンテンツを表示する
 $CUSTOM_MOBILE_CONF['force_wm_as_pc'] = false; // Windows MobileデバイスをPCとして認識する
-$CUSTOM_MOBILE_CONF['force_cut_table'] = false; // 強制的にテーブルを削除する
+$CUSTOM_MOBILE_CONF['force_cut_table'] = true; // 強制的にテーブルを削除する
 $CUSTOM_MOBILE_CONF['cut_comment'] = true; // コメントを削除する
 $CUSTOM_MOBILE_CONF['convert_to_sjis'] = true; // SJISに変換する
 $CUSTOM_MOBILE_CONF['host_charset'] = "UTF-8"; // サーバはUTF-8
@@ -21,6 +21,12 @@ $CUSTOM_MOBILE_CONF['host_charset'] = "UTF-8"; // サーバはUTF-8
 $CUSTOM_MOBILE_CONF['resize_image'] = true;
 $CUSTOM_MOBILE_CONF['image_size'] = 150; // 縦または横の最大値
 $CUSTOM_MOBILE_CONF['image_quality'] = 60; // jpegの変換品質
+
+/**
+ * 表示する記事の数(データ量制限のため)
+ */
+$CUSTOM_MOBILE_CONF['max_stories'] = 3;
+
 
 /**
  * start_session()がコールされるたびにgc_probability/gc_divisorの確率で
@@ -241,8 +247,8 @@ function CUSTOM_MOBILE_debug($msg) {
 function CUSTOM_refresh($url)
 {
     global $LANG05;
-    $msg = mb_convert_encoding($LANG05['5'], 'SJIS', 
-                               mb_detect_encoding($LANG05['5'], "UTF-8,EUC-JP,JIS,SJIS"));
+    $msg = mb_convert_encoding($LANG05['5'], 'sjis-win', 
+                               mb_detect_encoding($LANG05['5'], "UTF-8,EUC-JP,JIS,sjis-win"));
     if(CUSTOM_MOBILE_is_cellular()) {
         return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" .
             "\"http://www.w3.org/TR/html4/loose.dtd\">\n" .
@@ -304,17 +310,6 @@ array(
       );
 
 
-// 画像タグのパターン配列
-$_mobile_images = 
-array(
-	  array('@<([  ]*img.*?)width="[0-9]+?"(.*?)>@si', '<$1$2>'),
-      array('@<([  ]*img.*?)height="[0-9]+?"(.*?)>@si', '<$1$2>'),
-      array('@<([  ]*img.*?)src="([^"]*?)"(.*?)>@si',
-            '<$1src="' . $_CONF['site_url'] . RESIZER . '?image=$2&amp;size='.
-            $CUSTOM_MOBILE_CONF['image_size'] . '&amp;quality=' .
-            $CUSTOM_MOBILE_CONF['image_quality'] . '&amp;site_url=' .
-            $_CONF['site_url'] . '"$3>'),
-      );
 
 // ケータイ用のアウトプットハンドラ
 function _mobile_output_handler($content, $status)
@@ -368,7 +363,7 @@ function _mobile_output_handler($content, $status)
 
     // 画像の縮小
     if($CUSTOM_MOBILE_CONF['resize_image']) {
-            CUSTOM_MOBILE_debug("search: " . $_mobile_images[0][0]);
+        //CUSTOM_MOBILE_debug("search: " . $_mobile_images[0][0]);
         for($i = 0; $i < count($_mobile_images); $i++) {
             $search[$i] = $_mobile_images[$i][0];
             $replace[$i] = $_mobile_images[$i][1];
@@ -389,7 +384,7 @@ function _mobile_output_handler($content, $status)
               // charset
               '@charset=' . $CUSTOM_MOBILE_CONF['host_charset'] . '@i',
               // for phones can't treat ' />' xhtml notation
-              '@ */>@i',
+              //'@ */>@i',
               // cut script
               '@<script[^>]*?>.*?</script>@si',
               // 変換の結果生じた無駄なタグの削除
@@ -409,7 +404,7 @@ function _mobile_output_handler($content, $status)
               // charset
               'charset='. $charset,
               // for phones can't treat ' />' xhtml notation
-              '>',
+              //'>',
               '',
               // 変換の結果生じた無駄なタグの削除
               '',
@@ -430,8 +425,12 @@ function _mobile_output_handler($content, $status)
         $content = _mobile_add_sessid($content);
     }
 
-    header ('Content-Type: text/html; charset=' . "Shift_JIS");
-    return mb_convert_encoding($content, 'SJIS', mb_detect_encoding($content));
+    if(CUSTOM_MOBILE_is_3g()) {
+        header("Content-type: application/xhtml+xml");
+    } else {
+        header ('Content-Type: text/html; charset=' . "Shift_JIS");
+    }
+    return mb_convert_encoding($content, 'sjis-win', mb_detect_encoding($content));
 }
 
 // ページ内のURIにセッションIDを付加する
@@ -472,10 +471,10 @@ function _mobile_session_callback($matches) {
     // ページ内リンクを探す
     $pos = strpos($ret, '#');
     if($pos === false) {
-        CUSTOM_MOBILE_debug("not matched: " . $ret);
+        //CUSTOM_MOBILE_debug("not matched: " . $ret);
         $link = "";
     } else {
-        CUSTOM_MOBILE_debug("matched: " . $ret);
+        //CUSTOM_MOBILE_debug("matched: " . $ret);
         $link = substr($ret, $pos);
         $ret = substr($ret, 0, $pos);
     }
@@ -498,29 +497,25 @@ function _mobile_session_callback($matches) {
     $sep = strpos($ret, '?')?'&amp;':'?';
     // SIDを追加する
     $ret = $ret . $sep . htmlspecialchars(SID) . $link . '"';
-    CUSTOM_MOBILE_debug("sid added: " . $ret);
+    //CUSTOM_MOBILE_debug("sid added: " . $ret);
     return $ret;
 }
 
-// 入力をホストの文字コードに変換する
+// 入力をURLデコードする
 function _mobile_prepare_input(&$array) {
     reset($array);
-
     $copy = $array;
     while (list($key, $val) = each($copy)) {
         if (get_magic_quotes_gpc()) {
             $key = stripslashes($key);
             $val = stripslashes($val);
         }
-
-        $keyconv = mb_convert_encoding($key, $CUSTOM_MOBILE_CONF['host_charset'],
-                                       mb_detect_encoding($key, "SJIS,UTF-8,EUC-JP,JIS"));
+        $keyconv = urldecode($key);
         if( $key != $keyconv ) {
             unset($array[$key]);
         }
         $array[$keyconv] =
-            mb_convert_encoding($val, $CUSTOM_MOBILE_CONF['host_charset'],
-                                mb_detect_encoding($val, "SJIS,UTF-8,EUC-JP,JIS"));
+            urldecode($val);
     }
     reset($array);
 }  
@@ -660,20 +655,31 @@ if(CUSTOM_MOBILE_is_cellular()) {
         $_CONF['theme'] = 'mobile_3g';
         $_POST['usetheme'] = 'mobile_3g';
         $_USER['theme'] = 'mobile_3g';
+        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
+            define('XHTML', '/');
+        } else {
+            define('XHTML', '');
+        }
     } else {
         $_CONF['theme'] = 'mobile';
         $_POST['usetheme'] = 'mobile';
         $_USER['theme'] = 'mobile';
+        define('XHTML', '');
     }
 
     // 各種デフォルト値を変更
-    $_CONF['limitnews'] = 3;
+    $_CONF['limitnews'] = $CUSTOM_MOBILE_CONF['max_stories'];
     $_CONF['advanced_editor'] = false;
     $_CONF['hideprintericon'] = 1;
     $_CONF['hideemailicon'] = 1;
     $_CONF['hideviewscount'] = 1;
     $_CONF['show_topic_icon'] = 1;
     $_CONF['postmode'] = 'text';
+    //$_CONF['hide_main_page_navigation'] = 1;
+    $_CONF['trackback_enabled'] = 0;
+    $_CONF['pingback_enabled'] = 0;
+    $_CONF['ping_enabled'] = 0;
+
     /*
     $CONF_FORUM_MOBILE['show_topics_perpage'] = "5";
     $CONF_FORUM_MOBILE['show_posts_perpage'] = "5";
@@ -690,22 +696,68 @@ if(CUSTOM_MOBILE_is_cellular()) {
     $LANG12[9] = "";
     $LANG12[19] = "";
 
+    // ADMIN_list()のクエリの上限を設定
+    $_REQUEST['query_limit'] = 5;
+
+    $token = ''; // Default to no token.
+    
+    /*
+     * 記事投稿で一部の端末はrefererを返さないため
+     * SEC_checkToken()が偽になる
+     * これを避けるためrefererを設定する
+     */
+    if(array_key_exists(CSRF_TOKEN, $_GET)) {
+        $token = COM_applyFilter($_GET[CSRF_TOKEN]);
+    } else if(array_key_exists(CSRF_TOKEN, $_POST)) {
+        $token = COM_applyFilter($_POST[CSRF_TOKEN]);
+    }
+    CUSTOM_MOBILE_debug("token: $token");
+    CUSTOM_MOBILE_debug("referer: " . $_SERVER['HTTP_REFERER']);
+    if(trim($token) != '' && $_SERVER['HTTP_REFERER'] =='') {
+        $sql = "SELECT ((DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND ttl > 0) " 
+            . "as expired, owner_id, urlfor FROM "
+            . "{$_TABLES['tokens']} WHERE token='$token'";
+        $tokens = DB_Query($sql);
+        if(DB_numRows($tokens) == 1) {
+            $tokendata = DB_fetchArray($tokens);
+            CUSTOM_MOBILE_debug("urlfor: " . $tokendata['urlfor']);
+            $_SERVER['HTTP_REFERER'] = $tokendata['urlfor'];
+        }
+    }
+
     ini_set("url_rewriter.tags", "a=href,area=href,frame=src,fieldset=");
     session_start();
 
-    if($CUSTOM_MOBILE_CONF['convert_to_sjis']) {
-        // 入力の文字コードを変換
-        _mobile_prepare_input($_POST);
-        _mobile_prepare_input($_GET);
-        _mobile_prepare_input($_REQUEST);
+    // 入力をURLデコードする
+    _mobile_prepare_input($_POST);
+    _mobile_prepare_input($_GET);
+    _mobile_prepare_input($_REQUEST);
 
+    if($CUSTOM_MOBILE_CONF['convert_to_sjis']) {
+        mb_convert_variables($CUSTOM_MOBILE_CONF['host_charset'],"sjis-win", $_POST, $_GET, $_REQUEST);
+                                       //mb_detect_encoding($key, "sjis-win,UTF-8,EUC-JP,JIS"));
+        
         // 出力をシフトJISに変換
         ini_set('mbstring.internal_encoding', $CUSTOM_MOBILE_CONF['host_charset']);
-        ini_set('mbstring.http_output', 'SJIS');
-        ini_set('mbstring.http_input', 'SJIS');
+        ini_set('mbstring.encoding_translation', '0');
+        ini_set('mbstring.http_output', 'pass');
+        ini_set('mbstring.http_input', 'pass');
     }
 
     ob_start('_mobile_output_handler');
 }
+
+
+// 画像タグのパターン配列
+$_mobile_images = 
+array(
+	  array('@<([  ]*img.*?)width="[0-9]+?"(.*?)>@si', '<$1$2>'),
+      array('@<([  ]*img.*?)height="[0-9]+?"(.*?)>@si', '<$1$2>'),
+      array('@<([  ]*img.*?)src="([^"]*?)"(.*?)>@si',
+            '<$1src="' . $_CONF['site_url'] . RESIZER . '?image=$2&amp;size='.
+            $CUSTOM_MOBILE_CONF['image_size'] . '&amp;quality=' .
+            $CUSTOM_MOBILE_CONF['image_quality'] . '&amp;site_url=' .
+            $_CONF['site_url'] . '"$3 ' . XHTML . '>'),
+      );
 
 ?>
