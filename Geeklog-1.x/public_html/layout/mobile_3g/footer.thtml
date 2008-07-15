@@ -3,7 +3,7 @@
     </div>
   <!-- } #wrapper -->
 
-  <hr class="separator">
+  <hr color="#666699" style="color:#666699" {xhtml}>
     <ol>
       <li>{mn_tohome}</li>
       <li>{mn_login_or_logout}</li>
@@ -13,21 +13,7 @@
       <li>{mn_search}</li>
       <li>{mn_block}</li>
     </ol>
-  <hr class="separator">
-
-  <!-- #footer { -->
-  <!-- フッタコンテナ -->
-  <div id="footer">
-      <address>{copyright_notice}</address>
-  </div>
-  <!-- } #footer -->
-
-<!-- } #container -->
-
-<!-- 状況に応じて、HTMLのbody要素にclass属性値を指定するJavaScript
-     引数は左から、左ブロックコンテナ・中央ブロックコンテナ・右ブロックコンテナのid属性値 -->
-
-<!-- } footer.thtml -->
+  <hr color="#666699" style="color:#666699" {xhtml}>
 
 </body>
 </html>

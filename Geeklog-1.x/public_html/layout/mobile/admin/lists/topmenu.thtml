@@ -1,5 +1,4 @@
                             <div class="admin-menu">
-                                {icon}
                                 <div class="admin-menu-items">
                                     {menu_fields_pre}{menu_fields}{menu_fields_aft}
                                 </div>

@@ -1,8 +1,8 @@
 <p>
 {lang_error_msg}
 </p>
-<h2>{lang_pdf_generator}</h2>
 <p>
+<h2>{lang_pdf_generator}</h2>
 {lang_instructions}
 </p>
 <form method="GET" action="{site_url}/pdfgenerator.php">

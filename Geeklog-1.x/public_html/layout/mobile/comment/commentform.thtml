@@ -9,11 +9,11 @@
   <br{xhtml}>
   <b>{lang_title}:</b>
   <br{xhtml}>
-  <input type="text" name="title" size="32" value="{title}" maxlength="96"{xhtml}>
+  <input type="text" name="title" size="16" value="{title}" maxlength="96"{xhtml}></td>
   <br{xhtml}>
   <b>{lang_comment}:</b>
   <br{xhtml}>
-  <textarea name="comment" rows="10" style="width:95%">{comment}</textarea>
+  <textarea name="comment" rows="3" cols="20">{comment}</textarea>
   <br{xhtml}>
   <hr{xhtml}>
   <input type="submit" name="mode" value="{lang_preview}"{xhtml}>
