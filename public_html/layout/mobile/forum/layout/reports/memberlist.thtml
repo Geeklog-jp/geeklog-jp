@@ -1,4 +1,5 @@
 <!-- start memberlist.thtml -->
+{navmenu}
  <form method="post" action="{site_url}/forum/memberlist.php" style="margin:0px;">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -6,7 +7,7 @@
         <td colspan="5" class="pluginHeader" style="padding:5px;text-align:right;" nowrap>{LANG_ACTIVITY}&nbsp;<input type="checkbox" name="chkactivity" value="1" {chk_activity} onClick="submit();"></td>
     </tr>
 </table>
-<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="margin-bottom:10px;">    
+<table width="100%" border="0" cellspacing="1" cellpadding="3" class="plugin" style="margin-bottom:10px;">    
     <tr>
         <td width="40" class="pluginBreadCrumbs pluginCellTitle aligncenter" style="padding:2px 0px 2px 5px;"><a href="{phpself}?order=1&prevorder={prevorder}&direction={direction}&page={page}&chkactivity={chkactivity}">{LANG_Heading1}</a></td>
         <td class="pluginBreadCrumbs pluginCellTitle" style="padding:2px 0px 2px 5px;"><a href="{phpself}?order=2&prevorder={prevorder}&direction={direction}&page={page}&chkactivity={chkactivity}">{LANG_Heading2}</a></td>

@@ -1,5 +1,5 @@
 <!-- notifications_line.thtml -->
-<tr class="pluginRow{csscode} pluginLinks aligncenter">
+<tr class="aligncenter pluginRow{csscode}">
     <td style="padding:2px 0px 2px 5px;"><input type="checkbox" name="chkrecid[]" value="{id}"></td>
     <td class="alignleft" style="padding:2px 0px 2px 5px;" nowrap>{forum}</td>
     <td class="alignleft" style="text-align:left;padding:2px 0px 2px 5px;" nowrap>{is_forum}&nbsp;{topic_link}</td>
