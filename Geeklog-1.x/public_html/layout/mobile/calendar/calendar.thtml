@@ -75,7 +75,7 @@
                                     <tr>
                                         <td>
                                             <form method="post" action="calendar.php">
-                                                <input type="submit" value="&lt;&lt;">
+                                                <input type="submit" value="<<">
                                                 <input type="hidden" name="month" value="{cal_prevmo_num}">
                                                 <input type="hidden" name="year" value="{cal_prevyr_num}">
                                                 <input type="hidden" name="mode" value="{mode}">

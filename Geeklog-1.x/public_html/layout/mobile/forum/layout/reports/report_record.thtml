@@ -1,5 +1,5 @@
 <!-- report_record.thtml -->
-<tr class="pluginRow{csscode} pluginLinks aligncenter" onMouseOver="className='pluginRollOver pluginLinks aligncenter';" onMouseOut="className='pluginRow{csscode} pluginLinks aligncenter';">
+<tr class="pluginRow{csscode}">
     <td style="text-align:left;padding:5px;">{post_start_ahref}{post_subject}{post_end_ahref}</td>
     <td width="2%" nowrap>{post_replies}</td>
     <td width="2%" nowrap>{post_views}</td>

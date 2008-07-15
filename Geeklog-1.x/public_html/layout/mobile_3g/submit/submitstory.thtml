@@ -1,9 +1,10 @@
+<div style="background-color:#fcfcee">
 <form action="{site_url}/submit.php" method="post">
   <b>{lang_username}:</b>
   {story_username} [ <a href="{status_url}" rel="nofollow">{lang_loginout}</a>{separator}{create_account} ]
   <br{xhtml}>
   <b>{lang_title}:</b>
-  <input type="text" size="36" maxlength="96" name="title" value="{story_title}"{xhtml}>
+  <input type="text" size="16" maxlength="96" name="title" value="{story_title}"{xhtml}>
   <br{xhtml}>
   <b>{lang_topic}:</b>
   <select name="tid">
@@ -12,11 +13,11 @@
   <br{xhtml}>
   <b>{lang_introtext}:</b>
   <br{xhtml}>
-  <textarea name="introtext" cols="45" rows="5">{story_introtext}</textarea>
+  <textarea name="introtext" cols="20" rows="3">{story_introtext}</textarea>
   <br{xhtml}>
   <b>{lang_bodytext}:</b>
   <br{xhtml}>
-  <textarea name="bodytext" cols="45" rows="10">{story_bodytext}</textarea>
+  <textarea name="bodytext" cols="20" rows="3">{story_bodytext}</textarea>
   <br{xhtml}>
   <input type="hidden" name="postmode" value="plaintext"{xhtml}>
   <input type="hidden" name="type" value="story"{xhtml}>
@@ -26,3 +27,4 @@
   {save_button}
   <input name="mode" type="submit" value="{lang_preview}"{xhtml}>
 </form>
+</div>
