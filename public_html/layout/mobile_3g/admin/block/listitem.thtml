@@ -17,5 +17,5 @@
 <td class="globalCellText" align="center">
 <form action="{site_admin_url}/block.php" method="post">
   <input type="checkbox" name="blkenable" onclick="submit()" value="{block_id}" {enabled}><input type="hidden" name="blkChange" value="{block_id}">
-</form>
+ </td></form>
 </tr>

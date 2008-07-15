@@ -15,9 +15,9 @@
     <form name="groupusers" action="{phpself}" method="post" style="margin:0px;">
         <table width="99%" cellspacing="0" cellpadding="0" class="pluginBG" style="padding:15px;">
             <tr>
-                <th class="blocktitle alignright" style="padding:5px 40px 5px 5px;">{LANG_sitemembers}</th>
-                <th>&nbsp;</th>
-                <th class="blocktitle alignleft" style="padding:5px 5px 5px 20px;">{LANG_grpmembers}</th>
+                <td class="blocktitle alignright" style="padding:5px 40px 5px 5px;">{LANG_sitemembers}</th>
+                <td>&nbsp;</th>
+                <td class="blocktitle alignleft" style="padding:5px 5px 5px 20px;">{LANG_grpmembers}</th>
             </tr>
             <tr>
                 <td class="alignright" width="40%" style="padding-right:5px;">
