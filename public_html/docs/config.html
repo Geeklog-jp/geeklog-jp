@@ -15,18 +15,18 @@
 
 <h2>設定用ファイル</h2>
 
-<p>旧バージョンのGeeklogでは，<tt>config.php</tt>という主要な設定を網羅した巨大なファイルを使用していた。Geeklog 1.5.0では，設定の大部分はデータベースに記録され，管理者機能内の<b>コンフィギュレーション(Configuration)</b>からアクセスできるようになった。</p>
+<p>旧バージョンのGeeklogでは，<tt>config.php</tt>という主要な設定を網羅した巨大なファイルを使用していました。Geeklog 1.5.0では，設定の大部分はデータベースに記録され，管理者機能内の<b>コンフィギュレーション(Configuration)</b>からアクセスできるようになりました。</p>
 
-<p>技術上の理由で，依然としてファイルに保存する必要のある設定もある。そのような設定ファイルは次の2つ：</p>
+<p>技術上の理由で，依然としてファイルに保存する必要のある設定もあります。そのような設定ファイルは次の2つです：</p>
 <ul>
 <li><a href="#db-config.php">db-config.php</a></li>
 <li><a href="#siteconfig.php">siteconfig.php</a></li>
 </ul>
-<p>この2つのファイルはGeeklogをインストールするときに更新されるだけなので，ふつう，手動で編集する必要はない。</p>
+<p>この2つのファイルはGeeklogをインストールするときに更新されるだけなので，通常，手動で編集する必要はありません。</p>
 
 <h1>設定オプション</h1>
 
-<p>Geeklogの設定オプションは以下のようにグループ分けされている。</p>
+<p>Geeklogの設定オプションは以下のようにグループ分けされています。</p>
 
 <ul>
 <li><a href="#site">サイト(Site)</a></li>
@@ -127,9 +127,9 @@
 
 <h3><a name="site_syndication">サイト: シンジケーション</a></h3>
 
-<p>Geeklogでは，記事の見出しを様々なフォーマット(RSS, RDF, Atom)でRSSフィードとして出力できる。これにより，他のサイトと記事を共有できる。(ヒント：Geeklogサイトで他のサイトの記事を読み込むには，管理者のブロックメニューでポータルブロックを作成して，RSSフィードを読み込めばよい。)</p>
+<p>Geeklogでは，記事の見出しを様々なフォーマット(RSS, RDF, Atom)でフィードとして出力できます。これにより，他のサイトと記事を共有できます。(ヒント：Geeklogサイトで他のサイトの記事のフィードを読み込むために，管理者のブロックメニューでポータルブロックを作成してください。)</p>
 
-<p>Geeklog 1.3.9以降，RSSフィードは管理者メニュー(RSS配信/Content Syndication)から作成・設定できる。以下の設定は，管理者メニューからRSSフィードを新規作成するときの <em>初期値</em> として使われるだけである。</p>
+<p>Geeklog 1.3.9以降，フィードは管理者メニュー(シンジケーション)から作成・設定できます。以下の設定は，管理者メニューからフィードを新規作成するときの <em>初期値</em> としてのみ使用されます。</p>
 
 <table border="1" width="100%">
 <tr><th width="8%">項目</th>
@@ -198,7 +198,7 @@
 
 <h3><a name="site_mysql">サイト: MySQL</a></h3>
 
-<p>名前が示すように，以下の設定は，サイトがMySQLで運営されているときしか意味を持たない。MS SQLで運営しているときには無視される。</p>
+<p>名前が示すように，以下の設定は，サイトがMySQLで運営されているときしか意味を持ちません。MS SQLで運営しているときには無視されます。</p>
 
 <table border="1" width="100%">
 <tr><th width="8%">項目</th>
@@ -896,7 +896,7 @@
 <tr>
   <td valign="top"><a name="desc_language">言語(language)</a></td>
   <td valign="top">english</td>
-  <td valign="top">言語ファイル名。追加の言語ファイルは<a href="http://www.geeklog.net/">http://www.geeklog.net</a>でダウンロードできる。言語ファイルを翻訳した場合は，送ってください。下記の<a href="#Localization">ローカリゼーション</a>も参照のこと。</td></tr>
+  <td valign="top">言語ファイル名。追加の言語ファイルは<a href="http://www.geeklog.net/">http://www.geeklog.net</a>でダウンロードできる。言語ファイルを翻訳した場合は，送ってください。下記の<a href="#Localization">ローカリゼーション</a>も参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_language_files">言語ファイル[多言語モード](language_files)</a></td>
   <td valign="top"><i>(コメントアウトされている)</i></td>
@@ -907,7 +907,7 @@
   <td valign="top">多言語サイト用。言語の短縮形('en', 'de', 'ja'など)と言語名("English", "Deutsch", "Japanese"など)の対応関係を指定する。</td></tr>
 </table>
 
-<p>Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">多言語サポート(Multi-Language Support)</a>も参照のこと。</p>
+<p>Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">多言語サポート(Multi-Language Support)</a>も参照してください。</p>
 
 <h3><a name="languages_locale">言語とロケール: ロケール</a></h3>
 
@@ -970,7 +970,7 @@
 
 <h3><a name="misc_cookies">その他: クッキー</a></h3>
 
-<p>以下の設定では，Geeklogが使用するクッキー名を指定する。他のソフトウェアが使用するクッキーと名前が重複する場合は簡単に変更できる。</p>
+<p>以下の設定では，Geeklogが使用するクッキー名を指定します。他のソフトウェアが使用するクッキーと名前が重複する場合は簡単に変更できます。</p>
 
 <table border="1" width="100%">
 <tr><th width="8%">項目</th>
@@ -1168,12 +1168,12 @@
   <td valign="top">WebサービスAPIでAtomフィードをリクエストする場合の記事の最大数。</td></tr>
 </table>
 
-<p>Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/Using_the_Webservices">Webサービスを使用する(Using the Webservices)</a>も参照のこと。</p>
+<p>Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/Using_the_Webservices">Webサービスを使用する(Using the Webservices)</a>も参照してください。</p>
 
 
 <h2><a name="db-config.php">db-config.php</a></h2>
 
-<p>その名が示すように，<tt>db-config.php</tt>ファイルには，データベースの設定が書かれている。この情報はインストール時に書き込まれるので，ふつう，手動で編集する必要はない。</p>
+<p>その名が示すように，<tt>db-config.php</tt>ファイルには，データベースの設定が記述されています。この情報はインストール時に書き込まれるので，ふつう，手動で編集する必要はありません。</p>
 
 <table border="1" width="100%">
 <tr><th width="8%">項目</th>
@@ -1207,7 +1207,7 @@
 
 <h2><a name="siteconfig.php">siteconfig.php</a></h2>
 
-<p><tt>siteconfig.php</tt>ファイルには，データベースに保存できない設定が書かれている。設定の大半はインストール時に書き込まれるので，ふつう，このファイルを手動で編集する必要はない。</p> 
+<p><tt>siteconfig.php</tt>ファイルには，データベースに保存できない設定が記述されています。設定の大半はインストール時に書き込まれるので，ふつう，このファイルを手動で編集する必要はありません。</p> 
 
 <table border="1" width="100%">
 <tr><th width="8%">項目</th>
@@ -1234,28 +1234,28 @@
 
 <h2><a name="url-rewrite">URLリライト</a></h2>
 
-<p>Geeklogには，単純だが役に立つURLリライト機能が含まれており，クローラに適した（つまり，検索エンジンのインデックス作成用ボットがサイトを訪問しやすくなる）URLを出力できる。この機能は，記事・静的ページ・記事一覧・リンクプラグインのURLでサポートされている。</p>
+<p>Geeklogには，単純でありながら役に立つURLリライト機能が含まれており，クローラに適した（つまり，検索エンジンのインデックス作成用ボットがサイトを訪問しやすくなる）URLを出力できます。この機能は，記事・静的ページ・記事一覧・リンクプラグインのURLでサポートされています。</p>
 <p>URL書き換えにより，たとえば</p>
 <p align="center"><tt>http://www.geeklog.net/article.php?story=20021022234959146</tt></p>
 <p>というURLは，</p>
 <p align="center"><tt>http://www.geeklog.net/article.php/20021022234959146</tt></p>
-<p>となる。1番目の形式のURLを解釈する検索エンジンもあるが，Googleは2番目の形式を好み，1番目の形式を無視するようである。</p>
-<p><strong>注意:</strong>この機能はすべてのWebサーバで機能するとは限らない。Apache（全バージョン）では機能するが，<acronym title="Internt Information Service">IIS</acronym>（の少なくとも一部のバージョン）では<em>動作しない</em> ことが知られている。サイトを公開する前に検証して欲しい。</p>
+<p>となります。1番目の形式のURLを解釈する検索エンジンもありますが，Googleは2番目の形式を好み，1番目の形式を無視するようです。</p>
+<p><strong>注意:</strong>この機能はすべてのWebサーバで機能するとは限りません。Apache（全バージョン）では機能しますが，<acronym title="Internt Information Service">IIS</acronym>（の少なくとも一部のバージョン）では<em>動作しない</em> ことが知られています。サイトを公開する前に検証してください。</p>
 
 
 <h2><a name="Localization">ローカリゼーション(Localization)</a></h2>
 
-<p>Geeklogをローカライズするのは簡単である。文字列はすべて言語ファイルに格納されている。Geeklogに最初から同梱されているのはenglish.phpである。他の言語への翻訳に関心のある人は<a href="http://lists.geeklog.net/listinfo/geeklog-translations">Geeklog翻訳(geeklog-translations)</a>メーリングリストへの加入を勧める。Geeklogの翻訳に関する重要な情報はみなこのメーリングリストに投稿される。</p>
+<p>Geeklogをローカライズするのは簡単です。文字列はすべて言語ファイルに格納されています。Geeklogに最初から同梱されているのはenglish.phpです。他の言語への翻訳に関心のある方は<a href="http://lists.geeklog.net/listinfo/geeklog-translations">Geeklog翻訳(geeklog-translations)</a>メーリングリストへの加入をお勧めします。Geeklogの翻訳に関する重要な情報はみなこのメーリングリストに投稿されます。</p>
 
 <h3><a name="date_formats">ロケールと時間のフォーマット</a></h3>
 
-<p>ロケールと時間フォーマットの設定はコンフィギュレーションで行える。ロケールを設定するには，適切な文字列を設定するか空白のままにしておく。後者の場合は，オペレーティングシステムのロケールの既定値が使用される。時間フォーマットはロケールによって処理が決まる。ロケール名はオペレーティングシステムに依存する。ほとんどのUNIX系のホストでは，ロケールコードは<i>/usr/share/locale/locale.alias</i> ファイルに記述されており，<i>locale -a</i> コマンドで利用可能なロケールすべてを表示できるシステムもある。ロケールが存在しない場合は，<i>localedef</i> コマンドで作成できる。
+<p>ロケールと時間フォーマットの設定はコンフィギュレーションで行えます。ロケールを設定するには，適切な文字列を設定するか空白のままにしておきます。後者の場合は，オペレーティングシステムのロケールの既定値が使用されます。時間フォーマットはロケールによって処理が決まります。ロケール名はオペレーティングシステムに依存します。ほとんどのUNIX系のホストでは，ロケールコードは<i>/usr/share/locale/locale.alias</i> ファイルに記述されており，<i>locale -a</i> コマンドで利用可能なロケールすべてを表示できるシステムもあります。ロケールが存在しない場合は，<i>localedef</i> コマンドで作成できます。
 
 <p>ロケールに関する詳細は，<a href="http://www.opengroup.org/onlinepubs/7908799/xbd/locale.html">http://www.opengroup.org/onlinepubs/7908799/xbd/locale.html</a>，<br>
 <code>localdef</code> コマンドに関する詳細は，<a href="http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html">http://www.opengroup.org/onlinepubs/7908799/xcu/localedef.html</a><br>を参照のこと，</p>
 
 <h3>時間のフォーマット</h3>
-<p>（訳注：以下の表現は，<a href="http://jp.php.net/manual/ja/function.strftime.php">PHPマニュアル</a>の表現を使用，一部改変している。）</p>
+<p>（訳注：以下の表現は，<a href="http://jp.php.net/manual/ja/function.strftime.php">PHPマニュアル</a>の表現を使用，一部改変しています。）</p>
 
 <ul>
   <li><tt>%a - 現在のロケールに基づく短縮された曜日の名前</tt></li>
