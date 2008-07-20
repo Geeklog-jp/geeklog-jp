@@ -1,0 +1,4 @@
+<!-- start alertmsg.thtml -->
+{alert_title}<br>
+{alert_message}{prompt}
+<!-- end alertmsg.thtml -->

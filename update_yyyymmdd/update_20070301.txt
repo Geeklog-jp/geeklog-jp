@@ -1,0 +1,59 @@
+1. パスワード再発行のお知らせメールの文章の改善 
+    1. /language/japanese.php 
+    2. /language/japanese_utf-8.php 
+    3. /language/korean.php 
+    4. /language/korean_utf-8.php 
+2. Professional CSS Ver.0.95.2(2007-02-23) 
+    1. /public_html/layout/ProfessionalCSS/advanced_editor_header.thtml 
+    2. /public_html/layout/ProfessionalCSS/blockheader-left.thtml 
+    3. /public_html/layout/ProfessionalCSS/blockheader-right.thtml 
+    4. /public_html/layout/ProfessionalCSS/README 
+    5. /public_html/layout/ProfessionalCSS/css/navbar/navbar.css 
+    6. /public_html/layout/ProfessionalCSS/css/admin/story.css 
+    7. /public_html/layout/ProfessionalCSS/css/preferences/preferences.css 
+3. テーマエディタ　メニュー一覧修正 
+    1. /plugins/themedit/config.php差し替え 
+    2. /plugins/themedit/config.php2削除 
+4. プラグイン　ファイル管理 タグ抜け修正 
+    1. /public_html/filemgmt/submit.php 
+5. 静的ページ　テンプレート　管理者編集用 タイトルnowrap追加 
+    1. /plaugins/staticpages/templates/admin/editor.thtml 
+    2. /plaugins/staticpages/templates/admin/editor_advanced.thtml 
+6. 静的ページ編集時にエラーが発生する問題の対応(PHP5のみ発生)
+   所有者ヘッダのソートを有効、初期ソートを最終更新日降順 
+    1. public_html/admin/plugins/staticpages/index.php 
+    2. public_html/admin/plugins/staticpages/add_to_index.php 削除 
+
+7. コンフィギュレーションエディタ 
+    1. デフォルトテーマが新規登録ユーザに反映されない。 
+        1. /plugins/userconfig/config.php 
+        2. /userconfig_now.php 
+
+    2. URLリライトの変更が反映されない。（config.phpのまま） 
+        1./userconfig_now.php 
+        2.config.php
+
+8.二階層メニュー　マルチリンガル設定でない時にエラーが発生することがある
+  (The second argument should be either an array or an object) 
+  1. /system/custom/phpblock_nmoxmenu.php 
+9.新規登録の時のメールのタイトル等修正 
+  1. /language/japanese.php 
+  2. /language/japanese_utf-8.php 
+10.長さ修正。ユーザ名は１６,　メールアドレスは３２ 
+  1. /public_html/layout/ProfessionalCSS/users/getpasswordform.thtml 
+  2. /public_html/layout/ProfessionalCSS/users/registrationform.thtml 
+  3. /public_html/layout/professional/users/getpasswordform.thtml 
+  4. /public_html/layout/professional/users/registrationform.thtml 
+  5. /public_html/layout/mobile/users/getpasswordform.thtml 
+  6. /public_html/layout/mobile/users/registrationform.thtml 
+11.メール不具合
+  1. /public_html/lib-common.php/ 
+  2. /system/lib-custom.php/ 
+  3. /system/custom/custom_mail_JIS.php 
+  4. /system/custom/custom_mail_SAMPLE2.php (utf-8のみ) 
+    require_once( 'custom/custom_mail.php' )のコメントはずしましたが
+    custom/custom_mail.php で関数はコメントになっているので
+    default では　custom_mail は実行されません。
+    メール送信がうまく動作しない場合は
+    custom_mail_JIS.php または custom_mail_SAMPLE2.phpを
+    custom_mail.php にリネームしてお試しください。

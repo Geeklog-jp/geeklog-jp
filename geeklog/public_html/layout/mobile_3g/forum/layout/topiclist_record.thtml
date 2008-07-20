@@ -1,0 +1,8 @@
+<!-- start topiclist_record.thtml -->
+<hr>
+<a href="viewtopic.php?showtopic={topic_id}">{subject}</a>
+{topicinfo}<br>
+{LANG_VIEWS}{views}
+{LANG_REPLIES}: {replies}
+{LANG_BY}: {lastposter}
+<!-- end topiclist_record.thtml -->

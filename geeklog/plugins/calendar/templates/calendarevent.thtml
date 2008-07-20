@@ -1,0 +1,7 @@
+
+<!-- plugins/calendar/templates/calendarevent.thtml { -->
+
+                                            {event_anchortags}
+
+<!-- } plugins/calendar/templates/calendarevent.thtml -->
+

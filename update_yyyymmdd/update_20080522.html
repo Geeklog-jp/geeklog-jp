@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+<p><a href="http://wiki.geeklog.jp/index.php/InstallSet141next" title="InstallSet141next">次回差替予定</a>>2008/01/29版差替内容
+</p>
+
+<ol><li>2008/05/22版(2008/01/30～2008/05/22）
+<ol><li> 画像パスに/が余分に含まれる不具合対応 
+<ol><li>private/config.php<br /> $_CONF_FCK['imagelibrary'] = '/images/library/';　を　　$_CONF_FCK['imagelibrary'] = '/images/library';　に変更
+</li></ol>
+</li><li>携帯宛のメールで文字化けする問題に対応
+<ol><li>private/system/custom/custom_mail_20071025.php
+</li></ol>
+</li><li>ProfessionalCSSアカウント削除不具合 <a href="http://www.geeklog.jp/forum/viewtopic.php?showtopic=9834" class='external text' title="http://www.geeklog.jp/forum/viewtopic.php?showtopic=9834" rel="nofollow">サポート掲示板より</a>
+<ol><li>public_html/layout/ProfessionalCSS/preferences/profile.thtml
+</li><li>public_html/layout/ProfessionalCSS/preferences/deleteaccount.thtml
+</li></ol>
+</li><li>携帯ハックVersion 0.3　バージョンアップ　<a href="http://im-ltd.ath.cx/dokuwiki/doku.php?id=geekcell" class='external text' title="http://im-ltd.ath.cx/dokuwiki/doku.php?id=geekcell" rel="nofollow">にゅうすらどふう（im-ltdさんのサイト）</a>
+</li><li>アプリケーション：トピックリスト　<a href="http://www.geeklog.jp/forum/viewtopic.php?showtopic=10067" class='external text' title="http://www.geeklog.jp/forum/viewtopic.php?showtopic=10067" rel="nofollow">サポート掲示板より</a>
+<ol><li>public_html/directory/topiclist.php
+</li></ol>
+</li><li>public_html/robots.txt CR LF を LF に
+</li><li>public_html/disabledmsg.html 表示の改善
+</li><li>FCKEditor2.6へバージョンアップ
+<ol><li>public_html/fckeditor/*.*
+</li></ol>
+</li><li>海外で配布されているテーマ等で custom-memberlogin.thtml が無い場合にエラーになる不具合
+<ol><li>private/system/custom/custom_templatesetvars.php を修正
+</li></ol>
+</li><li>テーマエディタ　カメレオンテーマ対応
+<ol><li>plugins/themedit/config.php
+</li><li>plugins/themedit/languages/*
+</li></ol>
+</li><li>テーマテスタ2008/02/28版に差替 <a href="http://www.geeklog.jp/filemgmt/index.php?id=258" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=258" rel="nofollow">ダウンロード</a>
+</li></ol>
+</li></ol>
+<h2>特記</h2>
+<p>二階層メニュを日本語版標準プラグインから除外しました。
+なお、<a href="http://www.geeklog.jp/filemgmt/index.php?id=305" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=305" rel="nofollow">二階層メニュ新バージョン</a>が公開されています。
+</p>
+
+</body> 
+</html> 

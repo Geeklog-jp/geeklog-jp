@@ -1,0 +1,32 @@
+h2.ce{
+	font-size:110%;
+	border-bottom:#999 solid 1px;
+	background-color:#eee;
+	margin-left:10px;
+}
+h3.ce{
+	font-size:100%;
+	border-bottom:#ddd solid 1px;
+	color:#666;
+	margin-left:20px;
+}
+p.ce{
+	font-weight:bold;
+	font-size:90%;
+	margin:5px 0px 0px 30px;
+}
+p.cememo{
+	font-size:80%;
+	color:#666;
+	padding-left:200px;
+}
+p.cememoblock{
+	font-size:85%;
+	color:#666;
+	padding-left:120px;;
+}
+ul.ce{
+	font-size:90%;
+	list-style:none;
+	margin:3px 0px 0px 30px;
+}

@@ -1,0 +1,26 @@
+
+<!-- submit/submitstory.thtml { -->
+
+<form action="{site_url}/submit.php" method="post" class="compact">
+{lang_username}: {story_username}(<a href="{status_url}">{lang_loginout}</a>/{create_account})
+<label for="submitstory-title">{lang_title}</label><br>
+<input type="text" size="14" maxlength="96" value="{story_title}" name="title" class="text"><br>
+<label for="submitstory-tid">{lang_topic}</label><br>
+<select name="tid"><br>
+  {story_topic_options}
+</select>
+<label for="introtext">{lang_story}</label><br>
+<textarea cols="14" rows="6" name="introtext">{story_introtext}</textarea><br>
+    <ul class="submit">
+      <li><input name="mode" type="submit" value="{lang_preview}" class="submit"></li>
+      <li>
+        {save_button}
+      </li>
+    </ul>
+    <input type="hidden" name="type" value="story">
+    <input type="hidden" name="uid" value="{story_uid}">
+    <input type="hidden" name="sid" value="{story_sid}">
+    <input type="hidden" name="date" value="{story_date}">
+</form>
+
+<!-- } submit/submitstory.thtml -->

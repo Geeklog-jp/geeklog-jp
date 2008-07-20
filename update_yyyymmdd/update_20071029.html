@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+
+<ol><li>2007/10/29版(2007/09/26～2007/10/29）
+<ol><li>ProfessionalCSS (総入替)
+<ol><li> マイアカウントページのJavaScriptによるグローバル名前空間の汚染を防止(/public_html/layout/ProfessionalCSS/preferences/profile.thtml)
+</li><li> tableのセル内テキストの垂直位置(vertical-align)を上付き(top)に変更(/public_html/layout/ProfessionalCSS/css/default.css)
+</li><li> CSSファイルからWin IE 5.5以下、Mac IE用の記述を削除
+</li><li> カスタマイズ用CSSのサンプルファイル名を「_custom.css」から「custom.sample.css」に変更
+</li><li> カスタマイズ用CSSファイル(custom.css)を標準で読み込むように修正(/public_html/layout/ProfessionalCSS/style.css)
+</li><li> title属性のテンプレート変数のタグ抜けを修正「title="lang_expandhelp"」->「title="{lang_expandhelp}"」　(/public_html/layout/ProfessionalCSS/admin/story/storyeditor_advanced.thtml)
+</li><li> アドバンストエディタの全画面エディタに対応(それに伴いレイアウト変更)
+<ol><li> /public_html/layout/ProfessionalCSS/header.thtml
+</li><li> /public_html/layout/ProfessionalCSS/css/layout.css
+</li><li> /public_html/layout/ProfessionalCSS/images/css/bg_navigation.gif
+</li><li> /public_html/layout/ProfessionalCSS/images/css/bg_logo.gif(削除)
+</li><li> /public_html/layout/ProfessionalCSS/images/logo.gif(追加)
+</li></ol>
+</li><li> デバッグ用CSSファイルを削除
+<ol><li> /public_html/layout/ProfessionalCSS/style.css
+</li><li> /public_html/layout/ProfessionalCSS/css/debug.css(削除)
+</li></ol>
+</li><li> CSSのプロパティをショートハンドプロパティに纏めました。
+</li></ol>
+</li><li>precheck.phpを1.2.1に更新。
+<ol><li>（追加）config.phpとlib-common.phpの文字コードをチェック。
+</li><li>（追加）アップロードしたファイルの存在とファイルサイズをチェック（オプション）。配布用のtarボールを作成する前に，Webブラウザから<br />/公開領域/admin/install/check_files.php?action=build&amp;path_config=config.phpのパス<br />を実行して，ファイルサイズのデータ（公開領域/admin/install/file_list.php）を更新する必要あり。
+</li><li>（変更）サイト名，スローガン，多言語モードのチェックを表示しないようにした。
+</li></ol>
+</li><li>Shift_JISで保存されていたファイルをUTF-8Nで保存し直したファイル
+<ol><li>/private/plugins/calendar/templates/submitevent.thtml
+</li><li>/public_html/layout/ProfessionalCSS/css/plugin/forum.css
+</li><li>/public_html/layout/ProfessionalCSS/css/plugin.css
+</li><li>/public_html/photomail/photomail.php
+</li><li>/public_html/photomail/photomailtest.php
+</li></ol>
+</li><li>layout/mobile_3gのfeaturedstorytext.thtmlのタグ閉じ忘れ修正。
+</li><li>言語ファイル　language/japanese.php のコメント(4行目)が「japanese_utf-8.php」になっていたのを修正。
+</li><li>アンケート(polls)プラグイン　日本語のランゲージファイルの項目が不足していた分(stats_top10～open_poll)を追加。<br />plugins/polls/language/japanese*.php
+</li><li><a href="http://www.geeklog.jp/article.php/20071017205333898" class='external text' title="http://www.geeklog.jp/article.php/20071017205333898" rel="nofollow">セキュリティアップデート</a>
+<ol><li>system/custom/phpblock_themetester.php
+</li><li>system/custom/phpblock_mycaljp.php
+</li><li>public_html/mycaljp/*.*
+</li></ol>
+</li><li>mobile/mobile_3g掲示板表示不具合
+<ol><li>足りないテンプレートファイルを追加。すべて差し替え
+</li></ol>
+</li><li>メール送信不具合における対応
+<ol><li>従来の日本語メール(jpmail)プラグインは非推奨。
+</li><li>lib-common.php, lib-cutom.phpを修正。
+</li><li>private/system/custom/custom_mail_20071025.phpを追加。<br /><font color="red">jpmailプラグインをインストールしている場合は，先にアンインストールする必要あり。<br />jpmailプラグインをを使用する場合は、lib-cutom.phpを修正する必要あり。<br /></font>
+</li></ol>
+</li><li>不要なファイルがある
+<ol><li>plugins/dbman/japanese*.php
+</li><li>public_html/admin/plugins/upload.php
+</li></ol>
+</li><li>ダイジェスト送信の文言訂正
+<ol><li>language/japanese*.php 　$LANG08[29] 、$LANG08[30] 
+</li><li>public_html/lib_common.php 
+</li></ol>
+</li><li>ようこそ～さん config.phpで本名を表示するを1に設定した場合でも本名が表示されない。 
+<ol><li>system/custom/custom_templatesetvars.php
+</li></ol>
+</li><li>静的ページ実行関数追加<br />ヘッダテンプレートなどPHPを実行できるテンプレートから<br />静的ページをidで指定して実行するためのカスタム関数。
+<ol><li>system/custom/custom_getstaticpage.php
+</li><li>system/lib_custom.php
+</li></ol>
+</li><li>テーマエディタ　画像アップローダで，ディレクトリimages/css images/customを追加 (2007/07/16版でフォルダ間違えていたので訂正)
+<ol><li>/public_html/admin/plugins/themedit/upload.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=179" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=179" rel="nofollow">2階層メニュー(nmoxmenu)プラグイン 3.1.6</a>　へアップ。プラグインのアップデートを！
+<ol><li>public_html/nmoxmenu/function.js が同梱されてない
+</li><li>Firefoxでメニューの表示位置がおかしい問題<br />(maruyoさんのサイト参照:<a href="http://geeklogtest.maryn.jp/article.php?story=20070925135555140&amp;query=nmox" class='external free' title="http://geeklogtest.maryn.jp/article.php?story=20070925135555140&amp;query=nmox" rel="nofollow">http://geeklogtest.maryn.jp/article.php?story=20070925135555140&amp;query=nmox</a>)
+<ol><li>public_html/nmoxmenu/style.css
+</li></ol>
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=97" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=97" rel="nofollow">コンフィギュレーションエディタ プラグイン 1.3.3</a>　へアップ。プラグインのアップデートを！
+<ol><li>コンフィグレーションエディタ  連想配列の要素が必要以上に追加されている<br /> (maruyoさんのサイト参照:<a href="http://geeklogtest.maryn.jp/index.php?topic=userconfig_plugin&amp;tab=1110110000" class='external free' title="http://geeklogtest.maryn.jp/index.php?topic=userconfig_plugin&amp;tab=1110110000" rel="nofollow">http://geeklogtest.maryn.jp/index.php?topic=userconfig_plugin&amp;tab=1110110000</a>)
+<ol><li>plugins/userconfig/functions.inc
+</li><li>plugins/userconfig/config.php
+</li><li>plugins/userconfig/userconfig_prepare.php
+</li></ol>
+</li></ol>
+</li></ol>
+</li></ol>
+
+</body> 
+</html> 

@@ -1,0 +1,7 @@
+
+<!-- plugins/calendar/templates/weekview/events.thtml { -->
+
+<div style="border-bottom:1px solid white;">{delete_imagelink} {event_starttime} {event_endtime} {event_title_and_link}</div>
+
+<!-- } plugins/calendar/templates/weekview/events.thtml -->
+

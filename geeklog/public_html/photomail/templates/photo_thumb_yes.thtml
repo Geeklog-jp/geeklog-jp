@@ -1,0 +1,1 @@
+<div style="float:left">{filename}<br /><a href="{tmp_url}" target="_blank"><img src="{thumb_url}" width="{width}" height="{height}" border="0" alt="{filename}" /></a></div>

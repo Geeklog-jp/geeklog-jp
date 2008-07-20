@@ -1,0 +1,3 @@
+<!-- start block_displayline.thtml -->
+<b><a href="{site_url}/forum/viewtopic.php?forum={forum_id}&amp;showtopic={topic_id}&amp;fromblock=yes" TITLE="{fullsubject}">{topic_subject}</a></b><br>&nbsp;<small><b>{LANG_BY}</b>&nbsp;{profilelink}{user_name}</a></small><br>&nbsp;<small><b>{LANG_ON}</b>&nbsp;{date}</small><br>&nbsp;<small><b>{LANG_VIEWS}</b>&nbsp;{views}&nbsp;<b>{LANG_REPLIES}</b>&nbsp;{replies}<br>
+<!-- end block_displayline.thtml -->

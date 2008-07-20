@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+
+<body>
+<a href="http://wiki.geeklog.jp/index.php/InstallSet141next">最新の次回差替予定</a>
+<ol><li>2007/05/01版(2007/04/20～2007/05/01）
+<ol><li>ProfessionalCSSテンプレート使用時、投稿管理で承認/削除が行えない（Firefox+WinXP の場合）<br />ProfessionalCSSテンプレート使用時、ブロック管理の先頭を有効/無効にすると２つめが無効/有効 になる （Firefox+WinXP の場合）<br />ProfessionalCSSテンプレート使用時、ユーザの一括削除が行えない（Firefox+WinXP の場合）<br /><font color="red">　　public_html/layout/テーマ/admin/lists/list.thtml　の修正が必要です<br />　　　１）先頭行のあたりにある {top_menu} の下にある &lt;form&gt;行を削除します。<br />　　　２）その&lt;form&gt;があった行に、 {form_start} を入れます。<br />　　　３）最後の行あたりにある {google_paging} の下に {form_end} を入れます。</font> 
+<ol><li>public_html/layout/ProfessionalCSS/admin/lists/list.thtml
+</li><li>public_html/layout/professional/admin/lists/list.thtml
+</li><li>public_html/layout/mobile/admin/lists/list.thtml
+</li><li>public_html/admin/user.php
+</li><li>public_html/admin/moderation.php
+</li><li>system/lib-admin.php
+</li></ol>
+</li><li>携帯WILLCOMも携帯認識に追加
+<ol><li>system/custom/custom_cellular.php
+</li></ol>
+</li><li>言語ファイル　記事メール送信文言修正
+<ol><li>language/japanese*.php
+</li></ol>
+</li><li>掲示板プラグイン　投稿テンプレート　文法エラー ダブルクォーテーション抜け複数
+<ol><li>public_html/layout/ProfessionalCSS/forum/layout/submissionform_code.thtml
+</li><li>public_html/layout/professional/forum/layout/submissionform_code.thtml
+</li><li>public_html/layout/mobile/forum/layout/submissionform_code.thtml
+</li></ol>
+</li><li>カレンダプラグインの県名が数字なのを名前にし、並び順を日本風にする(hiro)
+<ol><li>plugins/calendar/templates/eventdetails.php
+</li><li>public_html/calendar/event.php)
+</li></ol>
+</li><li>plugins/dbman/functions_BAK.inc (不要ファイル削除)
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=179" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=179" rel="nofollow">2階層メニュー(nmoxmenu)プラグイン 2.0.2</a>　へアップ。プラグインのアップデートを！
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=97" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=97" rel="nofollow">コンフィギュレーションエディタプラグインVer.1.2.8</a>へアップ。プラグインのバックアップを取ったうえでアンインストールした後に新しいファイルに差し替えてインストールしてください。
+</li><li>jpmail　0.1.1 プラグイン　gmail 宛の　Subjectが長い場合不具合が発生する
+<ol><li>plugins/jpmail/functions.inc 
+</li></ol>
+</li><li>カレンダプラグイン　全日の場合に日付が「日曜日, 2007年 4月 1日」と英語形式の日付のようになる問題
+<ol><li>public_html/calendar/event.php
+</li></ol>
+</li><li>FORUM 管理者メニュー日本語化
+<ol><li>plugins/forum/functions.inc 
+</li></ol>
+</li><li>DBMAN 管理者メニュー日本語化
+<ol><li>plugins/dbman/functions.inc 
+</li><li>plugins/dbman/language/japanese.php 
+</li><li>plugins/dbman/language/japanese_utf-8.php
+</li></ol>
+</li><li>jpmail 管理者メニュー日本語化
+<ol><li>plugins/jpmail/functions.inc 
+</li><li>plugins/jpmail/language/japanese.php 
+</li><li>plugins/jpmail/language/japanese_utf-8.php
+</li><li>plugins/jpmail/language/english.php 
+</li><li>plugins/jpmail/language/english_utf-8.php
+</li></ol>
+</li><li>検索結果　掲示板検索結果の日付が4月 22 2007 @ 03:19 午後　のようになる問題
+<ol><li>plugins/forum/functions.inc 
+</li></ol>
+</li><li>プラグインデータの日本語化(カレンダプラグインで使う郵便番号がDB内で5桁なのを8桁にするを含みます)
+<ol><li>public_html/admin/grpdescr_updatejp.php
+</li><li>public_html/admin/plgsql_japanese_utf-8.php (追加)
+</li><li>public_html/admin/plgsql_japanese.php (追加)
+</li></ol>
+</li><li>掲示板プラグイン　ヘッダ修正と携帯テーマ　モード省略
+<ol><li>public_html/layout/mobile/header.thtml
+</li><li>public_html/layout/mobile/forum/layout/submissionform_code.thtml
+</li><li>public_html/layout/mobile/forum/layout/submissionform_moods.thtml
+</li><li>public_html/layout/mobile/forum/layout/submissionform_main.thtml
+</li></ol>
+</li><li>config.php<br />ini_set('mbstring.detect_order', 'UTF-8,EUC-JP,SJIS,JIS,ASCII'); に変更しました。<br />文字化けしなければ、特に差し替える必要はありません。
+</li></ol>
+</li></ol>
+</body> 
+</html> 

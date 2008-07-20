@@ -1,0 +1,19 @@
+
+<!-- admin/plugins/newpluginlist.thtml { -->
+
+{start_block_newlist}
+<table id="admin-newpluginlist">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th colspan="2">{lang_pluginname}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {plugin_list}
+  </tbody>
+</table>
+{end_block}
+
+<!-- } admin/plugins/newpluginlist.thtml -->

@@ -1,0 +1,2 @@
+<!-- submenuitem.thtml -->
+                <li><a href="{sublink}{subparms}" {cssSubCurrent}>{sublabel}</a></li>

@@ -1,0 +1,18 @@
+<!-- start topiclisting.thtml -->
+{outline_header}
+
+{forum_home}&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a>
+{newpost_link}
+{pagenavigation}
+{subscribe_link}<br>
+{LANG_TOPIC}<a href="index.php?forum={forum_id}&amp;order=0&amp;sort=1">{img_asc1}</a>&nbsp;<a href="index.php?forum={forum_id}&amp;order=1&amp;sort=1">{img_desc1}</a>
+{LANG_VIEWS}<a href="index.php?forum={forum_id}&amp;order=0&amp;sort=2">{img_asc2}</a>&nbsp;<a href="index.php?forum={forum_id}&amp;order=1&amp;sort=2">{img_desc2}</a>
+{LANG_REPLIES}<a href="index.php?forum={forum_id}&amp;order=0&amp;sort=3">{img_asc3}</a>&nbsp;<a href="index.php?forum={forum_id}&amp;order=1&amp;sort=3">{img_desc3}</a>
+{LANG_LASTPOST}<a href="index.php?forum={forum_id}&amp;order=0&amp;sort=5">{img_asc5}</a>&nbsp;<a href="index.php?forum={forum_id}&amp;order=1&amp;sort=5">{img_desc5}</a>
+<br>
+{topic_records}
+<br>
+{pagenavigation}
+<br>
+{outline_footer}
+<!-- end topiclisting.thtml -->

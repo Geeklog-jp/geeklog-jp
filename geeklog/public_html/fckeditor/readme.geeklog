@@ -1,0 +1,42 @@
+FCKeditor v2.5 Geeklog Update
+
+This archive contains FCKeditor v2.5 which was released on November 30, 2007.
+
+The archive has already been customized for Geeklog v1.4.1 so it is a simple
+drop in replacement to the existing FCKeditor v2.3.1 that ships with
+Geeklog v1.4.1.
+
+Installation Instructions
+
+1. MAKE A BACKUP OF YOUR EXISTING fckeditor/ directory.
+
+   - There are a couple of methods to backup your existing fckeditor/ files:
+
+       * Rename the directory fckeditor to fckeditor.sav
+       * FTP the entire contents of the fckeditor/ director to your local
+         computer
+
+2. Unarchive the fckeditor25-141.zip archive in your Geeklog public_html/
+   directory.  This is the directory that has lib-common.php and also contains
+   the existing (or backup copy) fckeditor/ directory.
+
+That's it!  Pretty straight forward.
+
+Be sure to clear your browsers cache before using the new FCKeditor.  This
+will force all the new editor code to load when you edit a story.
+
+Why Upgrade?
+
+One of the major new features with FCKeditor v2.5 is support for the
+Safari browser and the latest beta release of Opera.
+
+Much improved editing of tables in the editor.
+
+A whole slew of bug fixes...
+
+Finally, you can view the What's New list at http://www.fckeditor.net/whatsnew
+to determine if there are features that warrant an upgrade on your system.
+
+For support of this FCKeditor update to your Geeklog site, please use the
+support forums at http://www.gllabs.org - gl Labs - Enhancing Geeklog.
+

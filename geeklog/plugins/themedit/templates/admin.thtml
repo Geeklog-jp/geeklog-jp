@@ -1,0 +1,33 @@
+<img src="{temp_site_url}/admin/plugins/themedit/images/themedit.gif" alt="" border="0">
+&nbsp;&nbsp; <b><font size="4"> {temp_header} </font></b>
+{temp_preview_code}
+<noscript>
+	{temp_lang_script_disabled}
+</noscript>
+<form name="theme_editor" id="theme_editor" method="post" action="">
+	{temp_sys_message}
+	<p style="border: solid 1px #7F9DB9; padding: 5px;">
+		{temp_lang_theme_edited}:&nbsp;
+		<select name="thm_theme" onChange="this.form.submit()">{temp_themes}</select>
+		<noscript>
+			<input name="dummy" type="submit" value="{temp_lang_select}">
+		</noscript>
+		&nbsp;&nbsp;
+		{temp_lang_file_edited}:&nbsp;
+		<select name="thm_file" onChange="this.form.submit()">{temp_files}</select>
+		<noscript>
+			<input name="dummy" type="submit" value="{temp_lang_select}">
+		</noscript>
+	</p>
+	{temp_vars}
+	<hr>
+	<input name="thm_op" type="submit" value="{temp_lang_preview}">
+	<input name="thm_op" type="submit" value="{temp_lang_save}">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="thm_op" type="submit" value="{temp_lang_image}">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="thm_op" type="submit" value="{temp_lang_init}">
+	<textarea name="theme_contents" id="theme_contents" rows="30" cols="80" style="width:99%;">{temp_contents}</textarea><br>
+	<input name="thm_op" type="submit" value="{temp_lang_preview}">
+	<input name="thm_op" type="submit" value="{temp_lang_save}">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="thm_op" type="submit" value="{temp_lang_image}">&nbsp;&nbsp;&nbsp;&nbsp;
+	<input name="thm_op" type="submit" value="{temp_lang_init}">
+</form>

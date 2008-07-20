@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+
+<body>
+<a href="http://wiki.geeklog.jp/index.php/InstallSet141next">最新の次回差替予定</a>
+
+<ol><li>2007/05/21版(2007/05/02～2007/05/21）
+<ol><li>イベントブロック表示日本語化
+<ol><li>plugins/calendar/functions.inc
+</li></ol>
+</li><li> ProfessionalCSS
+<ol><li>public_html/layout/ProfessionalCSS/css/plugin/sitecalendar.css  mycal dengen版用のスタイルを追加
+</li><li>public_html/layout/ProfessionalCSS/css/block.css  コメントの記述ミスを修正
+</li><li>public_html/layout/ProfessionalCSS/comment/comment.thtml, public_html/layout/ProfessionalCSS/css/comment/comment.css  コメント部分のマークアップを変更(「&lt;pre&gt;～&lt;/pre&gt;」から「&lt;div class=&quot;comment&quot;&gt;～&lt;/div&gt;」へ)
+</li></ol>
+</li><li>カレンダ　イベント投稿テンプレート　日本語化レイアウト
+<ol><li>plugins/calendar/templates/admin/eventeditor.thtml
+</li><li>plugins/calendar/templates/submitevent.thtml
+</li></ol>
+</li><li>静的ページ　下段余白削除
+<ol><li>public_html/staticpages/index.php
+</li></ol>
+</li><li>言語ファイル　調整（ヘルプファイルURLをヘルプURL:に, RSS作成画面　すべての記事をすべての話題へ）
+<ol><li>language/japanese*.php
+</li></ol>
+</li><li>掲示板言語ファイル　一部文字化け解消
+<ol><li>plugins/forum/language/japanese*.php
+</li></ol>
+</li><li>静的ページ言語ファイル　調整
+<ol><li>plugins/staticpages/language/japanese*.php
+</li></ol>
+</li><li>静的ページ編集画面テンプレート　フォームサイズ調整
+<ol><li>plugins/staticpages/templates/admin/*.thtml
+</li></ol>
+</li><li>掲示板　投稿フォームサイズ調整
+<ol><li>public_html/layout/ProfessionalCSS/forum/layout/submissionform_code.thtml
+</li></ol>
+</li><li>リンク追加管理者モード　テンプレート修正
+<ol><li>plugins/links/templates/admin/linkeditor.thtml
+</li></ol>
+</li><li>掲示板　ムードアイコンプルダウンでムードアイコンの背景スタイル追加(Filefoxで有効)
+<ol><li>public_html/forum/createtopic.php
+</li></ol>
+</li><li>コンフィギュレーションエディタ　多言語切り替え部分の言語ファイル一部文字化け解消と<a href="http://www.geeklog.jp/filemgmt/index.php?id=97" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=97" rel="nofollow">コンフィギュレーションエディタプラグインVer.1.2.12</a>へアップ。プラグインのバックアップを取ったうえでアンインストールした後に新しいファイルに差し替えてインストールしてください。
+<ol><li>plugins/userconfig/language/*.php
+</li><li>plugins/userconfig/config.php
+</li><li>plugins/userconfig/functions.php
+</li></ol>
+</li><li>不要なThumb.dbの混入削除
+<ol><li>public_html/forum/images/Thumb.db 削除
+</li><li>public_html/forum/images/smiles/Thumb.db 削除
+</li><li>public_html/filemgmt/images/Thumb.db 削除
+</li></ol>
+</li><li>ファイル管理　テンプレート　入力フォームのサイズ調整
+<ol><li>public_html/admin/plugins/filemgmt/index.php
+</li><li>public_html/filemgmt/submit.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/forum/viewtopic.php?showtopic=6287" class='external text' title="http://www.geeklog.jp/forum/viewtopic.php?showtopic=6287" rel="nofollow">検索不具合</a>(検索オプションで日付（開始終了）を入力した際に終了日の1時投稿分までしか検索対象にならない問題)
+<ol><li>plugins/forum/functions.inc
+</li><li>plugins/filemgmt/functions.inc
+</li></ol>
+</li><li><a href="/index.php/MobileHack" title="MobileHack">携帯第2次開発</a>　セッション管理の大幅改善　3G携帯レイアウト対応
+<ol><li>system/lib-session.php
+</li><li>system/custom/custom_cellular.php
+</li><li>public_html/layout/mobile/*
+</li><li>public_html/layout/mobile_3g/*
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=192" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=192" rel="nofollow">サイトカレンダPHPブロック</a> dengen版Ver.1.0.3 phpblock_mycaljp (土日祝表示・検索改善・テンプレート導入)
+<ol><li>public_html/mycaljp/*
+</li><li>system/lib-custom.php
+</li><li>system/custom/phpblock_mycaljp.php
+</li></ol>
+</li><li>DB管理　「バックアップ作成」文言統一
+<ol><li>plugins/dbman/language/japanese*.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=179" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=179" rel="nofollow">2階層メニュー(nmoxmenu)プラグイン 3.1.0a</a>　へアップ。プラグインのアップデートを！（アンインストール→上書,public_html/nmoxmenu/img/ は削除→インストール） 
+</li><li>不要な";"削除(サーバによっては、インストール時にエラーが発生)
+<ol><li>public_html/admin/install/sql_japanese.php 
+</li><li>public_html/admin/install/sql_japanese_utf-8_1.php
+</li></ol>
+</li></ol>
+</li></ol>
+
+</body> 
+</html> 

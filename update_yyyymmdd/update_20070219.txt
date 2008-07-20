@@ -1,0 +1,19 @@
+1.メール記事投稿のブロックが旧の状態に戻っていたのを訂正
+    pubilic_html/admin/install/sql_japanese.php
+    pubilic_html/admin/install/sql_japanese_utf-8_2.php
+
+2.Forum Type ユーザ　で　モデレータの追加する時に
+  ユーザを選択しないとエラーが発生する問題の対応
+    pubilic_html/admin/plugins/forum/mods.php
+
+3.カレンダプラグインの日本語言語ファイル
+    plugins/calendar/language/japanese.php
+    plugins/calendar/language/japanese_utf-8.php
+
+4.カレンダプラグインのテンプレートは，
+    月・日・年　ならびを　年・月・日　ならびにすべて変更
+    plugins/calendar/templates/*.* 
+
+5.テンプレート　professionalCSS
+    pubilic_html/layout/professionalCSS/*.*
+    全画面表示モード、FCK_EDITORの動作については調整中

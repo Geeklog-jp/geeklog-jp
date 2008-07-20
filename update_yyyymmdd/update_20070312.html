@@ -1,0 +1,52 @@
+<ol><li>2007/03/12版
+<ol><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=100" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=100" rel="nofollow">インストール前チェック1.02</a>へアップ
+<ol><li>php.iniとデータベース周りの文字化け要素を見直し（/admin/install/precheck.php precheck.html）
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=97" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=97" rel="nofollow">コンフィギュレーションエディタプラグインVer.1.2.4</a>へアップ
+<ol><li>テキストボックスの幅がありすぎてレイアウトが崩れることがある問題を修正しました。（/plugins/userconfig/functions.inc config.php）
+</li><li><font color="red">userconfig_now.php, userconfig_bak.phpを/plugins/userconfig/ に移動。プラグインインストール時に，userconfig_now.phpが自動で有効化（リネーム），プラグインアンインストールでリネームされます。/plugins/userconfig/のパーミッションを757にしてください。</font>（/plugins/userconfig/userconfig_prepare.php(有効時はuserconfig_now.php)，userconfig_bak.php）
+</li></ol>
+</li><li><a href="http://wiki.geeklog.jp/index.php/ConfigFileJpExample1_4_1" class='external text' title="http://wiki.geeklog.jp/index.php/ConfigFileJpExample1_4_1" rel="nofollow">config.php </a>
+<ol><li><font color="red">コンフィギュレーションエディタプラグインのディレクトリ変更に伴い，最後を修正。</font><pre>
+if (file_exists($_CONF[&quot;path&quot;].&quot;plugins/userconfig/userconfig_now.php&quot;)) {
+    require_once( $_CONF[&quot;path&quot;].&quot;plugins/userconfig/userconfig_now.php&quot; );
+}
+</pre>
+</li><li>(0) 日本語版独自設定 一部修正 <pre>
+//HTTP入力文字エンコー ディングのデフォルト値
+    ini_set('mbstring.http_input', 'pass');
+    ini_set('mbstring.detect_order', 'SJIS,UTF-8,EUC-JP,JIS,ASCII');
+    // 文字化けが直らない場合は，順番を適宜，変えてみてください
+</pre>
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=132" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=132" rel="nofollow">2階層メニューVer1.17a</a> へアップ
+<ol><li>区切り記号を「(-)ハイフンのみ」から、「(_)アンダーバーと(-)ハイフンのどちらでも」に変更しました。
+</li><li>区切り記号を自由に複数設定できるように変更しました。（system/custom/phpblock_nmoxmenu.php）
+</li></ol>
+</li><li>.htaccessを削除。配布しません。
+</li><li>カレンダプラグイン
+<ol><li>イベント検索が日付指定されずすべてのイベントが検索される不具合を解消しました。（private/plugins/calendar/functions.inc）
+</li></ol>
+</li><li>サイトカレンダ
+<ol><li>多言語インストーラでエラーが発生する場合がある ＵＲＬ指定エラー（phpblock_mycal.php）
+</li></ol>
+</li><li>新着情報URLをURLリライトON OFFに自動対応（phpblock_lastarticles.php）
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=147" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=147" rel="nofollow">ProfessionalCSSVer.0.97(2007-03-10)</a>へアップ
+<ol><li>掲示板プラグインが中央ブロックからはみ出す不具合を修正しました。<br />(forum/layout/categorylisting.thtml, forum/layout/post_topic_navbar.thtml, <br /> forum/layout/submissionform_main.thtml, forum/layout/topiclisting.thtml, <br /> forum/layout/topic_navbar.thtml, css/plugin/forum.css)
+</li><li>管理画面のアイコンが表示されない不具合を修正しました。(admin/lists/topmenu_nosearch.thtml)
+</li><li>管理画面で申請の承認・削除が行えない不具合を修正しました。(admin/lists/list.thtml)
+</li><li>アドバンストエディタでユーザによる記事投稿ができない不具合を修正しました。<br />(submit/submitstory_advanced.thtml)
+</li><li>ブロックタイトルに表示されるヘルプアイコンの位置を調整しました。(css/block.css)
+</li><li>基本レイアウトスタイルシートに幅の計算方法をコメントとして追加しました。(css/layout.css)
+</li></ol>
+</li><li>メールが文字化けすることがある問題の対応
+<ol><li>lib_common.php　$from = COM_formatEmailAddress( $_CONF['site_name'], $_CONF['site_mail']);をCustom_mail実行の後ろへ移動
+</li></ol>
+</li><li>メール投稿受信 ブロックのインストール時の設定変更<br />アクセス権限グループStory_admin、パーミッション：グループまで
+<ol><li>sql_japanese_utf-8_2.php
+</li><li>sql_japanese_2.php 
+</li></ol>
+</li><li>メール記事投稿 テンプレートのパス訂正　(system/custom/custom_photomail.php)
+</li></ol>
+</li></ol>
+

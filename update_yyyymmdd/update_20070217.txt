@@ -1,0 +1,6 @@
+1.ProfessionalCSS FCKエデイタのCSSを変更。
+  /fckeditor/editor/css/fck_editorarea.css
+  /fckeditor/editor/css/fck_internal.css
+2.forumの言語ファイル韓国語 追加
+3.forumの言語ファイル日本語 差替
+

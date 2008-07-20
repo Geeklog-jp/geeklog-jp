@@ -1,0 +1,11 @@
+<!-- start centerblock_displayline.thtml -->
+    <tr>        
+        <td>{forum_name}</td>
+        <td>
+                <a href="{site_url}/forum/viewtopic.php?showtopic={topic_id}">{topic_subject}</a>
+        </td>
+        <td>
+            <a href="{site_url}/forum/viewtopic.php?showtopic={topic_id}&amp;lastpost=true">{date}</a>
+        </td>
+    </tr>
+<!-- end centerblock_displayline.thtml -->

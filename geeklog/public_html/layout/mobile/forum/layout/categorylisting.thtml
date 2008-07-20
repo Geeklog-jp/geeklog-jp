@@ -1,0 +1,5 @@
+<!-- start categorylisting.thtml -->
+{cat_name} {newposts_link} {markread_link}<br>
+{cat_desc}
+{forum_records}
+<!-- end categorylisting.thtml -->

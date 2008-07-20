@@ -1,0 +1,33 @@
+<H1><center>MySite Events Summary Calendar v2.5 Help</center></H1>
+<HR>
+<p><H1>Feature Summary:</H1><ol>
+<li>Displays monthly calendar - current month default with the <font class='mycalTodayHighlight'>current day hightlighed</font><p>
+<li>Ability to view previous and next months using next/prev buttons<p>
+<li>Displays <font class='mycalEventHighlight'>highlighted dates</font> where there is at least one calendar event scheduled. Moving the mouse over the highlighted dates will display the first scheduled event for that date as a tool tip<p>
+<li>All dates are hyperlinks. Clicking on any date will display a search results for all site events for that day. This includes all articles (stories) or comments posted on that date, all calendar events scheduled for that date or any links entered or new files posted on that on that date
+<li>Search and calendar event highlights work for any month being displayed - allowing you to view other months activities on the site</ol>
+<p>
+<HR>
+<center><b><font size=4>Frequently asked questions</font></b></center>
+<H2>Q: Does search follow site security or will it display events or articles in topics not open to user?</H2>
+<p>
+<b>A:</b> The calendar search feature is integrated with the core Geeklog search function. It includes all the standard permisssion checks and only returns results for the site entries, user has access to.
+<p><p>
+<H2>Q: What happens if there are no site events for the date selected?</H2>
+<p>
+<b>A:</b> If the search does not find any site events or updates, a message indicating no results is displayed for three seconds and then automatically returns you to the main portal page.<p><p>
+<H2>Q: Why not only enable dates in the calendar with actual site events? </H2>
+<p>
+<b>A:</b> This would require a search to be performed for every date in advance as the calendar is being created. This would have to be done everytime the calendar block is generated. I already do one such search but just for calendar (schedule) events. Adding this search for the additional system tables to identify all the site updates would be far too much overhead.
+<H2>Q: I get an search error when I use this block? </H2>
+<p>
+<b>A:</b> This component uses the standard GL Search component and will call ALL 
+installed plugins. Each plugin can have it's one search function and most do. 
+Isolate the problem by using the Geeklog Advanced search form and select one 
+plugin via the type selection at a time. Enter a date range using the same date 
+for each field to simulate a 1 day search like this component does. You should 
+be able to duplicate the problem and isolate the plugin at fault.<p>
+&nbsp;<p>
+<HR>
+<H1>Credits</H1>
+Written by Blaine Lang <br>March 29 /2006<p><i><a href="mailto:blaine@portalparts.com">Blaine Lang</a></i><p>

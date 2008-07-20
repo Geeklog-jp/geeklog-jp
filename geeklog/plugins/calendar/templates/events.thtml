@@ -1,0 +1,8 @@
+<!-- plugins/calendar/templates/events.thtml { -->
+
+                            [ <a href="{site_url}/submit.php?type=calendar{calendar_mode}">{lang_addevent}</a> ][ <a href="{site_url}/calendar/index.php">{lang_backtocalendar}</a> ]<br><br>
+                            <h1>{event_year} / {lang_month}</h1>
+                            {event_details}
+
+<!-- } plugins/calendar/templates/events.thtml -->
+

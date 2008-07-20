@@ -1,0 +1,7 @@
+
+<!-- plugins/calendar/templates/dayview/column.thtml { -->
+
+<td class="cal-dayx-times2">{event_entry}</td>
+
+<!-- } plugins/calendar/templates/dayview/column.thtml -->
+
