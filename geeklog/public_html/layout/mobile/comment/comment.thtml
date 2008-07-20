@@ -1,0 +1,11 @@
+<!-- comment/comment.thtml { -->
+<hr>
+{title}<br>
+{lang_authoredby}{start_author_anchortag}{author}{end_author_anchortag} &nbsp; {lang_on} &nbsp;{date}<br>
+<hr>
+  <pre>{comments}</pre>
+
+  <ul class="navi" {hide_if_preview}>
+    <li><a href="{reply_link}">{lang_replytothis}</a></li>
+  </ul>
+<!-- } comment/comment.thtml -->

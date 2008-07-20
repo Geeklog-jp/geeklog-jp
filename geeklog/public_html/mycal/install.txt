@@ -1,0 +1,101 @@
+INTRODUCTION
+-------------------------------
+
+Integrated Geeklog Site Calendar "mycal"   - GL 1.4 Required
+Version 2.5 - Tested with GL 1.4
+
+Author: Blaine Lang 
+Date  : March 29, 2006
+Original Release - Aug 22/02
+
+日本語化：
+Jun 16/2006: Komma Tetsuko www.ivysoho.co.jp (for japanese)
+
+NOTE 1: This version will only work with Geeklog 1.4 release
+
+-----------------------------
+
+DECRIPTION
+
+This is a phpblock for Geeklog to display a small calendar. 
+A small function in lib-custom will call the main code in a seperate file.
+No Database changes are required
+
+これはPHPブロックで利用するスモールカレンダです。
+データベースは変更しません。
+
+INSTRUCTIONS
+-------------------------------
+
+
+Step 1)  Extract the code to /public_html - A new directory named mycal will be created for you. 
+If upgrading: I've used a new filename for the main block code.
+
+*********************************************************************
+
+Step 2)  Add the following function to your lib-custom.php file (/path/to/geeklog/system/lib-custom.php)
+
+既存の/system/lib-custom.phpに、以下のコードを追加してください。
+----- CODE BEGINS -----
+//@@@@@ サイトカレンダー
+require_once( 'custom/phpblock_mycal.php' );
+----- CODE ENDS -----
+
+/system/custom/phpblock_mycal.phpを該当ディレクトリにコピーしてください。
+
+Step 3) Install staticpage for help
+静的ページをヘルプ用にインストールしてください。メニューブロックでヘルプを表示させない場合は不要です。
+（通常この作業は不要です）
+
+Create a staticpage for the block help
+Copy and paste the HTML code from the include archive help.html file
+The URL for this staticpage will be used when creating the block - step 4
+
+
+*******************************************************************
+
+Step 4) Using the GL Block Admin -> Add the block so it will be displayed. The following are a few notes:
+
+PHPブロックを追加してください。
+
+   ブロックタイトル:  "サイトカレンダー"といった、ブロックタイトルを指定してください。
+   ブロック名:  重複しないブロック名を英数字で指定してください。
+   ヘルプファイルURL: 静的ページのヘルプファイルURLを指定してください。
+   タイプ:  PHP ブロック
+   
+   PHP ブロックオプション
+   - Block関数の名前を入力します。
+   - 関数　"phpblock_mycal"
+   - 関数に括弧()は不要です。
+   
+
+*****************************************************************
+
+Step 5) スタイルシートにスタイルを追加してください。
+I am using CSS class names for the block fonts and background colors
+This allows themes to have different colors and not be fixed on any default colors
+
+You will need to add the following six CSS class defines to your themes
+Each theme has it's own directory under <geeklog_dir>/public_html/layout
+
+Within each theme directory is a style.css file
+Add the following six lines and adjust color codes as your desire for your site/theme
+
+
+.mycalTopTitle { background-color:#4682B4 }
+.mycalTitle { background-color:#B0C4DE }
+.mycalDateField { background-color:#F9F9F9 }
+.mycalEventHighlight { background-color:#8FBC8F }
+.mycalTodayHighlight { background-color:#EEDD82 }
+.mycalNextMonth { background-color:#DCDCDC }
+
+
+****************************************************************
+
+Enjoy,
+
+As always, comments, ideas, contributions are appreciated.
+
+Regards,
+Blaine
+blaine@portalparts.com

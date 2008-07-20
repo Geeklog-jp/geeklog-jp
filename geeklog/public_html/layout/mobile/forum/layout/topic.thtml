@@ -1,0 +1,11 @@
+<!-- start topic.thtml -->
+{userlink}
+{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{mod_functions}
+<hr class="separator">
+{topic_comment}
+{sig}<br>
+
+{edittopic_link}
+{quotetopic_link}
+<hr class="separator">
+<!-- end topic.thtml -->

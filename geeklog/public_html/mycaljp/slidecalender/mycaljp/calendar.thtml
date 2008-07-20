@@ -1,0 +1,17 @@
+<!-- calendar.thtml -->
+<div class="mycaljp_slide">
+  <div class="title">
+    {title_year}-{title_month}
+  </div>
+  <table summary="Site Calendar">
+    <tr>
+      <td>
+        <a href="{prevmonth}" title="先月へ" class="prevmonth">&#171;</a>
+      </td>
+{calendar_week}
+      <td>
+        <a href="{nextmonth}" title="翌月へ" class="nextmonth">&#187;</a>
+      </td>
+    </tr>
+  </table>
+</div>

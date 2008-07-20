@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+
+<body>
+
+<ol><li>2007/04/04版
+<ol><li>テーマエディタ(config.php)日本語版追加ファイル部分をコメントアウト
+</li><li>forumプラグイン　メール通知　メッセージ修正(plugins/forum/language/japanese*.php)
+</li><li>RSSの日付修正(/private/system/classes/syndication/rss.feed.class.php)<br />$timezones = array('en_GB','en_US');を$timezones = array('C', 'en_GB','en_US');に。<br />RSS2.0のカテゴリタグがdc:subjectになっていたのをcategoryに。
+</li><li>新着情報言語修正(system/language/japanese*.php system/plugins/filemgmt/language/japanese*.php)
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=100" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=100" rel="nofollow">インストール前チェックVer1.12a</a> パスの間違い修正とファイル指定修正(admin/install/precheck.php, precheck.html)
+</li><li>サイトマップメニュー　タイトルのリンクはずす(system/custom/phpblock_sitemapmenu.php)
+</li><li>カレンダーイベント投稿・一般ユーザの投稿ができない（language/japanese_utf-8.php,japanese.php）
+</li><li>カレンダー郵便番号　5桁指定を　8桁に変更
+<ol><li>plugins/calendar/templates/editpersonalevent.thtml
+</li><li>plugins/calendar/templates/submitevent.thtml
+</li><li>plugins/calendar/templates/admin/eventeditor.thtml
+</li></ol>
+</li><li>テンプレート<a href="http://www.geeklog.jp/filemgmt/index.php?id=147" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=147" rel="nofollow">ProfessionalCSS Vrt0.98.1</a>へアップ 
+<ol><li>詳細はpublic_html/layout/ProfessionalCSS/READMEをご参照ください。Forum　2.6RC5(Final)用です。
+</li></ol>
+</li><li>ping送信先から、ココログとExciteをはずす(admin/install/sql_japanese_utf-8_1.php,admin/install/sql_japanese_1.php)
+</li><li>各プラグイン(userconfig,dbman,themedit以外の日本語版標準プラグイン)のグループ記述(grp_descr)の日本語化
+<ol><li>public_html/admin/install/updatetablesjp_groups.php (追加)
+</li><li>public_html/admin/install/sql_japanese_utf-8_groups.php　 (追加)
+</li><li>public_html/admin/install/sql_japanese_groups.php　 (追加)
+</li><li>public_html/admin/grpdescr_updatejp.php　 (追加)
+</li><li>public_html/admin/grpdescr_japanese_utf-8.php　 (追加)
+</li><li>public_html/admin/grpdescr_japanese.php　 (追加)
+</li><li>public_html/admin/plugins.php
+</li></ol>
+</li><li>「ゲストユーザ」の「ザ」部分が文字化け(admin/install/sql_japanese_utf-8_1.php,admin/install/sql_japanese_1.php)<br /><font color="red">※3月12日版ですでに配布している/admin/install/updatetablesjp.php をブラウザから実行することで修復します。</font>
+</li><li>Geeklogへようこそ！の記事が話題Geeklogになっていない問題の修正
+<ol><li>public_html/admin/install/sql_japanese_utf-8_2.php
+</li><li>public_html/admin/install/sql_japanese_2.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=132" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=132" rel="nofollow">2階層メニュー（nmoxmenu）Ver1.18</a> URLリライト使用時に正しく機能しない問題の修正
+<ol><li>system/custom/phpblock_nmoxmenu.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=97" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=97" rel="nofollow">コンフィギュレーションエディタプラグインVer.1.2.5</a>へアップ。プラグインのアップデートを！
+<ol><li>magic_quotes_gpc　が　on　のサーバーで出ていた不具合を解消しました。
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=81" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=81" rel="nofollow">DbmanプラグインVer.0.4.4</a>へアップ。プラグインのアップデートを！
+<ol><li>改行コードを正しく保存するように修正しました。
+</li></ol>
+</li><li>Dbmanプラグイン　SQLコンソールの画面のアイコンの表示修正 plugins/dbman/functions.inc
+</li><li>FORUM バージョンアップ RC5(final) 日付の編集をコアまたはforumのconfig.php で設定の内容を使用するように変更
+<ol><li>plugins/forum/language/englich.php
+</li><li>plugins/forum/language/german.php
+</li><li>plugins/forum/language/japanese.php
+</li><li>plugins/forum/language/japanese_utf-8.php
+</li><li>plugins/forum/language/korean.php
+</li><li>plugins/forum/language/korean_utf-8.php
+</li><li>public_html/admin/plugins/forum/boards.php
+</li><li>public_html/admin/plugins/forum/gf_functions.php
+</li><li>public_html/admin/plugins/forum/migrate.php
+</li><li>public_html/admin/plugins/forum/mods.php
+</li><li>public_html/admin/plugins/forum/settings.php
+</li><li>public_html/forum/createtopic.php
+</li><li>public_html/forum/index.php
+</li><li>public_html/forum/memberlist.php
+</li><li>public_html/forum/moderation.php
+</li><li>public_html/forum/notify.php
+</li><li>public_html/forum/print.php
+</li><li>public_html/forum/viewtopic.php
+</li><li>public_html/forum/include/geshi.php
+</li><li>public_html/forum/include/gf_format.php
+</li><li>public_html/forum/include/gf_showtopic.php
+</li><li>public_html/forum/include/ksesf.class.php (追加)
+</li><li>public_html/layout/professional/forum/layout/admin/boards_categories.thtml
+</li><li>public_html/layout/professional/forum/layout/admin/boards_edtforum.thtml
+</li><li>public_html/layout/professional/forum/layout/admin/migratestories.thtml
+</li><li>public_html/layout/professional/forum/layout/admin/ranksetting_option.thtml
+</li><li>public_html/layout/professional/forum/layout/blocks/block_displayline.thtml
+</li><li>public_html/layout/professional/forum/layout/blocks/centerblock_displayline.thtml
+</li><li>public_html/layout/professional/forum/layout/links/markread.thtml
+</li><li>public_html/layout/professional/forum/layout/links/newposts.thtml
+</li><li>public_html/layout/professional/forum/layout/topic.thtml
+</li><li>public_html/layout/professional/forum/layout/topiclisting.thtml
+</li><li>plugins/forum/config.php
+</li><li>plugins/forum/functions.inc
+</li><li>plugins/forum/readme.html
+</li><li>plugins/forum/upgrade.inc
+</li><li>plugins/forum/v2.6RC4_changes.txt (追加)
+</li><li>plugins/forum/v2.6RC5_changes.txt (追加)
+</li></ol>
+</li><li>テンプレート mobile ForumRC5(Final)用にアップ
+</li><li>story.edit権限のあるユーザのみアップロード可能に/fckeditor/editor/filemanager/browser/default/connectors/php/connector.php
+</li></ol>
+</li></ol>
+</body> 
+</html> 

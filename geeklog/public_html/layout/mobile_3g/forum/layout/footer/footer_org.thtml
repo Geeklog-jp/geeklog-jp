@@ -1,0 +1,28 @@
+<!-- footer.thtml -->
+{outline_header}
+<table width="100%" border="0" cellspacing="1" cellpadding="0" align="center" class="pluginSolidFill">
+        <tr>
+            <td align="left" valign="middle" width="50%">
+                    {search_forum}
+            </td>
+            <td align="right" valign="middle" width="50%">
+                    {select_forum}
+            </td>
+        </tr>
+</table>
+{forum_time}
+<table width="100%" border="0" cellspacing="1" cellpadding="2" class="pluginFooter">
+    <tr>
+        <td colspan="2" align="left" valign="top" class="pluginTitle">{legend_type}</td>
+    </tr>
+    <tr>
+        <td align="left" valign="top" width="50%">
+            {forum_legend}
+        </td>
+        <td align="right" valign="top" width="50%">
+            {forum_rules}
+        </td>
+    </tr>
+ </table>
+{forum_whosonline}
+{outline_footer}

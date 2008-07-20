@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+
+<ol><li>2007/06/20版(2007/05/22～2007/06/20）
+<ol><li> ProfessionalCSS
+<ol><li>マイアカウントページでの重複したID属性値・label要素の不適切なfor属性値を修正
+<ol><li>public_html/layout/ProfessionalCSS/preferences/profile.thtml
+</li><li>public_html/layout/ProfessionalCSS/preferences/excludeblock.thtml
+</li></ol>
+</li><li>IE 6のバグ対策を簡潔な記述に変更
+<ol><li>public_html/layout/ProfessionalCSS/css/layout.css
+</li></ol>
+</li><li>記事・特徴記事のナビゲーションリンクから「(n ワード)」の表示を削除
+<ol><li>public_html/layout/ProfessionalCSS/storytext.thtml
+</li><li>public_html/layout/ProfessionalCSS/featuredstorytext.thtml
+</li></ol>
+</li><li>タグの記述ミス(「&lt;p /&gt;」)を修正
+<ol><li>public_html/layout/ProfessionalCSS/forum/layout/topic.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/topicfooter.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/topicfooter_preview.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/admin/board_categories.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/admin/header.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/admin/settings.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/footer/footer.thtml
+</li><li>public_html/layout/ProfessionalCSS/forum/layout/reports/notifications.thtml
+</li><li>public_html/layout/mobile/forum/layout/topicfooter.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/topicfooter.thtml
+</li><li>public_html/layout/mobile/forum/layout/topicfooter_preview.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/topicfooter_preview.thtml
+</li><li>public_html/layout/mobile/forum/layout/admin/board_categories.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/admin/board_categories.thtml
+</li><li>public_html/layout/mobile/forum/layout/admin/header.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/admin/header.thtml
+</li><li>public_html/layout/mobile/forum/layout/admin/settings.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/admin/settings.thtml
+</li><li>public_html/layout/mobile/forum/layout/reports/notifications.thtml
+</li><li>public_html/layout/mobile_3g/forum/layout/reports/notifications.thtml
+</li></ol>
+</li></ol>
+</li><li>コンフィギュレーションエディタ バージョンアップ
+<ol><li>バージョン1.3.1
+<ol><li>設定ファイルの配置場所を private/data/ にしました。。<br /><font color="red">(1.3.0より古いバージョンからアップデートする場合はconfig.phpの修正が必要です。)</font>
+</li><li>設定ファイルのパスを変数化しました。(プラグインのconfig.phpにて)
+</li><li>メニューバーを標準仕様にしました。
+</li><li>config.php userconfig_now.phpへのパスを変更しました
+</li></ol>
+</li></ol>
+</li><li>FCKエディタ画像プロパティでアップロードできない不具合を修正 By 豆腐屋さん
+<ol><li>config.php
+</li><li>public_html/fckeditor/editor/filemanager/upload/php/upload.php
+</li></ol>
+</li><li>掲示板　トピック件名が長いときに反映されない
+<ol><li>/public_html/forum/index.php
+</li></ol>
+</li><li>カレンダ言語ファイル　「イベント」を「全体イベント」へ
+<ol><li>plugins/calendar/japanese*.php
+</li></ol>
+</li><li>リンク　config.phpコメント
+<ol><li>plugins/links/config.php
+</li></ol>
+</li><li>２階層メニュープラグイン　話題全削除でエラー
+<ol><li>plugins/nmoxmenu/functions.inc
+</li></ol>
+</li><li>中国語簡体字 by JJさん
+<ol><li>language/chinese_simplified_utf-8.php
+</li></ol>
+</li><li>テーマエディタ言語ファイル 
+<ol><li>plugins/themedit/language/japanese*.php
+</li></ol>
+</li><li>日本語メールプラグインを入れたとき，新規登録エラー <a href="http://www.geeklog.jp/forum/viewtopic.php?showtopic=6649&amp;lastpost=true#" class='external autonumber' title="http://www.geeklog.jp/forum/viewtopic.php?showtopic=6649&amp;lastpost=true#" rel="nofollow">[1]</a>
+<ol><li>plugins/jpmail/functions.inc
+</li></ol>
+</li><li>------
+</li><li>public_html/admin/plugins.php  無効時のアンインストール対応
+</li><li>config.php修正
+</li><li>ProfessionalCSS
+<ol><li>テーブルのセルの内容を幅に合わせて折り返すように変更(IEのみ) public_html/layout/ProfessionalCSS/css/default.css
+</li><li>子セレクタ・隣接兄弟セレクタの結合子(&gt;, +)の前後の半角スペースを削除
+<ol><li>public_html/layout/ProfessionalCSS/css/default.css
+</li><li>public_html/layout/ProfessionalCSS/css/plugin/sitecalendar.css
+</li><li>public_html/layout/ProfessionalCSS/css/submit/submit.css
+</li></ol>
+</li><li>検索ページのフォームの「タイプ」に空行が含まれてしまう不具合を修正 public_html/layout/ProfessionalCSS/search/searchform.thtml
+</li><li>Operaでマイアカウントページのタブが切り替わらない不具合を修正 public_html/layout/ProfessionalCSS/javascript/fix_html.js
+</li></ol>
+</li><li>ATOM1.0をATOM0.3と誤認して，時刻フィールドが空になる不具合を修正
+<ol><li>system/classes/syndication/parserfactory.class.php
+</li><li>system/classes/syndication/atom.feed.class.php
+</li></ol>
+</li><li>precheck.php バージョン1.1.6(2007-06-12)（mysql.class.phpのパスを修正,userconfig-1.3.1以降に対応）
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=192" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=192" rel="nofollow">サイトカレンダPHPブロック</a> dengen版 Ver.1.0.4 phpblock_mycaljp (wkyevecal に対応)
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=152" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=152" rel="nofollow">日本語メール(jpmail)</a>0.1.3　にバージョンアップ(言語ファイルについては、20070501版)
+</li><li>ファイル管理プラグイン 日本語言語ファイル　ようこそ　を　こんにちは　に。
+<ol><li>plugins/filemgmt/language/japanese*.php
+</li></ol>
+</li><li>/plugins/userconfig/config.php 
+<ol><li>global $LANG_USERCONFIG; 追加
+</li></ol>
+</li><li>public_html/admin/install/precheck.php
+<ol><li>userconfigがVer1.3.0以降の場合　plugins/userconfig/ は書き込み可能チェックはしない　(1070行目コメントアウト)
+</li></ol>
+</li><li>public_html/admin/install/sql_droptables.php
+<ol><li>jpml_rules,nmoxmenu,thm_contents,users_opt 追加
+</li></ol>
+</li><li>public_html/forum/index.php ＜ｐ　／＞ → ＜／ｐ＞
+</li></ol>
+</li></ol>
+<pre>
+今回config.php修正の内容
+[修正前]
+// ユーザが自分でアカウントを削除（1:削除できる 0:削除できない）
+$_CONF['allow_account_delete']  = 0;
+[修正後] 
+// ユーザが自分でアカウントを削除（1:削除できる 0:削除できない）
+$_CONF['allow_account_delete']  = 1;
+-------------------------------------------------------------------------------
+[修正前]
+// +---------------------------------------------------------------------------+
+// | エディタの画像ライブラリ $_CONF['site_url'] (スラッシュ/なし)からのパス   |
+// +---------------------------------------------------------------------------+
+$_CONF_FCK['imagelibrary'] = '/images/library';
+[修正後] 
+// +--------------------------------------------------------------------------+
+// | エディタの画像ライブラリ $_CONF['site_url'] (スラッシュ/あり)からのパス  |
+// +--------------------------------------------------------------------------+
+$_CONF_FCK['imagelibrary'] = '/images/library/';
+-------------------------------------------------------------------------------
+[修正前]
+//@@@@@20070312update ----&gt;
+//プラグイン　userconfig 用
+if (file_exists($_CONF[&quot;path&quot;].&quot;plugins/userconfig/userconfig_now.php&quot;)) {
+    require_once( $_CONF[&quot;path&quot;].&quot;plugins/userconfig/userconfig_now.php&quot; );
+}
+//@@@@@20070312update&lt;----
+[修正後] 
+//@@@@@20070602update ----&gt;
+//プラグイン　userconfig 用
+if (file_exists($_CONF[&quot;path_data&quot;].&quot;userconfig_now.php&quot;)) {
+    require_once( $_CONF[&quot;path_data&quot;].&quot;userconfig_now.php&quot; );
+}
+//@@@@@20070602update&lt;----
+-------------------------------------------------------------------------------
+[修正前] 904行目
+    'script'     =&gt; array('src' =&gt; 1, 'language' =&gt; 1),
+[修正後] 904行目
+    'script'     =&gt; array('src' =&gt; 1, 'language' =&gt; 1, 'type' =&gt; 1),
+-------------------------------------------------------------------------------
+[修正前] 934行目
+    $_CONF['admin_html']['script'] = array('src' =&gt; 1, 'language' =&gt; 1);
+[修正後] 934行目
+    $_CONF['admin_html']['script'] = array('src' =&gt; 1, 'language' =&gt; 1, 'type' =&gt; 1);
+-------------------------------------------------------------------------------
+</pre>
+<pre>【参考】コンフィギュレーションエディタをバージョンアップする手順
+　１．現在の設定をバックアップする。
+　　　userconfig_bak.php　はローカルに退避する。
+　２．コンフィギュレーションエディタをアンインストールする。
+　３．コンフィギュレーションエディタ上書き。
+　４．コンフィギュレーションエディをインストールする。
+　５．バックアップに戻す。
+　　　ローカルに退避していたuserconfig_bak.phpを戻してからおおこなうこと。
+　６．念のためuserconfig_bak.phpをローカルに退避する。
+　７．現在の設定をバックアップする。
+　<font color="red">設定ファイルの配置場所がprivate/data/に変更になっているので注意</font>
+</pre>
+
+</body> 
+</html> 

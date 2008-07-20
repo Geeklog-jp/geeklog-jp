@@ -1,0 +1,7 @@
+<!-- start forumlisting_record.thtml -->
+<hr>
+<A HREF="index.php?forum={forum_id}">{forum_name}</A> {forum_desc} {moderator}<br>
+{topics} {posts} {lastpostmsgDate}<br>
+{lastpostmsgTopic}<br>
+{lastpostmsgBy}</td>
+<!-- end forumlisting_record.thtml -->

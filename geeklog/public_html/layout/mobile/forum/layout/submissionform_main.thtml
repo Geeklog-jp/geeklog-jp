@@ -1,0 +1,8 @@
+<!-- start submissionform_main.thtml -->
+{LANG_SUBJECT}<br>
+<INPUT TYPE="text" NAME="subject" VALUE="{subject}" id="input1" tabindex="5" SIZE="20"><br>
+<textarea name="comment" id="input2" rows="20" wrap="virtual" tabindex="6" class="post" style="width:98%">{post_message}</textarea><br>
+{LANG_SUBMIT}
+<INPUT TYPE="submit" NAME="preview" VALUE="{LANG_PREVIEW}" tabindex="7">
+<INPUT TYPE="submit" NAME="submit" VALUE="{LANG_SUBMIT}" tabindex="8">
+<!-- end submissionform_main.thtml -->

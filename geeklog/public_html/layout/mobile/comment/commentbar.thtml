@@ -1,0 +1,25 @@
+
+<!-- comment/commentbar.thtml { -->
+
+<ul class="status">
+  <li>{start_storylink_anchortag}<strong>{story_title}</strong>{end_storylink_anchortag}</li>
+  <li>{num_comments}{lang_comments}</li>
+  <li>{user_nullname}<a href="{login_logout_url}">{lang_login_logout}</a></li>
+</ul>
+
+<br>
+<form action="{site_url}/comment.php" method="post" class="basic">
+{lang_reply}<br>
+    <ul class="submit">
+      <li>
+        <input type="hidden" name="sid" value="{sid}">
+        <input type="hidden" name="pid" value="0">
+        <input type="hidden" name="type" value="{comment_type}">
+        <input type="submit" name="reply" value="{lang_reply}" class="submit">
+      </li>
+    </ul>
+</form>
+
+<p class="disclaimer">{lang_disclaimer}</p>
+
+<!-- } comment/commentbar.thtml -->

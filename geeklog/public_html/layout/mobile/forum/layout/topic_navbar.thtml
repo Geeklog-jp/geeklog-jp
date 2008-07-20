@@ -1,0 +1,8 @@
+<!-- start topic_navbar.thtml -->
+{newtopic_link} {replytopic_link}<br>
+<a href="{site_url}/forum/index.php">{forum_home}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a><br>
+トピック: <b><a href="viewtopic.php?showtopic={topic_id}">{subject}</a></b><br>
+{pagenavigation}
+{prevtopic_link} {nexttopic_link}<br>
+<table width="100%" border="0" cellspacing="1" cellpadding="0" class="pluginSolidOutline alignleft"> 
+<!-- end topic_navbar.thtml -->

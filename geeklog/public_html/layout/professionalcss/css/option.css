@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+/*==============================================================================
+  タイトル: オプションメニュースタイル
+  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  説明    : 左ブロック・右ブロックメニューのスタイルです。
+  適用先  : adminoption.thtml, adminoption_off.thtml
+            topicoption.thtml, topicoption_off.thtml
+            useroption.thtml, useroption_off.thtml
+==============================================================================*/
+
+
+
+/*--------------------------------------
+  管理メニュー
+--------------------------------------*/
+
+/* メニュー有効時 */
+p.adminoption {
+  margin: 0;
+  padding: 0;
+}
+
+/* メニュー有効時のメニューリンク */
+p.adminoption a,
+p.adminoption a:link,
+p.adminoption a:visited {
+}
+
+p.adminoption a:hover,
+p.adminoption a:focus,
+p.adminoption a:active {
+}
+
+/* メニュー無効時 */
+p.adminoption_off {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/*--------------------------------------
+  トピックメニュー
+--------------------------------------*/
+
+/* メニュー有効時 */
+p.topicoption {
+  margin: 0;
+  padding: 0;
+}
+
+/* メニュー有効時のメニューリンク */
+p.topicoption a,
+p.topicoption a:link,
+p.topicoption a:visited {
+}
+
+p.topicoption a:hover,
+p.topicoption a:focus,
+p.topicoption a:active {
+}
+
+/* メニュー無効時 */
+p.topicoption_off {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+/*--------------------------------------
+  ユーザメニュー
+--------------------------------------*/
+
+/* メニュー有効時 */
+p.useroption {
+  margin: 0;
+  padding: 0;
+}
+
+/* メニュー有効時のメニューリンク */
+p.useroption a,
+p.useroption a:link,
+p.useroption a:visited {
+}
+
+p.useroption a:hover,
+p.useroption a:focus,
+p.useroption a:active {
+}
+
+/* メニュー無効時 */
+p.useroption_off {
+  margin: 0;
+  padding: 0;
+}

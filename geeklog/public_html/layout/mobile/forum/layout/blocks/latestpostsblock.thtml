@@ -1,0 +1,5 @@
+<!-- start latestpostsblock.thtml -->
+{LANG_ORDERBY}<a href="{phpself}?mode=forumblock&amp;order=new">{LANG_NEW}</a> <a href="{phpself}?mode=forumblock&amp;order=views">{LANG_VIEWS}</a> <a href="{phpself}?mode=forumblock&amp;order=posts">{LANG_POSTS}</a>{view_modemsg}<br>
+
+{block_records}<br>
+<!-- end latestpostsblock.thtml -->

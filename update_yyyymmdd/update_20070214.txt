@@ -1,0 +1,6 @@
+1.public_html/mycal/clasearch.hpp
+ サイトカレンダで日付クリックしたらエラーが発生する問題の対応
+2.public_html/mycal/main.php
+　次月のイベントが隠されないで表示されてしまう不具合対応
+3.phpblock_nmoxmenu.php
+ メニューの並び方があるパターンになってしまうと次の話題のタグが乱れてしまうという不具合（IEのみ）対応

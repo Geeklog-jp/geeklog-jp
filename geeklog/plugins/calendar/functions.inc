@@ -1,0 +1,1656 @@
+<?php
+
+/* Reminder: always indent with 4 spaces (no tabs). */
+// +---------------------------------------------------------------------------+
+// | Calendar Plugin 1.0                                                       |
+// +---------------------------------------------------------------------------+
+// | functions.inc                                                             |
+// |                                                                           |
+// | This file does two things: 1) it implements the necessary Geeklog Plugin  |
+// | API method and 2) implements all the common code needed by the CAlendar   |
+// | plugin' PHP files.                                                        |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2000-2006 by the following authors:                         |
+// |                                                                           |
+// | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
+// |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
+// |          Blaine Lang      - langmail AT sympatico DOT ca                  |
+// |          Dirk Haun        - dirk AT haun-online DOT de                    |
+// +---------------------------------------------------------------------------+
+// |                                                                           |
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// |                                                                           |
+// +---------------------------------------------------------------------------+
+//
+// $Id: functions.inc,v 1.61 2006/12/18 06:45:37 ospiess Exp $
+
+if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
+    die ('This file can not be used on its own.');
+}
+
+$langfile = $_CONF['path'] . 'plugins/calendar/language/'
+          . $_CONF['language'] . '.php';
+
+if (file_exists ($langfile)) {
+    require_once ($langfile);
+} else {
+    require_once ($_CONF['path'] . 'plugins/calendar/language/english.php');
+}
+
+require_once ($_CONF['path'] . 'plugins/calendar/config.php');
+
+
+/**
+* Returns the items for this plugin that should appear on the main menu
+*
+* NOTE: this MUST return the url/value pairs in the following format
+* $<arrayname>[<label>] = <url>
+*
+*/
+function plugin_getmenuitems_calendar ()
+{
+    global $_CONF, $_USER, $_CA_CONF, $LANG_CAL_1;
+
+    $anon = (empty ($_USER['uid']) || ($_USER['uid'] <= 1)) ? true : false;
+    if (($_CA_CONF['hidecalendarmenu'] == 1) || ($anon &&
+            ($_CONF['loginrequired'] || $_CA_CONF['calendarloginrequired']))) {
+        return false;
+    }
+
+    $menuitems[$LANG_CAL_1[16]] = $_CONF['site_url'] . '/calendar/index.php';
+
+    return $menuitems;
+}
+
+/**
+* Returns the upcoming events block
+*
+* Returns the HTML for any upcoming events in the calendar
+*
+* @param        string      $help       Help file for block
+* @param        string      $title      Title to be used in block header
+* @return   string  HTML formatted block containing events.
+*/
+function phpblock_calendar( $help='', $title='' )
+{
+    global $_CONF, $_TABLES, $_USER, $_CA_CONF, $LANG_CAL_1;
+
+    $retval = '';
+
+    if( !$_USER['noboxes'] && $_CA_CONF['showupcomingevents'] ) {
+        $range = $_CA_CONF['upcomingeventsrange'];
+        if( $range == 0 ) {
+            $range = 14; // fallback: 14 days
+        }
+        $dateonly = $_CONF['dateonly'];
+        if( empty( $dateonly )) {
+            $dateonly = '%d-%b'; // fallback: day - abbrev. month name
+        }
+
+        if( empty( $title )) {
+            $title = DB_getItem( $_TABLES['blocks'], 'title',
+                                 "name = 'events_block'" );
+        }
+
+        $eventSql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
+        . "FROM {$_TABLES['events']} "
+        . "WHERE dateend >= NOW() AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) "
+        . 'ORDER BY datestart,timestart';
+
+        if(( $_CA_CONF['personalcalendars'] == 1 ) && !empty( $_USER['uid'] )) {
+            $personaleventsql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
+            . "FROM {$_TABLES['personal_events']} "
+            . "WHERE uid = {$_USER['uid']} AND dateend >= NOW() AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) "
+            . 'ORDER BY datestart, dateend';
+        }
+
+        $allEvents = DB_query( $eventSql );
+        $numRows = DB_numRows( $allEvents );
+        $totalrows = $numRows;
+
+        $numDays = 0;          // Without limits, I'll force them.
+        $theRow = 1;           // Start with today!
+        $oldDate1 = 'no_day';  // Invalid Date!
+        $oldDate2 = 'last_d';  // Invalid Date!
+
+        if( $_CA_CONF['personalcalendars'] == 1 AND !empty( $_USER['uid'] )) {
+            $iterations = 2;
+        } else {
+            $iterations = 1;
+        }
+
+        $eventsFound = 0;
+        $skipFirstBreak = false;
+
+        for( $z = 1; $z <= $iterations; $z++ ) {
+            if( $z == 2 ) {
+                $allEvents = DB_query( $personaleventsql );
+                $numRows = DB_numRows( $allEvents );
+                $totalrows = $totalrows + $numRows;
+
+                $numDays = 0;          // Without limits, I'll force them.
+                $theRow = 1;           // Start with today!
+                $oldDate1 = 'no_day';  // Invalid Date!
+                $oldDate2 = 'last_d';  // Invalid Date!
+                $classname = 'list-new-plugins';
+                $headline = false;
+            } else {
+                $classname = 'list-new-plugins';
+                $headline = false;
+            }
+            if( $_CA_CONF['personalcalendars'] == 0 ) {
+                $headline = true; // no headline needed
+                $skipFirstBreak = true;
+            }
+
+            while( $theRow <= $numRows AND $numDays < $range ) {
+                // Retreive the next event, and format the start date.
+                $theEvent = DB_fetchArray( $allEvents );
+
+                if( SEC_hasAccess( $theEvent['owner_id'], $theEvent['group_id'],
+                                   $theEvent['perm_owner'], $theEvent['perm_group'],
+                                   $theEvent['perm_members'], $theEvent['perm_anon'] ) > 0 ) {
+                    $eventsFound++;
+
+                    if( !$headline ) {
+                        if($z == 2) {
+                            if( $numRows > 0 ) {
+                                $retval .= '<p><b>' . $LANG_CAL_1[23] . '</b><br>';
+                            }
+                        } else {
+                            if( $totalrows > 0 ) {
+                                $retval .= '<b>' . $LANG_CAL_1[24] . '</b><br>';
+                            }
+                        }
+                        $headline = true;
+                    }
+
+                    // Start Date strings...
+                    $startDate = $theEvent['datestart'];
+                    $theTime1 = strtotime( $startDate );
+// Geeklog Japanese komma 2007.05.03
+//                    $dayName1 = strftime( '%A', $theTime1 );
+                    $dayName1 = strftime( '%a', $theTime1 );
+                    $abbrDate1 = strftime( $dateonly, $theTime1 );
+
+                    // End Date strings...
+                    $endDate = $theEvent['dateend'];
+                    $theTime2 = strtotime( $endDate );
+// Geeklog Japanese komma 2007.05.03
+//                    $dayName2 = strftime( '%A', $theTime2 );
+                    $dayName2 = strftime( '%a', $theTime2 );
+                    $abbrDate2 = strftime( $dateonly, $theTime2 );
+
+                    $todaysEvent = false;
+                    if( date( 'Ymd', $theTime1 ) == date( 'Ymd', time())) {
+                        $todaysEvent = true;
+                        if( $z == 2 ) {
+                            $todaysClassName = 'personal-event-today';
+                        } else {
+                            $todaysClassName = 'site-event-today';
+                        }
+                    }
+
+                    // If either of the dates [start/end] change, then display a new header.
+                    if( $oldDate1 != $abbrDate1 OR $oldDate2 != $abbrDate2 ) {
+                        $oldDate1 = $abbrDate1;
+                        $oldDate2 = $abbrDate2;
+                        $numDays ++;
+
+                        if( $numDays < $range ) {
+                            if( !empty( $newevents )) {
+                                 $retval .= COM_makeList( $newevents, $classname );
+                            }
+                            if( $skipFirstBreak ) {
+                                $skipFirstBreak = false;
+                            } else {
+                                $retval .= '<br>';
+                            }
+                            if( $todaysEvent ) {
+                                $retval .= '<span class="' . $todaysClassName . '">';
+                            }
+// Geeklog Japanese komma 2007.05.03
+//                            $retval .= '<b>' . $dayName1 . '</b>&nbsp;<small>'
+//                                    . $abbrDate1 . '</small>';
+                            $retval .= $abbrDate1.'('.$dayName1.')';
+
+                            // If different start and end dates, then display end date:
+                            if( $abbrDate1 != $abbrDate2 ) {
+// Geeklog Japanese komma 2007.05.03
+//                                $retval .= ' - <br><b>' . $dayName2 . '</b>&nbsp;<small>' . $abbrDate2 . '</small>';
+                                $retval .= '<br> ～ '. $abbrDate2.'('.$dayName2.')';
+                            }
+                            if( $todaysEvent ) {
+                                $retval .= '</span>';
+                            }
+                        }
+                        $newevents = array();
+                    }
+
+                    // Now display this event record.
+                    if( $numDays < $range ) {
+                        // Display the url now!
+                        $newevent = '<a href="' . $_CONF['site_url']
+                                  . '/calendar/event.php?';
+
+                        if( $z == 2 ) {
+                            $newevent .= 'mode=personal&amp;';
+                        }
+
+                        $newevent .= 'eid=' . $theEvent['eid'] . '"';
+                        if( $todaysEvent ) {
+                            $newevent .= ' class="' . $todaysClassName . '"';
+                        }
+                        $newevent .= '>' . stripslashes( $theEvent['title'] )
+                                  . '</a>';
+                        $newevents[] = $newevent;
+                    }
+
+                    if( !empty( $newevents )) {
+                        $retval .= COM_makeList( $newevents, $classname );
+                        $newevents = array();
+                    }
+                }
+                $theRow++;
+            }
+        } // end for z
+
+        if( $eventsFound == 0 ) {
+            // There aren't any upcoming events, show a nice message
+            $retval .= $LANG_CAL_1[25];
+        }
+    }
+
+    return $retval;
+}
+
+/**
+*
+* Checks that the current user has the rights to moderate the
+* plugin, returns true if this is the case, false otherwise
+*
+* @return        boolean       Returns true if moderator
+*
+*/
+function plugin_ismoderator_calendar() {
+    return SEC_hasRights ('calendar.moderate');
+}
+
+/**
+* Returns SQL & Language texts to moderation.php
+*/
+function plugin_itemlist_calendar()
+{
+    global $_TABLES, $LANG_CAL_1;
+
+    if (plugin_ismoderator_calendar()) {
+        $plugin = new Plugin();
+        $plugin->submissionlabel = $LANG_CAL_1[19];
+        $plugin->submissionhelpfile = 'cceventsubmission.html';
+        $plugin->getsubmissionssql = "SELECT eid AS id,title,datestart as day,url "
+                                   . "FROM {$_TABLES['eventsubmission']} "
+                                   . "ORDER BY datestart ASC";
+        $plugin->addSubmissionHeading($LANG_CAL_1[20]);
+        $plugin->addSubmissionHeading($LANG_CAL_1[21]);
+        $plugin->addSubmissionHeading($LANG_CAL_1[22]);
+
+        return $plugin;
+    }
+}
+
+/**
+* returns list of moderation values
+*
+* The array returned contains (in order): the row 'id' label, main plugin
+* table, moderation fields (comma seperated), and plugin submission table
+*
+* @return       array        Returns array of useful moderation values
+*
+*/
+function plugin_moderationvalues_calendar()
+{
+    global $_TABLES;
+
+    return array (
+        'eid',
+        $_TABLES['events'],
+        "eid,title,description,location,address1,address2,city,state,zipcode,datestart,timestart,dateend,timeend,url",
+        $_TABLES['eventsubmission']
+    );
+}
+
+
+/**
+* Performs plugin exclusive work for items approved by moderation
+*
+* While moderation.php handles the actual move from linkssubmission
+* to links tables, within the function we handle all other approval
+* relate tasks
+*
+* @param      string       $id      Identifying string
+* @return     string       Any wanted HTML output
+*
+*/
+function plugin_moderationapprove_calendar ($id)
+{
+    global $_CA_CONF, $_GROUPS, $_TABLES, $_USER;
+
+    $A = array ();
+    SEC_setDefaultPermissions ($A, $_CA_CONF['default_permissions']);
+
+    // Since the eventsubmission table does not contain fields for the owner
+    // and group, we set those to the current user. Also set the default
+    // permissions as specified in the plugin's config.php
+    if (isset ($_GROUPS['Calendar Admin'])) {
+        $group_id = $_GROUPS['Calendar Admin'];
+    } else {
+        $group_id = SEC_getFeatureGroup ('calendar.moderate');
+    }
+    DB_query ("UPDATE {$_TABLES['events']} SET owner_id = '{$_USER['uid']}',"
+             ."group_id = '$group_id',perm_owner = {$A['perm_owner']}, "
+             ."perm_group = {$A['perm_group']}, perm_members = {$A['perm_members']},"
+             ."perm_anon = {$A['perm_anon']} WHERE eid = $id");
+}
+
+/**
+* Performs plugin exclusive work for items deleted by moderation
+*
+* While moderation.php handles the actual removal from <plugin>submission
+* table, within this function we handle all other deletion
+* relate tasks
+*
+* @param      string       $id      Identifying string
+* @return     string       Any wanted HTML output
+*
+*/
+function plugin_moderationdelete_calendar($id)
+{
+    global $_TABLES;
+
+    // these tables should not contain any rows with ml_id = $id
+    // this is done 'just in case'
+    DB_delete ($_TABLES['eventsubmission'], 'eid', $id);
+
+    return '';
+}
+
+/**
+* Check calendar submission form for missing fields
+* and Saves a calendar submission
+*
+* @param    array   $A  Data for that submission
+* @return   string      HTML redirect
+*
+*/
+function plugin_savesubmission_calendar($A)
+{
+    global $_CONF, $_CA_CONF, $_TABLES, $_USER, $LANG12, $LANG_CAL_1;
+
+    $A['title'] = strip_tags (COM_checkWords ($A['title']));
+    $A['start_year'] = COM_applyFilter ($A['start_year'], true);
+    $A['start_month'] = COM_applyFilter ($A['start_month'], true);
+    $A['start_day'] = COM_applyFilter ($A['start_day'], true);
+
+    // check for missing textfields
+    if (empty ($A['title']) || empty ($A['start_month']) || empty ($A['start_day']) || empty ($A['start_year'])) {
+        $retval .= COM_siteHeader ('menu', $LANG_CAL_1[27])
+            . COM_startBlock ($LANG12[22], '',
+                           COM_getBlockTemplate ('_msg_block', 'header'))
+            . $LANG12[23]
+            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
+            . plugin_submit_calendar ($A['calendar_type'])
+            . COM_siteFooter ();
+
+        return $retval;
+    }
+    // check ok, proceed to saving
+    $A['end_year'] = COM_applyFilter ($A['end_year'], true);
+    $A['end_month'] = COM_applyFilter ($A['end_month'], true);
+    $A['end_day'] = COM_applyFilter ($A['end_day'], true);
+
+    $A['datestart'] = sprintf ('%4d-%02d-%02d',
+                        $A['start_year'], $A['start_month'], $A['start_day']);
+    if (empty ($A['end_year']) || empty ($A['end_month']) ||
+            empty ($A['end_day'])) {
+        $A['dateend'] = $A['datestart'];
+    } else {
+        $A['dateend'] = sprintf ('%4d-%02d-%02d',
+                            $A['end_year'], $A['end_month'], $A['end_day']);
+    }
+
+    // for the quickadd form, which doesn't have end date/time fields
+    if (!isset ($A['end_hour'])) {
+        $A['end_hour'] = $A['start_hour'];
+    }
+    if (!isset ($A['end_minute'])) {
+        $A['end_minute'] = $A['start_minute'];
+    }
+
+    // pseudo-formatted event description for the spam check
+    $spamcheck = '<p><a href="' . $A['url'] . '">' . $A['title'] . '</a><br>'
+               . $A['location'] . '<br>' . $A['address1'] . '<br>'
+               . $A['address2'] . '<br>' . $A['city'] . ', ' . $A['zipcode']
+               . '<br>' . $A['description'] . '</p>';
+    $result = PLG_checkforSpam ($spamcheck, $_CONF['spamx']);
+    if ($result > 0) {
+        COM_updateSpeedlimit ('submit');
+        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+    }
+
+    $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
+    $A['address1'] = addslashes (strip_tags (COM_checkWords ($A['address1'])));
+    $A['address2'] = addslashes (strip_tags (COM_checkWords ($A['address2'])));
+    $A['city'] = addslashes (strip_tags (COM_checkWords ($A['city'])));
+    $A['zipcode'] = addslashes (strip_tags (COM_checkWords ($A['zipcode'])));
+    $A['state'] = addslashes (strip_tags (COM_checkWords ($A['state'])));
+    $A['location'] = addslashes (strip_tags (COM_checkWords ($A['location'])));
+    $A['event_type'] = addslashes (strip_tags (COM_checkWords ($A['event_type'])));
+    $A['title'] = addslashes ($A['title']);
+
+    $A['url'] = addslashes (COM_sanitizeUrl ($A['url']));
+    if ($A['url'] == 'http://') {
+        $A['url'] = '';
+    }
+
+    if (!empty ($A['eid'])) {
+        $A['eid'] = addslashes (COM_applyFilter ($A['eid']));
+    }
+    if (empty ($A['eid'])) {
+        $A['eid'] = addslashes (COM_makeSid ());
+    }
+
+    COM_updateSpeedlimit ('submit');
+
+    if (isset ($A['allday']) && ($A['allday'] == 'on')) {
+        $A['allday'] = 1;
+    } else {
+        $A['allday'] = 0;
+    }
+
+    if (isset ($A['hour_mode']) && ($A['hour_mode'] == 24)) {
+        $start_hour = COM_applyFilter ($A['start_hour'], true);
+        if ($start_hour >= 12) {
+            $A['start_ampm'] = 'pm';
+            $A['start_hour'] = $start_hour - 12;
+        } else {
+            $A['start_ampm'] = 'am';
+            $A['start_hour'] = $start_hour;
+        }
+        if ($A['start_hour'] == 0) {
+            $A['start_hour'] = 12;
+        }
+        $end_hour = COM_applyFilter ($A['end_hour'], true);
+        if ($end_hour >= 12) {
+            $A['end_ampm'] = 'pm';
+            $A['end_hour'] = $end_hour - 12;
+        } else {
+            $A['end_ampm'] = 'am';
+            $A['end_hour'] = $end_hour;
+        }
+        if ($A['end_hour'] == 0) {
+            $A['end_hour'] = 12;
+        }
+    }
+    if (!isset ($A['end_ampm'])) {
+        $A['end_ampm'] = $A['start_ampm'];
+    }
+
+    $A['start_hour'] = COM_applyFilter ($A['start_hour'], true);
+    $A['start_minute'] = COM_applyFilter ($A['start_minute'], true);
+    $A['end_hour'] = COM_applyFilter ($A['end_hour'], true);
+    $A['end_minute'] = COM_applyFilter ($A['end_minute'], true);
+
+    if ($A['start_ampm'] == 'pm' AND $A['start_hour'] <> 12) {
+        $A['start_hour'] = $A['start_hour'] + 12;
+    }
+    if ($A['start_ampm'] == 'am' AND $A['start_hour'] == 12) {
+        $A['start_hour'] = '00';
+    }
+    if ($A['end_ampm'] == 'pm' AND $A['end_hour'] <> 12) {
+        $A['end_hour'] = $A['end_hour'] + 12;
+    }
+    if ($A['end_ampm'] == 'am' AND $A['end_hour'] == 12) {
+        $A['end_hour'] = '00';
+    }
+    $A['timestart'] = $A['start_hour'] . ':' . $A['start_minute'] . ':00';
+    $A['timeend'] = $A['end_hour'] . ':' . $A['end_minute'] . ':00';
+    if ($A['calendar_type'] == 'master') { // add to site calendar
+
+        if (($_CA_CONF['eventsubmission'] == 1) &&
+                !SEC_hasRights ('calendar.submit')) {
+            DB_save ($_TABLES['eventsubmission'],
+                     'eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description',
+                     "{$A['eid']},'{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}'");
+
+            if (isset ($_CA_CONF['notification']) &&
+                    ($_CA_CONF['notification'] == 1)) {
+                CALENDAR_sendNotification ($_TABLES['eventsubmission'], $A);
+            }
+
+            $retval = COM_refresh ($_CONF['site_url'] . '/calendar/index.php?msg=4');
+        } else {
+            if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+                $owner_id = $_USER['uid'];
+            } else {
+                $owner_id = 1; // anonymous user
+            }
+
+            DB_save ($_TABLES['events'],
+                     'eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description,owner_id',
+                     "{$A['eid']},'{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}',$owner_id");
+            if (isset ($_CA_CONF['notification']) &&
+                    ($_CA_CONF['notification'] == 1)) {
+                CALENDAR_sendNotification ($_TABLES['events'], $A);
+            }
+            COM_rdfUpToDateCheck ();
+
+            $retval = COM_refresh ($_CONF['site_url'] . '/calendar/index.php');
+        }
+
+    } else if ($_CA_CONF['personalcalendars'] == 1) { // add to personal calendar
+        if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+            DB_save ($_TABLES['personal_events'],
+                     'uid,eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description',
+                     "{$_USER['uid']},'{$A['eid']}','{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}'");
+            $retval = COM_refresh ($_CONF['site_url']
+                                   . '/calendar/index.php?mode=personal&msg=17');
+        } else {
+            // anonymous users don't have personal calendars - bail
+            COM_accessLog ("Attempt to write to the personal calendar of user '{$A['uid']}'.");
+
+            $retval = COM_refresh ($_CONF['site_url'] . '/calendar/index.php');
+        }
+
+    } else { // personal calendars are disabled
+        $retval = COM_refresh ($_CONF['site_url'] . '/calendar/index.php');
+    }
+
+    return $retval;
+}
+
+function plugin_getheadercode_calendar()
+{
+    global $_CONF;
+
+    $str = null;
+
+    // use the CSS only if we are on the plugin's pages
+    if (substr_count ($_SERVER['PHP_SELF'], '/calendar/') > 0) {
+        $str = '<link rel="stylesheet" type="text/css" href="'
+             . $_CONF['site_url'] . '/calendar/style.css">';
+    }
+
+    return $str;
+}
+
+/**
+* Shows event submission form or diverts to event editor if admin calls in
+*
+*/
+function plugin_submit_calendar($mode = 'master')
+{
+    global $_CONF, $_USER, $_CA_CONF, $LANG_CAL_1;
+
+    if (isset ($_POST['calendar_type'])) {
+        $mode = $_POST['calendar_type'];
+    }
+
+    if (($_CA_CONF['personalcalendars'] == 1) && ($mode == 'quickadd')) {
+        // quick add form, just save it.
+        $display = plugin_savesubmission_calendar ($_POST);
+        return $display;
+    } else if (SEC_hasRights('calendar.edit') && ($mode != 'personal')) {
+        // admin posts non-personal, go to editor
+        if (isset ($_REQUEST['year'])) {
+            $year = COM_applyFilter ($_REQUEST['year'], true);
+        } else {
+            $year = date ('Y', time ());
+        }
+        if (isset ($_REQUEST['month'])) {
+            $month = COM_applyFilter ($_REQUEST['month'], true);
+        } else {
+            $month = date ('m', time ());
+        }
+        if (isset ($_REQUEST['day'])) {
+            $day = COM_applyFilter ($_REQUEST['day'], true);
+        } else {
+            $day = date ('d', time ());
+        }
+        if (isset ($_REQUEST['hour'])) {
+            $hour = COM_applyFilter ($_REQUEST['hour'], true);
+        } else {
+            $hour = date ('H', time ());
+        }
+        $startat = '';
+        if ($year > 0) {
+            $startat = '&datestart='
+                     . urlencode (sprintf ('%04d-%02d-%02d', $year,
+                                           $month, $day))
+                     . '&timestart=' . urlencode (sprintf ('%02d:00:00',
+                                                           $hour));
+        }
+
+        echo COM_refresh ($_CONF['site_admin_url']
+                          . '/plugins/calendar/index.php?mode=edit' . $startat);
+        exit;
+    }
+    // otherwise non-admin or admin-personal. do personal form or public submission.
+
+    $retval = '';
+
+    $retval .= COM_startBlock ($LANG_CAL_1[26], 'submitevent.html');
+    $eventform = new Template ($_CONF['path'] . 'plugins/calendar/templates/');
+    $eventform->set_file ('eventform', 'submitevent.thtml');
+    if ($mode != 'personal') {
+        $eventform->set_var ('explanation', $LANG_CAL_1[27]);
+        $eventform->set_var ('submit_url', '/submit.php');
+    } else {
+        $eventform->set_var ('explanation', '');
+        $eventform->set_var ('submit_url', '/calendar/index.php?view=savepersonal');
+    }
+    if (isset ($_CA_CONF['hour_mode']) && ($_CA_CONF['hour_mode'] == 24)) {
+        $eventform->set_var ('hour_mode', 24);
+    } else {
+        $eventform->set_var ('hour_mode', 12);
+    }
+    $eventform->set_var ('site_url', $_CONF['site_url']);
+    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
+    $eventform->set_var ('layout_url', $_CONF['layout_url']);
+    $eventform->set_var ('lang_title', $LANG_CAL_1[28]);
+
+    $eventform->set_var('lang_eventtype', $LANG_CAL_1[37]);
+    $eventform->set_var('lang_editeventtypes', $LANG_CAL_1[38]);
+    $eventform->set_var('type_options', CALENDAR_eventTypeList ());
+
+    $eventform->set_var('lang_link', $LANG_CAL_1[43]);
+    $eventform->set_var('max_url_length', 255);
+    $eventform->set_var('lang_startdate', $LANG_CAL_1[21]);
+    $eventform->set_var('lang_starttime', $LANG_CAL_1[30]);
+    if (empty ($month)) {
+        $month = date ('m', time ());
+    }
+    if (empty ($day)) {
+        $day = date ('d', time ());
+    }
+    if (empty ($year)) {
+        $year = date ('Y', time ());
+    }
+    $eventform->set_var ('month_options', COM_getMonthFormOptions ($month));
+    $eventform->set_var ('day_options', COM_getDayFormOptions ($day));
+    $eventform->set_var ('year_options', COM_getYearFormOptions ($year));
+
+    if (empty ($hour) || ($hour < 0)) {
+        $cur_hour = date ('H', time ());
+    } else {
+        $cur_hour = $hour;
+    }
+    $cur_hour_24 = $cur_hour % 24;
+    if ($cur_hour >= 12) {
+        $ampm = 'pm';
+    } else {
+        $ampm = 'am';
+    }
+
+    $eventform->set_var ('startampm_selection',
+                         COM_getAmPmFormSelection ('start_ampm', $ampm));
+    $eventform->set_var ('endampm_selection',
+                         COM_getAmPmFormSelection ('end_ampm', $ampm));
+
+    if ($cur_hour > 12) {
+        $cur_hour = $cur_hour - 12;
+    } else if ($cur_hour == 0) {
+        $cur_hour = 12;
+    }
+
+    if (isset ($_CA_CONF['hour_mode']) && ($_CA_CONF['hour_mode'] == 24)) {
+        $eventform->set_var ('hour_options',
+                             COM_getHourFormOptions ($cur_hour_24, 24));
+    } else {
+        $eventform->set_var ('hour_options',
+                             COM_getHourFormOptions ($cur_hour));
+    }
+    $cur_min = intval (date ('i') / 15) * 15;
+    $eventform->set_var ('minute_options',
+                         COM_getMinuteFormOptions ($cur_min, 15));
+
+    $eventform->set_var('lang_enddate', $LANG_CAL_1[18]);
+    $eventform->set_var('lang_endtime', $LANG_CAL_1[29]);
+    $eventform->set_var('lang_alldayevent',$LANG_CAL_1[31]);
+    $eventform->set_var('lang_addressline1',$LANG_CAL_1[32]);
+    $eventform->set_var('lang_addressline2',$LANG_CAL_1[33]);
+    $eventform->set_var('lang_city',$LANG_CAL_1[34]);
+    $eventform->set_var('lang_state',$LANG_CAL_1[35]);
+    $eventform->set_var('state_options', CALENDAR_stateList ());
+    $eventform->set_var('lang_zipcode',$LANG_CAL_1[36]);
+    $eventform->set_var('lang_location', $LANG_CAL_1[39]);
+    $eventform->set_var('lang_description', $LANG_CAL_1[5]);
+    $eventform->set_var('lang_htmnotallowed', $LANG_CAL_1[44]);
+    $eventform->set_var('lang_submit', $LANG_CAL_1[45]);
+    $eventform->set_var('mode', $mode);
+    $eventform->parse('theform', 'eventform');
+    $retval .= $eventform->finish($eventform->get_var('theform'));
+    $retval .= COM_endBlock();
+
+    return $retval;
+}
+
+/**
+* Delete an event
+*
+* @param    string  $eid    id of event to delete
+* @param    string          HTML redirect
+*/
+function CALENDAR_deleteEvent ($eid)
+{
+    global $_CONF, $_TABLES, $_USER;
+
+    $result = DB_query ("SELECT owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon "
+                       ."FROM {$_TABLES['events']} WHERE eid = '$eid'");
+    $A = DB_fetchArray ($result);
+    $access = SEC_hasAccess ($A['owner_id'], $A['group_id'], $A['perm_owner'],
+            $A['perm_group'], $A['perm_members'], $A['perm_anon']);
+    if ($access < 3) {
+        COM_accessLog ("User {$_USER['username']} tried to illegally delete event $eid.");
+        return COM_refresh ($_CONF['site_admin_url'] . '/plugins/calendar/index.php');
+    }
+
+    DB_delete ($_TABLES['events'], 'eid', $eid);
+    DB_delete ($_TABLES['personal_events'], 'eid', $eid);
+    COM_rdfUpToDateCheck ('geeklog', 'calendar', $eid);
+
+    return COM_refresh ($_CONF['site_admin_url'] . '/plugins/calendar/index.php?msg=18');
+}
+
+function CALENDAR_listevents()
+{
+    global $_CONF, $_TABLES, $LANG_ADMIN, $LANG_CAL_ADMIN, $LANG_ACCESS,
+           $_IMAGE_TYPE;
+
+    require_once( $_CONF['path_system'] . 'lib-admin.php' );
+
+    $retval = '';
+
+    $header_arr = array(      # dislay 'text' and use table field 'field'
+                    array('text' => $LANG_ADMIN['edit'], 'field' => 'edit', 'sort' => false),
+                    array('text' => $LANG_ADMIN['copy'], 'field' => 'copy', 'sort' => false),
+                    array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true),
+                    array('text' => $LANG_CAL_ADMIN[13], 'field' => 'username', 'sort' => true),
+                    array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false),
+                    array('text' => $LANG_CAL_ADMIN[14], 'field' => 'datestart', 'sort' => true),
+                    array('text' => $LANG_CAL_ADMIN[15], 'field' => 'dateend', 'sort' => true)
+    );
+
+    $defsort_arr = array('field' => 'datestart', 'direction' => 'desc');
+
+    $menu_arr = array (
+                    array('url' => $_CONF['site_admin_url'] . '/plugins/calendar/index.php?mode=edit',
+                          'text' => $LANG_ADMIN['create_new']),
+                    array('url' => $_CONF['site_admin_url'],
+                          'text' => $LANG_ADMIN['admin_home'])
+    );
+
+    $text_arr = array('has_menu' =>  true,
+                      'has_extras'   => true,
+                      'title' => $LANG_CAL_ADMIN[11],
+                      'instructions' => $LANG_CAL_ADMIN[12],
+                      'icon' => $_CONF['site_url'] . '/calendar/images/calendar.' . $_IMAGE_TYPE,
+                      'form_url' => $_CONF['site_admin_url'] . "/plugins/calendar/index.php");
+
+    $sql = "SELECT {$_TABLES['events']}.*, {$_TABLES['users']}.username, {$_TABLES['users']}.fullname "
+          ."FROM {$_TABLES['events']} "
+          ."LEFT JOIN {$_TABLES['users']} "
+          ."ON {$_TABLES['events']}.owner_id={$_TABLES['users']}.uid "
+          ."WHERE 1=1 ";
+
+    $query_arr = array('table' => 'events',
+                       'sql' => $sql,
+                       'query_fields' => array('title', 'datestart', 'dateend'),
+                       'default_filter' => COM_getPermSQL('AND'));
+
+    $retval .= ADMIN_list ('calendar', 'plugin_getListField_calendar',
+                           $header_arr, $text_arr, $query_arr, $menu_arr,
+                           $defsort_arr);
+
+    return $retval;
+}
+
+/**
+* Send an email notification for a new submission.
+*
+* @param    string  $table  Table where the new submission can be found
+* @param    array   $A      submission data
+*
+*/
+function CALENDAR_sendNotification ($table, $A)
+{
+    global $_CONF, $_TABLES, $LANG01, $LANG08, $LANG09, $LANG_CAL_1, $LANG_CAL_2;
+
+    $title = stripslashes ($A['title']);
+    $description = stripslashes ($A['description']);
+
+    $mailbody = "$LANG09[16]: $title\n"
+              . "$LANG09[17]: " . strftime ($_CONF['date'],
+                strtotime ($A['datestart'] . ' ' . $A['timestart']));
+    if ($A['allday']) {
+        $mailbody .= ' (' . $LANG_CAL_2[26] . ')';
+    }
+    $mailbody .= "\n";
+    if (!empty ($A['url']) && ($A['url'] != 'http://')) {
+        $mailbody .= "$LANG09[33]: <" . $A['url'] . ">\n";
+    }
+    $mailbody .= "\n" . $description . "\n\n";
+    if ($table == $_TABLES['eventsubmission']) {
+        $mailbody .= "$LANG01[10] <{$_CONF['site_admin_url']}/moderation.php>\n\n";
+    } else {
+        $mailbody .= "$LANG_CAL_1[12] <{$_CONF['site_url']}/calendar/event.php?eid={$A['eid']}>\n\n";
+    }
+    $mailsubject = $_CONF['site_name'] . ' ' . $LANG_CAL_2[43];
+
+    $mailbody .= "\n------------------------------\n";
+    $mailbody .= "\n$LANG08[34]\n";
+    $mailbody .= "\n------------------------------\n";
+
+    COM_mail ($_CONF['site_mail'], $mailsubject, $mailbody);
+}
+
+
+/**
+*
+* Counts the items that are submitted
+*
+*/
+function plugin_submissioncount_calendar()
+{
+    global $_TABLES;
+
+    $num = 0;
+
+    if( SEC_hasRights( 'calendar.moderate' ))
+    {
+        $num += DB_count( $_TABLES['eventsubmission'] );
+    }
+
+    return $num;
+}
+
+/**
+* Implements the [event:] autotag.
+*
+*/
+function plugin_autotags_calendar ($op, $content = '', $autotag = '')
+{
+    global $_CONF, $_TABLES;
+
+    if ($op == 'tagname' ) {
+        return 'event';
+    } else if ($op == 'parse') {
+        $eid = COM_applyFilter ($autotag['parm1']);
+        $url = $_CONF['site_url'] . '/calendar/event.php?eid=' . $eid;
+        if (empty ($autotag['parm2'])) {
+            $linktext = stripslashes (DB_getItem ($_TABLES['events'],
+                                      'title', "eid = '$eid'"));
+        } else {
+            $linktext = $autotag['parm2'];
+        }
+        $link = '<a href="' . $url . '">' . $linktext . '</a>';
+        $content = str_replace ($autotag['tagstr'], $link, $content);
+
+        return $content;
+    }
+}
+
+/*
+* Do we support feeds?
+*/
+function plugin_getfeednames_calendar()
+{
+    global $LANG_CAL_1;
+
+    $feeds = array ();
+
+    $feeds[] = array ('id' => 'calendar', 'name' => $LANG_CAL_1[16]);
+
+    return $feeds;
+
+}
+
+/**
+* Get content for a feed that holds all events.
+*
+* @param    string   $limit    number of entries or number of stories
+* @param    string   $link     link to homepage
+* @param    string   $update   list of story ids
+* @return   array              content of the feed
+*
+*/
+function plugin_getfeedcontent_calendar( $limit, &$link, &$update, $feedType, $feedVersion )
+{
+    global $_CONF, $_TABLES;
+
+    $where = '';
+    if( !empty( $limit )) {
+        if( substr( $limit, -1 ) == 'h' ) {// next xx hours
+            $limitsql = '';
+            $hours = substr( $limit, 0, -1 );
+            $where = " AND (datestart <= DATE_ADD(NOW(), INTERVAL $hours HOUR))";
+        }
+        else {
+            $limitsql = ' LIMIT ' . $limit;
+        }
+    }
+    else {
+        $limitsql = ' LIMIT 10';
+    }
+
+    $sql = "SELECT eid,owner_id,title,description FROM {$_TABLES['events']} "
+          ."WHERE perm_anon > 0 AND dateend >= NOW()$where "
+          ."ORDER BY datestart,timestart $limitsql";
+    $result = DB_query($sql);
+
+    $content = array();
+    $eids = array();
+    $nrows = DB_numRows( $result );
+
+    for( $i = 1; $i <= $nrows; $i++ )
+    {
+        $row = DB_fetchArray( $result );
+        $eids[] = $row['eid'];
+
+        $eventtitle = stripslashes( $row['title'] );
+        $eventtext = SYND_truncateSummary( $row['description'], MBYTE_strlen($row['description']));
+        $eventlink  = $_CONF['site_url'] . '/calendar/event.php?eid='
+                    . $row['eid'];
+
+        // Need to reparse the date from the event id
+        $myyear = substr( $row['eid'], 0, 4 );
+        $mymonth = substr( $row['eid'], 4, 2 );
+        $myday = substr( $row['eid'], 6, 2 );
+        $myhour = substr( $row['eid'], 8, 2 );
+        $mymin = substr( $row['eid'], 10, 2 );
+        $mysec = substr( $row['eid'], 12, 2 );
+        $newtime = "{$mymonth}/{$myday}/{$myyear} {$myhour}:{$mymin}:{$mysec}";
+        $creationtime = strtotime( $newtime );
+        $extensionTags = array(); // PLG_getFeedElementExtensions('calendar', $row['eid'], $feedType, $feedVersion, $eventtitle, );
+        $content[] = array( 'title'  => $eventtitle,
+                            'summary'   => $eventtext,
+                            'link'   => $eventlink,
+                            'uid'    => $row['owner_id'],
+                            'author' => COM_getDisplayName( $row['owner_id'] ),
+                            'date'   => $creationtime,
+                            'format' => 'plaintext',
+                            'extensions' => $extensionTags
+                          );
+    }
+
+    $link = $_CONF['site_url'] . '/calendar/index.php';
+    $update = implode( ',', $eids );
+
+    return $content;
+}
+
+/**
+* Checking if calendar feeds are up to date
+*
+* @param    int     $feed           id of feed to be checked
+* @param    string  $topic          topic (actually: category)
+* @param    string  $update_data    data describing current feed contents
+* @param    string  $limit          number of entries or number of hours
+* @param    string  $updated_type   (optional) type of feed to be updated
+* @param    string  $updated_topic  (optional) feed's "topic" to be updated
+* @param    string  $updated_id     (optional) id of entry that has changed
+*
+*/
+function plugin_feedupdatecheck_calendar ($feed, $topic, $update_data, $limit,
+                    $updated_type = '', $updated_topic = '', $updated_id = '')
+{
+    global $_CONF, $_TABLES, $_SYND_DEBUG;
+
+    $where = '';
+    if( !empty( $limit ))
+    {
+        if( substr( $limit, -1 ) == 'h' ) // next xx hours
+        {
+            $limitsql = '';
+            $hours = substr( $limit, 0, -1 );
+            $where = " AND (datestart <= DATE_ADD(NOW(), INTERVAL $hours HOUR))";
+        }
+        else
+        {
+            $limitsql = ' LIMIT ' . $limit;
+        }
+    }
+    else
+    {
+        $limitsql = ' LIMIT 10';
+    }
+
+    $result = DB_query( "SELECT eid FROM {$_TABLES['events']} WHERE perm_anon > 0 AND dateend >= NOW()$where ORDER BY datestart,timestart $limitsql" );
+    $nrows = DB_numRows( $result );
+
+    $eids = array();
+    for( $i = 0; $i < $nrows; $i++ )
+    {
+        $A = DB_fetchArray( $result );
+
+        if( $A['eid'] == $updated_id )
+        {
+            // no need to look any further - this feed has to be updated
+            return false;
+        }
+
+        $eids[] = $A['eid'];
+    }
+    $current = implode( ',', $eids );
+
+    if ($_SYND_DEBUG) {
+        COM_errorLog ("Update check for events: comparing new list ($current) with old list ($update_info)", 1);
+    }
+
+    return ( $current != $update_data ) ? false : true;
+}
+
+
+/**
+* Calendar will not use comments
+*/
+function plugin_commentsupport_calendar()
+{
+    return false;
+}
+
+
+/**
+* Shows the statistics for the Calendar plugin on stats.php.
+* If $showsitestats is 1 then we are to only print the overall stats in the
+* 'site statistics box' otherwise we show the detailed stats
+*
+* @param    int     showsitestate   Flag to let us know which stats to get
+*/
+function plugin_showstats_calendar ($showsitestats)
+{
+    global $_CONF, $_TABLES, $LANG_CAL_1;
+
+    $display = '';
+
+    // Top Ten Events
+    $result = DB_query("SELECT eid,title,hits from {$_TABLES['events']} WHERE (hits > 0)" . COM_getPermSQL ('AND') . " ORDER BY hits DESC LIMIT 10");
+    $nrows  = DB_numRows($result);
+    if ($nrows > 0) {
+        $header_arr = array(
+            array('text' => $LANG_CAL_1[12], 'field' => 'sid', 'header_class' => 'stats-header-title'),
+            array('text' => $LANG_CAL_1[48], 'field' => 'hits', 'field_class'  => 'stats-list-count'),
+        );
+        $data_arr = array();
+        $text_arr = array('has_menu'     => false,
+                          'title'        => $LANG_CAL_1[47],
+        );
+        for ($i = 0; $i < $nrows; $i++) {
+            $A = DB_fetchArray($result);
+            $A['title'] = stripslashes(str_replace('$','&#36;',$A['title']));
+            $A['sid'] = "<a href=\"" . $_CONF['site_url']
+                      . "/calendar/event.php?eid={$A['eid']}\">{$A['title']}</a>";
+            $A['hits'] = COM_NumberFormat ($A['hits']);
+            $data_arr[$i] = $A;
+        }
+        $display .= ADMIN_simpleList("", $header_arr, $text_arr, $data_arr);
+    } else {
+        $display .= COM_startBlock($LANG_CAL_1[47]);
+        $display .= $LANG_CAL_1[49];
+        $display .= COM_endBlock();
+    }
+
+    return $display;
+}
+
+/**
+* New stats plugin API function for proper integration with the site stats
+*
+* @return   array(item text, item count);
+*
+*/
+function plugin_statssummary_calendar ()
+{
+    global $LANG_CAL_1, $_TABLES;
+
+    $result = DB_query ("SELECT COUNT(*) AS count FROM {$_TABLES['events']}" . COM_getPermSQL ());
+    $A = DB_fetchArray ($result);
+    return array ($LANG_CAL_1[46], COM_NumberFormat ($A['count']));
+}
+
+
+/**
+* This will put an option for the calendar in the command and control block on
+* moderation.php
+*
+*/
+function plugin_cclabel_calendar()
+{
+    global $_CONF, $LANG_CAL_1;
+
+    if (SEC_hasRights ('calendar.edit')) {
+        return array ($LANG_CAL_1[16],
+                $_CONF['site_admin_url'] . '/plugins/calendar/index.php',
+                plugin_geticon_calendar ());
+    }
+
+    return false;
+}
+
+
+/**
+* returns the administrative option for this plugin
+*
+*/
+function plugin_getadminoption_calendar()
+{
+    global $_CONF, $_TABLES, $LANG_CAL_1;
+
+    if (SEC_hasRights ('calendar.edit')) {
+        $result = DB_query ("SELECT COUNT(*) AS cnt FROM {$_TABLES['events']}" . COM_getPermSQL ());
+        $A = DB_fetchArray ($result);
+        $total_events = $A['cnt'];
+
+        return array ($LANG_CAL_1[16],
+                      $_CONF['site_admin_url'] . '/plugins/calendar/index.php',
+                      $total_events);
+    }
+}
+
+function plugin_getuseroption_calendar()
+{
+    global $_CONF, $LANG_CAL_1, $_CA_CONF;
+
+    if( $_CA_CONF['personalcalendars'] == 1 ) {
+        $url = $_CONF['site_url'] . '/calendar/index.php?mode=personal';
+        return array ($LANG_CAL_1[42], $url, '');
+    }
+}
+
+
+/**
+* A user is about to be deleted. Update ownership of any events owned
+* by that user or delete them.
+*
+* @param   uid   int   User id of deleted user
+*
+*/
+function plugin_user_delete_calendar ($uid)
+{
+    global $_TABLES, $_CA_CONF;
+
+    DB_delete ($_TABLES['personal_events'], 'owner_id', $uid);
+
+    if ($_CA_CONF['delete_event'] == 1) {
+        // delete the events
+        DB_delete ($_TABLES['events'], 'owner_id', $uid);
+
+    } else {
+        // assign ownership to a user from the Root group
+        $rootgroup = DB_getItem ($_TABLES['groups'], 'grp_id',
+                                 "grp_name = 'Root'");
+        $result = DB_query ("SELECT DISTINCT ug_uid FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = $rootgroup ORDER BY ug_uid LIMIT 1");
+        list($rootuser) = DB_fetchArray ($result);
+        DB_query ("UPDATE {$_TABLES['events']} SET owner_id = $rootuser WHERE owner_id = $uid");
+    }
+}
+
+/**
+* Return the current version of code.
+* Used in the Plugin Editor to show the registered version and code version
+*/
+function plugin_chkVersion_calendar()
+{
+    global $_CA_CONF;
+
+    return $_CA_CONF['version'];
+}
+
+/**
+* Update the Calendar plugin
+*
+* @return   int     Number of message to display (true = generic success msg)
+*
+*/
+function plugin_upgrade_calendar()
+{
+    global $_TABLES, $_CA_CONF;
+
+    // the plugin needs this function so complain when it doesn't exist
+    if (!function_exists ('MBYTE_strpos')) {
+        return 3002;
+    }
+
+    // no db changes - just update the version numbers
+    DB_query ("UPDATE {$_TABLES['plugins']} SET pi_version = '{$_CA_CONF['version']}', pi_gl_version = '" . VERSION . "' WHERE pi_name = 'calendar'");
+
+    return true;
+}
+
+/**
+* Geeklog informs us that we're about to be enabled or disabled
+*
+* @param    boolean     $enabled    true = we're being enabled, false = disabled
+* @return   void
+*/
+function plugin_enablestatechange_calendar ($enable)
+{
+    global $_TABLES;
+
+    $is_enabled = $enable ? 1 : 0;
+
+    // toggle calendar feeds
+    DB_query ("UPDATE {$_TABLES['syndication']} SET is_enabled = $is_enabled WHERE type = 'calendar'");
+
+    // toggle upcoming events block
+    DB_query ("UPDATE {$_TABLES['blocks']} SET is_enabled = $is_enabled WHERE (type = 'phpblock') AND (phpblockfn = 'phpblock_calendar')");
+}
+
+/**
+* Removes the datastructures for this plugin from the Geeklog database
+*
+* This may get called by the install routine to undo anything done to this
+* point.  To do that, $steps will have a list of steps to undo
+*
+* @steps   Array    Holds all the steps that have been completed by the install
+*
+*/
+function plugin_uninstall_calendar ($steps = '')
+{
+    global $_TABLES;
+
+    // Uninstalls the calendar plugin
+
+    COM_errorLog('Dropping events table', 1);
+    DB_query("DROP TABLE {$_TABLES['events']}");
+    COM_errorLog('...success', 1);
+    COM_errorLog('Dropping event submission table', 1);
+    DB_query("DROP TABLE {$_TABLES['eventsubmission']}");
+    COM_errorLog('...success', 1);
+    COM_errorLog('Dropping personal events table', 1);
+    DB_query("DROP TABLE {$_TABLES['personal_events']}");
+    COM_errorLog('...success', 1);
+
+    // Remove Upcoming Events block
+    DB_delete ($_TABLES['blocks'], array ('type',     'phpblockfn'),
+                                   array ('phpblock', 'phpblock_calendar'));
+
+    // Remove security for this plugin
+
+    // Remove the calendar admin group
+    $grp_id = DB_getItem ($_TABLES['groups'], 'grp_id',
+                          "grp_name = 'Calendar Admin'");
+
+    // Remove Calendar Admin group from all other groups
+    if (!empty ($grp_id)) {
+        COM_errorLog ('Attempting to remove Calendar Admin group from all groups' , 1);
+        DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = $grp_id");
+        COM_errorLog ('...success', 1);
+
+        COM_errorLog('Attempting to remove the Calendar Admin Group', 1);
+        DB_query("DELETE FROM {$_TABLES['groups']} WHERE grp_id = $grp_id");
+        COM_errorLog('...success', 1);
+    }
+
+    // Remove related features
+    $features = array ('calendar.edit', 'calendar.moderate', 'calendar.submit');
+
+    foreach ($features as $f) {
+        $feat_id = DB_getItem ($_TABLES['features'], 'ft_id', "ft_name = '$f'");
+        if (!empty ($feat_id)) {
+            COM_errorLog ("Attempting to remove $f rights from all groups", 1);
+            DB_query ("DELETE FROM {$_TABLES['access']} WHERE acc_ft_id = $feat_id");
+            COM_errorLog ('...success', 1);
+
+            COM_errorLog ("Attempting to remove the $f feature", 1);
+            DB_query ("DELETE FROM {$_TABLES['features']} WHERE ft_id = $feat_id");
+            COM_errorLog ('...success', 1);
+        }
+    }
+
+    // Unregister the plugin with Geeklog
+    // Always attempt to remove this entry or lib-common.php would still
+    // try and read our functions.inc file ...
+    COM_errorLog('Attempting to unregister the calendar plugin from Geeklog', 1);
+    DB_query("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = 'calendar'");
+    COM_errorLog('...success', 1);
+
+    COM_errorLog ('Finished uninstalling the Calendar plugin.', 1);
+
+    return true;
+}
+
+/**
+* Get path for the template files.
+*
+* @param    string  $path   subdirectory within the base template path
+* @return   string          full path to template directory
+*
+*/
+function calendar_templatePath ($path = '')
+{
+    global $_CONF;
+
+    if (empty ($path)) {
+        $layout_path = $_CONF['path_layout'] . calendar;
+    } else {
+        $layout_path = $_CONF['path_layout'] . calendar . '/' . $path;
+    }
+
+    if (is_dir ($layout_path)) {
+        $retval = $layout_path;
+    } else {
+        $retval = $_CONF['path'] . 'plugins/calendar/templates';
+        if (!empty ($path)) {
+            $retval .= '/' . $path;
+        }
+    }
+
+    return $retval;
+}
+
+/**
+* Returns the URL of the plugin's icon
+*
+* @return   string      URL of the icon
+*
+*/
+function plugin_geticon_calendar ()
+{
+    global $_CONF;
+
+    return $_CONF['site_url'] . '/calendar/images/calendar.png';
+}
+
+/**
+* Geeklog is asking us to provide any items that show up in the type
+* drop-down on search.php.  Let's users search for events.
+*
+* @return   array   (plugin name/entry title) pair for the dropdown
+*
+*/
+function plugin_searchtypes_calendar()
+{
+    global $LANG_CAL_1;
+
+    $tmp['calendar'] = $LANG_CAL_1[50];
+
+    return $tmp;
+}
+
+/**
+* This searches for events matching the user query and returns an array for the
+* header and table rows back to search.php where it will be formated and printed
+*
+* @param    string  $query      Keywords user is looking for
+* @param    date    $datestart  Start date to get results for
+* @param    date    $dateend    End date to get results for
+* @param    string  $topic      The topic they were searching in
+* @param    string  $type       Type of items they are searching, or 'all'
+* @param    int     $author     Get all results by this author
+* @param    string  $keyType    search key type: 'all', 'phrase', 'any'
+* @param    int     $page       page number of current search
+* @param    int     $perpage    number of results per page
+* @return   object              search result object
+*
+*/
+function plugin_dopluginsearch_calendar($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
+{
+    global $_CONF, $_TABLES, $LANG09, $LANG_CAL_1, $_LANG_CAL_SEARCH;
+
+    if (empty ($type)) {
+        $type = 'all';
+    }
+
+    // Bail if we aren't supppose to do our search
+    if ($type <> 'all' AND $type <> 'calendar') {
+        $event_results = new Plugin();
+        $event_results->plugin_name = 'calendar';
+        $event_results->num_itemssearched = 0;
+        $event_results->searchlabel = $_LANG_CAL_SEARCH['results'];
+
+        return $event_results;
+    }
+
+    $select = "SELECT eid,title,location,event_type,datestart,dateend,timestart,timeend,allday,UNIX_TIMESTAMP(datestart) AS day";
+    $sql = " FROM {$_TABLES['events']} WHERE ";
+
+    if($keyType == 'phrase') {
+        // do an exact phrase search (default)
+        $mywords[] = $query;
+        $mysearchterm = addslashes ($query);
+        $sql .= "(location LIKE '%$mysearchterm%'  ";
+        $sql .= "OR description LIKE '%$mysearchterm%' ";
+        $sql .= "OR title LIKE '%$mysearchterm%') ";
+    } elseif ($keyType == 'all') {
+        //must contain ALL of the keywords
+        $mywords = explode(' ', $query);
+        $tmp = '';
+        foreach ($mywords AS $mysearchterm) {
+            $mysearchterm = addslashes (trim ($mysearchterm));
+            $tmp .= "(location LIKE '%$mysearchterm%' OR ";
+            $tmp .= "description LIKE '%$mysearchterm%' OR ";
+            $tmp .= "title LIKE '%$mysearchterm%') AND ";
+        }
+        $tmp = substr($tmp, 0, strlen($tmp) - 4);
+        $sql .= $tmp;
+    } elseif ($keyType == 'any') {
+        //must contain ANY of the keywords
+        $mywords = explode(' ', $query);
+        $tmp = '';
+        foreach ($mywords AS $mysearchterm) {
+            $mysearchterm = addslashes (trim ($mysearchterm));
+            $tmp .= "(location LIKE '%$mysearchterm%' OR ";
+            $tmp .= "description LIKE '%$mysearchterm%' OR ";
+            $tmp .= "title LIKE '%$mysearchterm%') OR ";
+        }
+        $tmp = substr($tmp, 0, strlen($tmp) - 3);
+        $sql .= "($tmp)";
+    } else {
+        $mywords[] = $query;
+        $mysearchterm = addslashes ($query);
+        $sql .= "(location LIKE '%$mysearchterm%' ";
+        $sql .= "OR description LIKE '%$mysearchterm%' ";
+        $sql .= "OR title LIKE '%$mysearchterm%') ";
+    }
+    if (!empty($datestart) AND !empty($dateend)) {
+        $delim = substr($datestart, 4, 1);
+        if (!empty($delim)) {
+            $DS = explode($delim, $datestart);
+            $DE = explode($delim, $dateend);
+            $startdate = mktime(0, 0, 0, $DS[1], $DS[2], $DS[0]);
+            $enddate = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
+            $sql .= "AND (UNIX_TIMESTAMP(datestart) BETWEEN '$startdate' AND '$enddate') ";
+        }
+    }
+    $sql .= COM_getPermSQL ('AND');
+    $sql .= ' GROUP BY datestart, eid, title, description, location, dateend, timestart, timeend, allday, event_type ORDER BY datestart DESC ';
+    $l = ($perpage * $page) - $perpage;
+    $sql .= 'LIMIT ' . $l . ',' . $perpage;
+//echo $select . $sql;
+    $result_events = DB_query ($select . $sql);
+    $result_count = DB_query ('SELECT COUNT(*)' . $sql);
+    $B = DB_fetchArray ($result_count, true);
+
+    $event_results = new Plugin();
+    $event_results->searchresults = array();
+    $event_results->searchlabel = $_LANG_CAL_SEARCH['results'];
+    $event_results->addSearchHeading ($_LANG_CAL_SEARCH['title']);
+    $event_results->addSearchHeading ($_LANG_CAL_SEARCH['date_time']);
+    if (empty ($_LANG_CAL_SEARCH['event_type'])) {
+        $event_results->addSearchHeading ($LANG_CAL_1[37]);
+    } else {
+        $event_results->addSearchHeading ($_LANG_CAL_SEARCH['event_type']);
+    }
+    $event_results->num_searchresults = 0;
+    $event_results->num_itemssearched = $B[0];
+    $event_results->supports_paging = true;
+
+    // NOTE if any of your data items need to be events then add them
+    // here! Make sure data elements are in an array and in the same
+    // order as your headings above!
+    while ($A = DB_fetchArray ($result_events)) {
+        if ($A['allday'] == 0) {
+            if ($A['datestart'] == $A['dateend']) {
+                $fulldate = $A['datestart'] . ' ' . $A['timestart'];
+                if ($A['timestart'] != $A['timeend']) {
+                    $fulldate .= ' - ' . $A['timeend'];
+                }
+            } else {
+                $fulldate = $A['datestart'] . ' ' . $A['timestart'] . ' - '
+                            . $A['dateend'] . ' ' . $A['timeend'];
+            }
+        } else {
+            if ($A['datestart'] <> $A['dateend']) {
+                $fulldate = $A['datestart'] . ' - ' . $A['dateend']
+                                  . ' ' . $LANG09[35];
+            } else {
+                $fulldate = $A['datestart'] . ' ' . $LANG09[35];
+            }
+        }
+        $thetime = COM_getUserDateTimeFormat ($A['day']);
+        $A['title'] = stripslashes ($A['title']);
+        $A['title'] = str_replace ('$', '&#36;', $A['title']);
+        $row = array ('<a href="' . $_CONF['site_url']
+                            . '/calendar/event.php?eid=' . $A['eid'] . '">'
+                            . $A['title'] . '</a>', $fulldate,
+                            stripslashes ($A['event_type']));
+        $event_results->addSearchResult($row);
+        $event_results->num_searchresults++;
+    }
+    return $event_results;
+}
+
+
+/**
+* Set template variables
+*
+* @param    string  $templatename   name of template, e.g. 'header'
+* @param    ref     $template       reference of actual template
+* @return   void
+*
+* Note: A plugin should use its name as a prefix for the names of its
+* template variables, e.g. 'calendar_xxx' and 'lang_calendar_xxx'.
+* 'button_calendar' is an exception, as such a variable existed for header.thtml
+* in Geeklog 1.4.0 and earlier, where the Calendar was an integral part
+* of Geeklog. It is added here for backward-compatibility.
+*
+*/
+function plugin_templatesetvars_calendar ($templatename, &$template)
+{
+    global $LANG_CAL_1;
+
+    if ($templatename == 'header') {
+        $template->set_var ('button_calendar', $LANG_CAL_1[16]);
+    }
+}
+
+function plugin_getListField_calendar($fieldname, $fieldvalue, $A, $icon_arr)
+{
+    global $_CONF, $LANG_ACCESS, $LANG_ADMIN;
+
+    $retval = '';
+
+    $access = SEC_hasAccess($A['owner_id'],$A['group_id'],$A['perm_owner'],
+                            $A['perm_group'],$A['perm_members'],$A['perm_anon']);
+
+    switch($fieldname) {
+        case "edit":
+            if ($access == 3) {
+                $retval = "<a href=\"{$_CONF['site_admin_url']}"
+                        . "/plugins/calendar/index.php?mode=edit&amp;eid="
+                        . "{$A['eid']}\">{$icon_arr['edit']}</a>";
+            }
+            break;
+        case "copy":
+            if ($access == 3) {
+                $retval = "<a href=\"{$_CONF['site_admin_url']}"
+                        . "/plugins/calendar/index.php?mode=clone&amp;eid="
+                        . "{$A['eid']}\">{$icon_arr['copy']}</a>";
+            }
+            break;
+        case 'access':
+            if ($access == 3) {
+                $retval = $LANG_ACCESS['edit'];
+            } else {
+                $retval = $LANG_ACCESS['readonly'];
+            }
+            break;
+        case 'title':
+            $retval = stripslashes ($A['title']);
+            $retval = "<a href=\"{$_CONF['site_url']}/calendar/event.php?eid="
+                    . "{$A['eid']}\">$retval</a>";
+            break;
+        case 'username':
+            $retval = COM_getDisplayName ($A['owner_id'], $A['username'], $A['fullname']);
+            break;
+        default:
+            $retval = $fieldvalue;
+            break;
+    }
+    return $retval;
+}
+
+/**
+* Creates a dropdown list of all the states
+*
+* @param    string  $currstate  current state (to preselect in the list)
+* @return   string              <option> list of states
+*
+*/
+function CALENDAR_stateList ($currstate = '')
+{
+    global $_STATES;
+
+    $retval = '';
+
+    foreach ($_STATES as $statekey => $state) {
+        $retval .= '<option value="' . $statekey . '"';
+        if ($statekey == $currstate) {
+            $retval .= ' selected="selected"';
+        }
+        $retval .= '>' . $state . '</option>';
+    }
+
+    return $retval;
+}
+
+/**
+* Creates a dropdown list of all the event types
+*
+* @param    string  $currtype   current event type (to preselect in the list)
+* @return   string              <option> list of event types
+*
+*/
+function CALENDAR_eventTypeList ($currtype = '')
+{
+    global $_CA_CONF;
+
+    $retval = '';
+
+    $event_types = explode (',', $_CA_CONF['event_types']);
+    asort ($event_types);
+
+    foreach ($event_types as $type) {
+        $retval .= '<option value="' . $type . '"';
+        if ($currtype == $type) {
+            $retval .= ' selected="selected"';
+        }
+        $retval .= '>' . $type . '</option>';
+    }
+
+    return $retval;
+}
+
+?>

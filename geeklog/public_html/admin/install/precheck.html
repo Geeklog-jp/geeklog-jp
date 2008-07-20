@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="ja">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Geeklogインストール前チェック</title>
+	<style type="text/css">
+	<!--
+		body {
+			font-size: small;
+			margin-left: 30px;
+			width:700px;
+			line-height:150%;
+		}
+		table {
+			width: 100%;
+			font-size: small;
+			border: solid 1px black;
+			border-collapse: collapse;
+			line-height: 150%;
+		}
+		th {
+			width: 200px;
+			text-align: left;
+			border: solid 1px black;
+			background-color: #ccccff;
+			padding: 5px;
+		}
+		td {
+			background-color: #eeeeee;
+			border: solid 1px black;
+			padding: 5px;
+		}
+		h1 {
+			margin-top: 40px;
+			font-size: medium;
+			color: #00005B;
+			border-left: 12px solid #00005b;
+			padding-left: 12px;
+		}
+		h2 {
+			margin-top: 40px;
+			border-left: 8px solid #6b6bff;
+			border-bottom: 1px solid #6b6bff;
+			color: #6b6bff;
+			padding-left: 10px;
+			padding-bottom: 3px;
+			font-size: medium;
+		}
+		li {
+			margin: 15px;
+		}
+		.warning {
+			color: #ff6600;
+			font-weight: bold;
+		}
+		.ok {
+			color: #6b6bff;
+			font-weight: bold;
+		}
+		#footer {
+			margin-top: 40px;
+			padding-top: 2px;
+			padding-bottom: 2px;
+			text-align: center;
+			border-top: 1px solid #6b6bff;
+			font-size: small;
+		}
+		.copyright {
+			padding-top: 2px;
+			text-align: center;
+			border-top: 1px solid #6b6bff;
+			font-size: small;
+		}
+	-->
+	</style>
+</head>
+<body>
+	<h1>PHPの設定に関する補足説明(precheck.php-1.1.2 (2007-03-25))</h1>
+	
+	<h2><a name="default_charset">default_charset</a></h2>
+	<p>特定の文字セットを指定すると文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合<br>（コメントアウトします）</th><td><tt>; default_charset = EUC-JP</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_value default_charset ''</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td><tt>ini_set('default_charset', '');</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="internal_encoding">mbstring.internal_encoding</a></h2>
+	<p>インストールしたい文字セットと一致していない場合は文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><strong>※注意：<tt>mbstring.language</tt>を定義している行よりも必ず後に置いてください。</strong><br>（UTF-8にする場合）&nbsp;&nbsp;<tt>mbstring.internal_encoding = UTF-8</tt><br>（EUC-JPにする場合）&nbsp;&nbsp;<tt>mbstring.internal_encoding = EUC-JP</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td>（UTF-8にする場合）&nbsp;&nbsp;<tt>php_value mbstring.internal_encoding UTF-8</tt><br>（EUC-JPにする場合）&nbsp;&nbsp;<tt>php_value mbstring.internal_encoding = EUC-JP</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td>システムのconfig.phpの先頭で<br>（UTF-8にする場合）&nbsp;&nbsp;<tt>ini_set('mbstring.internal_encoding', 'UTF-8');</tt><br>（EUC-JPにする場合）&nbsp;&nbsp;<tt>ini_set('mbstring.internal_encoding', 'EUC-JP');</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="http_input">mbstring.http_input</a></h2>
+	<p><tt>PASS</tt> 以外の設定では文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>mbstring.http_input = PASS</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_value mbstring.http_input PASS</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td>システムのconfig.phpの先頭で<br><tt>ini_set('mbstring.http_input', 'PASS');</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="detect_order">mbstring.detect_order</a></h2>
+	<p><tt>AUTO</tt> にすると文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>mbstring.detect_order = UTF-8,EUC-JP,SJIS,JIS,ASCII</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_value mbstring.detect_order UTF-8,EUC-JP,SJIS,JIS,ASCII</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td>システムのconfig.phpの先頭で<br><tt>ini_set('mbstring.detect_order', 'UTF-8,EUC-JP,SJIS,JIS,ASCII');</tt></td>
+		</tr>
+	</table>
+	<p><b>（注意）</b>上記の UTF-8,EUC-JP,SJIS,JIS,ASCII は一例です。文字化けが直らない場合は，順番を適宜，変えてみてください。JIS, ASCIIは最後の方に並べてください。</p>
+
+	<h2><a name="magic_quotes_gpc">magic_quotes_gpc</a></h2>
+	<p>オンになっていると文字化けする可能性があります。その場合は設定を変更してください。<strong>実行時には（つまり，ini_set()では）変更できません</strong>。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>magic_quotes_gpc = Off</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_flag magic_quotes_gpc Off</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="magic_quotes_runtime">magic_quotes_runtime</a></h2>
+	<p>オンになっていると文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>magic_quotes_runtime = Off</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_flag magic_quotes_runtime Off</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td>システムのconfig.phpの先頭で<br><tt>set_magic_quotes_runtime(0);</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="magic_quotes_sybase">magic_quotes_sybase</a></h2>
+	<p>オンになっていると文字化けする可能性があります。その場合は設定を変更してください。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>magic_quotes_sybase = Off</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_flag magic_quotes_sybase Off</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合</th><td>システムのconfig.phpの先頭で<br><tt>ini_set('magic_quotes_sybase', 0);</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="register_globals">register_globals</a></h2>
+	<p>オンになっているとセキュリティ上の問題が発生する可能性がありますので，オフにすることをお勧めします。バージョン1.4.0以降，Geeklog本体はregister_globals = offで動作するようになっています。</p>
+	<table>
+		<tr>
+			<th>php.iniで設定する場合</th><td><tt>register_globals = Off</tt></td>
+		</tr>
+		<tr>
+			<th>.htaccessで設定する場合</th><td><tt>php_flag register_globals Off</tt></td>
+		</tr>
+		<tr>
+			<th>実行時に設定する場合(PHP-4.2.3以前に限る）</th><td>システムのconfig.phpの先頭で<br><tt>ini_set('register_globals', 0);</tt></td>
+		</tr>
+	</table>
+
+	<h2><a name="forum">掲示板プラグインをインストールする際の注意点</a></h2>
+	<p>掲示板プラグインのバージョンが 2.5RC1 の場合，$_CONF['have_pear'] が true になっていると不具合が生じます（他のバージョンでは未確認）。下記のようにファイルを書き換えてください。この情報は mistgrassさん，kinoさんから提供していただきました。</p>
+	<p>該当ファイル：</p>
+	<ul>
+		<li>public_html/admin/forum/boards.php の42行目付近</li>
+		<li>public_html/forum/include/gf_showtopic.php の101行目付近</li>
+		<li>public_html/forum/createtopic.php の46行目付近</li>
+	</ul>
+	<p>変更内容：上記の3ファイルの<strong>すべて</strong>において，次のように変更：</p>
+	<ul>
+		<li><tt>require_once("{$_CONF['path_pear']}PEAR.php");</tt><br> →　<tt>require_once("PEAR.php");</tt></li>
+		<li><tt>require_once("{$_CONF['path_pear']}HTML/BBCodeParser.php");</tt><br>→　<tt>require_once("HTML/BBCodeParser.php");</tt></li>
+	</ul>
+	
+
+	<div id="footer">
+		<a href="http://www.geeklog.jp" title="Geeklog.jp">Geeklog Japanese</a>&nbsp;|&nbsp;     <a href="http://wiki.geeklog.jp" title="GeeklogJpWiki">Wiki Document</a>
+	</div>
+</body>
+</html>

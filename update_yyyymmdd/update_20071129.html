@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"/>
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<title>Geeklog サイト</title>
+</head>
+			<p><a href="http://wiki.geeklog.jp/index.php/InstallSet141next" title="InstallSet141next">次回差替予定</a>>2007/11/29版差替内容
+</p>
+
+<ol><li>2007/011/29版(2007/10/30～2007/11/29）
+<ol><li>不要なファイルがある
+<ol><li>public_html/layout/ProfessionalCSS/common.css 
+</li><li>public_html/layout/ProfessionalCSS/default.css 
+</li><li>public_html/layout/ProfessionalCSS/layout.css 
+</li><li>plugins/language/japanese.php 
+</li></ol>
+</li><li>カレンダページのスケジュールの表示が上付きにならない
+<ol><li>/public_html/layout/ProfessionalCSS/css/default.css<br />(2007/10/29版のpublic_html/layout/ProfessionalCSS/default.css)<br />(/public_html/layout/ProfessionalCSS/css/*.css)
+</li></ol>
+</li><li>掲示板(forum)プラグイン　言語ファイル　韓国語エンコードが逆になっていたので修正
+<ol><li>plugins/forum/language/korean.php
+</li><li>plugins/forum/language/korean_utf-8.php
+</li></ol>
+</li><li>ヘッダで使われるテーマ変数のウェルカムメッセージ，ログアウトメッセージを多言語化
+<ol><li>system/custom/custom_templatesetvars.php
+</li></ol>
+</li><li>インストール用のファイルリストを作成する時に，ゴミファイル(thumb.db)を除外するように変更<a href="http://www.geeklog.jp/forum/viewtopic.php?showtopic=8699" class='external text' title="http://www.geeklog.jp/forum/viewtopic.php?showtopic=8699" rel="nofollow">参考</a>
+<ol><li>public_html/admin/install/check_files.php
+</li></ol>
+</li><li><a href="http://www.geeklog.jp/filemgmt/index.php?id=192" class='external text' title="http://www.geeklog.jp/filemgmt/index.php?id=192" rel="nofollow">サイトカレンダPHPブロック</a> dengen版 Ver.1.0.8 phpblock_mycaljp (スライドカレンダ(水平バー型カレンダ)の表示に対応)
+<ol><li>system/custom/phpblock_mycaljp.php
+</li><li>public_html/mycaljp/*
+</li></ol>
+</li></ol>
+</li></ol>
+
+</body> 
+</html> 

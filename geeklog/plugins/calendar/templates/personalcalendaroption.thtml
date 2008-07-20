@@ -1,0 +1,9 @@
+
+<!-- plugins/calendar/templates/personalcalendaroption.thtml { -->
+
+                                            <form method="post" action="index.php?mode=personal">
+                                                <input type="submit" name="action" value="{lang_mycalendar}">
+                                            </form>
+
+<!-- } plugins/calendar/templates/personalcalendaroption.thtml -->
+

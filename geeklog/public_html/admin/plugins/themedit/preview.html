@@ -1,0 +1,551 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>サイト名 - スローガン</title>
+<!-- link rel="SHORTCUT ICON" href="http://install141.geeklog.jp/favicon.ico" -->
+<!--
+<meta http-equiv="Pragma" content="no-cache">
+-->
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT" /> 
+<meta http-equiv="imagetoolbar" content="no" /> 
+
+<link rel="stylesheet" type="text/css" href="http://install141.geeklog.jp/layout/professional/style.css" title="professional">
+<link rel="alternate" type="application/rss+xml" hreflang="ja" href="http://install141.geeklog.jp/backend/geeklog.rss" title="RSS Feed: Geeklog Site">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script type="text/javascript">
+<!--
+  function insert_var( var_name ){
+  	var o_text   = document.getElementById( 'theme_contents' );
+	
+	// Get caret position
+	var s = new Selection( o_text );
+	var res = s.create();
+	var ca_begin = res.start;
+	var ca_end   = res.end;
+	var part1    = o_text.value.substr( 0, ca_begin );
+	var part2    = o_text.value.substr( ca_end, o_text.value.length - ca_end + 1 );
+	var data     = '{' + var_name + '}';
+	var data_len = data.length;
+
+	// Insert {template_var}
+	o_text.value = part1 + data + part2;
+	
+	// Set caret position
+	if ( document.all ) { // IE
+	} else { // FF
+		o_text.selectionStart = ca_begin + data_len;
+		o_text.selectionEnd   = o_text.selectionStart;
+	}
+	o_text.focus();
+  }
+
+// Cross Browser selectionStart/selectionEnd
+// Version 0.1
+// Copyright ( c ) 2005 KOSEKI Kengo
+// 
+// This script is distributed under the MIT licence.
+// http://www.opensource.org/licenses/mit-license.php
+
+function Selection( textareaElement ) {
+    this.element = textareaElement;
+}
+
+Selection.prototype.create = function() {
+    if ( document.selection != null && this.element.selectionStart == null ) {
+        return this._ieGetSelection();
+    } else {
+        return this._mozillaGetSelection();
+    }
+}
+
+Selection.prototype._mozillaGetSelection = function() {
+    return { 
+        start: this.element.selectionStart, 
+        end: this.element.selectionEnd 
+    };
+}
+
+Selection.prototype._ieGetSelection = function() {
+    this.element.focus();
+
+    var range = document.selection.createRange();
+    var bookmark = range.getBookmark();
+
+    var contents = this.element.value;
+    var originalContents = contents;
+    var marker = this._createSelectionMarker();
+    while( contents.indexOf( marker ) != -1 ) {
+        marker = this._createSelectionMarker();
+    }
+    var selection = range.text;
+
+    var parent = range.parentElement();
+    if ( parent == null || parent.type != "textarea" ) {
+        return { start: 0, end: 0 };
+    }
+    range.text = marker + range.text + marker;
+    contents = this.element.value;
+
+    var result = {};
+    result.start = contents.indexOf( marker );
+    contents = contents.replace( marker, "" );
+    result.end = contents.indexOf( marker );
+
+    this.element.value = originalContents;
+    range.moveToBookmark( bookmark );
+    range.select();
+
+    return result;
+}
+
+Selection.prototype._createSelectionMarker = function() {
+    return "##SELECTION_MARKER_" + Math.random() + "##";
+}
+//-->
+</script>
+<!-- Load Advanced Editor -->
+<script type="text/javascript" src="http://install141.geeklog.jp/fckeditor/fckeditor.js"></script>
+<script type="text/javascript">
+    var geeklogEditorBaseUrl = 'http://install141.geeklog.jp';
+</script>
+<!-- End of Editor Load -->
+
+<!-- Load Common Javascript Libraries -->
+<script type="text/javascript" src="http://install141.geeklog.jp/javascript/common.js"></script>
+
+</head>
+
+<body class="sitebody" dir="ltr">
+<table width="99%" border="0" cellspacing="0" cellpadding="0" class="header-envelope">
+    <tr>
+        <td>
+            <div class="header-navigation-container">
+                <div class="header-navigation-line">
+                    <a href="http://install141.geeklog.jp/" class="header-navigation">ホーム</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/submit.php?type=story" class="header-navigation">記事投稿</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/search.php" class="header-navigation">検索</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/stats.php" class="header-navigation">アクセス情報</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/directory.php" class="header-navigation">記事一覧</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/usersettings.php?mode=edit" class="header-navigation">マイアカウント</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/links/index.php" class="header-navigation">リンク</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/polls/index.php" class="header-navigation">アンケート</a>&nbsp;&nbsp;:&nbsp;
+<a href="http://install141.geeklog.jp/calendar/index.php" class="header-navigation">カレンダ</a>&nbsp;&nbsp;
+
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td width="100%">
+            <div class="header-logobg-container-outer">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="header-logobg-container-inner">
+                    <tr>
+                        <td class="header-logobg" width="50%" height="78" style="text-align:left;vertical-align:middle;">
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="http://install141.geeklog.jp/"><img src="http://install141.geeklog.jp/layout/professional/images/logo.png" width="151" height="56" alt="サイト名" border="0"></a>
+                        </td>
+                        <td class="header-logobg" width="50%" height="78" style="text-align:right;vertical-align:middle;">
+                            <span class="site-slogan">スローガン</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                <tr>
+                    <!-- Start of Left blocks -->
+<td class="block-featured-left" style="vertical-align:top;">
+                    <div class="searchform-box">
+                        <form class="searchform-elements" action="http://install141.geeklog.jp/search.php" method="GET">
+                            <input type="text" name="query" size="28" maxlength="255"><br>
+                            <input type="hidden" name="type" value="all">
+                            <a href="http://install141.geeklog.jp/search.php" class="advancedsearch">検索オプション</a>&nbsp;
+                            <input type="hidden" name="mode" value="search">
+                            <input type="submit" value="検索">
+                        </form>
+                    </div>
+                    <div class="block-bg-left">
+                        <div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>theme</h2>
+<div style="text-align: center;"><form action="/admin/plugins/themedit/index.php" method="post" style="margin:3px;padding:0px;text-align: center;"><select name="usetheme" onChange="this.form.submit()"><option value="">--</option><option value='mobile'>mobile</option><option value='ProfessionalCSS'>ProfessionalCSS</option><option value='professional'>professional</option></select><noscript><input name="submit" type="submit" value="変更"></noscript></form></div></div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>ユーザ権限表示</h2>
+&nbsp;<li>story.edit</li>
+<li>story.moderate</li>
+<li>links.moderate</li>
+<li>links.edit</li>
+<li>user.edit</li>
+<li>user.delete</li>
+<li>user.mail</li>
+<li>calendar.moderate</li>
+<li>calendar.edit</li>
+<li>block.edit</li>
+<li>topic.edit</li>
+<li>polls.edit</li>
+<li>plugin.edit</li>
+<li>group.edit</li>
+<li>group.delete</li>
+<li>block.delete</li>
+<li>staticpages.edit</li>
+<li>staticpages.delete</li>
+<li>spamx.admin</li>
+<li>story.ping</li>
+<li>syndication.edit</li>
+<li>themedit.admin</li>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>サイトマップメニュー</h2>
+<div class="sitemapmenu"><div class="nav-title"><a href="http://install141.geeklog.jp/index.php?topic=test">test</a></div><ul >
+  <li><a class="nav-link" href="http://install141.geeklog.jp/article.php?story=20070115212557275">SH901iCで書き込み</a></li>
+
+</ul>
+
+<div class="nav-title">General News</div><p>記事はありません</p>
+<div class="nav-title">Geeklog</div><ul >
+  <li><a class="nav-link" href="http://install141.geeklog.jp/article.php?story=welcome">Geeklogへようこそ！</a></li>
+  <li><a class="nav-link" href="http://install141.geeklog.jp/article.php?story=20070116105127110">テスト</a></li>
+  <li><a class="nav-link" href="http://install141.geeklog.jp/article.php?story=20070123104658193">2006ねん１１がつの記事</a></li>
+
+</ul>
+
+<div class="nav-title"><a href="http://install141.geeklog.jp/index.php?topic=NewTopic">メール記事投稿用</a></div><ul >
+  <li><a class="nav-link" href="http://install141.geeklog.jp/article.php?story=20070117150938168">全角さむあり</a></li>
+
+</ul>
+
+</div></div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>２階層メニュー（＊）</h2>
+
+	<ul class='nmoxmenu'>
+<li class='only'><a href='http://install141.geeklog.jp/index.php?topic=test&amp;tab=0000000000'>test</a></li>
+<li class='only'><a href='http://install141.geeklog.jp/index.php?topic=General&amp;tab=0000000000'>General News</a></li>
+<li class='only'><a href='http://install141.geeklog.jp/index.php?topic=Geeklog&amp;tab=0000000000'>Geeklog</a></li>
+<li class='only'><a href='http://install141.geeklog.jp/index.php?topic=NewTopic&amp;tab=0000000000'>メール記事投稿用</a></li>
+</ul>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>アクセスカウンタ</h2>
+<div style="text-align:center">854</div></div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>記事カテゴリ</h2>
+<div class="topicoption"><a href="http://install141.geeklog.jp/index.php?topic=test">test</a> (1)</div>
+<div class="topicoption"><a href="http://install141.geeklog.jp/index.php?topic=General">General News</a> (0)</div>
+<div class="topicoption"><a href="http://install141.geeklog.jp/index.php?topic=Geeklog">Geeklog</a> (0)</div>
+<div class="topicoption"><a href="http://install141.geeklog.jp/index.php?topic=NewTopic">メール記事投稿用</a> (1)</div>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>管理者専用メニュー</h2>
+<a href="http://install141.geeklog.jp/admin/moderation.php">承認待ちリスト</a> (3)<br>
+<a href="http://install141.geeklog.jp/admin/story.php">記事</a> (5)<br>
+<a href="http://install141.geeklog.jp/admin/block.php">ブロック</a> (18)<br>
+<a href="http://install141.geeklog.jp/admin/topic.php">話題（記事カテゴリ）</a> (4)<br>
+<a href="http://install141.geeklog.jp/admin/user.php">ユーザ</a> (5)<br>
+<a href="http://install141.geeklog.jp/admin/group.php">グループ</a> (18)<br>
+<a href="http://install141.geeklog.jp/admin/mail.php">グループメール送信</a> (N/A)<br>
+<a href="http://install141.geeklog.jp/admin/syndication.php">RSS配信</a> (1)<br>
+<a href="http://install141.geeklog.jp/admin/trackback.php">トラックバック</a> (7)<br>
+<a href="http://install141.geeklog.jp/admin/plugins.php">プラグイン（拡張機能）</a> (6)<br>
+<a href="http://install141.geeklog.jp/admin/plugins/staticpages/index.php">静的ページ</a> (N/A)<br>
+<a href="http://install141.geeklog.jp/admin/plugins/spamx/index.php">Spam-X</a> (N/A)<br>
+<a href="http://install141.geeklog.jp/admin/plugins/links/index.php">リンク</a> (2)<br>
+<a href="http://install141.geeklog.jp/admin/plugins/polls/index.php">アンケート</a> (1)<br>
+<a href="http://install141.geeklog.jp/admin/plugins/calendar/index.php">カレンダ</a> (N/A)<br>
+テーマエディタ (101)<br>
+<a href="http://install141.geeklog.jp/admin/database.php">データベースのバックアップ</a> (N/A)<br>
+<a href="http://install141.geeklog.jp/docs/index.html">Geeklogドキュメント</a> (N/A)<br>
+<a href="http://www.geeklog.net/versionchecker.php?version=1.4.1">GLバージョンチェック</a> (1.4.1)<br>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>ユーザ情報</h2>
+<a href="http://install141.geeklog.jp/calendar/index.php?mode=personal">個人カレンダ</a> <br>
+<a href="http://install141.geeklog.jp/usersettings.php?mode=edit">マイアカウント</a> <br>
+<a href="http://install141.geeklog.jp/users.php?mode=logout">ログアウト</a> <br>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>イベント</h2>
+-</div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+
+                        <div class="block-bg-spreader"></div>
+                    </div>
+                </td>
+                <td class="block-outerborder-left">
+                    <div style="background:transparent; width:10px; height:1px;"></div>
+                </td>
+
+
+                    <td class="story-container" width="100%" style="vertical-align:top;">
+                        <div class="header-welcomeanddate-box">
+                            <div class="header-welcomeanddate-text">
+                                <a href="http://install141.geeklog.jp">ようこそ tsuchiさん</a><br>2007年1月24日(水曜日) 13:05 JST
+                            </div>
+                        </div>
+
+            <!-- START OF CONTENT AREA -->
+<div class="story-featured">
+    <span class="story-icons">
+        &nbsp;<a href="http://install141.geeklog.jp/profiles.php?sid=welcome&amp;what=emailstory"><img src="http://install141.geeklog.jp/layout/professional/images/mail.png" alt="記事を友人にメールする" title="友達にメールで教える" border="0"></a>&nbsp;<a href="http://install141.geeklog.jp/article.php?story=welcome&amp;mode=print"><img border="0" src="http://install141.geeklog.jp/layout/professional/images/print.png" alt="印刷用画面" title="印刷用ページ"></a>&nbsp;
+    </span>
+    <h1><a href="http://install141.geeklog.jp/article.php?story=welcome" class="non-ul">Geeklogへようこそ！</a></h1>
+    <div class="story-information">
+        2007年1月16日(火曜日) 15:23 JST<br>
+        投稿者: <a class="storybyline" href="http://install141.geeklog.jp/users.php?mode=profile&amp;uid=2">Admin</a><br>
+         
+    </div>
+    <div class="story-body">
+        <a href="http://install141.geeklog.jp/index.php?topic=GeekLog" rel="category tag"><img align="right" src="http://install141.geeklog.jp/images/topics/topic_gl.gif" alt="Geeklog" title="Geeklog" border="0"></a><p>無事インストールが完了したようですね。おめでとうございます。できれば、<a href="docs/index.html">docs ディレクトリ</a>のすべての文書に一通り目を通しておいてください。Geeklogは、ユーザーを中心としたセキュリティモデルを実装しています。Geeklogを管理・運用するためには、この仕組みを理解する必要があります。<p>Adminはすべてにアクセスできます。パスワードは<b>password</b>です。
+    </div>
+    <div class="story-footer">
+        <a href="http://install141.geeklog.jp/admin/story.php?mode=edit&amp;sid=welcome">編集</a>&nbsp;<br>
+         <a href="http://install141.geeklog.jp/comment.php?sid=welcome&amp;pid=0&amp;type=article">コメント投稿</a><br>
+        コメント (0件) トラックバック (0件)
+    </div>
+</div>
+<div class="block-divider"> </div>
+<div class="story">
+    <span class="story-icons">
+        &nbsp;<a href="http://install141.geeklog.jp/profiles.php?sid=20070117150938168&amp;what=emailstory"><img src="http://install141.geeklog.jp/layout/professional/images/mail.png" alt="記事を友人にメールする" title="友達にメールで教える" border="0"></a>&nbsp;<a href="http://install141.geeklog.jp/article.php?story=20070117150938168&amp;mode=print"><img border="0" src="http://install141.geeklog.jp/layout/professional/images/print.png" alt="印刷用画面" title="印刷用ページ"></a>&nbsp;
+    </span>
+    <h1><a href="http://install141.geeklog.jp/article.php?story=20070117150938168" class="non-ul">全角さむあり</a></h1>
+    <div class="story-information">
+        2007年1月17日(水曜日) 15:09 JST<br>
+        投稿者: ゲストユーザ<br>
+         
+    </div>
+    <div class="story-body">
+        <div style="float:left">とり<br /><a href="http://install141.geeklog.jp/images/photomail/20070117-とり.jpg" target="_blank"><img src="http://install141.geeklog.jp/images/photomail/20070117-とり-small.jpg" width="105" height="100" border="0" alt="とり" /></a></div>
+とりの置物を送ってみます。<br />どうでしょうか<br />作品名：Grandma's favorite Lily<br />
+    </div>
+    <div class="story-footer">
+        <a href="http://install141.geeklog.jp/admin/story.php?mode=edit&amp;sid=20070117150938168">編集</a>&nbsp;<br>
+         <a href="http://install141.geeklog.jp/comment.php?sid=20070117150938168&amp;pid=0&amp;type=article">コメント投稿</a><br>
+        コメント (0件) トラックバック (0件)
+    </div>
+</div>
+<div class="block-divider"> </div>
+<div class="story">
+    <span class="story-icons">
+        &nbsp;<a href="http://install141.geeklog.jp/profiles.php?sid=20070116105127110&amp;what=emailstory"><img src="http://install141.geeklog.jp/layout/professional/images/mail.png" alt="記事を友人にメールする" title="友達にメールで教える" border="0"></a>&nbsp;<a href="http://install141.geeklog.jp/article.php?story=20070116105127110&amp;mode=print"><img border="0" src="http://install141.geeklog.jp/layout/professional/images/print.png" alt="印刷用画面" title="印刷用ページ"></a>&nbsp;
+    </span>
+    <h1><a href="http://install141.geeklog.jp/article.php?story=20070116105127110" class="non-ul">テスト</a></h1>
+    <div class="story-information">
+        2007年1月16日(火曜日) 10:51 JST<br>
+        投稿者: <a class="storybyline" href="http://install141.geeklog.jp/users.php?mode=profile&amp;uid=2">Admin</a><br>
+         
+    </div>
+    <div class="story-body">
+        <a href="http://install141.geeklog.jp/index.php?topic=Geeklog" rel="category tag"><img align="right" src="http://install141.geeklog.jp/images/topics/topic_gl.gif" alt="Geeklog" title="Geeklog" border="0"></a>テスト
+    </div>
+    <div class="story-footer">
+        <a href="http://install141.geeklog.jp/admin/story.php?mode=edit&amp;sid=20070116105127110">編集</a>&nbsp;<br>
+         <a href="http://install141.geeklog.jp/comment.php?sid=20070116105127110&amp;pid=0&amp;type=article">コメント投稿</a><br>
+        コメント (0件) トラックバック (0件)
+    </div>
+</div>
+<div class="block-divider"> </div>
+<div class="story">
+    <span class="story-icons">
+        &nbsp;<a href="http://install141.geeklog.jp/profiles.php?sid=20070115212557275&amp;what=emailstory"><img src="http://install141.geeklog.jp/layout/professional/images/mail.png" alt="記事を友人にメールする" title="友達にメールで教える" border="0"></a>&nbsp;<a href="http://install141.geeklog.jp/article.php?story=20070115212557275&amp;mode=print"><img border="0" src="http://install141.geeklog.jp/layout/professional/images/print.png" alt="印刷用画面" title="印刷用ページ"></a>&nbsp;
+    </span>
+    <h1><a href="http://install141.geeklog.jp/article.php?story=20070115212557275" class="non-ul">SH901iCで書き込み</a></h1>
+    <div class="story-information">
+        2007年1月15日(月曜日) 21:25 JST<br>
+        投稿者: ゲストユーザ<br>
+         
+    </div>
+    <div class="story-body">
+        テスト
+    </div>
+    <div class="story-footer">
+        <a href="http://install141.geeklog.jp/admin/story.php?mode=edit&amp;sid=20070115212557275">編集</a>&nbsp;<br>
+         <a href="http://install141.geeklog.jp/comment.php?sid=20070115212557275&amp;pid=0&amp;type=article">コメント投稿</a><br>
+        <a href="http://install141.geeklog.jp/article.php?story=20070115212557275#comments">コメント (1件)</a> トラックバック (0件)
+    </div>
+</div>
+<div class="block-divider"> </div>
+<div class="story">
+    <span class="story-icons">
+        &nbsp;<a href="http://install141.geeklog.jp/profiles.php?sid=20070123104658193&amp;what=emailstory"><img src="http://install141.geeklog.jp/layout/professional/images/mail.png" alt="記事を友人にメールする" title="友達にメールで教える" border="0"></a>&nbsp;<a href="http://install141.geeklog.jp/article.php?story=20070123104658193&amp;mode=print"><img border="0" src="http://install141.geeklog.jp/layout/professional/images/print.png" alt="印刷用画面" title="印刷用ページ"></a>&nbsp;
+    </span>
+    <h1><a href="http://install141.geeklog.jp/article.php?story=20070123104658193" class="non-ul">2006ねん１１がつの記事</a></h1>
+    <div class="story-information">
+        2006年11月23日(木曜日) 10:46 JST<br>
+        投稿者: <a class="storybyline" href="http://install141.geeklog.jp/users.php?mode=profile&amp;uid=4">tsuchi</a><br>
+         
+    </div>
+    <div class="story-body">
+        <a href="http://install141.geeklog.jp/index.php?topic=Geeklog" rel="category tag"><img align="right" src="http://install141.geeklog.jp/images/topics/topic_gl.gif" alt="Geeklog" title="Geeklog" border="0"></a><font>2006ねん１１がつの記事</font>
+    </div>
+    <div class="story-footer">
+        <a href="http://install141.geeklog.jp/admin/story.php?mode=edit&amp;sid=20070123104658193">編集</a>&nbsp;<br>
+         <a href="http://install141.geeklog.jp/comment.php?sid=20070123104658193&amp;pid=0&amp;type=article">コメント投稿</a><br>
+        コメント (0件) トラックバック (0件)
+    </div>
+</div>
+<div class="block-divider"> </div>
+                  <!-- End Content Area -->
+                </td>
+                <!-- Start of Right Blocks -->
+<td class="block-outerborder-right">
+    <div style="background:transparent; width:1px; height:1px;"></div>
+</td>
+<td class="block-featured-right" style="vertical-align:top;">
+    <div class="block-bg-right">
+            <div class="block-box-right">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>オンラインユーザ</h2><a href="http://install141.geeklog.jp/users.php?mode=profile&amp;uid=4">tsuchi</a><br></div>
+<div class="aligncenter">
+    <div class="block-divider-right"></div>
+</div>
+<div class="block-box-right">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>アンケート</h2><b>新機能でお気に入りは？</b>
+<form action="http://install141.geeklog.jp/polls/index.php" name="Vote" method="POST">
+  <input type="hidden" name="qid" value="geeklogfeaturepoll">
+    <input type="radio" name="aid" value="1">トラックバック<br>
+  <input type="radio" name="aid" value="2">リンク集とアンケート<br>
+  <input type="radio" name="aid" value="3">管理者画面の改良<br>
+  <input type="radio" name="aid" value="4">WYSIWYGエディタ搭載<br>
+  <input type="radio" name="aid" value="5">リモートユーザー認証<br>
+  <input type="radio" name="aid" value="6">その他<br>
+
+  <input type="submit" value="投票する">
+  <a href="http://install141.geeklog.jp/polls/index.php?qid=geeklogfeaturepoll&amp;aid=-1">結果</a>
+</form>
+<span class="poll-vote">1 投票 | <a href="http://install141.geeklog.jp/polls/index.php?qid=geeklogfeaturepoll&amp;aid=-1#comments">0 件のコメント</a>
+</span><br>
+
+</div>
+<div class="aligncenter">
+    <div class="block-divider-right"></div>
+</div>
+<div class="block-box-right">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>新着情報</h2><h3>記事</h3>-<br><br><h3>コメント <small>最近 2 日</small></h3>  -<br>
+<br><h3>トラックバック <small>最近 2 日</small></h3>-<br>
+<br><h3>リンク <small>最近 2 週</small></h3><ul class="list-new-plugins">
+  <li><a href="http://install141.geeklog.jp/links/portal.php?what=link&amp;item=geeklog.jp">Geeklog Japanese</a>
+</li>
+  <li><a href="http://install141.geeklog.jp/links/portal.php?what=link&amp;item=geeklog.net" title="Geeklog Project Homepage">Geeklog Project H...</a>
+</li>
+
+</ul>
+</div>
+<div class="aligncenter">
+    <div class="block-divider-right"></div>
+</div>
+<div class="block-box-left">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>アクセスカウンタ</h2>
+<div style="text-align:center">855</div></div>
+<div class="aligncenter">
+    <div class="block-divider-left"></div>
+</div>
+
+<div class="block-box-right">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>テーマのお試し</h2><div style="text-align: center;"><form action="/admin/plugins/themedit/index.php" method="post" style="margin:3px;padding:0px;text-align: center;"><select name="usetheme" onChange="this.form.submit()"><option value="">--</option><option value='mobile'>mobile</option><option value='ProfessionalCSS'>ProfessionalCSS</option><option value='professional'>professional</option></select><noscript><input name="submit" type="submit" value="変更"></noscript></form></div></div>
+<div class="aligncenter">
+    <div class="block-divider-right"></div>
+</div>
+<div class="block-box-right">
+    <span class="block-helpicon">
+        
+    </span>
+    <h2>サイトカレンダ</h2><!-- SiteCalendar Block --><table class='mycalTitle' summary='Site Calendar'><tr><td colspan='7' class='mycalTitle'><a href='http://install141.geeklog.jp/index.php?month=2006-12-24' >&#171;</a>&nbsp;2007年 01月&nbsp;<a href='http://install141.geeklog.jp/index.php?month=2007-02-24' >&#187;</a></td></tr><tr><th>日</th><th>月</th><th>火</th><th>水</th><th>木</th><th>金</th><th>土</th></tr><tr class='day'><td class="mycalNextMonth"></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td></tr><tr class='day'><td>7</td><td>8</td><td>9</td><td class="mycalActiveHighlight"><a href="http://install141.geeklog.jp/mycal/calsearch.php?datestart=2007-01-10&amp;dateend=2007-01-10&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0">10</a></td><td>11</td><td>12</td><td>13</td></tr><tr class='day'><td>14</td><td class="mycalActiveHighlight"><a href="http://install141.geeklog.jp/mycal/calsearch.php?datestart=2007-01-15&amp;dateend=2007-01-15&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0">15</a></td><td class="mycalActiveHighlight"><a href="http://install141.geeklog.jp/mycal/calsearch.php?datestart=2007-01-16&amp;dateend=2007-01-16&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0">16</a></td><td class="mycalActiveHighlight"><a href="http://install141.geeklog.jp/mycal/calsearch.php?datestart=2007-01-17&amp;dateend=2007-01-17&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0">17</a></td><td>18</td><td>19</td><td class="mycalActiveHighlight"><a href="http://install141.geeklog.jp/mycal/calsearch.php?datestart=2007-01-20&amp;dateend=2007-01-20&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0">20</a></td></tr><tr class='day'><td>21</td><td>22</td><td>23</td><td class="mycalTodayHighlight">24</td><td>25</td><td>26</td><td>27</td></tr><tr class='day'><td>28</td><td>29</td><td>30</td><td>31</td><td class="mycalNextMonth"></td><td class="mycalNextMonth"></td><td class="mycalNextMonth"></td></tr></table></div>
+<div class="aligncenter">
+    <div class="block-divider-right"></div>
+</div>
+
+            <div class="block-bg-spreader"></div>
+    </div>
+</td>
+<!--</td></tr></table>-->
+<!--If you want the splash, uncomment the last line. If you want no splash, make sure it is commented out.-->
+</tr>
+          </table>
+	      
+          <table border="0" cellpadding="0" cellspacing="0" width="100%" class="footer-divider-top">
+            <tr>
+              <td width="70%" class="footerblock">&nbsp;Copyright &copy; 2007 サイト名<br>&nbsp;本ページのすべての商標と著作権はそれぞれの所有者に帰属します。</td>
+              <td width="30%" class="footerblock" style="text-align:right">Powered By <a href="http://www.geeklog.net/">Geeklog</a>&nbsp;<br>
+      ページ作成時間： 0.32 秒&nbsp;</td>
+            </tr>
+          </table>
+    </table>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<div style="clear:both"></div><script language="javascript">
+    <!-- Begin
+    function confirmSubmit(text) { 
+        var yes = confirm(text); 
+        if (yes) return true; 
+        else return false; 
+    } 
+    //  End -->
+</script><div style="clear:both"></div>
+<div style="clear:both"></div>
+<table class="forumoutline" width="100%" border="0" cellspacing="1" cellpadding="3">
+    <tr align="center">
+    <form action="{PHP_SELF}" method="post" name="forum_mod">
+        <td colspan="2" class="forumTitle"" align="left">{LANG_username}</td>
+        <td class="forumTitle" align="left">{LANG_FORUM}</td>
+        <td class="forumTitle">{LANG_DELETE}</td>
+        <td class="forumTitle">{LANG_BAN}</td>
+        <td class="forumTitle">{LANG_EDIT}</td>
+        <td class="forumTitle">{LANG_MOVE}</td>
+        <td class="forumTitle">{LANG_STICK}</td>
+        <td class="forumTitle">{LANG_OPERATION}</td>
+    </tr>
+    <tr style="text-align:center; vertical-align:top;">
+        <td  colspan="2" class="forumclass3" align="left">
+            <select name="mod_adduser[]" style="width:125px" size="10" multiple>
+                {sel_names}
+            </select></td>
+        <td class="forumclass3" align="left">
+            <select name="mod_addforum[]" size="10" multiple>
+                {sel_forums}
+            </select></td>
+        <td class="forumclass3"><input type="checkbox" name="add_delete" value="1"></td>
+        <td class="forumclass3"><input type="checkbox" name="add_ban" value="1"></td>
+        <td class="forumclass3"><input type="checkbox" name="add_edit" value="1"></td>
+        <td class="forumclass3"><input type="checkbox" name="add_move" value="1"></td>
+        <td class="forumclass3"><input type="checkbox" name="add_stick" value="1"></td>
+        <td class="forumclass3">
+        <table width="100%" border="0" cellspacing="1" cellpadding="2">
+            <tr>
+                <td align="center"><input type="submit" name="mod_addnew" value="{LANG_addmod}">
+                <div style="padding-top:50px;">
+                     <input type=submit name="mod_delete{id}" value="{LANG_delmod}" onclick="return confirmSubmit('{LANG_DELCONFIRM}')">
+                </div>
+            </tr>
+        </table>
+        </td>
+    </tr>

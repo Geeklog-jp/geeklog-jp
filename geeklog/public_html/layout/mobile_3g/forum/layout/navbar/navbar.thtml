@@ -1,0 +1,4 @@
+<!-- navbar.thtml -->
+    <ul id="navlist">
+{menuitems}
+    </ul>

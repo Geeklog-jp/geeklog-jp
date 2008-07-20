@@ -1,0 +1,138 @@
+
+<!-- calendar.thtml -->
+<style type="text/css">
+<!--
+table.mycaljp {
+  margin: auto;
+  padding: 0;
+  border-collapse: collapse;
+  text-align: center;
+  width: 95%;
+}
+
+table.mycaljp a {
+  text-decoration: none;
+}
+
+table.mycaljp tr th {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #B0C4DE;
+  background-color: #C3D9FF;
+  font-size: 0.9em;
+  font-weight: normal;
+  text-align: center;
+  width: 14%;
+  height: 1.5em;
+  line-height: 1.5em;
+}
+
+table.mycaljp tr th.sunday {
+  color: #E50000;
+}
+
+table.mycaljp tr th.saturday {
+  color: #0000FF;
+}
+
+table.mycaljp tr td {
+  margin: 0;
+  padding: 0;
+  border: 1px solid #B0C4DE;
+  background-color: #FFFFFF;
+  font-size: 0.9em;
+  font-weight: normal;
+  text-align: center;
+  height: 1.5em;
+  line-height: 1.5em;
+}
+
+table.mycaljp tr.title td {
+  font-weight: bold;
+  background-color: transparent; 
+  border: none;
+
+}
+table.mycaljp tr.title td a,
+table.mycaljp tr.title td a:link,
+table.mycaljp tr.title td a:visited {
+  color: #112ABB;
+}
+
+table.mycaljp tr.title td a.prevmonth,
+table.mycaljp tr.title td a.nextmonth {
+  font-weight: normal;
+  background-color: transparent; 
+}
+
+table.mycaljp tr td.Event {
+  background-color: #C6F4C8;
+}
+
+table.mycaljp tr td.Today {
+  background-color: #FFE986;
+}
+
+table.mycaljp tr td.NotThisMonth {
+  background-color: #DCDCD1;
+}
+
+table.mycaljp tr td.Active {
+  background-color: #E8EEF7;
+}
+
+table.mycaljp tr td.Story {
+  background-color: #E4DDEB;
+}
+
+table.mycaljp tr td.TodayActive {
+  background-color: #FFE986;
+}
+
+table.mycaljp tr td.TodayStory {
+  background-color: #FFE986;
+}
+
+table.mycaljp tr td.TodayEvent {
+  background-color: #FFE986;
+}
+
+table.mycaljp tr td a,
+table.mycaljp tr td a:link,
+table.mycaljp tr td a:visited {
+  color: #000000;
+}
+
+table.mycaljp tr td.sunday,
+table.mycaljp tr td.sunday a {
+  color: #E50000;
+}
+
+table.mycaljp tr td.saturday,
+table.mycaljp tr td.saturday a {
+  color: #0000FF;
+}
+
+table.mycaljp tr td.holiday,
+table.mycaljp tr td.holiday a {
+  color: #E50000;
+}
+-->
+</style>
+<table style="text-align:center" class="mycaljp" summary="Site Calendar">
+  <tr class="title">
+    <td colspan="1">
+      <a href='{prevmonth}' title="先月へ" class="prevmonth">&#171;</a>
+    </td>
+    <td colspan="5">
+      {title_year}&nbsp;{title_month}
+    </td>
+    <td colspan="1">
+      <a href="{nextmonth}"  title="翌月へ" class="nextmonth">&#187;</a>
+    </td>
+  </tr>
+  <tr>
+{dayofweeks_title}
+  </tr>
+{calendar_week}
+</table>

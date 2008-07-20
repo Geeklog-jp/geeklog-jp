@@ -1,0 +1,12 @@
+
+<!-- admin/lists/topmenu_nosearch.thtml { -->
+
+<div id="admin-instructions">
+  {icon}
+  <ul>
+    {menu_fields}
+  </ul>
+  <p>{lang_instructions}</p>
+</div>
+
+<!-- } admin/lists/topmenu_nosearch.thtml -->

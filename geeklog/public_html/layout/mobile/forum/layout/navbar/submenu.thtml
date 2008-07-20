@@ -1,0 +1,3 @@
+<!-- submenu.thtml -->
+<li><a href="{link}{parms}">{label}</a></li>
+<ul>{submenuitems}</ul>

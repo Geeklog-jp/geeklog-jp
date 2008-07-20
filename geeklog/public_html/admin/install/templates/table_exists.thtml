@@ -1,0 +1,18 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset={charset}">
+	<title>{error_title1}</title>
+</head>
+<body bgcolor="#ffffff">
+<h2>{error_title2}</h2>
+{error_table_exists}
+<form action="install.php?lang={lang}" method="POST">
+	<p align="center">
+		<input type="submit" name="action" value="{back}">
+		<input type="hidden" name="geeklog_path" value="{geeklog_path}">
+		<input type="hidden" name="install_type" value="{install_type}">
+	</p>
+</form>
+</body>
+</html>

@@ -1,0 +1,20 @@
+
+<!-- calendar.thtml -->
+</style>
+<table style="text-align:center" class="mycaljp" summary="Site Calendar">
+  <tr class="title">
+    <td colspan="1">
+      <a href="{prevmonth}" title="先月へ" class="prevmonth">&#171;</a>
+    </td>
+    <td colspan="5">
+      {title_year}&nbsp;{title_month}
+    </td>
+    <td colspan="1">
+      <a href="{nextmonth}" title="翌月へ" class="nextmonth">&#187;</a>
+    </td>
+  </tr>
+  <tr>
+{dayofweeks_title}
+  </tr>
+{calendar_week}
+</table>
