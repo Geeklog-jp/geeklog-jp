@@ -13,9 +13,9 @@
 
 <h1>謝辞</h1>
 
-<p>まず最初に，Geeklogをダウンロードしていただき，ありがとうございます。私たちは時間を費やして最高のWebログソフトウェア作成に取り組んできました。きっと使いやすく，パワフルなものに仕上がっていると思います。</p>
+<p>まず最初に、Geeklogをダウンロードしていただき、ありがとうございます。私たちは時間を費やして最高のWebログソフトウェア作成に取り組んできました。きっと使いやすく、パワフルなものに仕上がっていると思います。</p>
 
-<p>Geeklogをさらに使いやすくするために，以下のドキュメントを作成しました。インストール方法などのよくあるドキュメント以外にも開発者向けの完全なAPIドキュメントを用意しましたので，独自のテーマやプラグインを作成して，Geeklogをさらに使いやすいものにできます。</p>
+<p>Geeklogをさらに使いやすくするために、以下のドキュメントを作成しました。インストール方法などのよくあるドキュメント以外にも開発者向けの完全なAPIドキュメントを用意しましたので、独自のテーマやプラグインを作成して、Geeklogをさらに使いやすいものにできます。</p>
 
 <ul>
   <li><a href="#features">Geeklogの機能</a></li>
@@ -35,7 +35,7 @@
       <li><a href="staticpages.html">静的ページ(Static Pages)プラグイン</a>
         - 記事以外の静的・動的ページ作成</li>
     </ul></li>
-  <li><a href="trackback.html">トラックバック，ピングバック，更新ピング</a></li>
+  <li><a href="trackback.html">トラックバック、ピングバック、更新ピング</a></li>
   <li>GeeklogのAPI
     <ul>
       <li><a href="plugin.html">プラグイン開発</a></li>
@@ -49,7 +49,7 @@
 
 <h2><a name="features">Geeklogの機能</a></h2>
 
-<p>Geeklogは，PHPとMySQL（バージョン1.4.1からはMicrosoft SQL Serverもサポート）をベースとした，ダイナミックなWebコンテンツを管理するためのアプリケーションです。インストール直後から，ブログエンジン，言い換えれば，コメント・トラックバック・多彩なRSSフォーマット・スパム防御などのCMS(Contents Management System: コンテンツ管理システム)に必須の機能をすべてサポートしたCMSとして機能します。</p>
+<p>Geeklogは、PHPとMySQL（バージョン1.4.1からはMicrosoft SQL Serverもサポート）をベースとした、ダイナミックなWebコンテンツを管理するためのアプリケーションです。インストール直後から、ブログエンジン、言い換えれば、コメント・トラックバック・多彩なRSSフォーマット・スパム防御などのCMS(Contents Management System: コンテンツ管理システム)に必須の機能をすべてサポートしたCMSとして機能します。</p>
 
 <h3>ブログ/CMS機能</h3>
 
@@ -61,7 +61,7 @@
 <li>記事の中に画像や他のコンテンツを埋め込むことができる
 <li>複数の作者が記事を投稿できる
 <li>ユーザからの投稿をサポート
-<li>コメント，トラックバック，ピングバックをサポート
+<li>コメント、トラックバック、ピングバックをサポート
 <li>よく使われるRSSフォーマット(RSS/RDF/Atomなど)のインポート・エクスポートをサポート
 <li>スパム検出・削除
 <li>個人用カレンダをサポートしたしっかりしたカレンダ機能
@@ -102,11 +102,11 @@
 
 <h2><a name="introduction">はじめに</a></h2>
 
-<p>GeeklogはもともとSecurity Geeks WebサイトのためにJason Whittenburgによって作成されました。2001年初頭に，Jasonは他のことに時間を使おうと決心し，プロジェクトを<a href="http://www.iowaoutdoors.org/">Iowa Outdoors</a>運営のためにGeeklogを使っていたTony Bibbsに引き渡しました。現在，TonyはGL2という名の次世代Geeklogの開発に注力しており，Dirk Haunが1.x系列の管理を行っています。</p>
+<p>GeeklogはもともとSecurity Geeks WebサイトのためにJason Whittenburgによって作成されました。2001年初頭に、Jasonは他のことに時間を使おうと決心し、プロジェクトを<a href="http://www.iowaoutdoors.org/">Iowa Outdoors</a>運営のためにGeeklogを使っていたTony Bibbsに引き渡しました。現在、TonyはGL2という名の次世代Geeklogの開発に注力しており、Dirk Haunが1.x系列の管理を行っています。</p>
 
-<p>Geeklogは正真正銘のオープンソースソフトウェアであり，<a href="license" title="GNU General Public License">GNU GPLv2</a>ライセンスでリリースされています。Geeklogの管理は容易なはずですが，それでもシステムのいくつかのコンポーネントにアクセスする必要があるでしょう。</p>
+<p>Geeklogは正真正銘のオープンソースソフトウェアであり、<a href="license" title="GNU General Public License">GNU GPLv2</a>ライセンスでリリースされています。Geeklogの管理は容易なはずですが、それでもシステムのいくつかのコンポーネントにアクセスする必要があるでしょう。</p>
 
-<p>このドキュメントはまだ発展の途上にあるため，意図せずして省略された箇所や，説明が過剰なし不足している箇所があるかもしれません。<a href="http://httpd.apache.org/">Apache</a> (ないしIIS)と(<a href="http://www.mysql.com/">MySQL</a>などの)SQLデータベース，<a href="http://www.php.net/">PHP</a>をある程度使った経験があることを前提としています。</p>
+<p>このドキュメントはまだ発展の途上にあるため、意図せずして省略された箇所や、説明が過剰なし不足している箇所があるかもしれません。<a href="http://httpd.apache.org/">Apache</a> (ないしIIS)と(<a href="http://www.mysql.com/">MySQL</a>などの)SQLデータベース、<a href="http://www.php.net/">PHP</a>をある程度使った経験があることを前提としています。</p>
 
 <div class="footer">
     <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
