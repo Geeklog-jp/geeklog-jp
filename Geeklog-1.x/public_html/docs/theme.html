@@ -11,24 +11,24 @@
 <a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマ作成</div>
 
-<p><small>(Geeklogの最近のバージョンにおける<a href="#changes">テーマ変更</a>一覧については，下記参照のこと。)</small></p>
+<p><small>(Geeklogの最近のバージョンにおける<a href="#changes">テーマ変更</a>一覧については、下記参照のこと。)</small></p>
 
 
 <h1>Geeklog用のテーマ作成</h1>
 
-<p>Geeklog用にテーマを作成するのは簡単ですぐにできます。HTMLファイルを編集できるなら，テーマを作成できます。PHPを習得する必要はありません。</p>
+<p>Geeklog用にテーマを作成するのは簡単ですぐにできます。HTMLファイルを編集できるなら、テーマを作成できます。PHPを習得する必要はありません。</p>
 
 <h2>テーマ作成</h2>
 
-<p>最初に，自分が作成したいテーマに最も似ている既存のテーマがあれば，それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが），どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>。)。
+<p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>。)。
 
 <p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
 
-<p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下，同様。）に移動します。
+<p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下、同様。）に移動します。
 
 <p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
 
-<p>必要に応じてテンプレートを編集します。一般的に，GeeklogでいうテンプレートとはHTMLファイルの断片です。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められていますが，外見を大きく変えるのに変更する必要があるのはほんの少数でしょう。
+<p>必要に応じてテンプレートを編集します。一般的に、GeeklogでいうテンプレートとはHTMLファイルの断片です。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められていますが、外見を大きく変えるのに変更する必要があるのはほんの少数でしょう。
 
 <p>特に次のテンプレートは間違いなく変更する必要があるでしょう。</p>
 
@@ -48,59 +48,59 @@
 
 <h3><a name="how-themes-work">テーマはどのように機能するか</a></h3>
 
-<p>テーマを用いて表示するとき，Geeklogはサイトのヘッダになる <tt>header.thtml</tt> から始め，次に左ブロック(<code>{left_blocks}</code> テンプレート変数と <tt>leftblocks.thtml</tt> テンプレートファイルを探しましょう)を処理します。サイトの中央部分は記事で構成されますが，普通の記事の場合は <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> テンプレートファイル，注目記事の場合は <tt>featuredstorytext.thtml</tt> と <tt>featuredstorybodytext.thtml</tt> テンプレートファイルが使用されます。最後に，<tt>footer.thtml</tt> テンプレートファイルを使用して，右ブロック（<code>{right_blocks}</code> テンプレート変数と <tt>right_blocks.thtml</tt> テンプレートファイルを探しましょう）とサイトのフッタを表示します。ブロック自体は <tt>blockheader.thtml</tt> と <tt>blockfooter.thtml</tt> テンプレートファイルで構成されています。
+<p>テーマを用いて表示するとき、Geeklogはサイトのヘッダになる <tt>header.thtml</tt> から始め、次に左ブロック(<code>{left_blocks}</code> テンプレート変数と <tt>leftblocks.thtml</tt> テンプレートファイルを探しましょう)を処理します。サイトの中央部分は記事で構成されますが、普通の記事の場合は <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> テンプレートファイル、注目記事の場合は <tt>featuredstorytext.thtml</tt> と <tt>featuredstorybodytext.thtml</tt> テンプレートファイルが使用されます。最後に、<tt>footer.thtml</tt> テンプレートファイルを使用して、右ブロック（<code>{right_blocks}</code> テンプレート変数と <tt>right_blocks.thtml</tt> テンプレートファイルを探しましょう）とサイトのフッタを表示します。ブロック自体は <tt>blockheader.thtml</tt> と <tt>blockfooter.thtml</tt> テンプレートファイルで構成されています。
 
-<p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけです。Geeklogで見かける様々なエディタやリストだけでなく，カレンダプラグインなど，Geeklogのあらゆる部分を構成するために様々なテンプレートが存在しています。</p>
+<p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけです。Geeklogで見かける様々なエディタやリストだけでなく、カレンダプラグインなど、Geeklogのあらゆる部分を構成するために様々なテンプレートが存在しています。</p>
 
-<p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ，大抵の場合は，テンプレートのあるディレクトリ名とファイル名を見れば，用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は，URLを見るとよいでしょう。たとえば，ユーザのプロフィールを表示しているときなら，<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き， <kbd>.thtml</kbd> を検索します。プロフィールの場合は，次の行が <code>function userprofile()</code> の中に見つかります。</p>
+<p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ、大抵の場合は、テンプレートのあるディレクトリ名とファイル名を見れば、用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は、URLを見るとよいでしょう。たとえば、ユーザのプロフィールを表示しているときなら、<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き、 <kbd>.thtml</kbd> を検索します。プロフィールの場合は、次の行が <code>function userprofile()</code> の中に見つかります。</p>
 <blockquote><code>
     $user_templates = new Template ($_CONF['path_layout'] . 'users');<br>
     $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));
 </code></blockquote>
-<p>PHPを理解していなくても，この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば，これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
+<p>PHPを理解していなくても、この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば、これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
 
 <p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数の不完全なリスト</a>もドキュメントに含まれています。</p>
 
 <h3><a name="testing">テーマのテストと追加情報</a></h3>
 
-<p>自分のテーマを編集し終わったら，次はテストです。 <tt>http://自分のサイトのURL/usersettings.php?mode=preferences</tt> へ行き，テーマのドロップダウンリストから作成したばかりのテーマを選択します（テーマ名はテーマを収めているディレクトリ名と同じです）。
+<p>自分のテーマを編集し終わったら、次はテストです。 <tt>http://自分のサイトのURL/usersettings.php?mode=preferences</tt> へ行き、テーマのドロップダウンリストから作成したばかりのテーマを選択します（テーマ名はテーマを収めているディレクトリ名と同じです）。
 
-<p>最後に，テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるでしょう。
+<p>最後に、テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるでしょう。
 
-<p>テンプレートシステムとしては，GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用しています。彼らが作成したドキュメントを読み，できれば，<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて，どのように実装されているか調べてみるのもよいでしょう。この知識があっても，あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりと分からないかもしれません（たとえば， <tt>storybody.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって，<strong>1つの</strong>記事の完全なフォーマットができあがります）。疑問があるなら，<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか，IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよいでしょう。</p>
+<p>テンプレートシステムとしては、GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用しています。彼らが作成したドキュメントを読み、できれば、<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて、どのように実装されているか調べてみるのもよいでしょう。この知識があっても、あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりと分からないかもしれません（たとえば、 <tt>storybody.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって、<strong>1つの</strong>記事の完全なフォーマットができあがります）。疑問があるなら、<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか、IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよいでしょう。</p>
 
 <h3><a name="tips">ヒントと注意点</a></h3>
 
 <p><strong><a name="wysiwyg">テーマとWYSIWYGエディタ：</a></strong>
-Geeklogが使用するテンプレートファイルは完全なHTMLファイルではなく，断片に過ぎません。Geeklogはこの断片を組み合わせて適切なHTMLドキュメントを作成します。しかし，このため一部のWYSIWYG HTMLエディタが誤動作し，ファイルに不足しているHTML要素を勝手に追加して，Geeklogにとっては使い物にならなくしてしまうことがあります。<br>テーマの編集には，単純なテキストエディタを使用することをお勧めします。</p>
+Geeklogが使用するテンプレートファイルは完全なHTMLファイルではなく、断片に過ぎません。Geeklogはこの断片を組み合わせて適切なHTMLドキュメントを作成します。しかし、このため一部のWYSIWYG HTMLエディタが誤動作し、ファイルに不足しているHTML要素を勝手に追加して、Geeklogにとっては使い物にならなくしてしまうことがあります。<br>テーマの編集には、単純なテキストエディタを使用することをお勧めします。</p>
 
 <p><strong><a name="php">テンプレートファイル中のPHP：</a></strong>
-テーマの<em>ヘッダ</em>，つまり，<tt>header.thtml</tt> の中ではPHPのコードを使用できます。カスタム関数を使用したいなら，テーマディレクトリ内の <tt>functions.php</tt> ファイル内で定義すればよいでしょう。</p>
+テーマの<em>ヘッダ</em>、つまり、<tt>header.thtml</tt> の中ではPHPのコードを使用できます。カスタム関数を使用したいなら、テーマディレクトリ内の <tt>functions.php</tt> ファイル内で定義すればよいでしょう。</p>
 
 <p><strong><a name="different-look">左右のブロックで見た目を変える：</a></strong>
-左右のブロックの外見を変えることができます。詳細は，<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=21070">Geeklogホームページのこの記事</a>を参照してください。</p>
+左右のブロックの外見を変えることができます。詳細は、<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=21070">Geeklogホームページのこの記事</a>を参照してください。</p>
 
 <p><strong><a name="polls">アンケート：</a></strong>
-投票結果をグラフで表示する際，複数の色の棒グラフを使用するには，<code>{answer_counter}</code> と <code>{answer_odd}</code> テーマ変数を <tt>pollbooth/pollvotes_bar.thtml</tt> テンプレートファイル内で使用するとよいでしょう。<code>{answer_counter}</code> はそれぞれの回答数に置き換えられるので， <tt>bar{answer_counter}.gif</tt> と記述すると，結果として <tt>bar1.gif</tt>, <tt>bar2.gif</tt> のようになります。GIFファイルごとに色を変えておけば，回答ごとに色も変わることになります。<br>
-<code>{answer_odd}</code> は回答ごとに 0 から 1，1 から 0 と変わるので，<tt>bar{answer_odd}.gif</tt> と記述すると，結果として奇数番目の回答は <tt>bar0.gif</tt> ，偶数番目の回答は <tt>bar1.gif</tt> となります。</p>
+投票結果をグラフで表示する際、複数の色の棒グラフを使用するには、<code>{answer_counter}</code> と <code>{answer_odd}</code> テーマ変数を <tt>pollbooth/pollvotes_bar.thtml</tt> テンプレートファイル内で使用するとよいでしょう。<code>{answer_counter}</code> はそれぞれの回答数に置き換えられるので、 <tt>bar{answer_counter}.gif</tt> と記述すると、結果として <tt>bar1.gif</tt>, <tt>bar2.gif</tt> のようになります。GIFファイルごとに色を変えておけば、回答ごとに色も変わることになります。<br>
+<code>{answer_odd}</code> は回答ごとに 0 から 1、1 から 0 と変わるので、<tt>bar{answer_odd}.gif</tt> と記述すると、結果として奇数番目の回答は <tt>bar0.gif</tt> 、偶数番目の回答は <tt>bar1.gif</tt> となります。</p>
 
 <p><strong><a name="left-blocks">右ブロック内で左ブロックを表示する：</a></strong>
-<code>$_CONF['left_blocks_in_footer']</code> はかなり変わったオプションです。このオプションを使用すると，サイトのフッタ（つまり <tt>footer.thtml</tt>）内で <code>{left_blocks}</code> テンプレート変数が使用できるようになる一方で，ヘッダ（<tt>header.thtml</tt>）内では <code>{left_blocks}</code> テンプレート変数が使用できなくなります。<br>
-これを利用すると，2列レイアウト（1列は右ブロック用，もう1列はコンテンツ用）を実現できます。単にすべてのブロックを右ブロックに移動しただけでは期待した動作にはなりません。普通、左ブロックしか表示しないようなページ（たとえば，<tt>article.php</tt> や管理者用のページ）では，<em>全くブロックが表示されない</em> からです。 <code>$_CONF['left_blocks_in_footer'] = 1</code> にすると，この動作が修正され，システム内部では依然として<strong>左</strong>ブロックとして扱われていても，実際には<strong>右</strong>ブロックに表示されるようになります。<br>
-テーマの <tt>header.thtml</tt>, <tt>footer.thtml</tt>, <tt>leftblocks.thtml</tt> はたぶん，修正する必要があるでしょう。ですから，<tt>left_blocks_in_footer</tt> オプションはコンフィギュレーションでは設定できず，テーマの <tt>functions.php</tt> 内で設定すべきです。そうすることで，たとえば，ユーザに「普通の」テーマと右ブロックテーマを選択する余地を与えることさえできるようにります。</p>
+<code>$_CONF['left_blocks_in_footer']</code> はかなり変わったオプションです。このオプションを使用すると、サイトのフッタ（つまり <tt>footer.thtml</tt>）内で <code>{left_blocks}</code> テンプレート変数が使用できるようになる一方で、ヘッダ（<tt>header.thtml</tt>）内では <code>{left_blocks}</code> テンプレート変数が使用できなくなります。<br>
+これを利用すると、2列レイアウト（1列は右ブロック用、もう1列はコンテンツ用）を実現できます。単にすべてのブロックを右ブロックに移動しただけでは期待した動作にはなりません。普通、左ブロックしか表示しないようなページ（たとえば、<tt>article.php</tt> や管理者用のページ）では、<em>全くブロックが表示されない</em> からです。 <code>$_CONF['left_blocks_in_footer'] = 1</code> にすると、この動作が修正され、システム内部では依然として<strong>左</strong>ブロックとして扱われていても、実際には<strong>右</strong>ブロックに表示されるようになります。<br>
+テーマの <tt>header.thtml</tt>, <tt>footer.thtml</tt>, <tt>leftblocks.thtml</tt> はたぶん、修正する必要があるでしょう。ですから、<tt>left_blocks_in_footer</tt> オプションはコンフィギュレーションでは設定できず、テーマの <tt>functions.php</tt> 内で設定すべきです。そうすることで、たとえば、ユーザに「普通の」テーマと右ブロックテーマを選択する余地を与えることさえできるようにります。</p>
 
 <p><strong><a name="error-message">エラーメッセージ：</a></strong>
-Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユーザにどのようなHTMLを表示するか制御できるようになりました。好みのHTMLを表示するには，<tt>lib-custom.php</tt> 内の <code>CUSTOM_handleError</code> 関数を変更する必要があります。</p>
+Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユーザにどのようなHTMLを表示するか制御できるようになりました。好みのHTMLを表示するには、<tt>lib-custom.php</tt> 内の <code>CUSTOM_handleError</code> 関数を変更する必要があります。</p>
 
 <p><strong><a name="permalink">記事に永続リンク(permalink)を追加する：</a></strong>
-多くのWebサイトでは，永続リンク，つまり記事に対応する永続的なURLを提供しています。Geeklogでデフォルトの Professional テーマでは，記事の見出しが既にその機能を果たしています。つまり，記事の永続的なURLへのリンクとなっています（article.phpを指しています）。しかし，この方法はあまり目につかないし，訪問者がページのどこかに永続リンクがあるのを期待することが多いため，自分で永続リンクを追加する方法を次に示します。</p>
+多くのWebサイトでは、永続リンク、つまり記事に対応する永続的なURLを提供しています。Geeklogでデフォルトの Professional テーマでは、記事の見出しが既にその機能を果たしています。つまり、記事の永続的なURLへのリンクとなっています（article.phpを指しています）。しかし、この方法はあまり目につかないし、訪問者がページのどこかに永続リンクがあるのを期待することが多いため、自分で永続リンクを追加する方法を次に示します。</p>
 <ol>
-<li>記事のテンプレートファイル内に適当な場所を探します。既に記事関係のリンクが多数含まれているので，<tt>storytext.thtml</tt> 内の story-footer セクションがよいかもしれません。</li>
-<li>永続リンクを設置する場所を決めたら，次のコードを入力します。<br>
+<li>記事のテンプレートファイル内に適当な場所を探します。既に記事関係のリンクが多数含まれているので、<tt>storytext.thtml</tt> 内の story-footer セクションがよいかもしれません。</li>
+<li>永続リンクを設置する場所を決めたら、次のコードを入力します。<br>
 <code style="margin-left:2em">&lt;a href="{article_url}"&gt;{lang_permalink}&lt;a&gt;</code><br>
-これで，記事へのリンク(<tt>article_url</tt>)が，現在の言語ファイルの「永続リンク(Permalink)」に相当する語句(<tt>lang_permalink</tt>)を用いて追加されました。</li>
-<li>徹底的にやりましょう。この時点では，永続リンクは注目記事以外の記事でしか表示されません。また，<acronym title="Cascading Style Sheet">CSS</acronym>を使用して外見を変更したり，リンクの場所を調節する必要があるでしょう。</li>
-<li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば，注目記事にも永続リンクが表示されるようになります。</li>
+これで、記事へのリンク(<tt>article_url</tt>)が、現在の言語ファイルの「永続リンク(Permalink)」に相当する語句(<tt>lang_permalink</tt>)を用いて追加されました。</li>
+<li>徹底的にやりましょう。この時点では、永続リンクは注目記事以外の記事でしか表示されません。また、<acronym title="Cascading Style Sheet">CSS</acronym>を使用して外見を変更したり、リンクの場所を調節する必要があるでしょう。</li>
+<li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば、注目記事にも永続リンクが表示されるようになります。</li>
 </ol>
 
 
@@ -108,21 +108,21 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 
 <h3><a name="xhtml">XHTMLをサポート</a></h3>
 
-<p>XHTML準拠のテーマがサポートされました。テーマの <tt>functions.php</tt> ファイルの中で，次の定数を定義する必要があります。</p>
+<p>XHTML準拠のテーマがサポートされました。テーマの <tt>functions.php</tt> ファイルの中で、次の定数を定義する必要があります。</p>
 <pre style="margin-left:4em;"><code>define('XHTML', ' /');</code></pre>
-<p>こうすることで，内部的にXHTMLに切り替わります。テーマをHTMLとXHTMLの両方でサポートしたいなら，XHTMLの空要素タグがあるところすべてで <code>{xhtml}</code> テーマ変数を使用する必要があります。たとえば， <code>&lt;br /&gt;</code> タグは <code>&lt;br{xhtml}&gt;</code> と書く必要があります。HTMLをサポートするつもりがないなら，XHTMLタグを直接記述しても構いません。</p>
-<p><strong>注意:</strong> XHTMLを使用するなら，サイトのコンテンツ（記事，コメントなど）をXHTML準拠にしなければなりません。Geeklogは自動的にコンテンツをXHTMLに<strong>変換しません</strong>。</p>
+<p>こうすることで、内部的にXHTMLに切り替わります。テーマをHTMLとXHTMLの両方でサポートしたいなら、XHTMLの空要素タグがあるところすべてで <code>{xhtml}</code> テーマ変数を使用する必要があります。たとえば、 <code>&lt;br /&gt;</code> タグは <code>&lt;br{xhtml}&gt;</code> と書く必要があります。HTMLをサポートするつもりがないなら、XHTMLタグを直接記述しても構いません。</p>
+<p><strong>注意:</strong> XHTMLを使用するなら、サイトのコンテンツ（記事、コメントなど）をXHTML準拠にしなければなりません。Geeklogは自動的にコンテンツをXHTMLに<strong>変換しません</strong>。</p>
 
 <h3><a name="story-submission">「記事投稿」 - ユーザによる記事投稿</a></h3>
 
-<p>Geeklog 1.5.0では，ユーザが記事を投稿する際，記事を単に冒頭文だけでなく冒頭文と本文に分ける機能をサポートしています。テンプレートを変更することでこの機能は有効/無効にできます。該当するファイルは，</p>
+<p>Geeklog 1.5.0では、ユーザが記事を投稿する際、記事を単に冒頭文だけでなく冒頭文と本文に分ける機能をサポートしています。テンプレートを変更することでこの機能は有効/無効にできます。該当するファイルは、</p>
 <ul>
     <li>submit/submitstory.thtml</li>
     <li>submit/submitstory_advanced.thtml</li>
 </ul>
-<p>です。有効にするには， <code>{bodytext}</code> テンプレート変数を含むテーブルの列がテンプレートファイルに含まれるようにしましょう。 <code>{bodytext}</code> テンプレート変数を含むテーブルの列をテンプレートファイルから削除すれば，元の動作に戻ります。</p>
+<p>です。有効にするには、 <code>{bodytext}</code> テンプレート変数を含むテーブルの列がテンプレートファイルに含まれるようにしましょう。 <code>{bodytext}</code> テンプレート変数を含むテーブルの列をテンプレートファイルから削除すれば、元の動作に戻ります。</p>
 
-<h3><a name="admin-menu">管理者メニュー，ユーザメニュー，話題リスト</a></h3>
+<h3><a name="admin-menu">管理者メニュー、ユーザメニュー、話題リスト</a></h3>
 
 <p>これらの項目は今ではリストを使用しています。 <code>&lt;ul&gt;</code> タグと <code>&lt;li&gt;</code> タグとリストの黒丸を表示しないための新しい <tt>blocklist</tt> クラスが使用されています。ブロックを作成するために新しいテンプレートファイルが追加されています。</p>
 <ul>
@@ -133,7 +133,7 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 
 <h3><a name="gltoken">セキュリティ上の変更</a></h3>
 
-<p>特に管理者セクションで使用される多くのフォームには，フォーム保存・アクション処理がきちんと実行されるよう，新しいhiddenフィールドが必要になっています（訳注：<acronym title="Cross-Site Request Forgery">CSRF</acronym>攻撃を防ぐため）。次の記述を</p>
+<p>特に管理者セクションで使用される多くのフォームには、フォーム保存・アクション処理がきちんと実行されるよう、新しいhiddenフィールドが必要になっています（訳注：<acronym title="Cross-Site Request Forgery">CSRF</acronym>攻撃を防ぐため）。次の記述を</p>
 
 <pre style="margin-left:4em;"><code>&lt;input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}&gt;</code></pre>
 <p>以下のテンプレートに追加してください。</p>
@@ -155,7 +155,7 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
     <li>admin/user/edituser.thtml</li>
     <li>comment/reportcomment.thtml</li>
 </ul>
-<p>プラグイン固有のテンプレートファイルが一部変更されているので，以下のテンプレートファイルを確認してください。</p>
+<p>プラグイン固有のテンプレートファイルが一部変更されているので、以下のテンプレートファイルを確認してください。</p>
 <ul>
     <li>plugins/calendar/templates/addevent.thtml</li>
     <li>plugins/calendar/templates/editpersonalevent.thtml</li>
@@ -170,7 +170,7 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 
 <h3><a name="removed">削除されたファイル</a></h3>
 
-<p>以下のテンプレートファイルは削除され，不要になりました。</p>
+<p>以下のテンプレートファイルは削除され、不要になりました。</p>
 
 <ul>
     <li>admin/lists/menufields.thtml</li>
@@ -181,24 +181,24 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 
 <h3><a name="sysmessage">システムメッセージ</a></h3>
 
-<p>以前，システムメッセージ用にハードコードされていたCSSは，新しく <tt>sysmessage</tt> クラスとしてスタイルシートに移されました。</p>
+<p>以前、システムメッセージ用にハードコードされていたCSSは、新しく <tt>sysmessage</tt> クラスとしてスタイルシートに移されました。</p>
 
 
 <h2><a name="changes141">Geeklog 1.4.1でのテーマの変更点</a></h2>
 
-<p>1.4.1ではCSSが以前よりも大幅に変更されました。レイアウト用のコンポーネントがスタイルシートに移されている途中なので，外見を変えるのに，テンプレートファイルをいじる必要は少なくなっています。テーブルと &lt;div&gt; タグの使用が減り，セマンティックス（意味）と一貫性がさらに重視されています。 <tt>style.css</tt> ファイルには，CSSクラスの使用に関する説明が増えています。</p>
+<p>1.4.1ではCSSが以前よりも大幅に変更されました。レイアウト用のコンポーネントがスタイルシートに移されている途中なので、外見を変えるのに、テンプレートファイルをいじる必要は少なくなっています。テーブルと &lt;div&gt; タグの使用が減り、セマンティックス（意味）と一貫性がさらに重視されています。 <tt>style.css</tt> ファイルには、CSSクラスの使用に関する説明が増えています。</p>
 
-<p>従来通り，不足しているテンプレートファイルはGeeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよいでしょう。</p>
+<p>従来通り、不足しているテンプレートファイルはGeeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよいでしょう。</p>
 
 <h3>見出しタグ</h3>
 
-<p>今後，ブロックと記事のタイトルは見出しタグで表現されます。記事の中で最大のタイトルは <tt>&lt;h1&gt;</tt> タグであり，ブロックのそれは常に <tt>&lt;h2&gt;</tt> タグです。</p>
+<p>今後、ブロックと記事のタイトルは見出しタグで表現されます。記事の中で最大のタイトルは <tt>&lt;h1&gt;</tt> タグであり、ブロックのそれは常に <tt>&lt;h2&gt;</tt> タグです。</p>
 
 <h3>記事のレイアウト</h3>
-<p>記事のブロックはもはやテーブルを含まなくなり，対応するCSSのクラス名も一貫性を持たせるために変更されました。記事を囲むボックスは， <tt>story</tt> クラスまたは <tt>story-featured</tt> クラスという名前がついています。ボックス内のコンポーネントは，記事アイコン，記事情報，記事本体，記事フッタです。タイトルは <tt>&lt;h1&gt;</tt> タグを使用しています。注目記事は外側のボックスのクラスが違うだけで，残りは同じです。</p>
+<p>記事のブロックはもはやテーブルを含まなくなり、対応するCSSのクラス名も一貫性を持たせるために変更されました。記事を囲むボックスは、 <tt>story</tt> クラスまたは <tt>story-featured</tt> クラスという名前がついています。ボックス内のコンポーネントは、記事アイコン、記事情報、記事本体、記事フッタです。タイトルは <tt>&lt;h1&gt;</tt> タグを使用しています。注目記事は外側のボックスのクラスが違うだけで、残りは同じです。</p>
 
 <h3>ブロック</h3>
-<p>ブロックは記事と同じように変化しました。テーブルはなくなり，block-box, block-box-left, block-box-right という名前の &lt;div&gt; タグが1個使用されているだけです。タイトルは &lt;h2&gt; タグであり，ブロックのヘルプアイコンは block-helpicon というクラスの &lt;span&gt; タグになりました。ブロックのサブタイトルは，（新着記事ブロックや過去の記事ブロックのように） &lt;h3&gt; タグです。これらの変更は <tt>style.css</tt> についで，以下のファイルに影響を与えます。</p>
+<p>ブロックは記事と同じように変化しました。テーブルはなくなり、block-box, block-box-left, block-box-right という名前の &lt;div&gt; タグが1個使用されているだけです。タイトルは &lt;h2&gt; タグであり、ブロックのヘルプアイコンは block-helpicon というクラスの &lt;span&gt; タグになりました。ブロックのサブタイトルは、（新着記事ブロックや過去の記事ブロックのように） &lt;h3&gt; タグです。これらの変更は <tt>style.css</tt> についで、以下のファイルに影響を与えます。</p>
 <ul>
 <li>blockfooter-left.thtml</li>
 <li>blockfooter-related.thtml</li>
@@ -213,28 +213,28 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 
 <h3>管理者用テンプレート</h3>
 
-<p>管理者用テンプレートの多くには，外見や機能の変更のため少しずつ変更が加えられています。自作テーマの管理者用テンプレートを変更していない場合，更新する最も簡単な方法は，Professional テーマの admin ディレクトリからファイルを一式，コピーすることです。</p>
+<p>管理者用テンプレートの多くには、外見や機能の変更のため少しずつ変更が加えられています。自作テーマの管理者用テンプレートを変更していない場合、更新する最も簡単な方法は、Professional テーマの admin ディレクトリからファイルを一式、コピーすることです。</p>
 
 <ul>
-<li>記事エディタなどの管理者用エディタで削除ボタンをクリックすると，意図しない削除を防ぐためにJavaScriptを用いた確認ダイアログが表示されるようになりました。確認ダイアログが不要なら，管理者用テンプレートの <code>{delete_option}</code> テンプレート変数を <code>{delete_option_no_confirmation}</code> テンプレート変数に置き換えるとよいでしょう。</li>
+<li>記事エディタなどの管理者用エディタで削除ボタンをクリックすると、意図しない削除を防ぐためにJavaScriptを用いた確認ダイアログが表示されるようになりました。確認ダイアログが不要なら、管理者用テンプレートの <code>{delete_option}</code> テンプレート変数を <code>{delete_option_no_confirmation}</code> テンプレート変数に置き換えるとよいでしょう。</li>
 <li>保存/キャンセル/削除のボタンの配列が管理者用テンプレートで統一されました（<tt>group/groupeditor.thtml</tt> と <tt>user/edituser.thtml</tt> が変更されました）。</li>
-<li><tt>lists/topmenu_nosearch.thtml</tt> と <tt>topic/topiclist.thtml</tt> テンプレートの最上部にあるリンクが変更され，他のテンプレートと揃えられました（つまり，リンクが[]で囲まれなくなりました）。</li>
-<li>"gldefault" ブロックのグループ所有権の変更を可能にするために，<tt>defaultblockeditor.thtml</tt> テンプレートに <code>{group_dropdown}</code> テンプレート変数を含めなければならなくなりました。</li>
+<li><tt>lists/topmenu_nosearch.thtml</tt> と <tt>topic/topiclist.thtml</tt> テンプレートの最上部にあるリンクが変更され、他のテンプレートと揃えられました（つまり、リンクが[]で囲まれなくなりました）。</li>
+<li>"gldefault" ブロックのグループ所有権の変更を可能にするために、<tt>defaultblockeditor.thtml</tt> テンプレートに <code>{group_dropdown}</code> テンプレート変数を含めなければならなくなりました。</li>
 </ul>
 
 <h3>テーマの他の変更点</h3>
 
 <ul>
-<li><tt>leftblocks.thtml</tt> と <tt>rightblocks.thtml</tt> にはブロックの横幅の最小値を維持するために &lt;div&gt; タグが使用されていましたが，CSSの <tt>block-bg-spreader</tt> というクラスに置き換えられました。</li>
-<li>アンケートプラグインのテンプレートで，CSSのブロック関係のクラスとの混同を避けるため， block-vote-results クラスが poll-vote-results に， block-vote クラスが poll-vote に変更されました。</li>
-<li>カレンダプラグインが使用するテンプレートファイルがプラグイン用のディレクトリ(<tt>/非公開領域/plugins/calendar/templates</tt>)へ移動され，テーマディレクトリ内の calendar ディレクトリをそっくり削除できるようになりました。<br>
+<li><tt>leftblocks.thtml</tt> と <tt>rightblocks.thtml</tt> にはブロックの横幅の最小値を維持するために &lt;div&gt; タグが使用されていましたが、CSSの <tt>block-bg-spreader</tt> というクラスに置き換えられました。</li>
+<li>アンケートプラグインのテンプレートで、CSSのブロック関係のクラスとの混同を避けるため、 block-vote-results クラスが poll-vote-results に、 block-vote クラスが poll-vote に変更されました。</li>
+<li>カレンダプラグインが使用するテンプレートファイルがプラグイン用のディレクトリ(<tt>/非公開領域/plugins/calendar/templates</tt>)へ移動され、テーマディレクトリ内の calendar ディレクトリをそっくり削除できるようになりました。<br>
     <tt>submitevent.thtml</tt>, <tt>editpersonalevent.thtml</tt>,
-    <tt>admin/eventeditor.thtml</tt>, <tt>dayview/quickaddform.thtml</tt> テンプレートで，<a href="calendar.html#desc_hour_mode">24時間制</a>で時刻を入力できるようになりました。hidden 属性の hour_mode フィールドが必要になり，テンプレートに応じて，am/pmを選ぶドロップダウンリストが <code>{startampm_selection}</code>, <code>{endampm_selection}</code>, <code>{ampm_selection}</code> テンプレート変数として，また，分を選ぶドロップダウンリストが <code>{startminute_options}</code>, <code>{endminute_options}</code>, <code>{minute_options}</code> テンプレート変数として利用できるようになりました。</li>
-<li>オブジェクトの作成者（たとえば，記事やコメントの作成者）やオブジェクトの所有者（たとえば，ブロックの所有者）が表示されるテンプレートならどれでも，<code>{author}</code> と <code>{owner}</code> テンプレート変数が利用できるようになりました。この2つの変数は <a href="config.html#desc_show_fullname">$_CONF['show_fullname']</a> の設定に従って，ユーザのフルネームかユーザ名（アカウント名）のいずれかを表示します。</li>
+    <tt>admin/eventeditor.thtml</tt>, <tt>dayview/quickaddform.thtml</tt> テンプレートで、<a href="calendar.html#desc_hour_mode">24時間制</a>で時刻を入力できるようになりました。hidden 属性の hour_mode フィールドが必要になり、テンプレートに応じて、am/pmを選ぶドロップダウンリストが <code>{startampm_selection}</code>, <code>{endampm_selection}</code>, <code>{ampm_selection}</code> テンプレート変数として、また、分を選ぶドロップダウンリストが <code>{startminute_options}</code>, <code>{endminute_options}</code>, <code>{minute_options}</code> テンプレート変数として利用できるようになりました。</li>
+<li>オブジェクトの作成者（たとえば、記事やコメントの作成者）やオブジェクトの所有者（たとえば、ブロックの所有者）が表示されるテンプレートならどれでも、<code>{author}</code> と <code>{owner}</code> テンプレート変数が利用できるようになりました。この2つの変数は <a href="config.html#desc_show_fullname">$_CONF['show_fullname']</a> の設定に従って、ユーザのフルネームかユーザ名（アカウント名）のいずれかを表示します。</li>
 <li><tt>storytext.thtml</tt> と <tt>featuredstorytext.thtml</tt> テンプレート中の記事の作成者タグの名前が <code>{contributedby_author}</code> に変わりました。</li>
-<li>アンケートの回答でコメントを残せるようにするため， <tt>pollvotes_bar.thtml</tt>, <tt>pollansweroption.thtml</tt>, <tt>polleditor.thtml</tt> が変更されました。<tt>pollvotes_bar.thtml</tt> には色がつき，2つの行と，それぞれの行の色を指定するクラス， <code>{answer_text}</code> テンプレート変数が含まれます。<tt>polleditor.thtml</tt> は <tt>pollansweroption.thtml</tt> と同じく，コメントを残すためのフィールドが追加されました。</li>
-<li>ユーザのアカウント情報ページが設計し直されました。技術上の変更点はありませんが（つまり，旧バージョンのテンプレートは依然として機能しますが），一部のオプションの配列が見直され，オプションを変更するのにパスワードを入力する必要がある旨を表示する注意書きが追加されました。変更されたのは， <tt>preferences</tt> ディレクトリ内の <tt>profile.thtml</tt>, <tt>username.thtml</tt>, <tt>userphoto.thtml</tt> テンプレートファイルです。</li>
-<li><tt>navbar</tt> ディレクトリには2つの画像(<tt>button.gif</tt> と <tt>button_over.gif</tt>)に加えて，4つのテンプレートファイル(<tt>menuitem.thtml</tt>, <tt>navbar.thtml</tt>, <tt>breadcrumbs.thtml</tt>, <tt>breadcrumb_link</tt>)が格納されています。</li>
+<li>アンケートの回答でコメントを残せるようにするため、 <tt>pollvotes_bar.thtml</tt>, <tt>pollansweroption.thtml</tt>, <tt>polleditor.thtml</tt> が変更されました。<tt>pollvotes_bar.thtml</tt> には色がつき、2つの行と、それぞれの行の色を指定するクラス、 <code>{answer_text}</code> テンプレート変数が含まれます。<tt>polleditor.thtml</tt> は <tt>pollansweroption.thtml</tt> と同じく、コメントを残すためのフィールドが追加されました。</li>
+<li>ユーザのアカウント情報ページが設計し直されました。技術上の変更点はありませんが（つまり、旧バージョンのテンプレートは依然として機能しますが）、一部のオプションの配列が見直され、オプションを変更するのにパスワードを入力する必要がある旨を表示する注意書きが追加されました。変更されたのは、 <tt>preferences</tt> ディレクトリ内の <tt>profile.thtml</tt>, <tt>username.thtml</tt>, <tt>userphoto.thtml</tt> テンプレートファイルです。</li>
+<li><tt>navbar</tt> ディレクトリには2つの画像(<tt>button.gif</tt> と <tt>button_over.gif</tt>)に加えて、4つのテンプレートファイル(<tt>menuitem.thtml</tt>, <tt>navbar.thtml</tt>, <tt>breadcrumbs.thtml</tt>, <tt>breadcrumb_link</tt>)が格納されています。</li>
 <li>以下のファイルに <a name="captcha"><code>{captcha}</code></a> テンプレート変数が追加されました。
     <ul>
     <li><tt>comment/commentform.thtml</tt></li>
@@ -245,7 +245,7 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
     <li><tt>submit/submitstory_advanced.thtml</tt></li>
     <li><tt>users/registrationform.thtml</tt></li>
     </ul>
-    このテンプレート変数は <a href="http://en.wikipedia.org/wiki/Captcha">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり，該当するプラグインがインストールされていない場合は空白になります。</li>
+    このテンプレート変数は <a href="http://en.wikipedia.org/wiki/Captcha">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり、該当するプラグインがインストールされていない場合は空白になります。</li>
 </ul>
 
 <h3>Professionalテーマ</h3>
@@ -253,26 +253,26 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 <p>以下の変更はProfessionalテーマ固有のものです。他のテーマに移植する必要はたぶんないでしょう。</p>
 
 <ul>
-<li>Professionalテーマでは，間隔調整やセクション分けのために従来は1x1の透明GIF画像(<tt>speck.gif</tt>)を使用していましたが，スタイルシートで指定するようになりました。</li>
-<li>ブロックヘッダなどで，テーブルのネスト（入れ子）が減りました。</li>
+<li>Professionalテーマでは、間隔調整やセクション分けのために従来は1x1の透明GIF画像(<tt>speck.gif</tt>)を使用していましたが、スタイルシートで指定するようになりました。</li>
+<li>ブロックヘッダなどで、テーブルのネスト（入れ子）が減りました。</li>
 <li>使用されていない <tt>customlogin-header.thtml</tt> と <tt>customlogin-footer.thtml</tt> テンプレートファイルが削除されました。</li>
 </ul>
 
 
 <h2><a name="changes140">Geeklog 1.4.0でのテーマの変更点</a></h2>
 
-<p>従来通り，不足している新しいテンプレートファイルは，Geeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよいでしょう。</p>
+<p>従来通り、不足している新しいテンプレートファイルは、Geeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよいでしょう。</p>
 
 <h3>管理者用テンプレート</h3>
 
-<p>Geeklog 1.4.0の管理者用セクションはかなりの変更を伴って改訂されています。したがって，従来のテーマの <tt>admin</tt> ディレクトリをGeeklog-1.4.0に同梱のProfessionalテーマの <tt>admin</tt> ディレクトリでそっくり置き換えてから，今まで自分が加えた改造を適用することをお勧めします。</p>
+<p>Geeklog 1.4.0の管理者用セクションはかなりの変更を伴って改訂されています。したがって、従来のテーマの <tt>admin</tt> ディレクトリをGeeklog-1.4.0に同梱のProfessionalテーマの <tt>admin</tt> ディレクトリでそっくり置き換えてから、今まで自分が加えた改造を適用することをお勧めします。</p>
 
-<p><strong>注意:</strong> コントロールパネル(<tt>moderation.php</tt>)用の新アイコンは背景が白になっています。背景が暗い色（や白以外の色）のテーマ用には，<a href="http://www.geeklog.net/filemgmt/singlefile.php?lid=623">アルファチャンネルつきのPNG形式のアイコンをダウンロード</a>するとよいでしょう。この場合は，JavaScriptを用いた<a href="http://homepage.ntlworld.com/bobosola/">ハック</a>を行わないと，インターネットエクスプローラでは表示できないことに注意してください。場合によっては，これらのアイコンを変換して，背景を透明にしたりテーマの背景色に合わせたりする必要があるでしょう。</p>
+<p><strong>注意:</strong> コントロールパネル(<tt>moderation.php</tt>)用の新アイコンは背景が白になっています。背景が暗い色（や白以外の色）のテーマ用には、<a href="http://www.geeklog.net/filemgmt/singlefile.php?lid=623">アルファチャンネルつきのPNG形式のアイコンをダウンロード</a>するとよいでしょう。この場合は、JavaScriptを用いた<a href="http://homepage.ntlworld.com/bobosola/">ハック</a>を行わないと、インターネットエクスプローラでは表示できないことに注意してください。場合によっては、これらのアイコンを変換して、背景を透明にしたりテーマの背景色に合わせたりする必要があるでしょう。</p>
 
 
 <h3>アドバンストエディタ（WYSIWYGエディタ）</h3>
 
-<p>同梱されているアドバンストエディタ(FCKeditor)を使用するには，次の新しいテンプレートが必要です。</p>
+<p>同梱されているアドバンストエディタ(FCKeditor)を使用するには、次の新しいテンプレートが必要です。</p>
 <ul>
 <li><tt>comment/commentform_advanced.thtml</tt> （コメント用）</li>
 <li><tt>submit/submitstory_advanced.thtml</tt> （記事投稿用）</li>
@@ -285,18 +285,18 @@ Geeklog 1.4.1以降，重大なエラーが発生したときにRoot以外のユ
 <h3>他の変更点</h3>
 
 <ul>
-<li>コメントの扱いが変更されたため，コメント用のテンプレート(<tt>commentbar.thtml</tt> と <tt>thread.thtml</tt>)が変更されました。</li>
-<li>トラックバックをサポートするために，新しいテンプレートファイルを含むディレクトリ(<tt>trackback</tt> と <tt>admin/trackback</tt>)が追加されました。</li>
-<li>記事用のテンプレートで，新しい <code>{send_trackback_link}</code>, <code>{send_trackback_url}</code>, <code>{lang_send_trackback_text}</code> テンプレート変数が利用できるようになりました。現在の記事に対するトラックバックコメントを送るための完全なリンクとURL，リンク文字列を提供します。</li>
-<li><tt>links</tt> と <tt>admin/link</tt> ディレクトリが削除されました。リンク集はプラグインとなり，そのテンプレートは <tt>/非公開領域/plugins/links/templates</tt> にあります。</li>
-<li><tt>pollbooth</tt> と <tt>admin/poll</tt> ディレクトリが削除されました。アンケート機能はプラグインとなり，そのテンプレートは <tt>/非公開領域/plugins/polls/templates</tt> にあります。</li>
-<li><tt>preferences/profile.thtml</tt> テンプレートに，パスワードを変更するためのフィールド（現在のパスワード，新規パスワードの確認用）が追加されました。</li>
-<li>検索フォーム(<tt>search/searchform.thtml</tt>)に1ページあたりの検索結果の表示数を設定するオプションが追加され，ハードコードされていたオプションが削除されました（リンクはプラグインになったので，<code>{plugin_types}</code> オプションの一部として表示されるからです）。</li>
-<li>自分のサイトにユーザがリモート認証を利用してログインするのを許可する場合，<tt>loginform.thtml</tt> テンプレートファイルに <code>{services}</code> テンプレート変数を追加しなければならなくなりました。</li>
-<li>自分のサイトでトラックバックを有効にする場合，記事のテンプレートファイルにたとえば次のように，トラックバック用のセクションを追加する必要があります。<br>
-    <code>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</code><br>具体例は，Professionalテーマの記事用テンプレートを参照してください。</li>
-<li>サイトの統計情報用の <tt>stats/sitestatistics.thtml</tt> テンプレートファイルが変更されました（リンクとアンケート用の項目が削除され，登録ユーザ数を表す項目が追加されました）。プラグインの項目を表示するための <tt>stats/singlesummary.thtml</tt> というテンプレートファイルが追加されました。</li>
-<li>以前，掲示板プラグインなどが使用していた <tt>navbar</tt> ディレクトリがGeeklogテーマの一部になりました。テンプレートファイルファイルが2つ(<tt>menuitem.thtml</tt> と <tt>navbar.thtml</tt>)と画像ファイルが2つ(<tt>button.gif</tt> と <tt>button_over.gif</tt>）が含まれています。</li>
+<li>コメントの扱いが変更されたため、コメント用のテンプレート(<tt>commentbar.thtml</tt> と <tt>thread.thtml</tt>)が変更されました。</li>
+<li>トラックバックをサポートするために、新しいテンプレートファイルを含むディレクトリ(<tt>trackback</tt> と <tt>admin/trackback</tt>)が追加されました。</li>
+<li>記事用のテンプレートで、新しい <code>{send_trackback_link}</code>, <code>{send_trackback_url}</code>, <code>{lang_send_trackback_text}</code> テンプレート変数が利用できるようになりました。現在の記事に対するトラックバックコメントを送るための完全なリンクとURL、リンク文字列を提供します。</li>
+<li><tt>links</tt> と <tt>admin/link</tt> ディレクトリが削除されました。リンク集はプラグインとなり、そのテンプレートは <tt>/非公開領域/plugins/links/templates</tt> にあります。</li>
+<li><tt>pollbooth</tt> と <tt>admin/poll</tt> ディレクトリが削除されました。アンケート機能はプラグインとなり、そのテンプレートは <tt>/非公開領域/plugins/polls/templates</tt> にあります。</li>
+<li><tt>preferences/profile.thtml</tt> テンプレートに、パスワードを変更するためのフィールド（現在のパスワード、新規パスワードの確認用）が追加されました。</li>
+<li>検索フォーム(<tt>search/searchform.thtml</tt>)に1ページあたりの検索結果の表示数を設定するオプションが追加され、ハードコードされていたオプションが削除されました（リンクはプラグインになったので、<code>{plugin_types}</code> オプションの一部として表示されるからです）。</li>
+<li>自分のサイトにユーザがリモート認証を利用してログインするのを許可する場合、<tt>loginform.thtml</tt> テンプレートファイルに <code>{services}</code> テンプレート変数を追加しなければならなくなりました。</li>
+<li>自分のサイトでトラックバックを有効にする場合、記事のテンプレートファイルにたとえば次のように、トラックバック用のセクションを追加する必要があります。<br>
+    <code>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</code><br>具体例は、Professionalテーマの記事用テンプレートを参照してください。</li>
+<li>サイトの統計情報用の <tt>stats/sitestatistics.thtml</tt> テンプレートファイルが変更されました（リンクとアンケート用の項目が削除され、登録ユーザ数を表す項目が追加されました）。プラグインの項目を表示するための <tt>stats/singlesummary.thtml</tt> というテンプレートファイルが追加されました。</li>
+<li>以前、掲示板プラグインなどが使用していた <tt>navbar</tt> ディレクトリがGeeklogテーマの一部になりました。テンプレートファイルファイルが2つ(<tt>menuitem.thtml</tt> と <tt>navbar.thtml</tt>)と画像ファイルが2つ(<tt>button.gif</tt> と <tt>button_over.gif</tt>）が含まれています。</li>
 </ul>
 
 
