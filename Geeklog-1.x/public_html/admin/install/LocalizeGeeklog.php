@@ -7,7 +7,7 @@
 //       対象：Geeklog-1.5.0
 //       作者：mystral-kk - geeklog AT mystral-kk DOT net
 // ライセンス：GPL
-// バージョン：2008-08-24
+// バージョン：2008-08-26
 //     使用法：このファイルをrequire_onceしたのち、
 //               $obj = new LocalizeGeeklog;
 //               // 日本語化するとき
@@ -17,6 +17,18 @@
 //=============================================================================
 
 global $_CONF, $_TABLES;
+
+/**
+* Loads config, because $_CONF is not set fully at this point of installation
+*/
+require_once '../../siteconfig.php';
+require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+$temp_config =& config::get_instance();
+$temp_config->set_configfile($_CONF['path'] . 'db-config.php');
+$temp_config->load_baseconfig();
+$temp_config->initConfig();
+$_CONF = $temp_config->get_config('Core');
 
 class LocalizeGeeklog
 {
