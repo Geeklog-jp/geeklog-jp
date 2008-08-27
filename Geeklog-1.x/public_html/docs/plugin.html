@@ -323,7 +323,7 @@
 
   <h2><a name="Feed_Functions">フィード用関数</a></h2>
 
-<p>以下の関数は、シンジケーションフィード（RSSフィード）を作成するためのオプションの関数一覧です。</p>
+<p>以下の関数は、フィード（RSSフィード）を作成するためのオプションの関数一覧です。</p>
 
   <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
     <caption align="bottom">表10. フィード用関数</caption>
@@ -333,7 +333,7 @@
       </tr>
       <tr>
         <td valign="top" class="codeheader">plugin_getfeednames_&lt;プラグイン名&gt;</td>
-        <td valign="top" class="code">プラグインはシンジケーションフィードを作成するためのコンテンツを提供できるが、この関数では提供できるフィードコンテンツのリストを返す。たとえば、リンクプラグインはすべてのリンクに対するフィードとリンクカテゴリに対するフィードを提供する。この関数では、IDと名前をペアにした配列を返す。IDはコンテンツの種類を表すプラグイン内部で使用されるIDであり、名前はユーザに表示される名前である。</td>
+        <td valign="top" class="code">プラグインはフィードを作成するためのコンテンツを提供できるが、この関数では提供できるフィードコンテンツのリストを返す。たとえば、リンクプラグインはすべてのリンクに対するフィードとリンクカテゴリに対するフィードを提供する。この関数では、IDと名前をペアにした配列を返す。IDはコンテンツの種類を表すプラグイン内部で使用されるIDであり、名前はユーザに表示される名前である。</td>
       </tr>
       <tr>
         <td valign="top" class="codeheader">plugin_getfeedcontent_&lt;プラグイン名&gt;</td>
@@ -341,15 +341,15 @@
       </tr>
       <tr>
         <td valign="top" class="codeheader">plugin_feedExtensionTags_&lt;プラグイン名&gt;</td>
-        <td valign="top" class="code">この関数を実装することで、フィードフォーマットのトップレベルに要素を追加することができる。フィードの種類とバージョン（たとえば、RSS version 2.0）を受け取り、有効なXMLタグの配列を返す。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
+        <td valign="top" class="code">この関数を実装することで、フィードフォーマットのトップレベルに要素を追加することができる。フィードの種類とバージョン（たとえば、RSS version 2.0）を受け取り、有効なXMLタグの配列を返す。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">フィード拡張(Syndication Extensions)</a>プラグインを見ること。</td>
       </tr>
     <tr>
         <td valign="top" class="codeheader">plugin_feedNSExtensions_&lt;プラグイン名&gt;</td>
-        <td valign="top" class="code">フィードに独自の要素を追加するプラグインは、XMLに名前空間を追加しなければならないことがある。その場合、この関数を使用して有効な名前空間の属性の配列を返さなければならない。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
+        <td valign="top" class="code">フィードに独自の要素を追加するプラグインは、XMLに名前空間を追加しなければならないことがある。その場合、この関数を使用して有効な名前空間の属性の配列を返さなければならない。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">フィード拡張(Syndication Extensions)</a>プラグインを見ること。</td>
     </tr>
     <tr>
         <td valign="top" class="codeheader">plugin_feedElementExtensions_&lt;プラグイン名&gt;</td>
-        <td valign="top" class="code">この関数を実装することで、フィードの項目に要素を追加することができる。フィードの種類とバージョン及びコンテンツの種類とIDを受け取り、有効なXML要素の配列を返さなければならない。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">シンジケーション拡張(Syndication Extensions)</a>プラグインを見ること。</td>
+        <td valign="top" class="code">この関数を実装することで、フィードの項目に要素を追加することができる。フィードの種類とバージョン及びコンテンツの種類とIDを受け取り、有効なXML要素の配列を返さなければならない。具体例は、<a href="http://sourceforge.net/project/showfiles.php?group_id=91120&amp;package_id=168689">フィード拡張(Syndication Extensions)</a>プラグインを見ること。</td>
     </tr>
   </table>
 
