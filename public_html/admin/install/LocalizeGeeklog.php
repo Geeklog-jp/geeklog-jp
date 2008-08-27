@@ -7,7 +7,7 @@
 //       対象：Geeklog-1.5.0
 //       作者：mystral-kk - geeklog AT mystral-kk DOT net
 // ライセンス：GPL
-// バージョン：2008-08-26
+// バージョン：2008-08-28
 //     使用法：このファイルをrequire_onceしたのち、
 //               $obj = new LocalizeGeeklog;
 //               // 日本語化するとき
@@ -126,6 +126,22 @@ class LocalizeGeeklog
 	}
 	
 	/**
+	* GDライブラリがインストールされているかチェック
+	*
+	* @access public
+	* @return boolean  true = installed, false = otherwise
+	*/
+	function isGDInstalled()
+	{
+		if (is_callable('gd_info') OR is_callable('imagegd')
+		 OR is_callable('imagegd2')) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/**
 	* 更新メイン
 	*
 	* @access protected
@@ -155,7 +171,8 @@ class LocalizeGeeklog
 	/**
 	* リンク
 	*
-	* 日本語化するときにGeeklog.jpを追加、戻すときにGeeklog.jpを削除
+	* 1. Geeklog Sitesの説明
+	* 2. 日本語化するときにGeeklog.jpを追加、戻すときにGeeklog.jpを削除
 	*
 	* @access protected
 	*/
@@ -166,6 +183,9 @@ class LocalizeGeeklog
 		$sqls = array();
 		
 		if ($this->_mode == 'ja') {
+			$sqls[] = "UPDATE {$_TABLES['linkcategories']} "
+					. "SET description = '" . addslashes('Geeklog関係のサイト') . "' "
+					. "WHERE (cid = '" . addslashes('geeklog-sites') . "')";
 			if (DB_count($_TABLES['links'], 'lid', 'geeklog.jp') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['links']} "
 					 	. "(lid, cid, url, description, title, hits, date, "
@@ -178,6 +198,10 @@ class LocalizeGeeklog
 						. "3, 3, 2, 2);";
 			}
 		} else if ($this->_mode == 'en') {
+			$sqls[] = "UPDATE {$_TABLES['linkcategories']} "
+					. "SET description = '"
+					. addslashes('Sites using or related to the Geeklog CMS') . "' "
+					. "WHERE (cid = '" . addslashes('geeklog-sites') . "')";
 			$sqls[] = "DELETE FROM {$_TABLES['links']} "
 					. "WHERE (lid = 'geeklog.jp')";
 		}
@@ -466,6 +490,12 @@ class LocalizeGeeklog
 			);
 			$c->set('hour_mode', 12, 'calendar');
 			
+			// 画像関係
+			$c->set('keep_unscaled_image', 0);	// 元画像を残す = false
+			$c->set('image_lib', '', 'Core');
+			
+			// 記事関係
+			$c->set('advanced_editor', false);
 			
 		} else if ($this->_mode == 'ja') {
 			// サイト一時閉鎖メッセージ
@@ -596,6 +626,15 @@ class LocalizeGeeklog
 				'calendar'
 			);
 			$c->set('hour_mode', 24, 'calendar');
+			
+			// 画像関係
+			$c->set('keep_unscaled_image', 1);	// 元画像を残す = true
+			if ($this->isGDInstalled()) {
+				$c->set('image_lib', 'gdlib', 'Core');
+			}
+			
+			// 記事関係
+			$c->set('advanced_editor', true);
 		}
 	}
 	
