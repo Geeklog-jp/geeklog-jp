@@ -482,7 +482,7 @@ if (($month < 1) || ($month > 12)) {
 
 if (($year != 0) && ($month != 0)) {
     $title = sprintf ($LANG_DIR['title_month_year'],
-                      $year, $LANG_MONTH[$month]);
+                      $year, $month);
     $display .= COM_siteHeader ('menu', $title);
     $display .= DIR_displayMonth ($topic, $year, $month, true);
     $display .= DIR_navBar ($topic, $year, $month);
