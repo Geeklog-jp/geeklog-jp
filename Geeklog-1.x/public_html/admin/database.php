@@ -186,7 +186,7 @@ function dobackup()
         if (function_exists('is_executable')) {
             $canExec = @is_executable($_DB_mysqldump_path);
         } else {
-            $canExec = file_exists($_DB_mysqldump_path);
+            $canExec = @file_exists($_DB_mysqldump_path);
         }
         if ($canExec) {
             exec($command);
