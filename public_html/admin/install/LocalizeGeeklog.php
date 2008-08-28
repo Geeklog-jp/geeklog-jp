@@ -334,7 +334,7 @@ class LocalizeGeeklog
 					. "SET username = 'ゲストユーザ', fullname= 'ゲストユーザ' "
 					. "WHERE (uid = 1)";
 			$sqls[] = "UPDATE {$_TABLES['users']} "
-					. "SET fullname= 'サイト管理者', homepage='http://www.example.come/' "
+					. "SET fullname= 'サイト管理者', homepage='http://www.example.com/' "
 					. "WHERE (uid = 2)";
 		}
 		
@@ -497,6 +497,9 @@ class LocalizeGeeklog
 			// 記事関係
 			$c->set('advanced_editor', false);
 			
+			// 管理者関係
+			$c->set('sort_admin', true);
+			
 		} else if ($this->_mode == 'ja') {
 			// サイト一時閉鎖メッセージ
 			$c->set('site_disabled_msg', 'サイトメンテナンス中');
@@ -635,6 +638,9 @@ class LocalizeGeeklog
 			
 			// 記事関係
 			$c->set('advanced_editor', true);
+			
+			// 管理者関係
+			$c->set('sort_admin', false);
 		}
 	}
 	
