@@ -253,12 +253,13 @@ function DIR_displayMonth ($topic, $year, $month, $main = false)
 
     $retval = '';
 
+    $tmy = sprintf ($LANG_DIR['title_month_year'], $year, $month);
     if ($main) {
-        $retval .= '<div><h1 style="display:inline">' . $LANG_MONTH[$month]
-                . ' ' . $year . '</h1> ' . DIR_topicList ($topic, $year, $month)
+        $retval .= '<div><h1 style="display:inline">' . $tmy
+                . '</h1> ' . DIR_topicList ($topic, $year, $month)
                 . '</div>' . LB;
     } else {
-        $retval .= '<h1>' . $LANG_MONTH[$month] . ' ' . $year . '</h1>' . LB;
+        $retval .= '<h1>' . $tmy . '</h1>' . LB;
     }
 
     $start = sprintf ('%04d-%02d-01 00:00:00', $year, $month);
@@ -331,11 +332,12 @@ function DIR_displayYear ($topic, $year, $main = false)
 
     $retval = '';
 
+    $ty = sprintf ($LANG_DIR['title_year'], $year);
     if ($main) {
-        $retval .= '<div><h1 style="display:inline">' . $year . '</h1> '
+        $retval .= '<div><h1 style="display:inline">' . $ty . '</h1> '
                 . DIR_topicList ($topic, $year) . '</div>' . LB;
     } else {
-        $retval .= '<h2>' . $year . '</h2>' . LB;
+        $retval .= '<h2>' . $ty . '</h2>' . LB;
     }
 
     $currentyear = date ('Y', time ());
@@ -480,7 +482,7 @@ if (($month < 1) || ($month > 12)) {
 
 if (($year != 0) && ($month != 0)) {
     $title = sprintf ($LANG_DIR['title_month_year'],
-                      $LANG_MONTH[$month], $year);
+                      $year, $month);
     $display .= COM_siteHeader ('menu', $title);
     $display .= DIR_displayMonth ($topic, $year, $month, true);
     $display .= DIR_navBar ($topic, $year, $month);
