@@ -363,6 +363,8 @@ class LocalizeGeeklog
 					. "MODIFY zipcode VARCHAR(5)";
 			$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
 					. "MODIFY zipcode VARCHAR(5)";
+			$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
+					. "MODIFY zipcode VARCHAR(5)";
 
 		} else if ($this->_mode == 'ja') {
 			// シンジケーションの言語の初期値
@@ -375,6 +377,8 @@ class LocalizeGeeklog
 			$sqls[] = "ALTER TABLE {$_TABLES['events']} "
 					. "MODIFY zipcode VARCHAR(8)";
 			$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
+					. "MODIFY zipcode VARCHAR(8)";
+			$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
 					. "MODIFY zipcode VARCHAR(8)";
 		}
 		
