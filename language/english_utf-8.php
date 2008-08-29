@@ -1559,6 +1559,46 @@ $LANG_trackbackcodes = array(
 );
 
 ################################################################################
+# Localization of the securiy test (admin/sectest.php)
+
+$LANG_SECTEST = array(
+     1 => 'Your ',
+     2 => ' is reachable from the web.',
+     3 => 'This is a security risk and should be fixed!',
+     4 => 'Good! Your ',
+     5 => ' is not reachable from the web.',
+     6 => 'Got an HTTP result code ',
+     7 => ' when trying to test your ',
+     8 => '. Not sure what to make of it ...',
+     9 => 'You should really remove the install directory ',
+    10 => ' once you have your site up and running without any errors.',
+    11 => ' Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    12 => 'Good! You seem to have removed the install directory already.',
+    13 => 'You still have not changed the <strong>default password</strong> from "password" on ',
+    14 => ' Root user account(s).',
+    15 => 'Good! You seem to have changed the default account password already.',
+    16 => 'Geeklog Security Check',
+    17 => 'Results of the Security Check',
+    18 => '"public_html" should never be part of your site\'s URL.',
+    19 => ' Please read the part about public_html in the ',
+    20 => 'installation instructions',
+    21 => ' again and change your setup accordingly before you proceed.',
+    22 => 'logs directory',
+    23 => 'plugins directory',
+    24 => 'system directory',
+    25 => 'backups directory',
+    26 => 'Failed to create a temporary file in your backups directory. Check your directory permissions!',
+    27 => 'data directory',
+    28 => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    29 => 'Everything seems to be in order.',
+    30 => 'Please fix the above issues before using your site!',
+    31 => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    32 => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) ',
+    33 => ' mailing list and/or use the ',
+    34 => ' option in your Admin menu from time to time to check for available updates.',
+);
+
+################################################################################
 # Localization of the Admin Configuration UI
 
 $LANG_CONFIG = array(
