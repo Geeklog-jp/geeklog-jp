@@ -123,17 +123,17 @@ function urlToCheck()
 */
 function interpretResult ($retcode, $msg)
 {
-    global $failed_tests;
+    global $failed_tests, $LANG_SECTEST;
 
     $retval = '';
 
     if ($retcode == 200) {
-        $retval = 'Your <strong>' . $msg . '</strong> is reachable from the web.<br' . XHTML . '><em>This is a security risk and should be fixed!</em>';
+        $retval = $LANG_SECTEST[1] . '<strong>' . $msg . '</strong>' . $LANG_SECTEST[2] . '<br' . XHTML . '><em>' . $LANG_SECTEST[3] . '</em>';
         $failed_tests++;
     } elseif (($retcode == 401) || ($retcode == 403) || ($retcode == 404)) {
-        $retval = 'Good! Your ' . $msg . ' is not reachable from the web.';
+        $retval = $LANG_SECTEST[4] . $msg . $LANG_SECTEST[5];
     } else if (is_numeric ($retcode)) {
-        $retval = 'Got an HTTP result code ' . $retcode . ' when trying to test your ' . $msg . '. Not sure what to make of it ...';
+        $retval = $LANG_SECTEST[6] . $retcode . $LANG_SECTEST[7] . $msg . $LANG_SECTEST[8];
         $failed_tests++;
     } else {
         $retval = $retcode;
@@ -200,7 +200,7 @@ function doTest ($baseurl, $urltocheck, $what)
 */
 function checkInstallDir ()
 {
-    global $_CONF, $failed_tests;
+    global $_CONF, $failed_tests, $LANG_SECTEST;
 
     $retval = '';
 
@@ -220,11 +220,11 @@ function checkInstallDir ()
     }
 
     if (is_dir ($installdir)) {
-        $retval .= '<li>You should really remove the install directory <b>' . $installdir .'</b> once you have your site up and running without any errors.';
-        $retval .= ' Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.</li>';
+        $retval .= '<li>' . $LANG_SECTEST[9] . '<b>' . $installdir . '</b>' . $LANG_SECTEST[10];
+        $retval .= $LANG_SECTEST[11] . '</li>';
         $failed_tests++;
     } else {
-        $retval .= '<li>Good! You seem to have removed the install directory already.</li>';
+        $retval .= '<li>' . $LANG_SECTEST[12] . '</li>';
     }
 
     return $retval;
@@ -241,7 +241,7 @@ function checkInstallDir ()
 */
 function checkDefaultPassword ()
 {
-    global $_TABLES, $failed_tests;
+    global $_TABLES, $failed_tests, $LANG_SECTEST, $LANG_DIRECTION;
 
     $retval = '';
 
@@ -261,19 +261,21 @@ function checkDefaultPassword ()
         }
     }
     if ($pwdRoot > 0) {
-        $retval .= '<li>You still have not changed the <strong>default password</strong> from "password" on ' . $pwdRoot . ' Root user account(s).';
+        $retval .= '<li>' . $LANG_SECTEST[13] . $pwdRoot . $LANG_SECTEST[14] . '</li>';
         $failed_tests++;
     } else {
-        $retval .= '<li>Good! You seem to have changed the default account password already.</li>';
+        $retval .= '<li>' . $LANG_SECTEST[15] . '</li>';
     }
 
     return $retval;
 }
 
 // MAIN
-$display = COM_siteHeader ('menu', 'Geeklog Security Check');
-$display .= '<div dir="ltr">' . LB;
-$display .= COM_startBlock ('Results of the Security Check');
+$display = COM_siteHeader ('menu', $LANG_SECTEST[16]);
+$display .= '<div dir="';
+$display .= empty($LANG_DIRECTION) ? 'ltr' : $LANG_DIRECTION;
+$display .= '">' . LB;
+$display .= COM_startBlock ($LANG_SECTEST[17]);
 
 $url = urlToCheck ();
 if (!empty ($url)) {
@@ -281,10 +283,10 @@ if (!empty ($url)) {
     $display .= '<ol>';
 
     if (strpos ($_SERVER['PHP_SELF'], 'public_html') !== false) {
-        $display .= '<li>"public_html" should never be part of your site\'s URL.'
-            ." Please read the part about public_html in the "
-            . COM_createLink('installation instructions', "../docs/install.html#public_html")
-            . ' again and change your setup accordingly before you proceed.</li>';
+        $display .= '<li>' . $LANG_SECTEST[18]
+            . $LANG_SECTEST[19]
+            . COM_createLink($LANG_SECTEST[20], "../docs/install.html#public_html")
+            . $LANG_SECTEST[21] . '</li>';
         $failed_tests++;
     }
 
@@ -293,9 +295,9 @@ if (!empty ($url)) {
     $urls = array
         (
         array ('db-config.php',                     'db-config.php'),
-        array ('logs/error.log',                    'logs directory'),
-        array ('plugins/staticpages/functions.inc', 'plugins directory'),
-        array ('system/lib-security.php',           'system directory')
+        array ('logs/error.log',                    $LANG_SECTEST[22]),
+        array ('plugins/staticpages/functions.inc', $LANG_SECTEST[23]),
+        array ('system/lib-security.php',           $LANG_SECTEST[24])
         );
 
     foreach ($urls as $tocheck) {
@@ -306,18 +308,18 @@ if (!empty ($url)) {
 
     if (($_CONF['allow_mysqldump'] == 1) && ($_DB_dbms == 'mysql')) {
         if (makeTempfile ($_CONF['backup_path'] . 'test.txt')) {
-            $display .= doTest ($url, 'backups/test.txt', 'backups directory');
+            $display .= doTest ($url, 'backups/test.txt', $LANG_SECTEST[25]);
             @unlink ($_CONF['backup_path'] . 'test.txt');
         } else {
-            $display .= '<li>Failed to create a temporary file in your backups directory. Check your directory permissions!</li>';
+            $display .= '<li>' . $LANG_SECTEST[26] . '</li>';
         }
     }
 
     if (makeTempfile ($_CONF['path_data'] . 'test.txt')) {
-        $display .= doTest ($url, 'data/test.txt', 'data directory');
+        $display .= doTest ($url, 'data/test.txt', $LANG_SECTEST[27]);
         @unlink ($_CONF['path_data'] . 'test.txt');
     } else {
-        $display .= '<li>Failed to create a temporary file in your data directory. Check your directory permissions!</li>';
+        $display .= '<li>' . $LANG_SECTEST[28] . '</li>';
     }
 
     $display .= checkDefaultPassword ();
@@ -330,7 +332,7 @@ if (!empty ($url)) {
     $resultPasswordCheck = checkDefaultPassword ();
 
     if ($failed_tests == 0) {
-        $display .= '<p>Everything seems to be in order.</p>';
+        $display .= '<p>' . $LANG_SECTEST[29] . '</p>';
     } else {
         $display .= '<ol>';
         $display .= $resultInstallDirCheck . LB . $resultPasswordCheck;
@@ -340,11 +342,11 @@ if (!empty ($url)) {
 }
 
 if ($failed_tests > 0) {
-    $display .= '<p class="warningsmall"><strong>Please fix the above issues before using your site!</strong></p>';
+    $display .= '<p class="warningsmall"><strong>' . $LANG_SECTEST[30] . '</strong></p>';
 
     DB_save ($_TABLES['vars'], 'name,value', "'security_check','0'");
 } else {
-    $display .= '<p>Please note that no site is ever 100% secure. This script can only test for obvious security issues.</p>';
+    $display .= '<p>' . $LANG_SECTEST[31] . '</p>';
 
     DB_save ($_TABLES['vars'], 'name,value', "'security_check','1'");
 }
@@ -356,11 +358,10 @@ if (empty ($LANG_DIRECTION)) {
                   . '</strong>';
 }
 
-$display .= '<p>To stay informed about new Geeklog releases and possible '
-    . 'security issues, we suggest that you subscribe to the (low-traffic) '
+$display .= '<p>' . $LANG_SECTEST[32]
     . COM_createLink('geeklog-announce', 'http://lists.geeklog.net/mailman/listinfo/geeklog-announce')
-    . ' mailing list and/or use the ' . $versioncheck
-    . ' option in your Admin menu from time to time to check for available updates.</p>';
+    . $LANG_SECTEST[33] . $versioncheck
+    . $LANG_SECTEST[34] . '</p>';
 
 $display .= COM_endBlock ();
 $display .= '</div>' . LB;
