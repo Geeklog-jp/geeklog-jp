@@ -502,21 +502,7 @@ class LocalizeGeeklog
 			
 		} else if ($this->_mode == 'ja') {
 			// サイト一時閉鎖メッセージ
-			$c->set(
-				'site_disabled_msg',
-				  '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '
-				. '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />'
-				. '<html lang="ja">'
-				. '<head>'
-				. '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'
-				. '<title>サイトメンテナンス中</title>'
-				. '</head>'
-				. '<body>'
-				. '<h1>サイトメンテナンス中</h1>'
-				. '<p>ただいま、サイトのメンテナンスを行っています。しばらくの間、お待ちください。</p>'
-				. '</body>'
-				. '</html>'
-			);
+			$c->set('site_disabled_msg', $_CONF['site_url'] . '/disabledmsg.html');
 			
 			// 言語＆多言語
 			$c->set_default('rdf_language','ja');	// 'ja-JP'の方がよいかも
