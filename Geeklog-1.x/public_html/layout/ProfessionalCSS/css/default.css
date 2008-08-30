@@ -267,18 +267,15 @@ button {
 
 textarea {
   display: inline-block;
-  font-size: small;  /* added by dengen */
-  padding: 1px;  /* added by dengen */
+  font-size: small;
 }
 
 input {
-/*  display: inline-block; */ /* <input type="hidden">に適用させない */  /* added by dengen */
-  padding: 1px;  /* added by dengen */
+/*  display: inline-block; */ /* <input type="hidden">に適用させない */
 }
 
 select {
   display: inline-block;
-  padding: 1px;  /* added by dengen */
 }
 
 
@@ -363,7 +360,7 @@ th {
 td { 
   display: table-cell;
   text-align: inherit;
-  padding: 2px; /* added by dengen */
+  padding: 2px;
 }
 
 tr[align="left"],
