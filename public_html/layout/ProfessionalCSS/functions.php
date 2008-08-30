@@ -31,6 +31,10 @@ $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter
 // Define the blocks that are a list of links styled as an unordered list - using class="blocklist"
 $_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
 $_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
-$_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+if (isset($_USER['uid']) && $_USER['uid'] > 1) {
+    $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+} else {
+    $_BLOCK_TEMPLATE['user_block'] = 'blockheader.thtml,blockfooter.thtml';
+}
 
 ?>
