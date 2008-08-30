@@ -8,7 +8,7 @@
 // また、このファイルに実行可能なパーミッション(x)を付加する必要があります。
 //
 // 注意：万一、日本語コードの関係でこのファイルを使うと失敗する場合は、
-// emailgeeklogstories.orig を emailgeeklogstories にリネームしてお使いください。
+// emailgeeklogstories.en を emailgeeklogstories にリネームしてお使いください。
 //
 // 次の行の /path/to/geeklog/lib-common.php を実際の lib-common.php のパスに
 // 合わせて変更してください。
