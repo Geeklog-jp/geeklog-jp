@@ -16,7 +16,7 @@
     <div style="font-size:small">{site_slogan}</div>
     <div style="font-size:small">{welcome_msg}</div>
     <?php
-        if(function_exists(CUSTOM_MOBILE_is_cellular) && !CUSTOM_MOBILE_is_cellular()) {
+        if(function_exists('CUSTOM_MOBILE_is_cellular') && !CUSTOM_MOBILE_is_cellular()) {
             echo '<p><a href="/usersettings.php?mode=edit">設定変更</a></p>';
         }
     ?>
