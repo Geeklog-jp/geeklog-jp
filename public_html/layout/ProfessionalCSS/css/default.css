@@ -267,10 +267,11 @@ button {
 
 textarea {
   display: inline-block;
+  font-size: small;
 }
 
 input {
-  display: inline-block;
+/*  display: inline-block; */ /* <input type="hidden">に適用させない */
 }
 
 select {
@@ -358,7 +359,8 @@ th {
 
 td { 
   display: table-cell;
-  text-align: inherit; 
+  text-align: inherit;
+  padding: 2px;
 }
 
 tr[align="left"],
