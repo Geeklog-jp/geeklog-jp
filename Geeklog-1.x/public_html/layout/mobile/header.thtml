@@ -2,10 +2,8 @@
 <html lang="ja">
 <head>
 <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
-<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS"{xhtml}>
 <title>{page_title}</title>
-<meta http-equiv="Cache-Control" content="no-cache"{xhtml}>
-<meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT"{xhtml}>
 </head>
 <body>
   <!-- #header { -->
@@ -14,7 +12,7 @@
     <div style="font-size:small">{site_slogan}</div>
     <div style="font-size:small">{welcome_msg}</div>
     <?php
-        if (function_exists('CUSTOM_MOBILE_is_cellular') && !CUSTOM_MOBILE_is_cellular()) {
+        if (function_exists('CUSTOM_MOBILE_is_cellular') AND !CUSTOM_MOBILE_is_cellular()) {
             echo '<p><a href="/usersettings.php?mode=edit">設定変更</a></p>';
         }
     ?>
