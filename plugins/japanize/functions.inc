@@ -130,19 +130,6 @@ function plugin_upgrade_japanize ()
 // +---------------------------------------------------------------------------+
 function plugin_autouninstall_japanize ()
 {
-    $out = array (
-        //(1) give the name of the tables, without $_TABLES[] */
-        'tables' => array('events','eventsubmission','personal_events'),
-        //(2) give the full name of the group, as in the db */
-        'groups' => array('Calendar Admin'),
-        //(3)* give the full name of the feature, as in the db */
-        'features' => array('calendar.edit', 'calendar.moderate', 'calendar.submit'),
-        //(4)* give the full name of the block, including 'phpblock_', etc */
-        'php_blocks' => array('phpblock_calendar'),
-        //(5) give all vars with their name */
-        'vars'=> array()
-    );
-
     // (1) 削除するテーブル
     $out['tables']=array();
     // (2) 削除するグループ名 
