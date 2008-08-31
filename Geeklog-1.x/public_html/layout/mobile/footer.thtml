@@ -3,7 +3,7 @@
     </div>
   <!-- } #wrapper -->
 
-  <hr color="#666699" style="color:#666699" {xhtml}>
+  <hr style="color:#666699"{xhtml}>
     <ol>
       <li>{mn_tohome}</li>
       <li>{mn_login_or_logout}</li>
@@ -13,7 +13,7 @@
       <li>{mn_search}</li>
       <li>{mn_block}</li>
     </ol>
-  <hr color="#666699" style="color:#666699" {xhtml}>
+  <hr style="color:#666699"{xhtml}>
 
 </body>
 </html>
