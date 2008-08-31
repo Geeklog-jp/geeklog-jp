@@ -36,7 +36,7 @@ $CUSTOM_MOBILE_CONF['gc_maxlifetime'] = 1440; //
 $CUSTOM_MOBILE_CONF['gc_probability'] = "1"; //
 $CUSTOM_MOBILE_CONF['gc_divisor'] = "10"; //
 
-/* Opera mobile で mobile_3gテーマが正常に表示できないことへの対応 */
+/* 暫定的に mobile_3g の使用（XHTMLの使用）を抑制 */
 $CUSTOM_MOBILE_CONF['use_xhtml_for_3g'] = false; /* falseに固定 */
 
 $CUSTOM_MOBILE_UA = 0;
