@@ -429,7 +429,15 @@ function _mobile_output_handler($content, $status)
     }
 
     if(CUSTOM_MOBILE_is_3g()) {
-        header("Content-type: application/xhtml+xml");
+// ---------------------------------------->>
+//        header("Content-type: application/xhtml+xml");
+// ----------------------------------------||
+        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
+            header ("Content-type: application/xhtml+xml");
+        } else {
+            header ('Content-Type: text/html; charset=' . "Shift_JIS");
+        }
+// ----------------------------------------<<
     } else {
         header ('Content-Type: text/html; charset=' . "Shift_JIS");
     }
