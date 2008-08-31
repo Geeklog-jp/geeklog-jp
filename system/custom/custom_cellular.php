@@ -56,7 +56,7 @@ define("MOBILE_UA_WM_3G", 22);
 
 // 補助URL
 define("RESIZER", "/imageresizer.php");
-define("BLOCKS", "/mobileblocks.php");
+define("BLOCKS", $_CONF['site_url'] . "/mobileblocks.php");
 
 // ユーザエージェントを解析して端末のタイプを判定する
 function _mobile_parse_ua()
