@@ -7,7 +7,7 @@
 //       対象：Geeklog-1.5.0
 //       作者：mystral-kk - geeklog AT mystral-kk DOT net
 // ライセンス：GPL
-// バージョン：2008-08-28
+// バージョン：2008-08-31
 //     使用法：このファイルをrequire_onceしたのち、
 //               $obj = new LocalizeGeeklog;
 //               // 日本語化するとき
@@ -216,7 +216,8 @@ class LocalizeGeeklog
 	/**
 	* 更新ピング
 	*
-	* 日本語化するときにサイト追加、戻すときに削除
+	* 日本語化するときのサイト = (BlogPeople, ping.bloggers.jp, ドリコムRSS, gooブログ)
+	* 英語に戻すときのサイト   = (Ping-O-Matic)
 	*
 	* @access protected
 	*/
@@ -227,6 +228,8 @@ class LocalizeGeeklog
 		$sqls = array();
 		
 		if ($this->_mode == 'ja') {
+			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
+					. "WHERE (name = 'Ping-O-Matic')";
 			if (DB_count($_TABLES['pingservice'], 'name', 'BlogPeople') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
@@ -248,17 +251,25 @@ class LocalizeGeeklog
 						. "'http://ping.rss.drecom.jp/', "
 						. "'weblogUpdates.ping', 1)";
 			}
-			if (DB_count($_TABLES['pingservice'], 'name', 'Technorati Japan') == 0) {
+			if (DB_count($_TABLES['pingservice'], 'name', 'gooブログ') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
-						. "(0, 'Technorati Japan', 'http://technorati.jp/', "
-						. "'http://rpc.technorati.jp/rpc/ping', "
+						. "(0, 'gooブログ', 'http://blog.goo.ne.jp/', "
+						. "'http://blog.goo.ne.jp/XMLRPC', "
 						. "'weblogUpdates.ping', 1)";
 			}
 		} else if ($this->_mode == 'en') {
+			if (DB_count($_TABLES['pingservice'], 'name', 'Ping-O-Matic') == 0) {
+				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
+						. "site_url, ping_url, method, is_enabled) VALUES "
+						. "(0, 'Ping-O-Matic', 'http://pingomatic.com/', "
+						. "'http://rpc.pingomatic.com/', "
+						. "'weblogUpdates.ping', 1)";
+			}
+			
 			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
 					. "WHERE (name IN ('BlogPeople', 'ping.bloggers.jp', "
-					. "'" . addslashes('ドリコムRSS') . "', 'Technorati Japan'))";
+					. "'ドリコムRSS', 'gooブログ'))";
 		}
 		
 		if (count($sqls) > 0) {
@@ -436,20 +447,20 @@ class LocalizeGeeklog
 			$c->set(
 				'user_html',
 				array(
-					'p'      => array(),
-					'b'      => array(),
-					'strong' => array(),
-					'i'      => array(),
 					'a'      => array('href' => 1, 'title' => 1, 'rel' => 1),
-					'em'     => array(),
+					'b'      => array(),
 					'br'     => array(),
-					'tt'     => array(),
+					'code'   => array(),
+					'em'     => array(),
 					'hr'     => array(),
+					'i'      => array(),
 					'li'     => array(),
 					'ol'     => array(),
-					'ul'     => array(),
-					'code'   => array(),
+					'p'      => array(),
 					'pre'    => array(),
+					'strong' => array(),
+					'tt'     => array(),
+					'ul'     => array(),
 				)
 			);
 			$c->set(
@@ -541,14 +552,14 @@ class LocalizeGeeklog
 				} else {
 					$c->set('locale', 'ja_JP.UTF-8');
 				}
-				$c->set('date', '%Y年%B%e日(%a) %H:%M (%Z)');
-				$c->set('daytime', '%B%e日 %H:%M');
-				$c->set('shortdate', '%x');
+				$c->set('date', '%Y年%B%e日(%a) %H:%M %Z');
+				$c->set('daytime', '%m/%d %H:%M %Z');
+				$c->set('shortdate', '%Y年%B%e日');
 				$c->set('dateonly', '%B%e日');
 			}
 			
 			$c->set('rdf_language', 'ja');
-			$c->set('timeonly', '%H:%M');
+			$c->set('timeonly', '%H:%M %Z');
 			$c->set('hour_mode', 24);
 			$c->set('timezone', 'Asia/Tokyo');
 			
@@ -556,66 +567,90 @@ class LocalizeGeeklog
 			$c->set(
 				'user_html',
 				array(
-					'p'      => array(),
-					'b'      => array(),
-					'strong' => array(),
-					'i'      => array(),
-					'a'      => array('href' => 1, 'title' => 1, 'rel' => 1),
-					'em'     => array(),
-					'br'     => array(),
-					'tt'     => array(),
-					'hr'     => array(),
-					'li'     => array(),
-					'ol'     => array(),
-					'ul'     => array(),
-					'code'   => array(),
-					'div'    => array('class' => 1, 'id' => 1),
-					'pre'    => array(),
+					'a'          => array('href' => 1, 'title' => 1, 'rel' => 1),
+					'b'          => array(),
+					'blockquote' => array(),
+					'br'         => array('clear' => 1),
+					'code'       => array(),
+					'div'        => array('class' => 1, 'id' => 1),
+					'em'         => array(),
+					'font'       => array('color' => 1),
+					'h'          => array(),
+					'hr'         => array(),
+					'i'          => array(),
+					'li'         => array(),
+					'ol'         => array(),
+					'p'          => array('lang' => 1),
+					'pre'        => array(),
+					'strong'     => array(),
+					'tt'         => array(),
+					'ul'         => array(),
 				)
 			);
 			$c->set(
 				'admin_html',
 				array (
-					'a'      => array(
-									'href' => 1, 'title' => 1, 'id' => 1,
-									'lang' => 1, 'name' => 1, 'type' => 1,
-									'rel' => 1
+					'a'        => array(
+									'href' => 1, 'title' => 1, 'id'   => 1,
+									'lang' => 1, 'name'  => 1, 'type' => 1,
+									'rel'  => 1
 								),
-					'p'      => array(
-									'class' => 1, 'id' => 1, 'align' => 1, 'style' => 1
+					'br'       => array('style' => 1),
+					'caption'  => array('style' => 1),
+					'div'      => array('style' => 1),
+					'embed'    => array(
+									'align'       => 1, 'height'  => 1, 'loop' => 1,
+									'pluginspage' => 1, 'quality' => 1, 'src'  => 1,
+									'type'        => 1, 'width'   => 1
 								),
-					'div'    => array('class' => 1, 'id' => 1, 'style' => 1),
-					'font'   => array('face' => 1, 'size' => 1, 'style' => 1),
-					'hr'     => array('style' => 1),
-					'img'    => array(
-									'src' => 1, 'width' => 1, 'height' => 1,
-									'vspace' => 1, 'hspace' => 1, 'dir' => 1,
-									'align' => 1, 'valign' => 1, 'border' => 1,
-									'lang' => 1, 'longdesc' => 1, 'title' => 1,
-									'id' => 1, 'alt' => 1, 'style' => 1
+					'h1'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'h2'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'h3'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'h4'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'h5'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'h6'       => array('class' => 1, 'id' => 1, 'style' => 1),
+					'hr'       => array('align' => 1, 'class' => 1, 'id' => 1),
+					'img'      => array(
+									'align'  => 1, 'alt'    => 1, 'border'   => 1,
+									'dir'    => 1, 'height' => 1, 'hspace'   => 1,
+									'id'     => 1, 'lang'   => 1, 'longdesc' => 1,
+									'src'    => 1, 'style'  => 1, 'title'    => 1,
+									'valign' => 1, 'vspace' => 1, 'width'    => 1
 								),
-					'ol'     => array('style' => 1),
-					'ul'     => array('style' => 1),
-					'span'   => array('class' => 1, 'id' => 1, 'style' => 1),
-					'table'  => array(
-									'class' => 1, 'id' => 1, 'width' => 1,
-									'border' => 1, 'cellspacing' => 1,
-									'cellpadding' => 1, 'style' => 1
+					'noscript' => array(),
+					'object'   => array(
+									'align' => 1, 'classid' => 1, 'codebase' => 1,
+									'data'  => 1, 'height'  => 1, 'type'     => 1,
+									'width' => 1
 								),
-					'caption' => array(),
-					'tr'     => array(
-									'class' => 1, 'id' => 1, 'align' => 1,
+					'ol'       => array('class' => 1, 'style' => 1),
+					'p'        => array(
+									'align' => 1, 'class' => 1, 'id' => 1
+								),
+					'param'    => array('name' => 1, 'value' => 1),
+					'script'   => array(
+									'language' => 1, 'src' => 1, 'type' => 1
+								),
+					'span'     => array('class' => 1, 'id' => 1, 'lang' => 1),
+					'table'    => array(
+									'border'      => 1, 'cellpadding' => 1,
+									'cellspacing' => 1, 'class'       => 1,
+									'id'          => 1, 'width'       => 1
+								),
+					'tbody'    => array(),
+					'td'       => array(
+									'align'  => 1, 'class'   => 1, 'colspan' => 1,
+									'id'     => 1, 'rowspan' => 1, 'valign'  => 1
+								),
+					'th'       => array(
+									'align'  => 1, 'class'   => 1, 'colspan' => 1,
+									'id'     => 1, 'rowspan' => 1, 'valign'  => 1
+								),
+					'tr'       => array(
+									'align'  => 1, 'class'   => 1, 'id'      => 1, 
 									'valign' => 1
 								),
-					'th'     => array(
-									'class' => 1, 'id' => 1, 'align' => 1,
-									'valign' => 1, 'colspan' => 1, 'rowspan' => 1
-								),
-					'td'     => array(
-									'class' => 1, 'id' => 1, 'align' => 1,
-									'valign' => 1, 'colspan' => 1, 'rowspan' => 1
-								),
-					'tbody'  => array(),
+					'ul'       => array('class' => 1, 'style' => 1),
 				)
 			);
 			
