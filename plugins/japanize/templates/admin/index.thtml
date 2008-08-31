@@ -4,8 +4,8 @@
 <legend>テーブル構造</legend>
 <p>テーブル構造を日本語化します。</p>
 <ul>
-  <li>シンジケーションテーブルの文字コードをutf-8に言語をjaにする</li>
-  <li>ユーザ名の桁数を108に拡大</li>
+  <li>フィード　文字コード:utf-8、言語:ja</li>
+  <li>ユーザ名の桁数:108に拡大</li>
 </ul>
 <blockquote>
 <p><a href="{this_script}?mode=cmd1">日本語化実行</a>
@@ -14,20 +14,20 @@
 </fieldset>
 
 <fieldset style="margin-top:10px;">
-<legend>コンフィギュレーション</legend><p>コンフィギュレーションを日本語化します。</p>
-【サイト】
+<legend>コンフィギュレーション</legend>
+<p>コンフィギュレーションを日本語化します。</p>
+<p>【サイト】</p>
 <ul>
   <li>サイト･･･disabledmsg.htmlのURLを設定</li>
-  <li>シンジケーション･･･フィードの言語をjaに設定</li>
+  <li>フィード･･･フィードの言語をjaに設定</li>
 </ul>
 <p>【ブロック】</p>
 <ul>
-  <li>管理者ブロック･･･リンクをソートする いいえ　0:表示しない</li>
-  <li>話題ブロック･･･記事投稿数を表示する いいえ　0:表示しない</li>
-  <li>話題ブロック･･･Homeへのリンクを隠す はい　1:隠す</li>
+  <li>管理者ブロック･･･リンクをソートしない</li>
+  <li>話題ブロック･･･記事投稿数を表示しない</li>
+  <li>話題ブロック･･･Homeへのリンクを隠す</li>
 </ul>
-<p>
-【ユーザと投稿】</p>
+<p>【ユーザと投稿】</p>
 <ul>
   <li>コメント･･･コメント形状 flat:一覧</li> 
 </ul>
@@ -36,8 +36,7 @@
   <li>画像ライブラリ･･･画像ライブラリ:GDライブラリ</li>
   <li>画像ライブラリ･･･記事の画像高さの最大値:120ピクセル</li>
 </ul>
-<p>
-【言語とロケール】</p>
+<p>【言語とロケール】</p>
 <ul>
   <li>ロケール･･･ロケール ja_JP.UTF-8</li> 
   <li>ロケール･･･日付 %Y年%B%e日(%a) %H:%M %Z</li> 
@@ -68,35 +67,28 @@
   <li>ｇoo ブログ</li> 
 </ul>
 <blockquote>
-<p>
-<a href="{this_script}?mode=cmd3">日本語化実行</a>
-
-</p>
-
+<p><a href="{this_script}?mode=cmd3">日本語化実行</a></p>
 </blockquote>
-
 </fieldset>
 
 <fieldset style="margin-top:10px;">
 <legend>Anonymous</legend>
-Anonymousの表記をゲストユーザに変更します。
+<p>Anonymousの表記をゲストユーザに変更します。</p>
 <blockquote>
 <p><a href="{this_script}?mode=cmd4">日本語化実行</a></p>
 </blockquote>
 </fieldset>
 
 <fieldset style="margin-top:10px;">
-<legend>Anonymous</legend>
-<p>グループ　詳細を日本語に変更します。</p>
+<legend>グループ管理画面</legend>
+<p>説明文を日本語に変更します。</p>
 <blockquote>
 <p><a href="{this_script}?mode=cmd5">日本語化実行</a></p>
 </blockquote>
-<p>グループ　詳細を英語に戻します。</p>
+<p>説明文を英語に戻します。</p>
 <blockquote>
 <p><a href="{this_script}?mode=cmd105">英語化実行（日本語化キャンセル）</a></p>
-
 </blockquote>
-
 </fieldset>
 
 <!-- } plugins/japanize/templates/admin/index.thtml -->
