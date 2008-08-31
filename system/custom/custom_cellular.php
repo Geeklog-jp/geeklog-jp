@@ -36,6 +36,9 @@ $CUSTOM_MOBILE_CONF['gc_maxlifetime'] = 1440; //
 $CUSTOM_MOBILE_CONF['gc_probability'] = "1"; //
 $CUSTOM_MOBILE_CONF['gc_divisor'] = "10"; //
 
+/* 暫定的に mobile_3g の使用（XHTMLの使用）を抑制 */
+$CUSTOM_MOBILE_CONF['use_xhtml_for_3g'] = false; /* falseに固定 */
+
 $CUSTOM_MOBILE_UA = 0;
 
 define("MOBILE_3G", 16);
@@ -426,7 +429,15 @@ function _mobile_output_handler($content, $status)
     }
 
     if(CUSTOM_MOBILE_is_3g()) {
-        header("Content-type: application/xhtml+xml");
+// ---------------------------------------->>
+//        header("Content-type: application/xhtml+xml");
+// ----------------------------------------||
+        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
+            header ("Content-type: application/xhtml+xml");
+        } else {
+            header ('Content-Type: text/html; charset=' . "Shift_JIS");
+        }
+// ----------------------------------------<<
     } else {
         header ('Content-Type: text/html; charset=' . "Shift_JIS");
     }
@@ -652,14 +663,28 @@ if(CUSTOM_MOBILE_is_cellular()) {
 
     // ケータイ用のテーマを使用
     if(CUSTOM_MOBILE_is_3g()) {
-        $_CONF['theme'] = 'mobile_3g';
-        $_POST['usetheme'] = 'mobile_3g';
-        $_USER['theme'] = 'mobile_3g';
+// ---------------------------------------->>
+//        $_CONF['theme'] = 'mobile_3g';
+//        $_POST['usetheme'] = 'mobile_3g';
+//        $_USER['theme'] = 'mobile_3g';
+//        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
+//            define('XHTML', ' /');
+//        } else {
+//            define('XHTML', '');
+//        }
+// ----------------------------------------||
         if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
-            define('XHTML', '/');
+           $_CONF['theme'] = 'mobile_3g';
+           $_POST['usetheme'] = 'mobile_3g';
+           $_USER['theme'] = 'mobile_3g';
+            define('XHTML', ' /');
         } else {
+            $_CONF['theme'] = 'mobile';
+            $_POST['usetheme'] = 'mobile';
+            $_USER['theme'] = 'mobile';
             define('XHTML', '');
         }
+// ----------------------------------------<<
     } else {
         $_CONF['theme'] = 'mobile';
         $_POST['usetheme'] = 'mobile';
