@@ -17,7 +17,7 @@ $_SQL[] = "
     value = 's:{$wklen}:{$wk}'
     WHERE name = 'site_disabled_msg'
     ";
-//フィード･･･フィードの言語
+//シンジケーション･･･フィードの言語
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET 
     value = 's:2:\"ja\";'
