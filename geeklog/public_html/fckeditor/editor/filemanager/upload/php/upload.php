@@ -18,6 +18,10 @@
  * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
  */
 
+if (strpos($_SERVER['PHP_SELF'], 'upload.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 require('config.php') ;
 require('util.php') ;
 
