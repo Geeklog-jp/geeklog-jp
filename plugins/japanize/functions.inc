@@ -32,7 +32,7 @@ if (file_exists ($langfile)) {
 //    $_CA_CONF = $ca_config->get_config($pi_name);
 //}
 
-$_JPN_CONF['version'] = '1.0.0b2';
+$_JPN_CONF['version'] = '1.0.0b3';
 
 
 // アドバンストエディタ用．管理ユーザーが使ってもよいHTMLタグと属性．
@@ -130,6 +130,7 @@ function plugin_upgrade_japanize ()
 // +---------------------------------------------------------------------------+
 function plugin_autouninstall_japanize ()
 {
+
     // (1) 削除するテーブル
     $out['tables']=array();
     // (2) 削除するグループ名 
