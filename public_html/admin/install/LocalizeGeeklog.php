@@ -118,7 +118,7 @@ class LocalizeGeeklog
 		
 		$this->_changeMain();
 		$this->_changeLinks();
-		$this->_changePingServices();
+//		$this->_changePingServices();
 		$this->_changeStories();
 		$this->_changeUsers();
 		$this->_changeMisc();
@@ -1538,7 +1538,7 @@ class LocalizeGeeklog
 				'value'  => 'General',
 				'target' => 'topic',
 				'en'     => 'General News',
-				'ja'     => '一般',
+				'ja'     => 'おしらせ',
 			),
 		),
 		
