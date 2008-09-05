@@ -631,9 +631,9 @@ function INST_installEngine($install_type, $install_step)
 
                         INST_checkPlugins();
 
-                        require_once 'LocalizeGeeklog.php';
-                        $obj = new LocalizeGeeklog('ja');
-                        $obj->execute();
+                        // require_once 'LocalizeGeeklog.php';
+                        // $obj = new LocalizeGeeklog('ja');
+                        // $obj->execute();
                         // Great, installation is complete, redirect to success page
                         header('Location: success.php?type=upgrade&language=' . $language);
                     } else {
