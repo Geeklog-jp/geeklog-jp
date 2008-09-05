@@ -342,7 +342,7 @@ function INST_installEngine($install_type, $install_step)
                         $dbconfig_data = str_replace("\$_DB_dbms = '" . $_DB_dbms . "';", "\$_DB_dbms = '" . $db_type . "';", $dbconfig_data); // Database type ('mysql' or 'mssql')
 
                         // Write our changes to db-config.php
-                        $dbconfig_file = fopen($dbconfig_path, 'w');
+                        $dbconfig_file = fopen($dbconfig_path, 'wb');
                         if (!fwrite($dbconfig_file, $dbconfig_data)) {
                             exit($LANG_INSTALL[26] . ' ' . $dbconfig_path
                                  . $LANG_INSTALL[58]);
@@ -1589,7 +1589,7 @@ function INST_setDefaultCharset($siteconfig_path, $charset)
              $siteconfig_data
             );
 
-    $siteconfig_file = fopen($siteconfig_path, 'w');
+    $siteconfig_file = fopen($siteconfig_path, 'wb');
     if (!fwrite($siteconfig_file, $siteconfig_data)) {
         $result = false;
     }
@@ -2008,7 +2008,7 @@ switch ($mode) {
                                 "\$_CONF['path'] = '" . str_replace('db-config.php', '', $_PATH['db-config.php']) . "';",
                                 $siteconfig_data);
 
-            $siteconfig_file = fopen($siteconfig_path, 'w');
+            $siteconfig_file = fopen($siteconfig_path, 'wb');
             if (!fwrite($siteconfig_file, $siteconfig_data)) {
                 exit ($LANG_INSTALL[26] . ' ' . $_PATH['public_html/'] . $LANG_INSTALL[28]);
             }
