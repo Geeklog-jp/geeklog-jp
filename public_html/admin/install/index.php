@@ -228,6 +228,11 @@ function INST_installEngine($install_type, $install_step)
             if ($install_type == 'install') {
                 $display .= '
                     <p><label class="' . $label_dir . '">' . $LANG_INSTALL[92] . ' ' . INST_helpLink('utf8') . '</label> <input type="checkbox" name="utf8"' . ($utf8 ? ' checked="checked"' : '') . XHTML . '></p>';
+            } else {
+                if ($utf8) {
+                    $display .= '
+                    <input type="hidden" name="utf8" value="on"'. XHTML .'>';
+                }
             }
 
             $display .= '
@@ -345,12 +350,10 @@ function INST_installEngine($install_type, $install_step)
                         fclose($dbconfig_file);
 
                         // for the default charset, patch siteconfig.php again
-                        if ($install_type != 'upgrade') {
-                            if (!INST_setDefaultCharset($siteconfig_path,
-                                    ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
-                                exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
-                                     . $LANG_INSTALL[58]);
-                            }
+                        if (!INST_setDefaultCharset($siteconfig_path,
+                                ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
+                            exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
+                                 . $LANG_INSTALL[58]);
                         }
 
                         require $dbconfig_path;
