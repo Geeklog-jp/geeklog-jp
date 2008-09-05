@@ -50,7 +50,7 @@ repositry="https://geeklog-jp.googlecode.com/svn"
 base="trunk/Geeklog-1.x"
 
 usage() {
-    echo "Usage: $0 rev file-path."
+    echo "Usage: $0 rev[:rev] file."
     exit $1
 }
 
@@ -58,11 +58,18 @@ if [ $# -lt 2 ]; then
     usage 1
 fi
 revision=$1
-shift
-path="$*"
+path=$2
 
 if [ -f "${path}" ]; then
-    svn merge -c ${revision} "${repositry}/${base}/${path}" "${path}"
+    case "${revision}" in
+    *:*)	opts=-r;;
+    *)		opts=-c;;
+    esac
+    svn merge ${opts} ${revision} "${repositry}/${base}/${path}" "${path}"
 else
-    svn copy -r ${revision} "${repositry}/${base}/${path}" "${path}"
+    case "${revision}" in
+	*:*)	echo "You can't specify revision range for for a new file." 1>&2
+    		exit 1;;
+	*)	svn copy -r ${revision} "${repositry}/${base}/${path}" "${path}"
+    esac
 fi
