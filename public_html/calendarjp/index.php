@@ -40,6 +40,9 @@ if (!in_array('calendarjp', $_PLUGINS)) {
 }
 
 require_once $_CONF['path_system'] . 'classes/calendar.class.php';
+require_once $_CONF['path_system'] . 'classes/navbar.class.php';
+
+$this_script = $_CONF['site_url'] . '/calendarjp/index.php';
 
 $display = '';
 
@@ -343,7 +346,7 @@ function getQuickAdd($tpl, $month, $day, $year, $token)
         $tpl->set_var('hour_options', COM_getHourFormOptions($cur_hour));
     }
     $tpl->set_var('startampm_selection',
-                  COM_getAmPmFormSelection('start_ampm', $ampm));
+                  CALENDARJP_getAmPmFormSelection('start_ampm', $ampm));
     $cur_min = intval(date('i') / 15) * 15;
     $tpl->set_var('minute_options', COM_getMinuteFormOptions($cur_min, 15));
 
@@ -375,6 +378,12 @@ function getPriorSunday($month, $day, $year)
 
     return array($newmonth, $newday, $newyear);
 }
+
+// NAVBAR
+$navbar = new navbar;
+$navbar->add_menuitem($LANG_CALJP_2[39], $this_script . '?mode=$mode&amp;view=day');
+$navbar->add_menuitem($LANG_CALJP_2[40], $this_script . '?mode=$mode&amp;view=week');
+$navbar->add_menuitem($LANG_CALJP_2[41], $this_script . '?mode=$mode');
 
 // MAIN
 $mode = '';
@@ -508,6 +517,10 @@ case 'day':
     $cal_templates->set_var('lang_day', $LANG_CALJP_2[39]);
     $cal_templates->set_var('lang_week', $LANG_CALJP_2[40]);
     $cal_templates->set_var('lang_month', $LANG_CALJP_2[41]);
+
+    $navbar->set_selected($LANG_CALJP_2[39]); // added by dengen ***********************
+    $cal_templates->set_var('navbar', $navbar->generate());
+
     list($wmonth, $wday, $wyear) = getPriorSunday($month, $day, $year);
     $cal_templates->set_var('wmonth', $wmonth);
     $cal_templates->set_var('wday', $wday);
@@ -678,6 +691,9 @@ case 'week':
     $cal_templates->set_var ('lang_week', $LANG_CALJP_2[40]);
     $cal_templates->set_var ('lang_month', $LANG_CALJP_2[41]);
 
+    $navbar->set_selected($LANG_CALJP_2[40]); // added by dengen ***********************
+    $cal_templates->set_var('navbar', $navbar->generate());
+
     if ($_CONF['week_start'] == 'Mon') {
         $time_day1 = mktime (0, 0, 0, $month, $day + 1, $year);
         $time_day7 = mktime (0, 0, 0, $month, $day + 7, $year);
@@ -838,7 +854,7 @@ $cal_templates->set_file (array (
         'addevent'    => 'addeventoption.thtml'
         ));
 
-$cal_templates->set_var ( 'xhtml', XHTML );
+$cal_templates->set_var ('xhtml', XHTML);
 $cal_templates->set_var ('site_url', $_CONF['site_url']);
 $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
 $cal_templates->set_var ('layout_url', $_CONF['layout_url']);
@@ -890,6 +906,9 @@ $cal_templates->set_var ('month_options', CALENDARJP_getMonthFormOptions ($month
 $cal_templates->set_var('lang_day', $LANG_CALJP_2[39]);
 $cal_templates->set_var('lang_week', $LANG_CALJP_2[40]);
 $cal_templates->set_var('lang_month', $LANG_CALJP_2[41]);
+
+$navbar->set_selected($LANG_CALJP_2[41]); // added by dengen ***********************
+$cal_templates->set_var('navbar', $navbar->generate());
 
 if ($mode == 'personal') {
     $cal_templates->set_var ('calendar_title',

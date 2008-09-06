@@ -96,6 +96,12 @@ $_CAJP_DEFAULT['aftersave'] = 'list';
 // (a value of 1, ie. write-only, does not make sense and is not allowed)
 $_CAJP_DEFAULT['default_permissions'] = array(3, 2, 2, 2);
 
+// Support Advanced Rich Text Editor
+$_CAJP_DEFAULT['advanced_editor'] = true;
+
+// Default Post Mode
+$_CAJP_DEFAULT['postmode'] = 'plaintext';
+
 
 /**
 * Initialize Calendarjp plugin configuration
@@ -157,6 +163,12 @@ function plugin_initconfig_calendarjp()
                 'select', 0, 0, 0, 100, true, 'calendarjp');
         $c->add('aftersave', $_CAJP_DEFAULT['aftersave'],
                 'select', 0, 0, 9, 110, true, 'calendarjp');
+
+        $c->add('advanced_editor', $_CAJP_DEFAULT['advanced_editor'],
+                'select', 0, 0, 1, 120, true, 'calendarjp');
+
+        $c->add('postmode', $_CAJP_DEFAULT['postmode'],
+                'select', 0, 0, 5, 130, true, 'calendarjp');
 
         $c->add('fs_permissions', NULL, 'fieldset', 0, 1, NULL, 0, true,
                 'calendarjp');

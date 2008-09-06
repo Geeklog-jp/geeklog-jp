@@ -213,6 +213,10 @@ $LANG_confignames['calendarjp'] = array(
     'notification' => 'メールで通知する',
     'delete_event' => '所有者の削除と共に削除する',
     'aftersave' => 'イベント保存後の画面遷移',
+
+    'advanced_editor' => 'アドバンストエディタを使う',
+    'postmode' => "デフォルトの投稿モード",
+
     'default_permissions' => 'パーミッション'
 );
 
@@ -229,6 +233,7 @@ $LANG_fs['calendarjp'] = array(
 $LANG_configselects['calendarjp'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    5 => array_flip($LANG_postmodes),
     6 => array('12' => '12', '24' => '24'),
     9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)

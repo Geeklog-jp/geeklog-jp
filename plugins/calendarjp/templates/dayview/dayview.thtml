@@ -1,4 +1,6 @@
 
+{navbar}
+<!--
 <table width="100%" border="0" cellpadding="5" cellspacing="0" class="cal-header">
     <tr align="center">
         <td width="33%" align="center"><b>{lang_day}</b></td>
@@ -7,6 +9,7 @@
     </tr>
 </table>
 <br{xhtml}>
+-->
 
 <table width="100%" cellspacing="0" border="0">
     <tr>
