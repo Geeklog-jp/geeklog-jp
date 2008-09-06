@@ -749,9 +749,9 @@ function plugin_submit_calendarjp($mode = 'master')
     }
 
     $eventform->set_var ('startampm_selection',
-                         COM_getAmPmFormSelection ('start_ampm', $ampm));
+                         CALENDARJP_getAmPmFormSelection ('start_ampm', $ampm));
     $eventform->set_var ('endampm_selection',
-                         COM_getAmPmFormSelection ('end_ampm', $ampm));
+                         CALENDARJP_getAmPmFormSelection ('end_ampm', $ampm));
 
     if ($cur_hour > 12) {
         $cur_hour = $cur_hour - 12;
@@ -1902,6 +1902,53 @@ function CALENDARJP_getMonthFormOptions( $selected = '' )
     }
 
     return $month_options;
+}
+
+/**
+* Create an am/pm selector dropdown menu
+*
+* @param    string  $name       name of the <select>
+* @param    string  $selected   preselection: 'am' or 'pm'
+* @return   string  HTML for the dropdown; empty string in 24 hour mode
+*
+*/
+function CALENDARJP_getAmPmFormSelection( $name, $selected = '' )
+{
+    global $_CONF, $_CAJP_CONF;
+
+    $hour_mode = '';
+    if (isset($_CAJP_CONF['hour_mode']) && ($_CAJP_CONF['hour_mode'] == '12')) {
+        $hour_mode = '12';
+    } else if (isset($_CAJP_CONF['hour_mode']) && ($_CAJP_CONF['hour_mode'] == '24')) {
+        $hour_mode = '24';
+    }
+    if ($hour_mode == '') {
+        if (isset($_CONF['hour_mode']) && ($_CONF['hour_mode'] == '12')) {
+            $hour_mode = '12';
+        } else {
+            $hour_mode = '24';
+        }
+    }
+
+    $retval = '';
+    if ($hour_mode == '12') {
+        if (empty($selected)) {
+            $selected = date('a');
+        }
+
+        $retval .= '<select name="' . $name . '">' . LB;
+        $retval .= '<option value="am"';
+        if ($selected == 'am') {
+            $retval .= ' selected="selected"';
+        }
+        $retval .= '>am</option>' . LB . '<option value="pm"';
+        if ($selected == 'pm') {
+            $retval .= ' selected="selected"';
+        }
+        $retval .= '>pm</option>' . LB . '</select>' . LB;
+    }
+
+    return $retval;
 }
 
 ?>

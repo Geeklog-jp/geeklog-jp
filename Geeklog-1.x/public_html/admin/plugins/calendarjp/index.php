@@ -72,7 +72,7 @@ if (!SEC_hasRights('calendarjp.edit')) {
 function CALENDARJP_editEvent ($mode, $A, $msg = '')
 {
     global $_CONF, $_GROUPS, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1,
-           $LANG_CALJP_ADMIN, $LANG10, $LANG12, $LANG_ACCESS, $LANG_ADMIN,
+           $LANG_CALJP_ADMIN, $LANG10, $LANG12, $LANG24, $LANG_ACCESS, $LANG_ADMIN,
            $MESSAGE;
 
     $retval = '';
@@ -85,13 +85,36 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     }
 
     $event_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/admin');
-    $event_templates->set_file('editor','eventeditor.thtml');
+    if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1 ) ) {
+        $event_templates->set_file('editor','eventeditor_advanced.thtml');
+    } else {
+        $event_templates->set_file('editor','eventeditor.thtml');
+    }
     $event_templates->set_var( 'xhtml', XHTML );
     $event_templates->set_var('site_url', $_CONF['site_url']);
     $event_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
     $event_templates->set_var('layout_url',$_CONF['layout_url']);
     $event_templates->set_var('lang_allowed_html', COM_allowedHTML());
     $event_templates->set_var('lang_postmode', $LANG_CALJP_ADMIN[3]);
+    $event_templates->set_var('lang_expandhelp', $LANG24[67]);
+    $event_templates->set_var('lang_reducehelp', $LANG24[68]);
+    $event_templates->set_var ('lang_toolbar', $LANG24[70]);
+    $event_templates->set_var ('toolbar1', $LANG24[71]);
+    $event_templates->set_var ('toolbar2', $LANG24[72]);
+    $event_templates->set_var ('toolbar3', $LANG24[73]);
+    $event_templates->set_var ('toolbar4', $LANG24[74]);
+    $event_templates->set_var ('toolbar5', $LANG24[75]);
+    $event_templates->set_var ('change_editormode', 'onchange="change_editmode(this);"');
+
+    if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1) ) {
+        if ($A['postmode'] == 'adveditor') {
+            $event_templates->set_var ('show_texteditor', 'none');
+            $event_templates->set_var ('show_htmleditor', '');
+        } else {
+            $event_templates->set_var ('show_texteditor', '');
+            $event_templates->set_var ('show_htmleditor', 'none');
+        }
+    }
 
     if ($mode <> 'editsubmission' AND !empty($A['eid'])) {
         // Get what level of access user has to this object
@@ -116,6 +139,8 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
         $access = 3;
     }
 
+// ------------------------------>>
+/*
     if ($mode == 'editsubmission') {
         $event_templates->set_var('post_options', COM_optionList($_TABLES['postmodes'],'code,name','plaintext'));
     } else {
@@ -124,6 +149,30 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
         }
         $event_templates->set_var('post_options', COM_optionList($_TABLES['postmodes'],'code,name',$A['postmode']));
     }
+*/
+// ------------------------------||
+    if ($mode == 'editsubmission') {
+        $post_options = COM_optionList($_TABLES['postmodes'],'code,name','plaintext');
+    } else {
+        if (!isset($A['postmode'])) {
+            $A['postmode'] = $_CAJP_CONF['postmode'];
+        }
+        $post_options = COM_optionList($_TABLES['postmodes'],'code,name',$A['postmode']);
+
+        if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1) ) {
+            if ($A['postmode'] == 'adveditor') {
+                $post_options .= '<option value="adveditor" selected="selected">'.$LANG24[86].'</option>';
+            } else {
+                $post_options .= '<option value="adveditor">'.$LANG24[86].'</option>';
+            }
+        }
+    }
+    $event_templates->set_var('post_options', $post_options);
+// ------------------------------<<
+
+
+
+
 
     $retval .= COM_startBlock($LANG_CALJP_ADMIN[1], '',
                               COM_getBlockTemplate ('_admin_block', 'header'));
@@ -283,9 +332,9 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     }
 
     $event_templates->set_var ('startampm_selection',
-                        COM_getAmPmFormSelection ('start_ampm', $startampm));
+                        CALENDARJP_getAmPmFormSelection ('start_ampm', $startampm));
     $event_templates->set_var ('endampm_selection',
-                        COM_getAmPmFormSelection ('end_ampm', $endampm));
+                        CALENDARJP_getAmPmFormSelection ('end_ampm', $endampm));
 
     $event_templates->set_var ('startminute_options',
                                COM_getMinuteFormOptions ($start_minute, 15));
@@ -499,7 +548,7 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
     }
 
     // clean 'em up
-    if ($postmode == 'html') {
+    if (($postmode == 'html') || ($postmode == 'adveditor')) {
         $description = COM_checkHTML (COM_checkWords ($description));
     } else {
         $postmode = 'plaintext';
@@ -665,7 +714,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
             COM_applyFilter ($_POST['end_minute'], true), $_POST['end_ampm'],
             $_POST['location'], $_POST['address1'], $_POST['address2'],
             $_POST['city'], $_POST['state'], $_POST['zipcode'],
-            $_POST['description'], $_POST['postmode'] ,
+            $_POST['text_description'], $_POST['postmode'] ,
             COM_applyFilter ($_POST['owner_id'], true),
             COM_applyFilter ($_POST['group_id'], true),
             $_POST['perm_owner'], $_POST['perm_group'],

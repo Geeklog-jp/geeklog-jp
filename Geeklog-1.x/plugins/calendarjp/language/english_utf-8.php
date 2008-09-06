@@ -209,6 +209,10 @@ $LANG_confignames['calendarjp'] = array(
     'notification' => 'Notification Email?',
     'delete_event' => 'Delete Events with Owner?',
     'aftersave' => 'After Saving Event',
+
+    'advanced_editor' => 'Advanced Editor?',
+    'postmode' => "Default Post Mode",
+
     'default_permissions' => 'Event Default Permissions'
 );
 
@@ -225,6 +229,7 @@ $LANG_fs['calendarjp'] = array(
 $LANG_configselects['calendarjp'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
+    5 => array_flip($LANG_postmodes),
     6 => array('12' => '12', '24' => '24'),
     9 => array('Forward to Event' => 'item', 'Display Admin List' => 'list', 'Display Calendar' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
     12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
