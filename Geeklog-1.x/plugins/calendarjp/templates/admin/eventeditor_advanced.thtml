@@ -1,5 +1,11 @@
 
-<form action="{site_admin_url}/plugins/calendarjp/index.php" name="events" method="post">
+<script type="text/javascript">
+    // Setup editor path for FCKeditor JS Functions
+    geeklogEditorBasePath = "{site_url}/fckeditor/";
+</script>
+<script type="text/javascript" src="{site_url}/calendarjp/eventeditor_fckeditor.js"></script>
+
+<form action="{site_admin_url}/plugins/calendarjp/index.php" name="events" method="post" onsubmit='set_postcontent();'>
     <table border="0" cellspacing="0" cellpadding="3" class="events">
         <tr>
             <td align="right" style="width:10em">{lang_eventtitle}:</td>
@@ -34,8 +40,7 @@
                 日&nbsp;&nbsp;{lang_starttime}: 
                 <select name="start_hour">
                     {starthour_options}
-                </select>
-                :
+                </select>&nbsp;:
                 <select name="start_minute">
                     {startminute_options}
                 </select>
@@ -61,8 +66,7 @@
                 日&nbsp;&nbsp;{lang_endtime}: 
                 <select name="end_hour">
                     {endhour_options}
-                </select>
-                :
+                </select>&nbsp;:
                 <select name="end_minute">
                     {endminute_options}
                 </select>
@@ -102,17 +106,37 @@
         </tr>
         <tr>
             <td align="right">{lang_eventurl}:</td>
-            <td><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" name="url" value="{event_url}"{xhtml}> {lang_includehttp}</td>
+            <td><input type="text" dir="ltr" size="48"  maxlength="{max_url_length}" name="url" value="{event_url}"{xhtml}> {lang_includehttp}</td>
         </tr>
         <tr>
             <td align="right" valign="top">{lang_eventdescription}:</td>
-            <td><textarea name="description" style="width:100%" cols="50" rows="10">{event_description}</textarea></td>
+            <td>
+                <div id="text_editor" style="display:{show_texteditor}">
+                    <img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" alt="" onclick="changeTextAreaSize('text_description','larger');"{xhtml}>
+                    <img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" alt="" onclick="changeTextAreaSize('text_description','smaller');"{xhtml}>
+                    <textarea id="text_description" name="text_description" style="width:100%" cols="50" rows="10">{event_description}</textarea>
+                </div>
+
+                <div id="html_editor" style="display:{show_htmleditor}">
+                    <img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" alt="" onclick="changeHTMLTextAreaSize('html_description','larger');"{xhtml}>
+                    <img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" alt="" onclick="changeHTMLTextAreaSize('html_description','smaller');"{xhtml}>
+                    <span style="padding-left:15px;">{lang_toolbar}:&nbsp;
+                        <select id="fckeditor_toolbar_selector" name="fckeditor_toolbar_selector" onchange="changeToolbar(this.value);">
+                            <option value="editor-toolbar1" selected="selected">{toolbar1}</option>
+                            <option value="editor-toolbar2">{toolbar2}</option>
+                            <option value="editor-toolbar3">{toolbar3}</option>
+                            <option value="Default">{toolbar5}</option>
+                        </select>
+                    </span>
+                    <textarea id="html_description" name="html_description" style="width:100%" cols="50" rows="10">{event_description}</textarea>
+                </div>
+            </td>
         </tr>
         <tr valign="top">
             <td align="right">{lang_postmode}:</td>
             <td>
-                <select name="postmode">
-                    {post_options}
+                <select id="sel_editmode" name="postmode" {change_editormode}>
+{post_options}
                 </select>
                 <br{xhtml}>
                 {lang_allowed_html}

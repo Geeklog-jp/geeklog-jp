@@ -205,3 +205,6 @@ table.cal-dayx-body {
   border-collapse: separate;
 }
 */
+table.events textarea {
+  font-size:small;
+}

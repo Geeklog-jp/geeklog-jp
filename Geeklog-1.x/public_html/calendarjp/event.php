@@ -196,7 +196,7 @@ function editpersonalevent ($A)
     $A['startdate'] = $A['datestart'] . ' ' . $A['timestart'];
 
     $start_month = date ('n', strtotime ($A['startdate']));
-    $month_options = COM_getMonthFormOptions ($start_month);
+    $month_options = CALENDARJP_getMonthFormOptions ($start_month);
     $cal_templates->set_var ('startmonth_options', $month_options);
 
     $start_day = date ('j', strtotime ($A['startdate']));
@@ -223,7 +223,7 @@ function editpersonalevent ($A)
 
     $ampm = date ('a', strtotime ($A['startdate']));
     $cal_templates->set_var ('startampm_selection',
-                     COM_getAmPmFormSelection ('startampm_selection', $ampm));
+                     CALENDARJP_getAmPmFormSelection ('startampm_selection', $ampm));
 
     // Handle end date/time
     $cal_templates->set_var('lang_enddate', $LANG_CALJP_1[18]);
@@ -231,7 +231,7 @@ function editpersonalevent ($A)
     $A['enddate'] = $A['dateend'] . ' ' . $A['timeend'];
 
     $end_month = date ('n', strtotime ($A['enddate']));
-    $month_options = COM_getMonthFormOptions ($end_month);
+    $month_options = CALENDARJP_getMonthFormOptions ($end_month);
     $cal_templates->set_var ('endmonth_options', $month_options);
 
     $end_day = date ('j', strtotime ($A['enddate']));
@@ -258,7 +258,7 @@ function editpersonalevent ($A)
 
     $ampm = date ('a', strtotime ($A['enddate']));
     $cal_templates->set_var ('endampm_selection',
-                         COM_getAmPmFormSelection ('endampm_selection', $ampm));
+                         CALENDARJP_getAmPmFormSelection ('endampm_selection', $ampm));
 
     $cal_templates->set_var ('lang_alldayevent', $LANG_CALJP_1[31]);
     if ($A['allday'] == 1) {
