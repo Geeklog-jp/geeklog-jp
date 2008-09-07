@@ -44,9 +44,27 @@
 # されていないと使用できません。
 #
 # 比較する場合は、http://geeklog-jp.googlecode.com/svn といったリポジトリを
-# 基準に、比較対象のリポジトリのパスを2つ指定します。
+# 基準に、比較対象のリポジトリのパスを2つ指定します。ここで指定するパスは、
 #
-# % perl changes-branches.pl tags/geeklog-1.5.0-jp-0.1 tags/geeklog-1.5.0-jp-0.3
+# 1. 指定するパスが URL の場合は、その URL を比較対象として使用します。
+#
+# 2. 指定するパスが URL でない、スラッシュを含んだパスの場合は、
+#
+#	(リポジトリのURL) + "/" + (指定したパス)
+#
+#    として、解釈します。
+#
+# 3. スラッシュ(/)を含まない場合は、リポジトリ直下の tags 以下のパス名と
+#    して解釈します。
+#
+#	(リポジトリのURL) + "/tags/" + (指定したパス)
+#
+# 例
+#
+# % perl changes-branches.pl geeklog-1.5.0-jp-0.1 geeklog-1.5.0-jp-0.3
+#
+#	リポジトリ以下の、tags/geeklog-1.5.0-jp-0.1 と
+#	tags/geeklog-1.5.0-jp-0.3 の比較結果を出力します。
 #
 # -lオプションを指定すると http://geeklog-jp.googlecode.com/svn といった
 # リポジトリを基準にしてパスの下のディレクトリの一覧を表示します。
@@ -110,7 +128,7 @@ sub options {
 
 sub parse_args {
     my($self) = shift;
-    my(%opts, $k);
+    my(%opts, $k, $from, $to);
 
     Getopt::Std::getopts('afhlmr', \%opts);
     $self->{'options'} = \%opts;
@@ -124,22 +142,36 @@ sub parse_args {
     }
 
     if ($self->options('l') and scalar(@ARGV) > 0) {
-	$self->{'from'} = $self->{'base'} . "/" . $ARGV[0];
+	$self->{'from'} = $self->normalize_arg($ARGV[0]);
     } elsif (scalar(@ARGV) > 1) {
-	$self->{'from'} = $self->{'base'} . "/" . $ARGV[0];
-	$self->{'to'} = $self->{'base'} . "/" . $ARGV[1];
+	$self->{'from'} = $self->normalize_arg($ARGV[0]);
+	$self->{'to'} = $self->normalize_arg($ARGV[1]);
     } else {
 	usage(1);
     }
 }
 
+sub normalize_arg {
+    my($self, $arg) = @_;
+    my($path);
+
+    if ($arg =~ /^(\S+):\/\//) {
+	return $arg;
+    } elsif ($arg =~ /\//) {
+	return join('/', ($self->{'base'}, $arg));
+    } else {
+	return join('/', ($self->{'base'}, 'tags', $arg));
+    }
+}
+
 sub start_svn {
     my($self) = shift;
-    my($fh, $l);
+    my($fh, $cmd, $l);
 
     $fh = new IO::Handle;
-    open($fh, 'svn diff --summarize "' .
-	 $self->{'from'} . '" "' . $self->{'to'} . '" |') or undef $fh;
+    $cmd = join(' ', ('svn diff --summarize', '"' . $self->{'from'} . '"',
+		      '"' . $self->{'to'} . '"', '|'));
+    open($fh, $cmd) or undef $fh;
     $self->{'handle'} = $fh;
 }
 
