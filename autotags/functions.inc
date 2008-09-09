@@ -36,6 +36,10 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (!defined('XHTML')) {
+	define('XHTML', '');
+}
+
 $langfile = $_CONF['path'] . 'plugins/autotags/language/'
           . $_CONF['language'] . '.php';
 
@@ -248,8 +252,8 @@ function plugin_getListField_autotags($fieldname, $fieldvalue, $A, $icon_arr) {
                 $switch = ($A['is_enabled'] == 1) ? 'checked="checked"' : '';
                    
                 $retval = "<form action=\"{$_CONF['site_admin_url']}/plugins/autotags/index.php\" method=\"post\">"
-                         ."<input type=\"checkbox\" name=\"tagenable\" onclick=\"submit()\" value=\"{$A['tag']}\" $switch>"
-                         ."<input type=\"hidden\" name=\"tagChange\" value=\"{$A['tag']}\"></form>";
+                         ."<input type=\"checkbox\" name=\"tagenable\" onclick=\"submit()\" value=\"{$A['tag']}\" $switch" . XHTML . ">"
+                         ."<input type=\"hidden\" name=\"tagChange\" value=\"{$A['tag']}\"" . XHTML . "></form>";
             }
             break;
         default:
