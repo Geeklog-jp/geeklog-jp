@@ -78,7 +78,7 @@ $_AUTO_CONF['disallow'] = array('geeklog');
  *  puts parameter1 into $p1, parameter2 into $p2 and all the text
  *  between the brackets (including the brackets) is put into $fulltext.
  */
-$_AUTO_CONF['allow_php'] = 0;
+$_AUTO_CONF['allow_php'] = 1;
 
 // Database tables
 $_TABLES['autotags']  = $_DB_table_prefix . 'autotags_plg';	
