@@ -1,6 +1,0 @@
-
-<!-- admin/lists/menufields.thtml { -->
-
-<li><a href="{menu_url}">{menu_text}</a></li>
-
-<!-- } admin/lists/menufields.thtml -->

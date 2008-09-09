@@ -1,6 +1,0 @@
-
-<!-- users/storyrow.thtml { -->
-
-<p class="storyrow">{row_number}{story_begin_href}{story_title}{story_end_href}{story_date}</p>
-
-<!-- } users/storyrow.thtml -->
