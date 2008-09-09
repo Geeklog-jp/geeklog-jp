@@ -1,0 +1,6 @@
+
+<!-- topicoption_off.thtml { -->
+
+        <p class="topicoption_off">{option_label}&nbsp;{option_count}</p>
+
+<!-- } topicoption_off.thtml -->
