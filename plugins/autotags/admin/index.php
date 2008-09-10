@@ -52,7 +52,7 @@ if (!SEC_hasRights ('autotags.admin')) {
 }
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 /**
@@ -69,7 +69,7 @@ function form ($A, $error = false)
     $retval = '';
 
     if ($error) {
-        $retval .= $error . '<br><br>';
+        $retval .= $error . '<br' . XHTML . '><br' . XHTML . '>';
     } else {
         $template_path = autotags_templatePath ('admin');
         $at_template = new Template ($template_path);
@@ -85,7 +85,7 @@ function form ($A, $error = false)
                         COM_getBlockTemplate ('_admin_block', 'header'));
         $at_template->set_var('lang_save', $LANG_AUTO['save']);
         $at_template->set_var('lang_cancel', $LANG_AUTO['cancel']);
-        $at_template->set_var('delete_option', '<input type="submit" value="' . $LANG_AUTO['delete'] . '" name="mode">');
+        $at_template->set_var('delete_option', '<input type="submit" value="' . $LANG_AUTO['delete'] . '" name="mode"' . XHTML . '>');
 
         $at_template->set_var('lang_tag', $LANG_AUTO['tag']);
         $at_template->set_var('tag', $A['tag']);
@@ -112,7 +112,7 @@ function form ($A, $error = false)
             {
                 $is_function_checkbox .= ' checked="checked"';
             }
-            $is_function_checkbox .= '>&nbsp;&nbsp;</td>';
+            $is_function_checkbox .= XHTML . '>&nbsp;&nbsp;</td>';
                     
             $at_template->set_var('is_function_checkbox', $is_function_checkbox);
             $at_template->set_var ('php_msg', $LANG_AUTO['php_msg_enabled']);
@@ -125,6 +125,11 @@ function form ($A, $error = false)
 
         $at_template->set_var('end_block',
                 COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer')));
+        // Added CSRF protection
+        if (version_compare(VERSION, '1.5.0') >= 0) {
+            $at_template->set_var('token_name', CSRF_TOKEN);
+            $at_template->set_var('token_value', SEC_createToken());
+        }
         $retval .= $at_template->parse('output','form');
     }
 
@@ -167,8 +172,16 @@ function listautotags()
                        'query_fields' => array('tag'),
                        'default_filter' => "");
 
-    $retval = ADMIN_list ("autotags", "plugin_getListField_autotags", $header_arr, $text_arr,
-                            $query_arr, $menu_arr, $defsort_arr);
+    if (version_compare(VERSION, '1.5.0') >= 0) {
+        $text   = $LANG_AUTO['instructions'];
+        $icon   = $_CONF['site_admin_url'] . '/plugins/autotags/images/autotags.png';
+        $retval = ADMIN_createMenu($menu_arr, $text, $icon)
+                . ADMIN_list ("autotags", "plugin_getListField_autotags", $header_arr,
+                    $text_arr, $query_arr, $defsort_arr);
+    } else {
+        $retval = ADMIN_list ("autotags", "plugin_getListField_autotags", $header_arr,
+                    $text_arr, $query_arr, $menu_arr, $defsort_arr);
+    }
     return $retval;
 
 }
@@ -314,18 +327,28 @@ if (isset ($_POST['tagChange'])) {
 }
 
 if (($mode == $LANG_AUTO['delete']) && !empty ($LANG_AUTO['delete'])) {
-    DB_delete ($_TABLES['autotags'], 'tag', $tag,
-            $_CONF['site_admin_url'] . '/plugins/autotags/index.php');
-    exit;
+    if ((version_compare(VERSION, '1.5.0') >= 0)
+     AND !SEC_checkToken()) {
+        $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
+    } else {
+        DB_delete ($_TABLES['autotags'], 'tag', $tag,
+                $_CONF['site_admin_url'] . '/plugins/autotags/index.php');
+        exit;
+    }
 } else if ($mode == 'edit') {
     $display .= COM_siteHeader('menu', $LANG_AUTO['autotagseditor']);
     $display .= autotagseditor($tag, $mode);
     $display .= COM_siteFooter();
 } else if (($mode == $LANG_AUTO['save']) && !empty ($LANG_AUTO['save'])) {
     if (!empty ($tag)) {
-        $display = saveautotags($tag, $_POST['old_tag'],
-                     $_POST['description'], $_POST['is_enabled'],
-                     $_POST['is_function'], $_POST['replacement']);
+        if ((version_compare(VERSION, '1.5.0') >= 0)
+         AND !SEC_checkToken()) {
+            $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
+        } else {
+            $display = saveautotags($tag, $_POST['old_tag'],
+                         $_POST['description'], $_POST['is_enabled'],
+                         $_POST['is_function'], $_POST['replacement']);
+        }
     } else {
         $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
     }
