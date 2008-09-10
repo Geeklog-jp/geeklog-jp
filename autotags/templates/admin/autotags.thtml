@@ -31,6 +31,7 @@
                   <input type="submit" value="{lang_cancel}" name="mode"{xhtml}> 
                   {delete_option}
                   <input type="hidden" name="old_tag" value="{old_tag}"{xhtml}>
+                  <input type="hidden" name="{token_name}" value="{token_value}"{xhtml}>
               </td>
           </tr>
       </table>
