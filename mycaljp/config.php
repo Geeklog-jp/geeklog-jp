@@ -43,7 +43,7 @@ $_MYCALJP2_CONF = array();
 
 // Plugin info
 
-$_MYCALJP2_CONF['pi_version'] = '2.0.1';  // Plugin Version
+$_MYCALJP2_CONF['pi_version'] = '2.0.2';  // Plugin Version
 $_MYCALJP2_CONF['gl_version'] = '1.4.1';  // GL Version plugin for
 $_MYCALJP2_CONF['pi_url']     = 'http://www.trybase.com/~dengen/log/';    // Plugin Homepage
 
@@ -65,14 +65,13 @@ function MYCALJP_writeConfig ()
     unset($A['pi_version']);
     unset($A['gl_version']);
     unset($A['pi_url']);
+    unset($A['_glsectoken']);
     $str = "\$_MYCALJP2_CONF_DATA = " . var_export($A,true) . ";\n";
     
     $fname = $_CONF['path_data'] . 'mycaljp_conf.php';
     $fp = @fopen( $fname, 'w' );
     if ( $fp ) {
-        $charset = mb_internal_encoding() ; //内部エンコード取得
-        $str = mb_convert_encoding( $str, 
-            strtoupper( $_CONF['default_charset'] ), $charset ) ; //内部エンコードからUTF-8に変換
+//      $str = mb_convert_encoding( $str, strtoupper( $_CONF['default_charset'] ) ) ; //内部エンコードから$_CONF['default_charset']に変換
         $str = "<?php\n" . $str . "\n" . '$_MYCALJP2_CONF = array_merge( $_MYCALJP2_CONF, $_MYCALJP2_CONF_DATA );' . "\n?" . ">";
         $len = strlen( $str );
         @flock( $fp, LOCK_EX );
