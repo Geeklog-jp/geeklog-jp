@@ -162,4 +162,8 @@
 * 2008.7.26 : Yoshinori Tahara as dengen                                        *
 * Geeklog 1.5 に対応．                                                          *
 * プラグインバージョンが正常に更新されない問題を修正．                          *
+*                                                                               *
+* mycaljp plugin version 2.0.2                                                  *
+* 2008.9.10 : Yoshinori Tahara as dengen                                        *
+* CSRF対策を施した(Geeklog1.5以降でのみ有効)．                                  *
 *********************************************************************************/

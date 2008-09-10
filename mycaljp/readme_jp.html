@@ -72,15 +72,15 @@
     font-size: 0.85em;
     line-height: 1.5em;
     }
-	
+    
     table {
     font-size: 0.8em;
     border: solid 1px black;
     border-collapse: collapse;
     }
-	
+    
     th,
-	td
+    td
     {
     border: solid 1px black;
     padding: 5px;
@@ -118,10 +118,10 @@
   
 <h1><a name="_top">Geeklog Mycaljp プラグイン</a></h1>
   
-<h2>バージョン: 2.0.1</h2>
+<h2>バージョン: 2.0.2</h2>
 <h2>作成者: Yoshinori Tahara - dengen</h2>
   
-<h2>公開日:&nbsp;2008.7.26</h2>
+<h2>公開日:&nbsp;2008.9.10</h2>
 <h2>ライセンス:&nbsp;GPL</h2>
 <h2>概要:</h2>
   
@@ -233,7 +233,7 @@
   <h4>Step 0 - データベースのバックアップ</h4>
   <ul>
     <li>mycaljp プラグインはアンインストール時に，テーブルの破棄などは行いませんが，管理者メニューの「DBのバックアップ」や
-	phpMyAdmin を使用して，事前に Geeklog のデータベースをバックアップしておくことをお勧めします。</li>
+    phpMyAdmin を使用して，事前に Geeklog のデータベースをバックアップしておくことをお勧めします。</li>
   </ul>
   <h4>Step 1 - プラグインエディタでアンインストールの実行</h4>
   <ul>
@@ -359,7 +359,7 @@ $_MYCALJP2_CONF['saturday']</td>
   <h4>Step 1 - CSSファイルとテンプレートファイルの変更</h4>
   <ul>
     <li>CSSファイルの &lt;テーマディレクトリ&gt;/mycaljp/mycaljp.css をお好みに合わせて変更してください。</li>
-	<li>テンプレートファイルの &lt;テーマディレクトリ&gt;/mycaljp/*.thtml をお好みに合わせて変更してください。</li>
+    <li>テンプレートファイルの &lt;テーマディレクトリ&gt;/mycaljp/*.thtml をお好みに合わせて変更してください。</li>
   </ul>
   <h4>Step 2 - 配列変数 $_MYCALJP2_CONF の活用</h4>
   <ul>
@@ -398,7 +398,7 @@ $_MYCALJP2_CONF['saturday']</td>
   <h4>Step 3 - CSSファイルとテンプレートファイルの変更</h4>
   <ul>
     <li>CSSファイルの &lt;テーマディレクトリ&gt;/mycaljp/mycaljp.css をお好みに合わせて変更してください。</li>
-	<li>テンプレートファイルの &lt;テーマディレクトリ&gt;/mycaljp/*.thtml をお好みに合わせて変更してください。</li>
+    <li>テンプレートファイルの &lt;テーマディレクトリ&gt;/mycaljp/*.thtml をお好みに合わせて変更してください。</li>
   </ul>
 
   <h4>Step 4 - 配列変数 $_MYCALJP2_CONF の活用</h4>
@@ -416,11 +416,16 @@ $_MYCALJP2_CONF['saturday']</td>
       <th>説明</th>
     </tr>
     <tr>
+      <td class="center">2.0.2</td>
+      <td class="center">2008.9.10</td>
+      <td><span class="new">追加</span>&nbsp;CSRF対策を施しました(Geeklog1.5以降でのみ有効)。</td>
+    </tr>
+    <tr>
       <td class="center">2.0.1</td>
       <td class="center">2008.7.26</td>
       <td><span class="new">追加</span>&nbsp;Geeklog1.5で動作するようにしました。<br>
-	  <span class="fix">修正</span>&nbsp;プラグインバージョンが正常に更新されない問題を修正しました。<br>
-	  <span class="fix">修正</span>&nbsp;テンプレートおよびスタイルシートの軽微な修正。</td>
+      <span class="fix">修正</span>&nbsp;プラグインバージョンが正常に更新されない問題を修正しました。<br>
+      <span class="fix">修正</span>&nbsp;テンプレートおよびスタイルシートの軽微な修正。</td>
     </tr>
     <tr>
       <td class="center">2.0.0</td>
