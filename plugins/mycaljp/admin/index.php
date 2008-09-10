@@ -170,6 +170,8 @@ function MYCALJP_editConfig($conf)
         $T->set_var( 'val_themeitem', ( $A['themes'][$theme] == 1 ) ? "checked=\"checked\"" : "" );
         $T->parse( 'checkthemes', 'theme', true );
     }
+    $T->set_var('gltoken_name', CSRF_TOKEN);
+    $T->set_var('gltoken', SEC_createToken());
 
     $T->parse( 'output', 'edit' );
     $retval = $T->finish( $T->get_var( 'output' ) );
@@ -191,7 +193,7 @@ function MYCALJP_applyFilter($var) {
 
 $_POST = MYCALJP_applyFilter( $_POST );
 
-if ( isset( $_POST['mode'] ) && ($_POST['mode'] == $LANG_ADMIN['save']) ) {
+if ( isset( $_POST['mode'] ) && ($_POST['mode'] == $LANG_ADMIN['save']) && SEC_checkToken() ) {
 
     unset( $_MYCALJP2_CONF['contents'] );
     unset( $_MYCALJP2_CONF['themes'] );
