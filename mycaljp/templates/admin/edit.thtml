@@ -102,6 +102,7 @@
       <td colspan="2">
         <input type="submit" value="{lang_save}" name="mode"{xhtml}>
         <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
+        <input type="hidden" value="{gltoken}" name="{gltoken_name}"{xhtml}>
       </td>
     </tr>
   </table>

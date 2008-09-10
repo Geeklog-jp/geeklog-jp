@@ -30,11 +30,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-
-if ( !defined('XHTML') ) {
-    define('XHTML', '');
-}
-
 /**
 * This is the generic functions.inc for the Universal Plugin Toolkit for Geeklog.
 * You need to change all instances of mycaljp with the name of your plugin.
@@ -42,6 +37,14 @@ if ( !defined('XHTML') ) {
 
 if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
     die ('This file can not be used on its own.');
+}
+
+if ( !defined('XHTML') ) {
+    define('XHTML', '');
+}
+
+if (!defined('GL_VERSION_15')) {
+    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
 }
 
 /**
@@ -893,6 +896,18 @@ if ( ! function_exists('mycaljp_slidecalender') )
     function mycaljp_slidecalender()
     {
         return MYCALJP_showCalendar( 2 );
+    }
+}
+
+if ((!GL_VERSION_15) && (!file_exists('SEC_checkToken'))) {
+    function SEC_checkToken() {
+        return true;
+    }
+}
+
+if ((!GL_VERSION_15) && (!file_exists('SEC_createToken'))) {
+    function SEC_createToken() {
+        return "1";
     }
 }
 
