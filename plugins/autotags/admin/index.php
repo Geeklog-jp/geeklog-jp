@@ -75,7 +75,7 @@ function form ($A, $error = false)
         $at_template = new Template ($template_path);
 
         $at_template->set_file ('form', 'autotags.thtml');
-        $at_template->set_file ('xhtml', XHTML);
+        $at_template->set_var('xhtml', XHTML);
         $at_template->set_var('layout_url', $_CONF['layout_url']);
         
         $at_template->set_var('site_url', $_CONF['site_url']);
