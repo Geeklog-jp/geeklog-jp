@@ -61,28 +61,55 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		$retval = array();
 		
-		$sql = "SELECT * "
-			 . "FROM {$_TABLES['pollquestions']} "
-			 . "WHERE (qid = '" . addslashes($id) . "') ";
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid);
-		}
-		$result = DB_query($sql);
-		if (DB_error()) {
-			return $retval;
-		}
-		
-		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
-			$A = array_map('stripslashes', $A);
+		if (version_compare(VERSION, '1.5.0') >= 0) {
+			$sql = "SELECT * "
+				 . "FROM {$_TABLES['polltopics']} "
+				 . "WHERE (pid = '" . addslashes($id) . "') ";
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('AND', $this->uid);
+			}
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $retval;
+			}
 			
-			$retva['id']         = $id;
-			$retval['title']     = $A['question'];
-			$retval['uri']       = $_CONF['site_url']
-				. '/polls/index.php?qid=' . urlencode($id) . '&amp;aid=-1';
-			$retval['date']      = strtotime($A['date']);
-			$retval['image_uri'] = false;
-			$retval['raw_data']  = $A;
+			if (DB_numRows($result) == 1) {
+				$A = DB_fetchArray($result, false);
+				$A = array_map('stripslashes', $A);
+				
+				$retva['id']         = $id;
+				$retval['title']     = $A['topic'];
+				$retval['uri']       = $_CONF['site_url']
+									 . '/polls/index.php?pid=' . urlencode($id);
+				$retval['date']      = strtotime($A['date']);
+				$retval['image_uri'] = false;
+				$retval['raw_data']  = $A;
+			}
+		} else {
+			$sql = "SELECT * "
+				 . "FROM {$_TABLES['pollquestions']} "
+				 . "WHERE (qid = '" . addslashes($id) . "') ";
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('AND', $this->uid);
+			}
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $retval;
+			}
+			
+			if (DB_numRows($result) == 1) {
+				$A = DB_fetchArray($result, false);
+				$A = array_map('stripslashes', $A);
+				
+				$retva['id']         = $id;
+				$retval['title']     = $A['question'];
+				$retval['uri']       = $_CONF['site_url']
+									 . '/polls/index.php?qid=' . urlencode($id)
+									 . '&amp;aid=-1';
+				$retval['date']      = strtotime($A['date']);
+				$retval['image_uri'] = false;
+				$retval['raw_data']  = $A;
+			}
 		}
 		
 		return $retval;
@@ -102,27 +129,51 @@ class Dataproxy_polls extends DataproxyDriver
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
-
-		$sql = "SELECT qid, question, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['pollquestions']} ";
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('WHERE', $this->uid);
-		}
-		$sql .= " ORDER BY qid";
-		$result = DB_query($sql);
-		if (DB_error()) {
-			return $entries;
-		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
-			$entry = array();
-			$entry['id']        = $A['qid'];
-			$entry['title']     = stripslashes($A['question']);
-			$entry['uri']       = $_CONF['site_url'] . '/polls/index.php?qid='
-								. urlencode($entry['id']) . '&amp;aid=-1';
-			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
-			$entries[] = $entry;
+		if (version_compare(VERSION, '1.5.0') >= 0) {
+			$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
+				 . "FROM {$_TABLES['polltopics']} ";
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('WHERE', $this->uid);
+			}
+			$sql .= " ORDER BY pid";
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $entries;
+			}
+			
+			while (($A = DB_fetchArray($result, false)) !== false) {
+				$entry = array();
+				$entry['id']        = $A['pid'];
+				$entry['title']     = stripslashes($A['topic']);
+				$entry['uri']       = $_CONF['site_url'] . '/polls/index.php?pid='
+									. urlencode($entry['id']);
+				$entry['date']      = $A['day'];
+				$entry['image_uri'] = false;
+				$entries[] = $entry;
+			}
+		} else {
+			$sql = "SELECT qid, question, UNIX_TIMESTAMP(date) AS day "
+				 . "FROM {$_TABLES['pollquestions']} ";
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('WHERE', $this->uid);
+			}
+			$sql .= " ORDER BY qid";
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $entries;
+			}
+		
+			while (($A = DB_fetchArray($result, false)) !== false) {
+				$entry = array();
+				$entry['id']        = $A['qid'];
+				$entry['title']     = stripslashes($A['question']);
+				$entry['uri']       = $_CONF['site_url'] . '/polls/index.php?qid='
+									. urlencode($entry['id']) . '&amp;aid=-1';
+				$entry['date']      = $A['day'];
+				$entry['image_uri'] = false;
+				$entries[] = $entry;
+			}
 		}
 		
 		return $entries;
