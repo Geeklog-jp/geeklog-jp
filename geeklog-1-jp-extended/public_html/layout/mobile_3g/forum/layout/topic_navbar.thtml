@@ -1,0 +1,21 @@
+<!-- start topic_navbar.thtml -->
+<table>
+    <tr>
+        <td class="alignleft" colspan="2">&nbsp;<a href="{site_url}/forum/index.php">{forum_home}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a></td>
+    </tr>
+    <tr>
+        <td class="alignright">{newtopic_link}</td>
+        <td class="alignright">{replytopic_link}</td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding-bottom:5px;"><b><a href="viewtopic.php?showtopic={topic_id}">{subject}</a></b></td>        
+    </tr>
+</table>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="pluginCellTitle alignleft">
+    <tr>
+        <td class="pluginBreadCrumbs alignleft" style="padding-left:5px;" nowrap>{pagenavigation}</td>     
+        {prevtopic_link} {nexttopic_link} 
+    </tr>
+</table>
+<table width="100%" border="0" cellspacing="1" cellpadding="0" class="pluginSolidOutline alignleft"> 
+<!-- end topic_navbar.thtml -->
