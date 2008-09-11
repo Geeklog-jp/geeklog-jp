@@ -1,0 +1,19 @@
+<!-- start categorylisting.thtml -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td>{cat_name}</td>
+        <td>{newposts_link}</td>
+        <td>&nbsp;</td>
+        <td>{markread_link}</td>
+    </tr>
+</table>
+<table>
+    <tr>
+        <td class="pluginCellTitle alignleft">{cat_desc}</td>
+        <td class="pluginCellTitle aligntop">{LANGGF01_TOPICS}</td>
+        <td class="pluginCellTitle aligntop">{LANGGF01_POSTS}</td>
+        <td class="pluginCellTitle aligntop">{LANGGF01_LASTPOST}</td>
+    </tr>
+    {forum_records}
+</table>
+<!-- end categorylisting.thtml -->

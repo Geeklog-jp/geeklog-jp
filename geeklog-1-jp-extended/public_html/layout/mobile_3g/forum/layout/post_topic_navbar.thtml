@@ -1,0 +1,20 @@
+<!-- start post_topic_navbar.thtml -->
+<table>
+    <tr>
+        <td class="alignleft">&nbsp;<a href="{site_url}/forum/index.php">{forum_home}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="padding-bottom:5px;">&nbsp;<b><a href="viewtopic.php?showtopic={topic_id}">{subject}</a></b></td>        
+    </tr>
+</table>
+
+<FORM ACTION="{phpself}" method="POST" name="forumpost" style="margin:0px;">
+    <input type="hidden" name="forum" value="{forum_id}">
+    <input type="hidden" name="id" value="{hidden_id}">
+    <input type="hidden" name="modedit" value="{hidden_modedit}">
+    <input type="hidden" name="method" value="{hidden_method}">
+    <input type="hidden" name="editpost" value="{hidden_editpost}">
+    <input type="hidden" name="editpid" value="{hidden_editpid}">
+    <input type="hidden" name="editid" value="{hidden_editid}">
+    <input type="hidden" name="page" value="{page}">
+<!-- end post_topic_navbar.thtml -->
