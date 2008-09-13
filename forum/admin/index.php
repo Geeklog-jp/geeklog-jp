@@ -89,6 +89,7 @@ if ($totalviews['TOTAL'] != 0) {
     $indextemplate = new Template($_CONF['path_layout'] . 'forum/layout/admin');
     $indextemplate->set_file (array ('indextemplate'=>'index.thtml'));
     
+    $indextemplate->set_var ('xhtml', XHTML);
     $indextemplate->set_var ('statsmsg', $LANG_GF91['statsmsg']);
     $indextemplate->set_var ('totalcatsmsg', $LANG_GF91['totalcats']);
     $indextemplate->set_var ('totalcats', $totalcats);

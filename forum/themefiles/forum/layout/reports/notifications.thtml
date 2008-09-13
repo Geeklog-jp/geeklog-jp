@@ -7,30 +7,30 @@
                 <select name="filter" style="width:180px;" onchange="this.form.submit();">{filter_options}</select>
             </form>
         </td>
-        <td style="padding:5px 0px 5px 10px;" nowrap>{select_forum}</td>
+        <td style="padding:5px 0px 5px 10px;" nowrap="nowrap">{select_forum}</td>
     </tr>
 </table>
-<p />
+<p{xhtml}>
 <form action="{phpself}" method="post" name="notifications" style="margin:0px;">
-<input type="hidden" name="op" value="">
+<input type="hidden" name="op" value=""{xhtml}>
 <table width="100%" border="0" cellspacing="1" cellpadding="3" class="plugin" style="margin-bottom:10px;">
-    <TR>
-        <TD class="pluginCellTitle" width="2%" style="text-align:center;"><img src="{imgset}/trash.gif" TITLE="{LANG_deleteall}" border="0" onClick=' if(confirm("{LANG_DELALLCONFIRM}")) {document.notifications.op.value="delchecked"; document.notifications.submit();}'></td>
-        <TD class="pluginCellTitle" nowrap>{LANG_Heading2}</TD>
-        <TD class="pluginCellTitle" nowrap>{LANG_Heading3}</TD>
-        <TD class="pluginCellTitle" nowrap>{LANG_Heading4}</TD>
-        <TD class="pluginCellTitle" nowrap>{LANG_Heading5}</TD>
-        <TD class="pluginCellTitle">{LANG_Heading6}</TD>
-        <TD class="pluginCellTitle">{LANG_Heading7}</TD>
-        <TD class="pluginCellTitle">{LANG_Heading8}</TD>
-    </TR>
+    <tr>
+        <td class="pluginCellTitle" width="2%" style="text-align:center;"><img src="{imgset}/trash.gif" title="{LANG_deleteall}" border="0" onclick=' if(confirm("{LANG_DELALLCONFIRM}")) {document.notifications.op.value="delchecked"; document.notifications.submit();}'{xhtml}></td>
+        <td class="pluginCellTitle" nowrap="nowrap">{LANG_Heading2}</td>
+        <td class="pluginCellTitle" nowrap="nowrap">{LANG_Heading3}</td>
+        <td class="pluginCellTitle" nowrap="nowrap">{LANG_Heading4}</td>
+        <td class="pluginCellTitle" nowrap="nowrap">{LANG_Heading5}</td>
+        <td class="pluginCellTitle">{LANG_Heading6}</td>
+        <td class="pluginCellTitle">{LANG_Heading7}</td>
+        <td class="pluginCellTitle">{LANG_Heading8}</td>
+    </tr>
         {notification_records}
 </table>
-</FORM>
+</form>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td class="aligncenter">{pagenavigation}</td>
         <td class="aligncenter">{bottomlink}</td>
     </tr>
 </table>
-<p />
+<p{xhtml}>

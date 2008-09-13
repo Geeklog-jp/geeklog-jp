@@ -7,7 +7,7 @@
                     <td class="pluginTinyText">{LANG_ORDERBY}<a href="{phpself}?mode=forumblock&amp;order=new">{LANG_NEW}</a> <a href="{phpself}?mode=forumblock&amp;order=views">{LANG_VIEWS}</a> <a href="{phpself}?mode=forumblock&amp;order=posts">{LANG_POSTS}</a><div style="text-align:center;">{view_modemsg}</div></td>
                 </tr>
                 <tr>
-                    <td><img height="6" width="1"></td>
+                    <td><img height="6" width="1"{xhtml}></td>
                 </tr>
             </table>
          </td>

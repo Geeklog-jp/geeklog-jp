@@ -34,7 +34,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 require_once("../lib-common.php"); // Path to your lib-common.php
@@ -139,6 +139,7 @@ if ($op == 'newposts' AND $_USER['uid'] > 1) {
         $direction = ($direction == "ASC") ? "ASC" : "DESC";
     }
 
+    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $_CONF['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=newposts');
@@ -269,6 +270,7 @@ if ($op == 'search') {
 
     $query = addslashes(strip_tags(COM_stripslashes($_REQUEST['query'])));
 
+    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $_CONF['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=search');
@@ -391,6 +393,7 @@ if ($op == 'popular') {
         $report->set_var ('startblock', COM_startBlock("{$LANG_GF02['msg120']} {$LANG_GF01['VIEWS']}") );
     }
 
+    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $_CONF['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=popular');
@@ -523,6 +526,7 @@ if ($forum == 0) {
             'forum_record'=>'forumlisting_record.thtml',
             'category_record'=>'categorylisting.thtml' ));
 
+    $forumlisting->set_var ('xhtml', XHTML);
     $forumlisting->set_var ('imgset', $CONF_FORUM['imgset']);
     $forumlisting->set_var ('forumindeximg','<img src="'.gf_getImage('forumindex').'">');
     $forumlisting->set_var ('phpself', $_CONF['site_url'] .'/forum/index.php');
@@ -702,6 +706,7 @@ if ($forum > 0) {
             'new' => 'links/newtopic.thtml',
             'topic_record'=>'topiclist_record.thtml' ));
 
+    $topiclisting->set_var ('xhtml', XHTML);
     $topiclisting->set_var ('imgset', $CONF_FORUM['imgset']);
     $topiclisting->set_var('layout_url', $_CONF['layout_url']);
     $topiclisting->set_var('site_url',$_CONF['site_url']);

@@ -132,6 +132,7 @@ $report->set_file (array ('report' => 'reports/notifications.thtml',
                     'outline_header'=>'forum_outline_header.thtml',
                     'outline_footer' => 'forum_outline_footer.thtml' ));
 
+$report->set_var ('xhtml', XHTML);
 $report->set_var ('imgset', $CONF_FORUM['imgset']);
 $report->set_var ('layout_url', $_CONF['layout_url']);
 $report->set_var ('site_url', $_CONF['site_url']);
