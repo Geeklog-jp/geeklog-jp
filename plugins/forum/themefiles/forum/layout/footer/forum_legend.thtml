@@ -21,7 +21,7 @@
                 <table width="140" height="100%">
                         <tr>
                                 <td width="20" >{new_icon}</td>
-                                <td nowrap >{new_msg}</td>
+                                <td nowrap="nowrap">{new_msg}</td>
                         </tr>
                         <tr>
                                 <td >{stickynew_icon}</td>
@@ -38,7 +38,7 @@
                 <table border="0" width="140" height="100%">
                         <tr>
                              <td width="20">{viewnew_icon}</td>
-                             <td nowrap>{viewnew_msg}</td>
+                             <td nowrap="nowrap">{viewnew_msg}</td>
                         </tr>
                         <tr>
                                 <td width="20">{subscribe_icon}</td>
@@ -49,7 +49,7 @@
                                 <td>{markread_msg}</td>
                         </tr>
                         <tr>
-                            <td colspan="2"><img width="120" height="1"></td>
+                            <td colspan="2"><img width="120" height="1"{xhtml}></td>
                         </tr>
                     </table>
         </td>

@@ -37,7 +37,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 $langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
@@ -288,6 +288,7 @@ function plugin_showstats_forum($showsitestats)
     $stat_templates = new Template($_CONF['path_layout'] . 'stats');
     $stat_templates->set_file(array('itemstats'=>'itemstatistics.thtml',
                             'statrow'=>'singlestat.thtml'));
+    $stat_templates->set_var ('xhtml', XHTML);
     $retval='';
     if ($showsitestats == 1) {
         // This shows in the summary box
@@ -931,6 +932,7 @@ function forum_statusMessage($message='',$url,$prompt,$post=false,$forum='') {
     }
     $statusmsg = new Template($_CONF['path_layout'] . 'forum/layout');
     $statusmsg->set_file (array ('statusmsg'=>'statusmessage.thtml'));
+    $statusmsg->set_var ('xhtml', XHTML);
     $statusmsg->set_var ('imgset', $CONF_FORUM['imgset']);
     $statusmsg->set_var ('heading', $LANG_GF02['StatusHeading']);
     $statusmsg->set_var ('message', $message);
@@ -1035,6 +1037,7 @@ function phpblock_forum_newposts() {
 
         $block = new Template($_CONF['path_layout'] . 'forum/layout/blocks');
         $block->set_file (array ('block'=>'latestpostsblock.thtml','topicrecord' => 'block_displayline.thtml'));
+        $block->set_var ('xhtml', XHTML);
         $block->set_var ('phpself', $_CONF['site_url'] .'/index.php');
         $block->set_var ('layout_url', $_CONF['layout_url']);
         $block->set_var ('LANG_ORDERBY', $LANG_GF01['ORDERBY']);
@@ -1204,6 +1207,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
 
         $block = new Template ($_CONF['path_layout'] . 'forum/layout/blocks');
         $block->set_file (array ('block'=>'centerblock.thtml','record' => 'centerblock_displayline.thtml'));
+        $block->set_var ('xhtml', XHTML);
         $block->set_var ('phpself', $_CONF['site_url'] .'/index.php');
         $block->set_var ('startblock', COM_startBlock($LANG_GF02['msg170']));
         $block->set_var ('endblock', COM_endBlock());
@@ -1366,6 +1370,7 @@ function forumPLG_showsmilies() {
     } else {
         $t = new Template($_CONF['path_layout'] . 'forum/layout');
         $t->set_file ('smilies' , 'smilies.thtml');
+        $t->set_var ('xhtml', XHTML);
         $t->set_var ('imgset', "{$_CONF['site_url']}/forum/images");
         $t->parse ('output', 'smilies');
         return $t->finish($t->get_var('output'));
@@ -1427,6 +1432,7 @@ function phpblock_forum_menu() {
             $t = new Template($_CONF['path_layout'] . 'glmenu/cssmenu');
             $t->set_file('menu','blockmenu.thtml');
 
+            $t->set_var ('xhtml', XHTML);
             $links = "<li><a href=\"{$_CONF['site_url']}/forum/index.php\" TITLE=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a></li>" . LB;
             if ($_USER['uid'] > 1) {
                 $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" TITLE=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a></li>" . LB;                     

@@ -64,6 +64,7 @@ if ($op == "last10posts") {
                     'return1' => 'links/return.thtml',
                     'return2' => 'links/return.thtml'));
 
+    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $_CONF['layout_url']);
     $report->set_var ('phpself', $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$showuser);
@@ -204,6 +205,7 @@ if ($op == "last10posts") {
 
     $query = DB_query($sql);
 
+    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $_CONF['layout_url']);
     $report->set_var ('site_url', $_CONF['site_url']);

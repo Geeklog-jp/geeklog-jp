@@ -3,8 +3,8 @@
 <p></p>
 <table width="100%" border="0" cellspacing="0" cellpadding="4">
         <tr>
-           <td class="aligncenter" nowrap>{pagenavigation}</td>
+           <td class="aligncenter" nowrap="nowrap">{pagenavigation}</td>
         </tr>
 </table>
-<p />
+<p{xhtml}>
 <!-- end topicfooter_preview.thtml -->

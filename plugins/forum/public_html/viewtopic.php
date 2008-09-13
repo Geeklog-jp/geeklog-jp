@@ -123,6 +123,7 @@ if ($page > 1) {
 $base_url = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$showtopic&amp;mode=$mode&amp;show=$show";
 $forum_outline_header = new Template($_CONF['path_layout'] . 'forum/layout');
 $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
+$forum_outline_header->set_var ('xhtml', XHTML);
 $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
 $forum_outline_header->parse ('output', 'forum_outline_header');
 echo $forum_outline_header->finish($forum_outline_header->get_var('output'));
@@ -142,6 +143,7 @@ if ($mode != 'preview') {
             'new' => 'links/newtopic.thtml',
             'reply' => 'links/replytopic.thtml'));
 
+    $topicnavbar->set_var ('xhtml', XHTML);
     $topicnavbar->set_var('layout_url', $_CONF['layout_url']);
     $topicnavbar->set_var('site_url', $_CONF['site_url']);
 
@@ -275,6 +277,7 @@ if ($mode != 'preview') {
 } else {
     $preview_header = new Template($_CONF['path_layout'] . 'forum/layout');
     $preview_header->set_file ('header', 'topicpreview_header.thtml');
+    $preview_header->set_var ('xhtml', XHTML);
     $preview_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $preview_header->parse ('output', 'header');
     echo $preview_header->finish($preview_header->get_var('output'));
@@ -338,7 +341,8 @@ if ($mode != 'preview') {
     if ($viewtopic['is_readonly'] == 0 OR forum_modPermission($viewtopic['forum'],$_USER['uid'],'mod_edit')) {
         $newtopiclink = "{$_CONF['site_url']}/forum/createtopic.php?method=newtopic&amp;forum=$forum";
         $newtopiclinkimg = '<img src="'.gf_getImage('post_newtopic').'" border="0" align="absmiddle" alt="'.$LANG_GF01['NEWTOPIC'].'" TITLE="'.$LANG_GF01['NEWTOPIC'].'">';
-        $topic_footer->set_var('layout_url', $_CONF['layout_url']);
+        $topic_footer->set_var ('xhtml', XHTML);
+        $topic_footer->set_var ('layout_url', $_CONF['layout_url']);
         $topicDisplayTime = $mytimer->stopTimer();
         $topic_footer->set_var ('page_generated_time', sprintf($LANG_GF02['msg179'],$topicDisplayTime));
         $topic_footer->set_var ('newtopiclink', $newtopiclink);
@@ -363,6 +367,7 @@ if ($mode != 'preview') {
     $topic_footer->set_file (array ('topicfooter'=>'topicfooter_preview.thtml'));
 }
 
+$topic_footer->set_var ('xhtml', XHTML);
 $topic_footer->set_var ('pagenavigation', COM_printPageNavigation($base_url,$page, $numpages));
 $topic_footer->set_var ('forum_id', $forum);
 $topic_footer->set_var ('imgset', $CONF_FORUM['imgset']);
@@ -371,6 +376,7 @@ echo $topic_footer->finish($topic_footer->get_var('output'));
 
 $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
 $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+$forum_outline_footer->set_var ('xhtml', XHTML);
 $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
 $forum_outline_footer->parse ('output', 'forum_outline_footer');
 echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
