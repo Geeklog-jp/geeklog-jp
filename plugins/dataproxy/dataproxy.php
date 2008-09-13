@@ -282,8 +282,12 @@ class DataproxyDriver
 	*/
 	function escape($str)
 	{
-		$str = html_entity_decode($str, ENT_QUOTES, $this->encoding);
-		return htmlentities($str, ENT_QUOTES, $this->encoding);
+		$str = str_replace(
+			array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
+			array(   '<',    '>',     '&',      '"',      "'"),
+			$str
+		);
+		return htmlspecialchars($str, ENT_QUOTES, $this->encoding);
 	}
 	
 	/**
@@ -547,7 +551,11 @@ class Dataproxy
 	*/
 	function escape($str)
 	{
-		$str = html_entity_decode($str, ENT_QUOTES, $this->encoding);
-		return htmlentities($str, ENT_QUOTES, $this->encoding);
+		$str = str_replace(
+			array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
+			array(   '<',    '>',     '&',      '"',      "'"),
+			$str
+		);
+		return htmlspecialchars($str, ENT_QUOTES, $this->encoding);
 	}
 }
