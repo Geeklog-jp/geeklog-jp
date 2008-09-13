@@ -31,6 +31,10 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (!defined('XHTML')) {
+    define('XHTML', '');
+}
+
 include_once('gf_functions.php');
 
 function gf_RadioButtonSetting(&$template,$title,$help,$parm,$value,$id=1) {
@@ -191,6 +195,7 @@ $settings->set_file (array ('settings'=>'settings.thtml',
                                     'text_setting' => 'textsetting_option.thtml',
                                     'rank_setting' => 'ranksetting_option.thtml'));
 
+$settings->set_var ('xhtml', XHTML);
 $settings->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/settings.php');
 $settings->set_var ('LANG_YES', $LANG_GF01['YES']);
 $settings->set_var ('LANG_NO', $LANG_GF01['NO']);

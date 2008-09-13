@@ -61,6 +61,7 @@ function adminfooter() {
     $footertemplate = new Template($_CONF['path_layout'] . 'forum/layout/admin');
     $footertemplate->set_file (array ('footertemplate'=>'footer.thtml'));
     
+    $footertemplate->set_var ('xhtml', XHTML);
     $footertemplate->set_var ('forumname', $LANG_GF01['forumname']);
     
     $footertemplate->parse ('output', 'footertemplate');

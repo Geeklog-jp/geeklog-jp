@@ -33,6 +33,10 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (!defined('XHTML')) {
+    define('XHTML', '');
+}
+
 include_once('gf_functions.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
 
@@ -57,6 +61,7 @@ if (($op == 'banip') && ($ip != '')) {
     if ($_POST['sure'] != 'yes') {
         $ips_unban = new Template($_CONF['path_layout'] . 'forum/layout/admin');
         $ips_unban->set_file (array ('ips_unban'=>'ips_unban.thtml'));
+        $ips_unban->set_var ('xhtml', XHTML);
         $ips_unban->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/ips.php');
         $ips_unban->set_var ('deletenote1', sprintf($LANG_GF93['deleteforumnote1'], $forumname));
         $ips_unban->set_var ('deletenote2', $LANG_GF93['deleteforumnote21']);
@@ -77,6 +82,7 @@ if (($op == 'banip') && ($ip != '')) {
 } elseif (($op == 'banip') && ($ip == '')) {
     $messagetemplate = new Template($_CONF['path_layout'] . 'forum/layout/admin');
     $messagetemplate->set_file (array ('messagetemplate'=>'message.thtml'));
+    $messagetemplate->set_var ('xhtml', XHTML);
     $messagetemplate->set_var ('message', $LANG_GF01['ERROR']);
     $messagetemplate->set_var ('transfer', $LANG_GF96['specip']);
     $messagetemplate->parse ('output', 'messagetemplate');
@@ -108,6 +114,7 @@ if ($op == '') {
     $bannum = DB_numRows($bannedsql);
     $p = new Template($_CONF['path_layout'] . 'forum/layout/admin');
     $p->set_file (array ('page' => 'banip_mgmt.thtml', 'records' => 'ip_records.thtml'));
+    $p->set_var ('xhtml', XHTML);
     if ($bannum == 0) {
         $p->set_var ('alertmessage', $LANG_GF96['noips']);
         $p->set_var ('showalert','');

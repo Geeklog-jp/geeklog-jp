@@ -2,7 +2,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:2px;padding-right:15px;" class="pluginHeader">
     <tr class="pluginLinks" style="vertical-align: middle; height:25px;">
         <td height="18" width="10">{forumindeximg}</td>
-        <td class="pluginHeader alignleft" width="95%" nowrap>&nbsp;{cat_name}</td>
+        <td class="pluginHeader alignleft" width="95%" nowrap="nowrap">&nbsp;{cat_name}</td>
         <td>{newposts_link}</td>
         <td>&nbsp;</td>
         <td>{markread_link}</td>

@@ -447,12 +447,14 @@ if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
 
     $forum_outline_header = new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
+    $forum_outline_header->set_var ('xhtml', XHTML);
     $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_header->parse ('output', 'forum_outline_header');
     echo $forum_outline_header->finish($forum_outline_header->get_var('output'));
 
     $preview_header = new Template($_CONF['path_layout'] . 'forum/layout');
     $preview_header->set_file (array ('preview_header'=>'topicpreview_header.thtml'));
+    $preview_header->set_var ('xhtml', XHTML);
     $preview_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $preview_header->set_var ('startblock', COM_startBlock('<b>' .$LANG_GF01['TopicPreview']. '</b>','','forum/layout/blockheader.thtml') );
     $preview_header->parse ('output', 'preview_header');
@@ -462,12 +464,14 @@ if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
 
     $preview_footer = new Template($_CONF['path_layout'] . 'forum/layout');
     $preview_footer->set_file (array ('preview_footer'=>'topicpreview_footer.thtml'));
+    $preview_footer->set_var ('xhtml', XHTML);
     $preview_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $preview_footer->parse ('output', 'preview_footer');
     echo $preview_footer->finish($preview_footer->get_var('output'));
 
     $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+    $forum_outline_footer->set_var ('xhtml', XHTML);
     $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_footer->parse ('output', 'forum_outline_footer');
     echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -498,6 +502,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             BlockMessage('ERROR',$LANG_GF02['msg87'],false);
             $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -512,6 +517,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             BlockMessage('ERROR',$LANG_GF02['msg87'],false);
             $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -526,6 +532,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             BlockMessage('ERROR',$LANG_GF02['msg87'],false);
             $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -536,6 +543,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
 
     $forum_outline_header = new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
+    $forum_outline_header->set_var ('xhtml', XHTML);
     $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_header->parse ('output', 'forum_outline_header');
     echo $forum_outline_header->finish($forum_outline_header->get_var('output'));
@@ -548,6 +556,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         
     $topicnavbar = new Template($_CONF['path_layout'] . 'forum/layout');
     $topicnavbar->set_file (array ('topicnavbar'=>'post_topic_navbar.thtml'));
+    $topicnavbar->set_var ('xhtml', XHTML);
     $topicnavbar->set_var ('imgset', $CONF_FORUM['imgset']);
     $topicnavbar->set_var ('navbreadcrumbsimg','<img src="'.gf_getImage('nav_breadcrumbs').'">');
     $topicnavbar->set_var ('navtopicimg','<img src="'.gf_getImage('nav_topic').'">');
@@ -666,6 +675,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     if ($uid < 2) {
         $submissionformtop = new Template($_CONF['path_layout'] . 'forum/layout');
         $submissionformtop->set_file (array ('submissionformtop'=>'submissionform_anontop.thtml'));
+        $submissionformtop->set_var ('xhtml', XHTML);
         $submissionformtop->set_var ('layout_url', $_CONF['layout_url']);
         $submissionformtop->set_var ('post_message', $postmessage);
         $submissionformtop->set_var ('LANG_NAME', $LANG_GF02['msg33']);
@@ -676,6 +686,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     } else {
         $submissionformtop = new Template($_CONF['path_layout'] . 'forum/layout');
         $submissionformtop->set_file (array ('submissionformtop'=>'submissionform_membertop.thtml'));
+        $submissionformtop->set_var ('xhtml', XHTML);
         $submissionformtop->set_var ('layout_url', $_CONF['layout_url']);
         $submissionformtop->set_var ('post_message', $postmessage);
         $submissionformtop->set_var ('LANG_NAME', $LANG_GF02['msg33']);
@@ -723,6 +734,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
 
         $submissionform_moods = new Template($_CONF['path_layout'] . 'forum/layout');
         $submissionform_moods->set_file (array ('submissionform_moods'=>'submissionform_moods.thtml'));
+        $submissionform_moods->set_var ('xhtml', XHTML);
         $submissionform_moods->set_var ('LANG_MOOD', $LANG_GF02['msg36']);
         $submissionform_moods->set_var ('moodoptions', $moodoptions);
         $submissionform_moods->parse ('output', 'submissionform_moods');
@@ -752,6 +764,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     }
     $submissionform_code = new Template($_CONF['path_layout'] . 'forum/layout');
     $submissionform_code->set_file (array ('submissionform_code'=>'submissionform_code.thtml'));
+    $submissionform_code->set_var ('xhtml', XHTML);
     $submissionform_code->set_var ('site_url', $_CONF['site_url']);
     $submissionform_code->set_var ('LANG_code', $LANG_GF01['CODE']);
     $submissionform_code->set_var ('LANG_fontcolor', $LANG_GF01['FONTCOLOR']);
@@ -892,6 +905,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     $submissionform_main = new Template($_CONF['path_layout'] . 'forum/layout');
     $submissionform_main->set_file (array ('submissionform_main'=>'submissionform_main.thtml'));
     $submissionform_main->set_unknowns('keep');
+    $submissionform_main->set_var ('xhtml', XHTML);
     $submissionform_main->set_var ('LANG_SUBJECT', $LANG_GF01['SUBJECT']);
     $submissionform_main->set_var ('LANG_OPTIONS', $LANG_GF01['OPTIONS']);
     $submissionform_main->set_var ('mode_prompt', $mode_prompt);
@@ -933,6 +947,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
 
     $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
+    $forum_outline_footer->set_var ('xhtml', XHTML);
     $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_footer->parse ('output', 'forum_outline_footer');
     echo $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));

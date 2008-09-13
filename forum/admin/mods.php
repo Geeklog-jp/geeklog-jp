@@ -34,7 +34,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 include_once('gf_functions.php');
@@ -169,6 +169,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
 
         $addmod= new Template($_CONF['path_layout'] . 'forum/layout/admin');
         $addmod->set_file (array ('moderator'=>'mod_add.thtml'));
+        $addmod->set_var ('xhtml', XHTML);
         $addmod->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
         $addmod->set_var ('imgset', $CONF_FORUM['imgset']);
         $addmod->set_var ('LANG_filtertitle', 'Type' );
@@ -206,6 +207,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
 
         $moderators = new Template($_CONF['path_layout'] . 'forum/layout/admin');
         $moderators->set_file (array ('moderators'=>'moderators.thtml','mod_record'=>'mod_record.thtml'));
+        $moderators->set_var ('xhtml', XHTML);
         $moderators->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
         $moderators->set_var ('imgset', $CONF_FORUM['imgset']);
         $moderators->set_var ('userfilter', '');

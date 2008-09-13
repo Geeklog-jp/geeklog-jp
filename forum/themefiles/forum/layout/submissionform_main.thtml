@@ -2,7 +2,7 @@
        </TR>
         <TR>
             <TD class="pluginCellSubTitle">&nbsp;{LANG_SUBJECT}:</TD>
-            <TD class="pluginCellText pluginCellFill"><INPUT TYPE="text" NAME="subject" VALUE="{subject}" id="input1" tabindex="5" SIZE="70">
+            <TD class="pluginCellText pluginCellFill"><input type="text" name="subject" value="{subject}" id="input1" tabindex="5" size="70"{xhtml}>
             </TD>
         </TR>
         <TR>
@@ -17,7 +17,7 @@
             <TD class="pluginCellText pluginCellFill">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
-                        <td nowrap width="20%" style="padding-right:5px;display:{hide_notify};">{notify_prompt}</td>
+                        <td nowrap="nowrap" width="20%" style="padding-right:5px;display:{hide_notify};">{notify_prompt}</td>
                         <td width="20%">{mode_prompt}</td>
                         <td width="20%">{locked_prompt}</td>
                         <td width="20%">{sticky_prompt}</td>
@@ -31,8 +31,8 @@
             <td class="pluginCellText pluginCellFill alignright">
                 <table border="0" cellspacing="0" cellpadding="0" style="float:right;">
                     <tr>
-                        <td><INPUT TYPE="submit" NAME="preview" VALUE="{LANG_PREVIEW}" tabindex="7"></td>
-                        <td style="padding-left:6px;padding-right:6px;"><INPUT TYPE="submit" NAME="submit" VALUE="{LANG_SUBMIT}" tabindex="8"></td>
+                        <td><input type="submit" name="preview" value="{LANG_PREVIEW}" tabindex="7"{xhtml}></td>
+                        <td style="padding-left:6px;padding-right:6px;"><input type="submit" name="submit" value="{LANG_SUBMIT}" tabindex="8"{xhtml}></td>
                     </tr>
                 </table>
             </td>
