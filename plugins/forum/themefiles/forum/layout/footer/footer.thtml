@@ -13,5 +13,5 @@
  </table>
 {forum_whosonline}
 </div>
-<p />
+<p{xhtml}>
 <!-- end footer.thtml -->

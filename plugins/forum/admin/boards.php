@@ -34,7 +34,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 include_once('gf_functions.php');
@@ -68,6 +68,7 @@ if ($type == "category") {
         } else {
             $boards_addcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
             $boards_addcategory->set_file (array ('boards_addcategory'=>'boards_edtcategory.thtml'));
+            $boards_addcategory->set_var ('xhtml', XHTML);
             $boards_addcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_addcategory->set_var ('title', $LANG_GF93['addcat']);
             $boards_addcategory->set_var ('mode', 'add');
@@ -99,6 +100,7 @@ if ($type == "category") {
             $catname = DB_getItem($_TABLES['gf_categories'], "cat_name","id=$id");
             $boards_delcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
             $boards_delcategory->set_file (array ('boards_delcategory'=>'boards_delete.thtml'));
+            $boards_delcategory->set_var ('xhtml', XHTML);
             $boards_delcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_delcategory->set_var ('deletenote1', sprintf($LANG_GF93['deletecatnote1'], $catname));
             $boards_delcategory->set_var ('id', $id);
@@ -128,6 +130,7 @@ if ($type == "category") {
         $E = DB_fetchArray($esql);
         $boards_edtcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
         $boards_edtcategory->set_file (array ('boards_edtcategory'=>'boards_edtcategory.thtml'));
+        $boards_edtcategory->set_var ('xhtml', XHTML);
         $boards_edtcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
         $boards_edtcategory->set_var ('title', sprintf($LANG_GF93['editcatnote'], stripslashes($E['cat_name'])));
         $boards_edtcategory->set_var ('catname', $E['cat_name']);
@@ -199,6 +202,7 @@ if ($type == "forum") {
 
             $boards_addforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
             $boards_addforum->set_file (array ('boards_addforum'=>'boards_edtforum.thtml'));
+            $boards_addforum->set_var ('xhtml', XHTML);
             $boards_addforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_addforum->set_var ('title', "{$LANG_GF93['addforum']}&nbsp;{$LANG_GF93['undercat']}&nbsp;" .stripslashes($catname));
             $boards_addforum->set_var ('mode', 'add');
@@ -239,6 +243,7 @@ if ($type == "forum") {
         } else {
             $boards_delforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
             $boards_delforum->set_file (array ('boards_delforum'=>'boards_delete.thtml'));
+            $boards_delforum->set_var ('xhtml', XHTML);
             $boards_delforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_delforum->set_var ('deletenote1', sprintf($LANG_GF93['deleteforumnote1'], COM_applyFilter($_POST['forumname'])));
             $boards_delforum->set_var ('deletenote2', $LANG_GF93['deleteforumnote2']);
@@ -297,6 +302,7 @@ if ($type == "forum") {
 
         $boards_edtforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
         $boards_edtforum->set_file (array ('boards_edtforum'=>'boards_edtforum.thtml'));
+        $boards_edtforum->set_var ('xhtml', XHTML);
         $boards_edtforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
         $boards_edtforum->set_var ('title', sprintf($LANG_GF93['editforumnote'], $forum_name));
         $boards_edtforum->set_var ('id', $id);
@@ -337,6 +343,7 @@ if ($type == "forum") {
 
 $boards = new Template($_CONF['path_layout'] . 'forum/layout/admin');
 $boards->set_file (array ('boards'=>'boards.thtml','categories' => 'board_categories.thtml','forums' => 'board_forums.thtml'));
+$boards->set_var ('xhtml', XHTML);
 $boards->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
 $boards->set_var ('siteurl', $_CONF['site_url']);
 $boards->set_var ('adminurl', $_CONF['site_admin_url']);

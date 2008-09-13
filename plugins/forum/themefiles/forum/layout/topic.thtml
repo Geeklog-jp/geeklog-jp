@@ -4,8 +4,8 @@
         <td style="padding-left:6px; padding-right:6px;">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                                <td width="8" class="aligncenter"><img src="{imgset}/icon_minipost.gif"></td>
-                                <td nowrap>&nbsp;{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{locked_icon}</td>
+                                <td width="8" class="aligncenter"><img src="{imgset}/icon_minipost.gif"{xhtml}></td>
+                                <td nowrap="nowrap">&nbsp;{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{locked_icon}</td>
                                 <td class="alignright">
                                     <div style="vertical-align:top; padding-top:2px;" class="alignright">
                                         {mod_functions}
@@ -16,17 +16,17 @@
         </td>
 </tr>
 <tr class="pluginRow{csscode}">
-    <td style="vertical-align:top; padding:6px;" nowrap>
+    <td style="vertical-align:top; padding:6px;" nowrap="nowrap">
         <div>
-                    {user_level}<br>
+                    {user_level}<br{xhtml}>
                     {user_levelname}
         </div>
         <div>
                     {magical_image}
                     <div style="padding-top:3px;">{avatar}</div>{member_badge}
-                    <p />
+                    <p{xhtml}>
                     {regdate}
-                    {numposts}<br>
+                    {numposts}<br{xhtml}>
                     {location}
                 </div>
         <div style="background:transparent; width:110px; height:1px;"></div>       
@@ -37,7 +37,7 @@
             </div>
             <div style="clear:both;"></div>
             <div style="height:45px; padding-top:10px;display:{show_sig};">
-                    {sig}<br>
+                    {sig}<br{xhtml}>
                     {remote_ip}
                 </div>
     </td>
@@ -47,7 +47,7 @@
     <td style="padding-left:6px; padding-right:6px;"> 
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td nowrap>
+                <td nowrap="nowrap">
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             {profile_link}
@@ -57,7 +57,7 @@
                         </tr>
                     </table>
                 </td>
-                <td class="alignright" style="float:right;" nowrap>
+                <td class="alignright" style="float:right;" nowrap="nowrap">
                     <table border="0" cellspacing="0" cellpadding="0">
                         <tr>
                             {edittopic_link}

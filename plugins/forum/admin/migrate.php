@@ -31,6 +31,9 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (!defined('XHTML')) {
+    define('XHTML', '');
+}
 
 include_once('gf_functions.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
@@ -254,6 +257,7 @@ echo ppNavbar($navbarMenu,$LANG_GF06['5']);
 $p= new Template($_CONF['path_layout'] . 'forum/layout/admin');
 $p->set_file (array ('page'=>'migratestories.thtml','records' => 'migrate_records.thtml'));
 
+$p->set_var ('xhtml', XHTML);
 if (!empty($_GET['num_stories'])) {
     $p->set_var ('status_message',sprintf($LANG_GF02['msg192'],$_GET['num_stories'],$_GET['num_posts']));
 } else {

@@ -5,31 +5,31 @@
         <table border="0" cellspacing="0" cellpadding="0">
             <tr>
                     <form action="{phpself}" method="post">
-                        <input type="hidden" name="type" value="forum">
-                        <input type="hidden" name="forumname" value="{forumname}">
-                        <input type="hidden" name="id" value="{forumid}">
-                    <td nowrap style="padding:2px 2px 0px 2;"><input type="submit" name="mode" value="{delete}"></td>
-                    <td nowrap><input type="submit" name="mode" value="{edit}"></td>
+                        <input type="hidden" name="type" value="forum"{xhtml}>
+                        <input type="hidden" name="forumname" value="{forumname}"{xhtml}>
+                        <input type="hidden" name="id" value="{forumid}"{xhtml}>
+                    <td nowrap="nowrap" style="padding:2px 2px 0px 2;"><input type="submit" name="mode" value="{delete}"{xhtml}></td>
+                    <td nowrap="nowrap"><input type="submit" name="mode" value="{edit}"{xhtml}></td>
                  </tr>
                  <tr>
                     <td colspan="2" style="padding: 2px 0px 2px 2px;">
-                        <input type="submit" name="mode" value="{resync}">
+                        <input type="submit" name="mode" value="{resync}"{xhtml}>
                     </td>
                 </tr>
             </form>
         </table>
     </td>
-    <td class="pluginCellText pluginCellFill" style="vertical-align:top;text-align:left;"><a href="messages.php?forum={forumid}&forumname={forumname}">{forumname}</a><br>{forumdscp}</td>
-    <td class="pluginCellText pluginCellFill aligncenter" nowrap>{messagecount}</td>
-    <td class="pluginCellText pluginCellFill" nowrap>
+    <td class="pluginCellText pluginCellFill" style="vertical-align:top;text-align:left;"><a href="messages.php?forum={forumid}&forumname={forumname}">{forumname}</a><br{xhtml}>{forumdscp}</td>
+    <td class="pluginCellText pluginCellFill aligncenter" nowrap="nowrap">{messagecount}</td>
+    <td class="pluginCellText pluginCellFill" nowrap="nowrap">
         <!--- CHANGE FORUM ORDER --->
         <form action="{phpself}" method="post">
-            <input type="hidden" name="type" value="forum">
-            <input type="hidden" name="mode" value="{edit}">
-            <input type="hidden" name="what" value="order">
-            <input type="hidden" name="id" value="{forumid}">
-            <input type="text" size="2" name="order" value="{forumorder}">&nbsp;
-            <input type="submit" name="submit" value="{submit}">
+            <input type="hidden" name="type" value="forum"{xhtml}>
+            <input type="hidden" name="mode" value="{edit}"{xhtml}>
+            <input type="hidden" name="what" value="order"{xhtml}>
+            <input type="hidden" name="id" value="{forumid}"{xhtml}>
+            <input type="text" size="2" name="order" value="{forumorder}"{xhtml}>&nbsp;
+            <input type="submit" name="submit" value="{submit}"{xhtml}>
         </td>
     </form>
 </tr>

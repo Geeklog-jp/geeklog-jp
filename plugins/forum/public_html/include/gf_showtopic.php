@@ -34,7 +34,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 // this file can't be used on its own
@@ -78,6 +78,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             'quote'         =>  'links/quotetopic.thtml',
             'edit'          =>  'links/edittopic.thtml'));
 
+    $topictemplate->set_var ('xhtml', XHTML);
     // if preview, only stripslashes is gpc=on, else assume from db so strip        
     if ( $mode == 'preview' ) {
         $showtopic['subject'] = COM_stripslashes($showtopic['subject']);

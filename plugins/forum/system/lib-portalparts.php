@@ -30,6 +30,10 @@
 // +-------------------------------------------------------------------------+
 //
 
+if (!defined('XHTML')) {
+    define('XHTML', '');
+}
+
 /* PortalPart Navbar Function */
 
 function ppNavbar ($menuitems, $selected='', $parms='') {
@@ -40,6 +44,7 @@ function ppNavbar ($menuitems, $selected='', $parms='') {
         'navbar'       => 'navbar.thtml',
         'menuitem'     => 'menuitem.thtml',
         ));
+    $navbar->set_var ('xhtml', XHTML);
     for ($i=1; $i <= count($menuitems); $i++)  {
         $parms = explode( "=",current($menuitems) );
         $navbar->set_var( 'link',   current($menuitems));
