@@ -695,13 +695,13 @@ function BaseFooter($showbottom=true) {
         $footer->parse('outline_header','header',true);
         $footer->parse('outline_footer','footer',true);
         if ($forum == '') {
-            $footer->set_var ('forum_time', f_forumtime() );
+//            $footer->set_var ('forum_time', f_forumtime() );
             if ($showbottom == "true") {
                 $footer->set_var ('forum_legend', f_legend() );
                 $footer->set_var ('forum_whosonline', f_whosonline() );
             }
           } else {
-            $footer->set_var ('forum_time', f_forumtime() );
+//            $footer->set_var ('forum_time', f_forumtime() );
             if ($showbottom == "true") {
                 $footer->set_var ('forum_legend', f_legend() );
                 $footer->set_var ('forum_rules', f_forumrules() );

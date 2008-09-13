@@ -49,7 +49,7 @@ if (!defined('XHTML')) {
 }
 
 $LANG_GF00 = array (
-    'admin_only'        => '管理者のみです。もしあなたが管理者なら，先にログインしてください。',
+    'admin_only'        => '管理者のみです。もしあなたが管理者なら、先にログインしてください。',
     'plugin'            => 'プラグイン',
     'pluginlabel'       => '掲示板',
     'searchlabel'       => '掲示板',
@@ -66,7 +66,7 @@ $LANG_GF00 = array (
     'install_header'    => 'プラグインのインストール/アンインストール',
     'installed'         => 'プラグインとブロックがインストールされました。<p><i>楽しんでください<br' . XHTML . '><a href="mailto:langmail@sympatico.ca">Blaine</a></i>',
     'uninstalled'       => 'Forumプラグインはアンインストールされました。',
-    'install_success'   => 'インストールは<p><b>次のステップへ</b>:   <ol><li>掲示板管理者は，新しく掲示板を開設してください。<li>掲示板の設定と個人の設定を再設定してください。 <li>少なくとも掲示板を1つ，カテゴリを1つ，作成してください。</ol> <p><a href="%s">インストールの注意</a> を再度ご覧ください。',
+    'install_success'   => 'インストールは<p><b>次のステップへ</b>:   <ol><li>掲示板管理者は、新しく掲示板を開設してください。<li>掲示板の設定と個人の設定を再設定してください。 <li>少なくとも掲示板を1つ、カテゴリを1つ、作成してください。</ol> <p><a href="%s">インストールの注意</a> を再度ご覧ください。',
 
 
 
@@ -76,7 +76,7 @@ $LANG_GF00 = array (
     'uninstall_msg'     => 'Forumプラグインをアンインストールしました。',
     'install'           => 'インストール',
     'uninstall'         => 'アンインストール',
-    'enabled'           => '<br' . XHTML . '>プラグインはインストールされ，有効になっています。<p>',
+    'enabled'           => '<br' . XHTML . '>プラグインはインストールされ、有効になっています。<p>',
     'warning'           => '掲示板アンインストール警告',
     'uploaderr'         => 'ファイルアップロードエラー'
 );
@@ -103,15 +103,15 @@ $LANG_GF01['ON']             = '投稿日: ';
 $LANG_GF01['ON2']            = '&nbsp;&nbsp;<b>オン: </b>';
 $LANG_GF01['IN']             = 'イン: ';
 $LANG_GF01['BY']             = '投稿者: ';
-$LANG_GF01['RE']             = '書き込み: ';
+$LANG_GF01['RE']             = '書込: ';
 $LANG_GF01['NA']             = 'N/A';
 $LANG_GF01['DATE']           = '日付';
-$LANG_GF01['VIEWS']          = '閲覧数';
-$LANG_GF01['REPLIES']        = '書き込み数';
+$LANG_GF01['VIEWS']          = '<span style="white-space:nowrap;">閲覧数</span>';
+$LANG_GF01['REPLIES']        = '<span style="white-space:nowrap;">書込数</span>';
 $LANG_GF01['NAME']           = '名前:';
 $LANG_GF01['DESCRIPTION']    = '説明: ';
 $LANG_GF01['TOPIC']          = '件名';
-$LANG_GF01['TOPICS']         = '投稿:';
+$LANG_GF01['TOPICS']         = '<span style="white-space:nowrap;">投稿</span>';
 $LANG_GF01['TOPICSUBJECT']   = '件名';
 $LANG_GF01['FROM']           = 'から';
 $LANG_GF01['REPLY']          = '新しく書き込む';
@@ -125,8 +125,9 @@ $LANG_GF01['MOVED']          = '移動';
 $LANG_GF01['REMOVE']         = '移動&amp;削除';
 $LANG_GF01['CURRENT']        = '最新';
 $LANG_GF01['STARTEDBY']      = '最初の投稿者';
-$LANG_GF01['POSTS']          = '投稿数';
-$LANG_GF01['LASTPOST']       = '最新投稿';
+$LANG_GF01['POSTS']          = '<span style="white-space:nowrap;">投稿数</span>';
+$LANG_GF01['LASTPOST']       = '<span style="white-space:nowrap;">最新投稿</span>';
+$LANG_GF01['POSTEDON']       = '投稿日';
 $LANG_GF01['POSTEDBY']       = '投稿者';
 $LANG_GF01['POSTEDON']       = '投稿日';
 $LANG_GF01['PAGE']           = 'ページ';
@@ -195,8 +196,8 @@ $LANG_GF01['OFFLINE']        = 'オフライン';
 $LANG_GF01['back2parent']    = '親の投稿';
 $LANG_GF01['forumname']      = '';
 $LANG_GF01['category']       = 'カテゴリ: ';
-$LANG_GF01['loginreqview']   = '<b>掲示板に参加するためには， %s 登録</a> または %s ログイン </a> してください。</b>';
-$LANG_GF01['loginreqpost']   = '<b>投稿するためには，登録またはログインしてください。</b>';
+$LANG_GF01['loginreqview']   = '<b>掲示板に参加するためには、 %s 登録</a> または %s ログイン </a> してください。</b>';
+$LANG_GF01['loginreqpost']   = '<b>投稿するためには、登録またはログインしてください。</b>';
 $LANG_GF01['searchresults']  = ' 検索結果 <b>%s</b> %s ： <b>%s</b> 結果:</b><br' . XHTML . '><br' . XHTML . '>';
 $LANG_GF01['feature_not_on'] = '注目拒否';
 $LANG_GF01['nolastpostmsg']  = 'N/A';
@@ -234,8 +235,8 @@ $LANG_GF01['ProfileLink']    = 'プロフィール';
 $LANG_GF01['WebsiteLink']    = 'ホームページ';
 $LANG_GF01['PMLink']         = 'PM';
 $LANG_GF01['EmailLink']      = 'メール';
-$LANG_GF01['FORUMSUBSCRIBE'] = 'この掲示板の更新をメールで通知するよう設定する';
-$LANG_GF01['FORUMUNSUBSCRIBE'] = 'この掲示板の更新をメールで通知しないよう設定する';
+$LANG_GF01['FORUMSUBSCRIBE'] = '掲示板メール通知設定';
+$LANG_GF01['FORUMUNSUBSCRIBE'] = '掲示板メール通知設定解除';
 $LANG_GF01['NEWTOPIC']       = '新規投稿';
 $LANG_GF01['POSTREPLY']      = '投稿';
 $LANG_GF01['SubscribeLink']  = 'メール通知設定';
@@ -248,7 +249,7 @@ $LANG_GF01['TOP']            = 'トピックトップ';
 $LANG_GF01['PRINTABLE']      = '印刷用ページ';
 $LANG_GF01['ForumProfile']   = '掲示板オプション';
 $LANG_GF01['USERPREFS']      = '掲示板のユーザ設定';
-$LANG_GF01['SPEEDLIMIT']     = '"あなたの最新の投稿は %s 秒前でした。<br' . XHTML . '>次の投稿まで，最低 %s 秒お待ちください。"';
+$LANG_GF01['SPEEDLIMIT']     = '"あなたの最新の投稿は %s 秒前でした。<br' . XHTML . '>次の投稿まで、最低 %s 秒お待ちください。"';
 $LANG_GF01['ACCESSERROR']    = 'アクセスエラー';
 $LANG_GF01['LEGEND']         = '凡例';
 $LANG_GF01['ACTIONS']        = 'アクション';
@@ -310,8 +311,8 @@ $LANG_GF01['f_help']         = "文字サイズ: [size=x-small]小さめの文�
 $LANG_GF01['h_help']         = "詳細を見るにはクリックしてください";
 
 
-$LANG_GF02['msg01']    = '申し訳ありませんが，掲示への参加には登録が必要です。 ';
-$LANG_GF02['msg02']    = '申し訳ありませんが，この掲示板への参加には登録が必要です。';
+$LANG_GF02['msg01']    = '申し訳ありませんが、掲示への参加には登録が必要です。 ';
+$LANG_GF02['msg02']    = '申し訳ありませんが、この掲示板への参加には登録が必要です。';
 $LANG_GF02['msg03']    = '';
 $LANG_GF02['msg04']    = '';
 $LANG_GF02['msg05']    = '<center><i>まだ登録されていません。</center></i>';
@@ -324,7 +325,7 @@ $LANG_GF02['msg11']    = '掲示板インデックスに戻る';
 $LANG_GF02['msg12']    = 'メインホームページに戻る';
 $LANG_GF02['msg13']    = '登録が必要です。';
 $LANG_GF02['msg14']    = '登録が必要です。<br' . XHTML . '>';
-$LANG_GF02['msg15']    = 'エラーだと思われたら， <a href="mailto:%s?subject=Guestbook IP Ban">掲示板管理者</A>まで。';
+$LANG_GF02['msg15']    = 'エラーだと思われたら、 <a href="mailto:%s?subject=Guestbook IP Ban">掲示板管理者</A>まで。';
 $LANG_GF02['msg16']    = 'よくある投稿です。他の投稿や書き込みをご覧ください。';
 $LANG_GF02['msg17']    = 'メッセージ編集が完了しされました。';
 $LANG_GF02['msg18']    = 'エラー! 必須項目が入力されていないかまたは短すぎます。';
@@ -353,9 +354,9 @@ $LANG_GF02['msg38']    = '新規書き込みをメールで通知　';
 $LANG_GF02['msg39']    = '<br' . XHTML . '>新規投稿レビューできません。';
 $LANG_GF02['msg40']    = '<br' . XHTML . '>既にメール通知設定されています。<br' . XHTML . '><br' . XHTML . '>';
 $LANG_GF02['msg41']    = '<br' . XHTML . '> %s への投稿はメール通知設定されました。<br' . XHTML . '><br' . XHTML . '>';
-$LANG_GF02['msg42']    = 'このトピックのメール通知設定を解除しました。';
+$LANG_GF02['msg42']    = 'メール通知設定を解除しました。';
 $LANG_GF02['msg43']    = 'このメール通知設定を解除してよいですか?.';
-$LANG_GF02['msg44']    = '<p style="margin:0px; padding:5px;">メール通知設定したトピックはありません。</p>';
+$LANG_GF02['msg44']    = '<p style="margin:0px; padding:5px;">メール通知設定はありません</p>';
 $LANG_GF02['msg45']    = '掲示板の検索';
 $LANG_GF02['msg46']    = '掲示板キーワード検索:';
 $LANG_GF02['msg47']    = '投稿者名を指定することもできます:';
@@ -390,7 +391,7 @@ $LANG_GF02['msg76']    = '投稿数トップ %s 件';
 $LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left: 10px;">申し訳ありません。先にログインしてください。アカウントがなければ新規登録してください。<p />';
 $LANG_GF02['msg78']    = '<br' . XHTML . '>ここに掲示板はありません。';
 $LANG_GF02['msg81']    = '- 投稿編集通知';
-$LANG_GF02['msg82']    = '<p>あなたのメッセージ "%s" は，モデーレータ %s によって編集されました。<p>';
+$LANG_GF02['msg82']    = '<p>あなたのメッセージ "%s" は、モデーレータ %s によって編集されました。<p>';
 $LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '>掲示板のタイトルを入力してください。<p />';
 $LANG_GF02['msg84']    = 'すべて読んだことにする';
 $LANG_GF02['msg85']    = 'ページ:';
@@ -420,8 +421,8 @@ $LANG_GF02['msg117']   = 'サイト検索';
 $LANG_GF02['msg118']   = '掲示板検索';
 $LANG_GF02['msg119']   = '検索結果:';
 $LANG_GF02['msg120']   = '人気順 by';
-$LANG_GF02['msg121']   = 'すべての時刻は %s。現在，%s';
-$LANG_GF02['msg122']   = '人気順リスト件数:';
+$LANG_GF02['msg121']   = '時刻はすべて %s , 現在の時刻は %s';
+$LANG_GF02['msg122']   = '人気順リスト件数';
 $LANG_GF02['msg123']   = '人気順リストに表示する件数';
 $LANG_GF02['msg124']   = '1ページごとのメッセージ数';
 $LANG_GF02['msg125']   = 'モデレータのみ: メッセージ一覧画面';
@@ -430,7 +431,7 @@ $LANG_GF02['msg127']   = '探索結果に表示するラインの数';
 $LANG_GF02['msg128']   = '投稿者数/1ページ:';
 $LANG_GF02['msg129']   = '投稿者リストの1ページに表示する人数';
 $LANG_GF02['msg130']   = 'ゲストユーザ投稿表示:';
-$LANG_GF02['msg131']   = 'ゲストユーザ投稿を選別する';
+$LANG_GF02['msg131']   = 'ゲストユーザ投稿を表示する';
 $LANG_GF02['msg132']   = 'メール通知設定モード:';
 $LANG_GF02['msg133']   = '書き込みがあればメール通知を既定値にする';
 $LANG_GF02['msg134']   = '投稿が追加されました。';
@@ -461,17 +462,17 @@ $LANG_GF02['msg158']   = '最新10投稿者 ';
 $LANG_GF02['msg159']   = 'モデレータのデータを本当に削除してもよいですか？';
 $LANG_GF02['msg160']   = '投稿の最後のページを見る';
 $LANG_GF02['msg161']   = 'メンバーリストへ戻る';
-$LANG_GF02['msg162']   = '<a href="%s">こちら</a><br' . XHTML . '><p>へ自動的に戻りますが，すぐに戻りたい場合は <a href="%s">こちら</a>';
+$LANG_GF02['msg162']   = '<a href="%s">こちら</a><br' . XHTML . '><p>へ自動的に戻りますが、すぐに戻りたい場合は <a href="%s">こちら</a>';
 $LANG_GF02['msg163']   = '投稿が移動しました';
 $LANG_GF02['msg164']   = 'すべて読んだことにする';
 $LANG_GF02['msg165']   = 'エラー：<p>マッチする <b>引用</b> タグがありません。フォーマットできません。</p>';
-$LANG_GF02['msg166']   = 'エラー: 記事が壊れたか，見つかりません。';
+$LANG_GF02['msg166']   = 'エラー: 記事が壊れたか、見つかりません。';
 $LANG_GF02['msg167']   = '通知オプション';
 $LANG_GF02['msg168']   = 'メール通知を無効にする';
 $LANG_GF02['msg169']   = 'メンバーリストへ戻る';
 $LANG_GF02['msg170']   = '最新の投稿';
 $LANG_GF02['msg171']   = '掲示板アクセスエラー';
-$LANG_GF02['msg172']   = '投稿がないか，削除されています。';
+$LANG_GF02['msg172']   = '投稿がないか、削除されています。';
 $LANG_GF02['msg173']   = 'メッセージ投稿ページへ移ります...';
 $LANG_GF02['msg174']   = 'BAN Memberが見れません。 - IPアドレスが不正';
 $LANG_GF02['msg175']   = '掲示板一覧へ戻る';
@@ -484,25 +485,24 @@ $LANG_GF02['msg181']   = 'あなたは掲示板管理者としてアクセスで
 $LANG_GF02['msg182']   = 'モデレータ確認';
 $LANG_GF02['msg183']   = '新規投稿: %s';
 $LANG_GF02['msg184']   = '1回のみ通知';
-$LANG_GF02['msg185']   = '次に訪問するまでに，複数の投稿があっても通知は1回のみする';
+$LANG_GF02['msg185']   = '次に訪問するまでに、複数の投稿があっても通知は1回のみする';
 $LANG_GF02['msg186']   = '新投稿件名';
 $LANG_GF02['msg187']   = '<a href="%s">投稿へ戻る</a>';
 $LANG_GF02['msg188']   = 'クリックすると最新投稿へジャンプします。';
 $LANG_GF02['msg189']   = 'エラー: もうこの投稿は編集できません。';
 $LANG_GF02['msg190']   = 'こっそり編集';
-$LANG_GF02['msg191']   = '編集できません。編集可能期間が終了したか，モデレータ権限がありません。';
+$LANG_GF02['msg191']   = '編集できません。編集可能期間が終了したか、モデレータ権限がありません。';
 $LANG_GF02['msg192']   = '完了しました。%s個のトピックと %s個のコメントをインポートしました。';
 $LANG_GF02['msg193']   = '記事を掲示板にインポートするユーティリティ';  
 $LANG_GF02['msg194']   = '新規投稿のない掲示板';
 $LANG_GF02['msg195']   = 'クリックすると掲示板へジャンプします';
 $LANG_GF02['msg196']   = '掲示板の目次を見る';
-$LANG_GF02['msg197']   = 'すべてのカテゴリのトピックを既読にする';
+$LANG_GF02['msg197']   = '全カテゴリを既読にする';
 $LANG_GF02['msg198']   = '掲示板の設定を更新する';
 $LANG_GF02['msg199']   = '掲示板通知を見る/削除する';
-$LANG_GF02['msg200']   = 'サイトメンバーのレポートを見る';
-$LANG_GF02['msg201']   = '人気トピックレポートを見る';
-$LANG_GF02['msg202']   = '新しい投稿がありません';//
-
+$LANG_GF02['msg200']   = 'メンバーレポート';
+$LANG_GF02['msg201']   = '人気トピックレポート';
+$LANG_GF02['msg202']   = '新規書込なし';
 
 $LANG_GF02['StatusHeading']   = '情報';
 $LANG_GF02['PostReply']   = '新しく書き込む';
@@ -582,9 +582,9 @@ $LANG_GF07 = array (
 
 /* Forum User Features */
 $LANG_GF08 = array (
-    1   => '投稿の注意',
-    2   => '掲示板Track の注意',
-    3   => '投稿例外注意'
+    1   => 'トピックのメール通知',
+    2   => '掲示板のメール通知',
+    3   => 'トピック通知の例外'
 );
 
 
@@ -627,7 +627,7 @@ $LANG_GF92 = array (
     'ranksettings'       => 'ランク',
     'savesettings'       => '    変更を保存する    ', 
     'allowhtml'          => 'HTML使用',
-    'allowhtmldscp'      => '投稿時にHTMLの使用を許可する。NOに設定すると，プレーンテキストでしか投稿できないが，bbcodeは使用できる。',//'Enable HTML to be used in posts. If set to NO then users will only be able to post in TEXT Mode but still use bbcode'
+    'allowhtmldscp'      => '投稿時にHTMLの使用を許可する。NOに設定すると、プレーンテキストでしか投稿できないが、bbcodeは使用できる。',//'Enable HTML to be used in posts. If set to NO then users will only be able to post in TEXT Mode but still use bbcode'
     'glfilter'           => 'HTMLフィルタリング',
     'glfilterdscp'       => 'Geeklog本体のHTMLフィルタを使用する',
     'censor'             => '検閲',
@@ -639,15 +639,15 @@ $LANG_GF92 = array (
     'allownotify'        => '通知許可:',
     'allownotifydscp'    => '通知を許可する',
     'showiframe'         => 'トピックレビュー表示',
-    'showiframedscp'     => 'トピックに新しく書き込む場合，下にトピックの内容を表示する',    'autorefresh'        => '自動再表示',
+    'showiframedscp'     => 'トピックに新しく書き込む場合、下にトピックの内容を表示する',    'autorefresh'        => '自動再表示',
     'autorefresh'        => '自動再表示',
     'autorefreshdscp'    => '投稿後自動的に再表示',
     'refreshdelay'       => '再表示までの秒数',
-    'refreshdelaydscp'   => '自動再表示を指定した場合，再表示までの秒数',
+    'refreshdelaydscp'   => '自動再表示を指定した場合、再表示までの秒数',
     'xtrausersettings'   => '掲示板のユーザ設定',
     'xtrausersettingsdscp'    => 'ユーザ設定を許可する',
     'titleleng'          => '件名の長さ',
-    'titlelengdscp'      => '入力できる件名の最大バイト数',
+    'titlelengdscp'      => '入力できる件名の最大文字数',
     'topicspp'           => '1ページごとのトピック数',
     'topicsppdscp'       => '各掲示板でトピックの一覧を表示する場合の1ページに表示するトピックの数',
     'postspp'            => '1ページごとの投稿数',
@@ -672,7 +672,7 @@ $LANG_GF92 = array (
     'allownotify'        => 'メール通知',
     'allownotifydscp'    => 'メールで通知する',
     'defaultmode'        => '既定の投稿モード',
-    'defaultmodedscp'    => 'HTMLモードを既定にするには，Yesに設定する。<br' . XHTML . '>プレーンテキストモード（より安全）を既定にするには，Noに設定する。',
+    'defaultmodedscp'    => 'HTMLモードを既定にするには、Yesに設定する。<br' . XHTML . '>プレーンテキストモード（より安全）を既定にするには、Noに設定する。',
     'cbsettings'         => 'センターエリア',
     'cbenable'           => '表示',
     'cbenabledscp'       => 'センターエリアに表示',
@@ -703,11 +703,11 @@ $LANG_GF92 = array (
     'speedlimit'         => '投稿間隔制限',
     'speedlimitdscp'     => '投稿間隔を制限する',
     'cb_subjectsize'     => '件名の長さ',
-    'cb_subjectsizedscp' => '表示するトピックの件名のバイト数',
+    'cb_subjectsizedscp' => '表示するトピックの件名の文字数',
     'cb_numposts'        => '投稿数',
     'cb_numpostsdscp'    => 'センターエリアに表示する投稿数',
     'sb_subjectsize'     => '件名の長さ',
-    'sb_subjectsizedscp' => '表示するメッセージの件名のバイト数',
+    'sb_subjectsizedscp' => '表示するメッセージの件名の文字数',
     'sb_numposts'        => '投稿数',
     'sb_numpostsdscp'    => 'サイドブロックに表示する投稿数',
     'sb_latestposts'     => '最新投稿',
@@ -717,7 +717,7 @@ $LANG_GF92 = array (
     'spamxplugin'        => 'Spam-Xプラグイン',
     'spamxplugindscp'    => '投稿前にSpam-Xプラグインでスパムか判定する',
     'pmplugin'           => 'PMプラグイン',
-    'pmplugindscp'       => 'プライベートメッセージプラグインは別途インストールされていて，それを有効にする',
+    'pmplugindscp'       => 'プライベートメッセージプラグインは別途インストールされていて、それを有効にする',
     'smiliesplugin'      => 'スマイリープラグイン',
     'smiliesplugindscp'  => 'スマイリープラグインまたは外部関数を使う',
     'geshiformat'        => 'コード構文強調',
@@ -769,7 +769,7 @@ $LANG_GF93 = array (
     'ModBan'             => '禁止',
     'addmoderator'       => "モデレータを追加",
     'delmoderator'       => "選択したモデレータを削除\n",
-    'moderatorwarning'   => '<b>注意: 掲示板がみつかりません。</b><br' . XHTML . '><br' . XHTML . '>モデレータ追加の前に，掲示板カテゴリを作成して少なくとも掲示板を1つ作成してください。',
+    'moderatorwarning'   => '<b>注意: 掲示板がみつかりません。</b><br' . XHTML . '><br' . XHTML . '>モデレータ追加の前に、掲示板カテゴリを作成して少なくとも掲示板を1つ作成してください。',
     'private'           => 'プライベート掲示板',
     'filtertitle'       => 'モデレータ情報表示',
     'addmessage'        => '新しいモデレータを追加',
@@ -809,9 +809,9 @@ $LANG_GF94 = array (
     'modexistsmsg'       => 'エラー: このモデレータは既に登録済みです。',
     'transfer'           => '...',
     'removemodnote1'     => '次の掲示板のモデレータを解任しますか？ %s 掲示板：%s',
-    'removemodnote2'     => '一度解任すると，その掲示板を管理できません。',
+    'removemodnote2'     => '一度解任すると、その掲示板を管理できません。',
     'removemodnote3'     => 'すべての掲示板からこのモデレータを解任しますか？ %s',
-    'removemodnote4'     => '一度解任すると，どの掲示板のモデレータにもなれません。',
+    'removemodnote4'     => '一度解任すると、どの掲示板のモデレータにもなれません。',
     'allforums'          => 'すべての掲示板'
 );
 

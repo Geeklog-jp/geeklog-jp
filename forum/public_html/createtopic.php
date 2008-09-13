@@ -51,6 +51,9 @@ $method = COM_applyFilter($_REQUEST['method']);
 $page = COM_applyFilter($_REQUEST['page'],true);
 $notify = COM_applyFilter($_POST['notify']);
 $preview = COM_applyFilter($_REQUEST['preview']);
+if($preview == $LANG_GF01['PREVIEW']) {
+  $preview = 'Preview';
+}
 if (isset($_REQUEST['postmode'])) {
     $postmode = COM_applyFilter($_REQUEST['postmode']);
 } else {
@@ -387,7 +390,7 @@ if ($method == 'edit') {
     $editAllowed = false;
     if (forum_modPermission($edittopic['forum'],$_USER['uid'],'mod_edit')) {
         $editAllowed = true;
-        echo '<input type="hidden" name="modedit" VALUE="1"' . XHTML . '>';
+        echo '<input type="hidden" name="modedit" value="1"' . XHTML . '>';
     } else {
         // User is trying to edit their topic post - this is allowed
         if ($edittopic['date'] > 0 ) {
@@ -619,13 +622,13 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
                         require_once ($_CONF['path_html'] . 'forum/include/bbcode/stringparser_bbcode.class.php');
                     }
                     $comment = gf_formatOldPost($quotearray['comment'],'html');
-                    $comment = sprintf($CONF_FORUM['quoteformat'],$quotearray['name'],$comment);
+                    $comment = sprintf($CONF_FORUM['quoteformat'],COM_getDisplayName($quotearray['uid']),$comment);
                 } else {
                     $quotearray['comment'] = str_replace("&#36;","$", $quotearray['comment']);
-                    $comment = sprintf($CONF_FORUM['quoteformat'],$quotearray['name'],$quotearray['comment']);
+                    $comment = sprintf($CONF_FORUM['quoteformat'],COM_getDisplayName($quotearray['uid']),$quotearray['comment']);
                 }
             } else {
-                $comment = sprintf($CONF_FORUM['quoteformat'],$quotearray['name'],$quotearray['comment']);
+                $comment = sprintf($CONF_FORUM['quoteformat'],COM_getDisplayName($quotearray['uid']),$quotearray['comment']);
             }
         }
 
@@ -636,7 +639,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         $topicnavbar->set_var ('hidden_method', 'edit');
         $topicnavbar->set_var ('hidden_editpost','yes');
         if ($editmoderator) {
-            $username = $edittopic['name'];
+            $username = COM_getDisplayName($edittopic['uid']);
         } elseif ($uid > 1) {
             $username = COM_getDisplayName($uid);
         }
@@ -690,7 +693,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         }
 
         $submissionformtop->set_var ('username', $username);
-        $submissionformtop->set_var ('xusername', urlencode($username));
+        $submissionformtop->set_var ('xusername', $username);
         $submissionformtop->parse ('output', 'submissionformtop');
         echo $submissionformtop->finish($submissionformtop->get_var('output'));
     }
@@ -700,16 +703,16 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             $edittopic['mood'] = $_POST['mood'];
         }
         if ($edittopic['mood'] == '') {
-            $moodoptions = '<OPTION value="" SELECTED>' . $LANG_GF01['NOMOOD'];
+            $moodoptions = '<option value="" selected="selected">' . $LANG_GF01['NOMOOD'];
         }
         if ($dir = @opendir("{$CONF_FORUM['imgset_path']}/moods")) {
             while (($file = readdir($dir)) !== false) {
                 if ((strlen($file) > 3) && eregi('gif',$file)) {
                     $file = str_replace(array('.gif','.jpg'), array('',''), $file);
                     if($file == $edittopic['mood']) {
-                        $moodoptions .= "<OPTION SELECTED>" . $file. "\n";
+                        $moodoptions .= '<option selected="selected">' . $file. "\n";
                     } else {
-                        $moodoptions .= "<OPTION>" .$file. "\n";
+                        $moodoptions .= "<option>" .$file. "\n";
                     }
                 } else {
                     $moodoptions .= '';
@@ -926,7 +929,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     $submissionform_main->set_var ('postmode', $postmode);
     $submissionform_main->parse ('output', 'submissionform_main');
     echo $submissionform_main->finish($submissionform_main->get_var('output'));
-    echo '</FORM>';
+    echo '</form>';
 
     $forum_outline_footer= new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
@@ -937,7 +940,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     //Topic Review
     if(($method != 'newtopic' && $_POST['editpost'] != 'yes') && ($method == 'postreply' || $preview == 'Preview')) {
         if ($CONF_FORUM['show_topicreview']) {
-            echo "<IFRAME SRC=\"{$_CONF['site_url']}/forum/viewtopic.php?mode=preview&amp;showtopic=$id&amp;onlytopic=1&amp;lastpost=true\" HEIGHT=\"300\" WIDTH=\"100%\"></IFRAME>";
+            echo "<iframe src=\"{$_CONF['site_url']}/forum/viewtopic.php?mode=preview&amp;showtopic=$id&amp;onlytopic=1&amp;lastpost=true\" height=\"300\" width=\"100%\"></iframe>";
         }
     }
     //End Topic Review
