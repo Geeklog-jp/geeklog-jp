@@ -72,6 +72,7 @@ if($_REQUEST['onlytopic'] == 1) {
     echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' . LB;
     echo '<html>' . LB;
     echo '<head>' . LB;
+    echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$LANG_CHARSET\">" . LB;
     echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$_CONF['site_url']}/layout/{$_CONF['theme']}/style.css\"></head>\n";
     echo '<body class="sitebody">';
 } else {
@@ -318,7 +319,7 @@ while($topicRec = DB_fetchArray($result)) {
     //$intervalTime = $mytimer->stopTimer();
     //COM_errorLog("Topic Display Time: $intervalTime");
     if ($CONF_FORUM['show_anonymous_posts'] == 0 AND $topicRec['uid'] == 1) {
-       echo '<div class="pluginAlert" style="padding:10px;margin:10px;">Your preferences have block anonymous posts enabled</div>';
+       echo substr($_USER['language'],0,2) == "ja" ? '<div class="pluginAlert" style="padding:10px;margin:10px;">ゲストユーザの書き込みは非表示の設定になっています</div>' : '<div class="pluginAlert" style="padding:10px;margin:10px;">Your preferences have block anonymous posts enabled</div>';
        break;
        //Do nothing - but this way I don't always have to do this check
     } else {

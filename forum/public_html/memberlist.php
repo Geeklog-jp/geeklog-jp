@@ -123,6 +123,7 @@ if ($op == "last10posts") {
     $report->set_var ('bottomlink', $link);
     $report->parse ('output', 'report');
     echo $report->finish($report->get_var('output'));
+    gf_siteFooter();
     exit();
 
 } else {
@@ -130,7 +131,7 @@ if ($op == "last10posts") {
     $report = new Template($_CONF['path_layout'] . 'forum/layout');
     $report->set_file (array ('report' => 'reports/memberlist.thtml',
                     'records' => 'reports/memberlist_line.thtml',
-                    'link' => 'reports/memberlist_link.thtml',                    
+                    'link' => 'reports/memberlist_link.thtml',
                     'outline_header' => 'forum_outline_header.thtml',
                     'outline_footer' => 'forum_outline_footer.thtml'));
 
@@ -222,7 +223,7 @@ if ($op == "last10posts") {
     $report->set_var ('LANG_Heading4',$LANG_GF01['POSTS']);
     $report->parse ('header_outline','outline_header');
     $report->parse ('footer_outline','outline_footer');
-    $report->set_var ('LANG_lastposts',$LANG_GF02['msg86']);      
+    $report->set_var ('LANG_lastposts',sprintf($LANG_GF02['msg86'],$CONF_FORUM['show_last_post_count']));
     $report->set_var ('LANG_website',$LANG_GF01['WebsiteLink']);
     $report->set_var ('LANG_ACTIVITY',$LANG_GF02['msg88b']);
     if ($CONF_FORUM['usermenu'] == 'navbar') {

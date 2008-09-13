@@ -191,9 +191,9 @@ if ($num_messages == 0) {
     while($A = DB_fetchArray($query)){
         $report->set_var ('id', $A['id']);
         if ($A['uid'] > 1) {
-               $report->set_var ('name', '<A HREF="' .$_CONF['site_url']. '/users.php?mode=profile&amp;uid=' .$A['uid']. '">' .$A['name']. '</a>');
+               $report->set_var ('name', '<a href="' .$_CONF['site_url']. '/users.php?mode=profile&amp;uid=' .$A['uid']. '">' .COM_getDisplayName($A['uid']). '</a>');
         } else {
-            $report->set_var ('name', $A['name']);
+            $report->set_var ('name', COM_getDisplayName($A['uid']));
         }
         if ($A['pid'] == "0") {
             $id = $A['id'];

@@ -112,11 +112,11 @@ function plugin_cclabel_forum()
 */
 function plugin_getadminoption_forum()
 {
-    global $_TABLES, $_CONF;
+    global $_TABLES, $_CONF, $LANG_GF00;
 
     if (SEC_hasRights('forum.edit')) {
         $numtopics = DB_getITEM($_TABLES['gf_topic'],"count(*)");
-        return array('Forum', $_CONF['site_admin_url'] . '/plugins/forum/index.php', $numtopics);
+        return array($LANG_GF00['pluginlabel'], $_CONF['site_admin_url'] . '/plugins/forum/index.php', $numtopics);
     }
 
 }
@@ -463,7 +463,7 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
         $sd = explode($delim,$datestart);
         $ed = explode($delim,$dateend);
         $startdate = mktime(0,0,0,$sd[1],$sd[2],$sd[0]);
-        $enddate = mktime(0,0,0,$ed[1],$ed[2],$ed[0]) + 3600;
+        $enddate = mktime(0,0,0,$ed[1],$ed[2],$ed[0]) + ( 3600 * 24 ) - 1;
         $sqltmp .= " AND date BETWEEN '$startdate' AND '$enddate'";
     }
    
@@ -511,8 +511,9 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
             }
             $searchcount++;
             $forumname = DB_getItem($_TABLES['gf_forums'],"forum_name","forum_id='{$A['forum']}'");
-            $subject = wordwrap($A['subject'], 40, '<br' . XHTML .'>');
-            $date = strftime('%b %d %Y @ %I:%M %p', $A['date']);
+            $subject = forum_mb_wordwrap($A['subject'],$CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">"); // added function
+            $thetime = COM_getUserDateTimeFormat ($A['date']);
+            $date = $thetime[0];
             $url = $_CONF['site_url']. "/forum/viewtopic.php?forum={$A['forum']}&amp;showtopic={$A['id']}";
             $row = array($forumname, "<a href=\"$url\">" . COM_truncate($subject,$CONF_FORUM['show_subject_length'],'...') . "</a>",$date,$A['views']);
             $plugin_results->addSearchResult($row);
@@ -1000,6 +1001,7 @@ function forum_deleteForum($id) {
 function phpblock_forum_newposts() {
     global $_CONF, $_USER, $_TABLES, $LANG_GF01, $LANG_GF02, $CONF_FORUM,$pi_version;
 
+    $post_limit = $CONF_FORUM['sideblock_numposts'];
     if ($pi_version < 2.6) {
         return;
     }
@@ -1260,9 +1262,11 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
             if (empty ($A['last_reply_rec']) OR $A['last_reply_rec'] < 1) {
                 $lastid = $A['id'];
                 $lastpostinfo = wordwrap(strip_tags(COM_truncate($A['comment'], $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
+                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfotmp, $CONF_FORUM['linkinfo_width'], "n")); // added function
             } else {
-                $qlreply = DB_query("SELECT uid,name,comment FROM {$_TABLES['gf_topic']} WHERE id={$A['last_reply_rec']}");
+                $qlreply = DB_query("SELECT id,uid,name,comment FROM {$_TABLES['gf_topic']} WHERE id={$A['last_reply_rec']}");
                 $B = DB_fetchArray($qlreply);
+                $lastid = $B['id'];
                 $lastcomment = $B['comment'];
                 if ($B['uid'] > 1) {
                     $topicinfo .= sprintf($LANG_GF01['LASTREPLYBY'],COM_getDisplayName($B['uid']));                     
@@ -1270,6 +1274,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
                     $topicinfo .= sprintf($LANG_GF01['LASTREPLYBY'],$B['name']);
                 }
                 $lastpostinfo = wordwrap(strip_tags(COM_truncate($lastcomment, $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
+                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfotmp, $CONF_FORUM['linkinfo_width'], "n")); // added function
             }
 
             $cssid = ($cssid ==1) ? 2: 1;
@@ -1478,5 +1483,23 @@ function glmenu_showforums() {
     return $retval;
 }
 
+function forum_mb_wordwrap($string, $width, $break) {
+  $return = "";
+  $list = preg_split("/\n/", $string); // 改行で分解
+
+    $n = $width;                       // 改行させる文字数
+    foreach($list as $line){           // foreachで一行ずつ処理させる
+        $len = 0;                      // 以下元の部分のまま
+        for($i = 0; $i < mb_strlen($line); $i += $len){
+            for($j = 1; $j<=$n; $j++){
+                $wk = mb_substr($line, $i, $j);
+                if(mb_strwidth($wk) >= $n) break;
+            }
+            $len = mb_strlen($wk);
+            $return .= $wk. "<br>";
+        }
+    }
+    return $return;
+}
 
 ?>
