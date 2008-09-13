@@ -34,7 +34,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 require_once("../lib-common.php");
@@ -126,6 +126,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
                 $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$msgpid";
                 forum_statusMessage($LANG_GF02['msg55'],$link,$LANG_GF02['msg55'],true,$forum);
             }
+            gf_siteFooter();
             exit();
         }
     }
@@ -166,8 +167,8 @@ if (forum_modPermission($forum,$_USER['uid'])) {
 
                     // Update Topic and Post Count for the effected forums
                     DB_query("UPDATE {$_TABLES['gf_forums']} SET topic_count=topic_count+1, post_count=post_count+1 WHERE forum_id=$newforumid");
-				    $topicsQuery = DB_query("SELECT id FROM {$_TABLES['gf_topic']} WHERE forum=$forum and pid=0");
-				    $topic_count = DB_numRows($topicsQuery);
+                    $topicsQuery = DB_query("SELECT id FROM {$_TABLES['gf_topic']} WHERE forum=$forum and pid=0");
+                    $topic_count = DB_numRows($topicsQuery);
                     DB_query("UPDATE {$_TABLES['gf_forums']} SET topic_count=$topic_count, post_count=post_count-1 WHERE forum_id=$forum");
 
                     // Update the Forum and topic indexes
@@ -246,7 +247,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
         $alertmessage .= sprintf($LANG_GF02['msg64'],$fortopicid,$subject);
 
         $promptform  = '<p><form action="' .$_CONF['site_url'] . '/forum/moderation.php" method="post">';
-        $promptform .= '<input type="hidden" name="modconfirmdelete" VALUE="1"' . XHTML . '>';
+        $promptform .= '<input type="hidden" name="modconfirmdelete" value="1"' . XHTML . '>';
         $promptform .= '<input type="hidden" name="msgid" value="' .$fortopicid. '"' . XHTML . '>';
         $promptform .= '<input type="hidden" name="forum" value="' .$forum. '"' . XHTML . '>';
         $promptform .= '<input type="hidden" name="msgpid" value="' .$msgpid. '"' . XHTML . '>';

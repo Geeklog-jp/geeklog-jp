@@ -40,6 +40,8 @@ if (!defined('XHTML')) {
 require_once("../lib-common.php"); // Path to your lib-common.php
 require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
+//need function forum_mb_wordwrap
+require_once($_CONF['path'] . 'plugins/forum/functions.inc');
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
 $forum = COM_applyFilter($_REQUEST['forum'],true);
@@ -62,7 +64,7 @@ if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
     exit;
 }
 
-$todaysdate=date("l, F d, Y");
+$todaysdate=date($_CONF['shortdate']);
 
 // Check to see if request to mark all topics read was requested
 if ($_USER['uid'] > 1 && $op == 'markallread') {
@@ -605,13 +607,13 @@ if ($forum == 0) {
 
                 $lastdate1 = strftime('%d', $B['date']);
                 if ($lastdate1 == date('d')) {
-                    $lasttime = strftime('%I:%M&nbsp;%p', $B['date']);
+                    $lasttime = strftime('%p&nbsp;%I:%M', $B['date']);
                     $lastdate = $LANG_GF01['TODAY'] .$lasttime;
                 } elseif ($CONF_FORUM['use_userdate_format']) {
                     $lastdate = COM_getUserDateTimeFormat($B['date']);
                     $lastdate = $lastdate[0];
                 } else {
-                    $lastdate =strftime('%b/%d/%y %I:%M&nbsp;%p',$B['date']);
+                    $lastdate =strftime($CONF_FORUM['default_Datetime_format'],$B['date']);
                 }
 
                 $lastpostmsgDate  = '<font class="forumtxt">' . $LANG_GF01['ON']. '</font>' .$lastdate;
@@ -885,30 +887,31 @@ if ($forum > 0) {
                 $lastreply['subject'] = COM_truncate($record['subject'], $CONF_FORUM['show_subject_length'], '...');
                 $lastreply['subject'] .= "...";
             }
-            $lastdate1 = strftime('%m/%d/%Y', $lastreply['date']);
-            if ($lastdate1 == date('m/d/Y')) {
-                $lasttime = strftime('%H:%M&nbsp;%p', $lastreply['date']);
+
+            $lastdate1 = strftime('%Y/%m/%d', $lastreply['date']);
+            if ($lastdate1 == date('Y/m/d')) {
+                $lasttime = strftime('%p&nbsp;%H:%M', $lastreply['date']);
                 $lastdate = $LANG_GF01['TODAY'] . $lasttime;
             } elseif ($CONF_FORUM['use_userdate_format']) {
                 $lastdate = COM_getUserDateTimeFormat($lastreply['date']);
                 $lastdate = $lastdate[0];
             } else {
-                $lastdate = strftime('%b/%d/%y %I:%M&nbsp;%p',$lastreply['date']);
+                $lastdate = strftime($CONF_FORUM['default_Datetime_format'],$lastreply['date']);
             }
         } else {
-            $lastdate = strftime('%b/%d/%y %I:%M&nbsp;%p',$record['lastupdated']);
+            $lastdate = strftime($CONF_FORUM['default_Datetime_format'],$record['lastupdated']);
             $lastreply = $record;
         }
 
         $firstdate1 = strftime('%m/%d/%Y', $record['date']);
         if ($firstdate1 == date('m/d/Y')) {
-            $firsttime = strftime('%H:%M&nbsp;%p', $record['date']);
+            $firsttime = strftime('%p&nbsp;%H:%M', $record['date']);
             $firstdate = $LANG_GF01['TODAY'] . $firsttime;
         } elseif ($CONF_FORUM['use_userdate_format']) {
             $firstdate = COM_getUserDateTimeFormat($record['date']);
             $firstdate = $firstdate[0];
         } else {
-            $firstdate = strftime('%b/%d/%y %I:%M&nbsp;%p',$record['date']);
+            $firstdate = strftime($CONF_FORUM['default_Datetime_format'],$record['date']);
         }
 
         if ($_USER['uid'] > 1) {
@@ -965,6 +968,7 @@ if ($forum > 0) {
         }
         $topicinfo =  "<b>{$LANG_GF01['STARTEDBY']}{$firstposterName}, {$firstdate}</b><br" . XHTML . ">";
         $topicinfo .= wordwrap(strip_tags(COM_truncate($record['comment'], $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
+        $topicinfo .= mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($topicinfotmp, $CONF_FORUM['linkinfo_width'], "\n"));
 
         $topiclisting->set_var ('folderimg', $folderimg);
         $topiclisting->set_var ('topicinfo', $topicinfo);

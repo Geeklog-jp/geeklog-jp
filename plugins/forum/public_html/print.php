@@ -33,7 +33,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 require_once("../lib-common.php"); // Path to your lib-common.php
@@ -105,10 +105,34 @@ $A = DB_fetchArray($result);
 
 if ($CONF_FORUM['allow_smilies']) {
         $search = array(":D", ":)", ":(", "8O", ":?", "B)", ":lol:", ":x", ":P" ,":oops:", ":o",":cry:", ":evil:", ":twisted:", ":roll:", ";)", ":!:", ":question:", ":idea:", ":arrow:", ":|", ":mrgreen:",":mrt:",":love:",":cat:");
-        $replace = array("<img align=absmiddle src='images/smilies/biggrin.gif' alt='Big Grin'>", "<img align=absmiddle src='images/smilies/smile.gif' alt='Smile'>", "<img align=absmiddle src='images/smilies/frown.gif' alt='Frown'>","<img align=absmiddle src='images/smilies/eek.gif' alt='Eek!'>","<img align=absmiddle src='images/smilies/confused.gif' alt='Confused'>", "<img align=absmiddle src='images/smilies/cool.gif' alt='Cool'>", "<img align=absmiddle src='images/smilies/lol.gif' alt='Laughing Out Loud'>","<img align=absmiddle src='images/smilies/mad.gif' alt='Angry'>", "<img align=absmiddle src='images/smilies/razz.gif' alt='Razz'>","<img align=absmiddle src='images/smilies/redface.gif' alt='Oops!'>","<img align=absmiddle src='images/smilies/surprised.gif' alt='Surprised!'>","<img align=absmiddle src='images/smilies/cry.gif' alt='Cry'>","<img align=absmiddle src='images/smilies/evil.gif' alt='Evil'>","<img align=absmiddle src='images/smilies/twisted.gif' alt='Twisted Evil'>","<img align=absmiddle src='images/smilies/rolleyes.gif' alt='Rolling Eyes'>","<img align=absmiddle src='images/smilies/wink.gif' alt='Wink'>","<img align=absmiddle src='images/smilies/exclaim.gif' alt='Exclaimation'>", "<img align=absmiddle src='images/smilies/question.gif' alt='Question'>", "<img align=absmiddle src='images/smilies/idea.gif' alt='Idea'>", "<img align=absmiddle src='images/smilies/arrow.gif' alt='Arrow'>", "<img align=absmiddle src='images/smilies/neutral.gif' alt='Neutral'>", "<img align=absmiddle src='images/smilies/mrgreen.gif' alt='Mr. Green'>","<img align=absmiddle src='images/smilies/mrt.gif' alt='Mr. T'>","<img align=absmiddle src='images/smilies/heart.gif' alt='Love'>","<img align=absmiddle src='images/smilies/cat.gif' alt='Kitten'>");
+        $replace = array('<img align="absmiddle" src="images/smilies/biggrin.gif" alt="Big Grin">',
+                         '<img align="absmiddle" src="images/smilies/smile.gif" alt="Smile">',
+                         '<img align="absmiddle" src="images/smilies/frown.gif" alt="Frown">',
+                         '<img align="absmiddle" src="images/smilies/eek.gif" alt="Eek!">',
+                         '<img align="absmiddle" src="images/smilies/confused.gif" alt="Confused">',
+                         '<img align="absmiddle" src="images/smilies/cool.gif" alt="Cool">',
+                         '<img align="absmiddle" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
+                         '<img align="absmiddle" src="images/smilies/mad.gif" alt="Angry">',
+                         '<img align="absmiddle" src="images/smilies/razz.gif" alt="Razz">',
+                         '<img align="absmiddle" src="images/smilies/redface.gif" alt="Oops!">',
+                         '<img align="absmiddle" src="images/smilies/surprised.gif" alt="Surprised!">',
+                         '<img align="absmiddle" src="images/smilies/cry.gif" alt="Cry">',
+                         '<img align="absmiddle" src="images/smilies/evil.gif" alt="Evil">',
+                         '<img align="absmiddle" src="images/smilies/twisted.gif" alt="Twisted Evil">',
+                         '<img align="absmiddle" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
+                         '<img align="absmiddle" src="images/smilies/wink.gif" alt="Wink">',
+                         '<img align="absmiddle" src="images/smilies/exclaim.gif" alt="Exclaimation">',
+                         '<img align="absmiddle" src="images/smilies/question.gif" alt="Question">',
+                         '<img align="absmiddle" src="images/smilies/idea.gif" alt="Idea">',
+                         '<img align="absmiddle" src="images/smilies/arrow.gif" alt="Arrow">',
+                         '<img align="absmiddle" src="images/smilies/neutral.gif" alt="Neutral">',
+                         '<img align="absmiddle" src="images/smilies/mrgreen.gif" alt="Mr. Green">',
+                         '<img align="absmiddle" src="images/smilies/mrt.gif" alt="Mr. T">',
+                         '<img align="absmiddle" src="images/smilies/heart.gif" alt="Love">',
+                         '<img align="absmiddle" src="images/smilies/cat.gif" alt="Kitten">');
 }
 
-$A["name"] = COM_checkWords($A["name"]);
+$A["name"] = COM_getDisplayName($A["uid"]);
 $A["name"] = htmlspecialchars($A["name"],ENT_QUOTES,$CONF_FORUM['charset']);
 
 $A["subject"] = COM_checkWords($A["subject"]);
@@ -116,11 +140,18 @@ $A["subject"] = htmlspecialchars($A["subject"],ENT_QUOTES,$CONF_FORUM['charset']
 
 $A['comment'] = gf_FormatForPrint( $A['comment'], $A['postmode'] );
 
-$date = strftime('%B %d %Y @ %I:%M %p', $A['date']);
+$date = strftime($CONF_FORUM['default_Datetime_format'], $A['date']);
 echo"
     <html>
     <head>
         <title>$_CONF[site_name] - ".$LANG_GF02['msg147']." $A[id]]</title>
+<style>
+<!--
+body { font-size:small; font-family: ＭＳ Ｐ明朝 }
+table { font-size:small;font-family: ＭＳ Ｐ明朝 }
+h1 { font-size:middle;font-family: ＭＳ Ｐ明朝 }
+-->
+</style>
     </head>
     <body>
         <font face=\"verdana\" size=\"2\">
@@ -142,7 +173,8 @@ echo"
 
 $result2 = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE (pid='$id')");
 while($B = DB_fetchArray($result2)){
-$date = strftime('%B %d %Y @ %I:%M %p', $B['date']);
+$date = strftime($CONF_FORUM['default_Datetime_format'], $B['date']);
+$B["name"] = COM_getDisplayName($B["uid"]);
 
 echo"
 
