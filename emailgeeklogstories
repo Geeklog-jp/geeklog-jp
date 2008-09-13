@@ -12,6 +12,6 @@
 //
 // 次の行の /path/to/geeklog/lib-common.php を実際の lib-common.php のパスに
 // 合わせて変更してください。
-require_once '/path/to/geeklog/lib-common.php';
+include('/path/to/geeklog/lib-common.php');
 
 COM_emailUserTopics();
