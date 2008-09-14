@@ -324,8 +324,12 @@ function SITEMAP_getEncodingt() {
 * Escapes a string for HTML output
 */
 function SITEMAP_escape($str) {
-	$str = html_entity_decode($str, ENT_QUOTES, SITEMAP_getEncodingt());
-	return htmlentities($str, ENT_QUOTES, SITEMAP_getEncodingt());
+	$str = str_replace(
+		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
+		array(   '<',    '>',     '&',      '"',      "'"),
+		$str
+	);
+	return htmlspecialchars($str, ENT_QUOTES, SITEMAP_getEncodingt());
 }
 
 function SITEMAP_str($index, $noesc = false) {
