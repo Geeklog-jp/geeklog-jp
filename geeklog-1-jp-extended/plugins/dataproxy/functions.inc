@@ -260,9 +260,13 @@ function DPXY_encoding() {
 /**
 * Returns a string escaped for output
 */
-function DPXY_esc() {
-	$str = html_entity_decode($str, ENT_QUOTES, DPXY_encoding());
-	return htmlentities($str, ENT_QUOTES, DPXY_encoding());
+function DPXY_esc($str) {
+	$str = str_replace(
+		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
+		array(   '<',    '>',     '&',      '"',      "'"),
+		$str
+	);
+	return htmlspecialchars($str, ENT_QUOTES, DPXY_encoding());
 }
 
 /**
