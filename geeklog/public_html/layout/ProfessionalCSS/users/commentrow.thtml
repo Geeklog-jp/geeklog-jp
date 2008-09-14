@@ -1,6 +1,0 @@
-
-<!-- users/commentrow.thtml { -->
-
-<p class="commentrow">{row_number}{comment_begin_href}{comment_title}{comment_end_href}{comment_date}</p>
-
-<!-- } users/commentrow.thtml -->

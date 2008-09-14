@@ -1,8 +1,0 @@
-
-<!-- admin/topic/listitem.thtml { -->
-
-{begin_row}
-<li><a href="{site_admin_url}/topic.php?mode=edit&amp;tid={topic_id}">{image_tag}</a>{topic_name}{default_topic}<a href="{site_admin_url}/topic.php?mode=edit&amp;tid={topic_id}">{topic_access}</a></li>
-{end_row}
-
-<!-- } admin/topic/listitem.thtml -->
