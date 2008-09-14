@@ -35,7 +35,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: install_defaults.php,v 1.5 2008/05/11 07:25:08 dhaun Exp $
+// $Id: install_defaults.php,v 1.7 2008/07/03 18:00:50 mjervis Exp $
 
 if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
@@ -49,8 +49,8 @@ if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
  * and not referenced any more once the plugin is installed
  *
  */
-
 global $_CA_DEFAULT;
+$_CA_DEFAULT = array();
 
 // when set to 1 will only allow logged-in users to view the list of past events
 // (also see $_CONF['loginrequired'] in Geeklog's main configuration)

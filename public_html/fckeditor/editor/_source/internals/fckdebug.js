@@ -21,17 +21,11 @@
  * Debug window control and operations.
  */
 
-var FCKDebug = new Object() ;
+// Public function defined here must be declared in fckdebug_empty.js.
 
-FCKDebug._GetWindow = function()
+var FCKDebug =
 {
-	if ( !this.DebugWindow || this.DebugWindow.closed )
-		this.DebugWindow = window.open( FCKConfig.BasePath + 'fckdebug.html', 'FCKeditorDebug', 'menubar=no,scrollbars=yes,resizable=yes,location=no,toolbar=no,width=600,height=500', true ) ;
-
-	return this.DebugWindow ;
-}
-
-FCKDebug.Output = function( message, color, noParse )
+	Output : function( message, color, noParse )
 {
 	if ( ! FCKConfig.Debug )
 		return ;
@@ -41,9 +35,9 @@ FCKDebug.Output = function( message, color, noParse )
 		this._GetWindow().Output( message, color ) ;
 	}
 	catch ( e ) {}	 // Ignore errors
-}
+	},
 
-FCKDebug.OutputObject = function( anyObject, color )
+	OutputObject : function( anyObject, color )
 {
 	if ( ! FCKConfig.Debug )
 		return ;
@@ -53,4 +47,13 @@ FCKDebug.OutputObject = function( anyObject, color )
 		this._GetWindow().OutputObject( anyObject, color ) ;
 	}
 	catch ( e ) {}	 // Ignore errors
+	},
+
+	_GetWindow : function()
+	{
+		if ( !this.DebugWindow || this.DebugWindow.closed )
+			this.DebugWindow = window.open( FCKConfig.BasePath + 'fckdebug.html', 'FCKeditorDebug', 'menubar=no,scrollbars=yes,resizable=yes,location=no,toolbar=no,width=600,height=500', true ) ;
+
+		return this.DebugWindow ;
 }
+} ;
