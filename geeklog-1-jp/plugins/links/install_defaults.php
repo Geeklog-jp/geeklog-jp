@@ -36,7 +36,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: install_defaults.php,v 1.4 2008/05/04 09:16:33 dhaun Exp $
+// $Id: install_defaults.php,v 1.6 2008/07/03 18:00:53 mjervis Exp $
 
 if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
@@ -51,11 +51,10 @@ if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
  *
  */
 
-global $_LI_DEFAULT;
-
 /**
 * the link plugin's config array
 */
+global $_LI_DEFAULT;
 $_LI_DEFAULT = array();
 
 /**

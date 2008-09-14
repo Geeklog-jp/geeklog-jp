@@ -550,7 +550,8 @@ $LANG11 = array(
     2 => 'An einen Freund schicken',
     3 => 'Druckfähige Version',
     4 => 'Optionen',
-    5 => 'Als PDF'
+    5 => 'Als PDF',
+    6 => 'Feed \'%s\' abonnieren'
 );
 
 ###############################################################################
@@ -1048,7 +1049,7 @@ $LANG33 = array(
     20 => 'Ja',
     21 => 'Nein',
     22 => '<i>(keine Newsfeeds)</i>',
-    23 => 'alle Artikel',
+    23 => 'Alle Artikel',
     24 => 'Newsfeed-Editor',
     25 => 'Newsfeed-Titel',
     26 => 'Limit',
@@ -1062,7 +1063,7 @@ $LANG33 = array(
     34 => 'Einträge',
     35 => 'Stunden',
     36 => 'Art des Newsfeeds festlegen',
-    37 => 'Du hast (mindestens) ein Plugin installiert, das Newsfeeds unterstützt. Bitte wähle zunächst aus, ob Du einen Newsfeed für Geeklog oder für ein Plugin anlegen wollst.',
+    37 => '',
     38 => 'Fehler: Nicht alle Felder ausgefüllt',
     39 => 'Bitte die Felder Newsfeeds-Titel, Beschreibung und Dateiname ausfüllen.',
     40 => 'Bitte ein Limit (Anzahl Einträge oder Anzahl Stunden) eingeben.',
@@ -1077,7 +1078,10 @@ $LANG33 = array(
     49 => 'Newsfeed-Logo',
     50 => "Relativ zur URL dieser Site ({$_CONF['site_url']})",
     51 => 'Der gewählte Dateiname wird bereits von einem anderen Newsfeed verwendet. Bitte wähle einen anderen.',
-    52 => 'Fehler: Dateiname existiert schon'
+    52 => 'Fehler: Dateiname existiert schon',
+    53 => 'Alle auf der Startseite',
+    54 => 'Bitte wähle die Art des Newsfeeds aus.',
+    55 => 'Artikel'
 );
 
 ###############################################################################
@@ -1179,7 +1183,8 @@ $MESSAGE = array(
     93 => 'Database back up war erfolgreich.',
     94 => 'Backup Failed: Dateigröße unter 1kb',
     95 => 'Es gab einen Fehler.',
-    96 => 'Sorry, kein Zugang zur Admin-Seite. Unzulässige Zugangsversuche werden gelogged.'
+    96 => 'Sorry, kein Zugang zur Admin-Seite. Unzulässige Zugangsversuche werden gelogged.',
+    97 => 'Not all required fields have been passed validation - default custom membership message'
 );
 
 ###############################################################################
@@ -1258,7 +1263,7 @@ $LANG_DB_BACKUP = array(
     'do_backup' => 'Backup anlegen',
     'backup_successful' => 'Backup der Datenbank war erfolgreich.',
     'db_explanation' => 'Um ein neues Backup Deiner Datenbank anzulegen, bitte auf Neu anlegen (s.o.) klicken. Ein Klick auf einen Dateinamen lädt das Backup herunter.',
-    'not_found' => "Falscher Pfad oder mysqldump ist nicht ausführbar.<br' . XHTML . '>Bitte überprüfe die Einstellung <strong>mysqldump_path</strong> in der Konfiguration.<br' . XHTML . '>Aktuelle Einstellung: <var>{$_DB_mysqldump_path}</var>",
+    'not_found' => 'Falscher Pfad oder sicherheitsbedingte Einschränkung oder mysqldump ist nicht ausführbar.<br' . XHTML . '>Bitte überprüfe die Einstellung <strong>mysqldump_path</strong> in der Konfiguration und ggfs. die <a href="http://www.php.net/manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a>-Einstellung in PHP.<br' . XHTML . ">Aktuelle Einstellung: <var>{$_DB_mysqldump_path}</var>",
     'zero_size' => 'Backup fehlgeschlagen: Datei ist 0 Bytes groß.',
     'path_not_found' => "{$_CONF['backup_path']} existiert nicht oder ist kein Verzeichnis.",
     'no_access' => "Fehler: Konnte nicht auf das Verzeichnis {$_CONF['backup_path']} zugreifen.",
@@ -1576,12 +1581,14 @@ $LANG_CONFIG = array(
     'home' => 'Home',
     'admin_home' => 'Verwaltung der Site',
     'sections' => 'Bereich Konfiguration',
-    'restore' => 'Funktion aktivieren',
+    'restore' => 'Zurücksetzen',
     'add_element' => 'Element hinzufügen',
     'save_changes' => 'Änderungen speichern',
     'reset_form' => 'Angaben zurücksetzen',
     'changes_made' => 'Änderungen wurden erfolgreich übernommen',
-    'title' => 'Konfigurations-Manager'
+    'title' => 'Konfigurations-Manager',
+    'disable' => 'Funktion deaktivieren',
+    'enable' => 'Funktion aktivieren'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1850,7 +1857,8 @@ $LANG_configselects['Core'] = array(
     14 => array('Sonntag' => 'Sun', 'Montag' => 'Mon'),
     15 => array('Nummerisch' => 'sortnum', 'Alphabetisch' => 'alpha'),
     16 => array('Kein Login benötigt' => 0, 'Nur erweiterte Suche' => 1, 'Einfache und erweiterte Suche' => 2),
-    17 => array('Kommentare eingeschaltet' => 0, 'Kommentare ausgeschaltet' => -1)
+    17 => array('Kommentare eingeschaltet' => 0, 'Kommentare ausgeschaltet' => -1),
+    18 => array('Aus' => 0, 'Ein (Exakte Übereinstimmung)' => 1, 'Ein (Wortanfang)' => 2, 'Ein (Teilwort)' => 3)
 );
 
 ?>

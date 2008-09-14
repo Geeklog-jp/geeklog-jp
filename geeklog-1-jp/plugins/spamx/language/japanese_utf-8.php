@@ -12,9 +12,8 @@
  * 
  * Licensed under GNU General Public License
  *
- * $Id: japanese_utf-8.php,v 1.12 2008/06/05 18:48:35 dhaun Exp $
+ * $Id: japanese_utf-8.php,v 1.13 2008/08/17 16:11:25 dhaun Exp $
  */
-# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
@@ -131,8 +130,7 @@ $LANG_SX00 = array (
     'slvwhitelist' => 'SLVホワイトリスト'
 );
 
-
-/* Define Messages that are shown when Spam-X module action is taken */
+// Define Messages that are shown when Spam-X module action is taken
 $PLG_spamx_MESSAGE128 = 'スパムを検出。投稿は削除されました。';
 $PLG_spamx_MESSAGE8   = 'スパムを検出。メールが管理者に送られました。';
 
@@ -163,6 +161,7 @@ $LANG_fs['spamx'] = array(
     'fs_main' => 'Spam-Xの設定'
 );
 
+// Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['spamx'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE)

@@ -63,6 +63,7 @@ function FCKAutoGrow_Check()
 			return ;
 
 		window.frameElement.height = iMainFrameSize ;
+      window.frameElement.style.height = iMainFrameSize+"px";
 
 		// Gecko browsers use an onresize handler to update the innermost
 		// IFRAME's height. If the document is modified before the onresize
