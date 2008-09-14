@@ -265,8 +265,12 @@ function plugin_uninstall_themedit($installCheck = '') {
 function THM_esc($str) {
 	global $LANG_CHARSET;
 	
-	$str = html_entity_decode($str, ENT_QUOTES, $LANG_CHARSET);
-	return htmlentities($str, ENT_QUOTES, $LANG_CHARSET);
+	$str = str_replace(
+		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
+		array(   '<',    '>',     '&',      '"',      "'"),
+		$str
+	);
+	return htmlspecialchars($str, ENT_QUOTES, $LANG_CHARSET);
 }
 
 function THM_str($index) {
