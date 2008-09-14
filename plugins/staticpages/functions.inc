@@ -34,7 +34,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: functions.inc,v 1.124 2008/06/07 18:31:56 dhaun Exp $
+// $Id: functions.inc,v 1.126 2008/08/28 09:50:13 dhaun Exp $
 
 if (strpos($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -96,7 +96,7 @@ function plugin_getmenuitems_staticpages()
         }
     }
 
-    $result = DB_query ('SELECT sp_id, sp_label FROM ' . $_TABLES['staticpage'] . ' WHERE sp_onmenu = 1' . COM_getPermSql ('AND') . $order);
+    $result = DB_query('SELECT sp_id, sp_label FROM ' . $_TABLES['staticpage'] . ' WHERE sp_onmenu = 1' . COM_getPermSql('AND') . COM_getLangSql('sp_id', 'AND') . $order);
     $nrows = DB_numRows ($result);
     $menuitems = array ();
     for ($i = 0; $i < $nrows; $i++) {
@@ -1080,9 +1080,7 @@ function plugin_autouninstall_staticpages ()
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_calendar'),
         /* give all vars with their name */
-        'vars'=> array(),
-        /* give the full name of the plugins config data to be removed from the config table */
-        'config_data' => array('staticpages')
+        'vars'=> array()
     );
 
     return $out;

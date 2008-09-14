@@ -34,7 +34,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: functions.inc,v 1.89 2008/05/31 07:55:08 dhaun Exp $
+// $Id: functions.inc,v 1.91 2008/08/17 08:41:59 dhaun Exp $
 
 if (strpos($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -469,6 +469,7 @@ function POLLS_pollVote($pid, $showall=true)
     if($ntopics == 0 ) {
         return $retval;
     }
+
     $P = DB_fetchArray($topic);
     if ((!isset($_COOKIE[$pid]) && !POLLS_ipAlreadyVoted($pid)) or ($P['is_open'] == 1)) {
         if ($ntopics == 1) {
@@ -480,7 +481,8 @@ function POLLS_pollVote($pid, $showall=true)
             $nquestions = DB_numRows($questions );
 
             if($nquestions > 0 ) {
-                $poll = new Template($_CONF['path'] . 'plugins/polls/templates/');
+                $poll = new Template($_CONF['path']
+                                     . 'plugins/polls/templates/');
                 $poll->set_file(array('panswer' => 'pollanswer.thtml',
                                         'block' => 'pollblock.thtml',
                                         'pquestions' => 'pollquestions.thtml',
@@ -494,23 +496,30 @@ function POLLS_pollVote($pid, $showall=true)
                 $poll->set_var('num_votes', COM_numberFormat($P['voters']));
                 $poll->set_var('poll_vote_url', $_CONF['site_url']
                         . '/polls/index.php');
+                if (($nquestions == 1) || $showall) {
                 $poll->set_var('lang_vote', $LANG_POLLS['vote']);
+                } else {
+                    $poll->set_var('lang_vote', $LANG_POLLS['start_poll']);
+                }
                 $poll->set_var('lang_votes', $LANG_POLLS['votes']);
-                $results = "";
 
-                if (($P['is_open'] == 0) || (
-                        ($P['hideresults'] == 1) && (isset($_USER['uid']) && $_USER['uid'] == $P['owner_id'])
-                    ) || (
-                        ($P['hideresults'] == 1) && (SEC_inGroup('Root'))
-                    )
-                ) {
+                $results = '';
+                if (($P['is_open'] == 0) || ($P['hideresults'] == 0) ||
+                    (($P['hideresults'] == 1) &&
+                        (
+                        SEC_inGroup('Root') ||
+                        (isset($_USER['uid'])
+                            && ($_USER['uid'] == $P['owner_id']))
+                        ))) {
                     $results = COM_createLink($LANG_POLLS['results'],
-                        "{$_CONF['site_url']}/polls/index.php?pid="
-                        . "$pid&amp;aid=-1");
+                        $_CONF['site_url'] . '/polls/index.php?pid=' . $pid
+                        . '&amp;aid=-1');
                 }
                 $poll->set_var('poll_results', $results);
-                $access = SEC_hasAccess($topic['owner_id'],$topic['group_id'],$topic['perm_owner'],
-                    $topic['perm_group'],$topic['perm_members'],$topic['perm_anon']);
+
+                $access = SEC_hasAccess($topic['owner_id'], $topic['group_id'],
+                                $topic['perm_owner'], $topic['perm_group'],
+                                $topic['perm_members'], $topic['perm_anon']);
                 if ($access == 3) {
                     $editlink = COM_createLink($LANG25[27], $_CONF['site_admin_url']
                         . '/plugins/polls/index.php?mode=edit&amp;pid=' . $pid );
@@ -531,12 +540,12 @@ function POLLS_pollVote($pid, $showall=true)
 
                 for($j=0; $j<$nquestions; $j++) {
                     $Q = DB_fetchArray($questions);
-                    $poll->set_var('poll_question', " ".$Q['question']);
+                    $poll->set_var('poll_question', $Q['question']);
                     $poll->set_var('question_id', $j);
 
-                    $notification = "";
-                    $filter = "";
-                    if ($showall == false) {
+                    $notification = '';
+                    $filter = '';
+                    if (!$showall) {
                         $nquestions--;
                         $notification = $LANG25[35] . " $nquestions " . $LANG25[36];
                         $filter = "AND qid='0'";
@@ -584,7 +593,7 @@ function POLLS_pollVote($pid, $showall=true)
                 }
                 $retval =  $poll->finish($poll->parse('output', 'block')) . LB;
 
-                if($showall == true && $P['commentcode'] >= 0 ) {
+                if ($showall && ($P['commentcode'] >= 0)) {
                     $delete_option = (SEC_hasRights('polls.edit') &&
                         SEC_hasAccess($P['owner_id'], $P['group_id'],
                         $P['perm_owner'], $P['perm_group'], $P['perm_members'],
@@ -624,6 +633,7 @@ function POLLS_pollVote($pid, $showall=true)
 function POLLS_showPoll($size, $pid='', $showall=false )
 {
     global $_CONF, $_PO_CONF, $_TABLES;
+
     $retval = '';
 
     DB_query("DELETE FROM {$_TABLES['pollvoters']} WHERE date < unix_timestamp() - {$_PO_CONF['polladdresstime']}");
