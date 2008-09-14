@@ -32,7 +32,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: article.php,v 1.96 2008/05/18 19:29:30 dhaun Exp $
+// $Id: article.php,v 1.99 2008/07/27 09:11:29 dhaun Exp $
 
 /**
 * This page is responsible for showing a single article in different modes which
@@ -126,11 +126,6 @@ if ($A['count'] > 0) {
         }
     }
 
-    /*$access = SEC_hasAccess ($A['owner_id'], $A['group_id'],
-            $A['perm_owner'], $A['perm_group'], $A['perm_members'],
-            $A['perm_anon']);
-    if (($access == 0) OR !SEC_hasTopicAccess ($A['tid']) OR
-        (($A['draft_flag'] == 1) AND !SEC_hasRights ('story.edit'))) {*/
     if ($output == STORY_PERMISSION_DENIED) {
         $display .= COM_siteHeader ('menu', $LANG_ACCESS['accessdenied'])
                  . COM_startBlock ($LANG_ACCESS['accessdenied'], '',
@@ -295,8 +290,27 @@ if ($A['count'] > 0) {
             $story_template->set_var ('pdf_story_url', $printUrl);
             $story_template->set_var ('lang_pdf_story', $LANG11[5]);
         }
+        if ($_CONF['backend'] == 1) {
+            $tid = $story->displayElements('tid');
+            $result = DB_query("SELECT filename, title, format FROM {$_TABLES['syndication']} WHERE type = 'article' AND topic = '$tid' AND is_enabled = 1");
+            $feeds = DB_numRows($result);
+            for ($i = 0; $i < $feeds; $i++) {
+                list($filename, $title, $format) = DB_fetchArray($result);
+                $feedUrl = SYND_getFeedUrl($filename);
+                $feedTitle = sprintf($LANG11[6], $title);
+                $feedType = SYND_getMimeType($format);
+                $feedClass = 'feed-link';
+                if (!empty($LANG_DIRECTION) && ($LANG_DIRECTION == 'rtl')) {
+                    $feedClass .= '-rtl';
+                }
+                $story_options[] = COM_createLink($feedTitle, $feedUrl,
+                                                  array('type'  => $feedType,
+                                                        'class' => $feedClass));
+            }
+        }
         $related = STORY_whatsRelated ($story->displayElements('related'),
-                        $story->displayElements('uid'), $story->displayElements('tid'));
+                                      $story->displayElements('uid'),
+                                      $story->displayElements('tid'));
         if (!empty ($related)) {
             $related = COM_startBlock ($LANG11[1], '',
                 COM_getBlockTemplate ('whats_related_block', 'header'))

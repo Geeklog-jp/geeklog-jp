@@ -32,7 +32,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: install_defaults.php,v 1.6 2008/05/04 09:16:33 dhaun Exp $
+// $Id: install_defaults.php,v 1.8 2008/07/03 18:00:53 mjervis Exp $
 
 if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
@@ -46,8 +46,8 @@ if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
  * and not referenced any more once the plugin is installed
  *
  */
-
 global $_SP_DEFAULT;
+$_SP_DEFAULT = array();
 
 // If you don't plan on using PHP code in static pages, you should set this
 // to 0, thus disabling the execution of PHP.

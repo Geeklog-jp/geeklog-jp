@@ -57,7 +57,8 @@ $LANG_POLLS = array(
     'not_saved' => 'Tulemus pole salvestatud',
     'upgrade1' => 'Installeerisid küsitluste plugina uue versiooni. Palun ',
     'upgrade2' => 'uuenda',
-    'editinstructions' => 'Palun sisesta küsitluse ID, vähemalt üks küsitluse küsimus ning sellele küsimusele vähemalt kaks vastusevarianti'  
+    'editinstructions' => 'Palun sisesta küsitluse ID, vähemalt üks küsitluse küsimus ning sellele küsimusele vähemalt kaks vastusevarianti',
+    'start_poll' => 'Start Poll'
     );
 
 ###############################################################################
