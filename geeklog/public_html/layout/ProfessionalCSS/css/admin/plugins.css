@@ -1,0 +1,67 @@
+@charset "utf-8";
+
+/*==============================================================================
+  タイトル: プラグインページスタイル(管理者ページ)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  説明    : プラグインページ(管理者ページ)のスタイルです。
+  適用先  : admin/plugins/editor.thtml,
+            admin/plugins/newpluginlist.thtml, admin/plugins/newlistitem.thtml
+==============================================================================*/
+
+
+
+/*--------------------------------------
+  プラグインページ
+--------------------------------------*/
+
+/* プラグインの編集 */
+form#admin-editor div#admin-instructions ul {
+  margin: 1em 0 0 0;
+}
+
+form#admin-editor div#admin-instructions ul:before {
+  content: "";
+}
+
+form#admin-editor div#admin-instructions ul:after {
+  content: "";
+}
+
+form#admin-editor div#admin-instructions ul li {
+  margin: 0;
+}
+
+/* 一覧 */
+table#admin-newpluginlist {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+table#admin-newpluginlist tr {
+  margin: 0;
+  padding: 0;
+  background: #DAE0ED;
+}
+
+/* 偶数行 */
+table#admin-newpluginlist tr.admin-newlistitem1 {
+  background: #EFEFEF;
+}
+
+/* 奇数行 */
+table#admin-newpluginlist tr.admin-newlistitem2 {
+  background: #D9D9D9;
+}
+
+table#admin-newpluginlist tr th {
+  margin: 0;
+  padding: 2px;
+  text-align: left;
+}
+
+table#admin-newpluginlist tr td {
+  margin: 0;
+  padding: 2px;
+}
