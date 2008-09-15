@@ -22,7 +22,7 @@
 // +---------------------------------------------------------------------------+
 //
 
-$_NMOXTOPICOWN['version'] = '1.0.7';
+$_NMOXTOPICOWN['version'] = '1.0.8';
 
 $_NMOXTOPICOWN['hidenmoxtopicownmenu']=0;
 
