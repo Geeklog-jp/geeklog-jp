@@ -33,10 +33,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 include_once('gf_functions.php');
 require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
@@ -56,7 +52,7 @@ echo ppNavbar($navbarMenu,$LANG_GF06['3']);
 if ($type == "category") {
 
     if ($mode == 'add') {
-        if ($confirm == 1) {
+        if (($confirm == 1) && SEC_checkToken()) {
             $name = gf_preparefordb($_POST['name'],'text');
             $dscp = gf_preparefordb($_POST['dscp'],'text');
             DB_query("INSERT INTO {$_TABLES['gf_categories']} (cat_order,cat_name,cat_dscp) VALUES ('$catorder','$name','$dscp')");
@@ -79,6 +75,8 @@ if ($type == "category") {
             $boards_addcategory->set_var ('LANG_ORDER', $LANG_GF01['ORDER']);
             $boards_addcategory->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
             $boards_addcategory->set_var ('LANG_SAVE', $LANG_GF01['SUBMIT']);
+            $boards_addcategory->set_var ('gltoken_name', CSRF_TOKEN);
+            $boards_addcategory->set_var ('gltoken', SEC_createToken());
             $boards_addcategory->parse ('output', 'boards_addcategory');
             echo $boards_addcategory->finish ($boards_addcategory->get_var('output'));
             echo COM_endBlock();
@@ -88,7 +86,7 @@ if ($type == "category") {
         }
 
     } elseif ($mode == $LANG_GF01['DELETE']) {
-        if ($confirm == 1) {
+        if (($confirm == 1) && SEC_checkToken()) {
             DB_query("DELETE FROM {$_TABLES['gf_categories']} WHERE id='$id'");
             DB_query("DELETE FROM {$_TABLES['gf_forums']} WHERE forum_cat='$id'");
             forum_statusMessage($LANG_GF93['catdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catdeleted']);
@@ -108,6 +106,8 @@ if ($type == "category") {
             $boards_delcategory->set_var ('deletenote2', $LANG_GF93['deletecatnote2']);
             $boards_delcategory->set_var ('LANG_DELETE', $LANG_GF01['DELETE']);
             $boards_delcategory->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
+            $boards_delcategory->set_var ('gltoken_name', CSRF_TOKEN);
+            $boards_delcategory->set_var ('gltoken', SEC_createToken());
             $boards_delcategory->parse ('output', 'boards_delcategory');
             echo $boards_delcategory->finish ($boards_delcategory->get_var('output'));
             echo COM_endBlock();
@@ -116,7 +116,7 @@ if ($type == "category") {
             exit();
         }
 
-    } elseif  ($mode == 'save') {
+    } elseif (($mode == 'save') && SEC_checkToken()) {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
         DB_query("UPDATE {$_TABLES['gf_categories']} SET cat_order='$catorder',cat_name='$name',cat_dscp='$dscp' WHERE id='$id'");
@@ -144,6 +144,8 @@ if ($type == "category") {
         $boards_edtcategory->set_var ('LANG_ORDER', $LANG_GF01['ORDER']);
         $boards_edtcategory->set_var ('LANG_SAVE', $LANG_GF01['SAVE']);
         $boards_edtcategory->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
+        $boards_edtcategory->set_var ('gltoken_name', CSRF_TOKEN);
+        $boards_edtcategory->set_var ('gltoken', SEC_createToken());
         $boards_edtcategory->parse ('output', 'boards_edtcategory');
         echo $boards_edtcategory->finish ($boards_edtcategory->get_var('output'));
         echo COM_endBlock();
@@ -166,7 +168,7 @@ if ($type == "forum") {
 
     if ($mode == 'add') {
 
-        if ($confirm == 1) {
+        if (($confirm == 1) && SEC_checkToken()) {
             $category = COM_applyFilter($_POST['category'],true);
             $order = COM_applyFilter($_POST['order'],true);
             $name = gf_preparefordb($_POST['name'],'text');
@@ -224,6 +226,8 @@ if ($type == "forum") {
             $boards_addforum->set_var ('grouplist', $grouplist);
             $boards_addforum->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
             $boards_addforum->set_var ('LANG_SAVE', $LANG_GF01['SAVE']);
+            $boards_addforum->set_var ('gltoken_name', CSRF_TOKEN);
+            $boards_addforum->set_var ('gltoken', SEC_createToken());
             $boards_addforum->parse ('output', 'boards_addforum');
             echo $boards_addforum->finish ($boards_addforum->get_var('output'));
             echo COM_endBlock();
@@ -233,7 +237,7 @@ if ($type == "forum") {
         }
 
     } elseif ($mode == $LANG_GF01['DELETE']) {
-        if ($confirm == 1) {
+        if (($confirm == 1) && SEC_checkToken()) {
             forum_deleteForum($id);
             forum_statusMessage($LANG_GF93['forumdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumdeleted']);
             echo COM_endBlock();
@@ -251,6 +255,8 @@ if ($type == "forum") {
             $boards_delforum->set_var ('type', 'forum');
             $boards_delforum->set_var ('LANG_DELETE', $LANG_GF01['DELETE']);
             $boards_delforum->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
+            $boards_delforum->set_var ('gltoken_name', CSRF_TOKEN);
+            $boards_delforum->set_var ('gltoken', SEC_createToken());
             $boards_delforum->parse ('output', 'boards_delforum');
             echo $boards_delforum->finish ($boards_delforum->get_var('output'));
             echo COM_endBlock();
@@ -259,7 +265,7 @@ if ($type == "forum") {
             exit();
         }
 
-    } elseif ($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') {
+    } elseif (($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') && SEC_checkToken()) {
         $order = COM_applyFilter($_POST['order'],true);
         DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_order='$order' WHERE forum_id='$id'");
         forum_statusMessage($LANG_GF93['forumordered'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumordered']);
@@ -267,7 +273,7 @@ if ($type == "forum") {
         echo COM_siteFooter();
         exit();
 
-    } elseif ($mode == 'save') {
+    } elseif (($mode == 'save') && SEC_checkToken()) {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
         $privgroup = COM_applyFilter($_POST['privgroup'],true);
@@ -312,9 +318,9 @@ if ($type == "forum") {
         $boards_edtforum->set_var ('forum_name', $forum_name);
         $boards_edtforum->set_var ('forum_dscp', $forum_dscp);
         $boards_edtforum->set_var ('forum_order', $forum_order);
-        $boards_edtforum->set_var ('chk_hidden', ($is_hidden) ? 'CHECKED=CHECKED' : '');
-        $boards_edtforum->set_var ('chk_readonly', ($is_readonly) ? 'CHECKED=CHECKED' : '');
-        $boards_edtforum->set_var ('chk_newposts', ($no_newposts) ? 'CHECKED=CHECKED' : '');
+        $boards_edtforum->set_var ('chk_hidden', ($is_hidden) ? 'checked="checked"' : '');
+        $boards_edtforum->set_var ('chk_readonly', ($is_readonly) ? 'checked="checked"' : '');
+        $boards_edtforum->set_var ('chk_newposts', ($no_newposts) ? 'checked="checked"' : '');
         $boards_edtforum->set_var ('LANG_DESCRIPTION', $LANG_GF01['DESCRIPTION']);
         $boards_edtforum->set_var ('LANG_NAME', $LANG_GF01['NAME']);
         $boards_edtforum->set_var ('LANG_GROUPACCESS', $LANG_GF93['groupaccess']);
@@ -329,6 +335,8 @@ if ($type == "forum") {
         $boards_edtforum->set_var ('grouplist', $grouplist);
         $boards_edtforum->set_var ('LANG_SAVE', $LANG_GF01['SAVE']);
         $boards_edtforum->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
+        $boards_edtforum->set_var ('gltoken_name', CSRF_TOKEN);
+        $boards_edtforum->set_var ('gltoken', SEC_createToken());
         $boards_edtforum->parse ('output', 'boards_edtforum');
         echo $boards_edtforum->finish ($boards_edtforum->get_var('output'));
         echo COM_endBlock();
@@ -409,6 +417,8 @@ while ($A = DB_FetchArray($asql)) {
 
 }
 
+$boards->set_var('gltoken_name', CSRF_TOKEN);
+$boards->set_var('gltoken', SEC_createToken());
 $boards->parse ('output', 'boards');
 echo $boards->finish ($boards->get_var('output'));
 

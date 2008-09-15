@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -98,11 +98,11 @@ if ($op == "last10posts") {
         $groups[] = $group;
     }
     $grouplist = implode(',',$groups);
-    
+
     $sql = "SELECT a.date,a.subject,a.comment,a.replies,a.views,a.id,a.forum FROM {$_TABLES['gf_topic']} a ";
-    $sql .= "LEFT JOIN {$_TABLES['gf_forums']} b ON a.forum=b.forum_id ";     
+    $sql .= "LEFT JOIN {$_TABLES['gf_forums']} b ON a.forum=b.forum_id ";
     $sql .= "WHERE (a.uid = $showuser) AND b.grp_id IN ($grouplist) ";
-    $sql .= "ORDER BY a.date DESC LIMIT {$CONF_FORUM['show_last_post_count']}";    
+    $sql .= "ORDER BY a.date DESC LIMIT {$CONF_FORUM['show_last_post_count']}";
     $result = DB_query($sql);
     $nrows = DB_numRows($result);
     if ($nrows > 0) {
@@ -240,7 +240,7 @@ if ($op == "last10posts") {
         if ($siteMembers['posts'] > 0) {
             $reportlinkURL = $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$siteMembers['uid'];
             $reportlinkURL .= '&amp;prevorder='.$order.'&amp;direction='.$direction.'&amp;page='.$page;
-            $report->set_var ('image', gf_getImage('latestposts'));            
+            $report->set_var ('image', gf_getImage('latestposts'));
             $report->set_var ('link_url', $reportlinkURL);
             $report->set_var ('LANG_title',sprintf($LANG_GF02['msg86'],$CONF_FORUM['show_last_post_count']));
             $report->parse('lastposts_link','link');
@@ -250,9 +250,9 @@ if ($op == "last10posts") {
 
         if($siteMembers['emailfromuser'] == '1') {
             $emaillinkURL = "{$_CONF['site_url']}/profiles.php?uid={$siteMembers['uid']}";
-            $report->set_var ('image', gf_getImage('email'));             
+            $report->set_var ('image', gf_getImage('email'));
             $report->set_var ('link_url', $emaillinkURL);
-            $report->set_var ('LANG_title',$LANG_GF01['EmailLink']);              
+            $report->set_var ('LANG_title',$LANG_GF01['EmailLink']);
             $report->parse('email_link','link');
         } else {
             $report->set_var ('email_link', '');
@@ -260,10 +260,10 @@ if ($op == "last10posts") {
         if ($CONF_FORUM['use_pm_plugin']) {
             $pmplugin_link = forumPLG_getPMlink($siteMembers['username']);
             if ($pmplugin_link != '') {
-                $report->set_var ('image', gf_getImage('pm'));                 
+                $report->set_var ('image', gf_getImage('pm'));
                 $report->set_var ('link_url', $pmplugin_link);
-                $report->set_var ('LANG_title',$LANG_GF01['PMLink']);              
-                $report->parse('pm_link','link');                   
+                $report->set_var ('LANG_title',$LANG_GF01['PMLink']);
+                $report->parse('pm_link','link');
             } else {
                 $report->set_var ('pm_link', '');
             }
@@ -275,10 +275,10 @@ if ($op == "last10posts") {
             if(!eregi("http",$homepage)) {
                 $homepage = 'http://' .$homepage;
             }
-            $report->set_var ('image', gf_getImage('home'));              
+            $report->set_var ('image', gf_getImage('home'));
             $report->set_var ('link_url', $homepage);
-            $report->set_var ('LANG_title',$LANG_GF01['WebsiteLink']);              
-            $report->parse('website_link','link');               
+            $report->set_var ('LANG_title',$LANG_GF01['WebsiteLink']);
+            $report->parse('website_link','link');
         } else {
             $report->set_var ('website_link', '');
         }

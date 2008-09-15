@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -32,10 +32,6 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
 
 include_once('gf_functions.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
@@ -71,6 +67,8 @@ if (($op == 'banip') && ($ip != '')) {
         $ips_unban->set_var ('msg1', $LANG_GF96['banip']);
         $ips_unban->set_var ('msg2', sprintf($LANG_GF96['banipmsg'], $ip));
         $ips_unban->set_var ('ban', $LANG_GF96['ban']);
+        $ips_unban->set_var('gltoken_name', CSRF_TOKEN);
+        $ips_unban->set_var('gltoken', SEC_createToken());
         $ips_unban->parse ('output', 'ips_unban');
         echo $ips_unban->finish ($ips_unban->get_var('output'));
         echo COM_endBlock();
@@ -93,7 +91,7 @@ if (($op == 'banip') && ($ip != '')) {
     exit();
 }
 
-if (($op == 'unban') && ($ip != '')) {
+if (($op == 'unban') && ($ip != '') && SEC_checkToken()) {
     DB_query ("DELETE FROM {$_TABLES['gf_banned_ip']} WHERE (host_ip='$ip')");
     forum_statusMessage($LANG_GF96['ipunbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipunbanned']);
     echo COM_endBlock();
@@ -132,6 +130,8 @@ if ($op == '') {
         $p->parse ('ip_records', 'records',true);
         $i = ($i == 1 ) ? 2 : 1;
     }
+    $p->set_var('gltoken_name', CSRF_TOKEN);
+    $p->set_var('gltoken', SEC_createToken());
     $p->parse ('output', 'page');
     echo $p->finish ($p->get_var('output'));
 }

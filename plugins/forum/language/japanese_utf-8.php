@@ -45,7 +45,7 @@
 //@@@@@20080721 2.7.1用に更新 $LANG_GF02['msg202']  追加
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 $LANG_GF00 = array (
@@ -106,12 +106,12 @@ $LANG_GF01['BY']             = '投稿者: ';
 $LANG_GF01['RE']             = '書込: ';
 $LANG_GF01['NA']             = 'N/A';
 $LANG_GF01['DATE']           = '日付';
-$LANG_GF01['VIEWS']          = '<span style="white-space:nowrap;">閲覧数</span>';
-$LANG_GF01['REPLIES']        = '<span style="white-space:nowrap;">書込数</span>';
+$LANG_GF01['VIEWS']          = '閲覧数';
+$LANG_GF01['REPLIES']        = '書込数';
 $LANG_GF01['NAME']           = '名前:';
 $LANG_GF01['DESCRIPTION']    = '説明: ';
 $LANG_GF01['TOPIC']          = '件名';
-$LANG_GF01['TOPICS']         = '<span style="white-space:nowrap;">投稿</span>';
+$LANG_GF01['TOPICS']         = '投稿';
 $LANG_GF01['TOPICSUBJECT']   = '件名';
 $LANG_GF01['FROM']           = 'から';
 $LANG_GF01['REPLY']          = '新しく書き込む';
@@ -125,8 +125,8 @@ $LANG_GF01['MOVED']          = '移動';
 $LANG_GF01['REMOVE']         = '移動&amp;削除';
 $LANG_GF01['CURRENT']        = '最新';
 $LANG_GF01['STARTEDBY']      = '最初の投稿者';
-$LANG_GF01['POSTS']          = '<span style="white-space:nowrap;">投稿数</span>';
-$LANG_GF01['LASTPOST']       = '<span style="white-space:nowrap;">最新投稿</span>';
+$LANG_GF01['POSTS']          = '投稿数';
+$LANG_GF01['LASTPOST']       = '最新投稿';
 $LANG_GF01['POSTEDON']       = '投稿日';
 $LANG_GF01['POSTEDBY']       = '投稿者';
 $LANG_GF01['POSTEDON']       = '投稿日';
@@ -856,7 +856,7 @@ $LANG_GF97 = array (
 );
 
 
-$PLG_forum_MESSAGE1 = '掲示板プラグインのアップグレードに成功しました';
+$PLG_forum_MESSAGE1 = '掲示板プラグインのアップグレードに成功しました。';
 $PLG_forum_MESSAGE5 = '掲示板プラグインのアップグレードに失敗しました。エラーログ(error.log)をご覧ください。';
 
 ?>

@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -43,7 +43,7 @@ gf_siteHeader();
 forum_chkUsercanAccess(true);
 
 // SAVE SETTINGS
-if(isset($_POST['submit'])) {
+if(isset($_POST['submit']) && SEC_checkToken()) {
     $xtopicsperpage = COM_applyFilter($_POST['xtopicsperpage'],true);
     $xpostsperpage = COM_applyFilter($_POST['xpostsperpage'],true);
     $xpopularlimit = COM_applyFilter($_POST['xpopularlimit'],true);
@@ -91,41 +91,41 @@ if (!isset($_POST['$submit'])) {
     $A = DB_fetchArray($result);
 
     if ($A['viewanonposts'] == 1) {
-        $viewanonposts_yes = "CHECKED=CHECKED";
+        $viewanonposts_yes = 'checked="checked"';
         $viewanonposts_no  = '';
     } else {
-        $viewanonposts_no  = "CHECKED=CHECKED";
+        $viewanonposts_no  = 'checked="checked"';
         $viewanonposts_yes = '';
     }
 
     if ($A['alwaysnotify'] == 1) {
-        $alwaysnotify_yes = "CHECKED=CHECKED";
+        $alwaysnotify_yes = 'checked="checked"';
         $alwaysnotify_no  = '';
     } else {
-        $alwaysnotify_no  = "CHECKED=CHECKED";
+        $alwaysnotify_no  = 'checked="checked"';
         $alwaysnotify_yes = '';
     }
     if ($A['enablenotify'] == 1) {
-        $emailnotify_yes = "CHECKED=CHECKED";
+        $emailnotify_yes = 'checked="checked"';
         $emailnotify_no  = '';
     } else {
-        $emailnotify_no  = "CHECKED=CHECKED";
+        $emailnotify_no  = 'checked="checked"';
         $emailnotify_yes = '';
     }
 
     if ($A['notify_once'] == 1) {
-        $notifyonce_yes = "CHECKED=CHECKED";
+        $notifyonce_yes = 'checked="checked"';
         $notifyonce_no  = '';
     } else {
         $notifyonce_yes = '';
-        $notifyonce_no  = "CHECKED=CHECKED";
+        $notifyonce_no  = 'checked="checked"';
     }
 
     if ($A['showiframe'] == 1) {
-        $showiframe_yes = "CHECKED=CHECKED";
+        $showiframe_yes = 'checked="checked"';
         $showiframe_no  = '';
     } else {
-        $showiframe_no  = "CHECKED=CHECKED";
+        $showiframe_no  = 'checked="checked"';
         $showiframe_yes = '';
     }
 
@@ -182,6 +182,8 @@ if (!isset($_POST['$submit'])) {
     } else {
         $usersettings->set_var('navmenu','');
     }
+    $usersettings->set_var('gltoken_name', CSRF_TOKEN);
+    $usersettings->set_var('gltoken', SEC_createToken());
 
     $usersettings->parse ('output', 'usersettings');
     echo $usersettings->finish($usersettings->get_var('output'));
