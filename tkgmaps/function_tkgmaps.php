@@ -7,6 +7,7 @@
 // |                                                                           |
 // |2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // |Authors: Kinoshita
+// |Authors: Hiroron
 // |Director: IVY WE CO.,LTD. Komma
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -57,9 +58,6 @@ function plugin_autotags_tkgmaps ($op, $content = '', $autotag = '')
 		array_shift($parms);
 		$p2 = implode(' ', $parms);
 		switch ($autotag['parm1']){
-			case 'test':
-				$mapcode = tkgmaps_test();
-				break;
 			case 'base':
 				$mapcode=tkgmaps_base($p1, $p2, $autotag['tagstr']);
 				break;
@@ -77,38 +75,6 @@ function plugin_autotags_tkgmaps ($op, $content = '', $autotag = '')
 
 		return $content;
 	}
-}
-
-function tkgmaps_test(){
-	$ret = <<<END
-<div id="map1" style="padding:0px;"></div>	
-<script type="text/javascript">
-//<![CDATA[
-var point1 = new GLatLng(34.297306,132.31814);
-var zoom1 = 16;
-var mapstyle1 = document.getElementById("map1").style;
-var icon1 = new GIcon(G_DEFAULT_ICON);
-icon1.image = '/images/icons/flag.png';
-var info1 = '<img src="http://upload.wikimedia.org/wikipedia/commons/0/0b/ItsukushimaTorii7396.jpg" alt="大鳥居" width="60px" height="60px" align="left">(世界遺産)厳島神社<br>海の中に建つ大鳥居';
-
-mapstyle1.width = "500px"; //地図の幅
-mapstyle1.height = "500px"; //地図の高さ
-mapstyle1.margin = "10px"; //地図の余白
-function OnloadBody(){  if(document.getElementById("map1")) {
-    var map1 = new GMap2(document.getElementById("map1"));
-    map1.setCenter( point1 , zoom1 );
-    map1.addControl(new GLargeMapControl());
-    map1.addControl(new GMapTypeControl());
-    map1.addControl(new GOverviewMapControl());
-    var marker1 = new GMarker( point1, icon1 );
-    map1.addOverlay(marker1);
-    if(info1){marker1.openInfoWindowHtml(info1);GEvent.addListener(marker1,"click",function(){ marker1.openInfoWindowHtml(info1); });}
-  }}
-//]]>
-OnloadBody();
-</script>		
-END;
-	return $ret;
 }
 
 function tkgmaps_base($p1, $p2, $fulltag){
@@ -159,7 +125,13 @@ function tkgmaps_base($p1, $p2, $fulltag){
 }
 
 function tkgmaps_point($p1, $p2, $fulltag){
-	global $tkgmaps_base,$tkgmaps_point;
+	global $_TKGMAPS_CONF,$tkgmaps_base,$tkgmaps_point;
+
+    $icon = '';
+    $iconsize = isset($_TKGMAPS_CONF['iconsize']) ? $_TKGMAPS_CONF['iconsize'] : '';
+    $iconanchor = isset($_TKGMAPS_CONF['iconanchor']) ? $_TKGMAPS_CONF['iconanchor'] : '';
+    $infowindowanchor = isset($_TKGMAPS_CONF['infowindowanchor']) ? $_TKGMAPS_CONF['infowindowanchor'] : '';
+    $info = '""';
 
 	if( empty($p1) ) { return ''; }
 	$flg = mb_ereg('[^0-9\-\.]', $p1);
@@ -183,7 +155,10 @@ function tkgmaps_point($p1, $p2, $fulltag){
 		switch (strtolower($k)) {
 			case "title": 	$title  = $v; 	break;
 			case "icon": 	$icon = $v; 	break;
+			case "iconsize": 	$iconsize = $v; 	break;
+			case "iconanchor": 	$iconanchor = $v; 	break;
 			case "info":	$info = $v; 	break;
+			case "infowindowanchor":    $infowindowanchor = $v; break;
 			default:
 				$html =$option . ' ' .  implode(' ', $options_array);
 			//	$info =html_entity_decode($html) ;
@@ -192,28 +167,36 @@ function tkgmaps_point($p1, $p2, $fulltag){
 		}
 	}
 	
-	if (substr($icon,0,1)!="/"){
+	if (substr($icon,0,1)!="/" && substr($icon,0,7)!="http://"){
 		$icon = "http://maps.google.co.jp/mapfiles/ms/icons/{$icon}.png";
 	}
 	
 	$tkgmaps_point[] = array(
 	'lat'          => $p1,
 	'lng'          => $p2,
-	'title'          => $title ,
-	'icon'          => $icon ,
-	'info'          => $info
+	'title'        => $title ,
+	'icon'         => $icon ,
+	'iconsize'     => $iconsize ,
+	'iconanchor'   => $iconanchor ,
+	'infowindowanchor' => $infowindowanchor ,
+	'info'         => $info
 	);
 }
 
 function tkgmaps_show(){
-	global $tkgmaps_mapid;
+	global $_TABLES, $tkgmaps_mapid, $tkgmaps_apikey;
 	global $tkgmaps_lat,$tkgmaps_lng,$tkgmaps_width,$tkgmaps_height,$tkgmaps_margin,$tkgmaps_zoom;
 	global $tkgmaps_base,$tkgmaps_point;
 
+    $tkgmaps_apikey = DB_getItem ($_TABLES['tkgmaps'], 'googlemapsapikey', "1 LIMIT 1");
+
 	$tkgmaps_mapid++;
-	$id  = $tkgmaps_mapid ;
+	$id = $tkgmaps_mapid ;
 
 	$ret = '';
+	
+	// 最初のタグのみAPI取得JSを出力
+    $ret = "<script src='http://maps.google.com/maps?file=api&v=2&key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>";
 
 	// 地図表示設定
 	$ret .= "<div id='map{$id}' style='padding:0px;'></div>" .LB;
@@ -241,10 +224,12 @@ function tkgmaps_show(){
 		$m++;
 		$ret .= "  var point = new GLatLng({$value['lat']},{$value['lng']});" .LB;
 		$ret .= "  var icon$m = new GIcon(G_DEFAULT_ICON);" . LB;
-		$ret .= "  icon$m.image = '{$value['icon']}';" . LB;
-		$ret .= "  icon$m.iconSize = new GSize(32, 32);" . LB;
-		$ret .= "  icon$m.iconAnchor = new GPoint(16, 16);" . LB;
-		$ret .= "  icon$m.infoWindowAnchor = new GPoint(0, 0);" . LB;
+		if($value['icon']) {
+    		$ret .= "  icon$m.image = '{$value['icon']}';" . LB;
+    		if($value['iconsize']) { $ret .= "  icon$m.iconSize = new GSize({$value['iconsize']});" . LB; }
+    		if($value['iconanchor']) { $ret .= "  icon$m.iconAnchor = new GPoint({$value['iconanchor']});" . LB; }
+    		if($value['infowindowanchor']) { $ret .= "  icon$m.infoWindowAnchor = new GPoint({$value['infowindowanchor']});" . LB; }
+		}
 		$ret .= "  var marker$m = new GMarker(point ,{ icon: icon$m, title: '{$value['title']}'});" .LB;
 		if(isset($value['info']) && !empty($value['info'])){
 			$ret .= "  var info$m = '{$value['info']}';" .LB;
@@ -290,13 +275,16 @@ function plugin_getheadercode_tkgmaps(){
 	global $_TABLES,$tkgmaps_apikey;
 
 
-	$tkgmaps_apikey = DB_getItem ($_TABLES['tkgmaps'], 'googlemapsapikey', "1 LIMIT 1");
+//	$tkgmaps_apikey = DB_getItem ($_TABLES['tkgmaps'], 'googlemapsapikey', "1 LIMIT 1");
 	
 	if(empty($tkgmaps_apikey)){
 		$ret = '';
-		
-	} else {
-		$ret = "<script src='http://maps.google.com/maps?file=api&v=2&key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>";		
+//	} else {
+//	    if (trim($tkgmaps_apikey) == '取得したkeyを入れてください') {
+//        	$ret = '';
+//	    } else {
+//    		$ret = "<script src='http://maps.google.com/maps?file=api&v=2&key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>";		
+//	    }
 	}
 	return $ret;
 }
