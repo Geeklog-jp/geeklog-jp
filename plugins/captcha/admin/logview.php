@@ -59,9 +59,10 @@ $T->set_var(array(
     'site_url'          => $_CONF['site_url'],
     'lang_admin'        => $LANG_CP00['admin'],
     'version'           => $_CONF['version'],
+    'xhtml'             => XHTML,
 ));
 
-$retval .= "<br /><p>Views/Clear the Geeklog Log Files.<p>";
+$retval .= "<br{XHTML}><p>Views/Clear the Geeklog Log Files.<p>";
 $retval .= "<form method=\"post\" action=\"{$path}/plugins/captcha/logview.php\">";
 $retval .= "File:&nbsp;&nbsp;&nbsp;";
 $files = array();
@@ -80,9 +81,9 @@ for ($i = 0; $i < count($files); $i++) {
     next($files);
 }
 $retval .= "</SELECT>&nbsp;&nbsp;&nbsp;&nbsp;";
-$retval .= "<input type=\"submit\" name=\"action\" value=\"View Log File\">";
+$retval .= "<input type=\"submit\" name=\"action\" value=\"View Log File\"{XHTML}>";
 $retval .= "&nbsp;&nbsp;&nbsp;&nbsp;";
-$retval .= "<input type=\"submit\" name=\"action\" value=\"Clear Log File\">";
+$retval .= "<input type=\"submit\" name=\"action\" value=\"Clear Log File\"{XHTML}>";
 $retval .= "</form>";
 
 $action = COM_applyFilter($_REQUEST['action']);
@@ -96,7 +97,7 @@ if ($action == 'Clear Log File') {
     $action = 'View Log File';
 }
 if ($action == 'View Log File') {
-    $retval .= "<hr><p><b>Log File: " . $log . "</b></p><pre>";
+    $retval .= "<hr{XHTML}><p><b>Log File: " . $log . "</b></p><pre>";
     $retval .= implode('', file($_CONF['path_log'] . $log));
     $retval .= "</pre>";
 }

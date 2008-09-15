@@ -1,7 +1,7 @@
 ====== CAPTCHA - 画像認証プラグイン(妹認証付) ======
-                                                            2008/08/21
+                                                            2008/09/15
                               hiroron - [ hiroron AT hiroron DOT com ]
-                                                            ver: 4.0.0
+                                                            ver: 4.0.1
 
 ===== captcha - 画像認証プラグイン ======
 
@@ -145,7 +145,7 @@ http://hiroron.com/filemgmt/index.php?id=53
 
 妹の辞書の作り方。
    非公開ディレクトリの plugins/captcha/class/auth_sister/reiya/words.txt
-   ※reiyaはパッケージフォルダるなので適切に読みかえてください。
+   ※reiyaはパッケージフォルダなので適切に読みかえてください。
 
    \t=Tab \n=改行
    書式：質問文\t認証成功文\t失敗文\t正解文字列\t処理モード\t逆処理スイッチ(1:on)\n
@@ -380,4 +380,5 @@ pascal-rehfeldt.com のクラスを使わせていただいております。
 
 ==== 変更履歴 ====
 
+2008/09/15   4.0.1  XHTML対応
 2008/08/21   4.0.0  初リリース(初公開)
