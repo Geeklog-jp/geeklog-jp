@@ -23,13 +23,13 @@
         }
     }
     </script>
-    <img src="{captcha_image}" id="captcha" border="0" alt="{lang_alt}" title="{lang_alt}"><br>
+    <img src="{captcha_image}" id="captcha" border="0" alt="{lang_alt}" title="{lang_alt}"{xhtml}><br{xhtml}>
     <a href="javascript:new_captcha();">{lang_reload}</a>
   </td>
   <td style="vertical-align:middle;">
-    <input type="text" name="captcha" size="25" maxlength="40" value="{captchastring}">
-    <input type="hidden" name="csid" value="{csid}">
-    <br />{lang_captcha_help}
+    <input type="text" name="captcha" size="25" maxlength="40" value="{captchastring}"{xhtml}>
+    <input type="hidden" name="csid" value="{csid}"{xhtml}>
+    <br{xhtml}>{lang_captcha_help}
   </td>
 </tr>
 </table>
