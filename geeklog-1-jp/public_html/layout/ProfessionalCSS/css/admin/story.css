@@ -36,7 +36,7 @@ form#admin-storyeditor {
 form#admin-storyeditor fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
 }
 
 form#admin-storyeditor fieldset legend {
@@ -65,13 +65,13 @@ form#admin-storyeditor_advanced {
 form#admin-storyeditor_advanced fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
 }
 
 form#admin-storyeditor_advanced fieldset#admin-storyeditor_advanced-editor {
   margin: 0;
   padding: 0;
-  border: 0 none #000000;
+  border: 0 none #CCCCCC;
 }
 
 form#admin-storyeditor_advanced div#text_editor,
