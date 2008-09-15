@@ -37,6 +37,7 @@
 // +---------------------------------------------------------------------------+
 // 2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // Authors: Kinoshita
+// Authors: Hiroron
 // Director: IVY WE CO.,LTD. Komma
 // $Id$
 
@@ -83,7 +84,6 @@ function listtkgmaps()
 	$text_arr = array(
 	'has_menu'     => true,
 	'has_extras'   => true,
-	'title'        => $LANG_TKGMAPS['manager'],
 	'instructions' => $LANG_TKGMAPS['instructions'],
 	'icon'         => $_CONF['site_url'] . '/tkgmaps/images/tkgmaps.gif',
 	'form_url'     => $_CONF['site_admin_url'] . "/plugins/tkgmaps/index.php"
@@ -99,9 +99,18 @@ function listtkgmaps()
 	$defsort_arr = array();
 //	$query_arr = array();
 
-	$retval = ADMIN_list ('tkgmaps', 'plugin_getListField_tkgmaps', $header_arr,
-	$text_arr, $query_arr, $menu_arr, $defsort_arr);
-
+    if (version_compare(VERSION, '1.5.0') >= 0) {
+        $retval .= COM_startBlock($LANG_TKGMAPS['manager'], '', COM_getBlockTemplate('_admin_block', 'header'));
+        $retval .= ADMIN_createMenu($menu_arr, $text_arr['instructions'], $text_arr['icon']);
+        $retval .= ADMIN_list ('tkgmaps', 'plugin_getListField_tkgmaps', $header_arr,
+            $text_arr, $query_arr, $defsort_arr);
+        $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
+    } else {
+        $text_arr['title'] = $LANG_TKGMAPS['manager'];
+        $retval = ADMIN_list ('tkgmaps', 'plugin_getListField_tkgmaps', $header_arr,
+            $text_arr, $query_arr, $menu_arr, $defsort_arr);
+    }
+    
 	return $retval;
 }
 
@@ -141,7 +150,7 @@ if (isset ($_REQUEST['mode'])) {
 	$mode = COM_applyFilter($_REQUEST['mode']);
 }
 
-if (($mode == 'edit') || ($mode == 'edit_submit')){
+if (($mode == 'edit') || ($mode == 'edit_submit' && SEC_checkToken())){
 
 	$display .= COM_siteHeader ('menu', 'Editor');
 	$display .= edit_tkgmaps ($mode);

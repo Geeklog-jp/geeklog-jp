@@ -37,19 +37,24 @@
 // +---------------------------------------------------------------------------+
 // 2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // Authors: Kinoshita
+// Authors: Hiroron
 // Director: IVY WE CO.,LTD. Komma
 // $Id$
 
 $_TKGMAPS_CONF = array();
 
-$_TKGMAPS_CONF['version']       = '0.9';   // Plugin Version
+// アイコンサイズのデフォルト  横pix,縦pix
+$_TKGMAPS_CONF['iconsize']      = '32,32';
+// アイコン位置のデフォルト  TOP位置,LEFT位置
+$_TKGMAPS_CONF['iconanchor']    = '16,16';
+// インフォウィンドウ位置のデフォルト  TOP位置,LEFT位置
+$_TKGMAPS_CONF['infowindowanchor'] = '15,10';
 
 $_TKGMAPS_CONF['hidemenu']      = 1;
 
 $_TKGMAPS_CONF['loginrequired'] = 0;
 
-
-
+$_TKGMAPS_CONF['version']       = '0.9.1';   // Plugin Version
 
 // Add to $_TABLES array the tables your plugin uses
 
