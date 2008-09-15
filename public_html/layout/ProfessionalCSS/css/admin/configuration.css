@@ -23,7 +23,7 @@ form#config-editor {
 form#config-editor fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
 }
 
 form#config-editor fieldset legend {
