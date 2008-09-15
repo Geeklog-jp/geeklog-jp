@@ -66,7 +66,7 @@ $_CMED_CONF['default_permissions'] = array(3, 2, 2, 2);
 /**
 * Plugin Version
 */
-$_CMED_CONF['version'] = '0.2.0';
+$_CMED_CONF['version'] = '0.2.1';
 
 /**
 * Add to $_TABLES array the tables custommenu plugin uses
@@ -76,6 +76,7 @@ $_TABLES['menuitems'] = $_DB_table_prefix . 'menuitems';
 
 $_CMED_plugin_label_var = array(
     'calendar'     => "LANG_CAL_1[16]",
+    'calendarjp'   => "LANG_CALJP_1[16]",
     'links'        => "LANG_LINKS[114]",
     'polls'        => "LANG_POLLS['polls']",
     'forum'        => "LANG_GF00['pluginlabel']",
