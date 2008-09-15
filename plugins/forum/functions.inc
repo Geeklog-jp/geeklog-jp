@@ -44,6 +44,10 @@ if (!defined('GL_VERSION_15')) {
     define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
 }
 
+if (!defined(CSRF_TOKEN)) {
+    define('CSRF_TOKEN', 'token');
+}
+
 $langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
 if (file_exists ($langfile))
 {

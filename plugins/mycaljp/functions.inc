@@ -47,6 +47,10 @@ if (!defined('GL_VERSION_15')) {
     define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
 }
 
+if (!defined(CSRF_TOKEN)) {
+    define('CSRF_TOKEN', 'token');
+}
+
 /**
 * Language file Include
 */
