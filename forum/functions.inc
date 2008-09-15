@@ -1521,13 +1521,13 @@ function forum_mb_wordwrap($string, $width, $break) {
     return $return;
 }
 
-if ((!GL_VERSION_15) && (!file_exists('SEC_checkToken'))) {
+if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
     function SEC_checkToken() {
         return true;
     }
 }
 
-if ((!GL_VERSION_15) && (!file_exists('SEC_createToken'))) {
+if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
     function SEC_createToken() {
         return "1";
     }
