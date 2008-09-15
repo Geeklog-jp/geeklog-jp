@@ -298,6 +298,7 @@ ProfessionalCSSテーマをベースにしたカスタマイズを行うには�
 
 ■Ver.1.01(2008-09-15)
 　・Japanizeプラグインに対応しました。(+css/plugin/japanize.css, *css/plugin.css)
+　・fieldset要素のボーダー色をグレーに変更しました。(*css/admin/configuration.css, *css/admin/group.css, *css/admin/story.css, *css/preferences/preferences.css)
 
 ■Ver.1.01(2008-07-01)
 　・Geeklog 1.5に合わせて、ファイルを追加・修正・削除しました。
