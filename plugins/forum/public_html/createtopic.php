@@ -725,7 +725,8 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
                     if($file == $edittopic['mood']) {
                         $moodoptions .= '<option value="' . $file . '" selected="selected">' . $file . "</option>\n";
                     } else {
-                        $moodoptions .= '<option value="' . $file . '">' .$file. "</option>\n";
+                        $moodoptions .= '<option value="' . $file . '" style="height:40px; background-repeat: no-repeat; text-align:right; '
+                                      . 'background-image:URL(\'' . $_CONF['layout_url'] . '/forum/image_set/moods/' . $file . '.gif\')">' .$file. "</option>\n";
                     }
                 } else {
                     $moodoptions .= '';
