@@ -1,3 +1,4 @@
+
 <!-- start banip_mgmt.thtml -->
 {startblock}
 {navbar}
@@ -11,7 +12,7 @@
     <tr style="display:{showalert};">
         <td colspan="6" class="pluginAlert">{alertmessage}</td>
     </tr>
-        {ip_records}
+{ip_records}
 </table>
 <table cellspacing="0" cellpadding="4" border="0" width="100%" style="margin-top:10px;">
     <tr>

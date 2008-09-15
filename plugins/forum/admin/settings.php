@@ -31,18 +31,14 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 include_once('gf_functions.php');
 
 function gf_RadioButtonSetting(&$template,$title,$help,$parm,$value,$id=1) {
     $template->set_var ('LANG_title', $title);
     $template->set_var ('LANG_description', $help);
     $template->set_var ('parm_name', $parm);
-    $template->set_var ('option_yes', ($value)? 'CHECKED=CHECKED': '');
-    $template->set_var ('option_no', ($value)? '' : 'CHECKED=CHECKED');
+    $template->set_var ('option_yes', ($value)? 'checked="checked"': '');
+    $template->set_var ('option_no', ($value)? '' : 'checked="checked"');
     $template->parse ("group{$id}_options", 'radioBtn_setting',true);
 }
 
@@ -68,7 +64,7 @@ echo COM_siteHeader();
 echo COM_startBlock($LANG_GF92['gfsettings']);
 echo ppNavbar($navbarMenu,$LANG_GF06['2']);
 
-if($_POST['savesettings'] == 'yes'){
+if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
 
     $registrationrequired = COM_applyFilter($_POST['registrationrequired'],true);
     $registerpost = COM_applyFilter($_POST['registerpost'],true);
@@ -324,7 +320,7 @@ gf_RadioButtonSetting($settings,
             $LANG_GF92['defaultmode'],
             $LANG_GF92['defaultmodedscp'],
             'post_htmlmode',
-            $CONF_FORUM['post_htmlmode'],2);            
+            $CONF_FORUM['post_htmlmode'],2);
 gf_RadioButtonSetting($settings,
             $LANG_GF92['convertbreak'],
             $LANG_GF92['convertbreakdscp'],
@@ -453,6 +449,9 @@ gf_RankSetting($settings,
             $LANG_GF92['lev5dscp'],
             $CONF_FORUM['level5'],
             $CONF_FORUM['level5name'],5);
+
+$settings->set_var('gltoken_name', CSRF_TOKEN);
+$settings->set_var('gltoken', SEC_createToken());
 
 $settings->parse ('output', 'settings');
 echo $settings->finish ($settings->get_var('output'));

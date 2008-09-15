@@ -37,7 +37,7 @@
 //
 
 if (!defined('XHTML')) {
-	define('XHTML', '');
+    define('XHTML', '');
 }
 
 require_once('../../../lib-common.php');
