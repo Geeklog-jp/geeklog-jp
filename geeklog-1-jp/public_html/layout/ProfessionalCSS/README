@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用ProfessionalCSSテーマ
-  バージョン: 1.01
+  バージョン: 1.02
   著者      : Fumito Arakawa as Phize (http://phize.net/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」です。
 ==============================================================================*/
@@ -189,6 +189,7 @@ JavaScriptが無効な場合は、body要素のclass属性は常に一定であ�
   +css/plugin.css ------------------- インポート用スタイルシート(プラグイン)
     +css/plugin/sitecalendar.css ---- サイトカレンダスタイル(プラグイン)
     +css/plugin/forum.css ----------- フォーラムスタイル(プラグイン)
+    +css/plugin/japanize.css ----------- Japanizeスタイル(プラグイン)
 
   カスタムテーマスタイルシート
   +custom.css ----------------------- カスタムテーマスタイルシート
@@ -294,6 +295,9 @@ ProfessionalCSSテーマをベースにしたカスタマイズを行うには�
   - 削除
 
 
+
+■Ver.1.01(2008-09-15)
+　・Japanizeプラグインに対応しました。(+css/plugin/japanize.css, *css/plugin.css)
 
 ■Ver.1.01(2008-07-01)
 　・Geeklog 1.5に合わせて、ファイルを追加・修正・削除しました。
