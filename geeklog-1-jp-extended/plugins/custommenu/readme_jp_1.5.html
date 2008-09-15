@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="ja">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <style type="text/css">
+  <!--
+    body {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 25px;
+    }
+
+    h1 {
+    font-size: 1.5em;
+    border-bottom: thin outset black;
+    }
+
+    h2 {
+    margin: 0 0 0.5em 0;
+    font-size: 1em;
+    }
+
+    h3 {
+    border-bottom: 1px solid #0033FF;
+    border-left: 6px solid #0033FF;
+    padding: 0.25em;
+    font-size: 1em;
+    }
+
+    h4 {
+    font-size: 0.85em;
+    font-weight: bold;
+    margin: 0.2em 0;
+    }
+
+    p {
+    font-size: 0.85em;
+    margin: 0.5em 0;
+    }
+
+    .attention {
+    color:#FF3300
+    }
+
+    ul {
+    margin-top: 0.5em;
+    margin-bottom: 1em;
+    }
+
+    li {
+    font-size: 0.8em;
+    margin: 0.5em 0;
+    }
+
+    li p {
+    font-size: 0.8em;
+    margin: 0.5em 0;
+    }
+
+    .email {
+    padding-left: 1.3em;
+    font-size: small;
+    font-weight: normal;
+    }
+
+    pre {
+    padding: 0.2em;
+    border: 1px solid #BBBBBB;
+    background-color: #EEEEEE;
+    margin: 1em 1em 1em 3em;
+    overflow: auto;
+    font-size: 0.85em;
+    line-height: 1.5em;
+    }
+
+    table {
+    font-size: 0.8em;
+    border: solid 1px black;
+    border-collapse: collapse;
+    }
+
+    th,
+    td
+    {
+    border: solid 1px black;
+    padding: 5px;
+    }
+
+    span.comment {
+    color: green;
+    font-weight: bold;
+    }
+
+    .goto {
+    margin: 1em 0 1.5em 0.5em;
+    font-size: 0.8em;
+    }
+
+    .fix {
+    color: red;
+    font-weight: bold;
+    }
+
+    .new {
+    color: blue;
+    font-weight: bold;
+    }
+
+    .center {
+    text-align: center;
+    }
+
+  -->
+  </style>
+  <title>Geeklog CustomMenu Editor プラグイン 説明書</title>
+</head>
+<body>
+  <h1><a name="_top">CustomMenu Editor プラグイン</a></h1>
+  <h2>バージョン: 0.2.1</h2>
+  <h2>作成者: Yoshinori Tahara - dengen</h2>
+  <h2>公開日:&nbsp;2008.9.15</h2>
+  <h2>ライセンス:&nbsp;GPL</h2>
+  <h2>概要:</h2>
+  <ul>
+    <li>CustomMenu Editor プラグインは，メインメニュー（ヘッダーメニュー）の設定を管理画面で簡単に行えるようにするものです。</li>
+    <li>厳密に言うと、本プラグインはカスタムメニューエントリーを扱うものなのですが、メインメニューの全てのエントリーをカスタムメニューエントリーに統一することにより、快適なメニュー編集が可能になります。</li>
+  </ul>
+  <h2>機能:</h2>
+  <ul>
+    <li>メインメニューの登録、修正、並べ替え、削除などの編集が管理画面で行えます。</li>
+    <li>多言語切り替え機能に対応したモード（可変モード）を備えています。</li>
+    <li>PHPモードにより、メニューに動的な変化を付けることができます。</li>
+    <li>Geeklog標準のメニューエントリーがあらかじめ登録済みであり、また、各種プラグインにより登録されるメニューエントリーを自動的に収集します。</li>
+  </ul>
+  <h2>条件:</h2>
+  <ul>
+    <li>このプラグインは，Geeklog 1.4.1 および 1.5.0 用です。それ以外のバージョンでは動作確認を行っていません。</li>
+  </ul>
+  <h2>この説明のセクション:</h2>
+
+<ul>
+  <li><a href="#_installation">１） インストール</a></li>
+  <li><a href="#_uninstallation">２） アンインストール</a></li>
+  <li><a href="#_license">３） 著作権について</a></li>
+  <li><a href="#_history">４） 改訂履歴</a></li>
+</ul>
+
+
+  <h3><a name="_installation">１） インストール</a></h3>
+  <p class="attention">インストールには，手動でプラグイン用のディレクトリを作成し，適切なディレクトリへファイルをコピーする必要があります。</p>
+  <p>以下の説明で，</p>
+  <ul style="margin:0.5em 0">
+    <li>&lt;geeklog_dir&gt; は，システムの config.php が存在するディレクトリ</li>
+    <li>&lt;public_html&gt; は，lib-common.php が存在するディレクトリ</li>
+
+  <li>&lt;admin&gt; は，管理者用ファイルが存在するディレクトリ（普通は，&lt;public_html&gt;/admin/ ）</li>
+  </ul>
+  <p style="margin-bottom:1.2em">を表しています。</p>
+  <h4>Step 0 -&nbsp;データベースのバックアップ</h4>
+  <ul>
+    <li>CustomMenu Editor プラグインはテーブルを追加するので，管理者メニューの「DBのバックアップ」や phpMyAdmin
+    を使用して，事前に Geeklog のデータベースをバックアップしておきます。</li>
+  </ul>
+  <h4>Step 1 -&nbsp;アーカイブの展開</h4>
+  <ul>
+    <li>CustomMenu Editor プラグインのアーカイブを &lt;geeklog_dir&gt;/plugins ディレクトリに展開します。custommenu という名前のディレクトリができます。</li>
+  </ul>
+  <h4>Step 2 -&nbsp;必要なディレクトリの作成</h4>
+  <ul>
+    <li>&lt;public_html&gt; ディレクトリの下に custommenu という名前のディレクトリを作ります。</li>
+    <li>&lt;admin&gt;/plugins/ ディレクトリの下にも custommenu という名前のディレクトリを作ります。</li>
+  </ul>
+  <h4>Step 3 -&nbsp;必要なファイルのコピー</h4>
+  <ul>
+    <li><span class="geeklog">&lt;geeklog_dir&gt;</span>/plugins/custommenu/ ディレクトリに移動します。</li>
+    <li>admin ディレクトリの内容を，Step 2 で作成した <span class="admin">&lt;admin&gt;</span>/plugins/custommenu/ ディレクトリにコピーします。</li>
+    <li>public_html ディレクトリの内容を，Step 2 で作成した <span class="public">&lt;public_html&gt;</span>/custommenu/ ディレクトリにコピーします。</li>
+  </ul>
+  <h4>Step 4 - コンフィギュレーションの設定</h4>
+  <ul>
+    <li>(参考) Geeklogのメニューエントリーには、'home', 'contribute', 'search', 'stats', 'directory', 'prefs', 'plugins', 'custom'の８種類があります。</li>
+    <li>(参考) このうち、'custom' はカスタムメニューエントリーの集合であり、CUSTOM_menuEntries 関数が返すエントリー群を束ねたものです。</li>
+    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」 に「<span class="attention"><strong>custom</strong></span>」を追加し、それ以外の全ての値を削除してください。</li>
+  </ul>
+  <h4>Step 5 - lib-custom.php の編集</h4>
+  <ul>
+    <li>(参考) &lt;geeklog_dir&gt;/system/lib-custom.php にはカスタムメニューエントリーを定義する CUSTOM_menuEntries 関数が含まれています。</li>
+    <li>本プラグインでは、独自にCUSTOM_menuEntries 関数を定義していますので、その CUSTOM_menuEntries 関数を無効にしてやります。</li>
+    <li>&lt;geeklog_dir&gt;/system/lib-custom.php をテキストエディタで開き、460行目付近の CUSTOM_menuEntries 関数を次のようにコメントアウトしてください。（既にコメントアウトされている場合は変更不要です）</li>
+  </ul>
+  <pre><code>/*
+function CUSTOM_menuEntries ()
+{
+    global $_CONF, $_USER;
+
+    $myentries = array ();
+
+    // Sample link #1: Link to Gallery
+    $myentries[] = array ('url'   => $_CONF['site_url'] . '/gallery/',
+                          'label' => 'Gallery');
+
+    // Sample link #2: Link to the Personal Calendar - only visible for
+    // logged-in users
+    if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
+        $myentries[] = array ('url'   => $_CONF['site_url']
+                                         . '/calendar/index.php?mode=personal',
+                              'label' => 'My Calendar');
+    }
+
+    return $myentries;
+}
+*/
+</code></pre>
+  <h4>Step 6 - プラグインエディタでインストールの実行</h4>
+  <ul>
+    <li>Root ユーザとしてログインし，プラグインエディタから custommenu のインストールを実行します。</li>
+    <li>失敗した場合には，エラーログ（ error.log ）を調べます。</li>
+    <li>これで，CustomMenu Editor プラグインはインストールされました。</li>
+    <li>投稿管理メニューまたはサイドバーのメニューから、「カスタムメニュー」をクリックすると、カスタムメニューリストが表示されるでしょう。</li>
+  </ul>
+  <h4>Step 7 - テンプレートの配置（表示レイアウトの最適化）</h4>
+
+<ul>
+  <li>CustomMenu Editor プラグインのテンプレートは professional テーマをターゲットにして最適化しています。</li>
+  <li>professional テーマや professional テーマから派生したテーマを使用している場合は次を読まなくても良いでしょう。</li>
+  <li>ProfessionalCSS テーマや ProfessionalCSS テーマから派生したテーマを使用している場合は、ディレクトリ&lt;geeklog-dir&gt;/plugins/custommenu/layout/ProfessionalCSS/custommenuを、ディレクトリ&lt;public_html&gt;/layout/&lt;テーマ名&gt;/の下へコピーしてください。</li>
+</ul>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+  <h3><a name="_uninstallation">２） アンインストール</a></h3>
+  <h4>Step 0 - データベースのバックアップ</h4>
+  <ul>
+    <li>CustomMenu Editor プラグインはアンインストール時に，CustomMenu Editor プラグインが使用していたテーブルを破棄するので，管理者メニューの「DBのバックアップ」や
+    phpMyAdmin を使用して，事前に Geeklog のデータベースをバックアップしておくことをお勧めします。</li>
+  </ul>
+  <h4>Step 1 - プラグインエディタでアンインストールの実行</h4>
+  <ul>
+    <li>プラグインエディタから，custommenu をアンインストールします。このとき，CustomMenu Editor
+    プラグインが使用していたテーブルは破棄され，その中に記録されていたデータも削除されます。</li>
+  </ul>
+
+  <h4>Step 2 - コンフィギュレーションの設定を元にもどす</h4>
+
+  <ul>
+    <li>１）の Step 4 で行った修正を元に戻します。</li>
+    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」を元にもどしてください。</li>
+    <li>(参考) Geeklogのメニュー項目の初期値は、順に'contribute', 'search', 'stats', 'directory', 'plugins' です。</li>
+  </ul>
+
+  <h4>Step 3 - lib-custom.php を元にもどす</h4>
+  <ul>
+    <li>１）の Step 5 で行った修正を元に戻します。</li>
+  </ul>
+  <h4>Step 4 - ディレクトリの削除</h4>
+  <ul>
+    <li>インストールの過程で作成した3つのディレクトリ（ &lt;geeklog-dir&gt;/plugins/custommenu/ ，&lt;public_html&gt;/custommenu/
+    ，&lt;admin&gt;/plugins/custommenu/ ）を削除します。</li>
+  </ul>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+
+<h3><a name="_license">３） 著作権について</a></h3>
+  <p>本作品で、削除および矢印アイコンとして使用している delete.png, arrow-dn.png, arrow-up.pngは Joseph North さんの著作物です。<br />ライセンスは次のリンクをご覧ください。</p>
+  <p>Sweetie Icon Set<br />----------------<br />Author:  Joseph North<br />Email:   sublick@gmail.com<br />License: <a href="http://creativecommons.org/licenses/by-sa/2.0/jp/">Creative Commons Attribution-ShareAlike 2.0</a><br /> Year:    2005</p>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+  <h3><a name="_history">４） 改訂履歴</a></h3>
+  <table>
+    <tr>
+      <th>バージョン</th>
+      <th>公開日</th>
+      <th>説明</th>
+    </tr>
+    <tr>
+      <td class="center">0.2.1</td>
+      <td class="center">2008.9.15</td>
+      <td><span class="fix">修正</span>&nbsp;CSRF対策のミスを修正しました。<br />
+      </td>
+    </tr>
+    <tr>
+      <td class="center">0.2.0</td>
+      <td class="center">2008.9.3</td>
+      <td><span class="new">追加</span>&nbsp;Geeklog1.5で動作するようにしました。<br />
+          <span class="new">追加</span>&nbsp;メニューアイテムの編集項目:URLで、サイトURLに置換されるタグ'[site_url]'が使えるようになりました。<br />
+          <span class="fix">修正</span>&nbsp;アンインストールしたプラグインのメニューアイテムが削除できない問題を修正しました。<br />
+          <span class="fix">修正</span>&nbsp;標準テンプレートをProfessionalCSS用のものからprofessional用のものへ変更しました。<br />
+      </td>
+    </tr>
+    <tr>
+      <td class="center">0.1.0</td>
+      <td class="center">2008.5.12</td>
+      <td>初期バージョン</td>
+    </tr>
+  </table>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+</body>
+</html>
