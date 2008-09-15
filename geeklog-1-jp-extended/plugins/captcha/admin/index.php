@@ -495,6 +495,7 @@ $T->set_var(array(
     'lang_sister_fy'            => $LANG_CP10['sister_fy'],
     'lang_sister_words'         => $LANG_CP10['sister_words'],
     'lang_sister_css'           => $LANG_CP10['sister_css'],
+    'xhtml'                     => XHTML,
 ));
 
 
