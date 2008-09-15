@@ -33,6 +33,8 @@ if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false)
     die ('This file can not be used on its own.');
 }
 
+if (!defined('XHTML')) { define('XHTML', ''); }
+
 $langfile = $_CONF['path'] . 'plugins/captcha/language/' . $_CONF['language'] . '.php';
 
 if (file_exists ($langfile)) {
@@ -294,6 +296,7 @@ function CAPTCHA_getHTML($csid, $type='general' ) {
             'lang_reload_failed'    => $LANG_CP00['reload_failed'],
             'lang_too_many'         => $LANG_CP00['reload_too_many'],
             'csid'                  => $csid,
+            'xhtml'                 => XHTML,
         ));
 
         $T->parse('output', 'page');
@@ -531,7 +534,7 @@ function plugin_getheadercode_captcha() {
     $retval = '';
     if ($_CP_CONF['gfxDriver'] == 1) {  // auth sister
         //$retval .= auth_sister_header();
-        $retval .= '<link rel="stylesheet" type="text/css" href="'.$_CONF['site_url'].'/captcha/auth_sister.css" />';
+        $retval .= '<link rel="stylesheet" type="text/css" href="'.$_CONF['site_url'].'/captcha/auth_sister.css"' . XHTML . '>';
     }
     if (SEC_inGroup('Root')) {
         if ( file_exists( $_CONF['path_layout'] . 'captcha/style.css' ) ) {
@@ -541,7 +544,7 @@ function plugin_getheadercode_captcha() {
         }
         $retval .= '
 <!-- Include CSS for userconfig plugin -->
-<link rel="stylesheet" type="text/css" href="' . $url . '">
+<link rel="stylesheet" type="text/css" href="' . $url . '"' . XHTML . '>
 ';
     }
     return $retval;
