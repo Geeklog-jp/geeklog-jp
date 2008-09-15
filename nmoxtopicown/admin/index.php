@@ -67,6 +67,7 @@ class nmoxtopicown{
 		</table>
 		<br><br>
 		<input type='hidden' name='mode' value='dbset'></input>
+		<input type='hidden' name='".CSRF_TOKEN."' value='".SEC_createToken()."' />
 		<input type='submit' value='".$LANG_NMOXTOPICOWN["ok"]."'></input>
 		</form>
 		".$LANG_NMOXTOPICOWN["message_caution"]."
@@ -92,6 +93,18 @@ class nmoxtopicown{
 }
 
 require_once("../../../lib-common.php");
+//CSRF対策
+if (version_compare(VERSION, '1.5.0') < 0) {
+	if (!function_exists('SEC_checkToken')) {
+		function SEC_checkToken() {
+			return true;
+		}
+		function SEC_createToken(){
+			return true;
+		}
+	}
+}
+
 //管理権限をチェックしてNGなら退出
 if(!SEC_hasRights('nmoxtopicown.edit')) {
 	COM_errorLog("Someone has tried to illegally access the nmoxtopicown page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR",1);
@@ -110,6 +123,9 @@ if(isset($_POST["mode"])){
 }
 switch($mode){
 	case "dbset":
+		if(SEC_checkToken()===false){
+			exit("あなたのアクセスは攻撃の可能性があるとみなされました。");
+		}
 		$html=$cl->dbset();
 		break;
 	default:
