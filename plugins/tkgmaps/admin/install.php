@@ -53,6 +53,7 @@
 // +---------------------------------------------------------------------------+
 // 2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // Authors: Kinoshita
+// Authors: Hiroron
 // Director: IVY WE CO.,LTD. Komma
 // $Id$
 
