@@ -54,7 +54,7 @@ form#admin-groupeditor dl dd table tr td {
 
 form#admin-groupmembers fieldset {
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
   background: #EFEFEF;
 }
 
