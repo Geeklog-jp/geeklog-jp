@@ -560,8 +560,8 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $cal->set_var('nextmonth', $tmp );
 
 //2007.06.16 ---------------------------------------->>
-    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&month=" . $prevmonth );
-    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&month=" . $nextmonth );
+    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $prevmonth );
+    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $nextmonth );
 //---------------------------------------------------<<
 
 //2007.06.30 ---------------------------------------->>
