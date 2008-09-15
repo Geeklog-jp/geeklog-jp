@@ -31,7 +31,7 @@
 
 
 $CONF_FORUM['debug'] = false;
-$CONF_FORUM['version'] = '2.7';
+$CONF_FORUM['version'] = '2.7.1';
 
 // Set to true if you are using MYSQL 4.0 or greater and this will improve performance.
 $CONF_FORUM['mysql4+'] = false;

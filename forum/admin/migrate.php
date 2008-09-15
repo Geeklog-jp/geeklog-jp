@@ -31,14 +31,10 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 include_once('gf_functions.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
 
-if ($_POST['migrate'] == $LANG_GF01['MIGRATE_NOW'] AND $_POST['selforum'] != "select" AND !empty( $_POST['cb_chkentry']) ) {
+if ($_POST['migrate'] == $LANG_GF01['MIGRATE_NOW'] AND $_POST['selforum'] != "select" AND !empty( $_POST['cb_chkentry']) AND SEC_checkToken()) {
     $num_stories = 0;
     $num_posts = 0;
     $forum = COM_applyFilter($_POST['selforum']);
@@ -321,6 +317,8 @@ if ($numrows > 0) {
     }
     $p->set_var ('page_navigation',COM_printPageNavigation($base_url,$page,$numpages));
 }
+$p->set_var('gltoken_name', CSRF_TOKEN);
+$p->set_var('gltoken', SEC_createToken());
 $p->parse ('output', 'page');
 echo $p->finish ($p->get_var('output'));
 

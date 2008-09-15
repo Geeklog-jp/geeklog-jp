@@ -33,10 +33,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 require_once("../lib-common.php");
 require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
 require_once ($_CONF['path_html'] . 'forum/include/gf_showtopic.php');
@@ -334,7 +330,12 @@ if (forum_modPermission($forum,$_USER['uid'])) {
             exit;
         }
         $alertmessage =  '<p>' .$LANG_GF02['msg68'] . '</p><p>';
-        $alertmessage .= sprintf($LANG_GF02['msg69'],$forumpostipnum['ip']) . '</p>';
+        $ip_address = $forumpostipnum['ip'];
+        if (!empty($_CONF['ip_lookup'])) {
+            $iplookup = str_replace('*', $ip_address, $_CONF['ip_lookup']);
+            $ip_address = '<a href="' . $iplookup . '">' . $ip_address . '</a>';
+        }
+        $alertmessage .= sprintf($LANG_GF02['msg69'], $ip_address) . '</p>';
 
         $promptform  = '<p><form action="' .$_CONF['site_url'] . '/forum/moderation.php" method="post">';
         $promptform .= '<input type="hidden" name="hostip" value="' .$forumpostipnum['ip']. '"' . XHTML . '>';

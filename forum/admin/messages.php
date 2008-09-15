@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -32,10 +32,6 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
 
 include_once('gf_functions.php');
 require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
@@ -81,15 +77,15 @@ function selectHTML_members($selected='') {
     $sql .= "WHERE user.uid <> 1 AND user.uid=topic.uid GROUP by uid ORDER BY user.username";
     $memberlistsql = DB_query($sql);
     if ($selected == 1) { 
-        $selectHTML .= LB .'<OPTION value="1" SELECTED>' .$LANG_GF02['msg177']. '</OPTION>';
+        $selectHTML .= LB .'<option value="1" selected="selected">' .$LANG_GF02['msg177']. '</option>';
     } else {
-        $selectHTML .= LB .'<OPTION value="1">' .$LANG_GF02['msg177']. '</OPTION>';
+        $selectHTML .= LB .'<option value="1">' .$LANG_GF02['msg177']. '</option>';
     }
     while($A = DB_fetchArray($memberlistsql)) {
         if ($A['uid'] == $selected) { 
-            $selectHTML .= LB .'<OPTION value="' .$A['uid']. '" SELECTED>' .$A['username']. '</OPTION>';
+            $selectHTML .= LB .'<option value="' .$A['uid']. '" selected="selected">' .$A['username']. '</option>';
         } else {
-            $selectHTML .= LB .'<OPTION value="' .$A['uid']. '">' .$A['username']. '</OPTION>';
+            $selectHTML .= LB .'<option value="' .$A['uid']. '">' .$A['username']. '</option>';
         }
     }
     return $selectHTML;
@@ -97,13 +93,15 @@ function selectHTML_members($selected='') {
 }
 
 /* Check to see if user has checked multiple records to delete */
-if ($op == 'delchecked') {
-    foreach ($_POST['chkrecid'] as $id) {
-        $id = COM_applyFilter($id,true);
-        DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
+if (SEC_checkToken()) {
+    if ($op == 'delchecked') {
+        foreach ($_POST['chkrecid'] as $id) {
+            $id = COM_applyFilter($id,true);
+            DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
+        }
+    } elseif ($op == 'delrecord') {
+       DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
     }
-} elseif ($op == 'delrecord') {
-   DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
 }
 
 // Page Navigation Logic
@@ -168,7 +166,7 @@ $report->set_var ('select_forum',selectHTML_forum($forum));
 $report->set_var ('select_member',selectHTML_members($member));
 $report->set_var('navbar', ppNavbar($navbarMenu,$LANG_GF06['6']));
 if ($parentonly == 1) {
-    $report->set_var('chk_parentonly', 'CHECKED=CHECKED');
+    $report->set_var('chk_parentonly', 'checked="checked"');
 }
 
 if ($num_messages == 0) {
@@ -222,7 +220,8 @@ if ($num_messages == 0) {
     }
 }
 
-
+$report->set_var('gltoken_name', CSRF_TOKEN);
+$report->set_var('gltoken', SEC_createToken());
 $report->parse ('output', 'messages');
 echo $report->finish ($report->get_var('output'));
 echo COM_siteFooter();

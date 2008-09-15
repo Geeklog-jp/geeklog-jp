@@ -5,11 +5,12 @@
         <td class="alignleft" width="100%" nowrap="nowrap">&nbsp;<a href="{site_url}/forum/index.php">{forum_home}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a></td>
     </tr>
     <tr>
-        <td colspan="2" style="padding-bottom:5px;">{navtopicimg}&nbsp;<b><a href="viewtopic.php?showtopic={topic_id}">{subject}</a></b></span></td>        
+        <td colspan="2" style="padding-bottom:5px;">{navtopicimg}&nbsp;<b><a href="viewtopic.php?showtopic={topic_id}">{subject}</a></b></td>
     </tr>
 </table>
 
 <script type="text/Javascript">
+<!-- Begin
 // Helpline messages
 b_help = "{LANG_bhelp}";
 i_help = "{LANG_ihelp}";
@@ -24,11 +25,12 @@ a_help = "{LANG_ahelp}";
 s_help = "{LANG_shelp}";
 f_help = "{LANG_fhelp}";
 h_help = "{LANG_hhelp}";
+//  End -->
 </script>
 
-<script language=JavaScript 1.2 src="{layout_url}/forum/javascript/createtopic.js"></script>
+<script type="text/javascript" src="{layout_url}/forum/javascript/createtopic.js"></script>
 
-<form action="{phpself}" method="POST" name="forumpost" style="margin:0px;">
+<form action="{phpself}" method="post" name="forumpost" style="margin:0px;">
     <input type="hidden" name="forum" value="{forum_id}"{xhtml}>
     <input type="hidden" name="id" value="{hidden_id}"{xhtml}>
     <input type="hidden" name="modedit" value="{hidden_modedit}"{xhtml}>
@@ -37,3 +39,4 @@ h_help = "{LANG_hhelp}";
     <input type="hidden" name="editpid" value="{hidden_editpid}"{xhtml}>
     <input type="hidden" name="editid" value="{hidden_editid}"{xhtml}>
     <input type="hidden" name="page" value="{page}"{xhtml}>
+    <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>

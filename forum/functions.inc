@@ -40,6 +40,10 @@ if (!defined('XHTML')) {
     define('XHTML', '');
 }
 
+if (!defined('GL_VERSION_15')) {
+    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
+}
+
 $langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
 if (file_exists ($langfile))
 {
@@ -417,7 +421,8 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
     $sqltmp = " WHERE 1=1 ";
 
     if ( $keyType == 'phrase' ) {
-        $sqltmp .= "AND (comment LIKE '%$query%' OR subject LIKE '%$query%')";
+        $q = addslashes($query);
+        $sqltmp .= "AND (comment LIKE '%$query%' OR subject LIKE '%$q%')";
     } else  if ( $keyType == 'any' ) {
         $sqltmp .= 'AND ';
         $tmp = '';
@@ -450,7 +455,8 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
         $sqltmp .= "($tmp)";
        
     } else {
-        $sqltmp = "WHERE (comment LIKE '%$query%' OR subject LIKE '%$query%')";
+        $q = addslashes($query);
+        $sqltmp = "WHERE (comment LIKE '%$q%' OR subject LIKE '%$q%')";
     }
 
     if ( $author != 0 ) {
@@ -515,7 +521,7 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
             $subject = forum_mb_wordwrap($A['subject'],$CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">"); // added function
             $thetime = COM_getUserDateTimeFormat ($A['date']);
             $date = $thetime[0];
-            $url = $_CONF['site_url']. "/forum/viewtopic.php?forum={$A['forum']}&amp;showtopic={$A['id']}";
+            $url = $_CONF['site_url']. "/forum/viewtopic.php?showtopic={$A['id']}";
             $row = array($forumname, "<a href=\"$url\">" . COM_truncate($subject,$CONF_FORUM['show_subject_length'],'...') . "</a>",$date,$A['views']);
             $plugin_results->addSearchResult($row);
         }
@@ -767,6 +773,9 @@ function plugin_upgrade_forum() {
              DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
              break;
 
+       case "2.7" :
+             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.1', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
+             break;
     }
 
     /* Check if update completed and return a message number to be shown */
@@ -1101,31 +1110,35 @@ function phpblock_forum_newposts() {
                     $profilelink = '';
                 }
 
-               $block->set_var ('site_url', $_CONF['site_url']);
-               $block->set_var ('css_id', $onetwo);
-               $block->set_var ('img_dir', $CONF_FORUM['imgset']);
-               $block->set_var ('forum_id', $A['forum']);
-               $block->set_var ('forum_name', DB_getItem($_TABLES['gf_forums'],'forum_name',"forum_id='{$A['forum']}'"));
-               $block->set_var ('topic_id', $A['id']);
-               $block->set_var ('topic_subject', $A['subject']);
-               $block->set_var ('fullsubject', $fullsubject);
-               $block->set_var ('topic_id', $A['id']);
-               $block->set_var ('profilelink', $profilelink);
-               $block->set_var ('user_name', $postername);
-               $block->set_var ('LANG_BY', $LANG_GF01['BY']);
-               $block->set_var ('LANG_ON', $LANG_GF01['ON']);
-               $block->set_var ('LANG_VIEWS', $LANG_GF01['VIEWS']);
-               $block->set_var ('LANG_REPLIES', $LANG_GF01['REPLIES']);
-               $block->set_var ('views', $A['views']);
-               $block->set_var ('replies', $A['replies']);
-               if ($CONF_FORUM['allow_user_dateformat']) {
-                   $date = COM_getUserDateTimeFormat ($postdate);
-                   $block->set_var ('date', $date[0]);
-               } else {
-                   $block->set_var ('date', strftime($CONF_FORUM['default_Datetime_format'], $postdate));
-               }
+                if ($profilelink != '') {
+                    $postername = $profilelink . $postername . '</a>';
+                }
 
-               $block->parse ('block_records', 'topicrecord',true);
+                $block->set_var ('site_url', $_CONF['site_url']);
+                $block->set_var ('css_id', $onetwo);
+                $block->set_var ('img_dir', $CONF_FORUM['imgset']);
+                $block->set_var ('forum_id', $A['forum']);
+                $block->set_var ('forum_name', DB_getItem($_TABLES['gf_forums'],'forum_name',"forum_id='{$A['forum']}'"));
+                $block->set_var ('topic_id', $A['id']);
+                $block->set_var ('topic_subject', $A['subject']);
+                $block->set_var ('fullsubject', $fullsubject);
+                $block->set_var ('topic_id', $A['id']);
+//              $block->set_var ('profilelink', $profilelink);
+                $block->set_var ('user_name', $postername);
+                $block->set_var ('LANG_BY', $LANG_GF01['BY']);
+                $block->set_var ('LANG_ON', $LANG_GF01['ON']);
+                $block->set_var ('LANG_VIEWS', $LANG_GF01['VIEWS']);
+                $block->set_var ('LANG_REPLIES', $LANG_GF01['REPLIES']);
+                $block->set_var ('views', $A['views']);
+                $block->set_var ('replies', $A['replies']);
+                if ($CONF_FORUM['allow_user_dateformat']) {
+                    $date = COM_getUserDateTimeFormat ($postdate);
+                    $block->set_var ('date', $date[0]);
+                } else {
+                    $block->set_var ('date', strftime($CONF_FORUM['default_Datetime_format'], $postdate));
+                }
+
+                $block->parse ('block_records', 'topicrecord',true);
 
                 if ($onetwo == 1) {
                     $onetwo = 2;
@@ -1266,7 +1279,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
             if (empty ($A['last_reply_rec']) OR $A['last_reply_rec'] < 1) {
                 $lastid = $A['id'];
                 $lastpostinfo = wordwrap(strip_tags(COM_truncate($A['comment'], $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
-                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfotmp, $CONF_FORUM['linkinfo_width'], "n")); // added function
+                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfo, $CONF_FORUM['linkinfo_width'], "n")); // added function
             } else {
                 $qlreply = DB_query("SELECT id,uid,name,comment FROM {$_TABLES['gf_topic']} WHERE id={$A['last_reply_rec']}");
                 $B = DB_fetchArray($qlreply);
@@ -1278,7 +1291,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
                     $topicinfo .= sprintf($LANG_GF01['LASTREPLYBY'],$B['name']);
                 }
                 $lastpostinfo = wordwrap(strip_tags(COM_truncate($lastcomment, $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
-                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfotmp, $CONF_FORUM['linkinfo_width'], "n")); // added function
+                $lastpostinfo = mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($lastpostinfo, $CONF_FORUM['linkinfo_width'], "n")); // added function
             }
 
             $cssid = ($cssid ==1) ? 2: 1;
@@ -1433,14 +1446,14 @@ function phpblock_forum_menu() {
             $t->set_file('menu','blockmenu.thtml');
 
             $t->set_var ('xhtml', XHTML);
-            $links = "<li><a href=\"{$_CONF['site_url']}/forum/index.php\" TITLE=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a></li>" . LB;
+            $links = "<li><a href=\"{$_CONF['site_url']}/forum/index.php\" title=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a></li>" . LB;
             if ($_USER['uid'] > 1) {
-                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" TITLE=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a></li>" . LB;                     
-                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/userprefs.php\" TITLE=\"{$LANG_GF02['msg198']}\">{$LANG_GF01['USERPREFS']}</a></li>" . LB;
-                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/notify.php\" TITLE=\"{$LANG_GF02['msg199']}\">{$LANG_GF01['SUBSCRIPTIONS']}</a></li>" . LB;
+                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" title=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a></li>" . LB;                     
+                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/userprefs.php\" title=\"{$LANG_GF02['msg198']}\">{$LANG_GF01['USERPREFS']}</a></li>" . LB;
+                $links .= "<li><a href=\"{$_CONF['site_url']}/forum/notify.php\" title=\"{$LANG_GF02['msg199']}\">{$LANG_GF01['SUBSCRIPTIONS']}</a></li>" . LB;
             }
-            $links .= "<li><a href=\"{$_CONF['site_url']}/forum/memberlist.php\" TITLE=\"{$LANG_GF02['msg200']}\">{$LANG_GF02['msg88']}</a></li>" . LB;
-            $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=popular\" TITLE=\"{$LANG_GF02['msg201']}\">{$LANG_GF07['3']}</a></li>" . LB;
+            $links .= "<li><a href=\"{$_CONF['site_url']}/forum/memberlist.php\" title=\"{$LANG_GF02['msg200']}\">{$LANG_GF02['msg88']}</a></li>" . LB;
+            $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=popular\" title=\"{$LANG_GF02['msg201']}\">{$LANG_GF07['3']}</a></li>" . LB;
 
             $t->set_var('menuitems', $links);
             $t->parse ('output', 'menu');
@@ -1450,19 +1463,19 @@ function phpblock_forum_menu() {
 
     } else {
         $retval = '<table width="100%" border="0" cellpadding="1" cellspacing="1"><tr><td>';
-        $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php\" TITLE=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a>";
+        $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php\" title=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a>";
         $retval .= '</td></tr><tr><td>';
         if ($_USER['uid'] > 1) {
-            $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" TITLE=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a>";
+            $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" title=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a>";
             $retval .= '</td></tr><tr><td>';            
-            $retval .= "<a href=\"{$_CONF['site_url']}/forum/userprefs.php\" TITLE=\"{$LANG_GF02['msg198']}\">{$LANG_GF01['USERPREFS']}</a>";
+            $retval .= "<a href=\"{$_CONF['site_url']}/forum/userprefs.php\" title=\"{$LANG_GF02['msg198']}\">{$LANG_GF01['USERPREFS']}</a>";
             $retval .= '</td></tr><tr><td>';
-            $retval .= "<a href=\"{$_CONF['site_url']}/forum/notify.php\" TITLE=\"{$LANG_GF02['msg199']}\">{$LANG_GF01['SUBSCRIPTIONS']}</a>";
+            $retval .= "<a href=\"{$_CONF['site_url']}/forum/notify.php\" title=\"{$LANG_GF02['msg199']}\">{$LANG_GF01['SUBSCRIPTIONS']}</a>";
             $retval .= '</td></tr><tr><td>';
         }
-        $retval .= "<a href=\"{$_CONF['site_url']}/forum/memberlist.php\" TITLE=\"{$LANG_GF02['msg200']}\">{$LANG_GF02['msg88']}</a>";
+        $retval .= "<a href=\"{$_CONF['site_url']}/forum/memberlist.php\" title=\"{$LANG_GF02['msg200']}\">{$LANG_GF02['msg88']}</a>";
         $retval .= '</td></tr><tr><td>';
-        $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php?op=popular\" TITLE=\"{$LANG_GF02['msg201']}\">{$LANG_GF07['3']}</a>";
+        $retval .= "<a href=\"{$_CONF['site_url']}/forum/index.php?op=popular\" title=\"{$LANG_GF02['msg201']}\">{$LANG_GF07['3']}</a>";
         $retval .= '</td></tr></table>';
     }
     return $retval;
@@ -1506,6 +1519,18 @@ function forum_mb_wordwrap($string, $width, $break) {
         }
     }
     return $return;
+}
+
+if ((!GL_VERSION_15) && (!file_exists('SEC_checkToken'))) {
+    function SEC_checkToken() {
+        return true;
+    }
+}
+
+if ((!GL_VERSION_15) && (!file_exists('SEC_createToken'))) {
+    function SEC_createToken() {
+        return "1";
+    }
 }
 
 ?>

@@ -1,6 +1,9 @@
+
 <!-- start userprefs/user_settings.thtml -->
 {navmenu}
-<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="margin-top:20px;">    
+<form action="{PHP_SELF}" method="post">
+<input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="margin-top:20px;">
     <tr>
         <td width="20%" class="pluginCellTitle" style="padding:2px 0px 2px 5px;">{LANG_feature}</td>
         <td class="pluginCellTitle" style="padding:2px 0px 2px 5px;">{LANG_setting}</td>
@@ -8,7 +11,6 @@
 </table>
 <table width="100%" border="0" cellspacing="1" cellpadding="0" class="pluginSolidOutline">
     <tr>
-    <form action="{PHP_SELF}" method="post">
     <td width="20%" class="pluginCellSubTitle" nowrap="nowrap">{LANG_GF92[topicspp]}</td>
     <td class="pluginCellText pluginCellFill">
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="pluginSolidOutline">
@@ -112,11 +114,10 @@
     </td>
     </tr>
 </table>
-<p></p>
-<table width="100%" border="0" cellspacing="1" cellpadding="3">
+<table width="100%" border="0" cellspacing="1" cellpadding="3" style="padding-top:1em;">
     <tr>
     <td class="alignright"><input type="submit" name="submit" value="{LANG_save}" style="text-align:center;padding:5px;"{xhtml}></td>
-    </form></tr>
+    </tr>
 </table>
-
+</form>
 <!-- end userprefs/user_settings.thtml -->
