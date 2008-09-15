@@ -207,7 +207,6 @@ $LANG_GF01['admin']          = 'Admin';
 $LANG_GF01['DATEADDED']      = 'Hinzugefügt';
 $LANG_GF01['PREVTOPIC']      = 'Vorheriges Thema';
 $LANG_GF01['NEXTTOPIC']      = 'Nächstes Thema';
-$LANG_GF01['admin']          = 'Admin';
 $LANG_GF01['CONTENT']        = 'Inhalt';
 $LANG_GF01['QUOTE_begin']    = '[Zitat&nbsp;';
 $LANG_GF01['QUOTE_by'   ]    = 'von&nbsp;';
@@ -254,7 +253,7 @@ $LANG_GF01['ANON_POST_END']   = 'viewable';
 $LANG_GF01['INDEXPAGE']      = 'Alle Foren';
 $LANG_GF01['FEATURE']        = 'Feature';
 $LANG_GF01['SETTING']        = 'Einstellung';
-$LANG_GF01['MARKALLREAD']    = 'Mark All Read';
+$LANG_GF01['MARKALLREAD']    = 'Als gelesen markieren';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'Code';
@@ -382,7 +381,7 @@ $LANG_GF02['msg82']    = '<p>Your message "%s" has been edited by the moderator 
 $LANG_GF02['msg83']    = '<br><br>You need to be signed in to use this forum feature.<p />';
 $LANG_GF02['msg84']    = 'Alle Themen als gelesen markieren';
 $LANG_GF02['msg85']    = 'Seite:';
-$LANG_GF02['msg86']    = '&nbsp;Letzte 10 Beiträge&nbsp;';
+$LANG_GF02['msg86']    = '&nbsp;Letzte %s Beiträge&nbsp;';
 $LANG_GF02['msg87']    = '<br>Warning: This topic has been locked by the moderator.<br>No additional posts are permitted';
 $LANG_GF02['msg88']    = 'Mitglieder';
 $LANG_GF02['msg88b']   = 'Nur im Forum aktive Mitglieder';
@@ -483,13 +482,13 @@ $LANG_GF02['msg192']   = 'Completed ... Migrated %s topics and %s comments.';
 $LANG_GF02['msg193']   = 'STORY&nbsp;&nbsp;TO&nbsp;&nbsp;FORUM&nbsp;&nbsp;MIGRATION&nbsp;&nbsp;UTILITY';
 $LANG_GF02['msg194']   = 'Wenig aktives Forum';
 $LANG_GF02['msg195']   = 'Zum Forum springen';
-$LANG_GF02['msg196']   = 'View the main forum index';
-$LANG_GF02['msg197']   = 'Mark topics in all categories as read';
-$LANG_GF02['msg198']   = 'Update your forum settings';
-$LANG_GF02['msg199']   = 'View or remove forum notifications';
-$LANG_GF02['msg200']   = 'View site members report';
-$LANG_GF02['msg201']   = 'View popular topics report';
-
+$LANG_GF02['msg196']   = 'Zur Forum-Übersicht';
+$LANG_GF02['msg197']   = 'Alle Themen als gelesen markieren';
+$LANG_GF02['msg198']   = 'Forum-Einstellungen anpassen';
+$LANG_GF02['msg199']   = 'Benachrichtigungs-E-Mails an- und abstellen';
+$LANG_GF02['msg200']   = 'Liste aller User dieser Website';
+$LANG_GF02['msg201']   = 'Liste der beliebtesten Forum-Themen';
+$LANG_GF02['msg202']   = 'Keine neuen Beiträge';
 
 $LANG_GF02['StatusHeading']   = 'Nur zur Information';
 $LANG_GF02['PostReply']   = 'Post New Reply';
@@ -764,8 +763,13 @@ $LANG_GF93 = array (
     'allowedfunctions'  => 'Allowed Functions',
     'userrecords'       => 'User Records',
     'grouprecords'      => 'Group Records',
-    'filterview'        => 'Filter View'
-
+    'filterview'        => 'Filter View',
+    'readonly'           => 'Readonly Forum',
+    'readonlydscp'       => 'Only the Moderator can post to this forum',
+    'hidden'             => 'Hidden Forum',
+    'hiddendscp'         => 'Forum does not show in the forum index',
+    'hideposts'          => 'Hide New posts',
+    'hidepostsdscp'      => 'Updates will not show in the New Posts Blocks or RSS Feeds'
 
 );
 
@@ -839,6 +843,7 @@ $LANG_GF97 = array (
 );
 
 
+$PLG_forum_MESSAGE1 = 'Forum Plugin Upgrade completed - no errors';
 $PLG_forum_MESSAGE5 = 'Forum Plugin Upgrade failed - check error.log';
 
 ?>

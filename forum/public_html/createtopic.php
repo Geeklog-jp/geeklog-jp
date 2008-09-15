@@ -77,7 +77,7 @@ if(empty($_USER['uid']) OR $_USER['uid'] == 1 ) {
 }
 
 // ADD EDITED TOPIC
-if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes')) {
+if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') && SEC_checkToken()) {
     $editid = COM_applyFilter($_POST['editid'],true);
     $forum = COM_applyFilter($_POST['forum'],true);
     $date = time();
@@ -167,7 +167,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes'))
 }
 
 // ADD TOPIC
-if ($_POST['submit'] == $LANG_GF01['SUBMIT']) {
+if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && SEC_checkToken()) {
     $msg = '';
     $date = time();
     $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
@@ -669,6 +669,8 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         $topicnavbar->set_var ('hidden_editid', $id);
 
     }
+    $topicnavbar->set_var('gltoken_name', CSRF_TOKEN);
+    $topicnavbar->set_var('gltoken', SEC_createToken());
     $topicnavbar->parse ('output', 'topicnavbar');
     echo $topicnavbar->finish($topicnavbar->get_var('output'));
 
@@ -714,16 +716,16 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             $edittopic['mood'] = $_POST['mood'];
         }
         if ($edittopic['mood'] == '') {
-            $moodoptions = '<option value="" selected="selected">' . $LANG_GF01['NOMOOD'];
+            $moodoptions = '<option value="" selected="selected">' . $LANG_GF01['NOMOOD'] . "</option>\n";
         }
         if ($dir = @opendir("{$CONF_FORUM['imgset_path']}/moods")) {
             while (($file = readdir($dir)) !== false) {
                 if ((strlen($file) > 3) && eregi('gif',$file)) {
                     $file = str_replace(array('.gif','.jpg'), array('',''), $file);
                     if($file == $edittopic['mood']) {
-                        $moodoptions .= '<option selected="selected">' . $file. "\n";
+                        $moodoptions .= '<option value="' . $file . '" selected="selected">' . $file . "</option>\n";
                     } else {
-                        $moodoptions .= "<option>" .$file. "\n";
+                        $moodoptions .= '<option value="' . $file . '">' .$file. "</option>\n";
                     }
                 } else {
                     $moodoptions .= '';

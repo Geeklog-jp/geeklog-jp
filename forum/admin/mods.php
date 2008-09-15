@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -32,10 +32,6 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
 
 include_once('gf_functions.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
@@ -58,7 +54,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
     switch ($operation) {
 
         case 'update':
-            if ($recid > 0 ) {
+            if (($recid > 0) && SEC_checkToken()) {
                 if (!isset($_POST["chk_delete$id"])) {
                     $mod_delete = "0";
                 } else {
@@ -91,71 +87,75 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
 
         case 'delete':
 
-            if ($id > 0) {
+            if (($id > 0) && SEC_checkToken()) {
                 DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE (mod_id='$id')");
             }
             break;
 
         case 'delchecked':
-            foreach ($_POST['chk_moddelete'] as $delrecord) {
-                $delrecord = COM_applyFilter($delrecord,true);
-                DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE (mod_id='$delrecord')");
+            if  (SEC_checkToken()) {
+                foreach ($_POST['chk_moddelete'] as $delrecord) {
+                    $delrecord = COM_applyFilter($delrecord,true);
+                    DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE (mod_id='$delrecord')");
+                }
             }
             break;
 
        case 'addrecord':
-            if (!isset($_POST['chk_delete'])) {
-                $mod_delete = "0";
-            } else {
-                $mod_delete = "1";
-            }
-            if (!isset($_POST['chk_ban'])) {
-                $mod_ban = "0";
-            } else {
-                $mod_ban = "1";
-            }    
-            if (!isset($_POST['chk_edit'])) {
-                $mod_edit = "0";
-            } else {
-                $mod_edit = "1";
-            }    
-            if (!isset($_POST['chk_move'])) {
-                $mod_move = "0";
-            } else {
-                $mod_move = "1";
-            }    
-            if (!isset($_POST['chk_stick'])) {
-                $mod_stick = "0";
-            } else {
-                $mod_stick = "1";
-            }
-            if (count($_POST['sel_forum']) > 0) {
-                if ($_POST['modtype'] == 'user') {
-                    foreach ($_POST['sel_user'] as $modMemberUID) {
-                        $modMemberUID = COM_applyFilter($modMemberUID,true);
-                        $modMemberName = DB_getItem($_TABLES['users'], "username","uid='$modMemberUID'");
+            if  (SEC_checkToken()) {
+                if (!isset($_POST['chk_delete'])) {
+                    $mod_delete = "0";
+                } else {
+                    $mod_delete = "1";
+                }
+                if (!isset($_POST['chk_ban'])) {
+                    $mod_ban = "0";
+                } else {
+                    $mod_ban = "1";
+                }    
+                if (!isset($_POST['chk_edit'])) {
+                    $mod_edit = "0";
+                } else {
+                    $mod_edit = "1";
+                }    
+                if (!isset($_POST['chk_move'])) {
+                    $mod_move = "0";
+                } else {
+                    $mod_move = "1";
+                }    
+                if (!isset($_POST['chk_stick'])) {
+                    $mod_stick = "0";
+                } else {
+                    $mod_stick = "1";
+                }
+                if (count($_POST['sel_forum']) > 0) {
+                    if ($_POST['modtype'] == 'user') {
+                        foreach ($_POST['sel_user'] as $modMemberUID) {
+                            $modMemberUID = COM_applyFilter($modMemberUID,true);
+                            $modMemberName = DB_getItem($_TABLES['users'], "username","uid='$modMemberUID'");
+                            foreach ($_POST['sel_forum'] as $modForum) {
+                                $modForum = COM_applyFilter($modForum,true);
+                                $modquery = DB_query("SELECT * FROM {$_TABLES['gf_moderators']} WHERE mod_uid='$modMemberUID' AND mod_forum='$modForum'");
+                                if ( DB_numrows($modquery) == 1) {
+                                    DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE mod_uid='$modMemberUID' AND mod_forum='$modForum'");
+                                }
+                                $fields = 'mod_username,mod_uid,mod_groupid, mod_forum,mod_delete,mod_ban,mod_edit,mod_move,mod_stick';
+                                $values = "'$modMemberName','$modMemberUID','0', '$modForum','$mod_delete','$mod_ban','$mod_edit','$mod_move','$mod_stick'";
+                                DB_query("INSERT INTO {$_TABLES['gf_moderators']} ($fields) VALUES ($values)");
+                            }
+                        }
+                    } elseif ($_POST['modtype'] == 'group' AND$_POST['sel_group'] > 0)  {
+                        $modGroupid = COM_applyfilter($_POST['sel_group'], true);
                         foreach ($_POST['sel_forum'] as $modForum) {
                             $modForum = COM_applyFilter($modForum,true);
-                            $modquery = DB_query("SELECT * FROM {$_TABLES['gf_moderators']} WHERE mod_uid='$modMemberUID' AND mod_forum='$modForum'");
+                            $modquery = DB_query("SELECT * FROM {$_TABLES['gf_moderators']} WHERE mod_groupid='$modGroupid' AND mod_forum='$modForum'");
                             if ( DB_numrows($modquery) == 1) {
-                                DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE mod_uid='$modMemberUID' AND mod_forum='$modForum'");
+                                DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE mod_groupid='$modGroupid' AND mod_forum='$modForum'");
                             }
                             $fields = 'mod_username,mod_uid,mod_groupid, mod_forum,mod_delete,mod_ban,mod_edit,mod_move,mod_stick';
-                            $values = "'$modMemberName','$modMemberUID','0', '$modForum','$mod_delete','$mod_ban','$mod_edit','$mod_move','$mod_stick'";
+                            $values = "'','0','$modGroupid', '$modForum','$mod_delete','$mod_ban','$mod_edit','$mod_move','$mod_stick'";
                             DB_query("INSERT INTO {$_TABLES['gf_moderators']} ($fields) VALUES ($values)");
                         }
-                    }
-                } elseif ($_POST['modtype'] == 'group' AND$_POST['sel_group'] > 0)  {
-                    $modGroupid = COM_applyfilter($_POST['sel_group'], true);
-                    foreach ($_POST['sel_forum'] as $modForum) {
-                        $modForum = COM_applyFilter($modForum,true);
-                        $modquery = DB_query("SELECT * FROM {$_TABLES['gf_moderators']} WHERE mod_groupid='$modGroupid' AND mod_forum='$modForum'");
-                        if ( DB_numrows($modquery) == 1) {
-                            DB_query("DELETE FROM {$_TABLES['gf_moderators']} WHERE mod_groupid='$modGroupid' AND mod_forum='$modForum'");
-                        }
-                        $fields = 'mod_username,mod_uid,mod_groupid, mod_forum,mod_delete,mod_ban,mod_edit,mod_move,mod_stick';
-                        $values = "'','0','$modGroupid', '$modForum','$mod_delete','$mod_ban','$mod_edit','$mod_move','$mod_stick'";
-                        DB_query("INSERT INTO {$_TABLES['gf_moderators']} ($fields) VALUES ($values)");
                     }
                 }
             }
@@ -188,20 +188,23 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
         $addmod->set_var ('LANG_STICK', $LANG_GF93['ModStick']);
         $addmod->set_var ('LANG_DELETE', $LANG_GF01['DELETE']);
 
+        $addmod->set_var('gltoken_name', CSRF_TOKEN);
+        $addmod->set_var('gltoken', SEC_createToken());
+
         $addmod->parse ('output', 'moderator');
         echo $addmod->finish ($addmod->get_var('output'));
 
     } else {
 
         $showforumssql = DB_query("SELECT forum_name,forum_id FROM {$_TABLES['gf_forums']}");
-        $sel_forums = '<OPTION VALUE="0">'.$LANG_GF94['allforums'].'</OPTION>';
+        $sel_forums = '<option value="0">'.$LANG_GF94['allforums'].'</option>';
         $selected_forum = COM_applyFilter($_POST['sel_forum'], true);
 
         while($showforum = DB_fetchArray($showforumssql)){
             if ($selected_forum == $showforum['forum_id']) {
-                $sel_forums .= '<OPTION VALUE="' .$showforum['forum_id']. '" SELECTED="SELECTED">' .$showforum['forum_name']. '</OPTION>';
+                $sel_forums .= '<option value="' .$showforum['forum_id']. '" selected="selected">' .$showforum['forum_name']. '</option>';
             } else {
-                $sel_forums .= '<OPTION VALUE="' .$showforum['forum_id']. '">' .$showforum['forum_name']. '</OPTION>';
+                $sel_forums .= '<option value="' .$showforum['forum_id']. '">' .$showforum['forum_name']. '</option>';
             }
         }
 
@@ -212,10 +215,10 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
         $moderators->set_var ('imgset', $CONF_FORUM['imgset']);
         $moderators->set_var ('userfilter', '');
         if ($_POST['filtermode'] == 'group') {
-            $moderators->set_var ('groupfilter', 'CHECKED=CHECKED');
+            $moderators->set_var ('groupfilter', 'checked="checked"');
             $moderators->set_var ('LANG_HEADING2', $LANG_GF01['GROUP']);
         } else {
-            $moderators->set_var ('userfilter', 'CHECKED=CHECKED');
+            $moderators->set_var ('userfilter', 'checked="checked"');
             $moderators->set_var ('LANG_HEADING2', $LANG_GF01['USER']);
         }
         $moderators->set_var ('LANG_filtertitle', $LANG_GF93['filtertitle'] );
@@ -299,6 +302,9 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
             $moderators->parse ('moderator_records', 'mod_record',true);
             $i++;
         }
+
+        $moderators->set_var('gltoken_name', CSRF_TOKEN);
+        $moderators->set_var('gltoken', SEC_createToken());
 
         $moderators->parse ('output', 'moderators');
         echo $moderators->finish ($moderators->get_var('output'));

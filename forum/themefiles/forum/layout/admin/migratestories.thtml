@@ -1,3 +1,4 @@
+
 <!-- start migratestories.thtml -->
 <script language="javascript">
     <!-- Begin
@@ -24,6 +25,7 @@
     //  End -->
 </script>
 <form name="storymigrate" action="{action_url}" method="post">
+<input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" style="margin-top:25px; margin-bottom:15px;">
     <tr>
         <td width="50%" style="padding-left:10px;">{filter_topic_selection}&nbsp;<input type="submit" value="{LANG_filterlist}"{xhtml}></td>
@@ -43,7 +45,7 @@
         <td width="25%" class="pluginCellTitle" style="padding-top:5px;">{LANG_date}</td>
         <td width="10%" class="pluginCellTitle" style="padding-top:5px;">{LANG_comments}</td>
     </tr>
-    {story_record}
+{story_record}
 </table>
 <table cellspacing="0" cellpadding="4" border="0" width="100%" style="margin-top:10px;">
     <tr>
