@@ -49,6 +49,7 @@
 // +---------------------------------------------------------------------------+
 // 2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // Authors: Kinoshita
+// Authors: Hiroron
 // Director: IVY WE CO.,LTD. Komma
 // $Id$
 
@@ -61,6 +62,10 @@ if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
     die ('This file can not be used on its own.');
 }
 
+if (!defined('XHTML')) {
+    define('XHTML', '');
+}
+
 /**
 * Language file Include
 */
@@ -71,7 +76,7 @@ $langfile = $_CONF['path'] . 'plugins/tkgmaps/language/'
 if ( file_exists( $langfile ) ) {
     include_once $langfile;
 } else {
-    include_once $_CONF['path'] . 'plugins/tkgmaps/language/english.php';
+    include_once $_CONF['path'] . 'plugins/tkgmaps/language/japanese_utf-8.php';
 }
 
 /*
@@ -81,6 +86,14 @@ if ( file_exists( $langfile ) ) {
 require_once $_CONF['path'] . 'plugins/tkgmaps/config.php';
 require_once $_CONF['path'] . 'plugins/tkgmaps/function_tkgmaps.php';
 require_once $_CONF['path'] . 'plugins/tkgmaps/function_tkgmaps-admin.php';
+
+if (version_compare(VERSION, '1.5.0') < 0) {
+    if (!function_exists('SEC_checkToken')) {
+        function SEC_checkToken() {
+            return true;
+        }
+    }
+}
 
 
 // +---------------------------------------------------------------------------+

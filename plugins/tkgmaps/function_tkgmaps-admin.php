@@ -7,6 +7,7 @@
 // |                                                                           |
 // |2008.05.14 v0.9 customed by G-COE, CSEAS. Addition of GoogleMapsEditor API Auto Tags
 // |Authors: Kinoshita
+// |Authors: Hiroron
 // |Director: IVY WE CO.,LTD. Komma
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -37,11 +38,14 @@ function edit_tkgmaps($mode='edit')
 		$retval = '';
 		$retval .= "<form action='{$_CONF['site_admin_url']}/plugins/tkgmaps/index.php' method='post'>" .LB;
 		$retval .= "	<div>Google API Key</div>".LB;
-		$retval .= "	<div><input name='googlemapsapikey' size='150' value='$googlemapsapikey' type='text'>".LB;
+		$retval .= "	<div><input name='googlemapsapikey' size='150' value='$googlemapsapikey' type='text'".XHTML.">".LB;
 		$retval .= "	</div>".LB;
 		$retval .= "	<div>".LB;
-		$retval .= "		<input name='mode' value='edit_submit' type='hidden'>".LB;
-		$retval .= "		<input name='submitbutton' value='保存' type='submit'>".LB;
+        if (version_compare(VERSION, '1.5.0') >= 0) {
+            $retval .= "		<input name='".CSRF_TOKEN."' value='".SEC_createToken()."' type='hidden'".XHTML.">".LB;
+        }
+		$retval .= "		<input name='mode' value='edit_submit' type='hidden'".XHTML.">".LB;
+		$retval .= "		<input name='submitbutton' value='保存' type='submit'".XHTML.">".LB;
 		$retval .= "	</div>".LB;
 		$retval .= "</form>".LB;
 	} else if ($mode=='edit_submit') {
@@ -60,8 +64,4 @@ function save_tkgmaps($googlemapsapikey){
 	DB_query ("INSERT INTO {$_TABLES['tkgmaps']} (googlemapsapikey) VALUES ('$googlemapsapikey')");
 }
 
-//function DB_queryEx($sql){
-//	echo $sql  .'<br>';
-//}
-//
 ?>
