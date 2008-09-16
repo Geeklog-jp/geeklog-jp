@@ -2,12 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendar Plugin 1.0                                                       |
+// | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
 // | Installation SQL                                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
 // |                                                                           |
+// | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -29,11 +30,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: mysql_install.php,v 1.3 2008/05/02 12:08:07 dhaun Exp $
 
 $_SQL[] = "
-CREATE TABLE {$_TABLES['events']} (
+CREATE TABLE {$_TABLES['eventsjp']} (
   eid varchar(20) NOT NULL default '',
   title varchar(128) default NULL,
   description text,
@@ -67,7 +66,7 @@ CREATE TABLE {$_TABLES['events']} (
 ";
 
 $_SQL[] = "
-CREATE TABLE {$_TABLES['eventsubmission']} (
+CREATE TABLE {$_TABLES['eventsubmissionjp']} (
   eid varchar(20) NOT NULL default '',
   title varchar(128) default NULL,
   description text,
@@ -89,7 +88,7 @@ CREATE TABLE {$_TABLES['eventsubmission']} (
 ";
 
 $_SQL[] = "
-CREATE TABLE {$_TABLES['personal_events']} (
+CREATE TABLE {$_TABLES['personal_eventsjp']} (
   eid varchar(20) NOT NULL default '',
   title varchar(128) default NULL,
   event_type varchar(40) NOT NULL default '',
@@ -118,8 +117,8 @@ CREATE TABLE {$_TABLES['personal_events']} (
 ) TYPE=MyISAM
 ";
 
-$_SQL[] = "INSERT INTO {$_TABLES['eventsubmission']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Geeklogカレンダプラグインインストール完了!','カレンダプラグインのインストールが完了しました。','Webサーバ',CURDATE(),CURDATE(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)";
+$_SQL[] = "INSERT INTO {$_TABLES['eventsubmissionjp']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Installed the Calendarjp plugin','Today, you successfully installed the Calendarjp plugin.','Your webserver',CURDATE(),CURDATE(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)";
 
-$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'events_block','phpblock','Events','all',4,'',1,'phpblock_calendar',{$_USER['uid']},#group#,3,3)";
+$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'eventsjp_block','phpblock','Events','all',4,'',1,'phpblock_calendarjp',{$_USER['uid']},#group#,3,3)";
 
 ?>
