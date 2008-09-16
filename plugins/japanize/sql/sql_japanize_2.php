@@ -5,12 +5,12 @@
 // +---------------------------------------------------------------------------+
 // $Id: sql_japanize2.php
 // もし万一エンコードの種類が  utf-8でない場合は、utf-8に変換してください。
-// 最終更新日　2007/06/24 tsuchi AT geeklog DOT jp
+//@@@@@2008/09/11 サイト･･･無効のURL変更
 
 
 //【サイト】
 //サイト･･･無効のメッセージまたはURL
-$wk="\"{$_CONF['site_url']}/disabledmsg.html\";";
+$wk="\"{$_CONF['site_url']}/japanize/disabledmsg.html\";";
 $wklen=strlen($wk)-3;
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET 

@@ -1,6 +1,6 @@
 <?php
 // +---------------------------------------------------------------------------+
-// | install.php XV                                                          |
+// | install.php æ›´æ–°                                                          |
 // +---------------------------------------------------------------------------+
 // $Id: install.php
 // public_html/admin/plugins/japanize/install.php
@@ -73,7 +73,7 @@ $DEFVALUES = array(); // not used here - see plugin_postinstall
 //}
 
 // ----------------------------------------------------------------
-// configî•ñƒ[ƒhFReturn OK:true NG:false
+// configæƒ…å ±ãƒ­ãƒ¼ãƒ‰ï¼šReturn OK:true NG:false
 // ----------------------------------------------------------------
 function plugin_load_configuration()
 {
@@ -86,10 +86,10 @@ function plugin_load_configuration()
 }
 
 // ----------------------------------------------------------------------------
-// ˆÈ‰º‚Íplugins‹¤’Ê‚Ìˆ—@’Êí•ÏX‚Ì•K—v‚ª‚È‚¢
+// ä»¥ä¸‹ã¯pluginså…±é€šã®å‡¦ç†ã€€é€šå¸¸å¤‰æ›´ã®å¿…è¦ãŒãªã„
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------
-// ƒRƒAƒpƒbƒP[ƒW‚Ìƒ`ƒFƒbƒNFReturn OK:true NG:false
+// ã‚³ã‚¢ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ãƒã‚§ãƒƒã‚¯ï¼šReturn OK:true NG:false
 // ----------------------------------------------------------------
 function plugin_compatible_with_this_geeklog_version()
 {
@@ -121,7 +121,7 @@ require_once $base_path . 'functions.inc';
 
 
 // Only let Root users access this page
-// Root ŠÇ—Ò‚Ì‚İƒCƒ“ƒXƒg[ƒ‹‰Â”\‚Å‚·I
+// Root ç®¡ç†è€…ã®ã¿ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«å¯èƒ½ã§ã™ï¼
 if (!SEC_inGroup('Root')) {
     // Someone is trying to illegally access this page
     COM_accessLog("Someone has tried to illegally access the {$pi_display_name} install/uninstall page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
@@ -136,9 +136,24 @@ if (!SEC_inGroup('Root')) {
     exit;
 }
 
+// lib-portalparts.php ãŒã‚ã‚‹ã‹ã©ã†ã‹ãƒã‚§ãƒƒã‚¯ï¼
+$portalparts = $_CONF['path_system'] . 'lib-portalparts.php';
+
+if (!file_exists($portalparts)) {
+    $msg="system/lib-portalparts.php not exist!<br>";
+    $msg="system/lib-portalparts.php ãŒã‚ã‚Šã¾ã›ã‚“!<br>";
+    $display = COM_siteHeader('menu', "lib-portalparts.php check!")
+             . COM_startBlock("lib-portalparts.php check!")
+             . $msg
+             . COM_endBlock()
+             . COM_siteFooter();
+
+    echo $display;
+    exit;
+}
 
 /**
-* ƒCƒ“ƒXƒg[ƒ‹
+* ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 * Puts the datastructures for this plugin into the Geeklog database
 *
 */
