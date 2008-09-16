@@ -167,7 +167,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
 }
 
 // ADD TOPIC
-if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && SEC_checkToken()) {
+if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1))) {
     $msg = '';
     $date = time();
     $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
@@ -669,8 +669,15 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         $topicnavbar->set_var ('hidden_editid', $id);
 
     }
-    $topicnavbar->set_var('gltoken_name', CSRF_TOKEN);
-    $topicnavbar->set_var('gltoken', SEC_createToken());
+
+    if ($uid >= 2) {
+        $topicnavbar->set_var('gltoken_name', CSRF_TOKEN);
+        $topicnavbar->set_var('gltoken', SEC_createToken());
+    } else {
+        $topicnavbar->set_var('gltoken_name', 'token');
+        $topicnavbar->set_var('gltoken', '1');
+    }
+
     $topicnavbar->parse ('output', 'topicnavbar');
     echo $topicnavbar->finish($topicnavbar->get_var('output'));
 
