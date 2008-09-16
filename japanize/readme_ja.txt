@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 Geeklog 日本語化（japanize)プラグイン
 tsuchi AT geeklog DOT jp
-2008/07/30
+2008/09/14
 --------------------------------------------------------------------------------
 概要 ：Geeklog1.5.0を日本人流にするプラグインです
        詳細については、管理画面をご参照ください
@@ -15,9 +15,14 @@ tsuchi AT geeklog DOT jp
   │ ├ install.php
   │ ├ japanize_functions.php
   │ └ settings.php
+  ├ doc
+  │ 更新履歴ほかのドキュメント
   ├ language
   │ └ japanese_utf-8.php
   ├ public_html
+  │ ├ images
+  │ │ └ japanize.png
+  │ ├ disabledmsg.html
   │ ├ index.html
   │ └ memberlogin_help.php
   ├ sql
@@ -34,7 +39,9 @@ tsuchi AT geeklog DOT jp
   │ │ └ settings.thtml
   │ └custom-memberlogin.thtml
   ├ functions.inc
-  └ install_defaults.php
+  ├ install_defaults.php
+  ├ readme_ja.txt
+  └ version.php
 
 
 注1：custom-memberlogin.thtml
@@ -42,9 +49,8 @@ tsuchi AT geeklog DOT jp
      使用します
 注2：指定の言語ファイルがない場合はjapanese_utf-8.phpを使用します
 注3：Geeklog1.5.0日本語版で追加されている以下のファイルを必要とします
-     lib-portalparts.php は、Forum ,nexProシリーズのファイルでOK
-     public_html/disabledmsg.html
      system/lib-portalparts.php
+     lib-portalparts.php は、Forum ,nexProシリーズのファイルでもかまいません
 --------------------------------------------------------------------------------
 インストール方法
 １．データベースおよびファイルのバックアップをとります。

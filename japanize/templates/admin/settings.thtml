@@ -7,7 +7,7 @@
     <input type="text" id="Anonymous" name="Anonymous" size="60" maxlength="80" value="{Anonymous_value}"{xhtml}>
     <input type="hidden" name="savesettings" value="yes">
     <input type="submit" name="btnsubmit" value="変更を保存する"{xhtml}>
-
+    <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 </form>
 </div>
 
