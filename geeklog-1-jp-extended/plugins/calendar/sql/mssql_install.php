@@ -2,13 +2,12 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendarjp Plugin for Geeklog                                             |
+// | Calendar Plugin 1.0                                                       |
 // +---------------------------------------------------------------------------+
 // | Installation SQL                                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2000-2008 by the following authors:                         |
 // |                                                                           |
-// | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -31,9 +30,11 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
+//
+// $Id: mssql_install.php,v 1.5 2008/05/02 12:08:07 dhaun Exp $
 
 $_SQL[] = "
-CREATE TABLE [dbo].[{$_TABLES['eventsjp']}] (
+CREATE TABLE [dbo].[{$_TABLES['events']}] (
     [eid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -62,7 +63,7 @@ CREATE TABLE [dbo].[{$_TABLES['eventsjp']}] (
 ";
 
 $_SQL[] = "
-CREATE TABLE [dbo].[{$_TABLES['eventsubmissionjp']}] (
+CREATE TABLE [dbo].[{$_TABLES['eventsubmission']}] (
     [eid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -83,7 +84,7 @@ CREATE TABLE [dbo].[{$_TABLES['eventsubmissionjp']}] (
 ";
 
 $_SQL[] = "
-CREATE TABLE [dbo].[{$_TABLES['personal_eventsjp']}] (
+CREATE TABLE [dbo].[{$_TABLES['personal_events']}] (
     [eid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [event_type] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
@@ -112,30 +113,30 @@ CREATE TABLE [dbo].[{$_TABLES['personal_eventsjp']}] (
 ";
 
 
-$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsjp']}] ADD
-    CONSTRAINT [PK_gl_eventsjp] PRIMARY KEY  CLUSTERED
+$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['events']}] ADD
+    CONSTRAINT [PK_gl_events] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
-$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsubmissionjp']}] ADD
-    CONSTRAINT [PK_gl_eventsubmissionjp] PRIMARY KEY  CLUSTERED
+$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsubmission']}] ADD
+    CONSTRAINT [PK_gl_eventsubmission] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
-$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['personal_eventsjp']}] ADD
-    CONSTRAINT [PK_gl_personal_eventsjp] PRIMARY KEY  CLUSTERED
+$_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['personal_events']}] ADD
+    CONSTRAINT [PK_gl_personal_events] PRIMARY KEY  CLUSTERED
     (
         [eid],
         [uid]
     )  ON [PRIMARY]
 ";
 
-$_SQL[] = "INSERT INTO {$_TABLES['eventsubmissionjp']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Installed the Calendarjp plugin','Today, you successfully installed the Calendarjp plugin.','Your webserver',getdate(),getdate(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)";
+$_SQL[] = "INSERT INTO {$_TABLES['eventsubmission']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Geeklogカレンダプラグインインストール完了!','カレンダプラグインのインストールが完了しました。','Webサーバ',getdate(),getdate(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)";
 
-$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'eventsjp_block','phpblock','Events','all',4,'',1,'phpblock_calendarjp',{$_USER['uid']},#group#,3,3)";
+$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'events_block','phpblock','Events','all',4,'',1,'phpblock_calendar',{$_USER['uid']},#group#,3,3)";
 
 ?>
