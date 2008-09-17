@@ -170,4 +170,8 @@
 * mycaljp plugin version 2.0.3                                                  *
 * 2008.9.15 : Yoshinori Tahara as dengen                                        *
 * CSRF対策のミスを修正した．                                                    *
+*                                                                               *
+* mycaljp plugin version 2.0.4                                                  *
+* 2008.9.17 : Yoshinori Tahara as dengen                                        *
+* Calendarjpに対応した．                                                        *
 *********************************************************************************/
