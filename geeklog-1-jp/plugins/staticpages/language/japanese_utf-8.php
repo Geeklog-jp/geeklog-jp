@@ -25,7 +25,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/09/17 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
