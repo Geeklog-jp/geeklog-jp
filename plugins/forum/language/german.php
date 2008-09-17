@@ -321,7 +321,7 @@ $LANG_GF02['msg21']    = 'Sorry, you are unauthorized to do this. Please <a href
 $LANG_GF02['msg22']    = '- Neuer Beitrag im Forum';
 $LANG_GF02['msg23a']   = "Zum Thema '%s' hat %s eine Antwort geschrieben.\n\nDas Thema wurde von %s im %s-Forum begonnen. ";
 $LANG_GF02['msg23b']   = "Ein neues Thema, '%s', wurde von %s im %s-Forum auf der %s-Website begonnen. Du kannst den Beitrag hier lesen:\n%s/forum/viewtopic.php?showtopic=%s\n";
-$LANG_GF02['msg23c']   = "Du kannst den Beitrag hier lesen:\n%s/forum/viewtopic.php?showtopic=%s&lastpost=true\n";
+$LANG_GF02['msg23c']   = "Du kannst den Beitrag hier lesen:\n%s/forum/viewtopic.php?showtopic=%s&amp;lastpost=true\n";
 $LANG_GF02['msg24']    = 'You may see the thread and reply at: %s/forum/viewtopic.php?forum=%s&showtopic=%s';
 $LANG_GF02['msg25']    = "\nViel Spaß,\n";
 $LANG_GF02['msg26']    = "\nDu bekommst diese E-Mail, da Du die Benachrichtigung für dieses Thema aktiviert hast. ";
