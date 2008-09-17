@@ -31,6 +31,7 @@
 // |                                                                         |
 // +-------------------------------------------------------------------------+
 //
+//@@@@@20080917 CSRF checks
 
 require_once("../../../lib-common.php");
 include_once($_CONF[path_html]."filemgmt/include/header.php");
@@ -192,6 +193,12 @@ function listNewDownloads(){
             if ($numrows > 1 and $i < $numrows ) {
                $i++;
             }
+            //@@@@@20080917add CSRF checks ---->
+            $display .= LB;
+            $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.SEC_createToken().'"'.XHTML.'>';
+            $display .= LB;
+            //@@@@@20080917add CSRF checks <----
+
             $display .= '</table></form></td></tr>';
         }
         $display .= '</table>';
@@ -223,6 +230,13 @@ function categoryConfigAdmin(){
     $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">';
     $display .= "<input type=hidden name=cid value=0>\n";
     $display .= "<input type=hidden name=op value=addCat>";
+    //@@@@@20080917add CSRF checks ---->
+    $wk_token=SEC_createToken();
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
+
     $display .= "<input type=submit value="._MD_ADD."></td></tr></table><br></form>";
 
     // Add a New Sub-Category
@@ -238,6 +252,12 @@ function categoryConfigAdmin(){
         $display .= $mytree->makeMySelBox('title', 'title') . '</td></tr>';
         $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">';
         $display .= '<input type="hidden" name="op" value="addCat">';
+        //@@@@@20080917add CSRF checks ---->
+        $display .= LB;
+        $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+        $display .= LB;
+        //@@@@@20080917add CSRF checks <----
+
         $display .= "<input type=submit value="._MD_ADD."></td></tr></table><br></form>";
         // Modify Category
         $display .= '</td></tr><tr><td>';
@@ -248,6 +268,12 @@ function categoryConfigAdmin(){
         $display .= $mytree->makeMySelBox('title', 'title') . '</td></tr>';
         $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">';
         $display .= '<input type="hidden" name="op" value="modCat">';
+        //@@@@@20080917add CSRF checks ---->
+        $display .= LB;
+        $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+        $display .= LB;
+        //@@@@@20080917add CSRF checks <----
+
         $display .= "<input type=submit value="._MD_MODIFY."></td></tr></table><br></form>";
     }
     $display .= '</td></tr></table>';
@@ -292,6 +318,11 @@ function newfileConfigAdmin(){
     $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">';
     $display .= '<input type="hidden" name="op" value="addDownload"></input>';
     $display .= '<input type="submit" class="button" value="'._MD_ADD.'"></input>';
+    //@@@@@20080917add CSRF checks ---->
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.SEC_createToken().'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
     $display .= '</td></tr></table>';
     $display .= '</form>';
     $display .= COM_endBlock();
@@ -370,6 +401,12 @@ function modDownload() {
     $display .= '<input type="submit" value="'._MD_SUBMIT.'"><span style="padding-left:15px;padding-right:15px;">';
     $display .= '<input type="submit" value="'._MD_DELETE.'" onClick=\'if (confirm("Delete this file ?")) {this.form.op.value="delDownload";return true}; return false\'>';
     $display .= "</span><input type=button value="._MD_CANCEL." onclick=\"javascript:history.go(-1)\">";
+    //@@@@@20080917add CSRF checks ---->
+    $wk_token=SEC_createToken();
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
     $display .= '</td></tr></table></form>' .LB;
 
 
@@ -421,6 +458,12 @@ function modDownload() {
         $cssid = ($cssid == 1) ? 2 : 1;
 
     }
+    //@@@@@20080917add CSRF checks ---->
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
+
     $display .= '</table></form>' .LB;
     // Show Unregistered Users Votes
     $result5 = DB_query("SELECT ratingid, rating, ratinghostname, ratingtimestamp FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' AND ratinguser=0 ORDER BY ratingtimestamp DESC");
@@ -450,6 +493,11 @@ function modDownload() {
         $cssid = ($cssid == 1) ? 2 : 1;
     }
     $display .= "<tr><td colspan=\"6\">&nbsp;<br></td></tr>\n";
+    //@@@@@20080917add CSRF checks ---->
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
     $display .= "</table></form>";
     $display .= CloseTable();
     $display .= "<br>";
@@ -515,6 +563,12 @@ function listBrokenDownloads() {
             $display .= "</td></tr>\n";
             $cssid = ($cssid == 1) ? 2 : 1;
         }
+        //@@@@@20080917add CSRF checks ---->
+        $wk_token=SEC_createToken();
+        $display .= LB;
+        $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.$wk_token.'"'.XHTML.'>';
+        $display .= LB;
+        //@@@@@20080917add CSRF checks <----
         $display .= "</table>";
     }
     $display .= CloseTable();
@@ -675,6 +729,12 @@ function modCat() {
     $display .= '<input type="submit" value="'._MD_SAVE.'">';
     $display .= '<input type="submit" value="'._MD_DELETE.'" onClick=\'if (confirm("Delete this file ?")) {this.form.op.value="delCat";return true}; return false\'>';
     $display .= "&nbsp;<input type=button value="._MD_CANCEL." onclick=\"javascript:history.go(-1)\">";
+    //@@@@@20080917add CSRF checks ---->
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.SEC_createToken().'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
+
     $display .= '</td></tr></table>';
     $display .= "</form>";
     $display .= COM_endBlock();
@@ -1147,6 +1207,12 @@ function filemgmtConfigAdmin() {
     $display .= "<input type=\"hidden\" name=\"op\" value=\"filemgmtConfigChange\">";
     $display .= "<input type=\"submit\" value=\""._MD_SAVE."\">";
     $display .= "&nbsp;<input type=\"button\" value=\""._MD_CANCEL."\" onclick=\"javascript:history.go(-1)\">";
+    //@@@@@20080917add CSRF checks ---->
+    $display .= LB;
+    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="'.SEC_createToken().'"'.XHTML.'>';
+    $display .= LB;
+    //@@@@@20080917add CSRF checks <----
+
     $display .= "</td></tr></table>";
     $display .= "</form>";
     $display .= COM_endBlock();
@@ -1370,6 +1436,41 @@ if ($filemgmt_FileStoreURL == '' OR $filemgmt_FileStore == '') {
     // Read in the new values
     include ($_CONF['path'] .'plugins/filemgmt/filemgmt.php');
 }
+
+//@@@@@20080917add CSRF checks ---->
+$op_ary[]="filemgmtConfigChange";//設定：変更を保存
+$op_ary[]="addCat";//カテゴリ：追加
+$op_ary[]="modCatS";//カテゴリ：変更を保存
+$op_ary[]="delCat";//カテゴリ：削除
+$op_ary[]="addDownload";//ファイルを追加：追加
+$op_ary[]= "approve";//ダウンロード：承認
+$op_ary[]= "delNewDownload";//ダウンロード：削除
+$op_ary[]= "ignoreBrokenDownloads";//破損ファイル：無視
+$op_ary[]= "delBrokenDownloads";//破損ファイル：承認
+$op_ary[]= "modDownloadS";//ダウンロード情報変更 :実行
+$op_ary[]= "delDownload";//ダウンロード情報変更 :削除
+$op_ary[]= "delVote";//ダウンロード評価：削除
+
+//case "listBrokenDownloads"://破損ファイル
+//case "modDownload"://ダウンロード情報変更 
+//case "filemgmtConfigAdmin"://設定
+//case "categoryConfigAdmin"://カテゴリ
+//case "newfileConfigAdmin"://ファイルを追加
+//case "listNewDownloads"://ダウンロード
+//"modCat"://カテゴリ：編集
+//$op_ary[]=  "comment"://**
+//$op_ary[]=   "addSubCat"://**
+
+
+if (in_array($op, $op_ary)) {
+    if (!SEC_checkToken()){
+        COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks. filemgmt $op");
+        echo COM_refresh($_CONF['site_admin_url'].'/plugins.php');
+        exit;
+    }
+}
+//@@@@@20080917add CSRF checks <----
+
 
 switch ($op) {
         default:
