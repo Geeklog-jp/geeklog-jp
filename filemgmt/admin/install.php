@@ -42,6 +42,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
+//@@@@@20080917 CSRF checks for $gl_version = '1.5'
 
 require_once('../../../lib-common.php');
 require_once($_CONF['path'] . 'plugins/filemgmt/config.php');
@@ -55,7 +56,7 @@ require_once($_CONF['path'] . 'plugins/filemgmt/functions.inc');
 
 $pi_name = 'filemgmt';                    // Plugin name
 $pi_version = $CONF_FM['version'];        // Plugin Version
-$gl_version = '1.4';                      // GL Version plugin for
+$gl_version = '1.5';                      // GL Version plugin for @@@@@20080917
 $pi_url = 'http://www.portalparts.com';   // Plugin Homepage
 
 
@@ -226,6 +227,14 @@ function plugin_install_now()
 */
 
 $display = '';
+
+//@@@@@20080917add CSRF checks ---->
+if (!SEC_checkToken()){
+    COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks. filemgmt install");
+    echo COM_refresh($_CONF['site_admin_url'].'/plugins.php');
+    exit;
+}
+//@@@@@20080917add CSRF checks <----
 
 if ($_REQUEST['action'] == 'uninstall') {
     $uninstall_plugin = 'plugin_uninstall_' . $pi_name;
