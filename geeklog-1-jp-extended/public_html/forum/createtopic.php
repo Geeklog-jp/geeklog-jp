@@ -167,7 +167,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
 }
 
 // ADD TOPIC
-if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && SEC_checkToken()) {
+if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1))) {
     $msg = '';
     $date = time();
     $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
@@ -669,8 +669,15 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
         $topicnavbar->set_var ('hidden_editid', $id);
 
     }
-    $topicnavbar->set_var('gltoken_name', CSRF_TOKEN);
-    $topicnavbar->set_var('gltoken', SEC_createToken());
+
+    if ($uid >= 2) {
+        $topicnavbar->set_var('gltoken_name', CSRF_TOKEN);
+        $topicnavbar->set_var('gltoken', SEC_createToken());
+    } else {
+        $topicnavbar->set_var('gltoken_name', 'token');
+        $topicnavbar->set_var('gltoken', '1');
+    }
+
     $topicnavbar->parse ('output', 'topicnavbar');
     echo $topicnavbar->finish($topicnavbar->get_var('output'));
 
@@ -725,7 +732,8 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
                     if($file == $edittopic['mood']) {
                         $moodoptions .= '<option value="' . $file . '" selected="selected">' . $file . "</option>\n";
                     } else {
-                        $moodoptions .= '<option value="' . $file . '">' .$file. "</option>\n";
+                        $moodoptions .= '<option value="' . $file . '" style="height:40px; background-repeat: no-repeat; text-align:right; '
+                                      . 'background-image:URL(\'' . $_CONF['layout_url'] . '/forum/image_set/moods/' . $file . '.gif\')">' .$file. "</option>\n";
                     }
                 } else {
                     $moodoptions .= '';
@@ -842,11 +850,11 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     }
     if ($editmoderator) {
         if ($notify == 'on' OR $_POST['notify'] == 'on') {
-            $notify_val = 'checked=CHECKED';
+            $notify_val = 'checked="checked"';
         } else {
             $notify_val = '';
         }
-        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" ' . $notify_val . XHTML . '>';
+        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' . $notify_val . XHTML . '>';
 
         // check that this is the parent topic - only able to make it skicky or locked
         if ($editpid == 0) {
@@ -868,7 +876,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             } else {
                 $notify_val = '';
             }
-            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" ' .$notify_val. XHTML . '>';
+            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' .$notify_val. XHTML . '>';
             $locked_prompt = '';
         } else {
             $notify_prompt = '';
@@ -920,9 +928,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     $submissionform_main->set_var ('required', $required);
     $submissionform_main->set_var ('subject', $subject);
     $submissionform_main->set_var ('smilies', $smilies);
-    if ($uid == 1) {
-        $submissionform_main->set_var ('hide_notify','none');
-    }
+    $submissionform_main->set_var ('hide_notify', ($uid == 1) ? 'none' : '');
     if ( function_exists('plugin_templatesetvars_captcha') ) {
         plugin_templatesetvars_captcha('forum', $submissionform_main);
     } else {

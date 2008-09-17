@@ -748,23 +748,19 @@ function f_forumjump($action='',$selected=0) {
     $selecthtml = "";
     $asql = DB_query("SELECT * FROM {$_TABLES['gf_categories']} ORDER BY cat_order ASC");
     while($A = DB_fetchArray($asql)) {
-        $firstforum=true;
+        $selecthtml .= '<optgroup label="' .$A['cat_name']. '">' . LB;
         $bsql = DB_query("SELECT * FROM {$_TABLES['gf_forums']} WHERE forum_cat='$A[id]' ORDER BY forum_order ASC");
         while($B = DB_fetchArray($bsql)) {
             $groupname = DB_getItem($_TABLES['groups'],'grp_name',"grp_id='{$B['grp_id']}'");
             if (SEC_inGroup($B['grp_id'])) {
-                if ($firstforum) {
-                    $selecthtml .= '</optgroup>';
-                    $selecthtml .= '<optgroup label="' .$A['cat_name']. '">';
-                 }
-                $firstforum=false;
                 if ($selected > 0 AND $selected == $B['forum_id']) {
-                    $selecthtml .= LB .'<option value="' .$B['forum_id']. '" selected="selected">&#187;&nbsp;' .$B['forum_name']. '</option>';
+                    $selecthtml .= '<option value="' .$B['forum_id']. '" selected="selected">&#187;&nbsp;' .$B['forum_name']. '</option>' . LB;
                 } else {
-                    $selecthtml .= LB .'<option value="' .$B['forum_id']. '">&#187;&nbsp;' .$B['forum_name']. '</option>';
+                    $selecthtml .= '<option value="' .$B['forum_id']. '">&#187;&nbsp;' .$B['forum_name']. '</option>' . LB;
                 }
             }
         }
+        $selecthtml .= '</optgroup>' . LB;
     }
     $forum_jump = new Template($_CONF['path_layout'] . 'forum/layout');
     $forum_jump->set_file (array ('forum_jump'=>'forum_jump.thtml'));
