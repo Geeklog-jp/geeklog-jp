@@ -42,6 +42,6 @@
                 </select>
                 &nbsp;<a href="javascript:bbstyle(-1)" onmouseover="helpline('a')">{LANG_closetags}</a>
                 <br{xhtml}><br{xhtml}>
-                <input type="text" name="helpbox" size="70" maxlength="100" class="helpline" value="{LANG_codetip}"{xhtml}>
+                <input type="text" name="helpbox" size="80" maxlength="100" class="helpline" value="{LANG_codetip}"{xhtml}>
             </td>
 <!-- end submissionform_code.thtml -->
