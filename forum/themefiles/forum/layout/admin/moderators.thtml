@@ -1,6 +1,6 @@
 
 <!-- start moderators.thtml -->
-<script language="javascript">
+<script type="text/javascript">
     <!-- Begin
     function confirmSubmit(text) { 
         var yes = confirm(text); 
@@ -35,15 +35,15 @@
             <td colspan="2">
                 <table border="0" width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
                     <tr>
-                        <td class="pluginCellTitle" width="5%"><img src="{imgset}/trash.gif" title="{LANG_deleteall}" border="0" onclick=' if(confirm("{LANG_DELCONFIRM}")) {document.modform.operation.value="delchecked"; document.modform.submit();}'{xhtml}></td>
-                        <td class="pluginCellTitle alignleft" width="10%" nowrap="nowrap">{LANG_HEADING2}</td>
-                        <td class="pluginCellTitle alignleft" width="35%" nowrap="nowrap">{LANG_FORUM}</td>
+                        <td class="pluginCellTitle"><img src="{imgset}/trash.gif" title="{LANG_deleteall}" border="0" onclick=' if(confirm("{LANG_DELCONFIRM}")) {document.modform.operation.value="delchecked"; document.modform.submit();}'{xhtml}></td>
+                        <td class="pluginCellTitle alignleft" style="width:10%; white-space:nowrap;">{LANG_HEADING2}</td>
+                        <td class="pluginCellTitle alignleft" style="width:35%; white-space:nowrap;">{LANG_FORUM}</td>
                         <td class="pluginCellTitle">{LANG_DELETE}</td>
                         <td class="pluginCellTitle">{LANG_BAN}</td>
                         <td class="pluginCellTitle">{LANG_EDIT}</td>
                         <td class="pluginCellTitle">{LANG_MOVE}</td>
                         <td class="pluginCellTitle">{LANG_STICK}</td>
-                        <td class="pluginCellTitle aligncenter" nowrap="nowrap">{LANG_OPERATION}</td>
+                        <td class="pluginCellTitle aligncenter" style="white-space:nowrap;">{LANG_OPERATION}</td>
                     </tr>
 {moderator_records}
                 </table>
