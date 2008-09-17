@@ -377,25 +377,25 @@ function forum_getmodFunctions($showtopic) {
     if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_edit')) {
         $options .= '<option value="editpost">' .$LANG_GF03['edit'];
         if ($showtopic['locked'] == 1) {
-            $options .= '<option value="lockedpost">' .$LANG_GF03['lockedpost'];
+            $options .= '<option value="lockedpost">' .$LANG_GF03['lockedpost']. '</option>';
         }
     }
     if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_delete')) {
-        $options .= '<option value="deletepost">' .$LANG_GF03['delete'];
+        $options .= '<option value="deletepost">' .$LANG_GF03['delete']. '</option>';
     }
     if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_ban')) {
-        $options .= '<option value="banip">' .$LANG_GF03['ban'];
+        $options .= '<option value="banip">' .$LANG_GF03['ban']. '</option>';
     }
     if ($showtopic['pid'] == 0) {
         if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_move')) {
-            $options .= '<option value="movetopic">' .$LANG_GF03['move'];
+            $options .= '<option value="movetopic">' .$LANG_GF03['move']. '</option>';
         }
     } elseif (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_move')) {
-        $options .= '<option value="movetopic">' .$LANG_GF03['split'];
+        $options .= '<option value="movetopic">' .$LANG_GF03['split']. '</option>';
     }
 
     if ($options != '') {
-        $retval .= '<form action="moderation.php" method="post" style="margin:0px;"><select name="modfunction">';
+        $retval .= '<form action="moderation.php" method="post" style="margin:0px;"><div><select name="modfunction">';
         $retval .= $options;
 
         if ($showtopic['pid'] == 0) {
@@ -405,13 +405,14 @@ function forum_getmodFunctions($showtopic) {
             $msgpid = $showtopic['pid'];
             $top = "no";
         }
-        $retval .= '</select><input type="hidden" name="fortopicid" value="' .$showtopic['id']. '"' . XHTML . '>';
+        $retval .= '</select>&nbsp;&nbsp;';
+        $retval .= '<input type="submit" name="submit" value="' .$LANG_GF01['GO'].'!"' . XHTML . '>';
+        $retval .= '<input type="hidden" name="fortopicid" value="' .$showtopic['id']. '"' . XHTML . '>';
         $retval .= '<input type="hidden" name="forum" value="' .$showtopic['forum']. '"' . XHTML . '>';
         $retval .= '<input type="hidden" name="msgpid" value="' .$msgpid. '"' . XHTML . '>';
         $retval .= '<input type="hidden" name="top" value="' .$top. '"' . XHTML . '>';
         $retval .= '<input type="hidden" name="page" value="' .$page. '"' . XHTML . '>';
-        $retval .= '&nbsp;&nbsp;<input type="submit" name="submit" value="' .$LANG_GF01['GO'].'!"' . XHTML . '>';
-        $retval .= '</form>';
+        $retval .= '</div></form>';
     }
     return $retval;
 }

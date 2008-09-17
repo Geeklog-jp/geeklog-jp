@@ -850,11 +850,11 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     }
     if ($editmoderator) {
         if ($notify == 'on' OR $_POST['notify'] == 'on') {
-            $notify_val = 'checked=CHECKED';
+            $notify_val = 'checked="checked"';
         } else {
             $notify_val = '';
         }
-        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" ' . $notify_val . XHTML . '>';
+        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' . $notify_val . XHTML . '>';
 
         // check that this is the parent topic - only able to make it skicky or locked
         if ($editpid == 0) {
@@ -876,7 +876,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
             } else {
                 $notify_val = '';
             }
-            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" ' .$notify_val. XHTML . '>';
+            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' .$notify_val. XHTML . '>';
             $locked_prompt = '';
         } else {
             $notify_prompt = '';
@@ -928,9 +928,7 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     $submissionform_main->set_var ('required', $required);
     $submissionform_main->set_var ('subject', $subject);
     $submissionform_main->set_var ('smilies', $smilies);
-    if ($uid == 1) {
-        $submissionform_main->set_var ('hide_notify','none');
-    }
+    $submissionform_main->set_var ('hide_notify', ($uid == 1) ? 'none' : '');
     if ( function_exists('plugin_templatesetvars_captcha') ) {
         plugin_templatesetvars_captcha('forum', $submissionform_main);
     } else {
