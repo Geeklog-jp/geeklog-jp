@@ -1851,7 +1851,7 @@ $LANG_configselects['Core'] = array(
     6 => array('12'=>'12','24'=>'24'),
     7 => array('最後のページ'=>'last','最初のページ'=>'first', '全ページ'=>'all'),
     8 => array('右'=>'right', '左'=>'left'),
-    9 => array('作成した項目を表示する' => 'item', '項目一覧を表示する' => 'list', 'サイトのトップページを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
+    9 => array('作成した項目を表示する' => 'item', '項目一覧を表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     10 => array('なし'=>'', 'Netpbm'=>'netpbm', 'ImageMagick'=>'imagemagick', 'GDライブラリ' =>'gdlib'),
     11 => array_flip($LANG_commentmodes),
     12 => array('アクセス不可'=>0, '表示'=>2, '表示・編集'=>3),
