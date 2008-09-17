@@ -425,9 +425,16 @@ function MYCALJP_showCalendar( $caltype = 1 )
             {
                 switch ( $pi_name ) {
                 case "calendar":
+                case "calendarjp":
                 case "wkyevecal":
                     if ( MYCALJP_pi_enabled($pi_name) ) {
-                        $table = ($pi_name == "calendar") ? $_TABLES['events'] : $_TABLES['wkyevecal'];
+                        if ($pi_name == "calendar") {
+                            $table = $_TABLES['events'];
+                        } else if ($pi_name == "calendarjp") {
+                            $table = $_TABLES['eventsjp'];
+                        } else {
+                            $table = $_TABLES['wkyevecal'];
+                        }
                         $events = array();
                         $sql = "SELECT eid,title,url,datestart,dateend,timestart,timeend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon "
                              . "FROM {$table} "
