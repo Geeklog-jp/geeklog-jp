@@ -143,9 +143,9 @@ echo"
         <title>$_CONF[site_name] - ".$LANG_GF02['msg147']." $A[id]]</title>
 <style>
 <!--
-body { font-size:small; font-family: ＭＳ Ｐ明朝 }
-table { font-size:small;font-family: ＭＳ Ｐ明朝 }
-h1 { font-size:middle;font-family: ＭＳ Ｐ明朝 }
+body { font-size:small; }
+table { font-size:small; }
+h1 { font-size:middle; }
 -->
 </style>
     </head>

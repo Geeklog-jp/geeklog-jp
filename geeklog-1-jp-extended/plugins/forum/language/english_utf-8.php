@@ -489,6 +489,8 @@ $LANG_GF02['msg200']   = 'Site members report';
 $LANG_GF02['msg201']   = 'Popular topics';
 $LANG_GF02['msg202']   =  'No new posts';
 
+$LANG_GF02['msg300']   = 'Your preferences have block anonymous posts enabled';
+
 $LANG_GF02['StatusHeading']   = 'Information Only';
 $LANG_GF02['PostReply']   = 'Post New Reply';
 $LANG_GF02['PostTopic']   = 'Post New Topic';
