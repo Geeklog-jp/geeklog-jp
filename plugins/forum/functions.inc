@@ -1014,7 +1014,7 @@ function forum_deleteForum($id) {
 
 
 function phpblock_forum_newposts() {
-    global $_CONF, $_USER, $_TABLES, $LANG_GF01, $LANG_GF02, $CONF_FORUM,$pi_version;
+    global $_CONF, $_USER, $_TABLES, $LANG_GF01, $LANG_GF02, $CONF_FORUM, $pi_version;
 
     $post_limit = $CONF_FORUM['sideblock_numposts'];
     if ($pi_version < 2.6) {
@@ -1508,11 +1508,11 @@ function glmenu_showforums() {
 
 function forum_mb_wordwrap($string, $width, $break) {
   $return = "";
-  $list = preg_split("/\n/", $string); // 改行で分解
+  $list = preg_split("/\n/", $string);
 
-    $n = $width;                       // 改行させる文字数
-    foreach($list as $line){           // foreachで一行ずつ処理させる
-        $len = 0;                      // 以下元の部分のまま
+    $n = $width;
+    foreach($list as $line){
+        $len = 0;
         for($i = 0; $i < mb_strlen($line); $i += $len){
             for($j = 1; $j<=$n; $j++){
                 $wk = mb_substr($line, $i, $j);

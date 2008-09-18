@@ -490,6 +490,8 @@ $LANG_GF02['msg200']   = 'Liste aller User dieser Website';
 $LANG_GF02['msg201']   = 'Liste der beliebtesten Forum-Themen';
 $LANG_GF02['msg202']   = 'Keine neuen Beiträge';
 
+$LANG_GF02['msg300']   = 'Your preferences have block anonymous posts enabled';
+
 $LANG_GF02['StatusHeading']   = 'Nur zur Information';
 $LANG_GF02['PostReply']   = 'Post New Reply';
 $LANG_GF02['PostTopic']   = 'Post New Topic';
