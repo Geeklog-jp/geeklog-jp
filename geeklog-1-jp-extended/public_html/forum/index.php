@@ -597,17 +597,17 @@ if ($forum == 0) {
                     // Determine if there are new topics since last visit for this user.
                     $lsql = DB_query("SELECT * FROM {$_TABLES['gf_log']} WHERE uid='{$_USER['uid']}' AND forum='{$B['forum_id']}' AND time > 0");
                     if ($topicCount > DB_numRows($lsql)) {
-                        $folderimg = '<img src="'.gf_getImage('busyforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg111'].'" TITLE="'.$LANG_GF02['msg111'].'">';
+                        $folderimg = '<img src="'.gf_getImage('busyforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg111'].'" title="'.$LANG_GF02['msg111'].'">';
                     } else {
-                        $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" TITLE="'.$LANG_GF02['quietforum'].'">';
+                        $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
                     }
                 } else {
-                    $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" TITLE="'.$LANG_GF02['quietforum'].'">';
+                    $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
                 }
 
                 $lastdate1 = strftime('%d', $B['date']);
                 if ($lastdate1 == date('d')) {
-                    $lasttime = strftime('%p&nbsp;%I:%M', $B['date']);
+                    $lasttime = (substr($_USER['language'],0,2) == "ja") ? strftime('%p&nbsp;%I:%M', $B['date']) : strftime('%I:%M&nbsp;%p', $B['date']); // need examination
                     $lastdate = $LANG_GF01['TODAY'] .$lasttime;
                 } elseif ($CONF_FORUM['use_userdate_format']) {
                     $lastdate = COM_getUserDateTimeFormat($B['date']);
@@ -616,7 +616,7 @@ if ($forum == 0) {
                     $lastdate =strftime($CONF_FORUM['default_Datetime_format'],$B['date']);
                 }
 
-                $lastpostmsgDate  = '<font class="forumtxt">' . $LANG_GF01['ON']. '</font>' .$lastdate;
+                $lastpostmsgDate  = '<span class="forumtxt">' . $LANG_GF01['ON']. '</span>' .$lastdate;
                 if($B['uid'] > 1) {
                     $lastposterName = COM_getDisplayName($B['uid']);
                     $by = '<a href="' .$_CONF['site_url']. '/users.php?mode=profile&amp;uid=' .$B['uid']. '">' .$lastposterName. '</a>';
@@ -632,7 +632,7 @@ if ($forum == 0) {
                 $forumlisting->set_var ('lastpostmsgDate', $LANG_GF01['nolastpostmsg']);
                 $forumlisting->set_var ('lastpostmsgTopic', '');
                 $forumlisting->set_var ('lastpostmsgBy', '');
-                $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" TITLE="'.$LANG_GF02['quietforum'].'">';
+                $folderimg = '<img src="'.gf_getImage('quietforum').'" border="0" align="absmiddle" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
             }
 
             if ($B['pid'] == 0) {
@@ -805,14 +805,14 @@ if ($forum > 0) {
         // Check for user subscription status
         $sub_check = DB_getITEM($_TABLES['gf_watch'],"id","forum_id='$forum' AND topic_id=0 AND uid='{$_USER['uid']}'");
         if ($sub_check == '') {
-            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_on').'" border="0" align="absmiddle" alt="'.$LANG_GF01['FORUMSUBSCRIBE'].'" TITLE="'.$LANG_GF01['FORUMSUBSCRIBE'].'">';
+            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_on').'" border="0" align="absmiddle" alt="'.$LANG_GF01['FORUMSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMSUBSCRIBE'].'">';
             $subscribelink = "{$_CONF['site_url']}/forum/index.php?op=subscribe&amp;forum=$forum";
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
             $topiclisting->set_var ('LANG_subscribe', $LANG_GF01['FORUMSUBSCRIBE']);
             $topiclisting->parse ('subscribe_link','subscribe');
         } else {
-            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_off').'" border="0" align="absmiddle" alt="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'" TITLE="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'">';
+            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_off').'" border="0" align="absmiddle" alt="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'">';
             $subscribelink = "{$_CONF['site_url']}/forum/notify.php?filter=2";
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
@@ -835,7 +835,7 @@ if ($forum > 0) {
     $topiclisting->set_var ('LANG_newforumposts', $LANG_GF02['msg113']);
 
     if ($category['is_readonly'] == 0 OR forum_modPermission($forum,$_USER['uid'],'mod_edit')) {
-        $newtopiclinkimg = '<img src="'.gf_getImage('post_newtopic').'" border="0" align="absmiddle" alt="'.$LANG_GF01['NEWTOPIC'].'" TITLE="'.$LANG_GF01['NEWTOPIC'].'">';
+        $newtopiclinkimg = '<img src="'.gf_getImage('post_newtopic').'" border="0" align="absmiddle" alt="'.$LANG_GF01['NEWTOPIC'].'" title="'.$LANG_GF01['NEWTOPIC'].'">';
         $topiclisting->set_var ('LANG_newtopic', $LANG_GF01['NEWTOPIC']);
         $topiclisting->set_var('newtopiclinkimg',$newtopiclinkimg);
         $topiclisting->set_var ('newtopiclink',"{$_CONF['site_url']}/forum/createtopic.php?method=newtopic&amp;forum=$forum");
@@ -881,6 +881,16 @@ if ($forum > 0) {
             $showuserlink= $record['name'];
         }
 
+        if (substr($_USER['language'],0,2) == "ja") { // need examination
+            $format1 = '%Y/%m/%d';
+            $format2 = 'Y/m/d';
+            $format3 = '%p&nbsp;%H:%M';
+        } else {
+            $format1 = '%m/%d/%Y';
+            $format2 = 'm/d/Y';
+            $format3 = '%H:%M&nbsp;%p';
+        }
+
         if ($record['last_reply_rec'] > 0) {
             $lastreplysql = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE id={$record['last_reply_rec']}");
             $lastreply = DB_fetchArray($lastreplysql);
@@ -889,9 +899,9 @@ if ($forum > 0) {
                 $lastreply['subject'] .= "...";
             }
 
-            $lastdate1 = strftime('%Y/%m/%d', $lastreply['date']);
-            if ($lastdate1 == date('Y/m/d')) {
-                $lasttime = strftime('%p&nbsp;%H:%M', $lastreply['date']);
+            $lastdate1 = strftime($format1, $lastreply['date']);
+            if ($lastdate1 == date($format2)) {
+                $lasttime = strftime($format3, $lastreply['date']);
                 $lastdate = $LANG_GF01['TODAY'] . $lasttime;
             } elseif ($CONF_FORUM['use_userdate_format']) {
                 $lastdate = COM_getUserDateTimeFormat($lastreply['date']);
@@ -904,9 +914,9 @@ if ($forum > 0) {
             $lastreply = $record;
         }
 
-        $firstdate1 = strftime('%m/%d/%Y', $record['date']);
-        if ($firstdate1 == date('m/d/Y')) {
-            $firsttime = strftime('%p&nbsp;%H:%M', $record['date']);
+        $firstdate1 = strftime($format1, $record['date']);
+        if ($firstdate1 == date($format2)) {
+            $firsttime = strftime($format3, $record['date']);
             $firstdate = $LANG_GF01['TODAY'] . $firsttime;
         } elseif ($CONF_FORUM['use_userdate_format']) {
             $firstdate = COM_getUserDateTimeFormat($record['date']);
@@ -922,26 +932,26 @@ if ($forum > 0) {
             $lsql = DB_query($sql);
             if (DB_numRows($lsql) == 0) {
                 if ($record['sticky'] == 1) {
-                    $folderimg = '<img src="'.gf_getImage('sticky_new').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg115'].'" TITLE="'.$LANG_GF02['msg115'].'">';
+                    $folderimg = '<img src="'.gf_getImage('sticky_new').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg115'].'" title="'.$LANG_GF02['msg115'].'">';
                 } elseif ($record['locked'] == 1) {
-                    $folderimg = '<img src="'.gf_getImage('locked_new').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg116'].'" TITLE="'.$LANG_GF02['msg116'].'">';
+                    $folderimg = '<img src="'.gf_getImage('locked_new').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg116'].'" title="'.$LANG_GF02['msg116'].'">';
                 } else {
-                    $folderimg = '<img src="'.gf_getImage('newposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg60'].'" TITLE="'.$LANG_GF02['msg60'].'">';
+                    $folderimg = '<img src="'.gf_getImage('newposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg60'].'" title="'.$LANG_GF02['msg60'].'">';
                 }
             } elseif ($record['sticky'] == 1) {
-                $folderimg = '<img src="'.gf_getImage('sticky').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg61'].'" TITLE="'.$LANG_GF02['msg61'].'">';
+                $folderimg = '<img src="'.gf_getImage('sticky').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'">';
             } elseif ($record['locked'] == 1) {
-                $folderimg = '<img src="'.gf_getImage('locked').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg114'].'" TITLE="'.$LANG_GF02['msg114'].'">';
+                $folderimg = '<img src="'.gf_getImage('locked').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'">';
             } else {
-                $folderimg = '<img src="'.gf_getImage('noposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg59'].'" TITLE="'.$LANG_GF02['msg59'].'">';
+                $folderimg = '<img src="'.gf_getImage('noposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'">';
             }
 
         } elseif ($record['sticky'] == 1) {
-            $folderimg = '<img src="'.gf_getImage('sticky').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg61'].'" TITLE="'.$LANG_GF02['msg61'].'">';
+            $folderimg = '<img src="'.gf_getImage('sticky').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'">';
         } elseif ($record['locked'] == 1) {
-            $folderimg = '<img src="'.gf_getImage('locked').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg114'].'" TITLE="'.$LANG_GF02['msg114'].'">';
+            $folderimg = '<img src="'.gf_getImage('locked').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'">';
         } else {
-           $folderimg = '<img src="'.gf_getImage('noposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg59'].'" TITLE="'.$LANG_GF02['msg59'].'">';
+           $folderimg = '<img src="'.gf_getImage('noposts').'" border="0" align="absmiddle" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'">';
         }
 
 

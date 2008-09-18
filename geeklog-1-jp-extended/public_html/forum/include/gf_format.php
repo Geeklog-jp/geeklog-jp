@@ -805,19 +805,19 @@ function f_legend() {
     if ($forum == '') {
         $forum_legend->set_var ('normal_msg', $LANG_GF02['msg194']);
         $forum_legend->set_var ('new_msg', $LANG_GF02['msg108']);
-        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('quietforum').'" ALT="'.$LANG_GF02['msg194'].'" TITLE="' .$LANG_GF02['msg194']. '">');
-        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('busyforum').'" ALT="'.$LANG_GF02['msg111'].'" TITLE="' .$LANG_GF02['msg111']. '">');
-        $forum_legend->set_var ('viewnew_icon','<img src="'.gf_getImage('viewnew').'" ALT="' . $LANG_GF02['msg112'] .'" TITLE="' .$LANG_GF02['msg112']. '">');
+        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('quietforum').'" alt="'.$LANG_GF02['msg194'].'" title="' .$LANG_GF02['msg194']. '">');
+        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('busyforum').'" alt="'.$LANG_GF02['msg111'].'" title="' .$LANG_GF02['msg111']. '">');
+        $forum_legend->set_var ('viewnew_icon','<img src="'.gf_getImage('viewnew').'" alt="' . $LANG_GF02['msg112'] .'" title="' .$LANG_GF02['msg112']. '">');
         $forum_legend->set_var ('viewnew_msg', $LANG_GF02['msg112']);
-        $forum_legend->set_var ('markread_icon','<img src="'.gf_getImage('allread').'" ALT="' . $LANG_GF02['msg84'] .'" TITLE="' .$LANG_GF02['msg84']. '">');
+        $forum_legend->set_var ('markread_icon','<img src="'.gf_getImage('allread').'" alt="' . $LANG_GF02['msg84'] .'" title="' .$LANG_GF02['msg84']. '">');
         $forum_legend->set_var ('markread_msg', $LANG_GF02['msg84']);
     } else {
-        $sticky_icon = '<img src="'.gf_getImage('sticky').'" ALT="' .$LANG_GF02['msg61']. '" TITLE="' .$LANG_GF02['msg61']. '">';
-        $locked_icon = '<img src="'.gf_getImage('locked').'" ALT="' .$LANG_GF02['msg114']. '" TITLE="' .$LANG_GF02['msg114']. '">';
-        $stickynew_icon = '<img src="'.gf_getImage('sticky_new').'" ALT="' .$LANG_GF02['msg115']. '" TITLE="' .$LANG_GF02['msg115']. '">';
-        $lockednew_icon = '<img src="'.gf_getImage('locked_new').'" ALT="' .$LANG_GF02['msg116']. '" TITLE="' .$LANG_GF02['msg116']. '">';
-        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('noposts').'" ALT="'.$LANG_GF02['msg59'].'" TITLE="' .$LANG_GF02['msg59']. '">');
-        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('newposts').'" ALT="'.$LANG_GF02['msg60'].'" TITLE="' .$LANG_GF02['msg60']. '">');
+        $sticky_icon = '<img src="'.gf_getImage('sticky').'" alt="' .$LANG_GF02['msg61']. '" title="' .$LANG_GF02['msg61']. '">';
+        $locked_icon = '<img src="'.gf_getImage('locked').'" alt="' .$LANG_GF02['msg114']. '" title="' .$LANG_GF02['msg114']. '">';
+        $stickynew_icon = '<img src="'.gf_getImage('sticky_new').'" alt="' .$LANG_GF02['msg115']. '" title="' .$LANG_GF02['msg115']. '">';
+        $lockednew_icon = '<img src="'.gf_getImage('locked_new').'" alt="' .$LANG_GF02['msg116']. '" title="' .$LANG_GF02['msg116']. '">';
+        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('noposts').'" alt="'.$LANG_GF02['msg59'].'" title="' .$LANG_GF02['msg59']. '">');
+        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('newposts').'" alt="'.$LANG_GF02['msg60'].'" title="' .$LANG_GF02['msg60']. '">');
         $forum_legend->set_var ('normal_msg', $LANG_GF02['msg59']);
         $forum_legend->set_var ('new_msg', $LANG_GF02['msg60']);
         $forum_legend->set_var ('sticky_msg',$LANG_GF02['msg61']);
