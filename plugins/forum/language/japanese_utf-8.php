@@ -183,7 +183,7 @@ $LANG_GF01['SUBMISSIONS']    = '投稿したもの';
 $LANG_GF01['HTML_FILTER_MSG']  = '一部のHTMLを許可';
 $LANG_GF01['HTML_FULL_MSG']  = 'すべてのHTMLを許可';
 $LANG_GF01['HTML_MSG']       = 'HTML許可';
-$LANG_GF01['CENSOR_PERM_MSG']  = '';
+$LANG_GF01['CENSOR_PERM_MSG']  = 'バッドワードをチェック';
 $LANG_GF01['ANON_PERM_MSG']    = 'ゲストユーザの投稿を見る';
 $LANG_GF01['POST_PERM_MSG1']    = '投稿可能';
 $LANG_GF01['POST_PERM_MSG2']    = 'ゲストユーザ投稿可能';
@@ -256,7 +256,7 @@ $LANG_GF01['ACTIONS']        = 'アクション';
 $LANG_GF01['DELETEALL']      = 'すべての選択したデータを削除';
 $LANG_GF01['DELCONFIRM']     = '選択したデータを削除してよろしいですか？';
 $LANG_GF01['DELALLCONFIRM']  = 'すべてのデータを削除してよろしいですか？';
-$LANG_GF01['STARTEDBY']      = '初期投稿:';
+$LANG_GF01['STARTEDBY']      = '初期投稿';
 $LANG_GF01['WARNING']        = 'ご注意';
 $LANG_GF01['MODERATED']      = 'モデレータ: %s';
 $LANG_GF01['NOTIFYNOT']      = 'NOT!';
@@ -503,6 +503,8 @@ $LANG_GF02['msg199']   = '掲示板通知を見る/削除する';
 $LANG_GF02['msg200']   = 'メンバーレポート';
 $LANG_GF02['msg201']   = '人気トピックレポート';
 $LANG_GF02['msg202']   = '新規書込なし';
+
+$LANG_GF02['msg300']   = 'ゲストユーザの書き込みは非表示の設定になっています。';
 
 $LANG_GF02['StatusHeading']   = '情報';
 $LANG_GF02['PostReply']   = '新しく書き込む';
