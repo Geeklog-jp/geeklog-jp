@@ -249,8 +249,8 @@ function show_newplugins ($token)
     $retval = '';
     $data_arr = array();
     while (($dir = @readdir ($fd)) == TRUE) {
-        if (is_dir ($plugins_dir . $dir) && ($dir <> '.') && ($dir <> '..') &&
-                ($dir <> 'CVS') && (substr ($dir, 0 , 1) <> '.')) {
+        if (($dir <> '.') && ($dir <> '..') && (substr ($dir, 0 , 1) <> '.') &&
+                is_dir ($plugins_dir . $dir) && ($dir <> 'CVS')) {
             clearstatcache ();
             // Check and see if this plugin is installed - if there is a record.
             // If not then it's a new plugin
