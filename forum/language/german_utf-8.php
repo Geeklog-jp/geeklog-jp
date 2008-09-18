@@ -489,7 +489,9 @@ $LANG_GF02['msg198']   = 'Update your forum settings';
 $LANG_GF02['msg199']   = 'View or remove forum notifications';
 $LANG_GF02['msg200']   = 'View site members report';
 $LANG_GF02['msg201']   = 'View popular topics report';
+$LANG_GF02['msg202']   = 'No new posts';
 
+$LANG_GF02['msg300']   = 'Your preferences have block anonymous posts enabled';
 
 $LANG_GF02['StatusHeading']   = 'Nur zur Information';
 $LANG_GF02['PostReply']   = 'Post New Reply';
