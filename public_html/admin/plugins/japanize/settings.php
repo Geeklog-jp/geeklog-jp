@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: settings.php
 // public_html/admin/plugins/japanize/settings.php
-// 20080729 tsuchi AT geeklog DOT jp  
+// 20080915 tsuchi AT geeklog DOT jp  
 
 //
 
@@ -57,6 +57,8 @@ function fncEdit ()
     $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
     $T->set_file ('admin','settings.thtml');
 
+    $T->set_var('gltoken_name', CSRF_TOKEN);
+    $T->set_var('gltoken', SEC_createToken());
     $T->set_var ( 'xhtml', XHTML );
 
     $this_script=$_CONF['site_admin_url']."/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
@@ -92,7 +94,14 @@ if (isset ($_REQUEST['msg'])) {
 $display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['2']);
 
 if($_POST['savesettings'] == 'yes'){
-    fncCmdExec();
+
+    if (!SEC_checkToken()){
+        COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
+        exit;
+    }else{
+        fncCmdExec();
+    }
 }else{// 初期表示、一覧表示
     $display .=fncEdit();
     $display .= COM_siteFooter ();
