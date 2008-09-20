@@ -1243,7 +1243,11 @@ function INST_doDatabaseUpgrades($current_gl_version, $use_innodb = false)
            $dbconfig_path, $siteconfig_path, $html_path;
 
     $_DB->setDisplayError (true);
-
+    
+    // Disable userconfig plugin beforehand to prevent an error
+    require_once 'disable-userconfig.php';
+    disableUserconfigPlugin();
+    
     // Because the upgrade sql syntax can vary from dbms-to-dbms we are
     // leaving that up to each Geeklog database driver
 
