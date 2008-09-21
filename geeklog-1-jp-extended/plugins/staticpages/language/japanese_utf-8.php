@@ -25,7 +25,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/09/21 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
@@ -81,7 +81,7 @@ $LANG_STATIC = array(
     'stats_no_hits' => '静的ページがないか、閲覧者がいないかのどちらかです。',
     'id' => 'ID',
     'duplicate_id' => '指定したIDはすでに使われています。別のIDをご使用ください。',
-    'instructions' => '静的ページの編集は編集アイコンをクリック、静的ページのコピーはコピーアイコンをクリックしてください。静的ページの作成は上の「新規作成」をクリックしてください。',
+    'instructions' => '静的ページの編集・削除は編集アイコンをクリック、静的ページのコピーはコピーアイコンをクリックしてください。静的ページの作成は上の「新規作成」をクリックしてください。',
     'centerblock' => 'センターエリア: ',
     'centerblock_msg' => 'チェックすると、トップページまたは話題のトップページのセンターエリアに表示されます。',
     'topic' => '話題: ',
