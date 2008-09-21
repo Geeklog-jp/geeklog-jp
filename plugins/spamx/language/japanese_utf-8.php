@@ -14,7 +14,7 @@
  *
  * $Id: japanese_utf-8.php,v 1.12 2008/06/05 18:48:35 dhaun Exp $
  */
-# Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
+# Last Update 2008/09/21 by Geeklog.jp group  - info AT geeklog DOT jp
 
 global $LANG32;
 
