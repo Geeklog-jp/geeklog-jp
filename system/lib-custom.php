@@ -75,7 +75,6 @@ require_once('custom/custom_mail_jp.php');
 * this is a sample function used by a PHP block.  This will show the rights that
 * a user has in the "What you have access to" block.
 *
-*/
 function phpblock_showrights()
 {
     global $_RIGHTS, $_CST_VERBOSE;
@@ -96,7 +95,7 @@ function phpblock_showrights()
 
     return $retval;
 }
-
+*/
 
 /**
 * Include any code in this function that will be called by the internal CRON API
@@ -529,6 +528,14 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
 }
 */
 
+/**
+  * 日本語拡張版提供　PHPブロック関数およびカスタム関数
+  */
+require_once( 'custom/custom_getstaticpage.php' );
+require_once( 'custom/phpblock_lastarticles.php' );
+require_once( 'custom/phpblock_showrights.php' );
+require_once( 'custom/phpblock_sitemapmenu.php' );
+require_once( 'custom/phpblock_themetester.php' );
 require_once( 'custom/phpblock_stats.php' );
 
 ?>
