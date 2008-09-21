@@ -53,9 +53,9 @@ function phpblock_lastarticles2($numrows = 10, $length = 50, $include = array())
 }
 
 /**
-* Escapes a string for HTML output
+* Returns the currend encoding
 */
-function LASTARTICLES_esc($str) {
+function LASTARTICLES_getEncoding() {
 	global $_CONF, $LANG_CHARSET;
 	
 	static $encoding = null;
@@ -70,12 +70,19 @@ function LASTARTICLES_esc($str) {
 	    }
 	}
 	
+	return $encoding;
+}
+
+/**
+* Escapes a string for HTML output
+*/
+function LASTARTICLES_esc($str) {
 	$str = str_replace(
 		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
 		array(   '<',    '>',     '&',      '"',      "'"),
 		$str
 	);
-	return htmlspecialchars($str, ENT_QUOTES, $encoding);
+	return htmlspecialchars($str, ENT_QUOTES, LASTARTICLES_getEncoding());
 }
 
 /**
@@ -118,7 +125,7 @@ function phpblock_lastarticles_common($numrows = 10, $length = 50, $additiona_sq
 		$length = 50;
 	}
 	
-	$sql = "SELECT STRAIGHT_JOIN s.sid, s.tid,s.title, s.date, s.group_id, "
+	$sql = "SELECT STRAIGHT_JOIN s.sid, s.tid, s.title, s.date, s.group_id, "
 		 . "s.owner_id, s.perm_owner, s.perm_group, s.perm_members, "
 		 . "s.perm_anon, t.topic "
 		 . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topics']} AS t "
@@ -135,9 +142,10 @@ function phpblock_lastarticles_common($numrows = 10, $length = 50, $additiona_sq
 				.  ' ' .  LASTARTICLES_esc($A['topic']) . '::'
 				.  '<a class="new-story" href="'
 				.  COM_buildUrl($_CONF['site_url'] . '/article.php?story='
-				.  $A['sid']) . '">'
-				.  LASTARTICLES_esc(mb_strimwidth($A['title'], 0, $length))
-				. '</a>' . '<br' . XHTML . '>' . LB;
+				.  $A['sid']) . '">';
+		$title = stripslashes($A['title']);
+		$title = mb_strimwidth($title, 0, $length, '', LASTARTICLES_getEncoding());
+		$retval .= LASTARTICLES_esc($title) . '</a>' . '<br' . XHTML . '>' . LB;
 	}
 	
 	return $retval;
