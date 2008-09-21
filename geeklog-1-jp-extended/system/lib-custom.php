@@ -528,4 +528,7 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
     exit;
 }
 */
+
+require_once( 'custom/phpblock_stats.php' );
+
 ?>
