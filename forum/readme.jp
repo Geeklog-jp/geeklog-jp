@@ -84,3 +84,11 @@ JPr3
 				http://www.geeklog.jp/forum/viewtopic.php?showtopic=5364
 ・Tsuchiさんが作成されたバージョン(2008-01-16)をそれとなく吸収
 ・現在時刻の表示をしないようにしました
+
+JPr4  #edited by dengen
+
+・オリジナル版のversion 2.7.1をマージ
+・CSRF対策を実施
+・XHTMLに対応
+・HTMLコードの適正化を実施（一部）
+・その他、軽微な微調整
