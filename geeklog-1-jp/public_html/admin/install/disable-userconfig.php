@@ -8,7 +8,7 @@ function disableUserconfigPlugin() {
     global $_TABLES;
     
     $sql = "UPDATE {$_TABLES['plugins']} "
-         . "SET is_enabled = '0' "
+         . "SET pi_enabled = '0' "
          . "WHERE (pi_name = 'userconfig') ";
     DB_query($sql);
 }
