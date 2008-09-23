@@ -33,9 +33,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-comment.php,v 1.65 2008/05/23 10:50:50 dhaun Exp $
+// $Id: lib-comment.php,v 1.69 2008/09/21 08:37:11 dhaun Exp $
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-comment.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-comment.php') !== false) {
     die ('This file can not be used on its own!');
 }
 
@@ -93,7 +93,10 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
 
     $cmt_title = stripslashes($title);
     $commentbar->set_var('story_title', $cmt_title);
+    // Article's are pre-escaped.
+    if( $type != 'article' ) {
     $cmt_title = htmlspecialchars($cmt_title);
+    }
     $commentbar->set_var('comment_title', $cmt_title);
 
     if( $type == 'article' ) {

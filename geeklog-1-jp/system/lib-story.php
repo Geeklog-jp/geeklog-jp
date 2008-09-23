@@ -33,9 +33,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-story.php,v 1.125 2008/05/01 21:01:47 dhaun Exp $
+// $Id: lib-story.php,v 1.133 2008/09/21 08:37:12 dhaun Exp $
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-story.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-story.php') !== false) {
     die ('This file can not be used on its own!');
 }
 
@@ -1108,7 +1108,9 @@ function service_submit_story($args, &$output, &$svc_msg)
         }
     }
 
+    if(empty($args['owner_id'])) {
     $args['owner_id'] = $_USER['uid'];
+    }
 
     if (empty($args['group_id'])) {
         $args['group_id'] = SEC_getFeatureGroup('story.edit', $_USER['uid']);
