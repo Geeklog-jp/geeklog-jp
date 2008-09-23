@@ -8,7 +8,7 @@
  *
  */
 
-if (strpos($_SERVER['PHP_SELF'], 'siteconfig.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'siteconfig.php') !== false) {
     die('This file can not be used on its own!');
 }
 
@@ -38,7 +38,7 @@ if (!defined('LB')) {
   define('LB',"\n");
 }
 if (!defined('VERSION')) {
-  define('VERSION', '1.5.1rc1');
+  define('VERSION', '1.5.1');
 }
 
 ?>

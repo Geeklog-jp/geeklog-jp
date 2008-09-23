@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.4                                                               |
+// | Geeklog 1.5                                                               |
 // +---------------------------------------------------------------------------+
 // | switchlang.php                                                            |
 // |                                                                           |
 // | Switch the user's language                                                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006 by the following authors:                              |
+// | Copyright (C) 2006-2008 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
 // |          based on earlier works by Euan McKay and LWC                     |
@@ -30,9 +30,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: switchlang.php,v 1.3 2006/10/03 09:19:45 dhaun Exp $
+// $Id: switchlang.php,v 1.4 2008/09/14 09:17:41 dhaun Exp $
 
-require_once ('lib-common.php');
+require_once 'lib-common.php';
 
 /**
 * Switch language in a URL.
@@ -55,13 +55,32 @@ function switch_language ($url, $newlang, $oldlang)
     }
 
     $lang_len = strlen ($oldlang);
-    if ((strpos ($url, '&') === false) && (strpos ($url, '?') === false) &&
-            $_CONF['url_rewrite']) {
+    $url_rewrite = false;
+    $q = false;
+
+    if ($_CONF['url_rewrite']) {
+        // check for "rewritten" URLs with a '?', e.g. search query highlighting
+        $q = strpos($url, '?');
+        if ($q === false) {
+            $url_rewrite = true;
+        } elseif (substr($url, $q - 4, 4) != '.php') {
+            $url_rewrite = true;
+        }
+    }
+
+    if ($url_rewrite) {
+        if ($q === false) {
+            $the_url = $url;
+        } else {
+            $the_url = substr($url, 0, $q);
+        }
+
         // for "rewritten" URLs we assume that the first parameter after
         // the script name is the ID, e.g. /article.php/story-id-here_en
         $changed = false;
-        $p = explode ('/', $url);
-        for ($i = 0; $i < count ($p); $i++) {
+        $p = explode('/', $the_url);
+        $parts = count($p);
+        for ($i = 0; $i < $parts; $i++) {
             if (substr ($p[$i], -4) == '.php') {
                 // found the script name - assume next parameter is the ID
                 if (isset ($p[$i + 1])) {
@@ -74,9 +93,14 @@ function switch_language ($url, $newlang, $oldlang)
                 break;
             }
         }
+
         if ($changed) {
             // merge the pieces back together
+            if ($q === false) {
             $url = implode ('/', $p);
+            } else {
+                $url = implode('/', $p) . substr($url, $q);
+        }
         }
 
         $retval = $url;
@@ -126,14 +150,14 @@ if ($_CONF['allow_user_language'] == 1) {
         if (is_file ($_CONF['path_language'] . $langfile . '.php')) {
 
             // Set the language cookie.
-            // Mainly used for the anonymous user so the rest of this session
-            // will remain in their selected language
+            // Mainly used for anonymous users so the rest of their session
+            // will remain in the selected language
             setcookie ($_CONF['cookie_language'], $langfile, time() + 31536000,
                        $_CONF['cookie_path'], $_CONF['cookiedomain'],
                        $_CONF['cookiesecure']);
 
             // if user is not anonymous, store the preference in the database
-            if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+            if (!COM_isAnonUser()) {
                 DB_query ("UPDATE {$_TABLES['users']} SET language = '{$langfile}' WHERE uid = {$_USER['uid']}");
             }
         }
