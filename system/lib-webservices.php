@@ -29,9 +29,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-webservices.php,v 1.37 2008/05/31 21:42:27 dhaun Exp $
+// $Id: lib-webservices.php,v 1.44 2008/09/21 08:37:12 dhaun Exp $
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-webservices.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-webservices.php') !== false) {
     die ('This file can not be used on its own!');
 }
 

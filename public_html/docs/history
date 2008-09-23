@@ -1,6 +1,31 @@
 Geeklog History/Changes:
 
-Sep 7, 2008 (1.5.1)
+Sep 22, 2008 (1.5.1)
+------------
+
+- Fixed protection against direct execution in various include files which may
+  have failed on non-case sensitive file systems (reported by Mark Evans) [Dirk]
+- Saving a story as someone other than the owner will revert the story to your
+  ownership. (bug #0000742) [Mike]
+- Fixed searching for non-installed plugins when open_basedir restrictions are
+  in effect (bug #0000741)
+- Fix for first change of password issue (bug #0000724) [Mike]
+- Fixed failure to switch language with new query highlighting URLs
+  (bug #0000733) [Dirk]
+- Fixed bug with HTML Encoding of default comment title for articles
+  (bug #0000737) [Mike]
+- Fixed another case where a duplicate of a story submission was left in the
+  submission queue after approving the story [Mike]
+- Fixed problem with the MySQL class not recognizing UTF-8 when the character
+  set name was written in uppercase (bug #0000731) [Dirk]
+
+- Updated Hebrew language files, provided by LWC
+- Updated Estonian language files, provided by Artur Räpp
+- Updated Japanese language files, provided by the Geeklog.jp group
+- Updated Slovenian language files, provided by gape
+
+
+Sep 7, 2008 (1.5.1rc1)
 -----------
 
 - Added missing slash in the install script (bug #0000715) [Dirk]
