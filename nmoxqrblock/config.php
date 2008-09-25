@@ -22,7 +22,7 @@
 // +---------------------------------------------------------------------------+
 //
 
-$_NMOXQRBLOCK['version'] = '1.1.0';
+$_NMOXQRBLOCK['version'] = '1.1.1';
 
 $_NMOXQRBLOCK['hidenmoxqrblockmenu']=0;
 $_NMOXQRBLOCK["size"]=80;//表示サイズ（ピクセル）　小さくしすぎた場合は携帯電話で読めない場合があります。
