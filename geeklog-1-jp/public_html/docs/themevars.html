@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
+<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマで使用できる変数</div>
 
 <h1>テーマで使用できる変数</h1>
@@ -29,9 +29,9 @@
 <p>以下の変数はサイトのヘッダ、つまり、 <tt>header.thtml</tt> テンプレートファイルで使用できる変数です。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>site_url</code></td>
     <td><tt>http://www.example.com</tt></td>
     <td>自分のGeeklogサイトのURL（コンフィギュレーションの <code>$_CONF['site_url']</code> で設定したものと同じ）。</td></tr>
@@ -91,6 +91,12 @@
 <tr><td><code>rel_links</code></td>
     <td><tt>&lt;link rel="home" href="http://www.example.com/" title="Home"&gt;</tt></td>
     <td>定義済みの <a href="http://www.w3.org/TR/html4/struct/links.html#edef-LINK">リンクタグ</a>で、ナビゲーション用のリンクとページ間の関係情報を提供する。</td></tr>
+<tr><td><code>page_title_and_site_name</code></td>
+    <td><tt>Geeklog Site - Another Nifty Geeklog Site</tt></td>
+    <td>名前が示すように、この変数はサイト名と現在のページタイトルを保持する。表示順はWebサイト内の位置で決まり、トップページでは「サイト名 - ページタイトル」、他のページでは「ページタイトル - サイト名」の順序になる。</td></tr>
+<tr><td><code>page_site_splitter</code></td>
+    <td><tt> - </tt> (半角スペース 半角マイナス記号 半角スペース)</td>
+    <td>独自のページタイトルを作成する際にこの変数は便利である。<code>{page_title}</code> 変数が空になるとき、この変数も空になる。 <code>{page_title}</code> と <code>{site_name}</code> と併せて使用すること（上記参照）。</td></tr>
 </table>
 
 
@@ -99,9 +105,9 @@
 <p>以下の変数は、 <tt>storytext.thtml</tt>, <tt>storybodytext.thtml</tt>, <tt>featuredstorytext.thtml</tt>, <tt>featuredstorybodytext.thtml</tt>, <tt>archivestorytext.thtml</tt>, <tt>archivestorybodytext.thtml</tt> テンプレートファイルで使用できます。これらのファイルは、インデックスページだけでなく、 <tt>article/article.thtml</tt> テンプレートファイル（このファイルは記事を個別に表示するために使用されます）中の <code>{formatted_article}</code> 変数の内容となる記事をレンダリングするためにも使用されます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>site_url</code></td>
     <td><tt>http://www.example.com</tt></td>
     <td>自分のGeeklogサイトのURL（コンフィギュレーションの <code>$_CONF['site_url']</code> で設定したものと同じ）。</td></tr>
@@ -135,6 +141,9 @@
 <tr><td><code>story_introtext</code></td>
     <td>Welcome and let me be the first to congratulate you on installing Geeklog ...</td>
     <td>インデックスページを表示しているときは、この変数の値は記事の冒頭文になる。しかしながら、個々のページに表示しているときには、記事の冒頭文と本文の<strong>両方</strong>を含む。</td></tr>
+<tr><td><code>story_text_no_br</code></td>
+    <td>Welcome and let me be the first to congratulate you on installing Geeklog ...</td>
+    <td>トップページを表示する場合、この変数は記事の冒頭文を保持する。しかしながら、記事を個別に表示しているときには、冒頭文と本文の<em>両方</em>を保持する。<tt>story_introtext</tt> と <tt>story_text_no_br</tt> の違いは、 <tt>story_introtext</tt> では、冒頭文と本文の間に <tt>&lt;br&gt;</tt> タグが2個挿入されるが、 <tt>story_text_no_br</tt> では挿入されないという点である。</td></tr>
 <tr><td><code>lang_todays_featured_article</code></td>
     <td>Today's Featured Article</td>
     <td>ユーザが現在使用している言語の「今日の注目記事(Today's Featured Article)」に相当する語句。<strong>注目記事の場合にしか利用できない。</strong></td></tr>
@@ -146,9 +155,9 @@
 <p><a name="readmore">以下の変数</a>は、記事がインデックスページに表示され、<strong>かつ</strong>、記事の本文が空白でないときに限って使用できます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>lang_readmore</code></td>
     <td>read more</td>
     <td>ユーザが現在使用している言語の「続きを読む(read more)」に相当する語句。</td></tr>
@@ -184,9 +193,9 @@
 <p>以下の変数は、記事へのコメント投稿が許可され、既にコメントが投稿されている場合に限って使用できます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>comments_url</code></td>
     <td><tt>http://www.example.com/article.php<br>?story=20021022234959146#comments</tt></td>
     <td>コメントセクションのURL（記事が個別に表示されている場合）。</td></tr>
@@ -207,9 +216,9 @@
 <p>以下の変数は、設定で <code>$_CONF['contributedbyline'] = 1;</code> となっている、つまり、「所有者名を表示する」が有効になっている場合に限り、利用できます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>lang_contributed_by</code></td>
     <td>Contributed by:</td>
     <td>ユーザが現在使用している言語の「所有者(Contributed by:)」に相当する語句。</td></tr>
@@ -242,9 +251,9 @@
 <p>以下の変数は、記事の話題アイコンが有効になっており、<strong>かつ、</strong>ユーザが自分の表示設定で話題アイコンを無効にしていない場合に限り、利用できます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>story_anchortag_and_image</code></td>
     <td><code>&lt;a href="http://www.example.com/<br>index.php?topic=Geeklog"&gt;&lt;img src="..." ...&gt;&lt;/a&gt;</code> <small>(shortened)</small></td>
     <td>記事の話題に対応するアイコンで、話題でソートされたサイトのインデックスページへのリンクになっている。</td></tr>
@@ -274,9 +283,9 @@
 <p>以下の変数は、現在のユーザが記事を編集する権限を持っている場合に限り、利用できます。</p>
 
 <table border="1" width="100%" cellpadding="2">
-<tr><th width="8%">変数名</th>
-    <th width="29%">例</th>
-    <th width="63%">説明</th></tr>
+<tr><th style="width:8%">変数名</th>
+    <th style="width:29%">例</th>
+    <th style="width:63%">説明</th></tr>
 <tr><td><code>edit_link</code></td>
     <td><code>&lt;a href=".../admin/story.php<br>?mode=edit&amp;sid=20021022234959146"&gt;edit&lt;/a&gt;</code></td>
     <td>管理者の記事エディタで記事を編集するためのリンク。</td></tr>
@@ -290,8 +299,6 @@
     <td>edit</td>
     <td>ユーザが現在使用している言語の「編集(edit)」に相当する語句。</td></tr>
 </table>
-
-<br><br>
 
 <div class="footer">
     <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>

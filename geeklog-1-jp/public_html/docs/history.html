@@ -12,6 +12,114 @@
 <body>
 <h1>Geeklog History/Changes:</h1>
 
+<h2>Sep 22, 2008 (1.5.1)</h2>
+
+<ul>
+	<li>Fixed protection against direct execution in various include files which may have failed on non-case sensitive file systems (reported by Mark Evans) [Dirk]</li>
+	<li>Saving a story as someone other than the owner will revert the story to your ownership. (bug #0000742) [Mike]</li>
+	<li>Fixed searching for non-installed plugins when open_basedir restrictions are in effect (bug #0000741)</li>
+	<li>Fix for first change of password issue (bug #0000724) [Mike]</li>
+	<li>Fixed failure to switch language with new query highlighting URLs (bug #0000733) [Dirk]</li>
+	<li>Fixed bug with HTML Encoding of default comment title for articles (bug #0000737) [Mike]</li>
+	<li>Fixed another case where a duplicate of a story submission was left in the submission queue after approving the story [Mike]</li>
+	<li>Fixed problem with the MySQL class not recognizing UTF-8 when the character set name was written in uppercase (bug #0000731) [Dirk]</li>
+	<li>Updated Hebrew language files, provided by LWC</li>
+	<li>Updated Estonian language files, provided by Artur R&auml;pp</li>
+	<li>Updated Japanese language files, provided by the Geeklog.jp group</li>
+	<li>Updated Slovenian language files, provided by gape</li>
+</ul>
+
+<h2>Sep 7, 2008 (1.5.1rc1)</h2>
+
+<ul>
+	<li>Added missing slash in the install script (bug #0000715) [Dirk]</li>
+	<li>CSRF token not passed to draft list (bug #0000726) [Ted Powell]</li>
+	<li>If root debugging is enabled, hide anything in the array stack that has a key containing 'cookie' or 'pass'. And added option to override this. (bug #0000722) [Mike]</li>
+	<li>Prevent direct execution of the FCKeditor upload script (reported by t0pP8uZz)  [Dirk]</li>
+	<li>Renamed the "Restore" option in the Configuration to "Enable" [Dirk]</li>
+	<li>Provided better error handling for database backups (bug #0000714) [Mike]</li>
+	<li>Provided auto-detection of -left and -right overrides for any given block template. This allows any block to auto-style to left and right for themes without the need for the theme to work it out, or talk to the database. ("Bug" #0000684) [Mike]</li>
+	<li>Fixed handling of corrupted config value db entries, e.g. after importing Calendar event_types with the wrong character set (bug #0000690) [Dirk]</li>
+	<li>Fixed handling of HTML entities in the Configuration (bug #0000710) [Sami, Dirk]</li>
+	<li>Story image upload: Only add a link to the unscaled image if such an image actually exists [Dirk]</li>
+	<li>Removed unused code from lib-story.php [Dirk]</li>
+	<li>COM_siteFooter no-longer creates two sets of right blocks. (bug #0000698) [Mike]</li>
+	<li>Microsummaries work in topics, reported by Joe. [Mike]</li>
+	<li>Added DB_checkTableExists and changed INST_checkTableExists to use it. [Mike]</li>
+	<li>Changed REPLACE INTO for DB_save for MSSQL compat [Mike]</li>
+	<li>Re-introduced function get_SP_Ver in the install script, which is still needed when upgrading from old Geeklog releases (reported by libexec) [Dirk]</li>
+	<li>Fixed issue where you can post a comment to an unpublished story (bug #0000705) [Mystral_KK/Mike]</li>
+	<li>Fixed make clickable links with quotes (bug #0000691) plus truncated long urls. [Sami]</li>
+	<li>Fixed table prefix issues with constraints (bug #0000702) [Mike/Sami]</li>
+	<li>Fixed error when attempting to highlight a search query that contained a slash [Dirk]</li>
+	<li>Updated FCKeditor to v2.6.3 [Blaine]</li>
+	<li>Moved remove() (config JavaScript) to gl_cfg_remove (bug #0000681) [Mike]</li>
+	<li>Change for CUSTOM_usercreate to support passing in $batchimport, set true if called via the Admin-&gt;Users Batch_Add [Blaine]</li>
+	<li>Fix for date formatting in RSS fields (bug #0000696) [mystral_kk]</li>
+	<li>A small tweak to the Professional theme's commentbar to make the "Post a comment" option easier to find [Dirk]</li>
+	<li>Renamed the syndication feed type "geeklog" to "article" since that's what they are nowadays [Dirk]</li>
+	<li>New option "All Frontpage Stories" for article feeds: skip stories that have the "Show only in topic" option set (feature request #0000652) [Dirk]</li>
+	<li>If there is a feed for a topic, there will now be a "Subscribe to ..." option in the Story Options block for every story for that topic (feature request #0000154) [Dirk]</li>
+	<li>Cop-out fix for bug #0000671: Don't display the icon for external links when the text direction is 'rtl' (e.g. Hebrew) [Dirk, Mike]</li>
+	<li>Keep letter case intact when highlighting a search query string (patch provided by Sami Barakat)</li>
+	<li>Provide nicer URLs to story search results when URL rewriting is enabled (bug #0000665, based on a patch by Sami Barakat) [Dirk]</li>
+	<li>Better support for plugin messages (bug #0000618) [Blaine]</li>
+	<li>Introduced new variable {page_title_and_site_name} for header.thtml so that we can have "Site Name - Site Slogan" in the frontpage's title again [Dirk]</li>
+	<li>Fixed SQL error(s) for story submissions by users with story.submit but no further Story Admin permissions (reported by Orion) [Dirk]</li>
+	<li>End a user's session when they are being banned [Dirk]</li>
+	<li>Signatures in HTML-formatted comments weren't XHTML compliant [Dirk]</li>
+	<li>Minor cleanups in style.css - no actual layout changes (bug #0000683) [Dirk]</li>
+	<li>Allow creation of banned users, i.e. ban the user on account creation [Dirk]</li>
+	<li>Minor improvements in the error handling, e.g. preventing Geeklog from creating error.log files outside the logs directory [Dirk]</li>
+	<li>Send a HTTP status code 503 "Service Unavailable" when the site is disabled [Dirk]</li>
+	<li>Hide the database password when the database backup failed and we're logging the mysqldump command [Dirk]</li>
+	<li>Disable OpenID login when new registrations are disabled [Dirk]</li>
+	<li>Allow to unset Configuration options again after they have been "restored", i.e. enabled (bug #0000664) [Dirk]</li>
+	<li>Adopted hack to allow multilingual blocks (bug #0000626) [Dirk]</li>
+	<li>Fixed SQL error in story submissions (reported by Chase) [Mike]</li>
+	<li>Stories with a publishing date in the future and stories with the draft flag set were accessible if you knew their story id (bug #0000678) [Mike]</li>
+	<li>Enabled siteconfig.php to override database config in core, primarily for rootdebug. [bug 0000673] [Mike]</li>
+	<li>Allow remote users to use the webservices (bug #0000640). Due to the authentication method it is not possible for OpenID users to use the webservices. Other remote users will have to use username@servicename for their username when logging in through the webservices [Dirk]</li>
+	<li>Fix to template.class to better handle full path being passed in [Blaine]</li>
+	<li>Updated PLG_uninstall to supress errors for table drop. [bug 0000668] [Mike]</li>
+	<li>Fixed INST_checkTableExists for MS SQL Support. [bug 0000668] [Mike]</li>
+	<li>Hardcode an ltr div around HTML tags in the allowed html tag list. Plus minor HTML compliance issues. [bug  0000669] [Mike]</li>
+	<li>Plaintext stories have nl2br applied in syndication feeds to provide correct formatting in feed readers. [bug 0000662] [Mike]</li>
+	<li>Changed SEC_createToken so that it will only return one token per page (effectively making it a singleton). This fixes the problem of not being able to delete comments when you also have trackbacks for the same article [Mike, Dirk]</li>
+	<li>Approving a story submission by saving it from the Admin's story editor left a duplicate in the submission queue, unless you changed the story ID at the same time [Dirk, Mark Evans]</li>
+	<li>Fixed user submission queue (reported by greenteagod) [Dirk]</li>
+	<li>Updated Hebrew language files, provided by LWC</li>
+</ul>
+
+<h3>Calendar plugin</h3>
+<ul>
+	<li>Fixed &lt;brXHTML&gt; tags in the German language files for the Calendar [Dirk]</li>
+	<li>Fixed date comparison ("End date is before start date.", bug #0000703) [Dirk]</li>
+	<li>Fixed Admin delete links in day and week view (bug #0000680) [Dirk]</li>
+	<li>Search for an event's "author" didn't work [Dirk]</li>
+	<li>Calendar block now includes events from the current day (in progress or all day events, bug 0000604, patch from forums) (really) [Mike]</li>
+</ul>
+
+<h3>Links plugin</h3>
+<ul>
+	<li>Fixed passing the category on multi-page link lists [Dirk]</li>
+	<li>Fixed new category silently overwriting an existing category if they had the same id (part 2 of bug #0000659) [Dirk]</li>
+	<li>Fixed SQL error when trying to change a category id to an already existing id (part 1 of bug #0000659) [Dirk]</li>
+</ul>
+
+<h3>Polls plugin</h3>
+<ul>
+	<li>For multi-question polls, make the "Vote" button read "Start Poll" in the polls block (bug #0000633) [Dirk]</li>
+	<li>Fixed display of "Results" link while a poll is open [Dirk]</li>
+</ul>
+
+<h3>Static Pages plugin</h3>
+<ul>
+	<li>Menu entries were not language-aware (in multi-language setups), i.e. all the menu entries were always displayed (bug #0000713) [Dirk]</li>
+	<li>Removed unused 'config_data' entry from the plugin uninstall function (bug #0000666) [Dirk]</li>
+	<li>Fixed printer friendly version of a static page not working when url_rewrite is enabled (bug #0000661) [Dirk]</li>
+</ul>
+
 <h2>June 15, 2008 (1.5.0)</h2>
 
 <p>Geeklog 1.5.0 incorporates the following projects implemented during the 2007 Google Summer of Code:</p>
