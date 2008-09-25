@@ -20,6 +20,12 @@
 // | GNU General Public License for more details.                              |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
+
+// this file can't be used on its own
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false){
+    die ('This file can not be used on its own.');
+}
+
 /**
 * Language file Include
 */
