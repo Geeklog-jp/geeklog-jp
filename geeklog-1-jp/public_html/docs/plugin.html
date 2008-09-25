@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
+<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - プラグイン開発</div>
 
 <h1>プラグイン開発</h1>
@@ -61,10 +61,11 @@
 <p>
 <strong>&lt;プラグイン名&gt;</strong> の表記に注意：以下の関数で &lt;プラグイン名&gt; という記述がありますが、これはプラグインのアーカイブファイル名に由来するものです（訳注：正確には、プラグイン名）。プラグインのアーカイブファイル名は以下の記法に<strong>従わなければなりません</strong>。</p>
 
-<blockquote>
-  &lt;プラグイン名&gt;_&lt;プラグインのバージョン&gt;_&lt;Geeklogのバージョン&gt;.tar.gz<br>
-  例：<tt>photos_1.0_1.3.tar.gz</tt>
-</blockquote>
+<p style="margin-left:4em;">
+  &lt;プラグイン名&gt;_&lt;プラグインのバージョン&gt;_&lt;Geeklogのバージョン&gt;.tar.gz
+</p>
+
+<p>例：<tt>photos_1.0_1.3.tar.gz</tt></p>
 
 <h2><a name="mod_functions">モデレーション用関数</a></h2>
 
@@ -72,8 +73,8 @@
 
 <p>Geeklogの記事やリンクプラグインのように、プラグインにモデレートさせたいなら、以下の関数を実装しなければなりません。</p>
 
-<table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-<caption align="bottom">表1. モデレーション用関数<br></caption>
+<table cellpadding="2" cellspacing="2" border="1" width="90%">
+<caption style="caption-side:bottom">表1. モデレーション用関数<br></caption>
 <tr>
   <th valign="top">関数名</th>
   <th valign="top">関数の説明</th></tr>
@@ -107,8 +108,8 @@
 
 <p>Geeklogのページごとに管理者機能ブロックとユーザ機能ブロックにプラグインを表示したいなら、以下の関数を実装しなければなりません。</p>
 
-      <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">表2. 管理者及びユーザメニュー用関数</caption>
+      <table cellpadding="2" cellspacing="2" border="1" width="90%">
+        <caption style="caption-side:bottom">表2. 管理者及びユーザメニュー用関数</caption>
           <tr>
             <th valign="top">関数名</th>
             <th valign="top">関数の説明</th>
@@ -139,8 +140,8 @@
 
 <p>プラグインのデータを検索可能にしたいなら、以下の関数を実装しなければなりません。</p>
 
-      <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">表3. 検索用関数</caption>
+      <table cellpadding="2" cellspacing="2" border="1" width="90%">
+        <caption style="caption-side:bottom">表3. 検索用関数</caption>
           <tr>
             <th valign="top">関数名</th>
             <th valign="top">関数の説明</th>
@@ -159,8 +160,8 @@
 
 <p>プラグインがコメントをサポートし、Geeklogのコメントエンジンを使用したいなら、以下の関数をプラグインの <tt>functions.inc</tt> ファイル内に実装する必要があります。</p>
 
-<table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-<caption align="bottom">表4. コメント用関数</caption>
+<table cellpadding="2" cellspacing="2" border="1" width="90%">
+<caption style="caption-side:bottom">表4. コメント用関数</caption>
   <tr>
     <th valign="top">関数名</th>
     <th valign="top">関数の説明</th>
@@ -193,8 +194,8 @@
 
 <p>プラグインの統計情報をサイトの統計情報に表示したいなら、以下の関数を実装しなければなりません。</p>
 
-      <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">表5. 統計用関数</caption>
+      <table cellpadding="2" cellspacing="2" border="1" width="90%">
+        <caption style="caption-side:bottom">表5. 統計用関数</caption>
           <tr>
             <th valign="top">関数名</th>
             <th valign="top">関数の説明</th>
@@ -209,8 +210,8 @@
 
 <p>自動的にアンインストールする機能をプラグインに与えるなら、以下の関数を実装しなければなりません。</p>
 
-      <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-        <caption align="bottom">表6. アンインストール用関数</caption>
+      <table cellpadding="2" cellspacing="2" border="1" width="90%">
+        <caption style="caption-side:bottom">表6. アンインストール用関数</caption>
           <tr>
             <th valign="top">関数名</th>
             <th valign="top">関数の説明</th>
@@ -226,8 +227,8 @@
 
 <p>プラグインの中には、ユーザアカウントの作成・削除を監視しなければならないものがあります。</p>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="90%" align="Center">
-    <caption align="bottom">表7. ユーザ用関数</caption>
+  <table cellpadding="2" cellspacing="2" border="1" width="90%">
+    <caption style="caption-side:bottom">表7. ユーザ用関数</caption>
       <tr>
         <th valign="top">関数名</th>
         <th valign="top">関数の説明</th>
@@ -248,8 +249,8 @@
 
 <p>プラグインは、ユーザのプロフィールにブロックや個々の項目を追加できます。</p>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">表8. プロフィール用関数</caption>
+  <table cellpadding="2" cellspacing="2" border="1" width="90%">
+    <caption style="caption-side:bottom">表8. プロフィール用関数</caption>
       <tr>
         <th valign="top">関数名</th>
         <th valign="top">関数の説明</th>
@@ -280,8 +281,8 @@
 
 <p>以下の関数は上記以外の用途のためのオプションの関数です。</p>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">表9. その他の関数</caption>
+  <table cellpadding="2" cellspacing="2" border="1" width="90%">
+    <caption style="caption-side:bottom">表9. その他の関数</caption>
       <tr>
         <th valign="top">関数名</th>
         <th valign="top">関数の説明</th>
@@ -325,8 +326,8 @@
 
 <p>以下の関数は、フィード（RSSフィード）を作成するためのオプションの関数一覧です。</p>
 
-  <table cellpadding="2" cellspacing="2" border="1" width="90%" align="center">
-    <caption align="bottom">表10. フィード用関数</caption>
+  <table cellpadding="2" cellspacing="2" border="1" width="90%">
+    <caption style="caption-side:bottom">表10. フィード用関数</caption>
       <tr>
         <th valign="top">関数名</th>
         <th valign="top">関数の説明</th>
@@ -368,9 +369,9 @@
 
 <p>Geeklogプラグインのアーカイブファイルは、次の命名規約に従うべきです。</p>
 
-<blockquote>
+<p style="margin-left:4em;">
 &lt;プラグイン名&gt;_&lt;プラグインのバージョン&gt;_&lt;Geeklogのバージョン&gt;.tar.gz
-</blockquote>
+</p>
 
 <h3>説明</h3>
 <dl>
