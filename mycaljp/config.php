@@ -43,7 +43,7 @@ $_MYCALJP2_CONF = array();
 
 // Plugin info
 
-$_MYCALJP2_CONF['pi_version'] = '2.0.4';  // Plugin Version
+$_MYCALJP2_CONF['pi_version'] = '2.0.5';  // Plugin Version
 $_MYCALJP2_CONF['gl_version'] = '1.4.1';  // GL Version plugin for
 $_MYCALJP2_CONF['pi_url']     = 'http://www.trybase.com/~dengen/log/';    // Plugin Homepage
 
