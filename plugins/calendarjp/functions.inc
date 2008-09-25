@@ -101,7 +101,7 @@ function plugin_getmenuitems_calendarjp ()
 */
 function phpblock_calendarjp( $help='', $title='' )
 {
-    global $_CONF, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1;
+    global $_CONF, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1, $_DB_dbms;
 
     $retval = '';
 
@@ -121,15 +121,23 @@ function phpblock_calendarjp( $help='', $title='' )
         }
 
         $eventSql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
-        . "FROM {$_TABLES['eventsjp']} "
-        . "WHERE dateend >= NOW() AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) "
-        . 'ORDER BY datestart,timestart';
+        . "FROM {$_TABLES['eventsjp']} ";
+        if($_DB_dbms == 'mssql') {
+            $eventSql .= "WHERE dateend >= DATEADD(hh, 24, NOW()) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
+        } else {
+            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL 24 HOUR) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";            
+        }
+        $eventSql .= 'ORDER BY datestart,timestart';
         
         if(( $_CAJP_CONF['personalcalendars'] == 1 ) && !empty( $_USER['uid'] )) {
             $personaleventsql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
-            . "FROM {$_TABLES['personal_eventsjp']} "
-            . "WHERE uid = {$_USER['uid']} AND dateend >= NOW()  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) "
-            . 'ORDER BY datestart, dateend';
+            . "FROM {$_TABLES['personal_eventsjp']} ";
+            if($_DB_dbms == 'mssql') {
+                $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= DATEADD(hh, 24, getUTCDate())  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
+            } else {
+                $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL 24 HOUR)  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
+            }
+            $personaleventsql .= 'ORDER BY datestart, dateend';
         }
 
         $allEvents = DB_query( $eventSql );
@@ -939,8 +947,10 @@ function CALENDARJP_listOld()
 * @return   string          HTML with success or error message
 *
 */
-function CALENDARJP_deleteOld() {
+function CALENDARJP_deleteOld()
+{
     global $_CONF, $LANG_CALJP_ADMIN;
+
     $msg = '';
     $event_list = array();
     if (isset($_POST['delitem'])) {
@@ -961,10 +971,12 @@ function CALENDARJP_deleteOld() {
             }
         }
     }
+
     // Since this function is used for deletion only, its necessary to say that
     // zero were deleted instead of just leaving this message away.
-    COM_numberFormat($c); // just in case we have more than 999)..
+    COM_numberFormat($c); // just in case we have more than 999...
     $msg .= "{$LANG_CALJP_ADMIN[36]}: $c<br" . XHTML . ">\n";
+
     return $msg;
 }
 
@@ -1634,6 +1646,9 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
             $sql .= "AND (UNIX_TIMESTAMP(datestart) BETWEEN '$startdate' AND '$enddate') ";
         }
     }
+    if (!empty($author)) {
+        $sql .= "AND (owner_id = '$author')";
+    }
     $sql .= COM_getPermSQL ('AND');
     $sql .= ' GROUP BY datestart, eid, title, description, location, dateend, timestart, timeend, allday, event_type ORDER BY datestart DESC ';
     $l = ($perpage * $page) - $perpage;
@@ -1860,7 +1875,12 @@ function CALENDARJP_eventTypeList ($currtype = '')
 
     $retval = '';
 
-    $event_types = $_CAJP_CONF['event_types'];
+    if (!isset($_CAJP_CONF['event_types']) ||
+            !is_array($_CAJP_CONF['event_types'])) {
+        $event_types = array();
+    } else {
+        $event_types = $_CAJP_CONF['event_types'];
+    }
     asort($event_types);
 
     foreach ($event_types as $type) {
