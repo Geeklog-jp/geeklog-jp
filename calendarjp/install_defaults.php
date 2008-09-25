@@ -48,8 +48,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== false) 
  * and not referenced any more once the plugin is installed
  *
  */
-
 global $_CAJP_DEFAULT;
+$_CAJP_DEFAULT = array();
 
 // when set to 1 will only allow logged-in users to view the list of past events
 // (also see $_CONF['loginrequired'] in Geeklog's main configuration)
