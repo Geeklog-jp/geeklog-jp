@@ -1,5 +1,9 @@
 <?php
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_sitemapmenu.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 /**
 * Returns a simple sitemap menu (topics and stories)
 *
