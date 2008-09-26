@@ -31,6 +31,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 global $_DB_table_prefix, $_TABLES;
 
 // set Plugin Table Prefix the Same as Geeklogs
@@ -45,6 +49,6 @@ $_DPXY_CONF = array();
 
 // Plugin info
 
-$_DPXY_CONF['pi_version'] = '1.1.2';					// Plugin Version
+$_DPXY_CONF['pi_version'] = '1.1.3';					// Plugin Version
 $_DPXY_CONF['gl_version'] = '1.4.0';					// GL Version plugin for
 $_DPXY_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage

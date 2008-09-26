@@ -31,6 +31,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'forum.class.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 class Dataproxy_forum extends DataproxyDriver {
 	var $driver_name = 'forum';
 	
