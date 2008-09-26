@@ -1,5 +1,9 @@
 <?php
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 // ==================================================================
 //   日本語メール関数
 //
@@ -7,7 +11,7 @@
 //            メールに戻します。
 //  @author   mystral-kk - geeklog AT mystral-kk DOT net
 //  @license  LGPL
-//  @version  2008-06-18
+//  @version  2008-09-26
 //  @note     このハックが不要な場合は，system/lib-custom.phpの中の
 //            require_once('custom/custom_mail_jp.php');
 //            を削除してください。
