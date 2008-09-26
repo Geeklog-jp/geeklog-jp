@@ -28,6 +28,14 @@
 // +-------------------------------------------------------------------------+
 //
 //@@@@@20080115,20060405,20060418 what's new mojigire
+//@@@@@20080926 include check
+
+//@@@@@20080926add include check ---->
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
+    die('This file can not be used on its own.');
+}
+//@@@@@20080926add include check <----
+
 
 $langfile = $_CONF['path'] . 'plugins/filemgmt/language/' . $_CONF['language'] . '.php';
 if (file_exists ($langfile)) {
