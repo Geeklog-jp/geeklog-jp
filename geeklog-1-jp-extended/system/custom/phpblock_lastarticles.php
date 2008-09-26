@@ -1,5 +1,9 @@
 <?php
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_lastarticles.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 /**
 * 日付のフォーマットはPHPのdate()関数と同じ。
 */
