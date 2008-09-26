@@ -2,12 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendarjp Plugin 1.0                                                     |
+// | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
 // | Installation SQL                                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
 // |                                                                           |
+// | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -112,21 +113,21 @@ CREATE TABLE [dbo].[{$_TABLES['personal_eventsjp']}] (
 
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsjp']}] ADD
-    CONSTRAINT [PK_gl_eventsjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['eventsjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsubmissionjp']}] ADD
-    CONSTRAINT [PK_gl_eventsubmissionjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['eventsubmissionjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['personal_eventsjp']}] ADD
-    CONSTRAINT [PK_gl_personal_eventsjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['personal_eventsjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid],
         [uid]
