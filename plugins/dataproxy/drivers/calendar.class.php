@@ -31,6 +31,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'calendar.class.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 class Dataproxy_calendar extends DataproxyDriver
 {
 	var $driver_name = 'calendar';
