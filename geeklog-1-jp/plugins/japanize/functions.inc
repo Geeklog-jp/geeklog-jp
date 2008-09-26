@@ -4,10 +4,10 @@
 // | 日本語化プラグイン                                                        |
 // +---------------------------------------------------------------------------+
 // $Id: plugins/japanize/functions.inc
-//2008/08/01 22:38 tsuchi AT geeklog DOT jp 
+//2008/09/26 08:18 tsuchi AT geeklog DOT jp 
 
-if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
-    die ('This file can not be used on its own.');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
+    die('This file can not be used on its own.');
 }
 
 $pi_name         = 'japanize';
@@ -32,7 +32,7 @@ if (file_exists ($langfile)) {
 //    $_CA_CONF = $ca_config->get_config($pi_name);
 //}
 
-$_JPN_CONF['version'] = '1.0.0b3';
+include_once 'version.php';
 
 
 // アドバンストエディタ用．管理ユーザーが使ってもよいHTMLタグと属性．
@@ -130,7 +130,6 @@ function plugin_upgrade_japanize ()
 // +---------------------------------------------------------------------------+
 function plugin_autouninstall_japanize ()
 {
-
     // (1) 削除するテーブル
     $out['tables']=array();
     // (2) 削除するグループ名 
@@ -172,7 +171,7 @@ function plugin_geticon_japanize ()
 {
     global $_CONF;
 
-    return $_CONF['site_url'] . '/images/icons/plugins.gif';
+    return $_CONF['site_url'] . '/japanize/images/japanize.png';
 }
 
 // +---------------------------------------------------------------------------+
