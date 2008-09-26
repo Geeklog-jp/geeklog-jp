@@ -1,4 +1,9 @@
 <?php
+
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_getstaticpage.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 /**
 * Returns the content of a given staticpage
 *
