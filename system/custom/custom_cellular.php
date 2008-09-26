@@ -1,4 +1,9 @@
 <?php
+
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_cellular.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 /*
  * Geeklog hack for cellular phones.
  * Copyright (c) 2006 - 2008 Tatsumi Imai(http://im-ltd.ath.cx)
