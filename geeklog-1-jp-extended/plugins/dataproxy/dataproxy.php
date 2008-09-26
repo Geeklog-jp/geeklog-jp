@@ -31,6 +31,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'dataproxy.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 /**
 * @class DataproxyDriver
 * @description the parent class of all classes to retrieve data from plugins
