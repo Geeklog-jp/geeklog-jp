@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: index.php
 // public_html/admin/plugins/japanize/index.php
-// 20080729 tsuchi AT geeklog DOT jp  
+// 20080915 tsuchi AT geeklog DOT jp  
 
 define ('THIS_SCRIPT', 'index.php');
 define ('THIS_PLUGIN', 'japanize');
@@ -35,10 +35,6 @@ function fncCmdExec ($no)
         DB_query(current($_SQL));
         next($_SQL);
     }
-    $url=$_CONF['site_admin_url'] . "/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
-    $url.="?msg={$no}";
-
-    echo COM_refresh($url);
 
 }
 
@@ -56,6 +52,9 @@ function fncEdit ()
     $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
     $T->set_file ('admin','index.thtml');
 
+
+    $T->set_var('gltoken_name', CSRF_TOKEN);
+    $T->set_var('gltoken', SEC_createToken());
     $T->set_var ( 'xhtml', XHTML );
 
     $this_script=$_CONF['site_admin_url']."/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
@@ -80,6 +79,13 @@ if (isset ($_REQUEST['mode'])) {
     $mode = COM_applyFilter ($_REQUEST['mode'], false);
 }
 
+if ((substr($mode,0,3)=="cmd") OR (substr($mode,0,3)=="ALL")){
+    if (!SEC_checkToken()){
+        COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks.");
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
+        exit;
+    }
+}
 
 $display = '';
 $display .= COM_siteHeader ('menu', $LANG_JPN['pinameadmin']);
@@ -93,6 +99,18 @@ $display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['1']);
 if (substr($mode,0,3)=="cmd") {
     $no=trim($mode,"cmd");
     fncCmdExec($no);
+
+    $url=$_CONF['site_admin_url'] . "/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
+    $url.="?msg={$no}";
+    echo COM_refresh($url);
+
+}elseif (substr($mode,0,3)=="ALL") {
+    for ($no = 1; $no <= 7; $no++) {
+        fncCmdExec($no);
+        $var = 'PLG_japanize_MESSAGE'. $no;
+        $display .=$$var."<br>";
+    }
+    $display .= COM_siteFooter ();
 }else{// 初期表示、一覧表示
     $display .=fncEdit();
     $display .= COM_siteFooter ();
