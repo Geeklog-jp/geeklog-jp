@@ -58,7 +58,7 @@
 * You need to change all instances of tkgmaps with the name of your plugin.
 */
 
-if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
+if (strpos ( strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die ('This file can not be used on its own.');
 }
 
