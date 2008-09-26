@@ -31,6 +31,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'links.class.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 /**
 * Links plugin supports URL rwrite in individual links but doesn't do so in
 * categories, e.g.:
