@@ -1,5 +1,9 @@
 <?php
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_showrights.php') !== false) {
+    die('This file can not be used on its own!');
+}
+
 /**
 * Shows a list of rights that the current user has
 *
