@@ -4,10 +4,10 @@
 // | 日本語化プラグイン                                                        |
 // +---------------------------------------------------------------------------+
 // $Id: plugins/japanize/functions.inc
-//2008/09/02 23:08 tsuchi AT geeklog DOT jp 
+//2008/09/26 08:18 tsuchi AT geeklog DOT jp 
 
-if (strpos ($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
-    die ('This file can not be used on its own.');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
+    die('This file can not be used on its own.');
 }
 
 $pi_name         = 'japanize';
