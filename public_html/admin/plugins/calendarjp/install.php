@@ -2,17 +2,16 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendarjp plugin 1.0 for Geeklog                                         |
+// | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
 // | install.php                                                               |
 // |                                                                           |
 // | This file installs and removes the data structures for the                |
 // | Calendarjp plugin for Geeklog.                                            |
 // +---------------------------------------------------------------------------+
-// | Based on the Universal Plugin and prior work by the following authors:    |
+// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
 // |                                                                           |
-// | Copyright (C) 2002-2008 by the following authors:                         |
-// |                                                                           |
+// | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Tom Willett       - tom AT pigstye DOT net                       |
 // |          Blaine Lang       - blaine AT portalparts DOT com                |
