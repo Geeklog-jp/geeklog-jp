@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendarjp plugin 1.0                                                     |
+// | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
 // | install_defaults.php                                                      |
 // |                                                                           |
@@ -10,8 +10,9 @@
 // | records. These settings are only used during the initial installation     |
 // | and not referenced any more once the plugin is installed.                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
 // |                                                                           |
+// | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -35,7 +36,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
 }
 
@@ -47,8 +48,8 @@ if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
  * and not referenced any more once the plugin is installed
  *
  */
-
 global $_CAJP_DEFAULT;
+$_CAJP_DEFAULT = array();
 
 // when set to 1 will only allow logged-in users to view the list of past events
 // (also see $_CONF['loginrequired'] in Geeklog's main configuration)
