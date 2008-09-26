@@ -58,4 +58,28 @@ $_SQL[] = "
     , 'http://blog.goo.ne.jp/XMLRPC', 'weblogUpdates.ping', 1)
     ";
 
+//3.ピング送信先に Googleブログ検索 テクノラティ 追加
+//Googleブログ検索 拡張ピング
+$_SQL[] = "
+    DELETE FROM {$_TABLES['pingservice']} Where
+    site_url = 'http://blogsearch.google.co.jp/'
+    ";
+$_SQL[] = "
+    INSERT INTO {$_TABLES['pingservice']} 
+    (pid, name, site_url, ping_url, method, is_enabled)
+    VALUES (NULL, 'Googleブログ検索', 'http://blogsearch.google.co.jp/'
+    , 'http://blogsearch.google.co.jp/ping/RPC2', 'weblogUpdates.extendedPing', 1)
+    ";
+//テクノラティ
+$_SQL[] = "
+    DELETE FROM {$_TABLES['pingservice']} Where
+    site_url = 'http://www.technorati.jp/'
+    ";
+$_SQL[] = "
+    INSERT INTO {$_TABLES['pingservice']} 
+    (pid, name, site_url, ping_url, method, is_enabled)
+    VALUES (NULL, 'テクノラティ', 'http://www.technorati.jp/'
+    , 'http://rpc.technorati.jp/rpc/ping', 'weblogUpdates.ping', 1)
+    ";
+
 ?>
