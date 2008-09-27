@@ -30,6 +30,10 @@
 // +-------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'debug.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 // Debug Code to show variables
 if ($CONF_FORUM['debug']) {
     if (!empty($_POST)) {
