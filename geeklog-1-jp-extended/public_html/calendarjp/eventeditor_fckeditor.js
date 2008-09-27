@@ -1,7 +1,8 @@
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2003,2004,2005,2006 by the following authors:               |
 // | Version 1.1    Date: Jun 4, 2006                                          |
-// | Authors:   Blaine Lang - blaine@portalparts.com                           |
+// | Authors:   Blaine Lang - blaine AT portalparts DOT com                    |
+// | Modified:  dengen      - taharaxp AT gmail DOT com                        |
 // |                                                                           |
 // | Javascript functions for FCKEditor Integration into Geeklog               |
 // |                                                                           |
