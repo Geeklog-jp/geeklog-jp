@@ -54,7 +54,7 @@ $_TKGMAPS_CONF['hidemenu']      = 1;
 
 $_TKGMAPS_CONF['loginrequired'] = 0;
 
-$_TKGMAPS_CONF['version']       = '0.9.2';   // Plugin Version
+$_TKGMAPS_CONF['version']       = '0.9.3';   // Plugin Version
 
 // Add to $_TABLES array the tables your plugin uses
 
