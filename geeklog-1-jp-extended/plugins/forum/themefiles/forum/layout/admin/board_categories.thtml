@@ -1,9 +1,9 @@
 
 <!-- start board_categories.thtml -->
-<table width="100%" border="0" cellspacing="0" cellpadding="3" style="margin-top:10px; margin-bottom:20px;">
+<table width="100%" cellspacing="0" cellpadding="3" style="margin-top:10px; margin-bottom:20px; border:0 none;">
     <tr>
         <td>
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <table width="100%" cellspacing="0" cellpadding="0" style="border:0 none;">
                 <tr>
                     <td style="height:8px; width:10px;"><img src="{imgset}/forumindex.png" border="0"{xhtml}></td>
                     <td class="pluginHeader alignleft" style="white-space:nowrap;">&nbsp;{catname}:</td>
@@ -14,7 +14,7 @@
     </tr>
     <tr>
         <td style="padding:0px;">
-            <table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
+            <table width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="border:0 none;">
                 <tr>
                     <td class="pluginCellTitle" style="padding-left:5px width:15%;">{LANG_action}</td>
                     <td class="pluginCellTitle" style="width:70%;">{LANG_forumdesc}</td>
@@ -27,7 +27,7 @@
     </tr>
     <tr>
         <td class="pluginSolidOutline pluginCellSubTitle">
-            <table width="100%" border="0" cellspacing="1" cellpadding="4">
+            <table width="100%" cellspacing="1" cellpadding="4" style="border:0 none;">
                 <tr>
                     <td style="white-space:nowrap;">
                         <form action="{phpself}" method="post">
