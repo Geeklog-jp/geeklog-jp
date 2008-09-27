@@ -92,3 +92,7 @@ JPr4  #edited by dengen
 ・XHTMLに対応
 ・HTMLコードの適正化を実施（一部）
 ・その他、軽微な微調整
+
+JPr4.1  #edited by dengen
+
+・大文字小文字を区別しないファイルシステム（MS Windowsなど）で、インクルードファイルが直接アクセスされるのを防ぐ措置を追加
