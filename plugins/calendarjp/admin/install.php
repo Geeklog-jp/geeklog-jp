@@ -43,7 +43,7 @@ require_once '../../../lib-common.php';
 //
 $pi_display_name = 'Calendarjp';
 $pi_name         = 'calendarjp';
-$pi_version      = '1.0.2';
+$pi_version      = '1.0.3';
 $gl_version      = '1.5.0';
 $pi_url          = 'http://www.geeklog.jp/';
 
