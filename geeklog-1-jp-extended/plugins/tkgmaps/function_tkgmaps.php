@@ -151,7 +151,9 @@ function tkgmaps_point($p1, $p2, $fulltag){
 	$options_array = explode(' ', $options);	
 	while(count($options_array)>0){
 		$option = array_shift($options_array);
-		list($k, $v) = explode(':', $option);
+		$cpos = strpos($option, ':');
+		$k = substr($option, 0, $cpos);
+		$v = substr($option, $cpos+1);
 		switch (strtolower($k)) {
 			case "title": 	$title  = $v; 	break;
 			case "icon": 	$icon = $v; 	break;
@@ -196,7 +198,7 @@ function tkgmaps_show(){
 	$ret = '';
 	
 	// 最初のタグのみAPI取得JSを出力
-    $ret = "<script src='http://maps.google.com/maps?file=api&v=2&key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>";
+    $ret = "<script src='http://maps.google.com/maps?file=api&amp;v=2&amp;key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>" .LB.LB;
 
 	// 地図表示設定
 	$ret .= "<div id='map{$id}' style='padding:0px;'></div>" .LB;
@@ -207,7 +209,7 @@ function tkgmaps_show(){
 	$ret .= "  mapstyle.width = '{$tkgmaps_width}px'; //地図の幅" .LB;
 	$ret .= "  mapstyle.height = '{$tkgmaps_height}px'; //地図の高さ" .LB;
 	$ret .= "  mapstyle.margin = '{$tkgmaps_margin}px'; //地図の余白" .LB;
-	$ret .= "  function OnloadBody{$id}(){" .LB;
+	$ret .= "function OnloadBody{$id}(){" .LB;
 	$ret .= "  if(document.getElementById('map{$id}')) {" .LB;
 
 	$ret .= "    var map = new GMap2(document.getElementById('map{$id}'));" .LB;
@@ -253,8 +255,8 @@ function tkgmaps_display(){
 
 	$ret = '';
 	$ret .= "<script type='text/javascript'>" .LB;
-	$ret .= "//<![CDATA[" .LB;
-	$ret .= "  function OnloadBody(){" .LB;
+	$ret .= "<!--" .LB;
+	$ret .= "function OnloadBody(){" .LB;
 
 	$id = $tkgmaps_mapid;
 	// onloadイベント時の地図の描画関係(1ページに複数個の地図に対応)
@@ -264,28 +266,10 @@ function tkgmaps_display(){
 
 	// 終了タグ
 	$ret .= "}" .LB;
-	$ret .= "//]]>" .LB;
+	$ret .= "window.onload = OnloadBody;".LB;
+	$ret .= "// -->" .LB;
 	$ret .= "</script>" .LB;
-	$ret .= "<script type='text/javascript'> OnloadBody(); </script>";
 
-	return $ret;
-}
-
-function plugin_getheadercode_tkgmaps(){
-	global $_TABLES,$tkgmaps_apikey;
-
-
-//	$tkgmaps_apikey = DB_getItem ($_TABLES['tkgmaps'], 'googlemapsapikey', "1 LIMIT 1");
-	
-	if(empty($tkgmaps_apikey)){
-		$ret = '';
-//	} else {
-//	    if (trim($tkgmaps_apikey) == '取得したkeyを入れてください') {
-//        	$ret = '';
-//	    } else {
-//    		$ret = "<script src='http://maps.google.com/maps?file=api&v=2&key={$tkgmaps_apikey}' type='text/javascript' charset='utf-8'></script>";		
-//	    }
-	}
 	return $ret;
 }
 
