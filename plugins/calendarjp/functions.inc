@@ -58,7 +58,7 @@ if (!isset($_CAJP_CONF['calendarloginrequired'])) {
     $_CAJP_CONF = $ca_config->get_config('calendarjp');
 }
 
-$_CAJP_CONF['version'] = '1.0.2';
+$_CAJP_CONF['version'] = '1.0.3';
 
 $_TABLES['eventsjp']              = $_DB_table_prefix . 'eventsjp';
 $_TABLES['eventsubmissionjp']     = $_DB_table_prefix . 'eventsubmissionjp';
