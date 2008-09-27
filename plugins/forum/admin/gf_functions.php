@@ -32,6 +32,10 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_functions.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 require_once('../../../lib-common.php');
 
 if (!SEC_hasRights('forum.edit')) {

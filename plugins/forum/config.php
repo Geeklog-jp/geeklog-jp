@@ -29,6 +29,9 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
+    die('This file can not be used on its own.');
+}
 
 $CONF_FORUM['debug'] = false;
 $CONF_FORUM['version'] = '2.7.1';
