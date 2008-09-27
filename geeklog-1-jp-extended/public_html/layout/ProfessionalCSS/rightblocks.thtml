@@ -3,7 +3,7 @@
 <!--[if !IE]> (複数の浮動要素を組み合わせた場合に、最後の浮動要素の内容が重複するバグ) <![endif]-->
 <!--[if !IE]> rightblocks.thtml { <![endif]-->
 
-    <hr class="separator">
+    <hr class="separator"{xhtml}>
 
     <!--[if !IE]> #rightblocks { <![endif]-->
     <!--[if !IE]> 右ブロックコンテナ <![endif]-->
