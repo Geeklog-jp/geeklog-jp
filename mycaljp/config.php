@@ -30,6 +30,10 @@
 // +---------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
+    die('This file can not be used on its own.');
+}
+
 //global $_DB_table_prefix, $_TABLES;
 
 // set Plugin Table Prefix the Same as Geeklogs
