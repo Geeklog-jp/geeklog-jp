@@ -47,7 +47,7 @@
 #
 # 以下のサフィックスのファイルはテキストではないものとしてチェックしません。
 #
-binaries="bat bmp gd2 gif jpg jpeg pdf png ttf"
+binaries="bat bmp dat data gd2 gif jpg jpeg pdf png ttf"
 
 unset LANG
 
