@@ -113,21 +113,21 @@ CREATE TABLE [dbo].[{$_TABLES['personal_eventsjp']}] (
 
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsjp']}] ADD
-    CONSTRAINT [PK_gl_eventsjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['eventsjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['eventsubmissionjp']}] ADD
-    CONSTRAINT [PK_gl_eventsubmissionjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['eventsubmissionjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid]
     )  ON [PRIMARY]
 ";
 
 $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['personal_eventsjp']}] ADD
-    CONSTRAINT [PK_gl_personal_eventsjp] PRIMARY KEY  CLUSTERED
+    CONSTRAINT [PK_{$_TABLES['personal_eventsjp']}] PRIMARY KEY  CLUSTERED
     (
         [eid],
         [uid]
