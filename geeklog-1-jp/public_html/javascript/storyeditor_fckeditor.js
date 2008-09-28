@@ -86,7 +86,7 @@
                 content = document.getElementById('bodytext').value;
             }
             try {
-            oEditor.SetHTML(content);
+                oEditor.SetHTML(content);
                 } catch (e) {}
 
         } else {
@@ -99,7 +99,7 @@
           }
     }
 
-    function set_postcontent() { 
+    function set_postcontent() {
         if (document.getElementById('sel_editmode').value == 'adveditor') {
             document.getElementById('introtext').value = getEditorContent('introhtml');
             document.getElementById('bodytext').value = getEditorContent('bodyhtml');
