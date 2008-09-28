@@ -13,7 +13,7 @@
  */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'LogView.Admin.class.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 require_once $_CONF['path'] . 'plugins/spamx/BaseAdmin.class.php';
