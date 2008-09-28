@@ -76,7 +76,7 @@ FCKXHtml.GetXHTML = function( node, includeNode, format )
 	if (FCKConfig.DocType.length > 0 && FCKRegexLib.HtmlDocType.test( FCKConfig.DocType ) )
 		sXHTML = sXHTML.replace( FCKRegexLib.SpaceNoClose, '>');
 	else
-	sXHTML = sXHTML.replace( FCKRegexLib.SpaceNoClose, ' />');
+		sXHTML = sXHTML.replace( FCKRegexLib.SpaceNoClose, ' />');
 
 	if ( FCKConfig.ForceSimpleAmpersand )
 		sXHTML = sXHTML.replace( FCKRegexLib.ForceSimpleAmpersand, '&' ) ;
@@ -207,7 +207,7 @@ FCKXHtml._AppendNode = function( xmlNode, htmlNode )
 					( htmlNode.hasAttribute('_moz_editor_bogus_node') || htmlNode.getAttribute( 'type' ) == '_moz' ) )
 			{
 				if ( htmlNode.nextSibling )
-				return false ;
+					return false ;
 				else
 				{
 					htmlNode.removeAttribute( '_moz_editor_bogus_node' ) ;

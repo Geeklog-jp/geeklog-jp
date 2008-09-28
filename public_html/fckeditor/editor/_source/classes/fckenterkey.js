@@ -44,7 +44,7 @@ var FCKEnterKey = function( targetWindow, enterMode, shiftEnterMode, tabSpaces )
 		[ 13		, 'Enter' ],
 		[ SHIFT + 13, 'ShiftEnter' ],
 		[ 8			, 'Backspace' ],
-		[ CTRL + 8		, 'CtrlBackspace' ],
+		[ CTRL + 8	, 'CtrlBackspace' ],
 		[ 46		, 'Delete' ]
 	] ) ;
 
@@ -614,7 +614,7 @@ FCKEnterKey.prototype._ExecuteEnterBr = function( blockTag )
 
 				eLineBreak.parentNode.insertBefore( dummy, eLineBreak.nextSibling ) ;
 
-					FCKDomTools.ScrollIntoView( dummy, false ) ;
+				FCKDomTools.ScrollIntoView( dummy, false ) ;
 
 				dummy.parentNode.removeChild( dummy ) ;
 			}

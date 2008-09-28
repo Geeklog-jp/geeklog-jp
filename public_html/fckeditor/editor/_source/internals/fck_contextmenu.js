@@ -306,7 +306,7 @@ function FCK_ContextMenu_GetListener( listenerName )
 					menu.AddSeparator() ;
 					menu.AddItem( 'EditDiv', FCKLang.EditDiv, 75 ) ;
 					menu.AddItem( 'DeleteDiv', FCKLang.DeleteDiv, 76 ) ;
-	}
+				}
 			}} ;
 
 	}

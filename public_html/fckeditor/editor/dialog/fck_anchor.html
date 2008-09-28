@@ -119,7 +119,7 @@ function Ok()
 	var aNewAnchors = oEditor.FCK.CreateLink( '#' ) ;
 
 	if ( aNewAnchors.length == 0 )
-		aNewAnchors.push( oEditor.FCK.InsertElement( 'a' ) ) ;
+			aNewAnchors.push( oEditor.FCK.InsertElement( 'a' ) ) ;
 	else
 	{
 		// Remove the fake href
@@ -144,7 +144,7 @@ function Ok()
 			oAnchor = replaceAnchor ;
 		}
 		else
-		oAnchor.name = sNewName ;
+			oAnchor.name = sNewName ;
 
 		// IE does require special processing to show the Anchor's image
 		// Opera doesn't allow to select empty anchors

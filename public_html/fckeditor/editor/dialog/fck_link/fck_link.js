@@ -106,9 +106,9 @@ oParser.ParseEMailUri = function( sUrl )
 {
 	// Initializes the EMailInfo object.
 	var oEMailInfo = new Object() ;
-	oEMailInfo.Address	= '' ;
-	oEMailInfo.Subject	= '' ;
-	oEMailInfo.Body		= '' ;
+	oEMailInfo.Address = '' ;
+	oEMailInfo.Subject = '' ;
+	oEMailInfo.Body = '' ;
 
 	var aLinkInfo = sUrl.match( /^(\w+):(.*)$/ ) ;
 	if ( aLinkInfo && aLinkInfo[1] == 'mailto' )
@@ -117,12 +117,12 @@ oParser.ParseEMailUri = function( sUrl )
 		var aParts = aLinkInfo[2].match( /^([^\?]+)\??(.+)?/ ) ;
 		if ( aParts )
 		{
-		// Set the e-mail address.
+			// Set the e-mail address.
 			oEMailInfo.Address = aParts[1] ;
 
-		// Look for the optional e-mail parameters.
+			// Look for the optional e-mail parameters.
 			if ( aParts[2] )
-		{
+			{
 				var oEMailParams = oParser.ParseEMailParams( aParts[2] ) ;
 				oEMailInfo.Subject = oEMailParams.Subject ;
 				oEMailInfo.Body = oEMailParams.Body ;
@@ -158,8 +158,8 @@ oParser.ParseEMailUri = function( sUrl )
 					{
 						sFunc = sFunc.replace( rexp, '\'([^\']*)\'' ) ;
 						pos[pos.length] = p + ':' + keys[i] ;
-		}
-	}
+					}
+				}
 
 				// Sort the available keys.
 				pos.sort( oParser.SortNumerical ) ;
@@ -185,8 +185,8 @@ oParser.ParseEMailUri = function( sUrl )
 					oEMailInfo.Subject = decodeURIComponent( aInfo['SUBJECT'] ) ;
 					oEMailInfo.Body = decodeURIComponent( aInfo['BODY'] ) ;
 
-	return oEMailInfo ;
-}
+					return oEMailInfo ;
+				}
 			}
 			catch (e)
 			{
@@ -418,23 +418,23 @@ function LoadSelection()
 	var oEMailInfo = oParser.ParseEMailUri( sHRef );
 
 	if ( oEMailInfo )
-		{
-			sType = 'email' ;
+	{
+		sType = 'email' ;
 
-			GetE('txtEMailAddress').value	= oEMailInfo.Address ;
-			GetE('txtEMailSubject').value	= oEMailInfo.Subject ;
-			GetE('txtEMailBody').value		= oEMailInfo.Body ;
-		}
+		GetE('txtEMailAddress').value = oEMailInfo.Address ;
+		GetE('txtEMailSubject').value = oEMailInfo.Subject ;
+		GetE('txtEMailBody').value    = oEMailInfo.Body ;
+	}
 	else if ( sProtocol )
-		{
+	{
 		sProtocol = sProtocol[0].toLowerCase() ;
 		GetE('cmbLinkProtocol').value = sProtocol ;
 
 		// Remove the protocol and get the remaining URL.
 		var sUrl = sHRef.replace( oRegex.UriProtocol, '' ) ;
-			sType = 'url' ;
-			GetE('txtUrl').value = sUrl ;
-		}
+		sType = 'url' ;
+		GetE('txtUrl').value = sUrl ;
+	}
 	else if ( sHRef.substr(0,1) == '#' && sHRef.length > 1 )	// It is an anchor link.
 	{
 		sType = 'anchor' ;
