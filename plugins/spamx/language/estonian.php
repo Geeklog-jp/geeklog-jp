@@ -6,8 +6,8 @@
  * 
  * Copyright (C) 2004-2008 by the following authors:
  * Author        Tom Willett        tomw AT pigstye DOT net
-*  Estonian translation by Artur Räpp <rtr AT planet DOT ee>
-  * 
+ *  Estonian translation by Artur Räpp <rtr AT planet DOT ee>
+ * 
  * Licensed under GNU General Public License
  *
  * $Id: estonian.php,v 1.3 2008/09/13 14:27:58 dhaun Exp $
@@ -15,7 +15,7 @@
 
 global $LANG32;
 
-$LANG_SX00 = array (
+$LANG_SX00 = array(
     'inst1' => '<p>Kui sa teed nii, saavad ',
     'inst2' => 'teised vaadata sinu isiklikku blacklisti ja seda importida ja nii saame me luua   efektiivsema  ',
     'inst3' => 'jagatud andmebaasi.</p><p>Kui sa   sisestasid oma veebilehe ja pärast seda otsustasid, et soovid oma lehe antud loetelust eemaldada,  ',
@@ -49,7 +49,7 @@ $LANG_SX00 = array (
     'addcen' => 'Lisa Tsensuuriloetelu',
     'addentry' => 'Lisa kanne',
     'e1' => 'Kande kustutamiseks klõpsa sellel',
-    'e2' => 'Kande lisamiseks kirjuta uus kanne kirjutamisväljale ja klõpsa Lisa nuppu. Kannetes saab kasutada täiemahulisi Perli regulaaravaldisi.', 
+    'e2' => 'Kande lisamiseks kirjuta uus kanne kirjutamisväljale ja klõpsa Lisa nuppu. Kannetes saab kasutada täiemahulisi Perli regulaaravaldisi.',
     'pblack' => 'Spam-X isikli blacklist',
     'conmod' => 'Häälesta Spam-X Mooduli kasutamist',
     'acmod' => 'Spam-X toimingute  Moodulid',
@@ -90,18 +90,18 @@ $LANG_SX00 = array (
     'foundspam' => 'Leitud spampostitus, reegel ',
     'foundspam2' => ' postitajaks kasutaja ',
     'foundspam3' => ' IP-lt ',
-	'deletespam' => 'Kustuta Spam',
-	'numtocheck' => 'kontrollitavate kommentaaride arv',
-	'note1'		=> '<p>Märkus: Masskustutamine on mõeldud juhuks kui  lehte on tabanud ',
-	'note2'		=> ' spamkommentaarid ja  Spam-X ei saa nendega hakkama.</p><ul><li>Algul  leia ling(id) või teised ',
+    'deletespam' => 'Kustuta Spam',
+    'numtocheck' => 'kontrollitavate kommentaaride arv',
+    'note1' => '<p>Märkus: Masskustutamine on mõeldud juhuks kui  lehte on tabanud ',
+    'note2' => ' spamkommentaarid ja  Spam-X ei saa nendega hakkama.</p><ul><li>Algul  leia ling(id) või teised ',
     'note3' => 'spamkommentaaride tunnused  ja lisa need isiklikku blacklisti.
     </li><li>Seejärel ',
-	'note4'		=> 'tule siia tagasi ja lase Spam-X-l viimaseid kommentaare kontrollida .</li></ul><p>Kommentaare ',
-	'note5'		=> 'kontrollitakse alates uuematest. Suurema arvu kommentaaride kontrollimine ', 
-	'note6'		=> 'nõuab kontrollimiselt rohkem aega.</p>',
-	'masshead'	=> '<hr' . XHTML . '><h1 align="center">Masskustuta spamkommentaare</h1>',
-	'masstb' => '<hr' . XHTML . '><h1 align="center">Masskustuta trackback spam</h1>',
-	'comdel'	=> ' kommentaari kustutatud.',
+    'note4' => 'tule siia tagasi ja lase Spam-X-l viimaseid kommentaare kontrollida .</li></ul><p>Kommentaare ',
+    'note5' => 'kontrollitakse alates uuematest. Suurema arvu kommentaaride kontrollimine ',
+    'note6' => 'nõuab kontrollimiselt rohkem aega.</p>',
+    'masshead' => '<hr' . XHTML . '><h1 align="center">Masskustuta spamkommentaare</h1>',
+    'masstb' => '<hr' . XHTML . '><h1 align="center">Masskustuta trackback spam</h1>',
+    'comdel' => ' kommentaari kustutatud.',
     'initial_Pimport' => '<p>Isikliku blacklisti importimine"',
     'initial_import' => 'Algne MT-Blacklisti importimine',
     'import_success' => '<p>%d blacklisti kannet on edukalt imporditud.',
@@ -129,7 +129,7 @@ $LANG_SX00 = array (
 
 // Define Messages that are shown when Spam-X module action is taken
 $PLG_spamx_MESSAGE128 = 'Tuvastati spam. Postitus kustutati.';
-$PLG_spamx_MESSAGE8   = 'Tuvastati spam. Administraatorile saadeti E-kiri';
+$PLG_spamx_MESSAGE8 = 'Tuvastati spam. Administraatorile saadeti E-kiri';
 
 // Messages for the plugin upgrade
 $PLG_spamx_MESSAGE3001 = 'Plugina uuendamine pole toetatud';
