@@ -59,29 +59,29 @@ FCKDomRange.prototype =
 			{
 				var eEnd	= innerRange.endContainer ;
 
-			if ( eStart != eEnd )
-				oElementPath = new FCKElementPath( eEnd ) ;
+				if ( eStart != eEnd )
+					oElementPath = new FCKElementPath( eEnd ) ;
 
-			// The innerRange.endContainer[ innerRange.endOffset ] is not
-			// usually part of the range, but the marker for the range end. So,
-			// let's get the previous available node as the real end.
-			var eEndNode = eEnd ;
-			if ( innerRange.endOffset == 0 )
-			{
-				while ( eEndNode && !eEndNode.previousSibling )
-					eEndNode = eEndNode.parentNode ;
+				// The innerRange.endContainer[ innerRange.endOffset ] is not
+				// usually part of the range, but the marker for the range end. So,
+				// let's get the previous available node as the real end.
+				var eEndNode = eEnd ;
+				if ( innerRange.endOffset == 0 )
+				{
+					while ( eEndNode && !eEndNode.previousSibling )
+						eEndNode = eEndNode.parentNode ;
 
-				if ( eEndNode )
-					eEndNode = eEndNode.previousSibling ;
+					if ( eEndNode )
+						eEndNode = eEndNode.previousSibling ;
+				}
+				else if ( eEndNode.nodeType == 1 )
+					eEndNode = eEndNode.childNodes[ innerRange.endOffset - 1 ] ;
+
+				this.EndNode			= eEndNode ;
+				this.EndContainer		= eEnd ;
+				this.EndBlock			= oElementPath.Block ;
+				this.EndBlockLimit		= oElementPath.BlockLimit ;
 			}
-			else if ( eEndNode.nodeType == 1 )
-				eEndNode = eEndNode.childNodes[ innerRange.endOffset - 1 ] ;
-
-			this.EndNode			= eEndNode ;
-			this.EndContainer		= eEnd ;
-			this.EndBlock			= oElementPath.Block ;
-			this.EndBlockLimit		= oElementPath.BlockLimit ;
-		}
 		}
 
 		this._Cache = {} ;

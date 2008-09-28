@@ -154,9 +154,9 @@ FCKEditingArea.prototype.Start = function( html, secondCall )
 			// Using a IE alternative for DOMContentLoaded, similar to the
 			// solution proposed at http://javascript.nwbox.com/IEContentLoaded/
 			setTimeout( function()
-			{
+					{
 						try
-				{
+						{
 							editArea.Window.document.documentElement.doScroll("left") ;
 						}
 						catch(e)
@@ -164,10 +164,10 @@ FCKEditingArea.prototype.Start = function( html, secondCall )
 							setTimeout( arguments.callee, 0 ) ;
 							return ;
 						}
-					editArea.Window._FCKEditingArea = editArea ;
-					FCKEditingArea_CompleteStart.call( editArea.Window ) ;
+						editArea.Window._FCKEditingArea = editArea ;
+						FCKEditingArea_CompleteStart.call( editArea.Window ) ;
 					}, 0 ) ;
-				}
+		}
 		else
 		{
 			this.Window._FCKEditingArea = this ;

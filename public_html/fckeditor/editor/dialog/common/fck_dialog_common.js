@@ -187,7 +187,7 @@ function OpenFileBrowser( url, width, height )
 	sOptions += ",left=" + iLeft ;
 	sOptions += ",top=" + iTop ;
 
-		window.open( url, 'FCKBrowseWindow', sOptions ) ;
+	window.open( url, 'FCKBrowseWindow', sOptions ) ;
 }
 
 /**

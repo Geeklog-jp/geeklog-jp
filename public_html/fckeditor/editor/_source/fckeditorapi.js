@@ -172,7 +172,7 @@ function FCKeditorAPI_Cleanup()
 function FCKeditorAPI_ConfirmCleanup()
 {
 	if ( window.FCKConfig && FCKConfig.MsWebBrowserControlCompat )
-	window.FCKUnloadFlag = true ;
+		window.FCKUnloadFlag = true ;
 }
 FCKTools.AddEventListener( window, 'unload', FCKeditorAPI_Cleanup ) ;
 FCKTools.AddEventListener( window, 'beforeunload', FCKeditorAPI_ConfirmCleanup) ;
