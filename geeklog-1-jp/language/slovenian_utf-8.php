@@ -1261,7 +1261,7 @@ $LANG_DB_BACKUP = array(
     'last_ten_backups' => 'Zadnjih 10 varnostnih kopij',
     'do_backup' => 'Naredi varnostno kopijo',
     'backup_successful' => 'Varnostno shranjevanje baze podatkov je bilo uspešno.',
-    'db_explanation' => 'Če hočeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',
+    'db_explanation' => 'Če hočeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',    
     'not_found' => "Napačna pot ali pa orodje mysqldump ni izvršljivo.<br" 
         . XHTML . ">Preveri definicijo <strong>\$_DB_mysqldump_path</strong> v Nastavitvah.<br" 
         . XHTML . '> Preveri <a href="http://www.php.net/ manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a> nastavitev v PHP nastavitvah.<br'

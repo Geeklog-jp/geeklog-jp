@@ -31,9 +31,9 @@ global $LANG32;
 
 ###############################################################################
 # Array Format:
-# $LANGXX[YY]:    $LANG - variable name
-#              XX - file id number
-#            YY - phrase id number
+# $LANGXX[YY]:  $LANG - variable name
+#               XX    - file id number
+#               YY    - phrase id number
 ###############################################################################
 
 $LANG_LINKS = array(
@@ -43,12 +43,12 @@ $LANG_LINKS = array(
     88 => 'Pole uusi linke',
     114 => 'Linke',
     116 => 'Lisa link',
-        117 => 'Teata mittetöötavast lingist',
+    117 => 'Teata mittetöötavast lingist',
     118 => 'Mittetöötavast lingist teatamine',
     119 => 'Järgmisest lingist on teatatud kui mittetöötavast: ',
     120 => 'Lingi toimetamiseks kliki siin: ',
     121 => 'Mittetöötavast lingist teatas: ',
-    122 => 'Täname mittetöötavast lingist teatamise eest. Administraator parandab lingi nii ruttu kui võimalik.', 
+    122 => 'Täname mittetöötavast lingist teatamise eest. Administraator parandab lingi nii ruttu kui võimalik.',
     123 => 'Täname sind',
     124 => 'Mine',
     125 => 'Kategooriad',
@@ -71,11 +71,11 @@ $LANG_LINKS_STATS = array(
 # for the search
 
 $LANG_LINKS_SEARCH = array(
- 'results' => 'Linkide tulemus',
- 'title' => 'Tiitel',
- 'date' => 'Lisamisaeg',
- 'author' => 'Lisaja',
- 'hits' => 'Klikke'
+    'results' => 'Linkide tulemus',
+    'title' => 'Tiitel',
+    'date' => 'Lisamisaeg',
+    'author' => 'Lisaja',
+    'hits' => 'Klikke'
 );
 
 ###############################################################################
@@ -146,7 +146,7 @@ $LANG_LINKS_ADMIN = array(
     26 => 'Kontrolli linke',
     27 => 'HTML Staatus',
     28 => 'Toimeta kategooriat',
-    29 => 'Sisesta allpool kategooria detaile või toimeta neid.', 
+    29 => 'Sisesta allpool kategooria detaile või toimeta neid.',
     30 => 'Kategooria',
     31 => 'Kirjeldus',
     32 => 'Kategooria ID',
@@ -164,8 +164,8 @@ $LANG_LINKS_ADMIN = array(
     52 => 'Uus kategooria',
     53 => 'Loetle linke',
     54 => 'Kategooriahaldur',
-    55 => 'Toimeta allpool olevaid kategooriaid. Pane tähele, et sa ei saa kustutada kategooriaid, milles on alamkategooriaid või linke. Kustuta need eelnevalt või vii need mõnda teise kategooriasse.',  
-     56 => 'Kategooriatoimetaja',
+    55 => 'Toimeta allpool olevaid kategooriaid. Pane tähele, et sa ei saa kustutada kategooriaid, milles on alamkategooriaid või linke. Kustuta need eelnevalt või vii need mõnda teise kategooriasse.',
+    56 => 'Kategooriatoimetaja',
     57 => 'Veel kontrollimata',
     58 => 'Kontrolli nüüd',
     59 => '<p>Kõigi nähtaval olevate linkide kontrollimiseks, klõpsa palun allpool oleval lingil "Kontrolli nüüd". Pane tähele, et kontrollimine võib sõltuvalt nähtaval olevate linkide arvust võtta veidi aega.</p>',
