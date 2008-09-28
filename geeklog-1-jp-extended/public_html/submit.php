@@ -91,7 +91,7 @@ function submissionform($type='story', $mode = '', $topic = '')
             $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
             return $retval;
         } else {
-            if(!function_exists(CUSTOM_MOBILE_is_cellular) || !CUSTOM_MOBILE_is_cellular()) {
+            if(!function_exists('CUSTOM_MOBILE_is_cellular') || !CUSTOM_MOBILE_is_cellular()) {
                 $retval .= COM_startBlock($LANG12[19])
                         . $LANG12[9]
                         . COM_endBlock();
