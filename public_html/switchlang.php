@@ -43,18 +43,18 @@ require_once 'lib-common.php';
 * @return   string              new URL after the language switch
 *
 */
-function switch_language ($url, $newlang, $oldlang)
+function switch_language($url, $newlang, $oldlang)
 {
     global $_CONF;
 
     $retval = '';
 
-    if (empty ($newlang) || empty ($oldlang) ||
-            (strlen ($newlang) != strlen ($oldlang))) {
+    if (empty($newlang) || empty($oldlang) ||
+            (strlen($newlang) != strlen($oldlang))) {
         return $url;
     }
 
-    $lang_len = strlen ($oldlang);
+    $lang_len = strlen($oldlang);
     $url_rewrite = false;
     $q = false;
 
@@ -81,12 +81,12 @@ function switch_language ($url, $newlang, $oldlang)
         $p = explode('/', $the_url);
         $parts = count($p);
         for ($i = 0; $i < $parts; $i++) {
-            if (substr ($p[$i], -4) == '.php') {
+            if (substr($p[$i], -4) == '.php') {
                 // found the script name - assume next parameter is the ID
-                if (isset ($p[$i + 1])) {
-                    if (substr ($p[$i + 1], -($lang_len + 1)) == '_' . $oldlang) {
-                        $p[$i + 1] = substr_replace ($p[$i + 1], $newlang,
-                                                     -$lang_len);
+                if (isset($p[$i + 1])) {
+                    if (substr($p[$i + 1], -($lang_len + 1)) == '_' . $oldlang) {
+                        $p[$i + 1] = substr_replace($p[$i + 1], $newlang,
+                                                    -$lang_len);
                         $changed = true;
                     }
                 }

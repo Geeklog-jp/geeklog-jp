@@ -318,9 +318,9 @@ function links_list($message)
             } else {
                 $catlink = '';
             }
-            $linklist->set_var ('page_navigation',
-                    COM_printPageNavigation ($_CONF['site_url']
-                        . '/links/index.php' .  $catlink, $page, $pages));
+            $linklist->set_var('page_navigation',
+                    COM_printPageNavigation($_CONF['site_url']
+                        . '/links/index.php' . $catlink, $page, $pages));
         } else {
             $linklist->set_var ('page_navigation', '');
         }
