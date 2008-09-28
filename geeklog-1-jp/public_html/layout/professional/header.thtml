@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html {lang_attribute}>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"{xhtml}>
-<title>{page_title}{page_site_splitter}{site_name}</title>
+<title>{page_title_and_site_name}</title>
 <meta http-equiv="Content-Script-Type" content="text/javascript"{xhtml}>
 <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
 <!-- link rel="SHORTCUT ICON" href="{site_url}/favicon.ico" -->
@@ -22,7 +21,7 @@
         </ul>
     </div>
     <div class="header-logobg-container-inner">
-        <a class="header-logo" href="{site_url}/">
+        <a class="header-logo" href="{site_url}/" rel="home">
             <img src="{site_logo}" width="151" height="56" alt="{site_name}"{xhtml}>
         </a>
         <span class="header-slogan">{site_slogan}</span>
