@@ -67,31 +67,31 @@ if (!SEC_hasRights('user.edit')) {
 * @see function COM_checkList
 *
 */
-function GROUP_checkList ($table, $selection, $where='', $selected='', $orderby='')
+function GROUP_checkList($table, $selection, $where='', $selected='', $orderby='')
 {
     global $_TABLES, $LANG_ACCESS;
 
     $retval = '';
 
     $sql = "SELECT $selection FROM $table";
-    if (!empty ($where)) {
+    if (!empty($where)) {
         $sql .= " WHERE $where";
     }
-    if (!empty ($orderby)) {
+    if (!empty($orderby)) {
         $sql .= " ORDER BY $orderby";
     }
-    $result = DB_query ($sql);
-    $nrows = DB_numRows ($result);
+    $result = DB_query($sql);
+    $nrows = DB_numRows($result);
 
-    if (empty ($selected)) {
-        $S = array ();
+    if (empty($selected)) {
+        $S = array();
     } else {
-        $S = explode (' ', $selected);
+        $S = explode(' ', $selected);
     }
     $num_selected = count($S);
 
     for ($i = 0; $i < $nrows; $i++) {
-        $A = DB_fetchArray ($result, true);
+        $A = DB_fetchArray($result, true);
 
         $readonly = false;
         $input = '<input type="checkbox"';
@@ -114,7 +114,7 @@ function GROUP_checkList ($table, $selection, $where='', $selected='', $orderby=
                    . '<input type="hidden" name="' . $table . '[]" value="'
                    . $A[0] . '" checked="checked"' . XHTML . '>';
             $retval .= '<span title="' . $LANG_ACCESS['readonly'] . '">'
-                    . $input . stripslashes ($A[1]) . '</span><br' . XHTML . '>' . LB;
+                    . $input . stripslashes($A[1]) . '</span><br' . XHTML . '>' . LB;
         } else {
             $input .= ' name="' . $table . '[]" value="' . $A[0] . '"';
             $retval .= $input . XHTML . '>' . stripslashes($A[1])
@@ -270,23 +270,23 @@ function edituser($uid = '', $msg = '')
     }
     $user_templates->set_var('do_not_use_spaces', '');
 
-    $statusarray = array (USER_ACCOUNT_AWAITING_ACTIVATION => $LANG28[43],
-                          USER_ACCOUNT_ACTIVE              => $LANG28[45]
+    $statusarray = array(USER_ACCOUNT_AWAITING_ACTIVATION => $LANG28[43],
+                         USER_ACCOUNT_ACTIVE              => $LANG28[45]
                    );
 
     $allow_ban = true;
 
     if (!empty($uid)) {
-    if ($A['uid'] == $_USER['uid']) {
-        $allow_ban = false; // do not allow to ban yourself
+        if ($A['uid'] == $_USER['uid']) {
+            $allow_ban = false; // do not allow to ban yourself
         } else if (SEC_inGroup('Root', $A['uid'])) { // editing a Root user?
             $count_root_sql = "SELECT COUNT(ug_uid) AS root_count FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = 1 GROUP BY ug_uid;";
-        $count_root_result = DB_query($count_root_sql);
-        $C = DB_fetchArray($count_root_result); // how many are left?
-        if ($C['root_count'] < 2) {
-            $allow_ban = false; // prevent banning the last root user
+            $count_root_result = DB_query($count_root_sql);
+            $C = DB_fetchArray($count_root_result); // how many are left?
+            if ($C['root_count'] < 2) {
+                $allow_ban = false; // prevent banning the last root user
+            }
         }
-    }
     }
 
     if ($allow_ban) {
