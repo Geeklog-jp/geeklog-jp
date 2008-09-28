@@ -325,16 +325,16 @@ default:  // New Comment
         $postmode = COM_applyFilter ($_REQUEST['postmode']);
     }
 
-            if ($type == 'article') {
+    if ($type == 'article') {
         $dbTitle = DB_getItem($_TABLES['stories'], 'title',
-                                    "sid = '{$sid}'" . COM_getPermSQL('AND')
+                                "sid = '{$sid}'" . COM_getPermSQL('AND')
                                 . " AND (draft_flag = 0) AND (date <= NOW()) "
-                                    . COM_getTopicSQL('AND'));
+                                . COM_getTopicSQL('AND'));
         if ($dbTitle === null) {
             // no permissions, or no story of that title
             $display = COM_refresh($_CONF['site_url'] . '/index.php');
             $abort = true;
-            }
+        }
     }
     if (!$abort) {
         if (!empty ($sid) && !empty ($type)) { 
@@ -342,21 +342,21 @@ default:  // New Comment
                 if ($type == 'article') {
                     $title = $dbTitle;
                 }
-            $title = str_replace ('$', '&#36;', $title);
-            // CMT_commentForm expects non-htmlspecial chars for title...
-            $title = str_replace ( '&amp;', '&', $title );
-            $title = str_replace ( '&quot;', '"', $title );
-            $title = str_replace ( '&lt;', '<', $title );
-            $title = str_replace ( '&gt;', '>', $title );
+                $title = str_replace ('$', '&#36;', $title);
+                // CMT_commentForm expects non-htmlspecial chars for title...
+                $title = str_replace ( '&amp;', '&', $title );
+                $title = str_replace ( '&quot;', '"', $title );
+                $title = str_replace ( '&lt;', '<', $title );
+                $title = str_replace ( '&gt;', '>', $title );
+            }
+            $display .= COM_siteHeader('menu', $LANG03[1])
+                     . CMT_commentForm ($title, '', $sid,
+                            COM_applyFilter ($_REQUEST['pid'], true), $type, $mode,
+                            $postmode)
+                     . COM_siteFooter();
+        } else {
+            $display .= COM_refresh($_CONF['site_url'] . '/index.php');
         }
-        $display .= COM_siteHeader('menu', $LANG03[1])
-                 . CMT_commentForm ($title, '', $sid,
-                        COM_applyFilter ($_REQUEST['pid'], true), $type, $mode,
-                        $postmode)
-                 . COM_siteFooter();
-    } else {
-        $display .= COM_refresh($_CONF['site_url'] . '/index.php');
-    }
     }
     break;
 }

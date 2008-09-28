@@ -114,7 +114,7 @@ function get_articleFeeds()
     $num = DB_numRows ($result);
 
     if ($num > 0) {
-        $options[] = array ('id' => '::all', 'name' => $LANG33[23]);
+        $options[] = array ('id' => '::all',       'name' => $LANG33[23]);
         $options[] = array ('id' => '::frontpage', 'name' => $LANG33[53]);
     }
 
@@ -290,7 +290,7 @@ function editfeed ($fid = 0, $type = '')
     if ($A['type'] == 'article') {
         $feed_template->set_var('feed_type_display', $LANG33[55]);
     } else {
-    $feed_template->set_var ('feed_type_display', ucwords ($A['type']));
+        $feed_template->set_var('feed_type_display', ucwords($A['type']));
     }
     $feed_template->set_var ('feed_charset', $A['charset']);
     $feed_template->set_var ('feed_language', $A['language']);

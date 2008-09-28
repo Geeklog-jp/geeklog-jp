@@ -41,15 +41,15 @@
 
 // this should help expose parse errors even when
 // display_errors is set to Off in php.ini
-if (function_exists ('ini_set')) {
-    ini_set ('display_errors', '1');
+if (function_exists('ini_set')) {
+    ini_set('display_errors', '1');
 }
-error_reporting (E_ERROR | E_WARNING | E_PARSE | E_COMPILE_ERROR);
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_COMPILE_ERROR);
 
-if (!defined ("LB")) {
+if (!defined("LB")) {
     define("LB", "\n");
 }
-if (!defined ('VERSION')) {
+if (!defined('VERSION')) {
     define('VERSION', '1.5.1');
 }
 if (!defined('XHTML')) {
@@ -768,23 +768,23 @@ function INST_installEngine($install_type, $install_step)
 
                     if (INST_doDatabaseUpgrades($version, $use_innodb)) {
                         if (version_compare($version, '1.5.0') == -1) {
-                        // After updating the database we'll want to update some of the information from the form.
-                        $site_name      = isset($_POST['site_name']) ? $_POST['site_name'] : (isset($_GET['site_name']) ? $_GET['site_name'] : '') ;
-                        $site_slogan    = isset($_POST['site_slogan']) ? $_POST['site_slogan'] : (isset($_GET['site_slogan']) ? $_GET['site_slogan'] : '') ;
-                        $site_url       = isset($_POST['site_url']) ? $_POST['site_url'] : (isset($_GET['site_url']) ? $_GET['site_url'] : '') ;
-                        $site_admin_url = isset($_POST['site_admin_url']) ? $_POST['site_admin_url'] : (isset($_GET['site_admin_url']) ? $_GET['site_admin_url'] : '') ;
-                        $site_mail      = isset($_POST['site_mail']) ? $_POST['site_mail'] : (isset($_GET['site_mail']) ? $_GET['site_mail'] : '') ;
-                        $noreply_mail   = isset($_POST['noreply_mail']) ? $_POST['noreply_mail'] : (isset($_GET['noreply_mail']) ? $_GET['noreply_mail'] : '') ;
+                            // After updating the database we'll want to update some of the information from the form.
+                            $site_name      = isset($_POST['site_name']) ? $_POST['site_name'] : (isset($_GET['site_name']) ? $_GET['site_name'] : '') ;
+                            $site_slogan    = isset($_POST['site_slogan']) ? $_POST['site_slogan'] : (isset($_GET['site_slogan']) ? $_GET['site_slogan'] : '') ;
+                            $site_url       = isset($_POST['site_url']) ? $_POST['site_url'] : (isset($_GET['site_url']) ? $_GET['site_url'] : '') ;
+                            $site_admin_url = isset($_POST['site_admin_url']) ? $_POST['site_admin_url'] : (isset($_GET['site_admin_url']) ? $_GET['site_admin_url'] : '') ;
+                            $site_mail      = isset($_POST['site_mail']) ? $_POST['site_mail'] : (isset($_GET['site_mail']) ? $_GET['site_mail'] : '') ;
+                            $noreply_mail   = isset($_POST['noreply_mail']) ? $_POST['noreply_mail'] : (isset($_GET['noreply_mail']) ? $_GET['noreply_mail'] : '') ;
 
-                        require_once $_CONF['path_system'] . 'classes/config.class.php';
-                        $config = config::get_instance();
-                        $config->set('site_name', urldecode($site_name));
-                        $config->set('site_slogan', urldecode($site_slogan));
-                        $config->set('site_url', urldecode($site_url));
-                        $config->set('site_admin_url', urldecode($site_admin_url));
-                        $config->set('site_mail', urldecode($site_mail));
-                        $config->set('noreply_mail', urldecode($noreply_mail));
-                        $config->set_default('default_photo', urldecode($site_url) . '/default.jpg');
+                            require_once $_CONF['path_system'] . 'classes/config.class.php';
+                            $config = config::get_instance();
+                            $config->set('site_name', urldecode($site_name));
+                            $config->set('site_slogan', urldecode($site_slogan));
+                            $config->set('site_url', urldecode($site_url));
+                            $config->set('site_admin_url', urldecode($site_admin_url));
+                            $config->set('site_mail', urldecode($site_mail));
+                            $config->set('noreply_mail', urldecode($noreply_mail));
+                            $config->set_default('default_photo', urldecode($site_url) . '/default.jpg');
                         }
 
                         INST_checkPlugins();
@@ -1185,7 +1185,7 @@ function INST_prettifyLanguageName($filename)
 function INST_checkTableExists ($table)
 {
     return DB_checkTableExists($table);
-        }
+}
 
 
 /**
@@ -1243,7 +1243,7 @@ function INST_doDatabaseUpgrades($current_gl_version, $use_innodb = false)
            $dbconfig_path, $siteconfig_path, $html_path;
 
     $_DB->setDisplayError (true);
-    
+
     // Disable userconfig plugin beforehand to prevent an error
     require_once 'disable-userconfig.php';
     disableUserconfigPlugin();
@@ -1659,7 +1659,7 @@ function INST_doDatabaseUpgrades($current_gl_version, $use_innodb = false)
 
     // delete the security check flag on every update to force the user
     // to run admin/sectest.php again
-    DB_delete ($_TABLES['vars'], 'name', 'security_check');
+    DB_delete($_TABLES['vars'], 'name', 'security_check');
 
     DB_change($_TABLES['vars'], 'value', VERSION, 'name', 'database_version');
 
