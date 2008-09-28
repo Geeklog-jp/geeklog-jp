@@ -361,7 +361,7 @@ function WaitForActive( editorInstance, newStatus )
 			FCKTools.RunFunction( window.onresize ) ;
 
 		if ( !FCKConfig.PreventSubmitHandler )
-		_AttachFormSubmitToAPI() ;
+			_AttachFormSubmitToAPI() ;
 
 		FCK.SetStatus( FCK_STATUS_COMPLETE ) ;
 

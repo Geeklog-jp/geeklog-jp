@@ -71,9 +71,9 @@ CharacterCursor = function( arg )
 		this._textNode = GetNextNonEmptyTextNode( arg.body, arg.documentElement ) ;
 		this._offset = 0 ;
 		this._doc = arg ;
-}
+	}
 	else
-{
+	{
 		this._textNode = arguments[0] ;
 		this._offset = arguments[1] ;
 		this._doc = FCKTools.GetElementDocument( arguments[0] ) ;
@@ -88,7 +88,7 @@ CharacterCursor.prototype =
 
 	// Non-normalized.
 	GetTextNode : function()
-{
+	{
 		return this._textNode ;
 	},
 
@@ -105,17 +105,17 @@ CharacterCursor.prototype =
 		{
 			this._offset++ ;
 			return false ;
-}
+		}
 
 		var crossed = false ;
 		var curNode = this._textNode ;
 		while ( ( curNode = FCKDomTools.GetNextSourceNode( curNode ) )
 				&& curNode && ( curNode.nodeType != 3 || curNode.length < 1 ) )
-{
+		{
 			var tag = curNode.nodeName.toLowerCase() ;
 			if ( FCKListsLib.BlockElements[tag] || tag == 'br' )
 				crossed = true ;
-}
+		}
 
 		this._textNode = curNode ;
 		this._offset = 0 ;
@@ -124,22 +124,22 @@ CharacterCursor.prototype =
 
 	// Return value means whehther we've crossed a line break or a paragraph boundary.
 	MoveBack : function()
-{
+	{
 		if ( this._offset > 0 && this._textNode.length > 0 )
 		{
 			this._offset = Math.min( this._offset - 1, this._textNode.length - 1 ) ;
 			return false ;
-}
+		}
 
 		var crossed = false ;
 		var curNode = this._textNode ;
 		while ( ( curNode = FCKDomTools.GetPreviousSourceNode( curNode ) )
 				&& curNode && ( curNode.nodeType != 3 || curNode.length < 1 ) )
-{
+		{
 			var tag = curNode.nodeName.toLowerCase() ;
 			if ( FCKListsLib.BlockElements[tag] || tag == 'br' )
 				crossed = true ;
-}
+		}
 
 		this._textNode = curNode ;
 		this._offset = curNode.length - 1 ;
@@ -147,9 +147,9 @@ CharacterCursor.prototype =
 	},
 
 	Clone : function()
-{
+	{
 		return new CharacterCursor( this._textNode, this._offset ) ;
-}
+	}
 } ;
 
 CharacterRange = function( initCursor, maxLength )
@@ -173,7 +173,7 @@ CharacterRange.prototype =
 	},
 
 	Highlight : function()
-{
+	{
 		if ( this._cursors.length < 1 )
 			return ;
 
@@ -197,11 +197,11 @@ CharacterRange.prototype =
 			var charRange = CharacterRange.CreateFromDomRange( this._highlightRange ) ;
 			this._cursors = charRange._cursors ;
 			this._highlightRange = null ;
-}
+		}
 	},
 
 	GetHighlightDomRange : function()
-{
+	{
 		return this._highlightRange;
 	},
 
@@ -218,7 +218,7 @@ CharacterRange.prototype =
 	},
 
 	MoveBack : function()
-		{
+	{
 		var prev = this._cursors[0].Clone() ;
 		var retval = prev.MoveBack() ;
 		if ( retval )
@@ -230,26 +230,26 @@ CharacterRange.prototype =
 	},
 
 	GetEndCharacter : function()
-			{
+	{
 		if ( this._cursors.length < 1 )
-				return null ;
+			return null ;
 		var retval = this._cursors[ this._cursors.length - 1 ].GetCharacter() ;
 		return retval ;
 	},
 
 	GetNextRange : function( len )
-		{
+	{
 		if ( this._cursors.length == 0 )
-				return null ;
+			return null ;
 		var cur = this._cursors[ this._cursors.length - 1 ].Clone() ;
 		cur.MoveNext() ;
 		return new CharacterRange( cur, len ) ;
 	},
 
 	GetCursors : function()
-			{
+	{
 		return this._cursors ;
-			}
+	}
 } ;
 
 CharacterRange.CreateFromDomRange = function( domRange )
@@ -273,12 +273,12 @@ CharacterRange.CreateFromDomRange = function( domRange )
 	{
 		startTextNode = GetNextNonEmptyTextNode( domRange.StartNode, domRange.StartNode.parentNode ) ;
 		if ( !startTextNode )
-	return null ;
+			return null ;
 		startIndex = 0 ;
-}
+	}
 
 	if ( endContainer.nodeType == 3 && w3cRange.endOffset > 0 )
-{
+	{
 		endTextNode = endContainer ;
 		endIndex = w3cRange.endOffset - 1 ;
 	}
@@ -300,7 +300,7 @@ CharacterRange.CreateFromDomRange = function( domRange )
 			current = current.Clone() ;
 			current.MoveNext() ;
 			cursors.push( current ) ;
-}
+		}
 		while ( !( current.GetTextNode() == endTextNode && current.GetIndex() == endIndex ) ) ;
 	}
 
@@ -381,7 +381,7 @@ function OnLoad()
 }
 
 function btnStat()
-		{
+{
 	GetE('btnReplace').disabled =
 		GetE('btnReplaceAll').disabled =
 			GetE('btnFind').disabled =
@@ -389,29 +389,29 @@ function btnStat()
 }
 
 function btnStatDelayed()
-			{
+{
 	setTimeout( btnStat, 1 ) ;
 }
 
 function GetSearchString()
-				{
+{
 	return GetE(idMap['FindText']).value ;
-				}
+}
 
 function GetReplaceString()
 {
 	return GetE("txtReplace").value ;
-			}
+}
 
 function GetCheckCase()
-			{
+{
 	return !! ( GetE(idMap['CheckCase']).checked ) ;
 }
 
 function GetMatchWord()
-				{
+{
 	return !! ( GetE(idMap['CheckWord']).checked ) ;
-				}
+}
 
 /* Is this character a unicode whitespace or a punctuation mark?
  * References:
@@ -419,7 +419,7 @@ function GetMatchWord()
  * http://php.chinaunix.net/manual/tw/ref.regex.php (punctuation marks)
  */
 function CheckIsWordSeparator( c )
-				{
+{
 	var code = c.charCodeAt( 0 );
 	if ( code >= 9 && code <= 0xd )
 		return true;
@@ -445,15 +445,15 @@ function CheckIsWordSeparator( c )
 
 FindRange = null ;
 function _Find()
-					{
+{
 	var searchString = GetSearchString() ;
 	if ( !FindRange )
 		FindRange = new CharacterRange( new CharacterCursor( EditorDocument ), searchString.length ) ;
-						else
-						{
+	else
+	{
 		FindRange.RemoveHighlight() ;
 		FindRange = FindRange.GetNextRange( searchString.length ) ;
-						}
+	}
 	var matcher = new KmpMatch( searchString, ! GetCheckCase() ) ;
 	var matchState = KMP_NOMATCH ;
 	var character = '%' ;
@@ -464,15 +464,15 @@ function _Find()
 		{
 			matchState = matcher.FeedCharacter( character ) ;
 			if ( matchState == KMP_MATCHED )
-							break ;
+				break ;
 			if ( FindRange.MoveNext() )
-							matcher.Reset() ;
-					}
+				matcher.Reset() ;
+		}
 
-	if ( matchState == KMP_MATCHED )
-	{
-			if ( GetMatchWord() )
+		if ( matchState == KMP_MATCHED )
 		{
+			if ( GetMatchWord() )
+			{
 				var cursors = FindRange.GetCursors() ;
 				var head = cursors[ cursors.length - 1 ].Clone() ;
 				var tail = cursors[0].Clone() ;
@@ -480,22 +480,22 @@ function _Find()
 					continue ;
 				if ( !tail.MoveBack() && !CheckIsWordSeparator( tail.GetCharacter() ) )
 					continue ;
-		}
+			}
 
 			FindRange.Highlight() ;
-		return true ;
-	}
+			return true ;
+		}
 	}
 
 	FindRange = null ;
-		return false ;
-	}
+	return false ;
+}
 
 function Find()
 {
 	if ( ! _Find() )
 		alert( FCKLang.DlgFindNotFoundMsg ) ;
-	}
+}
 
 function Replace()
 {
@@ -531,13 +531,13 @@ function Replace()
 	}
 	else
 	{
-		if (! _Find() )
+		if ( ! _Find() )
 		{
 			FindRange && FindRange.RemoveHighlight() ;
 			alert( FCKLang.DlgFindNotFoundMsg ) ;
 		}
 	}
-	}
+}
 
 function ReplaceAll()
 {

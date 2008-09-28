@@ -956,8 +956,8 @@ FCKStyle.prototype =
 			var newBlock = this.BuildElement( doc ) ;
 
 			// Check if we are changing from/to <pre>.
-			var newBlockIsPre = newBlock.nodeName.IEquals( 'pre' ) ;
-			var blockIsPre = block.nodeName.IEquals( 'pre' ) ;
+			var newBlockIsPre	= newBlock.nodeName.IEquals( 'pre' ) ;
+			var blockIsPre		= block.nodeName.IEquals( 'pre' ) ;
 
 			var toPre	= newBlockIsPre && !blockIsPre ;
 			var fromPre	= !newBlockIsPre && blockIsPre ;
@@ -976,14 +976,14 @@ FCKStyle.prototype =
 
 			// Complete other tasks after inserting the node in the DOM.
 			if ( newBlockIsPre )
-		{
+			{
 				if ( previousPreBlock )
 					this._CheckAndMergePre( previousPreBlock, newBlock ) ;	// Merge successive <pre> blocks.
 				previousPreBlock = newBlock ;
-		}
+			}
 			else if ( fromPre )
 				this._CheckAndSplitPre( newBlock ) ;	// Split <br><br> in successive <pre>s.
-				}
+		}
 
 		// Re-select the original range.
 		if ( selectIt )

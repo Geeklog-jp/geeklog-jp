@@ -89,7 +89,7 @@ FCKXHtml._AppendAttributes = function( xmlNode, htmlNode, node, nodeName )
 		var sStyleValue = htmlNode.style.cssText.replace( FCKRegexLib.StyleProperties, FCKTools.ToLowerCase ) ;
 		FCKTools.RestoreFormStyles( htmlNode, data ) ;
 		this._AppendAttribute( node, 'style', sStyleValue ) ;
-}
+	}
 }
 
 // On very rare cases, IE is loosing the "align" attribute for DIV. (right align and apply bulleted list)

@@ -213,7 +213,7 @@ FCKSelection.Save = function( noFocus )
 {
 	// Ensures the editor has the selection focus. (#1801)
 	if ( !noFocus )
-	FCK.Focus() ;
+		FCK.Focus() ;
 
 	var editorDocument = FCK.EditorDocument ;
 

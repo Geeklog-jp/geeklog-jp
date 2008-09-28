@@ -82,7 +82,7 @@ FCKSelection.GetParentElement = function()
 			{
 				var oRange = oSel.getRangeAt( 0 ) ;
 				if ( oRange.collapsed || oRange.startContainer.nodeType == 3 )
-				return oSel.anchorNode.parentNode ;
+					return oSel.anchorNode.parentNode ;
 				else
 					return oSel.anchorNode ;
 			}

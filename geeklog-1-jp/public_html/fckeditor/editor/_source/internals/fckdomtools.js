@@ -1037,7 +1037,7 @@ var FCKDomTools =
 			while ( endNode.nodeType == 1 && endNode.lastChild )
 				endNode = endNode.lastChild ;
 			endNode = FCKDomTools.GetNextSourceNode( endNode ) ;
-	}
+		}
 
 		while ( currentNode && currentNode != endNode )
 		{

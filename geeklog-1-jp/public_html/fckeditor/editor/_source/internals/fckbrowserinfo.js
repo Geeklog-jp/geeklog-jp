@@ -56,6 +56,6 @@ var FCKBrowserInfo =
 		{
 			browserInfo.IsGecko10 = ( geckoVersion < 1.8 ) ;
 			browserInfo.IsGecko19 = ( geckoVersion > 1.8 ) ;
-	}
+		}
 	}
 })(FCKBrowserInfo) ;

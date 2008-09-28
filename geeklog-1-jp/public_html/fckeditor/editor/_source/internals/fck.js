@@ -690,7 +690,7 @@ var FCK =
 				else if ( range.CheckEndOfBlock() )
 					range.MoveToPosition( range.StartBlock, 4 ) ;
 				else
-			range.SplitBlock() ;
+					range.SplitBlock() ;
 			}
 
 			range.InsertNode( element ) ;
@@ -1104,7 +1104,7 @@ var FCKTempBin =
 		{
 			this.Elements[i] = '<div>&nbsp;' + this.Elements[i].outerHTML + '</div>' ;
 			this.Elements[i].isHtml = true ;
-	}
+		}
 	},
 
 	ToElements : function()
