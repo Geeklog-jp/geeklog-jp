@@ -37,7 +37,7 @@
 // $Id: functions.inc,v 1.95 2008/09/21 08:37:07 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
-    die ('This file can not be used on its own.');
+    die('This file can not be used on its own.');
 }
 
 $plugin_path = $_CONF['path'] . 'plugins/calendar/';
@@ -133,7 +133,7 @@ function phpblock_calendar( $help='', $title='' )
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= DATEADD(hh, 24, getUTCDate())  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
             } else {
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL 24 HOUR)  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
-        }
+            }
             $personaleventsql .= 'ORDER BY datestart, dateend';
         }
 
@@ -1795,7 +1795,7 @@ function CALENDAR_eventTypeList ($currtype = '')
             !is_array($_CA_CONF['event_types'])) {
         $event_types = array();
     } else {
-    $event_types = $_CA_CONF['event_types'];
+        $event_types = $_CA_CONF['event_types'];
     }
     asort($event_types);
 

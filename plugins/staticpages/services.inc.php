@@ -141,7 +141,7 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
                 $args[$str] = COM_applyBasicFilter($args[$str]);
             } else {
                 $args[$str] = '';
-    }
+            }
         }
 
         foreach ($par_num as $num) {
@@ -230,7 +230,7 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
     $sp_onmenu = $args['sp_onmenu'];
     $sp_label = '';
     if (!empty($args['sp_label'])) {
-    $sp_label = $args['sp_label'];
+        $sp_label = $args['sp_label'];
     }
     $commentcode = $args['commentcode'];
     $owner_id = $args['owner_id'];
@@ -242,13 +242,13 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
     $sp_php = $args['sp_php'];
     $sp_nf = '';
     if (!empty($args['sp_nf'])) {
-    $sp_nf = $args['sp_nf'];
+        $sp_nf = $args['sp_nf'];
     }
     $sp_old_id = $args['sp_old_id'];
     $sp_centerblock = $args['sp_centerblock'];
     $sp_help = '';
     if (!empty($args['sp_help'])) {
-    $sp_help = $args['sp_help'];
+        $sp_help = $args['sp_help'];
     }
     $sp_tid = $args['sp_tid'];
     $sp_where = $args['sp_where'];
@@ -463,10 +463,10 @@ function service_get_staticpages($args, &$output, &$svc_msg)
 
     if ($args['gl_svc']) {
         if (isset($args['sp_id'])) {
-        $args['sp_id'] = COM_applyBasicFilter($args['sp_id']);
+            $args['sp_id'] = COM_applyBasicFilter($args['sp_id']);
         }
         if (isset($args['mode'])) {
-        $args['mode'] = COM_applyBasicFilter($args['mode']);
+            $args['mode'] = COM_applyBasicFilter($args['mode']);
         }
 
         if (empty($args['sp_id'])) {
@@ -481,11 +481,11 @@ function service_get_staticpages($args, &$output, &$svc_msg)
     if (!$svc_msg['gl_feed']) {
         $page = '';
         if (isset($args['sp_id'])) {
-        $page = $args['sp_id'];
+            $page = $args['sp_id'];
         }
         $mode = '';
         if (isset($args['mode'])) {
-        $mode = $args['mode'];
+            $mode = $args['mode'];
         }
 
         $error = 0;
@@ -585,17 +585,17 @@ function service_get_staticpages($args, &$output, &$svc_msg)
 
         $mode = '';
         if (isset($args['mode'])) {
-        $mode = $args['mode'];
+            $mode = $args['mode'];
         }
 
-        $perms = SP_getPerms ();
+        $perms = SP_getPerms();
         if (!empty ($perms)) {
             $perms = ' WHERE ' . $perms;
         }
 
         $offset = 0;
         if (isset($args['offset'])) {
-        $offset = COM_applyBasicFilter($args['offset'], true);
+            $offset = COM_applyBasicFilter($args['offset'], true);
         }
         $max_items = $_SP_CONF['atom_max_items'] + 1;
 
