@@ -107,7 +107,7 @@ if (isset($_CONF['site_enabled']) && !$_CONF['site_enabled']) {
     } else {
         // if the msg starts with http: assume it's a URL we should redirect to
         if (preg_match("/^(https?):/", $_CONF['site_disabled_msg']) === 1) {
-            echo COM_refresh( $_CONF['site_disabled_msg'] );
+            echo COM_refresh($_CONF['site_disabled_msg']);
         } else {
             header("HTTP/1.1 503 Service Unavailable");
             header("Status: 503 Service Unavailable");
@@ -120,7 +120,7 @@ if (isset($_CONF['site_enabled']) && !$_CONF['site_enabled']) {
 
 // this file can't be used on its own - redirect to index.php
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-common.php') !== false) {
-    echo COM_refresh( $_CONF['site_url'] . '/index.php' );
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
 
@@ -1386,32 +1386,32 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
     
     if ($displayRightBlocks)
     {
-    /* Check if an array has been passed that includes the name of a plugin
-     * function or custom function.
-     * This can be used to take control over what blocks are then displayed
-     */
-    if( is_array( $custom ))
-    {
-        $function = $custom['0'];
-        if( function_exists( $function ))
+        /* Check if an array has been passed that includes the name of a plugin
+         * function or custom function.
+         * This can be used to take control over what blocks are then displayed
+         */
+        if( is_array( $custom ))
         {
-            $rblocks = $function( $custom['1'], 'right' );
+            $function = $custom['0'];
+            if( function_exists( $function ))
+            {
+                $rblocks = $function( $custom['1'], 'right' );
             } else {
                 $rblocks = COM_showBlocks( 'right', $topic );
-        }
+            }
         } else {
             $rblocks = COM_showBlocks( 'right', $topic );
-    }
+        }
         
         if( empty( $rblocks ))
-    {
+        {
             $footer->set_var( 'geeklog_blocks', '');
             $footer->set_var( 'right_blocks', '' );
         } else {
             $footer->set_var( 'geeklog_blocks', $rblocks);
             $footer->parse( 'right_blocks', 'rightblocks', true );
             $footer->set_var( 'geeklog_blocks', '');
-    }
+        }
     } else {
         $footer->set_var( 'geeklog_blocks', '');
         $footer->set_var( 'right_blocks', '' );
@@ -1975,7 +1975,7 @@ function COM_errorLog( $logentry, $actionid = '' )
                 }
                 break;
 
-           case 2:
+            case 2:
                 $retval .= COM_startBlock( $LANG01[55] . ' ' . $timestamp, '',
                                COM_getBlockTemplate( '_msg_block', 'header' ))
                         . nl2br( $logentry )
@@ -2807,7 +2807,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
 * This function does a redirect using a meta refresh. This is (or at least
 * used to be) more compatible than using a HTTP Location: header.
 *
-* @param        string      $url        URL to send user to
+* @param    string  $url    URL to send user to
 * @return   string          HTML meta redirect
 * @note     This does not need to be XHTML compliant. It may also be used
 *           in situations where the XHTML constant is not defined yet ...
@@ -2815,11 +2815,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
 */
 function COM_refresh($url)
 {
-    if( function_exists( 'CUSTOM_refresh' )) {
-        return CUSTOM_refresh( $url );
-    } else {
-        return "<html><head><meta http-equiv=\"refresh\" content=\"0; URL=$url\"></head></html>\n";
-    }
+    return "<html><head><meta http-equiv=\"refresh\" content=\"0; URL=$url\"></head></html>\n";
 }
 
 /**
@@ -4183,8 +4179,8 @@ function COM_emailUserTopics()
 *
 * Return the HTML that shows any new stories, comments, etc
 *
-* @param    string  $help   Help file for block
-* @param    string  $title  Title used in block header
+* @param    string  $help     Help file for block
+* @param    string  $title    Title used in block header
 * @param    string  $position Position in which block is being rendered 'left', 'right' or blank (for centre)
 * @return   string  Return the HTML that shows any new stories, comments, etc
 *
@@ -4891,7 +4887,7 @@ function COM_getDayFormOptions( $selected = '' )
 * Returns Option list Containing 5 years starting with current
 * unless @selected is < current year then starts with @selected
 *
-* @param        string      $selected       Selected year
+* @param        string      $selected     Selected year
 * @param        int         $startoffset  Optional (can be +/-) Used to determine start year for range of years
 * @param        int         $endoffset    Optional (can be +/-) Used to determine end year for range of years
 * @see function COM_getMonthFormOptions
@@ -5727,7 +5723,7 @@ function COM_makeClickableLinks( $text )
    $regex = '/((ht|f)tp(s?)\:\/\/|~\/|\/)?([\w]+:\w+@)?(([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((\/?\w+\/)+|\/?)([\w\-%]+(\.[\w]{3,4})?)?((\?|&|&amp;)[\w\-%]+=[\w\-%]+)*)/is';
 
    $text = preg_replace( $regex, '<a href="\\1\\5">\\6</a>', $text );
-    return $text;
+   return $text;
 }
 
 /**
@@ -6255,15 +6251,15 @@ function COM_getLanguageFromBrowser()
     $retval = '';
 
     if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-        $accept = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
+        $accept = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         foreach ($accept as $l) {
-            $l = explode( ';', trim( $l ));
+            $l = explode(';', trim($l));
             $l = $l[0];
             if (array_key_exists($l, $_CONF['language_files'])) {
                 $retval = $_CONF['language_files'][$l];
                 break;
             } else {
-                $l = explode( '-', $l );
+                $l = explode('-', $l);
                 $l = $l[0];
                 if (array_key_exists($l, $_CONF['language_files'])) {
                     $retval = $_CONF['language_files'][$l];
@@ -6318,7 +6314,7 @@ function COM_getLanguage()
 * @return   string              language ID, e.g 'en'; empty string on error
 *
 */
-function COM_getLanguageId( $language = '' )
+function COM_getLanguageId($language = '')
 {
     global $_CONF;
 
@@ -6328,14 +6324,14 @@ function COM_getLanguageId( $language = '' )
 
     $lang_id = '';
     if (isset($_CONF['language_files'])) {
-    $lang_id = array_search( $language, $_CONF['language_files'] );
+        $lang_id = array_search($language, $_CONF['language_files']);
 
         if ($lang_id === false) {
             // that looks like a misconfigured $_CONF['language_files'] array
-        COM_errorLog( 'Language "' . $language . '" not found in $_CONF[\'language_files\'] array!' );
+            COM_errorLog('Language "' . $language . '" not found in $_CONF[\'language_files\'] array!');
 
-        $lang_id = ''; // not much we can do here ...
-    }
+            $lang_id = ''; // not much we can do here ...
+        }
     }
 
     return $lang_id;
@@ -6610,7 +6606,7 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
         if( array_key_exists('path_system', $_CONF) )
         {
             if (file_exists($_CONF['path_system'].'lib-custom.php')) {
-            require_once($_CONF['path_system'].'lib-custom.php');
+                require_once($_CONF['path_system'].'lib-custom.php');
             }
             if( function_exists('CUSTOM_handleError') )
             {
