@@ -298,11 +298,11 @@ function links_save_category($cid, $old_cid, $pid, $category, $description, $tid
     }
 
     // clean 'em up
-    $description = addslashes (COM_checkHTML(COM_checkWords($description)));
-    $category    = addslashes (COM_checkHTML(COM_checkWords($category)));
-    $pid     = addslashes(strip_tags($pid));
-    $cid     = addslashes(strip_tags($cid));
-    $old_cid = addslashes(strip_tags($old_cid));
+    $description = addslashes(COM_checkHTML(COM_checkWords($description)));
+    $category    = addslashes(COM_checkHTML(COM_checkWords($category)));
+    $pid         = addslashes(strip_tags($pid));
+    $cid         = addslashes(strip_tags($cid));
+    $old_cid     = addslashes(strip_tags($old_cid));
 
     if (empty($category) || empty($description)) {
         return 7;

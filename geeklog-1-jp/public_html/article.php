@@ -308,7 +308,7 @@ if ($A['count'] > 0) {
                                                         'class' => $feedClass));
             }
         }
-        $related = STORY_whatsRelated ($story->displayElements('related'),
+        $related = STORY_whatsRelated($story->displayElements('related'),
                                       $story->displayElements('uid'),
                                       $story->displayElements('tid'));
         if (!empty ($related)) {
