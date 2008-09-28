@@ -28,13 +28,13 @@
 global $LANG32;
 
 ###############################################################################
-# Array Format: 
-# $LANGXX[YY]:	$LANG - variable name
-#		  	XX - file id number
-#			YY - phrase id number
+# Array Format:
+# $LANGXX[YY]:  $LANG - variable name
+#               XX    - file id number
+#               YY    - phrase id number
 ###############################################################################
 
-$LANG_STATIC= array(
+$LANG_STATIC = array(
     'newpage' => 'Uus leht',
     'adminhome' => 'Admin avaleht',
     'staticpages' => 'Staatilised lehed',
@@ -154,6 +154,6 @@ $LANG_configselects['staticpages'] = array(
     3 => array('Aeg' => 'date', 'Lehe ID' => 'id', 'Tiitel' => 'title', 'Silt' => 'label'),
         9 => array('Suuna edasi lehele' => 'item', 'Näita loetelu' => 'list', 'Näita avalehte' => 'home', 'Näita admini lehten' => 'admin'),
 12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
-);
+    );
 
 ?>

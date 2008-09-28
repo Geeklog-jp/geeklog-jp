@@ -49,7 +49,7 @@ $LANG_POLLS = array(
     'not_saved'         => 'התוצאות לא נשמרו',
     'upgrade1'          => 'התקנתם גרסה חדשה של plugins הסקרים. אנא',
     'upgrade2'          => 'שדרגו',
-    'editinstructions' => 'אנא מלאו את קוד הזיהוי של הסקר, לפחות שאלה אחת ושתי תשובות לה.',
+    'editinstructions'  => 'אנא מלאו את קוד הזיהוי של הסקר, לפחות שאלה אחת ושתי תשובות לה.',
     'start_poll'        => 'התחילו את הסקר'
 );
 
@@ -111,7 +111,7 @@ $PLG_polls_MESSAGE3002 = $LANG32[9];
 $LANG_configsections['polls'] = array(
     'label' => 'סקרים',
     'title' => 'ניהול הסקרים'
-);  
+);
 
 $LANG_confignames['polls'] = array(
     'pollsloginrequired' => 'נדרשת הזדהות בשביל צפייה בסקרים?',
