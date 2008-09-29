@@ -64,10 +64,10 @@
 $_SEC_VERBOSE = false;
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-security.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
-/* Constants for acount stats */
+/* Constants for account stats */
 define('USER_ACCOUNT_DISABLED', 0); // Account is banned/disabled
 define('USER_ACCOUNT_AWAITING_ACTIVATION', 1); // Account awaiting user to login.
 define('USER_ACCOUNT_AWAITING_APPROVAL', 2); // Account awaiting moderator approval
@@ -732,6 +732,7 @@ function SEC_authenticate($username, $password, &$uid)
 *
 * @param    int  $userid   Valid uid value.
 * @return   int            user status, 0-3
+* @note     May not return for banned/non-approved users.
 *
 */
 function SEC_checkUserStatus($userid)
@@ -743,36 +744,33 @@ function SEC_checkUserStatus($userid)
 
     // only do redirects if we aren't on users.php in a valid mode (logout or
     // default)
-    if (strpos ($_SERVER['PHP_SELF'], 'users.php') === false)
-    {
+    if (strpos($_SERVER['PHP_SELF'], 'users.php') === false) {
         $redirect = true;
     } else {
-        if (empty($_REQUEST['mode']) || ($_REQUEST['mode'] == 'logout'))
-        {
+        if (empty($_REQUEST['mode']) || ($_REQUEST['mode'] == 'logout')) {
             $redirect = false;
         } else {
             $redirect = true;
         }
     }
-    if ($status == USER_ACCOUNT_AWAITING_ACTIVATION)
-    {
+    if ($status == USER_ACCOUNT_AWAITING_ACTIVATION) {
         DB_change($_TABLES['users'], 'status', USER_ACCOUNT_ACTIVE, 'uid', $userid);
     } elseif ($status == USER_ACCOUNT_AWAITING_APPROVAL) {
         // If we aren't on users.php with a default action then go to it
-        if ($redirect)
-        {
+        if ($redirect) {
             COM_accessLog("SECURITY: Attempted Cookie Session login from user awaiting approval $userid.");
             echo COM_refresh($_CONF['site_url'] . '/users.php?msg=70');
             exit;
         }
     } elseif ($status == USER_ACCOUNT_DISABLED) {
-        if ($redirect)
-        {
+        if ($redirect) {
             COM_accessLog("SECURITY: Attempted Cookie Session login from banned user $userid.");
             echo COM_refresh($_CONF['site_url'] . '/users.php?msg=69');
             exit;
         }
     }
+
+    return $status;
 }
 
 /**
@@ -1078,7 +1076,13 @@ function SEC_encryptPassword($password)
   */
 function SEC_createToken($ttl = 1200)
 {
-    global $_USER, $_TABLES;
+    global $_USER, $_TABLES, $_DB_dbms;
+
+    static $last_token;
+
+    if (isset($last_token)) {
+        return $last_token;
+    }
     
     /* Figure out the full url to the current page */
     $pageURL = COM_getCurrentURL();
@@ -1088,9 +1092,13 @@ function SEC_createToken($ttl = 1200)
     $pageURL = addslashes($pageURL);
     
     /* Destroy exired tokens: */
-    /* Note: TTL not yet implemented! So commented out */
-    $sql = "DELETE FROM {$_TABLES['tokens']} WHERE (DATE_ADD(created, INTERVAL ttl SECOND) < NOW())"
+    if($_DB_dbms == 'mssql') {
+        $sql = "DELETE FROM {$_TABLES['tokens']} WHERE (DATEADD(ss, ttl, created) < NOW())"
            . " AND (ttl > 0)";
+    } else {
+        $sql = "DELETE FROM {$_TABLES['tokens']} WHERE (DATE_ADD(created, INTERVAL ttl SECOND) < NOW())"
+           . " AND (ttl > 0)";
+    }
     DB_Query($sql);
     
     /* Destroy tokens for this user/url combination */
@@ -1103,6 +1111,8 @@ function SEC_createToken($ttl = 1200)
            . "VALUES ('$token', NOW(), {$_USER['uid']}, '$pageURL', $ttl)";
     DB_Query($sql);
            
+    $last_token = $token;
+
     /* And return the token to the user */
     return $token;
 }
@@ -1117,7 +1127,7 @@ function SEC_createToken($ttl = 1200)
   */
 function SEC_checkToken()
 {
-    global $_USER, $_TABLES;
+    global $_USER, $_TABLES, $_DB_dbms;
     
     $token = ''; // Default to no token.
     $return = false; // Default to fail.
@@ -1129,8 +1139,18 @@ function SEC_checkToken()
     }
     
     if(trim($token) != '') {
-        $sql = "SELECT ((DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND ttl > 0) as expired, owner_id, urlfor FROM "
+        if($_DB_dbms != 'mssql') {
+            $sql = "SELECT ((DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND ttl > 0) as expired, owner_id, urlfor FROM "
                . "{$_TABLES['tokens']} WHERE token='$token'";
+        } else {
+            $sql = "SELECT owner_id, urlfor, expired = 
+                      CASE 
+                         WHEN (DATEADD(s,ttl,created) < getUTCDate()) AND (ttl>0) THEN 1
+                
+                         ELSE 0
+                      END
+                    FROM {$_TABLES['tokens']} WHERE token='$token'";
+        }
         $tokens = DB_Query($sql);
         $numberOfTokens = DB_numRows($tokens);
         if($numberOfTokens != 1) {

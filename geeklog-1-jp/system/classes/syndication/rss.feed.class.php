@@ -269,12 +269,14 @@
       */
     function _RFC822DateFormat($timestamp='')
     {
+    	// format the date
     	if(!empty($timestamp))
     	{
     		$time = date( 'r', $timestamp);
     	} else {
     		$time = date( 'r' );
     	}
+    	// return the time
     	return $time;
     }
 
