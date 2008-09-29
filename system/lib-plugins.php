@@ -41,7 +41,7 @@
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-plugins.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 require_once $_CONF['path_system'] . 'classes/plugin.class.php';
@@ -205,7 +205,7 @@ function PLG_uninstall ($type)
         // removing tables
         for ($i=0; $i < count($remvars['tables']); $i++) {
             COM_errorLog ("Dropping table {$_TABLES[$remvars['tables'][$i]]}", 1);
-            DB_query ("DROP TABLE {$_TABLES[$remvars['tables'][$i]]}");
+            DB_query ("DROP TABLE {$_TABLES[$remvars['tables'][$i]]}", 1    );
             COM_errorLog ('...success', 1);
         }
 

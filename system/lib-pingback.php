@@ -32,7 +32,7 @@
 // $Id: lib-pingback.php,v 1.15 2008/09/21 08:37:11 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-pingback.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 // PEAR class to handle XML-RPC

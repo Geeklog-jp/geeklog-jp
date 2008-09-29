@@ -42,7 +42,7 @@
 $_SESS_VERBOSE = false;
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-sessions.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 if (empty ($_CONF['cookiedomain'])) {
@@ -114,17 +114,20 @@ function SESS_sessionCheck()
 
         if ($userid > 1) {
             // Check user status
-            SEC_checkUserStatus($userid);
-            $user_logged_in = 1;
-            SESS_updateSessionTime($sessid, $_CONF['cookie_ip']);
-            $userdata = SESS_getUserDataFromId($userid);
-            if ($_SESS_VERBOSE) {
-                COM_errorLog("Got " . count($userdata) . " pieces of data from userdata",1);
-                COM_errorLog(COM_debug($userdata),1);
-                // COM_debug($userdata);
+            $status = SEC_checkUserStatus($userid);
+            if (($status == USER_ACCOUNT_ACTIVE) ||
+                    ($status == USER_ACCOUNT_AWAITING_ACTIVATION)) {
+                $user_logged_in = 1;
+
+                SESS_updateSessionTime($sessid, $_CONF['cookie_ip']);
+                $userdata = SESS_getUserDataFromId($userid);
+                if ($_SESS_VERBOSE) {
+                    COM_errorLog("Got " . count($userdata) . " pieces of data from userdata", 1);
+                    COM_errorLog(COM_debug($userdata), 1);
+                }
+                $_USER = $userdata;
+                $_USER['auto_login'] = false;
             }
-            $_USER = $userdata;
-            $_USER['auto_login'] = false;
         } else {
             // Session probably expired, now check permanent cookie
             if (isset ($_COOKIE[$_CONF['cookie_name']])) {
@@ -144,13 +147,17 @@ function SESS_sessionCheck()
                         // User may have modified their UID in cookie, ignore them
                     } else if ($userid > 1) {
                         // Check user status
-                        SEC_checkUserStatus ($userid);
-                        $user_logged_in = 1;
-                        $sessid = SESS_newSession ($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
-                        SESS_setSessionCookie ($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
-                        $userdata = SESS_getUserDataFromId ($userid);
-                        $_USER = $userdata;
-                        $_USER['auto_login'] = true;
+                        $status = SEC_checkUserStatus ($userid);
+                        if (($status == USER_ACCOUNT_ACTIVE) ||
+                                ($status == USER_ACCOUNT_AWAITING_ACTIVATION)) {
+                            $user_logged_in = 1;
+
+                            $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
+                            SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
+                            $userdata = SESS_getUserDataFromId($userid);
+                            $_USER = $userdata;
+                            $_USER['auto_login'] = true;
+                        }
                     }
                 }
             }
@@ -185,15 +192,18 @@ function SESS_sessionCheck()
                     // User could have modified UID in cookie, don't do shit
                 } else if ($userid > 1) {
                     // Check user status
-                    SEC_checkUserStatus ($userid);
-                    $user_logged_in = 1;
+                    $status = SEC_checkUserStatus($userid);
+                    if (($status == USER_ACCOUNT_ACTIVE) ||
+                            ($status == USER_ACCOUNT_AWAITING_ACTIVATION)) {
+                        $user_logged_in = 1;
 
-                    // Create new session and write cookie
-                    $sessid = SESS_newSession ($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
-                    SESS_setSessionCookie ($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
-                    $userdata = SESS_getUserDataFromId ($userid);
-                    $_USER = $userdata;
-                    $_USER['auto_login'] = true;
+                        // Create new session and write cookie
+                        $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
+                        SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
+                        $userdata = SESS_getUserDataFromId($userid);
+                        $_USER = $userdata;
+                        $_USER['auto_login'] = true;
+                    }
                 }
             }
         }
@@ -204,8 +214,7 @@ function SESS_sessionCheck()
     }
 
     // Ensure $_USER is set to avoid warnings (path exposure...)
-    if(isset($_USER))
-    {
+    if (isset($_USER)) {
         return $_USER;
     } else {
         return NULL;
@@ -284,16 +293,16 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
         if ($_SESS_VERBOSE) COM_errorLog("*************leaving SESS_newSession*****************",1);
         if ($md5_based == 1) {
             // Cellular phones IP address is changed frequently. So, seve it.
-        	if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+            if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
                 CUSTOM_MOBILE_save_session($md5_sessid, $remote_ip);
             }
             return $md5_sessid;
         } else {
             // Cellular phones IP address is changed frequently. So, save it.
-        	if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+            if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
                 CUSTOM_MOBILE_save_session($sessid, $remote_ip);
             }
-        	return $sessid;
+            return $sessid;
         }
     } else {
         echo DB_error().": ".DB_error()."<br" . XHTML . ">";
@@ -359,7 +368,7 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
     // Cellular phones IP address is changed frequently. So, load saived one.
     if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
         CUSTOM_MOBILE_debug("remote_ip: $remote_ip");
-    	$remote_ip = CUSTOM_MOBILE_load_ip();
+        $remote_ip = CUSTOM_MOBILE_load_ip();
         CUSTOM_MOBILE_debug("remote_ip from mobile session: $remote_ip");
     }
     
@@ -372,7 +381,7 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
     }
 
     if ($_SESS_VERBOSE) {
-        COM_errorLog("SQL in SESS_getUserIdFromSession is:\n<br" . XHTML . "> $sql <br" . XHTML . ">\n");
+        COM_errorLog("SQL in SESS_getUserIdFromSession is:\n $sql\n");
     }
 
     $result = DB_query($sql);

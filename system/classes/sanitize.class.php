@@ -37,7 +37,7 @@
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'sanitize.class.php') !== false) {
-    die ('This file can not be used on its own.');
+    die('This file can not be used on its own.');
 }
 
 /**
