@@ -890,9 +890,9 @@ function saveuser($A)
             // - if not numeric use default message
             if (!is_numeric($ret)) {
                 $ret = 97;
-        }
+            }
             return COM_refresh("{$_CONF['site_url']}/usersettings.php?msg={$ret}");
-    }
+        }
     }
 
     // no need to filter the password as it's encoded anyway
