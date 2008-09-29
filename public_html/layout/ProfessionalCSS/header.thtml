@@ -25,9 +25,7 @@
   </head>
 
 
-  <body class="js_off" onload="OnloadBody()">
-    <script type="text/javascript"> function OnloadBody(){ } </script>
-
+  <body class="js_off">
 <!-- header.thtml { -->
 
 <!-- #container { -->
