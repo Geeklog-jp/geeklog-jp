@@ -46,7 +46,7 @@
 // $Id: lib-custom.php,v 1.43 2008/09/21 08:37:11 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-custom.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 // You can use this global variable to print useful messages to the errorlog
@@ -151,6 +151,9 @@ function CUSTOM_templateSetVars ($templatename, &$template)
     located under the theme_dir/custom directory.
     Sample is provided under /system with the distribution.
 
+    Note3: Optional parm $bulkimport added so that if your using the [Batch Add] feature,
+    you can execute different logic if required.
+
     Functions have been provided that are called from the Core Geeklog user and admin functions
     - This works with User Moderation as well
     - Admin will see the new registration info when checking a member's profile only
@@ -162,7 +165,7 @@ function CUSTOM_templateSetVars ($templatename, &$template)
 /* Create any new records in additional tables you may have added  */
 /* Update any fields in the core GL tables for this user as needed */
 /* Called when user is first created */
-function CUSTOM_userCreate ($uid)
+function CUSTOM_userCreate ($uid,$bulkimport=false)
 {
     global $_CONF, $_TABLES;
 
@@ -403,11 +406,16 @@ function CUSTOM_showBlocks($showblocks)
     }
 
     foreach($showblocks as $block) {
-        $sql = "SELECT bid, name,type,title,content,rdfurl,phpblockfn,help,allow_autotags FROM {$_TABLES['blocks']} WHERE name='$block'";
+        $sql = "SELECT bid, name,type,title,content,rdfurl,phpblockfn,help,allow_autotags,onleft FROM {$_TABLES['blocks']} WHERE name='$block'";
         $result = DB_query($sql);
         if (DB_numRows($result) == 1) {
             $A = DB_fetchArray($result);
-            $retval .= COM_formatBlock($A,$noboxes);
+            if ($A['onleft'] == 1) {
+                $side = 'left';
+            } else {
+                $side = 'right';
+            }
+            $retval .= COM_formatBlock($A,$noboxes, $side);
         }
     }
 

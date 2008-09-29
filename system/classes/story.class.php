@@ -29,7 +29,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: story.class.php,v 1.27 2008/05/24 19:46:13 dhaun Exp $
+// $Id: story.class.php,v 1.36 2008/08/16 18:07:09 dhaun Exp $
 
 /**
  * This file provides a class to represent a story, or article. It provides a
@@ -495,6 +495,8 @@ class Story
                     return STORY_PERMISSION_DENIED;
                 } elseif ($this->_access == 2 && $mode != 'view') {
                     return STORY_EDIT_DENIED;
+                } elseif ((($this->_access == 2) && ($mode == 'view')) && (($this->_draft_flag == 1) || ($this->_date > time()))) {
+                        return STORY_INVALID_SID;
                 }
             } else {
                 return STORY_INVALID_SID;
@@ -573,6 +575,8 @@ class Story
         $currentSidExists = false;
 
         /* Fix up old sid => new sid stuff */
+        $checksid = addslashes($this->_originalSid); // needed below
+
         if ($this->_sid != $this->_originalSid) {
             /* The sid has changed. Load from request will have
              * ensured that if the new sid exists an error has
@@ -581,7 +585,6 @@ class Story
              * sid that was then thrown away) to reduce the sheer
              * number of SQL queries we do.
              */
-            $checksid = addslashes($this->_originalSid);
             $newsid = addslashes($this->_sid);
 
             $sql = "SELECT 1 FROM {$_TABLES['stories']} WHERE sid='{$checksid}'";
@@ -631,8 +634,8 @@ class Story
         // Get the related URLs
         $this->_related = implode("\n", STORY_extractLinks("{$this->_introtext} {$this->_bodytext}"));
         $this->_in_transit = 1;
-        $sql = 'REPLACE INTO ' . $_TABLES['stories'] . ' (';
-        $values = ' VALUES (';
+        $values = '';
+        $fields = '';
         reset($this->_dbFields);
 
         /* This uses the database field array to generate a SQL Statement. This
@@ -642,7 +645,7 @@ class Story
         while (list($fieldname, $save) = each($this->_dbFields)) {
             if ($save === 1) {
                 $varname = '_' . $fieldname;
-                $sql .= $fieldname . ', ';
+                $fields .= $fieldname . ', ';
                 if (($fieldname == 'date') || ($fieldname == 'expire')) {
                     // let the DB server do this conversion (cf. timezone hack)
                     $values .= 'FROM_UNIXTIME(' . $this->{$varname} . '), ';
@@ -652,11 +655,10 @@ class Story
             }
         }
 
-        $sql = substr($sql, 0, strlen($sql) - 2);
+        // Fields and values has a trailing ', ' remove them:
+        $fields = substr($fields, 0, strlen($fields) - 2);
         $values = substr($values, 0, strlen($values) - 2);
-        $sql .= ') ' . $values . ')';
-
-        DB_query($sql);
+        DB_Save($_TABLES['stories'], $fields, $values);
 
         /* Clean up the old story */
         if ($oldArticleExists) {
@@ -792,6 +794,7 @@ class Story
 
         // Use what we have:
         $this->_tid = $topic;
+        $this->_date = time();
     }
 
     /**
@@ -800,6 +803,10 @@ class Story
     function loadSubmission()
     {
         $array = $_POST;
+        
+        $this->_expire = time();
+        $this->_date = time();
+        $this->_expiredate = 0;
 
         // Handle Magic GPC Garbage:
         while (list($key, $value) = each($array))
@@ -811,6 +818,10 @@ class Story
         $this->_sid = COM_applyFilter($array['sid']);
         $this->_uid = COM_applyFilter($array['uid'], true);
         $this->_unixdate = COM_applyFilter($array['date'], true);
+
+        if (!isset($array['bodytext'])) {
+            $array['bodytext'] = '';
+        }
 
         /* Then load the title, intro and body */
         if (($array['postmode'] == 'html') || ($array['postmode'] == 'adveditor')) {
@@ -905,9 +916,12 @@ class Story
 
             $this->_oldsid = $this->_sid;
             $this->_date = mktime();
+            $this->_featured = 0;
             $this->_commentcode = $_CONF['comment_code'];
             $this->_trackbackcode = $_CONF['trackback_code'];
+            $this->_statuscode = 0;
             $this->_show_topic_icon = $_CONF['show_topic_icon'];
+            $this->_owner_id = $_USER['uid'];
             $this->_group_id = $T['group_id'];
             $this->_perm_owner = $T['perm_owner'];
             $this->_perm_group = $T['perm_group'];
@@ -1023,11 +1037,18 @@ class Story
                                                     $lFilename_large;
                         }
 
-                        // And finally, replace the [imagex_mode] tags with the image and it's
-                        // hyperlink:
-                        $lLink_url = $lFilename_large_URL;
-                        $lLink_attr = array('title' => $LANG24[57]);
+                        // And finally, replace the [imageX_mode] tags with the
+                        // image and its hyperlink (only when the large image
+                        // actually exists)
+                        $lLink_url  = '';
+                        $lLink_attr = '';
+                        if (file_exists($lFilename_large_complete)) {
+                            $lLink_url = $lFilename_large_URL;
+                            $lLink_attr = array('title' => $LANG24[57]);
+                        }
+                    }
 
+                    if (!empty($lLink_url)) {
                         $intro = str_replace($norm,  COM_createLink($img_noalign,   $lLink_url, $lLink_attr), $intro);
                         $body  = str_replace($norm,  COM_createLink($img_noalign,   $lLink_url, $lLink_attr), $body);
                         $intro = str_replace($left,  COM_createLink($img_leftalgn,  $lLink_url, $lLink_attr), $intro);
@@ -1417,6 +1438,10 @@ class Story
             $return = $return[0];
             break;
 
+        case 'unixdate':
+            $return = $this->_date;
+            break;
+
         case 'hits':
             $return = COM_NumberFormat($this->_hits);
 
@@ -1651,7 +1676,11 @@ class Story
 
         // SID's are a special case:
         $sid = COM_sanitizeID($array['sid']);
-        $oldsid = COM_sanitizeID($array['old_sid']);
+        if (isset($array['old_sid'])) {
+            $oldsid = COM_sanitizeID($array['old_sid'], false);
+        } else {
+            $oldsid = '';
+        }
 
         if (empty($sid)) {
             $sid = $oldsid;
@@ -1665,10 +1694,22 @@ class Story
         $this->_originalSid = $oldsid;
 
         /* Need to deal with the postdate and expiry date stuff */
-        $publish_ampm = COM_applyFilter($array['publish_ampm']);
-        $publish_hour = COM_applyFilter($array['publish_hour'], true);
-        $publish_minute = COM_applyFilter($array['publish_minute'], true);
-        $publish_second = COM_applyFilter($array['publish_second'], true);
+        $publish_ampm = '';
+        if (isset($array['publish_ampm'])) {
+            $publish_ampm = COM_applyFilter($array['publish_ampm']);
+        }
+        $publish_hour = 0;
+        if (isset($array['publish_hour'])) {
+            $publish_hour = COM_applyFilter($array['publish_hour'], true);
+        }
+        $publish_minute = 0;
+        if (isset($array['publish_minute'])) {
+            $publish_minute = COM_applyFilter($array['publish_minute'], true);
+        }
+        $publish_second = 0;
+        if (isset($array['publish_second'])) {
+            $publish_second = COM_applyFilter($array['publish_second'], true);
+        }
 
         if ($publish_ampm == 'pm') {
             if ($publish_hour < 12) {
@@ -1680,9 +1721,18 @@ class Story
             $publish_hour = '00';
         }
 
-        $publish_year = COM_applyFilter($array['publish_year'], true);
-        $publish_month = COM_applyFilter($array['publish_month'], true);
-        $publish_day = COM_applyFilter($array['publish_day'], true);
+        $publish_year = 0;
+        if (isset($array['publish_year'])) {
+            $publish_year = COM_applyFilter($array['publish_year'], true);
+        }
+        $publish_month = 0;
+        if (isset($array['publish_month'])) {
+            $publish_month = COM_applyFilter($array['publish_month'], true);
+        }
+        $publish_day = 0;
+        if (isset($array['publish_day'])) {
+            $publish_day = COM_applyFilter($array['publish_day'], true);
+        }
         $this->_date = strtotime(
                            "$publish_month/$publish_day/$publish_year $publish_hour:$publish_minute:$publish_second");
 
