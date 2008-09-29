@@ -66,6 +66,6 @@
      <!--[if !IE]> #centerblocks { <![endif]-->
      <!-- 中央ブロックコンテナ -->
      <div id="centerblocks">
-       <p class="welcome_msg">{welcome_msg}&nbsp;{datetime}</p>
+       <p class="welcome_msg">{welcome_msg_jp}&nbsp;{datetime}</p>
 
 <!-- } header.thtml -->
