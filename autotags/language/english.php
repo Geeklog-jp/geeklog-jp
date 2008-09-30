@@ -34,6 +34,7 @@ $LANG_AUTO = array(
     'function' => 'Replace using function?',
     'short_function' => 'Is Function?',
     'autotagseditor' => 'Autotags Editor',
+    'autotagsmanager' => 'Autotags Manager',
     'edit' => 'Edit',
     'save' => 'save',
     'delete' => 'delete',
