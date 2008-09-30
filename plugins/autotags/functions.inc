@@ -359,7 +359,8 @@ function phpautotags_topic($p1, $p2, $fulltag)
     if (empty($topic))
         return "<B>Unknown Topic</B>";
     $topic = stripslashes($topic);
-    return "<a href=\"{site_url}/index.php?topic=$p1\">$topic</a>";
+    return "<a href=\"{$_CONF['site_url']}/index.php?topic=" . urlencode($p1) . "\">" . htmlspecialchars($topic, ENT_QUOTES) . "</a>";
+
 }
 
 function phpautotags_cipher($p1, $p2, $fulltag)
