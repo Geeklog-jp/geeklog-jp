@@ -345,9 +345,9 @@ if (($mode == $LANG_AUTO['delete']) && !empty ($LANG_AUTO['delete'])) {
          AND !SEC_checkToken()) {
             $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
         } else {
-            $display = saveautotags($tag, $_POST['old_tag'],
-                         $_POST['description'], $_POST['is_enabled'],
-                         $_POST['is_function'], $_POST['replacement']);
+            $display = saveautotags($tag, COM_applyFilter($_POST['old_tag']),
+                         COM_applyFilter($_POST['description']), COM_applyFilter($_POST['is_enabled']),
+                         COM_applyFilter($_POST['is_function']), COM_stripslashes($_POST['replacement']));
         }
     } else {
         $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
