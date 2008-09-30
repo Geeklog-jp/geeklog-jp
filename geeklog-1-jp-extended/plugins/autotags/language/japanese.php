@@ -36,6 +36,7 @@ $LANG_AUTO = array(
     'function' => '関数で置換する:',
     'short_function' => '関数',
     'autotagseditor' => '自動タグエディタ',
+    'autotagsmanager' => '自動タグマネージャ',
     'edit' => '編集',
     'save' => '保存',
     'delete' => '削除',
