@@ -51,7 +51,7 @@ $_TABLES['autotags']  = $_DB_table_prefix . 'autotags_plg';
 //
 $pi_display_name = 'Autotags';
 $pi_name         = 'autotags';
-$pi_version      = '1.01';
+$pi_version      = '1.02jp1';
 $gl_version      = '1.4.0';
 $pi_url          = 'http://www.geeklog.net/';
 
