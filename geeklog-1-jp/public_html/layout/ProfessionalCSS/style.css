@@ -32,7 +32,6 @@
 
 /* プラグインスタイルシート */
 @import url("css/plugin.css");  /* インポート用スタイルシート(プラグイン) */
-@import url("mycaljp/mycaljp.css");
 
 /* Professional互換スタイルシート */
 @import url("css/compatible.css");
