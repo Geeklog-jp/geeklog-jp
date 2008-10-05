@@ -128,7 +128,9 @@ function tkgmaps_point($p1, $p2, $fulltag){
 	global $_TKGMAPS_CONF,$tkgmaps_base,$tkgmaps_point;
 
     $icon = '';
+    $iconshadow = '';
     $iconsize = isset($_TKGMAPS_CONF['iconsize']) ? $_TKGMAPS_CONF['iconsize'] : '';
+    $iconshadowsize = isset($_TKGMAPS_CONF['iconshadowsize']) ? $_TKGMAPS_CONF['iconshadowsize'] : '';
     $iconanchor = isset($_TKGMAPS_CONF['iconanchor']) ? $_TKGMAPS_CONF['iconanchor'] : '';
     $infowindowanchor = isset($_TKGMAPS_CONF['infowindowanchor']) ? $_TKGMAPS_CONF['infowindowanchor'] : '';
     $info = '""';
@@ -148,7 +150,7 @@ function tkgmaps_point($p1, $p2, $fulltag){
 		}
 	}
 
-	$options_array = explode(' ', $options);	
+	$options_array = explode(' ', $options);
 	while(count($options_array)>0){
 		$option = array_shift($options_array);
 		$cpos = strpos($option, ':');
@@ -157,7 +159,9 @@ function tkgmaps_point($p1, $p2, $fulltag){
 		switch (strtolower($k)) {
 			case "title": 	$title  = $v; 	break;
 			case "icon": 	$icon = $v; 	break;
+			case "iconshadow": 	$iconshadow = $v; 	break;
 			case "iconsize": 	$iconsize = $v; 	break;
+			case "iconshadowsize": 	$iconshadowsize = $v; 	break;
 			case "iconanchor": 	$iconanchor = $v; 	break;
 			case "info":	$info = $v; 	break;
 			case "infowindowanchor":    $infowindowanchor = $v; break;
@@ -178,7 +182,9 @@ function tkgmaps_point($p1, $p2, $fulltag){
 	'lng'          => $p2,
 	'title'        => $title ,
 	'icon'         => $icon ,
+	'iconshadow'   => $iconshadow ,
 	'iconsize'     => $iconsize ,
+	'iconshadowsize' => $iconshadowsize ,
 	'iconanchor'   => $iconanchor ,
 	'infowindowanchor' => $infowindowanchor ,
 	'info'         => $info
@@ -229,6 +235,10 @@ function tkgmaps_show(){
 		if($value['icon']) {
     		$ret .= "  icon$m.image = '{$value['icon']}';" . LB;
     		if($value['iconsize']) { $ret .= "  icon$m.iconSize = new GSize({$value['iconsize']});" . LB; }
+            if($value['iconshadow']) {
+                $ret .= "  icon$m.shadow = '{$value['iconshadow']}';" . LB;
+                if($value['iconshadowsize']) { $ret .= "  icon$m.shadowSize = new GSize({$value['iconshadowsize']});" . LB; }
+            }
     		if($value['iconanchor']) { $ret .= "  icon$m.iconAnchor = new GPoint({$value['iconanchor']});" . LB; }
     		if($value['infowindowanchor']) { $ret .= "  icon$m.infoWindowAnchor = new GPoint({$value['infowindowanchor']});" . LB; }
 		}
