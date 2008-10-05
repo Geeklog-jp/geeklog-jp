@@ -50,7 +50,8 @@ function GEEKLOGJP_disablePlugins() {
 			if (array_key_exists($pi_name, $allowed_plugins)) {
 				if (($allowed_plugins[$pi_name] == '*')
 				 OR (version_compare($pi_version, $allowed_plugins[$pi_name]) >= 0)) {
-				continue;
+					continue;
+				}
 			}
 			
 			$sqls[] = "UPDATE {$_TABLES['plugins']} "
