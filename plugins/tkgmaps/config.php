@@ -45,6 +45,8 @@ $_TKGMAPS_CONF = array();
 
 // アイコンサイズのデフォルト  横pix,縦pix
 $_TKGMAPS_CONF['iconsize']      = '32,32';
+// 影アイコンサイズのデフォルト  横pix,縦pix
+$_TKGMAPS_CONF['iconshadowsize'] = '59,32';
 // アイコン位置のデフォルト  TOP位置,LEFT位置
 $_TKGMAPS_CONF['iconanchor']    = '16,16';
 // インフォウィンドウ位置のデフォルト  TOP位置,LEFT位置
@@ -54,7 +56,7 @@ $_TKGMAPS_CONF['hidemenu']      = 1;
 
 $_TKGMAPS_CONF['loginrequired'] = 0;
 
-$_TKGMAPS_CONF['version']       = '0.9.3';   // Plugin Version
+$_TKGMAPS_CONF['version']       = '0.9.4';   // Plugin Version
 
 // Add to $_TABLES array the tables your plugin uses
 
