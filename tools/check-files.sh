@@ -33,6 +33,9 @@
 #
 # -l	改行文字が LF でないファイルを表示します。
 # -u	UTF-8のBOMがあるファイルを表示します。
+# -s	Subversionのsvn:eol-style属性が指定した値でないファイルを表示します。
+# -p	-sオプションのsvn:eol-style属性の値を指定します。
+#	デフォルトはnativeです。
 #
 # 以下が提供されていることを動作の前提としています。
 #
@@ -64,14 +67,68 @@ create_arg() {
     echo $arg
 }
 
+check_files() {
+    check=$1
+    shift
+    dir=$@
+
+    check_arg=`create_arg`
+
+    find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print0 | (
+    case "${check}" in
+    eol)	pat=`printf '\xd$'`;;
+    bom)	pat=`printf "\xef\xbb\xbf"`;;
+    esac
+    xargs -0 egrep -l "${pat}")
+}
+
+check_properties() {
+    dir=$@
+    tmp="/tmp/`basename $0 .sh`.tmp.$$"
+
+    check_arg=`create_arg`
+
+    trap "rm -f ${tmp}; exit 1" 0 HUP INT QUIT
+    find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print > ${tmp}
+    xargs svn proplist --verbose < ${tmp} |
+    awk '
+    /Properties on/ {
+        ofile = file;
+    	file = substr($3, 2, length($3) - 3);
+	if (a[ofile] == "native") {
+	    print ofile;
+	}
+	delete a;
+    }
+    /  *svn:eol-style : native/ {
+    	a[file] = "native";
+    }
+    END {
+        if (a[file] == "native") {
+	    print file;
+	}
+    }
+    ' | comm -23 ${tmp} - | sort
+    rm -f ${tmp}
+    exit
+}
+
 check=
-while getopts hlu opts; do
+value=native
+while getopts hlp:su opts; do
     case ${opts} in
 	h | \?)
     	    usage 0
 	    ;;
 	l)
     	    check=eol
+	    ;;
+	p)
+	    value=$OPTARG
+	    check=eol-style
+	    ;;
+	s)
+	    check=eol-style
 	    ;;
 	u)
 	    check=bom
@@ -93,11 +150,7 @@ case $# in
 *)	dir="$@";;
 esac
 
-check_arg=`create_arg`
-
-find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print0 | (
 case "${check}" in
-eol)	pat=`printf '\xd$'`;;
-bom)	pat=`printf "\xef\xbb\xbf"`;;
+eol|bom)	check_files ${check} ${dir};;
+eol-style)	check_properties ${dir};;
 esac
-xargs -0 egrep -l "${pat}")
