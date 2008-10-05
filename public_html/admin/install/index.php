@@ -1244,9 +1244,9 @@ function INST_doDatabaseUpgrades($current_gl_version, $use_innodb = false)
 
     $_DB->setDisplayError (true);
 
-    // Disable userconfig plugin beforehand to prevent an error
-    require_once 'disable-userconfig.php';
-    disableUserconfigPlugin();
+    // Disable incompatible plugins beforehand to prevent an error
+    require_once 'disable-plugins.php';
+    GEEKLOGJP_disablePlugins();
     
     // Because the upgrade sql syntax can vary from dbms-to-dbms we are
     // leaving that up to each Geeklog database driver
