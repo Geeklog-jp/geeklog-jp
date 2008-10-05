@@ -16,7 +16,7 @@
     <li>
       <dl>
         <dt>{lang_contributed_by}</dt>
-        <dd>{start_contributedby_anchortag}{contributedby_user}{end_contributedby_anchortag}</dd>
+        <dd>{start_contributedby_anchortag}{contributedby_author}{end_contributedby_anchortag}</dd>
       </dl>
     </li>
     <li>
