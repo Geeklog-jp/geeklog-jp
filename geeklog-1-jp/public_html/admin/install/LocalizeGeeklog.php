@@ -488,7 +488,6 @@ class LocalizeGeeklog
 								),
 				)
 			);
-			$c->set('skip_html_filter_for_root', 0);
 			
 			// 検閲モード
 			$c->set('censormode', 1);
@@ -654,7 +653,6 @@ class LocalizeGeeklog
 					'ul'       => array('class' => 1, 'style' => 1),
 				)
 			);
-			$c->set('skip_html_filter_for_root', 1);
 			
 			// 検閲モード
 			$c->set('censormode', 0);
