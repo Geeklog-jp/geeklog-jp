@@ -55,7 +55,7 @@ binaries="bat bmp dat data gd2 gif jpg jpeg pdf png ttf"
 unset LANG
 
 usage() {
-    echo "$0: [-lu] <file or dir>..."
+    echo "$0: [-lsu] [-p <CR|CR+LF|LF|native>] <file or dir>..."
     exit $1
 }
 
