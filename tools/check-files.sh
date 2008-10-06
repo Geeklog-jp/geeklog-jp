@@ -89,7 +89,8 @@ check_properties() {
     check_arg=`create_arg`
 
     trap "rm -f ${tmp}; exit 1" 0 HUP INT QUIT
-    find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print > ${tmp}
+    find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print | \
+	sort > ${tmp}
     xargs svn proplist --verbose < ${tmp} |
     awk '
     /Properties on/ {
