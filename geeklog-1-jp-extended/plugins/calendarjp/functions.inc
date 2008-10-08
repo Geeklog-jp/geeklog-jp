@@ -58,7 +58,7 @@ if (!isset($_CAJP_CONF['calendarloginrequired'])) {
     $_CAJP_CONF = $ca_config->get_config('calendarjp');
 }
 
-$_CAJP_CONF['version'] = '1.0.3';
+$_CAJP_CONF['version'] = '1.0.4';
 
 $_TABLES['eventsjp']              = $_DB_table_prefix . 'eventsjp';
 $_TABLES['eventsubmissionjp']     = $_DB_table_prefix . 'eventsubmissionjp';
@@ -1442,15 +1442,22 @@ function plugin_chkVersion_calendarjp()
 */
 function plugin_upgrade_calendarjp()
 {
+    global $_CONF, $_TABLES, $_CAJP_CONF;
+
     // the plugin needs these function so complain when they don't exist
-    if (!function_exists('PLG_uninstall') ||
-            !function_exists('COM_createLink')) {
+    if (!function_exists('PLG_uninstall') || !function_exists('COM_createLink')) {
         return 3002;
     }
 
-    // upgrades are done by the install script - return a generic error
-    COM_errorLog("Plugin upgrade function not implemented");
-    return 3001;
+    $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'calendarjp')");
+
+    // Update the version numbers
+    DB_query("UPDATE {$_TABLES['plugins']} "
+           . "SET pi_version = '{$_CAJP_CONF['version']}', pi_gl_version = '" . VERSION . "' "
+           . "WHERE pi_name = 'calendarjp'");
+    COM_errorLog(ucfirst("calendarjp") . " plugin was successfully updated to version {$_CAJP_CONF['version']}.");
+
+    return true;
 }
 
 /**
