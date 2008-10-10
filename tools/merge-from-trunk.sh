@@ -47,10 +47,10 @@ repositry="https://geeklog-jp.googlecode.com/svn"
 #
 # マージ元のtrunkのディレクトリ
 #
-base="trunk/Geeklog-1.x"
+base="trunk/geeklog-1-jp"
 
 usage() {
-    echo "Usage: $0 rev[:rev] file."
+    echo "Usage: $0 rev[:rev] file"
     exit $1
 }
 
