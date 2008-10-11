@@ -549,7 +549,8 @@ $LANG11 = array(
     2 => 'Pošlji èlanek prijatelju po e-pošti',
     3 => 'Za tisk prijazna stran',
     4 => 'Dodatne možnosti',
-    5 => 'Èlanek v formatu PDF'
+    5 => 'Èlanek v formatu PDF',
+    6 => 'Obvesti me o komentarjih na \'%s\''
 );
 
 ###############################################################################
@@ -1061,7 +1062,7 @@ $LANG33 = array(
     34 => 'Vpisi',
     35 => 'Ure',
     36 => 'Izberi tip združene vsebine',
-    37 => 'Namešèen imaš vsaj en vtiènik, ki podpira združevanje vsebine. Spodaj je treba izbrati, ali hoèeš ustvariti združeno vsebino za Geeklog ali za katerega od vtiènikov.',
+    37 => '',
     38 => 'Napaka: Manjkajoèa polja',
     39 => 'Izpolni polja Naslov združene vsebine, Opis, Ime datoteke.',
     40 => 'Vpiši število vpisov ali število ur.',
@@ -1076,7 +1077,10 @@ $LANG33 = array(
     49 => 'Logotip združene vsebine',
     50 => "Glede na url strani ({$_CONF['site_url']})",
     51 => 'Izbrano ime datoteke že uporablja druga združena vsebina. Prosim izberi drugega.',
-    52 => 'Napaka: Ime datoteke že obstaja.'
+    52 => 'Napaka: Ime datoteke že obstaja.',
+    53 => 'Vsi èlanki glavne strani',
+    54 => 'Prosim izberi tip združene vsebine (feed), ki naj ga ustvarim.',
+    55 => 'Èlanki'
 );
 
 ###############################################################################
@@ -1257,8 +1261,11 @@ $LANG_DB_BACKUP = array(
     'last_ten_backups' => 'Zadnjih 10 varnostnih kopij',
     'do_backup' => 'Naredi varnostno kopijo',
     'backup_successful' => 'Varnostno shranjevanje baze podatkov je bilo uspešno.',
-    'db_explanation' => 'Èe hoèeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',
-    'not_found' => "Napaèna pot ali pa orodje mysqldump ni izvršljivo.<br" . XHTML . ">Preveri definicijo <strong>\$_DB_mysqldump_path</strong> v config.php.<br" . XHTML . ">Spremenljivka je trenutno definirana kot: <var>{$_DB_mysqldump_path}</var>",
+    'db_explanation' => 'Èe hoèeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',    
+    'not_found' => "Napaèna pot ali pa orodje mysqldump ni izvršljivo.<br" 
+        . XHTML . ">Preveri definicijo <strong>\$_DB_mysqldump_path</strong> v Nastavitvah.<br" 
+        . XHTML . '> Preveri <a href="http://www.php.net/ manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a> nastavitev v PHP nastavitvah.<br'
+        . XHTML . ">Pot je trenutno definirana kot: <var>{$_DB_mysqldump_path}</var>",
     'zero_size' => 'Varnostno kopiranje neuspešno: Velikost datoteke je 0 bajtov',
     'path_not_found' => "{$_CONF['backup_path']} ne obstaja ali pa ni direktorij",
     'no_access' => "NAPAKA: Direktorij {$_CONF['backup_path']} ni dosegljiv.",
@@ -1581,7 +1588,9 @@ $LANG_CONFIG = array(
     'save_changes' => 'Shrani spremembe',
     'reset_form' => 'Ponastavi obrazec',
     'changes_made' => 'Spremembe so bile uspešno izvedene nad',
-    'title' => 'Upravljavec nastavitev'
+    'title' => 'Upravljavec nastavitev',
+    'disable' => 'Klikni da onemogoèiš to izbiro',
+    'enable' => 'Omogoèi'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1850,7 +1859,8 @@ $LANG_configselects['Core'] = array(
     14 => array('Nedelja' => 'Sun', 'Ponedeljek' => 'Mon'),
     15 => array('Po zaporednih številkah' => 'sortnum', 'Po abecedi' => 'alpha'),
     16 => array('Prijava ni potrebna' => 0, 'Samo napredno iskanje' => 1, 'Preprosto in napredno iskanje' => 2),
-    17 => array('Komentarji omogoèeni' => 0, 'Komentarji onemogoèeni' => -1)
+    17 => array('Komentarji omogoèeni' => 0, 'Komentarji onemogoèeni' => -1),
+    18 => array('Onemogoèeno' => 0, 'Omogoèeno (Popolno ujemanje)' => 1, 'Omogoèeno (Zaèetek besede)' => 2, 'Omogoèeno (Del besede)' => 3)
 );
 
 ?>

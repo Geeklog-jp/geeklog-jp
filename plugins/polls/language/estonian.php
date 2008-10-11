@@ -2,7 +2,7 @@
 
 ###############################################################################
 # estonian.php
-# This is the estonian language page for the Geeklog Polls Plug-in
+# This is the Estonian language file for the Geeklog Polls plugin
 #
 # Copyright (C) 2001 Tony Bibbs
 # tony@tonybibbs.com
@@ -57,15 +57,16 @@ $LANG_POLLS = array(
     'not_saved' => 'Tulemus pole salvestatud',
     'upgrade1' => 'Installeerisid küsitluste plugina uue versiooni. Palun ',
     'upgrade2' => 'uuenda',
-    'editinstructions' => 'Palun sisesta küsitluse ID, vähemalt üks küsitluse küsimus ning sellele küsimusele vähemalt kaks vastusevarianti'  
-    );
+    'editinstructions' => 'Palun sisesta küsitluse ID, vähemalt üks küsitluse küsimus ning sellele küsimusele vähemalt kaks vastusevarianti',
+    'start_poll' => 'Käivita küsitlus'
+);
 
 ###############################################################################
 # admin/plugins/polls/index.php
 
 $LANG25 = array(
     1 => 'Reşiim',
-    2 => 'Palun sisesta rubriik, vähemalt üks küsimus ja sellele küsimusele vähemalt üks vastusevariant', 
+    2 => 'Palun sisesta rubriik, vähemalt üks küsimus ja sellele küsimusele vähemalt üks vastusevariant',
     3 => 'Küsitlus on loodud',
     4 => 'Küsitlus %s salvestatud',
     5 => 'Toimeta küsitlust',
@@ -82,7 +83,7 @@ $LANG25 = array(
     16 => 'Kustuta',
     17 => 'Palun sisesta küsitluse ID',
     18 => 'Küsitluste loetelu',
-    19 => 'Küsitluse toimetamiseks või kustutamiseks klõpsa küsitluse toimetamisikooni. Uue küsitluse loomiseks klõpsa "Uus küsitlus" ülal.',  
+    19 => 'Küsitluse toimetamiseks või kustutamiseks klõpsa küsitluse toimetamisikooni. Uue küsitluse loomiseks klõpsa "Uus küsitlus" ülal.',
     20 => 'Hääletajad',
     21 => 'Ligipääs tõkestatud',
     22 => "Sa üritasid ligi pääseda küsitlusele, milleks pole sul õigust. See katse on logitud. Palun <a href=\"{$_CONF['site_admin_url']}/poll.php\">mine tagasi küsitluste haldamislehele</a>.",
@@ -143,11 +144,11 @@ $LANG_fs['polls'] = array(
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['polls'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => true, 'False' => false),
-    2 => array('As Submitted' => 'submitorder', 'By Votes' => 'voteorder'),
-    9 => array('Forward to Poll' => 'item', 'Display Admin List' => 'list', 'Display Public List' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    0 => array('Jah' => 1, 'Ei' => 0),
+    1 => array('Jah' => true, 'Ei' => false),
+    2 => array('Nagu sisestatud' => 'submitorder', 'Häälte järgi' => 'voteorder'),
+    9 => array('Suuna küsitluste juurde' => 'item', 'Näita administreerimisloetelu' => 'list', 'Näita avalikku loetelu' => 'plugin', 'Näita avalehte' => 'home', 'Näita administreerimislehte' => 'admin'),
+        12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
 );
 
 ?>

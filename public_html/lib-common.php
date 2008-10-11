@@ -33,7 +33,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-common.php,v 1.702 2008/06/01 07:39:17 dhaun Exp $
+// $Id: lib-common.php,v 1.728 2008/09/21 08:37:09 dhaun Exp $
 
 // Prevent PHP from reporting uninitialized variables
 error_reporting( E_ERROR | E_WARNING | E_PARSE | E_COMPILE_ERROR );
@@ -98,21 +98,19 @@ $_CONF = $config->get_config('Core');
 
 // Before we do anything else, check to ensure site is enabled
 
-if( isset( $_CONF['site_enabled'] ) && !$_CONF['site_enabled'] )
-{
-    if( empty( $_CONF['site_disabled_msg'] ))
-    {
-        echo $_CONF['site_name'] . ' is temporarily down.  Please check back soon';
-    }
-    else
-    {
+if (isset($_CONF['site_enabled']) && !$_CONF['site_enabled']) {
+
+    if (empty($_CONF['site_disabled_msg'])) {
+        header("HTTP/1.1 503 Service Unavailable");
+        header("Status: 503 Service Unavailable");
+        echo $_CONF['site_name'] . ' is temporarily down.  Please check back soon.';
+    } else {
         // if the msg starts with http: assume it's a URL we should redirect to
-        if( preg_match( "/^(https?):/", $_CONF['site_disabled_msg'] ) === 1 )
-        {
-            echo COM_refresh( $_CONF['site_disabled_msg'] );
-        }
-        else
-        {
+        if (preg_match("/^(https?):/", $_CONF['site_disabled_msg']) === 1) {
+            echo COM_refresh($_CONF['site_disabled_msg']);
+        } else {
+            header("HTTP/1.1 503 Service Unavailable");
+            header("Status: 503 Service Unavailable");
             echo $_CONF['site_disabled_msg'];
         }
     }
@@ -121,9 +119,8 @@ if( isset( $_CONF['site_enabled'] ) && !$_CONF['site_enabled'] )
 }
 
 // this file can't be used on its own - redirect to index.php
-if( strpos( $_SERVER['PHP_SELF'], 'lib-common.php' ) !== false )
-{
-    echo COM_refresh( $_CONF['site_url'] . '/index.php' );
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-common.php') !== false) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
 
@@ -369,8 +366,7 @@ else if( !empty( $_CONF['languages'] ) && !empty( $_CONF['language_files'] ))
 }
 
 // Handle Who's Online block
-if( COM_isAnonUser() )
-{
+if (COM_isAnonUser() && isset($_SERVER['REMOTE_ADDR'])) {
     // The following code handles anonymous users so they show up properly
     DB_query( "DELETE FROM {$_TABLES['sessions']} WHERE remote_ip = '{$_SERVER['REMOTE_ADDR']}' AND uid = 1" );
 
@@ -460,15 +456,16 @@ else
 *
 * @param        string      $blockname      corresponds to name field in block table
 * @param        string      $which          can be either 'header' or 'footer' for corresponding template
+* @param        string      $position       can be 'left', 'right' or blank. If set, will be used to find a side specific override template.
 * @see function COM_startBlock
 * @see function COM_endBlock
 * @see function COM_showBlocks
 * @see function COM_showBlock
 * @return   string  template name
 */
-function COM_getBlockTemplate( $blockname, $which )
+function COM_getBlockTemplate( $blockname, $which, $position='' )
 {
-    global $_BLOCK_TEMPLATE, $_COM_VERBOSE;
+    global $_BLOCK_TEMPLATE, $_COM_VERBOSE, $_CONF;
 
     if( $_COM_VERBOSE )
     {
@@ -510,6 +507,21 @@ function COM_getBlockTemplate( $blockname, $which )
         else
         {
             $template = 'blockfooter.thtml';
+        }
+    }
+
+    // If we have a position specific request, and the template is not already
+    // position specific then look to see if there is a position specific
+    // override.
+    $templateLC = strtolower($template);
+    if( !empty($position) && ( strpos($templateLC, $position) === false ) )
+    {
+        // Trim .thtml from the end.
+        $positionSpecific = substr($template, 0, strlen($template) - 6);
+        $positionSpecific .= '-' . $position . '.thtml';
+        if( file_exists( $_CONF['path_layout'] . $positionSpecific ) )
+        {
+            $template = $positionSpecific;
         }
     }
 
@@ -711,7 +723,7 @@ function COM_renderMenu( &$header, $plugin_menu )
                 break;
 
             case 'prefs':
-                $url = $_CONF['site_url'] . '/usersettings.php?mode=edit';
+                $url = $_CONF['site_url'] . '/usersettings.php';
                 $label = $LANG01[48];
                 break;
 
@@ -985,6 +997,20 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
     $header->set_var( 'page_title', $pagetitle );
     $header->set_var( 'site_name', $_CONF['site_name']);
 
+    if (COM_onFrontpage()) {
+        $title_and_name = $_CONF['site_name'];
+        if (!empty($pagetitle)) {
+            $title_and_name .= ' - ' . $pagetitle;
+        }
+    } else {
+        $title_and_name = '';
+        if (!empty($pagetitle)) {
+            $title_and_name = $pagetitle . ' - ';
+        }
+        $title_and_name .= $_CONF['site_name'];
+    }
+    $header->set_var('page_title_and_site_name', $title_and_name);
+
     $langAttr = '';
     if( !empty( $_CONF['languages'] ) && !empty( $_CONF['language_files'] ))
     {
@@ -1041,7 +1067,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
     $header->set_var( 'rdf_file', $rdf );
     $header->set_var( 'rss_url', $rdf );
 
-    $msg = $LANG01[67] . ' ' . $_CONF['site_name'];
+    $msg = rtrim($LANG01[67]) . ' ' . $_CONF['site_name'];
 
     if( !empty( $_USER['username'] ))
     {
@@ -1264,22 +1290,6 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
 {
     global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS;
 
-    // use the right blocks here only if not in header already
-    if ($_CONF['right_blocks_in_footer'] == 1)
-    {
-        if( $rightblock < 0)
-        {
-            if( isset( $_CONF['show_right_blocks'] ))
-            {
-                $rightblock = $_CONF['show_right_blocks'];
-            }
-            else
-            {
-                $rightblock = false;
-            }
-        }
-    }
-
     // If the theme implemented this for us then call their version instead.
 
     $function = $_CONF['theme'] . '_siteFooter';
@@ -1341,21 +1351,70 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
     $footer->set_var( 'button_advsearch', $LANG_BUTTONS[10] );
     $footer->set_var( 'button_directory', $LANG_BUTTONS[11] );
 
-    /* Check if an array has been passed that includes the name of a plugin
-     * function or custom function.
-     * This can be used to take control over what blocks are then displayed
+    /* Right blocks. Argh. Don't talk to me about right blocks...
+     * Right blocks will be displayed if Right_blocks_in_footer is set [1],
+     * AND (this function has been asked to show them (first param) OR the
+     * show_right_blocks conf variable has been set to override what the code
+     * wants to do.
+     *
+     * If $custom sets an array (containing functionname and first argument)
+     * then this is used instead of the default (COM_showBlocks) to render
+     * the right blocks (and left).
+     *
+     * [1] - if it isn't, they'll be in the header already.
+     *
      */
-    if( is_array( $custom ))
+    $displayRightBlocks = true;
+    if ($_CONF['right_blocks_in_footer'] == 1)
     {
-        $function = $custom['0'];
-        if( function_exists( $function ))
+        if( ($rightblock < 0) || !$rightblock )
         {
-            $rblocks = $function( $custom['1'], 'right' );
+            if( isset( $_CONF['show_right_blocks'] ) )
+            {
+                $displayRightBlocks = $_CONF['show_right_blocks'];
+            }
+            else
+            {
+                $displayRightBlocks = false;
+            }
+        } else {
+            $displayRightBlocks = true;
         }
+    } else {
+        $displayRightBlocks = false;
     }
-    elseif( $rightblock )
+    
+    if ($displayRightBlocks)
     {
-        $rblocks = COM_showBlocks( 'right', $topic );
+        /* Check if an array has been passed that includes the name of a plugin
+         * function or custom function.
+         * This can be used to take control over what blocks are then displayed
+         */
+        if( is_array( $custom ))
+        {
+            $function = $custom['0'];
+            if( function_exists( $function ))
+            {
+                $rblocks = $function( $custom['1'], 'right' );
+            } else {
+                $rblocks = COM_showBlocks( 'right', $topic );
+            }
+        } else {
+            $rblocks = COM_showBlocks( 'right', $topic );
+        }
+        
+        if( empty( $rblocks ))
+        {
+            $footer->set_var( 'geeklog_blocks', '');
+            $footer->set_var( 'right_blocks', '' );
+        } else {
+            $footer->set_var( 'geeklog_blocks', $rblocks);
+            $footer->parse( 'right_blocks', 'rightblocks', true );
+            $footer->set_var( 'geeklog_blocks', '');
+        }
+    } else {
+        $footer->set_var( 'geeklog_blocks', '');
+        $footer->set_var( 'right_blocks', '' );
     }
 
     if( $_CONF['left_blocks_in_footer'] == 1 )
@@ -1388,45 +1447,6 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
         {
             $footer->set_var( 'geeklog_blocks', $lblocks);
             $footer->parse( 'left_blocks', 'leftblocks', true );
-            $footer->set_var( 'geeklog_blocks', '');
-        }
-    }
-
-    if( $_CONF['right_blocks_in_footer'] == 1 && $rightblock)
-    {
-        $rblocks = '';
-
-        /* Check if an array has been passed that includes the name of a plugin
-         * function or custom function
-         * This can be used to take control over what blocks are then displayed
-         */
-        if( isset( $what) && is_array( $what ))
-        {
-            $function = $what[0];
-            if( function_exists( $function ))
-            {
-                $rblocks = $function( $what[1], 'right' );
-            }
-            else
-            {
-                $rblocks = COM_showBlocks( 'right', $topic );
-            }
-        }
-        else if( !isset( $what ) || ( $what <> 'none' ))
-        {
-            // Now show any blocks -- need to get the topic if not on home page
-            $rblocks = COM_showBlocks( 'right', $topic );
-        }
-
-        if( empty( $rblocks ))
-        {
-            $footer->set_var( 'geeklog_blocks', '');
-            $footer->set_var( 'right_blocks', '' );
-        }
-        else
-        {
-            $footer->set_var( 'geeklog_blocks', $rblocks);
-            $footer->parse( 'right_blocks', 'rightblocks', true );
             $footer->set_var( 'geeklog_blocks', '');
         }
     }
@@ -1845,10 +1865,10 @@ function COM_rdfUpToDateCheck( $updated_type = '', $updated_topic = '', $updated
 
     if( $_CONF['backend'] > 0 )
     {
-        if( !empty( $updated_type ) && ( $updated_type != 'geeklog' ))
+        if( !empty( $updated_type ) && ( $updated_type != 'article' ))
         {
             // when a plugin's feed is to be updated, skip Geeklog's own feeds
-            $sql = "SELECT fid,type,topic,limits,update_info FROM {$_TABLES['syndication']} WHERE (is_enabled = 1) AND (type <> 'geeklog')";
+            $sql = "SELECT fid,type,topic,limits,update_info FROM {$_TABLES['syndication']} WHERE (is_enabled = 1) AND (type <> 'article')";
         }
         else
         {
@@ -1861,7 +1881,7 @@ function COM_rdfUpToDateCheck( $updated_type = '', $updated_topic = '', $updated
             $A = DB_fetchArray( $result );
 
             $is_current = true;
-            if( $A['type'] == 'geeklog' )
+            if( $A['type'] == 'article' )
             {
                 $is_current = SYND_feedUpdateCheck( $A['topic'],
                                 $A['update_info'], $A['limits'],
@@ -1932,6 +1952,14 @@ function COM_errorLog( $logentry, $actionid = '' )
 
         $timestamp = strftime( '%c' );
 
+        if (!isset($_CONF['path_layout']) &&
+                (($actionid == 2) || empty($actionid))) {
+            $actionid = 1;
+        }
+        if (!isset($_CONF['path_log']) && ($actionid != 2)) {
+            $actionid = 3;
+        }
+
         switch( $actionid )
         {
             case 1:
@@ -1947,12 +1975,16 @@ function COM_errorLog( $logentry, $actionid = '' )
                 }
                 break;
 
-           case 2:
+            case 2:
                 $retval .= COM_startBlock( $LANG01[55] . ' ' . $timestamp, '',
                                COM_getBlockTemplate( '_msg_block', 'header' ))
                         . nl2br( $logentry )
                         . COM_endBlock( COM_getBlockTemplate( '_msg_block',
                                                               'footer' ));
+                break;
+
+            case 3:
+                $retval = nl2br($logentry);
                 break;
 
             default:
@@ -2218,11 +2250,12 @@ function COM_showTopics( $topic='' )
 *
 * @param        string      $help       Help file to show
 * @param        string      $title      Title of Menu
+* @param        string      $position   Side being shown on 'left', 'right'. Though blank works not likely.
 * @see function COM_adminMenu
 *
 */
 
-function COM_userMenu( $help='', $title='' )
+function COM_userMenu( $help='', $title='', $position='' )
 {
     global $_TABLES, $_USER, $_CONF, $LANG01, $LANG04, $_BLOCK_TEMPLATE;
 
@@ -2258,7 +2291,7 @@ function COM_userMenu( $help='', $title='' )
         $thisUrl = COM_getCurrentURL();
 
         $retval .= COM_startBlock( $title, $help,
-                           COM_getBlockTemplate( 'user_block', 'header' ));
+                           COM_getBlockTemplate( 'user_block', 'header', $position ));
 
         // This function will show the user options for all installed plugins
         // (if any)
@@ -2292,7 +2325,7 @@ function COM_userMenu( $help='', $title='' )
             next( $plugin_options );
         }
 
-        $url = $_CONF['site_url'] . '/usersettings.php?mode=edit';
+        $url = $_CONF['site_url'] . '/usersettings.php';
         $usermenu->set_var( 'option_label', $LANG01[48] );
         $usermenu->set_var( 'option_count', '' );
         $usermenu->set_var( 'option_url', $url );
@@ -2310,12 +2343,12 @@ function COM_userMenu( $help='', $title='' )
         $usermenu->set_var( 'option_count', '' );
         $usermenu->set_var( 'option_url', $url );
         $retval .= $usermenu->parse( 'item', 'option' );
-        $retval .=  COM_endBlock( COM_getBlockTemplate( 'user_block', 'footer' ));
+        $retval .=  COM_endBlock( COM_getBlockTemplate( 'user_block', 'footer', $position ));
     }
     else
     {
         $retval .= COM_startBlock( $LANG01[47], $help,
-                           COM_getBlockTemplate( 'user_block', 'header' ));
+                           COM_getBlockTemplate( 'user_block', 'header', $position ));
         $login = new Template( $_CONF['path_layout'] );
         $login->set_file( 'form', 'loginform.thtml' );
         $login->set_var( 'xhtml', XHTML );
@@ -2371,7 +2404,7 @@ function COM_userMenu( $help='', $title='' )
         }
 
         // OpenID remote authentification.
-        if ($_CONF['user_login_method']['openid'] && !$_CONF['usersubmission']) {
+        if ($_CONF['user_login_method']['openid'] && ($_CONF['usersubmission'] == 0) && !$_CONF['disable_new_user_registration']) {
             $login->set_file('openid_login', 'loginform_openid.thtml');
             $login->set_var('lang_openid_login', $LANG01[128]);
             $login->set_var('input_field_size', 18);
@@ -2384,7 +2417,7 @@ function COM_userMenu( $help='', $title='' )
         }
 
         $retval .= $login->parse( 'output', 'form' );
-        $retval .= COM_endBlock( COM_getBlockTemplate( 'user_block', 'footer' ));
+        $retval .= COM_endBlock( COM_getBlockTemplate( 'user_block', 'footer', $position ));
     }
 
     return $retval;
@@ -2398,11 +2431,12 @@ function COM_userMenu( $help='', $title='' )
 *
 * @param        string      $help       Help file to show
 * @param        string      $title      Menu Title
+* @param        string      $position   Side being shown on 'left', 'right' or blank.
 * @see function COM_userMenu
 *
 */
 
-function COM_adminMenu( $help = '', $title = '' )
+function COM_adminMenu( $help = '', $title = '', $position = '' )
 {
     global $_TABLES, $_USER, $_CONF, $LANG01, $_BLOCK_TEMPLATE, $LANG_PDF,
            $_DB_dbms, $config;
@@ -2447,7 +2481,7 @@ function COM_adminMenu( $help = '', $title = '' )
         }
 
         $retval .= COM_startBlock( $title, $help,
-                           COM_getBlockTemplate( 'admin_block', 'header' ));
+                           COM_getBlockTemplate( 'admin_block', 'header', $position ));
 
         $topicsql = '';
         if( SEC_isModerator() || SEC_hasRights( 'story.edit' ))
@@ -2761,7 +2795,7 @@ function COM_adminMenu( $help = '', $title = '' )
             $retval .= $link;
         }
 
-        $retval .= COM_endBlock( COM_getBlockTemplate( 'admin_block', 'footer' ));
+        $retval .= COM_endBlock( COM_getBlockTemplate( 'admin_block', 'footer', $position ));
     }
 
     return $retval;
@@ -2773,7 +2807,10 @@ function COM_adminMenu( $help = '', $title = '' )
 * This function does a redirect using a meta refresh. This is (or at least
 * used to be) more compatible than using a HTTP Location: header.
 *
-* @param        string      $url        URL to send user to
+* @param    string  $url    URL to send user to
+* @return   string          HTML meta redirect
+* @note     This does not need to be XHTML compliant. It may also be used
+*           in situations where the XHTML constant is not defined yet ...
 *
 */
 function COM_refresh($url)
@@ -3342,12 +3379,13 @@ function COM_olderStuff()
 * @param        string      $name       Logical name of block (not same as title) -- 'user_block', 'admin_block', 'section_block', 'whats_new_block'.
 * @param        string      $help       Help file location
 * @param        string      $title      Title shown in block header
+* @param        string      $position   Side, 'left', 'right' or empty.
 * @see function COM_showBlocks
 * @return   string  HTML Formated block
 *
 */
 
-function COM_showBlock( $name, $help='', $title='' )
+function COM_showBlock( $name, $help='', $title='', $position='' )
 {
     global $_CONF, $topic, $_TABLES, $_USER;
 
@@ -3369,24 +3407,24 @@ function COM_showBlock( $name, $help='', $title='' )
     switch( $name )
     {
         case 'user_block':
-            $retval .= COM_userMenu( $help,$title );
+            $retval .= COM_userMenu( $help,$title, $position );
             break;
 
         case 'admin_block':
-            $retval .= COM_adminMenu( $help,$title );
+            $retval .= COM_adminMenu( $help,$title, $position );
             break;
 
         case 'section_block':
             $retval .= COM_startBlock( $title, $help,
-                               COM_getBlockTemplate( $name, 'header' ))
+                               COM_getBlockTemplate( $name, 'header', $position ))
                 . COM_showTopics( $topic )
-                . COM_endBlock( COM_getBlockTemplate( $name, 'footer' ));
+                . COM_endBlock( COM_getBlockTemplate( $name, 'footer', $position ));
             break;
 
         case 'whats_new_block':
             if( !$_USER['noboxes'] )
             {
-                $retval .= COM_whatsNewBlock( $help, $title );
+                $retval .= COM_whatsNewBlock( $help, $title, $position );
             }
             break;
     }
@@ -3471,7 +3509,7 @@ function COM_showBlocks( $side, $topic='', $name='all' )
         $commonsql .= " AND (bid NOT IN ($BOXES) OR bid = '-1')";
     }
 
-    $commonsql .= ' ORDER BY blockorder,title asc';
+    $commonsql .= ' ORDER BY blockorder,title ASC';
 
     $blocksql['mysql'] .= $commonsql;
     $blocksql['mssql'] .= $commonsql;
@@ -3536,6 +3574,41 @@ function COM_formatBlock( $A, $noboxes = false )
     global $_CONF, $_TABLES, $_USER, $LANG21;
 
     $retval = '';
+
+    $lang = COM_getLanguageId();
+    if (!empty($lang)) {
+
+        $blocksql['mssql']  = "SELECT bid, is_enabled, name, type, title, tid, blockorder, cast(content as text) as content, ";
+        $blocksql['mssql'] .= "rdfurl, rdfupdated, rdflimit, onleft, phpblockfn, help, owner_id, ";
+        $blocksql['mssql'] .= "group_id, perm_owner, perm_group, perm_members, perm_anon, allow_autotags,UNIX_TIMESTAMP(rdfupdated) AS date ";
+
+        $blocksql['mysql'] = "SELECT *,UNIX_TIMESTAMP(rdfupdated) AS date ";
+
+        $commonsql = "FROM {$_TABLES['blocks']} WHERE name = '"
+                   . $A['name'] . '_' . $lang . "'";
+
+        $blocksql['mysql'] .= $commonsql;
+        $blocksql['mssql'] .= $commonsql;
+        $result = DB_query( $blocksql );
+
+        if (DB_numRows($result) == 1) {
+            // overwrite with data for language-specific block
+            $A = DB_fetchArray($result);
+        }
+    }
+    
+    if( array_key_exists( 'onleft', $A ) )
+    {
+        if( $A['onleft'] == 1 )
+        {
+            $position = 'left';
+        } else {
+            $position = 'right';
+        }
+    } else {
+        $position = '';
+    }
+
     if( $A['type'] == 'portal' )
     {
         if( COM_rdfCheck( $A['bid'], $A['rdfurl'], $A['date'], $A['rdflimit'] ))
@@ -3547,7 +3620,7 @@ function COM_formatBlock( $A, $noboxes = false )
 
     if( $A['type'] == 'gldefault' )
     {
-        $retval .= COM_showBlock( $A['name'], $A['help'], $A['title'] );
+        $retval .= COM_showBlock( $A['name'], $A['help'], $A['title'], $position );
     }
 
     if( $A['type'] == 'phpblock' && !$noboxes )
@@ -3562,9 +3635,9 @@ function COM_formatBlock( $A, $noboxes = false )
                 $args = $matches[2];
             }
             $blkheader = COM_startBlock( $A['title'], $A['help'],
-                    COM_getBlockTemplate( $A['name'], 'header' ));
+                    COM_getBlockTemplate( $A['name'], 'header', $position ));
             $blkfooter = COM_endBlock( COM_getBlockTemplate( $A['name'],
-                    'footer' ));
+                    'footer', $position ));
 
             if( function_exists( $function ))
             {
@@ -3612,9 +3685,9 @@ function COM_formatBlock( $A, $noboxes = false )
         $blockcontent = str_replace( array( '<?', '?>' ), '', $blockcontent );
 
         $retval .= COM_startBlock( $A['title'], $A['help'],
-                       COM_getBlockTemplate( $A['name'], 'header' ))
+                       COM_getBlockTemplate( $A['name'], 'header', $position ))
                 . $blockcontent . LB
-                . COM_endBlock( COM_getBlockTemplate( $A['name'], 'footer' ));
+                . COM_endBlock( COM_getBlockTemplate( $A['name'], 'footer', $position ));
     }
 
     return $retval;
@@ -3788,15 +3861,15 @@ function COM_allowedHTML( $permissions = 'story.edit', $list_only = false )
     {
         if( !$list_only )
         {
-            $retval .= '<span class="warningsmall">' . $LANG01[123] . '</span>, ';
+            $retval .= '<span class="warningsmall">' . $LANG01[123] . ',</span> ';
         }
-
+        $retval .= '<div dir="ltr" class="warningsmall">';
     }
     else
     {
         if( !$list_only )
         {
-            $retval .= '<span class="warningsmall">' . $LANG01[31] . ' ';
+            $retval .= '<span class="warningsmall">' . $LANG01[31] . '</span> ';
         }
 
         if( empty( $permissions ) || !SEC_hasRights( $permissions ) ||
@@ -3822,6 +3895,7 @@ function COM_allowedHTML( $permissions = 'story.edit', $list_only = false )
             }
         }
 
+        $retval .= '<div dir="ltr" class="warningsmall">';
         foreach( $html as $tag => $attr )
         {
             $retval .= '&lt;' . $tag . '&gt;, ';
@@ -3841,11 +3915,7 @@ function COM_allowedHTML( $permissions = 'story.edit', $list_only = false )
     {
         $retval .= ', [' . $tag . ':]';
     }
-
-    if( !$list_only )
-    {
-        $retval .= '</span>';
-    }
+    $retval .= '</div>';
 
     return $retval;
 }
@@ -3970,7 +4040,11 @@ function COM_hit()
 
 function COM_emailUserTopics()
 {
-    global $_CONF, $_TABLES, $LANG08, $LANG24;
+    global $_CONF, $_TABLES, $LANG04, $LANG08, $LANG24;
+
+    if ($_CONF['emailstories'] == 0) {
+        return;
+    }
 
     $subject = strip_tags( $_CONF['site_name'] . $LANG08[30] . strftime( '%Y-%m-%d', time() ));
 
@@ -3987,7 +4061,7 @@ function COM_emailUserTopics()
     $lastrun = DB_getItem( $_TABLES['vars'], 'value', "name = 'lastemailedstories'" );
 
     // For each user, pull the stories they want and email it to them
-    for( $x = 1; $x <= $nrows; $x++ )
+    for( $x = 0; $x < $nrows; $x++ )
     {
         $U = DB_fetchArray( $users );
 
@@ -4010,7 +4084,7 @@ function COM_emailUserTopics()
         }
 
         $TIDS = array();
-        for( $i = 1; $i <= $trows; $i++ )
+        for( $i = 0; $i < $trows; $i++ )
         {
             $T = DB_fetchArray( $tresult );
             $TIDS[] = $T['tid'];
@@ -4109,18 +4183,19 @@ function COM_emailUserTopics()
 *
 * Return the HTML that shows any new stories, comments, etc
 *
-* @param    string  $help   Help file for block
-* @param    string  $title  Title used in block header
+* @param    string  $help     Help file for block
+* @param    string  $title    Title used in block header
+* @param    string  $position Position in which block is being rendered 'left', 'right' or blank (for centre)
 * @return   string  Return the HTML that shows any new stories, comments, etc
 *
 */
 
-function COM_whatsNewBlock( $help = '', $title = '' )
+function COM_whatsNewBlock( $help = '', $title = '', $position = '' )
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $LANG_WHATSNEW, $page, $newstories;
 
     $retval = COM_startBlock( $title, $help,
-                       COM_getBlockTemplate( 'whats_new_block', 'header' ));
+                       COM_getBlockTemplate( 'whats_new_block', 'header', $position ));
 
     $topicsql = '';
     if(( $_CONF['hidenewstories'] == 0 ) || ( $_CONF['hidenewcomments'] == 0 )
@@ -4341,7 +4416,7 @@ function COM_whatsNewBlock( $help = '', $title = '' )
         }
     }
 
-    $retval .= COM_endBlock( COM_getBlockTemplate( 'whats_new_block', 'footer' ));
+    $retval .= COM_endBlock( COM_getBlockTemplate( 'whats_new_block', 'footer', $position ));
 
     return $retval;
 }
@@ -4419,6 +4494,9 @@ function COM_showMessage($msg, $plugin = '')
     global $_CONF, $MESSAGE, $_IMAGE_TYPE;
 
     $retval = '';
+    if (empty($plugin) AND !empty($_REQUEST['plugin'])) {
+        $plugin = COM_applyFilter($_REQUEST['plugin']);
+    };
 
     if ($msg > 0) {
         $timestamp = strftime($_CONF['daytime']);
@@ -4813,7 +4891,9 @@ function COM_getDayFormOptions( $selected = '' )
 * Returns Option list Containing 5 years starting with current
 * unless @selected is < current year then starts with @selected
 *
-* @param        string      $selected       Selected year
+* @param        string      $selected     Selected year
+* @param        int         $startoffset  Optional (can be +/-) Used to determine start year for range of years
+* @param        int         $endoffset    Optional (can be +/-) Used to determine end year for range of years
 * @see function COM_getMonthFormOptions
 * @see function COM_getDayFormOptions
 * @see function COM_getHourFormOptions
@@ -4821,11 +4901,19 @@ function COM_getDayFormOptions( $selected = '' )
 * @return string  HTML years as option values
 */
 
-function COM_getYearFormOptions( $selected = '' )
+function COM_getYearFormOptions( $selected = '', $startoffset=0, $endoffset=5 )
 {
     $year_options = '';
+    if ($startoffset != 0)
+    {
+        $start_year = date ( 'Y' ) + $startoffset;
+    }
+    else
+    {
+        $start_year = date( 'Y', time() );
+    }
     $cur_year = date( 'Y', time() );
-    $start_year = $cur_year;
+    $finish_year = $cur_year + $endoffset;
 
     if( !empty( $selected ))
     {
@@ -4835,7 +4923,7 @@ function COM_getYearFormOptions( $selected = '' )
         }
     }
 
-    for( $i = $start_year - 1; $i <= $cur_year + 5; $i++ )
+    for( $i = $start_year - 1; $i <= $finish_year; $i++ )
     {
         $year_options .= '<option value="' . $i . '"';
 
@@ -5636,10 +5724,10 @@ function COM_sanitizeFilename($filename, $allow_dots = false)
 */
 function COM_makeClickableLinks( $text )
 {
-    $text = preg_replace( '/([^"]?)((((ht|f)tps?):(\/\/)|www\.)[a-z0-9%&_\-\+,;=:@~#\/.\?\[\]]+(\/|[+0-9a-z]))/is', '\\1<a href="\\2">\\2</a>', $text );
-    $text = str_replace( '<a href="www', '<a href="http://www', $text );
+   $regex = '/((ht|f)tp(s?)\:\/\/|~\/|\/)?([\w]+:\w+@)?(([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((\/?\w+\/)+|\/?)([\w\-%]+(\.[\w]{3,4})?)?((\?|&|&amp;)[\w\-%]+=[\w\-%]+)*)/is';
 
-    return $text;
+   $text = preg_replace( $regex, '<a href="\\1\\5">\\6</a>', $text );
+   return $text;
 }
 
 /**
@@ -5652,7 +5740,7 @@ function COM_makeClickableLinks( $text )
 */
 function COM_undoClickableLinks( $text )
 {
-    $text = preg_replace( '/<a href="[^"]*">([^<]*)<\/a>/', '\1', $text );
+    $text = preg_replace( '/<a href="([^"]*)">([^<]*)<\/a>/', '\1', $text );
 
     return $text;
 }
@@ -5685,7 +5773,8 @@ function COM_highlightQuery( $text, $query )
         if( !empty( $searchword ))
         {
             $searchword = preg_quote( str_replace( "'", "\'", $searchword ));
-            $text = preg_replace( '/(\>(((?>[^><]+)|(?R))*)\<)/ie', "preg_replace('/(?>$searchword+)/i','<span class=\"highlight\">$searchword</span>','\\0')", '<!-- x -->' . $text . '<!-- x -->' );
+            $searchword = str_replace('/', '\\/', $searchword);
+            $text = preg_replace( '/(\>(((?>[^><]+)|(?R))*)\<)/ie', "preg_replace('/(?>$searchword+)/i','<span class=\"highlight\">\\\\0</span>','\\0')", '<!-- x -->' . $text . '<!-- x -->' );
         }
     }
 
@@ -6165,30 +6254,23 @@ function COM_getLanguageFromBrowser()
 
     $retval = '';
 
-    if( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ))
-    {
-        $accept = explode( ',', $_SERVER['HTTP_ACCEPT_LANGUAGE'] );
-        foreach( $accept as $l )
-        {
-            $l = explode( ';', trim( $l ));
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        $accept = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        foreach ($accept as $l) {
+            $l = explode(';', trim($l));
             $l = $l[0];
-            if( array_key_exists( $l, $_CONF['language_files'] ))
-            {
+            if (array_key_exists($l, $_CONF['language_files'])) {
                 $retval = $_CONF['language_files'][$l];
                 break;
-            }
-            else
-            {
-                $l = explode( '-', $l );
+            } else {
+                $l = explode('-', $l);
                 $l = $l[0];
-                if( array_key_exists( $l, $_CONF['language_files'] ))
-                {
+                if (array_key_exists($l, $_CONF['language_files'])) {
                     $retval = $_CONF['language_files'][$l];
                     break;
                 }
             }
         }
-
     }
 
     return $retval;
@@ -6206,24 +6288,17 @@ function COM_getLanguage()
 
     $langfile = '';
 
-    if( !empty( $_USER['language'] ))
-    {
+    if (!empty($_USER['language'])) {
         $langfile = $_USER['language'];
-    }
-    else if( !empty( $_COOKIE[$_CONF['cookie_language']] ))
-    {
+    } elseif (!empty($_COOKIE[$_CONF['cookie_language']])) {
         $langfile = $_COOKIE[$_CONF['cookie_language']];
-    }
-    else
-    {
+    } elseif (isset($_CONF['languages'])) {
         $langfile = COM_getLanguageFromBrowser();
     }
 
     $langfile = COM_sanitizeFilename($langfile);
-    if( !empty( $langfile ))
-    {
-        if( is_file( $_CONF['path_language'] . $langfile . '.php' ))
-        {
+    if (!empty($langfile)) {
+        if (is_file($_CONF['path_language'] . $langfile . '.php')) {
             return $langfile;
         }
     }
@@ -6243,22 +6318,24 @@ function COM_getLanguage()
 * @return   string              language ID, e.g 'en'; empty string on error
 *
 */
-function COM_getLanguageId( $language = '' )
+function COM_getLanguageId($language = '')
 {
     global $_CONF;
 
-    if( empty( $language ))
-    {
+    if (empty($language)) {
         $language = COM_getLanguage();
     }
 
-    $lang_id = array_search( $language, $_CONF['language_files'] );
-    if( $lang_id === false)
-    {
-        // that looks like a misconfigured $_CONF['language_files'] array ...
-        COM_errorLog( 'Language "' . $language . '" not found in $_CONF[\'language_files\'] array!' );
+    $lang_id = '';
+    if (isset($_CONF['language_files'])) {
+        $lang_id = array_search($language, $_CONF['language_files']);
 
-        $lang_id = ''; // not much we can do here ...
+        if ($lang_id === false) {
+            // that looks like a misconfigured $_CONF['language_files'] array
+            COM_errorLog('Language "' . $language . '" not found in $_CONF[\'language_files\'] array!');
+
+            $lang_id = ''; // not much we can do here ...
+        }
     }
 
     return $lang_id;
@@ -6491,21 +6568,36 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     /*
      * If we have a root user, then output detailed error message:
      */
-    if( ( is_array($_USER) && function_exists('SEC_inGroup') ) || $_CONF['rootdebug'] )
+    if( ( is_array($_USER) && function_exists('SEC_inGroup') ) || (isset($_CONF['rootdebug']) && $_CONF['rootdebug']) )
     {
         if($_CONF['rootdebug'] || SEC_inGroup('Root'))
         {
-            echo("
-                An error has occurred:<br>
-                $errno - $errstr @ $errfile line $errline<br>
-            <pre>");
+            echo('<h1>An error has occurred:</h1>');
+            if($_CONF['rootdebug']) {
+                echo('<h2 style="color: red">This is being displayed as "Root Debugging" is enabled
+                        in your Geeklog configuration.</h2><p>If this is a production
+                        website you <strong><em>must disable</em></strong> this
+                        option once you have resolved any issues you are
+                        investigating.</p>');
+            } else {
+                echo('(This text is only displayed to users in the group \'Root\')<br>');
+            }
+            echo("$errno - $errstr @ $errfile line $errline<br>");
+            if(!SEC_inGroup('Root')) {
+                if('force' != ''.$_CONF['rootdebug']) {
+                    $errcontext = COM_rootDebugClean($errcontext);
+                } else {
+                    echo('<h2 style="color: red">Root Debug is set to "force", this
+                    means that passwords and session cookies are exposed in this
+                    message!!!</h2>');
+                }
+            }
+            echo('<pre>');
             ob_start();
             var_dump($errcontext);
             $errcontext = htmlspecialchars(ob_get_contents());
             ob_end_clean();
-            echo("$errcontext</pre>
-            (This text is only displayed to users in the group 'Root')
-            ");
+            echo("$errcontext</pre>");
             exit;
         }
     }
@@ -6517,7 +6609,9 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     {
         if( array_key_exists('path_system', $_CONF) )
         {
-            require_once($_CONF['path_system'].'lib-custom.php');
+            if (file_exists($_CONF['path_system'].'lib-custom.php')) {
+                require_once($_CONF['path_system'].'lib-custom.php');
+            }
             if( function_exists('CUSTOM_handleError') )
             {
                 CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext);
@@ -6530,16 +6624,20 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     COM_errorLog("$errno - $errstr @ $errfile line $errline", 1);
 
     /* Does the theme implement an error message html file? */
-    if(file_exists($_CONF['path_layout'].'errormessage.html'))
-    {
+    if (!empty($_CONF['path_layout']) &&
+            file_exists($_CONF['path_layout'] . 'errormessage.html')) {
         // NOTE: NOT A TEMPLATE! JUST HTML!
-        include($_CONF['path_layout'].'errormessage.html');
+        include $_CONF['path_layout'] . 'errormessage.html';
     } else {
         /* Otherwise, display simple error message */
+        $title = "An Error Occurred";
+        if (!empty($_CONF['site_name'])) {
+            $title = $_CONF['site_name'] . ' - ' . $title;
+        }
         echo("
         <html>
             <head>
-                <title>{$_CONF['site_name']} - An Error Occurred</title>
+                <title>{$title}</title>
             </head>
             <body>
             <div style=\"width: 100%; text-align: center;\">
@@ -6552,6 +6650,37 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     }
 
     exit;
+}
+
+/**
+  * Recurse through the error context array removing/blanking password/cookie
+  * values in case the "for development" only switch is left on in a production
+  * environment.
+  *
+  * [Not fit for public consumption comments about what users who enable root
+  * debug in production should have done to them, and why making this change
+  * defeats the point of the entire root debug feature go here.]
+  *
+  * @param $array   Array of state info (Recursive array).
+  * @return Cleaned array
+  */
+function COM_rootDebugClean($array, $blank=false)
+{
+    $blankField = false;
+    while(list($key, $value) = each($array)) {
+        $lkey = strtolower($key);
+        if((strpos($lkey, 'pass') !== false) || (strpos($lkey, 'cookie')!== false)) {
+            $blankField = true;
+        } else {
+            $blankField = $blank;
+        }
+        if(is_array($value)) {
+            $array[$key] = COM_rootDebugClean($value, $blankField);
+        } elseif($blankField) {
+            $array[$key] = '[VALUE REMOVED]';
+        }
+    }
+    return $array;
 }
 
 /**

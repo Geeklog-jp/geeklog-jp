@@ -33,10 +33,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-comment.php,v 1.65 2008/05/23 10:50:50 dhaun Exp $
+// $Id: lib-comment.php,v 1.69 2008/09/21 08:37:11 dhaun Exp $
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-comment.php') !== false) {
-    die ('This file can not be used on its own!');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-comment.php') !== false) {
+    die('This file can not be used on its own!');
 }
 
 if( $_CONF['allow_user_photo'] )
@@ -93,7 +93,10 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
 
     $cmt_title = stripslashes($title);
     $commentbar->set_var('story_title', $cmt_title);
-    $cmt_title = htmlspecialchars($cmt_title);
+    // Article's are pre-escaped.
+    if( $type != 'article' ) {
+        $cmt_title = htmlspecialchars($cmt_title);
+    }
     $commentbar->set_var('comment_title', $cmt_title);
 
     if( $type == 'article' ) {
@@ -719,7 +722,8 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             $newcomment = $comment;
             if (!empty ($sig)) {
                 if (($postmode == 'html') || ($fakepostmode == 'html')) {
-                    $newcomment .= '<p>---<br' . XHTML . '>' . nl2br ($sig);
+                    $newcomment .= '<p>---<br' . XHTML . '>' . nl2br($sig)
+                                . '</p>';
                 } else {
                     $newcomment .= LB . LB . '---' . LB . $sig;
                 }
@@ -749,9 +753,9 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                     }
                 }
 
-                if (empty ($A['username'])) {
-                    $A['username'] = DB_getItem ($_TABLES['users'], 'username',
-                                                 "uid = $uid");
+                if (empty($A['username']) || empty($A['fullname']) || empty($A['email'])) {
+                    $nresult = DB_query("SELECT username, fullname, email FROM {$_TABLES['users']} WHERE uid = $uid");
+                    list($A['username'], $A['fullname'], $A['email']) = DB_fetchArray($nresult);
                 }
                 $thecomments = CMT_getComment ($A, 'flat', $type, 'ASC', false,
                                                true);
@@ -920,7 +924,7 @@ function CMT_saveComment ($title, $comment, $sid, $pid, $type, $postmode)
     }
     if (!empty ($sig)) {
         if ($postmode == 'html') {
-            $comment .= '<p>---<br' . XHTML . '>' . nl2br($sig);
+            $comment .= '<p>---<br' . XHTML . '>' . nl2br($sig) . '</p>';
         } else {
             $comment .= LB . LB . '---' . LB . $sig;
         }

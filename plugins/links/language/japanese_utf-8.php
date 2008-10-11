@@ -30,7 +30,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# $Id: japanese_utf-8.php,v 1.16 2008/06/05 18:48:35 dhaun Exp $
+# $Id: japanese_utf-8.php,v 1.19 2008/09/17 07:52:08 dhaun Exp $
 
 /**
  * This is the english language page for the Geeklog links Plug-in!
@@ -151,6 +151,7 @@ $PLG_links_MESSAGE13 = 'カテゴリは削除されました。';
 $PLG_links_MESSAGE14 = 'カテゴリはリンクやカテゴリを含んでいます。先にそれらを取り除いてください。';
 $PLG_links_MESSAGE15 = 'あなたには、このカテゴリを削除する十分な権利がありません。';
 $PLG_links_MESSAGE16 = 'そのようなカテゴリは存在しません。';
+$PLG_links_MESSAGE17 = 'このカテゴリIDはすでに使われています。';
 
 // Messages for the plugin upgrade
 $PLG_links_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
@@ -296,7 +297,7 @@ $LANG_fs['links'] = array(
 $LANG_configselects['links'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
-    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
+    9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
