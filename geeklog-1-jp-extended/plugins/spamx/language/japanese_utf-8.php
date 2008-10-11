@@ -14,7 +14,7 @@
  * 
  * Licensed under GNU General Public License
  *
- * $Id: japanese_utf-8.php,v 1.12 2008/06/05 18:48:35 dhaun Exp $
+ * $Id: japanese_utf-8.php,v 1.14 2008/09/09 18:26:18 dhaun Exp $
  */
 
 global $LANG32;

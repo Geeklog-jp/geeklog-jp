@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="ja">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a>
+<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマ作成</div>
 
 <p><small>(Geeklogの最近のバージョンにおける<a href="#changes">テーマ変更</a>一覧については、下記参照のこと。)</small></p>
@@ -20,31 +20,32 @@
 
 <h2>テーマ作成</h2>
 
-<p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>。)。
+<p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>。)。</p>
 
-<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
+<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd></p>
 
-<p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下、同様。）に移動します。
+<p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下、同様。）に移動します。</p>
 
-<p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd>
+<p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd></p>
 
-<p>必要に応じてテンプレートを編集します。一般的に、GeeklogでいうテンプレートとはHTMLファイルの断片です。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められていますが、外見を大きく変えるのに変更する必要があるのはほんの少数でしょう。
+<p>必要に応じてテンプレートを編集します。一般的に、GeeklogでいうテンプレートとはHTMLファイルの断片です。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められていますが、外見を大きく変えるのに変更する必要があるのはほんの少数でしょう。</p>
 
 <p>特に次のテンプレートは間違いなく変更する必要があるでしょう。</p>
 
 <ul>
-<li>header.thtml
-<li>footer.thtml
-<li>blockheader.thtml
-<li>blockfooter.thtml
-<li>storybody.thtml
-<li>storybodytext.thtml
-<li>featuredstorybody.thtml
-<li>featuredstorybodytext.thtml
-<li>archivestorybody.thtml
-<li>archivestorybodytext.thtml
-<li>style.css
+<li>header.thtml</li>
+<li>footer.thtml</li>
+<li>blockheader.thtml</li>
+<li>blockfooter.thtml</li>
+<li>storybody.thtml</li>
+<li>storybodytext.thtml</li>
+<li>featuredstorybody.thtml</li>
+<li>featuredstorybodytext.thtml</li>
+<li>archivestorybody.thtml</li>
+<li>archivestorybodytext.thtml</li>
+<li>style.css</li>
 </ul>
+
 
 <h3><a name="how-themes-work">テーマはどのように機能するか</a></h3>
 
@@ -53,10 +54,8 @@
 <p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけです。Geeklogで見かける様々なエディタやリストだけでなく、カレンダプラグインなど、Geeklogのあらゆる部分を構成するために様々なテンプレートが存在しています。</p>
 
 <p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ、大抵の場合は、テンプレートのあるディレクトリ名とファイル名を見れば、用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は、URLを見るとよいでしょう。たとえば、ユーザのプロフィールを表示しているときなら、<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き、 <kbd>.thtml</kbd> を検索します。プロフィールの場合は、次の行が <code>function userprofile()</code> の中に見つかります。</p>
-<blockquote><code>
-    $user_templates = new Template ($_CONF['path_layout'] . 'users');<br>
-    $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));
-</code></blockquote>
+<pre style="margin-left:4em;"><code>$user_templates = new Template ($_CONF['path_layout'] . 'users');
+$user_templates->set_file (array ('profile'=>'profile.thtml', 'row'=>'commentrow.thtml', 'strow'=>'storyrow.thtml'));</code></pre>
 <p>PHPを理解していなくても、この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば、これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
 
 <p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数の不完全なリスト</a>もドキュメントに含まれています。</p>
@@ -67,7 +66,7 @@
 
 <p>最後に、テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるでしょう。
 
-<p>テンプレートシステムとしては、GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用しています。彼らが作成したドキュメントを読み、できれば、<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて、どのように実装されているか調べてみるのもよいでしょう。この知識があっても、あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりと分からないかもしれません（たとえば、 <tt>storybody.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって、<strong>1つの</strong>記事の完全なフォーマットができあがります）。疑問があるなら、<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか、IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよいでしょう。</p>
+<p>テンプレートシステムとしては、GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用しています。彼らが作成したドキュメントを読み、できれば、<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて、どのように実装されているか調べてみるのもよいでしょう。この知識があっても、あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりと分からないかもしれません（たとえば、 <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって、<strong>1つの</strong>記事の完全なフォーマットができあがります）。疑問があるなら、<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか、IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよいでしょう。</p>
 
 <h3><a name="tips">ヒントと注意点</a></h3>
 
@@ -104,7 +103,70 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 </ol>
 
 
-<h2><a name="changes">Geeklog 1.5.0でのテーマの変更点</a></h2>
+<h2><a name="changes">Theme changes in Geeklog 1.5.1</a></h2>
+
+<p>Note: Themes made for Geeklog 1.5.0 are mostly compatible with Geeklog 1.5.1. We only made one mandatory change (for the Configuration admin panel) - all the other changes listed below are optional or adjustments for special setups (e.g. multi-language sites, right-to-left languages). See details below.</p>
+
+<h3>Important change: Configuration</h3>
+
+<p>The JavaScript code used for the Configuration admin panel used a generic name which caused conflicts with other JavaScript code. You should update the file <tt>admin/config/config_element.thtml</tt> to make sure your theme works with Geeklog 1.5.1.</p>
+
+<h3>Multilingual blocks</h3>
+
+<p>The multi-language support for blocks introduced in Geeklog 1.5.1 relies on
+<em>disabled</em> blocks being swapped in dynamically. If you are using
+Geeklog's multi-language support, you may need to modify the piece of PHP code
+in your theme's <tt>functions.php</tt> so that it picks the correct templates
+for these multilingual blocks:</p>
+
+<pre style="margin-left:4em;"><code>$lang = COM_getLanguageId();
+if (empty($lang)) {
+    $result = DB_query("SELECT onleft,name FROM {$_TABLES['blocks']} WHERE is_enabled = 1");
+} else {
+    $result = DB_query("SELECT onleft,name FROM {$_TABLES['blocks']}");
+}</code></pre>
+
+<p>Prior to Geeklog 1.5.1, you will probably only find the first SQL request
+in your <tt>functions.php</tt> file.</p>
+
+<h3>Other changes</h3>
+
+<ul>
+li>In Geeklog 1.5.0, the behaviour of the variable <code>{page_title}</code>
+    (in <tt>header.thtml</tt>) changed so that it now only contains the actual
+    page title or the site's slogan (in earlier versions, it contained both the
+    site's name and either the page title or the site's slogan). This was done
+    so that the combination <code>{page_title}{page_site_splitter}{site_name}</code>
+    could be used to place the page title before the site's name for better <a
+    href="http://en.wikipedia.org/wiki/Search_engine_optimization"
+    class="wikipedia" title="Search Engine Optimization">SEO</a>. If you prefer
+    to have the site's name first on the index page and the page title first on
+    all other pages, you can now use the new variable
+    <code>{page_title_and_site_name}</code></li>
+<li>In the Links plugin, links have an icon indicating that it's an external
+    link (taking the user away from the current site). This icon did not show
+    up properly for RTL languages (e.g Hebrew), making the link text unreadable.
+    Since we could not find a way to make it show up properly in this case, the
+    icon is not displayed when the text direction is switched to 'rtl'
+    (for now).</li>
+<li>Added an optional <code>feed-link</code> class to be used for links to
+    feeds (e.g. the new Story Option entry for topic feeds). In the Professional
+    theme, a small feed icon (<tt>images/feed.png</tt>) is used as a background
+    image for these links.</li>
+<li>An optional change to the <tt>comment/commentbar.thtml</tt> template file
+    and the <code>commentbar-line2</code> class in <tt>style.css</tt> to make
+    the "Post a comment" button float to the left and easier to see. There were
+    no changes in functionality and other commentbar layouts will continue to
+    work as before.</li>
+<li>The story template files <tt>archivestorytext.thtml</tt>,
+    <tt>featuredstorytext.thtml</tt>, and <tt>storytext.thtml</tt> are now
+    using the <code>{story_text_no_br}</code> variable to refer to the story
+    text. Template files that use <code>{story_introtext}</code> here will
+    continue to work as before.</li>
+</ul>
+
+
+<h2><a name="changes150">Geeklog 1.5.0でのテーマの変更点</a></h2>
 
 <h3><a name="xhtml">XHTMLをサポート</a></h3>
 
@@ -245,7 +307,8 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
     <li><tt>submit/submitstory_advanced.thtml</tt></li>
     <li><tt>users/registrationform.thtml</tt></li>
     </ul>
-    このテンプレート変数は <a href="http://en.wikipedia.org/wiki/Captcha">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり、該当するプラグインがインストールされていない場合は空白になります。</li>
+    このテンプレート変数は <a 
+href="http://en.wikipedia.org/wiki/Captcha" class="wikipedia">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり、該当するプラグインがインストールされていない場合は空白になります。</li>
 </ul>
 
 <h3>Professionalテーマ</h3>
@@ -485,8 +548,7 @@ were done to incorporate new Geeklog features.</p>
 the standard themes that ship with Geeklog (most of these files contain HTML
 that was previously hard-coded into Geeklog).</p>
 
-<pre>
-adminoption_off.thtml
+<pre>adminoption_off.thtml
 loginform.thtml
 topicoption.thtml
 topicoption_off.thtml
@@ -520,8 +582,7 @@ search/resultauthdatehits.thtml
 search/resultrowenhanced.thtml
 search/resultsummary.thtml
 search/resulttitle.thtml
-users/newpassword.thtml
-</pre>
+users/newpassword.thtml</pre>
 
 <p>Note: <tt>preferences</tt> and <tt>admin/database</tt> are new directores.</p>
 
@@ -534,8 +595,7 @@ existing theme, it is probably best to simply copy them over from one of the
 themes that ship with Geeklog (with the exception of <tt>style.css</tt> and
 <tt>header.thtml</tt>, see below).</p>
 
-<pre>
-style.css <em>(see below)</em>
+<pre>style.css <em>(see below)</em>
 header.thtml <em>(see below)</em>
 admin/block/blockeditor.thtml
 admin/block/listblocks.thtml
@@ -554,8 +614,7 @@ calendar/eventdetails.thtml
 search/searchform.thtml
 search/searchresults.thtml
 submit/submitevent.thtml
-users/getpasswordform.thtml
-</pre>
+users/getpasswordform.thtml</pre>
 
 <p>In <tt>style.css</tt>, four classes have been added that are used in the
 new search code of Geeklog 1.3.8. Instead of copying over the entire file, you
@@ -568,13 +627,9 @@ will probably only want to copy over the code for those four classes:
 changes to it. If it is not using that variable, then you will need to make one
 change to it. In that case, search your <tt>header.thtml</tt> for the link
 to the story submission form, i.e. something like</p>
-<pre>
-    &lt;a href="{site_url}/submit.php?type=story"&gt;
-</pre>
+<pre style="margin-left:4em;"><code>&lt;a href="{site_url}/submit.php?type=story"&gt;</code></pre>
 <p>and change it to read</p>
-<pre>
-    &lt;a href="{site_url}/submit.php?type=story{current_topic}"&gt;
-</pre>
+<pre style="margin-left:4em;"><code>&lt;a href="{site_url}/submit.php?type=story{current_topic}"&gt;</code></pre>
 
 
 <h3>Removed template files</h3>
@@ -708,9 +763,7 @@ Names that changed: <b>cal-oldday</b>, <b>cal-today</b>,
 
 <p><strong>Note:</strong> Theme authors are encouraged to specify a character
 set in the <tt>header.thtml</tt> of their themes like this:</p>
-<blockquote><code>
-&lt;meta http-equiv="Content-Type" content="text/html; charset={charset}"&gt;
-</code></blockquote>
+<pre style="margin-left:4em;"><code>&lt;meta http-equiv="Content-Type" content="text/html; charset={charset}"&gt;</code></pre>
 <p>Geeklog will replace the <code>{charset}</code> variable with the proper
 character set based on the currently used language file. Also make sure that
 you put the above line <em>before</em> the <code>&lt;title&gt;</code> tag in

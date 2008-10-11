@@ -2,7 +2,7 @@
 
 ###############################################################################
 # estonian.php
-# This is the estonian language page for the Geeklog Static Page Plug-in
+# This is the Estonian language file for the Geeklog Static Page plugin
 #
 # Copyright (C) 2001 Tony Bibbs
 # tony@tonybibbs.com
@@ -28,14 +28,13 @@
 global $LANG32;
 
 ###############################################################################
-# Array Format: 
-# $LANGXX[YY]:	$LANG - variable name
-#		  	XX - file id number
-#			YY - phrase id number
+# Array Format:
+# $LANGXX[YY]:  $LANG - variable name
+#               XX    - file id number
+#               YY    - phrase id number
 ###############################################################################
 
-
-$LANG_STATIC= array(
+$LANG_STATIC = array(
     'newpage' => 'Uus leht',
     'adminhome' => 'Admin avaleht',
     'staticpages' => 'Staatilised lehed',
@@ -105,9 +104,8 @@ $LANG_STATIC= array(
     'select_php_none' => 'ära käivita PHP',
     'select_php_return' => 'käivita PHP (return)',
     'select_php_free' => 'käivita PHP',
-    'php_not_activated' => 'Staatilistel lehtedel pole PHP kasutamine sisse lülitatud. Täpsemat infot palun vaata <a href="' . $_CONF['site_url'] . '/docs/staticpages.html#php">dokumentatsioonist.</a>',
+    'php_not_activated' => "Staatilistel lehtedel pole PHP kasutamine sisse lülitatud. Täpsemat infot palun vaata <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\">dokumentatsioonist.</a>",
     'printable_format' => 'Prinditaval kujul',
-    'edit' => 'Toimeta',
     'copy' => 'Koopia',
     'limit_results' => 'Piira tulemused',
     'search' => 'Otsi',
@@ -130,7 +128,7 @@ $LANG_confignames['staticpages'] = array(
     'sort_menu_by' => 'Menüüelementide sorteerimisalus',
     'delete_pages' => 'Kustuta lehed, omanikuks?',
     'in_block' => 'Paiguta lehed blokki?',
-    'show_hits' => 'Näita klike?',
+    'show_hits' => 'Näita klikke?',
     'show_date' => 'Näita aega?',
     'filter_html' => 'Filtreeri HTML-i?',
     'censor' => 'Tsenseeri sisu?',
@@ -150,13 +148,12 @@ $LANG_fs['staticpages'] = array(
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
-    0 => array('True' => 1, 'False' => 0),
-    1 => array('True' => TRUE, 'False' => FALSE),
-    2 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title'),
-    3 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Label' => 'label'),
-    9 => array('Forward to page' => 'item', 'Display List' => 'list', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
-);
-
+    0 => array('Jah' => 1, 'Ei' => 0),
+    1 => array('Jah' => true, 'Ei' => false),
+    2 => array('Aeg' => 'date', 'Lehe ID' => 'id', 'Tiitel' => 'title'),
+    3 => array('Aeg' => 'date', 'Lehe ID' => 'id', 'Tiitel' => 'title', 'Silt' => 'label'),
+        9 => array('Suuna edasi lehele' => 'item', 'Näita loetelu' => 'list', 'Näita avalehte' => 'home', 'Näita admini lehten' => 'admin'),
+12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
+    );
 
 ?>
