@@ -93,17 +93,10 @@
     <td>定義済みの <a href="http://www.w3.org/TR/html4/struct/links.html#edef-LINK">リンクタグ</a>で、ナビゲーション用のリンクとページ間の関係情報を提供する。</td></tr>
 <tr><td><code>page_title_and_site_name</code></td>
     <td><tt>Geeklog Site - Another Nifty Geeklog Site</tt></td>
-    <td>As the name suggests, this variable provides the site name and the title
-        for the current page. The order in which these two are provided depends
-        on the current location on the website: On the site's frontpage, the
-        site name comes first. On all the other pages, the current page title
-        comes first.</td></tr>
+    <td>名前が示すように、この変数はサイト名と現在のページタイトルを保持する。表示順はWebサイト内の位置で決まり、トップページでは「サイト名 - ページタイトル」、他のページでは「ページタイトル - サイト名」の順序になる。</td></tr>
 <tr><td><code>page_site_splitter</code></td>
-    <td><tt> - </tt> (a dash surrounded by spaces)</td>
-    <td>This variable comes in handy when creating your own page title, as it
-        will be empty when the <code>{page_title}</code> variable is empty. Use
-        in combination with <code>{page_title}</code> and
-        <code>{site_name}</code> (see above).</td></tr>
+    <td><tt> - </tt> (半角スペース 半角マイナス記号 半角スペース)</td>
+    <td>独自のページタイトルを作成する際にこの変数は便利である。<code>{page_title}</code> 変数が空になるとき、この変数も空になる。 <code>{page_title}</code> と <code>{site_name}</code> と併せて使用すること（上記参照）。</td></tr>
 </table>
 
 
@@ -150,13 +143,7 @@
     <td>インデックスページを表示しているときは、この変数の値は記事の冒頭文になる。しかしながら、個々のページに表示しているときには、記事の冒頭文と本文の<strong>両方</strong>を含む。</td></tr>
 <tr><td><code>story_text_no_br</code></td>
     <td>Welcome and let me be the first to congratulate you on installing Geeklog ...</td>
-    <td>When displayed on the index page, this variable contains The "intro
-        text" part of a story. However, when displayed as an article on a
-        single page, it contains <em>both</em> the intro text <em>and</em> the
-        body text of the story. The difference between <tt>story_introtext</tt>
-        and <tt>story_text_no_br</tt> is that <tt>story_introtext</tt> inserts
-        two HTML <tt>&lt;br&gt;</tt> tags between the intro and the body text
-        whereas <tt>story_text_no_br</tt> does not do that (hence the name).</td></tr>
+    <td>トップページを表示する場合、この変数は記事の冒頭文を保持する。しかしながら、記事を個別に表示しているときには、冒頭文と本文の<em>両方</em>を保持する。<tt>story_introtext</tt> と <tt>story_text_no_br</tt> の違いは、 <tt>story_introtext</tt> では、冒頭文と本文の間に <tt>&lt;br&gt;</tt> タグが2個挿入されるが、 <tt>story_text_no_br</tt> では挿入されないという点である。</td></tr>
 <tr><td><code>lang_todays_featured_article</code></td>
     <td>Today's Featured Article</td>
     <td>ユーザが現在使用している言語の「今日の注目記事(Today's Featured Article)」に相当する語句。<strong>注目記事の場合にしか利用できない。</strong></td></tr>
