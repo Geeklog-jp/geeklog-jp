@@ -1,5 +1,5 @@
 <!-- BEGIN delete-button -->
-<input type="button" class="del-link button" value="x" onclick="remove(this);"{xhtml}>
+<input type="button" class="del-link button" value="x" onclick="gl_cfg_remove(this);"{xhtml}>
 <!-- END delete-button -->
 
 <!-- BEGIN text-element -->
@@ -30,7 +30,7 @@
 
 <!-- BEGIN unset-param -->
 <tr><td>{display_name} {doc_link}</td>
-<td><a href="#" onclick="restore('{name}');">{lang_restore}</a></td>
+<td><a href="#" onclick="restore('{name}');">{lang_enable}</a></td>
 </tr>
 <!-- END unset-param -->
 
