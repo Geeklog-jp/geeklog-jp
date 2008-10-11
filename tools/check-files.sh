@@ -90,7 +90,7 @@ check_properties() {
 
     trap "rm -f ${tmp}; exit 1" 0 HUP INT QUIT
     find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print | \
-	sort > ${tmp}
+	sort | sed -e 's|^\./||' > ${tmp}
     xargs svn proplist --verbose < ${tmp} |
     awk '
     /Properties on/ {
