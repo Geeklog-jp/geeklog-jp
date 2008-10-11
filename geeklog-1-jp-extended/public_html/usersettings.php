@@ -32,10 +32,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: usersettings.php,v 1.173 2008/05/31 19:49:36 blaine Exp $
+// $Id: usersettings.php,v 1.179 2008/09/15 18:29:39 mjervis Exp $
 
-require_once ('lib-common.php');
-require_once ($_CONF['path_system'] . 'lib-user.php');
+require_once 'lib-common.php';
+require_once $_CONF['path_system'] . 'lib-user.php';
 
 // Set this to true to have this script generate various debug messages in
 // error.log
@@ -261,7 +261,7 @@ function confirmAccountDelete ($form_reqid)
     if (empty($_POST['old_passwd']) ||
             (SEC_encryptPassword($_POST['old_passwd']) != $_USER['passwd'])) {
          return COM_refresh($_CONF['site_url']
-                            . '/usersettings.php?mode=edit&amp;msg=84');
+                            . '/usersettings.php?msg=84');
     }
 
     $reqid = substr (md5 (uniqid (rand (), 1)), 1, 16);
@@ -310,33 +310,6 @@ function deleteUserAccount ($form_reqid)
     }
 
     return COM_refresh ($_CONF['site_url'] . '/index.php?msg=57');
-}
-
-/**
-* Build a list of all topics the current user has access to
-*
-* @return   string   List of topic IDs, separated by spaces
-*
-*/
-function buildTopicList ()
-{
-    global $_TABLES;
-
-    $topics = '';
-
-    $result = DB_query ("SELECT tid FROM {$_TABLES['topics']}");
-    $numrows = DB_numRows ($result);
-    for ($i = 1; $i <= $numrows; $i++) {
-        $A = DB_fetchArray ($result);
-        if (SEC_hasTopicAccess ($A['tid'])) {
-            if ($i > 1) {
-                $topics .= ' ';
-            }
-            $topics .= $A['tid'];
-        }
-    }
-
-    return $topics;
 }
 
 /**
@@ -654,7 +627,8 @@ function editpreferences()
         $user_etids = DB_getItem ($_TABLES['userindex'], 'etids',
                                   "uid = {$_USER['uid']}");
         if (empty ($user_etids)) { // an empty string now means "all topics"
-            $user_etids = buildTopicList ();
+            $etids = USER_getAllowedTopics();
+            $user_etids = implode(' ', $etids);
         } elseif ($user_etids == '-') { // this means "no topics"
             $user_etids = '';
         }
@@ -888,9 +862,16 @@ function saveuser($A)
         return COM_refresh ($_CONF['site_url'] . '/index.php');
     }
 
-    $A['cooktime'] = COM_applyFilter ($A['cooktime'], true);
-    if ($A['cooktime'] < 0) {
+    // If not set or possibly removed from template - initialize variable
+    if (!isset($A['cooktime'])) {
         $A['cooktime'] = 0;
+    } else {
+        $A['cooktime'] = COM_applyFilter ($A['cooktime'], true);
+    }
+    // If empty or invalid - set to user default
+    // So code after this does not fail the user password required test
+    if (empty($A['cooktime']) OR $A['cooktime'] < 0) {
+        $A['cooktime'] = $_USER['cookietimeout'];
     }
 
     // to change the password, email address, or cookie timeout,
@@ -901,13 +882,16 @@ function saveuser($A)
                 (SEC_encryptPassword($A['old_passwd']) != $_USER['passwd'])) {
 
             return COM_refresh ($_CONF['site_url']
-                                . '/usersettings.php?mode=edit&amp;msg=83');
+                                . '/usersettings.php?msg=83');
         } elseif ($_CONF['custom_registration'] &&
                     function_exists ('CUSTOM_userCheck')) {
             $ret = CUSTOM_userCheck ($A['username'], $A['email']);
-            // Need a numeric return for the default message hander - if not numeric use default message
-            if (!is_numeric($ret)) $ret = 97;
-            return COM_refresh ("{$_CONF['site_url']}/usersettings.php?mode=edit&amp;msg={$ret}");
+            // Need a numeric return for the default message hander
+            // - if not numeric use default message
+            if (!is_numeric($ret)) {
+                $ret = 97;
+            }
+            return COM_refresh("{$_CONF['site_url']}/usersettings.php?msg={$ret}");
         }
     }
 
@@ -942,31 +926,8 @@ function saveuser($A)
                            "uid", $_USER['uid']);
             } else {
                 return COM_refresh ($_CONF['site_url']
-                        . '/usersettings.php?mode=edit&amp;msg=51');
+                        . '/usersettings.php?msg=51');
             }
-        }
-    }
-
-    if (!empty($A['passwd'])) {
-        if (($A['passwd'] == $A['passwd_conf']) &&
-                (SEC_encryptPassword($A['old_passwd']) == $_USER['passwd'])) {
-            $passwd = SEC_encryptPassword($A['passwd']);
-            DB_change($_TABLES['users'], 'passwd', "$passwd",
-                      "uid", $_USER['uid']);
-            if ($A['cooktime'] > 0) {
-                $cooktime = $A['cooktime'];
-            } else {
-                $cooktime = -1000;
-            }
-            setcookie($_CONF['cookie_password'], $passwd, time() + $cooktime,
-                      $_CONF['cookie_path'], $_CONF['cookiedomain'],
-                      $_CONF['cookiesecure']);
-        } elseif (SEC_encryptPassword($A['old_passwd']) != $_USER['passwd']) {
-            return COM_refresh ($_CONF['site_url']
-                                . '/usersettings.php?mode=edit&amp;msg=68');
-        } elseif ($A['passwd'] != $A['passwd_conf']) {
-            return COM_refresh ($_CONF['site_url']
-                                . '/usersettings.php?mode=edit&amp;msg=67');
         }
     }
 
@@ -993,14 +954,38 @@ function saveuser($A)
 
     if (!COM_isEmail ($A['email'])) {
         return COM_refresh ($_CONF['site_url']
-                . '/usersettings.php?mode=edit&amp;msg=52');
+                . '/usersettings.php?msg=52');
     } else if ($A['email'] !== $A['email_conf']) {
         return COM_refresh ($_CONF['site_url']
-                . '/usersettings.php?mode=edit&amp;msg=78');
+                . '/usersettings.php?msg=78');
     } else if (emailAddressExists ($A['email'], $_USER['uid'])) {
         return COM_refresh ($_CONF['site_url']
-                . '/usersettings.php?mode=edit&amp;msg=56');
+                . '/usersettings.php?msg=56');
     } else {
+        
+        if (!empty($A['passwd'])) {
+            if (($A['passwd'] == $A['passwd_conf']) &&
+                    (SEC_encryptPassword($A['old_passwd']) == $_USER['passwd'])) {
+                $passwd = SEC_encryptPassword($A['passwd']);
+                DB_change($_TABLES['users'], 'passwd', "$passwd",
+                          "uid", $_USER['uid']);
+                if ($A['cooktime'] > 0) {
+                    $cooktime = $A['cooktime'];
+                } else {
+                    $cooktime = -1000;
+                }
+                setcookie($_CONF['cookie_password'], $passwd, time() + $cooktime,
+                          $_CONF['cookie_path'], $_CONF['cookiedomain'],
+                          $_CONF['cookiesecure']);
+            } elseif (SEC_encryptPassword($A['old_passwd']) != $_USER['passwd']) {
+                return COM_refresh ($_CONF['site_url']
+                                    . '/usersettings.php?msg=68');
+            } elseif ($A['passwd'] != $A['passwd_conf']) {
+                return COM_refresh ($_CONF['site_url']
+                                    . '/usersettings.php?msg=67');
+            }
+        }
+        
         if ($_US_VERBOSE) {
             COM_errorLog('cooktime = ' . $A['cooktime'],1);
         }
@@ -1394,8 +1379,7 @@ function savepreferences($A)
 
     $etids = '';
     if (sizeof ($ETIDS) > 0) {
-        $allowed_etids = buildTopicList ();
-        $AETIDS = explode (' ', $allowed_etids);
+        $AETIDS = USER_getAllowedTopics();
         $etids = addslashes (implode (' ', array_intersect ($AETIDS, $ETIDS)));
     }
 
@@ -1523,7 +1507,7 @@ if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
     case 'plugin':
         PLG_profileExtrasSave ($_POST['plugin']);
         $display = COM_refresh ($_CONF['site_url']
-                                . '/usersettings.php?mode=edit&amp;msg=5');
+                                . '/usersettings.php?msg=5');
         break;
 
     default: // also if $mode == 'edit', 'preferences', or 'comments'

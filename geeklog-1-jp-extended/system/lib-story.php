@@ -33,10 +33,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-story.php,v 1.125 2008/05/01 21:01:47 dhaun Exp $
+// $Id: lib-story.php,v 1.133 2008/09/21 08:37:12 dhaun Exp $
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-story.php') !== false) {
-    die ('This file can not be used on its own!');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-story.php') !== false) {
+    die('This file can not be used on its own!');
 }
 
 require_once $_CONF['path_system'] . '/classes/story.class.php';
@@ -208,14 +208,20 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     // n = 'Compact display' for list of stories. p = 'Preview' mode.
 
     if ((($index != 'n') && ($index != 'p')) || !empty($query)) {
-        $article->set_var( 'start_storylink_anchortag', '<a href="'
-                . $articleUrl . '" class="non-ul">' );
-        $article->set_var( 'end_storylink_anchortag', '</a>' );
-        $article->set_var( 'story_title_link',
+        $attributes = ' class="non-ul"';
+        $attr_array = array('class' => 'non-ul');
+        if (!empty($query)) {
+            $attributes .= ' rel="bookmark"';
+            $attr_array['rel'] = 'bookmark';
+        }
+        $article->set_var('start_storylink_anchortag',
+                          '<a href="' . $articleUrl . '"' . $attributes);
+        $article->set_var('end_storylink_anchortag', '</a>');
+        $article->set_var('story_title_link',
             COM_createLink(
                     $story->DisplayElements('title'),
                     $articleUrl,
-                    array('class'=>'non-ul')
+                    $attr_array
             )
         );
     } else {
@@ -305,6 +311,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     {
         $article->set_var( 'story_introtext', $introtext );
         $article->set_var( 'story_text_no_br', $introtext );
+        $article->set_var( 'story_introtext_only', $introtext );
 
         if( !empty( $bodytext ))
         {
@@ -740,8 +747,12 @@ function STORY_getItemInfo ($sid, $what)
                 $retval[] = trim (PLG_replaceTags ($excerpt));
                 break;
             case 'feed':
-                $feedfile = DB_getItem ($_TABLES['syndication'], 'filename',
-                                        "topic = '::all'");
+                $feedfile = DB_getItem($_TABLES['syndication'], 'filename',
+                                       "topic = '::all'");
+                if (empty($feedfile)) {
+                    $feedfile = DB_getItem($_TABLES['syndication'], 'filename',
+                                           "topic = '::frontpage'");
+                }
                 if (empty ($feedfile)) {
                     $feedfile = DB_getItem ($_TABLES['syndication'], 'filename',
                                             "topic = '{$A['tid']}'");
@@ -770,210 +781,6 @@ function STORY_getItemInfo ($sid, $what)
     }
 
     return $retval;
-}
-
-/**
-* This replaces all article image HTML in intro and body with
-* GL special syntax
-*
-* @param    string      $sid    ID for story to parse
-* @param    string      $intro  Intro text
-* @param    string      $body   Body text
-* @return   string      processed text
-*
-*/
-function STORY_replace_images($sid, $intro, $body)
-{
-    global $_CONF, $_TABLES, $LANG24;
-
-    $stdImageLoc = true;
-    if (!strstr($_CONF['path_images'], $_CONF['path_html'])) {
-        $stdImageLoc = false;
-    }
-    $result = DB_query("SELECT ai_filename FROM {$_TABLES['article_images']} WHERE ai_sid = '$sid' ORDER BY ai_img_num");
-    $nrows = DB_numRows($result);
-    for ($i = 1; $i <= $nrows; $i++) {
-        $A = DB_fetchArray($result);
-
-        $imageX       = '[image' . $i . ']';
-        $imageX_left  = '[image' . $i . '_left]';
-        $imageX_right = '[image' . $i . '_right]';
-
-        $sizeattributes = COM_getImgSizeAttributes ($_CONF['path_images'] . 'articles/' . $A['ai_filename']);
-
-        $lLinkPrefix = '';
-        $lLinkSuffix = '';
-        if ($_CONF['keep_unscaled_image'] == 1) {
-            $lFilename_large = substr_replace ($A['ai_filename'], '_original.',
-                    strrpos ($A['ai_filename'], '.'), 1);
-            $lFilename_large_complete = $_CONF['path_images'] . 'articles/'
-                                      . $lFilename_large;
-            if ($stdImageLoc) {
-                $imgpath = substr ($_CONF['path_images'],
-                                   strlen ($_CONF['path_html']));
-                $lFilename_large_URL = $_CONF['site_url'] . '/' . $imgpath
-                                     . 'articles/' . $lFilename_large;
-            } else {
-                $lFilename_large_URL = $_CONF['site_url']
-                    . '/getimage.php?mode=show&amp;image=' . $lFilename_large;
-            }
-            if (file_exists ($lFilename_large_complete)) {
-                $lLinkPrefix = '<a href="' . $lFilename_large_URL
-                             . '" title="' . $LANG24[57] . '">';
-                $lLinkSuffix = '</a>';
-            }
-        }
-
-        if ($stdImageLoc) {
-            $imgpath = substr ($_CONF['path_images'],
-                               strlen ($_CONF['path_html']));
-            $imgSrc = $_CONF['site_url'] . '/' . $imgpath . 'articles/'
-                    . $A['ai_filename'];
-        } else {
-            $imgSrc = $_CONF['site_url']
-                . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
-        }
-        $norm = $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
-        $left = $lLinkPrefix . '<img ' . $sizeattributes . 'class="alignleft" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
-        $right = $lLinkPrefix . '<img ' . $sizeattributes . 'class="alignright" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
-
-        $fulltext = $intro . ' ' . $body;
-        $intro = str_replace ($norm,  $imageX,       $intro);
-        $body  = str_replace ($norm,  $imageX,       $body);
-        $intro = str_replace ($left,  $imageX_left,  $intro);
-        $body  = str_replace ($left,  $imageX_left,  $body);
-        $intro = str_replace ($right, $imageX_right, $intro);
-        $body  = str_replace ($right, $imageX_right, $body);
-
-        if (($_CONF['allow_user_scaling'] == 1) and
-            ($_CONF['keep_unscaled_image'] == 1)){
-
-            $unscaledX       = '[unscaled' . $i . ']';
-            $unscaledX_left  = '[unscaled' . $i . '_left]';
-            $unscaledX_right = '[unscaled' . $i . '_right]';
-
-            if (file_exists ($lFilename_large_complete)) {
-                    $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
-                    $norm = '<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
-                    $left = '<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
-                    $right = '<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
-                }
-            $intro = str_replace ($norm,  $unscaledX,       $intro);
-            $body  = str_replace ($norm,  $unscaledX,       $body);
-            $intro = str_replace ($left,  $unscaledX_left,  $intro);
-            $body  = str_replace ($left,  $unscaledX_left,  $body);
-            $intro = str_replace ($right, $unscaledX_right, $intro);
-            $body  = str_replace ($right, $unscaledX_right, $body);
-        }
-    }
-
-    return array($intro, $body);
-}
-
-/**
-* Replaces simple image syntax with actual HTML in the intro and body.
-* If errors occur it will return all errors in $error
-*
-* @param    string      $sid    ID for story to parse
-* @param    string      $intro  Intro text
-* @param    string      $body   Body text
-* @param    string      $usage  'html' for normal use, 'email' for email use
-* @return   string      Processed text
-*
-*/
-function STORY_insert_images($sid, $intro, $body, $usage='html')
-{
-    global $_CONF, $_TABLES, $LANG24;
-
-    $result = DB_query("SELECT ai_filename FROM {$_TABLES['article_images']} WHERE ai_sid = '$sid' ORDER BY ai_img_num");
-    $nrows = DB_numRows($result);
-    $errors = array();
-    $stdImageLoc = true;
-    if (!strstr($_CONF['path_images'], $_CONF['path_html'])) {
-        $stdImageLoc = false;
-    }
-    for ($i = 1; $i <= $nrows; $i++) {
-        $A = DB_fetchArray($result);
-
-        $lLinkPrefix = '';
-        $lLinkSuffix = '';
-        if ($_CONF['keep_unscaled_image'] == 1) {
-            $lFilename_large = substr_replace ($A['ai_filename'], '_original.',
-                    strrpos ($A['ai_filename'], '.'), 1);
-            $lFilename_large_complete = $_CONF['path_images'] . 'articles/'
-                                      . $lFilename_large;
-            if ($stdImageLoc) {
-                $imgpath = substr ($_CONF['path_images'],
-                                   strlen ($_CONF['path_html']));
-                $lFilename_large_URL = $_CONF['site_url'] . '/' . $imgpath
-                                     . 'articles/' . $lFilename_large;
-            } else {
-                $lFilename_large_URL = $_CONF['site_url']
-                    . '/getimage.php?mode=show&amp;image=' . $lFilename_large;
-            }
-            if (file_exists ($lFilename_large_complete)) {
-                $lLinkPrefix = '<a href="' . $lFilename_large_URL
-                             . '" title="' . $LANG24[57] . '">';
-                $lLinkSuffix = '</a>';
-            }
-        }
-
-        $sizeattributes = COM_getImgSizeAttributes ($_CONF['path_images'] . 'articles/' . $A['ai_filename']);
-
-        $norm  = '[image' . $i . ']';
-        $left  = '[image' . $i . '_left]';
-        $right = '[image' . $i . '_right]';
-
-        $unscalednorm  = '[unscaled' . $i . ']';
-        $unscaledleft  = '[unscaled' . $i . '_left]';
-        $unscaledright = '[unscaled' . $i . '_right]';
-
-        $fulltext = $intro . ' ' . $body;
-        $icount = substr_count($fulltext, $norm) + substr_count($fulltext, $left) + substr_count($fulltext, $right);
-        $icount = $icount + substr_count($fulltext, $unscalednorm) + substr_count($fulltext, $unscaledleft) + substr_count($fulltext, $unscaledright);
-        if ($icount == 0) {
-            // There is an image that wasn't used, create an error
-            $errors[] = $LANG24[48] . " #$i, {$A['ai_filename']}, " . $LANG24[53];
-        } else {
-            // Only parse if we haven't encountered any error to this point
-            if (count($errors) == 0) {
-                if ($usage=='email') {  // image will be attached, no path necessary
-                    $imgSrc = $A['ai_filename'];
-                } elseif ($stdImageLoc) {
-                    $imgpath = substr ($_CONF['path_images'],
-                                       strlen ($_CONF['path_html']));
-                    $imgSrc = $_CONF['site_url'] . '/' . $imgpath . 'articles/'
-                            . $A['ai_filename'];
-                } else {
-                    $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
-                }
-                $intro = str_replace($norm, $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $intro);
-                $body = str_replace($norm, $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $body);
-                $intro = str_replace($left, $lLinkPrefix . '<img ' . $sizeattributes . 'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $intro);
-                $body = str_replace($left, $lLinkPrefix . '<img ' . $sizeattributes . 'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $body);
-                $intro = str_replace($right, $lLinkPrefix . '<img ' . $sizeattributes . 'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $intro);
-                $body = str_replace($right, $lLinkPrefix . '<img ' . $sizeattributes . 'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix, $body);
-
-                if (($_CONF['allow_user_scaling'] == 1) and
-                    ($_CONF['keep_unscaled_image'] == 1)) {
-
-                    if (file_exists ($lFilename_large_complete)) {
-                        $imgSrc = $lFilename_large_URL;
-                        $sizeattributes = COM_getImgSizeAttributes ($lFilename_large_complete);
-                    }
-                    $intro = str_replace($unscalednorm, '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>', $intro);
-                    $body = str_replace($unscalednorm, '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>', $body);
-                    $intro = str_replace($unscaledleft, '<img ' . $sizeattributes . 'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>', $intro);
-                    $body = str_replace($unscaledleft, '<img ' . $sizeattributes . 'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>', $body);
-                    $intro = str_replace($unscaledright, '<img ' . $sizeattributes . 'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>', $intro);
-                    $body = str_replace($unscaledright, '<img ' . $sizeattributes . 'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>', $body);
-                }
-
-            }
-        }
-    }
-
-    return array($errors, $intro, $body);
 }
 
 /**
@@ -1083,8 +890,12 @@ function service_submit_story($args, &$output, &$svc_msg)
     /* Apply filters to the parameters passed by the webservice */
 
     if ($args['gl_svc']) {
-        $args['mode'] = COM_applyBasicFilter($args['mode']);
-        $args['editopt'] = COM_applyBasicFilter($args['editopt']);
+        if (isset($args['mode'])) {
+            $args['mode'] = COM_applyBasicFilter($args['mode']);
+        }
+        if (isset($args['editopt'])) {
+            $args['editopt'] = COM_applyBasicFilter($args['editopt']);
+        }
     }
 
     /* - START: Set all the defaults - */
@@ -1108,7 +919,9 @@ function service_submit_story($args, &$output, &$svc_msg)
         }
     }
 
-    $args['owner_id'] = $_USER['uid'];
+    if(empty($args['owner_id'])) {
+        $args['owner_id'] = $_USER['uid'];
+    }
 
     if (empty($args['group_id'])) {
         $args['group_id'] = SEC_getFeatureGroup('story.edit', $_USER['uid']);
@@ -1179,6 +992,9 @@ function service_submit_story($args, &$output, &$svc_msg)
     // exit ();
     // END TEST CODE
 
+    if (!isset($args['sid'])) {
+        $args['sid'] = '';
+    }
     $args['sid'] = COM_sanitizeID($args['sid']);
     if (!$gl_edit) {
         if (strlen($args['sid']) > STORY_MAX_ID_LENGTH) {
@@ -1557,6 +1373,7 @@ function service_get_story($args, &$output, &$svc_msg)
             }
             $output['id']           = $output['sid'];
             $output['category']     = array($output['tid']);
+            $output['published']    = date('c', $output['date']);
             $output['updated']      = date('c', $output['date']);
             if (empty($output['bodytext'])) {
                 $output['content']  = $output['introtext'];
@@ -1642,6 +1459,7 @@ function service_get_story($args, &$output, &$svc_msg)
                 }
                 $output_item['id']           = $output_item['sid'];
                 $output_item['category']     = array($output_item['tid']);
+                $output_item['published']    = date('c', $output_item['date']);
                 $output_item['updated']      = date('c', $output_item['date']);
                 if (empty($output_item['bodytext'])) {
                     $output_item['content']  = $output_item['introtext'];
