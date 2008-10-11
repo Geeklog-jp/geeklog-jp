@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: lib-plugins.php,v 1.148 2008/05/24 10:38:55 dhaun Exp $
+// $Id: lib-plugins.php,v 1.150 2008/09/21 08:37:11 dhaun Exp $
 
 /**
 * This is the plugin library for Geeklog.  This is the API that plugins can
@@ -40,8 +40,8 @@
 *
 */
 
-if (strpos ($_SERVER['PHP_SELF'], 'lib-plugins.php') !== false) {
-    die ('This file can not be used on its own!');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-plugins.php') !== false) {
+    die('This file can not be used on its own!');
 }
 
 require_once $_CONF['path_system'] . 'classes/plugin.class.php';
@@ -205,7 +205,7 @@ function PLG_uninstall ($type)
         // removing tables
         for ($i=0; $i < count($remvars['tables']); $i++) {
             COM_errorLog ("Dropping table {$_TABLES[$remvars['tables'][$i]]}", 1);
-            DB_query ("DROP TABLE {$_TABLES[$remvars['tables'][$i]]}");
+            DB_query ("DROP TABLE {$_TABLES[$remvars['tables'][$i]]}", 1    );
             COM_errorLog ('...success', 1);
         }
 

@@ -31,9 +31,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
-// $Id: install_defaults.php,v 1.3 2008/05/04 09:16:33 dhaun Exp $
+// $Id: install_defaults.php,v 1.6 2008/09/21 08:37:08 dhaun Exp $
 
-if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
 }
 
@@ -45,8 +45,8 @@ if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
  * and not referenced any more once the plugin is installed
  *
  */
-
 global $_SPX_DEFAULT;
+$_SPX_DEFAULT = array();
 
 // Default Spam-X Action
 $_SPX_DEFAULT['action'] = 128; // Default is to ignore (delete) the post
