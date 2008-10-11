@@ -20,7 +20,7 @@
 
 <h2>テーマ作成</h2>
 
-<p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>。)。</p>
+<p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>)。</p>
 
 <p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd></p>
 
@@ -37,11 +37,11 @@
 <li>footer.thtml</li>
 <li>blockheader.thtml</li>
 <li>blockfooter.thtml</li>
-<li>storybody.thtml</li>
+<li>storytext.thtml</li>
 <li>storybodytext.thtml</li>
-<li>featuredstorybody.thtml</li>
+<li>featuredstorytext.thtml</li>
 <li>featuredstorybodytext.thtml</li>
-<li>archivestorybody.thtml</li>
+<li>archivestorytext.thtml</li>
 <li>archivestorybodytext.thtml</li>
 <li>style.css</li>
 </ul>
@@ -55,7 +55,7 @@
 
 <p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ、大抵の場合は、テンプレートのあるディレクトリ名とファイル名を見れば、用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は、URLを見るとよいでしょう。たとえば、ユーザのプロフィールを表示しているときなら、<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き、 <kbd>.thtml</kbd> を検索します。プロフィールの場合は、次の行が <code>function userprofile()</code> の中に見つかります。</p>
 <pre style="margin-left:4em;"><code>$user_templates = new Template ($_CONF['path_layout'] . 'users');
-$user_templates->set_file (array ('profile'=>'profile.thtml', 'row'=>'commentrow.thtml', 'strow'=>'storyrow.thtml'));</code></pre>
+$user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));</code></pre>
 <p>PHPを理解していなくても、この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば、これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
 
 <p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数の不完全なリスト</a>もドキュメントに含まれています。</p>
@@ -103,21 +103,17 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 </ol>
 
 
-<h2><a name="changes">Theme changes in Geeklog 1.5.1</a></h2>
+<h2><a name="changes">Geeklog 1.5.1でのテーマの変更点</a></h2>
 
-<p>Note: Themes made for Geeklog 1.5.0 are mostly compatible with Geeklog 1.5.1. We only made one mandatory change (for the Configuration admin panel) - all the other changes listed below are optional or adjustments for special setups (e.g. multi-language sites, right-to-left languages). See details below.</p>
+<p>注意: Geeklog 1.5.0用に作成されたテーマはたいていの場合、Geeklog 1.5.1と互換性があります。必ず変更しなければならないのは管理者メニューのコンフィギュレーション用のものが1つあるだけで、以下に列挙する変更点はすべて任意か、特別な設定時（多言語サイトや、右から左へと表示する言語など）のものです。詳細は以下をご覧ください。</p>
 
-<h3>Important change: Configuration</h3>
+<h3>重要な変更点: コンフィギュレーション</h3>
 
-<p>The JavaScript code used for the Configuration admin panel used a generic name which caused conflicts with other JavaScript code. You should update the file <tt>admin/config/config_element.thtml</tt> to make sure your theme works with Geeklog 1.5.1.</p>
+<p>管理者のコンフィギュレーションで使用されていたJavaScriptのコードでは一般的な名前を使用していたため、他のJavaScriptと名前の衝突が起こっていました。お使いのテーマがGeeklog 1.5.1でも正常に動作するように、<tt>admin/config/config_element.thtml</tt> を更新してください。</p>
 
-<h3>Multilingual blocks</h3>
+<h3>多言語ブロック</h3>
 
-<p>The multi-language support for blocks introduced in Geeklog 1.5.1 relies on
-<em>disabled</em> blocks being swapped in dynamically. If you are using
-Geeklog's multi-language support, you may need to modify the piece of PHP code
-in your theme's <tt>functions.php</tt> so that it picks the correct templates
-for these multilingual blocks:</p>
+<p>Geeklog 1.5.1で導入された多言語ブロックでは、<em>無効になっている</em>ブロックが動的に入れ替えられることを利用しています。Geeklogの多言語サポートを使用している場合、テーマの <tt>functions.php</tt> 内のPHPコードを変更して、多言語用に正しいブロックテンプレートが選択されるようにする必要があります。</p>
 
 <pre style="margin-left:4em;"><code>$lang = COM_getLanguageId();
 if (empty($lang)) {
@@ -126,47 +122,20 @@ if (empty($lang)) {
     $result = DB_query("SELECT onleft,name FROM {$_TABLES['blocks']}");
 }</code></pre>
 
-<p>Prior to Geeklog 1.5.1, you will probably only find the first SQL request
-in your <tt>functions.php</tt> file.</p>
+<p>Geeklog 1.5.1より前のバージョンでは、 <tt>functions.php</tt> の中に見つかるのは最初のSQLリクエストだけでしょう。</p>
 
-<h3>Other changes</h3>
+<h3>他の変更点</h3>
 
 <ul>
-li>In Geeklog 1.5.0, the behaviour of the variable <code>{page_title}</code>
-    (in <tt>header.thtml</tt>) changed so that it now only contains the actual
-    page title or the site's slogan (in earlier versions, it contained both the
-    site's name and either the page title or the site's slogan). This was done
-    so that the combination <code>{page_title}{page_site_splitter}{site_name}</code>
-    could be used to place the page title before the site's name for better <a
-    href="http://en.wikipedia.org/wiki/Search_engine_optimization"
-    class="wikipedia" title="Search Engine Optimization">SEO</a>. If you prefer
-    to have the site's name first on the index page and the page title first on
-    all other pages, you can now use the new variable
-    <code>{page_title_and_site_name}</code></li>
-<li>In the Links plugin, links have an icon indicating that it's an external
-    link (taking the user away from the current site). This icon did not show
-    up properly for RTL languages (e.g Hebrew), making the link text unreadable.
-    Since we could not find a way to make it show up properly in this case, the
-    icon is not displayed when the text direction is switched to 'rtl'
-    (for now).</li>
-<li>Added an optional <code>feed-link</code> class to be used for links to
-    feeds (e.g. the new Story Option entry for topic feeds). In the Professional
-    theme, a small feed icon (<tt>images/feed.png</tt>) is used as a background
-    image for these links.</li>
-<li>An optional change to the <tt>comment/commentbar.thtml</tt> template file
-    and the <code>commentbar-line2</code> class in <tt>style.css</tt> to make
-    the "Post a comment" button float to the left and easier to see. There were
-    no changes in functionality and other commentbar layouts will continue to
-    work as before.</li>
-<li>The story template files <tt>archivestorytext.thtml</tt>,
-    <tt>featuredstorytext.thtml</tt>, and <tt>storytext.thtml</tt> are now
-    using the <code>{story_text_no_br}</code> variable to refer to the story
-    text. Template files that use <code>{story_introtext}</code> here will
-    continue to work as before.</li>
+<li>Geeklog 1.5.0では、<code>{page_title}</code>変数(<tt>header.thtml</tt>)の振る舞いが変わり、実際のページタイトルかサイトのスローガンの一方のみを保持するようになりました(旧バージョンでは、サイト名 + ページタイトルないしサイトのスローガン)。このようにする目的は、<code>{page_title}{page_site_splitter}{site_name}</code> と組み合わせることでページタイトルをサイト名の前におけるようになり、<a href="http://en.wikipedia.org/wiki/Search_engine_optimization" class="wikipedia" title="Search Engine Optimization">SEO</a>の効果を高めるためです。トップページではサイト名を最初に置き、他のページではページタイトルを最初に置くには、新しい <code>{page_title_and_site_name}</code> を使用してください。</li>
+<li>リンクプラグインで、リンクには外部リンクであることを示すアイコンがつきました。このアイコンが右から左へと読む(RTL)ヘブライ語などの言語では適切に表示されず、テキストリンクが判読不能になっていました。このような場合にアイコンを適切に表示する方法を見つけられなかったため、テキスト方向が'rtl'になっている場合はアイコンは表示されません（今のところは）。</li>
+<li>オプションの <code>feed-link</code> クラスを追加しました。話題フィードの新規記事オプションなどで、フィードのリンクに使用します。Professionalテーマでは、小型のフィードアイコン(<tt>images/feed.png</tt>)が背景画像として使用されます。</li>
+<li>オプションとして、「コメントを投稿する」ボタンを左にフロートさせて見やすくするために、 <tt>comment/commentbar.thtml</tt> テンプレートファイルと  <tt>style.css</tt> 内の <code>commentbar-line2</code> クラスが変更されました。機能上の変更点はなく、コメントバーの他のスタイルは以前と同様に機能します。</li>
+<li>記事のテンプレートファイル(<tt>archivestorytext.thtml</tt>, <tt>featuredstorytext.thtml</tt>, <tt>storytext.thtml</tt>)では、現在、 <code>{story_text_no_br}</code> 変数を使用して記事本文を参照しています。 <code>{story_introtext}</code> 変数を使用しているテンプレートは以前と同様に機能します。</li>
 </ul>
 
 
-<h2><a name="changes150">Geeklog 1.5.0でのテーマの変更点</a></h2>
+<h2><a name="changes">Geeklog 1.5.0でのテーマの変更点</a></h2>
 
 <h3><a name="xhtml">XHTMLをサポート</a></h3>
 
@@ -307,8 +276,7 @@ li>In Geeklog 1.5.0, the behaviour of the variable <code>{page_title}</code>
     <li><tt>submit/submitstory_advanced.thtml</tt></li>
     <li><tt>users/registrationform.thtml</tt></li>
     </ul>
-    このテンプレート変数は <a 
-href="http://en.wikipedia.org/wiki/Captcha" class="wikipedia">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり、該当するプラグインがインストールされていない場合は空白になります。</li>
+    このテンプレート変数は <a href="http://en.wikipedia.org/wiki/CAPTCHA" class="wikipedia">CAPTCHA</a> 機能を実装するプラグインが使用するためのものであり、該当するプラグインがインストールされていない場合は空白になります。</li>
 </ul>
 
 <h3>Professionalテーマ</h3>
