@@ -1,0 +1,12 @@
+2008-10-12  Takahiro Kambe  <taca@boy.a.back-street.net>
+
+	* geeklog 1.5.1で変更されたfckeditorのサイトのURLが、1ヶ所そのまま
+	  だったのを修正しました。
+
+		geeklog-1-jp/public_html/docs/changes.html
+
+	* geeklog 1.5.0のままだったファイルに1.5.1での変更を反映しました。
+
+		public_html/docs/theme.html
+		public_html/layout/professional/admin/story/storyeditor_advanced.thtml
+		public_html/layout/professional/loginform_openid.thtml
