@@ -1,6 +1,6 @@
 $Id$
 
-2008-10-12  Takahiro Kambe  <taca@back-street.net>
+2008-10-12  Takahiro Kambe  <taca>
 
 	* geeklog 1.5.1で変更されたfckeditorのサイトのURLが、1ヶ所そのまま
 	  だったのを修正しました。
