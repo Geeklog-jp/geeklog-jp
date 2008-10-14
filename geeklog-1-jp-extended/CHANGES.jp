@@ -1,8 +1,8 @@
 $Id$
 
-2008-10-12  Takahiro Kambe  <tacahi>
+2008-10-14  Takahiro Kambe  <tacahi>
 
-	* geeklog-1.5.0から1.5.1への変更をマージしました。
+	* geeklog-1.5.1-jp-extended-0.0をリリースします。
 
 2008-10-14  Tetsuko Komma  <ivysoho>
 
@@ -10,4 +10,8 @@ $Id$
 	  いたのを修正しました。本家は対応済み。
 
 		system/lib-story.php
+
+2008-10-12  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.0から1.5.1への変更をマージしました。
 
