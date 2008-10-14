@@ -116,7 +116,7 @@ if "${check}"; then
 fi
 
 if "${docopy}"; then
-	svn copy -m "Make ${type} ${target} from ${base}" "${base}" "${target}." || exit
+	svn copy -m "Make ${type} ${target} from ${base}." "${base}" "${target}" || exit
 fi
 svn export -q "${target}" || {
     error=$?
