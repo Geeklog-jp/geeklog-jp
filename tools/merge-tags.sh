@@ -114,12 +114,6 @@ if [ ! -d .svn ]; then
     exit 2
 fi
 
-#svn update || exit
-foo() {
-    for i in $@; do
-	echo $i
-    done
-}
 if [ -n "${diffopts}" ]; then
     svn merge ${svnoptions} --extensions "${diffopts}" "${from}" "${to}" "${target}"
 else
