@@ -1,5 +1,12 @@
 $Id$
 
+2008-10-14  Tetsuko Komma  <ivysoho>
+
+	* テーマ変数'start_storylink_anchortag'のタグに閉じタグ'>'が抜けて
+	  いたのを修正しました。本家は対応済み。
+
+		system/lib-story.php
+
 2008-10-12  Takahiro Kambe  <tacahi>
 
 	* geeklog 1.5.1で変更されたfckeditorのサイトのURLが、1ヶ所そのまま
@@ -12,11 +19,4 @@ $Id$
 		public_html/docs/theme.html
 		public_html/layout/professional/admin/story/storyeditor_advanced.thtml
 		public_html/layout/professional/loginform_openid.thtml
-
-2008-10-14  Tetsuko Komma  <ivysoho>
-
-	* テーマ変数'start_storylink_anchortag'のタグに閉じタグ'>'が抜けて
-	  いたのを修正しました。本家は対応済み。
-
-		system/lib-story.php
 
