@@ -3,3 +3,11 @@ $Id$
 2008-10-12  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.0から1.5.1への変更をマージしました。
+
+2008-10-14  Tetsuko Komma  <ivysoho>
+
+	* テーマ変数'start_storylink_anchortag'のタグに閉じタグ'>'が抜けて
+	  いたのを修正しました。本家は対応済み。
+
+		system/lib-story.php
+
