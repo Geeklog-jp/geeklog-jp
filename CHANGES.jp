@@ -1,5 +1,10 @@
 $Id$
 
+2008-10-19  Tetsuko Komma  <ivysoho>
+
+	* 携帯テーマ　mobile, mobile_3gのfunctions.php header.thtmlを修正。
+	  XHTMLモードチェックの追加やヘッダコードの追加を行いました。
+
 2008-10-19  dengenxp <dengenxp>
 
 	* calendarjpプラグイン: まれにcalendarプラグインからデータを正常に
