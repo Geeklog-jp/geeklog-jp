@@ -1,5 +1,10 @@
 $Id$
 
+2008-10-19  dengenxp <dengenxp>
+
+	* calendarjpプラグイン: まれにcalendarプラグインからデータを正常に
+	  引き継げない場合があることなどに対応しました。
+
 2008-10-14  Tetsuko Komma  <ivysoho>
 
 	* テーマ変数'start_storylink_anchortag'のタグに閉じタグ'>'が抜けて
