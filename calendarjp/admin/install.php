@@ -43,7 +43,7 @@ require_once '../../../lib-common.php';
 //
 $pi_display_name = 'Calendarjp';
 $pi_name         = 'calendarjp';
-$pi_version      = '1.0.4';
+$pi_version      = '1.0.5';
 $gl_version      = '1.5.0';
 $pi_url          = 'http://www.geeklog.jp/';
 
@@ -124,7 +124,7 @@ function plugin_load_configuration()
 */
 function plugin_postinstall ()
 {
-    global $_CONF, $_TABLES, $LANG_CALJP_1;
+    global $_CONF, $_TABLES, $_PLUGINS, $LANG_CALJP_1;
 
     // fix Upcoming Events block group ownership
     $blockAdminGroup = DB_getItem ($_TABLES['groups'], 'grp_id',
@@ -143,6 +143,57 @@ function plugin_postinstall ()
         $order += 10;
 
         DB_query ("UPDATE {$_TABLES['blocks']} SET group_id = $blockAdminGroup, title = '$title', blockorder = $order, perm_owner = {$A['perm_owner']}, perm_group = {$A['perm_group']}, perm_members = {$A['perm_members']}, perm_anon = {$A['perm_anon']} WHERE (type = 'phpblock') AND (phpblockfn = 'phpblock_calendarjp')");
+
+        if (in_array('calendar',$_PLUGINS)) {
+//          DB_query ("INSERT INTO {$_TABLES['eventsjp']} SELECT * FROM {$_TABLES['events']}"); // これでうまくいかない場合がある。
+            $result = DB_query ("SELECT * FROM {$_TABLES['events']}");
+            while ($A = DB_fetchArray($result)) {
+                DB_query ("INSERT INTO {$_TABLES['eventsjp']} "
+                        . "(eid, title, description, postmode, datestart, dateend, url, hits, owner_id, "
+                        . "group_id, perm_owner, perm_group, perm_members, perm_anon, address1, address2, "
+                        . "city, state, zipcode, allday, event_type, location, timestart, timeend) "
+                        . "VALUES ("
+                        . "'".$A['eid']."', '".$A['title']."', '".$A['description']."', '".$A['postmode']."', '".$A['datestart']."', "
+                        . "'".$A['dateend']."', '".$A['url']."', '".$A['hits']."', '".$A['owner_id']."', '".$A['group_id']."', "
+                        . "'".$A['perm_owner']."', '".$A['perm_group']."', '".$A['perm_members']."', '".$A['perm_anon']."', "
+                        . "'".$A['address1']."', '".$A['address2']."', '".$A['city']."', '".$A['state']."', '".$A['zipcode']."', "
+                        . "'".$A['allday']."', '".$A['event_type']."', '".$A['location']."', '".$A['timestart']."', '".$A['timeend']."' "
+                        . ")");
+            }
+
+//          DB_query ("INSERT INTO {$_TABLES['eventsubmissionjp']} SELECT * FROM {$_TABLES['eventsubmission']}");
+            $result = DB_query ("SELECT * FROM {$_TABLES['eventsubmission']}");
+            while ($A = DB_fetchArray($result)) {
+                DB_query ("INSERT INTO {$_TABLES['eventsubmissionjp']} "
+                        . "(eid, title, description, location, datestart, dateend, url, allday, "
+                        . "zipcode, state, city, address2, address1, event_type, timestart, timeend) "
+                        . "VALUES ("
+                        . "'".$A['eid']."', '".$A['title']."', '".$A['description']."', '".$A['location']."', '".$A['datestart']."', "
+                        . "'".$A['dateend']."', '".$A['url']."', '".$A['allday']."', '".$A['zipcode']."', '".$A['state']."', "
+                        . "'".$A['city']."', '".$A['address2']."', '".$A['address1']."', '".$A['event_type']."', "
+                        . "'".$A['timestart']."', '".$A['timeend']."' "
+                        . ")");
+            }
+
+//          DB_query ("INSERT INTO {$_TABLES['personal_eventsjp']} SELECT * FROM {$_TABLES['personal_events']}");
+            $result = DB_query ("SELECT * FROM {$_TABLES['personal_events']}");
+            while ($A = DB_fetchArray($result)) {
+                DB_query ("INSERT INTO {$_TABLES['personal_eventsjp']} "
+                        . "(eid, title, event_type, datestart, dateend, address1, address2, "
+                        . "city, state, zipcode, allday, url, description, postmode, owner_id, "
+                        . "group_id, perm_owner, perm_group, perm_members, perm_anon, uid, location, timestart, timeend) "
+                        . "VALUES ("
+                        . "'".$A['eid']."', '".$A['title']."', '".$A['event_type']."', '".$A['datestart']."', '".$A['dateend']."', "
+                        . "'".$A['address1']."', '".$A['address2']."', '".$A['city']."', '".$A['state']."', '".$A['zipcode']."', "
+                        . "'".$A['allday']."', '".$A['url']."', '".$A['description']."', '".$A['postmode']."', "
+                        . "'".$A['owner_id']."', '".$A['group_id']."', '".$A['perm_owner']."', '".$A['perm_group']."', '".$A['perm_members']."', "
+                        . "'".$A['perm_anon']."', '".$A['uid']."', '".$A['location']."', '".$A['timestart']."', '".$A['timeend']."' "
+                        . ")");
+            }
+
+        } else {
+            DB_query ("INSERT INTO {$_TABLES['eventsubmissionjp']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Installed the Calendarjp plugin','Today, you successfully installed the Calendarjp plugin.','Your webserver',getdate(),getdate(),'http://www.geeklog.jp/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)");
+        }
 
         return true;
     }
@@ -330,12 +381,6 @@ function plugin_install_now()
 
             return false;
         }
-    }
-
-    if (in_array('calendar',$_PLUGINS)) {
-        $result = DB_query ("REPLACE INTO {$_TABLES['eventsjp']}          SELECT * FROM {$_TABLES['events']}");
-        $result = DB_query ("REPLACE INTO {$_TABLES['eventsubmissionjp']} SELECT * FROM {$_TABLES['eventsubmission']}");
-        $result = DB_query ("REPLACE INTO {$_TABLES['personal_eventsjp']} SELECT * FROM {$_TABLES['personal_events']}");
     }
 
     COM_errorLog("Successfully installed the $pi_display_name plugin!", 1);
