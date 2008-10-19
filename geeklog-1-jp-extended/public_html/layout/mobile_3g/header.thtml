@@ -2,12 +2,13 @@
 <!DOCTYPE html PUBLIC "-//i-mode group (ja)//DTD XHTML i-XHTML(Locale/Ver.=ja/2.0) 1.0//EN" "i-xhtml_4ja_10.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" >
 <head>
-
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=Shift_JIS"{xhtml}>
+<meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
 <title>{page_title}</title>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=Shift_JIS" />
-<meta http-equiv="Cache-Control" content="no-cache" />
-<meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT" />
-
+<meta http-equiv="Pragma" content="no-cache"{xhtml}>
+<meta http-equiv="Cache-Control" content="no-cache"{xhtml}>
+<meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT"{xhtml}>
+{plg_headercode}
 </head>
 <body>
   <!-- #header { -->
