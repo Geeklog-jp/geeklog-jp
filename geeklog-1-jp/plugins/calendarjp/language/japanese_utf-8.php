@@ -30,7 +30,7 @@
 ###############################################################################
 # Last Update 2008/06/02 by Geeklog.jp group  - info AT geeklog DOT jp
 
-global $LANG32;
+global $LANG32, $LANG_postmodes;
 
 ###############################################################################
 # Array Format:
