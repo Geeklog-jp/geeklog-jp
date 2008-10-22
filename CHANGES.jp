@@ -1,5 +1,9 @@
 $Id$
 
+2008-10-22  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.1-jp-extended-1.0をリリースします。
+
 2008-10-19  dengenxp <dengenxp>
 
 	* filemgmtプラグイン: ファイルリストで日付が表示されない問題を修正
