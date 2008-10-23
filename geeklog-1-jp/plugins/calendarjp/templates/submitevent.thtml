@@ -114,7 +114,7 @@
             <td colspan="2">
                 <input type="submit" value="{lang_submit}"{xhtml}>
                 <input type="hidden" name="mode" value="{lang_submit}"{xhtml}>
-                <input type="hidden" name="type" value="calendar"{xhtml}>
+                <input type="hidden" name="type" value="calendarjp"{xhtml}>
                 <input type="hidden" name="calendar_type" value="{mode}"{xhtml}>
                 <input type="hidden" name="hour_mode" value="{hour_mode}"{xhtml}>
                 {hidden_fields}
