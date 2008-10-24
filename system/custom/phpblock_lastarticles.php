@@ -26,13 +26,13 @@ if (!defined('LASTARTICLES_DATE_FORMAT')) {
 *
 * 次の2行を静的ページPHPで記述
 *
-* $exclude = array('');  // 見せたくない記事カテゴリIDをリスト
+* $exclude = array('cat1', 'cat2');  // 見せたくない記事カテゴリIDをリスト
 * echo phpblock_lastarticles(10, 60, $exclude);
 *
 */
 function phpblock_lastarticles($numrows = 10, $length = 50, $exclude = array()) {
-	$additiona_sql = LASTARTICLES_createTopicSet($exclude, false);
-	return phpblock_lastarticles_common($numrows, $length, $additiona_sql);
+	$additional_sql = LASTARTICLES_createTopicSet($exclude, false);
+	return phpblock_lastarticles_common($numrows, $length, $additional_sql);
 }
 
 /***
@@ -47,13 +47,13 @@ function phpblock_lastarticles($numrows = 10, $length = 50, $exclude = array()) 
 * phpblock_lastarticles2(行数,先頭文字数);
 * 次の2行を静的ページPHPで記述
 *
-* $include = array('');  // 見せたい記事カテゴリIDをリスト
+* $include = array('cat1', 'cat2');  // 見せたい記事カテゴリIDをリスト
 * echo phpblock_lastarticles2(10, 60, $include);
 *
 */
 function phpblock_lastarticles2($numrows = 10, $length = 50, $include = array()) {
-	$additiona_sql = LASTARTICLES_createTopicSet($include, true);
-	return phpblock_lastarticles_common($numrows, $length, $additiona_sql);
+	$additional_sql = LASTARTICLES_createTopicSet($include, true);
+	return phpblock_lastarticles_common($numrows, $length, $additional_sql);
 }
 
 /**
@@ -93,19 +93,19 @@ function LASTARTICLES_esc($str) {
 * utitility function to create a set of topic ids
 */
 function LASTARTICLES_createTopicSet($topics = array(), $is_include = true) {
-	if (count($topics == 0)) {
+	if (count($topics) == 0) {
 		return ' ';
 	}
 	
 	$retval = " AND (s.tid ";
 	
 	if ($is_include != true) {
-		$retval = "NOT ";
+		$retval .= "NOT ";
 	}
 	$retval .= "IN (";
 	$topics = array_map('addslashes', $topics);
 	$topics = "'" . implode("', '", $topics) . "'";
-	$retval .= $topics . ") ";
+	$retval .= $topics . ")) ";
 	return $retval;
 }
 
@@ -113,7 +113,7 @@ function LASTARTICLES_createTopicSet($topics = array(), $is_include = true) {
 * Common function to be called from phpblock_lastarticles() and
 * phpblock_lastarticles2()
 */
-function phpblock_lastarticles_common($numrows = 10, $length = 50, $additiona_sql = '') {
+function phpblock_lastarticles_common($numrows = 10, $length = 50, $additional_sql = '') {
 	global $_CONF, $_TABLES;
 	
 	if (!defined('XHTML')) {
@@ -135,7 +135,7 @@ function phpblock_lastarticles_common($numrows = 10, $length = 50, $additiona_sq
 		 . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topics']} AS t "
 		 . "WHERE (s.title <> '') AND (s.tid = t.tid) AND (s.draft_flag = 0) "
 		 . "AND (s.date <= NOW()) " . COM_getPermSQL('AND', 0, 2, 's')
-		 . COM_getTopicSQL('AND', 0, 't') . $additiona_sql
+		 . COM_getTopicSQL('AND', 0, 't') . $additional_sql
 		 . " ORDER BY s.date DESC "
 		 . "LIMIT " . $numrows;
 	$result = DB_query($sql);
