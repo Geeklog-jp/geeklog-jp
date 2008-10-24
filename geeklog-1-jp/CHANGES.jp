@@ -1,5 +1,10 @@
 $Id$
 
+2008-10-23  dengenp  <dengenp>
+
+	* calendarjpプラグインで、一般ユーザーが全体イベントを投稿する場合に、
+	  calendarプラグインへ投稿されてしまう問題を修正しました。
+
 2008-10-23  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.1-jp-1.1をリリースします。
