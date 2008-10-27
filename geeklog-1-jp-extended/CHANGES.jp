@@ -1,5 +1,10 @@
 $Id$
 
+2008-10-28  Tetsuko Komma  <ivysoho>
+
+	* テーマmobile,mobile_3gのheader.thtml：{welcome_msg}を日本語対応版
+	  {welcome_msg_jp}へ変更しました。
+
 2008-10-24  mystralkk  <mystralkk>
 
 	* phpblock_lastarticles.phpで話題制御ができない問題を修正しました。
