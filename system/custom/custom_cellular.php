@@ -20,7 +20,7 @@ $CUSTOM_MOBILE_CONF['force_cut_table'] = true; // 強制的にテーブルを削
 $CUSTOM_MOBILE_CONF['cut_comment'] = true; // コメントを削除する
 $CUSTOM_MOBILE_CONF['convert_to_sjis'] = true; // SJISに変換する
 $CUSTOM_MOBILE_CONF['host_charset'] = "UTF-8"; // サーバはUTF-8
-$CUSTOM_MOBILE_CONF['refresh_use_location'] = true; // refreshにLocationヘッダを使用する
+$CUSTOM_MOBILE_CONF['refresh_use_location'] = false; // refreshにLocationヘッダを使用する
 /**
  * 画像の縮小用パラメータ
  */
@@ -260,7 +260,14 @@ function CUSTOM_refresh($url)
                                mb_detect_encoding($LANG05['5'], "UTF-8,EUC-JP,JIS,sjis-win"));
     if(CUSTOM_MOBILE_is_cellular()) {
         if($CUSTOM_MOBILE_CONF['refresh_use_location']) {
-            header( "Location: $url" );
+            $sepa = '?';
+            if (strpos($url, '?') > 0)
+            {
+                $sepa = '&amp;';
+            }
+            $location_url = 'Location: ' . $url . $sepa . 'PHPSESSID=' . SID;
+            header( $location_url );
+            exit;
         } else {
             return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" .
                 "\"http://www.w3.org/TR/html4/loose.dtd\">\n" .
