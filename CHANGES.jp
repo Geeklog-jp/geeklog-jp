@@ -1,5 +1,10 @@
 $Id$
 
+2008-11-01  Tetsuko Komma  <ivysoho>
+
+	* テーマmobile,mobile_3gのfunctions.phpに掲示板プラグイン用のコードを
+	  追加しました。
+
 2008-10-28  Tetsuko Komma  <ivysoho>
 
 	* テーマmobile,mobile_3gのheader.thtml：{welcome_msg}を日本語対応版
