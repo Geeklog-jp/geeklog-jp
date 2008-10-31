@@ -57,6 +57,86 @@ if (!defined('XHTML')) {
 }
 
 /**
+* Bug fix for "Undefined 'COM_errorLog'"
+*/
+if (!function_exists('COM_errorLog')) {
+    /**
+    *
+    * Logs messages to error.log or the web page or both
+    *
+    * Prints a well formatted message to either the web page, error log
+    * or both.
+    *
+    * @param    string      $logentry       Text to log to error log
+    * @param    int         $actionid       1 = write to log file,
+    *                                       2 = write to screen (default) both
+    * @return   string       If $actionid = 2 or '' then HTML formatted string
+    *                        (wrapped in block) else nothing
+    */
+    function COM_errorLog($logentry, $actionid = '') {
+        global $_CONF;
+
+        $retval = '';
+        
+        if (!isset($_CONF['path_log']) AND file_exists($_CONF['path'] . 'logs/')) {
+            $_CONF['path_log'] = $_CONF['path'] . 'logs/';
+        }
+        
+        if (!empty($logentry)) {
+            $logentry = str_replace(array('<?', '?>'), array('(@', '@)'),
+                                     $logentry);
+
+            $timestamp = strftime('%c');
+
+            if (!isset($_CONF['path_layout']) &&
+                    (($actionid == 2) || empty($actionid))) {
+                $actionid = 1;
+            }
+            if (!isset($_CONF['path_log']) && ($actionid != 2)) {
+                $actionid = 3;
+            }
+
+            switch ($actionid) {
+                case 1:
+                    $logfile = $_CONF['path_log'] . 'error.log';
+
+                    if (!$file = fopen($logfile, 'a')) {
+                        $retval .= 'Error, could not write to the log file '
+                                .  $logfile . ' (' . $timestamp . ')<br'
+                                .  XHTML . '>' . LB;
+                    } else {
+                        fputs($file, "$timestamp - $logentry \n");
+                    }
+                    break;
+
+                case 2:
+                    $retval .= nl2br($logentry);
+                    break;
+
+                case 3:
+                    $retval = nl2br($logentry);
+                    break;
+
+                default:
+                    $logfile = $_CONF['path_log'] . 'error.log';
+
+                    if (!$file = fopen($logfile, 'a')) {
+                        $retval .= 'Error, could not write to the log file '
+                                .  $logfile . ' (' . $timestamp . ')<br'
+                                .  XHTML . '>' . LB;
+                    } else {
+                        fputs($file, "$timestamp - $logentry \n");
+                        $retval .= nl2br($logentry);
+                    }
+                    break;
+            }
+        }
+
+        return $retval;
+    }
+}
+
+/**
  * Returns the PHP version
  *
  * Note: Removes appendices like 'rc1', etc.
