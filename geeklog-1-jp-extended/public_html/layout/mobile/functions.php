@@ -27,6 +27,21 @@ $_BLOCK_TEMPLATE['customlogin'] = 'customlogin-header.thtml,customlogin-footer.t
 $_BLOCK_TEMPLATE['whats_related_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 
+/********************* FORUM PLUGIN v2.7+ Setup for block layout to use ********************
+* Fourm Plugin for Geeklog v1.4.1 available at http://www.portalparts.com
+* Set the following for which Geeklog block columns you want to show along with the forum.
+* Options are: 'leftblocks', 'rightblocks', 'allblocks', 'noblocks'
+* For example, set to noblocks to not show any blocks (and have the forum span the entire page.)
+***************************************************************************************/
+$CONF_FORUM['showblocks'] = 'leftblocks';
+
+/********************* FORUM PLUGIN v2.7+  Setup for user menu style to use ****************
+* Show the usermenu as a block menu or as a top navbar
+* Note: Need to show leftblocks or rightblocks if usermenu option set to blockmenu
+* Options are 'blockmenu' or 'navbar' or 'none'
+***************************************************************************************/
+$CONF_FORUM['usermenu'] = 'navbar';
+
 function mobile_siteFooter( $rightblock = -1, $custom = '' )
 {
     global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
