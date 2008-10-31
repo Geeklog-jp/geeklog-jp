@@ -1,5 +1,14 @@
 $Id$
 
+2008-10-29  hirorongl <hirorongl>
+
+	* 携帯対応でrefreshにLocationヘッダの使用の有無を制御できるように
+	  しました。(デフォルトはLocationヘッダを使用)
+
+2008-10-28  hirorongl <hirorongl>
+
+	* 携帯対応でのCOM_refreshのハック漏れを修正しました。
+
 2008-10-28  Tetsuko Komma  <ivysoho>
 
 	* テーマmobile,mobile_3gのheader.thtml：{welcome_msg}を日本語対応版
