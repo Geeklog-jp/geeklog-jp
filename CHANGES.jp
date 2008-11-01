@@ -1,5 +1,10 @@
 $Id$
 
+2008-11-01  mystral-kk <mystral-kk>
+
+	* インストール時にエラーが発生した場合、COM_errorLogが未定義のため
+	  インストールが中断するエラーに対応しました。
+	
 2008-10-29  hirorongl <hirorongl>
 
 	* 携帯対応でrefreshにLocationヘッダの使用の有無を制御できるように
