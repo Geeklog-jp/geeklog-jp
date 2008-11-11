@@ -1,5 +1,13 @@
 $Id$
 
+2008-11-11  hirorongl <hirorongl>
+
+	* CMT_getComment内で携帯の場合にコメントのコメント用リンクURLに含まれるtitleの文字列をsjis-winに変換
+
+2008-11-09  hirorongl <hirorongl>
+
+	* ProfessionalCSSの functions.php へ include対策を行う
+
 2008-11-01  mystral-kk <mystral-kk>
 
 	* インストール時にエラーが発生した場合、COM_errorLogが未定義のため
