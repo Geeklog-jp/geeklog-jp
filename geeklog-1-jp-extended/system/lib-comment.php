@@ -217,6 +217,7 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
 function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = false, $preview = false, $ccode = 0 )
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $MESSAGE, $_IMAGE_TYPE;
+    global $CUSTOM_MOBILE_UA;  // add geeklog-jp
 
     $indent = 0;  // begin with 0 indent
     $retval = ''; // initialize return value
@@ -428,9 +429,13 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         // create a reply to link
         $reply_link = '';
         if( $ccode == 0 ) {
+            $a_title = $A['title'];
+            if ( $CUSTOM_MOBILE_UA > 1 ) {
+                $a_title = mb_convert_encoding($A['title'], 'SJIS-win');
+            }
             $reply_link = $_CONF['site_url'] . '/comment.php?sid=' . $A['sid']
                         . '&amp;pid=' . $A['cid'] . '&amp;title='
-                        . urlencode( $A['title'] ) . '&amp;type=' . $A['type'];
+                        . urlencode( $a_title ) . '&amp;type=' . $A['type'];
             $reply_option = COM_createLink($LANG01[43], $reply_link ) . ' | ';
             $template->set_var( 'reply_option', $reply_option );
         } else {
