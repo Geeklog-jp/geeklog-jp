@@ -1,5 +1,5 @@
 <!-- start centerblock.thtml -->
-<!--{startblock}-->
+{startblock}
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="pluginBG" style="border: 1px solid #CCC; margin-bottom:10px;">
     <tr style="vertical-align:middle;">
         <td class="pluginTitle alignleft" style="padding:4px; width:40%;"><b>{LANG_FORUM}</b></td>
@@ -8,5 +8,5 @@
     </tr>
         {block_records}
 </table>
-<!--{endblock}-->
+{endblock}
 <!-- end centerblock.thtml -->
