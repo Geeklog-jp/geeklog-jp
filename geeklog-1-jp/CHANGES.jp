@@ -1,5 +1,9 @@
 $Id$
 
+2008-11-13  hirorongl <hirorongl>
+
+	* 携帯の記事編集の対応 /system/classes/story.class.php の replaceImages の中で文字列マッチを str_replace から preg_replace に置き換える。
+
 2008-11-11  hirorongl <hirorongl>
 
 	* CMT_getComment内で携帯の場合にコメントのコメント用リンクURLに含まれるtitleの文字列をsjis-winに変換
