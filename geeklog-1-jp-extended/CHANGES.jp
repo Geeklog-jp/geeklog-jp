@@ -1,5 +1,10 @@
 $Id$
 
+2008-11-13  Tetsuko Komma  <ivysoho>
+
+	* forumプラグインのIEにおけるセンターブロック表示で，コメントアウト
+	  終了タグが表示される不具合を対策。
+
 2008-11-11  hirorongl <hirorongl>
 
 	* CMT_getComment内で携帯の場合にコメントのコメント用リンクURLに含まれるtitleの文字列をsjis-winに変換
