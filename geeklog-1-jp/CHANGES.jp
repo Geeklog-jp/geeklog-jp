@@ -2,15 +2,18 @@ $Id$
 
 2008-11-13  hirorongl <hirorongl>
 
-	* 携帯の記事編集の対応 /system/classes/story.class.php の replaceImages の中で文字列マッチを str_replace から preg_replace に置き換える。
+	* 携帯の記事編集の対応 /system/classes/story.class.php の
+          replaceImages の中で文字列マッチを str_replace から
+          preg_replace に置き換えました。
 
 2008-11-11  hirorongl <hirorongl>
 
-	* CMT_getComment内で携帯の場合にコメントのコメント用リンクURLに含まれるtitleの文字列をsjis-winに変換
+	* CMT_getComment内で携帯の場合にコメントのコメント用リンクURL
+          に含まれるtitleの文字列をsjis-winに変換しました。
 
 2008-11-09  hirorongl <hirorongl>
 
-	* ProfessionalCSSの functions.php へ include対策を行う
+	* ProfessionalCSSの functions.php へ include対策を行いました。
 
 2008-11-01  mystral-kk <mystral-kk>
 
