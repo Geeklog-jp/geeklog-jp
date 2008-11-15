@@ -134,9 +134,12 @@ function phpblock_lastarticles_common($numrows = 10, $length = 50, $additional_s
 		 . "s.perm_anon, t.topic "
 		 . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topics']} AS t "
 		 . "WHERE (s.title <> '') AND (s.tid = t.tid) AND (s.draft_flag = 0) "
-		 . "AND (s.date <= NOW()) " . COM_getPermSQL('AND', 0, 2, 's')
-		 . COM_getTopicSQL('AND', 0, 't') . $additional_sql
-		 . " ORDER BY s.date DESC "
+		 . "AND (s.date <= NOW()) " . COM_getTopicSQL('AND', 0, 't');
+	if (function_exists('COM_getLangSQL')) {
+		$sql .= COM_getLangSQL('sid', 'AND', 's');
+	}
+	$sql .= $additional_sql
+		 . "ORDER BY s.date DESC "
 		 . "LIMIT " . $numrows;
 	$result = DB_query($sql);
 	$retval = '';
