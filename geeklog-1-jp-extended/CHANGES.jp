@@ -1,5 +1,9 @@
 $Id$
 
+2008-11-15  mystral-kk <mystral-kk>
+
+	* custom/phpblock_lastarticles.phpを多言語モードに対応させる。
+
 2008-11-13  hirorongl <hirorongl>
 
 	* 携帯の記事編集の対応 /system/classes/story.class.php の
