@@ -24,5 +24,6 @@
     </ul>
   </fieldset>
 </form>
+{openid_login}
 
 <!-- } loginform.thtml -->
