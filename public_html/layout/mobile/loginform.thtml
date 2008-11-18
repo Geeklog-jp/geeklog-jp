@@ -7,3 +7,4 @@
   <input type="submit" value="{lang_login}"{xhtml}><br{xhtml}>
   <a href="{site_url}/users.php?mode=getpassword" rel="nofollow">{lang_forgetpassword}</a>
 </form>
+{openid_login}
