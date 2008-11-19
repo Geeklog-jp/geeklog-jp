@@ -1,5 +1,11 @@
 $Id$
 
+2008-11-18  Tetsuko Komma  <ivysoho>
+
+	* テーマmobile,mobile_3g,ProfessionalCSSの各ログイン用テンプレート
+	  （loginform.thtml）に，OpenIDログイン変数{openid_login}が抜けて
+	  いたので追加しました。
+
 2008-11-13  hirorongl <hirorongl>
 
 	* 携帯の記事編集の対応 /system/classes/story.class.php の
