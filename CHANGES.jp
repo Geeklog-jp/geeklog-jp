@@ -2,6 +2,11 @@ $Id$
 
 2008-11-22  Tetsuko Komma  <ivysoho>
 
+	* 静的ページをセンターエリアに表示する際の，編集リンクをテンプレート
+	  /plugins/staticpages/templates/centerblock.thtmlに追加しました。
+
+2008-11-22  Tetsuko Komma  <ivysoho>
+
 	* 言語ファイルjapanese_utf-8.phpの句点の処理の抜けがあり，英語版
 	  english_utf-8.phpと統一させました。他，翻訳漏れを追加しました。
 
