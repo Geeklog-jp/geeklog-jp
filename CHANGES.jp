@@ -1,5 +1,10 @@
 $Id$
 
+
+2008-11-22  Tetsuko Komma  <ivysoho>
+
+	* mobile, mobile_3gテーマから，forumディレクトリを削除しました。
+
 2008-11-22  Tetsuko Komma  <ivysoho>
 
 	* 静的ページをセンターエリアに表示する際の，編集リンクをテンプレート
