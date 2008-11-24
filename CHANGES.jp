@@ -1,5 +1,11 @@
 $Id$
 
+
+2008-11-24  Tetsuko Komma  <ivysoho>
+
+	* 静的ページプラグインの言語ファイルに，$PLG_staticpages_MESSAGE19，
+	  $PLG_staticpages_MESSAGE20を追加しました。(本家版2008.10.03追加分)
+
 2008-11-22  Tetsuko Komma  <ivysoho>
 
 	* 静的ページをセンターエリアに表示する際の，編集リンクをテンプレート
