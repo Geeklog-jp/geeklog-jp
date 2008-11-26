@@ -28,6 +28,7 @@
     <ul class="submit">
       <li><input type="submit" value="{lang_send}" name="mode[0]" class="submit"{xhtml}></li>
       <li><input type="submit" value="{lang_preview}" name="mode[1]" class="submit"{xhtml}></li>
+      <li><input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}></li>
     </ul>
   </fieldset>
 </form>
