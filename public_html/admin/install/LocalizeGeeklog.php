@@ -762,7 +762,7 @@ class LocalizeGeeklog
 				'value'  => 'first_block',
 				'target' => 'content',
 				'en'     => '<p><b>Welcome to Geeklog!</b></p><p>If you\'re already familiar with Geeklog - and especially if you\'re not: There have been many improvements to Geeklog since earlier versions that you might want to read up on. Please read the <a href=\"docs/changes.html\">release notes</a>. If you need help, please see the <a href=\"docs/support.html\">support options</a>.</p>',
-				'ja'     => '<p><strong>Geeklogへようこそ!</strong><p>Geeklogのサポートは、<a href="http://www.geeklog.jp">Geeklog Japanese</a>へ。ドキュメントは <a href="http://wiki.geeklog.jp">Geeklog Wikiドキュメント</a>をどうぞ。',
+				'ja'     => '<p><strong>Geeklogへようこそ!</strong></p><p>Geeklogのサポートは、<a href="http://www.geeklog.jp">Geeklog Japanese</a>へ。ドキュメントは <a href="http://wiki.geeklog.jp">Geeklog Wikiドキュメント</a>をどうぞ。</p>',
 			),
 		),
 		
