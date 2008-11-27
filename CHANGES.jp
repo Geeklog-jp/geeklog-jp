@@ -1,5 +1,9 @@
 $Id$
 
+2008-11-28  mystral-kk <mystral-kk>
+	* LocalizeGeeklogクラスにおいて、日本語化メッセージで閉じタグが
+	  抜けていたのを修正しました。
+
 2008-11-26  hirorongl <hirorongl>
 
 	* トラックバックできない不具合の対応
