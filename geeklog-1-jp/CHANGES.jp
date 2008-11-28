@@ -1,5 +1,11 @@
 $Id$
 
+2008-11-29  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.1-jp-1.2をリリースします。タグgeeklog-1.5.1-jp-1.2を
+	  作成した後で、記述忘れに気がついたため，改めてタグ
+	  geeklog-1.5.1-jp-1.2aを作成し，配布ファイル名もタグ名に合わせます。
+
 2008-11-28  mystral-kk <mystral-kk>
 	* LocalizeGeeklogクラスにおいて、日本語化メッセージで閉じタグが
 	  抜けていたのを修正しました。
