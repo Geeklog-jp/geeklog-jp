@@ -30,6 +30,12 @@ body {
   text-align: center;  /* Win IE 6用(マージンの自動調整が効かない) */
 }
 
+/* Win IE 7用 { */
+*:first-child+html body {
+  font-size: small;
+}
+/* } Win IE 7用 */
+
 /* Win IE 6用 { */
 * html body {
   font-size: small;
