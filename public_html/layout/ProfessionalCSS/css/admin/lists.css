@@ -103,6 +103,10 @@ table.admin-list tr td {
   padding: 2px;
 }
 
+table.admin-list tr td img {
+  border: none;
+}
+
 /* ナビゲーション */
 ul.admin-list-navi {
   list-style-position: outside;
