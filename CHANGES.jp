@@ -1,5 +1,13 @@
 $Id$
 
+2008-12-05  Tetsuko Komma  <ivysoho>
+
+	* テーマProfessionalCSSを修正しました。
+	  ProfessionalCSS/css/common.css
+	  bodyセレクタ fontプロパティにIE7用ハック(文字サイズ拡大対応)追加
+	  css/admin/lists.css
+	  ブロック管理画面のアイコンでのボーダー非表示
+
 2008-11-29  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.1-jp-1.2をリリースします。タグgeeklog-1.5.1-jp-1.2を
