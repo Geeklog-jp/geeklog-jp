@@ -1,5 +1,11 @@
 $Id$
 
+2008-12-06  Tetsuko Komma  <ivysoho>
+
+	* テーマProfessionalCSSの３つの記事表示テンプレートファイルに対して
+	  テーマ変数{story_introtext}から，冒頭文と本文の間にBRタグを入れない
+	  {story_text_no_br}に変更しました。
+
 2008-12-05  Tetsuko Komma  <ivysoho>
 
 	* テーマProfessionalCSSを修正しました。
