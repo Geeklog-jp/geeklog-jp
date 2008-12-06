@@ -28,7 +28,7 @@
 
   <div class="story_introtext">
     <span class="story_image">{story_anchortag_and_image}</span>
-    {story_introtext}
+    {story_text_no_br}
   </div>
 
   <ul class="navi">
