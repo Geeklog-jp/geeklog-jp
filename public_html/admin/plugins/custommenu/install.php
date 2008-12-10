@@ -364,6 +364,15 @@ function plugin_install_now()
         }
     }
 
+    if (GL_VERSION_15) {
+        // Set menu elements
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        $c = config::get_instance();
+        $c->set('menu_elements', array('custom'));
+
+        CMED_addPluginsMenuitems();
+    }
+
     COM_errorLog("Successfully installed the $pi_display_name plugin!", 1);
 
     return true;
