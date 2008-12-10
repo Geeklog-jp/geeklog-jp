@@ -116,9 +116,9 @@
 </head>
 <body>
   <h1><a name="_top">CustomMenu Editor プラグイン</a></h1>
-  <h2>バージョン: 0.2.2</h2>
+  <h2>バージョン: 0.2.3</h2>
   <h2>作成者: Yoshinori Tahara - dengen</h2>
-  <h2>公開日:&nbsp;2008.9.26</h2>
+  <h2>公開日:&nbsp;2008.12.9</h2>
   <h2>ライセンス:&nbsp;GPL</h2>
   <h2>概要:</h2>
   <ul>
@@ -180,7 +180,7 @@
   <ul>
     <li>(参考) Geeklogのメニューエントリーには、'home', 'contribute', 'search', 'stats', 'directory', 'prefs', 'plugins', 'custom'の８種類があります。</li>
     <li>(参考) このうち、'custom' はカスタムメニューエントリーの集合であり、CUSTOM_menuEntries 関数が返すエントリー群を束ねたものです。</li>
-    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」 に「<span class="attention"><strong>custom</strong></span>」を追加し、それ以外の全ての値を削除してください。</li>
+    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」 に「<span class="attention"><strong>custom</strong></span>」を追加し、それ以外の全ての値を削除してください。（バージョン0.2.3以降では、この設定を行う必要がなくなりました。）</li>
   </ul>
   <h4>Step 5 - lib-custom.php の編集</h4>
   <ul>
@@ -243,7 +243,7 @@ function CUSTOM_menuEntries ()
 
   <ul>
     <li>１）の Step 4 で行った修正を元に戻します。</li>
-    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」を元にもどしてください。</li>
+    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」を元にもどしてください。（バージョン0.2.3以降では、この設定を行う必要がなくなりました。）</li>
     <li>(参考) Geeklogのメニュー項目の初期値は、順に'contribute', 'search', 'stats', 'directory', 'plugins' です。</li>
   </ul>
 
@@ -269,6 +269,13 @@ function CUSTOM_menuEntries ()
       <th>バージョン</th>
       <th>公開日</th>
       <th>説明</th>
+    </tr>
+    <tr>
+      <td class="center">0.2.3</td>
+      <td class="center">2008.12.9</td>
+      <td><span class="new">追加</span>&nbsp;インストール・アンインストール時に必要なコンフィギュレーションの設定を、自動的に行うようにしました。(Geeklog1.5以降で使用する場合のみ有効)<br />
+          <span class="new">追加</span>&nbsp;多言語切り替え機能への対応を強化しました。<br />
+      </td>
     </tr>
     <tr>
       <td class="center">0.2.2</td>
