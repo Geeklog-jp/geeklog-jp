@@ -246,7 +246,7 @@ function plugin_autouninstall_custommenu()
 */
 function plugin_uninstall_custommenu ( $installCheck = '' )
 {
-    global $_TABLES, $LANG_CMED;
+    global $_CONF, $_TABLES, $LANG_CMED;
 
     $pi_name  = 'custommenu';
     $pi_admin = 'CustomMenu Admin';
@@ -321,6 +321,11 @@ function plugin_uninstall_custommenu ( $installCheck = '' )
     DB_query ("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = '$pi_name'");
     COM_errorLog ('...success',1);
 
+    // Restore menu elements
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $c = config::get_instance();
+    $c->restore_param('menu_elements', 'Core');
+
     COM_errorLog ('Finished uninstalling the $pi_name plugin.', 1);
 
     return true;
@@ -366,6 +371,48 @@ function plugin_getListField_custommenu($fieldname, $fieldvalue, $A, $icon_arr)
     return $retval;
 }
 
+/**
+* Add Menuitems of the plugins
+*/
+function CMED_addPluginsMenuitems()
+{
+    global $_PLUGINS, $_TABLES, $_CMED_plugin_label_var;
+
+    $SQLS = array();
+    $num = DB_getItem($_TABLES['menuitems'], "MAX(menuorder)") + 10;
+    $menuitems = array();
+    $group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'CustomMenu Admin'");
+    foreach ($_PLUGINS as $pi_name) {
+        if ($pi_name == 'staticpages') continue;
+        if (DB_count($_TABLES['menuitems'], "mid", $pi_name) != 1) {
+            $function = 'plugin_getmenuitems_' . $pi_name;
+            if (function_exists($function)) {
+                $menuitems = $function();
+                if ((is_array($menuitems)) && (sizeof($menuitems) > 0)) {
+                    $mid = $pi_name;
+                    $url = addslashes(current($menuitems));
+                    $label = addslashes(key($menuitems));
+                    $label_var = (!empty($_CMED_plugin_label_var[$pi_name])) ? $_CMED_plugin_label_var[$pi_name] : '';
+                    $label_var = addslashes($label_var);
+                    $mode = (!empty($_CMED_plugin_label_var[$pi_name])) ? 'variable' : 'fixation';
+                    
+                    $SQLS[] = "INSERT INTO " . $_TABLES['menuitems'] 
+                            . " (mid, is_enabled, type, mode, label, label_var, url, menuorder, owner_id, group_id) "
+                            . "VALUES ('$mid', 1, 'plugin', '$mode', '$label', '$label_var', '$url', $num, 2, '$group_id')";
+                    $num += 1;
+                }
+            }
+        }
+    }
+    
+    foreach ($SQLS as $sql) {
+        DB_query($sql, 1);
+        if (DB_error()) {
+            return false;
+        }
+    }
+}
+
 function CMED_replaceLabel($label)
 {
     preg_match('/(.+)\[(.+)\]/', $label, $m);
@@ -396,6 +443,7 @@ if (!function_exists('CUSTOM_menuEntries')) {
     {
         global $_CONF, $_TABLES, $topic;
 
+        $lang = COM_getLanguageId();
         $myentries = array();
         if (!empty($_TABLES['menuitems'])) {
             $sql = "SELECT * FROM {$_TABLES['menuitems']} WHERE is_enabled = 1";
@@ -408,9 +456,18 @@ if (!function_exists('CUSTOM_menuEntries')) {
                     $sql .= " AND (tid = 'all')";
                 }
             }
-            $sql .= " ORDER BY menuorder asc";
+            $sql .= " ORDER BY menuorder ASC";
             $result = DB_query($sql);
             while ($A = DB_fetchArray($result)) {
+
+                $sql2 = "SELECT * FROM {$_TABLES['menuitems']} "
+                      . "WHERE mid = '" . $A['mid'] . '_' . $lang . "'";
+                $result2 = DB_query($sql2);
+                if (DB_numRows($result2) == 1) {
+                    // overwrite with data for language-specific menuitem
+                    $A = DB_fetchArray($result2);
+                }
+
                 $access = SEC_hasAccess($A['owner_id'],    $A['group_id'],
                                         $A['perm_owner'],  $A['perm_group'],
                                         $A['perm_members'],$A['perm_anon']);

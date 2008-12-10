@@ -747,48 +747,6 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
     return $retval;
 }
 
-/**
-* Add Menuitems of the plugins
-*/
-function CMED_addPluginsMenuitems()
-{
-    global $_PLUGINS, $_TABLES, $_CMED_plugin_label_var;
-
-    $SQLS = array();
-    $num = DB_getItem($_TABLES['menuitems'], "MAX(menuorder)") + 10;
-    $menuitems = array();
-    $group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'CustomMenu Admin'");
-    foreach ($_PLUGINS as $pi_name) {
-        if ($pi_name == 'staticpages') continue;
-        if (DB_count($_TABLES['menuitems'], "mid", $pi_name) != 1) {
-            $function = 'plugin_getmenuitems_' . $pi_name;
-            if (function_exists($function)) {
-                $menuitems = $function();
-                if ((is_array($menuitems)) && (sizeof($menuitems) > 0)) {
-                    $mid = $pi_name;
-                    $url = addslashes(current($menuitems));
-                    $label = addslashes(key($menuitems));
-                    $label_var = (!empty($_CMED_plugin_label_var[$pi_name])) ? $_CMED_plugin_label_var[$pi_name] : '';
-                    $label_var = addslashes($label_var);
-                    $mode = (!empty($_CMED_plugin_label_var[$pi_name])) ? 'variable' : 'fixation';
-                    
-                    $SQLS[] = "INSERT INTO " . $_TABLES['menuitems'] 
-                            . " (mid, is_enabled, type, mode, label, label_var, url, menuorder, owner_id, group_id) "
-                            . "VALUES ('$mid', 1, 'plugin', '$mode', '$label', '$label_var', '$url', $num, 2, '$group_id')";
-                    $num += 1;
-                }
-            }
-        }
-    }
-    
-    foreach ($SQLS as $sql) {
-        DB_query($sql, 1);
-        if (DB_error()) {
-            return false;
-        }
-    }
-}
-
 
 // MAIN
 
