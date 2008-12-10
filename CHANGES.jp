@@ -1,5 +1,12 @@
 $Id$
 
+2008-12-10  Yoshinori Tahara <dengen>
+
+	* custommenuプラグインをバージョン0.2.3に更新しました。
+	  インストール・アンインストール時に必要なコンフィギュレーションの
+	  設定を、自動的に行うようにしました。
+	  多言語切り替え機能への対応を強化しました。
+
 2008-12-06  Tetsuko Komma  <ivysoho>
 
 	* テーマProfessionalCSSの３つの記事表示テンプレートファイルに対して
@@ -109,7 +116,7 @@ $Id$
 
 	* phpblock_lastarticles.phpで話題制御ができない問題を修正しました。
 
-2008-10-23  dengenp  <dengenp>
+2008-10-23  Yoshinori Tahara <dengen>
 
 	* calendarjpプラグインで、一般ユーザーが全体イベントを投稿する場合に、
 	  calendarプラグインへ投稿されてしまう問題を修正しました。
@@ -118,7 +125,7 @@ $Id$
 
 	* geeklog-1.5.1-jp-extended-1.0をリリースします。
 
-2008-10-19  dengenxp <dengenxp>
+2008-10-19  Yoshinori Tahara <dengen>
 
 	* filemgmtプラグイン: ファイルリストで日付が表示されない問題を修正
 	  しました。
@@ -128,7 +135,7 @@ $Id$
 	* 携帯テーマ　mobile, mobile_3gのfunctions.php header.thtmlを修正。
 	  XHTMLモードチェックの追加やヘッダコードの追加を行いました。
 
-2008-10-19  dengenxp <dengenxp>
+2008-10-19  Yoshinori Tahara <dengen>
 
 	* calendarjpプラグイン: まれにcalendarプラグインからデータを正常に
 	  引き継げない場合があることなどに対応しました。
