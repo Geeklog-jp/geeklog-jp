@@ -50,13 +50,15 @@ CREATE TABLE {$_TABLES['menuitems']} (
   icon_url varchar(255) default NULL,
   tid varchar(20) NOT NULL default 'all',
   menuorder smallint(5) unsigned NOT NULL default '1',
+  pattern varchar(255) default NULL,
+  is_preg tinyint(1) NOT NULL default '0',
   owner_id mediumint(8) unsigned NOT NULL default '1',
   group_id mediumint(8) unsigned NOT NULL default '1',
   perm_owner tinyint(1) unsigned NOT NULL default '3',
   perm_group tinyint(1) unsigned NOT NULL default '2',
   perm_members tinyint(1) unsigned NOT NULL default '2',
   perm_anon tinyint(1) unsigned NOT NULL default '2',
-  PRIMARY KEY  (mid)
+  PRIMARY KEY (mid)
 ) TYPE=MyISAM
 ";
 ?>
