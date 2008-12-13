@@ -1,5 +1,11 @@
 $Id$
 
+2008-12-13  Yoshinori Tahara <dengen>
+
+	* custommenuプラグインをバージョン0.3.0に更新しました。
+	  URLの照合機能を追加しました。URLにマッチしたメニューアイコンの
+	  スタイルを変更することなどが可能になります。
+
 2008-12-10  Yoshinori Tahara <dengen>
 
 	* custommenuプラグインをバージョン0.2.3に更新しました。
