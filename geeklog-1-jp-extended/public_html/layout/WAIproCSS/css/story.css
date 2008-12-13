@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 記事スタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Original Coding by Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : 記事のスタイルです。
   適用先  : storytext.thtml, storybodytext.thtml
             featuredstorytext.thtml, featuredstorybodytext.thtml
@@ -18,8 +18,8 @@
 /* コンテナ */
 div#centerblocks div.storytext {
   margin: 0 0 2em 0;
-  padding: 0;
-  border-bottom: 1px solid #E7E7E7;
+  padding: 1em 0.5em 0 0.5em;
+  border-bottom: 1px solid #af9b83;
 }
 
 /* 記事タイトル */
@@ -27,23 +27,28 @@ div#centerblocks div.storytext h2 {
   float: left;
   margin: 0 0 1em 0;
   padding: 0;
-  font-size: 110%;
+  font-size: 1.125em;
   font-weight: bold;
 }
 
 /* アイコン(メールを送る・印刷用ページ・PDF) */
 div#centerblocks div.storytext ul.icon {
   list-style-type: none;
-  float: right;
   margin: 0;
   padding: 0;
-  text-align: right;
+  text-align: left;
 }
 
-div#centerblocks div.storytext ul.icon li{
+div#centerblocks div.storytext ul.icon li {
   display: inline;
-  margin: 0;
+  margin-right: 2em;
   padding: 0;
+}
+
+div#centerblocks div.storytext ul.icon li a:hover,
+div#centerblocks div.storytext ul.icon li a:focus,
+div#centerblocks div.storytext ul.icon li a:active {
+  background-color: transparent;
 }
 
 /* 記事の情報(投稿日・投稿者・表示数) */
@@ -84,13 +89,29 @@ div#centerblocks div.storytext div.story_introtext {
   padding: 0;
 }
 
+/* 続きを読む */
+div#centerblocks div.storytext p.more {
+  margin: 0 0 2em;
+}
+
 /* 話題画像 */
 div#centerblocks div.storytext div.story_introtext span.story_image {
   float: right;
-  width: 48px;
-  height: 48px;
+  width: 4.2em;
+  height: 4.2em;
   margin: 0;
   padding: 0;
+}
+
+div#centerblocks div.storytext div.story_introtext span.story_image a:hover,
+div#centerblocks div.storytext div.story_introtext span.story_image a:focus,
+div#centerblocks div.storytext div.story_introtext span.story_image a:active {
+  background-color: transparent;
+}
+
+div#centerblocks div.storytext div.story_introtext span.story_image img {
+  width: 4em;
+  height: 4em;
 }
 
 /* ナビゲーション */
@@ -104,7 +125,7 @@ div#centerblocks div.storytext ul.navi {
 
 div#centerblocks div.storytext ul.navi li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }
 
@@ -118,7 +139,7 @@ div#centerblocks div.storytext ul.feedback {
 
 div#centerblocks div.storytext ul.feedback li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }
 
@@ -131,8 +152,8 @@ div#centerblocks div.storytext ul.feedback li {
 /* コンテナ */
 div#centerblocks div.featuredstorytext {
   margin: 0 0 2em 0;
-  padding: 0;
-  border-bottom: 1px solid #E7E7E7;
+  padding: 1em 0.5em 0 0.5em;
+  border-bottom: 1px solid #af9b83;
 }
 
 /* 記事タイトル */
@@ -140,23 +161,33 @@ div#centerblocks div.featuredstorytext h2 {
   float: left;
   margin: 0 0 1em 0;
   padding: 0;
-  font-size: 110%;
+  font-size: 1.125em;
   font-weight: bold;
+}
+
+/* 続きを読む */
+div#centerblocks div.featuredstorytext p.more {
+  margin: 0 0 2em;
 }
 
 /* アイコン(メールを送る・印刷用ページ・PDF) */
 div#centerblocks div.featuredstorytext ul.icon {
   list-style-type: none;
-  float: right;
   margin: 0;
   padding: 0;
-  text-align: right;
+  text-align: left;
 }
 
 div#centerblocks div.featuredstorytext ul.icon li{
   display: inline;
-  margin: 0;
+  margin-right: 2em;
   padding: 0;
+}
+
+div#centerblocks div.featuredstorytext ul.icon li a:hover,
+div#centerblocks div.featuredstorytext ul.icon li a:focus,
+div#centerblocks div.featuredstorytext ul.icon li a:active {
+  background-color: transparent;
 }
 
 /* 記事の情報(投稿日・投稿者・表示数) */
@@ -200,10 +231,22 @@ div#centerblocks div.featuredstorytext div.story_introtext {
 /* 話題画像 */
 div#centerblocks div.featuredstorytext div.story_introtext span.story_image {
   float: right;
-  width: 48px;
-  height: 48px;
+  width: 4.2em;
+  height: 4.2em;
   margin: 0;
   padding: 0;
+}
+
+div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:hover,
+div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:focus,
+div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:active {
+  background-color: transparent;
+}
+
+
+div#centerblocks div.featuredstorytext div.story_introtext span.story_image img {
+  width: 4em;
+  height: 4em;
 }
 
 /* ナビゲーション */
@@ -217,7 +260,7 @@ div#centerblocks div.featuredstorytext ul.navi {
 
 div#centerblocks div.featuredstorytext ul.navi li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }
 
@@ -231,7 +274,7 @@ div#centerblocks div.featuredstorytext ul.feedback {
 
 div#centerblocks div.featuredstorytext ul.feedback li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }
 
@@ -244,7 +287,7 @@ div#centerblocks div.featuredstorytext ul.feedback li {
 /* コンテナ */
 div#centerblocks div.archivestorytext {
   margin: 0 0 2em 0;
-  padding: 0;
+  padding: 1em 0.5em 0 0.5em;
   border-bottom: 1px solid #E7E7E7;
 }
 

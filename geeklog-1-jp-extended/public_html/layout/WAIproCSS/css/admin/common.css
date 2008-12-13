@@ -45,14 +45,26 @@ div#admin-instructions img {
 }
 
 /* ナビゲーション */
-div#admin-instructions p#menu_fields:before {
+div#admin-instructions ul {
+  margin: 0;
+  padding: 0;
+}
+
+div#admin-instructions ul:before {
   content: "[";
 }
 
-div#admin-instructions p#menu_fields:after {
+div#admin-instructions ul:after {
   content: "]";
 }
 
+div#admin-instructions ul li {
+  display: inline;
+  margin: 0 2px;
+  padding: 0;
+}
+
+/* 説明 */
 div#admin-instructions p {
   margin: 0;
   padding: 0;

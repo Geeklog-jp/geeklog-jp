@@ -16,26 +16,24 @@
 --------------------------------------*/
 
 /* メニュー有効時 */
-li.adminoption {
-  list-style: none outside;
+p.adminoption {
   margin: 0;
   padding: 0;
 }
 
 /* メニュー有効時のメニューリンク */
-li.adminoption a,
-li.adminoption a:link,
-li.adminoption a:visited {
+p.adminoption a,
+p.adminoption a:link,
+p.adminoption a:visited {
 }
 
-li.adminoption a:hover,
-li.adminoption a:focus,
-li.adminoption a:active {
+p.adminoption a:hover,
+p.adminoption a:focus,
+p.adminoption a:active {
 }
 
 /* メニュー無効時 */
-li.adminoption_off {
-  list-style: none outside;
+p.adminoption_off {
   margin: 0;
   padding: 0;
 }
@@ -47,26 +45,24 @@ li.adminoption_off {
 --------------------------------------*/
 
 /* メニュー有効時 */
-li.topicoption {
-  list-style: none outside;
+p.topicoption {
   margin: 0;
   padding: 0;
 }
 
 /* メニュー有効時のメニューリンク */
-li.topicoption a,
-li.topicoption a:link,
-li.topicoption a:visited {
+p.topicoption a,
+p.topicoption a:link,
+p.topicoption a:visited {
 }
 
-li.topicoption a:hover,
-li.topicoption a:focus,
-li.topicoption a:active {
+p.topicoption a:hover,
+p.topicoption a:focus,
+p.topicoption a:active {
 }
 
 /* メニュー無効時 */
-li.topicoption_off {
-  list-style: none outside;
+p.topicoption_off {
   margin: 0;
   padding: 0;
 }
@@ -78,26 +74,24 @@ li.topicoption_off {
 --------------------------------------*/
 
 /* メニュー有効時 */
-li.useroption {
-  list-style: none outside;
+p.useroption {
   margin: 0;
   padding: 0;
 }
 
 /* メニュー有効時のメニューリンク */
-li.useroption a,
-li.useroption a:link,
-li.useroption a:visited {
+p.useroption a,
+p.useroption a:link,
+p.useroption a:visited {
 }
 
-li.useroption a:hover,
-li.useroption a:focus,
-li.useroption a:active {
+p.useroption a:hover,
+p.useroption a:focus,
+p.useroption a:active {
 }
 
 /* メニュー無効時 */
-li.useroption_off {
-  list-style: none outside;
+p.useroption_off {
   margin: 0;
   padding: 0;
 }
