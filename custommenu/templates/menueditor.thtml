@@ -91,6 +91,16 @@
             </tr>
 
             <tr>
+                <td class="alignright" style="vertical-align:top">{lang_pattern}:</td>
+                <td>
+                    <input type="text" name="pattern" value="{val_pattern}" size="48"{xhtml}>
+                    &nbsp;{lang_is_preg}:
+                    <input type="checkbox" name="is_preg" {val_is_preg}{xhtml}>
+                    <br{xhtml}><div class="pluginMediumText">{lang_pattern_info}</div>
+                </td>
+            </tr>
+
+            <tr>
                 <td colspan="2"><hr{xhtml}></td>
             </tr>
 
