@@ -192,6 +192,13 @@ function plugin_upgrade_custommenu()
         plugin_initconfig_custommenu();
     }
 
+    if (version_compare($pi_version, '0.3.0') < 0) {
+        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
+             . "ADD COLUMN pattern varchar(255) default NULL,"
+             . "ADD COLUMN is_preg tinyint(1) NOT NULL default '0'";
+        DB_query($sql);
+    }
+
     // Update the version numbers
     DB_query("UPDATE {$_TABLES['plugins']} "
            . "SET pi_version = '{$_CMED_CONF['version']}', pi_gl_version = '" . VERSION . "' "
@@ -443,6 +450,7 @@ if (!function_exists('CUSTOM_menuEntries')) {
     {
         global $_CONF, $_TABLES, $topic;
 
+        $thisUrl = COM_getCurrentURL();
         $lang = COM_getLanguageId();
         $myentries = array();
         if (!empty($_TABLES['menuitems'])) {
@@ -474,6 +482,9 @@ if (!function_exists('CUSTOM_menuEntries')) {
                 if ($access > 0) {
                     $url      = CMED_replaceUrl($A['url']);
                     $icon_url = CMED_replaceUrl($A['icon_url']);
+                    $pattern  = stripslashes($A['pattern']);
+                    $selected = '';
+                    
                     switch ($A['mode']) {
                         case "fixation":
                             $label = stripslashes($A['label']);
@@ -496,8 +507,19 @@ if (!function_exists('CUSTOM_menuEntries')) {
                             }
                             break;
                     }
+
+                    if (!empty($pattern)) {
+                        if ($A['is_preg'] == 0) {
+                            $selected = (strpos($thisUrl, $pattern) === false) ? '' : 'selected';
+                        } else {
+                            $selected = (preg_match($pattern, $thisUrl) == 0)  ? '' : 'selected';
+                        }
+                    }
                     
-                    $myentries[] = array('url' => $url, 'label' => $label, 'icon_url' => $icon_url);
+                    $myentries[] = array('url'      => $url,
+                                         'label'    => $label,
+                                         'icon_url' => $icon_url,
+                                         'selected' => $selected);
                 }
             }
         }

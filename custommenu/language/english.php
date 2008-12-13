@@ -126,6 +126,9 @@ $LANG_CMED_EDITOR = array(
     'validate_message_3'  => 'In the PHP Mode, you cannot omit input of the PHP Function Name.',
     'validate_message_4'  => 'You cannot omit input of the Menuitem ID.',
     'validate_message_5'  => 'There is already the same Menuitem ID.',
+    'pattern'             => 'URL matching character string',
+    'pattern_info'        => 'When the URL of a page displaying matched it with this character string, "selected" is added to the information of menuitem handed to Geeklog system.<br' . XHTML . '>It is enabled to reverse the style of the menuitem when I utilize this.',
+    'is_preg'             => 'Regular Expression',
 );
 
 // Let's define original titles for Variable Modes!
