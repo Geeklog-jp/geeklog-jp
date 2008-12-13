@@ -18,14 +18,14 @@ table.mycalTitle {
   margin: 0 auto;
   padding: 0;
   border-collapse: collapse;
-  background: #B0C4DE;
+  background-color: #B0C4DE;
 }
 
 table.mycalTitle tr td {
   margin: 0;
   padding: 0;
   border: 1px solid #B0C4DE;
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   font-size: 90%;
   font-weight: normal;
   text-align: center;
@@ -37,22 +37,22 @@ table.mycalTitle tr td.mycalTitle {
 
 /* 日付 */
 table.mycalTitle tr td.mycalDateField {
-  background: #FFFFFF;
+  background-color: #FFFFFF;
 }
 
 /* 日付(予定日) */
 table.mycalTitle tr td.mycalEventHighlight {
-  background: #8FBC8F;
+  background-color: #8FBC8F;
 }
 
 /* 日付(今日) */
 table.mycalTitle tr td.mycalTodayHighlight {
-  background: #EEDD82;
+  background-color: #EEDD82;
 }
 
 /* 日付(来月) */
 table.mycalTitle tr td.mycalNextMonth {
-  background: #DCDCDC;
+  background-color: #DCDCDC;
 }
 
 /*--------------------------------------
@@ -60,17 +60,17 @@ table.mycalTitle tr td.mycalNextMonth {
 --------------------------------------*/
 /* 日付(アクティブ) */
 table.mycalTitle tr td.mycalActiveHighlight {
-  background: #EDEDED;
+  background-color: #EDEDED;
 }
 
 /* 日付(今日&アクティブ) */
 table.mycalTitle tr td.mycalTodayActiveHighlight {
-  background: #EEDD82;
+  background-color: #EEDD82;
 }
 
 /* 日付(今日&予定日) */
 table.mycalTitle tr td.mycalTodayEventHighlight {
-  background: #EEDD82;
+  background-color: #EEDD82;
 }
 
 table.mycalTitle tr td a b {
@@ -85,7 +85,7 @@ table.mycalTitle tr td table {
 }
 
 table.mycalTitle tr td table tr td {
-  background: #CAD8EB;
+  background-color: #CAD8EB;
 }
 
 table.mycalTitle tr td table tr td.mycalTopTitle {
