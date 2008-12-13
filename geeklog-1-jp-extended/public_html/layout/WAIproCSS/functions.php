@@ -22,6 +22,8 @@ for ($i = 0; $i < $nrows; $i++) {
     }
 }
 
+$_CONF['left_blocks_in_footer'] = 1;
+
 $_BLOCK_TEMPLATE['_msg_block'] = 'blockheader-message.thtml,blockfooter-message.thtml';
 $_BLOCK_TEMPLATE['configmanager_block'] = 'blockheader-config.thtml,blockfooter-config.thtml';
 $_BLOCK_TEMPLATE['configmanager_subblock'] = 'blockheader-config.thtml,blockfooter-config.thtml';
@@ -36,20 +38,5 @@ if (isset($_USER['uid']) && $_USER['uid'] > 1) {
 } else {
     $_BLOCK_TEMPLATE['user_block'] = 'blockheader.thtml,blockfooter.thtml';
 }
-
-/********************* FORUM PLUGIN v2.7+ Setup for block layout to use ********************
-* Fourm Plugin for Geeklog v1.4.1 available at http://www.portalparts.com
-* Set the following for which Geeklog block columns you want to show along with the forum.
-* Options are: 'leftblocks', 'rightblocks', 'allblocks', 'noblocks'
-* For example, set to noblocks to not show any blocks (and have the forum span the entire page.)
-***************************************************************************************/
-$CONF_FORUM['showblocks'] = 'leftblocks';
-
-/********************* FORUM PLUGIN v2.7+  Setup for user menu style to use ****************
-* Show the usermenu as a block menu or as a top navbar
-* Note: Need to show leftblocks or rightblocks if usermenu option set to blockmenu
-* Options are 'blockmenu' or 'navbar' or 'none'
-***************************************************************************************/
-$CONF_FORUM['usermenu'] = 'navbar';
 
 ?>

@@ -173,6 +173,16 @@ div#comments ul.level-250 {
 
 /* 個別のコメント */
 div#comments div.block-comment-content {
+  /* Mac IE用 { */
+  overflow: auto;
+  width: 100%;
+  /* } Mac IE用 */
+
+  /* Mac IE以外用 { \*/
+  overflow: visible;
+  width: auto;
+  /* }Mac IE以外用 */
+
   margin: 0;
   padding: 0;
   text-align: left;
@@ -192,7 +202,7 @@ div#comments div.block-comment-content ul.status li.title {
   margin: 1em 0 0.5em 0;
   padding: 4px;
   border: 1px solid #E7E7E7;
-  background: #F7F7F7;
+  background-color: #F7F7F7;
 }
 
 /* コメントの投稿者 */

@@ -27,7 +27,7 @@ form#profile {
 form#profile fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #000000;
 }
 
 form#profile fieldset legend {
@@ -50,7 +50,7 @@ form#profile ul.checkboxes-list {
 form#profile ul.checkboxes-list li {
   display: inline;
   margin-right: 0.5em;
-}
+ } 
 
 /* 入力フィールド */
 form#displayprefs dl {
@@ -70,4 +70,4 @@ form#profile dl dd.userphoto-photo img {
 /* 初期値 */
 form#profile span.gldefault {
   font-weight: bold;
-}
+} 

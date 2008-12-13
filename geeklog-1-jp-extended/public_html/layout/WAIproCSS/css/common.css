@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 共通スタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Original Coding by Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : サイト全体を通して使用されるスタイルです。
             タイプセレクタを使って全てのプロパティの値を上書きしてしまうと、
             「HTML形式」で投稿された記事等のスタイルも変更されてしまうので注意してください。
@@ -24,17 +24,19 @@
 body {
   margin: 0;
   padding: 0;
+  background-color: #f1fcf4; 
+  color: #000000; 
   font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  font-size: 13px; 
   line-height: 1.25;
-  text-align: center;  /* Win IE 6用(マージンの自動調整が効かない) */
+  text-align: center;  /* Win IE 5.5以下用(マージンの自動調整が効かない) */
 }
 
 /* Win IE 7用 { */
-*:first-child+html body {
+*:first-child+html body { 
   font-size: small;
-}
-/* } Win IE 7用 */
+ }
+ /* } Win IE 7用 */ 
 
 /* Win IE 6用 { */
 * html body {
@@ -46,18 +48,24 @@ pre {
   overflow: auto;
 }
 
-/* Win IE 6用 { */
+/* IE 6以下用 { */
 * html pre {
-  width: 95%;  /* Win IE 6用(overflowプロパティにautoを指定すると幅が最大に広がる) */
-}
-/* } Win IE 6用 */
+  overflow: visible;  /* Mac IE用(overflowプロパティにvisible以外の値が指定されたdiv要素以外の要素が表示されない) */
 
-/* Win IE 6用(フォントサイズの指定が表要素に継承されない) { */
+  /* Mac IE以外用 { \*/
+  overflow: auto;
+  /* } Mac IE以外用 */
+
+  width: 95%;  /* Win IE 6以下用(overflowプロパティにautoを指定すると幅が最大に広がる) */
+}
+/* } IE 6以下用 */
+
+/* IE 5.5以下用(フォントサイズの指定が表要素に継承されない) { */
 table {
   border-spacing: 0;
   font-size: 100%;
 }
-/* } Win IE 6用 { */
+/* } IE 5.5以下用 { */
 
 ul,
 ol {
@@ -81,6 +89,10 @@ a img {
   border: none;
 }
 
+textarea {
+  width: 98% !important;
+}
+
 /* Mac用(入力ボックス内で2バイト文字が欧文フォントで表示される) { */
 input,
 select,
@@ -98,7 +110,7 @@ input.submit {
 }
 
 option {
-  padding-right: 4px;  /* For Firefox */
+  padding-right: 0.25em;  /* For Firefox */
 }
 
 iframe[width="100%"] {
@@ -121,6 +133,11 @@ hr.separator {
   left: -999px;
   width: 0;
   height: 0;
+}
+
+div#container div#footer p.validate,
+div#container div#footer ul li.execution_textandtime {
+  speak: none;
 }
 
 
@@ -146,6 +163,12 @@ div.pagenav {
   line-height: 1.5;
 }
 
+p.skip {
+  position: absolute;
+  left: -9999px;
+  margin: 0;
+/*  line-height: 0; */
+}
 
 
 /*--------------------------------------
@@ -217,12 +240,12 @@ form.compact dl:after {
   overflow: hidden;
 }
 
-/* Win IE 6用(浮動要素の調整) { \*/
+/* Win IE 6以下用(浮動要素の調整) { \*/
 * html form.compact dl {
   height: 1%;
   overflow: visible;
 }
-/* } Win IE 6用(浮動要素の調整) */
+/* } Win IE 6以下用(浮動要素の調整) */
 
 form.compact dl dt {
   float: left;
@@ -245,11 +268,11 @@ form.compact dl dd.description {
   padding: 0;
 }
 
-/* Win IE 6用(フロートの左右マージンが指定値より大きくなる) { \*/
+/* Win IE 6以下用(フロートの左右マージンが指定値より大きくなる) { \*/
 * html form.compact dl dd.description {
   margin-left: 12.5%;
 }
-/* } Win IE 6用 */
+/* } Win IE 6以下用 */
 
 form.compact p.description {
   margin: 0 0 1em 0;
@@ -340,14 +363,16 @@ form dl.notes {
   margin: 0 0 1em 0;
   padding: 8px;
   border: 1px solid #000000;
-  background: #FFFFE1;
+  background-color: #FFFFE1;
 }
 
 form dl.notes dt {
   margin: 0 0 0.5em 0;
   padding: 0 0 0 24px;
   border-bottom: 1px solid #000000;
-  background: url(../images/icon_info.png) no-repeat 0 0;
+  background-image: url(../images/icon_info.png);
+  background-repeat: no-repeat;
+  background-position: 0 0 ;
   font-weight: bold;
 }
 

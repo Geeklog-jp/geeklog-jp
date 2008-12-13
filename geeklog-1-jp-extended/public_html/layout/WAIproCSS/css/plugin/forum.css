@@ -1,24 +1,24 @@
 @charset "utf-8";
 
 /*==============================================================================
-  „Çø„Ç§„Éà„É´: Êé≤Á§∫Êùø„Çπ„Çø„Ç§„É´(„Éó„É©„Ç∞„Ç§„É≥)
-  ËëóËÄÖ    : Geeklog & Geeklog Japanese
-  Ë™¨Êòé    : Êé≤Á§∫Êùø„ÅÆ„Çπ„Çø„Ç§„É´„Åß„Åô„ÄÇ
-  ÈÅ©Áî®ÂÖà  : forum/
+  É^ÉCÉgÉã: åfé¶î¬ÉXÉ^ÉCÉã(ÉvÉâÉOÉCÉì)
+  íòé“    : Geeklog & Geeklog Japanese
+  ê‡ñæ    : åfé¶î¬ÇÃÉXÉ^ÉCÉãÇ≈Ç∑ÅB
+  ìKópêÊ  : forum/
 ==============================================================================*/
 
 
 
 .plugin {
   border: 1px solid #CCCCCC;
-  background: #EFEFEF;
+  background-color: #EFEFEF;
   color: #000000;
   font-weight: normal;
 }
 
 .plugin th {
   padding: 5px;
-  background: #B7C1DC;
+  background-color: #B7C1DC;
   color: #000000;
   text-align: left;
 }
@@ -32,12 +32,12 @@
 }
 
 .pluginBG {
-  background: #7398BA;
+  background-color: #7398BA;
   color: #FEFEFE;
 }
 
 .pluginAltBG {
-  background: #7398BA;
+  background-color: #7398BA;
 }
 
 .pluginAltBG td {
@@ -46,13 +46,13 @@
 
 .pluginCellTitle {
   padding: 5px;
-  background: #7398BA;
+  background-color: #7398BA;
   color: #FFFFFF;
   font-weight: bold;
 }
 
 .pluginCellFill {
-  background: #F8FAFD;
+  background-color: #F8FAFD;
 }
 
 .pluginCellText {
@@ -69,34 +69,34 @@
 
 .pluginFooter,
 .pluginFooter td {
-  background: #507AA1;
+  background-color: #507AA1;
   color: #FFFFFF;
 }
 
 .pluginAlert {
   padding: 5px 15px 5px 15px;
-  background: #FEF1B4;
+  background-color: #FEF1B4;
   color: #D8010E;
   font-weight: bold;
 }
 
 .pluginInfo {
   padding: 5px 15px 5px 15px;
-  background: #FEF1B4;
+  background-color: #FEF1B4;
   color: #707070;
   font-weight: normal;
 }
 
 .pluginSubTable {
   border: 1px solid #CCCCCC;
-  background: #CCCCCC;
+  background-color: #CCCCCC;
   color: #000000;
   font-weight: normal;
 }
 
 .pluginSubTable th {
   padding: 5px;
-  background: #C9D1E4;
+  background-color: #C9D1E4;
   color: #000000;
   text-align: left;
 }
@@ -106,7 +106,7 @@
 }
 
 .pluginSolidOutline {
-  background: #CCCCCC;
+  background-color: #CCCCCC;
   text-align: left;
 }
 
@@ -125,14 +125,14 @@
 }
 
 .pluginSolidFill {
-  background: #1A3955;
+  background-color: #1A3955;
 }
 
 .pluginTitle {
   padding: 4px;
   padding-left: 6px;
   padding-right: 6px;
-  background: #507AA1;
+  background-color: #507AA1;
   color: #F5F9FF;
 }
 
@@ -140,7 +140,7 @@
   padding: 4px;
   padding-left: 6px;
   padding-right: 6px;
-  background: #F7F7F7;
+  background-color: #F7F7F7;
   color: #000000;
 }
 
@@ -165,14 +165,14 @@
 }
 
 .pluginRow1, .pluginRow1 td {
-  background: #F7F7F7;
+  background-color: #F7F7F7;
   color: #000000;
   line-height: 120%;
 }
 
 .pluginRow2,
 .pluginRow2 td {
-  background: #E7E7E7;
+  background-color: #E7E7E7;
   color: #000000;
   line-height: 120%;
 }
@@ -180,7 +180,7 @@
 .pluginRow1 .pluginRollOver,
 .pluginRow2 .pluginRollOver,
 .pluginRollOver {
-  background: #FFFFFF;
+  background-color: #FFFFFF;
   color: #000000;
   line-height: 120%;
 }
@@ -188,7 +188,7 @@
 .pluginRow1 .pluginRollOut,
 .pluginRow2 .pluginRollOut,
 .pluginRollOut {
-  background: #F7F7F7;
+  background-color: #F7F7F7;
   color: #000000;
   line-height: 120%;
 }
@@ -230,7 +230,7 @@
 }
 
 .pluginBreadCrumbs a:hover {
-  color: #FFFFFF;
+  color: #000000;
   font-style: normal;
   font-weight: normal;
   text-decoration: none;
@@ -244,17 +244,19 @@ a.pluginButton:visited {
   display: block;
   height: 19px;
   text-decoration: none;
-  background: transparent;
+  background-color: transparent;
 }
 
 a.pluginButton:hover {
   color: blue;
   text-align: center;
   padding-top: 2px;
-  background: url(navbar/images/button_over.gif) repeat-x 50% 50%;
+  background: center url(navbar/images/button_over.gif);
+  background-repeat: repeat-x;
   display: block;
   height: 19px;
   text-decoration: none;
+  background-color: transparent;
 }
 
 /* Forum Plugin specific CSS */
@@ -267,7 +269,7 @@ a.pluginButton:hover {
   margin: 5px 0px 5px 5px;
   padding:5px;
   border: 1px dashed black;
-  background: #ECE9D8; 
+  background-color: #ECE9D8; 
   color:#000;
 }
 
@@ -276,7 +278,7 @@ a.pluginButton:hover {
   padding: 4px;
   border: 1px dotted #000;
   border-left: 4px solid #8394B2;
-  background: #FAFCFE url('../../forum/image_set/img_quote.gif') no-repeat 100% 0;
+  background: #FAFCFE url('../../forum/image_set/img_quote.gif') no-repeat top right;
   color:#465584;
 }
 
