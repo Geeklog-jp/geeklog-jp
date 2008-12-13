@@ -126,6 +126,10 @@ $LANG_CMED_EDITOR = array(
     'validate_message_3'  => 'PHPモードで、PHP関数名は省略できません。',
     'validate_message_4'  => 'メニューアイテムIDは省略できません。',
     'validate_message_5'  => 'すでに同じメニューアイテムIDが存在します。',
+    'validate_message_6'  => 'URL照合文字列が正しくありません。',
+    'pattern'             => 'URL照合文字列',
+    'pattern_info'        => '表示中のページのURLがこの文字列とマッチした場合は、システムに渡されるメニューアイテムの情報に"selected"が付加されます。<br' . XHTML . '>これを活用するとメニューアイテムのスタイルを反転させることなどが可能になります。',
+    'is_preg'             => '正規表現',
 );
 
 // 可変モード用のオリジナルタイトルを定義しましょう！

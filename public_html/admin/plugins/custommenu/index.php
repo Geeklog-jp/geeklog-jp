@@ -134,6 +134,10 @@ function CMED_setMI()
         'icon_url'     => isset ($icon_url) ? strip_tags($icon_url) : '',
         'tid'          => COM_applyFilter ($_POST['tid']),
         'menuorder'    => $_POST['menuorder'],
+
+        'pattern'      => $_POST['pattern'],
+        'is_preg'      => ($_POST['is_preg'] == 'on') ? 1 : 0,
+
         'owner_id'     => COM_applyFilter($_POST['owner_id'], true),
         'group_id'     => COM_applyFilter($_POST['group_id'], true),
         'perm_owner'   => $_POST['perm_owner'],
@@ -175,6 +179,12 @@ function CMED_validateMI($mode)
         $n = DB_count($_TABLES['menuitems'], "mid", $MI['mid']);
         if (($n > 0) && ($mode != 'update')) {
             $retval .= $LANG_CMED_EDITOR['validate_message_5'] . '<br' . XHTML . '>';
+        }
+    }
+
+    if (!empty($MI['pattern']) && ($MI['is_preg'] != 0)) {
+        if (@preg_match($MI['pattern'], 'test') === false) {
+            $retval .= $LANG_CMED_EDITOR['validate_message_6'] . '<br' . XHTML . '>';
         }
     }
 
@@ -241,6 +251,8 @@ function CMED_createMenuitemID($str = 'menuitem_')
   icon_url     varchar(255)                   default NULL,
   tid          varchar(20)           NOT NULL default 'all',
   menuorder    smallint(5)  unsigned NOT NULL default '1',
+  pattern      varchar(255)                   default NULL,
+  is_preg      tinyint(1)            NOT NULL default '0',
   owner_id     mediumint(8) unsigned NOT NULL default '1',
   group_id     mediumint(8) unsigned NOT NULL default '1',
   perm_owner   tinyint(1)   unsigned NOT NULL default '3',
@@ -297,6 +309,8 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
         $A['url']          = '';
         $A['icon_url']     = '';
         $A['menuorder']    = 0;
+        $A['pattern']      = '';
+        $A['is_preg']      = 0;
         $A['owner_id']     = $_USER['uid'];
         if (isset($_GROUPS['CustomMenu Admin'])) {
             $A['group_id'] = $_GROUPS['CustomMenu Admin'];
@@ -345,6 +359,9 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
     $T->set_var('val_old_mid',     $A['mid']);
     $T->set_var('val_menuorder',   $A['menuorder']);
     $T->set_var('val_type',        $A['type']);
+
+    $T->set_var('val_pattern',     stripslashes($A['pattern']));
+    $T->set_var('val_is_preg',    ($A['is_preg'] == 1) ? UC_CHECKED : '');
 
     $v = (($A['type'] == 'gldefault') || ($A['type'] == 'plugin')) ? UC_READONLY : '';
     $T->set_var('mid_readonly', $v);
@@ -512,6 +529,7 @@ function CMED_saveMenuitems($mode)
         $MI['php_function'] = addslashes(COM_stripslashes(strip_tags($MI['php_function'])));
         $MI['url']          = addslashes($MI['url']);
         $MI['icon_url']     = addslashes($MI['icon_url']);
+        $MI['pattern']      = addslashes($MI['pattern']);
 
         if ($mode == 'update') {
             if ($MI['old_mid'] != $MI['mid']) {
@@ -519,39 +537,45 @@ function CMED_saveMenuitems($mode)
                 $sql = "INSERT INTO {$_TABLES['menuitems']} "
                  .  '(mid, is_enabled, type, mode, label, label_var, php_function, url, '
                  .  'icon_url, tid, menuorder, '
-                 .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon) '
+                 .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
+                 .  'pattern, is_preg) '
                  .  "VALUES ('" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                                 . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                                 . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                                 . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                                 . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                                . $MI['perm_members'] . ","   . $MI['perm_anon']  . ")";
+                                . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "',"
+                                . $MI['is_preg']      . ")";
                 DB_query($sql);
 
             } else {
                 DB_save($_TABLES['menuitems'],
                     'mid, is_enabled, type, mode, label, label_var, php_function, url, '
                   . 'icon_url, tid, menuorder, '
-                  . 'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon',
+                  . 'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
+                  . 'pattern, is_preg',
                     "'" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                         . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                         . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                         . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                         . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                        . $MI['perm_members'] . ","   . $MI['perm_anon'] );
+                        . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "'," 
+                        . $MI['is_preg']      );
             }
 
         } else {
             $sql = "INSERT INTO {$_TABLES['menuitems']} "
              .  '(mid, is_enabled, type, mode, label, label_var, php_function, url, '
              .  'icon_url, tid, menuorder, '
-             .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon) '
+             .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
+             .  'pattern, is_preg) '
              .  "VALUES ('" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                             . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                             . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                             . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                             . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                            . $MI['perm_members'] . ","   . $MI['perm_anon']  . ")";
+                            . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "',"
+                            . $MI['is_preg']      . ")";
             DB_query($sql);
         }
     }
