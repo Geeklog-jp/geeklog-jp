@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: ナビゲーションスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : ナビゲーションのスタイルです。
   適用先  : navbar/breadcrumbs.thtml, navbar/breadcrumb_link.thtml,
             navbar/menuitem.thtml, navbar/navbar.thtml
@@ -40,7 +40,7 @@ ul.navbar-breadcrumbs li a {
   margin-bottom: 1em;
   padding-top: 16px;
   padding-left: 8px;
-  background: #F4F4F4;
+  background-color: #F4F4F4;
   border-top: 1px solid #CCCCCC;
   border-bottom: 1px solid #24618E;
 }
@@ -65,7 +65,7 @@ ul.navbar-breadcrumbs li a {
   list-style: none;
   margin: 0;
   padding: 0;
-  background: transparent !important;
+  background-color: transparent !important;
 }
 
 #navcontainer li {
@@ -78,20 +78,32 @@ ul.navbar-breadcrumbs li a {
   display: block;
   margin: 0;
   padding: 0 0 0 5px;
-  background: url(../../navbar/images/tableftJ.gif) no-repeat 0 0;
+  background-image: url(../../navbar/images/tableftJ.gif);
+  background-repeat: no-repeat;
+  background-position: left top;
   text-decoration: none;
+}
+
+#navcontainer a:hover,
+#navcontainer a:focus,
+#navcontainer a:active {
+  background-color: transparent;
 }
 
 #navcontainer a span {
   display: block;
   padding: 4px 8px 4px 3px;
   color: #24618E;
-  background: url(../../navbar/images/tabrightJ.gif) no-repeat 100% 0;
+  background-image: url(../../navbar/images/tabrightJ.gif);
+  background-repeat: no-repeat;
+  background-position: right top;
 }
 
+/* Mac IE以外用 { \*/
 #navcontainer a span {
   float: none;
 }
+/* } Mac IE以外用 */
 
 #navcontainer a:hover span {
   color: #FFFFFF;
@@ -107,13 +119,17 @@ ul.navbar-breadcrumbs li a {
 
 #navcontainer a#current span {
   color: #FFFFFF;
-  background: url(../../navbar/images/tabrightI.gif) no-repeat 100% -42px;
+  background-image: url(../../navbar/images/tabrightI.gif);
+  background-repeat: no-repeat;
+  background-position: 100% -42px;
 }
 
 #navcontainer a:link#current,
 #navcontainer a:visited#current,
 #navcontainer a:hover#current {
-  background: url(../../navbar/images/tableftI.gif) no-repeat 0% -42px;
+  background-image: url(../../navbar/images/tableftI.gif);
+  background-repeat: no-repeat;
+  background-position: 0% -42px;
 }
 
 /* Common CSS for on-hover tooltip feature */
@@ -143,7 +159,7 @@ a.tooltip:hover span {
   display: block;
   position: absolute;
   border: 1px solid #C8DAF7;
-  background: #E5EFFF;
+  background-color: #E5EFFF;
   padding: 4px;
   text-align: left;
   text-decoration: none;

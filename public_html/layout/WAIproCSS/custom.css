@@ -8,3 +8,7 @@
 
 
 
+/* カスタムメニューエディタプラグインのURL照合機能に対応したサンプルスタイル */
+div#container div#navigation ul li.selected {
+  background : #CCCCFF;
+} 
