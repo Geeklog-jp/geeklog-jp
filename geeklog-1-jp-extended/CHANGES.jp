@@ -1,5 +1,9 @@
 $Id$
 
+2008-12-14  Tetsuko Komma  <ivysoho>
+
+	* テーマWAIproCSS（アクセシビリティ対応テーマ）を追加しました。
+
 2008-12-13  Yoshinori Tahara <dengen>
 
 	* custommenuプラグインをバージョン0.3.0に更新しました。
