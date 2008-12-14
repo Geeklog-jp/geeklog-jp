@@ -64,3 +64,18 @@ form#admin-batchdelete ul.submit {
 form#admin-batchdelete dl dt input.radio {
   margin: 0 4px 0 0;
 }
+
+/*--------------------------------------
+  リマンダー
+--------------------------------------*/
+
+ul#reminder-submit {   
+list-style: none outside;
+}
+
+ul#reminder-submit,
+ul#reminder-submit li {   
+margin-left: 0;
+margin-right: 0;
+padding: 0;
+} 
