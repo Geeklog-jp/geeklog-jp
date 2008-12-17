@@ -74,22 +74,22 @@ table.admin-list {
 table.admin-list tr {
   margin: 0;
   padding: 0;
-  background-color: #DAE0ED;
+  background: #DAE0ED;
 }
 
 /* 偶数行 */
 table.admin-list tr.admin-listitem1 {
-  background-color: #EFEFEF;
+  background: #EFEFEF;
 }
 
 /* 奇数行 */
 table.admin-list tr.admin-listitem2 {
-  background-color: #D9D9D9;
+  background: #D9D9D9;
 }
 
 /* ロールオーバー */
 table.admin-list tr.admin-listitem_rollover {
-  background-color: #FFFF8F;
+  background: #FFFF8F;
 }
 
 table.admin-list tr th {
@@ -105,12 +105,6 @@ table.admin-list tr td {
 
 table.admin-list tr td img {
   border: none;
-}
-
-td.admin-list-field a:hover,
-td.admin-list-field a:focus,
-td.admin-list-field a:active {
-  background-color: transparent;
 }
 
 /* ナビゲーション */
@@ -130,13 +124,4 @@ p.admin-list-message {
   margin: 1em 0 0 0;
   padding: 0;
   text-align: center;
-}
-
-/* コンフィギレーション　中央ブロック */
-div#config_main {
-  padding-left: 1em;
-}
-
-ul.submit {
-  list-style: none;
 }

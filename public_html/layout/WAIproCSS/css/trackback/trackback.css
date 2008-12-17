@@ -78,7 +78,7 @@ div.formattedcomment ul.status li.title {
   margin: 0 0 0.5em 0;
   padding: 4px;
   border: 1px solid #E7E7E7;
-  background-color: #F7F7F7;
+  background: #F7F7F7;
 }
 
 /* 受信トラックバックの受信日 */
