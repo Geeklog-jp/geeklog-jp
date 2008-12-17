@@ -175,21 +175,21 @@ a:focus  {
 a:hover,
 a:focus,
 a:active {
-  background-color: #ffff40;
+  background: #ffff40;
 }
 
 img a:hover,
 img a:focus,
 img a:active {
-  background-color: transparent;
+  background: transparent;
 }
 
 input.text:focus {
-  background-color: #ffffa0;
+  background: #ffffa0;
 }
 
 textarea:focus {
-  background-color: #ffffa0;
+  background: #ffffa0;
 }
 
 
@@ -366,16 +366,22 @@ table>tr {
   vertical-align: middle;
 }
 
+th,
+td {
+  vertical-align: top;
+/* IE用(セルの幅に合わせて内容を折り返す) { */
+  word-break: break-all;
+/* } IE用 */
+}
+
 th {
   display: table-cell;
-  vertical-align: inherit;
   font-weight: bolder;
   text-align: center;
 }
 
 td { 
   display: table-cell;
-  vertical-align: inherit;
   text-align: inherit; 
 }
 

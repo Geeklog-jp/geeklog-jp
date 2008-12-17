@@ -13,19 +13,6 @@
   個別記事ページ
 --------------------------------------*/
 
-/* トラックバック・ピングを送るリンク */
-ul#send_trackback_link {
-  list-style-position: outside;
-  list-style-type: none;
-  margin: 0 0 2em 0;
-  padding: 0; 
-}
-
-ul#send_trackback_link li {
-  margin: 0;
-  padding: 0;
-}
-
 /* 関連情報 */
 ul.list-whats-related {
   list-style-type: disc;

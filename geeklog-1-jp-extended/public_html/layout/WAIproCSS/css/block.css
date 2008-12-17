@@ -65,8 +65,7 @@ div#centerblocks div#block-message dl {
 div#centerblocks div#block-message dl dt {
   margin: 0;
   padding: 8px;
-  background-color: #6a8a53;
-  background-image: none;
+  background: #6a8a53;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -75,7 +74,7 @@ div#centerblocks div#block-message dl dt {
 div#centerblocks div#block-message dl dd {
   margin: 0;
   padding: 8px;
-  background-color: #e0ffff;
+  background: #e0ffff;
   font-weight: bold;
 }
 
@@ -217,14 +216,8 @@ div#rightblocks div.block-right div.block-right-content {
   padding: 0;
 }
 
-div#rightblocks div.block-right div.block-right-content span.floatright a:hover,
-div#rightblocks div.block-right div.block-right-content span.floatright a:focus,
-div#rightblocks div.block-right div.block-right-content span.floatright a:active {
-  background-color: transparent;
-}
-
 /* アンケート内 */
 div.poll-questions {
-  background-color: #bed8e8;
+  background: #bed8e8;
 }
 

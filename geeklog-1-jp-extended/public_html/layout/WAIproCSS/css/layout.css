@@ -40,7 +40,7 @@ div#container {
   min-width: 37.5em; 
   margin: 20px auto;
   padding: 0;
-  background-color: #af9b83;
+  background: #af9b83;
   font-size: 1em; 
   text-align: left;
 }
@@ -57,7 +57,7 @@ div#container div#header {
   height: 7.5em;
   margin: 0 0.5em 0.5em;
   padding: 0;
-  background-color: #bff691;
+  background: #bff691;
   border-top: 0.5em solid #af9b83;
 }
 
@@ -135,7 +135,7 @@ div#container div#navigation {
   height: 1.5em;
   margin: 0 0.5em;
   padding: 0.5em 0.5em;
-  background-color:#f8efcf;
+  background:#f8efcf;
   border-top: 1px solid #a9a9a9;
   border-bottom: 1px solid #a9a9a9;
   text-align: left;
@@ -292,21 +292,21 @@ body.js_off div#container div#wrapper div#carrier {
 div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;  /* 左ブロックの幅[L] */
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 /*-- JavaScript有効・2カラム(左ブロック・中央ブロック)時の左ブロックコンテナ --*/
 body.left-center div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 /*-- JavaScript無効時の左ブロックコンテナ --*/
 body.js_off div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 
@@ -318,7 +318,7 @@ body.js_off div#container div#wrapper div#carrier div#leftblocks {
 
 div#container div#wrapper div#carrier div#centerblocks {
   width: 57.3em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /*IE6用ハック*/
@@ -330,34 +330,34 @@ div#container div#wrapper div#carrier div#centerblocks {
 body.left-center-right div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 44.5em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /* JavaScript有効・2カラム(左ブロック・中央ブロック)時の中央ブロックコンテナ */
 body.left-center div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 57em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の中央ブロックコンテナ */
 body.center-right div#container div#wrapper div#carrier div#centerblocks {
   float: left;
   width: 57em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /* JavaScript有効・1カラム(中央ブロック)時の中央ブロックコンテナ */
 body.center div#container div#wrapper div#carrier div#centerblocks {
   width: 69.8em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /* JavaScript無効時の中央ブロックコンテナ */
 body.js_off div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 44.5em;
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 
@@ -370,21 +370,21 @@ body.js_off div#container div#wrapper div#carrier div#centerblocks {
 div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.4em;  /* 右ブロックの幅[R] */
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の右ブロックコンテナ */
 body.center-right div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.5em;  /* 右ブロックの幅[R] */
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 /* JavaScript無効時の右ブロックコンテナ */
 body.js_off div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.5em;
-  background-color: #ceedfc;
+  background: #ceedfc;
 }
 
 
@@ -401,7 +401,7 @@ div#container div#footer {
   padding-top: 1em;
   padding-bottom: 2em;
   border-bottom: 0.5em solid #af9b83;
-  background-color: #a0cf7b;
+  background: #a0cf7b;
   color: #000000;
   text-align: center;
 }
@@ -449,7 +449,7 @@ div#container div#footer p.validate {
 div#container div#footer p.validate a:hover,
 div#container div#footer p.validate a:focus,
 div#container div#footer p.validate a:active {
-  background-color: transparent;
+  background: transparent;
 }
 
 /* IE6以下用 validate表示 */
@@ -480,8 +480,7 @@ div#container div#footer p.back a {
 div#container div#footer p.back a:hover,
 div#container div#footer p.back a:focus,
 div#container div#footer p.back a:active {
-  background-color: #ffff40;
-  background-position: 0 -47px;
+  background: #ffff40 url(../images/css/icon_pagetop.gif) no-repeat 0 -47px;
 }
 
 /* コピーライト表示 */
