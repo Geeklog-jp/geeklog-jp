@@ -24,19 +24,19 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #f1fcf4; 
+  background: #f1fcf4; 
   color: #000000; 
   font-family: Verdana, Arial, Helvetica, sans-serif;
   font-size: 13px; 
   line-height: 1.25;
-  text-align: center;  /* Win IE 5.5以下用(マージンの自動調整が効かない) */
+  text-align: center;  /* Win IE 6用(マージンの自動調整が効かない) */
 }
 
 /* Win IE 7用 { */
 *:first-child+html body { 
   font-size: small;
- }
- /* } Win IE 7用 */ 
+}
+/* } Win IE 7用 */
 
 /* Win IE 6用 { */
 * html body {
@@ -363,16 +363,14 @@ form dl.notes {
   margin: 0 0 1em 0;
   padding: 8px;
   border: 1px solid #000000;
-  background-color: #FFFFE1;
+  background: #FFFFE1;
 }
 
 form dl.notes dt {
   margin: 0 0 0.5em 0;
   padding: 0 0 0 24px;
   border-bottom: 1px solid #000000;
-  background-image: url(../images/icon_info.png);
-  background-repeat: no-repeat;
-  background-position: 0 0 ;
+  background: url(../images/icon_info.png) no-repeat 0 0;
   font-weight: bold;
 }
 

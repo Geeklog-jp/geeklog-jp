@@ -45,12 +45,6 @@ div#centerblocks div.storytext ul.icon li {
   padding: 0;
 }
 
-div#centerblocks div.storytext ul.icon li a:hover,
-div#centerblocks div.storytext ul.icon li a:focus,
-div#centerblocks div.storytext ul.icon li a:active {
-  background-color: transparent;
-}
-
 /* 記事の情報(投稿日・投稿者・表示数) */
 div#centerblocks div.storytext ul.status {
   list-style-position: outside;
@@ -89,7 +83,7 @@ div#centerblocks div.storytext div.story_introtext {
   padding: 0;
 }
 
-/* 続きを読む */
+/* 全文表示 */
 div#centerblocks div.storytext p.more {
   margin: 0 0 2em;
 }
@@ -101,12 +95,6 @@ div#centerblocks div.storytext div.story_introtext span.story_image {
   height: 4.2em;
   margin: 0;
   padding: 0;
-}
-
-div#centerblocks div.storytext div.story_introtext span.story_image a:hover,
-div#centerblocks div.storytext div.story_introtext span.story_image a:focus,
-div#centerblocks div.storytext div.story_introtext span.story_image a:active {
-  background-color: transparent;
 }
 
 div#centerblocks div.storytext div.story_introtext span.story_image img {
@@ -165,7 +153,7 @@ div#centerblocks div.featuredstorytext h2 {
   font-weight: bold;
 }
 
-/* 続きを読む */
+/* 全文表示 */
 div#centerblocks div.featuredstorytext p.more {
   margin: 0 0 2em;
 }
@@ -182,12 +170,6 @@ div#centerblocks div.featuredstorytext ul.icon li{
   display: inline;
   margin-right: 2em;
   padding: 0;
-}
-
-div#centerblocks div.featuredstorytext ul.icon li a:hover,
-div#centerblocks div.featuredstorytext ul.icon li a:focus,
-div#centerblocks div.featuredstorytext ul.icon li a:active {
-  background-color: transparent;
 }
 
 /* 記事の情報(投稿日・投稿者・表示数) */
@@ -236,13 +218,6 @@ div#centerblocks div.featuredstorytext div.story_introtext span.story_image {
   margin: 0;
   padding: 0;
 }
-
-div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:hover,
-div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:focus,
-div#centerblocks div.featuredstorytext div.story_introtext span.story_image a:active {
-  background-color: transparent;
-}
-
 
 div#centerblocks div.featuredstorytext div.story_introtext span.story_image img {
   width: 4em;
