@@ -1,5 +1,10 @@
 $Id$
 
+2008-12-21  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイルjapanese_utf-8.phpの「アカウント情報表示」「記事を送る」
+	  のメール関連の表記を修正しました。
+
 2008-12-06  Tetsuko Komma  <ivysoho>
 
 	* テーマProfessionalCSSの３つの記事表示テンプレートファイルに対して
