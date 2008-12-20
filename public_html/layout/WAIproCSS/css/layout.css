@@ -72,33 +72,10 @@ div#container div#header {
 
 /* サイト名 */
 div#container div#header h1.site_name {
-  position: absolute;
-  width: 134px;
-  height: 49px;
-  margin: 0.5em 0 0 1em;
+  display: inline;  /* Win IE 6用(フロートの左右マージンが指定値より大きくなる) */
+  margin: 0 0 0 10px;
   padding: 0;
-  background: url(../images/css/bg_logo.gif) no-repeat 0 0;
-}
-
-div#container div#header h1.site_name a,
-div#container div#header h1.site_name a:link,
-div#container div#header h1.site_name a:visited,
-div#container div#header h1.site_name a:hover,
-div#container div#header h1.site_name a:focus,
-div#container div#header h1.site_name a:active {
-  display: block;
-  overflow: hidden;
-  width: 157px;  /* Win IE 5.5以下用(ボックスの幅や高さにパディングやボーダーのサイズを含めてしまう) */
-  height: 49px;
-  margin: 0;
-  padding: 0 0 0 150px;
-  background: url(../images/css/bg_logo.gif) no-repeat 0 0;
-
-  /* モダンブラウザ用(ここから下はWin IE 5.5以下では無視されます) { */
-    voice-family: "\"}\"";
-    voice-family: inherit;
-	width: 0;
-  /* } モダンブラウザ用 */
+  float: left;
 }
 
 /* スローガン */
@@ -466,21 +443,9 @@ div#container div#footer p.validate img {
 div#container div#footer p.back {
   float: right;
   margin-right: 2em;
-  padding-left: 13px;
+  padding-left: 20px;
+  background: url(../images/css/icon_pagetop.png) no-repeat 0 0;
   text-align: right;
-}
-
-div#container div#footer p.back a {
-  display: block;
-  overflow: hidden;
-  width: 9.6em;
-  background: url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
-}
-
-div#container div#footer p.back a:hover,
-div#container div#footer p.back a:focus,
-div#container div#footer p.back a:active {
-  background: #ffff40 url(../images/css/icon_pagetop.gif) no-repeat 0 -47px;
 }
 
 /* コピーライト表示 */
