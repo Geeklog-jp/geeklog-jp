@@ -9,78 +9,15 @@
 
 
 /*==============================================================================
-  [INFO] カスタムテーマスタイルシート(雛型)
-         WAIproCSSver.2.3テーマをベースとしたカスタムテーマの作成を補助するCSSファイル(雛型)です。
-         [BASE]部分で、WAIproCSSver.2.3テーマのサイトロゴ等のスタイルを初期化しています。
-         背景色を変更される時は、出来る限りコントラストに配慮した配色をお願いします。         
-==============================================================================*/
-
-/*==============================================================================
-  [BASE] WAIproCSSver.2.3テーマのサイトロゴ等のスタイルを初期化します。
-==============================================================================*/
-
-/*--------------------------------------
-  [BASE] layout.css
----------------------------------------*/
-
-/*----- ヘッダ -----*/
-div#container div#header h1.site_name {
-  width: auto;
-  height: auto;
-  background-image: none;
-}
-
-div#container div#header h1.site_name a,
-div#container div#header h1.site_name a:link,
-div#container div#header h1.site_name a:visited,
-div#container div#header h1.site_name a:hover,
-div#container div#header h1.site_name a:focus,
-div#container div#header h1.site_name a:active {
-  width: auto;
-  height: auto;
-  padding: 0;
-  background-image: none;
-}
-
-
-/*----- フッタ -----*/
-div#container div#footer {
-  background-color: transparent;
-  color: #000000;
-}
-
-div#container div#footer a,
-div#container div#footer a:link,
-div#container div#footer a:visited,
-div#container div#footer a:hover {
-  color: #0000ff;
-}
-
-div#container div#footer a:focus,
-div#container div#footer a:active {
-  color: #ff0000;
-}
-
-
-/*--------------------------------------
-  [BASE] block.css
----------------------------------------*/
-
-div#centerblocks p.welcome_msg,
-div#leftblocks div.block-left,
-div#rightblocks div.block-right {
-  border: none;
-}
-
-
-/*==============================================================================
-  WAIproCSSver.2.3テーマの背景を指定します。
-  以下では、サンプルに例としてすべて背景色を白で設定しておりますが、
-　変更される時は、出来る限りコントラストに配慮した配色及び
-　レイアウトが判りやすい配色をお願いします。
-　画像を使用される場合は、
-　例) background: #ffffff url(images/custom/bg_body.png) repeat-x 0 0;
-　のように記述してください。
+ [INFO] カスタムテーマスタイルシート(雛型)
+         WAIproCSSver.2.3テーマをベースとしたカスタムテーマの作成を補助するCSSファイル(雛型)です。  
+         WAIproCSSver.2.3テーマの背景を指定します。
+        以下では、サンプルに例としてすべて背景色を白で設定しておりますが、
+　      変更される時は、出来る限りコントラストに配慮した配色及び
+　      レイアウトが判りやすい配色をお願いします。
+      　画像を使用される場合は、
+      　例) background: #ffffff url(images/custom/bg_body.png) repeat-x 0 0;
+      　のように記述してください。
 ==============================================================================*/
 
 /*--- ページ全体の背景色を指定 ---*/

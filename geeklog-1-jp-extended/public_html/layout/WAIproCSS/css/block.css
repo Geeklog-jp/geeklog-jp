@@ -65,7 +65,7 @@ div#centerblocks div#block-message dl {
 div#centerblocks div#block-message dl dt {
   margin: 0;
   padding: 8px;
-  background: #6a8a53;
+  background: #3c4e2e;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -161,7 +161,7 @@ div#centerblocks div.block-center div.block-center-content {
 div#leftblocks div.block-left,
 div#leftblocks div.block-center {
   margin: 0 0.5em 0.5em;
-  padding: 0.5em 0;
+  padding: 0.5em;
   border-bottom: 1px solid #af9b83;
 }
 
@@ -193,7 +193,7 @@ div#leftblocks div.block-left div.block-left-content {
 /* ブロック */
 div#rightblocks div.block-right {
   margin: 0 0.5em 0.5em;
-  padding: 0.5em 0;
+  padding: 0.5em;
   border-bottom: 1px solid #af9b83;
 }
 
