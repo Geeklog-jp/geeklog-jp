@@ -1,5 +1,10 @@
 $Id$
 
+2008-12-21  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイルjapanese_utf-8.phpの「アカウント情報表示」「記事を送る」
+	  のメール関連の表記を修正しました。
+
 2008-12-14  Tetsuko Komma  <ivysoho>
 
 	* テーマWAIproCSS（アクセシビリティ対応テーマ）を追加しました。
