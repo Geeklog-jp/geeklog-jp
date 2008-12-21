@@ -392,7 +392,12 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 
 
 ■Ver.2.3(2008-12-13)
-　・preとblockquote要素のスタイルを変更しまた。(*default.css)
+　・システムメッセージタイトル部分の背景色をコントラストを十分に保てる色に変更しました。(*block.css)
+　・functions.phpに掲示板プラグイン対応させました。(*functions.php)
+　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo_black.png)
+　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/css/icon_pagetop.png)
+　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
+　・preとblockquote要素のスタイルを設定しました。(*default.css)
   ・READMEにライセンスについて記載しました。(このファイル)
 　・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しない修正方法をProfessionalCSSと同じようにしました。(*layout.css,common.css)
 　・中央ブロックの右に余白を追加しました。(*block.css)
