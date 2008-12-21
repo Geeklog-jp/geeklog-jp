@@ -22,52 +22,65 @@
 
 /*--- ページ全体の背景色を指定 ---*/
 body {
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /*--- 全体のカラムを囲っている背景色を指定 ---*/
 div#container {
-  background-color: #ffffff;
+  background: #ffffff;
 }
 
 /*--- ヘッダの背景色及びヘッダの上部の色(全体のカラムを囲っている背景色と同色)を指定 ---*/
 div#container div#header {
-  background-color: #ffffff;
+  background: #ffffff;
   border-top: 0.5em solid #ffffff;
 }
 
 /*--- ナビゲーションの背景色及び上下の線の色を指定 ---*/
 div#container div#navigation {
-  background-color: #ffffff;
+  background: #ffffff;
   border-bottom: #ffffff;
   border-top: #ffffff;
 }
 
 /*--- フッタの背景色及び下部の色(全体のカラムを囲っている背景色と同色)を指定 ---*/
 div#container div#footer {
-  background-color: #ffffff;
+  background: #ffffff;
   border-bottom: #ffffff;
 }
 
 /*--- 左ブロックの背景色を指定 ---*/
-div#container div#wrapper div#carrier div#leftblocks {
-  background-color: #ffffff;
+div#container div#wrapper div#carrier div#leftblocks,
+body.left-center div#container div#wrapper div#carrier div#leftblocks,
+body.js_off div#container div#wrapper div#carrier div#leftblocks {
+  background: #ffffff;
 }
 
 /*--- 左ブロックの検索部分の背景色及び下の線の色を指定 ---*/
 div#leftblocks div#block-left-search {
-  background-color: #ffffff;
+  background: #ffffff;
   border-bottom: #ffffff;
 }
 
+/*--- 中央ブロックの背景色を指定 ---*/
+div#container div#wrapper div#carrier div#centerblocks,
+body.left-center-right div#container div#wrapper div#carrier div#centerblocks,
+body.left-center div#container div#wrapper div#carrier div#centerblocks,
+body.center-right div#container div#wrapper div#carrier div#centerblocks,
+body.center div#container div#wrapper div#carrier div#centerblocks,
+body.js_off div#container div#wrapper div#carrier div#centerblocks {
+  background: #ffffff;
+}
+
 /*--- 右ブロックの背景色を指定 ---*/
-div#container div#wrapper div#rightblocks {
-  background-color: #ffffff;
+div#container div#wrapper div#rightblocks,
+body.center-right div#container div#wrapper div#rightblocks,
+body.js_off div#container div#wrapper div#rightblocks {
+  background: #ffffff;
 }
 
 /*--- アンケート内の背景色を指定 ---*/
 div.poll-questions {
-  background-color: #ffffff;
+  background: #ffffff;
 }
-
 
