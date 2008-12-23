@@ -40,6 +40,7 @@
 $_SQL[] = "
 CREATE TABLE {$_TABLES['menuitems']} (
   mid varchar(40) NOT NULL default '',
+  pmid varchar(40) NOT NULL default '',
   is_enabled tinyint(1) unsigned NOT NULL default '1',
   type varchar(20) NOT NULL default 'custom',
   mode varchar(20) NOT NULL default 'fixation',
@@ -48,6 +49,7 @@ CREATE TABLE {$_TABLES['menuitems']} (
   php_function varchar(48) default NULL,
   url varchar(255) default NULL,
   icon_url varchar(255) default NULL,
+  class_name varchar(48) default NULL,
   tid varchar(20) NOT NULL default 'all',
   menuorder smallint(5) unsigned NOT NULL default '1',
   pattern varchar(255) default NULL,

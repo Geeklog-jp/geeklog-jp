@@ -510,6 +510,7 @@ select {
   height:78px;
   margin-bottom:1px;
 }
+/*******************************************************************************
 .header-navigation-container {
   border-bottom:1px solid #FFFFFF;
   background:#E7E7E7;
@@ -549,6 +550,7 @@ select {
 .header-navigation-container a:active {
   color:#FF0000;
 }
+*******************************************************************************/
 .header-welcomeanddate-text {
   padding-top:12px;
   padding-left:4px;
@@ -1023,7 +1025,217 @@ a.tooltip:hover span {
 
 /* End of Common Plugin CSS */
 
-/* Sample for CustomMenu Editor */
-.header-navigation-container li.selected {
-  background : #CCCCFF;
+
+/* Sample for CustomMenu Editor ***********************************************/
+
+.header-navigation-container li a.selected {
+    background : #CCCCFF;
 }
+
+.header-navigation-container {
+    background : #7484ad;
+}
+
+
+/* ================================================================ 
+This copyright notice must be untouched at all times.
+
+The original version of this stylesheet and the associated (x)html
+is available at http://www.cssplay.co.uk/menus/simple_vertical.html
+Copyright (c) 2005-2007 Stu Nicholls. All rights reserved.
+This stylesheet and the associated (x)html may be modified in any 
+way to fit your requirements.
+=================================================================== */
+
+/* Get rid of the margin, padding and bullets in the unordered lists */
+.header-navigation-container, 
+.header-navigation-container ul
+{
+    padding : 0; 
+    margin  : 0; 
+    list-style-type : none;
+}
+
+/* Set up the link size, color and borders */
+.header-navigation-container a, 
+.header-navigation-container a:visited 
+{
+    display      : block;
+    width        : 120px; 
+    font-size    : 11px; 
+    color        : #fff; 
+    height       : 25px; 
+    line-height  : 24px; 
+    text-decoration : none; 
+    text-indent  : 5px; 
+    border       : 1px solid #000; 
+    border-width : 1px 0 1px 1px;
+}
+
+/* Set up the sub level borders */
+.header-navigation-container li ul li a, 
+.header-navigation-container li ul li a:visited 
+{
+    border-width : 0 1px 1px 1px;
+}
+
+.header-navigation-container li a.enclose, 
+.header-navigation-container li a.enclose:visited 
+{
+    border-width : 1px;
+
+}
+
+/* Set up the list items */
+.header-navigation-container li 
+{
+    float      : left; 
+    background : #7484ad;
+}
+
+/* For Non-IE browsers and IE7 */
+.header-navigation-container li:hover 
+{
+    position : relative;
+}
+
+/* Make the hovered list color persist */
+.header-navigation-container li:hover > a 
+{
+    background : #dfd7ca; 
+    color      : #c00;
+}
+
+/* Set up the sublevel lists with a position absolute for flyouts and overrun padding. The transparent gif is for IE to work */
+.header-navigation-container li ul 
+{
+    display : none;
+}
+
+/* For Non-IE and IE7 make the sublevels visible on list hover. This is all it needs */
+.header-navigation-container li:hover > ul 
+{
+    display    : block; 
+    position   : absolute; 
+    top        : -11px; 
+    left       : 80px; 
+    padding    : 10px 30px 30px 30px; 
+    background : transparent url(transparent.gif); 
+    width      : 120px;
+}
+
+/* Position the first sub level beneath the top level liinks */
+.header-navigation-container > ul > li:hover > ul 
+{
+    left : -30px; 
+    top  : 16px;
+}
+
+/* get rid of the table */
+.header-navigation-container table 
+{
+    position  : absolute; 
+    border-collapse : collapse; 
+    top       : 0; 
+    left      : 0; 
+    z-index   : 100; 
+    font-size : 1em;
+}
+
+/* For IE5.5 and IE6 give the hovered links a position relative and a change of background and foreground color. This is needed to trigger IE to show the sub levels */
+* html .header-navigation-container li a:hover 
+{
+    position   : relative; 
+    background : #dfd7ca; 
+    color      : #c00;
+}
+
+/* For accessibility of the top level menu when tabbing */
+.header-navigation-container li a:active, 
+.header-navigation-container li a:focus 
+{
+    background : #dfd7ca; 
+    color      : #c00;
+}
+
+/* Set up the pointers for the sub level indication */
+.header-navigation-container li.fly 
+{
+    background : #7484ad url(custommenu/images/fly.gif) no-repeat right center;
+}
+
+.header-navigation-container li.drop 
+{
+    background : #7484ad url(custommenu/images/drop.gif) no-repeat right center;
+}
+
+
+/* This lot is for IE5.5 and IE6 ONLY and is necessary to make the sublevels appear */
+
+/* change the drop down levels from display:none; to visibility:hidden; */
+* html .header-navigation-container li ul 
+{
+    visibility : hidden; 
+    display    : block; 
+    position   : absolute; 
+    top        : -11px; 
+    left       : 80px; 
+    padding    : 10px 30px 30px 30px; 
+    background : transparent url(transparent.gif);
+}
+
+/* keep the third level+ hidden when you hover on first level link */
+.header-navigation-container li a:hover ul ul
+{
+    visibility : hidden;
+}
+/* keep the fourth level+ hidden when you hover on second level link */
+.header-navigation-container li a:hover ul a:hover ul ul
+{
+    visibility : hidden;
+}
+/* keep the fifth level hidden when you hover on third level link */
+.header-navigation-container li a:hover ul a:hover ul a:hover ul ul
+{
+    visibility : hidden;
+}
+/* keep the sixth level hidden when you hover on fourth level link */
+.header-navigation-container li a:hover ul a:hover ul a:hover ul a:hover ul ul 
+{
+    visibility : hidden;
+}
+
+/* make the second level visible when hover on first level link and position it */
+.header-navigation-container li a:hover ul 
+{
+    visibility : visible; 
+    left  : -30px; 
+    top   : 14px; 
+    lef\t : -31px; 
+    to\p  : 15px;
+}
+
+/* make the third level visible when you hover over second level link and position it and all further levels */
+.header-navigation-container li a:hover ul a:hover ul 
+{ 
+    visibility : visible; 
+    top  : -11px; 
+    left : 80px;
+}
+/* make the fourth level visible when you hover over third level link */
+.header-navigation-container li a:hover ul a:hover ul a:hover ul 
+{ 
+    visibility : visible;
+}
+/* make the fifth level visible when you hover over fourth level link */
+.header-navigation-container li a:hover ul a:hover ul a:hover ul a:hover ul 
+{ 
+    visibility : visible;
+}
+/* make the sixth level visible when you hover over fifth level link */
+.header-navigation-container li a:hover ul a:hover ul a:hover ul a:hover ul a:hover ul 
+{ 
+    visibility : visible;
+}
+/* If you can see the pattern in the above IE5.5 and IE6 style then you can add as many sub levels as you like */
+
