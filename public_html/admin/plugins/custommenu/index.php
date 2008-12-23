@@ -122,6 +122,7 @@ function CMED_setMI()
     $icon_url = $_POST['icon_url'];
     $MI = array(
         'mid'          => COM_applyFilter($_POST['mid']),
+        'pmid'         => COM_applyFilter($_POST['pmid']),
         'is_enabled'   => ($_POST['is_enabled'] == 'on') ? 1 : 0,
         'type'         => $_POST['type'],
         'mode'         => $_POST['mmode'],
@@ -137,6 +138,7 @@ function CMED_setMI()
 
         'pattern'      => $_POST['pattern'],
         'is_preg'      => ($_POST['is_preg'] == 'on') ? 1 : 0,
+        'class_name'   => COM_applyFilter($_POST['class_name']),
 
         'owner_id'     => COM_applyFilter($_POST['owner_id'], true),
         'group_id'     => COM_applyFilter($_POST['group_id'], true),
@@ -241,6 +243,7 @@ function CMED_createMenuitemID($str = 'menuitem_')
 
 /*
   mid          varchar(40)           NOT NULL default '',
+  pmid         varchar(40)           NOT NULL default '',
   is_enabled   tinyint(1)   unsigned NOT NULL default '1',
   type         varchar(20)           NOT NULL default 'custom',
   mode         varchar(20)           NOT NULL default 'fixation',
@@ -249,6 +252,7 @@ function CMED_createMenuitemID($str = 'menuitem_')
   php_function varchar(48)                    default NULL,
   url          varchar(255)                   default NULL,
   icon_url     varchar(255)                   default NULL,
+  class_name   varchar(48)                    default NULL,
   tid          varchar(20)           NOT NULL default 'all',
   menuorder    smallint(5)  unsigned NOT NULL default '1',
   pattern      varchar(255)                   default NULL,
@@ -285,6 +289,8 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
 
             return $retval;
         }
+
+        $selpmid = CMED_makeSelBox($A['pmid']);
     }
     
     if ($mode == 'clone') {
@@ -299,6 +305,7 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
     if ($mode == 'create') {
 
         $A['mid']          = CMED_createMenuitemID();
+        $A['pmid']         = '';
         $A['is_enabled']   = 1;
         $A['type']         = 'custom';
         $A['mode']         = 'fixation';
@@ -311,6 +318,10 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
         $A['menuorder']    = 0;
         $A['pattern']      = '';
         $A['is_preg']      = 0;
+        $A['class_name']   = '';
+
+        $selpmid = CMED_makeSelBox();
+
         $A['owner_id']     = $_USER['uid'];
         if (isset($_GROUPS['CustomMenu Admin'])) {
             $A['group_id'] = $_GROUPS['CustomMenu Admin'];
@@ -321,14 +332,10 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
         $access = 3;
     }
 
-    // テンプレートの生成
-    if (is_dir($_CONF['path_layout'] . 'custommenu')) {
-        $T = new Template($_CONF['path_layout'] . 'custommenu');
-    } else {
-        $T = new Template($_CONF['path'] . 'plugins/custommenu/templates');
-    }
-    $T->set_file('editor','menueditor.thtml');
 
+    // テンプレートの生成
+    $T = new Template($_CMED_CONF['path_layout']);
+    $T->set_file('editor', 'menueditor.thtml');
     $T->set_var('xhtml', XHTML);
     $T->set_var('site_url',       $_CONF['site_url']);
     $T->set_var('site_admin_url', $_CONF['site_admin_url']);
@@ -356,12 +363,16 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
     $T->set_var('val_menuitemurl', $A['url']);
     $T->set_var('val_icon_url',    $A['icon_url']);
     $T->set_var('val_mid',         $A['mid']);
+    $T->set_var('val_pmid',        $A['pmid']);
+    $T->set_var('selpmid',       $selpmid);
+
     $T->set_var('val_old_mid',     $A['mid']);
     $T->set_var('val_menuorder',   $A['menuorder']);
     $T->set_var('val_type',        $A['type']);
 
     $T->set_var('val_pattern',     stripslashes($A['pattern']));
     $T->set_var('val_is_preg',    ($A['is_preg'] == 1) ? UC_CHECKED : '');
+    $T->set_var('val_class_name',  stripslashes($A['class_name']));
 
     $v = (($A['type'] == 'gldefault') || ($A['type'] == 'plugin')) ? UC_READONLY : '';
     $T->set_var('mid_readonly', $v);
@@ -421,20 +432,14 @@ function CMED_listMenuitems()
 
     $header_arr   = array(
                     array('text' => $LANG_ADMIN['edit'],       'field' => 'edit',      'sort' => false),
-                    array('text' => $LANG_ADMIN['copy'],       'field' => 'copy',      'sort' => false),
-    );
-//    if (DB_count($_TABLES['menuitems'], "type", 'custom') > 0) {
-        $header_arr = array_merge($header_arr, array(
-                    array('text' => $LANG_ADMIN['delete'],     'field' => 'delete',    'sort' => false)
-        ) );
-//    }
-    $header_arr = array_merge($header_arr, array(
                     array('text' => $LANG_CMED['order'],       'field' => 'menuorder', 'sort' => true),
                     array('text' => $LANG_ADMIN['title'],      'field' => 'label',     'sort' => true),
+                    array('text' => $LANG_CMED['id'],          'field' => 'mid',       'sort' => true),
+                    array('text' => $LANG_CMED['classname'],   'field' => 'class_name','sort' => true),
                     array('text' => $LANG_CMED_EDITOR['mode'], 'field' => 'mode',      'sort' => true),
                     array('text' => $LANG_ADMIN['type'],       'field' => 'type',      'sort' => true),
                     array('text' => $LANG_ADMIN['topic'],      'field' => 'tid',       'sort' => true),
-    ) );
+    );
 
     $defsort_arr = array('field' => 'menuorder', 'direction' => 'asc');
 
@@ -499,8 +504,8 @@ function CMED_saveMenuitems($mode)
 
     $retval = '';
 
-    if (( ! empty($MI['mid'])) && (DB_count($_TABLES['menuitems'], 'mid', $MI['mid']) > 0)) {
-        $result = DB_query("SELECT owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon "
+    if ((!empty($MI['mid'])) && (DB_count($_TABLES['menuitems'], 'mid', $MI['mid']) > 0)) {
+        $result = DB_query("SELECT owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon "
                          . "FROM {$_TABLES['menuitems']} WHERE mid = '{$MI['mid']}'");
         $A = DB_fetchArray($result);
         $access = SEC_hasAccess($A['owner_id'],     $A['group_id'],
@@ -524,12 +529,14 @@ function CMED_saveMenuitems($mode)
     } else {
 
         $MI['mid']          = addslashes(COM_stripslashes(strip_tags($MI['mid'])));
+        $MI['pmid']         = addslashes(COM_stripslashes(strip_tags($MI['pmid'])));
         $MI['label']        = addslashes(COM_stripslashes(strip_tags($MI['label'])));
         $MI['label_var']    = addslashes(COM_stripslashes(strip_tags($MI['label_var'])));
         $MI['php_function'] = addslashes(COM_stripslashes(strip_tags($MI['php_function'])));
         $MI['url']          = addslashes($MI['url']);
         $MI['icon_url']     = addslashes($MI['icon_url']);
         $MI['pattern']      = addslashes($MI['pattern']);
+        $MI['class_name']   = addslashes($MI['class_name']);
 
         if ($mode == 'update') {
             if ($MI['old_mid'] != $MI['mid']) {
@@ -538,14 +545,14 @@ function CMED_saveMenuitems($mode)
                  .  '(mid, is_enabled, type, mode, label, label_var, php_function, url, '
                  .  'icon_url, tid, menuorder, '
                  .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
-                 .  'pattern, is_preg) '
+                 .  'pattern, is_preg, pmid, class_name) '
                  .  "VALUES ('" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                                 . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                                 . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                                 . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                                 . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                                . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "',"
-                                . $MI['is_preg']      . ")";
+                                . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"  . $MI['pattern']    . "',"
+                                . $MI['is_preg']      . ",'"  . $MI['pmid']       . "','" . $MI['class_name'] . "')";
                 DB_query($sql);
 
             } else {
@@ -553,14 +560,14 @@ function CMED_saveMenuitems($mode)
                     'mid, is_enabled, type, mode, label, label_var, php_function, url, '
                   . 'icon_url, tid, menuorder, '
                   . 'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
-                  . 'pattern, is_preg',
+                  . 'pattern, is_preg, pmid, class_name',
                     "'" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                         . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                         . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                         . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                         . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                        . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "'," 
-                        . $MI['is_preg']      );
+                        . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"  . $MI['pattern']    . "'," 
+                        . $MI['is_preg']      . ",'"  . $MI['pmid']       . "','" . $MI['class_name'] . "'"  );
             }
 
         } else {
@@ -568,14 +575,14 @@ function CMED_saveMenuitems($mode)
              .  '(mid, is_enabled, type, mode, label, label_var, php_function, url, '
              .  'icon_url, tid, menuorder, '
              .  'owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon, '
-             .  'pattern, is_preg) '
+             .  'pattern, is_preg, pmid, class_name) '
              .  "VALUES ('" . $MI['mid']          . "',"  . $MI['is_enabled'] . ",'"  . $MI['type']       . "','" 
                             . $MI['mode']         . "','" . $MI['label']      . "','" . $MI['label_var']  . "','" 
                             . $MI['php_function'] . "','" . $MI['url']        . "','" . $MI['icon_url']   . "','" 
                             . $MI['tid']          . "',"  . $MI['menuorder']  . ","   . $MI['owner_id']   . "," 
                             . $MI['group_id']     . ","   . $MI['perm_owner'] . ","   . $MI['perm_group'] . "," 
-                            . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"   . $MI['pattern']    . "',"
-                            . $MI['is_preg']      . ")";
+                            . $MI['perm_members'] . ","   . $MI['perm_anon']  . ",'"  . $MI['pattern']    . "',"
+                            . $MI['is_preg']      . ",'"  . $MI['pmid']       . "','" . $MI['class_name'] . "')";
             DB_query($sql);
         }
     }
@@ -584,6 +591,55 @@ function CMED_saveMenuitems($mode)
 }
 
 
+
+/**
+* 
+*/
+function CMED_makeSelBox($preset_id = "")
+{
+    global $_TABLES;
+
+    $retval = '<select name="pmid">' . LB;
+    $retval .= '<option value="">----</option>' . LB;
+    $sql = "SELECT mid FROM {$_TABLES['menuitems']} WHERE pmid = '' ORDER BY menuorder";
+    $result = DB_query($sql);
+    while (list($mid) = DB_fetchArray($result)) {
+        $sel = ($mid == $preset_id) ? ' ' . UC_SELECTED : '';
+        $retval .= "<option value=\"$mid\"$sel>$mid</option>" . LB;
+        $A = CMED_getChildTreeArray($mid);
+        foreach ($A as $B) {
+            $level = CMED_getMenuLevel($B['mid']);
+            $prefix = '';
+            for ($i = 0 ; $i < $level; $i++) {
+                $prefix .= '&nbsp;&nbsp;&nbsp;';
+            }
+            $catpath = $prefix . $B['mid'];
+            $sel = ($B['mid'] == $preset_id) ? ' ' . UC_SELECTED : '';
+            $retval .= "<option value=\"" . $B['mid'] . "\"$sel>$catpath</option>" . LB;
+        }
+    }
+    $retval .= '</select>' . LB;
+    return $retval;
+}
+
+
+/**
+* 
+*/
+function CMED_getChildTreeArray($sel_id="", $parray = array(), $orderby = "ASC")
+{
+    global $_TABLES;
+
+    $sql = "SELECT * FROM {$_TABLES['menuitems']} WHERE pmid = '$sel_id' ORDER BY menuorder $orderby";
+    $result = DB_query($sql);
+    if (DB_numRows($result) == 0) return $parray;
+    while ($A = DB_fetchArray($result)) {
+        array_push($parray, $A);
+        $parray = CMED_getChildTreeArray($A['mid'], $parray, $orderby);
+    }
+    return $parray;
+}
+
 /**
 * Re-orders all menuitems in steps of 10
 */
@@ -591,15 +647,14 @@ function CMED_reorderMenuitems()
 {
     global $_TABLES;
 
-    $result = DB_query("SELECT * FROM {$_TABLES['menuitems']} ORDER BY menuorder asc");
-    while ($A = DB_fetchArray($result)) {
+    $A = CMED_getChildTreeArray();
+    foreach ($A as $B) {
         $order += 10;
-        if ($A['menuorder'] != $order) {
-            DB_query("UPDATE {$_TABLES['menuitems']} SET menuorder = '$order' WHERE mid = '{$A['mid']}'");
+        if ($B['menuorder'] != $order) {
+            DB_query("UPDATE {$_TABLES['menuitems']} SET menuorder = '$order' WHERE mid = '{$B['mid']}'");
         }
     }
 }
-
 
 /**
 * Move menuitem UP and Down
@@ -610,22 +665,40 @@ function CMED_moveMenuitem()
 
     $mid   = COM_applyFilter($_GET['mid']);
     $where = COM_applyFilter($_GET['where']);
-    $num = ($where == 'up') ? -11 : 11;
-    DB_query("UPDATE {$_TABLES['menuitems']} SET menuorder = menuorder + $num WHERE mid = '$mid'");
-}
+    $menuorder = DB_getItem($_TABLES['menuitems'], 'menuorder', "mid = '$mid'");
+    $pmid      = DB_getItem($_TABLES['menuitems'], 'pmid',      "mid = '$mid'");
 
+    if ($where == 'up') {
+        $A = CMED_getChildTreeArray('', array(), 'DESC');
+        foreach ($A as $B) {
+            $order = $B['menuorder'] - 1;
+            if (($B['menuorder'] < $menuorder) && ($B['pmid'] == $pmid)) break;
+        }
+    } else {
+        $A = CMED_getChildTreeArray();
+        foreach ($A as $B) {
+            $order = $B['menuorder'] + 1;
+            if (($B['menuorder'] > $menuorder) && ($B['pmid'] == $pmid)) break;
+        }
+    }
+
+    DB_query("UPDATE {$_TABLES['menuitems']} SET menuorder = $order WHERE mid = '$mid'");
+}
 
 /**
 * Enable and Disable menuitem
 */
-function CMED_changeMenuitemStatus($mid)
+function CMED_changeMenuitemStatus($itemenable)
 {
-    global $_CONF, $_TABLES;
+    global $_TABLES;
     
-    $is_enabled = ! DB_getItem($_TABLES['menuitems'], "is_enabled", "mid='$mid'");
-    DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = '$is_enabled' WHERE mid = '$mid'");
+    DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = '0'");
+    foreach ($itemenable as $index => $value) {
+        $index = COM_applyFilter($index, true);
+        $order = $index * 10;
+        DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = '1' WHERE menuorder = '$order'");
+    }
 }
-
 
 /**
 * Delete a menuitem
@@ -661,6 +734,19 @@ function CMED_deleteMenuitem($mid)
     return $retval;
 }
 
+/**
+* 
+*/
+function CMED_getMenuLevel($mid)
+{
+    global $_TABLES;
+
+    $pmid = DB_getItem($_TABLES['menuitems'], 'pmid', "mid = '$mid'");
+    if ($pmid != '') {
+        return 1 + CMED_getMenuLevel($pmid);
+    }
+    return 0;
+}
 
 /**
 * Get ListFields of Menuitems
@@ -676,51 +762,46 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                             $A['perm_members'], $A['perm_anon']);
 
     if (($access > 0) && (CMED_hasMenuitemTopicAccess ($A['tid']) > 0)) {
+
+        $token  = "";
+        if (version_compare(VERSION, '1.5') >= 0) {
+            $token  = "&amp;" . CSRF_TOKEN . "=" . $CMED_CSRF_TOKEN;
+        }
+
         switch($fieldname) {
             case "edit":
                 if ($access == 3) {
                     $retval = "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
-                            . "?mode=edit&amp;mid={$A['mid']}\">{$icon_arr['edit']}</a>";
+                            . "?mode=edit&amp;mid={$A['mid']}\">{$icon_arr['edit']}</a>" . LB
+                            . "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
+                            . "?mode=clone&amp;mid={$A['mid']}\">{$icon_arr['copy']}</a>" . LB;
                 }
-                break;
 
-            case "copy":
-                if ($access == 3) {
-                    $retval = "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
-                            . "?mode=clone&amp;mid={$A['mid']}\">{$icon_arr['copy']}</a>";
-                }
-                break;
-
-            case "delete":
                 if ( ($access == 3 && ($A['type'] == 'custom')) || 
                      ($access == 3 && ($A['type'] == 'plugin') && !in_array($A['mid'], $_PLUGINS)) ) {
                     $icon   = "<img src=\"{$_CONF['site_url']}/custommenu/images/delete.png\" "
-                            . "border=\"0\" alt=\"{$LANG_ADMIN['delete']}\" title=\"{$LANG_ADMIN['delete']}\">";
+                            . "alt=\"{$LANG_ADMIN['delete']}\" title=\"{$LANG_ADMIN['delete']}\">";
 
-                    $token  = "";
-                    if (version_compare(VERSION, '1.5') >= 0) {
-                        $token  = "&amp;" . CSRF_TOKEN . "=" . $CMED_CSRF_TOKEN;
-                    }
-
-                    $retval = "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
+                    $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
                             . "?mode=delete&amp;mid={$A['mid']}"
                             . $token . "\" onclick=\"return confirm('{$MESSAGE[76]}');\">$icon</a>";
                 }
+
                 break;
 
             case 'menuorder':
                 if ($access == 3) {
                     $iconup  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-up.png\" "
-                             . "border=\"0\" alt=\"{$LANG_CMED_EDITOR['move_up']}\" title=\"{$LANG_CMED_EDITOR['move_up']}\">";
+                             . "alt=\"{$LANG_CMED_EDITOR['move_up']}\" title=\"{$LANG_CMED_EDITOR['move_up']}\">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
-                             . "?mode=move&amp;mid={$A['mid']}&amp;where=up\" alt=\"{$LANG_CMED_EDITOR['move_up']}\">$iconup</a>";
+                             . "?mode=move&amp;mid={$A['mid']}&amp;where=up" . $token . "\">$iconup</a>";
 
                     $icondn  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-dn.png\" "
-                             . "border=\"0\" alt=\"{$LANG_CMED_EDITOR['move_down']}\" title=\"{$LANG_CMED_EDITOR['move_down']}\">";
+                             . "alt=\"{$LANG_CMED_EDITOR['move_down']}\" title=\"{$LANG_CMED_EDITOR['move_down']}\">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php?"
-                             . "mode=move&amp;mid={$A['mid']}&amp;where=dn\" alt=\"{$LANG_CMED_EDITOR['move_down']}\">$icondn</a>";
+                             . "mode=move&amp;mid={$A['mid']}&amp;where=dn" . $token . "\">$icondn</a>";
 
                     $retval .= "&nbsp;";
                     $retval .= $A['menuorder'];
@@ -753,10 +834,20 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                 }
                 if ($access == 3) {
                     $switch = ($A['is_enabled'] == 1) ? UC_CHECKED : '';
-                    $retval = "<form action=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php\" method=\"post\">"
-                            . "<input type=\"checkbox\" name=\"itemenable\" onclick=\"submit()\" value=\"{$A['mid']}\" $switch>"
-                            . "<input type=\"hidden\" name=\"itemchange\" value=\"{$A['mid']}\">" . $retval . "</form>";
+                    $val = ($A['is_enabled'] == 1) ? 1 : 0;
+                    $order = intval($A['menuorder'] / 10);
+                    $retval = "<input type=\"checkbox\" name=\"itemenable[$order]\" onclick=\"submit()\" value=\"$val\" $switch>" . $retval;
+                    $retval .= "<input type=\"hidden\" name=\"" . CSRF_TOKEN . "\" value=\"$CMED_CSRF_TOKEN\"" . XHTML . ">";
                 }
+                break;
+
+            case 'mid':
+                $level = CMED_getMenuLevel($A['mid']);
+                $retval = '';
+                for ($i = 0 ; $i < $level; $i++) {
+                    $retval .= '&nbsp;&nbsp;&nbsp;';
+                }
+                $retval .= $A['mid'];
                 break;
 
             case "mode":
@@ -782,13 +873,13 @@ $mode = (($mode == $LANG_CMED_EDITOR['update']) && !empty($LANG_CMED_EDITOR['upd
 
 $mid = (!empty($_REQUEST['mid'])) ? COM_applyFilter($_REQUEST['mid']) : '';
 
-$itemchange = COM_applyFilter($_REQUEST['itemchange']);
-
-if (isset($itemchange)) {
-    CMED_changeMenuitemStatus($itemchange);
+$itemenable = array();
+$itemenable = $_POST['itemenable'];
+if (isset($itemenable) && SEC_checkToken()) {
+    CMED_changeMenuitemStatus($itemenable);
 }
 
-if ($mode == 'move') {
+if (($mode == 'move') && SEC_checkToken()) {
     CMED_moveMenuitem();
 }
 
@@ -844,5 +935,4 @@ if ($mode == 'delete' && SEC_checkToken()) {
 }
 
 echo $display;
-
 ?>

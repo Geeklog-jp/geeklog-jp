@@ -59,6 +59,21 @@
             </tr>
 
             <tr>
+                <td class="alignright" style="vertical-align:top">{lang_parentitemid}:</td>
+                <td>
+{selpmid}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="alignright" style="vertical-align:top">{lang_class_name}:</td>
+                <td>
+                    <input type="text" name="class_name" value="{val_class_name}" size="48"{xhtml}>
+                    <br{xhtml}><div class="pluginMediumText">{lang_class_name_info}</div>
+                </td>
+            </tr>
+
+            <tr>
                 <td class="alignright">{lang_topic}:</td>
                 <td>
                   <select name="tid">
