@@ -2,12 +2,79 @@ Geeklog1.4.1にインストールする場合は、readme_ja.htmlをお読みく
 Geeklog1.5.0にインストールする場合は、readme_ja_1.5.htmlをお読みください。
 
 
+[多階層メニューに対応した独自メニューレンダラについて]
+
+バージョン0.4.0より多階層メニューや画像を使ったメニューに対応した独自メニューレンダラを搭載しました。
+比較的大規模なサイトに多くみられるプルダウンメニューなどを実装可能なHTMLを出力できるようになりました。
+
+Geeklog標準のメニューレンダラが出力するヘッダーメニュー部のHTMLは次のようなものです。
+
+        <div class="header-navigation-container">
+          <ul>
+            <li class="menuitem"><a href="index1.php">text1</a></li>
+            <li class="menuitem"><a href="index2.php">text2</a></li>
+            <li class="menuitem"><a href="index3.php">text3</a></li>
+                :
+                :
+                :
+            <li class="menuitem last"><a href="indexx.php">textx</a></li>
+          </ul>
+        </div>
+
+これに対して、今回搭載した独自メニューレンダラでは、次のような入れ子構造のHTMLを出力することができます。
+
+        <div class="header-navigation-container">
+          <ul>
+            <li id="menu_id1" class="menuitem"><a href="index1.php">text1</a></li>
+            <li id="menu_id2" class="menuitem"><a href="index2.php">text2</a>
+              <ul>
+                <li id="submenu_id1" class="menuitem"><a href="index_s1.php">text1</a></li>
+                <li id="submenu_id2" class="menuitem"><a href="index_s2.php">text2</a></li>
+                <li id="submenu_id3" class="menuitem"><a href="index_s3.php">text3</a></li>
+                    :
+                    :
+                    :
+                <li id="submenu_idx" class="menuitem"><a href="index_sx.php">textx</a></li>
+              </ul>
+            </li>
+            <li id="menu_id3" class="menuitem"><a href="index3.php">text3</a></li>
+                :
+                :
+                :
+            <li id="menu_idx" class="menuitem last"><a href="indexx.php">textx</a></li>
+          </ul>
+        </div>
+
+また、メニューアイテムごとに次のテンプレート変数をサポートします。
+
+    menuitem_url        メニューアイテムのリンク先URL
+    menuitem_text       メニューアイテムのタイトル
+    menuitem_id         メニューアイテムのID
+    menuitem_class      メニューアイテムのクラス名  (例：'last')
+    class_property      メニューアイテムのクラスプロパティ  (例：'class="last"')
+    menuitem_icon_url   メニューアイテムのアイコンとして用いる画像のURL
+
+多階層メニューを試すには、次の操作を行って下さい。
+    (1) /bonus/lib-common.phpの657行～666行のように、lib-common.phpを修正する必要があります。
+    (2) コンフィギュレーション -> カスタムメニュー -> メニューレンダラ を「階層メニュー対応」に設定します。
+    (3) /bonus/layout/テーマ名 のファイル群を、テーマディレクトリにコピーします。(professional と ProfessionalCSS のみ対応)
+
+上記(3)の操作で、menuitem.thtml, menuitem_last.thtml, style.css, custom.css を上書きしますので、事前のバックアップをお忘れなく。
+
+「メニューアイテムの編集」で「親アイテムID」を使って階層を設定します。
+
+階層メニューの起点になるメニューアイテムのクラス名に'drop'や'fly'を設定してみて下さい。（アローアイコンが出現します）
+子階層メニューの最初のアイテム、孫階層メニューの最初のアイテム、親階層メニューの最後のアイテムのクラス名に'enclose'を設定して下さい。
+
+画像を使ったメニューを試すには、テンプレート変数 menuitem_icon_url を使って、/layout/テーマ名/custommenu/内のmenuitem.thtml, menuitem_drop.thtmlを修正します。加えて、CSSを使ってレイアウトを調整してください。
+
+
 [URLの照合機能について]
 
 バージョン0.3.0よりURLの照合機能を追加しました。
 URLの照合機能とは、Geeklogサイトの表示中のページのURLをメニューアイテムごとに照合し、マッチしたメニューアイテムのスタイルを変化させるものです。
 例えば、リンクのページを開いているときに、リンクのメニューアイテムを反転させて表示させることが可能となります。
-ただし、カスタムメニューはURLの照合を担当するだけであり、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。
+ただし、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。
 
 一例として、リンクのメニューアイテムを反転させる方法を示します。ここでは、professionalテーマを用います。
 カスタムメニューの管理画面で「リンク」を編集します。
@@ -17,12 +84,12 @@ URLの照合機能とは、Geeklogサイトの表示中のページのURLをメ�
 なお、「正規表現」を有効にすると、PHPがサポートしている正規表現で照合することができます。照合の条件が複雑な場合に使用することを想定した機能であり、使用する場面は少ないでしょう。照合にはpreg_match関数を使用しています。
 正規表現の詳細については http://jp.php.net/manual/ja/regexp.reference.php を参照してください。
 
-lib-common.phpの変更は1行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.phpの666行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。
+lib-common.phpの変更は実質2行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.phpの623行目および681行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。
 
 テーマの変更は、menuitem.thtml、menuitem_last.thtml、style.css の3つのファイルを対象とします。
 /bonus/layout/professonal/内のファイルを参照してください。
 <li>タグに class="{menuitem_selected}" が追加されていることに注目してください。
-style.csssは1026行目から1029行目の4行を加えただけです。(サンプルなので単純に背景色を変えただけ)
+style.csssは1031行目から1033行目の3行を加えるだけです。(サンプルなので単純に背景色を変えただけ)
 
 これで完了です。メニューアイテム「リンク」をクリックして効果を確認してみてください。
 テーマをさらに変更してハイセンスなメインメニューを構築してください。
