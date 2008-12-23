@@ -73,6 +73,17 @@ $_CMED_DEFAULT['aftersave'] = 'list';
 $_CMED_DEFAULT['default_permissions'] = array (3, 2, 2, 2);
 
 /**
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+$_CMED_DEFAULT['menu_render'] = 'standard';
+$_CMED_DEFAULT['prefix_id'] = 'cmitem-';
+
+
+/**
 * Initialize CustomMenu Editor plugin configuration
 *
 * Creates the database entries for the configuation if they don't already
@@ -92,18 +103,15 @@ function plugin_initconfig_custommenu()
 
     $c = config::get_instance();
     if (!$c->group_exists('custommenu')) {
-
-        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, true, 'custommenu');
-
-        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, true, 'custommenu');
-
-        $c->add('aftersave', $_CMED_DEFAULT['aftersave'], 'select',
-                0, 0, 9, 10, true, 'custommenu');
-
-        $c->add('fs_permissions', NULL, 'fieldset', 0, 2, NULL, 0, true, 'custommenu');
-
-        $c->add('default_permissions', $_CMED_DEFAULT['default_permissions'],
-                '@select', 0, 2, 12, 20, true, 'custommenu');
+        $c->add('sg_main',             NULL,                                  'subgroup', 0, 0, NULL, 0,  true, 'custommenu');
+        // ----------------------------------
+        $c->add('fs_main',             NULL,                                  'fieldset', 0, 0, NULL, 0,  true, 'custommenu');
+        $c->add('aftersave',           $_CMED_DEFAULT['aftersave'],           'select',   0, 0, 9,    10, true, 'custommenu');
+        $c->add('menu_render',         $_CMED_DEFAULT['menu_render'],         'select',   0, 0, 10,   20, true, 'custommenu');
+        $c->add('prefix_id',           $_CMED_DEFAULT['prefix_id'],           'text',     0, 0, 0,    30, true, 'custommenu');
+        // ----------------------------------
+        $c->add('fs_permissions',      NULL,                                  'fieldset', 0, 2, NULL, 0,  true, 'custommenu');
+        $c->add('default_permissions', $_CMED_DEFAULT['default_permissions'], '@select',  0, 2, 12,   40, true, 'custommenu');
     }
 
     return true;

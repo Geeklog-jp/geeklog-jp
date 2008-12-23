@@ -619,6 +619,10 @@ function COM_renderMenu( &$header, $plugin_menu )
         }
     }
 
+//@@@@@ added for CustomMenu Editor plugin >>-------------------------------
+    $header->set_var( 'menuitem_selected', '' );
+//@@@@@ added for CustomMenu Editor plugin <<-------------------------------
+
     $num_elements = sizeof( $_CONF['menu_elements'] );
 
     foreach( $_CONF['menu_elements'] as $item )
@@ -650,6 +654,16 @@ function COM_renderMenu( &$header, $plugin_menu )
                 break;
 
             case 'custom':
+//@@@@@ added for CustomMenu Editor plugin >>-------------------------------
+                global $_CMED_CONF;
+                if (isset($_CMED_CONF['menu_render']) && ($_CMED_CONF['menu_render'] == 'pulldown')
+                        && function_exists(CMED_renderMenu)) {
+                    CMED_renderMenu($header, $custom_entries, $menuCounter);
+                    $url = '';
+                    $label = '';
+                    break;
+                }
+//@@@@@ added for CustomMenu Editor plugin <<-------------------------------
                 $custom_count = 0;
                 $custom_size = sizeof( $custom_entries );
                 foreach( $custom_entries as $entry )

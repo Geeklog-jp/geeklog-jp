@@ -1,5 +1,15 @@
 $Id$
 
+2008-12-24  Yoshinori Tahara <dengen>
+
+	* custommenuプラグインをバージョン0.4.0に更新しました。
+	  多階層メニューや画像を使ったメニューに対応する独自のメニューレンダ
+	  ラを搭載しました。
+	  templatesの配置場所をpublic_html/customnenu下へ移しました。
+	  カスタムメニュー管理画面の表示に関するHTMLの不正を修正しました。
+	  アイテムリストでのアイテム移動と有効・無効の設定操作にCSRF対策を
+	  施しました。
+
 2008-12-21  Tetsuko Komma  <ivysoho>
 
 	* 言語ファイルjapanese_utf-8.phpの「アカウント情報表示」「記事を送る」

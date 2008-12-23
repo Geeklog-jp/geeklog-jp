@@ -69,7 +69,7 @@ $_CMED_CONF['default_permissions'] = array(3, 2, 2, 2);
 /**
 * Plugin Version
 */
-$_CMED_CONF['version'] = '0.3.0';
+$_CMED_CONF['version'] = '0.4.0';
 
 /**
 * Add to $_TABLES array the tables custommenu plugin uses

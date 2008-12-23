@@ -66,6 +66,8 @@ $LANG_CMED = array(
     'manager'             => 'CustomMenu Editor',
     'move'                => 'Move',
     'order'               => 'Order',
+    'id'                  => 'ID',
+    'classname'           => 'Class',
     'instructions'        => 'To modify or delete a data, click on that data\'s edit icon below.  To create a new data, click on "Create New" above.',
 );
 
@@ -129,6 +131,10 @@ $LANG_CMED_EDITOR = array(
     'pattern'             => 'URL matching character string',
     'pattern_info'        => 'When the URL of a page displaying matched it with this character string, "selected" is added to the information of menuitem handed to Geeklog system.<br' . XHTML . '>It is enabled to reverse the style of the menuitem when I utilize this.',
     'is_preg'             => 'Regular Expression',
+    'parentitemid'        => 'Parent Item ID',
+
+    'class_name'          => 'Class Name',
+    'class_name_info'     => 'You can set class names every Menuitem.',
 );
 
 // Let's define original titles for Variable Modes!
@@ -153,6 +159,8 @@ $LANG_configsections['custommenu'] = array(
 
 $LANG_confignames['custommenu'] = array(
     'aftersave' => 'After Saving CustomMenu Data',
+    'menu_render' => 'Menu Render',
+    'prefix_id' => 'Prefix to add to ID',
     'default_permissions' => 'CustomMenu Default Permissions'
 );
 
@@ -171,6 +179,7 @@ $LANG_configselects['custommenu'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => TRUE, 'False' => FALSE),
     9 => array('Display Admin List' => 'list', 'Display Home' => 'home', 'Display Admin' => 'admin'),
+    10 => array('Geeklog System Standard' => 'standard', 'Supports a Pulldown Menu' => 'pulldown'),
     12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
 );
 
