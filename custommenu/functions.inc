@@ -78,6 +78,15 @@ if (GL_VERSION_15) {
     }
 }
 
+// テンプレートパスおよびCSSのURLを設定する
+if (is_dir($_CONF['path_layout'] . 'custommenu')) {
+    $_CMED_CONF['path_layout'] = $_CONF['path_layout'] . 'custommenu';
+    $_CMED_CONF['css_url'] = $_CONF['layout_url'] . '/custommenu';
+} else {
+    $_CMED_CONF['path_layout'] = $_CONF['path_html'] . 'custommenu/templates';
+    $_CMED_CONF['css_url'] = $_CONF['site_url'] . '/custommenu/templates';
+}
+
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
 // +---------------------------------------------------------------------------+
@@ -150,7 +159,9 @@ function plugin_getadminoption_custommenu()
     if (SEC_hasRights('custommenu.admin', 'OR')) {
         $pi_name   = $LANG_CMED['display_name'];
         $admin_url = $_CONF['site_admin_url'] . '/plugins/custommenu/index.php';
-        $num_items = '';
+        $num_items = DB_getItem($_TABLES['menuitems'], 'COUNT(*)',
+                                COM_getPermSql (''));
+
         return array($pi_name, $admin_url, $num_items);
     }
 }
@@ -196,6 +207,13 @@ function plugin_upgrade_custommenu()
         $sql = "ALTER TABLE {$_TABLES['menuitems']} "
              . "ADD COLUMN pattern varchar(255) default NULL,"
              . "ADD COLUMN is_preg tinyint(1) NOT NULL default '0'";
+        DB_query($sql);
+    }
+
+    if (version_compare($pi_version, '0.4.0') < 0) {
+        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
+             . "ADD COLUMN pmid varchar(40) NOT NULL default ''"
+             . "ADD COLUMN class_name varchar(48) default NULL";
         DB_query($sql);
     }
 
@@ -411,7 +429,7 @@ function CMED_addPluginsMenuitems()
             }
         }
     }
-    
+
     foreach ($SQLS as $sql) {
         DB_query($sql, 1);
         if (DB_error()) {
@@ -448,6 +466,11 @@ if (!function_exists('CUSTOM_menuEntries')) {
 
     function CUSTOM_menuEntries()
     {
+        return CMED_menuEntries_recursive();
+    }
+
+    function CMED_menuEntries_recursive($pmid='')
+    {
         global $_CONF, $_TABLES, $topic;
 
         $thisUrl = COM_getCurrentURL();
@@ -455,6 +478,7 @@ if (!function_exists('CUSTOM_menuEntries')) {
         $myentries = array();
         if (!empty($_TABLES['menuitems'])) {
             $sql = "SELECT * FROM {$_TABLES['menuitems']} WHERE is_enabled = 1";
+            $sql .= " AND pmid = '$pmid'";
             if(!empty($topic)) {
                 $sql .= " AND (tid = '$topic' OR tid = 'all')";
             } else {
@@ -480,10 +504,15 @@ if (!function_exists('CUSTOM_menuEntries')) {
                                         $A['perm_owner'],  $A['perm_group'],
                                         $A['perm_members'],$A['perm_anon']);
                 if ($access > 0) {
-                    $url      = CMED_replaceUrl($A['url']);
-                    $icon_url = CMED_replaceUrl($A['icon_url']);
-                    $pattern  = stripslashes($A['pattern']);
-                    $selected = '';
+
+                    $submenu_entries = CMED_menuEntries_recursive($A['mid']);
+
+                    $url         = CMED_replaceUrl($A['url']);
+                    $icon_url    = CMED_replaceUrl($A['icon_url']);
+                    $pattern     = stripslashes($A['pattern']);
+                    $selected    = '';
+                    $class_name  = stripslashes($A['class_name']);
+                    $id_name     = stripslashes($A['mid']);
                     
                     switch ($A['mode']) {
                         case "fixation":
@@ -516,15 +545,80 @@ if (!function_exists('CUSTOM_menuEntries')) {
                         }
                     }
                     
-                    $myentries[] = array('url'      => $url,
-                                         'label'    => $label,
-                                         'icon_url' => $icon_url,
-                                         'selected' => $selected);
+                    $myentries[] = array('url'             => $url,
+                                         'label'           => $label,
+                                         'icon_url'        => $icon_url,
+                                         'selected'        => $selected,
+                                         'id_name'         => $id_name,
+                                         'class_name'      => $class_name,
+                                         'submenu_entries' => $submenu_entries);
                 }
             }
         }
         return $myentries;
     }
+
+
+    function CMED_renderMenu(&$T, $custom_entries, &$menuCounter)
+    {
+        global $_CONF, $_CMED_CONF;
+
+        $T->set_root($_CMED_CONF['path_layout']);
+        $T->set_file(array(
+            'menuitem_custom' => 'menuitem.thtml',
+            'menuitem_drop'   => 'menuitem_drop.thtml',
+        ));
+        CMED_renderMenu_sub_recursive($T, $custom_entries, $menuCounter);
+        $T->set_root($_CONF['path_layout']);
+    }
+
+    function CMED_renderMenu_sub_recursive(&$T, $custom_entries, &$menuCounter)
+    {
+        global $_CONF, $_TABLES, $topic, $_CMED_CONF;
+
+        $custom_count = 0;
+        $custom_size = sizeof($custom_entries);
+        foreach ($custom_entries as $entry) {
+            $custom_count++;
+            if (empty($entry['url']) || empty($entry['label'])) continue;
+
+            $class_name = $entry['menuitem_class'];
+            $class_name = trim($class_name) . ' ' . $entry['class_name'];
+            $class_name = trim($class_name) . ' ' . $entry['selected'];
+            $class_name = trim($class_name) . (($custom_count == $custom_size) ? ' last' : '');
+            $class_name = trim($class_name);
+            $class_property = (empty($class_name)) ? '' : (' class="' . $class_name . '"');
+
+            if (empty($entry['submenu_entries'])) {
+                $T->set_var('menuitem_url',   $entry['url']);
+                $T->set_var('menuitem_text',  $entry['label']);
+                $T->set_var('menuitem_id',    $_CMED_CONF['prefix_id'] . $entry['id_name']);
+                $T->set_var('menuitem_class', $class_name);
+                $T->set_var('class_property', $class_property);
+                $T->set_var('menuitem_icon_url', $entry['icon_url']);
+                $T->parse('menu_elements', 'menuitem_custom', true);
+            } else {
+                $T2 = new Template($_CMED_CONF['path_layout']);
+                $T2->set_file(array(
+                    'menuitem_custom' => 'menuitem.thtml',
+                    'menuitem_drop'   => 'menuitem_drop.thtml',
+                ));
+                CMED_renderMenu_sub_recursive($T2, $entry['submenu_entries'], $menuCounter2);
+                $T2->set_var('menuitem_url',   $entry['url']);
+                $T2->set_var('menuitem_text',  $entry['label']);
+                $T2->set_var('menuitem_id',    $_CMED_CONF['prefix_id'] . $entry['id_name']);
+                $T2->set_var('menuitem_class', $class_name);
+                $T2->set_var('class_property', $class_property);
+                $T2->set_var('menuitem_icon_url', $entry['icon_url']);
+                $T2->parse('submenu', 'menuitem_drop');
+                $submenu = $T2->finish($T2->get_var('submenu'));
+
+                $T->set_var('menu_elements', $submenu, true);
+            }
+            $menuCounter++;
+        }
+    }
+
 }
 
 
