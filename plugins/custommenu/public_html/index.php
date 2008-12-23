@@ -38,14 +38,15 @@
 require_once '../lib-common.php';
 
 // Check user has rights to access this page
-if ( !SEC_hasRights( 'custommenu.edit,custommenu.view,custommenu.admin','OR' ) ) {
+if (!SEC_hasRights('custommenu.edit,custommenu.view,custommenu.admin','OR')) {
     // Someone is trying to illegally access this page
-    COM_errorLog( "Someone has tried to illegally access the custommenu page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1 );
+    COM_errorLog("Someone has tried to illegally access the custommenu page.  "
+               . "User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1);
     $display  = COM_siteHeader();
-    $display .= COM_startBlock( $LANG_MCONF['access_denied'] );
+    $display .= COM_startBlock($LANG_MCONF['access_denied']);
     $display .= $LANG_MCONF['access_denied_msg'];
     $display .= COM_endBlock();
-    $display .= COM_siteFooter( true );
+    $display .= COM_siteFooter(true);
     echo $display;
     exit;
 }
@@ -55,18 +56,18 @@ if ( !SEC_hasRights( 'custommenu.edit,custommenu.view,custommenu.admin','OR' ) )
 */
 
 $display = COM_siteHeader();
-$T = new Template( $_CONF['path'] . 'plugins/custommenu/templates' );
-$T->set_file( 'page', 'index.thtml' );
-$T->set_var( 'header', $LANG_MCONF['plugin'] );
-$T->set_var( 'site_url', $_CONF['site_url'] );
-$T->set_var( 'icon_url', $_CONF['site_url'] . '/custommenu/images/custommenu.gif' );
-$T->set_var( 'plugin', 'custommenu' );
+$T = new Template($_CMED_CONF['path_layout']);
+$T->set_file('page', 'index.thtml');
+$T->set_var('header', $LANG_MCONF['plugin']);
+$T->set_var('site_url', $_CONF['site_url']);
+$T->set_var('icon_url', $_CONF['site_url'] . '/custommenu/images/custommenu.gif');
+$T->set_var('plugin', 'custommenu');
 
 // your code goes here
 
 
-$T->parse( 'output', 'page' );
-$display .= $T->finish( $T->get_var( 'output' ) );
+$T->parse('output', 'page');
+$display .= $T->finish($T->get_var('output'));
 $display .= COM_siteFooter();
 
 echo $display;

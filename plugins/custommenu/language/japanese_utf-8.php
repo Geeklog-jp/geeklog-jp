@@ -66,6 +66,8 @@ $LANG_CMED = array(
     'manager'             => 'カスタムメニュー管理',
     'move'                => '移動',
     'order'               => '順番',
+    'id'                  => 'ID',
+    'classname'           => 'クラス名',
     'instructions'        => 'データを修正、削除する場合は各データの「編集」アイコンをクリックしてください。新規作成は「新規作成」をクリックしてください。',
 );
 
@@ -130,6 +132,10 @@ $LANG_CMED_EDITOR = array(
     'pattern'             => 'URL照合文字列',
     'pattern_info'        => '表示中のページのURLがこの文字列とマッチした場合は、システムに渡されるメニューアイテムの情報に"selected"が付加されます。<br' . XHTML . '>これを活用するとメニューアイテムのスタイルを反転させることなどが可能になります。',
     'is_preg'             => '正規表現',
+    'parentitemid'        => '親アイテムID',
+
+    'class_name'          => 'クラス名',
+    'class_name_info'     => 'メニューアイテムごとにクラス名を指定できます。',
 );
 
 // 可変モード用のオリジナルタイトルを定義しましょう！
@@ -154,6 +160,8 @@ $LANG_configsections['custommenu'] = array(
 
 $LANG_confignames['custommenu'] = array(
     'aftersave' => 'メニューアイテム保存後の画面遷移',
+    'menu_render' => 'メニューレンダラ',
+    'prefix_id' => 'IDに付加するプレフィックス',
     'default_permissions' => 'パーミッション'
 );
 
@@ -172,6 +180,7 @@ $LANG_configselects['custommenu'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
     9 => array('カスタムメニュー管理を表示する' => 'list', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
+    10 => array('Geeklogシステム標準' => 'standard', '階層メニュー対応' => 'pulldown'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
 
