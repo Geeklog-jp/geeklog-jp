@@ -30,6 +30,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'english.php') !== FALSE) {
+	die('This file cannot be used on its own.');
+}
+
 $LANG_CHARSET = 'iso-8859-1';
 
 $LANG_SMAP = array (
@@ -91,4 +95,13 @@ $LANG_SMAP = array (
 	'priority'          => 'Priority',
 	'desc_freq'         => '<strong>Frequency</strong> tells Google web crawlers how often the item is likely to be updated.  Even if you choose "never", Google crawlers will sometimes check if there is any update in the item.',
 	'desc_priority'     => 'At <strong>Priority</strong>, enter the value between <strong>0.0</strong> (lowest) and <strong>1.0</strong> (highest).  The default value is <strong>0.5</strong>.',
+	
+	// Since version 1.1.4
+	'common_setting'    => 'Common Settings',
+	'sp_setting'        => 'Static Pages',
+	'sp_type'           => 'Types of static pages to be listed on the sitemap',
+	'sp_type0'          => 'All',
+	'sp_type1'          => 'Only pages that appear on the center block',
+	'sp_type2'          => 'Only pages that do NOT appear on the center block',
+	'sp_except'         => 'IDs of pages that should not be listed on the sitemap (space separated)',
 );
