@@ -37,7 +37,7 @@
 <body>
 	<h1>Install/Uninstall instruction for the Geeklog sitemap plugin</h1>
 
-	<h2>Sitemap plugin [ver. 1.1.2: 2008-09-26]</h2>
+	<h2>Sitemap plugin [ver. 1.1.4: 2008-12-26]</h2>
 	<p>In the following descriptions</p>
 	<ul>
 		<li><span class="geeklog">&lt;geeklog_dir&gt;</span> is the directory where the system config.php file resides</li>
@@ -75,7 +75,7 @@
 		<li>[Google sitemap]<br>
 			<ul>
 				<li>Log in as sitemp admin.  Specify items to be included in Google sitemap, frequency, priority and the file name of Google sitemap.  <strong>The Google sitemap file has to exist in the public_html directory (where lib-common.php resides) and be written into by the Web server.</strong></li>
-				<li>Google sitemap file will automatically be updated with the interval specified with $_CONF['cron_schedule_interval'] (in /private/config.php).  The default value is 86400 seconds (1 day).  If you want to update the file immediately, log in as sitemap admin and check "Update now!" and submit it.</li>
+				<li>Google sitemap file will automatically be updated with the interval specified with $_CONF['cron_schedule_interval'] (in /private/config.php).  The default value is 86400 seconds (1 day).  If you want to update the file immediately, log in as sitemap admin and check "Update now!" and then click "submit".</li>
 			</ul></li>
 	</ul>
 	
@@ -85,6 +85,14 @@
 			<th>Version</th>
 			<th>Date</th>
 			<th>Description</th>
+		</tr>
+		<tr>
+			<td align="right">1.1.4</td>
+			<td>2008-12-26</td>
+			<td>
+				<span class="fix">Fixed</span> Fixed to properly output entries of static pages into Google sitemap.<br>
+				<span class="new">New</span> Now you can configure settings for static pages from admin GUI menu.<br>
+			</td>
 		</tr>
 		<tr>
 			<td align="right">1.1.2</td>

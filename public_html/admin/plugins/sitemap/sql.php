@@ -31,14 +31,12 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'sql.php') !== FALSE) {
+	die('This file cannot be used on its own.');
+}
+
 require_once '../../../lib-common.php';
 require_once $_CONF['path'] . 'plugins/sitemap/config.php';
-
-// this file can't be used on its own - redirect to index.php
-if (eregi(basename(__FILE__), $_SERVER['PHP_SELF'])) {
-	echo COM_refresh($_CONF['site_url'] . '/index.php');
-	exit;
-}
 
 // New table
 $NEWTABLE = array();
@@ -130,3 +128,7 @@ foreach ($DEFAULT_DATA as $data) {
 // Appends data for sitemap-1.0.1
 require_once 'sql-1.0_1.0.1.php';
 $DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $VALUES_100_TO_101['smap_config']);
+
+// Appends data for sitemap-1.1.4
+require_once 'sql-1.0.1_1.1.4.php';
+$DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $DATA_101_TO_114);
