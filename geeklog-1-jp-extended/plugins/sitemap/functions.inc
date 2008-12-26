@@ -167,6 +167,16 @@ function plugin_upgrade_sitemap() {
 		case '1.0.1':
 		case '1.0.2':
 		case '1.0.3':
+		case '1.1.0':
+		case '1.1.1':
+		case '1.1.2':
+		case '1.1.3':	// This version doesn't exist
+			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.0.1_1.1.4.php';
+			COM_errorLog("Inserting default data into table", 1);
+			
+			foreach ($DATA_101_TO_114 as $sql) {
+				DB_query($sql, 1);
+			}
 			break;
 		
 		default:
@@ -452,8 +462,9 @@ function SITEMAP_createGoogleSitemap() {
 			 . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . LB;
 	
 	// Collects items
-	$dataproxy =& new Dataproxy(1);
-	$drivers   = $dataproxy->getAllDriverNames();
+	$dataproxy  =& new Dataproxy(1);
+	$drivers    = $dataproxy->getAllDriverNames();
+	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	
 	foreach ($drivers as $driver) {
 		if (($driver == 'trackback') OR ($driver == 'comments')
@@ -468,13 +479,14 @@ function SITEMAP_createGoogleSitemap() {
 		
 		foreach ($items as $item) {
 			if ($driver == 'staticpages') {
-				// Skip formmail
-				if ($item['id'] == 'formmail') {
+				if (in_array($item['id'], $sp_excepts)) {
 					continue;
 				}
-				$temp     = $dataproxy->$driver->getItemById($item['id']);
-				$raw_data = $temp['raw_data'];
-				if ($raw_data['sp_centerblock'] != 1) {
+				
+				$temp = $dataproxy->$driver->getItemById($item['id']);
+				$raw  = $temp['raw_data'];
+				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
+				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					continue;
 				}
 			}

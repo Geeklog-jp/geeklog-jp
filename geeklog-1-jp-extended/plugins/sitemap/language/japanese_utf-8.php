@@ -30,6 +30,10 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'japanese_utf-8.php') !== FALSE) {
+	die('This file cannot be used on its own.');
+}
+
 $LANG_CHARSET = 'utf-8';
 
 $LANG_SMAP = array(
@@ -91,4 +95,13 @@ $LANG_SMAP = array(
 	'priority'          => '優先度',
 	'desc_freq'         => '<strong>「更新間隔」</strong>は、項目がどれくらいの頻度で更新されるかというおおよその目安をGoogleのクローラに指示します。「更新しない」を選択しても、Googleのクローラはときどき巡回してきます。',
 	'desc_priority'     => '<strong>「優先度」</strong>は、項目の優先度を<strong>0.0</strong>（最低）から<strong>1.0</strong>（最高）の範囲で指定してください。既定値は<strong>0.5</strong>です。',
+	
+	// Since version 1.1.4
+	'common_setting'    => '共通の設定',
+	'sp_setting'        => '静的ページの設定',
+	'sp_type'           => 'サイトマップに掲載するタイプ',
+	'sp_type0'          => 'すべて',
+	'sp_type1'          => 'センターブロックに表示されるページのみ',
+	'sp_type2'          => 'センターブロックに表示されないページのみ',
+	'sp_except'         => '除外するページID（半角スペースで区切る）',
 );
