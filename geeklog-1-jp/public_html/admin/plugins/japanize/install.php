@@ -115,7 +115,7 @@ $langfile = $base_path . "language/".$_CONF['language'] . '.php';
 if (file_exists($langfile)) {
     require_once $langfile;
 } else {
-    require_once $base_path . 'language/english.php';
+    require_once $base_path . 'language/japanese_utf-8.php';
 }
 require_once $base_path . 'functions.inc';
 
