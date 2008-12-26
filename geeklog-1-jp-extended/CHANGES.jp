@@ -1,5 +1,11 @@
 $Id$
 
+2008-12-26  mystral-kk <mystral-kk>
+
+	* Dataproxyプラグイン、サイトマッププラグインを共にバージョン
+	  1.1.4に更新し、Googleサイトマップに静的ページのデータが出力
+	  されていなかったバグに対処しました。
+
 2008-12-24  Yoshinori Tahara <dengen>
 
 	* custommenuプラグインをバージョン0.4.0に更新しました。
