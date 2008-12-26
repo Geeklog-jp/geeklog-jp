@@ -105,7 +105,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 		
 		$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
 			 . "FROM {$_TABLES['staticpage']} "
-			 . "WHERE (sp_centerblock != '1') ";
+			 . "WHERE (1 = 1) ";
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
