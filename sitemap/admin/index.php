@@ -71,6 +71,19 @@ function SITEMAP_createCheckBox($var_name) {
 }
 
 /**
+* Creates static pages type dropdown list
+*/
+function SITEMAP_createSPOption($type) {
+	global $_SMAP_CONF, $LANG_SMAP;
+	
+	$selection = ($type == $_SMAP_CONF['sp_type'])
+	 		   ? ' selected="selected"' : '';
+	$retval = '<option value="' . $type . '"' . $selection . '>'
+			. SITEMAP_str('sp_type' . (string) $type) . '</option>' . LB;
+	return $retval;
+}
+
+/**
 * Returns <select> list to be used as the frequency selector in Google sitemap
 */
 function SITEMAP_getFreqOptions($driver) {
@@ -195,6 +208,15 @@ if (isset($_POST['submit']) AND ($_POST['submit'] == $LANG_SMAP['submit'])) {
 	$timezone = preg_replace("/[^0-9.:+-]/", '', $_POST['time_zone']);
 	$_SMAP_CONF['time_zone'] = $timezone;
 	
+	// Since version 1.1.4
+	$sp_type = intval($_POST['sp_type']);
+	if (($sp_type < 0) OR ($sp_type > 2)) {
+		$sp_type = 2;
+	}
+	$_SMAP_CONF['sp_type']   = $sp_type;
+	$_SMAP_CONF['sp_except'] = preg_replace("/\s{2,}/", ' ', $_POST['sp_except']);
+	
+	// Saves config data and re-create the sitemap if necessary
 	SITEMAP_saveConfig();
 	
 	if (isset($_POST['update_now'])) {
@@ -231,6 +253,17 @@ $T->set_var('lang_desc_priority', SITEMAP_str('desc_priority', true));
 $T->set_var('lang_update_now', SITEMAP_str('update_now'));
 $T->set_var('lang_last_updated', SITEMAP_str('last_updated'));
 $T->set_var('lang_submit', SITEMAP_str('submit'));
+
+// Since version 1.1.4
+$T->set_var('lang_common_setting', SITEMAP_str('common_setting'));
+$T->set_var('lang_sp_setting', SITEMAP_str('sp_setting'));
+$T->set_var('lang_sp_type', SITEMAP_str('sp_type'));
+$sp_options = SITEMAP_createSPOption(0)
+			. SITEMAP_createSPOption(1)
+			. SITEMAP_createSPOption(2);
+$T->set_var('sp_options', $sp_options);
+$T->set_var('lang_sp_except', SITEMAP_str('sp_except'));
+$T->set_var('sp_except', $_SMAP_CONF['sp_except']);
 
 // Sets config vars for sitemap
 $disp_orders = array();

@@ -121,16 +121,27 @@ function SITEMAP_buildItems(&$driver, $pid) {
 	
 	$html = '';
 	$T->clear_var('items');
-
+	$sp_except = explode(' ', $_SMAP_CONF['sp_except']);
 	$items = $driver->getItems($pid);
 	$num_items = count($items);
 	if ($num_items > 0) {
 		foreach ($items as $item) {
-			// Skip formmail
-			if (($driver->getDriverName() == 'staticpages')
-			 AND ($item['id'] == 'formmail')) {
-				continue;
+			// Static pages
+			if ($driver->getDriverName() == 'staticpages') {
+				if (in_array($item['id'], $sp_except)) {
+					$num_items --;
+					continue;
+				}
+				
+				$temp = $driver->getItemById($item['id']);
+				$raw  = $temp['raw_data'];
+				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
+				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
+					$num_items --;
+					continue;
+				}
 			}
+			
 			$link = '<a href="' . $item['uri'] . '">'
 				  . $driver->escape($item['title']) . '</a>';
 			$T->set_var('item', $link);
