@@ -69,6 +69,9 @@ $LANG_CMED = array(
     'id'                  => 'ID',
     'classname'           => 'クラス名',
     'instructions'        => 'データを修正、削除する場合は各データの「編集」アイコンをクリックしてください。新規作成は「新規作成」をクリックしてください。',
+
+    'warning_updated'     => 'CustomMenu Editor Plugin は更新されています。',
+    'instructions_update' => 'プラグイン管理で \'custommenu\' の更新を行って下さい。',
 );
 
 $LANG_CMED_EDITOR = array(
@@ -129,6 +132,7 @@ $LANG_CMED_EDITOR = array(
     'validate_message_4'  => 'メニューアイテムIDは省略できません。',
     'validate_message_5'  => 'すでに同じメニューアイテムIDが存在します。',
     'validate_message_6'  => 'URL照合文字列が正しくありません。',
+    'validate_message_7'  => '固定モードと可変モードで、URLは省略できません。',
     'pattern'             => 'URL照合文字列',
     'pattern_info'        => '表示中のページのURLがこの文字列とマッチした場合は、システムに渡されるメニューアイテムの情報に"selected"が付加されます。<br' . XHTML . '>これを活用するとメニューアイテムのスタイルを反転させることなどが可能になります。',
     'is_preg'             => '正規表現',

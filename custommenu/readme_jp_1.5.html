@@ -116,9 +116,9 @@
 </head>
 <body>
   <h1><a name="_top">CustomMenu Editor プラグイン</a></h1>
-  <h2>バージョン: 0.4.0</h2>
+  <h2>バージョン: 0.4.1</h2>
   <h2>作成者: Yoshinori Tahara - dengen</h2>
-  <h2>公開日:&nbsp;2008.12.24</h2>
+  <h2>公開日:&nbsp;2009.1.4</h2>
   <h2>ライセンス:&nbsp;GPL</h2>
   <h2>概要:</h2>
   <ul>
@@ -142,8 +142,12 @@
 <ul>
   <li><a href="#_installation">１） インストール</a></li>
   <li><a href="#_uninstallation">２） アンインストール</a></li>
-  <li><a href="#_license">３） 著作権について</a></li>
-  <li><a href="#_history">４） 改訂履歴</a></li>
+  <li><a href="#_menuitemmode">３） メニューアイテムのモードについて</a></li>
+  <li><a href="#_multilanguage">４） 多言語切り替え機能について</a></li>
+  <li><a href="#_urlmatching">５） URLの照合機能について</a></li>
+  <li><a href="#_originalmenulender">６） 多階層メニューに対応した独自メニューレンダラについて</a></li>
+  <li><a href="#_license">７） 著作権について</a></li>
+  <li><a href="#_history">８） 改訂履歴</a></li>
 </ul>
 
 
@@ -202,7 +206,7 @@ function CUSTOM_menuEntries ()
 
     // Sample link #2: Link to the Personal Calendar - only visible for
     // logged-in users
-    if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
+    if (!empty ($_USER['uid']) &amp;&amp; ($_USER['uid'] > 1)) {
         $myentries[] = array ('url'   => $_CONF['site_url']
                                          . '/calendar/index.php?mode=personal',
                               'label' => 'My Calendar');
@@ -260,16 +264,226 @@ function CUSTOM_menuEntries ()
   <p class="goto"><a href="#_top">Goto Top</a></p>
 
 
-<h3><a name="_license">３） 著作権について</a></h3>
+  <h3><a name="_menuitemmode">３） メニューアイテムのモードについて</a></h3>
+  <p>本プラグインではメニューアイテムを3種類のモードで使い分けることが可能です。各モードの説明を次に示します。</p>
+  <div style="margin-left:3em">
+  <table>
+    <tr>
+      <th>モード</th>
+      <th>説明</th>
+      <th>難易度</th>
+      <th>柔軟性</th>
+    </tr>
+    <tr>
+      <td>固定</td>
+      <td>タイトル文字列を固定するモードです。<br />併せて「タイトル（固定）」を入力します。</td>
+      <td>簡単</td>
+      <td>低</td>
+    </tr>
+    <tr>
+      <td>可変</td>
+      <td>Geeklogの多言語切り替え機能に応じてタイトルを可変にするモードです。<br />併せて「タイトル（可変）」を入力します。<br />
+「タイトル（可変）」には言語ファイル内で定義されている配列変数を指定します。<br />
+例えば、$MY_WORD['label'] をタイトルにする場合は MY_WORD['label'] を記入します。</td>
+      <td>やや難しい</td>
+      <td>中</td>
+    </tr>
+    <tr>
+      <td>PHP</td>
+      <td>多言語切り替え機能に応じてタイトルを可変にするモードです。<br />併せて「PHP関数名」を入力します。<br />
+「PHP関数名」にはメニューアイテムの情報を返り値として返す関数の関数名を指定します。<br />
+この関数は関数名に接頭辞「phpmenuitem_」を付けて定義して下さい。<br />
+関数の定義は system/lib-custom.php で行うのが適当でしょう。<br />
+サンプルとして、plugins/custommenu/functions.php に 次の関数を定義しています。<br />
+<table>
+    <tr>
+      <th>サンプル関数名</th>
+      <th>メニュータイトル</th>
+      <th>説明</th>
+    </tr>
+    <tr>
+      <td>phpmenuitem_contribute</td>
+      <td>記事投稿</td>
+      <td>話題に応じてURLを変化させる例です。</td>
+    </tr>
+    <tr>
+      <td>phpmenuitem_login</td>
+      <td>ログイン（ログアウト）</td>
+      <td>ユーザがログインしているかどうかに応じて、タイトルとURLを変化させる例です。</td>
+    </tr>
+</table></td>
+      <td>難しい</td>
+      <td>高</td>
+    </tr>
+  </table>
+  </div>
+
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+
+
+
+
+
+
+  <h3><a name="_multilanguage">４） 多言語切り替え機能について</a></h3>
+  <p>バージョン0.2.3より多言語切り替え機能への対応を強化しました。</p>
+  <p>バージョン0.2.2以前のバージョンでは、多言語切り替えのために「可変モード」を用意していましたが、メニューアイテムの表示を切り替えることはできるものの、リンク先まで切り替えることはできませんでした。（そこまでやるにはPHPモードを活用する必要がありました。）</p>
+  <p>バージョン0.2.3からはGeeklog1.5.1から追加された「ブロックの多言語切り替え機能」と同様の機能をサポートします。</p>
+  <p>「ブロックの多言語切り替え機能」の詳細については以下のWikiを参照してください。</p>
+  <ul>
+  <li><a href="http://wiki.geeklog.jp/index.php/Multi-Language_Support#.E3.83.96.E3.83.AD.E3.83.83.E3.82.AF">http://wiki.geeklog.jp/index.php/Multi-Language_Support#.E3.83.96.E3.83.AD.E3.83.83.E3.82.AF</a></li>
+  <li><a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support#Blocks">http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support#Blocks</a></li>
+  </ul>
+  <p>一例として、英語と日本語を切り替える場合の使用方法を示します。</p>
+  <ul>
+  <li>カスタムメニュー管理画面で言語数＋１つ（つまり合計３つ）で１セットのメニューアイテムを作成します。</li>
+  <li>そして「メニューアイテムID」を、例えば次のように設定します。</li>
+  </ul>
+  <pre><code>about
+about_en
+about_ja</code></pre>
+  <ul>
+  <li>ここで添字"_en"を付加したものは英語モードで、添字"_ja"を付加したものは日本語モードで用いるアイテムにします。</li>
+  <li>そして、それぞれの「有効」オプションを次のように設定します。</li>
+  </ul>
+  <pre><code>about        有効
+about_en     無効
+about_ja     無効</code></pre>
+  <ul>
+  <li>「タイトル（固定）」や「URL」はそれぞれの言語に応じて、表示させたいリンク先のURLを指定します。（「モード」が「固定」の場合）</li>
+  <li>これで完了です。言語モードを切り替えてみてください。</li>
+  <li>メニューアイテム"about"の情報が、システムの言語モードに応じて、メニューアイテム"about_en"やメニューアイテム"about_ja"の情報でオーバーライドされる仕組みです。システムの多言語モードがオフの時には、メニューアイテム"about"の情報がそのまま使われます。</li>
+  </ul>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+  <h3><a name="_urlmatching">５） URLの照合機能について</a></h3>
+  <p>バージョン0.3.0よりURLの照合機能を追加しました。</p>
+  <p>URLの照合機能とは、Geeklogサイトの表示中のページのURLをメニューアイテムごとに照合し、マッチしたメニューアイテムのスタイルを変化させるものです。</p>
+  <p>例えば、リンクのページを開いているときに、リンクのメニューアイテムを反転させて表示させることが可能となります。</p>
+  <p>ただし、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。</p>
+  <p>一例として、リンクのメニューアイテムを反転させる方法を示します。ここでは、professionalテーマを用います。</p>
+  <ul>
+  <li>カスタムメニューの管理画面で「リンク」を編集します。</li>
+  <li>項目「URL照合文字列」へ"/links/"を入力し、更新ボタンをクリックします。カスタムメニューエディタでの作業はこれだけです。<br />
+これは、「表示ページのURLに"/links/"が含まれていたときに、メニューアイテム「リンク」のスタイルを変化させる。」という意味の設定です。</li>
+  <li>なお、「正規表現」を有効にすると、PHPがサポートしている正規表現で照合することができます。照合の条件が複雑な場合に使用することを想定した機能であり、使用する場面は少ないでしょう。照合にはpreg_match関数を使用しています。<br />
+正規表現の詳細については <a href="http://jp.php.net/manual/ja/regexp.reference.php">http://jp.php.net/manual/ja/regexp.reference.php</a> を参照してください。</li>
+  <li>lib-common.phpの変更は実質2行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.phpの623行目および681行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。</li>
+  <li>テーマの変更は、menuitem.thtml、menuitem_last.thtml、style.css の3つのファイルを対象とします。<br />
+/bonus/layout/professonal 内のファイルを参照してください。<br />
+&lt;li&gt;タグに class="{menuitem_selected}" が追加されていることに注目してください。</li>
+  <li>style.cssは1031行目から1033行目の3行を加えるだけです。(サンプルなので単純に背景色を変えただけ)</li>
+  <li>これで完了です。メニューアイテム「リンク」をクリックして効果を確認してみてください。<br />
+テーマをさらに変更してハイセンスなメインメニューを構築してください。</li>
+  </ul>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+  <h3><a name="_originalmenulender">６） 多階層メニューに対応した独自メニューレンダラについて</a></h3>
+  <p>バージョン0.4.0より多階層メニューや画像を使ったメニューに対応した独自メニューレンダラを搭載しました。</p>
+  <p>比較的大規模なサイトに多くみられるプルダウンメニューなどを実装可能なHTMLを出力できるようになりました。</p>
+  <p>Geeklog標準のメニューレンダラが出力するヘッダーメニュー部のHTMLは次のようなものです。</p>
+  <pre><code>&lt;div class="header-navigation-container"&gt;
+  &lt;ul&gt;
+    &lt;li class="menuitem"&gt;&lt;a href="index1.php"&gt;text1&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="menuitem"&gt;&lt;a href="index2.php"&gt;text2&lt;/a&gt;&lt;/li&gt;
+    &lt;li class="menuitem"&gt;&lt;a href="index3.php"&gt;text3&lt;/a&gt;&lt;/li&gt;
+        :
+        :
+        :
+    &lt;li class="menuitem last"&gt;&lt;a href="indexx.php"&gt;textx&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>これに対して、今回搭載した独自メニューレンダラでは、次のような入れ子構造のHTMLを出力することができます。</p>
+  <pre><code>&lt;div class="header-navigation-container"&gt;
+  &lt;ul&gt;
+    &lt;li id="menu_id1" class="menuitem"&gt;&lt;a href="index1.php"&gt;text1&lt;/a&gt;&lt;/li&gt;
+    &lt;li id="menu_id2" class="menuitem"&gt;&lt;a href="index2.php"&gt;text2&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li id="submenu_id1" class="menuitem"&gt;&lt;a href="index_s1.php"&gt;text1&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="submenu_id2" class="menuitem"&gt;&lt;a href="index_s2.php"&gt;text2&lt;/a&gt;&lt;/li&gt;
+      &lt;li id="submenu_id3" class="menuitem"&gt;&lt;a href="index_s3.php"&gt;text3&lt;/a&gt;&lt;/li&gt;
+          :
+          :
+          :
+      &lt;li id="submenu_idx" class="menuitem"&gt;&lt;a href="index_sx.php"&gt;textx&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li id="menu_id3" class="menuitem"&gt;&lt;a href="index3.php"&gt;text3&lt;/a&gt;&lt;/li&gt;
+        :
+        :
+        :
+    &lt;li id="menu_idx" class="menuitem last"&gt;&lt;a href="indexx.php"&gt;textx&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+  <p>また、メニューアイテムごとに次のテンプレート変数をサポートします。</p>
+  <div style="margin-left:3em">
+  <table>
+    <tr>
+      <th>テンプレート変数名</th>
+      <th>説明</th>
+    </tr>
+    <tr>
+      <td>menuitem_url</td>
+      <td>メニューアイテムのリンク先URL</td>
+    </tr>
+    <tr>
+      <td>menuitem_text</td>
+      <td>メニューアイテムのタイトル</td>
+    </tr>
+    <tr>
+      <td>menuitem_id</td>
+      <td>メニューアイテムのID</td>
+    </tr>
+    <tr>
+      <td>menuitem_class</td>
+      <td>メニューアイテムのクラス名  (例：'last')</td>
+    </tr>
+    <tr>
+      <td>class_property</td>
+      <td>メニューアイテムのクラスプロパティ  (例：'class="last"')</td>
+    </tr>
+    <tr>
+      <td>menuitem_icon_url</td>
+      <td>メニューアイテムのアイコンとして用いる画像のURL</td>
+    </tr>
+  </table>
+  </div>
+  <p>多階層メニューを試すには、次の操作を行って下さい。</p>
+  <ul>
+    <li>/bonus/lib-common.phpの657行～666行のように、lib-common.phpを修正する必要があります。</li>
+    <li>コンフィギュレーション -> カスタムメニュー -> メニューレンダラ を「階層メニュー対応」に設定します。</li>
+    <li>/bonus/layout/テーマ名 のファイル群を、テーマディレクトリにコピーします。(professional と ProfessionalCSS のみ対応)<br />
+この操作で、各テーマの menuitem.thtml, menuitem_last.thtml, style.css, custom.css を上書きしますので、事前のバックアップをお忘れなく。</li>
+    <li>「メニューアイテムの編集」で「親アイテムID」を使って階層を設定します。</li>
+    <li>階層メニューの起点になるメニューアイテムのクラス名に 'drop' や 'fly' を設定してみて下さい。（アローアイコンが出現します）</li>
+    <li>子階層メニューの最初のアイテム、孫階層メニューの最初のアイテム、親階層メニューの最後のアイテムのクラス名に 'enclose' を設定して下さい。</li>
+  </ul>
+  <p>画像を使ったメニューを試すには、テンプレート変数 menuitem_icon_url を使って、/layout/テーマ名/custommenu 内の menuitem.thtml, menuitem_drop.thtml を修正します。加えて、CSSを使ってレイアウトを調整してください。</p>
+  <p class="goto"><a href="#_top">Goto Top</a></p>
+
+  <h3><a name="_license">７） 著作権について</a></h3>
   <p>本作品で、削除および矢印アイコンとして使用している delete.png, arrow-dn.png, arrow-up.pngは Joseph North さんの著作物です。<br />ライセンスは次のリンクをご覧ください。</p>
   <p>Sweetie Icon Set<br />----------------<br />Author:  Joseph North<br />Email:   sublick@gmail.com<br />License: <a href="http://creativecommons.org/licenses/by-sa/2.0/jp/">Creative Commons Attribution-ShareAlike 2.0</a><br /> Year:    2005</p>
   <p class="goto"><a href="#_top">Goto Top</a></p>
-  <h3><a name="_history">４） 改訂履歴</a></h3>
+
+  <h3><a name="_history">８） 改訂履歴</a></h3>
   <table>
     <tr>
       <th>バージョン</th>
       <th>公開日</th>
       <th>説明</th>
+    </tr>
+    <tr>
+      <td class="center">0.4.1</td>
+      <td class="center">2009.1.4</td>
+      <td><span class="new">追加</span>&nbsp;PHPモードで、ID、クラス名、子メニューエントリの配列を設定できるようにしました。<br />
+          <span class="fix">修正</span>&nbsp;メニューアイテムの編集におけるバリデーションを強化しました。<br />
+          <span class="fix">修正</span>&nbsp;0.4.0以降へのバージョンアップが正常に行えない問題に対応しました。<br />
+          <span class="fix">修正</span>&nbsp;メニューアイテムIDの変更に伴い親アイテムIDが更新されない問題に対応しました。<br />
+          <span class="fix">修正</span>&nbsp;テンプレートとCSSを一部修正しました。<br />
+          <span class="fix">修正</span>&nbsp;説明書（readme_jp.thml, readme_jp_1.5.html）を充実させました。<br />
+      </td>
     </tr>
     <tr>
       <td class="center">0.4.0</td>

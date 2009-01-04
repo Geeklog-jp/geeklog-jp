@@ -57,6 +57,17 @@ if (!SEC_hasRights('custommenu.admin')) {
     exit;
 }
 
+$pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
+if (version_compare($pi_version, $_CMED_CONF['version']) < 0) {
+    $display  = COM_siteHeader();
+    $display .= COM_startBlock($LANG_CMED['warning_updated']);
+    $display .= $LANG_CMED['instructions_update'];
+    $display .= COM_endBlock();
+    $display .= COM_siteFooter(true);
+    echo $display;
+    exit;
+}
+
 /**
 * Sanitize a URL
 *
@@ -118,8 +129,9 @@ function CMED_setMI()
 {
     global $_CONF, $MI;
 
-    $url      = $_POST['url'];
-    $icon_url = $_POST['icon_url'];
+    $url       = trim($_POST['url']);
+    $icon_url  = trim($_POST['icon_url']);
+    $menuorder = trim($_POST['menuorder']);
     $MI = array(
         'mid'          => COM_applyFilter($_POST['mid']),
         'pmid'         => COM_applyFilter($_POST['pmid']),
@@ -131,15 +143,13 @@ function CMED_setMI()
         'php_function' => $_POST['php_function'],
 //        'url'          => isset ($url)      ? CMED_sanitizeUrl($url,      array('http', 'https')) : '',
 //        'icon_url'     => isset ($icon_url) ? CMED_sanitizeUrl($icon_url, array('http', 'https')) : '',
-        'url'          => isset ($url)      ? strip_tags($url)      : '',
-        'icon_url'     => isset ($icon_url) ? strip_tags($icon_url) : '',
+        'url'          => empty($url)      ? '' : strip_tags($url),
+        'icon_url'     => empty($icon_url) ? '' : strip_tags($icon_url),
         'tid'          => COM_applyFilter ($_POST['tid']),
-        'menuorder'    => $_POST['menuorder'],
-
+        'menuorder'    => empty($menuorder) ? 0 : COM_applyFilter($menuorder, true),
         'pattern'      => $_POST['pattern'],
         'is_preg'      => ($_POST['is_preg'] == 'on') ? 1 : 0,
         'class_name'   => COM_applyFilter($_POST['class_name']),
-
         'owner_id'     => COM_applyFilter($_POST['owner_id'], true),
         'group_id'     => COM_applyFilter($_POST['group_id'], true),
         'perm_owner'   => $_POST['perm_owner'],
@@ -188,6 +198,10 @@ function CMED_validateMI($mode)
         if (@preg_match($MI['pattern'], 'test') === false) {
             $retval .= $LANG_CMED_EDITOR['validate_message_6'] . '<br' . XHTML . '>';
         }
+    }
+
+    if (empty($MI['url']) && ($MI['mode'] != 'php')) {
+        $retval .= $LANG_CMED_EDITOR['validate_message_7'] . '<br' . XHTML . '>';
     }
 
     return $retval;
@@ -555,6 +569,12 @@ function CMED_saveMenuitems($mode)
                                 . $MI['is_preg']      . ",'"  . $MI['pmid']       . "','" . $MI['class_name'] . "')";
                 DB_query($sql);
 
+                // With a change of mid, I change pmid.
+                $result = DB_query("SELECT mid FROM {$_TABLES['menuitems']} WHERE pmid ='{$MI['old_mid']}'");
+                while ($B = DB_fetchArray($result)) {
+                    DB_query("UPDATE {$_TABLES['menuitems']} SET pmid = '{$MI['mid']}' WHERE mid = '{$B['mid']}'");
+                }
+
             } else {
                 DB_save($_TABLES['menuitems'],
                     'mid, is_enabled, type, mode, label, label_var, php_function, url, '
@@ -730,6 +750,11 @@ function CMED_deleteMenuitem($mid)
     }
 
     DB_delete($_TABLES['menuitems'], 'mid', $mid);
+
+    $result = DB_query("SELECT mid FROM {$_TABLES['menuitems']} WHERE pmid ='$mid'");
+    while ($B = DB_fetchArray($result)) {
+        DB_query("UPDATE {$_TABLES['menuitems']} SET pmid = '' WHERE mid = '{$B['mid']}'");
+    }
 
     return $retval;
 }
