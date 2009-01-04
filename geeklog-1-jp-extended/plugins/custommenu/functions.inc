@@ -212,9 +212,24 @@ function plugin_upgrade_custommenu()
 
     if (version_compare($pi_version, '0.4.0') < 0) {
         $sql = "ALTER TABLE {$_TABLES['menuitems']} "
-             . "ADD COLUMN pmid varchar(40) NOT NULL default ''"
+             . "ADD COLUMN pmid varchar(40) NOT NULL default '',"
              . "ADD COLUMN class_name varchar(48) default NULL";
         DB_query($sql);
+    }
+
+    if (version_compare($pi_version, '0.4.1') < 0) {
+        require_once $_CONF['path'] . 'plugins/custommenu/install_defaults.php';
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        $c = config::get_instance();
+        $n = DB_count($_TABLES['conf_values'], "name", 'menu_render');
+        if ($n == 0) {
+            $c->add('menu_render', $_CMED_DEFAULT['menu_render'], 'select', 0, 0, 10, 20, true, 'custommenu');
+        }
+        $n = DB_count($_TABLES['conf_values'], "name", 'prefix_id');
+        if ($n == 0) {
+            $c->add('prefix_id', $_CMED_DEFAULT['prefix_id'], 'text', 0, 0, 0, 30, true, 'custommenu');
+        }
+        DB_query("UPDATE {$_TABLES['conf_values']} SET sort_order = 40 WHERE name = 'default_permissions'");
     }
 
     // Update the version numbers
@@ -464,6 +479,9 @@ function CMED_replaceUrl($url)
 
 if (!function_exists('CUSTOM_menuEntries')) {
 
+    $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
+    $_CMED_CONF['pulldown_enabled'] = (version_compare($pi_version, '0.4.0') >= 0);
+
     function CUSTOM_menuEntries()
     {
         return CMED_menuEntries_recursive();
@@ -471,14 +489,16 @@ if (!function_exists('CUSTOM_menuEntries')) {
 
     function CMED_menuEntries_recursive($pmid='')
     {
-        global $_CONF, $_TABLES, $topic;
+        global $_CONF, $_TABLES, $topic, $_CMED_CONF;
 
         $thisUrl = COM_getCurrentURL();
         $lang = COM_getLanguageId();
         $myentries = array();
         if (!empty($_TABLES['menuitems'])) {
             $sql = "SELECT * FROM {$_TABLES['menuitems']} WHERE is_enabled = 1";
-            $sql .= " AND pmid = '$pmid'";
+            if ($_CMED_CONF['pulldown_enabled']) {
+               $sql .= " AND pmid = '$pmid'";
+            }
             if(!empty($topic)) {
                 $sql .= " AND (tid = '$topic' OR tid = 'all')";
             } else {
@@ -505,8 +525,10 @@ if (!function_exists('CUSTOM_menuEntries')) {
                                         $A['perm_members'],$A['perm_anon']);
                 if ($access > 0) {
 
-                    $submenu_entries = CMED_menuEntries_recursive($A['mid']);
-
+                    $submenu_entries = array();
+                    if ($_CMED_CONF['pulldown_enabled']) {
+                        $submenu_entries = CMED_menuEntries_recursive($A['mid']);
+                    }
                     $url         = CMED_replaceUrl($A['url']);
                     $icon_url    = CMED_replaceUrl($A['icon_url']);
                     $pattern     = stripslashes($A['pattern']);
@@ -532,6 +554,15 @@ if (!function_exists('CUSTOM_menuEntries')) {
                                     $url      = $menuitems['url'];
                                     $label    = $menuitems['label'];
                                     $icon_url = $menuitems['icon_url'];
+                                    if (!empty($menuitems['id_name'])) {
+                                        $id_name = $menuitems['id_name'];
+                                    }
+                                    if (!empty($menuitems['class_name'])) {
+                                        $id_name = $menuitems['class_name'];
+                                    }
+                                    if (is_array($menuitems['submenu_entries'])) {
+                                        $submenu_entries = $menuitems['submenu_entries'];
+                                    }
                                 }
                             }
                             break;
@@ -634,9 +665,12 @@ function phpmenuitem_contribute()
     $label = $LANG01[71];
     
     $menuitems = array(
-        'url'      => $url,
-        'label'    => $label,
-        'icon_url' => '',
+        'url'        => $url,
+        'label'      => $label,
+        'icon_url'   => '',
+        'id_name'    => '',
+        'class_name' => '',
+        'submenu_entries' => array(),
     );
     return $menuitems;
 }
@@ -654,9 +688,12 @@ function phpmenuitem_login()
     }
 
     $menuitems = array(
-        'url'      => $url,
-        'label'    => $label,
-        'icon_url' => '',
+        'url'        => $url,
+        'label'      => $label,
+        'icon_url'   => '',
+        'id_name'    => '',
+        'class_name' => '',
+        'submenu_entries' => array(),
     );
     return $menuitems;
 }

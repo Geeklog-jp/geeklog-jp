@@ -2,7 +2,7 @@
     <form action="{site_admin_url}/plugins/custommenu/index.php" method="post">
         <table cellspacing="0" cellpadding="3" width="100%">
             <tr>
-                <td width="180" class="alignright" style="vertical-align:top">{lang_mode}:</td>
+                <td class="alignright" style="width:180px; vertical-align:top">{lang_mode}:</td>
                 <td>
                     <select name="mmode">
                         <option value="fixation" {val_mode_fixation}>{lang_mode_fixation}</option>
