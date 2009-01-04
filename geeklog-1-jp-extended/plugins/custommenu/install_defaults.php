@@ -73,15 +73,16 @@ $_CMED_DEFAULT['aftersave'] = 'list';
 $_CMED_DEFAULT['default_permissions'] = array (3, 2, 2, 2);
 
 /**
- * 
- * 
- * 
- * 
- * 
+ * Menu Render
+ * 'standard' -> Geeklog system standard
+ * 'pulldown' -> Supports a pulldown menu
  */
 $_CMED_DEFAULT['menu_render'] = 'standard';
-$_CMED_DEFAULT['prefix_id'] = 'cmitem-';
 
+/**
+ * Prefix to add to ID
+ */
+$_CMED_DEFAULT['prefix_id'] = 'cmitem-';
 
 /**
 * Initialize CustomMenu Editor plugin configuration

@@ -1097,6 +1097,7 @@ way to fit your requirements.
 .header-navigation-container li:hover 
 {
     position : relative;
+    z-index  : 100; 
 }
 
 /* Make the hovered list color persist */
@@ -1120,7 +1121,7 @@ way to fit your requirements.
     top        : -11px; 
     left       : 80px; 
     padding    : 10px 30px 30px 30px; 
-    background : transparent url(transparent.gif); 
+    background : transparent url(custommenu/images/transparent.gif); 
     width      : 120px;
 }
 
@@ -1181,7 +1182,7 @@ way to fit your requirements.
     top        : -11px; 
     left       : 80px; 
     padding    : 10px 30px 30px 30px; 
-    background : transparent url(transparent.gif);
+    background : transparent url(custommenu/images/transparent.gif);
 }
 
 /* keep the third level+ hidden when you hover on first level link */
