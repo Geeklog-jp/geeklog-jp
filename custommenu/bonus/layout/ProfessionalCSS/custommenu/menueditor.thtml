@@ -1,166 +1,100 @@
 
-    <form action="{site_admin_url}/plugins/custommenu/index.php" method="post">
-        <table cellspacing="0" cellpadding="3" width="100%">
-            <tr>
-                <td width="180" class="alignright" style="vertical-align:top">{lang_mode}:</td>
-                <td>
-                    <select name="mmode">
-                        <option value="fixation" {val_mode_fixation}>{lang_mode_fixation}</option>
-                        <option value="variable" {val_mode_variable}>{lang_mode_variable}</option>
-                        <option value="php" {val_mode_php}>{lang_mode_php}</option>
-                    </select>
-                    <br{xhtml}><div class="pluginMediumText">{lang_mode_info}</div>
-                </td>
-            </tr>
+<form action="{site_admin_url}/plugins/custommenu/index.php" method="post" id="custommenueditor" class="compact">
+  <fieldset>
+    <legend>{lang_custommenueditor}</legend>
+    <dl>
+      <dt><label for="mmode">{lang_mode}</label></dt>
+      <dd>
+        <select name="mmode" id="mmode">
+          <option value="fixation" {val_mode_fixation}>{lang_mode_fixation}</option>
+          <option value="variable" {val_mode_variable}>{lang_mode_variable}</option>
+          <option value="php" {val_mode_php}>{lang_mode_php}</option>
+        </select>
+      </dd>
+      <dd class="description">{lang_mode_info}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_title_fixation}:</td>
-                <td>
-                    <input type="text" name="title_fixation" value="{val_title_fixation}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_title_fixation_info}</div>
-                </td>
-            </tr>
+      <dt><label for="title_fixation">{lang_title_fixation}</label></dt>
+      <dd><input type="text" size="40" value="{val_title_fixation}" name="title_fixation" id="title_fixation" class="text"{xhtml}></dd>
+      <dd class="description">{lang_title_fixation_info}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_title_variable}:</td>
-                <td>
-                    <input type="text" name="title_variable" value="{val_title_variable}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_title_variable_info}</div>
-                </td>
-            </tr>
+      <dt><label for="title_variable">{lang_title_variable}</label></dt>
+      <dd><input type="text" size="40" value="{val_title_variable}" name="title_variable" id="title_variable" class="text"{xhtml}></dd>
+      <dd class="description">{lang_title_variable_info}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_php_function}:</td>
-                <td>
-                    <input type="text" name="php_function" value="{val_php_function}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_php_function_info}</div>
-                </td>
-            </tr>
+      <dt><label for="php_function">{lang_php_function}</label></dt>
+      <dd><input type="text" size="40" value="{val_php_function}" name="php_function" id="php_function" class="text"{xhtml}></dd>
+      <dd class="description">{lang_php_function_info}</dd>
 
-            <tr>
-                <td class="alignright">{lang_is_enabled}:</td>
-                <td><input type="checkbox" name="is_enabled" {val_is_enabled}{xhtml}></td>
-            </tr>
+      <dt><label for="is_enabled">{lang_is_enabled}</label></dt>
+      <dd><input type="checkbox" {val_is_enabled} name="is_enabled" id="is_enabled"{xhtml}></dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_menuitemurl}:</td>
-                <td>
-                    <input type="text" name="url" value="{val_menuitemurl}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_includehttp}</div>
-                </td>
-            </tr>
+      <dt><label for="url">{lang_menuitemurl}</label></dt>
+      <dd><input type="text" size="40" value="{val_menuitemurl}" name="url" id="url" class="text"{xhtml}></dd>
+      <dd class="description">{lang_includehttp}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_menuitemid}:</td>
-                <td>
-                    <input type="text" name="mid" value="{val_mid}" size="48" {mid_readonly}{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_nospaces}</div>
-                </td>
-            </tr>
+      <dt><label for="mid">{lang_menuitemid}</label></dt>
+      <dd><input type="text" size="40" value="{val_mid}" name="mid" id="mid" class="text" {mid_readonly}{xhtml}></dd>
+      <dd class="description">{lang_nospaces}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_parentitemid}:</td>
-                <td>
-{selpmid}
-                </td>
-            </tr>
+      <dt><label for="pmid">{lang_parentitemid}</label></dt>
+      <dd>{selpmid}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_class_name}:</td>
-                <td>
-                    <input type="text" name="class_name" value="{val_class_name}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_class_name_info}</div>
-                </td>
-            </tr>
+      <dt><label for="class_name">{lang_class_name}</label></dt>
+      <dd><input type="text" size="40" value="{val_class_name}" name="class_name" id="class_name" class="text"{xhtml}></dd>
+      <dd class="description">{lang_class_name_info}</dd>
 
-            <tr>
-                <td class="alignright">{lang_topic}:</td>
-                <td>
-                  <select name="tid">
-                      <option value="all" {all_selected}>{lang_all}</option>
-                      <option value="homeonly" {homeonly_selected}>{lang_homeonly}</option>
-                      {topic_options}
-                  </select>
-                </td>
-            </tr>
+      <dt><label for="tid">{lang_topic}</label></dt>
+      <dd>
+        <select name="tid" id="tid">
+          <option value="all" {all_selected}>{lang_all}</option>
+          <option value="homeonly" {homeonly_selected}>{lang_homeonly}</option>
+          {topic_options}
+        </select>
+      </dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_menuitemorder}:</td>
-                <td>
-                    <input type="text" name="menuorder" value="{val_menuorder}" size="4"{xhtml}>
-                    <span class="pluginMediumText"> 0 - 9999</span>
-                </td>
-            </tr>
+      <dt><label for="menuorder">{lang_menuitemorder}</label></dt>
+      <dd><input type="text" size="4" value="{val_menuorder}" name="menuorder" id="menuorder" class="text"{xhtml}></dd>
+      <dd class="description">0-9999</dd>
 
-            <tr>
-                <td class="alignright">{lang_menuitemtype}:</td>
-                <td>{lang_type}</td>
-            </tr>
+      <dt><label for="type">{lang_menuitemtype}</label></dt>
+      <dd>{lang_type}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_icon_url}:</td>
-                <td>
-                    <input type="text" name="icon_url" value="{val_icon_url}" size="48"{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_icon_url_info}</div>
-                </td>
-            </tr>
+      <dt><label for="icon_url">{lang_icon_url}</label></dt>
+      <dd><input type="text" size="40" value="{val_icon_url}" name="icon_url" id="icon_url" class="text"{xhtml}></dd>
+      <dd class="description">{lang_icon_url_info}</dd>
 
-            <tr>
-                <td class="alignright" style="vertical-align:top">{lang_pattern}:</td>
-                <td>
-                    <input type="text" name="pattern" value="{val_pattern}" size="48"{xhtml}>
-                    &nbsp;{lang_is_preg}:
-                    <input type="checkbox" name="is_preg" {val_is_preg}{xhtml}>
-                    <br{xhtml}><div class="pluginMediumText">{lang_pattern_info}</div>
-                </td>
-            </tr>
+      <dt><label for="icon_url">{lang_pattern}</label></dt>
+      <dd><input type="text" size="40" value="{val_pattern}" name="pattern" id="pattern" class="text"{xhtml}>
+          &nbsp;{lang_is_preg}:<input type="checkbox" {val_is_preg} name="is_preg" id="is_preg"{xhtml}></dd>
+      <dd class="description">{lang_pattern_info}</dd>
+    </dl>
+  </fieldset>
 
-            <tr>
-                <td colspan="2"><hr{xhtml}></td>
-            </tr>
+  <fieldset>
+    <legend>{lang_accessrights}</legend>
+    <dl>
+      <dt>{lang_owner}</dt>
+      <dd>{owner_name}</dd>
 
-            <tr>
-                <td colspan="2"><strong>{lang_accessrights}</strong></td>
-            </tr>
+      <dt><label for="group_id">{lang_group}</label></dt>
+      <dd>{group_dropdown}</dd>
 
-            <tr>
-                <td class="alignright">{lang_owner}:</td>
-                <td>{owner_name}</td>
-            </tr>
+      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dd>{permissions_editor}</dd>
+      <dd class="description">{lang_perm_key}</dd>
+      <dd class="description">{lang_permissions_msg}</dd>
+    </dl>
+  </fieldset>
 
-            <tr>
-                <td class="alignright">{lang_group}:</td>
-                <td>
-                    {group_dropdown}
-                </td>
-            </tr>
-
-            <tr>
-                <td colspan="2"><strong>{lang_permissions}:</strong></td>
-            </tr>
-
-            <tr>
-                <td colspan="2">{lang_perm_key}</td>
-            </tr>
-
-            <tr>
-                <td colspan="2">{permissions_editor}</td>
-            </tr>
-
-            <tr>
-                <td colspan="2">{lang_permissions_msg}</td>
-            </tr>
-            <tr><td>&nbsp;</td></tr>
-            <tr>
-                <td colspan="2">
-                    <input type="submit" name="mode" value="{lang_save}"{xhtml}>
-                    <input type="submit" name="mode" value="{lang_cancel}"{xhtml}>
-                    <input type="submit" name="mode" value="{lang_delete}" onclick="return confirm('{lang_confirm}');" {delete_disabled}{xhtml}>
-                    <input type="hidden" name="type" value="{val_type}"{xhtml}>
-                    <input type="hidden" name="owner_id" value="{owner_id}"{xhtml}>
-                    <input type="hidden" name="old_mid" value="{val_old_mid}"{xhtml}>
-                    <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-                </td>
-            </tr>
-        </table>
-    </form>
+  <ul class="submit">
+    <li><input type="submit" name="mode" value="{lang_save}"{xhtml}></li>
+    <li><input type="submit" name="mode" value="{lang_cancel}"{xhtml}></li>
+    <li><input type="submit" name="mode" value="{lang_delete}" onclick="return confirm('{lang_confirm}');" {delete_disabled}{xhtml}></li>
+    <li>
+      <input type="hidden" name="type" value="{val_type}"{xhtml}>
+      <input type="hidden" name="owner_id" value="{owner_id}"{xhtml}>
+      <input type="hidden" name="old_mid" value="{val_old_mid}"{xhtml}>
+      <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+    </li>
+  </ul>
+</form>
