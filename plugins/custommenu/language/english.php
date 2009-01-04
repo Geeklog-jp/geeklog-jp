@@ -69,6 +69,9 @@ $LANG_CMED = array(
     'id'                  => 'ID',
     'classname'           => 'Class',
     'instructions'        => 'To modify or delete a data, click on that data\'s edit icon below.  To create a new data, click on "Create New" above.',
+
+    'warning_updated'     => 'CustomMenu Editor Plugin is updated.',
+    'instructions_update' => 'Please update \'custommenu\' in Plugin Management.',
 );
 
 $LANG_CMED_EDITOR = array(
@@ -128,6 +131,8 @@ $LANG_CMED_EDITOR = array(
     'validate_message_3'  => 'In the PHP Mode, you cannot omit input of the PHP Function Name.',
     'validate_message_4'  => 'You cannot omit input of the Menuitem ID.',
     'validate_message_5'  => 'There is already the same Menuitem ID.',
+    'validate_message_6'  => 'URL matching character string is not right.',
+    'validate_message_7'  => 'In the Fixed Mode and the Variable Mode, you cannot omit the input of the URL.',
     'pattern'             => 'URL matching character string',
     'pattern_info'        => 'When the URL of a page displaying matched it with this character string, "selected" is added to the information of menuitem handed to Geeklog system.<br' . XHTML . '>It is enabled to reverse the style of the menuitem when I utilize this.',
     'is_preg'             => 'Regular Expression',
