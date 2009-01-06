@@ -391,10 +391,10 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   - 削除
 
 
-■Ver.2.3(2008-12-13)
-　・システムメッセージタイトル部分の背景色をコントラストを十分に保てる色に変更しました。(*block.css)
+■Ver.2.3(2008-12-30)
+　・デザインを変更しました。
 　・functions.phpに掲示板プラグイン対応させました。(*functions.php)
-　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo_black.png)
+　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo.gif)
 　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/css/icon_pagetop.png)
 　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
 　・preとblockquote要素のスタイルを設定しました。(*default.css)
@@ -402,7 +402,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 　・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しない修正方法をProfessionalCSSと同じようにしました。(*layout.css,common.css)
 　・中央ブロックの右に余白を追加しました。(*block.css)
   ・Internet Explorer6のユーザーの編集ページでレイアウトが崩れていたので修正しました。(*layout.css)
-  ・聞き飛ばし部分に入れているテキストを修正(*header.thtml,footer.thtml)
+  ・聞き飛ばし部分に入れているテキストを修正しました。(*header.thtml,footer.thtml)
 　・ページ内リンクのname属性の後にid属性を追加しました。(*header.thtml,footer.thtml)
 　・記事をメールするアイコン、印刷用アイコン、編集アイコンを作り直し新しい物に変更しました。(*images/edit.png,images/print.png,images/mail.png)
 　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*story.css)
