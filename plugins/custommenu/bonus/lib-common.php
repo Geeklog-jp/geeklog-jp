@@ -657,7 +657,7 @@ function COM_renderMenu( &$header, $plugin_menu )
 //@@@@@ added for CustomMenu Editor plugin >>-------------------------------
                 global $_CMED_CONF;
                 if (isset($_CMED_CONF['menu_render']) && ($_CMED_CONF['menu_render'] == 'pulldown')
-                        && function_exists(CMED_renderMenu)) {
+                        && function_exists('CMED_renderMenu')) {
                     CMED_renderMenu($header, $custom_entries, $menuCounter);
                     $url = '';
                     $label = '';
