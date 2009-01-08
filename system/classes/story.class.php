@@ -1173,11 +1173,9 @@ class Story
                 $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
             }
 
-            $norm = '/' . $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . '[ \/]*' . '>' . $lLinkSuffix . '/';
-            $left = '/' . $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""' . '[ \/]*' . '>'
-                    . $lLinkSuffix . '/';
-            $right = '/' . $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""' . '[ \/]*' . '>'
-                    . $lLinkSuffix . '/';
+            $norm = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
+            $left = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
+            $right = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
 
             $text = preg_replace($norm, $imageX, $text);
             $text = preg_replace($left, $imageX_left, $text);
@@ -1190,9 +1188,9 @@ class Story
 
                 if (file_exists($lFilename_large_complete)) {
                     $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
-                    $norm = '/' . '<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""' . '[ \/]*' . '>' . '/';
-                    $left = '/' . '<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""' . '[ \/]*' . '>' . '/';
-                    $right = '/' . '<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""' . '[ \/]*' . '>' . '/';
+                    $norm = '|' . preg_quote('<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
+                    $left = '|' . preg_quote('<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
+                    $right = '|' . preg_quote('<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
                 }
 
                 $text = preg_replace($norm, $unscaledX, $text);
