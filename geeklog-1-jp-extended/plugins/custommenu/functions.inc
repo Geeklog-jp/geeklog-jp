@@ -479,8 +479,8 @@ function CMED_replaceUrl($url)
 
 if (!function_exists('CUSTOM_menuEntries')) {
 
-    $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
-    $_CMED_CONF['pulldown_enabled'] = (version_compare($pi_version, '0.4.0') >= 0);
+    $_CMED_pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
+    $_CMED_CONF['pulldown_enabled'] = (version_compare($_CMED_pi_version, '0.4.0') >= 0);
 
     function CUSTOM_menuEntries()
     {
