@@ -360,6 +360,7 @@ body.js_off div#container div#wrapper div#rightblocks {
 div#container div#footer {
   position: relative;
   clear: left;
+  width: 70.2em;
   margin: 0;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
