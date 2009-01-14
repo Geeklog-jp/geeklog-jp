@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-14  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイルjapanese_utf-8.phpの「Powered By」を「powered by」に
+	  変更しました。
+
 2009-01-08  mystral-kk <mystral-kk>
 
 	* 携帯の記事編集の対応(2008-11-13)で使用されている正規表現を一部修正
