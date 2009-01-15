@@ -1,5 +1,12 @@
 $Id$
 
+2009-01-15  Masuko Koeda  <milk851> 
+
+        * WAIproCSSがWindows Internet Explorer、Opera、Firefox、Google Chromeで
+　　　　　文字サイズ縮小時にレイアウトが崩れていたのを修正しました。
+　　　　　Internet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
+　　　　　validateアイコンが表示されていなかったのを修正しました。
+
 2009-01-14  Tetsuko Komma  <ivysoho>
 
 	* 言語ファイルjapanese_utf-8.phpの「Powered By」を「powered by」に
