@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-18  mystral-kk <mystral-kk>
+
+	* フルネームを表示する」を「はい」にしても、コメントバーでユーザ名
+	  が表示されてしまう問題(Issue #52)に対応しました。
+
 2009-01-14  Tetsuko Komma  <ivysoho>
 
 	* 言語ファイルjapanese_utf-8.phpの「Powered By」を「powered by」に
