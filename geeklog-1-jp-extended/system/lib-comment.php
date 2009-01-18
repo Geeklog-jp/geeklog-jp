@@ -327,7 +327,7 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
             $template->set_var( 'end_author_anchortag', '</a>' );
             $template->set_var( 'author_link',
                 COM_createLink(
-                    $A['username'],
+                    $fullname,
                     $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid']
                 )
             );
