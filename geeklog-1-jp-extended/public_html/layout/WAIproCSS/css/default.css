@@ -164,14 +164,6 @@ abbr[title], acronym[title] {
   Hypertext Module
 ---------------------------------------*/
 
-a:link {
-  color: #0000ff;
-}
-
-a:visited {
-  color: #295e29;
-}
-
 a:link, a:visited {
   text-decoration: underline;
 }
