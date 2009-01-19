@@ -40,7 +40,7 @@ div#container {
   min-width: 37.5em; 
   margin: 20px auto 0;
   padding: 0;
-  border: 0.1em solid #00007d;
+  border: 0.1em solid #555555;
   font-size: 1em; 
   text-align: left;
 }
@@ -103,9 +103,9 @@ div#container div#header p.welcome_msg a:active {
 div#container div#navigation {
   height: 1.5em;
   padding: 0.49em;
-  background: #5152bf;
-  border-top: 0.1em solid #00007d;
-  border-bottom: 0.1em solid #00007d;
+  background: #666666;
+  border-top: 0.1em solid #555555;
+  border-bottom: 0.1em solid #555555;
   text-align: left;
 }
 
@@ -120,7 +120,7 @@ div#container div#navigation ul li {
   display: inline;
   margin: 0 0.125em;
   padding: 0;
-
+  font-weight:bold;
 }
 
 /* ナビゲーションメニュー(通常) */
@@ -250,21 +250,21 @@ body.js_off div#container div#wrapper div#carrier {
 div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;  /* 左ブロックの幅[L] */
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 /*-- JavaScript有効・2カラム(左ブロック・中央ブロック)時の左ブロックコンテナ --*/
 body.left-center div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 /*-- JavaScript無効時の左ブロックコンテナ --*/
 body.js_off div#container div#wrapper div#carrier div#leftblocks {
   float: left;
   width: 12.5em;
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 
@@ -289,8 +289,8 @@ body.left-center-right div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 44.98em;
   background: #ffffff;
-  border-left: 0.1em solid #00007d;
-  border-right: 0.1em solid #00007d;
+  border-left: 0.1em solid #555555;
+  border-right: 0.1em solid #555555;
 }
 
 /* JavaScript有効・2カラム(左ブロック・中央ブロック)時の中央ブロックコンテナ */
@@ -298,7 +298,7 @@ body.left-center div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 57.59em;
   background: #ffffff;
-  border-left: 0.1em solid #00007d;
+  border-left: 0.1em solid #555555;
 }
 
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の中央ブロックコンテナ */
@@ -306,7 +306,7 @@ body.center-right div#container div#wrapper div#carrier div#centerblocks {
   float: left;
   width: 57.59em;
   background: #ffffff;
-  border-right: 0.1em solid #00007d;
+  border-right: 0.1em solid #555555;
 }
 
 /* JavaScript有効・1カラム(中央ブロック)時の中央ブロックコンテナ */
@@ -320,8 +320,8 @@ body.js_off div#container div#wrapper div#carrier div#centerblocks {
   float: right;
   width: 44.98em;
   background: #ffffff;
-  border-left: 0.1em solid #00007d;
-  border-right: 0.1em solid #00007d;
+  border-left: 0.1em solid #555555;
+  border-right: 0.1em solid #555555;
 }
 
 
@@ -334,21 +334,21 @@ body.js_off div#container div#wrapper div#carrier div#centerblocks {
 div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.5em;  /* 右ブロックの幅[R] */
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の右ブロックコンテナ */
 body.center-right div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.5em;  /* 右ブロックの幅[R] */
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 /* JavaScript無効時の右ブロックコンテナ */
 body.js_off div#container div#wrapper div#rightblocks {
   float: right;
   width: 12.5em;
-  background: #dadaff;
+  background: #eeeeee;
 }
 
 
@@ -364,8 +364,8 @@ div#container div#footer {
   margin: 0;
   padding-top: 0.5em;
   padding-bottom: 0.5em;
-  background: #c2c2ea;
-  border-top: 0.09em solid #00007d;
+  background: #dedede;
+  border-top: 0.09em solid #555555;
   color: #000000;
   text-align: center;
 }
