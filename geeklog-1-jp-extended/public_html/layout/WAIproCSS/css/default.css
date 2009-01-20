@@ -369,9 +369,6 @@ table>tr {
 th,
 td {
   vertical-align: top;
-/* IE用(セルの幅に合わせて内容を折り返す) { */
-  word-break: break-all;
-/* } IE用 */
 }
 
 th {
