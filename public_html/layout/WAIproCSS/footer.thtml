@@ -1,4 +1,4 @@
-<!-- footer.thtml { -->
+﻿<!-- footer.thtml { -->
 </div>
 <!-- centerblocks } -->
     
@@ -34,9 +34,10 @@
  </a>
 </p>
     <ul>
-      <li class="copyright_notice"><address>{copyright_notice}<br{xhtml}><a href="http://white-stage.com/" accesskey="w">Accessibility Modifid by White Stage</a>&nbsp;&nbsp;アクセシビリティチェック<a href="http://www.b-lines.jp/" accesskey="b"> by B-line</a> </address></li>
+      <li class="copyright_notice"><address>{copyright_notice}</address></li>
       <li class="powered_by">{powered_by}&nbsp;<a href="http://www.geeklog.net/">Geeklog</a>&amp;<a href="http://www.geeklog.jp/" accesskey="j">Geeklog Japanese</a></li>
       <!-- Theme by Fumito Arakawa as Phize (http://phize.net/) -->
+      <!-- Accessibility Modifid by Masuko Koeda as みるく (http://white-stage.com/) アクセシビリティチェック by B-line (http://www.b-lines.jp/) -->
       <li class="execution_textandtime">{execution_textandtime}</li>
     </ul>
   </div>

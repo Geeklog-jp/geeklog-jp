@@ -63,10 +63,10 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52ズーム200%、 Firefox2.0.0.18文字サイズ大きく×４、Google Chrome0.4.154.29Text Zoom拡大×４」「Windows Vista Internet Explorer7文字サイズ最大」「Mac OSX バージョン10.5.5 Safari3.2.1文字を拡大×４、Firefox3.0.4のズーム×４」で確認)
+(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52ズーム200%、 Firefox2.0.0.18文字サイズ大きく×４、Google Chrome1.0.154.43Text Zoom拡大×４」「Windows Vista Internet Explorer7文字サイズ最大」「Mac OSX バージョン10.5.5 Safari3.2.1文字を拡大×４、Firefox3.0.4のズーム×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
-配色は、白内障の方、第一色覚(赤)障害の方、第二色覚(緑)障害の方、第三色覚(青)障害の方にも見やすいようコントラストや色差に配慮しています。
+配色は、コントラストや色差に配慮しています。
 聴覚障害の方が情報を理解しやすいように、レイアウトが解りやすい背景色を設定しています。
 (Jun [Wrong HTML] & スティーブン・フォルナー[AIS]開発のカラー・コントラスト・アナライザー、IBMのaDesigner、富士通のColorSelector5.1使用)
 
@@ -78,13 +78,20 @@ Altキー（MacであればCtrlキー）とその任意の文字との組み合�
 リンク先とアクセスキーの対応は以下の通りです。なお，ブラウザごとのアクセスキーの利用方法と併せてご覧ください。
 
 キー：英語のt　リンク先：ホーム
-キー：英語のw　リンク先：White Stage
-キー：英語のb　リンク先：B-Line
 キー：英語のj　リンク先：Geeklog Japanese
 
 ブラウザごとのアクセスキーの利用方法
 Windows  Alt+アクセスキー
 Mac      Ctrl+アクセスキー
+
+
+CSS Validatorを通す為に「ProfessionalCSS」で設定されている下記の記述を削除しています。
+
+/* IE用(セルの幅に合わせて内容を折り返す) { */
+  word-break: break-all;
+/* } IE用 */
+
+必要なかたは、default.css 369行目　th td に上記の記述を追加してください。
 
 新しいテーマを制作する際のベーステーマとしてもご利用いただけます。
 なお、システムとの整合性を保つため、マークアップ、命名規則等はGeeklog側に合わせている部分があります。
@@ -404,7 +411,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   ・Internet Explorer6のユーザーの編集ページでレイアウトが崩れていたので修正しました。(*layout.css)
   ・聞き飛ばし部分に入れているテキストを修正しました。(*header.thtml,footer.thtml)
 　・ページ内リンクのname属性の後にid属性を追加しました。(*header.thtml,footer.thtml)
-　・記事をメールするアイコン、印刷用アイコン、編集アイコンを作り直し新しい物に変更しました。(*images/edit.png,images/print.png,images/mail.png)
+　・記事をメールするアイコン、印刷用アイコン、編集アイコンを新しい物に変更しました。(*images/edit.png,images/print.png,images/mail.png)
 　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*story.css)
 
 ■Ver.2.2(2008-11-27)
