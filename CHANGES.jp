@@ -1,5 +1,11 @@
 $Id$
 
+2009-01-20  Masuko Koeda  <milk851>
+
+	* WAIproCSSの独自に追加していたフッタのリンクをコメントに変更しました。
+          CSSのValidatorを通す為に「ProfessionalCSS」で設定されている
+          word-break:break-allを削除し、その変更をREADMEに追記しました。
+
 2009-01-20  Tetsuko Komma  <ivysoho>
 
 	* WAIproCSSのカラーをグレー系へ。アイコンをデフォルトアイコンを一律
