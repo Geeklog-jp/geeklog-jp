@@ -421,9 +421,11 @@ div#container div#footer p.validate img {
 div#container div#footer p.back {
   float: right;
   margin-right: 2em;
-  padding-left: 20px;
-  background: url(../images/css/icon_pagetop.png) no-repeat 0 0;
   text-align: right;
+}
+
+div#container div#footer p.back a img {
+  vertical-align: middle;
 }
 
 /* コピーライト表示 */
