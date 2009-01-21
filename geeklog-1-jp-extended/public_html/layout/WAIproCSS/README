@@ -63,7 +63,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52ズーム200%、 Firefox2.0.0.18文字サイズ大きく×４、Google Chrome1.0.154.43Text Zoom拡大×４」「Windows Vista Internet Explorer7文字サイズ最大」「Mac OSX バージョン10.5.5 Safari3.2.1文字を拡大×４、Firefox3.0.4のズーム×４」で確認)
+(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52ズーム200%、 Firefox2.0.0.18文字サイズ大きく×４、Google Chrome1.0.154.43Text Zoom拡大×４」「Windows Vista Internet Explorer7文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1文字を拡大×４、Firefox3.0.5のズーム×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差に配慮しています。
