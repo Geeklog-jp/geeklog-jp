@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-25  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイルjapanese_utf-8.phpの「powered by」を「Powered by」に
+	  変更しました。
+
 2009-01-21  Masuko Koeda  <milk851>
 
 	* WAIproCSSのフッタにある「ページの先頭へ戻る」に
