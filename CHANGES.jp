@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-26  Tetsuko Komma  <ivysoho>
+
+	* 掲示板プラグイン(forum)の，IEでスクロールバーが表示される不具合に
+	  テーマprofessional, ProfessionalCSS, WAIproCSSに対応させました。
+
 2009-01-25  Tetsuko Komma  <ivysoho>
 
 	* 言語ファイルjapanese_utf-8.phpの「powered by」を「Powered by」に
@@ -17,8 +22,8 @@ $Id$
 2009-01-20  Masuko Koeda  <milk851>
 
 	* WAIproCSSの独自に追加していたフッタのリンクをコメントに変更しました。
-          CSSのValidatorを通す為に「ProfessionalCSS」で設定されている
-          word-break:break-allを削除し、その変更をREADMEに追記しました。
+	  CSSのValidatorを通す為に「ProfessionalCSS」で設定されている
+	  word-break:break-allを削除し、その変更をREADMEに追記しました。
 
 2009-01-20  Tetsuko Komma  <ivysoho>
 
