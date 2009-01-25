@@ -172,7 +172,7 @@ div#container div#wrapper:after {
   content: "";
   display: block;
   clear: both;
-  height: 1px;
+  height: 0;
   overflow: hidden;
 }
 
@@ -368,6 +368,11 @@ div#container div#footer {
   border-top: 0.09em solid #555555;
   color: #000000;
   text-align: center;
+}
+
+/* IE6以下用 */
+* html div#container div#footer {
+margin-top: -0.5em;
 }
 
 /* フッタリンク */
