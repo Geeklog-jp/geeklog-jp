@@ -65,7 +65,7 @@ div#centerblocks div#block-message dl {
 div#centerblocks div#block-message dl dt {
   margin: 0;
   padding: 8px;
-  background: #282960;
+  background: #555555;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -74,7 +74,7 @@ div#centerblocks div#block-message dl dt {
 div#centerblocks div#block-message dl dd {
   margin: 0;
   padding: 8px;
-  background: #e0ffff;
+  background: #eeeeee;
   font-weight: bold;
 }
 
