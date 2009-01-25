@@ -1,5 +1,5 @@
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin:2px;">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td>{navbreadcrumbsimg}</td>
         <td class="alignleft" style="width:100%; white-space:nowrap;">&nbsp;<a href="{site_url}/forum/index.php">{forum_home}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php">{cat_name}</a>&nbsp;&#62;&nbsp;<a href="{site_url}/forum/index.php?forum={forum_id}">{forum_name}</a></td>
