@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-27  Tetsuko Komma  <ivysoho>
+
+	* WAIproCSSの掲示板プラグイン(forum)でgif形式のアイコンを追加しました。
+	  WAIproCSSのヘッダのh1タグのコメント部を改善しました。
+
 2009-01-26  Tetsuko Komma  <ivysoho>
 
 	* 掲示板プラグイン(forum)の，IEでスクロールバーが表示される不具合に
