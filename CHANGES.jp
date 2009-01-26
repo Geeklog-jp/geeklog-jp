@@ -4,6 +4,7 @@ $Id$
 
 	* WAIproCSSの掲示板プラグイン(forum)でgif形式のアイコンを追加しました。
 	  WAIproCSSのヘッダのh1タグのコメント部を改善しました。
+	  WAIproCSSのREADMEにこれまでの変更点を追記しました。
 
 2009-01-26  Tetsuko Komma  <ivysoho>
 
