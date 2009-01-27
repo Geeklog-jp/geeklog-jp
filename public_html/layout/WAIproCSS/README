@@ -45,6 +45,8 @@
 　　　　　　　
 Geeklog1.5.0、Geeklog1.5.1に対応させるにあたり、大変お世話になりましたひろろんさんには心からお礼申し上げます。
 
+WAIproCSS Ver.2.3をリリースするにあたり、Geeklog開発者の皆様とGeeklogメンバーのかたがたに多大なご協力をいただきましたことを心より感謝申し上げます。
+
  　　　　　　　Masuko koeda as みるく(http://white-stage.com/)
 
 /*==============================================================================
@@ -66,8 +68,8 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 (「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52ズーム200%、 Firefox2.0.0.18文字サイズ大きく×４、Google Chrome1.0.154.43Text Zoom拡大×４」「Windows Vista Internet Explorer7文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1文字を拡大×４、Firefox3.0.5のズーム×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
-配色は、コントラストや色差に配慮しています。
-聴覚障害の方が情報を理解しやすいように、レイアウトが解りやすい背景色を設定しています。
+配色は、コントラストや色差、明度差に配慮しています。
+聴覚障害の方が情報を理解しやすいように、レイアウトが解りやすいデザインにしています。
 (Jun [Wrong HTML] & スティーブン・フォルナー[AIS]開発のカラー・コントラスト・アナライザー、IBMのaDesigner、富士通のColorSelector5.1使用)
 
 アクセスキーも導入しております。
@@ -397,7 +399,8 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4(2009-1-26)
+■Ver.2.3(2009-1-26)
+  ・デザインの変更に伴い　custom.sample.cssを修正しました。(*custom.sample.css)
   ・アイコンをPNGからGIFに変更しました。(*/functions.php)
   ・アイコンを2倍に一律拡大させました。
     +/images/addchild.gif
@@ -457,12 +460,11 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
     */css/form.css
     */css/layout.css
   ・ヘッダロゴをテキストに変更しました。(*/header.thtml)
-
-■Ver.2.3(2008-12-30)
+　・containerと中央ブロックにポーダーを設定する事により、ハイコントラストの環境下でもレイアウトがわかりやすくなりました。(*layout.css)
 　・デザインを変更しました。
 　・functions.phpに掲示板プラグイン対応させました。(*functions.php)
 　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo.gif)
-　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/css/icon_pagetop.png)
+　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/icon_pagetop.gif)
 　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
 　・preとblockquote要素のスタイルを設定しました。(*default.css)
   ・READMEにライセンスについて記載しました。(このファイル)
@@ -471,7 +473,6 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   ・Internet Explorer6のユーザーの編集ページでレイアウトが崩れていたので修正しました。(*layout.css)
   ・聞き飛ばし部分に入れているテキストを修正しました。(*header.thtml,footer.thtml)
 　・ページ内リンクのname属性の後にid属性を追加しました。(*header.thtml,footer.thtml)
-　・記事をメールするアイコン、印刷用アイコン、編集アイコンを新しい物に変更しました。(*images/edit.png,images/print.png,images/mail.png)
 　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*story.css)
 
 ■Ver.2.2(2008-11-27)
