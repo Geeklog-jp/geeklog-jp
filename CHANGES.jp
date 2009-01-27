@@ -1,5 +1,10 @@
 $Id$
 
+2009-01-27  Masuko Koeda  <milk851>
+
+	*WAIproCSSのREADMEを修正しました。
+         WAIproCSSのデザイン変更に伴い、custom.sample.cssを修正しました。
+
 2009-01-27  Tetsuko Komma  <ivysoho>
 
 	* WAIproCSSの掲示板プラグイン(forum)でgif形式のアイコンを追加しました。
@@ -15,6 +20,11 @@ $Id$
 
 	* 言語ファイルjapanese_utf-8.phpの「powered by」を「Powered by」に
 	  変更しました。
+
+2009-01-25  Masuko Koeda  <milk851>
+
+	*中央ブロックの縦のボーダー(左右ボーダー)とフッタの横のボーダーの間にある1pxの隙間をなくしました。
+         システムメッセージの背景色をデザインに合わせて変更しました。
 
 2009-01-21  Masuko Koeda  <milk851>
 
