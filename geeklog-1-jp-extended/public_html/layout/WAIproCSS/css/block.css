@@ -115,7 +115,7 @@ div.block-related div.block-related-content {
 div#centerblocks div.block-center {
   margin: 0 0 1em 0;
   padding: 0 1em 2em 1em;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
@@ -162,7 +162,7 @@ div#leftblocks div.block-left,
 div#leftblocks div.block-center {
   margin: 0 0.5em 0.5em;
   padding: 0.5em;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
@@ -194,7 +194,7 @@ div#leftblocks div.block-left div.block-left-content {
 div#rightblocks div.block-right {
   margin: 0 0.5em 0.5em;
   padding: 0.5em;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
@@ -218,6 +218,6 @@ div#rightblocks div.block-right div.block-right-content {
 
 /* アンケート内 */
 div.poll-questions {
-  background: #bed8e8;
+  background: #ffffff;
 }
 
