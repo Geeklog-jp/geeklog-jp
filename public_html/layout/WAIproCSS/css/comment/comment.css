@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: コメントスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : コメント・コメントページのスタイルです。
   適用先  : comment/startcomment.thtml, comment/commentbar.thtml,
             comment/commentform.thtml, comment/commentform_advanced.thtml,
@@ -184,7 +184,7 @@ div#comments div.block-comment-content {
   /* }Mac IE以外用 */
 
   margin: 0;
-  padding: 0;
+  padding: 0 0 0 1em;
   text-align: left;
 }
 
