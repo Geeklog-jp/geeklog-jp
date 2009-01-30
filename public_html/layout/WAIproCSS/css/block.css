@@ -51,7 +51,7 @@ li.listitem {
 --------------------------------------*/
 
 div#centerblocks div#block-message {
-  margin: 2em 0;
+  margin: 2em 1em;
   padding: 0;
   border: 1px solid #000000;
 }
@@ -149,6 +149,12 @@ div#centerblocks h4 img {
 div#centerblocks div.block-center div.block-center-content {
   margin: 0;
   padding: 0;
+}
+
+/* 中央ブロックに表示される時のアンケート内 */
+div#centerblocks div.poll-questions {
+  margin-left: 1em;
+  background: #ffffff;
 }
 
 
