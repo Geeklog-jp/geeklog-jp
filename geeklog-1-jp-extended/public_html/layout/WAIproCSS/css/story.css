@@ -18,7 +18,7 @@
 /* コンテナ */
 div#centerblocks div.storytext {
   margin: 0 0 2em 0;
-  padding: 1em 0.5em 0 0.5em;
+  padding: 1em 1em 0;
   border-bottom: 1px solid #af9b83;
 }
 
@@ -140,7 +140,7 @@ div#centerblocks div.storytext ul.feedback li {
 /* コンテナ */
 div#centerblocks div.featuredstorytext {
   margin: 0 0 2em 0;
-  padding: 1em 0.5em 0 0.5em;
+  padding: 1em 1em 0;
   border-bottom: 1px solid #af9b83;
 }
 
