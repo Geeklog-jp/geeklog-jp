@@ -1515,7 +1515,7 @@ $LANG_ADMIN = array(
     'records_found' => 'Einträge',
     'addchild' => 'Add child',
     'list' => 'auflisten',
-    'list_all' => 'alle auflisten'
+    'list_all' => 'Alle auflisten'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1789,7 +1789,7 @@ $LANG_configsubgroups['Core'] = array(
     'sg_site' => 'Site',
     'sg_stories' => 'Artikel und Trackbacks',
     'sg_theme' => 'Theme',
-    'sg_blocks' => 'Blocks',
+    'sg_blocks' => 'Blöcke',
     'sg_users' => 'User und Beiträge',
     'sg_images' => 'Images',
     'sg_locale' => 'Sprache und Lokalisierung',

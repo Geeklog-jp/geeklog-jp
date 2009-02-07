@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Admin-related functions needed in more than one place.                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
 // |          Mark Limburg       - mlimburg AT users DOT sourceforge DOT net   |
@@ -372,13 +372,14 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
     if (!empty ($order_for_query)) { # concat order string
         $order_sql = "ORDER BY $order_for_query $direction";
     }
-    $th_subtags = ''; // other tags in the th, such as onlick and mouseover
+    $th_subtags = ''; // other tags in the th, such as onclick and mouseover
     $header_text = ''; // title as displayed to the user
     // HEADER FIELDS array(text, field, sort, class)
     // this part defines the contents & format of the header fields
 
     for ($i=0; $i < count( $header_arr ); $i++) { #iterate through all headers
         $header_text = $header_arr[$i]['text'];
+        $th_subtags = '';
         if ($header_arr[$i]['sort'] != false) { # is this sortable?
             if ($order==$header_arr[$i]['field']) { # is this currently sorted?
                 $header_text .= $img_arrow;
@@ -984,14 +985,26 @@ function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $tok
             }
             break;
         case 'enabled':
+            $not_present = false;
             if ($A['pi_enabled'] == 1) {
                 $switch = ' checked="checked"';
             } else {
                 $switch = '';
+                if (! file_exists($_CONF['path'] . 'plugins/' . $A['pi_name']
+                                  . '/functions.inc')) {
+                    $not_present = true;
+                }
             }
-            $retval = "<input type=\"checkbox\" name=\"enabledplugins[{$A['pi_name']}]\" "
-                . "onclick=\"submit()\" value=\"1\"$switch" . XHTML . ">";
-            $retval .= "<input type=\"hidden\" name=\"".CSRF_TOKEN."\" value=\"{$token}\"".XHTML.">";
+            if ($not_present) {
+                $retval = '<input type="checkbox" name="enabledplugins['
+                        . $A['pi_name'] . '] disabled="disabled"' . XHTML . '>';
+            } else {
+                $retval = '<input type="checkbox" name="enabledplugins['
+                        . $A['pi_name'] . ']" onclick="submit()" value="1"'
+                        . $switch . XHTML . '>';
+                $retval .= '<input type="hidden" name="' . CSRF_TOKEN . '" '
+                        . 'value="' . $token . '"' . XHTML . '>';
+            }
             break;
         default:
             $retval = $fieldvalue;
