@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog installation script.                                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -36,8 +36,6 @@
 // | You don't need to change anything in this file.                           |
 // | Please read docs/install.html which describes how to install Geeklog.     |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.55 2008/09/06 14:46:24 dhaun Exp $
 
 // this should help expose parse errors even when
 // display_errors is set to Off in php.ini
@@ -50,7 +48,7 @@ if (!defined("LB")) {
     define("LB", "\n");
 }
 if (!defined('VERSION')) {
-    define('VERSION', '1.5.1');
+    define('VERSION', '1.5.2');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -412,8 +410,14 @@ function INST_installEngine($install_type, $install_step)
             $site_admin_url = isset($_POST['site_admin_url']) ? $_POST['site_admin_url'] : 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/\/install.*/', '', $_SERVER['PHP_SELF']) ; 
             $host_name = explode(':', $_SERVER['HTTP_HOST']);
             $host_name = $host_name[0];
-            $site_mail = isset($_POST['site_mail']) ? $_POST['site_mail'] : ($_CONF['site_mail'] == 'admin@example.com' ? $_CONF['site_mail'] : 'admin@' . $host_name);
-            $noreply_mail = isset($_POST['noreply_mail']) ? $_POST['noreply_mail'] : ($_CONF['noreply_mail'] == 'noreply@example.com' ? $_CONF['noreply_mail'] : 'noreply@' . $host_name);
+            if (empty($_CONF['site_mail'])) {
+                $_CONF['site_mail'] = 'admin@example.com';
+            }
+            $site_mail = isset($_POST['site_mail']) ? $_POST['site_mail'] : ($_CONF['site_mail'] != 'admin@example.com' ? $_CONF['site_mail'] : 'admin@' . $host_name);
+            if (empty($_CONF['noreply_mail'])) {
+                $_CONF['noreply_mail'] = 'noreply@example.com';
+            }
+            $noreply_mail = isset($_POST['noreply_mail']) ? $_POST['noreply_mail'] : ($_CONF['noreply_mail'] != 'noreply@example.com' ? $_CONF['noreply_mail'] : 'noreply@' . $host_name);
             if (isset($_POST['utf8']) && ($_POST['utf8'] == 'on')) {
                 $utf8 = true;
             } else {
@@ -665,7 +669,7 @@ function INST_installEngine($install_type, $install_step)
                                           . '<p>' . $LANG_INSTALL[91] . '</p>';
                             } else {
 
-                                $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0');
+                                $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0','1.5.1');
                                 if (empty($curv)) {
                                     // If we were unable to determine the current GL
                                     // version is then ask the user what it is
@@ -1027,6 +1031,7 @@ function INST_identifyGeeklogVersion ()
 
     case 'mysql':
         $test = array(
+            '1.5.2'  => array("SELECT value FROM {$_TABLES['vars']} WHERE name = 'database_version'", '1.5.2'),
             '1.5.1'  => array("SELECT name FROM {$_TABLES['vars']} WHERE name = 'database_version'", 'database_version'),
             '1.5.0'  => array("DESCRIBE {$_TABLES['storysubmission']} bodytext",''),
             '1.4.1'  => array("SELECT ft_name FROM {$_TABLES['features']} WHERE ft_name = 'syndication.edit'", 'syndication.edit'),
@@ -1049,6 +1054,7 @@ function INST_identifyGeeklogVersion ()
 
     case 'mssql':
 	    $test = array(
+            '1.5.2'  => array("SELECT value FROM {$_TABLES['vars']} WHERE name = 'database_version'", '1.5.2'),
             '1.5.1'  => array("SELECT name FROM {$_TABLES['vars']} WHERE name = 'database_version'", 'database_version'),
             '1.5.0'  => array("SELECT c.name FROM syscolumns c JOIN sysobjects o ON o.id = c.id WHERE c.name='bodytext' AND o.name='{$_TABLES['storysubmission']}'",'bodytext'),
             '1.4.1'  => array("SELECT ft_name FROM {$_TABLES['features']} WHERE ft_name = 'syndication.edit'", 'syndication.edit')
@@ -1730,6 +1736,14 @@ function INST_doDatabaseUpgrades($current_gl_version, $use_innodb = false)
             $_SQL = '';
             break;
 
+        case '1.5.1':
+            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_1.5.1_to_1.5.2.php';
+            INST_updateDB($_SQL);
+
+            $current_gl_version = '1.5.2';
+            $_SQL = '';
+            break;
+
         default:
             $done = true;
         }
@@ -1922,7 +1936,7 @@ $display .= '<head>
         <div class="header-slogan">' . $LANG_INSTALL[2] . ' <br' . XHTML . '><br' . XHTML . '>' . LB;
 
 // Show the language drop down selection on the first page
-if ($mode == 'check_permissions') {
+if (empty($mode) || ($mode == 'check_permissions')) {
     $display .='<form action="index.php" method="post" style="display:inline;">' . LB;
 
     $_PATH = array('dbconfig', 'public_html');

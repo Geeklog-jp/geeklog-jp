@@ -8,7 +8,7 @@
 // |                                                                           |
 // | German language file for the Geeklog installation script                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -33,8 +33,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: german.php,v 1.9 2008/05/28 18:46:52 dhaun Exp $
 
 // +---------------------------------------------------------------------------+
 
@@ -97,7 +95,7 @@ $LANG_INSTALL = array(
     44 => 'Optionale Einstellungen',
     45 => 'URL der Website',
     46 => '(ohne Slash am Ende)',
-    47 => 'Pfad für das "admin"-Verzeichnis',
+    47 => 'URL f. "admin"-Verzeichnis',
     48 => 'Website-Email-Adresse',
     49 => '"No Reply"-Email-Adresse',
     50 => 'Installieren',

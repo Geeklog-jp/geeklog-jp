@@ -118,7 +118,9 @@ class config {
                     !array_key_exists($row[0], $this->config_array[$row[2]])) {
                     $value = @unserialize($row[1]);
                     if (($value === false) && ($row[1] != $false_str)) {
-                        COM_errorLog("Unable to unserialize {$row[1]} for {$row[2]}:{$row[0]}");
+                        if (function_exists('COM_errorLog')) {
+                            COM_errorLog("Unable to unserialize {$row[1]} for {$row[2]}:{$row[0]}");
+                        }
                     } else {
                         $this->config_array[$row[2]][$row[0]] = $value;
                     }
@@ -574,14 +576,11 @@ class config {
 
     function _UI_perm_denied()
     {
-        global $MESSAGE;
+        global $_USER, $MESSAGE;
 
         $display = COM_siteHeader('menu', $MESSAGE[30])
-            . COM_startBlock($MESSAGE[30], '',
-                             COM_getBlockTemplate ('_msg_block', 'header'))
-            . $MESSAGE[96]
-            . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'))
-            . COM_siteFooter();
+                 . COM_showMessageText($MESSAGE[96], $MESSAGE[30])
+                 . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally access the config administration screen.");
 
         return $display;
@@ -738,6 +737,14 @@ class config {
             $value = DB_getItem($_TABLES['conf_values'], 'value',
                                 "group_name='Core' AND name='language'");
             $this->config_array['Core']['language'] = unserialize($value);
+
+            /**
+             * Same with $_CONF['cookiedomain'], which is overwritten in
+             * in lib-sessions.php (if empty).
+             */
+            $value = DB_getItem($_TABLES['conf_values'], 'value',
+                                "group_name='Core' AND name='cookiedomain'");
+            $this->config_array['Core']['cookiedomain'] = unserialize($value);
         }
 
         $success_array = array();
