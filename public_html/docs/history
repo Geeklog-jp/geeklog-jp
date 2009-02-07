@@ -1,5 +1,121 @@
 Geeklog History/Changes:
 
+Jan 24, 2009 (1.5.2rc1)
+------------
+
+- Fixed various issues with COM_makeClickableLinks (bug #0000767, #0000793,
+  #0000796) [Sami]
+- The comment submission form didn't show the user's full name when
+  $_CONF['show_fullname'] was enabled [Dirk]
+- Comments were always showing the username, even when $_CONF['show_fullname']
+  was enabled (reported and patch provided by mystral-kk, bug #0000800)
+- Fixed story preview losing the story when the sid already existed (bug
+  #0000789) [Dirk]
+- Fixed wrong use of str_replace in STORY_extractLinks (bug #0000794) [Dirk]
+- Added "Send Pings" to the Story Options block (if enabled and allowed for the
+  current user) [Dirk]
+- Don't let the user enable plugins when there's no functions.inc for the
+  plugin [Dirk]
+- When the install script can't find db-config.php, that message was always
+  displayed in English, i.e. you could not change the language for that screen
+  [Dirk]
+- When upgrading from a Geeklog version prior to 1.5.0, the plugin config.php
+  files are no longer renamed [Dirk]
+- Admin lists allowed non-sortable columns to be sortable (reported and patch
+  provided by hiroron, bug #0000791)
+- Fixed STORY_getItemInfo - need to check the draft flag and for a publish date
+  in the future [mystral-kk, Dirk]
+- Fixed wrong use of COM_isAnonUser in COM_getPermSQL (since 1.5.0) [Dirk]
+- When calling COM_getYearFormOptions with a $startoffset parameter, the list
+  of years was off by one (bug #0000783; patch provided by hiroron)
+- Fixed updating feeds after changing topic permissions (bug #0000779) [Dirk]
+- The security token was missing from the trackback editor template file
+  (reported and patch provided by hiroron, bug #0000778)
+- Removed rel="tag" from topic links in lib-story.php as that would indicate a
+  Microformat with a slightly different meaning [Dirk]
+- Don't include X-Originating-IP header in emails sent from the site's admin
+  area (bug #0000701) [Dirk]
+- Check if COM_errorLog exists before using it in the config class (for possible
+  problems during installation, bug #0000768) [Dirk]
+- Fixed filling out the Site Email / No-Reply Email fields in the install
+  script, which was overwriting the correct values from config.php during
+  upgrades (bug #0000759) [Dirk]
+- Set language direction in templates for printable versions of articles and
+  static pages. Also set $LANG_DIRECTION to 'ltr' now if the language file does
+  not already define it (bug #0000762) [Dirk]
+- Removing an element from the middle of the censorlist caused the censoring
+  to act up (bug #0000763) [Dirk]
+- Saving a story tried to update a feed of type 'geeklog' instead of 'article'
+  (reported by Tom Homer)
+- Delete a feed's file when deleting a feed (bug #0000758) [Dirk]
+- When using gdlib, use imagecopyresampled instead or imagecopyresized to scale
+  images. This should result in better image quality (part of Feature request
+  #0000720) [Dirk]
+- The {start_storylink_anchortag} variable in the story templates was missing
+  a '>' (reported by Michael Brusletten) [Dirk]
+- Display a "Service" column in the Admin's list of users when remote auth is
+  activated [Dirk]
+- Introduced new function COM_showMessageText to display a free-form text in a
+  "System Message" box (feature request #0000676) [Dirk]
+- Introduced new function COM_showMessageFromParameter for easy and consistent
+  display of messages passed in the URL, including plugin messages (second
+  attempt to fix bug #0000618) [Dirk]
+- Display confirmation message when emailing a story (feature request #0000689)
+  [Dirk]
+- Implemented new function COM_renderWikiText to convert wiki-formatted text
+  to (X)HTML (feature request #0000643) [Dirk]
+- Added support for CUSTOM_formatEmailAddress and CUSTOM_emailEscape functions
+  (feature request #0000727) [Dirk]
+- Fixed 'cookiedomain' being reported as changed in the Configuration
+  (bug #0000638) [Dirk]
+- Reverted fix for bug #0000618 (COM_showMessage automatically picking up a
+  'plugin' parameter) as it's causing problems when displaying more than one
+  message on the same page [Dirk]
+- Added missing check for allowed IP addresses in downloader class
+  (bug #0000709) [Dirk]
+- Force a refresh after uninstalling a plugin so that the plugin's entry
+  disappears from the Admins block [Dirk]
+- Fixed an issue with story expiry dates on PHP 4/Windows (reported by zeb)
+  [Mike]
+
+- Updated Hebrew language file for the install script and Spam-X plugin,
+  provided by LWC
+- Updated Japanese language files, provided by the Geeklog.jp group
+- Updated Polish language files, provided by Robert Stadnik
+- Updated Slovenian language file for the Links plugin, provided by gape
+
+Calendar plugin
+---------------
+- Fix for calendar plugin - unable to add personal event [Blaine]
+- Make {event_url} available in eventdetails.thtml [Dirk]
+
+Links plugin
+------------
+- Missing parentheses my have resulted in incorrect search results [Dirk]
+- Added urlencoded versions of {link_actual_url} and {link_name} [Dirk]
+- Prevent overwriting existing links when changing the link ID [Dirk]
+
+Polls plugin
+------------
+- Lowered the default number of questions per poll to 5 and the number of
+  answers per question to 8 to avoid running into Suhosin's default
+  post.max_vars limit (for new installs only) [Dirk]
+- Fixed SQL error when poll questions contained single quotes (bug #0000756)
+  [Dirk]
+- Fixed handling of poll IDs in Polls editor (bug #0000753) [Dirk]
+ 
+Spam-X
+------
+- Fixed compatibility check in the plugin install script [Dirk]
+
+Static Pages plugin
+-------------------
+- The owner of a static page changed to the user who last edited it
+  (bug #0000777) [Dirk]
+- Fixed call to WS_makeId when sp_id was longer than STATICPAGE_MAX_ID_LENGTH
+  (found by Marc Maier) [Dirk]
+ 
+
 Sep 22, 2008 (1.5.1)
 ------------
 

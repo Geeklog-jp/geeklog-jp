@@ -801,8 +801,8 @@ case 'week':
     break;
 
 case 'addentry':
-    $display .= plugin_submit_calendar($mode);
-    $display .= COM_siteFooter();
+     $display .= plugin_submit_calendar($mode);
+     $display .= COM_siteFooter();
     break;
 
 case 'savepersonal':
