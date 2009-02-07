@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Shows articles in various formats.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -31,15 +31,13 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: article.php,v 1.99 2008/07/27 09:11:29 dhaun Exp $
 
 /**
 * This page is responsible for showing a single article in different modes which
 * may, or may not, include the comments attached
 *
 * @author   Jason Whittenburg
-* @author   Tony Bibbbs <tony@tonybibbs.com>
+* @author   Tony Bibbbs <tony AT tonybibbs DOT com>
 * @author   Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
 */
 
@@ -136,96 +134,65 @@ if ($A['count'] > 0) {
     } elseif ( $output == STORY_INVALID_SID ) {
         $display .= COM_refresh($_CONF['site_url'] . '/index.php');
     } elseif (($mode == 'print') && ($_CONF['hideprintericon'] == 0)) {
-        $story_template = new Template ($_CONF['path_layout'] . 'article');
-        $story_template->set_file ('article', 'printable.thtml');
-        $story_template->set_var ('xhtml', XHTML);
-        $story_template->set_var ('page_title',
+        $story_template = new Template($_CONF['path_layout'] . 'article');
+        $story_template->set_file('article', 'printable.thtml');
+        $story_template->set_var('xhtml', XHTML);
+        $story_template->set_var('direction', $LANG_DIRECTION);
+        $story_template->set_var('page_title',
                 $_CONF['site_name'] . ': ' . $story->displayElements('title'));
-        $story_template->set_var ( 'story_title', $story->DisplayElements( 'title' ) );
-        header ('Content-Type: text/html; charset=' . COM_getCharset ());
-        $story_template->set_var ('story_date', $story->displayElements('date'));
+        $story_template->set_var('story_title',
+                                 $story->DisplayElements('title'));
+        header('Content-Type: text/html; charset=' . COM_getCharset());
+        $story_template->set_var('story_date', $story->displayElements('date'));
 
         if ($_CONF['contributedbyline'] == 1) {
-            $story_template->set_var ('lang_contributedby', $LANG01[1]);
-            $authorname = COM_getDisplayName ($story->displayElements('uid'));
-            $story_template->set_var ('author', $authorname);
-            $story_template->set_var ('story_author', $authorname);
-            $story_template->set_var ('story_author_username', $story->DisplayElements('username'));
+            $story_template->set_var('lang_contributedby', $LANG01[1]);
+            $authorname = COM_getDisplayName($story->displayElements('uid'));
+            $story_template->set_var('author', $authorname);
+            $story_template->set_var('story_author', $authorname);
+            $story_template->set_var('story_author_username',
+                                     $story->DisplayElements('username'));
         }
 
-        $story_template->set_var ('story_introtext',
-                                    $story->DisplayElements('introtext'));
-        $story_template->set_var ('story_bodytext',
-                                    $story->DisplayElements('bodytext'));
+        $story_template->set_var('story_introtext',
+                                 $story->DisplayElements('introtext'));
+        $story_template->set_var('story_bodytext',
+                                 $story->DisplayElements('bodytext'));
 
-        $story_template->set_var ('site_url', $_CONF['site_url']);
-        $story_template->set_var ('layout_url', $_CONF['layout_url']);
-        $story_template->set_var ('site_name', $_CONF['site_name']);
-        $story_template->set_var ('site_slogan', $_CONF['site_slogan']);
-        $story_template->set_var ('story_id', $story->getSid());
-        $articleUrl = COM_buildUrl ($_CONF['site_url']
-                                    . '/article.php?story=' . $story->getSid());
+        $story_template->set_var('site_url', $_CONF['site_url']);
+        $story_template->set_var('site_admin_url', $_CONF['site_admin_url']);
+        $story_template->set_var('layout_url', $_CONF['layout_url']);
+        $story_template->set_var('site_name', $_CONF['site_name']);
+        $story_template->set_var('site_slogan', $_CONF['site_slogan']);
+        $story_template->set_var('story_id', $story->getSid());
+        $articleUrl = COM_buildUrl($_CONF['site_url']
+                                   . '/article.php?story=' . $story->getSid());
         if ($story->DisplayElements('commentcode') >= 0) {
             $commentsUrl = $articleUrl . '#comments';
             $comments = $story->DisplayElements('comments');
-            $numComments = COM_numberFormat ($comments);
-            $story_template->set_var ('story_comments', $numComments);
-            $story_template->set_var ('comments_url', $commentsUrl);
-            $story_template->set_var ('comments_text',
+            $numComments = COM_numberFormat($comments);
+            $story_template->set_var('story_comments', $numComments);
+            $story_template->set_var('comments_url', $commentsUrl);
+            $story_template->set_var('comments_text',
                     $numComments . ' ' . $LANG01[3]);
-            $story_template->set_var ('comments_count', $numComments);
-            $story_template->set_var ('lang_comments', $LANG01[3]);
-            $comments_with_count = sprintf ($LANG01[121], $numComments);
+            $story_template->set_var('comments_count', $numComments);
+            $story_template->set_var('lang_comments', $LANG01[3]);
+            $comments_with_count = sprintf($LANG01[121], $numComments);
 
             if ($comments > 0) {
-                $comments_with_count = COM_createLink($comments_with_count, $commentsUrl);
+                $comments_with_count = COM_createLink($comments_with_count,
+                                                      $commentsUrl);
             }
-            $story_template->set_var ('comments_with_count', $comments_with_count);
+            $story_template->set_var('comments_with_count',
+                                     $comments_with_count);
         }
         $story_template->set_var ('lang_full_article', $LANG08[33]);
         $story_template->set_var ('article_url', $articleUrl);
 
-        $langAttr = '';
-        if( !empty( $_CONF['languages'] ) && !empty( $_CONF['language_files'] ))
-        {
-            $langId = COM_getLanguageId();
-        }
-        else
-        {
-            // try to derive the language id from the locale
-            $l = explode( '.', $_CONF['locale'] );
-            $langId = $l[0];
-        }
-        if( !empty( $langId ))
-        {
-            $l = explode( '-', str_replace( '_', '-', $langId ));
-            if(( count( $l ) == 1 ) && ( strlen( $langId ) == 2 ))
-            {
-                $langAttr = 'lang="' . $langId . '"';
-            }
-            else if( count( $l ) == 2 )
-            {
-                if(( $l[0] == 'i' ) || ( $l[0] == 'x' ))
-                {
-                    $langId = implode( '-', $l );
-                    $langAttr = 'lang="' . $langId . '"';
-                }
-                else if( strlen( $l[0] ) == 2 )
-                {
-                    $langId = implode( '-', $l );
-                    $langAttr = 'lang="' . $langId . '"';
-                }
-                else
-                {
-                    $langId = $l[0];
-                }
-            }
-        }
-        $story_template->set_var( 'lang_id', $langId );
-        $story_template->set_var( 'lang_attribute', $langAttr );
+        COM_setLangIdAndAttribute($story_template);
 
-        $story_template->parse ('output', 'article');
-        $display = $story_template->finish ($story_template->get_var('output'));
+        $story_template->parse('output', 'article');
+        $display = $story_template->finish($story_template->get_var('output'));
     } else {
         // Set page title
         $pagetitle = $story->DisplayElements('title');
@@ -246,8 +213,15 @@ if ($A['count'] > 0) {
         }
         $display .= COM_siteHeader ('menu', $pagetitle, $rdf);
 
-        if (isset ($_GET['msg'])) {
-            $display .= COM_showMessage (COM_applyFilter ($_GET['msg'], true));
+        if (isset($_GET['msg'])) {
+            $msg = COM_applyFilter($_GET['msg'], true);
+            if ($msg > 0) {
+                $plugin = '';
+                if (isset($_GET['plugin'])) {
+                    $plugin = COM_applyFilter($_GET['plugin']);
+                }
+                $display .= COM_showMessage($msg, $plugin);
+            }
         }
 
         DB_query ("UPDATE {$_TABLES['stories']} SET hits = hits + 1 WHERE (sid = '".$story->getSid()."') AND (date <= NOW()) AND (draft_flag = 0)");
@@ -307,6 +281,15 @@ if ($A['count'] > 0) {
                                                   array('type'  => $feedType,
                                                         'class' => $feedClass));
             }
+        }
+        if ($_CONF['trackback_enabled'] &&
+                ($story->displayElements('trackbackcode') >= 0) &&
+                SEC_hasRights('story.ping') &&
+                ($story->displayElements('draft_flag') == 0) &&
+                ($story->displayElements('day') < time ())) {
+            $url = $_CONF['site_admin_url']
+                 . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
+            $story_options[] = COM_createLink($LANG_TRB['send_trackback'], $url);
         }
         $related = STORY_whatsRelated($story->displayElements('related'),
                                       $story->displayElements('uid'),

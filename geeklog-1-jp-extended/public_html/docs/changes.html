@@ -16,6 +16,43 @@
 <p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更点の詳細なリストは、
 <a href="history">ChangeLog</a>をご覧ください。<tt>docs/changed-files</tt>には、前回リリース以来変更されたファイルの一覧があります。</p>
 
+<h2><a name="changes152">Geeklog 1.5.2</a></h2>
+
+<h3>Bugfixes</h3>
+
+<ul>
+<li>Fixed a bug in the story preview where the story content was lost when
+    previewing a story with a duplicate story ID.</li>
+<li>The Trackback editor didn't work since the security token was missing from
+    the editor template.</li>
+<li>Fixed issues with clickable links in plain text postings.</li>
+<li>Fixed various problems with updating feeds, e.g. when changing topic
+    permissions.</li>
+</ul>
+
+<h3>Fixes in the bundled Plugins</h3>
+
+<ul>
+<li>Calendar: You couldn't add a new event to your personal calendar.</li>
+<li>Links: Changing a link's ID to one that was already in use overwrote the
+    other link.</li>
+<li>Polls: Changing a poll's ID created a new poll. Also fixed an SQL error
+    when the poll question contained single quotes.</li>
+<li>Static Pages: Saving a static page changed the owner to the user who saved
+    it.</li>
+</ul>
+
+<h3>Other Changes</h3>
+
+<ul>
+<li>Improved image quality when using gdlib to rescale uploaded images.</li>
+<li>Theme changes are documented in the <a href="theme.html#changes">theme
+    documentation</a>, as usual. There are 4 bugfixes (one of which is in the
+    templates for the Polls plugin) that should be applied to all themes for
+    the 1.5.x series.</li>
+</ul>
+
+
 <h2><a name="changes151">Geeklog 1.5.1</a></h2>
 
 <p>Geeklog 1.5.1の大半はバグ修正リリースであり、Geeklog 1.5.0のユーザにはアップグレードをお勧めします。小さなものですが、いくつか機能追加もあります。</p>

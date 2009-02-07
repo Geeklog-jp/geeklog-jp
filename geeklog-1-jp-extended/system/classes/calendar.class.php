@@ -87,7 +87,7 @@ class CalendarDay {
     */
     function isHoliday()
     {
-        return $this->holdiayflag;
+        return $this->holidayflag;
     }
 
     /**

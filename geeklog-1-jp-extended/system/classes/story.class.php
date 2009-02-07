@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog Story Abstraction.                                                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 by the following authors:                         |
+// | Copyright (C) 2006-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Michael Jervis, mike AT fuckingbrit DOT com                      |
 // +---------------------------------------------------------------------------+
@@ -28,8 +28,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: story.class.php,v 1.36 2008/08/16 18:07:09 dhaun Exp $
 
 /**
  * This file provides a class to represent a story, or article. It provides a
@@ -53,26 +51,28 @@
  * Constants for stories:
  * Loading from database:
  */
-define('STORY_INVALID_SID', -1);
+define('STORY_LOADED_OK', 1);
 
+define('STORY_INVALID_SID', -1);
 define('STORY_PERMISSION_DENIED', -2);
 define('STORY_EDIT_DENIED', -3);
-define('STORY_LOADED_OK', 1);
+
 /**
  * Constants for Stories:
  * Saving to database
  */
-define('STORY_SAVED', 1);
-define('STORY_SAVED_SUBMISSION', 2);
+define('STORY_SAVED', 2);
+define('STORY_SAVED_SUBMISSION', 3);
+
 /**
  * Constants for Stories:
  * Loading from request.
  */
-define('STORY_DUPLICATE_SID', -1);
-define('STORY_EXISTING_NO_EDIT_PERMISSION', -2);
-define('STORY_NO_ACCESS_PARAMS', -3);
-define('STORY_EMPTY_REQUIRED_FIELDS', -4);
-define('STORY_NO_ACCESS_TOPIC', -5);
+define('STORY_DUPLICATE_SID', -4);
+define('STORY_EXISTING_NO_EDIT_PERMISSION', -5);
+define('STORY_NO_ACCESS_PARAMS', -6);
+define('STORY_EMPTY_REQUIRED_FIELDS', -7);
+define('STORY_NO_ACCESS_TOPIC', -8);
 
 /**
   * Constants for our magic loader
@@ -688,6 +688,8 @@ class Story
          * /public_html/admin/story.php
          */
 
+        $retval = STORY_LOADED_OK; // default to success
+
         /* Load the trivial stuff: */
         $this->_loadBasics($array);
 
@@ -702,7 +704,8 @@ class Story
         if ($result && (DB_numRows($result) > 0)) {
             /* Sid exists! Is it our article? */
             if ($this->_sid != $this->_originalSid) {
-                return STORY_DUPLICATE_SID;
+                // for story preview: don't abort
+                $retval = STORY_DUPLICATE_SID;
             }
 
             $article = DB_fetchArray($result);
@@ -752,7 +755,7 @@ class Story
 
         $this->_sanitizeData();
 
-        return STORY_LOADED_OK;
+        return $retval;
     }
 
     /**
@@ -1381,14 +1384,7 @@ class Story
             if ($this->_postmode == 'plaintext') {
                 $return = nl2br($this->_introtext);
             } elseif ($this->_postmode == 'wikitext') {
-                require_once 'Text/Wiki.php';
-
-                $wiki = &new Text_Wiki();
-                $wiki->disableRule('wikilink');
-                $wiki->disableRule('freelink');
-                $wiki->disableRule('interwiki');
-                $return = $this->_editUnescape($this->_introtext);
-                $return = $wiki->transform($return, 'Xhtml');
+                $return = COM_renderWikiText($this->_editUnescape($this->_introtext));
             } else {
                 $return = $this->_introtext;
             }
@@ -1400,14 +1396,7 @@ class Story
             if (($this->_postmode == 'plaintext') && !(empty($this->_bodytext))) {
                 $return = nl2br($this->_bodytext);
             } elseif (($this->_postmode == 'wikitext') && !(empty($this->_bodytext))) {
-                require_once 'Text/Wiki.php';
-
-                $wiki = &new Text_Wiki();
-                $wiki->disableRule('wikilink');
-                $wiki->disableRule('freelink');
-                $wiki->disableRule('interwiki');
-                $return = $this->_editUnescape($this->_bodytext);
-                $return = $wiki->transform($return, 'Xhtml');
+                $return = COM_renderWikiText($this->_editUnescape($this->_bodytext));
             } elseif (!empty($this->_bodytext)) {
                 $return = $this->_displayEscape($this->_bodytext);
             }
@@ -1454,9 +1443,7 @@ class Story
             if (empty($this->_expire)) {
                 $return = time();
             } else {
-                // Need to convert text date/time to a timestamp
-                $return = explode(' ', $this->_expire);
-                $return = COM_convertDate2Timestamp($return[0], $return[1]);
+                $return = $this->_expire;
             }
 
             break;
