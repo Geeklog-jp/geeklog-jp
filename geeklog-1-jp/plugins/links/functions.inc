@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Links      |
 // | Plugins' PHP files.                                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
 // |          Mark Limburg       - mlimburg AT users.sourceforge DOT net       |
@@ -35,8 +35,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: functions.inc,v 1.111 2008/09/21 08:37:08 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -61,7 +59,7 @@ if (!isset($_LI_CONF['linksloginrequired'])) {
     $_LI_CONF = $li_config->get_config('links');
 }
 
-$_LI_CONF['version'] = '2.0.0';
+$_LI_CONF['version'] = '2.0.1';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementation                                         |
@@ -363,13 +361,13 @@ function plugin_dopluginsearch_links($query, $datestart, $dateend, $topic, $type
 
     // link search
     $select = 'SELECT lid,title,url,owner_id,hits,UNIX_TIMESTAMP(date) AS day';
-    $sql = " FROM {$_TABLES['links']} WHERE date <> 1 ";
+    $sql = " FROM {$_TABLES['links']} WHERE date <> 1";
 
     if (!empty ($query)) {
         if ($keyType == 'phrase') {
             $mysearchterm = addslashes ($query);
-            $sql .= " AND (description LIKE '%$mysearchterm%')"
-                 . " OR (title LIKE '%$mysearchterm%')";
+            $sql .= " AND ((description LIKE '%$mysearchterm%')"
+                 . " OR (title LIKE '%$mysearchterm%'))";
         } else if ($keyType == 'all') {
             $mywords = explode (' ', $query);
             $sql .= ' AND (';
@@ -377,8 +375,8 @@ function plugin_dopluginsearch_links($query, $datestart, $dateend, $topic, $type
             foreach ($mywords AS $mysearchterm) {
                 $mysearchterm = addslashes (trim ($mysearchterm));
                 if (!empty ($mysearchterm)) {
-                    $tmp .= "(description LIKE '%$mysearchterm%')"
-                         . " OR (title LIKE '%$mysearchterm%') AND ";
+                    $tmp .= "((description LIKE '%$mysearchterm%')"
+                         . " OR (title LIKE '%$mysearchterm%')) AND ";
                 }
             }
             $tmp = substr ($tmp, 0, strlen ($tmp) - 5);
@@ -390,16 +388,16 @@ function plugin_dopluginsearch_links($query, $datestart, $dateend, $topic, $type
             foreach ($mywords AS $mysearchterm) {
                 $mysearchterm = addslashes (trim ($mysearchterm));
                 if (!empty ($mysearchterm)) {
-                    $tmp .= "(description LIKE '%$mysearchterm%')"
-                         . " OR (title LIKE '%$mysearchterm%') OR ";
+                    $tmp .= "((description LIKE '%$mysearchterm%')"
+                         . " OR (title LIKE '%$mysearchterm%')) OR ";
                 }
             }
             $tmp = substr ($tmp, 0, strlen ($tmp) - 4);
             $sql .= $tmp . ')';
         } else {  // quick search
             $mysearchterm = addslashes ($query);
-            $sql .= " AND (description LIKE '%$mysearchterm%')"
-                 . " OR (title LIKE '%$mysearchterm%')";
+            $sql .= " AND ((description LIKE '%$mysearchterm%')"
+                 . " OR (title LIKE '%$mysearchterm%'))";
         }
     }
 
@@ -415,9 +413,9 @@ function plugin_dopluginsearch_links($query, $datestart, $dateend, $topic, $type
     }
 
     if (!empty ($author)) {
-        $sql .= "AND (owner_id = '$author')";
+        $sql .= " AND (owner_id = '$author')";
     }
-    $sql .= COM_getPermSQL ('AND');
+    $sql .= COM_getPermSQL('AND');
     $sql .= ' GROUP BY date, lid, cid, url, description, title, hits, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon ORDER BY date DESC';
     $l = ($perpage * $page) - $perpage;
     $sql .= ' LIMIT ' . $l . ',' . $perpage;

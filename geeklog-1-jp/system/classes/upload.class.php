@@ -2,16 +2,16 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.4                                                               |
+// | Geeklog 1.5                                                               |
 // +---------------------------------------------------------------------------+
 // | upload.class.php                                                          |
 // |                                                                           |
 // | Geeklog file upload class library.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2002-2006 by the following authors:                         |
+// | Copyright (C) 2002-2008 by the following authors:                         |
 // |                                                                           |
-// | Authors: Tony Bibbs       - tony@tonybibbs.com                            |
-// |          Dirk Haun        - dirk@haun-online.de                           |
+// | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
+// |          Dirk Haun        - dirk AT haun-online DOT de                    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -37,7 +37,7 @@
 * submitted via POST method.  Please read documentation as there are a number of
 * security related features that will come in handy for you.
 *
-* @author       Tony Bibbs <tony@tonybibbs.com>
+* @author       Tony Bibbs <tony AT tonybibbs DOT com>
 *
 */
 class upload
@@ -90,6 +90,10 @@ class upload
     * @access private
     */
     var $_maxFileSize = 1048576;          // Long, in bytes
+    /**
+    * @access private
+    */
+    var $_jpegQuality = 0;                // int (0-100)
     /**
     * @access private
     */
@@ -259,23 +263,23 @@ class upload
             $this->_availableMimeTypes =
             array(
                 'application/x-gzip-compressed'     => '.tar.gz,.tgz',
-                'application/x-zip-compressed'         => '.zip',
-                'application/x-tar'                    => '.tar',
+                'application/x-zip-compressed'      => '.zip',
+                'application/x-tar'                 => '.tar',
                 'text/plain'                        => '.phps,.txt,.inc',
-                'text/html'                            => '.html,.htm',
+                'text/html'                         => '.html,.htm',
                 'image/bmp'                         => '.bmp,.ico',
                 'image/gif'                         => '.gif',
-                'image/pjpeg'                        => '.jpg,.jpeg',
+                'image/pjpeg'                       => '.jpg,.jpeg',
                 'image/jpeg'                        => '.jpg,.jpeg',
-                'image/png'                            => '.png',
-                'image/x-png'                        => '.png',
+                'image/png'                         => '.png',
+                'image/x-png'                       => '.png',
                 'audio/mpeg'                        => '.mp3',
-                'audio/wav'                            => '.wav',
-                'application/pdf'                    => '.pdf',
+                'audio/wav'                         => '.wav',
+                'application/pdf'                   => '.pdf',
                 'application/x-shockwave-flash'     => '.swf',
                 'application/msword'                => '.doc',
-                'application/vnd.ms-excel'            => '.xls',
-                'application/octet-stream'            => '.fla,.psd'
+                'application/vnd.ms-excel'          => '.xls',
+                'application/octet-stream'          => '.fla,.psd'
             );
         } else {
             $this->_availableMimeTypes = $mimeTypes;
@@ -530,8 +534,13 @@ class upload
                                  . $newheight . ' using ' . $this->_imageLib);
 
             if ($this->_imageLib == 'imagemagick') {
+
                 $newsize = $newwidth . 'x' . $newheight;
-                $cmd = $this->_pathToMogrify . ' -resize '. $newsize . ' "' . $this->_fileUploadDirectory . '/' . $this->_getDestinationName() . '" 2>&1';
+                $quality = '';
+                if ($this->_jpegQuality > 0) {
+                    $quality = sprintf(' -quality %d', $this->_jpegQuality);
+                }
+                $cmd = $this->_pathToMogrify . $quality . ' -resize '. $newsize . ' "' . $this->_fileUploadDirectory . '/' . $this->_getDestinationName() . '" 2>&1';
                 $this->_addDebugMsg('Attempting to resize with this command (imagemagick): ' . $cmd);
 
                 $filename = $this->_fileUploadDirectory . '/'
@@ -548,13 +557,19 @@ class upload
                 $filename = $this->_fileUploadDirectory . '/' . $this->_getDestinationName();
                 $cmd_end = " '" . $filename . "' | " . $this->_pathToNetPBM . 'pnmscale -xsize=' . $newwidth . ' -ysize=' . $newheight . ' | ' . $this->_pathToNetPBM;
                 // convert to pnm, resize, convert back
-                if (eregi ('\.png', $filename)) {
+                if (($this->_currentFile['type'] == 'image/png') ||
+                    ($this->_currentFile['type'] == 'image/x-png')) {
                     $tmpfile = $this->_fileUploadDirectory . '/tmp.png';
                     $cmd .= 'pngtopnm ' . $cmd_end . 'pnmtopng > ' . $tmpfile;
-                } else if (eregi ('\.(jpg|jpeg)', $filename)) {
+                } elseif (($this->_currentFile['type'] == 'image/jpeg') ||
+                          ($this->_currentFile['type'] == 'image/pjpeg')) {
                     $tmpfile = $this->_fileUploadDirectory . '/tmp.jpg';
-                    $cmd .= 'jpegtopnm ' . $cmd_end . 'pnmtojpeg > ' . $tmpfile;
-                }  else if (eregi ('\.gif', $filename)) {
+                    $quality = '';
+                    if ($this->_jpegQuality > 0) {
+                        $quality = sprintf(' -quality=%d', $this->_jpegQuality);
+                    }
+                    $cmd .= 'jpegtopnm ' . $cmd_end . 'pnmtojpeg' . $quality . ' > ' . $tmpfile;
+                } elseif ($this->_currentFile['type'] == 'image/gif') {
                     $tmpfile = $this->_fileUploadDirectory . '/tmp.gif';
                     $cmd .= 'giftopnm ' . $cmd_end . 'ppmquant 256 | '
                          . $this->_pathToNetPBM . 'ppmtogif > ' . $tmpfile;
@@ -590,6 +605,12 @@ class upload
                           . $this->_getDestinationName();
 
                 if (!$this->_keepOriginalFile ($filename)) {
+                    exit;
+                }
+
+                if (!function_exists('gd_info')) {
+                    $this->_addError('GD library does not seem to be enabled.');
+                    $this->printErrors();
                     exit;
                 }
 
@@ -653,15 +674,19 @@ class upload
                 $image_dest = @ImageCreateTrueColor($newwidth, $newheight);
                 if (!$image_dest) {
                     $thumb = imagecreate ($newwidth, $newheight);
-                    imageJPEG ($thumb, $filename);
+                    if ($this->_jpegQuality > 0) {
+                        imagejpeg($thumb, $filename, $this->_jpegQuality);
+                    } else {
+                        imagejpeg($thumb, $filename);
+                    }
                     imagedestroy ($thumb);
                     $image_dest = @imagecreatefromjpeg ($filename);
                     unlink ($filename);
                 }
 
-                imagecopyresized ($image_dest, $image_source, 0, 0, 0, 0,
-                                  $newwidth, $newheight, $imageInfo['width'],
-                                  $imageInfo['height']);
+                imagecopyresampled($image_dest, $image_source, 0, 0, 0, 0,
+                                   $newwidth, $newheight, $imageInfo['width'],
+                                   $imageInfo['height']);
                 if (($this->_currentFile['type'] == 'image/png') OR
                     ($this->_currentFile['type'] == 'image/x-png')) {
                     if (!imagepng ($image_dest, $filename)) {
@@ -671,7 +696,13 @@ class upload
                     }
                 } elseif (($this->_currentFile['type'] == 'image/jpeg') OR
                           ($this->_currentFile['type'] == 'image/pjpeg')) {
-                    if (!imagejpeg ($image_dest, $filename)) {
+                    if ($this->_jpegQuality > 0) {
+                        $jpsuccess = imagejpeg($image_dest, $filename,
+                                               $this->_jpegQuality);
+                    } else {
+                        $jpsuccess = imagejpeg($image_dest, $filename);
+                    }
+                    if (!$jpsuccess) {
                         $this->_addError ('Could not create JPEG: '. $filename);
                         $this->printErrors ();
                         exit;
@@ -683,6 +714,7 @@ class upload
                         exit;
                     }
                 }
+
             }
 
             if ($retval > 0) {
@@ -831,6 +863,26 @@ class upload
     function keepOriginalImage ($keepit)
     {
         $this->_keepOriginalImage = $keepit;
+
+        return true;
+    }
+
+    /**
+    * Set JPEG quality
+    *
+    * @param    int       $quality  JPEG quality (0-100)
+    * @return   boolean   true if we set values OK, otherwise false
+    * @note     The 'quality' is an arbitrary value used by the IJG library.
+    *           It is not a percent value! The default (and a good value) is 75.
+    *
+    */
+    function setJpegQuality($quality)
+    {
+        if (($quality < 0) || ($quality > 100)) {
+            return false;
+        }
+
+        $this->_jpegQuality = $quality;
 
         return true;
     }

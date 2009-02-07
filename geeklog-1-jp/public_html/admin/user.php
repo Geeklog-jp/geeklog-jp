@@ -45,14 +45,11 @@ $display = '';
 
 // Make sure user has access to this page
 if (!SEC_hasRights('user.edit')) {
-    $retval .= COM_siteHeader ('menu', $MESSAGE[30]);
-    $retval .= COM_startBlock ($MESSAGE[30], '',
-               COM_getBlockTemplate ('_msg_block', 'header'));
-    $retval .= $MESSAGE[37];
-    $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $retval .= COM_siteFooter ();
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[37], $MESSAGE[30])
+             . COM_siteFooter();
     COM_accessLog("User {$_USER['username']} tried to illegally access the user administration screen.");
-    echo $retval;
+    echo $display;
     exit;
 }
 
@@ -361,7 +358,7 @@ function edituser($uid = '', $msg = '')
 
 function listusers()
 {
-    global $_CONF, $_TABLES, $LANG_ADMIN, $LANG28, $_IMAGE_TYPE;
+    global $_CONF, $_TABLES, $LANG_ADMIN, $LANG04, $LANG28, $_IMAGE_TYPE;
 
     require_once $_CONF['path_system'] . 'lib-admin.php';
 
@@ -380,10 +377,14 @@ function listusers()
                     array('text' => $LANG28[37], 'field' => $_TABLES['users'] . '.uid', 'sort' => true),
                     array('text' => $LANG28[3], 'field' => 'username', 'sort' => true),
                     array('text' => $LANG28[4], 'field' => 'fullname', 'sort' => true),
-                    array('text' => $login_text, 'field' => $login_field, 'sort' => true)
+                    array('text' => $login_text, 'field' => $login_field, 'sort' => true),
+                    array('text' => $LANG28[7], 'field' => 'email', 'sort' => true)
     );
 
-    $header_arr[] = array('text' => $LANG28[7], 'field' => 'email', 'sort' => true);
+    if ($_CONF['user_login_method']['openid'] ||
+        $_CONF['user_login_method']['3rdparty']) {
+        $header_arr[] = array('text' => $LANG04[121], 'field' => 'remoteservice', 'sort' => true);
+    }
 
     $defsort_arr = array('field'     => $_TABLES['users'] . '.uid',
                          'direction' => 'ASC');
@@ -414,9 +415,15 @@ function listusers()
         'help_url'   => ''
     );
 
+    $join_userinfo   = '';
+    $select_userinfo = '';
     if ($_CONF['lastlogin']) {
-        $join_userinfo="LEFT JOIN {$_TABLES['userinfo']} ON {$_TABLES['users']}.uid={$_TABLES['userinfo']}.uid ";
-        $select_userinfo=",lastlogin";
+        $join_userinfo .= "LEFT JOIN {$_TABLES['userinfo']} ON {$_TABLES['users']}.uid={$_TABLES['userinfo']}.uid ";
+        $select_userinfo .= ",lastlogin";
+    }
+    if ($_CONF['user_login_method']['openid'] ||
+        $_CONF['user_login_method']['3rdparty']) {
+        $select_userinfo .= ',remoteservice';
     }
     $sql = "SELECT {$_TABLES['users']}.uid,username,fullname,email,photo,status,regdate$select_userinfo "
          . "FROM {$_TABLES['users']} $join_userinfo WHERE 1=1";
@@ -1250,10 +1257,8 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
         . batchdelete()
         . COM_siteFooter();
 } else { // 'cancel' or no mode at all
-    $display .= COM_siteHeader ('menu', $LANG28[11]);
-    if (isset ($_REQUEST['msg'])) {
-        $display .= COM_showMessage (COM_applyFilter ($_REQUEST['msg'], true));
-    }
+    $display .= COM_siteHeader('menu', $LANG28[11]);
+    $display .= COM_showMessageFromParameter();
     $display .= listusers();
     $display .= COM_siteFooter();
 }

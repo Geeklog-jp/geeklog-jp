@@ -4,13 +4,12 @@
  * File: functions.inc
  * This is the functions.inc for the Geeklog Spam-X plugin
  *
- * Copyright (C) 2004-2008 by the following authors:
+ * Copyright (C) 2004-2009 by the following authors:
  * Authors      Tom Willett     tomw AT pigstye DOT net
  *              Dirk Haun       dirk AT haun-online DOT de
  *
  * Licensed under GNU General Public License
  *
- * $Id: functions.inc,v 1.37 2008/09/21 08:37:08 dhaun Exp $
  */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
@@ -39,7 +38,7 @@ if (!isset($_SPX_CONF['timeout'])) {
     $_SPX_CONF = $spx_config->get_config('spamx');
 }
 
-$_SPX_CONF['version'] = '1.1.1';
+$_SPX_CONF['version'] = '1.1.2';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |

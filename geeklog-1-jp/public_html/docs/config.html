@@ -74,7 +74,7 @@
     <strong>注:</strong>実際にサイトを閉鎖するかどうかを決める設定は、<tt>siteconfig.php</tt>ファイルにある。</td></tr>
 <tr>
   <td valign="top"><a name="desc_copyrightyear">コピーライトの年(copyrightyear)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">サイトのフッタに表示するcopyrightの年を設定する。設定しない場合、現在の年が使われる。</td></tr>
 <tr>
   <td valign="top"><a name="desc_url_rewrite">URLリライト(url_rewrite)</a></td>
@@ -763,13 +763,13 @@
   <td valign="top">画像ライブラリを「ImageMagick」、「Netpbm」、「GDライブラリ」から選ぶ。画像アップロード時にリサイズしたくない場合や、画像ライブラリを使えない場合は「なし」にする。</td></tr>
 <tr>
   <td valign="top"><a name="desc_path_to_mogrify">Mogrifyへのパス(path_to_mogrify)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
-  <td valign="top">上記の「画像ライブラリ」にImageMagickを選んだ場合、mogrifyバイナリの<strong>完全なパス</strong>を '/usr/bin/mogrify' のように指定する。<br>
+  <td valign="top"><i>(無効)</i></td>
+  <td valign="top">上記の「画像ライブラリ」にimagemagickを選んだ場合、mogrifyバイナリの<strong>完全なパス</strong>を '/usr/bin/mogrify' のように指定する。<br>
     かなり新しいバージョンの<a href="http://www.imagemagick.org/">ImageMagick</a>が必要（バージョン5.4.9以降推奨）。</td></tr>
 <tr>
   <td valign="top"><a name="desc_path_to_netpbm">Netpbmへのパス(path_to_netpbm)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
-  <td valign="top">上記の「画像ライブラリ」に Netpbm を選んだ場合、Netpbmのバイナリがある<em>ディレクトリ</em>の完全なパスを <code>'/usr/bin/netpbm/'</code> のように指定する。パスの最後はスラッシュ'/'でなければならない。<br>様々なプラットフォーム用にコンパイルされたetpbmバイナリのパッケージは、<a href="http://sourceforge.net/projects/gallery/">Homepage of the Gallery project</a>からダウンロードできる。</td></tr>
+  <td valign="top"><i>(無効)</i></td>
+  <td valign="top">上記の「画像ライブラリ」にnetpbmを選んだ場合、Netpbmのバイナリがある<em>ディレクトリ</em>の完全なパスを <code>'/usr/bin/netpbm/'</code> のように指定する。パスの最後はスラッシュ'/'でなければならない。<br>様々なプラットフォーム用にコンパイルされたバイナリのパッケージは、<a href="http://netpbm.sourceforge.net/">Netpbm homepage</a>からダウンロードできる。</td></tr>
 </table>
 
 <h3><a name="images_upload">画像: アップロード</a></h3>
@@ -788,8 +788,8 @@
   <td valign="top">はい(1)にすると、上記のように元画像を保存する場合、記事の中でリサイズされた画像を使えるようになる。言い換えると、記事中で（<code>[image<i>X</i>]</code> に加えて）<code>[unscaled<i>X</i>]</code> タグを使えるようになる。</td></tr>
 <tr>
   <td valign="top"><a name="desc_debug_image_upload">画像アップロードのデバッグを行う(debug_image_upload)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
-  <td valign="top">コメントアウトされておらず、はい(<code>true</code>)にすると、画像のアップロード中に,デバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれる。画像アップロード時の問題を解明する際に役立つ。</td></tr>
+  <td valign="top"><i>いいえ(false)</i></td>
+  <td valign="top">はい(<code>true</code>)にすると、画像のアップロード中に,デバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれる。画像アップロード時の問題を解明する際に役立つ。</td></tr>
 </table>
 
 <h3><a name="images_articles">画像: 記事の画像</a></h3>
@@ -852,11 +852,11 @@
   <td valign="top">ファイルサイズの最大値。この数値を超えた場合は、リサイズ用の画像ライブラリを使っていても、その画像ファイルは拒否される。</td></tr>
 <tr>
   <td valign="top"><a name="desc_force_photo_width">幅を固定する(force_photo_width)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">この設定を有効にしても、ユーザの写真を<em>表示する</em>ときにしか適用されない。写真表示用の <code>&lt;img&gt;</code>タグがここで指定されたサイズで出力される。つまり、実際の写真のサイズはより大きなものかもしれないが、小さな（ここで指定された）サイズでしか表示されないということである。（掲示板などで）奇妙な形をしたユーザの写真がページのレイアウトを台無しにするのを防ぎたい場合に役に立つ。</td></tr>
 <tr>
   <td valign="top"><a name="desc_default_photo">デフォルトの写真(default_photo)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">有効にする場合には、画像ファイルの完全なURLを指定する。写真のないユーザの場合、このデフォルトの写真が表示される。この設定が無効でユーザが写真もアバターを持っていない場合、何も表示されない。</td></tr>
 </table>
 
@@ -873,7 +873,7 @@
     このオプションを有効にすると、（掲示板のスレッドなどの）複数ユーザの多数の写真を表示するページでは、スピードダウンする可能性があることに注意。</td></tr>
 <tr>
   <td valign="top"><a name="desc_gravatar_rating">Gravatar評価を許可(gravatar_rating)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画用に使われている評価システム<br>
 		<ul>
 			<li>(G = General：一般向け</li>
@@ -881,7 +881,7 @@
 			<li>R = Restriced：保護者同伴で入場可</li>
 			<li>X = Banned：17歳未満入場禁止</li>
 		</ul>
-		で<a href="http://gravatar.com/rating.php">評価される</a>。このオプションは表示されるアバターの<em>最も厳しい</em> ランクを設定する。たとえば、Rと設定すると、G, PG, Rランクのアバターは表示されるが、Xランクのアバターは一切表示されなくなる。</td></tr>
+		で評価される。このオプションは表示されるアバターの<em>最も厳しい</em> ランクを設定する。たとえば、Rと設定すると、G, PG, Rランクのアバターは表示されるが、Xランクのアバターは一切表示されなくなる。</td></tr>
 </table>
 
 
@@ -899,11 +899,11 @@
   <td valign="top">言語ファイル名。追加の言語ファイルは<a href="http://www.geeklog.net/">http://www.geeklog.net</a>でダウンロードできる。言語ファイルを翻訳した場合は、送ってください。下記の<a href="#Localization">ローカリゼーション</a>も参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_language_files">言語ファイル[多言語モード](language_files)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">多言語サイト用。言語の短縮形('en', 'de', 'ja'など)と言語ファイルの対応関係を指定する。</td></tr>
 <tr>
   <td valign="top"><a name="desc_languages">言語名[多言語モード](languages)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">多言語サイト用。言語の短縮形('en', 'de', 'ja'など)と言語名("English", "Deutsch", "Japanese"など)の対応関係を指定する。</td></tr>
 </table>
 
@@ -961,7 +961,7 @@
   <td valign="top">小数点以下で表示する桁数</td></tr>
 <tr>
   <td valign="top"><a name="desc_timezone">タイムゾーン(timezone)</a></td>
-  <td valign="top"><i>(コメントアウトされている)</i></td>
+  <td valign="top"><i>(無効)</i></td>
   <td valign="top">サーバが異なるタイムゾーンに配置されている場合、時刻が正しく表示されるようにローカルのタイムゾーンを設定する。この設定は、<a href="http://www.geeklog.net/forum/viewtopic.php?showtopic=21232">タイムゾーンハック(timezone hack)</a>という名前で知られており、サーバによっては機能しない場合がある。</td></tr>
 </table>
 
