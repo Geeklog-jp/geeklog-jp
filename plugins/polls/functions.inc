@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Polls      |
 // | plugin' PHP files.                                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -33,8 +33,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: functions.inc,v 1.92 2008/09/21 08:37:08 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -59,7 +57,7 @@ if (!isset($_PO_CONF['pollsloginrequired'])) {
     $_PO_CONF = $po_config->get_config('polls');
 }
 
-$_PO_CONF['version'] = '2.0.1';
+$_PO_CONF['version'] = '2.0.2';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |

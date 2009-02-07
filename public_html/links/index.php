@@ -348,7 +348,9 @@ function prepare_link_item ($A, &$template)
                  . '/links/portal.php?what=link&amp;item=' . $A['lid']);
     $template->set_var ('link_url', $url);
     $template->set_var ('link_actual_url', $A['url']);
+    $template->set_var ('link_actual_url_encoded', urlencode($A['url']));
     $template->set_var ('link_name', stripslashes ($A['title']));
+    $template->set_var ('link_name_encoded', urlencode($A['title']));
     $template->set_var ('link_hits', COM_numberFormat ($A['hits']));
     $template->set_var ('link_description',
                         nl2br (stripslashes ($A['description'])));
