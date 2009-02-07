@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Story-related functions needed in more than one place.                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -32,8 +32,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-story.php,v 1.133 2008/09/21 08:37:12 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-story.php') !== false) {
     die('This file can not be used on its own!');
@@ -48,6 +46,12 @@ if ($_CONF['allow_user_photo']) {
 
 // this must be kept in sync with the actual size of 'sid' in the db ...
 define('STORY_MAX_ID_LENGTH', 40);
+
+// Story Record Options for the STATUS Field
+if (!defined ('STORY_ARCHIVE_ON_EXPIRE')) {
+    define ('STORY_ARCHIVE_ON_EXPIRE', '10');
+    define ('STORY_DELETE_ON_EXPIRE',  '11');
+}
 
 /**
  * Takes an article class and renders HTML in the specified template and style.
@@ -178,7 +182,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 COM_createLink(
                     $topicimage,
                     $topicurl,
-                    array('rel'=>"category tag")
+                    array('rel'=>"category")
                 )
             );
             $article->set_var( 'story_topic_image', $topicimage );
@@ -188,7 +192,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 COM_createLink(
                     $topicimage_noalign,
                     $topicurl,
-                    array('rel'=>"category tag")
+                    array('rel'=>"category")
                 )
             );
             $article->set_var( 'story_topic_image_no_align',
@@ -522,7 +526,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
         PLG_templateSetVars( 'featuredstorytext', $article );
         $article->parse( 'finalstory', 'featuredarticle' );
     }
-    elseif( $story->DisplayElements('statuscode') == 10 AND $story->DisplayElements('expire') <= time() )
+    elseif( $story->DisplayElements('statuscode') == STORY_ARCHIVE_ON_EXPIRE AND $story->DisplayElements('expire') <= time() )
     {
         $article->parse( 'story_bodyhtml', 'archivestorybodytext', true );
         PLG_templateSetVars( 'archivestorytext', $article );
@@ -536,12 +540,6 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     }
 
     return $article->finish( $article->get_var( 'finalstory' ));
-}
-
-// Story Record Options for the STATUS Field
-if (!defined ('STORY_ARCHIVE_ON_EXPIRE')) {
-    define ('STORY_ARCHIVE_ON_EXPIRE', '10');
-    define ('STORY_DELETE_ON_EXPIRE',  '11');
 }
 
 /**
@@ -575,7 +573,7 @@ function STORY_extractLinks( $fulltext, $maxlength = 26 )
         }
 
         $rel[] = '<a href="' . $matches[1][$i] . '">'
-               . str_replace ("/(\015\012)|(\015)|(\012)/", '', $matches[2][$i])
+               . str_replace(array("\015", "\012"), '', $matches[2][$i])
                . '</a>';
     }
 
@@ -727,6 +725,7 @@ function STORY_getItemInfo ($sid, $what)
     if (count ($fields) > 0) {
         $result = DB_query ("SELECT " . implode (',', $fields)
                     . " FROM {$_TABLES['stories']} WHERE sid = '$sid'"
+                    . ' AND (draft_flag = 0) AND (date <= NOW())'
                     . COM_getPermSql ('AND') . COM_getTopicSql ('AND'));
         $A = DB_fetchArray ($result);
     } else {
@@ -832,12 +831,9 @@ function service_submit_story($args, &$output, &$svc_msg)
     global $_CONF, $_TABLES, $_USER, $LANG24, $MESSAGE, $_GROUPS;
 
     if (!SEC_hasRights('story.edit')) {
-        $output .= COM_siteHeader('menu', $MESSAGE[30]);
-        $output .= COM_startBlock($MESSAGE[30], '',
-                                  COM_getBlockTemplate('_msg_block', 'header'));
-        $output .= $MESSAGE[31];
-        $output .= COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
-        $output .= COM_siteFooter();
+        $output .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_siteFooter();
 
         return PLG_RET_AUTH_FAILED;
     }
@@ -1036,21 +1032,15 @@ function service_submit_story($args, &$output, &$svc_msg)
         $output .= COM_siteFooter ();
         return PLG_RET_ERROR;
     case STORY_EXISTING_NO_EDIT_PERMISSION:
-        $output .= COM_siteHeader ('menu', $MESSAGE[30]);
-        $output .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $output .= $MESSAGE[31];
-        $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $output .= COM_siteFooter ();
+        $output .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_siteFooter ();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit story $sid.");
         return PLG_RET_PERMISSION_DENIED;
     case STORY_NO_ACCESS_PARAMS:
-        $output .= COM_siteHeader ('menu', $MESSAGE[30]);
-        $output .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $output .= $MESSAGE[31];
-        $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $output .= COM_siteFooter ();
+        $output .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_siteFooter ();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit story $sid.");
         return PLG_RET_PERMISSION_DENIED;
     case STORY_EMPTY_REQUIRED_FIELDS:
@@ -1210,7 +1200,7 @@ function service_submit_story($args, &$output, &$svc_msg)
         }
 
         // update feed(s) and Older Stories block
-        COM_rdfUpToDateCheck ('geeklog', $story->DisplayElements('tid'), $sid);
+        COM_rdfUpToDateCheck('article', $story->DisplayElements('tid'), $sid);
         COM_olderStuff ();
 
         if ($story->type == 'submission') {

@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Static     |
 // | Pages' PHP files.                                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -33,8 +33,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: functions.inc,v 1.127 2008/09/21 08:37:08 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -59,7 +57,7 @@ if (!isset($_SP_CONF['allow_php'])) {
     $_SP_CONF = $sp_config->get_config('staticpages');
 }
 
-$_SP_CONF['version'] = '1.5.0';
+$_SP_CONF['version'] = '1.5.1';
 
 // +---------------------------------------------------------------------------+
 // | Plugin API - Services                                                     |
@@ -260,14 +258,15 @@ function SP_countVisiblePages ()
 /**
 * Prepare static page for display.
 *
-* @param    string  $page       static page id
-* @param    array   $A          static page data
-* @param    string  comment_order sorting of comments
-* @param    string  comment_mode
-* @return   string              HTML for the static page
+* @param    string  $page           static page id
+* @param    array   $A              static page data
+* @param    string  $comment_order  sorting of comments
+* @param    string  $comment_mode   comment mode (nested, flat, etc.)
+* @param    int     $msg            optional message number
+* @return   string                  HTML for the static page
 *
 */
-function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode ='nested')
+function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode = 'nested', $msg = 0)
 {
     global $_CONF, $_TABLES, $_USER,
            $LANG01, $LANG11, $LANG_STATIC, $_IMAGE_TYPE, $_SP_CONF;
@@ -280,6 +279,9 @@ function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode ='nest
         if ($A['sp_format'] <> 'blankpage') {
             $retval .= COM_siteHeader ('none');
         }
+    }
+    if ($msg > 0) {
+        $retval .= COM_showMessage($msg, 'staticpages');
     }
     if (($A['sp_inblock'] == 1) && ($A['sp_format'] != 'blankpage')) {
         $retval .= COM_startBlock (stripslashes ($A['sp_title']), $A['sp_help'],
@@ -391,59 +393,66 @@ function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode ='nest
 * @return   string              HTML for the static page
 *
 */
-function SP_printPage ($page, $A)
+function SP_printPage($page, $A)
 {
-    global $_CONF, $LANG01, $_TABLES;
+    global $_CONF, $_TABLES, $LANG01, $LANG_DIRECTION;
 
-    $template_path = staticpages_templatePath ();
-    $print = new Template ($template_path);
-    $print->set_file (array ('print' => 'printable.thtml'));
-    $print->set_var ('site_url', $_CONF['site_url']);
-    $print->set_var ('site_name', $_CONF['site_name']);
-    $print->set_var ('site_slogan', $_CONF['site_slogan']);
+    $template_path = staticpages_templatePath();
+    $print = new Template($template_path);
+    $print->set_file(array('print' => 'printable.thtml'));
+    $print->set_var('site_url', $_CONF['site_url']);
+    $print->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $print->set_var('layout_url', $_CONF['layout_url']);
+    $print->set_var('site_name', $_CONF['site_name']);
+    $print->set_var('site_slogan', $_CONF['site_slogan']);
 
-    $print->set_var ('page_title', $_CONF['site_name'] . ' - '
-                                   . stripslashes ($A['sp_title']));
-    $sp_url = COM_buildUrl ($_CONF['site_url']
-                               . '/staticpages/index.php?page=' . $page);
-    $print->set_var ('sp_url', $sp_url);
-    $print->set_var ('sp_title', stripslashes ($A['sp_title']));
-    $print->set_var ('sp_content',
-            SP_render_content (stripslashes ($A['sp_content']), $A['sp_php']));
-    $print->set_var ('sp_hits', COM_numberFormat ($A['sp_hits']));
+    $print->set_var('direction', $LANG_DIRECTION);
+    COM_setLangIdAndAttribute($print);
+    $print->set_var('xhtml', XHTML);
+    $print->set_var('page_title', $_CONF['site_name'] . ' - '
+                                  . stripslashes($A['sp_title']));
+    $sp_url = COM_buildUrl($_CONF['site_url']
+                                  . '/staticpages/index.php?page=' . $page);
+    $print->set_var('sp_url', $sp_url);
+    $print->set_var('sp_title', stripslashes($A['sp_title']));
+    $print->set_var('sp_content',
+            SP_render_content(stripslashes($A['sp_content']), $A['sp_php']));
+    $print->set_var('sp_hits', COM_numberFormat($A['sp_hits']));
     if ($A['commentcode'] >= 0) {
         $commentsUrl = $sp_url . '#comments';
         $comments = DB_count($_TABLES['comments'],
                              array('sid', 'type'), array($page, 'staticpages'));
-        $numComments = COM_numberFormat ($comments);
-        $print->set_var ('story_comments', $numComments);
-        $print->set_var ('comments_url', $commentsUrl);
-        $print->set_var ('comments_text', $numComments . ' ' . $LANG01[3]);
-        $print->set_var ('comments_count', $numComments);
-        $print->set_var ('lang_comments', $LANG01[3]);
-        $comments_with_count = sprintf ($LANG01[121], $numComments);
+        $numComments = COM_numberFormat($comments);
+        $print->set_var('story_comments', $numComments);
+        $print->set_var('comments_url', $commentsUrl);
+        $print->set_var('comments_text', $numComments . ' ' . $LANG01[3]);
+        $print->set_var('comments_count', $numComments);
+        $print->set_var('lang_comments', $LANG01[3]);
+        $comments_with_count = sprintf($LANG01[121], $numComments);
 
         if ($comments > 0) {
-            $comments_with_count = COM_createLink($comments_with_count, $commentsUrl);
+            $comments_with_count = COM_createLink($comments_with_count,
+                                                  $commentsUrl);
         }
-        $print->set_var ('comments_with_count', $comments_with_count);
+        $print->set_var('comments_with_count', $comments_with_count);
     }
-    $print->parse ('output', 'print');
+    $print->parse('output', 'print');
 
-    return $print->finish ($print->get_var ('output'));
+    return $print->finish($print->get_var('output'));
 }
 
 /**
 * Prepare static page for display
 *
-* @param    string  $page       static page id
-* @param    string  $mode       type of display to return ('', 'print', 'autotag'
-* @param    string  comment_order sorting of comments
-* @param    string  comment_mode
-* @return   string              HTML for the static page
+* @param    string  $page           static page id
+* @param    string  $mode           type of display to return ('', 'print', 'autotag'
+* @param    string  $comment_order  sorting of comments
+* @param    string  $comment_mode   comment mode (nested, flat, etc.)
+* @param    int     $msg            optional message number
+* @return   string                  HTML for the static page
 *
 */
-function SP_returnStaticpage($page='', $mode='', $comment_order = 'ASC', $comment_mode ='nested')
+function SP_returnStaticpage($page='', $mode='', $comment_order = 'ASC', $comment_mode = 'nested', $msg = 0)
 {
     global $_CONF, $_TABLES, $LANG_ACCESS, $LANG_STATIC, $LANG_LOGIN;
 
@@ -462,7 +471,7 @@ function SP_returnStaticpage($page='', $mode='', $comment_order = 'ASC', $commen
         } else if ($mode =='autotag') {
             $retval = SP_render_content(stripslashes($retval['sp_content']), $retval['sp_php']);
         } else {
-            $retval = SP_displayPage($page, $retval, $comment_order, $comment_mode);
+            $retval = SP_displayPage($page, $retval, $comment_order, $comment_mode, $msg);
         }
 
         // increment hit counter for page

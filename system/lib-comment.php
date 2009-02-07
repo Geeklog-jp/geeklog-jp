@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog comment library.                                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -32,8 +32,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-comment.php,v 1.69 2008/09/21 08:37:11 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-comment.php') !== false) {
     die('This file can not be used on its own!');
@@ -428,20 +426,21 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
 
         // create a reply to link
         $reply_link = '';
-        if( $ccode == 0 ) {
+        if ($ccode == 0) {
             $a_title = $A['title'];
             if ( $CUSTOM_MOBILE_UA > 1 ) {
                 $a_title = mb_convert_encoding($A['title'], 'SJIS-win');
             }
             $reply_link = $_CONF['site_url'] . '/comment.php?sid=' . $A['sid']
                         . '&amp;pid=' . $A['cid'] . '&amp;title='
-                        . urlencode( $a_title ) . '&amp;type=' . $A['type'];
-            $reply_option = COM_createLink($LANG01[43], $reply_link ) . ' | ';
-            $template->set_var( 'reply_option', $reply_option );
+                        . urlencode($a_title) . '&amp;type=' . $A['type'];
+            $reply_option = COM_createLink($LANG01[43], $reply_link,
+                                           array('rel' => 'nofollow')) . ' | ';
+            $template->set_var('reply_option', $reply_option);
         } else {
-            $template->set_var( 'reply_option', '' );
+            $template->set_var('reply_option', '');
         }
-        $template->set_var( 'reply_link', $reply_link );
+        $template->set_var('reply_link', $reply_link);
 
         // format title for display, must happen after reply_link is created
         $A['title'] = htmlspecialchars( $A['title'] );
@@ -644,7 +643,8 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 */
 function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_LOGIN;
+    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_LOGIN,
+           $LANG_ACCESS;
 
     $retval = '';
 
@@ -788,21 +788,31 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             $comment_template->set_var('site_admin_url', $_CONF['site_admin_url']);
             $comment_template->set_var('layout_url', $_CONF['layout_url']);
             $comment_template->set_var('start_block_postacomment', COM_startBlock($LANG03[1]));
-            $comment_template->set_var('lang_username', $LANG03[5]);
+            if ($_CONF['show_fullname'] == 1) {
+                $comment_template->set_var('lang_username', $LANG_ACCESS['name']);
+            } else {
+                $comment_template->set_var('lang_username', $LANG03[5]);
+            }
             $comment_template->set_var('sid', $sid);
             $comment_template->set_var('pid', $pid);
             $comment_template->set_var('type', $type);
 
             if (!empty($_USER['username'])) {
                 $comment_template->set_var('uid', $_USER['uid']);
-                $comment_template->set_var('username', $_USER['username']);
-                $comment_template->set_var('action_url', $_CONF['site_url'] . '/users.php?mode=logout');
-                $comment_template->set_var('lang_logoutorcreateaccount', $LANG03[03]);
+                $name = COM_getDisplayName($_USER['uid'], $_USER['username'],
+                    $_USER['fullname']);
+                $comment_template->set_var('username', $name);
+                $comment_template->set_var('action_url',
+                    $_CONF['site_url'] . '/users.php?mode=logout');
+                $comment_template->set_var('lang_logoutorcreateaccount',
+                    $LANG03[03]);
             } else {
                 $comment_template->set_var('uid', 1);
                 $comment_template->set_var('username', $LANG03[24]);
-                $comment_template->set_var('action_url', $_CONF['site_url'] . '/users.php?mode=new');
-                $comment_template->set_var('lang_logoutorcreateaccount', $LANG03[04]);
+                $comment_template->set_var('action_url',
+                    $_CONF['site_url'] . '/users.php?mode=new');
+                $comment_template->set_var('lang_logoutorcreateaccount',
+                    $LANG03[04]);
             }
 
             if ($postmode == 'html') {
