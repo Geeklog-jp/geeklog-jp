@@ -394,7 +394,12 @@ DB_query( "DELETE FROM {$_TABLES['sessions']} WHERE start_time < " . ( time() - 
 *
 */
 
-require_once( $_CONF['path_language'] . $_CONF['language'] . '.php' );
+require_once $_CONF['path_language'] . $_CONF['language'] . '.php';
+
+if (empty($LANG_DIRECTION)) {
+    // default to left-to-right
+    $LANG_DIRECTION = 'ltr';
+}
 
 COM_switchLocaleSettings();
 
@@ -1011,48 +1016,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
     }
     $header->set_var('page_title_and_site_name', $title_and_name);
 
-    $langAttr = '';
-    if( !empty( $_CONF['languages'] ) && !empty( $_CONF['language_files'] ))
-    {
-        $langId = COM_getLanguageId();
-    }
-    else
-    {
-        // try to derive the language id from the locale
-        $l = explode( '.', $_CONF['locale'] );
-        $langId = $l[0];
-    }
-    if( !empty( $langId ))
-    {
-        $l = explode( '-', str_replace( '_', '-', $langId ));
-        if(( count( $l ) == 1 ) && ( strlen( $langId ) == 2 ))
-        {
-            $langAttr = 'lang="' . $langId . '"';
-        }
-        else if( count( $l ) == 2 )
-        {
-            if(( $l[0] == 'i' ) || ( $l[0] == 'x' ))
-            {
-                $langId = implode( '-', $l );
-                $langAttr = 'lang="' . $langId . '"';
-            }
-            else if( strlen( $l[0] ) == 2 )
-            {
-                $langId = implode( '-', $l );
-                $langAttr = 'lang="' . $langId . '"';
-            }
-            else
-            {
-                $langId = $l[0];
-            }
-        }
-    }
-    $header->set_var('lang_id', $langId );
-    if (!empty($_CONF['languages']) && !empty($_CONF['language_files'])) {
-        $header->set_var('lang_attribute', $langAttr);
-    } else {
-        $header->set_var('lang_attribute', '');
-    }
+    COM_setLangIdAndAttribute($header);
 
     $header->set_var( 'background_image', $_CONF['layout_url']
                                           . '/images/bg.' . $_IMAGE_TYPE );
@@ -1084,16 +1048,8 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
     $header->set_var( 'css_url', $_CONF['layout_url'] . '/style.css' );
     $header->set_var( 'theme', $_CONF['theme'] );
 
-    $header->set_var( 'charset', COM_getCharset());
-    if( empty( $LANG_DIRECTION ))
-    {
-        // default to left-to-right
-        $header->set_var( 'direction', 'ltr' );
-    }
-    else
-    {
-        $header->set_var( 'direction', $LANG_DIRECTION );
-    }
+    $header->set_var('charset', COM_getCharset());
+    $header->set_var('direction', $LANG_DIRECTION);
 
     // Now add variables for buttons like e.g. those used by the Yahoo theme
     $header->set_var( 'button_home', $LANG_BUTTONS[1] );
@@ -2873,10 +2829,11 @@ function COM_checkWords( $Message )
                     break;
             }
 
-            $censor_entries = count( $_CONF['censorlist'] );
-            for( $i = 0; $i < $censor_entries; $i++ )
-            {
-                $EditedMessage = MBYTE_eregi_replace( $RegExPrefix . $_CONF['censorlist'][$i] . $RegExSuffix, "\\1$Replacement\\2", $EditedMessage );
+            foreach ($_CONF['censorlist'] as $c) {
+                if (!empty($c)) {
+                    $EditedMessage = MBYTE_eregi_replace($RegExPrefix . $c
+                        . $RegExSuffix, "\\1$Replacement\\2", $EditedMessage);
+                }
             }
         }
     }
@@ -3126,14 +3083,8 @@ function COM_emailEscape( $string )
 {
     global $_CONF;
 
-    /**
-    *  @author  geeklog.jp
-    *  @note    This hack is to return a string WITHOUT being escaped when
-    *           CUSTOM_mail() is defined.  The string will be escaped later in
-    *           CUSTOM_emailEscape(().
-    */
-    if (function_exists('CUSTOM_mail')) {
-        return $string;
+    if (function_exists('CUSTOM_emailEscape')) {
+        return CUSTOM_emailEscape($string);
     }
 
     $charset = COM_getCharset();
@@ -3173,15 +3124,10 @@ function COM_emailEscape( $string )
 */
 function COM_formatEmailAddress( $name, $address )
 {
-    /**
-    *  @author  geeklog.jp
-    *  @note    This hack is to return an email address WITHOUT being escaped
-    *           when CUSTOM_mail() is defined.  The email address will be
-    *           escaped and formatted later in CUSTOM_formatEmailAddress().
-    */
-    if (function_exists('CUSTOM_mail')) {
-        return $name . ' <' . $address . '>';
+    if (function_exists('CUSTOM_formatEmailAddress')) {
+        return CUSTOM_formatEmailAddress($name, $address);
     }
+
     $formatted_name = COM_emailEscape( $name );
 
     // if the name comes back unchanged, it's not UTF-8, so preg_match is fine
@@ -3290,7 +3236,11 @@ function COM_mail( $to, $subject, $message, $from = '', $html = false, $priority
 
     if (!empty($_SERVER['REMOTE_ADDR']) && !empty($_SERVER['SERVER_ADDR']) &&
             ($_SERVER['REMOTE_ADDR'] != $_SERVER['SERVER_ADDR'])) {
-        $headers['X-Originating-IP'] = $_SERVER['REMOTE_ADDR'];
+        $url = COM_getCurrentURL();
+        if (substr($url, 0, strlen($_CONF['site_admin_url']))
+                != $_CONF['site_admin_url']) {
+            $headers['X-Originating-IP'] = $_SERVER['REMOTE_ADDR'];
+        }
     }
 
     $retval = $mailobj->send( $to, $headers, $message );
@@ -4477,6 +4427,35 @@ function COM_formatTimeString( $time_string, $time, $type = '', $amount = 0 )
     return $retval;
 }
 
+/**
+* Displays a message text in a "System Message" block
+*
+* @param    string  $message    Message text; may contain HTML
+* @param    string  $title      (optional) alternative block title
+* @return   string              HTML block with message
+*
+*/
+function COM_showMessageText($message, $title = '')
+{
+    global $_CONF, $MESSAGE, $_IMAGE_TYPE;
+
+    $retval = '';
+
+    if (!empty($message)) {
+        if (empty($title)) {
+            $title = $MESSAGE[40];
+        }
+        $timestamp = strftime($_CONF['daytime']);
+        $retval .= COM_startBlock($title . ' - ' . $timestamp, '',
+                                  COM_getBlockTemplate('_msg_block', 'header'))
+                . '<p class="sysmessage"><img src="' . $_CONF['layout_url']
+                . '/images/sysmessage.' . $_IMAGE_TYPE . '" alt="" ' . XHTML
+                . '>' . $message . '</p>'
+                . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
+    }
+
+    return $retval;
+}
 
 /**
 * Displays a message on the webpage
@@ -4484,22 +4463,17 @@ function COM_formatTimeString( $time_string, $time, $type = '', $amount = 0 )
 * Pulls $msg off the URL string and gets the corresponding message and returns
 * it for display on the calling page
 *
-* @param      int     $msg        ID of message to show
-* @param      string  $plugin     Optional Name of plugin to lookup plugin defined message
-* @return     string  HTML block with message
+* @param    int     $msg        ID of message to show
+* @param    string  $plugin     Optional Name of plugin to lookup plugin defined message
+* @return   string              HTML block with message
 */
-
 function COM_showMessage($msg, $plugin = '')
 {
-    global $_CONF, $MESSAGE, $_IMAGE_TYPE;
+    global $MESSAGE;
 
     $retval = '';
-    if (empty($plugin) AND !empty($_REQUEST['plugin'])) {
-        $plugin = COM_applyFilter($_REQUEST['plugin']);
-    };
 
     if ($msg > 0) {
-        $timestamp = strftime($_CONF['daytime']);
         if (!empty($plugin)) {
             $var = 'PLG_' . $plugin . '_MESSAGE' . $msg;
             global $$var;
@@ -4513,17 +4487,41 @@ function COM_showMessage($msg, $plugin = '')
             $message = $MESSAGE[$msg];
         }
 
-        $retval .= COM_startBlock($MESSAGE[40] . ' - ' . $timestamp, '',
-                                  COM_getBlockTemplate('_msg_block', 'header'))
-                . '<p class="sysmessage"><img src="' . $_CONF['layout_url']
-                . '/images/sysmessage.' . $_IMAGE_TYPE . '" alt="" ' . XHTML
-                . '>' . $message . '</p>'
-                . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
+        if (!empty($message)) {
+            $retval .= COM_showMessageText($message);
+        }
     }
 
     return $retval;
 }
 
+/**
+* Displays a message, as defined by URL parameters
+*
+* Helper function to display a message, if URL parameters 'msg' and 'plugin'
+* (optional) are defined. Only for GET requests, but that's what Geeklog uses
+* everywhere anyway.
+*
+* @return   string  HTML block with message
+*
+*/
+function COM_showMessageFromParameter()
+{
+    $retval = '';
+
+    if (isset($_GET['msg'])) {
+        $msg = COM_applyFilter($_GET['msg'], true);
+        if ($msg > 0) {
+            $plugin = '';
+            if (isset($_GET['plugin'])) {
+                $plugin = COM_applyFilter($_GET['plugin']);
+            }
+            $retval .= COM_showMessage($msg, $plugin);
+        }
+    }
+
+    return $retval;
+}
 
 /**
 * Prints Google(tm)-like paging navigation
@@ -4901,34 +4899,23 @@ function COM_getDayFormOptions( $selected = '' )
 * @return string  HTML years as option values
 */
 
-function COM_getYearFormOptions( $selected = '', $startoffset=0, $endoffset=5 )
+function COM_getYearFormOptions($selected = '', $startoffset = -1, $endoffset = 5)
 {
     $year_options = '';
-    if ($startoffset != 0)
-    {
-        $start_year = date ( 'Y' ) + $startoffset;
-    }
-    else
-    {
-        $start_year = date( 'Y', time() );
-    }
-    $cur_year = date( 'Y', time() );
+    $start_year  = date('Y') + $startoffset;
+    $cur_year    = date('Y', time());
     $finish_year = $cur_year + $endoffset;
 
-    if( !empty( $selected ))
-    {
-        if( $selected < $cur_year )
-        {
+    if (!empty($selected)) {
+        if ($selected < $cur_year) {
             $start_year = $selected;
         }
     }
 
-    for( $i = $start_year - 1; $i <= $finish_year; $i++ )
-    {
+    for ($i = $start_year; $i <= $finish_year; $i++) {
         $year_options .= '<option value="' . $i . '"';
 
-        if( $i == $selected )
-        {
+        if ($i == $selected) {
             $year_options .= ' selected="selected"';
         }
 
@@ -5402,7 +5389,7 @@ function COM_getPermSQL( $type = 'WHERE', $u_id = 0, $access = 2, $table = '' )
     }
 
     $UserGroups = array();
-    if( COM_isAnonUser() || ( $uid == $_USER['uid'] ))
+    if(( empty( $_USER['uid'] ) && ( $uid == 1 )) || ( $uid == $_USER['uid'] ))
     {
         if( empty( $_GROUPS ))
         {
@@ -5715,19 +5702,42 @@ function COM_sanitizeFilename($filename, $allow_dots = false)
 * Detect links in a plain-ascii text and turn them into clickable links.
 * Will detect links starting with "http:", "https:", "ftp:", and "www.".
 *
-* Derived from a newsgroup posting by Andreas Schwarz in
-* news:de.comp.lang.php <aieq4p$12jn2i$3@ID-16486.news.dfncis.de>
-*
 * @param    string    $text     the (plain-ascii) text string
 * @return   string    the same string, with links enclosed in <a>...</a> tags
 *
 */
 function COM_makeClickableLinks( $text )
 {
-   $regex = '/((ht|f)tp(s?)\:\/\/|~\/|\/)?([\w]+:\w+@)?(([a-zA-Z]{1}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?((\/?\w+\/)+|\/?)([\w\-%]+(\.[\w]{3,4})?)?((\?|&|&amp;)[\w\-%]+=[\w\-%]+)*)/is';
+    // These regular expressions will work for this purpuse, but
+    // they should NOT be used for validating links.
 
-   $text = preg_replace( $regex, '<a href="\\1\\5">\\6</a>', $text );
-   return $text;
+    // matches anything starting with http:// or https:// or ftp:// or ftps://
+    $regex[] = '/(?<=^|[\n\r\t\s\(\)\[\]<>";])((?:(?:ht|f)tps?:\/{2})(?:[^\n\r\t\s\(\)\[\]<>"&]+(?:&amp;)?)+)(?=[\n\r\t\s\(\)\[\]<>"&]|$)/ei';
+    $replace[] = "COM_makeClickableLinksCallback('', '\\1')";
+
+    // matches anything containing a top level domain: xxx.com or xxx.yyy.net/stuff.php or xxx.yyy.zz
+    // list taken from: http://en.wikipedia.org/wiki/List_of_Internet_TLDs
+    $regex[] = '/(?<=^|[\n\r\t\s\(\)\[\]<>";])((?:[a-z0-9]+\.)*[a-z0-9]+\.(?:aero|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z]{2})(?:[\/?#](?:[^\n\r\t\s\(\)\[\]<>"&]+(?:&amp;)?)*)?)(?=[\n\r\t\s\(\)\[\]<>"&]|$)/ei';
+    $replace[] = "COM_makeClickableLinksCallback('http://', '\\1')";
+
+    $text = preg_replace( $regex, $replace, $text );
+
+    return $text;
+}
+
+/**
+* Callback function to help format links in COM_makeClickableLinks
+*
+* @param    string  $http   set to 'http://' when not aleady in the url
+* @param    string  $link   the url
+* @return   string          link enclosed in <a>...</a> tags
+*
+*/
+function COM_makeClickableLinksCallback( $http, $link )
+{
+    $text = COM_truncate( $link, 50, '...', '10' );
+
+    return "<a href=\"$http$link\">$text</a>";
 }
 
 /**
@@ -6484,22 +6494,23 @@ function COM_switchLocaleSettings()
 * e.g. '...', to indicate the truncation.
 * This function is multi-byte string aware, based on a patch by Yusuke Sakata.
 *
-* @param    string  $text   the text string to truncate
-* @param    int     $maxlen max. number of characters in the truncated string
-* @param    string  $filler optional filler string, e.g. '...'
-* @return   string          truncated string
+* @param    string  $text       the text string to truncate
+* @param    int     $maxlen     max. number of characters in the truncated string
+* @param    string  $filler     optional filler string, e.g. '...'
+* @param    int     $endchars   number of characters to show after the filler
+* @return   string              truncated string
 *
 * @note The truncated string may be shorter but will never be longer than
 *       $maxlen characters, i.e. the $filler string is taken into account.
 *
 */
-function COM_truncate( $text, $maxlen, $filler = '' )
+function COM_truncate( $text, $maxlen, $filler = '', $endchars = 0 )
 {
     $newlen = $maxlen - MBYTE_strlen( $filler );
     $len = MBYTE_strlen( $text );
     if( $len > $maxlen )
     {
-        $text = MBYTE_substr( $text, 0, $newlen ) . $filler;
+        $text = MBYTE_substr( $text, 0, $newlen - $endchars ) . $filler . MBYTE_substr( $text, $len - $endchars, $endchars );
     }
 
     return $text;
@@ -6557,34 +6568,45 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     global $_CONF, $_USER;
 
     // Handle @ operator
-    if( error_reporting() == 0 )
-    {
+    if (error_reporting() == 0) {
         return;
     }
 
-    /* If in PHP4, then respect error_reporting */
-    if( (PHP_VERSION < 5) && (($errno & error_reporting()) == 0) ) return;
+    // If in PHP4, then respect error_reporting
+    if ((PHP_VERSION < 5) && (($errno & error_reporting()) == 0)) {
+        return;
+    }
 
     /*
      * If we have a root user, then output detailed error message:
      */
-    if( ( is_array($_USER) && function_exists('SEC_inGroup') ) || (isset($_CONF['rootdebug']) && $_CONF['rootdebug']) )
-    {
-        if($_CONF['rootdebug'] || SEC_inGroup('Root'))
-        {
+    if ((is_array($_USER) && function_exists('SEC_inGroup'))
+            || (isset($_CONF['rootdebug']) && $_CONF['rootdebug'])) {
+        if ($_CONF['rootdebug'] || SEC_inGroup('Root')) {
+
+            header('HTTP/1.1 500 Internal Server Error');
+            header('Status: 500 Internal Server Error');
+
+            $title = 'An Error Occurred';
+            if (!empty($_CONF['site_name'])) {
+                $title = $_CONF['site_name'] . ' - ' . $title;
+            }
+            echo("<html><head><title>$title</title></head>\n<body>\n");
+
             echo('<h1>An error has occurred:</h1>');
-            if($_CONF['rootdebug']) {
+            if ($_CONF['rootdebug']) {
                 echo('<h2 style="color: red">This is being displayed as "Root Debugging" is enabled
                         in your Geeklog configuration.</h2><p>If this is a production
                         website you <strong><em>must disable</em></strong> this
                         option once you have resolved any issues you are
                         investigating.</p>');
             } else {
-                echo('(This text is only displayed to users in the group \'Root\')<br>');
+                echo('<p>(This text is only displayed to users in the group \'Root\')</p>');
             }
-            echo("$errno - $errstr @ $errfile line $errline<br>");
-            if(!SEC_inGroup('Root')) {
-                if('force' != ''.$_CONF['rootdebug']) {
+            echo("<p>$errno - $errstr @ $errfile line $errline</p>");
+
+            if (!function_exists('SEC_inGroup') || !SEC_inGroup('Root')) {
+                if ('force' != ''.$_CONF['rootdebug']) {
                     $errcontext = COM_rootDebugClean($errcontext);
                 } else {
                     echo('<h2 style="color: red">Root Debug is set to "force", this
@@ -6597,7 +6619,7 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
             var_dump($errcontext);
             $errcontext = htmlspecialchars(ob_get_contents());
             ob_end_clean();
-            echo("$errcontext</pre>");
+            echo("$errcontext</pre></body></html>");
             exit;
         }
     }
@@ -6605,15 +6627,12 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     /* If there is a custom error handler, fail over to that, but only
      * if the error wasn't in lib-custom.php
      */
-    if( is_array($_CONF) && !(strstr($errfile, 'lib-custom.php')))
-    {
-        if( array_key_exists('path_system', $_CONF) )
-        {
-            if (file_exists($_CONF['path_system'].'lib-custom.php')) {
-                require_once($_CONF['path_system'].'lib-custom.php');
+    if (is_array($_CONF) && !(strstr($errfile, 'lib-custom.php'))) {
+        if (array_key_exists('path_system', $_CONF)) {
+            if (file_exists($_CONF['path_system'] . 'lib-custom.php')) {
+                require_once $_CONF['path_system'] . 'lib-custom.php';
             }
-            if( function_exists('CUSTOM_handleError') )
-            {
+            if (function_exists('CUSTOM_handleError')) {
                 CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext);
                 exit;
             }
@@ -6623,14 +6642,17 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
     // if we do not throw the error back to an admin, still log it in the error.log
     COM_errorLog("$errno - $errstr @ $errfile line $errline", 1);
 
-    /* Does the theme implement an error message html file? */
+    header('HTTP/1.1 500 Internal Server Error');
+    header('Status: 500 Internal Server Error');
+
+    // Does the theme implement an error message html file?
     if (!empty($_CONF['path_layout']) &&
             file_exists($_CONF['path_layout'] . 'errormessage.html')) {
         // NOTE: NOT A TEMPLATE! JUST HTML!
         include $_CONF['path_layout'] . 'errormessage.html';
     } else {
-        /* Otherwise, display simple error message */
-        $title = "An Error Occurred";
+        // Otherwise, display simple error message
+        $title = 'An Error Occurred';
         if (!empty($_CONF['site_name'])) {
             $title = $_CONF['site_name'] . ' - ' . $title;
         }
@@ -6711,20 +6733,93 @@ function COM_isAnonUser($uid = '')
     }
 }
 
-// Now include all plugin functions
-foreach( $_PLUGINS as $pi_name )
+/**
+* Convert wiki-formatted text to (X)HTML
+*
+* @param    string  $wikitext   wiki-formatted text
+* @return   string              XHTML formatted text
+*
+*/
+function COM_renderWikiText($wikitext)
 {
-    require_once( $_CONF['path'] . 'plugins/' . $pi_name . '/functions.inc' );
+    global $_CONF;
+
+    if (!$_CONF['wikitext_editor']) {
+        return $wikitext;
+    }
+
+    require_once 'Text/Wiki.php';
+
+    $wiki = &new Text_Wiki();
+    $wiki->disableRule('wikilink');
+    $wiki->disableRule('freelink');
+    $wiki->disableRule('interwiki');
+
+    return $wiki->transform($wikitext, 'Xhtml');
+}
+
+/**
+* Set the {lang_id} and {lang_attribute} variables for a template
+*
+* @param    ref     $template   template to use
+* @return   void
+* @note     {lang_attribute} is only set in multi-language environments.
+*
+*/
+function COM_setLangIdAndAttribute(&$template)
+{
+    global $_CONF;
+
+    $langAttr = '';
+    $langId   = '';
+
+    if (!empty($_CONF['languages']) && !empty($_CONF['language_files'])) {
+        $langId = COM_getLanguageId();
+    } else {
+        // try to derive the language id from the locale
+        $l = explode('.', $_CONF['locale']); // get rid of character set
+        $langId = $l[0];
+        $l = explode('@', $langId); // get rid of '@euro', etc.
+        $langId = $l[0];
+    }
+
+    if (!empty($langId)) {
+        $l = explode('-', str_replace('_', '-', $langId));
+        if ((count($l) == 1) && (strlen($langId) == 2)) {
+            $langAttr = 'lang="' . $langId . '"';
+        } else if (count($l) == 2) {
+            if (($l[0] == 'i') || ($l[0] == 'x')) {
+                $langId = implode('-', $l);
+                $langAttr = 'lang="' . $langId . '"';
+            } else if (strlen($l[0]) == 2) {
+                $langId = implode('-', $l);
+                $langAttr = 'lang="' . $langId . '"';
+            } else {
+                $langId = $l[0];
+                // this isn't a valid lang attribute, so don't set $langAttr
+            }
+        }
+    }
+    $template->set_var('lang_id', $langId);
+
+    if (!empty($_CONF['languages']) && !empty($_CONF['language_files'])) {
+        $template->set_var('lang_attribute', $langAttr);
+    } else {
+        $template->set_var('lang_attribute', '');
+    }
+}
+
+// Now include all plugin functions
+foreach ($_PLUGINS as $pi_name) {
+    require_once $_CONF['path'] . 'plugins/' . $pi_name . '/functions.inc';
 }
 
 // Check and see if any plugins (or custom functions)
 // have scheduled tasks to perform
-if( $_CONF['cron_schedule_interval'] > 0 )
-{
-    if(( DB_getItem( $_TABLES['vars'], 'value', "name='last_scheduled_run'" )
-            + $_CONF['cron_schedule_interval'] ) <= time())
-    {
-        DB_query( "UPDATE {$_TABLES['vars']} SET value=UNIX_TIMESTAMP() WHERE name='last_scheduled_run'" );
+if ($_CONF['cron_schedule_interval'] > 0) {
+    if ((DB_getItem($_TABLES['vars'], 'value', "name='last_scheduled_run'")
+            + $_CONF['cron_schedule_interval']) <= time()) {
+        DB_query("UPDATE {$_TABLES['vars']} SET value=UNIX_TIMESTAMP() WHERE name='last_scheduled_run'");
         PLG_runScheduledTask();
     }
 }
