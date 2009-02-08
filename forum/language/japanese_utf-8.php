@@ -1,35 +1,36 @@
 <?php
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.0 for Geeklog - The Ultimate Weblog
-// | Official release date: Feb 7,2003
+// | Geeklog Forums Plugin 2.0 for Geeklog - The Ultimate Weblog               |
+// | Official release date: Feb 7,2003                                         |
 // +---------------------------------------------------------------------------+
-// | japanese_utf-8.php ★もし万一エンコードがutf-8でなければ変換してください
+// | japanese_utf-8.php                                                        |
+// | Language defines for all text                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001 by the following authors: 
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com
+// | Copyright (C) 2000,2001 by the following authors:                         |
+// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
 // +---------------------------------------------------------------------------+
-// | FORUM Plugin Authors 
-// | Prototype & Concept    :  Mr.GxBlock of www.gxblock.com 
-// | Co-Developed by Matthew and Blaine
-// | Matthew DeWyer, contact: matt@mycws.com          www.cweb.ws
-// | Blaine Lang,    contact: geeklog@langfamily.ca   www.langfamily.ca
+// | FORUM Plugin Authors                                                      |
+// | Prototype & Concept    :  Mr.GxBlock of www.gxblock.com                   |
+// | Co-Developed by Matthew and Blaine                                        |
+// | Matthew DeWyer, contact: matt@mycws.com          www.cweb.ws              |
+// | Blaine Lang,    contact: geeklog@langfamily.ca   www.langfamily.ca        |
 // +---------------------------------------------------------------------------+
-// |  
-// | This program is free software; you can redistribute it and/or
-// | modify it under the terms of the GNU General Public License
-// | as published by the Free Software Foundation; either version 2 
-// | of the License, or (at your option) any later version.
-// | 
-// | This program is distributed in the hope that it will be useful, 
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// | GNU General Public License for more details.
-// | 
-// | You should have received a copy of the GNU General Public License
-// | along with this program; if not, write to the Free Software Foundation,
-// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-// | 
+// |                                                                           |
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// |                                                                           |
 // +---------------------------------------------------------------------------+
 //
 # Tranlated by Geeklog Japanese group SaY and Ivy
@@ -64,7 +65,7 @@ $LANG_GF00 = array (
     'access_denied_msg' => 'Rootユーザのみこのページにアクセスできます。あなたの名前とIPアドレスは記録されました。',
     'admin'             => 'プラグイン管理者',
     'install_header'    => 'プラグインのインストール/アンインストール',
-    'installed'         => 'プラグインとブロックがインストールされました。<p><i>楽しんでください<br' . XHTML . '><a href="mailto:langmail@sympatico.ca">Blaine</a></i>',
+    'installed'         => 'プラグインとブロックがインストールされました。<p><em>楽しんでください<br' . XHTML . '><a href="mailto:langmail@sympatico.ca">Blaine</a></em>',
     'uninstalled'       => 'Forumプラグインはアンインストールされました。',
     'install_success'   => 'インストールは<p><b>次のステップへ</b>:   <ol><li>掲示板管理者は、新しく掲示板を開設してください。<li>掲示板の設定と個人の設定を再設定してください。 <li>少なくとも掲示板を1つ、カテゴリを1つ、作成してください。</ol> <p><a href="%s">インストールの注意</a> を再度ご覧ください。',
 
@@ -315,7 +316,7 @@ $LANG_GF02['msg01']    = '申し訳ありませんが、掲示への参加には
 $LANG_GF02['msg02']    = '申し訳ありませんが、この掲示板への参加には登録が必要です。';
 $LANG_GF02['msg03']    = '';
 $LANG_GF02['msg04']    = '';
-$LANG_GF02['msg05']    = '<center><i>まだ登録されていません。</center></i>';
+$LANG_GF02['msg05']    = '<center><em>まだ登録されていません。</em></center>';
 $LANG_GF02['msg06']    = '最後の訪問以後の投稿';
 $LANG_GF02['msg07']    = 'オンラインユーザ:';
 $LANG_GF02['msg08']    = '<br' . XHTML . '><b>すべての登録ユーザの登録日時:</b> %s';
@@ -325,7 +326,7 @@ $LANG_GF02['msg11']    = '掲示板インデックスに戻る';
 $LANG_GF02['msg12']    = 'メインホームページに戻る';
 $LANG_GF02['msg13']    = '登録が必要です。';
 $LANG_GF02['msg14']    = '登録が必要です。<br' . XHTML . '>';
-$LANG_GF02['msg15']    = 'エラーだと思われたら、 <a href="mailto:%s?subject=Guestbook IP Ban">掲示板管理者</A>まで。';
+$LANG_GF02['msg15']    = 'エラーだと思われたら、 <a href="mailto:%s?subject=Guestbook IP Ban">掲示板管理者</a>まで。';
 $LANG_GF02['msg16']    = 'よくある投稿です。他の投稿や書き込みをご覧ください。';
 $LANG_GF02['msg17']    = 'メッセージ編集が完了しされました。';
 $LANG_GF02['msg18']    = 'エラー! 必須項目が入力されていないかまたは短すぎます。';
@@ -388,11 +389,11 @@ $LANG_GF02['msg72']    = 'このメッセージがオンラインなら管理者
 $LANG_GF02['msg74']    = '最近の投稿 %s 件';
 $LANG_GF02['msg75']    = '閲覧数トップ %s 件';
 $LANG_GF02['msg76']    = '投稿数トップ %s 件';
-$LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left: 10px;">申し訳ありません。先にログインしてください。アカウントがなければ新規登録してください。<p />';
+$LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left: 10px;">申し訳ありません。先にログインしてください。アカウントがなければ新規登録してください。</p>';
 $LANG_GF02['msg78']    = '<br' . XHTML . '>ここに掲示板はありません。';
 $LANG_GF02['msg81']    = '- 投稿編集通知';
-$LANG_GF02['msg82']    = '<p>あなたのメッセージ "%s" は、モデーレータ %s によって編集されました。<p>';
-$LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '>掲示板のタイトルを入力してください。<p />';
+$LANG_GF02['msg82']    = '<p>あなたのメッセージ "%s" は、モデーレータ %s によって編集されました。</p>';
+$LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '><p>掲示板のタイトルを入力してください。</p>';
 $LANG_GF02['msg84']    = 'すべて読んだことにする';
 $LANG_GF02['msg85']    = 'ページ:';
 $LANG_GF02['msg86']    = '最新 %s 投稿　投稿者: ';
@@ -415,7 +416,7 @@ $LANG_GF02['msg111']   = '未読リスト:';
 $LANG_GF02['msg112']   = '未読を表示する';
 $LANG_GF02['msg113']   = '未読を表示する';
 $LANG_GF02['msg114']   = 'ロック済';
-$LANG_GF02['msg115']   = '注目トピック新着';
+$LANG_GF02['msg115']   = '注目トピック 新着';
 $LANG_GF02['msg116']   = 'ロック済トピック 新着';
 $LANG_GF02['msg117']   = 'サイト検索';
 $LANG_GF02['msg118']   = '掲示板検索';
@@ -426,13 +427,13 @@ $LANG_GF02['msg122']   = '人気順リスト件数';
 $LANG_GF02['msg123']   = '人気順リストに表示する件数';
 $LANG_GF02['msg124']   = '1ページごとのメッセージ数';
 $LANG_GF02['msg125']   = 'モデレータのみ: メッセージ一覧画面';
-$LANG_GF02['msg126']   = '検索ライン:';
+$LANG_GF02['msg126']   = '検索ライン';
 $LANG_GF02['msg127']   = '探索結果に表示するラインの数';
-$LANG_GF02['msg128']   = '投稿者数/1ページ:';
+$LANG_GF02['msg128']   = '投稿者数/1ページ';
 $LANG_GF02['msg129']   = '投稿者リストの1ページに表示する人数';
-$LANG_GF02['msg130']   = 'ゲストユーザ投稿表示:';
+$LANG_GF02['msg130']   = 'ゲストユーザ投稿表示';
 $LANG_GF02['msg131']   = 'ゲストユーザ投稿を表示する';
-$LANG_GF02['msg132']   = 'メール通知設定モード:';
+$LANG_GF02['msg132']   = 'メール通知設定モード';
 $LANG_GF02['msg133']   = '書き込みがあればメール通知を既定値にする';
 $LANG_GF02['msg134']   = '投稿が追加されました。';
 $LANG_GF02['msg135']   = 'あなたの全ての投稿が掲示板に通知されます';
@@ -462,10 +463,10 @@ $LANG_GF02['msg158']   = '最新10投稿者 ';
 $LANG_GF02['msg159']   = 'モデレータのデータを本当に削除してもよいですか？';
 $LANG_GF02['msg160']   = '投稿の最後のページを見る';
 $LANG_GF02['msg161']   = 'メンバーリストへ戻る';
-$LANG_GF02['msg162']   = '<a href="%s">こちら</a><br' . XHTML . '><p>へ自動的に戻りますが、すぐに戻りたい場合は <a href="%s">こちら</a>';
+$LANG_GF02['msg162']   = '<a href="%s">こちら</a><br' . XHTML . '>へ自動的に戻りますが、すぐに戻りたい場合は <a href="%s">こちら</a>';
 $LANG_GF02['msg163']   = '投稿が移動しました';
 $LANG_GF02['msg164']   = 'すべて読んだことにする';
-$LANG_GF02['msg165']   = 'エラー：<p>マッチする <b>引用</b> タグがありません。フォーマットできません。</p>';
+$LANG_GF02['msg165']   = '<p>エラー: マッチする <b>引用</b> タグがありません。フォーマットできません。</p>';
 $LANG_GF02['msg166']   = 'エラー: 記事が壊れたか、見つかりません。';
 $LANG_GF02['msg167']   = '通知オプション';
 $LANG_GF02['msg168']   = 'メール通知を無効にする';
