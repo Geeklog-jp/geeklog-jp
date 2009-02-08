@@ -5,7 +5,7 @@
         <td>
             <table width="100%" cellspacing="0" cellpadding="0" style="border:0 none;">
                 <tr>
-                    <td style="height:8px; width:10px;"><img src="{imgset}/forumindex.png" border="0"{xhtml}></td>
+                    <td style="height:8px; width:10px;"><img alt="" src="{imgset}/forumindex.png" style="border:none;"{xhtml}></td>
                     <td class="pluginHeader alignleft" style="white-space:nowrap;">&nbsp;{catname}:</td>
                     <td class="alignright" style="white-space:nowrap;">{catorder}:&nbsp;{order}&nbsp;&nbsp;</td>
                 </tr>
@@ -16,10 +16,10 @@
         <td style="padding:0px;">
             <table width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="border:0 none;">
                 <tr>
-                    <td class="pluginCellTitle" style="padding-left:5px width:15%;">{LANG_action}</td>
+                    <td class="pluginCellTitle aligncenter" style="padding-left:5px width:15%;">{LANG_action}</td>
                     <td class="pluginCellTitle" style="width:70%;">{LANG_forumdesc}</td>
-                    <td class="pluginCellTitle" style="width:5%; white-space:nowrap;">{LANG_posts}</td>
-                    <td class="pluginCellTitle" style="width:10%;">{LANG_order}</td>
+                    <td class="pluginCellTitle aligncenter" style="width:5%; white-space:nowrap;">{LANG_posts}</td>
+                    <td class="pluginCellTitle aligncenter" style="width:10%;">{LANG_order}</td>
                 </tr>
 {forum_records}
             </table>
@@ -42,7 +42,7 @@
                             </fieldset>
                         </form>
                     </td>
-                    <td class="alignright" style="width:60%; white-space:nowrap;">[&nbsp;<a href="{phpself}?mode=add&amp;type=forum&amp;category={catid}&amp;catname={catname}">{addforum}</a>&nbsp;]&nbsp;&nbsp;<br{xhtml}><p{xhtml}></td>
+                    <td class="alignright" style="width:60%; white-space:nowrap;">[&nbsp;<a href="{phpself}?mode=add&amp;type=forum&amp;category={catid}&amp;catname={catname}">{addforum}</a>&nbsp;]&nbsp;&nbsp;<br{xhtml}></td>
                 </tr>
             </table>
         </td>

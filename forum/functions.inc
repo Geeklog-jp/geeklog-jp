@@ -784,6 +784,10 @@ function plugin_upgrade_forum() {
        case "2.7" :
              DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.1', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
              break;
+
+       case "2.7.1" :
+             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2' WHERE `pi_name` = 'forum' LIMIT 1");
+             break;
     }
 
     /* Check if update completed and return a message number to be shown */
@@ -889,9 +893,9 @@ function forum_chkUsercanAccess($secure=false) {
     global $_CONF, $LANG_GF01, $LANG_GF02, $CONF_FORUM, $_USER;
 
     if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
-            echo  '<TABLE WIDTH="100%" HEIGHT="100"><TR><TD><CENTER>';
-        printf($LANG_GF01['loginreqview'], '<A HREF="' .$_CONF['site_url']. '/users.php?mode=new">', '<A HREF="' .$_CONF['site_url']. '/users.php">');
-        echo '</CENTER></TD></TR></TABLE>';
+            echo  '<table width="100%" height="100"><tr><td><center>';
+        printf($LANG_GF01['loginreqview'], '<a href="' .$_CONF['site_url']. '/users.php?mode=new">', '<a href="' .$_CONF['site_url']. '/users.php">');
+        echo '</center></td></tr></table>';
         echo COM_siteFooter();
         exit;
     } elseif($secure AND empty($_USER['uid'])) {
@@ -909,6 +913,7 @@ function forum_xchsmilies($message,$reverse=false) {
         ":evil:", ":twisted:", ":roll:", ";)", ":!:", ":question:", ":idea:", ":arrow:", ":|",
         ":mrgreen:",":mrt:",":love:",":cat:");
     $replace = array(
+/*
     "<img align=absmiddle src='images/smilies/biggrin.gif' alt='Big Grin'>",
     "<img align=absmiddle src='images/smilies/smile.gif' alt='Smile'>",
     "<img align=absmiddle src='images/smilies/frown.gif' alt='Frown'>",
@@ -931,6 +936,29 @@ function forum_xchsmilies($message,$reverse=false) {
     "<img align=absmiddle src='images/smilies/arrow.gif' alt='Arrow'>",
     "<img align=absmiddle src='images/smilies/neutral.gif' alt='Neutral'>",
     "<img align=absmiddle src='images/smilies/mrgreen.gif' alt='Mr. Green'>");
+*/
+    '<img style="virtical-align:middle;" src="images/smilies/biggrin.gif" alt="Big Grin">',
+    '<img style="virtical-align:middle;" src="images/smilies/smile.gif" alt="Smile">',
+    '<img style="virtical-align:middle;" src="images/smilies/frown.gif" alt="Frown">',
+    '<img style="virtical-align:middle;" src="images/smilies/eek.gif" alt="Eek!">',
+    '<img style="virtical-align:middle;" src="images/smilies/confused.gif" alt="Confused">',
+    '<img style="virtical-align:middle;" src="images/smilies/cool.gif" alt="Cool">',
+    '<img style="virtical-align:middle;" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
+    '<img style="virtical-align:middle;" src="images/smilies/mad.gif" alt="Angry">',
+    '<img style="virtical-align:middle;" src="images/smilies/razz.gif" alt="Razz">',
+    '<img style="virtical-align:middle;" src="images/smilies/redface.gif" alt="Oops!">',
+    '<img style="virtical-align:middle;" src="images/smilies/surprised.gif" alt="Surprised!">',
+    '<img style="virtical-align:middle;" src="images/smilies/cry.gif" alt="Cry">',
+    '<img style="virtical-align:middle;" src="images/smilies/evil.gif" alt="Evil">',
+    '<img style="virtical-align:middle;" src="images/smilies/twisted.gif" alt="Twisted Evil">',
+    '<img style="virtical-align:middle;" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
+    '<img style="virtical-align:middle;" src="images/smilies/wink.gif" alt="Wink">',
+    '<img style="virtical-align:middle;" src="images/smilies/exclaim.gif" alt="Exclaimation">',
+    '<img style="virtical-align:middle;" src="images/smilies/question.gif" alt="Question">',
+    '<img style="virtical-align:middle;" src="images/smilies/idea.gif" alt="Idea">',
+    '<img style="virtical-align:middle;" src="images/smilies/arrow.gif" alt="Arrow">',
+    '<img style="virtical-align:middle;" src="images/smilies/neutral.gif" alt="Neutral">',
+    '<img style="virtical-align:middle;" src="images/smilies/mrgreen.gif" alt="Mr. Green">');
 
     if (!$reverse) {
         $message = str_replace($search, $replace, $message);
@@ -1424,11 +1452,11 @@ function forumPLG_getMemberBadge($uid) {
         if (!SEC_inGroup('Root',$uid)) {
             foreach ($CONF_FORUM['grouptags'] as $groupid => $buttonimg) {
                 if (SEC_inGroup($groupid,$uid)) {
-                    return "<img src=\"{$CONF_FORUM['imgset']}/badges/{$buttonimg}\"><br" . XHTML . ">";
+                    return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$buttonimg}\"><br" . XHTML . ">";
                 }
             }
         } else {
-            return "<img src=\"{$CONF_FORUM['imgset']}/badges/{$CONF_FORUM['grouptags']['Root']}\"><br" . XHTML . ">";
+            return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$CONF_FORUM['grouptags']['Root']}\"><br" . XHTML . ">";
         }
     }
 }
