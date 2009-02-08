@@ -46,7 +46,7 @@ function gf_FormatForPrint( $str, $postmode='html' ) {
             $showtopic['comment'] = str_replace('<pre>','[code]',$showtopic['comment']);
             $showtopic['comment'] = str_replace('</pre>','[/code]',$showtopic['comment']);
         }
-        $showtopic['comment'] = str_replace(array("<br" . XHTML . ">\r\n","<br" . XHTML . ">\n\r","<br" . XHTML . ">\r","<br" . XHTML . ">\n"), '<br' . XHTML . '>', $showtopic['comment'] );
+        $showtopic['comment'] = str_replace(array("<br />\r\n","<br />\n\r","<br />\r","<br />\n","<br>\r\n","<br>\n\r","<br>\r","<br>\n"), '<br' . XHTML . '>', $showtopic['comment'] );
         $showtopic['comment'] = preg_replace("/\[QUOTE\sBY=\s(.+?)\]/i","[QUOTE] Quote by $1:",$showtopic['comment']);
         /* Reformat code blocks - version 2.3.3 and prior */
         $showtopic['comment'] = str_replace( '<pre class="forumCode">', '[code]', $showtopic['comment'] );
@@ -101,31 +101,31 @@ $A = DB_fetchArray($result);
 
 if ($CONF_FORUM['allow_smilies']) {
         $search = array(":D", ":)", ":(", "8O", ":?", "B)", ":lol:", ":x", ":P" ,":oops:", ":o",":cry:", ":evil:", ":twisted:", ":roll:", ";)", ":!:", ":question:", ":idea:", ":arrow:", ":|", ":mrgreen:",":mrt:",":love:",":cat:");
-        $replace = array('<img align="absmiddle" src="images/smilies/biggrin.gif" alt="Big Grin">',
-                         '<img align="absmiddle" src="images/smilies/smile.gif" alt="Smile">',
-                         '<img align="absmiddle" src="images/smilies/frown.gif" alt="Frown">',
-                         '<img align="absmiddle" src="images/smilies/eek.gif" alt="Eek!">',
-                         '<img align="absmiddle" src="images/smilies/confused.gif" alt="Confused">',
-                         '<img align="absmiddle" src="images/smilies/cool.gif" alt="Cool">',
-                         '<img align="absmiddle" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
-                         '<img align="absmiddle" src="images/smilies/mad.gif" alt="Angry">',
-                         '<img align="absmiddle" src="images/smilies/razz.gif" alt="Razz">',
-                         '<img align="absmiddle" src="images/smilies/redface.gif" alt="Oops!">',
-                         '<img align="absmiddle" src="images/smilies/surprised.gif" alt="Surprised!">',
-                         '<img align="absmiddle" src="images/smilies/cry.gif" alt="Cry">',
-                         '<img align="absmiddle" src="images/smilies/evil.gif" alt="Evil">',
-                         '<img align="absmiddle" src="images/smilies/twisted.gif" alt="Twisted Evil">',
-                         '<img align="absmiddle" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
-                         '<img align="absmiddle" src="images/smilies/wink.gif" alt="Wink">',
-                         '<img align="absmiddle" src="images/smilies/exclaim.gif" alt="Exclaimation">',
-                         '<img align="absmiddle" src="images/smilies/question.gif" alt="Question">',
-                         '<img align="absmiddle" src="images/smilies/idea.gif" alt="Idea">',
-                         '<img align="absmiddle" src="images/smilies/arrow.gif" alt="Arrow">',
-                         '<img align="absmiddle" src="images/smilies/neutral.gif" alt="Neutral">',
-                         '<img align="absmiddle" src="images/smilies/mrgreen.gif" alt="Mr. Green">',
-                         '<img align="absmiddle" src="images/smilies/mrt.gif" alt="Mr. T">',
-                         '<img align="absmiddle" src="images/smilies/heart.gif" alt="Love">',
-                         '<img align="absmiddle" src="images/smilies/cat.gif" alt="Kitten">');
+        $replace = array('<img style="virtical-align:middle;" src="images/smilies/biggrin.gif" alt="Big Grin">',
+                         '<img style="virtical-align:middle;" src="images/smilies/smile.gif" alt="Smile">',
+                         '<img style="virtical-align:middle;" src="images/smilies/frown.gif" alt="Frown">',
+                         '<img style="virtical-align:middle;" src="images/smilies/eek.gif" alt="Eek!">',
+                         '<img style="virtical-align:middle;" src="images/smilies/confused.gif" alt="Confused">',
+                         '<img style="virtical-align:middle;" src="images/smilies/cool.gif" alt="Cool">',
+                         '<img style="virtical-align:middle;" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
+                         '<img style="virtical-align:middle;" src="images/smilies/mad.gif" alt="Angry">',
+                         '<img style="virtical-align:middle;" src="images/smilies/razz.gif" alt="Razz">',
+                         '<img style="virtical-align:middle;" src="images/smilies/redface.gif" alt="Oops!">',
+                         '<img style="virtical-align:middle;" src="images/smilies/surprised.gif" alt="Surprised!">',
+                         '<img style="virtical-align:middle;" src="images/smilies/cry.gif" alt="Cry">',
+                         '<img style="virtical-align:middle;" src="images/smilies/evil.gif" alt="Evil">',
+                         '<img style="virtical-align:middle;" src="images/smilies/twisted.gif" alt="Twisted Evil">',
+                         '<img style="virtical-align:middle;" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
+                         '<img style="virtical-align:middle;" src="images/smilies/wink.gif" alt="Wink">',
+                         '<img style="virtical-align:middle;" src="images/smilies/exclaim.gif" alt="Exclaimation">',
+                         '<img style="virtical-align:middle;" src="images/smilies/question.gif" alt="Question">',
+                         '<img style="virtical-align:middle;" src="images/smilies/idea.gif" alt="Idea">',
+                         '<img style="virtical-align:middle;" src="images/smilies/arrow.gif" alt="Arrow">',
+                         '<img style="virtical-align:middle;" src="images/smilies/neutral.gif" alt="Neutral">',
+                         '<img style="virtical-align:middle;" src="images/smilies/mrgreen.gif" alt="Mr. Green">',
+                         '<img style="virtical-align:middle;" src="images/smilies/mrt.gif" alt="Mr. T">',
+                         '<img style="virtical-align:middle;" src="images/smilies/heart.gif" alt="Love">',
+                         '<img style="virtical-align:middle;" src="images/smilies/cat.gif" alt="Kitten">');
 }
 
 $A["name"] = COM_getDisplayName($A["uid"]);
@@ -135,69 +135,58 @@ $A["subject"] = COM_checkWords($A["subject"]);
 $A["subject"] = htmlspecialchars($A["subject"],ENT_QUOTES,$CONF_FORUM['charset']);
 
 $A['comment'] = gf_FormatForPrint( $A['comment'], $A['postmode'] );
+$A['comment'] = str_replace('<br />', '<br>', $A['comment'] );
 
 $date = strftime($CONF_FORUM['default_Datetime_format'], $A['date']);
-echo"
-    <html>
-    <head>
-        <title>$_CONF[site_name] - ".$LANG_GF02['msg147']." $A[id]]</title>
-<style>
-<!--
-body { font-size:small; }
-table { font-size:small; }
-h1 { font-size:middle; }
--->
-</style>
-    </head>
-    <body>
-        <font face=\"verdana\" size=\"2\">
-                <h3>{$LANG_GF01['SUBJECT']}: $A[subject]</h3>
-                <b>{$LANG_GF01['POSTEDON']}:</b> $date
-            <br" . XHTML . ">
-                <b>{$LANG_GF01['BY']}</b> $A[name]
-            <br" . XHTML . ">
-            <br" . XHTML . ">
-            <b>{$LANG_GF01['CONTENT']}:</b>
-            <p>$A[comment]</p>
-            <hr width=\"25%\" align=\"left\"" . XHTML . ">
-
-        <br" . XHTML . ">
-        <b>{$LANG_GF01['REPLIES']}:</b>
-        <hr width=\"50%\" align=\"left\"" . XHTML . ">
-        <br" . XHTML . ">
-";
+echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
+<html>
+<head>
+    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
+    <meta http-equiv=\"Content-Style-Type\" content=\"text/css\">
+    <title>{$_CONF['site_name']} - {$LANG_GF02['msg147']} [{$A['id']}]</title>
+    <style type=\"text/css\">
+    <!--
+    body { font-size:small; }
+    table { font-size:small; }
+    h1 { font-size:x-large; }
+    h2 { font-size:medium; }
+    -->
+    </style>
+</head>
+<body>
+    <h1>{$LANG_GF01['SUBJECT']}: {$A['subject']}</h1>
+    <div style=\"margin-bottom:1em;\">
+        <p>
+        <b>{$LANG_GF01['POSTEDON']}:</b> $date<br>
+        <b>{$LANG_GF01['BY']}</b> {$A['name']}<br>
+        </p>
+    </div>
+    <div>{$A['comment']}</div>";
 
 $result2 = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE (pid='$id')");
-while($B = DB_fetchArray($result2)){
-$date = strftime($CONF_FORUM['default_Datetime_format'], $B['date']);
-$B["name"] = COM_getDisplayName($B["uid"]);
-
-echo"
-
-                <h4>$B[subject]</h4>
-                <b>{$LANG_GF01['POSTEDON']}:</b> $date
-            <br" . XHTML . ">
-                <b>{$LANG_GF01['BY']}</b> $B[name]
-            <br" . XHTML . ">
-            <br" . XHTML . ">
-            <b>{$LANG_GF01['CONTENT']}:</b>
-            <p>" . gf_FormatForPrint( $B['comment'], $B['postmode'] ) . "</p>
-            <hr width=\"25%\" align=\"left\"" . XHTML . ">
-
-";
-
+while ($B = DB_fetchArray($result2)) {
+    $date = strftime($CONF_FORUM['default_Datetime_format'], $B['date']);
+    $B["name"] = COM_getDisplayName($B["uid"]);
+    $B['comment'] = gf_FormatForPrint( $B['comment'], $B['postmode'] );
+    $B['comment'] = str_replace('<br />', '<br>', $B['comment'] );
+    echo "
+    <hr>
+    <div style=\"margin-bottom:1em;\">
+        <h2>{$B['subject']}</h2>
+        <p>
+        <b>{$LANG_GF01['POSTEDON']}:</b> $date<br>
+        <b>{$LANG_GF01['BY']}</b> {$B['name']}<br>
+        </p>
+    </div>
+    <div>{$B['comment']}</div>";
 }
 
-echo"
-
-            <p>$_CONF[site_name] - {$LANG_GF01['FORUM']}<br" . XHTML . ">
-                    <a href=\"$_CONF[site_url]/forum/viewtopic.php?showtopic=$A[id]\">$_CONF[site_url]/forum/viewtopic.php?showtopic=$A[id]</a>
-            </p>
-
-        </font>
-
-    </body>
-    </html>
-";
+echo "
+    <hr>
+    <p>{$_CONF['site_name']} - {$LANG_GF01['FORUM']}<br>
+    <a href=\"{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}\">{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}</a>
+    </p>
+</body>
+</html>";
 
 ?>
