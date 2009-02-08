@@ -34,7 +34,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
 }
 
 $CONF_FORUM['debug'] = false;
-$CONF_FORUM['version'] = '2.7.1';
+$CONF_FORUM['version'] = '2.7.2';
 
 // Set to true if you are using MYSQL 4.0 or greater and this will improve performance.
 $CONF_FORUM['mysql4+'] = false;
@@ -84,7 +84,8 @@ $CONF_FORUM['contentinfo_numchars'] = 256;
 $CONF_FORUM['linkinfo_width'] = 70;
 
 /* Format style for quotes */
-$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u][p]%s[/p][/QUOTE]";
+//$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u][p]%s[/p][/QUOTE]";
+$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u]%s[/QUOTE]"; // p要素内にブロックレベル要素を含めることはできないので、これを回避する。
 
 $CONF_FORUM['show_popular_perpage'] = '20';    // @TODO: Need to make this an online admin setting
 
