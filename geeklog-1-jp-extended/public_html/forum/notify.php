@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -190,7 +190,7 @@ $base_url = $_CONF['site_url'] . "/forum/notify.php?filter={$notifytype}&amp;for
 $sql .= " LIMIT $offset, $show";
 $notifications = DB_query($sql);
 
-$i = 1;
+$i = 0;
 while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchARRAY($notifications)) {
     $forum_name = DB_getITEM($_TABLES['gf_forums'],"forum_name","forum_id='$forum_id'");
     $is_forum = '';

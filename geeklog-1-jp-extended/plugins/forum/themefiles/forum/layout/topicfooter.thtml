@@ -13,11 +13,10 @@
         </td>
     </tr>
 </table>
-<p{xhtml}>
 <table border="0" cellspacing="0" cellpadding="2" width="100%">
     <tr>
         <td class="aligncenter" style="white-space:nowrap;">{pagenavigation}</td>
     </tr>
 </table>
-<p{xhtml}><br{xhtml}>
+<br{xhtml}>
 <!-- end topicfooter.thtml -->

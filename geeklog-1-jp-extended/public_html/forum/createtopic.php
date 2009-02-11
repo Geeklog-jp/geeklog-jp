@@ -34,7 +34,7 @@
 //
 
 require_once('../lib-common.php'); // Path to your lib-common.php
-require_once ($_CONF['path_html'] . 'forum/include/include_html.php');
+// require_once ($_CONF['path_html'] . 'forum/include/include_html.php'); // The include is unnecessary
 require_once ($_CONF['path_html'] . 'forum/include/gf_showtopic.php');
 require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
 require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
@@ -393,7 +393,7 @@ if ($method == 'edit') {
         echo '<input type="hidden" name="modedit" value="1"' . XHTML . '>';
     } else {
         // User is trying to edit their topic post - this is allowed
-        if ($edittopic['date'] > 0 ) {
+        if ($edittopic['date'] > 0 AND $edittopic['uid'] == $_USER['uid']) {
             if ($CONF_FORUM['allowed_editwindow'] > 0) {   // Check if edit timeframe is still valid
                 $t2 = $CONF_FORUM['allowed_editwindow'];
                 $time = time();
@@ -558,8 +558,8 @@ if(($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($p
     $topicnavbar->set_file (array ('topicnavbar'=>'post_topic_navbar.thtml'));
     $topicnavbar->set_var ('xhtml', XHTML);
     $topicnavbar->set_var ('imgset', $CONF_FORUM['imgset']);
-    $topicnavbar->set_var ('navbreadcrumbsimg','<img src="'.gf_getImage('nav_breadcrumbs').'">');
-    $topicnavbar->set_var ('navtopicimg','<img src="'.gf_getImage('nav_topic').'">');
+    $topicnavbar->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'">');
+    $topicnavbar->set_var ('navtopicimg','<img alt="" src="'.gf_getImage('nav_topic').'">');
     $topicnavbar->set_var ('site_url', $_CONF['site_url']);
     $topicnavbar->set_var ('layout_url', $_CONF['layout_url']);
     $topicnavbar->set_var ('phpself', $_CONF['site_url'] .'/forum/createtopic.php');
