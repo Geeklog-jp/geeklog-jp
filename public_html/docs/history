@@ -1,5 +1,27 @@
 Geeklog History/Changes:
 
+Feb 8, 2009 (1.5.2)
+-----------
+
+- The default replacement text for censored text was supposed to read
+  "censored", not "censormode" [Dirk]
+- Fixed problem with extra backslashes appearing in a story's title during the
+  story preview when magic_quotes_gpc = On (bug #0000790) [Mike, Dirk]
+- Added missing page title when viewing a single comment [Dirk]
+- Sort groups in the group dropdowns non-case sensitive [Dirk]
+- Display a message when sending the email to report an abusive comment failed
+  [Dirk]
+- Display a message when sending the email for a new password failed [Dirk]
+
+- Updated Estonian language file for the Calendar plugin, provided by Artur Räpp
+- Updated Japanese language file, provided by the Geeklog.jp group
+
+Static Pages plugin
+-------------------
+- Fixed parse error when saving a static page (reported by greenteagod). This
+  problem was only introduced in 1.5.2rc1 [Dirk]
+
+
 Jan 24, 2009 (1.5.2rc1)
 ------------
 
