@@ -1,5 +1,23 @@
 $Id$
 
+2009-02-11  Takahiro Kambe  <tacahi>
+
+	* trunk/geeklog-1-jp-extendedにr1149, r1151, r1153の修正を取り込みました。
+
+	2009-02-11  Yoshinori Tahara  <dengenp>
+
+	    * IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を修正
+	      しました。
+	      IE8で、WAIproCSSのカラムレイアウト変更ができない問題を修正しました。
+
+	2009-02-11  Yoshinori Tahara <dengen>
+
+	    * forumプラグインをバージョンJPr4.2に更新しました。
+	      オリジナル版のversion 2.7.2をマージ（セキュリティ対策）しました。
+	      HTMLコードの適正化を実施（ほぼ達成）しました。
+	      印刷用ページを改善しました。
+	      その他、微調整。
+
 2009-02-07  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.1-jp-extended-1.3をリリースします。
