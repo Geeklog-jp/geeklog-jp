@@ -2,6 +2,9 @@ $Id$
 
 2009-02-12  Takahiro Kambe  <tacahi>
 
+	* geeklog-1.5.2をマージし、日本語リリースのバージョンを0.0に
+	  リセットしました。
+
 	* geeklog-1.5.2rc1のマージからpublic_html/docs/changed-filesが
 	  もれていたのを更新しました。
 
