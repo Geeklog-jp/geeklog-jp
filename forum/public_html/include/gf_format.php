@@ -309,7 +309,8 @@ function gf_checkHTMLforSQL($str,$postmode='html') {
 
     $bbcode = new StringParser_BBCode ();
     $bbcode->setGlobalCaseSensitive (false);
-    $bbcode->setParagraphHandlingParameters ("\n\n", "", ""); // p要素内にブロックレベル要素を含めることはできないので、これを回避する。
+    // It is impossible to include block level elements in a <p> element. Therefore I fix this.
+    $bbcode->setParagraphHandlingParameters ("\n\n", "", "");
 
     if ( $CONF_FORUM['use_glfilter'] == 1 && ($postmode == 'html' || $postmode == 'HTML')) {
         $bbcode->addParser(array('block','inline'), 'gf_cleanHTML');
@@ -451,7 +452,8 @@ function gf_formatTextBlock($str,$postmode='html',$mode='') {
 
     $bbcode = new StringParser_BBCode ();
     $bbcode->setGlobalCaseSensitive (false);
-    $bbcode->setParagraphHandlingParameters ("\n\n", "", ""); // p要素内にブロックレベル要素を含めることはできないので、これを回避する。
+    // It is impossible to include block level elements in a <p> element. Therefore I fix this.
+    $bbcode->setParagraphHandlingParameters ("\n\n", "", "");
 
     if ( $postmode == 'text') {
         $bbcode->addParser (array ('block', 'inline', 'link', 'listitem'), 'bbcode_htmlspecialchars');
@@ -560,10 +562,7 @@ function gf_formatOldPost($str,$postmode='html',$mode='') {
     }
     $str = str_ireplace("[code]<code>",'[code]',$str);
     $str = str_ireplace("</code>[/code]",'[/code]',$str);
-
-//  $str = str_replace(array("<br />\r\n","<br />\n\r","<br />\r","<br />\n"), '<br />', $str );
-    $str = str_replace(array("<br />\r\n","<br />\n\r","<br />\r","<br />\n"), '<br'.XHTML.'>', $str );
-
+    $str = str_replace(array("<br />\r\n","<br />\n\r","<br />\r","<br />\n","<br>\r\n","<br>\n\r","<br>\r","<br>\n",), '<br' . XHTML . '>', $str );
     $str = preg_replace("/\[QUOTE\sBY=\s(.+?)\]/i","[QUOTE] Quote by $1:",$str);
     /* Reformat code blocks - version 2.3.3 and prior */
     $str = str_replace( '<pre class="forumCode">', '[code]', $str );
@@ -571,7 +570,8 @@ function gf_formatOldPost($str,$postmode='html',$mode='') {
 
     $bbcode = new StringParser_BBCode ();
     $bbcode->setGlobalCaseSensitive (false);
-    $bbcode->setParagraphHandlingParameters ("\n\n", "", ""); // p要素内にブロックレベル要素を含めることはできないので、これを回避する。
+    // It is impossible to include block level elements in a <p> element. Therefore I fix this.
+    $bbcode->setParagraphHandlingParameters ("\n\n", "", "");
 
     if ( $postmode == 'text') {
         $bbcode->addParser (array ('block', 'inline', 'link', 'listitem'), 'bbcode_htmlspecialchars');
