@@ -257,7 +257,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
 
         $sql .= " ORDER BY 'mod_username' ASC";
         $modsql = DB_query("$sql");
-        $i = 1;
+        $i = 0;
         while($M = DB_fetchArray($modsql)) {
         
             if ($M['mod_delete'] == "1") {
@@ -309,8 +309,6 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
         $moderators->parse ('output', 'moderators');
         echo $moderators->finish ($moderators->get_var('output'));
     }
-
-    echo "</table></form>";
 }
 echo COM_endBlock();
 echo adminfooter();

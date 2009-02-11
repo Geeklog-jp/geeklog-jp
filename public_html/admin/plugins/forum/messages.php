@@ -60,9 +60,9 @@ function selectHTML_forum($selected='') {
                  }
                 $firstforum = false;
                 if ($B['forum_id'] == $selected) { 
-                    $selectHTML .= LB .'<option value="' .$B['forum_id']. '" selected="selected">&nbsp;&#187&nbsp;&nbsp;' .$B['forum_name']. '';
+                    $selectHTML .= LB .'<option value="' .$B['forum_id']. '" selected="selected">&nbsp;&#187;&nbsp;&nbsp;' .$B['forum_name']. '';
                 } else {
-                    $selectHTML .= LB .'<option value="' .$B['forum_id']. '">&nbsp;&#187&nbsp;&nbsp;' .$B['forum_name']. '';
+                    $selectHTML .= LB .'<option value="' .$B['forum_id']. '">&nbsp;&#187;&nbsp;&nbsp;' .$B['forum_name']. '';
                 }
             }
         }
