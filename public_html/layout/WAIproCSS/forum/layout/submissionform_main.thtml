@@ -12,7 +12,7 @@
                     {smilies}
                 </td>
                 <td class="pluginCellText pluginCellFill" style="padding-left: 5px;">
-                    <textarea name="comment" id="input2" rows="20" wrap="virtual" tabindex="6" class="post" style="width:98%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);">{post_message}</textarea>
+                    <textarea name="comment" id="input2" rows="20" cols="45" tabindex="6" class="post" style="width:98%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);">{post_message}</textarea>
                 </td>
             </tr>
             {captcha}
