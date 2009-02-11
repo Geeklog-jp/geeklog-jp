@@ -1,12 +1,13 @@
+
 <!-- start index.thtml --><!-- The following is a divider that works across all platforms and browsers -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:5px;">
+<table width="100%" cellspacing="0" cellpadding="0" style="margin-top:5px; border:0 none;">
     <tr>
         <td class="pluginCellTitle alignleft">{statsmsg}</td>
     </tr>
 </table>
-<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
+<table width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="border:0 none;">
         <tr class="pluginRow1">
-                <td width="80%" style="padding:5px;">{totalcatsmsg}</td>
+                <td style="width:80%; padding:5px;">{totalcatsmsg}</td>
                 <td style="padding-left:20px;">{totalcats}</td>
         </tr>
         <tr class="pluginRow2">
@@ -26,14 +27,14 @@
                 <td style="padding-left:20px;">{totalviews}</td>
         </tr>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<table width="100%" cellspacing="0" cellpadding="0" style="margin-top:10px; border:0 none;">
     <tr>
         <td class="pluginCellTitle alignleft">{avgpmsg}</td>
     </tr>
 </table>
-<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
+<table width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="border:0 none;">
         <tr class="pluginRow1">
-                <td width="80%" style="padding:5px;">{category}</td>
+                <td style="width:80%; padding:5px;">{category}</td>
                 <td style="padding-left:20px;">{avgcposts}</td>
         </tr>
         <tr class="pluginRow2">
@@ -45,14 +46,14 @@
                 <td style="padding-left:20px;">{avgtposts}</td>
         </tr>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<table width="100%" cellspacing="0" cellpadding="0" style="margin-top:10px; border:0 none;">
     <tr>
         <td class="pluginCellTitle alignleft">{avgvmsg}</td>
     </tr>
 </table>
-<table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
+<table width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline" style="border:0 none;">
         <tr class="pluginRow1">
-                <td width="80%" style="padding:5px;">{category}</td>
+                <td style="width:80%; padding:5px;">{category}</td>
                 <td style="padding-left:20px;">{avgcviews}</td>
         </tr>
         <tr class="pluginRow2">

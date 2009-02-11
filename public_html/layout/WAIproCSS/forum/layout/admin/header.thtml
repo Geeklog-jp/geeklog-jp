@@ -10,5 +10,4 @@
         <td class="navbar" style="width:16%; white-space:nowrap;"><a class="btn1" href="ips.php">{ipman}</a></td>
     </tr>
 </table>
-<p{xhtml}>
 <!-- end header.thtml -->
