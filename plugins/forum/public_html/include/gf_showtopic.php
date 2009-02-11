@@ -261,7 +261,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
 
         $topictemplate->set_var ('topic_post_link_begin', '<a name="'.$showtopic['id'].'">');
-//      $topictemplate->set_var ('topic_post_link_begin', '<a id="post_'.$showtopic['id'].'" name="post_'.$showtopic['id'].'">'); // こちらの方が適正だろう
+//      $topictemplate->set_var ('topic_post_link_begin', '<a id="post_'.$showtopic['id'].'" name="post_'.$showtopic['id'].'">'); // Probably this cord is more desirable
         $topictemplate->set_var ('topic_post_link_end', '</a>');
 
         $mod_functions = forum_getmodFunctions($showtopic);
@@ -331,7 +331,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     $showtopic['comment'] = str_replace('{','&#123;',$showtopic['comment']);
     $showtopic['comment'] = str_replace('}','&#125;',$showtopic['comment']);
 
-    // 暫定対応。もっと根っこの方で対応すべき。
+    // Temporary correspondence. You should cope in more roots.
     $showtopic['comment'] = str_replace(array("<br />","<br>"), '<br' . XHTML . '>', $showtopic['comment'] );
 
     $topictemplate->set_var ('layout_url', $_CONF['layout_url']);

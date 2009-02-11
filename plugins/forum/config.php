@@ -84,8 +84,9 @@ $CONF_FORUM['contentinfo_numchars'] = 256;
 $CONF_FORUM['linkinfo_width'] = 70;
 
 /* Format style for quotes */
-//$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u][p]%s[/p][/QUOTE]";
-$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u]%s[/QUOTE]"; // p要素内にブロックレベル要素を含めることはできないので、これを回避する。
+// It is impossible to include block level elements in a <p> element. Therefore I fix this.
+// $CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u][p]%s[/p][/QUOTE]";
+$CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u]%s[/QUOTE]";
 
 $CONF_FORUM['show_popular_perpage'] = '20';    // @TODO: Need to make this an online admin setting
 
