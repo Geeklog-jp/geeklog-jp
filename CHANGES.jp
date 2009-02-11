@@ -1,5 +1,10 @@
 $Id$
 
+2009-02-11  Yoshinori Tahara  <dengenp>
+
+	* IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を修正
+	  しました。
+
 2009-02-07  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2rc1をマージしました。
@@ -127,7 +132,7 @@ $Id$
 	* テーマmobile,mobile_3gのheader.thtml：{welcome_msg}を日本語対応版
 	  {welcome_msg_jp}へ変更しました。
 
-2008-10-23  dengenp  <dengenp>
+2008-10-23  Yoshinori Tahara  <dengenp>
 
 	* calendarjpプラグインで、一般ユーザーが全体イベントを投稿する場合に、
 	  calendarプラグインへ投稿されてしまう問題を修正しました。
@@ -141,7 +146,7 @@ $Id$
 	* 携帯テーマ　mobile, mobile_3gのfunctions.php header.thtmlを修正。
 	  XHTMLモードチェックの追加やヘッダコードの追加を行いました。
 
-2008-10-19  dengenxp <dengenxp>
+2008-10-19  Yoshinori Tahara <dengenxp>
 
 	* calendarjpプラグイン: まれにcalendarプラグインからデータを正常に
 	  引き継げない場合があることなどに対応しました。
