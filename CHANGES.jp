@@ -1,5 +1,9 @@
 $Id$
 
+2009-02-05  Masuko Koeda  <milk851>
+
+	* WAIrpoCSSのtdタグにpaddin-right:2px追記しました。(余白を追加)
+
 2009-02-12  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2rc1のマージからpublic_html/docs/changed-filesが
