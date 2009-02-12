@@ -379,6 +379,7 @@ th {
 
 td { 
   display: table-cell;
+  padding-right: 2px;
   text-align: inherit; 
 }
 
