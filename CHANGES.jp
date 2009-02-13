@@ -1,6 +1,20 @@
 $Id$
 
-2009-02-05  Masuko Koeda  <milk851>
+2009-02-13  Masuko Koeda  <milk851>
+
+	* WAiproCSSでは、マウスオーバー時背景色を黄色に設定しているので
+          掲示板のマウスオーバー時、白文字ではコントラストが不十分に
+          なってしまう為文字色を黒に修正しました。
+          掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更しました。
+          WAIproCSS/css/plugin/forum.cssから
+          .codeblock
+          .quotemain
+          div .php
+          div .html
+          div .css
+          以外の記述をWAIproCSS/css/compatible.cssに移動させました。
+
+2009-02-12  Masuko Koeda  <milk851>
 
 	* WAIrpoCSSのtdタグにpaddin-right:2px追記しました。(余白を追加)
 
