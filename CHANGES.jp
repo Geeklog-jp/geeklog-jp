@@ -1,16 +1,42 @@
 $Id$
 
+2009-02-14  Takahiro Kambe  <tacahi>
+
+	* trunk/geeklog-1-jp-extended/CHANGES.jp の r1169, r1172の修正を取り
+	  込みました。
+
+	  2009-02-13  Masuko Koeda  <milk851>
+
+	    * WAiproCSSでは、マウスオーバー時背景色を黄色に設定しているので
+	      掲示板のマウスオーバー時、白文字ではコントラストが不十分に
+	      なってしまう為文字色を黒に修正しました。
+	      掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更しま
+	      した。
+	      WAIproCSS/css/plugin/forum.cssから
+	      .codeblock
+	      .quotemain
+	      div .php
+	      div .html
+	      div .css
+	      以外の記述をWAIproCSS/css/compatible.cssに移動させました。
+
+	  2009-02-05  Masuko Koeda  <milk851>
+
+	    * WAIrpoCSSのtdタグにpaddin-right:2px追記しました。(余白を追加)
+
 2009-02-11  Takahiro Kambe  <tacahi>
 
-	* trunk/geeklog-1-jp-extendedにr1149, r1151, r1153の修正を取り込みました。
+	* trunk/geeklog-1-jp-extendedにr1149, r1151, r1153の修正を取り込み
+	  ました。
 
-	2009-02-11  Yoshinori Tahara  <dengenp>
+	  2009-02-11  Yoshinori Tahara  <dengenp>
 
 	    * IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を修正
 	      しました。
-	      IE8で、WAIproCSSのカラムレイアウト変更ができない問題を修正しました。
+	      IE8で、WAIproCSSのカラムレイアウト変更ができない問題を修正しま
+	      した。
 
-	2009-02-11  Yoshinori Tahara <dengen>
+	  2009-02-11  Yoshinori Tahara <dengen>
 
 	    * forumプラグインをバージョンJPr4.2に更新しました。
 	      オリジナル版のversion 2.7.2をマージ（セキュリティ対策）しました。
