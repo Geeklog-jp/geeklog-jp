@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Calendarjp |
 // | plugin' PHP files.                                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2009 by dengen - taharaxp AT gmail DOT com                  |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
@@ -58,7 +58,7 @@ if (!isset($_CAJP_CONF['calendarloginrequired'])) {
     $_CAJP_CONF = $ca_config->get_config('calendarjp');
 }
 
-$_CAJP_CONF['version'] = '1.0.6';
+$_CAJP_CONF['version'] = '1.0.7';
 
 $_TABLES['eventsjp']              = $_DB_table_prefix . 'eventsjp';
 $_TABLES['eventsubmissionjp']     = $_DB_table_prefix . 'eventsubmissionjp';
@@ -730,18 +730,43 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('max_url_length', 255);
     $eventform->set_var('lang_startdate', $LANG_CALJP_1[21]);
     $eventform->set_var('lang_starttime', $LANG_CALJP_1[30]);
-    if (empty ($month)) {
-        $month = date ('m', time ());
-    }
-    if (empty ($day)) {
-        $day = date ('d', time ());
-    }
-    if (empty ($year)) {
+
+//    if (empty ($month)) {
+//        $month = date ('m', time ());
+//    }
+//    if (empty ($day)) {
+//        $day = date ('d', time ());
+//    }
+//    if (empty ($year)) {
+//        $year = date ('Y', time ());
+//    }
+
+// Added --------->
+    if (isset ($_REQUEST['year'])) {
+        $year = COM_applyFilter ($_REQUEST['year'], true);
+    } else {
         $year = date ('Y', time ());
     }
-//    $eventform->set_var ('month_options', COM_getMonthFormOptions ($month));
-    $eventform->set_var ('month_options', CALENDARJP_getMonthFormOptions ($month));
+    if (isset ($_REQUEST['month'])) {
+        $month = COM_applyFilter ($_REQUEST['month'], true);
+    } else {
+        $month = date ('m', time ());
+    }
+    if (isset ($_REQUEST['day'])) {
+        $day = COM_applyFilter ($_REQUEST['day'], true);
+    } else {
+        $day = date ('d', time ());
+    }
+    if (isset ($_REQUEST['hour'])) {
+        $hour = COM_applyFilter ($_REQUEST['hour'], true);
+        $cur_min = '0';
+    } else {
+        $hour = date ('H', time ());
+        $cur_min = '';
+    }
+// Added ---------<
 
+    $eventform->set_var ('month_options', CALENDARJP_getMonthFormOptions ($month));
     $eventform->set_var ('day_options', COM_getDayFormOptions ($day));
     $eventform->set_var ('year_options', COM_getYearFormOptions ($year));
 
@@ -775,7 +800,9 @@ function plugin_submit_calendarjp($mode = 'master')
         $eventform->set_var ('hour_options',
                              COM_getHourFormOptions ($cur_hour));
     }
-    $cur_min = intval (date ('i') / 15) * 15;
+    if ($cur_min === '') {
+        $cur_min = intval (date ('i') / 15) * 15;
+    }
     $eventform->set_var ('minute_options',
                          COM_getMinuteFormOptions ($cur_min, 15));
 
@@ -838,7 +865,7 @@ function CALENDARJP_deleteEvent($eid, $type = '')
 
         DB_delete($_TABLES['eventsjp'], 'eid', $eid);
         DB_delete($_TABLES['personal_eventsjp'], 'eid', $eid);
-        COM_rdfUpToDateCheck('geeklog', 'calendarjp', $eid);
+        COM_rdfUpToDateCheck('calendar');
 
         return COM_refresh($_CONF['site_admin_url'] . '/plugins/calendarjp/index.php?msg=18');
     } elseif ($type == 'submission') {
