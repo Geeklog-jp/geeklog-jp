@@ -1,5 +1,15 @@
 $Id$
 
+2009-02-15  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグインをバージョン1.0.7に更新しました。
+	  calendarプラグインのバージョン1.0.3の変更をマージしました。
+	  ナビゲーションバーの操作で常に全体カレンダを表示してしまう問題を修正
+	  しました。
+	  カレンダでの年月日及び時間の選択が、イベントエディタにおいて初期値と
+	  して入力されるようにしました。
+	  HTMLコードの適正化を実施しました。 
+
 2009-02-12  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2をマージし、日本語リリースのバージョンを0.0に
@@ -8,7 +18,7 @@ $Id$
 	* geeklog-1.5.2rc1のマージからpublic_html/docs/changed-filesが
 	  もれていたのを更新しました。
 
-2009-02-11  Yoshinori Tahara  <dengenp>
+2009-02-11  Yoshinori Tahara  <dengen>
 
 	* IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を修正
 	  しました。
@@ -140,7 +150,7 @@ $Id$
 	* テーマmobile,mobile_3gのheader.thtml：{welcome_msg}を日本語対応版
 	  {welcome_msg_jp}へ変更しました。
 
-2008-10-23  Yoshinori Tahara  <dengenp>
+2008-10-23  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグインで、一般ユーザーが全体イベントを投稿する場合に、
 	  calendarプラグインへ投稿されてしまう問題を修正しました。
