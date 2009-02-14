@@ -865,7 +865,7 @@ function CALENDARJP_deleteEvent($eid, $type = '')
 
         DB_delete($_TABLES['eventsjp'], 'eid', $eid);
         DB_delete($_TABLES['personal_eventsjp'], 'eid', $eid);
-        COM_rdfUpToDateCheck('calendar');
+        COM_rdfUpToDateCheck('calendarjp');
 
         return COM_refresh($_CONF['site_admin_url'] . '/plugins/calendarjp/index.php?msg=18');
     } elseif ($type == 'submission') {
