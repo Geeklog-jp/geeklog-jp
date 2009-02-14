@@ -380,17 +380,17 @@ function getPriorSunday($month, $day, $year)
     return array($newmonth, $newday, $newyear);
 }
 
-// NAVBAR
-$navbar = new navbar;
-$navbar->add_menuitem($LANG_CALJP_2[39], $this_script . '?mode=$mode&amp;view=day');
-$navbar->add_menuitem($LANG_CALJP_2[40], $this_script . '?mode=$mode&amp;view=week');
-$navbar->add_menuitem($LANG_CALJP_2[41], $this_script . '?mode=$mode');
-
 // MAIN
 $mode = '';
 if (isset ($_REQUEST['mode'])) {
     $mode = COM_applyFilter ($_REQUEST['mode']);
 }
+
+// NAVBAR
+$navbar = new navbar;
+$navbar->add_menuitem($LANG_CALJP_2[39], $this_script . "?mode=$mode&amp;view=day");
+$navbar->add_menuitem($LANG_CALJP_2[40], $this_script . "?mode=$mode&amp;view=week");
+$navbar->add_menuitem($LANG_CALJP_2[41], $this_script . "?mode=$mode");
 
 if ($mode != 'personal' && $mode != 'quickadd') {
     $mode = '';
@@ -642,6 +642,25 @@ case 'day':
     } else {
         $cal_templates->set_var('quickadd_form','');
     }
+    
+// Added --------->
+    if ($mode == 'personal') {
+        $cal_templates->set_var('editor','calendarjp/index.php');
+        $cal_templates->set_var('option','&amp;view=addentry');
+        $cal_templates->set_var('mode','personal');
+    } else {
+        if (SEC_hasRights('calendarjp.edit')) {
+            $cal_templates->set_var('editor','admin/plugins/calendarjp/index.php');
+            $cal_templates->set_var('option','');
+            $cal_templates->set_var('mode','edit');
+        } else {
+            $cal_templates->set_var('editor','submit.php');
+            $cal_templates->set_var('option','&amp;type=calendarjp');
+            $cal_templates->set_var('mode', $mode);
+        }
+    }
+// Added ---------<
+    
     $display .= $cal_templates->parse('output', 'dayview');
     $display .= COM_siteFooter();
     break;
@@ -871,12 +890,12 @@ if ($mode == 'personal') {
 $smallcal_prev = getSmallCalendar ($prevmonth, $prevyear, $mode);
 $cal_templates->set_var ('previous_months_calendar', $smallcal_prev);
 $cal_templates->set_var ('previous_months_cal',
-                         '<font size="-2">' . LB . $smallcal_prev . '</font>');
+                         '<div style="font-size:80%;">' . LB . $smallcal_prev . '</div>');
 
 $smallcal_next = getSmallCalendar ($nextmonth, $nextyear, $mode);
 $cal_templates->set_var ('next_months_calendar', $smallcal_next);
 $cal_templates->set_var ('next_months_cal',
-                         '<font size="-2">' . LB . $smallcal_next . '</font>');
+                         '<div style="font-size:80%;">' . LB . $smallcal_next . '</div>');
 
 $cal_templates->set_var('cal_prevmo_num', $prevmonth);
 $cal_templates->set_var('cal_prevyr_num', $prevyear);
