@@ -1,5 +1,9 @@
 $Id$
 
+2009-02-14  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2(リリース)をマージしました。
+
 2009-02-13  Masuko Koeda  <milk851>
 
 	* WAiproCSSでは、マウスオーバー時背景色を黄色に設定しているので
