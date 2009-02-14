@@ -19,7 +19,7 @@
                     <td class="cal-month" valign="top">
                         {previous_months_calendar}
                     </td>
-                    <td width="100%" class="cal-month" align="center">
+                    <td style="width:100%" class="cal-month" align="center">
                         <table border="0" cellpadding="5" cellspacing="0">
                             <tr>
                                 <td colspan="2" align="center">
@@ -58,17 +58,17 @@
     </tr>
     <tr>
         <td class="cal-weekpointers">&nbsp;</td>
-        <td width="15%" class="cal-day">{lang_sunday}</td>
-        <td width="14%" class="cal-day">{lang_monday}</td>
-        <td width="14%" class="cal-day">{lang_tuesday}</td>
-        <td width="14%" class="cal-day">{lang_wednesday}</td>
-        <td width="14%" class="cal-day">{lang_thursday}</td>
-        <td width="14%" class="cal-day">{lang_friday}</td>
-        <td width="15%" class="cal-day">{lang_saturday}</td>
+        <td style="width:15%" class="cal-day">{lang_sunday}</td>
+        <td style="width:14%" class="cal-day">{lang_monday}</td>
+        <td style="width:14%" class="cal-day">{lang_tuesday}</td>
+        <td style="width:14%" class="cal-day">{lang_wednesday}</td>
+        <td style="width:14%" class="cal-day">{lang_thursday}</td>
+        <td style="width:14%" class="cal-day">{lang_friday}</td>
+        <td style="width:14%" class="cal-day">{lang_saturday}</td>
     </tr>
     {cal_week}
 </table>
-<table align="center">
+<div style="mergin:auto;"><table style="margin-left:auto; margin-right:auto;">
     <tr>
         <td>
             <form method="post" action="index.php">
@@ -98,5 +98,5 @@
             </form>
         </td>
     </tr>
-</table>
+</table></div>
 <!-- End Calendar -->

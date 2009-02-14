@@ -239,13 +239,22 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     // Combine date/time for easier manipulation
     $A['datestart'] = trim ($A['datestart'] . ' ' . $A['timestart']);
     if (empty ($A['datestart'])) {
-        $start_stamp = time ();
+// ------------------------------>>
+//        $start_stamp = time ();
+// ------------------------------||
+        if (!empty($A['month']) && !empty($A['day']) && !empty($A['year']) && !empty($A['hour'])) {
+            $start_stamp = mktime($A['hour'], 0, 0, $A['month'], $A['day'], $A['year']);
+        } else {
+            $start_stamp = time ();
+        }
+// ------------------------------<<
     } else {
         $start_stamp = strtotime ($A['datestart']);
     }
     $A['dateend'] = trim ($A['dateend'] . ' ' . $A['timeend']);
     if (empty ($A['dateend'])) {
-        $end_stamp = time ();
+//        $end_stamp = time ();
+        $end_stamp = $start_stamp;
     } else {
         $end_stamp = strtotime ($A['dateend']);
     }
@@ -752,6 +761,26 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         if (isset ($_REQUEST['timestart'])) {
             $A['timestart'] = COM_applyFilter ($_REQUEST['timestart']);
         }
+
+// Added ------------------------>>
+        $A['hour'] = '';
+        $A['month'] = '';
+        $A['day'] = '';
+        $A['year'] = '';
+        if (isset ($_REQUEST['hour'])) {
+            $A['hour'] = COM_applyFilter ($_REQUEST['hour'],true);
+        }
+        if (isset ($_REQUEST['month'])) {
+            $A['month'] = COM_applyFilter ($_REQUEST['month'],true);
+        }
+        if (isset ($_REQUEST['day'])) {
+            $A['day'] = COM_applyFilter ($_REQUEST['day'],true);
+        }
+        if (isset ($_REQUEST['year'])) {
+            $A['year'] = COM_applyFilter ($_REQUEST['year'],true);
+        }
+// Added ------------------------<<
+
     } else {
         $result = DB_query ("SELECT * FROM {$_TABLES['eventsjp']} WHERE eid ='$eid'");
         $A = DB_fetchArray ($result);
