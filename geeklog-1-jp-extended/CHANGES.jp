@@ -1,5 +1,19 @@
 $Id$
 
+2009-02-15  Masuko Koeda  <milk851>
+
+	* WAIproCSSのtdタグをpaddin:2pxに修正しました。(余白を追加)
+          WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)しました。
+          div#centerblocksに余白を追加した事に伴い、
+          中央ブロックの幅を変更しました。
+          余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をやめ
+          必要なセレクタのみ初期化)
+          掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更
+          したのを元に戻しました。(黒文字に戻しました)
+          背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
+          を幅の大きい物に差し替えました。
+　　　　　WAIproCSSのREADMEにこれまでの変更点を追記しました。
+
 2009-02-15  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグインをバージョン1.0.7に更新しました。
@@ -16,7 +30,7 @@ $Id$
 
 2009-02-13  Masuko Koeda  <milk851>
 
-	* WAiproCSSでは、マウスオーバー時背景色を黄色に設定しているので
+	* WAIproCSSでは、マウスオーバー時背景色を黄色に設定しているので
           掲示板のマウスオーバー時、白文字ではコントラストが不十分に
           なってしまう為文字色を黒に修正しました。
           掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更しました。
@@ -30,7 +44,7 @@ $Id$
 
 2009-02-12  Masuko Koeda  <milk851>
 
-	* WAIrpoCSSのtdタグにpaddin-right:2px追記しました。(余白を追加)
+	* WAIproCSSのtdタグにpaddin-right:2px追記しました。(余白を追加)
 
 2009-02-12  Takahiro Kambe  <tacahi>
 
@@ -62,7 +76,7 @@ $Id$
 
 2009-02-05  Masuko Koeda  <milk851>
 
-	* WAIrpoCSSのREADMEに確認したプラウザを1つ追記しました。
+	* WAIproCSSのREADMEに確認したプラウザを1つ追記しました。
 
 2009-01-29  Masuko Koeda  <milk851>
 
@@ -79,7 +93,7 @@ $Id$
 
 2009-01-28  Masuko Koeda  <milk851>
 
-	* WAIrpoCSSのcustom.sample.cssの説明文を訂正しました。
+	* WAIproCSSのcustom.sample.cssの説明文を訂正しました。
 
 2009-01-27  Masuko Koeda  <milk851>
 
@@ -140,7 +154,7 @@ $Id$
 
 2009-01-13  Masuko Koeda  <milk851>
 
-	* Internet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
+	* WAIproCSSがInternet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
 	  validateアイコンが表示されていなかったのを修正しました。
 
 2009-01-12  Masuko Koeda  <milk851> 
