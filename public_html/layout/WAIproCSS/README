@@ -399,7 +399,11 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.3(2009-1-30)
+■Ver.2.3(2009-2-15)
+  ・背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gifを幅の大きい物に差し替えました。(画像ジローさん提供)(*/navbar/images/tabrightI.gif,*/navbar/images/tabrightJ.gif)
+  ・ユニバーサルセレクタでの初期化をやめ、必要なセレクタのみを初期化しました。(*/css/default.css)
+  ・div#centerblocksとtdに余白を追加しました。div#centerblocks余白追加に伴い、中央ブロックの幅を修正しました。(*/css/layout.css,*/css/compatible.css)
+  ・掲示板プラグイン(forum)で背景色と文字色のコントラストが不十分な部分を修正しました。(*/css/compatible.css,*/css/plugin/forum.css)
   ・アイコンをPNGからGIFに変更した事に伴い、管理画面のアイコンにgifアイコンを追加しました。
 　　+/images/admin/block-left.gif
     +/images/admin/block-right.gif
@@ -417,7 +421,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
     +/images/icon/trackback.gif
     +/images/icon/user.gif
     +/images/icon/versioncheck.gif
-  ・デザインの変更に伴い　custom.sample.cssを修正しました。(*custom.sample.css)
+  ・デザインの変更に伴い　custom.sample.cssを修正しました。(*/custom.sample.css)
   ・アイコンをPNGからGIFに変更しました。(*/functions.php)
   ・アイコンを2倍に一律拡大させました。
     +/images/addchild.gif
@@ -477,20 +481,20 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
     */css/form.css
     */css/layout.css
   ・ヘッダロゴをテキストに変更しました。(*/header.thtml)
-　・containerと中央ブロックにポーダーを設定する事により、ハイコントラストの環境下でもレイアウトがわかりやすくなりました。(*layout.css)
+　・containerと中央ブロックにポーダーを設定する事により、ハイコントラストの環境下でもレイアウトがわかりやすくなりました。(*/css/layout.css)
 　・デザインを変更しました。
-　・functions.phpに掲示板プラグイン対応させました。(*functions.php)
+　・functions.phpに掲示板プラグイン対応させました。(*/functions.php)
 　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo.gif)
 　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/icon_pagetop.gif)
 　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
-　・preとblockquote要素のスタイルを設定しました。(*default.css)
+　・preとblockquote要素のスタイルを設定しました。(*/css/default.css)
   ・READMEにライセンスについて記載しました。(このファイル)
-　・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しない修正方法をProfessionalCSSと同じようにしました。(*layout.css,common.css)
-　・中央ブロックの右に余白を追加しました。(*block.css)
-  ・Internet Explorer6のユーザーの編集ページでレイアウトが崩れていたので修正しました。(*layout.css)
-  ・聞き飛ばし部分に入れているテキストを修正しました。(*header.thtml,footer.thtml)
-　・ページ内リンクのname属性の後にid属性を追加しました。(*header.thtml,footer.thtml)
-　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*story.css)
+　・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しない修正方法をProfessionalCSSと同じようにしました。(*/css/layout.css,*/css/common.css)
+　・中央ブロックの右に余白を追加しました。(*/css/block.css)
+  ・Internet Explorer6のユーザーの編集ページでレイアウトが崩れていたので修正しました。(*/css/layout.css)
+  ・聞き飛ばし部分に入れているテキストを修正しました。(*/header.thtml,/footer.thtml)
+　・ページ内リンクのname属性の後にid属性を追加しました。(*/header.thtml,/footer.thtml)
+　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*/css/story.css)
 
 ■Ver.2.2(2008-11-27)
   ・Japanizeプラグインに対応しました。(+css/plugin/japanize.css, *css/plugin.css)
