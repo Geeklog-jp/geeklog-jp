@@ -1,5 +1,11 @@
 $Id$
 
+2009-02-19  Tetsuko Komma  <ivysoho>
+
+	* 携帯テーマmobile,mobile_3gのヘッダを修正して，Googleで検索するとGWT
+	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケータイ
+	  ハックを無視して勝手にケータイ用に変換してしまう不具合を解消しました。
+
 2009-02-15  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグインをバージョン1.0.7に更新しました。

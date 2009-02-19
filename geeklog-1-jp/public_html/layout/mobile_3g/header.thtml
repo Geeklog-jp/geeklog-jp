@@ -8,6 +8,7 @@
 <meta http-equiv="Pragma" content="no-cache"{xhtml}>
 <meta http-equiv="Cache-Control" content="no-cache"{xhtml}>
 <meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT"{xhtml}>
+<link rel="alternate" media="handheld" href="{site_url}"{xhtml}>
 {plg_headercode}
 </head>
 <body>
