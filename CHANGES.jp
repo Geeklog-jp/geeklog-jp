@@ -1,17 +1,23 @@
 $Id$
 
+2009-02-19  Tetsuko Komma  <ivysoho>
+
+	* 携帯テーマmobile,mobile_3gのヘッダを修正して，Googleで検索するとGWT
+	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケータイ
+	  ハックを無視して勝手にケータイ用に変換してしまう不具合を解消しました。
+
 2009-02-15  Masuko Koeda  <milk851>
 
 	* WAIproCSSのtdタグをpaddin:2pxに修正しました。(余白を追加)
-          WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)しました。
-          div#centerblocksに余白を追加した事に伴い、
-          中央ブロックの幅を変更しました。
-          余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をやめ
-          必要なセレクタのみ初期化)
-          掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更
-          したのを元に戻しました。(黒文字に戻しました)
-          背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
-          を幅の大きい物に差し替えました。
+	  WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)しました。
+	  div#centerblocksに余白を追加した事に伴い、
+	  中央ブロックの幅を変更しました。
+	  余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をやめ
+	  必要なセレクタのみ初期化)
+	  掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更
+	  したのを元に戻しました。(黒文字に戻しました)
+	  背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
+	  を幅の大きい物に差し替えました。
 　　　　　WAIproCSSのREADMEにこれまでの変更点を追記しました。
 
 2009-02-15  Yoshinori Tahara  <dengen>
@@ -31,16 +37,16 @@ $Id$
 2009-02-13  Masuko Koeda  <milk851>
 
 	* WAIproCSSでは、マウスオーバー時背景色を黄色に設定しているので
-          掲示板のマウスオーバー時、白文字ではコントラストが不十分に
-          なってしまう為文字色を黒に修正しました。
-          掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更しました。
-          WAIproCSS/css/plugin/forum.cssから
-          .codeblock
-          .quotemain
-          div .php
-          div .html
-          div .css
-          以外の記述をWAIproCSS/css/compatible.cssに移動させました。
+	  掲示板のマウスオーバー時、白文字ではコントラストが不十分に
+	  なってしまう為文字色を黒に修正しました。
+	  掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更しました。
+	  WAIproCSS/css/plugin/forum.cssから
+	  .codeblock
+	  .quotemain
+	  div .php
+	  div .html
+	  div .css
+	  以外の記述をWAIproCSS/css/compatible.cssに移動させました。
 
 2009-02-12  Masuko Koeda  <milk851>
 
