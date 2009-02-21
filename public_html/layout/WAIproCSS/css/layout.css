@@ -434,8 +434,14 @@ div#container div#footer p.back {
   text-align: right;
 }
 
-div#container div#footer p.back a img {
-  vertical-align: middle;
+div#container div#footer p.back a {
+  display: block;
+  width: 135px;
+  background: url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
+}
+
+div#container div#footer p.back a:hover {
+  background: #ffff40 url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
 }
 
 /* コピーライト表示 */
