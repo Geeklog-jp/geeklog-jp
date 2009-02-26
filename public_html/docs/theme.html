@@ -103,47 +103,28 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 </ol>
 
 
-<h2><a name="changes">Theme changes in Geeklog 1.5.2</a></h2>
+<h2><a name="changes">Geeklog 1.5.2でのテーマの変更点</a></h2>
  
-<p>Note: Themes made for Geeklog 1.5.0 or 1.5.1 should work just fine with
-Geeklog 1.5.2. In this release, we only fixed a few problems in the themes
-(detailed below) that also affected 1.5.0 and 1.5.1. The other changes listed
-here are optional.</p>
+<p>注: Geeklog 1.5.0ないし1.5.1用に作成されたテーマはGeeklog 1.5.2でも問題なく動作するはずです。今回のリリースでは、1.5.0と1.5.1に悪影響を与えていたバグ（下記参照）を修正するだけです。他の変更点はオプションです。</p>
 
-<h3>Bugfixes</h3>
+<h3>バグ修正</h3>
 
-<p>These changes are actual bugs in the template files that also exist in
-Geeklog 1.5.0 and 1.5.1. We recommend making these changes to all custom
-themes.</p>
+<p>以下に述べるバグはGeeklog 1.5.0及び1.5.1に存在していたバグです。これらの修正をカスタムテーマに適用することを勧めます。</p>
 
 <ul>
-<li>The security token was missing from the trackback editor template file,
-    <tt>admin/trackback/trackbackeditor.thtml</tt></li>
-<li>The <code>{start_storylink_anchortag}</code> variable in the story templates
-    was missing the closing '&gt;'. This caused the story title to disappear
-    on some themes. (This was a bug in Geeklog's code, so no theme changes
-    required)</li>
-<li>The <code>{site_admin_url}</code> was missing from the Configuration form
-    action in <tt>admin/config/configuration.thtml</tt>. This may have caused
-    problems making configuration changes on some setups.</li>
-<li>Added a hidden <code>old_pid</code> input field to the polls editor template
-    file, <tt>plugins/polls/templates/admin/polleditor.thtml</tt>, to fix
-    problems when changing a poll's ID.</li>
+<li>トラックバックエディタのテンプレートファイル(<tt>admin/trackback/trackbackeditor.thtml</tt>)にセキュリティトークンがありませんでした（そのため、トラックバックに失敗していた。）。</li>
+<li>記事テンプレートの <code>{start_storylink_anchortag}</code> 変数にタグを閉じる '&gt;' が抜けていました。このため、テーマによっては記事のタイトルが表示されなくなっていました（これはGeeklog本体のバグであるため、テーマを修正する必要はありません。）。</li>
+<li><tt>admin/config/configuration.thtml</tt>のコンフィギュレーションフォームのactionに <code>{site_admin_url}</code> 変数がセットされていませんでした。このため、セットアップ方法によっては、設定の変更に失敗していた可能性があります。</li>
+<li>アンケートエディタのテンプレートファイル(<tt>plugins/polls/templates/admin/polleditor.thtml</tt>)にhidden属性の<code>old_pid</code>フィールドを追加し、アンケートID変更の際に生じる問題に対応しました。</li>
 </ul>
 
-<h3>Other changes</h3>
+<h3>他の変更点</h3>
 
-<p>These changes are optional. They fix cosmetic issues or issues that only
-affect some setups.</p>
+<p>以下の変更点はオプションです。軽微な問題や一部のセットアップ方法にしか影響を与えない問題に対処します。</p>
 
 <ul>
-<li>Cosmetics: In the Professional theme, the last menu entry isn't different
-    from the other entries, so the
-    <code>.header-navigation-container li.last</code> rule in <tt>style.css</tt>
-    is not needed for this theme.</li>
-<li>Internationalisation: The language direction variable,
-    <code>{direction}</code>, was not available in the printer-friendly
-    templates for articles and static pages.</li>
+<li>軽微な問題: Professionalテーマで、最後の項目が他の項目と同じであるため、<tt>style.css</tt>中の <code>.header-navigation-container li.last</code> ルールが不要になっていました。</li>
+<li>国際化: 記事と静的ページの印刷ページ用テンプレートで、言語の向きを指定するテンプレート変数(<code>{direction}</code>)が使用できなくなっていました。</li>
 </ul>
 
 
@@ -179,7 +160,7 @@ if (empty($lang)) {
 </ul>
 
 
-<h2><a name="changes">Geeklog 1.5.0でのテーマの変更点</a></h2>
+<h2><a name="changes150">Geeklog 1.5.0でのテーマの変更点</a></h2>
 
 <h3><a name="xhtml">XHTMLをサポート</a></h3>
 
