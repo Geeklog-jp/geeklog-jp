@@ -18,40 +18,30 @@
 
 <h2><a name="changes152">Geeklog 1.5.2</a></h2>
 
-<h3>Bugfixes</h3>
+<h3>バグ修正</h3>
 
 <ul>
-<li>Fixed a bug in the story preview where the story content was lost when
-    previewing a story with a duplicate story ID.</li>
-<li>Fixed another bug in the story preview that caused extra backslashes to
-    appear in the story's title.</li>
-<li>The Trackback editor didn't work since the security token was missing from
-    the editor template.</li>
-<li>Fixed issues with clickable links in plain text postings.</li>
-<li>Fixed various problems with updating feeds, e.g. when changing topic
-    permissions.</li>
+<li>IDが重複した記事のプレビューを行うと、記事内容が失われるバグを修正しました。</li>
+<li>記事のプレビュー時にタイトルに余分なバックスラッシュ（日本語版では\）が表示されるバグを修正しました。</li>
+<li>トラックバックエディタのテンプレートにセキュリティトークンがないため、きちんと動作していなかったバグを修正しました。</li>
+<li>プレーンテキストで投稿する際に、URLがリンクに変換されない場合がありましたが、このバグを修正しました。</li>
+<li>話題のパーミッションの変更など、フィードを更新する際に生じる様々な問題に対処しました。</li>
 </ul>
 
-<h3>Fixes in the bundled Plugins</h3>
+<h3>同梱されているプラグインのバグ修正</h3>
 
 <ul>
-<li>Calendar: You couldn't add a new event to your personal calendar.</li>
-<li>Links: Changing a link's ID to one that was already in use overwrote the
-    other link.</li>
-<li>Polls: Changing a poll's ID created a new poll. Also fixed an SQL error
-    when the poll question contained single quotes.</li>
-<li>Static Pages: Saving a static page changed the owner to the user who saved
-    it.</li>
+<li>カレンダ(Calendar): 個人カレンダに新規イベントを追加できなかったバグを修正しました。</li>
+<li>リンク(Links): リンクIDを既存のものに変えると、元から存在していたリンクを上書きしてしまうバグを修正しました。</li>
+<li>アンケート(Polls): アンケートIDを変えると、新しいアンケートが作成されるバグを修正しました。また、アンケートの質問にシングルクォートが含まれているとSQLエラーが発生するバグを修正しました。</li>
+<li>静的ページ(Static Pages): 静的ページを保存するとオーナーが保存を行った人に変わるバグを修正しました。</li>
 </ul>
 
-<h3>Other Changes</h3>
+<h3>他のバグ修正</h3>
 
 <ul>
-<li>Improved image quality when using gdlib to rescale uploaded images.</li>
-<li>Theme changes are documented in the <a href="theme.html#changes">theme
-    documentation</a>, as usual. There are 4 bugfixes (one of which is in the
-    templates for the Polls plugin) that should be applied to all themes for
-    the 1.5.x series.</li>
+<li>アップロードされる画像をgdlibを用いて拡大・縮小を行う際の画質を向上させました。</li>
+<li>テーマの変更点はいつも通り、<a href="theme.html#changes">テーマ作成</a>に記述してあります。Geeklog-1.5シリーズの全テーマに適用すべきバグ修正が4箇所（そのうち1つはPollsプラグイン）あります。</li>
 </ul>
 
 
