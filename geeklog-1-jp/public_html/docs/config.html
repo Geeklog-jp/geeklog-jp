@@ -759,8 +759,8 @@
     <th style="width:63%">説明</th></tr>
 <tr>
   <td valign="top"><a name="desc_image_lib">画像ライブラリ(image_lib)</a></td>
-  <td valign="top">なし</td>
-  <td valign="top">画像ライブラリを「ImageMagick」、「Netpbm」、「GDライブラリ」から選ぶ。画像アップロード時にリサイズしたくない場合や、画像ライブラリを使えない場合は「なし」にする。</td></tr>
+  <td valign="top">なし(None)</td>
+  <td valign="top">画像ライブラリを「ImageMagick」、「Netpbm」、「GDライブラリ」から選ぶ。画像アップロード時にリサイズしたくない場合や、画像ライブラリを使えない場合は「なし(None)」にする。</td></tr>
 <tr>
   <td valign="top"><a name="desc_path_to_mogrify">Mogrifyへのパス(path_to_mogrify)</a></td>
   <td valign="top"><i>(無効)</i></td>
@@ -788,8 +788,8 @@
   <td valign="top">はい(1)にすると、上記のように元画像を保存する場合、記事の中でリサイズされた画像を使えるようになる。言い換えると、記事中で（<code>[image<i>X</i>]</code> に加えて）<code>[unscaled<i>X</i>]</code> タグを使えるようになる。</td></tr>
 <tr>
   <td valign="top"><a name="desc_debug_image_upload">画像アップロードのデバッグを行う(debug_image_upload)</a></td>
-  <td valign="top"><i>いいえ(false)</i></td>
-  <td valign="top">はい(<code>true</code>)にすると、画像のアップロード中に,デバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれる。画像アップロード時の問題を解明する際に役立つ。</td></tr>
+  <td valign="top"><code>いいえ(false)</code></td>
+  <td valign="top">はい(<code>true</code>)にすると、画像のアップロード中にデバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれる。画像アップロード時の問題を解明する際に役立つ。</td></tr>
 </table>
 
 <h3><a name="images_articles">画像: 記事の画像</a></h3>
@@ -874,14 +874,14 @@
 <tr>
   <td valign="top"><a name="desc_gravatar_rating">Gravatar評価を許可(gravatar_rating)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画用に使われている評価システム<br>
+  <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画鑑賞用に使われている評価システム<br>
 		<ul>
-			<li>(G = General：一般向け</li>
+			<li>G = General：一般向け</li>
 			<li>PG = Parental Guidance：保護者の指導が望ましい</li>
 			<li>R = Restriced：保護者同伴で入場可</li>
 			<li>X = Banned：17歳未満入場禁止</li>
 		</ul>
-		で評価される。このオプションは表示されるアバターの<em>最も厳しい</em> ランクを設定する。たとえば、Rと設定すると、G, PG, Rランクのアバターは表示されるが、Xランクのアバターは一切表示されなくなる。</td></tr>
+		を用いて評価される。このオプションは表示されるアバターの<em>最も厳しい</em>ランクを設定する。たとえばRと設定すると、G、PG、Rランクのアバターは表示されるが、Xランクのアバターは一切表示されなくなる。</td></tr>
 </table>
 
 
@@ -900,11 +900,11 @@
 <tr>
   <td valign="top"><a name="desc_language_files">言語ファイル[多言語モード](language_files)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">多言語サイト用。言語の短縮形('en', 'de', 'ja'など)と言語ファイルの対応関係を指定する。</td></tr>
+  <td valign="top">多言語サイト用。言語の短縮形('en'、'de'、'ja'など)と言語ファイルの対応関係を指定する。</td></tr>
 <tr>
   <td valign="top"><a name="desc_languages">言語名[多言語モード](languages)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">多言語サイト用。言語の短縮形('en', 'de', 'ja'など)と言語名("English", "Deutsch", "Japanese"など)の対応関係を指定する。</td></tr>
+  <td valign="top">多言語サイト用。言語の短縮形('en'、'de'、'ja'など)と言語名("English"、"Deutsch"、"Japanese"など)の対応関係を指定する。</td></tr>
 </table>
 
 <p>Geeklog Wikiの<a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">多言語サポート(Multi-Language Support)</a>も参照してください。</p>
