@@ -4,13 +4,15 @@ $Id$
 	* custom_mail_jp.phpを1.5.2に対応させました。
 
 2009-02-26  mystral-kk <mystral-kk>
+
 	* public_html/docs内の翻訳を1.5.2に更新しました。
 
 2009-02-19  Tetsuko Komma  <ivysoho>
 
-	* 携帯テーマmobile,mobile_3gのヘッダを修正して，Googleで検索するとGWT
-	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケータイ
-	  ハックを無視して勝手にケータイ用に変換してしまう不具合を解消しました。
+	* 携帯テーマmobile,mobile_3gのヘッダを修正して、Googleで検索するとGWT
+	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケー
+	  タイハックを無視して勝手にケータイ用に変換してしまう不具合を解消し
+	  ました。
 
 2009-02-15  Yoshinori Tahara  <dengen>
 
@@ -71,7 +73,7 @@ $Id$
 2008-12-06  Tetsuko Komma  <ivysoho>
 
 	* テーマProfessionalCSSの３つの記事表示テンプレートファイルに対して
-	  テーマ変数{story_introtext}から，冒頭文と本文の間にBRタグを入れない
+	  テーマ変数{story_introtext}から、冒頭文と本文の間にBRタグを入れない
 	  {story_text_no_br}に変更しました。
 
 2008-12-05  Tetsuko Komma  <ivysoho>
@@ -85,8 +87,8 @@ $Id$
 2008-11-29  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.1-jp-1.2をリリースします。タグgeeklog-1.5.1-jp-1.2を
-	  作成した後で、記述忘れに気がついたため，改めてタグ
-	  geeklog-1.5.1-jp-1.2aを作成し，配布ファイル名もタグ名に合わせます。
+	  作成した後で、記述忘れに気がついたため、改めてタグ
+	  geeklog-1.5.1-jp-1.2aを作成し、配布ファイル名もタグ名に合わせます。
 
 2008-11-28  mystral-kk <mystral-kk>
 	* LocalizeGeeklogクラスにおいて、日本語化メッセージで閉じタグが
@@ -100,32 +102,32 @@ $Id$
 
 2008-11-25  Tetsuko Komma  <ivysoho>
 
-	* テーマProfessionalCSSのfeaturedstorytext.thtml,storytext.thtmlで，
+	* テーマProfessionalCSSのfeaturedstorytext.thtml,storytext.thtmlで、
 	  {comments_with_count}部の二重リンクを削除しました。
 
 2008-11-24  Tetsuko Komma  <ivysoho>
 
-	* 静的ページプラグインの言語ファイルに，$PLG_staticpages_MESSAGE19，
+	* 静的ページプラグインの言語ファイルに、$PLG_staticpages_MESSAGE19、
 	  $PLG_staticpages_MESSAGE20を追加しました。(本家版2008.10.03追加分)
 
 2008-11-22  Tetsuko Komma  <ivysoho>
 
-	* mobile, mobile_3gテーマから，forumディレクトリを削除しました。
+	* mobile, mobile_3gテーマから、forumディレクトリを削除しました。
 
 2008-11-22  Tetsuko Komma  <ivysoho>
 
-	* 静的ページをセンターエリアに表示する際の，編集リンクをテンプレート
+	* 静的ページをセンターエリアに表示する際の、編集リンクをテンプレート
 	  /plugins/staticpages/templates/centerblock.thtmlに追加しました。
 
 2008-11-22  Tetsuko Komma  <ivysoho>
 
-	* 言語ファイルjapanese_utf-8.phpの句点の処理の抜けがあり，英語版
-	  english_utf-8.phpと統一させました。他，翻訳漏れを追加しました。
+	* 言語ファイルjapanese_utf-8.phpの句点の処理の抜けがあり、英語版
+	  english_utf-8.phpと統一させました。他、翻訳漏れを追加しました。
 
 2008-11-18  Tetsuko Komma  <ivysoho>
 
 	* テーマmobile,mobile_3g,ProfessionalCSSの各ログイン用テンプレート
-	  （loginform.thtml）に，OpenIDログイン変数{openid_login}が抜けて
+	  （loginform.thtml）に、OpenIDログイン変数{openid_login}が抜けて
 	  いたので追加しました。
 
 2008-11-13  hirorongl <hirorongl>
