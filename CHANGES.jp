@@ -1,5 +1,8 @@
 $Id$
 
+2009-02-27  mystral-kk <mystral-kk>
+	* custom_mail_jp.phpを1.5.2に対応させました。
+
 2009-02-26  mystral-kk <mystral-kk>
 	* public_html/docs内の翻訳を1.5.2に更新しました。
 
