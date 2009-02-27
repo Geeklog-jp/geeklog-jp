@@ -1,12 +1,5 @@
 $Id$
 
-2009-02-11  Takahiro Kambe  <tacahi>
-
-	* trunk/geeklog-1-jpでのr1152の変更を取り込みました。
-
-		IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を
-		修正します。
-
 2009-01-25  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.1-jp-1.3をリリースします。
