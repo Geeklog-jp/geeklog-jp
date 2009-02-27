@@ -65,7 +65,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52のズーム200%、 Firefox2.0.0.18,3.0.5の文字サイズ大きく×４、Google Chrome1.0.154.46のText Zoom拡大×４」「Windows Vista Internet Explorer7の文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1の文字を拡大×４、Firefox3.0.5のズーム×４」で確認)
+(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52のズーム200%、 Firefox2.0.0.20,3.0.5の文字サイズ大きく×４、Google Chrome1.0.154.46のText Zoom拡大×４」「Windows Vista Internet Explorer7の文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1の文字を拡大×４、Firefox3.0.5のズーム×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -399,7 +399,8 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.3(2009-2-15)
+■Ver.2.3(2009-2-21)
+  ・ページの先頭へ戻るのアイコンを新しいものに差し替え、アイコンもリンク範囲に含めました。(*footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
   ・背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gifを幅の大きい物に差し替えました。(画像ジローさん提供)(*/navbar/images/tabrightI.gif,*/navbar/images/tabrightJ.gif)
   ・ユニバーサルセレクタでの初期化をやめ、必要なセレクタのみを初期化しました。(*/css/default.css)
   ・div#centerblocksとtdに余白を追加しました。div#centerblocks余白追加に伴い、中央ブロックの幅を修正しました。(*/css/layout.css,*/css/compatible.css)
@@ -485,7 +486,6 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 　・デザインを変更しました。
 　・functions.phpに掲示板プラグイン対応させました。(*/functions.php)
 　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo.gif)
-　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/icon_pagetop.gif)
 　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
 　・preとblockquote要素のスタイルを設定しました。(*/css/default.css)
   ・READMEにライセンスについて記載しました。(このファイル)
