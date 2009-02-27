@@ -11,7 +11,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== false) {
 //            メールに戻します。
 //  @author   mystral-kk - geeklog AT mystral-kk DOT net
 //  @license  LGPL
-//  @version  2008-09-26
+//  @version  2009-02-27
 //  @note     このハックが不要な場合は，system/lib-custom.phpの中の
 //            require_once('custom/custom_mail_jp.php');
 //            を削除してください。
@@ -261,14 +261,16 @@ function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
         $from = COM_formatEmailAddress($_CONF['site_name'], $_CONF['site_mail']);
     }
     
-    // ヘッダをエスケープ
-    list($temp_to_comment, $temp_to_address) = CUSTOM_splitAddress($to);
-    $to      = CUSTOM_formatEmailAddress($temp_to_comment, $temp_to_address);
-    list($temp_cc_comment, $temp_cc_address) = CUSTOM_splitAddress($cc);
-    $cc      = CUSTOM_formatEmailAddress($temp_cc_comment, $temp_cc_address);
-    list($temp_from_comment, $temp_from_address) = CUSTOM_splitAddress($from);
-    $from    = CUSTOM_formatEmailAddress($temp_from_comment, $temp_from_address);
-    $subject = CUSTOM_emailEscape($subject);
+    // ヘッダをエスケープ（1.5.2では、この時点でエスケープ済み）
+    if (version_compare(VERSION, '1.5.2') < 0) {
+        list($temp_to_comment, $temp_to_address) = CUSTOM_splitAddress($to);
+        $to      = CUSTOM_formatEmailAddress($temp_to_comment, $temp_to_address);
+        list($temp_cc_comment, $temp_cc_address) = CUSTOM_splitAddress($cc);
+        $cc      = CUSTOM_formatEmailAddress($temp_cc_comment, $temp_cc_address);
+        list($temp_from_comment, $temp_from_address) = CUSTOM_splitAddress($from);
+        $from    = CUSTOM_formatEmailAddress($temp_from_comment, $temp_from_address);
+        $subject = CUSTOM_emailEscape($subject);
+    }
     
     // 本文をエスケープ
     $message = CUSTOM_convertEncoding($message, CUSTOM_MAIL_ENCODING);
