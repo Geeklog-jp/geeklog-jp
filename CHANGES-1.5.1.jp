@@ -2,7 +2,28 @@ $Id$
 
 2009-02-27  Takahiro Kambe  <tacahi>
 
-	* r1183での修正を取り込みます。
+	* trunk/geeklog-1-jpのr1200の修正を取り込みました。
+
+            * IE6でのアルファチャンネル付きPNGの表示を差し戻し
+
+	* trunk/geeklog-1-jpのr1193の修正を取り込みました。
+
+	    * fix issue #55
+	      Locationでの移動時のパラメータセパレータが文字参照で記述されて
+	      いる部分を & に変更。
+
+	* trunk/geeklog-1-jpのr1189の修正を取り込みました。
+
+	    * 携帯テーマのGWT解消。mobile,mobile_3gのヘッダを修正して，Google
+	      で検索するとGWT(Google Wireless Transcoder/Google Mobile Proxy)
+	      が、せっかくのケータイハックを無視して勝手にケータイ用に変換して
+	      しまう不具合を解消しました。
+
+	* trunk/geeklog-1-jpのr1186の修正を取り込みました。
+
+	    * calendarjpプラグイン:r1182の修正ミスを再修正します。
+
+	* trunk/geeklog-1-jpのr1183の修正を取り込みました。
 
 	    * calendarjpプラグインをバージョン1.0.7に更新しました。
 	      calendarプラグインのバージョン1.0.3の変更をマージしました。
@@ -14,7 +35,7 @@ $Id$
 
 2009-02-11  Takahiro Kambe  <tacahi>
 
-	* trunk/geeklog-1-jpでのr1152の変更を取り込みました。
+	* trunk/geeklog-1-jpのr1152の変更を取り込みました。
 
 		IE8で、ProfessionalCSSのカラムレイアウト変更ができない問題を
 		修正します。
