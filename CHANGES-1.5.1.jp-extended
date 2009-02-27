@@ -1,5 +1,59 @@
 $Id$
 
+2009-02-27  Takahiro Kambe  <tacahi>
+
+	* trunk/geeklog-1-jp-extendedのr1201の修正を取り込みました。
+
+            * IE6でのアルファチャンネル付きPNGの表示を差し戻し
+
+	* trunk/geeklog-1-jp-extendedのr1194の修正を取り込みました。
+
+            * WAIproCSSのページの先頭へ戻るのアイコンに一部のブラウザで下線が
+	      付いていたので、footer.ththmlに記述していたimgエレメントを削除し、
+	      CSSでa要素に背景として指定しました。
+
+	* trunk/geeklog-1-jp-extendedのr1193の修正を取り込みました。
+
+	    * fix issue #55
+	      Locationでの移動時のパラメータセパレータが文字参照で記述されて
+	      いる部分を & に変更。
+
+	* trunk/geeklog-1-jp-extendedのr1190の修正を取り込みました。
+
+	    * 携帯テーマのGWT解消。mobile,mobile_3gのヘッダを修正して，Google
+	      で検索するとGWT(Google Wireless Transcoder/Google Mobile Proxy)
+	      が、せっかくのケータイハックを無視して勝手にケータイ用に変換して
+	      しまう不具合を解消しました。
+
+	* trunk/geeklog-1-jp-extendedのr1188の修正を取り込みました。
+
+	    * WAIproCSSのtdタグをpaddin:2pxに修正しました。(余白を追加)
+	      WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)し
+	      ました。
+	      div#centerblocksに余白を追加した事に伴い、中央ブロックの幅を変更
+	      しました。
+	      余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をや
+	      め、必要なセレクタのみ初期化)
+	      掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更した
+	      のを元に戻しました。(黒文字に戻しました)
+	      背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
+	      を幅の大きい物に差し替えました。(ジローさん提供画像)
+	      WAIproCSSのREADMEにこれまでの変更点を追記しました。
+
+	* trunk/geeklog-1-jp-extendedのr1187の修正を取り込みました。
+
+	    * calendarjpプラグイン:r1182の修正ミスを再修正します。
+
+	* trunk/geeklog-1-jp-extendedのr1184の修正を取り込みました。
+
+	    * calendarjpプラグインをバージョン1.0.7に更新しました。
+	      calendarプラグインのバージョン1.0.3の変更をマージしました。
+	      ナビゲーションバーの操作で常に全体カレンダを表示してしまう問題を
+	      修正しました。
+	      カレンダでの年月日及び時間の選択が、イベントエディタにおいて
+	      初期値として入力されるようにしました。
+	      HTMLコードの適正化を実施しました。
+
 2009-02-14  Takahiro Kambe  <tacahi>
 
 	* trunk/geeklog-1-jp-extended/CHANGES.jp の r1169, r1172の修正を取り
