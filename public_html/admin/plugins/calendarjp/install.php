@@ -9,7 +9,7 @@
 // | This file installs and removes the data structures for the                |
 // | Calendarjp plugin for Geeklog.                                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
@@ -43,7 +43,7 @@ require_once '../../../lib-common.php';
 //
 $pi_display_name = 'Calendarjp';
 $pi_name         = 'calendarjp';
-$pi_version      = '1.0.6';
+$pi_version      = '1.0.7';
 $gl_version      = '1.5.0';
 $pi_url          = 'http://www.geeklog.jp/';
 
