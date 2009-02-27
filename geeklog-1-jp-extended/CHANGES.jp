@@ -1,25 +1,28 @@
 $Id$
 
 2009-02-26  mystral-kk <mystral-kk>
+
 	* public_html/docs内の翻訳を1.5.2に更新しました。
 
 2009-02-21  Masuko Koeda  <milk851>
 
 	* WAIproCSSのページの先頭へ戻るのアイコンに一部のブラウザで下線が付いて
-          いたのでfooter.thtmlに記述していたimgエレメントを削除し、
-          CSSでa要素に背景として指定しました。
+          いたのでfooter.thtmlに記述していたimgエレメントを削除し、CSSでa要素に
+	  背景として指定しました。
           その変更をREADMEに追記しました。
 
 2009-02-19  Tetsuko Komma  <ivysoho>
 
 	* 携帯テーマmobile,mobile_3gのヘッダを修正して，Googleで検索するとGWT
-	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケータイ
-	  ハックを無視して勝手にケータイ用に変換してしまう不具合を解消しました。
+	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケー
+	  タイハックを無視して勝手にケータイ用に変換してしまう不具合を解消し
+	  ました。
 
 2009-02-15  Masuko Koeda  <milk851>
 
 	* WAIproCSSのtdタグをpaddin:2pxに修正しました。(余白を追加)
-	  WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)しました。
+	  WAIproCSSのdiv#centerblocksにpadding:0.45emを追加(余白を追加)しまし
+	  た。
 	  div#centerblocksに余白を追加した事に伴い、
 	  中央ブロックの幅を変更しました。
 	  余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をやめ
