@@ -284,52 +284,52 @@ function CUSTOM_refresh($url)
 // テーブル削除用のパターン配列
 $_mobile_table =
 array(
-      array('@<[  ]*table[^>]*?>@si', ''),
-      array('@<[  ]*/table[^>]*?>@si', ''),
-      array('@<[ ]*thead[^>]*?>@si', ''),
-      array('@<[ ]*/thead[^>]*?>@si', ''),
-      array('@<[ ]*tbody[^>]*?>@si', ''),
-      array('@<[ ]*/tbody[^>]*?>@si',''),
-      array('@<[ ]*tfoot[^>]*?>@si', ''),
-      array('@<[ ]*/tfoot[^>]*?>@si', ''),
-      array('@<[  ]*tr[^>]*?>@si', ''),
-      array('@<[  ]*/tr[^>]*?>@si', '<br>'),
-      array('@<[  ]*th[^>]*?>@si', ''),
-      array('@<[  ]*/th[^>]*?>@si', '&nbsp;'),
-      array('@<[  ]*td[^>]*?>@si', ''),
-      array('@<[  ]*/td[^>]*?>@si', '&nbsp;')
-      );
+	'@<\s*table[^>]*?>@si'  => '',
+	'@<\s*/table[^>]*?>@si' => '',
+	'@<\s*thead[^>]*?>@si'  => '',
+	'@<\s*/thead[^>]*?>@si' => '',
+	'@<\s*tbody[^>]*?>@si'  => '',
+	'@<\s*/tbody[^>]*?>@si' => '',
+	'@<\s*tfoot[^>]*?>@si'  => '',
+	'@<\s*/tfoot[^>]*?>@si' => '',
+	'@<\s*tr[^>]*?>@si'     => '',
+	'@<\s*/tr[^>]*?>@si'    => '<br>',
+	'@<\s*th[^>]*?>@si'     => '',
+	'@<\s*/th[^>]*?>@si'    => '&nbsp;',
+	'@<\s*td[^>]*?>@si'     => '',
+	'@<\s*/td[^>]*?>@si'    => '&nbsp;',
+);
 
 // コメント削除用のパターン配列
 $_mobile_comment =
 array(
-      array('@<!--.*?-->@sm', ''),
-      array('@<!--@', ''),
-      array('@-->@', '')
-      );
+	'@<!--.*?-->@sm' => '',
+	'@<!--@'         => '',
+	'@-->@'          => '',
+);
 
 // 3Gケータイ専用コンテンツのパターン配列
 $_mobile_3g =
 array(
-      // cut "div"
-      array('@<[  ]*div[^>]*?>@si', ''),
-      array('@<[  ]*/div[^>]*?>@si', "<br>\n"),
-      // cut style
-      array('@style="[^"].*?"@i', ''),
-      // cut class
-      array('@class="[^"].*?"@i', ''),
-      // cut embed
-      array('@<embed[^>]*?></embed>@si', ''),
-      );
+	// cut "div"
+	'@<\s*div[^>]*?>@si'        => '',
+	'@<\s*/div[^>]*?>@si'       => "<br>\n",
+	// cut style
+	'@style="[^"].*?"@i'        => '',
+	// cut class
+	'@class="[^"].*?"@i'        => '',
+	// cut embed
+	'@<embed[^>]*?></embed>@si' => '',
+);
 
 
 // ケータイ専用コンテンツのパターン配列
 $_mobile_content =
 array(
-      array('@<!--mobile_only@', ''),
-      array('@/mobile_only-->@', ''),
-      array('@<!--not_for_mobile-->.*?<!--/not_for_mobile-->@ms', ''),
-      );
+	'@<!--mobile_only@' => '',
+	'@/mobile_only-->@' => '',
+	'@<!--not_for_mobile-->.*?<!--/not_for_mobile-->@ms' => '',
+);
 
 
 
@@ -345,56 +345,46 @@ function _mobile_output_handler($content, $status)
 
     // モバイル用のコンテンツを表示、PC用のコンテンツを非表示
     // これは単独で一番先に実行する必要がある
-    if($CUSTOM_MOBILE_CONF['use_mobile_content']) {
-        for($i = 0; $i < count($_mobile_content); $i++) {
-            $search[$i] = $_mobile_content[$i][0];
-            $replace[$i] = $_mobile_content[$i][1];
-        }
-        $content = preg_replace($search, $replace, $content);
+    if ($CUSTOM_MOBILE_CONF['use_mobile_content']) {
+        $content = preg_replace(
+			array_keys($_mobile_content), array_values($_mobile_content), $content
+		);
     }
     // コメントを削除
     // これは単独で2番目に実行する必要がある
-    if($CUSTOM_MOBILE_CONF['cut_comment']) {
-        for($i = 0; $i < count($_mobile_comment); $i++) {
-            $search[$i] = $_mobile_comment[$i][0];
-            $replace[$i] = $_mobile_comment[$i][1];
-        }
-        $content = preg_replace($search, $replace, $content);
+    if ($CUSTOM_MOBILE_CONF['cut_comment']) {
+        $content = preg_replace(
+			array_keys($_mobile_comment), array_values($_mobile_comment), $content
+		);
     }
 
     // テーブルを削除
-    if($CUSTOM_MOBILE_CONF['force_2g_content'] ||
+    if ($CUSTOM_MOBILE_CONF['force_2g_content'] ||
        $CUSTOM_MOBILE_CONF['force_cut_table'] ||
        !CUSTOM_MOBILE_is_table_enabled()) {
-        for($i = 0; $i < count($_mobile_table); $i++) {
-            $search[$i] = $_mobile_table[$i][0];
-            $replace[$i] = $_mobile_table[$i][1];
-        }
-        $content = preg_replace($search, $replace, $content);
+        $content = preg_replace(
+			array_keys($_mobile_table), array_values($_mobile_table), $content
+		);
     }
 
     // 3G端末用コンテンツを削除
-    if($CUSTOM_MOBILE_CONF['force_2g_content'] ||
+    if ($CUSTOM_MOBILE_CONF['force_2g_content'] ||
        !CUSTOM_MOBILE_is_3g()) {
-        for($i = 0; $i < count($_mobile_3g); $i++) {
-            $search[$i] = $_mobile_3g[$i][0];
-            $replace[$i] = $_mobile_3g[$i][1];
-        }
-        $content = preg_replace($search, $replace, $content);
+        $content = preg_replace(
+			array_keys($_mobile_3g), array_values($_mobile_3g), $content
+		);
     }
 
     // 画像の縮小
-    if($CUSTOM_MOBILE_CONF['resize_image']) {
+    if ($CUSTOM_MOBILE_CONF['resize_image']) {
         //CUSTOM_MOBILE_debug("search: " . $_mobile_images[0][0]);
-        for($i = 0; $i < count($_mobile_images); $i++) {
-            $search[$i] = $_mobile_images[$i][0];
-            $replace[$i] = $_mobile_images[$i][1];
-        }
-        $content = preg_replace($search, $replace, $content);
+        $content = preg_replace(
+			array_keys($_mobile_images), array_values($_mobile_images), $content
+		);
     }
 
     // その他雑多な変換
-    if($CUSTOM_MOBILE_CONF['convert_to_sjis']) {
+    if ($CUSTOM_MOBILE_CONF['convert_to_sjis']) {
         $charset ='Shift_JIS';
     } else {
         $charset = $CUSTOM_MOBILE_CONF['host_charset'];
@@ -415,7 +405,7 @@ function _mobile_output_handler($content, $status)
               '@<li></li>@i',
               '@^\s*<dl>([\s\n]*)</dl>@mi',
               '@^\s*<li>([\s\n]*)</li>@mi',
-              '@[   ]*?&nbsp;@',
+              '@\s*?&nbsp;@',
               '@\s*\n+@m',
               '@((\s)*<br>)+@sm',
               );
@@ -531,6 +521,15 @@ function _mobile_session_callback($matches) {
     return $ret;
 }
 
+// urldecode（配列対応版）
+function _mobile_urldecode_deep($data) {
+	if (is_array($data)) {
+		return array_map('_mobile_urldecode_deep', $data);
+	} else {
+		return urldecode($data);
+	}
+}
+
 // 入力をURLデコードする
 function _mobile_prepare_input(&$array) {
     reset($array);
@@ -544,8 +543,7 @@ function _mobile_prepare_input(&$array) {
         if( $key != $keyconv ) {
             unset($array[$key]);
         }
-        $array[$keyconv] =
-            urldecode($val);
+        $array[$keyconv] = _mobile_urldecode_deep($val);
     }
     reset($array);
 }
@@ -795,13 +793,10 @@ if(CUSTOM_MOBILE_is_cellular()) {
 // 画像タグのパターン配列
 $_mobile_images =
 array(
-      array('@<([  ]*img.*?)width="[0-9]+?"(.*?)>@si', '<$1$2>'),
-      array('@<([  ]*img.*?)height="[0-9]+?"(.*?)>@si', '<$1$2>'),
-      array('@<([  ]*img.*?)src="([^"]*?)"(.*?)>@si',
-            '<$1src="' . $_CONF['site_url'] . RESIZER . '?image=$2&amp;size='.
-            $CUSTOM_MOBILE_CONF['image_size'] . '&amp;quality=' .
-            $CUSTOM_MOBILE_CONF['image_quality'] . '&amp;site_url=' .
-            $_CONF['site_url'] . '"$3 ' . XHTML . '>'),
-      );
-
-?>
+	'@<(\s*img.*?)width="[0-9]+?"(.*?)>@si'  => '<$1$2>',
+	'@<(\s*img.*?)height="[0-9]+?"(.*?)>@si' => '<$1$2>',
+	'@<(\s*img.*?)src="([^"]*?)"(.*?)>@si'   => '<$1src="' . $_CONF['site_url']
+		. RESIZER . '?image=$2&amp;size='. $CUSTOM_MOBILE_CONF['image_size']
+		. '&amp;quality=' . $CUSTOM_MOBILE_CONF['image_quality']
+		. '&amp;site_url=' . $_CONF['site_url'] . '"$3 ' . XHTML . '>',
+);
