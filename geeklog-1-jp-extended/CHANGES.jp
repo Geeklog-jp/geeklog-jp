@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-04  mystral-kk <mystral-kk>
+
+	* Wikiスタイルで文字化けする問題(Issue #49)に対応しました。
+
 2009-02-26  mystral-kk <mystral-kk>
 
 	* public_html/docs内の翻訳を1.5.2に更新しました。
@@ -31,7 +35,7 @@ $Id$
 	  したのを元に戻しました。(黒文字に戻しました)
 	  背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
 	  を幅の大きい物に差し替えました。
-　　　　　WAIproCSSのREADMEにこれまでの変更点を追記しました。
+	  WAIproCSSのREADMEにこれまでの変更点を追記しました。
 
 2009-02-15  Yoshinori Tahara  <dengen>
 
