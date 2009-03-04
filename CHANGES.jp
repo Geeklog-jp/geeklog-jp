@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-04  mystral-kk <mystral-kk>
+
+	* Wikiスタイルで文字化けする問題(Issue #49)に対応しました。
+
 2009-02-27  mystral-kk <mystral-kk>
 
 	* custom_mail_jp.phpを1.5.2に対応させました。
