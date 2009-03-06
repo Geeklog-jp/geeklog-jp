@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.3 for Geeklog1.5.1
+  バージョン: 2.31 for Geeklog1.5.1
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -23,7 +23,6 @@
     *テンプレートファイル: コメント
     *CSS: CSSファイル構成・カスケード順序
     *CSS: プロパティ記述順序
-    *ProfessionalCSSに修正等をしたファイルリスト
     *カスタマイズ方法
     *バージョン履歴
 ==============================================================================*/
@@ -312,40 +311,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 
 /*==============================================================================
-  ProfessionalCSSに修正等をしたファイルリスト
-==============================================================================*/
-thtmlファイルリスト
-
-・header.thtml 
-・footer.thtml 
-・featuredstorytext.thtml 
-・storytext.thtml 
-
-CSSファイルリスト
-
-・custom.sample.css 
-・css/block.css
-・css/common.css
-・css/default.css
-・css/form.css
-・css/layout.css
-・css/story.css
-・css/admin/configuration.css
-・css/admin/lists.css
-・css/navbar/navbar.css
-・css/search/search.css
-・css/trackback/trackback.css
-
-その他のファイルリスト
-・functions.php 
-・images/css/icon_pagetop.gif 
-・images/edit.png 
-・images/mail.png 
-・images/print.png 
-
-
-
-/*==============================================================================
   カスタマイズ方法
 ==============================================================================*/
 
@@ -364,7 +329,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 特に理由がない場合には、WAIproCSSテーマのバージョンアップにも対応できるように、専用のCSSファイル(custom.css)を利用する方法をおすすめいたします。
 
   ・専用のCSSファイル(custom.css)を利用したカスタマイズ
-    この方法は、カスタマイズ部分を専用のCSSファイル(custom.css)に分離するため、ProfessionalCSSテーマに変更があった場合でも柔軟に対応できるとともに、カスタマイズしたテーマの保守・管理性も高まります。
+    この方法は、カスタマイズ部分を専用のCSSファイル(custom.css)に分離するため、WAIproCSSテーマに変更があった場合でも柔軟に対応できるとともに、カスタマイズしたテーマの保守・管理性も高まります。
     CSSの特徴であるカスケードを活かしたカスタマイズ方法です。
 
       1. 各CSSファイルからカスタマイズする箇所をcustom.css内にコピー&ペーストします。
@@ -399,12 +364,14 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.3(2009-2-21)
-  ・ページの先頭へ戻るのアイコンを新しいものに差し替え、アイコンもリンク範囲に含めました。(*footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
+■Ver.2.31(2009-3-6)
+  ・ページの先頭へ戻るのアイコンもリンク範囲に含めました。(*footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
   ・背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gifを幅の大きい物に差し替えました。(画像ジローさん提供)(*/navbar/images/tabrightI.gif,*/navbar/images/tabrightJ.gif)
   ・ユニバーサルセレクタでの初期化をやめ、必要なセレクタのみを初期化しました。(*/css/default.css)
   ・div#centerblocksとtdに余白を追加しました。div#centerblocks余白追加に伴い、中央ブロックの幅を修正しました。(*/css/layout.css,*/css/compatible.css)
   ・掲示板プラグイン(forum)で背景色と文字色のコントラストが不十分な部分を修正しました。(*/css/compatible.css,*/css/plugin/forum.css)
+
+■Ver.2.3(2009-1-30)
   ・アイコンをPNGからGIFに変更した事に伴い、管理画面のアイコンにgifアイコンを追加しました。
 　　+/images/admin/block-left.gif
     +/images/admin/block-right.gif
@@ -486,6 +453,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 　・デザインを変更しました。
 　・functions.phpに掲示板プラグイン対応させました。(*/functions.php)
 　・サイトロゴを新しいものに差し替えました。(-/images/css/bg_logo.gif,+/images/logo.gif)
+　・ページの先頭へ戻るのアイコンを新しいものに差し替えました。(-/images/css/icon_pagetop.gif,+/images/icon_pagetop.gif)
 　・ベーステーマProfessionalCSSに合わせて、ファイルを修正しました。
 　・preとblockquote要素のスタイルを設定しました。(*/css/default.css)
   ・READMEにライセンスについて記載しました。(このファイル)
