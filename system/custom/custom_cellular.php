@@ -521,6 +521,15 @@ function _mobile_session_callback($matches) {
     return $ret;
 }
 
+// stripslashes（配列対応版）
+function _mobile_stripslashes_deep($data) {
+	if (is_array($data)) {
+		return array_map('_mobile_stripslashes_deep', $data);
+	} else {
+		return stripslashes($data);
+	}
+}
+
 // urldecode（配列対応版）
 function _mobile_urldecode_deep($data) {
 	if (is_array($data)) {
@@ -536,8 +545,8 @@ function _mobile_prepare_input(&$array) {
     $copy = $array;
     while (list($key, $val) = each($copy)) {
         if (get_magic_quotes_gpc()) {
-            $key = stripslashes($key);
-            $val = stripslashes($val);
+            $key = _mobile_stripslashes_deep($key);
+            $val = _mobile_stripslashes_deep($val);
         }
         $keyconv = urldecode($key);
         if( $key != $keyconv ) {
