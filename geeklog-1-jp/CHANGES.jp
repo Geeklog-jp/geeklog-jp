@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-06  mystral-kk <mystral-kk>
+
+	* 携帯ハックでmagic_quotes_gpcがオンの時に発生しうる問題に
+	  対応しました。
+
 2009-03-04  mystral-kk <mystral-kk>
 
 	* Wikiスタイルで文字化けする問題(Issue #49)に対応しました。
