@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.31 for Geeklog1.5.1
+  バージョン: 2.3.1 for Geeklog1.5.1
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -364,7 +364,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.31(2009-3-6)
+■Ver.2.3.1(2009-3-6)
   ・ページの先頭へ戻るのアイコンもリンク範囲に含めました。(*footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
   ・背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gifを幅の大きい物に差し替えました。(画像ジローさん提供)(*/navbar/images/tabrightI.gif,*/navbar/images/tabrightJ.gif)
   ・ユニバーサルセレクタでの初期化をやめ、必要なセレクタのみを初期化しました。(*/css/default.css)
