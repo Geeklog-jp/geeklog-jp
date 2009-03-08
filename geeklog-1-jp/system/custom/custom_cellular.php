@@ -8,7 +8,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_cellular.php') !== false) {
  * Geeklog hack for cellular phones.
  * Copyright (c) 2006 - 2008 Tatsumi Imai(http://im-ltd.ath.cx)
  * License: GPL v2 or later
- * Time-stamp: <2008-07-14 23:42:55 imai>
+ * Time-stamp: <2009-03-09 03:13:44 imai>
  */
 
 // 設定
@@ -256,9 +256,17 @@ function CUSTOM_MOBILE_debug($msg) {
 function CUSTOM_refresh($url)
 {
     global $LANG05,$CUSTOM_MOBILE_CONF;
-    $msg = mb_convert_encoding($LANG05['5'], 'sjis-win',
-                               mb_detect_encoding($LANG05['5'], "UTF-8,EUC-JP,JIS,sjis-win"));
     if(CUSTOM_MOBILE_is_cellular()) {
+        // ページ内リンクを探す
+        $pos = strpos($url, '#');
+        if($pos === false) {
+            //CUSTOM_MOBILE_debug("not matched: " . $url);
+            $link = "";
+        } else {
+            //CUSTOM_MOBILE_debug("matched: " . $url);
+            $link = substr($url, $pos);
+            $url = substr($url, 0, $pos);
+        }
         if($CUSTOM_MOBILE_CONF['refresh_use_location']) {
             $sepa = '?';
             if (strpos($url, '?') > 0)
@@ -267,14 +275,21 @@ function CUSTOM_refresh($url)
                 $sepa = '&';
                 //$sepa = '&amp;';
             }
-            $location_url = 'Location: ' . $url . $sepa . SID;
+            $location_url = 'Location: ' . $url . $sepa . SID . link;
             header( $location_url );
             exit;
         } else {
+            $msg = mb_convert_encoding($LANG05['5'], 'sjis-win',
+                               mb_detect_encoding($LANG05['5'], "UTF-8,EUC-JP,JIS,sjis-win"));
+            $sepa = '?';
+            if (strpos($url, '?') > 0) {
+                $sepa = '&amp;';
+            }
+            $location_url = $url . $sepa . SID . link;
             return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" .
                 "\"http://www.w3.org/TR/html4/loose.dtd\">\n" .
                 "<html><head><title>$msg</title></head>" .
-                "<body><a href=\"$url\">$msg</a></body></html>\n";
+                "<body><a href=\"$location_url\">$msg</a></body></html>\n";
         }
     } else {
         return "<html><head><meta http-equiv=\"refresh\" content=\"0; URL=$url\"></head></html>\n";
@@ -458,8 +473,8 @@ function _mobile_add_sessid($content) {
     global $_CONF;
 
     // ページ内の<a>タグ、<form>タグのurlを抽出
-    $pat1 = '!(<a\s+.*?href=")([^\"]*?)"!i';
-    $pat2 = '!(<form\s+.*?action=")([^\"]*?)"!i';
+    $pat1 = '!(<a\s+.*?href=)([\'"])([^\2]*?)(\2)!i';
+    $pat2 = '!(<form\s+.*?action=)([\'"])([^\2]*?)(\2)!i';
     $search = array($pat1, $pat2,);
     // コールバック関数に渡してセッションIDを追加する
     return preg_replace_callback($search, _mobile_session_callback, $content);
@@ -469,8 +484,9 @@ function _mobile_add_sessid($content) {
 function _mobile_session_callback($matches) {
     global $_CONF;
     $pat = $_CONF['site_url'];
-    $ret = $matches[1].$matches[2];
-
+    $ret = substr($matches[0], 0, -1);
+    $delim = substr($matches[0], -1);
+    
     // forumのバグ? cf: forum/createtopic.php line 342 & forum/viewtopic.php line 100.
     $ret = preg_replace('!true#\d+!', 'true', $ret);
 
@@ -478,13 +494,13 @@ function _mobile_session_callback($matches) {
         // 絶対アドレス
         if(!preg_match("!$pat!", $ret)) {
             // 外部サイトだったらそのまま返す
-            return $ret . '"';
+            return $ret . $delim;
         } else {
             ; // 自サイト
         }
     } else if(preg_match("![a-z]+:.+!", $ret)){
         // http以外のプロトコル
-        return $ret . '"';
+        return $ret . $delim;
     } else {
         ; // 相対アドレス
     }
@@ -516,7 +532,7 @@ function _mobile_session_callback($matches) {
     // URLクエリのセパレータ
     $sep = strpos($ret, '?')?'&amp;':'?';
     // SIDを追加する
-    $ret = $ret . $sep . htmlspecialchars(SID) . $link . '"';
+    $ret = $ret . $sep . htmlspecialchars(SID) . $link . $delim;
     //CUSTOM_MOBILE_debug("sid added: " . $ret);
     return $ret;
 }
@@ -644,8 +660,8 @@ function CUSTOM_MOBILE_blockMenu()
             SEC_hasAccess( $A['owner_id'], $A['group_id'], $A['perm_owner'],
                            $A['perm_group'], $A['perm_members'], $A['perm_anon'] ) > 0 )
             {
-                $blockmenu .= "<li><a href='" . BLOCKS . "?bid=". $A['bid'] . "'>" .
-                    $A['title'] . "</a></li>\n";
+                $blockmenu .= "<li><a href=\"" . BLOCKS . "?bid=". $A['bid'] . "\">" .
+                        $A['title'] . "</a></li>\n";
             }
     }
     $blockmenu .= "</ul>\n";
