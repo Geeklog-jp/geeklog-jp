@@ -825,3 +825,5 @@ array(
 		. '&amp;quality=' . $CUSTOM_MOBILE_CONF['image_quality']
 		. '&amp;site_url=' . $_CONF['site_url'] . '"$3 ' . XHTML . '>',
 );
+
+?>
