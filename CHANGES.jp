@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-10  im-ltd  <tatsumi.imai>
+    * custom_cellular.phpにgeeklog-1-jpのr1223とr1232の修正(いずれもmistral-kkさん)を取り込みました。
+        現時点でgeeklog-1-jpと同期しています。
+
 2009-03-07  Masuko Koeda  <milk851>
 
 	* バージョン表記を間違っていたので訂正しました。
