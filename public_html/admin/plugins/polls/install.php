@@ -11,7 +11,7 @@
 // +---------------------------------------------------------------------------+
 // | Based on the Universal Plugin and prior work by the following authors:    |
 // |                                                                           |
-// | Copyright (C) 2002-2008 by the following authors:                         |
+// | Copyright (C) 2002-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Tom Willett       - tom AT pigstye DOT net                       |
@@ -35,8 +35,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: install.php,v 1.24 2008/05/23 13:36:12 dhaun Exp $
 
 require_once '../../../lib-common.php';
 
@@ -46,7 +44,7 @@ require_once '../../../lib-common.php';
 //
 $pi_display_name = 'Polls';
 $pi_name         = 'polls';
-$pi_version      = '2.0.1';
+$pi_version      = '2.0.2';
 $gl_version      = '1.5.0';
 $pi_url          = 'http://www.geeklog.net/';
 
@@ -93,6 +91,10 @@ function plugin_compatible_with_this_geeklog_version()
     }
 
     if (!function_exists('SEC_createToken')) {
+        return false;
+    }
+
+    if (!function_exists('COM_showMessageText')) {
         return false;
     }
 

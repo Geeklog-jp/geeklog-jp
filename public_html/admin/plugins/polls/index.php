@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog poll administration page                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.59 2008/06/10 17:26:50 dhaun Exp $
 
 // Set this to true if you want to log debug messages to error.log
 $_POLL_VERBOSE = false;
@@ -40,17 +38,13 @@ $_POLL_VERBOSE = false;
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
 
-
 $display = '';
 
-if (!SEC_hasRights ('polls.edit')) {
-    $display .= COM_siteHeader ('menu', $MESSAGE[30]);
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[36];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the poll administration screen.");
+if (!SEC_hasRights('polls.edit')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[36], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the poll administration screen.");
     echo $display;
     exit;
 }
@@ -124,6 +118,7 @@ function listpolls()
 * Saves a poll topic and potential answers to the database
 *
 * @param    string  $pid            Poll topic ID
+* @param    string  $old_pid        Previous poll topic ID
 * @param    array   $Q              Array of poll questions
 * @param    string  $mainpage       Checkbox: poll appears on homepage
 * @param    string  $topic          The text for the topic
@@ -143,9 +138,9 @@ function listpolls()
 * @return   string                  HTML redirect or error message
 *
 */
-function savepoll($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults,
-                  $commentcode, $A, $V, $R, $owner_id, $group_id, $perm_owner,
-                  $perm_group, $perm_members, $perm_anon)
+function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $statuscode, $open,
+                  $hideresults, $commentcode, $A, $V, $R, $owner_id, $group_id,
+                  $perm_owner, $perm_group, $perm_members, $perm_anon)
 
 {
     global $_CONF, $_TABLES, $_USER, $LANG21, $LANG25, $MESSAGE, $_POLL_VERBOSE,
@@ -156,8 +151,16 @@ function savepoll($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults,
     // Convert array values to numeric permission values
     list($perm_owner,$perm_group,$perm_members,$perm_anon) = SEC_getPermissionValues($perm_owner,$perm_group,$perm_members,$perm_anon);
 
-    $pid = COM_sanitizeID($pid);
     $topic = COM_stripslashes($topic);
+    $pid = COM_sanitizeID($pid);
+    $old_pid = COM_sanitizeID($old_pid);
+    if (empty($pid)) {
+        if (empty($old_pid)) {
+            $pid = COM_makeSid();
+        } else {
+            $pid = $old_pid;
+        }
+    }
 
     // check if any question was entered
     if (empty($topic) or (sizeof($Q) == 0) or (strlen($Q[0]) == 0) or
@@ -177,12 +180,21 @@ function savepoll($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults,
                            . '/plugins/polls/index.php');
     }
 
+    // check for poll id change
+    if (!empty($old_pid) && ($pid != $old_pid)) {
+        // check if new pid is already in use
+        if (DB_count($_TABLES['polltopics'], 'pid', $pid) > 0) {
+            // TBD: abort, display editor with all content intact again
+            $pid = $old_pid; // for now ...
+        }
+    }
+
     // start processing the poll topic
     if ($_POLL_VERBOSE) {
         COM_errorLog ('**** Inside savepoll() in '
                       . $_CONF['site_admin_url'] . '/plugins/polls/index.php ***');
     }
-    $pid = str_replace (' ', '', $pid); // strip spaces from poll id
+
     $access = 0;
     if (DB_count ($_TABLES['polltopics'], 'pid', $pid) > 0) {
         $result = DB_query ("SELECT owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['polltopics']} WHERE pid = '{$pid}'");
@@ -194,14 +206,10 @@ function savepoll($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults,
         $access = SEC_hasAccess ($owner_id, $group_id, $perm_owner,
                                  $perm_group, $perm_members, $perm_anon);
     }
-    if (($access < 3) || !SEC_inGroup ($group_id)) {
-        $display .= COM_siteHeader ('menu', $MESSAGE[30]);
-        $display .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $display .= $MESSAGE[31];
-        $display .= COM_endBlock ();
-        $display .= COM_siteFooter (COM_getBlockTemplate ('_msg_block',
-                                                          'footer'));
+    if (($access < 3) || !SEC_inGroup($group_id)) {
+        $display .= COM_siteHeader('menu', $MESSAGE[30])
+                 . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                 . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit poll $pid.");
         echo $display;
         exit;
@@ -217,24 +225,34 @@ function savepoll($pid, $Q, $mainpage, $topic, $statuscode, $open, $hideresults,
         COM_errorLog('member permissions: ' . $perm_members, 1);
         COM_errorLog('anonymous permissions: ' . $perm_anon, 1);
     }
+
     // we delete everything and re-create it with the input from the form
-    DB_delete ($_TABLES['polltopics'], 'pid', $pid);
-    DB_delete ($_TABLES['pollanswers'], 'pid', $pid);
-    DB_delete ($_TABLES['pollquestions'], 'pid', $pid);
+    $del_pid = $pid;
+    if (!empty($old_pid) && ($pid != $old_pid)) {
+        $del_pid = $old_pid; // delete by old pid, create using new pid below
+    }
+    DB_delete($_TABLES['polltopics'], 'pid', $del_pid);
+    DB_delete($_TABLES['pollanswers'], 'pid', $del_pid);
+    DB_delete($_TABLES['pollquestions'], 'pid', $del_pid);
 
     $topic = addslashes ($topic);
 
     $k = 0; // set up a counter to make sure we do assign a straight line of question id's
     $v = 0; // re-count votes sine they might have been changed
     // first dimension of array are the questions
-    for ($i=0; $i<sizeof($Q); $i++) {
-        $Q[$i] = COM_stripslashes ($Q[$i]);
-        if (strlen ($Q[$i]) > 0) { // only insert questions that exist
-            DB_save ($_TABLES['pollquestions'], 'qid, pid, question', "'$k', '$pid', '$Q[$i]'");
-            // within the questions, we have another dimensions with answers, votes and remarks
-            for ($j=0; $j<sizeof($A[$i]); $j++) {
-                $A[$i][$j] = COM_stripslashes ($A[$i][$j]);
-                if (strlen ($A[$i][$j]) > 0) { // only insert answers etc that exist
+    $num_questions = sizeof($Q);
+    for ($i = 0; $i < $num_questions; $i++) {
+        $Q[$i] = COM_stripslashes($Q[$i]);
+        if (strlen($Q[$i]) > 0) { // only insert questions that exist
+            $Q[$i] = addslashes($Q[$i]);
+            DB_save($_TABLES['pollquestions'], 'qid, pid, question',
+                                               "'$k', '$pid', '$Q[$i]'");
+            // within the questions, we have another dimensions with answers,
+            // votes and remarks
+            $num_answers = sizeof($A[$i]);
+            for ($j = 0; $j < $num_answers; $j++) {
+                $A[$i][$j] = COM_stripslashes($A[$i][$j]);
+                if (strlen($A[$i][$j]) > 0) { // only insert answers etc that exist
                     if (!is_numeric($V[$i][$j])) {
                         $V[$i][$j] = "0";
                     }
@@ -531,8 +549,18 @@ if ($mode == 'edit') {
     $display .= editpoll ($pid);
     $display .= COM_siteFooter ();
 } elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save'])) {
-    $pid = COM_applyFilter ($_POST['pid']);
-    if (!empty ($pid)) {
+    $pid = COM_applyFilter($_POST['pid']);
+    $old_pid = '';
+    if (isset($_POST['old_pid'])) {
+        $old_pid = COM_applyFilter($_POST['old_pid']);
+    }
+    if (empty($pid) && !empty($old_pid)) {
+        $pid = $old_pid;
+    }
+    if (empty($old_pid) && (! empty($pid))) {
+        $old_pid = $pid;
+    }
+    if (!empty($pid)) {
         $statuscode = 0;
         if (isset ($_POST['statuscode'])) {
             $statuscode = COM_applyFilter ($_POST['statuscode'], true);
@@ -549,8 +577,8 @@ if ($mode == 'edit') {
         if (isset ($_POST['hideresults'])) {
             $hideresults = COM_applyFilter ($_POST['hideresults']);
         }
-        $display .= savepoll ($pid, $_POST['question'], $mainpage, $_POST['topic'],
-                        $statuscode, $open, $hideresults,
+        $display .= savepoll ($pid, $old_pid, $_POST['question'], $mainpage,
+                        $_POST['topic'], $statuscode, $open, $hideresults,
                         COM_applyFilter ($_POST['commentcode'], true),
                         $_POST['answer'], $_POST['votes'], $_POST['remark'],
                         COM_applyFilter ($_POST['owner_id'], true),
