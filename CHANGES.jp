@@ -1,8 +1,14 @@
 $Id$
 
+2009-03-10  mystral-kk <mystral-kk>
+
+	* custom_mail_jp.phpをGeeklog-1.5.2に対応させました。
+
 2009-03-10  im-ltd  <tatsumi.imai>
-    * custom_cellular.phpにgeeklog-1-jpのr1223とr1232の修正(いずれもmistral-kkさん)を取り込みました。
-        現時点でgeeklog-1-jpと同期しています。
+
+	* custom_cellular.phpにgeeklog-1-jpのr1223とr1232の修正(いずれも
+	  mystral-kkさん)を取り込みました。
+	  現時点でgeeklog-1-jpと同期しています。
 
 2009-03-07  Masuko Koeda  <milk851>
 
