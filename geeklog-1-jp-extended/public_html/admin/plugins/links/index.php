@@ -53,7 +53,6 @@
 
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
-require_once $_CONF['path_system'] . 'lib-security.php';
 
 // Uncomment the lines below if you need to debug the HTTP variables being passed
 // to the script.  This will sometimes cause errors but it will allow you to see
@@ -63,14 +62,11 @@ require_once $_CONF['path_system'] . 'lib-security.php';
 
 $display = '';
 
-if (!SEC_hasRights ('links.edit')) {
-    $display .= COM_siteHeader ('menu', $MESSAGE[30]);
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[34];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the links administration screen.");
+if (!SEC_hasRights('links.edit')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[34], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the links administration screen.");
     echo $display;
     exit;
 }
@@ -273,12 +269,22 @@ function savelink ($lid, $old_lid, $cid, $categorydd, $url, $description, $title
         $perm_anon = 2;
     }
 
-    $lid = COM_sanitizeID ($lid);
-    if (empty ($lid)) {
-        if (empty ($old_lid)) {
-            $lid = COM_makeSid ();
+    $lid = COM_sanitizeID($lid);
+    $old_lid = COM_sanitizeID($old_lid);
+    if (empty($lid)) {
+        if (empty($old_lid)) {
+            $lid = COM_makeSid();
         } else {
             $lid = $old_lid;
+        }
+    }
+
+    // check for link id change
+    if (!empty($old_lid) && ($lid != $old_lid)) {
+        // check if new lid is already in use
+        if (DB_count($_TABLES['links'], 'lid', $lid) > 0) {
+            // TBD: abort, display editor with all content intact again
+            $lid = $old_lid; // for now ...
         }
     }
 
@@ -294,13 +300,10 @@ function savelink ($lid, $old_lid, $cid, $categorydd, $url, $description, $title
         $access = SEC_hasAccess ($owner_id, $group_id, $perm_owner, $perm_group,
                 $perm_members, $perm_anon);
     }
-    if (($access < 3) || !SEC_inGroup ($group_id)) {
-        $display .= COM_siteHeader ('menu', $MESSAGE[30]);
-        $display .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $display .= $MESSAGE[31];
-        $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $display .= COM_siteFooter ();
+    if (($access < 3) || !SEC_inGroup($group_id)) {
+        $display .= COM_siteHeader('menu', $MESSAGE[30])
+                 . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                 . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit link $lid.");
         echo $display;
         exit;
@@ -524,15 +527,15 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     }
     $display .= COM_siteFooter ();
 } else { // 'cancel' or no mode at all
-    $display .= COM_siteHeader ('menu', $LANG_LINKS_ADMIN[11]);
-    if (isset ($_REQUEST['msg'])) {
-        $msg = COM_applyFilter ($_REQUEST['msg'], true);
+    $display .= COM_siteHeader('menu', $LANG_LINKS_ADMIN[11]);
+    if (isset($_GET['msg'])) {
+        $msg = COM_applyFilter($_GET['msg'], true);
         if ($msg > 0) {
-            $display .= COM_showMessage ($msg, 'links');
+            $display .= COM_showMessage($msg, 'links');
         }
     }
     $display .= listlinks();
-    $display .= COM_siteFooter ();
+    $display .= COM_siteFooter();
 }
 
 echo $display;
