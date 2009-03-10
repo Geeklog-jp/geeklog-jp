@@ -12,7 +12,7 @@
 // | Based on the Universal Plugin and prior work by the following authors:    |
 // | Upgraded for GL version 1.5 online config manager                         |
 // |                                                                           |
-// | Copyright (C) 2002-2008 by the following authors:                         |
+// | Copyright (C) 2002-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Tom Willett       - tom AT pigstye DOT net                       |
@@ -36,8 +36,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: install.php,v 1.33 2008/05/23 13:36:12 dhaun Exp $
 
 require_once '../../../lib-common.php';
 
@@ -47,7 +45,7 @@ require_once '../../../lib-common.php';
 //
 $pi_display_name = 'Static Page';
 $pi_name         = 'staticpages';
-$pi_version      = '1.5.0';
+$pi_version      = '1.5.1';
 $gl_version      = '1.5.0';
 $pi_url          = 'http://www.geeklog.net/';
 
@@ -63,7 +61,7 @@ $GROUPS[$pi_admin] = 'Users in this group can administer the Static Pages plugin
 $FEATURES = array();
 $FEATURES['staticpages.edit']    = 'Access to Static Pages editor';
 $FEATURES['staticpages.delete']  = 'Ability to delete static pages';
-$FEATURES['staticpages.PHP']     = 'Ability use PHP in static pages';
+$FEATURES['staticpages.PHP']     = 'Ability to use PHP in static pages';
 
 $MAPPINGS = array();
 $MAPPINGS['staticpages.edit']       = array ($pi_admin);
