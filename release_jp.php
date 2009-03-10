@@ -1,4 +1,4 @@
 <?php
-  $release_no = "1.3";
+  $release_no = "0.0";
   $release_date = "$Date$";
 ?>
