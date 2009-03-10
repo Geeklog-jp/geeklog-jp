@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-10  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.5.2のマージの洩れを修正しました。
+
 2009-03-10  mystral-kk <mystral-kk>
 
 	* custom_mail_jp.phpをGeeklog-1.5.2に対応させました。
