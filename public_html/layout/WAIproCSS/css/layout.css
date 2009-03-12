@@ -436,7 +436,7 @@ div#container div#footer p.back {
 
 div#container div#footer p.back a {
   display: block;
-  width: 135px;
+  width: 10.38em;
   background: url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
 }
 
