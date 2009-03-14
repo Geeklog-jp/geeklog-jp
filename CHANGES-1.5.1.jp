@@ -1,5 +1,19 @@
 $Id$
 
+2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
+
+	* 以下のリビジョンの修正を取り込みました。
+
+	    * 1224
+		language/japanese_utf-8.php
+
+	    * 1234
+		public_html/layout/mobile/functions.php
+		public_html/layout/mobile_3g/functions.php
+
+	    * 1223, 1232, 1237, 1239
+		system/custom/custom_cellular.php
+
 2009-02-27  Takahiro Kambe  <tacahi>
 
 	* trunk/geeklog-1-jpのr1200の修正を取り込みました。
