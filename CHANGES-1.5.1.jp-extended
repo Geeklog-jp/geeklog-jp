@@ -2,6 +2,9 @@ $Id$
 
 2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
 
+	* system/custom/custom_cellular.phpのインデントをtrunk/geeklog-1-jpに
+	  合わせる形で同一にしました。
+
 	* 日本語版のリリースを1.3.99としました。
 
 	* 以下のリビジョンの修正を取り込みました。
