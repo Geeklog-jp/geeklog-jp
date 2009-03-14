@@ -2,6 +2,9 @@ $Id$
 
 2009-03-10  Takahiro Kambe  <tacahi>
 
+	* ファイル名の誤り(public_html/japanize/inex.html)をリポジトリ上の
+	  名前変更で修正しました。
+
 	* Geeklog 1.5.2のマージの洩れを修正しました。
 
 2009-03-06  mystral-kk <mystral-kk>
