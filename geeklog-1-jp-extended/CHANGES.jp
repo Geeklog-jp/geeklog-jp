@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
+
+	* 些細な(動作上の違いのない) trunk/geeklog-1-jp と異るファイルを
+	  同一にしました。
+
 2009-03-12  Masuko Koeda  <milk851>
 
 	* フッタ部分、ページの先頭へ戻るのa要素の幅を
