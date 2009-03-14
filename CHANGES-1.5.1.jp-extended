@@ -1,5 +1,25 @@
 $Id$
 
+2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
+
+	* 以下のリビジョンの修正を取り込みました。
+
+	    * r1224
+		language/japanese_utf-8.php
+
+	    * r1225
+		public_html/layout/WAIproCSS/footer.thtml
+
+	    * r1230, r1236
+		public_html/layout/WAIproCSS/README
+		public_html/layout/WAIproCSS/custom.sample.css
+
+	    * r1238, r1240
+		system/custom/custom_cellular.php
+
+	    * r1242
+		system/custom/custom_mail_jp.php
+	
 2009-02-27  Takahiro Kambe  <tacahi>
 
 	* trunk/geeklog-1-jp-extendedのr1201の修正を取り込みました。
