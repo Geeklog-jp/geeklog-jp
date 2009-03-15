@@ -275,7 +275,7 @@ function CUSTOM_refresh($url)
                 $sepa = '&';
                 //$sepa = '&amp;';
             }
-            $location_url = 'Location: ' . $url . $sepa . SID . link;
+            $location_url = 'Location: ' . $url . $sepa . SID . $link;
             header( $location_url );
             exit;
         } else {
@@ -285,7 +285,7 @@ function CUSTOM_refresh($url)
             if (strpos($url, '?') > 0) {
                 $sepa = '&amp;';
             }
-            $location_url = $url . $sepa . SID . link;
+            $location_url = $url . $sepa . SID . $link;
             return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" .
                 "\"http://www.w3.org/TR/html4/loose.dtd\">\n" .
                 "<html><head><title>$msg</title></head>" .
@@ -299,51 +299,51 @@ function CUSTOM_refresh($url)
 // テーブル削除用のパターン配列
 $_mobile_table =
 array(
-	'@<\s*table[^>]*?>@si'  => '',
-	'@<\s*/table[^>]*?>@si' => '',
-	'@<\s*thead[^>]*?>@si'  => '',
-	'@<\s*/thead[^>]*?>@si' => '',
-	'@<\s*tbody[^>]*?>@si'  => '',
-	'@<\s*/tbody[^>]*?>@si' => '',
-	'@<\s*tfoot[^>]*?>@si'  => '',
-	'@<\s*/tfoot[^>]*?>@si' => '',
-	'@<\s*tr[^>]*?>@si'     => '',
-	'@<\s*/tr[^>]*?>@si'    => '<br>',
-	'@<\s*th[^>]*?>@si'     => '',
-	'@<\s*/th[^>]*?>@si'    => '&nbsp;',
-	'@<\s*td[^>]*?>@si'     => '',
-	'@<\s*/td[^>]*?>@si'    => '&nbsp;',
+    '@<\s*table[^>]*?>@si'  => '',
+    '@<\s*/table[^>]*?>@si' => '',
+    '@<\s*thead[^>]*?>@si'  => '',
+    '@<\s*/thead[^>]*?>@si' => '',
+    '@<\s*tbody[^>]*?>@si'  => '',
+    '@<\s*/tbody[^>]*?>@si' => '',
+    '@<\s*tfoot[^>]*?>@si'  => '',
+    '@<\s*/tfoot[^>]*?>@si' => '',
+    '@<\s*tr[^>]*?>@si'     => '',
+    '@<\s*/tr[^>]*?>@si'    => '<br>',
+    '@<\s*th[^>]*?>@si'     => '',
+    '@<\s*/th[^>]*?>@si'    => '&nbsp;',
+    '@<\s*td[^>]*?>@si'     => '',
+    '@<\s*/td[^>]*?>@si'    => '&nbsp;',
 );
 
 // コメント削除用のパターン配列
 $_mobile_comment =
 array(
-	'@<!--.*?-->@sm' => '',
-	'@<!--@'         => '',
-	'@-->@'          => '',
+    '@<!--.*?-->@sm' => '',
+    '@<!--@'         => '',
+    '@-->@'          => '',
 );
 
 // 3Gケータイ専用コンテンツのパターン配列
 $_mobile_3g =
 array(
-	// cut "div"
-	'@<\s*div[^>]*?>@si'        => '',
-	'@<\s*/div[^>]*?>@si'       => "<br>\n",
-	// cut style
-	'@style="[^"].*?"@i'        => '',
-	// cut class
-	'@class="[^"].*?"@i'        => '',
-	// cut embed
-	'@<embed[^>]*?></embed>@si' => '',
+    // cut "div"
+    '@<\s*div[^>]*?>@si'        => '',
+    '@<\s*/div[^>]*?>@si'       => "<br>\n",
+    // cut style
+    '@style="[^"].*?"@i'        => '',
+    // cut class
+    '@class="[^"].*?"@i'        => '',
+    // cut embed
+    '@<embed[^>]*?></embed>@si' => '',
 );
 
 
 // ケータイ専用コンテンツのパターン配列
 $_mobile_content =
 array(
-	'@<!--mobile_only@' => '',
-	'@/mobile_only-->@' => '',
-	'@<!--not_for_mobile-->.*?<!--/not_for_mobile-->@ms' => '',
+    '@<!--mobile_only@' => '',
+    '@/mobile_only-->@' => '',
+    '@<!--not_for_mobile-->.*?<!--/not_for_mobile-->@ms' => '',
 );
 
 
@@ -362,15 +362,15 @@ function _mobile_output_handler($content, $status)
     // これは単独で一番先に実行する必要がある
     if ($CUSTOM_MOBILE_CONF['use_mobile_content']) {
         $content = preg_replace(
-			array_keys($_mobile_content), array_values($_mobile_content), $content
-		);
+            array_keys($_mobile_content), array_values($_mobile_content), $content
+        );
     }
     // コメントを削除
     // これは単独で2番目に実行する必要がある
     if ($CUSTOM_MOBILE_CONF['cut_comment']) {
         $content = preg_replace(
-			array_keys($_mobile_comment), array_values($_mobile_comment), $content
-		);
+            array_keys($_mobile_comment), array_values($_mobile_comment), $content
+        );
     }
 
     // テーブルを削除
@@ -378,24 +378,24 @@ function _mobile_output_handler($content, $status)
        $CUSTOM_MOBILE_CONF['force_cut_table'] ||
        !CUSTOM_MOBILE_is_table_enabled()) {
         $content = preg_replace(
-			array_keys($_mobile_table), array_values($_mobile_table), $content
-		);
+            array_keys($_mobile_table), array_values($_mobile_table), $content
+        );
     }
 
     // 3G端末用コンテンツを削除
     if ($CUSTOM_MOBILE_CONF['force_2g_content'] ||
        !CUSTOM_MOBILE_is_3g()) {
         $content = preg_replace(
-			array_keys($_mobile_3g), array_values($_mobile_3g), $content
-		);
+            array_keys($_mobile_3g), array_values($_mobile_3g), $content
+        );
     }
 
     // 画像の縮小
     if ($CUSTOM_MOBILE_CONF['resize_image']) {
         //CUSTOM_MOBILE_debug("search: " . $_mobile_images[0][0]);
         $content = preg_replace(
-			array_keys($_mobile_images), array_values($_mobile_images), $content
-		);
+            array_keys($_mobile_images), array_values($_mobile_images), $content
+        );
     }
 
     // その他雑多な変換
@@ -539,20 +539,20 @@ function _mobile_session_callback($matches) {
 
 // stripslashes（配列対応版）
 function _mobile_stripslashes_deep($data) {
-	if (is_array($data)) {
-		return array_map('_mobile_stripslashes_deep', $data);
-	} else {
-		return stripslashes($data);
-	}
+    if (is_array($data)) {
+        return array_map('_mobile_stripslashes_deep', $data);
+    } else {
+        return stripslashes($data);
+    }
 }
 
 // urldecode（配列対応版）
 function _mobile_urldecode_deep($data) {
-	if (is_array($data)) {
-		return array_map('_mobile_urldecode_deep', $data);
-	} else {
-		return urldecode($data);
-	}
+    if (is_array($data)) {
+        return array_map('_mobile_urldecode_deep', $data);
+    } else {
+        return urldecode($data);
+    }
 }
 
 // 入力をURLデコードする
@@ -818,12 +818,10 @@ if(CUSTOM_MOBILE_is_cellular()) {
 // 画像タグのパターン配列
 $_mobile_images =
 array(
-	'@<(\s*img.*?)width="[0-9]+?"(.*?)>@si'  => '<$1$2>',
-	'@<(\s*img.*?)height="[0-9]+?"(.*?)>@si' => '<$1$2>',
-	'@<(\s*img.*?)src="([^"]*?)"(.*?)>@si'   => '<$1src="' . $_CONF['site_url']
-		. RESIZER . '?image=$2&amp;size='. $CUSTOM_MOBILE_CONF['image_size']
-		. '&amp;quality=' . $CUSTOM_MOBILE_CONF['image_quality']
-		. '&amp;site_url=' . $_CONF['site_url'] . '"$3 ' . XHTML . '>',
+    '@<(\s*img.*?)width="[0-9]+?"(.*?)>@si'  => '<$1$2>',
+    '@<(\s*img.*?)height="[0-9]+?"(.*?)>@si' => '<$1$2>',
+    '@<(\s*img.*?)src="([^"]*?)"(.*?)>@si'   => '<$1src="' . $_CONF['site_url']
+        . RESIZER . '?image=$2&amp;size='. $CUSTOM_MOBILE_CONF['image_size']
+        . '&amp;quality=' . $CUSTOM_MOBILE_CONF['image_quality']
+        . '&amp;site_url=' . $_CONF['site_url'] . '"$3 ' . XHTML . '>',
 );
-
-?>
