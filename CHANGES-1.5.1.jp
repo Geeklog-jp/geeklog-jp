@@ -2,6 +2,9 @@ $Id$
 
 2009-03-17  Takahiro Kambe  <taca@edge.back-street.net>
 
+	* r1285の修正を取り込みました。(system/custom/custom_cellular.phpの
+	  水平タブをスペースに置き換え。)
+
 	* r1279の修正を取り込みました。
 
 	   Issue 59に対応。
