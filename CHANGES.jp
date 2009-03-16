@@ -1,5 +1,12 @@
 $Id$
 
+2009-03-17  Takahiro Kambe  <taca@edge.back-street.net>
+
+	* system/custom/custom_cellular.php: 水平タブをスペースに置き換え
+	  ました。本来はすべてのファイルで水平タブとスペースの使用を確認
+	  すべきところですが、取り敢えず各trunkとブランチの差異を埋めるため
+	  最低限のファイルの変更を行います。
+
 2009-03-10  Takahiro Kambe  <tacahi>
 
 	* ファイル名の誤り(public_html/japanize/inex.html)をリポジトリ上の
