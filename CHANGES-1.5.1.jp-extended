@@ -1,5 +1,14 @@
 $Id$
 
+2009-03-17  Takahiro Kambe  <taca@edge.back-street.net>
+
+	* r1280の修正を取り込みました。
+
+	   Issue 59に対応。
+	   ->CUSTOM_refresh()内で$linkとすべきところがlinkになっていたのを修正。
+
+	   Ivyさん経由でmistral-kkさんの指摘によりphpの終了タグを削除。
+
 2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
 
 	* system/custom/custom_cellular.phpのインデントをtrunk/geeklog-1-jpに
