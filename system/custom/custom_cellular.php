@@ -275,7 +275,7 @@ function CUSTOM_refresh($url)
                 $sepa = '&';
                 //$sepa = '&amp;';
             }
-            $location_url = 'Location: ' . $url . $sepa . SID . link;
+            $location_url = 'Location: ' . $url . $sepa . SID . $link;
             header( $location_url );
             exit;
         } else {
@@ -285,7 +285,7 @@ function CUSTOM_refresh($url)
             if (strpos($url, '?') > 0) {
                 $sepa = '&amp;';
             }
-            $location_url = $url . $sepa . SID . link;
+            $location_url = $url . $sepa . SID . $link;
             return "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"" .
                 "\"http://www.w3.org/TR/html4/loose.dtd\">\n" .
                 "<html><head><title>$msg</title></head>" .
@@ -825,5 +825,3 @@ array(
 		. '&amp;quality=' . $CUSTOM_MOBILE_CONF['image_quality']
 		. '&amp;site_url=' . $_CONF['site_url'] . '"$3 ' . XHTML . '>',
 );
-
-?>
