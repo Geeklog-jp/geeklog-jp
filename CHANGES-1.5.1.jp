@@ -1,6 +1,10 @@
 $Id$
 
-2009-03-17  Takahiro Kambe  <taca@edge.back-street.net>
+2009-03-20  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.1-jp-1.4をリリースします。
+
+2009-03-17  Takahiro Kambe  <tacahi>
 
 	* r1285の修正を取り込みました。(system/custom/custom_cellular.phpの
 	  水平タブをスペースに置き換え。)
@@ -12,7 +16,7 @@ $Id$
 
 	   Ivyさん経由でmistral-kkさんの指摘によりphpの終了タグを削除。
 
-2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
+2009-03-14  Takahiro Kambe  <tacahi>
 
 	* public_html/calendar/index.phpが誤って戻っていたのを再修正しました。
 
