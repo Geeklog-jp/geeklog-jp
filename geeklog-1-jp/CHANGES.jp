@@ -1,6 +1,10 @@
 $Id$
 
-2009-03-17  Takahiro Kambe  <taca@edge.back-street.net>
+2009-03-21  Takahiro Kambe  <tacahi>
+
+	* 本ファイルの私のアカウント名が不注意で誤っていたのを修正しました。
+
+2009-03-17  Takahiro Kambe  <tacahi>
 
 	* system/custom/custom_cellular.php: 水平タブをスペースに置き換え
 	  ました。本来はすべてのファイルで水平タブとスペースの使用を確認
