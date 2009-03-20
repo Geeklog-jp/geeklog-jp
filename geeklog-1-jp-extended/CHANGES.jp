@@ -1,6 +1,10 @@
 $Id$
 
-2009-03-14  Takahiro Kambe  <taca@edge.back-street.net>
+2009-03-21  Takahiro Kambe  <tacahi>
+
+	* 本ファイルの私のアカウント名が不注意で誤っていたのを修正しました。
+
+2009-03-14  Takahiro Kambe  <tacahi>
 
 	* 些細な(動作上の違いのない) trunk/geeklog-1-jp と異るファイルを
 	  同一にしました。
