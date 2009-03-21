@@ -1,0 +1,27 @@
+<!-- start topic.thtml -->
+<tr class="pluginRow{csscode}">
+        <td>{userlink}{topic_post_link_begin}{topic_post_link_end}</td>
+</tr>
+<tr>
+        <td>&nbsp;{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{locked_icon}</td>
+</tr>
+<tr>
+        <td class="alignright">
+          <div style="vertical-align:top; padding-top:2px;" class="alignright">
+            {mod_functions}
+          </div>
+        </td>
+</tr>
+<tr class="pluginRow{csscode}">
+    <td width="100%" style="vertical-align:top; padding:6px;" class="pluginRow{csscode}">
+        {topic_comment}
+    </td>
+</tr>
+<tr class="pluginRow{csscode}" style="display:{preview_mode};">
+        {edittopic_link}
+        {quotetopic_link}
+</tr>
+<tr>
+        <td colspan="2" class="pluginSolidOutline"><div style="background:transparent; width:1px; height:10px;"></div></td>
+</tr>
+<!-- end topic.thtml -->
