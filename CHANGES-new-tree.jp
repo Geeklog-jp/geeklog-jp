@@ -2,17 +2,17 @@ $Id$
 
 2009-03-22  Takahiro Kambe  <tacahi>
 
-	* r1311¤ÎÊÑ¹¹(r1044¤Î trunk/geeklog-1-jp ¤ÎÊÑ¹¹¤ò
-	  trunk/plugins/japanize ¤Ø¤ÎÈ¿±Ç)¤òÅ¬ÍÑ¤·¤Ş¤·¤¿¡£
+	* r1311ã®å¤‰æ›´(r1044ã® trunk/geeklog-1-jp ã®å¤‰æ›´ã‚’
+	  trunk/plugins/japanize ã¸ã®åæ˜ )ã‚’é©ç”¨ã—ã¾ã—ãŸã€‚
 
 2009-03-21  Takahiro Kambe  <tacahi>
 
-	* extended°Ê²¼¡¢geeklog-1-jp-extended ¤Ë¤¢¤ë geeklog-1-jp ¤ÈÆ±°ìÆâÍÆ¤Î
-	  ¥Õ¥¡¥¤¥ë¤òºï½ü¤·¡¢¶õ¤È¤Ê¤Ã¤¿¥Ç¥£¥ì¥¯¥È¥ê¤âºï½ü¤·¤Ş¤·¤¿¡£
+	* extendedä»¥ä¸‹ã€geeklog-1-jp-extended ã«ã‚ã‚‹ geeklog-1-jp ã¨åŒä¸€å†…å®¹ã®
+	  ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã€ç©ºã¨ãªã£ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚‚å‰Šé™¤ã—ã¾ã—ãŸã€‚
 
-	* ¿·¤·¤¤¥½¡¼¥¹¡¦¥Ä¥ê¡¼¤Î¹½À®¤Î¤¿¤á¡¢°Ê²¼¤Î¥ê¥İ¥¸¥È¥ê¾å¤Î¥³¥Ô¡¼¤ò¹Ô¤Ã¤Æ¡¢
-	  ¥Ö¥é¥ó¥Á¤òºîÀ®¤·¤Ş¤·¤¿¡£
+	* æ–°ã—ã„ã‚½ãƒ¼ã‚¹ãƒ»ãƒ„ãƒªãƒ¼ã®æ§‹æˆã®ãŸã‚ã€ä»¥ä¸‹ã®ãƒªãƒã‚¸ãƒˆãƒªä¸Šã®ã‚³ãƒ”ãƒ¼ã‚’è¡Œã£ã¦ã€
+	  ãƒ–ãƒ©ãƒ³ãƒã‚’ä½œæˆã—ã¾ã—ãŸã€‚
 
-	  1. trunk/geeklog-1-jp ¤ò branches/geeklog-new-tree
-	  2. trunk/geeklog-1-jp-extended ¤ò branches/geeklog-new-tree/extended
-	  3. trunk/plugins ¤ò branches/geeklog-new-tree/plugins-jp
+	  1. trunk/geeklog-1-jp ã‚’ branches/geeklog-new-tree
+	  2. trunk/geeklog-1-jp-extended ã‚’ branches/geeklog-new-tree/extended
+	  3. trunk/plugins ã‚’ branches/geeklog-new-tree/plugins-jp
