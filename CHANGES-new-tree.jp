@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-22  Takahiro Kambe  <tacahi>
+
+	* r1311の変更(r1044の trunk/geeklog-1-jp の変更を
+	  trunk/plugins/japanize への反映)を適用しました。
+
 2009-03-21  Takahiro Kambe  <tacahi>
 
 	* extended以下、geeklog-1-jp-extended にある geeklog-1-jp と同一内容の
