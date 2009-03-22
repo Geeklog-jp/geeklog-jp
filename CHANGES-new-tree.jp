@@ -1,0 +1,13 @@
+$Id$
+
+2009-03-21  Takahiro Kambe  <tacahi>
+
+	* extended以下、geeklog-1-jp-extended にある geeklog-1-jp と同一内容の
+	  ファイルを削除し、空となったディレクトリも削除しました。
+
+	* 新しいソース・ツリーの構成のため、以下のリポジトリ上のコピーを行って、
+	  ブランチを作成しました。
+
+	  1. trunk/geeklog-1-jp を branches/geeklog-new-tree
+	  2. trunk/geeklog-1-jp-extended を branches/geeklog-new-tree/extended
+	  3. trunk/plugins を branches/geeklog-new-tree/plugins-jp
