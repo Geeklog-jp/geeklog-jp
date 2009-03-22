@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-23  Takahiro Kambe  <tacahi>
+
+	* plugins-jpから他に重複しているファイルの削除をしました。
+	  (まだ、すべては完了していません。)
+
 2009-03-22  Takahiro Kambe  <tacahi>
 
 	* r1311の変更(r1044の trunk/geeklog-1-jp の変更を
