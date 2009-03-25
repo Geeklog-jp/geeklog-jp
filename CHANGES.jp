@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-25  mystral-kk <mystral-kk>
+
+	* トラックバックの送信に失敗するバグ(Issue #61)を修正しました。
+
 2009-03-21  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2-jp-1.0をリリースします。
