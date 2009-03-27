@@ -174,4 +174,15 @@
 * mycaljp plugin version 2.0.4                                                  *
 * 2008.9.17 : Yoshinori Tahara as dengen                                        *
 * Calendarjpに対応した．                                                        *
+*                                                                               *
+* mycaljp plugin version 2.0.5                                                  *
+* 2008.9.26 : Yoshinori Tahara as dengen                                        *
+* インクルード対策を実施した．                                                  *
+*                                                                               *
+* mycaljp plugin version 2.0.6                                                  *
+* 2009.3.28 : Yoshinori Tahara as dengen                                        *
+* Auge Bangさんが制作された、「mycaljp専用Black Theme」を同梱した．             *
+* (Augeさん、どうも有難うございます!)                                           *
+* Geeklog1.5以降で記事のイントロ表示した際に日付が現在の日付になってしまう      *
+* 問題を修正．                                                                  *
 *********************************************************************************/
