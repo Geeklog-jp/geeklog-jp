@@ -1,5 +1,12 @@
 $Id$
 
+2009-03-28  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグインをバージョン2.0.6に更新しました。
+	  Auge Bangさんが制作された、「mycaljp専用Black Theme」を同梱しました。
+	  Geeklog1.5以降で記事のイントロ表示した際に日付が現在の日付になってしまう
+	  問題を修正しました。
+
 2009-03-25  mystral-kk <mystral-kk>
 
 	* トラックバックの送信に失敗するバグ(Issue #61)を修正しました。
