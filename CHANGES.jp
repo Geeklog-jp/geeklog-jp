@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-28  mystral-kk <mystral-kk>
+
+	* Issue#49によりよく対応しました。
+
 2009-03-28  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグインをバージョン2.0.6に更新しました。
