@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-28  mystral-kk <mystral-kk>
+
+	* Issue #49によりよく対応しました。
+
 2009-03-25  mystral-kk <mystral-kk>
 
 	* トラックバックの送信に失敗するバグ(Issue #61)を修正しました。
