@@ -431,18 +431,38 @@ Class calSearch extends Search {
         }
 
         $msql = array();
-        $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS day, "
-                 . $userfields . ", t.topic, t.imageurl "
-                 . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
-                 . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
-                 . $sql . "ORDER BY date DESC LIMIT $offset, $limit";
 
-        $msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
-                 . " UNIX_TIMESTAMP(s.date) AS day, "
-                 . $userfields . ", t.topic, t.imageurl "
-                 . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
-                 . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
-                 . $sql . "ORDER BY date DESC LIMIT $offset, $limit";
+        if (floatval (VERSION) >= 1.5) { // 2009.03.23 - Supports v1.5 and upper version.
+
+            $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, "
+                     . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
+                     . $userfields . ", t.topic, t.imageurl "
+                     . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
+                     . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+                     . $sql . "ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
+
+            $msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
+                     . " UNIX_TIMESTAMP(s.date) AS unixdate, "
+                     . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
+                     . $userfields . ", t.topic, t.imageurl "
+                     . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
+                     . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+                     . $sql . "ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
+        } else {
+
+            $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS day, "
+                     . $userfields . ", t.topic, t.imageurl "
+                     . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
+                     . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+                     . $sql . "ORDER BY date DESC LIMIT $offset, $limit";
+
+            $msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
+                     . " UNIX_TIMESTAMP(s.date) AS day, "
+                     . $userfields . ", t.topic, t.imageurl "
+                     . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
+                     . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+                     . $sql . "ORDER BY date DESC LIMIT $offset, $limit";
+        }
 
         $result = DB_query ($msql);
 
