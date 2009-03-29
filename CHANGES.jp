@@ -1,5 +1,9 @@
 $Id$
 
+2009-03-29  mystral-kk <mystral-kk>
+
+	* precheck（インストール前診断用スクリプト）を追加しました。
+
 2009-03-28  mystral-kk <mystral-kk>
 
 	* Issue#49によりよく対応しました。
