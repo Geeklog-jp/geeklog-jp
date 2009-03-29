@@ -1,5 +1,13 @@
 $Id$
 
+2009-03-29  Takahiro Kambe  <tacahi>
+
+	* r1346, r1347を取り込みました。(Issue #49によりよい対応)
+
+	* r1344, r1345を取り込みました。(mycaljpプラグインのバージョン2.0.6に
+	  更新: mycaljp専用Black Themeの追加、Geeklog 1.5以降でイントロ表示で
+	  日付が現在になる問題の修正)
+
 2009-03-25  Takahiro Kambe  <tacahi>
 
 	* カスタム関数の変更履歴を記述する CHANGES.jp は取り止めました。
