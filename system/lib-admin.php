@@ -221,7 +221,7 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
 
     $query = '';
     if (isset ($_REQUEST['q'])) { # get query (text-search)
-        $query = $_REQUEST['q'];
+        $query = strip_tags(COM_stripslashes($_REQUEST['q']));
     }
 
     $query_limit = "";
@@ -317,7 +317,7 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $admin_templates->set_var('lang_search', $LANG_ADMIN['search']);
         $admin_templates->set_var('lang_submit', $LANG_ADMIN['submit']);
         $admin_templates->set_var('lang_limit_results', $LANG_ADMIN['limit_results']);
-        $admin_templates->set_var('last_query', COM_applyFilter($query));
+        $admin_templates->set_var('last_query', htmlspecialchars($query));
         $admin_templates->set_var('filter', $filter);
     }
 
@@ -398,7 +398,7 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
                 $th_subtags .= '&amp;' . $component . 'listpage=' . $page;
             }
             if (!empty ($query)) {
-                $th_subtags .= '&amp;q=' . $query;
+                $th_subtags .= '&amp;q=' . urlencode($query);
             }
             if (!empty ($query_limit)) {
                 $th_subtags .= '&amp;query_limit=' . $query_limit;
