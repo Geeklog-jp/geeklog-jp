@@ -1,5 +1,10 @@
 ﻿$Id$
 
+2009-03-31  Tetsuko Komma  <ivysoho>
+
+	* docs/changes.htmlのsr1部の翻訳と，docs/history.htmlをsr1に
+	  対応させました。
+
 2009-03-31  mystral-kk <mystral-kk>
 
 	* ファイル管理(filemgmt)プラグインで、RSSが日付の新しい順に出力されない
