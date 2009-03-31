@@ -1,5 +1,11 @@
 $Id$
 
+2009-03-31  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2とgeeklog-1.5.2sr1の間の変更をマージしました。
+	  これはセキュリティ修正を含みます。
+	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr1)
+
 2009-03-29  mystral-kk <mystral-kk>
 
 	* precheck（インストール前診断用スクリプト）を追加しました。
