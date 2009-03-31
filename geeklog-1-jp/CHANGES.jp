@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-31  Tetsuko Komma  <ivysoho>
+
+	* docs/changes.htmlのsr1部の翻訳と，docs/history.htmlをsr1に
+	  対応させました。
+
 2009-03-31  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2とgeeklog-1.5.2sr1の間の変更をマージしました。
