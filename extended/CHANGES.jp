@@ -1,5 +1,10 @@
 $Id$
 
+2009-03-31  mystral-kk <mystral-kk>
+
+	* ファイル管理(filemgmt)プラグインで、RSSが日付の新しい順に出力されない
+	  バグ(Issue #64)に対処しました。
+
 2009-03-28  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグインをバージョン2.0.6に更新しました。

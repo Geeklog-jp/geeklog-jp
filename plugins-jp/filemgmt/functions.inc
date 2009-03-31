@@ -655,7 +655,7 @@ function plugin_getfeedcontent_filemgmt ($feed, &$link, &$update)
     $result = DB_query ("SELECT topic,limits FROM {$_TABLES['syndication']} WHERE fid = $feed");
     $F = DB_fetchArray ($result);
 
-    $sql = "SELECT lid,title,submitter,date FROM {$_FM_TABLES['filemgmt_filedetail']}" . filemgmt_buildSql ($F['topic'], $F['limits']);
+    $sql = "SELECT lid,title,submitter,date FROM {$_FM_TABLES['filemgmt_filedetail']} ORDER BY date DESC " . filemgmt_buildSql ($F['topic'], $F['limits']);
     $result = DB_query ($sql);
     $num = DB_numRows ($result);
     for ($i = 0; $i < $num; $i++) {
