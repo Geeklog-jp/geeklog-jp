@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/sitemap/index.php                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
