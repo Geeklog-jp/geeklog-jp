@@ -1,5 +1,9 @@
 $Id$
 
+2009-04-01  Tetsuko Komma  <ivysoho>
+
+	* 携帯用テーマの掲示板プラグイン(forum)テンプレートを最新版にしました。
+
 2009-03-31  mystral-kk <mystral-kk>
 
 	* ファイル管理(filemgmt)プラグインで、RSSが日付の新しい順に出力されない
