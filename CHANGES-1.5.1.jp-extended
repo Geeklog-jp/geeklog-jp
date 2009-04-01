@@ -1,8 +1,13 @@
 $Id$
 
+2009-04-02  Takahiro Kambe  <tacahi>
+
+	* r1386の変更をマージしました。
+	  (filemgmtプラグインの2つの画像ファイルを元に戻しました。)
+
 2009-03-25  Takahiro Kambe  <tacahi>
 
-	* r1331の変更をマージします。
+	* r1331の変更をマージしました。
 
 2009-03-20  Takahiro Kambe  <tacahi>
 
