@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/sitemap/sql.php                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -42,7 +42,7 @@ require_once $_CONF['path'] . 'plugins/sitemap/config.php';
 $NEWTABLE = array();
 $NEWTABLE['smap_config'] = "CREATE TABLE {$_TABLES['smap_config']} ("
 	. "name VARCHAR(30) NOT NULL default '',"
-	. "value VARCHAR(50),"
+	. "value VARCHAR(255),"
 	. "PRIMARY KEY name(name)"
 	. ")";
 
