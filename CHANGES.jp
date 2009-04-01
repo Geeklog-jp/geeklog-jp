@@ -1,5 +1,10 @@
 $Id$
 
+2009-04-01  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr1のマージに伴い、日本語バージョンを0.0.99とし
+	  ました。
+
 2009-03-31  Tetsuko Komma  <ivysoho>
 
 	* docs/changes.htmlのsr1部の翻訳と，docs/history.htmlをsr1に
