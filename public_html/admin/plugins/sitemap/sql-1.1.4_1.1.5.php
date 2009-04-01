@@ -1,9 +1,9 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Sitemap Plugin for Geeklog - The Ultimate Weblog                          |
 // +---------------------------------------------------------------------------+
-// | geeklog/plugins/sitemap/config.php                                        |
+// | public_html/admin/plugins/sitemap/sql-1.0.1_1.1.4.php                     |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
@@ -31,24 +31,13 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
-    die('This file can not be used on its own.');
+require_once $_CONF['path'] . 'plugins/sitemap/config.php';
+
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'sql-1.1.4_1.1.5.php') !== FALSE) {
+	die('This file cannot be used on its own.');
 }
 
-global $_DB_table_prefix, $_TABLES;
-
-// set Plugin Table Prefix the Same as Geeklogs
-
-$_SMAP_table_prefix = $_DB_table_prefix;
-
-// Add to $_TABLES array the tables your plugin uses
-
-$_TABLES['smap_config'] = $_SMAP_table_prefix . 'smap_config';
-
-$_SMAP_CONF = array();
-
-// Plugin info
-
-$_SMAP_CONF['pi_version'] = '1.1.5';					// Plugin Version
-$_SMAP_CONF['gl_version'] = '1.4.0';					// GL Version plugin for
-$_SMAP_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
+// Default data
+$DATA_114_TO_115 = array(
+	"ALTER TABLE {$_TABLES['smap_config']} CHANGE value value VARCHAR(255) NULL DEFAULT NULL",
+);
