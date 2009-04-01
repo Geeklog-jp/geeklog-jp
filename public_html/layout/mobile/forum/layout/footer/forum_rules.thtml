@@ -1,22 +1,22 @@
 <!-- start forum_rules.thtml -->
-<table width="100%" cellpadding="0" cellspacing="2" border="0" alignright" class="pluginSubTitle">
+<table width="100%" cellpadding="0" cellspacing="2" border="0" class="alignright pluginSubTitle">
     <tr>
-            <td >
+            <td>
                     {anonymous_msg}&nbsp;{anon_perm_image}
             </td>
     </tr>
     <tr>
-            <td >
+            <td>
                     {postingperm_msg}&nbsp;{post_perm_image}
             </td>
     </tr>
     <tr>
-            <td >
+            <td>
                     {html_msg}&nbsp;{html_perm_image}
-            </td >
+            </td>
     </tr>
     <tr>
-            <td >
+            <td>
                     {censor_msg}&nbsp;{censor_perm_image}
             </td>
     </tr>
