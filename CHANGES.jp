@@ -1,5 +1,10 @@
 $Id$
 
+2009-04-05  Tetsuko Komma  <ivysoho>
+
+	* geeklog-1.5.2sr2のセキュリティ修正を行いました。
+	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr2)
+
 2009-04-04  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr1-jp-1.0をリリースします。
