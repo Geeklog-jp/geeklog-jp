@@ -1,6 +1,6 @@
-geeklog-1.5.2sr1/public_html/admin/install/index.php
-geeklog-1.5.2sr1/public_html/docs/changed-files
-geeklog-1.5.2sr1/public_html/docs/changes.html
-geeklog-1.5.2sr1/public_html/docs/history
-geeklog-1.5.2sr1/public_html/siteconfig.php
-geeklog-1.5.2sr1/system/lib-admin.php
+geeklog-1.5.2sr2/public_html/admin/install/index.php
+geeklog-1.5.2sr2/public_html/docs/changed-files
+geeklog-1.5.2sr2/public_html/docs/changes.html
+geeklog-1.5.2sr2/public_html/docs/history
+geeklog-1.5.2sr2/public_html/siteconfig.php
+geeklog-1.5.2sr2/system/lib-sessions.php
