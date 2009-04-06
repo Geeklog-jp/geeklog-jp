@@ -1,4 +1,4 @@
-var FCKDragTableHandler =
+﻿var FCKDragTableHandler =
 {
 	"_DragState" : 0,
 	"_LeftCell" : null,
