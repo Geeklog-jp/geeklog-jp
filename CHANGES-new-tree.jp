@@ -1,5 +1,9 @@
 $Id$
 
+2009-04-07  Takahiro Kambe  <tacahi>
+
+	* オリジナルの配布ファイルで、UTF-8のBOMが付いているものは戻しました。
+
 2009-03-29  Takahiro Kambe  <tacahi>
 
 	* r1353, r1354を取り込みました。(precheckを追加)
