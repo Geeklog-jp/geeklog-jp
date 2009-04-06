@@ -1,5 +1,23 @@
 $Id$
 
+2009-04-05  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr2-jp-extended-1.0をリリースします。
+
+2009-04-05  Tetsuko Komma  <ivysoho>
+
+	* geeklog-1.5.2sr2のセキュリティ修正を行いました。
+	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr2)
+
+2009-04-04  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr1-jp-extended-1.0をリリースします。
+
+2009-04-02  Takahiro Kambe  <tacahi>
+
+	* filemgmtプラグイン: オリジナルから内容が変わってしまっていた、
+	  2つの画像ファイルを元の内容に戻しました。
+
 2009-04-01  mystral-kk <mystral-kk>
 
 	* サイトマッププラグインをバージョン1.1.5に更新しました。
