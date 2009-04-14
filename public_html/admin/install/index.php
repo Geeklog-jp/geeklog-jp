@@ -48,7 +48,7 @@ if (!defined("LB")) {
     define("LB", "\n");
 }
 if (!defined('VERSION')) {
-    define('VERSION', '1.5.2sr2');
+    define('VERSION', '1.5.2sr3');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -216,6 +216,28 @@ function get_SP_Ver()
                 break;
             }
         }
+    }
+
+    return $retval;
+}
+
+
+/**
+* Check if the Spam-X plugin is already installed
+*
+* Note: Needed for upgrades from old versions - don't remove.
+*
+* @return   int     1 = is installed, 0 = not installed
+*
+*/
+function get_SPX_Ver()
+{
+    global $_TABLES;
+
+    $retval = 0;
+
+    if (DB_count($_TABLES['plugins'], 'pi_name', 'spamx') == 1) {
+        $retval = 1;
     }
 
     return $retval;

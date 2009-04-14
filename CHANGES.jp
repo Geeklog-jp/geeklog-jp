@@ -2,6 +2,10 @@ $Id$
 
 2009-04-15  Tetsuko Komma  <ivysoho>
 
+	* インストーラのSpam-Xプラグインの本家の処理変更に対応しました。
+
+2009-04-15  Tetsuko Komma  <ivysoho>
+
 	* geeklog-1.5.2sr3のセキュリティ修正を行いました。
 	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr3)
 
