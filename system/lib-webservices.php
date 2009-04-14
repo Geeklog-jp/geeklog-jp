@@ -782,7 +782,7 @@ function WS_authenticate()
     $status = -1;
 
     if (isset($_SERVER['PHP_AUTH_USER'])) {
-        $username = $_SERVER['PHP_AUTH_USER'];
+        $username = COM_applyBasicFilter($_SERVER['PHP_AUTH_USER']);
         $password = $_SERVER['PHP_AUTH_PW'];
 
         if ($WS_VERBOSE) {
@@ -815,7 +815,7 @@ function WS_authenticate()
             $key = trim($key);
             $val = trim($val, "\x22\x27");
             if ($key == 'Username') {
-                $username = $val;
+                $username = COM_applyBasicFilter($val);
             } elseif ($key == 'PasswordDigest') {
                 $pwdigest = $val;
             } elseif ($key == 'Created') {
@@ -858,6 +858,7 @@ function WS_authenticate()
 
         list($auth_type, $auth_data) = explode(' ', $_SERVER['REMOTE_USER']);
         list($username, $password) = explode(':', base64_decode($auth_data));
+        $username = COM_applyBasicFilter($username);
 
         if ($WS_VERBOSE) {
             COM_errorLog("WS: Attempting to log in user '$username' (via \$_SERVER['REMOTE_USER'])");
