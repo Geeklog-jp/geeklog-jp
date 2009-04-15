@@ -1,5 +1,18 @@
 $Id$
 
+2009-04-16  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr2, geeklog-1.5.2sr3の変更箇所の翻訳を改善しました。
+
+2009-04-15  Tetsuko Komma  <ivysoho>
+
+	* インストーラのSpam-Xプラグインの本家の処理変更に対応しました。
+
+2009-04-15  Tetsuko Komma  <ivysoho>
+
+	* geeklog-1.5.2sr3をマージして、セキュリティ修正を行いました。
+	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr3)
+
 2009-04-05  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr2-jp-1.0をリリースします。
