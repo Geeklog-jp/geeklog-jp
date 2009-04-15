@@ -1,5 +1,10 @@
 $Id$
 
+2009-04-16  Takahiro Kambe  <tacahi>
+
+	* r1485, r1486, r1489, r1490, r1491, r1493を取り込み、
+	  geeklog-1.5.2sr3ベースとしました。
+
 2009-04-07  Takahiro Kambe  <tacahi>
 
 	* extendedとplugins-jpを説明するREADME.jpを各ディレクトリに追加
