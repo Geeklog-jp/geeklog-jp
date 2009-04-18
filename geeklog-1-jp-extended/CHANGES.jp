@@ -1,5 +1,12 @@
 $Id$
 
+2009-04-18  Masuko Koeda  <milk851>
+
+	* 掲示板のアイコンを新しいものに変更しました。
+          Windows XP InternetExplorer7の拡大レベル200%時に、
+	  ナビゲーションのレイアウト崩れが発生していたのを修正しました。
+	  上記の更新をREADMEに追記しました。
+
 2009-04-16  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr3-jp-extended-1.0をリリースします。
