@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.3.1 for Geeklog1.5.1
+  バージョン: 2.3.2 for Geeklog1.5.2
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6,7の文字サイズ最大、Opera9.52のズーム200%、 Firefox2.0.0.20,3.0.5の文字サイズ大きく×４、Google Chrome1.0.154.46のText Zoom拡大×４」「Windows Vista Internet Explorer7の文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1の文字を拡大×４、Firefox3.0.5のズーム×４」で確認)
+(「Windows XP Internet Explorer6,7の文字サイズ最大、Windows XP Internet Explorer7の拡大レベル200%、Opera9.52のズーム200%、 Firefox2.0.0.20,3.0.5の文字サイズ大きく×４、Google Chrome1.0.154.46のText Zoom拡大×４」「Windows Vista Internet Explorer7の文字サイズ最大」「Mac OSX バージョン10.4.11 Safari3.2.1の文字を拡大×４、Firefox3.0.8のズーム×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -364,8 +364,14 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
+■Ver.2.3.2(2009-4-17)
+　・掲示板のアイコンを新しいものに変更しました。(*/forum/image_set/locked.gif,*/forum/image_set/locked_new.gif,*/forum/image_set/nav_breadcrumbs.gif,*/forum/image_set/nav_topic.gif,*/forum/image_set/sticky.gif,*/forum/image_set/sticky_new.gif)
+  ・Windows XP Internet Explorer7の拡大レベル200%時に、ナビゲーションのレイアウト崩れが発生していたのを修正しました。(*/css/layout.css)
+　/*----- テーマ以外での変更箇所　言語ファイル /language/japanese_utf-8.phpを修正しました。 -----*/
+　・音声読み上げ利用者の方が解りやすいように、「友達に記事を送信する」ページでの「名前」「送信先名」という表現を、「名前」を「あなたの名前」、「送信先名」を「送信先名前」に変更しました。(*/language/japanese_utf-8.phpの426行目の「送信先名」を消し「送信先名前」と記述、428行目の「名前」を消し「あなたの名前」と記述する)
+
 ■Ver.2.3.1(2009-3-6)
-  ・ページの先頭へ戻るのアイコンもリンク範囲に含めました。(*footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
+  ・ページの先頭へ戻るのアイコンもリンク範囲に含めました。(*/footer.thtml,*/css/layout.css,*/images/css/icon_pagetop.gif)
   ・背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gifを幅の大きい物に差し替えました。(画像ジローさん提供)(*/navbar/images/tabrightI.gif,*/navbar/images/tabrightJ.gif)
   ・ユニバーサルセレクタでの初期化をやめ、必要なセレクタのみを初期化しました。(*/css/default.css)
   ・div#centerblocksとtdに余白を追加しました。div#centerblocks余白追加に伴い、中央ブロックの幅を修正しました。(*/css/layout.css,*/css/compatible.css)
@@ -465,51 +471,51 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 　・記事をメールするアイコン、印刷用アイコン、編集アイコンの間を広げました。(*/css/story.css)
 
 ■Ver.2.2(2008-11-27)
-  ・Japanizeプラグインに対応しました。(+css/plugin/japanize.css, *css/plugin.css)
-  ・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しないのを修正しました。(*layout.css)
+  ・Japanizeプラグインに対応しました。(+/css/plugin/japanize.css, */css/plugin.css)
+  ・Internet Explorer7で文字サイズを変更しても、文字の大きさが変化しないのを修正しました。(*/css/layout.css)
   ・Geeklog1.5.1に合わせて、ファイルを修正しました。
-　・記事をメールするアイコン、印刷用アイコン、編集アイコンをサイズの大きい物に変更しました。(*images/edit.png,images/print.png,images/mail.png)
+　・記事をメールするアイコン、印刷用アイコン、編集アイコンをサイズの大きい物に変更しました。(*/images/edit.png,*/images/print.png,*/images/mail.png)
 
 ■Ver.2.1(2008-11-10)
-　・記事の投稿者が表示されないのを表示するよう修正しました。(*archivestorytext.thtml,featuredstorytext.thtml,storytext.thtml)
-  ・フッタのページの先頭へ戻るの矢印を画像に変更しました。(*footer.thtml,*layout.css,+/images/css/icon_pagetop.gif)
+　・記事の投稿者が表示されないのを表示するよう修正しました。(*/archivestorytext.thtml,*/featuredstorytext.thtml,*/storytext.thtml)
+  ・フッタのページの先頭へ戻るの矢印を画像に変更しました。(*/footer.thtml,*/css/layout.css,+/images/css/icon_pagetop.gif)
 
 ■Ver.2.0(2008-10-18)
 　・Geeklog 1.5.0に合わせて、ファイルを追加・修正・削除しました。
 　・未使用のCSSファイルを削除しました。
-  ・レイアウトが解りやすいように、背景色を増やしました。(*layout.css)
-　・カラムの高さをそろえる為CSSの記述にmargin-bottom: -32768px padding-bottom: 32768pxとあったのを削除しました。(*layout.css)
-  ・リンクなどのhover、 focus、active時の表現を変えました。(*default.css)
+  ・レイアウトが解りやすいように、背景色を増やしました。(*/css/layout.css)
+　・カラムの高さをそろえる為CSSの記述にmargin-bottom: -32768px padding-bottom: 32768pxとあったのを削除しました。(*/css/layout.css)
+  ・リンクなどのhover、 focus、active時の表現を変えました。(*/css/default.css)
 
 ■ver.1.0(2008-2-7)
-　・Internet Explorer6でレイアウト崩れが発生していたのを修正しました。(*layout.css)
+　・Internet Explorer6でレイアウト崩れが発生していたのを修正しました。(*/css/layout.css)
 
 /*----- テーマ以外での変更箇所　言語ファイル /language/japanese_utf-8.phpを修正しました。 -----*/
-　・VER.0.92で記事の中にある｢全文表示｣という表現を「続きを読む」に変更したのですが、音声読み上げソフトは ｢続きを読む｣のリンク先でまたヘッダから読み上げて行く(記事を全文読見上げる)ので「全文表示」に戻しました。(*japanese_utf-8.phpの６０行目を「続きを読む」を消し「全文表示」と記述する)
+　・VER.0.92で記事の中にある｢全文表示｣という表現を「続きを読む」に変更したのですが、音声読み上げソフトは ｢続きを読む｣のリンク先でまたヘッダから読み上げて行く(記事を全文読見上げる)ので「全文表示」に戻しました。(*/language/japanese_utf-8.phpの６０行目を「続きを読む」を消し「全文表示」と記述する)
 
 ■ver.0.93(2007-11-7)
-　・デザインについて：WAIproCSSのデザインでは中央ブロックが左右のブロックの高さより低くなると中央ブロック下部が左右のブロックと同色になってましたが、中央ブロックと左右ブロックの高さが揃うように修正しました。カラムの高さをそろえる為CSSの記述中にmargin-bottom: -32768px padding-bottom: 32768pxとあるのですが、画質が向上した場合や現状より大画面が主流となった場合は32768の数値を変更して下さい(*layout.css,story.css,block.css,trackback.css)
-　・｢↑ページの先頭へ戻る｣ページ内リンクを視覚的にも見えるように配置を変えました。(*footer.thtml,*layout.css)
-　・フッタにある著作権表示の箇所を変更しました。(*footer.thtml)
+　・デザインについて：WAIproCSSのデザインでは中央ブロックが左右のブロックの高さより低くなると中央ブロック下部が左右のブロックと同色になってましたが、中央ブロックと左右ブロックの高さが揃うように修正しました。カラムの高さをそろえる為CSSの記述中にmargin-bottom: -32768px padding-bottom: 32768pxとあるのですが、画質が向上した場合や現状より大画面が主流となった場合は32768の数値を変更して下さい(*/css/layout.css,*/css/story.css,*/css/block.css,*/css/trackback/trackback.css)
+　・｢↑ページの先頭へ戻る｣ページ内リンクを視覚的にも見えるように配置を変えました。(*/footer.thtml,*/css/layout.css)
+　・フッタにある著作権表示の箇所を変更しました。(*/footer.thtml)
 
 
 ■ver.0.92(2007-10-23)
-　・Operaでのレイアウト崩れを直しました。(*layout.css)
-  ・サイト名のリンク幅指定をemからpxに直しました。(*layout.css)
-　・選択ミスを防ぐ為、グローバルナビゲーションの縦幅とメニューとメニューの間の幅を広げました。(*layout.css)
-　・JavaScript有効・2カラム(中央ブロック・右ブロック)時のレイアウト崩れを直しました。(*layout.css)
-　・音声読み上げソフト利用者の方が混乱されるので、記事タイトルのリンクを外しました。(*featuredstorytext.thtml,storytext.thtml)
-　・選択ミスを防ぐ為、記事の中にある友達にメールするアイコンと印刷アイコンの間の幅を広げました。(*story.css)
-　・左右のブロックをそれぞれ読み飛ばせるようにしました。(*footer.thtml)
-　・音声読み上げソフト利用者の方が解りやすいように、記事の中にある「全文表示」の位置を変更しました。(*featuredsstorytext.thtml,storytext.thtml,story.css)
+　・Operaでのレイアウト崩れを直しました。(*/css/layout.css)
+  ・サイト名のリンク幅指定をemからpxに直しました。(*/css/layout.css)
+　・選択ミスを防ぐ為、グローバルナビゲーションの縦幅とメニューとメニューの間の幅を広げました。(*/css/layout.css)
+　・JavaScript有効・2カラム(中央ブロック・右ブロック)時のレイアウト崩れを直しました。(*/css/layout.css)
+　・音声読み上げソフト利用者の方が混乱されるので、記事タイトルのリンクを外しました。(*/featuredstorytext.thtml,*/storytext.thtml)
+　・選択ミスを防ぐ為、記事の中にある友達にメールするアイコンと印刷アイコンの間の幅を広げました。(*/css/story.css)
+　・左右のブロックをそれぞれ読み飛ばせるようにしました。(*/footer.thtml)
+　・音声読み上げソフト利用者の方が解りやすいように、記事の中にある「全文表示」の位置を変更しました。(*/featuredsstorytext.thtml,/storytext.thtml,/css/story.css)
 
 　/*----- テーマ以外での変更箇所　言語ファイル /language/japanese_utf-8.phpを修正しました。 -----*/
-　・音声読み上げ利用者の方が解りやすいように、記事の中にある「全文表示」という表現を「続きを読む」に変更しました。(*japanese_utf-8.phpの６０行目を「全文表示」を消し「続きを読む」と記述する)
-　・「友達に記事を送信する」ページでの「名前」「メールアドレス」「送信先名」という表現も解りづらいという事でしたので、「名前」を「あなたの名前」、「メールアドレス」を「あなたのメールアドレス」、「送信先名」を「送信先名前」に変更しました。(*japanese_utf-8.phpの418行目を「送信先名」を消し「送信先名前」と記述、420行目を「名前」を消し「あなたの名前」と記述、421行目を「メールアドレス」を消し「あなたのメールアドレス」と記述する)
+　・音声読み上げ利用者の方が解りやすいように、記事の中にある「全文表示」という表現を「続きを読む」に変更しました。(*/language/japanese_utf-8.phpの６０行目を「全文表示」を消し「続きを読む」と記述する)
+　・「友達に記事を送信する」ページでの「名前」「メールアドレス」「送信先名」という表現も解りづらいという事でしたので、「名前」を「あなたの名前」、「メールアドレス」を「あなたのメールアドレス」、「送信先名」を「送信先名前」に変更しました。(*/language/japanese_utf-8.phpの418行目を「送信先名」を消し「送信先名前」と記述、420行目を「名前」を消し「あなたの名前」と記述、421行目を「メールアドレス」を消し「あなたのメールアドレス」と記述する)
 
 
 ■ver.0.91(2007-10-9)
-  ・「WAIproCSS」の下部に余白がありましたので、それを無くしました。(*common.css)
+  ・「WAIproCSS」の下部に余白がありましたので、それを無くしました。(*/css/common.css)
 
 
 ■Ver.0.9(2007-10-8)
