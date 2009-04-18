@@ -101,7 +101,7 @@ div#container div#header p.welcome_msg a:active {
 --------------------------------------*/
 
 div#container div#navigation {
-  height: 1.5em;
+  height: 2em;
   padding: 0.49em;
   background: #666666;
   border-top: 0.1em solid #555555;
@@ -117,20 +117,20 @@ div#container div#navigation ul {
 }
 
 div#container div#navigation ul li {
-  display: inline;
-  margin: 0 0.125em;
+  float: left;
+  margin: 0 0 0 1.5em;
   padding: 0;
   font-weight:bold;
 }
 
 /* ナビゲーションメニュー(通常) */
 div#container div#navigation ul li.menuitem {
-  margin-left: 1.5em;
 }
 
 div#container div#navigation ul li.menuitem a,
 div#container div#navigation ul li.menuitem a:link,
 div#container div#navigation ul li.menuitem a:visited {
+  display: block;
   padding: 0.3em;
   color: #ffffff;
 }
