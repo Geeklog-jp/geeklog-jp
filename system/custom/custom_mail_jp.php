@@ -1,18 +1,18 @@
 <?php
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== FALSE) {
     die('This file can not be used on its own!');
 }
 
 // ==================================================================
-//   日本語メール関数
+//  日本語メール関数
 //
 //  @summary  Geeklog-1.4.1以降のメールを従来のISO-2022-JP(JIS)
 //            メールに戻します。
 //  @author   mystral-kk - geeklog AT mystral-kk DOT net
 //  @license  LGPL
-//  @version  2009-02-27
-//  @note     このハックが不要な場合は，system/lib-custom.phpの中の
+//  @version  2009-04-22
+//  @note     このハックが不要な場合は、system/lib-custom.phpの中の
 //            require_once('custom/custom_mail_jp.php');
 //            を削除してください。
 // ==================================================================
@@ -22,28 +22,79 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== false) {
 // ・jpmailプラグインと同時に使用できません。先にjpmailプラグインをアンインス
 //   トールしてください。
 //
-// ・$_CONF['mail_settings']['backend']に'mail'を指定すると，見出し（件名）が
-//   長い場合，Gmail等では正常に受け取れない場合があります。できるだけ，
-//   $_CONF['mail_settings']['backend']に'smtp'を指定してください（同時に，
-//   'host', 'username', 'password'も指定します）。
+// ・メールが送れない場合や見出しなどが乱れる場合の対処法
 //
-// ・'smtp'にできない場合は，CUSTOM_MAIL_HEADER_LENGTHに400を指定してください。
+//   1. 「ヘッダのエンコード方法」を ICONV_MIME_ENCODE や CUSTOM_ENCODE に変え
+//      てみる。
 //
-// ・それでも件名や差出人が乱れる場合は，下記の「メールヘッダの改行文字」の項目
-//   をご覧ください。
+//   2. 「メールヘッダの改行文字」を \n に変えてみる。
+//
+//   3. コンフィギュレーション - サイト - メール - メール設定[backend]
+//     （Geeklog-1.4.1では、config.phpの $_CONF['mail_settings']['backend']）
+//      を smtp に変えてみる。この場合、「メール設定[host]」、
+//     「メール設定[username]」、「メール設定[password]」なども設定する必要があ
+//      ります（Geeklog-1.4.1では、それぞれ、config.phpの
+//      $_CONF['mail_settings']['host']、$_CONF['mail_settings']['username']、
+//      $_CONF['mail_settings']['password']）。
 
 global $_CONF, $LANG_CHARSET;
 
 // デバッグ用
 //define('CUSTOM_MAIL_DEBUG', true);
 
-// メールヘッダ・本文で使用するエンコーディング。英語版の動作に戻すには
-// define('CUSTOM_MAIL_ENCODING', 'UTF-8');
-// としてください。
-
+/**
+* メールヘッダ・本文で使用するエンコーディング
+*
+* 英語版の動作に戻すには
+*   define('CUSTOM_MAIL_ENCODING', 'utf-8');
+* としてください。
+*/
 define('CUSTOM_MAIL_ENCODING', 'ISO-2022-JP');
+//define('CUSTOM_MAIL_ENCODING', 'utf-8');
 
-// Geeklogの内部エンコーディング。
+/**
+* ヘッダのエンコード方法
+*
+* MB_ENCODE_MIMEHEADER: PHPのmb_encode_mimeheader()を使用する（既定値）
+*    ICONV_MIME_ENCODE: iconv_mime_encode()を使用する
+*        CUSTOM_ENCODE: mb_encode_mimeheader()が正常に動作しないPHPのバージョ
+*                       ン(4.3.11, 4.4.0, 4.4.1, 5.0.0～5.1.0など)用に独自の
+*                       エンコード方法を使用する
+*/
+define('CUSTOM_MAIL_HEADER_ENCODE', 'MB_ENCODE_MIMEHEADER');
+//define('CUSTOM_MAIL_HEADER_ENCODE', 'ICONV_MIME_ENCODE');
+//define('CUSTOM_MAIL_HEADER_ENCODE', 'CUSTOM_ENCODE');
+
+/**
+* CUSTOM_ENCODEを使用する場合のメールヘッダの1行の長さの最大値
+* 
+* 既定値を変更する必要はまずないでしょう（上記の「ご注意」参照）。
+*/
+define('CUSTOM_MAIL_HEADER_LENGTH', 76);
+//define('CUSTOM_MAIL_HEADER_LENGTH', 400);
+
+/**
+* メールヘッダの改行文字
+*
+* サーバの環境によってはメールの件名や差出人が乱れて、本文に流れ込むことがあり
+* ます。その場合は \n にする必要があるかもしれません。
+*/
+define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
+//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
+
+/**
+* アドレスのコメント部分の引用符
+*
+* 既定値はGeeklog本家版の動作に合わせてあります。
+*/
+define('CUSTOM_MAIL_COMMENT_ENCLOSER', '"');	// ""でくるむ
+//define('CUSTOM_MAIL_COMMENT_ENCLOSER', '');	// 引用符なし
+
+///////////////////////////////////////////////////////////////////////////////
+// ここから下は変更しないでください。
+///////////////////////////////////////////////////////////////////////////////
+
+// Geeklogの内部エンコーディング
 
 if (isset($LANG_CHARSET)) {
     define('CUSTOM_MAIL_INTERNAL_ENCODING', $LANG_CHARSET);
@@ -52,22 +103,6 @@ if (isset($LANG_CHARSET)) {
 } else {
     define('CUSTOM_MAIL_INTERNAL_ENCODING', 'utf-8');
 }
-
-// メールヘッダの1行の長さの最大値。必ず4の倍数にします。
-// デフォルト値を変更する必要はまずないでしょう（上記の「ご注意」参照）。
-
-define('CUSTOM_MAIL_HEADER_LENGTH', 68);
-//define('CUSTOM_MAIL_HEADER_LENGTH', 400);
-
-// メールヘッダの改行文字。サーバの環境によってはメールの件名や差出人が
-// 乱れることがあります。その場合は \n にする必要があるかもしれません。
-
-define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
-//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
-
-// アドレスのコメント部分の引用符
-
-define('CUSTOM_MAIL_COMMENT_ENCLOSER', '"');
 
 // 本文の改行文字
 
@@ -78,42 +113,95 @@ define('CUSTOM_MAIL_BODY_LINEBREAK',
 /**
 * Converts encoding
 */
-function CUSTOM_convertEncoding($string, $to_encoding) {
-    $from_encoding = @mb_detect_encoding(
-        $string,
-        array('UTF-8', 'eucJP-win', 'EUC-JP', 'SJIS-win', 'SJIS', 'ISO-8859-1', 'ASCII')
-    );
-    
+function CUSTOM_convertEncoding($string, $to_encoding, $from_encoding = NULL) {
+	if ($from_encoding === NULL) {
+		if (is_callable('mb_detect_encoding')) {
+		    $from_encoding = @mb_detect_encoding(
+		        $string,
+		        array(CUSTOM_MAIL_INTERNAL_ENCODING, 'utf-8', 'eucjp-win', 'euc-jp', 'sjis-win', 'sjis', 'iso-8859-1', 'ascii')
+		    );
+		}
+	 }
+	 
     if (empty($from_encoding)) {
         $from_encoding = CUSTOM_MAIL_INTERNAL_ENCODING;
     }
-    
-    return mb_convert_encoding($string, $to_encoding, $from_encoding);
+	
+	if (is_callable('mb_convert_encoding')) {
+    	return mb_convert_encoding($string, $to_encoding, $from_encoding);
+	} else if (is_callable('iconv')) {
+    	return iconv($from_encoding, $to_encoding, $string);
+	} else {
+		COM_errorLog('CUSTOM_convertEncoding: no way to convert encoding.');
+		return $string;
+	}
 }
 
 /**
 * Encodes a string such that it can be used in an email header
 *
-* @param    string  $string     the text to be encoded
+* @param    string  $string     the text to be encoded.  The encoding should be
+*                               the same as that of GL's internal encoding,
+*                               which will returned from COM_getCharset().
 * @return   string              encoded text
-*
 */
 function CUSTOM_emailEscape($string) {
     global $_CONF, $LANG_CHARSET;
     
     $retval = '';
-    $string = CUSTOM_convertEncoding($string, CUSTOM_MAIL_INTERNAL_ENCODING);
+	
     if (defined('CUSTOM_MAIL_DEBUG')) {
         COM_errorLog('CUSTOM_emailEscape: input=' . $string);
     }
     
+	// PHPのmb_encode_mimeheader()を使用する場合
+	if (CUSTOM_MAIL_HEADER_ENCODE == 'MB_ENCODE_MIMEHEADER') {
+		if (is_callable('mb_encode_mimeheader')) {
+			if (is_callable('mb_convert_encoding')) {
+				$string = mb_convert_encoding(
+					$string, CUSTOM_MAIL_ENCODING, CUSTOM_MAIL_INTERNAL_ENCODING
+				);
+			} else {
+				COM_errorLog('CUSTOM_emailEscape: function mb_convert_encoding() not callable.');
+			}
+			
+	        $old_mb_internal_encoding = mb_internal_encoding();
+	        mb_internal_encoding(CUSTOM_MAIL_ENCODING);
+			$string = mb_encode_mimeheader($string, CUSTOM_MAIL_ENCODING, 'B', CUSTOM_MAIL_HEADER_LINEBREAK);
+	        mb_internal_encoding($old_mb_internal_encoding);
+			
+			return $string;
+		} else {
+			COM_errorLog('CUSTOM_emailEscape: function mb_encode_mimeheader() not callable.');
+		}
+	}
+	
     // ASCIIだけの場合は"(\x22)だけエスケープする
     if (!preg_match("/[^\\x00-\\x7f]/", $string)) {
         return str_replace('"', '\\"', $string);
     }
-
-    // mb_convert_encodingが使える場合
-    if (function_exists('mb_convert_encoding')) {
+	
+	// PHPのiconv_mime_encode()を使用する場合
+	if (CUSTOM_MAIL_HEADER_ENCODE == 'ICONV_MIME_ENCODE') {
+		if (is_callable('iconv_mime_encode')) {
+			$prefs = array(
+				'scheme'           => 'B',
+				'input-charset'    => CUSTOM_MAIL_INTERNAL_ENCODING,
+				'output-charset'   => CUSTOM_MAIL_ENCODING,
+				'line-length'      => CUSTOM_MAIL_HEADER_LENGTH,
+				'line-break-chars' => CUSTOM_MAIL_HEADER_LINEBREAK
+			);
+			$string = iconv_mime_encode('subject', $string, $prefs);
+			$string = ltrim(substr($string, strpos($string, ':')));
+		
+			return $string;
+		} else {
+			COM_errorLog('CUSTOM_emailEscape: function iconv_mime_encode() not callable.  Tries to use custom encoding method instead.');
+		}
+	}
+	
+	// 独自のエンコード方法を使用する。従来の処理と同じ。
+    if (is_callable('mb_convert_encoding')) {
         $string = mb_convert_encoding(
             $string, CUSTOM_MAIL_ENCODING, CUSTOM_MAIL_INTERNAL_ENCODING
         );
@@ -151,21 +239,7 @@ function CUSTOM_emailEscape($string) {
         return $string;
     }
     
-    // iconv()が使える場合
-    if (function_exists('iconv_mime_encode')) {
-        $pref = array(
-            'scheme'         => 'B',
-            'input-charset'  => CUSTOM_MAIL_INTERNAL_ENCODING,
-            'output-charset' => CUSTOM_MAIL_ENCODING,
-            'line-length'    => CUSTOM_MAIL_HEADER_LENGTH
-        );
-        $retval = iconv_mime_encode('Subject', $string, $pref);
-        if ($retval !== false) {
-            return substr($retval, strlen('Subject: '));
-        }
-    }
-
-    // iconvもmb_convert_encodingもなかった...
+	// どのエンコード方法も使用できなかった...
     COM_errorLog('CUSTOM_emailEscape: no function found to convert encodings.');
     return $string;
 }
@@ -203,6 +277,8 @@ function CUSTOM_formatEmailAddress($name, $address) {
 
 /**
 * Splits "comment <address>" into comment and address
+*
+* @note  This function will not be called since Geeklog-1.5.2
 */
 function CUSTOM_splitAddress($string) {
     $comment = '';
@@ -212,7 +288,7 @@ function CUSTOM_splitAddress($string) {
         $address = $string;
     } else {
         $address = strrchr($string, '<');
-        if ($address === false) {
+        if ($address === FALSE) {
             COM_errorLog('CUSTOM_splitAddress: "<" not found.');
             $address = $string;
         } else {
@@ -229,13 +305,7 @@ function CUSTOM_splitAddress($string) {
 }
 
 /**
-* This is an example of a custom email function. When this function is NOT
-* commented out, Geeklog would send all emails through this function
-* instead of sending them through COM_mail in lib-common.php.
-*
-* This is basically a re-implementation of the way emails were sent
-* prior to Geeklog 1.3.9 (Geeklog uses PEAR::Mail as of version 1.3.9).
-*
+* Custom email function for creating an email message in ISO-2022-JP
 */
 function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
         $priority = 0, $cc = '') {
@@ -256,13 +326,17 @@ function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
     $from    = substr($from, 0, strcspn($from, "\r\n"));
     $subject = substr($subject, 0, strcspn($subject, "\r\n"));
     
-    // Fromが空の場合は，サイト管理者のアドレスにする
+    // Fromが空の場合は、サイト管理者のアドレスにする
     if (empty($from)) {
         $from = COM_formatEmailAddress($_CONF['site_name'], $_CONF['site_mail']);
     }
     
     // ヘッダをエスケープ（1.5.2では、この時点でエスケープ済み）
-    if (version_compare(VERSION, '1.5.2') < 0) {
+	// NOTE: version_compare(VERSION, '1.5.2')とすると、security releaseでは
+	//       判定に失敗する
+	preg_match("/^(\d+\.\d+\.\d+).*$/", VERSION, $match);
+	
+    if (version_compare($match[1], '1.5.2') < 0) {
         list($temp_to_comment, $temp_to_address) = CUSTOM_splitAddress($to);
         $to      = CUSTOM_formatEmailAddress($temp_to_comment, $temp_to_address);
         list($temp_cc_comment, $temp_cc_address) = CUSTOM_splitAddress($cc);
@@ -281,7 +355,7 @@ function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
     // メールオブジェクトを作成
     $method  = $_CONF['mail_settings']['backend'];
     if (!isset($mailobj)) {
-        if ($method == 'sendmail' OR $method == 'smtp') {
+        if (($method == 'sendmail') OR ($method == 'smtp')) {
             $mailobj =& Mail::factory($method, $_CONF['mail_settings']);
         } else {
             $mailobj =& Mail::factory($method);
@@ -318,9 +392,9 @@ function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
     $headers['X-Mailer'] = 'Geeklog-' . VERSION . ' (' . CUSTOM_MAIL_ENCODING . ')';
 
     $retval = $mailobj->send($to, $headers, $message);
-    if($retval !== true) {
+    if($retval !== TRUE) {
         COM_errorLog($retval->toString(), 1);
     }
     
-    return ($retval === true ? true : false);
+    return (($retval === TRUE) ? TRUE : FALSE);
 }
