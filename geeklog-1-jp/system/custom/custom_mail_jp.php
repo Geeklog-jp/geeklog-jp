@@ -1,7 +1,7 @@
 <?php
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_jp.php') !== FALSE) {
-    die('This file can not be used on its own!');
+	die('This file can not be used on its own!');
 }
 
 // ==================================================================
@@ -77,10 +77,10 @@ define('CUSTOM_MAIL_HEADER_LENGTH', 76);
 * メールヘッダの改行文字
 *
 * サーバの環境によってはメールの件名や差出人が乱れて、本文に流れ込むことがあり
-* ます。その場合は \n にする必要があるかもしれません。
+* ます。その場合は \r\n にする必要があるかもしれません。
 */
-define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
-//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
+define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
+//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
 
 /**
 * アドレスのコメント部分の引用符
@@ -97,18 +97,16 @@ define('CUSTOM_MAIL_COMMENT_ENCLOSER', '"');	// ""でくるむ
 // Geeklogの内部エンコーディング
 
 if (isset($LANG_CHARSET)) {
-    define('CUSTOM_MAIL_INTERNAL_ENCODING', $LANG_CHARSET);
+	define('CUSTOM_MAIL_INTERNAL_ENCODING', $LANG_CHARSET);
 } else if (isset($_CONF['default_charset'])) {
-    define('CUSTOM_MAIL_INTERNAL_ENCODING', $_CONF['default_charset']);
+	define('CUSTOM_MAIL_INTERNAL_ENCODING', $_CONF['default_charset']);
 } else {
-    define('CUSTOM_MAIL_INTERNAL_ENCODING', 'utf-8');
+	define('CUSTOM_MAIL_INTERNAL_ENCODING', 'utf-8');
 }
 
 // 本文の改行文字
 
-define('CUSTOM_MAIL_BODY_LINEBREAK',
-        (substr(PHP_OS, 0, 3) == 'WIN' ? "\r\n" : "\n")
-);
+define('CUSTOM_MAIL_BODY_LINEBREAK', (substr(PHP_OS, 0, 3) == 'WIN') ? "\r\n" : "\n");
 
 /**
 * Converts encoding
@@ -116,21 +114,21 @@ define('CUSTOM_MAIL_BODY_LINEBREAK',
 function CUSTOM_convertEncoding($string, $to_encoding, $from_encoding = NULL) {
 	if ($from_encoding === NULL) {
 		if (is_callable('mb_detect_encoding')) {
-		    $from_encoding = @mb_detect_encoding(
-		        $string,
-		        array(CUSTOM_MAIL_INTERNAL_ENCODING, 'utf-8', 'eucjp-win', 'euc-jp', 'sjis-win', 'sjis', 'iso-8859-1', 'ascii')
-		    );
+			$from_encoding = @mb_detect_encoding(
+				$string,
+				array(CUSTOM_MAIL_INTERNAL_ENCODING, 'utf-8', 'eucjp-win', 'euc-jp', 'sjis-win', 'sjis', 'iso-8859-1', 'ascii')
+			);
 		}
 	 }
 	 
-    if (empty($from_encoding)) {
-        $from_encoding = CUSTOM_MAIL_INTERNAL_ENCODING;
-    }
+	if (empty($from_encoding)) {
+		$from_encoding = CUSTOM_MAIL_INTERNAL_ENCODING;
+	}
 	
 	if (is_callable('mb_convert_encoding')) {
-    	return mb_convert_encoding($string, $to_encoding, $from_encoding);
+		return mb_convert_encoding($string, $to_encoding, $from_encoding);
 	} else if (is_callable('iconv')) {
-    	return iconv($from_encoding, $to_encoding, $string);
+		return iconv($from_encoding, $to_encoding, $string);
 	} else {
 		COM_errorLog('CUSTOM_convertEncoding: no way to convert encoding.');
 		return $string;
@@ -146,14 +144,14 @@ function CUSTOM_convertEncoding($string, $to_encoding, $from_encoding = NULL) {
 * @return   string              encoded text
 */
 function CUSTOM_emailEscape($string) {
-    global $_CONF, $LANG_CHARSET;
-    
-    $retval = '';
+	global $_CONF, $LANG_CHARSET;
 	
-    if (defined('CUSTOM_MAIL_DEBUG')) {
-        COM_errorLog('CUSTOM_emailEscape: input=' . $string);
-    }
-    
+	$retval = '';
+	
+	if (defined('CUSTOM_MAIL_DEBUG')) {
+		COM_errorLog('CUSTOM_emailEscape: input=' . $string);
+	}
+	
 	// PHPのmb_encode_mimeheader()を使用する場合
 	if (CUSTOM_MAIL_HEADER_ENCODE == 'MB_ENCODE_MIMEHEADER') {
 		if (is_callable('mb_encode_mimeheader')) {
@@ -165,10 +163,10 @@ function CUSTOM_emailEscape($string) {
 				COM_errorLog('CUSTOM_emailEscape: function mb_convert_encoding() not callable.');
 			}
 			
-	        $old_mb_internal_encoding = mb_internal_encoding();
-	        mb_internal_encoding(CUSTOM_MAIL_ENCODING);
+			$old_mb_internal_encoding = mb_internal_encoding();
+			mb_internal_encoding(CUSTOM_MAIL_ENCODING);
 			$string = mb_encode_mimeheader($string, CUSTOM_MAIL_ENCODING, 'B', CUSTOM_MAIL_HEADER_LINEBREAK);
-	        mb_internal_encoding($old_mb_internal_encoding);
+			mb_internal_encoding($old_mb_internal_encoding);
 			
 			return $string;
 		} else {
@@ -176,10 +174,10 @@ function CUSTOM_emailEscape($string) {
 		}
 	}
 	
-    // ASCIIだけの場合は"(\x22)だけエスケープする
-    if (!preg_match("/[^\\x00-\\x7f]/", $string)) {
-        return str_replace('"', '\\"', $string);
-    }
+	// ASCIIだけの場合は"(\x22)だけエスケープする
+	if (!preg_match("/[^\\x00-\\x7f]/", $string)) {
+		return str_replace('"', '\\"', $string);
+	}
 	
 	// PHPのiconv_mime_encode()を使用する場合
 	if (CUSTOM_MAIL_HEADER_ENCODE == 'ICONV_MIME_ENCODE') {
@@ -201,47 +199,47 @@ function CUSTOM_emailEscape($string) {
 	}
 	
 	// 独自のエンコード方法を使用する。従来の処理と同じ。
-    if (is_callable('mb_convert_encoding')) {
-        $string = mb_convert_encoding(
-            $string, CUSTOM_MAIL_ENCODING, CUSTOM_MAIL_INTERNAL_ENCODING
-        );
-        
-        $len_mime = strlen('=?' . CUSTOM_MAIL_ENCODING . '?B?' . '?=');
-        $cnt      = strlen('Subject: ');
-        $parts    = array();
-        $old_mb_internal_encoding = mb_internal_encoding();
-        mb_internal_encoding(CUSTOM_MAIL_ENCODING);
-        
-        while ($string != '') {
-            $maxlen = mb_strlen($string);
-            $cut    = $maxlen;
-            
-            for ($i = 1; $i <= $maxlen; $i ++) {
-                $temp = base64_encode(mb_substr($string, 0, $i));
-                if (strlen($temp) + $len_mime + $cnt > CUSTOM_MAIL_HEADER_LENGTH) {
-                    $cut = $i - 1;
-                    break;
-                }
-            }
+	if (is_callable('mb_convert_encoding')) {
+		$string = mb_convert_encoding(
+			$string, CUSTOM_MAIL_ENCODING, CUSTOM_MAIL_INTERNAL_ENCODING
+		);
+		
+		$len_mime = strlen('=?' . CUSTOM_MAIL_ENCODING . '?B?' . '?=');
+		$cnt      = strlen('Subject: ');
+		$parts    = array();
+		$old_mb_internal_encoding = mb_internal_encoding();
+		mb_internal_encoding(CUSTOM_MAIL_ENCODING);
+		
+		while ($string != '') {
+			$maxlen = mb_strlen($string);
+			$cut    = $maxlen;
+			
+			for ($i = 1; $i <= $maxlen; $i ++) {
+				$temp = base64_encode(mb_substr($string, 0, $i));
+				if (strlen($temp) + $len_mime + $cnt > CUSTOM_MAIL_HEADER_LENGTH) {
+					$cut = $i - 1;
+					break;
+				}
+			}
 
-            $temp    = base64_encode(mb_substr($string, 0, $cut));
-            $parts[] = '=?' . CUSTOM_MAIL_ENCODING . '?B?' . $temp . '?=';
-            $string  = mb_substr($string, $cut);
-            $cnt     = 1;
-        }
-        
-        mb_internal_encoding($old_mb_internal_encoding);
-        $string = implode(CUSTOM_MAIL_HEADER_LINEBREAK . ' ', $parts);
-        if (defined('CUSTOM_MAIL_DEBUG')) {
-            COM_errorLog('CUSTOM_emailEscape: output=' . $string);
-        }
-        
-        return $string;
-    }
-    
+			$temp    = base64_encode(mb_substr($string, 0, $cut));
+			$parts[] = '=?' . CUSTOM_MAIL_ENCODING . '?B?' . $temp . '?=';
+			$string  = mb_substr($string, $cut);
+			$cnt     = 1;
+		}
+		
+		mb_internal_encoding($old_mb_internal_encoding);
+		$string = implode(CUSTOM_MAIL_HEADER_LINEBREAK . ' ', $parts);
+		if (defined('CUSTOM_MAIL_DEBUG')) {
+			COM_errorLog('CUSTOM_emailEscape: output=' . $string);
+		}
+		
+		return $string;
+	}
+	
 	// どのエンコード方法も使用できなかった...
-    COM_errorLog('CUSTOM_emailEscape: no function found to convert encodings.');
-    return $string;
+	COM_errorLog('CUSTOM_emailEscape: no function found to convert encodings.');
+	return $string;
 }
 
 /**
@@ -254,25 +252,25 @@ function CUSTOM_emailEscape($string) {
 *
 */
 function CUSTOM_formatEmailAddress($name, $address) {
-    if (empty($name)) {
-        return $address;
-    }
-    
-    $formatted_name = CUSTOM_emailEscape($name);
-    if ($formatted_name == $name) {
-        $formatted_name = str_replace('"', '\\"', $formatted_name);
-    }
-    if (strlen('From: ' . $formatted_name . $address) > CUSTOM_MAIL_HEADER_LENGTH) {
-        $address = CUSTOM_MAIL_HEADER_LINEBREAK . ' ' . $address;
-    }
-    
-    $retval = CUSTOM_MAIL_COMMENT_ENCLOSER . $formatted_name
-            . CUSTOM_MAIL_COMMENT_ENCLOSER . ' <' . $address . '>';
-    if (defined('CUSTOM_MAIL_DEBUG')) {
-        COM_errorLog('CUSTOM_formatEmailAddress: output=' . $retval);
-    }
-    
-    return $retval;
+	if (empty($name)) {
+		return $address;
+	}
+	
+	$formatted_name = CUSTOM_emailEscape($name);
+	if ($formatted_name == $name) {
+		$formatted_name = str_replace('"', '\\"', $formatted_name);
+	}
+	if (strlen('From: ' . $formatted_name . $address) > CUSTOM_MAIL_HEADER_LENGTH) {
+		$address = CUSTOM_MAIL_HEADER_LINEBREAK . ' ' . $address;
+	}
+	
+	$retval = CUSTOM_MAIL_COMMENT_ENCLOSER . $formatted_name
+			. CUSTOM_MAIL_COMMENT_ENCLOSER . ' <' . $address . '>';
+	if (defined('CUSTOM_MAIL_DEBUG')) {
+		COM_errorLog('CUSTOM_formatEmailAddress: output=' . $retval);
+	}
+	
+	return $retval;
 }
 
 /**
@@ -281,120 +279,120 @@ function CUSTOM_formatEmailAddress($name, $address) {
 * @note  This function will not be called since Geeklog-1.5.2
 */
 function CUSTOM_splitAddress($string) {
-    $comment = '';
-    $string  = rtrim($string);
-    
-    if (substr($string, -1) != '>') {
-        $address = $string;
-    } else {
-        $address = strrchr($string, '<');
-        if ($address === FALSE) {
-            COM_errorLog('CUSTOM_splitAddress: "<" not found.');
-            $address = $string;
-        } else {
-            $comment = rtrim(substr($string, 0, strlen($string) - strlen($address)));
-            $address = substr($address, 1, strlen($address) - 2);
-        }
-    }
-    
-    if (defined('CUSTOM_MAIL_DEBUG')) {
-        COM_errorLog('CUSTOM_splitAddress: comment=' . $comment . ' address=' . $address);
-    }
-    
-    return array($comment, $address);
+	$comment = '';
+	$string  = rtrim($string);
+	
+	if (substr($string, -1) != '>') {
+		$address = $string;
+	} else {
+		$address = strrchr($string, '<');
+		if ($address === FALSE) {
+			COM_errorLog('CUSTOM_splitAddress: "<" not found.');
+			$address = $string;
+		} else {
+			$comment = rtrim(substr($string, 0, strlen($string) - strlen($address)));
+			$address = substr($address, 1, strlen($address) - 2);
+		}
+	}
+	
+	if (defined('CUSTOM_MAIL_DEBUG')) {
+		COM_errorLog('CUSTOM_splitAddress: comment=' . $comment . ' address=' . $address);
+	}
+	
+	return array($comment, $address);
 }
 
 /**
 * Custom email function for creating an email message in ISO-2022-JP
 */
 function CUSTOM_mail($to, $subject, $message, $from = '', $html = false,
-        $priority = 0, $cc = '') {
-    global $_CONF, $LANG_CHARSET;
-    
-    static $mailobj;
-    
-    include_once 'Mail.php';
-    include_once 'Mail/RFC822.php';
-    
-    if (defined('CUSTOM_MAIL_DEBUG')) {
-        COM_errorLog('CUSTOM_mail: to=' . $to . ' subject=' . $subject);
-    }
-    
-    // 余分なヘッダを追加されないように改行コードを削除
-    $to      = substr($to, 0, strcspn($to, "\r\n"));
-    $cc      = substr($cc, 0, strcspn($cc, "\r\n"));
-    $from    = substr($from, 0, strcspn($from, "\r\n"));
-    $subject = substr($subject, 0, strcspn($subject, "\r\n"));
-    
-    // Fromが空の場合は、サイト管理者のアドレスにする
-    if (empty($from)) {
-        $from = COM_formatEmailAddress($_CONF['site_name'], $_CONF['site_mail']);
-    }
-    
-    // ヘッダをエスケープ（1.5.2では、この時点でエスケープ済み）
+		$priority = 0, $cc = '') {
+	global $_CONF, $LANG_CHARSET;
+	
+	static $mailobj;
+	
+	include_once 'Mail.php';
+	include_once 'Mail/RFC822.php';
+	
+	if (defined('CUSTOM_MAIL_DEBUG')) {
+		COM_errorLog('CUSTOM_mail: to=' . $to . ' subject=' . $subject);
+	}
+	
+	// 余分なヘッダを追加されないように改行コードを削除
+	$to      = substr($to, 0, strcspn($to, "\r\n"));
+	$cc      = substr($cc, 0, strcspn($cc, "\r\n"));
+	$from    = substr($from, 0, strcspn($from, "\r\n"));
+	$subject = substr($subject, 0, strcspn($subject, "\r\n"));
+	
+	// Fromが空の場合は、サイト管理者のアドレスにする
+	if (empty($from)) {
+		$from = COM_formatEmailAddress($_CONF['site_name'], $_CONF['site_mail']);
+	}
+	
+	// ヘッダをエスケープ（1.5.2では、この時点でエスケープ済み）
 	// NOTE: version_compare(VERSION, '1.5.2')とすると、security releaseでは
 	//       判定に失敗する
 	preg_match("/^(\d+\.\d+\.\d+).*$/", VERSION, $match);
 	
-    if (version_compare($match[1], '1.5.2') < 0) {
-        list($temp_to_comment, $temp_to_address) = CUSTOM_splitAddress($to);
-        $to      = CUSTOM_formatEmailAddress($temp_to_comment, $temp_to_address);
-        list($temp_cc_comment, $temp_cc_address) = CUSTOM_splitAddress($cc);
-        $cc      = CUSTOM_formatEmailAddress($temp_cc_comment, $temp_cc_address);
-        list($temp_from_comment, $temp_from_address) = CUSTOM_splitAddress($from);
-        $from    = CUSTOM_formatEmailAddress($temp_from_comment, $temp_from_address);
-        $subject = CUSTOM_emailEscape($subject);
-    }
-    
-    // 本文をエスケープ
-    $message = CUSTOM_convertEncoding($message, CUSTOM_MAIL_ENCODING);
-    $message = str_replace(
-        array("\r\n", "\n", "\r"), CUSTOM_MAIL_BODY_LINEBREAK, $message
-    );
-    
-    // メールオブジェクトを作成
-    $method  = $_CONF['mail_settings']['backend'];
-    if (!isset($mailobj)) {
-        if (($method == 'sendmail') OR ($method == 'smtp')) {
-            $mailobj =& Mail::factory($method, $_CONF['mail_settings']);
-        } else {
-            $mailobj =& Mail::factory($method);
-        }
-    }
-    
-    // ヘッダ組み立て
-    $headers = array();
+	if (version_compare($match[1], '1.5.2') < 0) {
+		list($temp_to_comment, $temp_to_address) = CUSTOM_splitAddress($to);
+		$to      = CUSTOM_formatEmailAddress($temp_to_comment, $temp_to_address);
+		list($temp_cc_comment, $temp_cc_address) = CUSTOM_splitAddress($cc);
+		$cc      = CUSTOM_formatEmailAddress($temp_cc_comment, $temp_cc_address);
+		list($temp_from_comment, $temp_from_address) = CUSTOM_splitAddress($from);
+		$from    = CUSTOM_formatEmailAddress($temp_from_comment, $temp_from_address);
+		$subject = CUSTOM_emailEscape($subject);
+	}
+	
+	// 本文をエスケープ
+	$message = CUSTOM_convertEncoding($message, CUSTOM_MAIL_ENCODING);
+	$message = str_replace(
+		array("\r\n", "\n", "\r"), CUSTOM_MAIL_BODY_LINEBREAK, $message
+	);
+	
+	// メールオブジェクトを作成
+	$method  = $_CONF['mail_settings']['backend'];
+	if (!isset($mailobj)) {
+		if (($method == 'sendmail') OR ($method == 'smtp')) {
+			$mailobj =& Mail::factory($method, $_CONF['mail_settings']);
+		} else {
+			$mailobj =& Mail::factory($method);
+		}
+	}
+	
+	// ヘッダ組み立て
+	$headers = array();
 
-    $headers['From'] = $from;
-    if ($method != 'mail') {
-        $headers['To'] = $to;
-    }
-    if (!empty($cc)) {
-        $headers['Cc'] = $cc;
-    }
-    $headers['Date'] = date('r'); // RFC822 formatted date
-    if($method == 'smtp') {
-        list($usec, $sec) = explode(' ', microtime());
-        $m = substr($usec, 2, 5);
-        $headers['Message-Id'] = '<' .  date('YmdHis') . '.' . $m
-                               . '@' . $_CONF['mail_settings']['host'] . '>';
-    }
-    if($html) {
-        $headers['Content-Type'] = 'text/html; charset=' . CUSTOM_MAIL_ENCODING;
-        $headers['Content-Transfer-Encoding'] = '8bit';
-    } else {
-        $headers['Content-Type'] = 'text/plain; charset=' . CUSTOM_MAIL_ENCODING;
-    }
-    $headers['Subject'] = $subject;
-    if ($priority > 0) {
-        $headers['X-Priority'] = $priority;
-    }
-    $headers['X-Mailer'] = 'Geeklog-' . VERSION . ' (' . CUSTOM_MAIL_ENCODING . ')';
+	$headers['From'] = $from;
+	if ($method != 'mail') {
+		$headers['To'] = $to;
+	}
+	if (!empty($cc)) {
+		$headers['Cc'] = $cc;
+	}
+	$headers['Date'] = date('r'); // RFC822 formatted date
+	if($method == 'smtp') {
+		list($usec, $sec) = explode(' ', microtime());
+		$m = substr($usec, 2, 5);
+		$headers['Message-Id'] = '<' .  date('YmdHis') . '.' . $m
+							   . '@' . $_CONF['mail_settings']['host'] . '>';
+	}
+	if($html) {
+		$headers['Content-Type'] = 'text/html; charset=' . CUSTOM_MAIL_ENCODING;
+		$headers['Content-Transfer-Encoding'] = '8bit';
+	} else {
+		$headers['Content-Type'] = 'text/plain; charset=' . CUSTOM_MAIL_ENCODING;
+	}
+	$headers['Subject'] = $subject;
+	if ($priority > 0) {
+		$headers['X-Priority'] = $priority;
+	}
+	$headers['X-Mailer'] = 'Geeklog-' . VERSION . ' (' . CUSTOM_MAIL_ENCODING . ')';
 
-    $retval = $mailobj->send($to, $headers, $message);
-    if($retval !== TRUE) {
-        COM_errorLog($retval->toString(), 1);
-    }
-    
-    return (($retval === TRUE) ? TRUE : FALSE);
+	$retval = $mailobj->send($to, $headers, $message);
+	if($retval !== TRUE) {
+		COM_errorLog($retval->toString(), 1);
+	}
+	
+	return (($retval === TRUE) ? TRUE : FALSE);
 }
