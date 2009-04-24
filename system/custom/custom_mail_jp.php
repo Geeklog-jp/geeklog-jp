@@ -77,10 +77,12 @@ define('CUSTOM_MAIL_HEADER_LENGTH', 76);
 * メールヘッダの改行文字
 *
 * サーバの環境によってはメールの件名や差出人が乱れて、本文に流れ込むことがあり
-* ます。その場合は \r\n にする必要があるかもしれません。
+* ます。その場合は \n にする必要があるかもしれません。特に「ヘッダのエンコード
+* 方法」に CUSTOM_ENCODE を指定した場合は、\n にしないと動作しないことが多いよ
+* うです。
 */
-define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
-//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
+//define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
+define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
 
 /**
 * アドレスのコメント部分の引用符
@@ -190,8 +192,8 @@ function CUSTOM_emailEscape($string) {
 				'line-break-chars' => CUSTOM_MAIL_HEADER_LINEBREAK
 			);
 			$string = iconv_mime_encode('subject', $string, $prefs);
-			$string = ltrim(substr($string, strpos($string, ':')));
-		
+			$string = ltrim(substr($string, strpos($string, ':') + 1));
+			
 			return $string;
 		} else {
 			COM_errorLog('CUSTOM_emailEscape: function iconv_mime_encode() not callable.  Tries to use custom encoding method instead.');
