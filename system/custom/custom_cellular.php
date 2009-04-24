@@ -486,7 +486,7 @@ function _mobile_session_callback($matches) {
     $pat = $_CONF['site_url'];
     $ret = substr($matches[0], 0, -1);
     $delim = substr($matches[0], -1);
-    
+
     // forumのバグ? cf: forum/createtopic.php line 342 & forum/viewtopic.php line 100.
     $ret = preg_replace('!true#\d+!', 'true', $ret);
 
