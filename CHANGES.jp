@@ -1,5 +1,9 @@
 $Id$
 
+2009-04-30  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr4-jp-1.0をリリースします。
+
 2009-04-24  mystral-kk <mystral-kk>
 
 	* custom_mail_jp: 「ヘッダのエンコード方法」に ICONV_MIME_ENCODE を
