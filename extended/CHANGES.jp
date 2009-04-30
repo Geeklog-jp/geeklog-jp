@@ -1,5 +1,19 @@
 $Id$
 
+2009-04-30  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr4-jp-extended-1.0をリリースします。
+
+2009-04-24  mystral-kk <mystral-kk>
+
+	* custom_mail_jp: 「ヘッダのエンコード方法」に ICONV_MIME_ENCODE を
+	  指定した場合に、ヘッダの先頭にコロンが付加される問題を修正しました。
+
+2009-04-22  mystral-kk <mystral-kk>
+
+	* custom_mail_jp: セキュリティリリースでバージョン番号の判定に失敗
+	  するバグを修正しました。
+
 2009-04-18  Takahiro Kambe  <tacahi>
 
 	* public_html/docs/changes.html: 1.5.2sr4の変更(追加部分)を翻訳し
