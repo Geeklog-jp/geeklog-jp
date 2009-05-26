@@ -1,5 +1,10 @@
 $Id$
 
+2009-05-25  Masuko Koeda  <milk851>
+
+	* WAIproCSSのfooter.thtmlの不具合を修正し、
+          バージョンを2.3.3にしました。
+
 2009-04-30  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr4-jp-extended-1.0をリリースします。
