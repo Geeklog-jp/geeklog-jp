@@ -1,8 +1,12 @@
+$Id$
+
+2009-06-07  Takahiro Kambe  <tacahi>
+
+	* r1568, r1569を取り込みました。(不要な空のディレクトリの削除)
+
 2009-05-01  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr4-jp-1.0リリース直後までの変更を取り込みました。
-
-$Id$
 
 2009-04-18  Takahiro Kambe  <tacahi>
 
