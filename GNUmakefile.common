@@ -73,9 +73,9 @@ GL_VERSION=	1.5.2sr4
 GL_JPVERSION=	1.0.99
 
 ifneq ($(EXTENDED), true)
-GL_RELEASE=	$(GLBASE)-$(GL_VERSION)-jp-$(GL_JPVERSION)
+GL_RELEASE=	geeklog-$(GL_VERSION)-jp-$(GL_JPVERSION)
 else
-GL_RELEASE=	$(GLBASE)-$(GL_VERSION)-jp-extended-$(GL_JPVERSION)
+GL_RELEASE=	geeklog-$(GL_VERSION)-jp-extended-$(GL_JPVERSION)
 endif
 
 #
@@ -161,7 +161,7 @@ install-dirs:
 
 # public_html以下を、公開領域のプラグインを置くディレクトリへのインストール
 install-pubdir:
-	@if test public_html; then \
+	@if test -d public_html; then \
 		test -d $(DESTDIR)$(PLUGINPUBDIR) || \
 			$(MKDIR) $(DESTDIR)$(PLUGINPUBDIR); \
 		$(VERBOSE) && echo "Copying public_html to $(DESTDIR)$(GLDESTPUBDIR)"; \
@@ -170,8 +170,9 @@ install-pubdir:
 	fi
 
 ifneq ($(strip $(SUBDIR)),)
-
 install:
-	@for d in $(SUBDIR); do (cd $$d && $(MAKE) $@); done
-
+	@for d in $(SUBDIR); do \
+		echo "Install in $$d"; \
+		(cd $$d && $(MAKE) $@); \
+	done
 endif

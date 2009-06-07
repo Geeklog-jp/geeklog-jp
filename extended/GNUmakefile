@@ -1,11 +1,8 @@
 #
 
-ifdef EXTENDED
-DIRS=		public_html system
-endif
+DIRS=		system
+FILES=		CHANGES-extended.jp
 
-#GLDESTDIR=	$(GLDIR)/system/custom
-
-install: install-myfiles
+install: install-myfiles install-dirs install-pubdir
 
 include ../GNUmakefile.common
