@@ -2,6 +2,11 @@ $Id$
 
 2009-06-07  Takahiro Kambe  <tacahi>
 
+	* 空のディレクトリ public_html/layout/WAIproCSS/images/custom に、
+	  空の index.html を置きました。
+
+2009-06-07  Takahiro Kambe  <tacahi>
+
 	* 空のディレクトリ public_html/layout/mobile/images/droplinemenuと
 	  public_html/layout/mobile_3g/images/droplinemenu は不要なので削除
 	  しました。
