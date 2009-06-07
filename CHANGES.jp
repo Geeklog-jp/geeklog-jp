@@ -1,5 +1,10 @@
 $Id$
 
+2009-06-08  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.5.2のリリースで削除され、日本語基本版でも既に削除されて
+	  いる、public_html/admin/install/addindex.php を削除しました。
+
 2009-06-07  Takahiro Kambe  <tacahi>
 
 	* 空のディレクトリ public_html/layout/WAIproCSS/images/custom に、
