@@ -58,14 +58,12 @@ GLDESTPUBDIR=	$(PLUGINPUBDIR)
 
 # 非公開領域のプラグインを置くディレクトリを作成
 make-plugindir:
-	@if test -d admin; then \
-		$(VERBOSE) && echo $(MKDIR) $(DESTDIR)$(PLUGINDIR); \
+	@$(VERBOSE) && echo $(MKDIR) $(DESTDIR)$(PLUGINDIR); \
 		$(MKDIR) $(DESTDIR)$(PLUGINDIR); \
-	fi
 
 # 公開領域のプラグインを置くディレクトリを作成
 make-pluginpubdir:
-	@if test -d admin; then \
+	@if test -d public_html; then \
 		$(VERBOSE) && echo $(MKDIR) $(DESTDIR)$(PLUGINPUBDIR); \
 		$(MKDIR) $(DESTDIR)$(PLUGINPUBDIR); \
 	fi
