@@ -1,5 +1,14 @@
 $Id$
 
+2009-06-08  Takahiro Kambe  <tacahi>
+
+	* GNUmakefileの追加と修正を行い、一通りの当初目的としていた動作が
+	  できるようになりました。
+
+	* extended/public_html/admin/install/addindex.php の削除に伴い、
+	  extended/public_html/admin 以下が空となったため、このディレクトリ
+	  自体を削除しました。
+
 2009-06-07  Takahiro Kambe  <tacahi>
 
 	* r1568, r1569を取り込みました。(不要な空のディレクトリの削除)
