@@ -19,18 +19,19 @@
 
 但し、UNIX互換の環境で、GNU makeが使用できることが前提となります。確認は
 していませんが、Windows上のcygwinやSFU(Service for UNIX)で動作するのでは
-ないかと思います。
+ないかと思います。(環境によっては、GNU makeはgmakeといった異なる名前のコ
+マンドとなっている場合があります。)
 
 2.1 配布用ファイル・ツリーの作成
 
 checkoutまたはexportした作業領域で、
 
-% gmake install
+% make install
 
 とすると、/var/tmp/geeklog以下に配布用の日本語基本版のソース・ツリーを作成
 します。拡張版の場合は、
 
-% env EXTENDED=true gmake install
+% env EXTENDED=true make install
 
 とすると、/var/tmp/geeklog-extended以下に配布用の日本語基本版のソース・
 ツリーを作成します。
