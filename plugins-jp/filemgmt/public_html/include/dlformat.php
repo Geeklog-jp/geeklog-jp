@@ -27,7 +27,7 @@
 //  along with this program; if not, write to the Free Software              //
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 // ------------------------------------------------------------------------- //
-
+//@@@@@20090602 update urlrewrite
 
 if (basename($GLOBALS['PHP_SELF']) == "dlformat.php") {
     exit();
@@ -63,21 +63,21 @@ if ( $rating!="0" || $rating!="0.00" ) {
     $p->set_var('votestring', $votestring);
 } else {
     $p->set_var('rating',$rating);
-    $p->set_var('votestring', '');    
+    $p->set_var('votestring', '');
 }
 if ($logourl != '') {
     $p->set_var('snapshot_icon','<img src="'.$_CONF['site_url'] .'/filemgmt/images/screenshoticon.gif" width="14" height="14" border="0">');
     $p->set_var('snapshot_url',$filemgmt_FileSnapURL . $logourl);
     $p->set_var('LANG_CLICK2SEE', _MD_CLICK2SEE.$logourl);
     $p->set_var('show_snapshoticon','');
-    $p->set_var('show_snapshoticon_na','none');      
+    $p->set_var('show_snapshoticon_na','none');
 } else {
     $p->set_var('show_snapshoticon','none');
-    $p->set_var('show_snapshoticon_na','');     
+    $p->set_var('show_snapshoticon_na','');
     $p->set_var('snapshot_icon','');
     $p->set_var('snapshot_url','');
     $p->set_var('LANG_CLICK2SEE','');
-}    
+}
 
 $p->set_var('LANG_MD_SCREENSHOT_NA', _MD_SCREENSHOT_NA);
 $p->set_var('LANG_VERSION', _MD_VERSION);
@@ -92,9 +92,9 @@ if (($hits > 0 && !$mydownloads_dlreport) || ( $hits > 0 && SEC_hasRights('filem
     $p->set_var('end_dlreport_link','</a>');
 } else {
     $p->set_var('begin_dlreport_link','');
-    $p->set_var('end_dlreport_link','');    
+    $p->set_var('end_dlreport_link','');
 }
-$p->set_var('download_times',sprintf(_MD_DLTIMES,$hits));   
+$p->set_var('download_times',sprintf(_MD_DLTIMES,$hits));
 $p->set_var('download_count',$hits);
 $p->set_var('LANG_FILESIZE',_MD_FILESIZE);
 $p->set_var('file_size',PrettySize($size));
@@ -114,21 +114,27 @@ if ($comments) {
         $comment_link = '<a href="' .$_CONF[site_url] . '/comment.php?type=filemgmt&sid=fileid_' .$lid.'" TITLE="'.$recentPostMessage.'">' . _MD_ENTERCOMMENT . '</a>';
     }
     $p->set_var('comment_link',$comment_link);
-    $p->set_var('show_comments','');      
+    $p->set_var('show_comments','');
 } else {
-    $p->set_var('show_comments','none');       
+    $p->set_var('show_comments','none');
 }
 
 $p->set_var('LANG_DOWNLOAD',_MD_DOWNLOAD);
-$p->set_var('LANG_FILELINK',_MD_FILELINK);   
-$p->set_var('LANG_RATETHISFILE',_MD_RATETHISFILE);   
+$p->set_var('LANG_FILELINK',_MD_FILELINK);
+$p->set_var('LANG_RATETHISFILE',_MD_RATETHISFILE);
 $p->set_var('LANG_REPORTBROKEN',_MD_REPORTBROKEN);
+
+//@@@@@20090602add---->
+$pageurl = COM_buildURL ($_CONF[site_url]. "/filemgmt/index.php?id=".$lid);
+$readmore_link=COM_createLink(_MD_FILELINK, $pageurl);
+$p->set_var('readmore_link',$readmore_link);
+//@@@@@20090602add<----
 
 if ($FilemgmtAdmin) {
     $p->set_var('LANG_EDIT', _MD_EDIT);
-    $p->set_var('show_editlink','');       
+    $p->set_var('show_editlink','');
 } else {
-    $p->set_var('LANG_EDIT', '');      
+    $p->set_var('LANG_EDIT', '');
     $p->set_var('show_editlink','none');
 }
 
