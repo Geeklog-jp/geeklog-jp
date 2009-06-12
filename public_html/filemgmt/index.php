@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // | File: index.php                                                         |
 // | Main public script to view filemgmt categories and files                |
 // +-------------------------------------------------------------------------+
@@ -31,6 +31,8 @@
 // |                                                                         |
 // +-------------------------------------------------------------------------+
 //
+//@@@@@20090602update urlrewrite
+
 require_once("../lib-common.php");
 include_once($_CONF[path_html]."filemgmt/include/header.php");
 include($_CONF[path_html] ."filemgmt/include/functions.php");
@@ -58,11 +60,16 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     $mytree->setGroupAccessFilter($_GROUPS);
 
     $display = COM_siteHeader('menu');
-    $lid = COM_applyFilter($_GET['id'],true);
+    //@@@@@20090602update urlrewrite ---->
+    //$lid = COM_applyFilter($_GET['id'],true);
+    COM_setArgNames(array('id'));
+    $lid = COM_applyFilter(COM_getArgument('id'),true);
+    //@@@@@20090602update urlrewrite<-----
+
     if ($lid == 0) {  // Check if the script is being called from the commentbar
         $lid = str_replace('fileid_','',$_POST['id']);
     }
-    
+
     $groupsql = filemgmt_buildAccessSql();
 
     $sql = "SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
@@ -71,24 +78,24 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     list($fileAccessCnt) = DB_fetchArray( DB_query($sql));
 
     if ($fileAccessCnt > 0 AND DB_count($_FM_TABLES['filemgmt_filedetail'],"lid",$lid ) == 1) {
-       
+
         $p->set_var('block_header', COM_startBlock("<b>". $LANG_FILEMGMT['plugin_name'] ."</b>"));
         $p->set_var('block_footer', COM_endBlock());
-           
+
         require_once $_CONF['path_system'] . 'lib-comment.php';
-        
+
         $sql = "SELECT d.lid, d.cid, d.title, d.url, d.homepage, d.version, d.size, d.logourl, d.submitter, d.status, d.date, ";
         $sql .= "d.hits, d.rating, d.votes, d.comments, t.description FROM {$_FM_TABLES['filemgmt_filedetail']} d, ";
         $sql .= "{$_FM_TABLES['filemgmt_filedesc']} t WHERE d.lid='$lid' AND d.lid=t.lid AND status > 0";
-        
+
         $result = DB_query($sql);
         list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $logourl, $submitter, $status, $time, $hits, $rating, $votes, $comments, $description) = DB_fetchARRAY($result);
-        
+
         $pathstring = "<a href='{$_CONF['site_url']}/filemgmt/index.php'>"._MD_MAIN."</a>&nbsp;:&nbsp;";
         $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php");
         $pathstring .= $nicepath;
         $p->set_var('category_path_link',$pathstring);
-        
+
         $rating = number_format($rating, 2);
         $dtitle = $myts->makeTboxData4Show($dtitle);
         $url = $myts->makeTboxData4Show($url);
@@ -103,20 +110,19 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
         $submitter_name = COM_getDisplayName ($submitter, $submitter_name, $submitter_fullname);
         include($_CONF[path_html] ."/filemgmt/include/dlformat.php");
-        
         $p->set_var('cssid',1);
         $p->parse ('filelisting_records', 'records');
         if (SEC_hasRights('filemgmt.edit')) {
             $delete_option = true;
         } else {
             $delete_option = false;
-        }                
+        }
         $p->set_var('comment_records', CMT_userComments( "fileid_{$lid}", $title, 'filemgmt',$_POST['order'],$_POST['mode'],0,1,false,$delete_option));
         $p->parse ('output', 'page');
         $display .= $p->finish ($p->get_var('output'));
 
     }   else {
-        
+
         $p = new Template($_CONF['path'] . 'plugins/filemgmt/templates');
         $p->set_file (array (
             'page'             =>     'filelisting.thtml',
@@ -148,7 +154,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $countsql = DB_query($sql);
         list($maxrows) = DB_fetchArray($countsql);
         $numpages = ceil($maxrows / $show);
-        
+
         $p->set_var('block_header', COM_startBlock(sprintf(_MD_LISTINGHEADING,$maxrows)));
         $p->set_var('block_footer', COM_endBlock());
         $count = 0;
@@ -167,7 +173,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                         $category_image_link .= '<img src=' .$filemgmt_SnapCatURL.$imgurl .' width="'.$mydownloads_shotwidth.'" border="0"></a>';
                         $p->set_var('category_link',$category_image_link);
                     } else {
-                        $p->set_var('category_link','&nbsp;');  
+                        $p->set_var('category_link','&nbsp;');
                     }
 
                     $downloadsWaitingSubmission = getTotalItems($myrow['cid'], 0);
@@ -198,7 +204,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                         $chcount++;
                     }
                     $p->set_var('subcategories',$subcategories);
-                    $count++;                    
+                    $count++;
                     if ($count == $numCategoriesPerRow) {
                         $p->set_var('end_of_row','</tr>');
                         $p->parse ('category_records', 'category',true);
@@ -207,13 +213,13 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     } else {
                         $p->set_var('end_of_row','');
                         $p->parse ('category_records', 'category',true);
-                        $p->set_var('new_table_row',''); 
+                        $p->set_var('new_table_row','');
                     }
                 }
             }
         }
-        
-        
+
+
         $offset = ($page - 1) * $show;
 
         $sql = "SELECT d.lid, d.cid, d.title, url, homepage, version, size, platform, submitter, logourl, status, ";
@@ -254,7 +260,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     $cssid = ($cssid == 2) ? 1 : 2;
                 }
             }
-            
+
             // Print Google-like paging navigation
             $base_url = $_CONF['site_url'] . '/filemgmt/index.php';
             $p->set_var('page_navigation', COM_printPageNavigation($base_url,$page, $numpages));
