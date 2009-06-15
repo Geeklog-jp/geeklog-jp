@@ -5,9 +5,7 @@ FILES=		CHANGES.jp INSTALL db-config.php emailgeeklogstories \
 DIRS=		backups data language logs plugins sql system
 
 SUBDIR=		custom plugins-jp
-ifeq ($(EXTENDED), true)
-SUBDIR+=	extended 
-endif
+ESUBDIR=	extended 
 
 GLDESTDIR?=	$(GLDIR)
 

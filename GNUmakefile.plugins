@@ -13,16 +13,31 @@
 #	デフォルト: 未定義
 #
 # FILES
-#	プラグインのディレクトリ直下の、非公開領域のプラグインのディレクトリに
-#	インストールするファイルを指定します。
+#	
+#	プラグインのディレクトリ直下にあるファイルで、非公開領域のプラグインの
+#	ディレクトリにインストールする必要があるファイルをスペースで区切って
+#	指定します。
 #	デフォルト: 空
 #
 # DIRS
-#	プラグインのディレクトリ直下の、非公開領域のプラグインのディレクトリに
-#	インストールするディレクトリを指定します。
-#	DIRSに指定されたディレクトリが存在しない場合は、処理せずに飛ばして
-#	エラーとしません。
+#	プラグインのディレクトリ直下にあるディレクトリで、非公開領域のプラグ
+#	インのディレクトリにインストールする必要があるディレクトリを指定します。
 #	デフォルト: language sql templates
+#
+#	指定されたディレクトリが存在しない場合は、単純に無視してエラーとは
+#	しません。
+#
+# MAKEPUBDIRS
+#	プラグインが、公開領域にデータを置くためのディレクトリが必要と
+#	する場合に、必要なディレクトリを相対パスで指定します。
+#	デフォルト: 空
+#
+# PUBDIRMODE
+#	MAKEPUBDIRSで指定したディレクトリのアクセス権を指定します。
+#	但し、これで設定されるのは、MAKEPUBDIRSで指定した各ディレクトリの
+#	最下位のディレクトリだけで、途中のディレクトリはDIRMODEの設定に
+#	従います。
+#	デフォルト: 0755
 #
 
 FILES?=		# empty default
@@ -51,6 +66,8 @@ ADMINDIR?=	$(GLPUBDIR)/admin/plugins/$(PLUGIN)
 
 GLDESTDIR=	$(PLUGINDIR)
 GLDESTPUBDIR=	$(PLUGINPUBDIR)
+
+PUBDIRMODE?=	0755
 
 #
 # 各ルール
@@ -87,6 +104,16 @@ install-admin:
 			(cd $(DESTDIR)$(ADMINDIR); $(PAX) -r -pm); \
 	fi
 
+make-pubdirs:
+ifneq ($(strip $(MAKEPUBDIRS)),)
+	@echo "Creating extra directories under public_html for $(PLUGIN)."
+	@for d in $(MAKEPUBDIRS); do \
+		$(VERBOSE) && echo $(MKDIR) $(DESTDIR)$(GLPUBDIR)/$$d; \
+		$(MKDIR) $(DESTDIR)$(GLPUBDIR)/$$d; \
+		$(CHMOD) $(PUBDIRMODE) $(DESTDIR)$(GLPUBDIR)/$$d; \
+	done
+endif
+
 install-files: install-myfiles install-dirs install-pubdir install-admin
 
-install: make-dirs install-files
+install: make-dirs make-pubdirs install-files
