@@ -1,5 +1,10 @@
 $Id$
 
+2009-06-12 Kazuko Tsuchitani <tsuchi000>
+
+	* ファイル管理プラグイン(filemgmt)の自動タグでURLリライトが動作しない
+	  不具合を修正。全文表示のリンクをURLリライトに対応させました。
+
 2009-06-08  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.5.2のリリースで削除され、日本語基本版でも既に削除されて
@@ -223,7 +228,7 @@ $Id$
 	  しました。
 	  カレンダでの年月日及び時間の選択が、イベントエディタにおいて初期値と
 	  して入力されるようにしました。
-	  HTMLコードの適正化を実施しました。 
+	  HTMLコードの適正化を実施しました。
 
 2009-02-14  Takahiro Kambe  <tacahi>
 
@@ -358,7 +363,7 @@ $Id$
 	* WAIproCSSがInternet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
 	  validateアイコンが表示されていなかったのを修正しました。
 
-2009-01-12  Masuko Koeda  <milk851> 
+2009-01-12  Masuko Koeda  <milk851>
 
 	* WAIproCSSがWindows Internet Explorer、Opera、Firefox、Google Chromeで
 	  文字サイズ縮小時にレイアウトが崩れていたのを修正しました。
