@@ -20,9 +20,12 @@
 #	デフォルト: 空
 #
 # EXTENDED
-#	trueに定義すると日本語拡張版として、インストールするファイルの追加や
-#	一部のデフォルトの値を変更します。
-#	デフォルト: 未定義
+#	日本語拡張版とする場合に設定します。以下のいずれかの場合は、
+#	EXTENDEDを定義していないときと同様に日本語基本版として処理を
+#	行います。
+#
+#		* NOまたはnoを値に指定した場合
+#		* マクロ自体が定義されていない場合
 #
 # TOPDIR
 #	インストールの基準とするトップのディレクトリです。
@@ -58,8 +61,15 @@
 #
 
 DESTDIR?=	# empty
+EXTENDED?=	no
+_MAKE_EXTENDED= $(subst N,n,$(subst O,o,$(EXTENDED)))
+ifeq ($(_MAKE_EXTENDED),no)
+MAKE_EXTENDED=	no
+else
+MAKE_EXTENDED=	yes
+endif
 TOPDIR?=	/var/tmp
-ifneq ($(EXTENDED), true)
+ifeq ($(MAKE_EXTENDED), no)
 GLBASE?=	geeklog
 else
 GLBASE?=	geeklog-extended
@@ -67,12 +77,12 @@ endif
 
 GLDIR?=		$(TOPDIR)/$(GLBASE)
 GLPUBDIR?=	$(TOPDIR)/$(GLBASE)/public_html
-VERBOSE?=	$(TRUE) # $(FALSE)
+VERBOSE?=	$(FALSE)
 
 GL_VERSION=	1.5.2sr4
 GL_JPVERSION=	1.0.99
 
-ifneq ($(EXTENDED), true)
+ifeq ($(MAKE_EXTENDED), no)
 GL_RELEASE=	geeklog-$(GL_VERSION)-jp-$(GL_JPVERSION)
 else
 GL_RELEASE=	geeklog-$(GL_VERSION)-jp-extended-$(GL_JPVERSION)
@@ -81,6 +91,7 @@ endif
 #
 # 使用するコマンドの名前
 #
+CHMOD?=		chmod
 CMP?=		cmp
 DIRNAME?=	dirname
 FIND?=		find
@@ -135,6 +146,11 @@ SUBDIR?=	# empty default
 POSTINSTALL?=	# empty default
 GLDESTDIR?=	$(GLDIR)
 GLDESTPUBDIR?=	$(GLPUBDIR)
+
+ifneq ($(MAKE_EXTENDED), no)
+FILES+=		$(EFILES)
+SUBDIR+=	$(ESUBDIR)
+endif
 
 $(DESTDIR)$(GLDESTDIR):
 	$(MKDIR) $(DESTDIR)$(GLDESTDIR)
