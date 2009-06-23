@@ -1,5 +1,10 @@
 $Id$
 
+2009-06-23  Takahiro Kambe  <tacahi>
+
+	* 誤って実行すると危険な droptables.phpを削除することとし、その
+	  結果空となる public_html/admin/install/tools 共々削除しました。
+
 2009-06-07  Takahiro Kambe  <tacahi>
 
 	* 空のディレクトリ public_html/layout/mobile/images/droplinemenu と
