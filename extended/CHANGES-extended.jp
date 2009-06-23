@@ -1,5 +1,31 @@
 $Id$
 
+2009-06-23  Takahiro Kambe  <tacahi>
+
+	* 誤って実行すると危険な droptables.phpを削除することとし、その
+	  結果空となる public_html/admin/install/tools 共々削除しました。
+
+2009-06-12 Kazuko Tsuchitani <tsuchi000>
+
+	* ファイル管理プラグイン(filemgmt)の自動タグでURLリライトが動作しない
+	  不具合を修正。全文表示のリンクをURLリライトに対応させました。
+
+2009-06-08  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.5.2のリリースで削除され、日本語基本版でも既に削除されて
+	  いる、public_html/admin/install/addindex.php を削除しました。
+
+2009-06-07  Takahiro Kambe  <tacahi>
+
+	* 空のディレクトリ public_html/layout/WAIproCSS/images/custom に、
+	  空の index.html を置きました。
+
+2009-06-07  Takahiro Kambe  <tacahi>
+
+	* 空のディレクトリ public_html/layout/mobile/images/droplinemenuと
+	  public_html/layout/mobile_3g/images/droplinemenu は不要なので削除
+	  しました。
+
 2009-05-25  Masuko Koeda  <milk851>
 
 	* WAIproCSSのfooter.thtmlの不具合を修正し、

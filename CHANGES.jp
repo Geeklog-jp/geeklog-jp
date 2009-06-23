@@ -1,5 +1,16 @@
 $Id$
 
+2009-06-23  Takahiro Kambe  <tacahi>
+
+	* 誤って実行すると危険な droptables.phpを削除することとし、その
+	  結果空となる public_html/admin/install/tools 共々削除しました。
+
+2009-06-07  Takahiro Kambe  <tacahi>
+
+	* 空のディレクトリ public_html/layout/mobile/images/droplinemenu と
+	  public_html/layout/mobile_3g/images/droplinemenu は不要なので削除
+	  しました。
+
 2009-04-30  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr4-jp-1.0をリリースします。
