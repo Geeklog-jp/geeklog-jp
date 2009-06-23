@@ -1,5 +1,12 @@
 $Id$
 
+2009-06-23  Takahiro Kambe  <tacahi>
+
+	* r1599を取り込みました。(public_html/admin/install/toolsの削除)
+
+	* trunkのCHANGES.jpに記述されて、反映されていなかった部分を書き
+	  加えました。
+
 2009-06-08  Takahiro Kambe  <tacahi>
 
 	* GNUmakefileの追加と修正を行い、一通りの当初目的としていた動作が
