@@ -29,7 +29,7 @@ install: $(PREINSTALL) install-myfiles install-dirs install-pubdir
 release: pre-release install
 	cd $(TOPDIR); \
 	$(MV) $(GLBASE) $(GL_RELEASE); \
-	$(PAX) -x ustar -w $(GL_RELEASE) | $(GZIP) -9 > $(GL_RELEASE).tar.gz; \
+	$(TAR) -c -f - $(GL_RELEASE) | $(GZIP) -9 > $(GL_RELEASE).tar.gz; \
 	$(RM) -f $(GL_RELEASE).zip; \
 	$(ZIP) -qr $(GL_RELEASE).zip $(GL_RELEASE)
 
