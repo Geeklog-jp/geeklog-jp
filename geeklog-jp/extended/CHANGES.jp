@@ -1,5 +1,9 @@
 $Id$
 
+2009-06-28  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr4-jp-extended-1.1をリリースします。
+
 2009-06-23  Takahiro Kambe  <tacahi>
 
 	* 誤って実行すると危険な droptables.phpを削除することとし、その
