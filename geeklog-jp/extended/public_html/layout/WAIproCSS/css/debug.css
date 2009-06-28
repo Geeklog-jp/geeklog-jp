@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+/*==============================================================================
+  タイトル : デバッグ用スタイル
+  著者     : Fumito Arakawa as Phize (http://phize.net/)
+  説明     : id, class属性を持つ要素の属性値とボックスボーダーを表示します。
+             属性セレクタ・before疑似要素・contentプロパティに対応していないユーザーエージェント(IE等)では正しく表示されません。
+==============================================================================*/
+
+
+
+*[id]:before {
+  content: "ID:" attr(id);
+  background-color: #F00;
+  color: #FFF;
+  font-weight: bold;
+}
+
+*[id] {
+  margin: 4px;
+  border: 1px solid #F00;
+}
+
+*[class]:before {
+  content: "class:" attr(class);
+  background-color: #00F;
+  color: #FFF;
+  font-weight: bold;
+}
+
+*[class] {
+  margin: 4px;
+  border: 1px solid #00F;
+}
+
+table[id]:before, tr[id]:before, th[id]:before, td[id]:before {
+  content: "";
+  background-color: transparent;
+  color: inherit;
+  font-weight: inherit;
+}
+
+table[id], tr[id], th[id], td[id] {
+  margin: 0;
+  border: 0;
+}
+
+table[class]:before, tr[class]:before, th[class]:before, td[class]:before {
+  content: "";
+  background-color: transparent;
+  color: inherit;
+  font-weight: inherit;
+}
+
+table[class], tr[class], th[class], td[class] {
+  margin: 0;
+  border: 0;
+}
