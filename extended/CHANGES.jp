@@ -102,10 +102,34 @@ $Id$
 
 	* 携帯用テーマの掲示板プラグイン(forum)テンプレートを最新版にしました。
 
+2009-04-01  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2sr1のマージに伴い、日本語バージョンを0.0.99とし
+	  ました。
+
+2009-03-31  Tetsuko Komma  <ivysoho>
+
+	* docs/changes.htmlのsr1部の翻訳と，docs/history.htmlをsr1に
+	  対応させました。
+
 2009-03-31  mystral-kk <mystral-kk>
 
 	* ファイル管理(filemgmt)プラグインで、RSSが日付の新しい順に出力されない
 	  バグ(Issue #64)に対処しました。
+
+2009-03-31  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.5.2とgeeklog-1.5.2sr1の間の変更をマージしました。
+	  これはセキュリティ修正を含みます。
+	  (http://www.geeklog.net/article.php/geeklog-1.5.2sr1)
+
+2009-03-29  mystral-kk <mystral-kk>
+
+	* precheck（インストール前診断用スクリプト）を追加しました。
+
+2009-03-28  mystral-kk <mystral-kk>
+
+	* Issue#49によりよく対応しました。
 
 2009-03-28  Yoshinori Tahara  <dengen>
 
@@ -113,6 +137,10 @@ $Id$
 	  Auge Bangさんが制作された、「mycaljp専用Black Theme」を同梱しました。
 	  Geeklog1.5以降で記事のイントロ表示した際に日付が現在の日付になってし
 	  まう問題を修正しました。
+
+2009-03-25  mystral-kk <mystral-kk>
+
+	* トラックバックの送信に失敗するバグ(Issue #61)を修正しました。
 
 2009-03-21  Takahiro Kambe  <tacahi>
 
@@ -205,7 +233,7 @@ $Id$
 	  しました。
 	  カレンダでの年月日及び時間の選択が、イベントエディタにおいて初期値と
 	  して入力されるようにしました。
-	  HTMLコードの適正化を実施しました。 
+	  HTMLコードの適正化を実施しました。
 
 2009-02-14  Takahiro Kambe  <tacahi>
 
@@ -340,7 +368,7 @@ $Id$
 	* WAIproCSSがInternet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
 	  validateアイコンが表示されていなかったのを修正しました。
 
-2009-01-12  Masuko Koeda  <milk851> 
+2009-01-12  Masuko Koeda  <milk851>
 
 	* WAIproCSSがWindows Internet Explorer、Opera、Firefox、Google Chromeで
 	  文字サイズ縮小時にレイアウトが崩れていたのを修正しました。
