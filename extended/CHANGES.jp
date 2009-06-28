@@ -1,5 +1,10 @@
 $Id$
 
+2009-06-29  Takahiro Kambe  <tacahi>
+
+	* リリース処理: のファイルの作成にpaxコマンドに代えて、tarコマンドを
+	  使用するようにしました。
+
 2009-06-28  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr4-jp-extended-1.1をリリースします。
