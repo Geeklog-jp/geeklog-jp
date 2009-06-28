@@ -101,8 +101,9 @@ INSTALL?=	install
 MKDIR?=		install -d -m $(DIRMODE)
 MV?=		mv
 PAX?=		pax
-#RM?=		rm
+RM?=		rm
 SED?=		sed
+TAR?=		tar
 TRUE=		true
 FALSE=		false
 
