@@ -1,7 +1,7 @@
 #
 
 DIRS=		system
-FILES=		CHANGES-extended.jp
+FILES=		CHANGES.jp
 
 install: install-myfiles install-dirs install-pubdir
 
