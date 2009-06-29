@@ -34,7 +34,7 @@ release: pre-release install
 	$(ZIP) -qr $(GL_RELEASE).zip $(GL_RELEASE)
 
 update-release-jp:
-	@$(SED) -e '/release_no =/s/"(.*)"/$(GL_JPVERSION)/' release_jp.php \
+	@$(SED) -e '/release_no =/s/".*"/"$(GL_JPVERSION)"/' release_jp.php \
 		> release_jp.php.tmp; \
 	if ${CMP} -s release_jp.php release_jp.php.tmp; then \
 		:; \
