@@ -2,6 +2,6 @@ $Id$
 
 2009-06-30  Takahiro Kambe  <tacahi>
 
-	* ����: ��������ܸ��̾��Ǥȳ�ĥ�Ǥ��줾���¸�ߤ��Ƥ���CHANGE.jp��
-	  �ե������CHANGES-prev.jp�Ȥ���̾�����ѹ�����ξ�Ԥ˶��̤�CHANGE.jp��
-	  �����˺������ޤ���������ϡ�����CHANGES.jp���ѹ��ս��Ͽ���ޤ���
+	* 共通: 従来の日本語通常版と拡張版それぞれに存在していたCHANGE.jpの
+	  ファイルをCHANGES-prev.jpという名前に変更し、両者に共通のCHANGE.jpを
+	  新たに作成しました。今後は、このCHANGES.jpに変更箇所を記録します。
