@@ -1,7 +1,8 @@
 #
 
-FILES=		CHANGES.jp INSTALL db-config.php emailgeeklogstories \
-		emailgeeklogstories.en readme readme.ja release_jp.php
+FILES=		CHANGES.jp CHANGES-prev.jp INSTALL db-config.php \
+		emailgeeklogstories emailgeeklogstories.en readme readme.ja \
+		release_jp.php
 DIRS=		backups data language logs plugins sql system
 
 SUBDIR=		custom plugins-jp
