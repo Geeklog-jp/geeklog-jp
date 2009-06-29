@@ -26,7 +26,7 @@ pre-release:
 
 install: $(PREINSTALL) install-myfiles install-dirs install-pubdir
 
-release: pre-release install
+release: pre-release update-release-jp install
 	cd $(TOPDIR); \
 	$(MV) $(GLBASE) $(GL_RELEASE); \
 	$(TAR) -c -f - $(GL_RELEASE) | $(GZIP) -9 > $(GL_RELEASE).tar.gz; \
@@ -40,7 +40,8 @@ update-release-jp:
 		:; \
 	else \
 		${MV} release_jp.php.tmp release_jp.php; \
+		${RM} release_jp.php.tmp; \
+		exit 1; \
 	fi; \
-	${RM} release_jp.php.tmp
 
 include GNUmakefile.common
