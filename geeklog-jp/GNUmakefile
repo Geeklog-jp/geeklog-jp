@@ -43,6 +43,6 @@ update-release-jp:
 		${MV} release_jp.php.tmp release_jp.php; \
 		${RM} release_jp.php.tmp; \
 		exit 1; \
-	fi; \
+	fi
 
 include GNUmakefile.common
