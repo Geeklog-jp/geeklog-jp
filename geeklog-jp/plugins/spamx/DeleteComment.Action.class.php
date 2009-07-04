@@ -9,7 +9,8 @@
  * 
  * Licensed under GNU General Public License
  *
- * $Id: DeleteComment.Action.class.php,v 1.7 2008/09/21 08:37:08 dhaun Exp $
+ * @package Spam-X
+ * @subpackage Modules
  */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'DeleteComment.Action.class.php') !== false) {
@@ -25,6 +26,8 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'BaseCommand.class.php';
  * Action Class which just discards comment
  * 
  * @author Tom Willett  tomw@pigstye.net 
+ * @package Spam-X
+ *
  */
 class DeleteComment extends BaseCommand {
     /**

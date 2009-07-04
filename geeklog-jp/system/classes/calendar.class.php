@@ -2,18 +2,18 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.3                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | calendar.class.php                                                        |
 // |                                                                           |
 // | Geeklog calendar library.                                                 |
 // +---------------------------------------------------------------------------+
-// | Much of this code is from Jim Wright jdlwright@yahoo.com with minor       |
-// | customizations.                                                           |
+// | Much of this code is from Jim Wright jdlwright AT yahoo DOT com with      |
+// | minor customizations.                                                     |
 // |                                                                           |
-// | Copyright (C) 2000-2004 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
-// | Authors: Tony Bibbs       - tony@tonybibbs.com                            |
+// | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: calendar.class.php,v 1.8 2006/05/14 17:58:52 ospiess Exp $
 
 /**
 * This file contains the two classes used to help support the calendar pages.
@@ -41,7 +39,7 @@
 * Those files along with this class need to be reworked to be easier 
 * to maintain and support rich calendaring features
 *
-* @author   Tony Bibbs  <tony@tonybibbs.com>
+* @author   Tony Bibbs, tony AT tonybibbs DOT com
 */
 
 /**
@@ -179,7 +177,7 @@ class Calendar {
     */
     function getDayOfWeek($day = 1, $month = 1, $year = '')
     {
-	    if (empty($year)) {
+        if (empty($year)) {
             $year = $this->_default_year;
         }
 
@@ -227,7 +225,14 @@ class Calendar {
             $year = $this->_default_year;
         }
 
-        if (round(($year - 2000)/4) == (($year - 2000)/4)){
+        if (($year % 4) == 0) {
+            if (($year % 100) == 0) {
+                if (($year % 400) == 0) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
             return 1;
         } else {
             return 0;
@@ -353,8 +358,8 @@ class Calendar {
     */
     function getMonthName($month = 1)
     {
-	$month = $month - 1;
-	if (empty($this->_lang_months)) $this->setLanguage();
+    $month = $month - 1;
+    if (empty($this->_lang_months)) $this->setLanguage();
 
         switch ($month) {
         case 0:
@@ -487,7 +492,7 @@ class Calendar {
                 } else {
                     $cur_day = new CalendarDay();
                     $cur_day->year = $year;
-                    $cur_day->daynumber = $nextday; 
+                    $cur_day->daynumber = $nextday;     
                     $week[$aw][$wd] = $cur_day;
 
                     // Bail if we just printed last day

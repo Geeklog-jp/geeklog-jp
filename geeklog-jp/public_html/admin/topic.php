@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | topic.php                                                                 |
 // |                                                                           |
 // | Geeklog topic administration page.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,22 +31,19 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: topic.php,v 1.80 2008/05/18 16:58:51 dhaun Exp $
 
 require_once '../lib-common.php';
 require_once 'auth.inc.php';
 require_once $_CONF['path_system'] . 'lib-story.php';
 
+$display = '';
+
 if (!SEC_hasRights('topic.edit')) {
-    $display = COM_siteHeader ('menu', $MESSAGE[30]);
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[32];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
     COM_accessLog("User {$_USER['username']} tried to illegally access the topic administration screen.");
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -141,6 +138,9 @@ function edittopic ($tid = '')
                               SEC_getGroupDropdown ($A['group_id'], $access));
     $topic_templates->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $topic_templates->set_var('lang_permissions_key', $LANG_ACCESS['permissionskey']);
+    $topic_templates->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
+    $topic_templates->set_var('permissions_msg', $LANG_ACCESS['permmsg']);
+    $topic_templates->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $topic_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
 
     // show sort order only if they specified sortnum as the sort method
@@ -243,13 +243,10 @@ function savetopic($tid,$topic,$imageurl,$sortnum,$limitnews,$owner_id,$group_id
         $access = SEC_hasAccess ($owner_id, $group_id, $perm_owner, $perm_group,
                 $perm_members, $perm_anon);
     }
-    if (($access < 3) || !SEC_inGroup ($group_id)) {
-        $retval .= COM_siteHeader ('menu', $MESSAGE[30]);
-        $retval .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $MESSAGE[32];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
+    if (($access < 3) || !SEC_inGroup($group_id)) {
+        $retval .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+                . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally create or edit topic $tid.");
     } elseif (!empty($tid) && !empty($topic)) {
         if ($imageurl == '/images/topics/') {
@@ -425,18 +422,20 @@ function deleteTopic ($tid)
 
     // delete comments, trackbacks, images associated with stories in this topic
     $result = DB_query ("SELECT sid FROM {$_TABLES['stories']} WHERE tid = '$tid'");
-    $numStories = DB_numRows ($result);
+    $numStories = DB_numRows($result);
     for ($i = 0; $i < $numStories; $i++) {
-        $A = DB_fetchArray ($result);
-        STORY_deleteImages ($A['sid']);
-        DB_query("DELETE FROM {$_TABLES['comments']} WHERE sid = '{$A['sid']}' AND type = 'article'");
-        DB_query("DELETE FROM {$_TABLES['trackback']} WHERE sid = '{$A['sid']}' AND type = 'article'");
+        $A = DB_fetchArray($result);
+        STORY_deleteImages($A['sid']);
+        DB_delete($_TABLES['comments'], array('sid', 'type'),
+                                        array($A['sid'], 'article'));
+        DB_delete($_TABLES['trackback'], array('sid', 'type'),
+                                         array($A['sid'], 'article'));
     }
 
     // delete these
-    DB_delete ($_TABLES['stories'], 'tid', $tid);
-    DB_delete ($_TABLES['storysubmission'], 'tid', $tid);
-    DB_delete ($_TABLES['topics'], 'tid', $tid);
+    DB_delete($_TABLES['stories'], 'tid', $tid);
+    DB_delete($_TABLES['storysubmission'], 'tid', $tid);
+    DB_delete($_TABLES['topics'], 'tid', $tid);
 
     // update feed(s) and Older Stories block
     COM_rdfUpToDateCheck('article');
@@ -476,6 +475,9 @@ function handleIconUpload($tid)
             $upload->setLogFile ($_CONF['path'] . 'logs/error.log');
             $upload->setDebug (true);
         }
+        if (isset($_CONF['jpeg_quality'])) {
+            $upload->setJpegQuality($_CONF['jpeg_quality']);
+        }
     }
     $upload->setAllowedMimeTypes (array ('image/gif'   => '.gif',
                                          'image/jpeg'  => '.jpg,.jpeg',
@@ -491,7 +493,7 @@ function handleIconUpload($tid)
         $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                         'footer'));
         $display .= COM_siteFooter ();
-        echo $display;
+        COM_output($display);
         exit; // don't return
     }
 
@@ -532,7 +534,7 @@ function handleIconUpload($tid)
             $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                             'footer'));
             $display .= COM_siteFooter ();
-            echo $display;
+            COM_output($display);
             exit; // don't return
         }
         $filename = '/images/topics/' . $filename;
@@ -595,13 +597,11 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= COM_siteFooter();
 } else { // 'cancel' or no mode at all
     $display .= COM_siteHeader('menu', $LANG27[8]);
-    if (isset ($_GET['msg'])) {
-        $display .= COM_showMessage (COM_applyFilter ($_GET['msg'], true));
-    }
+    $display .= COM_showMessageFromParameter();
     $display .= listtopics();
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

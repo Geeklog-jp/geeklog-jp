@@ -10,6 +10,7 @@
  *
  * Licensed under GNU General Public License
  *
+ * @package Spam-X
  */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
@@ -28,7 +29,7 @@ if (file_exists($langfile)) {
     include_once $plugin_path . 'language/english.php';
 }
 
-/*
+/**
 * Check and see if we need to load the plugin configuration
 */
 if (!isset($_SPX_CONF['timeout'])) {
@@ -38,20 +39,21 @@ if (!isset($_SPX_CONF['timeout'])) {
     $_SPX_CONF = $spx_config->get_config('spamx');
 }
 
-$_SPX_CONF['version'] = '1.1.2';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
 // +---------------------------------------------------------------------------+
 
 /**
- * Shows the statistics for the plugin on stats.php.  If
- * $showsitestats is 1 then we are to only print the overall stats in the 'site
- * statistics' box otherwise we show the detailed stats for the plugin
- *
- * @param   int     $showsitestats  Flag to let us know which stats to get
- * @return  string  returns formatted HTML to insert in stats page
- */
+* Shows the statistics for the plugin on stats.php.  If $showsitestats is 1
+* then we are to only print the overall stats in the 'site statistics' box
+* otherwise we show the detailed stats for the plugin
+*
+* @param    int     $showsitestats  Flag to let us know which stats to get
+* @return   string  returns formatted HTML to insert in stats page
+* @see      plugin_statssummary_spamx
+*
+*/
 function plugin_showstats_spamx($showsitestats)
 {
     global $_CONF, $_TABLES, $LANG_SX00;
@@ -91,6 +93,7 @@ function plugin_showstats_spamx($showsitestats)
 * New stats plugin API function for proper integration with the site stats
 *
 * @return   array(item text, item count);
+* @see      plugin_showstats_spamx
 *
 */
 function plugin_statssummary_spamx ()
@@ -145,11 +148,15 @@ function plugin_getadminoption_spamx()
  *
  * @return string    plugin version
  */
-function plugin_chkVersion_spamx ()
+function plugin_chkVersion_spamx()
 {
-    global $_SPX_CONF;
+    global $_CONF;
 
-    return $_SPX_CONF['version'];
+    require_once $_CONF['path'] . 'plugins/spamx/autoinstall.php';          
+
+    $inst_parms = plugin_autoinstall_spamx('spamx'); 
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
@@ -160,15 +167,56 @@ function plugin_chkVersion_spamx ()
 */
 function plugin_upgrade_spamx()
 {
-    // the plugin needs these function so complain when they don't exist
-    if (!function_exists('PLG_uninstall') ||
-            !function_exists('COM_createLink')) {
+    global $_CONF, $_TABLES;
+
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
+                                    "pi_name = 'spamx'");
+    $code_version = plugin_chkVersion_spamx();
+    if ($installed_version == $code_version) {
+        // nothing to do
+        return true;
+    }
+
+    require_once $_CONF['path'] . 'plugins/spamx/autoinstall.php';
+
+    if (! plugin_compatible_with_this_version_spamx('spamx')) {
         return 3002;
     }
 
-    // upgrades are done by the install script - return a generic error
-    COM_errorLog("Plugin upgrade function not implemented");
-    return 3001;
+    $inst_parms = plugin_autoinstall_spamx('spamx');
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'spamx'");
+
+    return true;
+}
+
+/**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_spamx($old_conf)
+{
+    global $_CONF, $_TABLES;
+
+    // only update the SLV whitelist, so we don't use INST_updateSiteUrl
+    $old_url = addslashes($old_conf['site_url']);
+    $result = DB_query("SELECT name, value FROM {$_TABLES['spamx']} WHERE name = 'SLVwhitelist' AND value LIKE '{$old_url}%'");
+    $num = DB_numRows($result);
+
+    for ($i = 0; $i < $num; $i++) {
+        list($name, $value) = DB_fetchArray($result);
+        $new_value = addslashes(str_replace($old_conf['site_url'],
+                                            $_CONF['site_url'], $value));
+        $old_value = addslashes($value);
+
+        DB_query("UPDATE {$_TABLES['spamx']} SET value = '$new_value' WHERE name = 'SLVwhitelist' AND value = '$old_value'");
+    }
+
+    return true;
 }
 
 /**
@@ -315,13 +363,13 @@ function plugin_geticon_spamx ()
 /**
 * Automatic uninstall function for plugins
 *
-* @return   array
-*
 * This code is automatically uninstalling the plugin.
 * It passes an array to the core code function that removes
 * tables, groups, features and php blocks from the tables.
 * Additionally, this code can perform special actions that cannot be
 * foreseen by the core code (interactions with other plugins for example)
+*
+* @return   array   Plugin information
 *
 */
 function plugin_autouninstall_spamx ()
@@ -340,6 +388,44 @@ function plugin_autouninstall_spamx ()
     );
 
     return $out;
+}
+
+/**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_spamx($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'docs/' . $doclang . '/spamx.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/docs/english/spamx.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
+    }
+
+    return $retval;
 }
 
 ?>

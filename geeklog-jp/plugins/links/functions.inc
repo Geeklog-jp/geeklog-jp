@@ -2,7 +2,7 @@
 
 // Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Links Plugin 2.0                                                          |
+// | Links Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | functions.inc                                                             |
 // |                                                                           |
@@ -36,20 +36,29 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Implementation of the Plugin API for the Links plugin
+*
+* @package Links
+*/
+
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
 
 $plugin_path = $_CONF['path'] . 'plugins/links/';
-$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 
+/**
+* Language file include
+*/
+$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 if (file_exists($langfile)) {
     require_once $langfile;
 } else {
     require_once $plugin_path . 'language/english.php';
 }
 
-/*
+/**
 * Check and see if we need to load the plugin configuration
 */
 if (!isset($_LI_CONF['linksloginrequired'])) {
@@ -59,7 +68,6 @@ if (!isset($_LI_CONF['linksloginrequired'])) {
     $_LI_CONF = $li_config->get_config('links');
 }
 
-$_LI_CONF['version'] = '2.0.1';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementation                                         |
@@ -76,10 +84,9 @@ $_LI_CONF['version'] = '2.0.1';
 */
 function plugin_getmenuitems_links()
 {
-    global $_CONF, $_USER, $_LI_CONF, $LANG_LINKS;
+    global $_CONF, $_LI_CONF, $LANG_LINKS;
 
-    $anon = (empty ($_USER['uid']) || ($_USER['uid'] <= 1)) ? true : false;
-    if (($_LI_CONF['hidelinksmenu'] == 1) || ($anon &&
+    if (($_LI_CONF['hidelinksmenu'] == 1) || (COM_isAnonUser() &&
                 ($_CONF['loginrequired'] || $_LI_CONF['linksloginrequired']))) {
         return false;
     }
@@ -92,17 +99,17 @@ function plugin_getmenuitems_links()
 /**
 * Return headlines for New Links section in the What's New block, if enabled
 *
-* @return   mixed       array(headline, byline), or boolean false is disabled
+* @return   mixed       array(headline, byline), or boolean false if disabled
 *
 */
 function plugin_whatsnewsupported_links()
 {
-    global $_TABLES, $_LI_CONF, $LANG_LINKS, $LANG_WHATSNEW;
+    global $_LI_CONF, $LANG_LINKS, $LANG_WHATSNEW;
 
-    if ( $_LI_CONF['hidenewlinks'] == 0 ) {
-        $retval = array( $LANG_LINKS[84],
-                         COM_formatTimeString( $LANG_WHATSNEW['new_last'],
-                                               $_LI_CONF['newlinksinterval'] )
+    if ($_LI_CONF['hidenewlinks'] == 0) {
+        $retval = array($LANG_LINKS[84],
+                        COM_formatTimeString($LANG_WHATSNEW['new_last'],
+                                             $_LI_CONF['newlinksinterval'])
                        );
     } else {
         $retval = false;
@@ -124,7 +131,7 @@ function plugin_getwhatsnew_links()
     $retval = '';
 
     // Get newest links
-    $sql = "SELECT lid,title FROM {$_TABLES['links']} WHERE (date >= (DATE_SUB(NOW(), INTERVAL {$_LI_CONF['newlinksinterval']} SECOND)))" . COM_getPermSQL( 'AND' ) . ' ORDER BY date DESC LIMIT 15';
+    $sql = "SELECT lid,title FROM {$_TABLES['links']} WHERE (date >= (DATE_SUB(NOW(), INTERVAL {$_LI_CONF['newlinksinterval']} SECOND)))" . COM_getPermSQL('AND') . LINKS_getCategorySQL('AND') . ' ORDER BY date DESC LIMIT 15';
     $result = DB_query($sql);
     $nrows = DB_numRows($result);
 
@@ -173,25 +180,27 @@ function plugin_autotags_links($op, $content = '', $autotag = '')
         return 'link';
     } else if ($op == 'parse') {
         $lid = COM_applyFilter($autotag['parm1']);
-        $url = COM_buildUrl($_CONF['site_url']
+        if (! empty($lid)) {
+            $url = COM_buildUrl($_CONF['site_url']
                             . '/links/portal.php?what=link&amp;item=' . $lid);
-        if (empty($autotag['parm2'])) {
-            $result = DB_query("SELECT url, title FROM {$_TABLES['links']} WHERE lid = '$lid'");
-            list($siteurl, $linktext) = DB_fetchArray($result);
-        } else {
-            $linktext = $autotag['parm2'];
-            $siteurl = DB_getItem($_TABLES['links'], 'url', "lid = '$lid'");
+            if (empty($autotag['parm2'])) {
+                $result = DB_query("SELECT url, title FROM {$_TABLES['links']} WHERE lid = '$lid'");
+                list($siteurl, $linktext) = DB_fetchArray($result);
+            } else {
+                $linktext = $autotag['parm2'];
+                $siteurl = DB_getItem($_TABLES['links'], 'url', "lid = '$lid'");
+            }
+            $class = 'ext-link';
+            if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
+                $class .= '-rtl';
+            }
+            $attr = array(
+                        'title' => $siteurl,
+                        'class' => $class
+                         );
+            $link = COM_createLink($linktext, $url, $attr);
+            $content = str_replace($autotag['tagstr'], $link, $content);
         }
-        $class = 'ext-link';
-        if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
-            $class .= '-rtl';
-        }
-        $attr = array(
-                    'title' => $siteurl,
-                    'class' => $class
-                     );
-        $link = COM_createLink($linktext, $url, $attr);
-        $content = str_replace($autotag['tagstr'], $link, $content);
 
         return $content;
     }
@@ -207,9 +216,13 @@ function plugin_autotags_links($op, $content = '', $autotag = '')
 */
 function plugin_chkVersion_links ()
 {
-    global $_LI_CONF;
+    global $_CONF;
 
-    return $_LI_CONF['version'];
+    require_once $_CONF['path'] . 'plugins/links/autoinstall.php';
+
+    $inst_parms = plugin_autoinstall_links('links');
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
@@ -218,19 +231,19 @@ function plugin_chkVersion_links ()
 * @return   array(number of links, number of clicks);
 *
 */
-function LINKS_countLinksAndClicks ()
+function LINKS_countLinksAndClicks()
 {
     global $_TABLES;
 
-    $result = DB_query ("SELECT COUNT(*) AS count,SUM(hits) AS clicks FROM {$_TABLES['links']}" . COM_getPermSQL ());
-    $A = DB_fetchArray ($result);
+    $result = DB_query("SELECT COUNT(*) AS count,SUM(hits) AS clicks FROM {$_TABLES['links']}" . COM_getPermSQL() . LINKS_getCategorySQL('AND'));
+    $A = DB_fetchArray($result);
     $total_links = $A['count'];
     $total_clicks = $A['clicks'];
-    if (empty ($total_clicks)) {
+    if (empty($total_clicks)) {
         $total_clicks = 0;
     }
 
-    return array ($total_links, $total_clicks);
+    return array($total_links, $total_clicks);
 }
 
 /**
@@ -246,11 +259,11 @@ function plugin_showstats_links ($showsitestats)
 {
     global $_CONF, $_TABLES, $LANG_LINKS_STATS;
 
-    require_once ($_CONF['path_system'] . 'lib-admin.php');
+    require_once $_CONF['path_system'] . 'lib-admin.php';
 
     $retval = '';
 
-    $result = DB_query ("SELECT lid,url,title,hits FROM {$_TABLES['links']} WHERE (hits > 0)" . COM_getPermSQL ('AND') . " ORDER BY hits DESC LIMIT 10");
+    $result = DB_query("SELECT lid,url,title,hits FROM {$_TABLES['links']} WHERE (hits > 0)" . COM_getPermSQL('AND') . LINKS_getCategorySQL('AND') . " ORDER BY hits DESC LIMIT 10");
     $nrows  = DB_numRows ($result);
     if ($nrows > 0) {
         $header_arr = array(
@@ -334,137 +347,51 @@ function plugin_searchtypes_links()
 * @param    date    $datestart  Start date to get results for
 * @param    date    $dateend    End date to get results for
 * @param    string  $topic      The topic they were searching in
-* @param    string  $type       Type of items they are searching, or 'all'
+* @param    string  $type       Type of items they are searching, or 'all' (deprecated)
 * @param    int     $author     Get all results by this author
 * @param    string  $keyType    search key type: 'all', 'phrase', 'any'
-* @param    int     $page       page number of current search
-* @param    int     $perpage    number of results per page
+* @param    int     $page       page number of current search (deprecated)
+* @param    int     $perpage    number of results per page (deprecated)
 * @return   object              search result object
 *
 */
 function plugin_dopluginsearch_links($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
 {
-    global $_CONF, $_TABLES, $LANG_LINKS_SEARCH;
+    global $_TABLES, $LANG_LINKS;
 
-    if (empty ($type)) {
-        $type = 'all';
-    }
+    // Make sure the query is SQL safe
+    $query = trim(addslashes($query));
 
-    // Bail if we aren't supppose to do our search
-    if ($type <> 'all' AND $type <> 'links') {
-        $plugin_results = new Plugin();
-        $plugin_results->plugin_name = 'links';
-        $plugin_results->searchlabel = $LANG_LINKS_SEARCH['results'];
+    $sql = "SELECT lid AS id, title, description, UNIX_TIMESTAMP(date) AS date, owner_id AS uid, hits, ";
+    $sql .= "CONCAT('/links/portal.php?what=link&amp;item=', lid) AS url ";
+    $sql .= "FROM {$_TABLES['links']} WHERE date <> 1 ";
+    $sql .= COM_getPermSQL('AND') . ' ';
 
-        return $plugin_results;
-    }
-
-    // link search
-    $select = 'SELECT lid,title,url,owner_id,hits,UNIX_TIMESTAMP(date) AS day';
-    $sql = " FROM {$_TABLES['links']} WHERE date <> 1";
-
-    if (!empty ($query)) {
-        if ($keyType == 'phrase') {
-            $mysearchterm = addslashes ($query);
-            $sql .= " AND ((description LIKE '%$mysearchterm%')"
-                 . " OR (title LIKE '%$mysearchterm%'))";
-        } else if ($keyType == 'all') {
-            $mywords = explode (' ', $query);
-            $sql .= ' AND (';
-            $tmp = '';
-            foreach ($mywords AS $mysearchterm) {
-                $mysearchterm = addslashes (trim ($mysearchterm));
-                if (!empty ($mysearchterm)) {
-                    $tmp .= "((description LIKE '%$mysearchterm%')"
-                         . " OR (title LIKE '%$mysearchterm%')) AND ";
-                }
-            }
-            $tmp = substr ($tmp, 0, strlen ($tmp) - 5);
-            $sql .= $tmp . ')';
-        } else if ($keyType == 'any') {
-            $mywords = explode (' ', $query);
-            $sql .= ' AND (';
-            $tmp = '';
-            foreach ($mywords AS $mysearchterm) {
-                $mysearchterm = addslashes (trim ($mysearchterm));
-                if (!empty ($mysearchterm)) {
-                    $tmp .= "((description LIKE '%$mysearchterm%')"
-                         . " OR (title LIKE '%$mysearchterm%')) OR ";
-                }
-            }
-            $tmp = substr ($tmp, 0, strlen ($tmp) - 4);
-            $sql .= $tmp . ')';
-        } else {  // quick search
-            $mysearchterm = addslashes ($query);
-            $sql .= " AND ((description LIKE '%$mysearchterm%')"
-                 . " OR (title LIKE '%$mysearchterm%'))";
+    if (!empty($datestart) && !empty($dateend))
+    {
+        $delim = substr($datestart, 4, 1);
+        if (!empty($delim))
+        {
+            $DS = explode($delim, $datestart);
+            $DE = explode($delim, $dateend);
+            $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+            $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+            $sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') ";
         }
     }
-
-    if (!empty ($datestart) && !empty ($dateend)) {
-        $delim = substr ($datestart, 4, 1);
-        if (!empty($delim)) {
-            $DS = explode ($delim, $datestart);
-            $DE = explode ($delim, $dateend);
-            $startdate = mktime (0, 0, 0, $DS[1], $DS[2], $DS[0]);
-            $enddate = mktime (23, 59, 59, $DE[1], $DE[2], $DE[0]);
-            $sql .= " AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate')";
-        }
-    }
-
     if (!empty ($author)) {
-        $sql .= " AND (owner_id = '$author')";
-    }
-    $sql .= COM_getPermSQL('AND');
-    $sql .= ' GROUP BY date, lid, cid, url, description, title, hits, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon ORDER BY date DESC';
-    $l = ($perpage * $page) - $perpage;
-    $sql .= ' LIMIT ' . $l . ',' . $perpage;
-
-    // Perform search
-    $result = DB_query ($select . $sql);
-    $mycount = DB_numRows ($result);
-    $result_count = DB_query ('SELECT COUNT(*)' . $sql);
-    $B = DB_fetchArray ($result_count, true);
-
-    $plugin_results = new Plugin();
-    $plugin_results->plugin_name = 'links';
-    $plugin_results->searchlabel = $LANG_LINKS_SEARCH['results'];
-    $plugin_results->addSearchHeading ($LANG_LINKS_SEARCH['title']);
-    $plugin_results->addSearchHeading ($LANG_LINKS_SEARCH['date']);
-    $plugin_results->addSearchHeading ($LANG_LINKS_SEARCH['author']);
-    $plugin_results->addSearchHeading ($LANG_LINKS_SEARCH['hits']);
-    $plugin_results->num_searchresults = 0;
-    $plugin_results->num_itemssearched = $B[0];
-    $plugin_results->supports_paging = true;
-
-    // NOTE if any of your data items need to be links then add them here!
-    // make sure data elements are in an array and in the same order as your
-    // headings above!
-    for ($i = 0; $i < $mycount; $i++) {
-        $A = DB_fetchArray ($result);
-
-        $thetime = COM_getUserDateTimeFormat ($A['day']);
-        $A['title'] = stripslashes ($A['title']);
-        $submitter = COM_getDisplayName ($A['owner_id']);
-        if ($A['owner_id'] > 1) {
-            $profile_url = $_CONF['site_url']
-                     . '/users.php?mode=profile&amp;uid=' . $A['owner_id'];
-            $profile = COM_createLink($submitter, $profile_url);
-        } else {
-            $profile = $submitter;
-        }
-        $linkUrl = COM_buildUrl($_CONF['site_url']
-                                . '/links/portal.php?what=link&amp;item='
-                                . $A['lid']);
-        $anchor = COM_createLink($A['title'], $linkUrl,
-                                 array('title' => $A['url']));
-        $row = array ($anchor, $thetime[0], $profile,
-                      COM_NumberFormat ($A['hits']));
-        $plugin_results->addSearchResult ($row);
-        $plugin_results->num_searchresults++;
+        $sql .= "AND (owner_id = '$author') ";
     }
 
-    return $plugin_results;
+    $search = new SearchCriteria('links', $LANG_LINKS[14]);
+    $columns = array('title' => 'title', 'description');
+    list($sql,$ftsql) = $search->buildSearchSQL($keyType, $query, $columns, $sql);
+    $search->setSQL($sql);
+    $search->setFTSQL($ftsql);
+    $search->setRank(3);
+    $search->setAppendQuery(false);
+
+    return $search;
 }
 
 
@@ -526,7 +453,7 @@ function plugin_user_delete_links ($uid)
 
     if ($_LI_CONF['delete_links'] == 1) {
         // delete the links
-        DB_query ("DELETE FROM {$_TABLES['links']} WHERE owner_id = $uid");
+        DB_delete($_TABLES['links'], 'owner_id', $uid);
     } else {
         // assign ownership to a user from the Root group
         $rootgroup = DB_getItem ($_TABLES['groups'], 'grp_id',
@@ -710,15 +637,64 @@ function plugin_feedupdatecheck_links ($feed, $topic, $update_data, $limit, $upd
 */
 function plugin_upgrade_links()
 {
-    // the plugin needs these function so complain when they don't exist
-    if (!function_exists('PLG_uninstall') ||
-            !function_exists('COM_createLink')) {
+    global $_CONF, $_TABLES, $_LI_CONF;
+
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
+                                    "pi_name = 'links'");
+    $code_version = plugin_chkVersion_links();
+    if ($installed_version == $code_version) {
+        // nothing to do
+        return true;
+    }
+
+    require_once $_CONF['path'] . 'plugins/links/autoinstall.php';
+
+    if (! plugin_compatible_with_this_version_links('links')) {
         return 3002;
     }
 
-    // upgrades are done by the install script - return a generic error
-    COM_errorLog("Plugin upgrade function not implemented");
-    return 3001;
+    $inst_parms = plugin_autoinstall_links('links');
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    if (! isset($_LI_CONF['new_window'])) {
+        $c = config::get_instance();
+        $c->add('new_window',false,'select',0,0,1,55,TRUE,'links');
+    }
+
+    if (! isset($_LI_CONF['category_permissions'])) {
+        $c = config::get_instance();
+        $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
+        $c->add('category_permissions', array (3, 2, 2, 2),
+                '@select', 0, 3, 12, 150, true, 'links');
+    }
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'links'");
+
+    return true;
+}
+
+/**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_links($old_conf)
+{
+    global $_CONF;
+
+    $tables = array(
+        'linkcategories'    => 'cid, description',
+        'links'             => 'lid, description, url',
+        'linksubmission'    => 'lid, description, url'
+    );
+
+    if ($old_conf['site_url'] != $_CONF['site_url']) {
+        INST_updateSiteUrl($old_conf['site_url'], $_CONF['site_url'], $tables);
+    }
+
+    return true;
 }
 
 /**
@@ -1015,6 +991,8 @@ function plugin_save_submit_links($A)
         $result = DB_save($_TABLES['links'],
                     'lid,cid,url,description,title,date,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon',
                     "{$A['lid']},'{$A['cid']}','{$A['url']}','{$A['description']}','{$A['title']}',NOW(),$owner_id,{$A['group_id']},{$A['perm_owner']},{$A['perm_group']},{$A['perm_members']},{$A['perm_anon']}");
+
+        PLG_itemSaved($A['lid'], 'links');
 
         if ($_LI_CONF['notification'] == 1) {
             LINKS_sendNotification($_TABLES['links'], $A);
@@ -1435,6 +1413,254 @@ function phpblock_topic_categories()
                 $retval .= COM_createLink($content, $url) . '<br' . XHTML . '>';
             }
         }
+    }
+
+    return $retval;
+}
+
+/**
+* Return information for a link
+*
+* @param    string  $lid        link ID or '*'
+* @param    string  $what       comma-separated list of properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
+*
+*/
+function plugin_getiteminfo_links($lid, $what, $uid = 0, $options = array())
+{
+    global $_CONF, $_TABLES;
+
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
+    foreach ($properties as $p) {
+        switch ($p) {
+        case 'date-modified':
+            $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
+            break;
+        case 'description':
+        case 'excerpt':
+            $fields[] = 'description';
+            break;
+        case 'id':
+            $fields[] = 'lid';
+            break;
+        case 'title':
+            $fields[] = 'title';
+            break;
+        case 'url':
+            // needed for $lid == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'lid';
+            break;
+        default:
+            // nothing to do
+            break;
+        }
+    }
+
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
+    }
+
+    // prepare SQL request
+    if ($lid == '*') {
+        $where = '';
+        $permOp = 'WHERE';
+    } else {
+        $where = " WHERE lid = '" . addslashes($lid) . "'";
+        $permOp = 'AND';
+    }
+    if ($uid > 0) {
+        $permSql = COM_getPermSql($permOp, $uid)
+                 . LINKS_getCategorySQL('AND', $uid);
+    } else {
+        $permSql = COM_getPermSql($permOp) . LINKS_getCategorySQL('AND');
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['links']}" . $where . $permSql;
+    if ($lid != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
+                break;
+            case 'description':
+            case 'excerpt':
+                $props[$p] = stripslashes($A['description']);
+                break;
+            case 'id':
+                $props['id'] = $A['lid'];
+                break;
+            case 'title':
+                $props['title'] = stripslashes($A['title']);
+                break;
+            case 'url':
+                if (empty($A['lid'])) {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/links/portal.php?what=link&amp;item=' . $lid);
+                } else {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/links/portal.php?what=link&amp;item='
+                            . $A['lid']);
+                }
+                break;
+            default:
+                // return empty string for unknown properties
+                $props[$p] = '';
+                break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($lid == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($lid == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
+        }
+    }
+
+    if (($lid != '*') && (count($retval) == 1)) {
+        $retval = $retval[0];
+    }
+
+    return $retval;
+}
+
+/**
+* Return SQL expression to check for allowed categories.
+*
+* Creates part of an SQL expression that can be used to only request links
+* from categories to which the user has access to.
+*
+* Note that this function does SQL requests, so you should cache
+* the resulting SQL expression if you need it more than once.
+*
+* @param    string  $type   part of the SQL expr. e.g. 'WHERE', 'AND'
+* @param    int     $u_id   user id or 0 = current user
+* @param    string  $table  table name if ambiguous (e.g. in JOINs)
+* @return   string          SQL expression string (may be empty)
+* @see      COM_getTopicSQL
+*
+*/
+function LINKS_getCategorySQL($type = 'WHERE', $u_id = 0, $table = '')
+{
+    global $_TABLES, $_USER, $_GROUPS;
+
+    $categorysql = ' ' . $type . ' ';
+
+    if (!empty($table)) {
+        $table .= '.';
+    }
+
+    $UserGroups = array();
+    if (($u_id <= 0) || (isset($_USER['uid']) && ($u_id == $_USER['uid']))) {
+        if (!COM_isAnonUser()) {
+            $uid = $_USER['uid'];
+        } else {
+            $uid = 1;
+        }
+        $UserGroups = $_GROUPS;
+    } else {
+        $uid = $u_id;
+        $UserGroups = SEC_getUserGroups($uid);
+    }
+
+    if (empty($UserGroups)) {
+        // this shouldn't really happen, but if it does, handle user
+        // like an anonymous user
+        $uid = 1;
+    }
+
+    if (SEC_inGroup('Root', $uid)) {
+        return '';
+    }
+
+    $parents = array('root');
+    $cids = array();
+
+    do {
+        $result = DB_query("SELECT cid FROM {$_TABLES['linkcategories']}"
+                           . COM_getPermSQL('WHERE', $uid) . " AND pid IN ('"
+                           . implode("','", $parents) . "')");
+
+        $parents = array();
+        while ($C = DB_fetchArray($result)) {
+            $parents[] = $C['cid'];
+            $cids[] = $C['cid'];
+        }
+    } while (count($parents) > 0);
+
+    if (count($cids) > 0) {
+        $categorysql .= "({$table}cid IN ('" . implode("','", $cids) . "'))";
+    } else {
+        $categorysql .= '0';
+    }
+
+    return $categorysql;
+}
+
+/**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_links($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'docs/' . $doclang . '/links.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/docs/english/links.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
     }
 
     return $retval;

@@ -53,10 +53,10 @@ $LANG01 = array(
     2 => 'Διαβάστε περισσότερα',
     3 => 'σχόλια',
     4 => 'Επεξεργασία',
-    5 => 'Ψηφίστε',
-    6 => 'Αποτελέσματα',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => 'Ψήφοι',
+    8 => '',
     9 => 'Μενού Διαχειριστή:',
     10 => 'Κατατεθέντα άρθρα',
     11 => 'Άρθρα',
@@ -159,7 +159,7 @@ $LANG01 = array(
     108 => 'Καθαρισμός Cache',
     109 => 'Αναφορά του παρόντος κειμένου ώς καταχρηστικό',
     110 => 'Αναφορά του παρόντος άρθρου στον Διαχειριστή του συστήματος',
-    111 => 'Δείτε την έκδοση PDF',
+    111 => '',
     112 => 'Καταχωρημένοι Χρήστες',
     113 => 'Τεκμηρίωση',
     114 => 'TRACKBACKS',
@@ -211,7 +211,23 @@ $LANG03 = array(
     24 => 'Ανώνυμος χρήστης',
     25 => 'Είστε σίγουρος(η) ότι επιθυμείτε την αναφορά του παρόντος άρθρου στον Διαχειριστή του συστήματος;',
     26 => '%s ανέφερε το ακόλουθο καταχρηστικό σχόλιο:',
-    27 => 'Αναφορά Καταχρηστικών Κειμένων'
+    27 => 'Αναφορά Καταχρηστικών Κειμένων',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -371,7 +387,10 @@ $LANG04 = array(
     156 => 'Delete Account',
     157 => 'Delete Option',
     158 => 'Time Zone',
-    159 => 'This email was generated automatically. Please do not reply to this email.'
+    159 => 'This email was generated automatically. Please do not reply to this email.',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -439,7 +458,10 @@ $LANG08 = array(
     32 => 'Ημερομηνία',
     33 => 'Διαβάστε το πλήρες άρθρο',
     34 => 'Τέλος μηνύματος',
-    35 => 'Λυπούμαστε, ο χρήστης έχει απενεργοποιήσει την λήψη ηλεκτρονικών μηνυμάτων.'
+    35 => 'Λυπούμαστε, ο χρήστης έχει απενεργοποιήσει την λήψη ηλεκτρονικών μηνυμάτων.',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -506,7 +528,16 @@ $LANG09 = array(
     58 => 'More results &gt;&gt;',
     59 => 'Results',
     60 => 'per page',
-    61 => 'Refine search'
+    61 => 'Refine search',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -554,7 +585,7 @@ $LANG11 = array(
     2 => 'Στείλτε το άρθρο σε έναν φίλο/φίλη μέσω ηλεκτρονικού ταχυδρομίου',
     3 => 'Διαμόρφωση άρθρου για εκτύπωση',
     4 => 'Μενού επιλογών άρθρου',
-    5 => 'Άρθρο σε μορφή PDF',
+    5 => '',
     6 => 'Subscribe to \'%s\''
 );
 
@@ -776,7 +807,7 @@ $LANG24 = array(
     60 => '',
     61 => 'Αυτόματη αρχειοθέτηση',
     62 => 'Αυτόματη διαγραφή',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -927,7 +958,9 @@ $LANG28 = array(
     82 => "Your account on {$_CONF['site_name']} has not been accesssed since %s and will be disabled if not accessed in the 30 days.",
     83 => "Your account on {$_CONF['site_name']} has not been used since it was created and will deleted soon if not accessed.",
     84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
-    85 => 'If you have forgotten the password use the following link: %s'
+    85 => 'If you have forgotten the password use the following link: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -949,11 +982,14 @@ $LANG29 = array(
     18 => 'Ηλεκτρονική διεύθυνση',
     34 => 'Εντολές και Έλεγχος',
     35 => 'Υποβολή άρθρων',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'Υποβολή',
     39 => 'Δέν υπάρχουν υποβολές προς επιθεώρηση την παρούσα στιγμή',
-    40 => 'Υποβολές χρηστών'
+    40 => 'Υποβολές χρηστών',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1029,7 +1065,20 @@ $LANG32 = array(
     35 => 'Edit',
     36 => 'Code',
     37 => 'Data',
-    38 => 'Update!'
+    38 => 'Update!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1106,8 +1155,8 @@ $MESSAGE = array(
     12 => 'Η ομάδα διαγράφτηκε επιτυχώς.',
     13 => 'Το θέμα σας αποθηκεύτηκε επιτυχώς.',
     14 => 'Το θέμα και όλες οι Άρθρα και ομάδες του διαγράφηκαν επιτυχώς.',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1120,24 +1169,24 @@ $MESSAGE = array(
     26 => '',
     27 => 'Το μήνυμα στάλθηκε επιτυχώς.',
     28 => 'Το εξωτερικό πρόγραμμα αποθηκεύτηκε επιτυχώς',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => 'Η πρόσβαση απορρίφτηκε',
-    31 => 'Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης των ιστοριών. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
-    32 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης των θεμάτων. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
-    33 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης των ομάδων. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης των χρηστών. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
-    38 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης των PLUGIN. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
-    39 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης του ηλεκτρονικού ταχυδρομείου. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => 'Μήνυμα συστήματος',
-    41 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης της αντικατάστασης λέξεων. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
-    42 => 'Η λέξη σας αποθηκεύτηκε επιτυχώς.',
-    43 => 'Η λέξη διαγράφηκε επιτυχώς.',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => 'Το εξωτερικό πρόγραμμα εγκαταστάθηκε με επιτυχία!',
     45 => 'Το εξωτερικό πρόγραμμα διαγράφτηκε με επιτυχία!',
-    46 => ' Τα δικαιώματα σας δεν αρκούν για να προσπελάσετε την σελίδα διαχείρισης αντιγράφων της βάσης δεδομένων. Όλες οι προσπάθειες μη-εξουσιοδοτημένης πρόσβασης καταχωρούνται στο σύστημα.',
+    46 => '',
     47 => 'Αυτό το χαρακτηριστικό λειτουργεί μόνο υπό συστήματα *nix. Εάν το λειτουργικό σας σύστημα είναι *nix τότε η cache σας έχει επιτυχώς καθαριστεί. Εάν είστε σε λειτουργικό σύστημα Windows, θα πρέπει να ψάξετε και να αφαιρέσετε τα αρχεία adodb_*.php.',
     48 => "Σας ευχαριστούμε για το ενδιαφέρον σας να γίνετε μέλος του {$_CONF['site_name']}. Η ομάδα μας θα αξιολογήσει την αίτηση σας. Αν εγκριθεί ο κωδικός σας θα αποσταλεί με μήνυμα ηλεκτρονικού ταχυδρομείου στην διεύθυνση που υποδηλώσατε.",
     49 => 'Το σύνολο σας αποθηκεύτηκε επιτυχώς.',
@@ -1187,8 +1236,14 @@ $MESSAGE = array(
     93 => 'Database back up was successful.',
     94 => 'Backup Failed: Filesize less than 1kb',
     95 => 'There was an error.',
-    96 => 'Sorry, you do not have access to the configuration administration page.  Please note that all attempts to access unauthorized features are logged.',
-    97 => 'Not all required fields have been passed validation - default custom membership message'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1314,26 +1369,6 @@ $LANG_LOGIN = array(
 );
 
 ###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'Η χρηση εγγράφων PDF έχει απενεργοποιηθεί',
-    2 => 'Το παρόν έγγραφο δεν έχει μετραταπεί. Παρακαλώ, εξακριβώστε οτι αποστείλατε την HTML έκδοση ενός εγγράφου που τηρεί το πρότυπο xHTML. Επίσης, πρέπει να ξέρεται ότι υπάρχει η πιθανότητα να μην μετατραπουν σωστά πολύπλοκα έγγραφα σε HTML. Το μέγεθος του αρχείου μετατροπής είναι 0 bytes και έχει διαγραφεί. Αν είστε σίγουρος(η) ότι το έγγραφο θα μετατραπεί σωστά, παρακαλώ να το αποστείλετε ξανά.',
-    3 => 'Άγνωστο σφάλμα κατα την δημιουργία εγγράφου PDF',
-    4 => "Δεν καταχωρήθηκαν δεδομένα απο τον χρήστη ή θέλετε να δημιουργήσετε εξειδικευμένο έγγραφο PDF απο το εργαλείο παρακάτω. Αν νομίζετε οτι βλέπετε αυτήν την σελίδα\n       απο λάθος τότε επικοινωνήστε με τους διαχηριστές του συστήματος. Διαφορετικά, μπορείτε να χρησιμοποιήσετε την φόρμα παρακάτω για να δημιουργήσετε το έγγραφο σε PDF διαμόρφωση\n.",
-    5 => 'Φόρτωση του Εγγράφου',
-    6 => 'Παρακαλώ, περιμένετε μέχρι να τελειώσει η φόρτωση του εγγράφου σας.',
-    7 => 'Μπορείτε να αποθηκεύσετε το έγγραφο σας επιλέγοντας το κουμπί παρακάτω με το δεξί πλήκτρο του ποντικιού και επιλέγοντας "Αποθήκευση ως...".',
-    8 => "Η διαδρομη που δώσατε στο αρχείο της παραμετροποίησης (config.php) για το εκτελέσιμο HTMLDoc είναι λανθασμένος και το σύστημα δεν μπορεί να το εκτελέσει. Παρακαλώ, επικοινωνηστε με τους διαχηριστές του συστήματος αν το πρόβλημα\n	επιμείνει.",
-    9 => 'Δημιουργία αρχείου PDF',
-    10 => "Αυτός είναι ο εξειδικευμένος τρόπος δημιουργίας αρχείων PDF. Το παρόν εργαλείο θα επιχειρήσει την μετατροπή ενος URL σε αρχείο PDF. Παρακαλώ, σημειώστε ότι κάποιες σελίδες δεν θα εμφανίζονται σωστά στο τελικό αρχείο. Αυτό οφείλεται σε αδυναμλία του προγράμματος HTMLDoc PDF. Τα τυχόν λάθη στην μετρατροπή\n     θα πρέπει να αναφέρονται στην ιστοσελίδα του HTMLDoc PDF.",
-    11 => 'URL',
-    12 => 'Δημιουργία PDF!',
-    13 => 'Η παραμετρόποιηση της γλώσσας PHP στην παρούσα ιστοσελίδα δεν επιτρέπει την χρήση URL με την εντολή fopen(). Ο διαχηριστής του συστήματος πρέπει να θέσει την μεταβλητη "allow_url_fopen" στην θέση "on" στο αρχείο παραμετροποίησης της PHP',
-    14 => 'Το αρχείο PDF που διαλέξατε δεν υπάρχει η δεν επιτρέπεται η πρόσβαση σε αυτό.'
-);
-
-###############################################################################
 # trackback.php
 
 $LANG_TRB = array(
@@ -1432,6 +1467,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1518,7 +1578,8 @@ $LANG_ADMIN = array(
     'records_found' => 'Records found',
     'addchild' => 'Add child',
     'list' => 'list',
-    'list_all' => 'List all'
+    'list_all' => 'List all',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1591,7 +1652,8 @@ $LANG_CONFIG = array(
     'reset_form' => 'Reset Form',
     'changes_made' => 'Changes were successfully made to',
     'title' => 'Configuration Manager',
-    'disable' => 'Click to disable this option'
+    'disable' => 'Click to disable this option',
+    'enable' => 'Enable'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1619,7 +1681,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => 'Allow MySQL Dump',
     'mysqldump_path' => 'Path of Executable',
     'mysqldump_options' => 'MySQL Dump Options',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => 'Theme',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Menu Elements',
     'path_themes' => 'Themes Path',
     'disable_new_user_registration' => 'Disable New Registrations',
@@ -1658,6 +1722,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => 'Theme Cookie Name',
     'cookie_language' => 'Language Cookie Name',
     'cookie_tzid' => 'Timezone Cookie Name',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Cookies embed IP?',
     'default_perm_cookie_timeout' => 'Permanent Timeout',
     'session_cookie_timeout' => 'Session Timeout',
@@ -1665,7 +1730,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Cookie Domain',
     'cookiesecure' => 'Cookie Secure',
     'lastlogin' => 'Record Last Login?',
-    'pdf_enabled' => 'PDF Enabled?',
     'num_search_results' => 'Number of Search Results',
     'loginrequired' => 'Login Required?',
     'submitloginrequired' => 'Submit Login Required?',
@@ -1749,6 +1813,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => 'Debug Image Uploading?',
     'keep_unscaled_image' => 'Keep Unscaled Image?',
     'allow_user_scaling' => 'Allow User Scaling?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => 'Max Image Width?',
     'max_image_height' => 'Max Image Height?',
     'max_image_size' => 'Max Image Size?',
@@ -1766,14 +1831,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => 'Comment Limit',
     'comment_mode' => 'Comment Mode',
     'comment_code' => 'Comment Default',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => 'Password Speed Limit',
     'login_attempts' => 'Max. Login Attempts',
     'login_speedlimit' => 'Login Speed Limit',
     'user_html' => 'User HTML',
     'admin_html' => 'Admin HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Skip HTML Filter for Root?',
     'allowed_protocols' => 'Allowed Protocols',
     'disable_autolinks' => 'Disable Autolinks?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => 'Censor Mode?',
     'censorreplace' => 'Censor Replace Text',
     'censorlist' => 'Censor List',
@@ -1784,7 +1856,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => 'Topic Default Permissions',
     'atom_max_stories' => 'Max. Stories in Webservices Feed',
     'disable_webservices' => 'Disable Webservices?',
-    'restrict_webservices' => 'Restrict Webservices?'
+    'restrict_webservices' => 'Restrict Webservices?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1861,7 +1944,11 @@ $LANG_configselects['Core'] = array(
     15 => array('By Number' => 'sortnum', 'Alphabetically' => 'alpha'),
     16 => array('No Login required' => 0, 'Advanced Search only' => 1, 'Simple + Advanced Search' => 2),
     17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1),
-    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3)
+    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

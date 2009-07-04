@@ -107,6 +107,7 @@ $LANG25 = array(
     40 => 'Vaata kõiki sellele küsitlusele antud vastuseid'
 );
 
+$PLG_polls_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
 $PLG_polls_MESSAGE19 = 'Sinu küsitlus on edukalt salvestatud.';
 $PLG_polls_MESSAGE20 = 'Sinu küsitlus on edukalt kustutatud.';
 
@@ -148,7 +149,7 @@ $LANG_configselects['polls'] = array(
     1 => array('Jah' => true, 'Ei' => false),
     2 => array('Nagu sisestatud' => 'submitorder', 'Häälte järgi' => 'voteorder'),
     9 => array('Suuna küsitluste juurde' => 'item', 'Näita administreerimisloetelu' => 'list', 'Näita avalikku loetelu' => 'plugin', 'Näita avalehte' => 'home', 'Näita administreerimislehte' => 'admin'),
-        12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
+    12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
 );
 
 ?>

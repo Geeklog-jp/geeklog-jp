@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Links Plugin 2.0                                                          |
+// | Links Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | This is the main page for the Geeklog Links Plugin                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -33,8 +33,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.40 2008/07/13 15:03:52 dhaun Exp $
 
 /**
  * This is the links page
@@ -42,19 +40,22 @@
  * @package Links
  * @subpackage public_html
  * @filesource
- * @version 2.0
+ * @version 2.1
  * @since GL 1.4.0
- * @copyright Copyright &copy; 2005-2008
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @author Tony Bibbs <tony AT tonybibbs DOT com>
- * @author Mark Limburg <mlimburg AT users DOT sourceforge DOT net>
- * @author Jason Whittenburg <jwhitten AT securitygeeks DOT com>
- * @author Tom Willett <tomw AT pigstye DOT net>
- * @author Trinity Bays <trinity93 AT gmail DOT com>
- * @author Dirk Haun <dirk AT haun-online DOT de>
+ * @copyright Copyright &copy; 2005-2009
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Tony Bibbs, tony AT tonybibbs DOT com
+ * @author Mark Limburg, mlimburg AT users DOT sourceforge DOT net
+ * @author Jason Whittenburg, jwhitten AT securitygeeks DOT com
+ * @author Tom Willett, tomw AT pigstye DOT net
+ * @author Trinity Bays, trinity93 AT gmail DOT com
+ * @author Dirk Haun, dirk AT haun-online DOT de
  *
  */
 
+/** 
+* Geeklog common function library
+*/
 require_once '../lib-common.php';
 
 if (!in_array('links', $_PLUGINS)) {
@@ -119,7 +120,7 @@ function links_list($message)
             $display .= COM_siteHeader ('menu', $page_title);
             $display .= COM_showMessage (5, 'links');
             $display .= COM_siteFooter ();
-            echo $display;
+            COM_output($display);
             exit;
         }
     }
@@ -267,7 +268,7 @@ function links_list($message)
 
     if ($nrows == 0) {
         if (($cid == $_LI_CONF['root']) && ($page <= 1) && $_LI_CONF['show_top10']) {
-            $result = DB_query ("SELECT lid,url,title,description,hits,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['links']} WHERE (hits > 0)" . COM_getPermSQL ('AND') . " ORDER BY hits DESC LIMIT 10");
+            $result = DB_query("SELECT lid,url,title,description,hits,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['links']} WHERE (hits > 0)" . COM_getPermSQL('AND') . LINKS_getCategorySQL('AND') . " ORDER BY hits DESC LIMIT 10");
             $nrows  = DB_numRows ($result);
             if ($nrows > 0) {
                 $linklist->set_var ('link_details', '');
@@ -340,54 +341,64 @@ function links_list($message)
 * @param    ref     $template   reference of the links template
 *
 */
-function prepare_link_item ($A, &$template)
+function prepare_link_item($A, &$template)
 {
-    global $_CONF, $_USER, $LANG_ADMIN, $LANG_LINKS, $_IMAGE_TYPE, $LANG_DIRECTION;
+    global $_CONF, $_USER, $_LI_CONF, $LANG_ADMIN, $LANG_LINKS, $LANG_DIRECTION,
+           $_IMAGE_TYPE;
 
-    $url = COM_buildUrl ($_CONF['site_url']
-                 . '/links/portal.php?what=link&amp;item=' . $A['lid']);
-    $template->set_var ('link_url', $url);
-    $template->set_var ('link_actual_url', $A['url']);
-    $template->set_var ('link_actual_url_encoded', urlencode($A['url']));
-    $template->set_var ('link_name', stripslashes ($A['title']));
-    $template->set_var ('link_name_encoded', urlencode($A['title']));
-    $template->set_var ('link_hits', COM_numberFormat ($A['hits']));
-    $template->set_var ('link_description',
-                        nl2br (stripslashes ($A['description'])));
-    $content = stripslashes ($A['title']);
-    $class = 'ext-link';
-    if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
-        $class .= '-rtl';
+    $url = COM_buildUrl($_CONF['site_url']
+                        . '/links/portal.php?what=link&amp;item=' . $A['lid']);
+    $actualUrl = stripslashes($A['url']);
+    $title = stripslashes($A['title']);
+
+    $template->set_var('link_url', $url);
+    $template->set_var('link_actual_url', $actualUrl);
+    $template->set_var('link_actual_url_encoded', urlencode($actualUrl));
+    $template->set_var('link_name', $title);
+    $template->set_var('link_name_encoded', urlencode($title));
+    $template->set_var('link_hits', COM_numberFormat($A['hits']));
+    $template->set_var('link_description',
+                       nl2br(stripslashes($A['description'])));
+
+    $attr = array('title' => $actualUrl);
+    if (substr($actualUrl, 0, strlen($_CONF['site_url'])) != $_CONF['site_url']) {
+        $class = 'ext-link';
+        if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
+            $class .= '-rtl';
+        }
+        $attr['class'] = $class;
+        if ($_LI_CONF['new_window']) {
+            $attr['target'] = '_blank';
+        }
     }
-    $attr = array(
-        'title' => stripslashes ($A['url']),
-        'class' => $class);
-    $html = COM_createLink($content, $url, $attr);
-    $template->set_var ('link_html', $html);
+    $html = COM_createLink($title, $url, $attr);
+    $template->set_var('link_html', $html);
+
     if (!COM_isAnonUser() && !SEC_hasRights('links.edit')) {
         $reporturl = $_CONF['site_url']
-                 . '/links/index.php?mode=report&amp;lid=' . $A['lid'];
-        $template->set_var ('link_broken',
+                   . '/links/index.php?mode=report&amp;lid=' . $A['lid'];
+        $template->set_var('link_broken',
                 COM_createLink($LANG_LINKS[117], $reporturl,
                                array('class' => 'pluginSmallText',
                                      'rel'   => 'nofollow'))
         );
     } else {
-        $template->set_var ('link_broken', '');
+        $template->set_var('link_broken', '');
     }
 
-    if ((SEC_hasAccess ($A['owner_id'], $A['group_id'], $A['perm_owner'],
+    if ((SEC_hasAccess($A['owner_id'], $A['group_id'], $A['perm_owner'],
             $A['perm_group'], $A['perm_members'], $A['perm_anon']) == 3) &&
-            SEC_hasRights ('links.edit')) {
+            SEC_hasRights('links.edit')) {
         $editurl = $_CONF['site_admin_url']
                  . '/plugins/links/index.php?mode=edit&amp;lid=' . $A['lid'];
-        $template->set_var ('link_edit', COM_createLink($LANG_ADMIN['edit'],$editurl));
+        $template->set_var('link_edit',
+                           COM_createLink($LANG_ADMIN['edit'], $editurl));
         $edit_icon = "<img src=\"{$_CONF['layout_url']}/images/edit.$_IMAGE_TYPE\" "
             . "alt=\"{$LANG_ADMIN['edit']}\" title=\"{$LANG_ADMIN['edit']}\"" . XHTML . ">";
-        $template->set_var ('edit_icon', COM_createLink($edit_icon, $editurl));
+        $template->set_var('edit_icon', COM_createLink($edit_icon, $editurl));
     } else {
-        $template->set_var ('link_edit', '');
-        $template->set_var ('edit_icon', '');
+        $template->set_var('link_edit', '');
+        $template->set_var('edit_icon', '');
     }
 }
 
@@ -443,6 +454,6 @@ if (empty ($_USER['username']) &&
 
 $display .= COM_siteFooter ();
 
-echo $display;
+COM_output($display);
 
 ?>

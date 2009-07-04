@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | user.php                                                                  |
 // |                                                                           |
 // | Geeklog user administration page.                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,95 +31,42 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: user.php,v 1.209 2008/08/01 18:48:58 blaine Exp $
+
+/**
+* User administration: Manage users (create, delete, import) and their
+* group membership.
+*
+*/
+
+/**
+* Geeklog common function library
+*/
+require_once '../lib-common.php';
+
+/**
+* Security check to ensure user even belongs on this page
+*/
+
+require_once 'auth.inc.php';
+
+/**
+* User-related functions
+*/
+require_once $_CONF['path_system'] . 'lib-user.php';
 
 // Set this to true to get various debug messages from this script
 $_USER_VERBOSE = false;
-
-require_once '../lib-common.php';
-require_once 'auth.inc.php';
-require_once $_CONF['path_system'] . 'lib-user.php';
 
 $display = '';
 
 // Make sure user has access to this page
 if (!SEC_hasRights('user.edit')) {
     $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[37], $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
              . COM_siteFooter();
     COM_accessLog("User {$_USER['username']} tried to illegally access the user administration screen.");
-    echo $display;
+    COM_output($display);
     exit;
-}
-
-/**
-* Display a list of checkboxes for the user's group assignments
-*
-* @param    string  $table      DB Table to pull data from
-* @param    string  $selection  Comma delimited list of fields to pull from table
-* @param    string  $where      Where clause of SQL statement
-* @param    string  $selected   Value to set to CHECKED
-* @return   string              HTML with Checkbox code
-* @see function COM_checkList
-*
-*/
-function GROUP_checkList($table, $selection, $where='', $selected='', $orderby='')
-{
-    global $_TABLES, $LANG_ACCESS;
-
-    $retval = '';
-
-    $sql = "SELECT $selection FROM $table";
-    if (!empty($where)) {
-        $sql .= " WHERE $where";
-    }
-    if (!empty($orderby)) {
-        $sql .= " ORDER BY $orderby";
-    }
-    $result = DB_query($sql);
-    $nrows = DB_numRows($result);
-
-    if (empty($selected)) {
-        $S = array();
-    } else {
-        $S = explode(' ', $selected);
-    }
-    $num_selected = count($S);
-
-    for ($i = 0; $i < $nrows; $i++) {
-        $A = DB_fetchArray($result, true);
-
-        $readonly = false;
-        $input = '<input type="checkbox"';
-
-        for ($x = 0; $x < $num_selected; $x++) {
-            if ($A[0] == $S[$x]) {
-                $input .= ' checked="checked"';
-
-                if (($A[1] == 'All Users') || ($A[1] == 'Logged-in Users')) {
-                    $readonly = true;
-                }
-            }
-        }
-        if ($A[1] == 'Remote Users') {
-            $readonly = true;
-        }
-
-        if ($readonly) {
-            $input .= ' disabled="disabled"' . XHTML . '>'
-                   . '<input type="hidden" name="' . $table . '[]" value="'
-                   . $A[0] . '" checked="checked"' . XHTML . '>';
-            $retval .= '<span title="' . $LANG_ACCESS['readonly'] . '">'
-                    . $input . stripslashes($A[1]) . '</span><br' . XHTML . '>' . LB;
-        } else {
-            $input .= ' name="' . $table . '[]" value="' . $A[0] . '"';
-            $retval .= $input . XHTML . '>' . stripslashes($A[1])
-                    . '<br' . XHTML . '>' . LB;
-        }
-    }
-
-    return $retval;
 }
 
 /**
@@ -134,6 +81,8 @@ function edituser($uid = '', $msg = '')
 {
     global $_CONF, $_TABLES, $_USER, $LANG28, $LANG_ACCESS, $LANG_ADMIN,
            $MESSAGE;
+
+    require_once $_CONF['path_system'] . 'lib-admin.php';
 
     $retval = '';
 
@@ -307,44 +256,77 @@ function edituser($uid = '', $msg = '')
     $user_templates->set_var('user_status', $statusselect);
     $user_templates->set_var('lang_user_status', $LANG28[46]);
 
-    if ($_CONF['custom_registration'] AND (function_exists('CUSTOM_userEdit'))) {
-        if (!empty ($uid) && ($uid > 1)) {
-            $user_templates->set_var('customfields', CUSTOM_userEdit($uid) );
+    if ($_CONF['custom_registration'] AND function_exists('CUSTOM_userEdit')) {
+        if (!empty($uid) && ($uid > 1)) {
+            $user_templates->set_var('customfields', CUSTOM_userEdit($uid));
         } else {
-            $user_templates->set_var('customfields', CUSTOM_userEdit($A['uid']) );
+            $user_templates->set_var('customfields', CUSTOM_userEdit($A['uid']));
         }
     }
 
-    if (SEC_hasRights('group.edit')) {
-        $user_templates->set_var('lang_securitygroups', $LANG_ACCESS['securitygroups']);
-        $user_templates->set_var('lang_groupinstructions', $LANG_ACCESS['securitygroupsmsg']);
+    if (SEC_hasRights('group.assign')) {
+        $user_templates->set_var('lang_securitygroups',
+                                 $LANG_ACCESS['securitygroups']);
+        $user_templates->set_var('lang_groupinstructions',
+                                 $LANG_ACCESS['securitygroupsmsg']);
 
-        if (!empty($uid)) {
+        if (! empty($uid)) {
             $usergroups = SEC_getUserGroups($uid);
             if (is_array($usergroups) && !empty($uid)) {
-                $selected = implode(' ',$usergroups);
+                $selected = implode(' ', $usergroups);
             } else {
                 $selected = '';
             }
         } else {
-            $selected = DB_getItem($_TABLES['groups'],'grp_id',"grp_name='All Users'") . ' ';
-            $selected .= DB_getItem($_TABLES['groups'],'grp_id',"grp_name='Logged-in Users'");
+            $selected = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'All Users'")
+                      . ' ';
+            $selected .= DB_getItem($_TABLES['groups'], 'grp_id',
+                                    "grp_name = 'Logged-in Users'");
         }
-        $thisUsersGroups = SEC_getUserGroups ();
-        $remoteGroup = DB_getItem ($_TABLES['groups'], 'grp_id',
-                                   "grp_name='Remote Users'");
-        if (!empty ($remoteGroup)) {
+        $thisUsersGroups = SEC_getUserGroups();
+        $remoteGroup = DB_getItem($_TABLES['groups'], 'grp_id',
+                                  "grp_name = 'Remote Users'");
+        if (! empty($remoteGroup)) {
             $thisUsersGroups[] = $remoteGroup;
         }
-        $where = 'grp_id IN (' . implode (',', $thisUsersGroups) . ')';
-        $user_templates->set_var ('group_options',
-                GROUP_checkList ($_TABLES['groups'], 'grp_id,grp_name',
-                                 $where, $selected, 'grp_name'));
+        $whereGroups = 'grp_id IN (' . implode (',', $thisUsersGroups) . ')';
+
+        $header_arr = array(
+                        array('text' => $LANG28[86], 'field' => 'checkbox', 'sort' => false),
+                        array('text' => $LANG_ACCESS['groupname'], 'field' => 'grp_name', 'sort' => true),
+                        array('text' => $LANG_ACCESS['description'], 'field' => 'grp_descr', 'sort' => true)
+        );
+        $defsort_arr = array('field' => 'grp_name', 'direction' => 'asc');
+
+        $form_url = $_CONF['site_admin_url']
+                  . '/user.php?mode=edit&amp;uid=' . $uid;
+        $text_arr = array('has_menu' => false,
+                          'title' => '', 'instructions' => '',
+                          'icon' => '', 'form_url' => $form_url,
+                          'inline' => true
+        );
+
+        $sql = "SELECT grp_id, grp_name, grp_descr FROM {$_TABLES['groups']} WHERE " . $whereGroups;
+        $query_arr = array('table' => 'groups',
+                           'sql' => $sql,
+                           'query_fields' => array('grp_name'),
+                           'default_filter' => '',
+                           'query' => '',
+                           'query_limit' => 0
+        );
+
+        $groupoptions = ADMIN_list('usergroups',
+                                   'ADMIN_getListField_usergroups',
+                                   $header_arr, $text_arr, $query_arr,
+                                   $defsort_arr, '', explode(' ', $selected));
+
+        $user_templates->set_var('group_options', $groupoptions);
         $user_templates->parse('group_edit', 'groupedit', true);
     } else {
         // user doesn't have the rights to edit a user's groups so set to -1
         // so we know not to handle the groups array when we save
-        $user_templates->set_var ('group_edit',
+        $user_templates->set_var('group_edit',
                 '<input type="hidden" name="groups" value="-1"' . XHTML . '>');
     }
     $user_templates->set_var('gltoken_name', CSRF_TOKEN);
@@ -465,13 +447,28 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
     if ($_USER_VERBOSE) COM_errorLog("group size at beginning = " . sizeof($groups),1);
 
     if ($passwd != $passwd_conf) { // passwords don't match
-        return edituser ($uid, 67);
+        return edituser($uid, 67);
     }
 
-    if (!empty ($username) && !empty ($email)) {
+    $nameAndEmailOkay = true;
+    if (empty($username)) {
+        $nameAndEmailOkay = false;
+    } elseif (empty($email)) {
+        if (empty($uid)) {
+            $nameAndEmailOkay = false; // new users need an email address
+        } else {
+            $service = DB_getItem($_TABLES['users'], 'remoteservice',
+                                  "uid = $uid");
+            if (empty($service)) {
+                $nameAndEmailOkay = false; // not a remote user - needs email
+            }
+        }
+    }
 
-        if (!COM_isEmail ($email)) {
-            return edituser ($uid, 52);
+    if ($nameAndEmailOkay) {
+
+        if (!empty($email) && !COM_isEmail($email)) {
+            return edituser($uid, 52);
         }
 
         $uname = addslashes ($username);
@@ -524,7 +521,6 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         if (empty ($uid)) {
             if (empty ($passwd)) {
                 // no password? create one ...
-                srand ((double) microtime () * 1000000);
                 $passwd = rand ();
                 $passwd = md5 ($passwd);
                 $passwd = substr ($passwd, 1, 8);
@@ -580,23 +576,23 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
             $userChanged = true;
         }
 
-        // if groups is -1 then this user isn't allowed to change any groups so ignore
-        if (is_array ($groups) && SEC_inGroup ('Group Admin')) {
-            if (!SEC_inGroup ('Root')) {
-                $rootgrp = DB_getItem ($_TABLES['groups'], 'grp_id',
-                                       "grp_name = 'Root'");
-                if (in_array ($rootgrp, $groups)) {
-                    COM_accessLog ("User {$_USER['username']} ({$_USER['uid']}) just tried to give Root permissions to user $username.");
-                    echo COM_refresh ($_CONF['site_admin_url'] . '/index.php');
+        // check that the user is allowed to change group assignments
+        if (is_array($groups) && SEC_hasRights('group.assign')) {
+            if (! SEC_inGroup('Root')) {
+                $rootgrp = DB_getItem($_TABLES['groups'], 'grp_id',
+                                      "grp_name = 'Root'");
+                if (in_array($rootgrp, $groups)) {
+                    COM_accessLog("User {$_USER['username']} ({$_USER['uid']}) just tried to give Root permissions to user $username.");
+                    echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
                     exit;
                 }
             }
 
             // make sure the Remote Users group is in $groups
-            if (SEC_inGroup ('Remote Users', $uid)) {
-                $remUsers = DB_getItem ($_TABLES['groups'], 'grp_id',
-                                        "grp_name = 'Remote Users'");
-                if (!in_array ($remUsers, $groups)) {
+            if (SEC_inGroup('Remote Users', $uid)) {
+                $remUsers = DB_getItem($_TABLES['groups'], 'grp_id',
+                                       "grp_name = 'Remote Users'");
+                if (! in_array($remUsers, $groups)) {
                     $groups[] = $remUsers;
                 }
             }
@@ -606,31 +602,31 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
             }
 
             // remove user from all groups that the User Admin is a member of
-            $UserAdminGroups = SEC_getUserGroups ();
+            $UserAdminGroups = SEC_getUserGroups();
             $whereGroup = 'ug_main_grp_id IN ('
                         . implode (',', $UserAdminGroups) . ')';
             DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE (ug_uid = $uid) AND " . $whereGroup);
 
             // make sure to add user to All Users and Logged-in Users groups
-            $allUsers = DB_getItem ($_TABLES['groups'], 'grp_id',
-                                    "grp_name = 'All Users'");
-            if (!in_array ($allUsers, $groups)) {
+            $allUsers = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'All Users'");
+            if (! in_array($allUsers, $groups)) {
                 $groups[] = $allUsers;
             }
-            $logUsers = DB_getItem ($_TABLES['groups'], 'grp_id',
-                                    "grp_name = 'Logged-in Users'");
-            if (!in_array ($logUsers, $groups)) {
+            $logUsers = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Logged-in Users'");
+            if (! in_array($logUsers, $groups)) {
                 $groups[] = $logUsers;
             }
 
             foreach ($groups as $userGroup) {
-                if (in_array ($userGroup, $UserAdminGroups)) {
+                if (in_array($userGroup, $UserAdminGroups)) {
                     if ($_USER_VERBOSE) {
-                        COM_errorLog ("adding group_assignment " . $userGroup
-                                      . " for $username", 1);
+                        COM_errorLog("adding group_assignment " . $userGroup
+                                     . " for $username", 1);
                     }
                     $sql = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid) VALUES ($userGroup, $uid)";
-                    DB_query ($sql);
+                    DB_query($sql);
                 }
             }
         }
@@ -657,14 +653,14 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         }
     } else {
         $retval = COM_siteHeader('menu', $LANG28[1]);
-        $retval .= COM_errorLog($LANG28[10]);
-        if (DB_count($_TABLES['users'],'uid',$uid) > 0) {
+        $retval .= COM_showMessageText($LANG28[10]);
+        if (DB_count($_TABLES['users'], 'uid', $uid) > 0) {
             $retval .= edituser($uid);
         } else {
             $retval .= edituser();
         }
         $retval .= COM_siteFooter();
-        echo $retval;
+        COM_output($retval);
         exit;
     }
 
@@ -683,9 +679,10 @@ function batchdelete()
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG01, $LANG28, $_IMAGE_TYPE;
 
-    $display = '';
-    if (!$_CONF['lastlogin']) {
-        $retval = '<br' . XHTML . '>'. $_LANG28[55];
+    $retval = '';
+
+    if (! $_CONF['lastlogin']) {
+        $retval .= '<p>'. $_LANG28[55] . '</p>';
         return $retval;
     }
 
@@ -702,10 +699,11 @@ function batchdelete()
     if (isset($_REQUEST['usr_time'])) {
         $usr_time_arr = $_REQUEST['usr_time'];
     } else {
-        $usr_time_arr['phantom'] = 2;
-        $usr_time_arr['short'] = 6;
-        $usr_time_arr['old'] = 24;
-        $usr_time_arr['recent'] = 1;
+        // default values, in months
+        $usr_time_arr['phantom'] =  2;
+        $usr_time_arr['short']   =  6;
+        $usr_time_arr['old']     = 24;
+        $usr_time_arr['recent']  =  1;
     }
     $usr_time = $usr_time_arr[$usr_type];
 
@@ -793,7 +791,7 @@ function batchdelete()
     }
 
     $header_arr[] = array('text' => $LANG28[7], 'field' => 'email', 'sort' => true);
-    $header_arr[] = array('text' => 'Reminders', 'field' => 'num_reminders', 'sort' => true);
+    $header_arr[] = array('text' => $LANG28[87], 'field' => 'num_reminders', 'sort' => true);
     $menu_arr = array (
                     array('url' => $_CONF['site_admin_url'] . '/user.php',
                           'text' => $LANG28[11]),
@@ -805,8 +803,8 @@ function batchdelete()
 
     $text_arr = array('has_menu'     => true,
                       'has_extras'   => true,
-                      'title'        => $LANG28[54],
-                      'instructions' => "$desc",
+                      'title'        => '',
+                      'instructions' => $desc,
                       'icon'         => $_CONF['layout_url'] . '/images/icons/user.' . $_IMAGE_TYPE,
                       'form_url'     => $_CONF['site_admin_url'] . "/user.php?mode=batchdelete&amp;usr_type=$usr_type&amp;usr_time=$usr_time",
                       'help_url'     => ''
@@ -838,7 +836,10 @@ function batchdelete()
               'text' => $LANG_ADMIN['admin_home'])
     );
 
-    $display .= ADMIN_createMenu(
+    $retval .= COM_startBlock($LANG28[54], '',
+                           COM_getBlockTemplate('_admin_block', 'header'));
+
+    $retval .= ADMIN_createMenu(
         $menu_arr,
         $desc,
         $_CONF['layout_url'] . '/images/icons/user.' . $_IMAGE_TYPE
@@ -848,17 +849,16 @@ function batchdelete()
     $user_templates->set_var('action_reminder', $LANG28[78]);
     $user_templates->parse('test', 'reminder');
 
-    $form_arr['top'] = $user_templates->get_var('test');
+    $form_arr['top'] = $user_templates->finish($user_templates->get_var('test'));
     $token = SEC_createToken();
     $form_arr['bottom'] = "<input type=\"hidden\" name=\"" . CSRF_TOKEN
                         . "\" value=\"{$token}\"" . XHTML . ">";
-    $display .= ADMIN_list('user', 'ADMIN_getListField_users', $header_arr,
-                           $text_arr, $query_arr, $defsort_arr, '', '',
-                           $listoptions, $form_arr);
+    $retval .= ADMIN_list('user', 'ADMIN_getListField_users', $header_arr,
+                          $text_arr, $query_arr, $defsort_arr, '', '',
+                          $listoptions, $form_arr);
+    $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
-    // $display .= "<input type=\"hidden\" name=\"mode\" value=\"batchdeleteexec\"" . XHTML . "></form>" . LB;
-
-    return $display;
+    return $retval;
 }
 
 /**
@@ -941,8 +941,8 @@ function batchreminders()
                 $template->set_var ('name', COM_getDisplayName ($uid));
                 $template->set_var ('lastlogin', $lasttime[0]);
 
-                $template->parse ('output', 'mail');
-                $mailtext = $template->get_var ('output');
+                $template->parse('output', 'mail');
+                $mailtext = $template->finish($template->get_var('output'));
             } else {
                 if ($lastlogin == 0) {
                     $mailtext = $LANG28[83] . "\n\n";
@@ -957,7 +957,6 @@ function batchreminders()
             $subject = sprintf($LANG28[81], $_CONF['site_name']);
             if ($_CONF['site_mail'] !== $_CONF['noreply_mail']) {
                 $mailfrom = $_CONF['noreply_mail'];
-                global $LANG_LOGIN;
                 $mailtext .= LB . LB . $LANG04[159];
             } else {
                 $mailfrom = $_CONF['site_mail'];
@@ -1122,10 +1121,31 @@ function importusers()
 */
 function display_batchAddform()
 {
-    global $_CONF, $LANG28;
+    global $_CONF, $LANG28, $LANG_ADMIN, $_IMAGE_TYPE;
+
+    require_once $_CONF['path_system'] . 'lib-admin.php';
+
+    $retval = '';
 
     $token = SEC_createToken();
-    $retval = '<form action="' . $_CONF['site_admin_url']
+    $retval .= COM_siteHeader('menu', $LANG28[24]);
+    $retval .= COM_startBlock ($LANG28[24], '',
+                        COM_getBlockTemplate ('_admin_block', 'header'));
+
+    $menu_arr = array(
+        array('url'  => $_CONF['site_admin_url'] . '/user.php',
+              'text' => $LANG28[11]),
+        array('url'  => $_CONF['site_admin_url'] . '/user.php?mode=batchdelete',
+              'text' => $LANG28[54]),
+        array('url'  => $_CONF['site_admin_url'],
+              'text' => $LANG_ADMIN['admin_home'])
+    );
+
+    $desc = '<p>' . $LANG28[25] . '</p>';
+    $icon = $_CONF['layout_url'] . '/images/icons/user.' . $_IMAGE_TYPE;
+    $retval .= ADMIN_createMenu($menu_arr, $desc, $icon);
+
+    $retval .= '<form action="' . $_CONF['site_admin_url']
             . '/user.php" method="post" enctype="multipart/form-data"><div>'
             . $LANG28[29]
             . ': <input type="file" dir="ltr" name="importfile" size="40"'
@@ -1133,7 +1153,10 @@ function display_batchAddform()
             . '<input type="hidden" name="mode" value="import"' . XHTML . '>'
             . '<input type="submit" name="submit" value="' . $LANG28[30]
             . '"' . XHTML . '><input type="hidden" name="' . CSRF_TOKEN
-            . "\" value=\"{$token}\"" . XHTML . '></div></form>';
+            . "\" value=\"{$token}\"" . XHTML . '></div></form>' . LB;
+
+    $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
+    $retval .= COM_siteFooter();
 
     return $retval;
 }
@@ -1209,8 +1232,7 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
     $display = saveusers (COM_applyFilter ($_POST['uid'], true),
             $_POST['username'], $_POST['fullname'],
             $_POST['passwd'], $_POST['passwd_conf'], $_POST['email'],
-            $_POST['regdate'], $_POST['homepage'],
-            $_POST[$_TABLES['groups']],
+            $_POST['regdate'], $_POST['homepage'], $_POST['groups'],
             $delphoto, $_POST['userstatus'], $_POST['oldstatus']);
     if (!empty($display)) {
         $tmp = COM_siteHeader('menu', $LANG28[22]);
@@ -1233,13 +1255,7 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
 } elseif (($mode == 'import') && SEC_checkToken()) {
     $display .= importusers();
 } elseif ($mode == 'importform') {
-    $display .= COM_siteHeader('menu', $LANG28[24]);
-    $display .= COM_startBlock ($LANG28[24], '',
-                        COM_getBlockTemplate ('_admin_block', 'header'));
-    $display .= $LANG28[25] . '<br' . XHTML . '><br' . XHTML . '>';
     $display .= display_batchAddform();
-    $display .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
-    $display .= COM_siteFooter();
 } elseif ($mode == 'batchdelete') {
     $display .= COM_siteHeader ('menu', $LANG28[54]);
     $display .= batchdelete();
@@ -1263,6 +1279,6 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

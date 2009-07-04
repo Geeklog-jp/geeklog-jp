@@ -103,13 +103,17 @@ $LANG_STATIC = array(
     'select_php_none' => 'PHP를 실행하지 않습니다',
     'select_php_return' => 'PHP를 실행합니다 (return)',
     'select_php_free' => ' PHP를 실행합니다',
-    'php_not_activated' => "정적 페이지에서  PHP는 사용하지 않는 설정으로 되어 있습니다.  자세한 것은  <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\"> 관련 도큐멘트 </a> 를 보시기 바랍니다.",
+    'php_not_activated' => "정적 페이지에서  PHP는 사용하지 않는 설정으로 되어 있습니다.  자세한 것은  <a href=\"{$_CONF['site_url']}/docs/english/staticpages.html#php\"> 관련 도큐멘트 </a> 를 보시기 바랍니다.",
     'printable_format' => '인쇄용 포멧',
     'copy' => '복사',
     'limit_results' => '좁혀가며 검색',
     'search' => '검색',
     'submit' => '등록'
 );
+
+$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE19 = 'Your page has been successfully saved.';
+$PLG_staticpages_MESSAGE20 = 'Your page has been successfully deleted.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';

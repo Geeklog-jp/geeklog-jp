@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.4                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Geeklog homepage.                                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2007 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony@tonybibbs.com                           |
 // |          Mark Limburg      - mlimburg@users.sourceforge.net               |
@@ -31,11 +31,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.99 2008/08/14 19:05:53 mjervis Exp $
 
-require_once ('lib-common.php');
-require_once ($_CONF['path_system'] . 'lib-story.php');
+require_once 'lib-common.php';
+require_once $_CONF['path_system'] . 'lib-story.php';
 
 $newstories = false;
 $displayall = false;
@@ -91,10 +89,6 @@ if( $microsummary )
     if ( $A = DB_fetchArray( $result ) ) {
         $pagetitle = $_CONF['microsummary_short'].$A['title'];
     } else {
-        if(isset( $_CONF['pagetitle'] ))
-        {
-            $pagetitle = $_CONF['pagetitle'];
-        }
         if( empty( $pagetitle ))
         {
             if( empty( $topic ))
@@ -127,7 +121,7 @@ if (!$newstories && !$displayall) {
     // give plugins a chance to replace this page entirely
     $newcontent = PLG_showCenterblock (0, $page, $topic);
     if (!empty ($newcontent)) {
-        echo $newcontent;
+        COM_output($newcontent);
         exit;
     }
 }
@@ -150,6 +144,35 @@ if (isset ($_GET['msg'])) {
     $display .= COM_showMessage (COM_applyFilter ($_GET['msg'], true), $plugin);
 }
 
+if (SEC_inGroup('Root')) {
+    $done = DB_getItem($_TABLES['vars'], 'value', "name = 'security_check'");
+    if ($done != 1) {
+        /**
+         * we don't have the path to the admin directory, so try to figure it
+         * out from $_CONF['site_admin_url']
+         * @todo FIXME: this duplicates some code from admin/sectest.php
+         */
+        $adminurl = $_CONF['site_admin_url'];
+        if (strrpos($adminurl, '/') == strlen($adminurl)) {
+            $adminurl = substr($adminurl, 0, -1);
+        }
+        $pos = strrpos($adminurl, '/');
+        if ($pos === false) {
+            // only guessing ...
+            $installdir = $_CONF['path_html'] . 'admin/install';
+        } else {
+            $installdir = $_CONF['path_html'] . substr($adminurl, $pos + 1)
+                        . '/install';
+        }
+
+        if (is_dir($installdir)) {
+            // deliberatly NOT print the actual path to the install dir
+            $secmsg = sprintf($LANG_SECTEST['remove_inst'], '')
+                    . ' ' . $MESSAGE[92];
+            $display .= COM_showMessageText($secmsg);
+        }
+    }
+}
 
 // Show any Plugin formatted blocks
 // Requires a plugin to have a function called plugin_centerblock_<plugin_name>
@@ -225,14 +248,12 @@ $expiresql = DB_query ($asql);
 while (list ($sid, $expiretopic, $title, $expire, $statuscode) = DB_fetchArray ($expiresql)) {
     if ($statuscode == STORY_ARCHIVE_ON_EXPIRE) {
         if (!empty ($archivetid) ) {
-            COM_errorLOG("Archive Story: $sid, Topic: $archivetid, Title: $title, Expired: $expire");
+            COM_errorLog("Archive Story: $sid, Topic: $archivetid, Title: $title, Expired: $expire");
             DB_query ("UPDATE {$_TABLES['stories']} SET tid = '$archivetid', frontpage = '0', featured = '0' WHERE sid='{$sid}'");
         }
     } else if ($statuscode == STORY_DELETE_ON_EXPIRE) {
-        COM_errorLOG("Delete Story and comments: $sid, Topic: $expiretopic, Title: $title, Expired: $expire");
-        STORY_deleteImages ($sid);
-        DB_query("DELETE FROM {$_TABLES['comments']} WHERE sid='{$sid}' AND type = 'article'");
-        DB_query("DELETE FROM {$_TABLES['stories']} WHERE sid='{$sid}'");
+        COM_errorLog("Delete Story and comments: $sid, Topic: $expiretopic, Title: $title, Expired: $expire");
+        STORY_doDeleteThisStoryNow($sid);
     }
 }
 
@@ -286,7 +307,7 @@ $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND"
          . $sql . "ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
 
-$msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
+$msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
          . " UNIX_TIMESTAMP(s.date) AS unixdate, "
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
@@ -360,6 +381,6 @@ if ( $A = DB_fetchArray( $result ) ) {
 $display .= COM_siteFooter (true); // The true value enables right hand blocks.
 
 // Output page
-echo $display;
+COM_output($display);
 
 ?>

@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | config.class.php                                                          |
 // |                                                                           |
 // | Controls the UI and database for configuration settings                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 by the following authors:                         |
+// | Copyright (C) 2007-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Aaron Blankstein  - kantai AT gmail DOT com                      |
 // +---------------------------------------------------------------------------+
@@ -28,8 +28,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: config.class.php,v 1.50 2008/08/31 19:17:39 dhaun Exp $
 
 class config {
     var $dbconfig_file;
@@ -301,7 +299,9 @@ class config {
 
         $this->_DB_escapedQuery($sql);
 
-        $this->config_array[$group][$param_name] = $default_value;
+        if ($set) {
+            $this->config_array[$group][$param_name] = $default_value;
+        }
     }
 
     /**
@@ -373,13 +373,37 @@ class config {
         global $_USER;
 
         if (empty($_USER['theme'])) {
-            $theme = $this->config_array['Core']['theme'];
+            if (! empty($this->config_array['Core']['theme'])) {
+                $theme = $this->config_array['Core']['theme'];
+            }
         } else {
             $theme = $_USER['theme'];
         }
 
-        $this->config_array['Core']['path_layout'] = $this->config_array['Core']['path_themes'] . $theme . '/';
-        $this->config_array['Core']['layout_url'] = $this->config_array['Core']['site_url'] . '/layout/' . $theme;
+        if (! empty($theme)) {
+            if (! empty($this->config_array['Core']['path_themes'])) {
+                $this->config_array['Core']['path_layout'] = $this->config_array['Core']['path_themes'] . $theme . '/';
+            }
+            if (! empty($this->config_array['Core']['site_url'])) {
+                $this->config_array['Core']['layout_url'] = $this->config_array['Core']['site_url'] . '/layout/' . $theme;
+            }
+        }
+
+        $methods = array('standard', 'openid', '3rdparty');
+        $methods_disabled = 0;
+        foreach ($methods as $m) {
+            if (isset($this->config_array['Core']['user_login_method'][$m]) &&
+                    !$this->config_array['Core']['user_login_method'][$m]) {
+                $methods_disabled++;    
+            }
+        }
+        if ($methods_disabled == count($methods)) {
+            // just to make sure people don't lock themselves out of their site
+            $this->config_array['Core']['user_login_method']['standard'] = true;
+
+            // TBD: ensure that we have a Root user able to log in with the
+            //      enabled login method(s)
+        }
     }
 
     function _get_groups()
@@ -579,7 +603,7 @@ class config {
         global $_USER, $MESSAGE;
 
         $display = COM_siteHeader('menu', $MESSAGE[30])
-                 . COM_showMessageText($MESSAGE[96], $MESSAGE[30])
+                 . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                  . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally access the config administration screen.");
 
@@ -632,18 +656,11 @@ class config {
                 $on = $name;
             }
             if (! is_numeric($on)) {
-                if (!empty($GLOBALS['_CONF']['site_url'])) {
-                    $baseUrl = $GLOBALS['_CONF']['site_url'];
-                } else {
-                    $baseUrl = 'http://www.geeklog.net';
-                }
-                if ($group == 'Core') {
-                    $descUrl = $baseUrl . '/docs/config.html#desc_' . $o;
+                $descUrl = $this->_get_ConfigHelp($group, $o);
+                if (! empty($descUrl)) {
                     $t->set_var('doc_url', $descUrl);
                     $t->set_var('doc_link',
                             '(<a href="' . $descUrl . '" target="help">?</a>)');
-                } else {
-                    // TBD: link to description of plugin option
                 }
             }
         }
@@ -682,8 +699,8 @@ class config {
                 $t->parse('myoptions', 'select-options', true);
             }
             return $t->parse('output', 'select-element');
-        } elseif (strpos($type, "@") === 0) {
-            $result = "";
+        } elseif (strpos($type, '@') === 0) {
+            $result = '';
             foreach ($val as $valkey => $valval) {
                 $result .= config::_UI_get_conf_element($group,
                                 $name . '[' . $valkey . ']',
@@ -878,6 +895,49 @@ class config {
         } else {
             DB_query($sql);
         }
+    }
+
+    /**
+    * Helper function: Get the URL to the help section for a config option
+    *
+    * @param    string  $group      'Core' or plugin name
+    * @param    string  $option     name of the config option
+    * @return   string              full URL to help or empty string
+    *
+    */
+    function _get_ConfigHelp($group, $option)
+    {
+        static $coreUrl;
+
+        $retval = '';
+
+        $descUrl = '';
+        if ($group == 'Core') {
+            if (isset($coreUrl)) {
+                $descUrl = $coreUrl;
+            } elseif (!empty($GLOBALS['_CONF']['site_url']) &&
+                    !empty($GLOBALS['_CONF']['path_html'])) {
+                $baseUrl = $GLOBALS['_CONF']['site_url'];
+                $doclang = COM_getLanguageName();
+                $cfg = 'docs/' . $doclang . '/config.html';
+                if (file_exists($GLOBALS['_CONF']['path_html'] . $cfg)) {
+                    $descUrl = $baseUrl . '/' . $cfg;
+                } else {
+                    $descUrl = $baseUrl . '/docs/english/config.html';
+                }
+                $coreUrl = $descUrl;
+            } else {
+                $descUrl = 'http://www.geeklog.net/docs/english/config.html';
+            }
+        } else {
+            $descUrl = PLG_getDocumentationUrl($group, 'config');
+        }
+
+        if (! empty($descUrl)) {
+            $retval = $descUrl . '#desc_' . $option;
+        }
+
+        return $retval;
     }
 }
 

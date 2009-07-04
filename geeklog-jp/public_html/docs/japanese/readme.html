@@ -4,133 +4,132 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta http-equiv="Content-Style-Type" content="text/css" />
 	<meta name="description" content="Geeklog Readme" />
-	<title>Geeklog Readme（日本語版）</title>
+	<title>Geeklog Readme</title>
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet" />
 	<meta name="keywords" content="Geeklog, Readme" />
 </head>
 
 <body>
 
-<h1>Geeklog Readme日本語版(2007年 9月15日)</h1>
+<h1>Geeklog Readme (September 15, 2007)</h1>
 
-<h2>目次</h2>
+<h2>Table of Contents</h2>
 <ol>
-	<li><a href="#what_is_geeklog">Geeklogとは?</a></li>
-	<li><a href="#features">機能</a><br />
+	<li><a href="#what_is_geeklog">What is Geeklog?</a></li>
+	<li><a href="#features">Features</a><br>
 		<ol>
-			<li><a href="#blog_cms_features">ブログ/CMS機能</a></li>
-			<li><a href="#administration_features">管理者用機能</a></li>
-			<li><a href="#security_features">セキュリティ機能</a></li>
-			<li><a href="#developer_features">開発者向け機能</a></li>
+			<li><a href="#blog_cms_features">Blog/CMS Features</a></li>
+			<li><a href="#administration_features">Administration Features</a></li>
+			<li><a href="#security_features">Security Features</a></li>
+			<li><a href="#developer_features">Developer Features</a></li>
 		</ol></li>
-	<li><a href="#support">サポート</a><br />
+	<li><a href="#support">Support</a><br>
 		<ol>
-			<li><a href="#mailing_lists">メーリングリスト</a></li>
-			<li><a href="#irc_channel">IRCチャネル</a></li>
-			<li><a href="#known_issues">既知の問題</a></li>
+			<li><a href="#mailing_lists">Mailing Lists</a></li>
+			<li><a href="#irc_channel">IRC Channel</a></li>
+			<li><a href="#known_issues">Known Issues</a></li>
 		</ol></li>
-	<li><a href="#system_requirements_and_installation">システム要件とインストール</a></li>
-	<li><a href="#security_issues">セキュリティの問題</a></li>
-	<li><a href="#license">ライセンス</a></li>
-	<li><a href="#special_thanks">謝辞</a></li>
-	<li><a href="#further_documentation">詳細ドキュメント</a></li>
+	<li><a href="#system_requirements_and_installation">System Requirements and Installation</a></li>
+	<li><a href="#security_issues">Security Issues</a></li>
+	<li><a href="#license">License</a></li>
+	<li><a href="#special_thanks">Special Thanks</a></li>
+	<li><a href="#further_documentation">Further Documentation</a></li>
 </ol>
 
-<h2><a id="what_is_geeklog">Geeklogとは?</a></h2>
-<p>GeeklogはPHPとMySQLをベースにした、ダイナミックなWebコンテンツを管理するアプリケーションです。</p>
+<h2><a id="what_is_geeklog">What is Geeklog?</a></h2>
+<p>Geeklog is a PHP/MySQL based application for managing dynamic web content.</p>
 
-<p>インストール直後から、ブログエンジン、言い換えれば、コメント・トラックバック・複数のフィードフォーマット・スパム防御など、CMSにふさわしい基本機能を備えたCMS(Contents Management System)です。</p>
+<p>"Out of the box", it is a blog engine, or a CMS with support for comments, trackbacks, multiple syndication formats, spam protection, and all the other vital features of such a system.</p>
 
-<p>Geeklogの基本機能はコミュニティが開発した多数のプラグインを使用して大幅に拡張することができます。利用可能なプラグインは、掲示板・画像ギャラリなど、多数あります。</p>
+<p>The core Geeklog distribution can easily be extended by the many community developed plugins to radically alter its functionality. Available plugins include forums, image galleries, and many more.</p>
 
-<p>GeeklogはもともとSecurityGeeksとNewsGeeksを運営するために使用されており、それ以来、GPL(GNU General Public License)のもとで公開されています。生粋のオープンソース/フリーソフトウェアプロジェクトです。Geeklogのコアコードで使用されているテンプレート用のコードはPHPLibに由来しますが、LGPL(GNU Lesser General Public License)のもとで公開されています。</p>
+<p>Geeklog was originally used to run SecurityGeeks and NewsGeeks, and has since been released under the GNU General Public License. It is a bona fide Open Source / Free Software project. The template code Geeklog uses is from PHPLib, however, which is under the LGPL.</p>
 
-<p>GeeklogはもともとJason Whittenburgによって作成されていましたが、他の優れたオープンソースのプロジェクトと同様、コミュニティに依存しています。現在、Geeklog 1.5はDirk Haunによってメンテナンスされており、Tony BibbsはGeeklog 2に注力しています。Geeklogを支援していただき、ありがとうございます。Geeklogを改善するために私たちにできることを知らせてください。</p>
+<p>Geeklog was originally created by Jason Whittenburg, but like all good open source projects, depends on the community. Geeklog 1.5 is currently maintained by Dirk Haun whilst Tony Bibbs focusses on Geeklog 2. Thanks for your continued support, and let us know what we can do to make Geeklog better.</p>
 
-<p>インストールするには、<a href="install.html">install.html</a>をご覧ください。</p>
+<p>For the installation instructions please see <a href="install.html">install.html</a>.</p>
 
-<p>最新のGeeklogのソースコードを入手するには、最新のGeeklogのニュースを読み、議論に参加し、Geeklog本家を訪問してください。<br />
-<a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
+<p>To get the latest Geeklog source, read the latest Geeklog news, and participate in Geeklog discussions, visit the Geeklog site: <a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
 
-<h2><a id="features">機能</a></h2>
+<h2><a id="features">Features</a></h2>
 
-<p>Geeklogは拡張性に富んだシステムですが、以下に機能を要約します。</p>
+<p>Geeklog is an extremely extensible system, however a summary of Geeklog's features are as follows:</p>
 
-<h3><a id="blog_cms_features">ブログ/CMS機能</a></h3>
+<h3><a id="blog_cms_features">Blog/CMS Features</a></h3>
 <ul>
-	<li>複数の話題で、記事を作成・公開日時指定・投稿・編集できする機能</li>
-	<li>公開するまで、記事をドラフト（下書き）として保存できる機能</li>
-	<li>記事で使用できるHTMLタグを指定できる機能(HTMLホワイトリスト)</li>
-	<li>コンテンツとしてふさわしい語句を管理する機能(不愉快な語句を検閲する機能)</li>
-	<li>記事の中に画像や他のコンテンツを埋め込む機能</li>
-	<li>複数の人間が記事を投稿できる機能</li>
-	<li>一般ユーザが投稿できる機能</li>
-	<li>コメント・トラックバック・ピングバックをサポート</li>
-	<li>すべての一般的なフォーマット(RSS/RDF/Atomなど)でコンテンツをインポート・エクスポートする機能</li>
-	<li>スパム検出・削除</li>
-	<li>個人用カレンダをサポートしたしっかりしたカレンダ機能</li>
-	<li>OpenIDや他のリモート認証をサポート</li>
-	<li>多数のオープンソースプラグインで機能拡張可能</li>
+	<li>Create, Schedule, Post and Edit articles in multiple topics</li>
+	<li>Save story drafts until they are ready for publishing.</li>
+	<li>Control over formatting used in articles (HTML whitelists)</li>
+	<li>Control over acceptable content (filtering of offensive language)</li>
+	<li>Embed images or other content in articles</li>
+	<li>Multiple Authors can post</li>
+	<li>Submissions from users</li>
+	<li>Support for comments, trackbacks and pingbacks</li>
+	<li>Export and import in all common syndication formats (RSS/RDF/Atom etc)</li>
+	<li>Spam detection and rejection</li>
+	<li>Robust calendar feature with support for personalized calendars.</li>
+	<li>Support for OpenID and other remote authentication methods.</li>
+	<li>Extendible via numerous Open Source plugins.</li>
 </ul>
 
-<h3><a id="administration_features">管理者用機能</a></h3>
+<h3><a id="administration_features">Administration Features</a></h3>
 <ul>
-	<li>Geeklog-1.5で採用された自動インストーラで簡単にインストールできる</li>
-	<li>国際化とローカル化を完全にサポート</li>
-	<li>使いやすい管理者用インターフェース</li>
-	<li>管理者用インターフェースで、Geeklogの全機能を完全に設定できる</li>
-	<li>ユーザが指定したカスタムのルックアンドフィールを実現するテーマエンジン</li>
+	<li>Easy to install with a new automated installer in 1.5</li>
+	<li>Fully support for internationalization and localization</li>
+	<li>Easy to use admin interface</li>
+	<li>Admin interface has complete configurability for all Geeklog Functions.</li>
+	<li>User-specified theming engine for custom look and feel.</li>
 </ul>
 
-<h3><a id="security_features">セキュリティ機能</a></h3>
+<h3><a id="security_features">Security Features</a></h3>
 <ul>
-	<li>ユーザのアカウントとアクセスを管理</li>
-	<li>すべてのオブジェクトに対するしっかりとした*nix風のセキュリティモデルは、プラグインにも拡張可能できる</li>
-	<li>記事ごと・話題ごとにアクセス権を定義できる</li>
-	<li>パスワードはすべて暗号化されて保存</li>
-	<li>管理者のアクセスはすべてログに記録される</li>
-	<li>エラーはすべてログに記録される</li>
-	<li>すべてのフォームとSQL呼び出しに関するエラーは完全にログに記録される</li>
+	<li>User accounts and access controls.</li>
+	<li>Robust *nix-like security model for all objects which can be extended for use in plugins</li>
+	<li>Access can be defined for each article, topic etc</li>
+	<li>All passwords are stored encrypted.</li>
+	<li>All admin access is logged.</li>
+	<li>All errors are logged.</li>
+	<li>Complete error logging on all forms and SQL calls.</li>
 </ul>
 
-<h3><a id="developer_features">開発者向け機能</a></h3>
+<h3><a id="developer_features">Developer Features</a></h3>
 <ul>
-	<li>APIを用いた開発者向けのプラグインサポート</li>
-	<li>完全に設定可能なブロックシステム。ブロックの中にPHPを記述することもサポートされている。</li>
-	<li>PHPのオブジェクト指向機能を使用してきちんと整理されたコアコード</li>
-	<li>既定のデータベース(MySQLとMSSQL)以外のデータベース管理システムに移植可能な、軽量のデータベース抽象化レイヤ</li>
+	<li>Plugin support with API for developers.</li>
+	<li>A fully configurable block system, with php-in-block support.</li>
+	<li>Well organized codebase, use of PHP's Object-Oriented features.</li>
+	<li>Thin database abstraction layer allowing Geeklog to be ported to DBMS's other than the defaults (MySQL and MSSQL supported directly).</li>
 </ul>
 
-<h2><a id="support">サポート</a></h2>
+<h2><a id="support">Support</a></h2>
 
-<h3><a id="mailing_lists">メーリングリスト</a></h3>
-<p>最良のサポートが得られれるのは次のメーリングリストです。<a href="http://lists.geeklog.net/mailman/listinfo/geeklog-users">http://lists.geeklog.net/mailman/listinfo/geeklog-users</a><br />
+<h3><a id="mailing_lists">Mailing Lists</a></h3>
+<p>The best support channel is a mailing list located at: <a href="http://lists.geeklog.net/mailman/listinfo/geeklog-users">http://lists.geeklog.net/mailman/listinfo/geeklog-users</a><br>
 
-さらに、Geeklog本家は優れた情報源です。<a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
+Additionally the Geeklog home page is a good source of information at: <a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
 
-<h3><a id="irc_channel">IRCチャネル</a></h3>
+<h3><a id="irc_channel">IRC Channel</a></h3>
 
-<p>Geeklogに関するライブチャットを行っているIRCのチャネルがあります。mIRC(www.mirc.co.uk)やBitchXなどのIRCクライアントを入手したら、次のチャネルにログインしてください。</p>
+<p>There is also a IRC channel, where we have live Geeklog chat.  Once you have  IRC client such as mIRC (www.mirc.co.uk), or BitchX the you can log on:</p>
 <ul>
-	<li>サーバ: irc.freenode.net</li>
-	<li>チャネル: #Geeklog</li>
+	<li>Server: irc.freenode.net</li>
+	<li>Channel: #Geeklog</li>
 </ul>
 
-<h2><a id="known_issues">既知の問題</a></h2>
+<h2><a id="known_issues">Known Issues</a></h2>
 
-<p>既知の問題はすべてバグトラッカーで追跡されています。バグを見つけたら、次の場所にレポートしてください。<a href="http://project.geeklog.net/tracking/">http://project.geeklog.net/tracking</a><br />
+<p>All known issues are tracked in our bug tracker. If you identify a bug please let us know by filling out a bug report at: <a href="http://project.geeklog.net/tracking/">http://project.geeklog.net/tracking/</a><br>
 
-<h2><a id="system_requirements_and_installation">システム要件とインストール</a></h2>
+<h2><a id="system_requirements_and_installation">System Requirements and Installation</a></h2>
 
-<p><a href="install.html">public_html/docs/install.html</a>か<a href="http://www.geeklog.net/docs/install.html">http://www.geeklog.net/docs/install.html</a>をご覧ください。</p>
+<p>See <a href="install.html">public_html/docs/install.html</a> or the Geeklog.net site: <a href="http://www.geeklog.net/docs/install.html">http://www.geeklog.net/docs/install.html</a></p>
 
-<h2><a id="security_issues">セキュリティの問題</a></h2>
+<h2><a id="security_issues">Security Issues</a></h2>
 
-<p>Geeklogはセキュリティを重視したCMSです。私たちはコアコードとアプリケーションを安全なものにすることに力を入れているため、サードパーティにより脆弱性を発見・公表されたことは比較的少ないのです。</p>
+<p>Geeklog is a security focussed CMS. We have focussed on making the code secure and the application secure, and have been rewarded with a comparatively low level of exploits having been identified and published by third parties.</p>
 
-<p>サードパーティのプラグイン開発者がGeeklogのセキュリティを下げないようにするために、私たちはAPIとコーディング方針を提供していますが、私たちないしプラグイン開発者の作品に脆弱性がないとは保証できません。</p>
+<p>We have provided a set of API's and coding guidlines to ensure third party plugin developers do not compromise the security of a Geeklog installation, however, we can not garentee that our work or theirs is secure.</p>
 
-<p>使用しているデータベース、Webサーバ、ホストの設定を安全なものにするのは皆さんの責任です。システムを安全なものにする情報を求めているのなら、まず次のサイトをお勧めします。</p>
+<p>It is up to you to properly secure your database, web server and host settings.  If you are looking for information in securing your system some starting points we can recommend are:</p>
 
 <ul>
 	<li><a href="http://www.php.net">http://www.php.net</a></li>
@@ -141,55 +140,55 @@
 	<li><a href="http://www.linux.com">http://www.linux.com</a></li>
 </ul>
 
-<h2><a id="license">ライセンス</a></h2>
+<h2><a id="license">License</a></h2>
 
-<p>GeeklogはGPLのもとで公開されています。LICENSEファイルが同梱されているはずですが、本当に興味があるなら（あるいはなかなか眠れないときには）LICENSEを読んでみるのもいいでしょう。</p>
+<p>Geeklog is licensed under the GPL. There should be an included LICENSE file - if it really interests you (or you having trouble sleeping) go ahead and read it.</p>
 
-<p>私たちのサイトへリンクを張っていただけると嬉しいです。<a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
+<p>In a nice gesture you could provide a link back to us: <a href="http://www.geeklog.net">http://www.geeklog.net</a></p>
 
-<p>使っていただけるとありがたいボタンもリリースに含まれています(public_html/images/buttons内)。</p>
+<p>There is also a button that is in the release that we would appreciate you use (in public_html/images/buttons).</p>
 
-<h2><a id="special_thanks">謝辞</a></h2>
+<h2><a id="special_thanks">Special Thanks</a></h2>
 
-<p>以下の人々に感謝します。</p>
+<p>I want to send out thanks to:</p>
 <ul>
-	<li>Jason Whittenburg - Geeklogのもともとの開発者!</li>
-	<li>PHPWebLog Project - Geeklogの一部の関数に取り入れました!</li>
-	<li>PHPSlash Project - Geeklogの一部の関数に取り入れました!</li>
-	<li>thatphpware Project - Geeklogの一部の関数に取り入れました!</li>
-	<li>PHPBB Project - Geeklogの一部の関数に取り入れました!</li>
-	<li>PHPLib Project - 素晴らしいテンプレートエンジンをありがとう!</li>
+	<li>Jason Whittenburg - He is the original Geeklog developer!</li>
+	<li>PHPWebLog Project - Some of the functions in Geeklog came from them!</li>
+	<li>PHPSlash Project - Some of the functions in Geeklog came from them!</li>
+	<li>thatphpware Project - Some of the functions in Geeklog came from them!</li>
+	<li>PHPBB Project - Some of the functions in Geeklog came from them!</li>
+	<li>PHPLib Project - Thanks for the great template engine!</li>
 </ul>
 
-<p>そして、もちろん、GeeklogメーリングリストとIRCチャネルのメンバ全員に感謝します。</p>
+<p>And of course, all the members of the Geeklog mailing lists and IRC channel.</p>
 
-<h2><a id="further_documentation">詳細ドキュメント</a></h2>
+<h2><a id="further_documentation">Further Documentation</a></h2>
 
-<p>詳しい情報は public_html/docs ディレクトリ内のドキュメントをお読みください。</p>
+<p>Read the documents in the public_html/docs directory for more information, etc.</p>
 
-<p>以下のサイトも参考にしてください。</p>
+<p>See also:</p>
 <ul>
-	<li>FAQ（よくある質問）: <a href="http://www.geeklog.net/faqman/">http://www.geeklog.net/faqman/</a></li>
-	<li>サポート掲示板: <a href="http://www.geeklog.net/forum/">http://www.geeklog.net/forum/</a></li>
+	<li>FAQ: <a href="http://www.geeklog.net/faqman/">http://www.geeklog.net/faqman/</a></li>
+	<li>Support Forum: <a href="http://www.geeklog.net/forum/">http://www.geeklog.net/forum/</a></li>
 	<li>Wiki: <a href="http://wiki.geeklog.net/">http://wiki.geeklog.net/</a></li>
-	<li>プラグイン開発者ガイド: <a href="http://gplugs.sourceforge.net/pluginman/">http://gplugs.sourceforge.net/pluginman/</a></li>
+	<li>Plugin Developers Guide: <a href="http://gplugs.sourceforge.net/pluginman/">http://gplugs.sourceforge.net/pluginman/</a></li>
 </ul>
 
-<h2>付録 A - readmeの履歴</h2>
+<h2>Appendix A - readme history</h2>
 
-<p>バージョン管理システムの情報<br />
+<p>Version control information:<br>
 $Id: readme,v 1.19 2008/03/16 18:32:25 dhaun Exp $</p>
 <ul>
-	<li>2007-09-15 - readmeを書き直し (mjervis)</li>
-	<li>2007-09-09 - メーリングリストのURLを修正 (dhaun)</li>
-	<li>2007-08-05 - GeekLogをGeeklogに変更 (dhaun)</li>
-	<li>2004-08-13 - ドキュメントのパスを更新 (dhaun)</li>
-	<li>2003-12-22 - 小規模の更新 (dhaun)</li>
-	<li>2002-12-28 - URL更新 (dhaun)</li>
-	<li>2002-08-14 - IRCチャネル更新 (dhaun)</li>
-	<li>2002-08-11 - 小規模の更新 (dhaun)</li>
-	<li>[さまざま]</li>
-	<li>2001-08-18 - readmeファイルの初版</li>
+	<li>2007-09-15 - readme re-write (mjervis)</li>
+	<li>2007-09-09 - Fixed mailing list URL (dhaun)</li>
+	<li>2007-08-05 - GeekLog to Geeklog (dhaun)</li>
+	<li>2004-08-13 - Documentation path updates (dhaun)</li>
+	<li>2003-12-22 - Minor updates (dhaun)</li>
+	<li>2002-12-28 - URL updates (dhaun)</li>
+	<li>2002-08-14 - IRC Channel updates (dhaun)</li>
+	<li>2002-08-11 - Minor updates (dhaun)</li>
+	<li>[various]</li>
+	<li>2001-08-18 - First readme file.</li>
 </ul>
 </body>
 </html>

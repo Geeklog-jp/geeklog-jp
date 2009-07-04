@@ -133,7 +133,7 @@
       * for an article.
       *
       * @param string $fileName The fully qualified path to the file to create.
-      * @param integer $limit (optional) max number of items to write.
+      * @param int $limit (optional) max number of items to write.
       */
     function createFeed( $fileName, $limit='' )
     {
@@ -189,7 +189,7 @@
       {
         if($key != 'extensions')
         {
-            $value = $this->safeXML( $value );
+            $value = $this->_safeXML( $value );
             $xml .= "<$key>$value</$key>\n>";
         } else {
             if(is_array($value))

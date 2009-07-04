@@ -4,7 +4,7 @@
                                     <table cellspacing="0" cellpadding="2" width="100%">
                                         <tr>
                                             <td align="right">{lang_pollid}:</td>
-                                            <td><input type="text" dir="ltr" name="pid" value="{poll_id}" size="20"{xhtml}> {lang_donotusespaces}</td>
+                                            <td><input type="text" dir="ltr" name="pid" value="{poll_id}" size="40" maxlength="40"{xhtml}> {lang_donotusespaces}</td>
                                         </tr>
                                         <tr>
                                             <td align="right">{lang_topic}:</td>
@@ -39,7 +39,7 @@
                                     <p>{lang_owner}: {owner_name}<input type="hidden" name="owner_id" value="{owner_id}"{xhtml}><br{xhtml}></p>
                                     <p>{lang_group}: {group_dropdown}<br{xhtml}></p>
                                     <h2>{lang_permissions}</h2>
-                                    <p>{lang_permissionskey}</p>
+                                    <p>{lang_perm_key}</p>
                                     <div>{permissions_editor}</div>
                                     <p>{lang_permissions_msg}</p>
                                     <p>

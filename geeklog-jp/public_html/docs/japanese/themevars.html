@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマで使用できる変数</div>
 
 <h1>テーマで使用できる変数</h1>
@@ -28,10 +28,10 @@
 
 <p>以下の変数はサイトのヘッダ、つまり、 <tt>header.thtml</tt> テンプレートファイルで使用できる変数です。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>site_url</code></td>
     <td><tt>http://www.example.com</tt></td>
     <td>自分のGeeklogサイトのURL（コンフィギュレーションの <code>$_CONF['site_url']</code> で設定したものと同じ）。</td></tr>
@@ -104,10 +104,10 @@
 
 <p>以下の変数は、 <tt>storytext.thtml</tt>, <tt>storybodytext.thtml</tt>, <tt>featuredstorytext.thtml</tt>, <tt>featuredstorybodytext.thtml</tt>, <tt>archivestorytext.thtml</tt>, <tt>archivestorybodytext.thtml</tt> テンプレートファイルで使用できます。これらのファイルは、インデックスページだけでなく、 <tt>article/article.thtml</tt> テンプレートファイル（このファイルは記事を個別に表示するために使用されます）中の <code>{formatted_article}</code> 変数の内容となる記事をレンダリングするためにも使用されます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>site_url</code></td>
     <td><tt>http://www.example.com</tt></td>
     <td>自分のGeeklogサイトのURL（コンフィギュレーションの <code>$_CONF['site_url']</code> で設定したものと同じ）。</td></tr>
@@ -154,10 +154,10 @@
 
 <p><a name="readmore">以下の変数</a>は、記事がインデックスページに表示され、<strong>かつ</strong>、記事の本文が空白でないときに限って使用できます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>lang_readmore</code></td>
     <td>read more</td>
     <td>ユーザが現在使用している言語の「続きを読む(read more)」に相当する語句。</td></tr>
@@ -192,10 +192,10 @@
 
 <p>以下の変数は、記事へのコメント投稿が許可され、既にコメントが投稿されている場合に限って使用できます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>comments_url</code></td>
     <td><tt>http://www.example.com/article.php<br>?story=20021022234959146#comments</tt></td>
     <td>コメントセクションのURL（記事が個別に表示されている場合）。</td></tr>
@@ -215,10 +215,10 @@
 
 <p>以下の変数は、設定で <code>$_CONF['contributedbyline'] = 1;</code> となっている、つまり、「所有者名を表示する」が有効になっている場合に限り、利用できます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>lang_contributed_by</code></td>
     <td>Contributed by:</td>
     <td>ユーザが現在使用している言語の「所有者(Contributed by:)」に相当する語句。</td></tr>
@@ -231,6 +231,9 @@
 <tr><td><code>contributedby_fullname</code></td>
     <td>Tony Bibbs</td>
     <td>記事所有者のフルネーム。ユーザがフルネームを記入していないときは、代わりにユーザ名が使用される。</td></tr>
+<tr><td><code>contributedby_author</code></td>
+    <td>Tony Bibbs</td>
+    <td>記事所有者名。もし<code>$_CONF['show_fullname']</code>が有効なら、所有者のフルネーム（もし設定されていたら）。そうでなければユーザ名</td></tr>
 <tr><td><code>start_contributedby_anchortag</code></td>
     <td><code>&lt;a class="storybyline" href="http://www.example.com/<br>users.php?mode=profile&amp;uid=7"&gt;</code></td>
     <td>記事所有者のプロフィールへのリンクの開きタグ（ゲストユーザの場合は、空白）。</td></tr>
@@ -250,10 +253,10 @@
 
 <p>以下の変数は、記事の話題アイコンが有効になっており、<strong>かつ、</strong>ユーザが自分の表示設定で話題アイコンを無効にしていない場合に限り、利用できます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>story_anchortag_and_image</code></td>
     <td><code>&lt;a href="http://www.example.com/<br>index.php?topic=Geeklog"&gt;&lt;img src="..." ...&gt;&lt;/a&gt;</code> <small>(shortened)</small></td>
     <td>記事の話題に対応するアイコンで、話題でソートされたサイトのインデックスページへのリンクになっている。</td></tr>
@@ -282,10 +285,10 @@
 
 <p>以下の変数は、現在のユーザが記事を編集する権限を持っている場合に限り、利用できます。</p>
 
-<table border="1" width="100%" cellpadding="2">
-<tr><th style="width:8%">変数名</th>
-    <th style="width:29%">例</th>
-    <th style="width:63%">説明</th></tr>
+<table>
+<tr><th style="width:25%">変数名</th>
+    <th style="width:25%">例</th>
+    <th style="width:50%">説明</th></tr>
 <tr><td><code>edit_link</code></td>
     <td><code>&lt;a href=".../admin/story.php<br>?mode=edit&amp;sid=20021022234959146"&gt;edit&lt;/a&gt;</code></td>
     <td>管理者の記事エディタで記事を編集するためのリンク。</td></tr>
