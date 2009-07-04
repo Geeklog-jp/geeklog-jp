@@ -1,5 +1,9 @@
 $Id$
 
+2009-07-04  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.0.6rc1をマージしました。
+
 2009-06-30  Takahiro Kambe  <tacahi>
 
 	* 共通: 従来の日本語通常版と拡張版それぞれに存在していたCHANGE.jpの
