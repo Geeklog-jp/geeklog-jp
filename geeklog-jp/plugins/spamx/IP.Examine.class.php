@@ -9,7 +9,8 @@
 *
 * Licensed under GNU General Public License
 *
-* $Id: IP.Examine.class.php,v 1.12 2008/09/21 08:37:08 dhaun Exp $
+* @package Spam-X
+* @subpackage Modules
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'IP.Examine.class.php') !== false) {
@@ -25,8 +26,10 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'BaseCommand.class.php';
 * Examines Comment according to Personal BLacklist
 *
 * @author Tom Willett tomw AT pigstye DOT net
+*
+* @package Spam-X
+*
 */
-
 class IP extends BaseCommand {
     /**
      * No Constructor Use BaseCommand constructor
@@ -96,16 +99,18 @@ class IP extends BaseCommand {
         // here's our highest int
         $high = $i | (~$mask & 0xFFFFFFFF);
 
-        // now split the ip were checking against up into classes
-        list($a, $b, $c, $d) = explode('.', $iptocheck);
+        // now split the ip we're checking against up into classes
+        $ex = explode('.', $iptocheck);
 
-        // now convert the ip we're checking against to an int
-        $check = ($a << 24) + ($b << 16) + ($c << 8) + $d;
+        if (count($ex) == 4) {
+            // now convert the ip we're checking against to an int
+            $check = ($ex[0] << 24) + ($ex[1] << 16) + ($ex[2] << 8) + $ex[3];
 
-        // if the ip is within the range, including
-        // highest/lowest values, then it's witin the CIDR range
-        if (($check >= $low) && ($check <= $high)) {
-            return true;
+            // if the ip is within the range, including
+            // highest/lowest values, then it's witin the CIDR range
+            if (($check >= $low) && ($check <= $high)) {
+                return true;
+            }
         }
 
         return false;

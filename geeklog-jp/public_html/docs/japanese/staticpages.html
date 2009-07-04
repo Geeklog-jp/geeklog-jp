@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - 静的ページプラグイン</div>
 
 <h1>静的ページプラグイン</h1>
@@ -141,6 +141,81 @@
 <p>Geeklogのすべてのオブジェクト同様、静的ページには所有者（そのページの作成者）がいます。そのユーザのアカウントが何らかの理由で削除された場合、そのユーザが所有していた静的ページも削除するか、GeeklogのRootグループに属する人に引き継がせることができます。</p>
 
 <p>「管理者用メニュー - コンフィギュレーション - 静的ページ」で「所有者の削除と共に削除する」を「いいえ」（初期値）にすると、所有者が削除されても作成した静的ページは削除されず、Rootグループのメンバ（ユーザIDが最も若い人、つまり、たいていはサイトの管理者）に引き継がれます。「はい」にすると、所有者のアカウントが削除されたとき、作成した静的ページも削除されます。</p>
+
+<h2><a name="config.php">コンフィギュレーション</a></h2>
+
+<p>静的ページプラグインのコンフィギュレーションオプションは、コンフィギュレーション管理画面で変更:</p>
+
+<h3><a name="main">静的ページの主な設定</a></h3>
+
+<table>
+<tr><th style="width:25%">項目</th>
+    <th style="width:25%">初期値</th>
+    <th style="width:50%">説明</th>
+</tr>
+<tr>
+  <td><a name="desc_allow_php">PHPを許可する</a></td>
+  <td><code>はい</code></td>
+  <td>静的ページにおいて、<a href="#php">PHPを許可する</a>。つまり、この設定で、個々のページの設定を上書きします</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_sort_by">センターブロックでのソート項目</a></td>
+  <td><tt>ページID</tt></td>
+  <td>センターブロックに静的ページが複数表示される場合の順番を設定します。ページID、ページタイトル、最後に編集した日付から選べます。</td>
+</tr>
+<tr>
+  <td><a name="desc_sort_menu_by">メニューでのソート項目</a></td>
+  <td><tt>ラベル</tt></td>
+  <td>サイトメニューの順番を設定します。ページラベル、ページID, ページタイトル、最後に編集した日付から選べます。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_delete_pages">所有者の削除と共に削除する</a></td>
+  <td><tt>いいえ</tt></td>
+  <td>ページの所有者のアカウントが削除された場合、つまりその静的ページを最初に作成したユーザが居なくなった場合、そのページを'True'なら削除、'False'なら"Root"グループのユーザ(通常は最も小さい値のIDのRootユーザ)に変更します。</td>
+</tr>
+<tr>
+  <td><a name="desc_in_block">ページをブロックで囲む </a></td>
+  <td><tt>はい</tt></td>
+  <td>静的ページを作成する際、ページをブロックで囲むモードのデフォルトを設定します。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_show_hits">ヒット数を表示する </a></td>
+  <td><tt>いいえ</tt></td>
+  <td>閲覧回数を表示するかどうかを設定します。</td>
+<tr>
+<tr>
+  <td><a name="desc_show_date">日時を表示する</a></td>
+  <td><tt>はい</tt></td>
+  <td>最後に編集した日時を表示するかどうかを設定します。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_filter_html">HTMLフィルターを適用する</a></td>
+  <td><tt>いいえ</tt></td>
+  <td>GeeklogのHTMLフィルターを静的ページの編集時に適用させるかどうかを設定します。</td>
+</tr>
+<tr>
+  <td><a name="desc_censor">内容を検閲する</a></td>
+  <td><tt>いいえ</tt></td>
+  <td>Geeklogの"バッドワード"フィルターを静的ページの編集時に適用させるかどうかを設定します。
+  </td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_aftersave">ページ保存後の画面遷移</a></td>
+  <td><tt>静的ページ管理を表示する</tt></td>
+  <td>静的ページ保存後の画面遷移を設定します:
+    <ul>
+    <li>編集した静的ページを表示する</li>
+    <li>静的ページ管理を表示する(default)</li>
+    <li>ホームを表示する</li>
+    <li>管理画面トップを表示する</li>
+    </ul></td>
+</tr>
+<tr>
+  <td><a name="desc_atom_max_items">フィードに書き出す最大ページ数</a></td>
+  <td>10</td>
+  <td>ウェブサービスAPIによってatomフィードに書き出す静的ページ数の最大値。</td>
+</tr>
+</table>
 
 <div class="footer">
     <a href="http://wiki.geeklog.net">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>

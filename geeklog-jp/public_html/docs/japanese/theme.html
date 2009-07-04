@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - テーマ作成</div>
 
 <p><small>(Geeklogの最近のバージョンにおける<a href="#changes">テーマ変更</a>一覧については、下記参照のこと。)</small></p>
@@ -58,7 +58,7 @@
 $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));</code></pre>
 <p>PHPを理解していなくても、この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば、これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
 
-<p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数の不完全なリスト</a>もドキュメントに含まれています。</p>
+<p>テンプレートファイル内で使用されている<a href="themevars.html">テンプレート変数のリスト（完全なものではありません）</a>もドキュメントに含まれています。</p>
 
 <h3><a name="testing">テーマのテストと追加情報</a></h3>
 
@@ -102,8 +102,68 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば、注目記事にも永続リンクが表示されるようになります。</li>
 </ol>
 
+<h2><a name="changes">Geeklog 1.6.0におけるテーマの変更点</a></h2>
 
-<h2><a name="changes">Geeklog 1.5.2でのテーマの変更点</a></h2>
+<ul>
+<li>テーマは、<tt>header.thtml</tt>において、ハードコードのDOCTYPEではなく、テーマ変数<tt>{doctype}</tt>を使える様になりました。
+    DOCTYPEはコンフィギュレーションでセットされます(現在設定可能:
+    HTML 4.01 Strict and Transitional, XHTML 1.0 Strict and Transitional)。
+    <tt>functions.php</tt>ファイルの<code>XHTML</code>定数で設定<em>しないで</em>ください!</li>
+<li><a href="#xhtml">XHTML</a>にするとき、テーマ変数<tt>{xmlns}</tt>は、現在XHTMLコンプライアンス
+    <tt>xmlns="http://www.w3.org/1999/xhtml"</tt>を満たしています。
+    (<tt>&lt;html&gt;</tt>タグ内で利用).</li>
+<li>テーマ変数<tt>{story_text_no_br}</tt>で、記事の冒頭文と本文のテキストにスペースを追加しました。
+     </li>
+<li>バグフィックス: テーマ変数<tt>{contributedby_user}</tt>と
+    <tt>{contributedby_fullname}</tt>は、すでに空です。</li>
+<li>２つのテーマ変数<tt>{start_contributedby_anchortag}</tt>と
+    <tt>{end_contributedby_anchortag}</tt>には、なにもセットしていません(Geeklog
+    1.5.0以降)。その代わり<tt>{contributedby_author}</tt>に所有者へのリンクを追加しました。
+    そのためこれら３つのテーマ変数(記事テンプレートで利用される)はまだ動いています。
+    Geeklog 1.6.0 古い定義を復帰させます。つまり、アンカータグのテーマ変数は
+    所有者のプロファイルへのリンクの開始と終了のタグを含みます。
+    テーマ変数<tt>{contributedby_author}</tt>は、所有者の名前だけです。</li>
+<li>新テーマ変数<tt>{photo_max_dimensions}</tt>はユーザ写真の最大値をセットしています。<br>
+    ユーザ写真のサイズ: <tt>preferences/userphoto.thtml</tt></li>
+<li>記事や静的ページで、印刷用のテンプレートファイル<tt>printable.thtml</tt>を利用する際に読み込まれるスタイルシート<tt>print.css</tt>が追加されました。</li>
+<li>プラグイン編集画面で、テーマ変数<code>{pi_display_name}</code>がテンプレートファイル<tt>admin/plugins/editor.thtml</tt>にあれば、プラグインの表示上の名前（またはディレクトリ名）を表示できる用になりました。これは表示上の変更です。</li>
+<li>既存のHTMLに<code>&lt;form&gt;</code>を埋めるこむテンプレートファイル<tt>admin/lists/inline.thtml</tt>が追加されました。（例：新しいグループ編集画面）</li>
+<li>テンプレートファイル<tt>profiles/contactuserform.thtml</tt>に、自分自身へ送信済みメールを送るオプションを追加しました。</li>
+<li>テンプレートファイル<tt>admin/mail/mailform.thtml</tt>の表示上の変更：<code>{startblock_email}</code>と<code>{endblock_email}</code>およびトップのテーブルが削除されました。これらの要素は自動的にメールフォームに追加されます。</li>
+<li>検索用テンプレートファイル<tt>search/searchform.thtml</tt>に、タイトルだけを検索するためのあらたなチェックボックスが追加されました。</li>
+<li>テンプレートファイル<tt>admin/group/groupmembers.thtml</tt>の表示上の変更：ヘッダ（アイコンやリンクその他各種構成を含む）はGeeklogに実装されています。テンプレートファイルからこれらの要素を含んだ<tt>&lt;table&gt;</tt>を取り除きました。</li>
+</ul>
+
+<h3>検索</h3>
+
+<p>検索フォームと結果表示のテンプレートが変更され、検索結果の表示モジュール用に新しくテンプレートが追加されました。<tt>search</tt>ディレクトリ以下のテンプレートを同梱のProfessionalテーマからコピーして利用してください。</p>
+
+<h3>コメント</h3>
+
+<p>テンプレートファイル<tt>commentform.thtml</tt>と<tt>commentform.thtml</tt>は、
+セキュリティトークンとテーマ変数<code>{notifcation}</code>(コメント通知オプションのため)が追加されました。</p>
+
+<h3>プラグイン</h3>
+
+<ul>
+<li>アンケートプラグインのテンプレートファイル<tt>plugins/polls/templates/admin/polleditor.thtml</tt>はアンケートのid(pid)の文字列に40文字を許可:</li>
+<li>静的ページプラグインの印刷用テンプレートファイル<tt>printable.thtml</tt>では<tt>print.css</tt>を読み込んでいます(上部参照)。それは現在HTMLスクリプトドキュメントタイプを含んでいます。</li>
+</ul>
+
+<h3>パーミッションエディタ</h3>
+
+<p>パーミッションエディタのそのいろいろな場合(所有者、グループ、メンバー、ゲストユーザに対してR = 閲覧　E = 編集　パーミッションの設定）は、いろいろなテンプレートで使われてきました。これからは、どこでも固有の名前で定義されます:</p>
+<ul>
+<li><tt>{lang_permissions}</tt> (headline)</li>
+<li><tt>{lang_perm_key}</tt> (凡例: R = 閲覧, ...)</li>
+<li><tt>{permissions_editor}</tt> (チェックボックス)</li>
+<li><tt>{lang_permissions_msg}</tt> ("注意: メンバーとは、そのときログインしているユーザのこと ...)</li>
+</ul>
+<p>他の名前を使用しているテンプレートファイルは機能し続けます、しかし、新しいファイルは今後上記の名前を使用しなければなりません。 </p>
+
+
+<h2><a name="changes152">Geeklog 1.5.2におけるテーマの変更点</a></h2>
+
  
 <p>注: Geeklog 1.5.0ないし1.5.1用に作成されたテーマはGeeklog 1.5.2でも問題なく動作するはずです。今回のリリースでは、1.5.0と1.5.1に悪影響を与えていたバグ（下記参照）を修正するだけです。他の変更点はオプションです。</p>
 
@@ -112,7 +172,7 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <p>以下に述べるバグはGeeklog 1.5.0及び1.5.1に存在していたバグです。これらの修正をカスタムテーマに適用することを勧めます。</p>
 
 <ul>
-<li>トラックバックエディタのテンプレートファイル(<tt>admin/trackback/trackbackeditor.thtml</tt>)にセキュリティトークンがありませんでした（そのため、トラックバックに失敗していた。）。</li>
+<li>トラックバックエディタのテンプレートファイル(<tt>admin/trackback/trackbackeditor.thtml</tt>)にセキュリティトークンがありませんでした（そのため、トラックバックに失敗していました。）。</li>
 <li>記事テンプレートの <code>{start_storylink_anchortag}</code> 変数にタグを閉じる '&gt;' が抜けていました。このため、テーマによっては記事のタイトルが表示されなくなっていました（これはGeeklog本体のバグであるため、テーマを修正する必要はありません。）。</li>
 <li><tt>admin/config/configuration.thtml</tt>のコンフィギュレーションフォームのactionに <code>{site_admin_url}</code> 変数がセットされていませんでした。このため、セットアップ方法によっては、設定の変更に失敗していた可能性があります。</li>
 <li>アンケートエディタのテンプレートファイル(<tt>plugins/polls/templates/admin/polleditor.thtml</tt>)にhidden属性の<code>old_pid</code>フィールドを追加し、アンケートID変更の際に生じる問題に対応しました。</li>
@@ -160,7 +220,7 @@ if (empty($lang)) {
 </ul>
 
 
-<h2><a name="changes150">Geeklog 1.5.0でのテーマの変更点</a></h2>
+<h2><a name="changes150">Geeklog 1.5.0におけるテーマの変更点</a></h2>
 
 <h3><a name="xhtml">XHTMLをサポート</a></h3>
 
@@ -315,7 +375,7 @@ if (empty($lang)) {
 </ul>
 
 
-<h2><a name="changes140">Geeklog 1.4.0でのテーマの変更点</a></h2>
+<h2><a name="changes140">Geeklog 1.4.0におけるテーマの変更点</a></h2>
 
 <p>従来通り、不足している新しいテンプレートファイルは、Geeklogに同梱されているデフォルトのProfessionalテーマからコピーしてくればよいでしょう。</p>
 

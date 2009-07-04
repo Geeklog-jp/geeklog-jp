@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | profiles.php                                                              |
 // |                                                                           |
@@ -33,6 +33,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Geeklog common function library
+*/
 require_once 'lib-common.php';
 
 /**
@@ -101,7 +104,7 @@ function contactemail($uid,$author,$authoremail,$subject,$message)
             $result = PLG_checkforSpam ($mailtext, $_CONF['spamx']);
             if ($result > 0) {
                 COM_updateSpeedlimit ('mail');
-                COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+                COM_outputMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
             }
 
             $msg = PLG_itemPreSave ('contact', $message);
@@ -125,6 +128,15 @@ function contactemail($uid,$author,$authoremail,$subject,$message)
             $from = COM_formatEmailAddress ($author, $authoremail);
 
             $sent = COM_mail($to, $subject, $message, $from);
+
+            if ($sent && isset($_POST['cc']) && ($_POST['cc'] == 'on')) {
+                $ccmessage = sprintf($LANG08[38], COM_getDisplayName($uid,
+                                            $A['username'], $A['fullname']));
+                $ccmessage .= "\n------------------------------------------------------------\n\n" . $message;
+
+                $sent = COM_mail($from, $subject, $ccmessage, $from);
+            }
+
             COM_updateSpeedlimit('mail');
 
             $retval .= COM_refresh($_CONF['site_url']
@@ -228,17 +240,19 @@ function contactform ($uid, $subject = '', $message = '')
             } else {
                 $mail_template->set_var ('useremail', $_USER['email']);
             }
-            $mail_template->set_var ('lang_subject', $LANG08[13]);
-            $mail_template->set_var ('subject', $subject);
-            $mail_template->set_var ('lang_message', $LANG08[14]);
-            $mail_template->set_var ('message', $message);
-            $mail_template->set_var ('lang_nohtml', $LANG08[15]);
-            $mail_template->set_var ('lang_submit', $LANG08[16]);
-            $mail_template->set_var ('uid', $uid);
-            PLG_templateSetVars ('contact', $mail_template);
-            $mail_template->parse ('output', 'form');
-            $retval .= $mail_template->finish ($mail_template->get_var ('output'));
-            $retval .= COM_endBlock ();
+            $mail_template->set_var('lang_cc', $LANG08[36]);
+            $mail_template->set_var('lang_cc_description', $LANG08[37]);
+            $mail_template->set_var('lang_subject', $LANG08[13]);
+            $mail_template->set_var('subject', $subject);
+            $mail_template->set_var('lang_message', $LANG08[14]);
+            $mail_template->set_var('message', $message);
+            $mail_template->set_var('lang_nohtml', $LANG08[15]);
+            $mail_template->set_var('lang_submit', $LANG08[16]);
+            $mail_template->set_var('uid', $uid);
+            PLG_templateSetVars('contact', $mail_template);
+            $mail_template->parse('output', 'form');
+            $retval .= $mail_template->finish($mail_template->get_var('output'));
+            $retval .= COM_endBlock();
         } else {
             $retval = COM_startBlock ($LANG08[10] . ' ' . $displayname, '',
                               COM_getBlockTemplate ('_msg_block', 'header'));
@@ -300,7 +314,7 @@ function mailstory($sid, $to, $toemail, $from, $fromemail, $shortmsg)
         return $retval;
     }
 
-    $sql = "SELECT uid,title,introtext,bodytext,commentcode,UNIX_TIMESTAMP(date) AS day FROM {$_TABLES['stories']} WHERE sid = '$sid'";
+    $sql = "SELECT uid,title,introtext,bodytext,commentcode,UNIX_TIMESTAMP(date) AS day,postmode FROM {$_TABLES['stories']} WHERE sid = '$sid'";
     $result = DB_query ($sql);
     $A = DB_fetchArray ($result);
     $shortmsg = COM_stripslashes ($shortmsg);
@@ -313,7 +327,7 @@ function mailstory($sid, $to, $toemail, $from, $fromemail, $shortmsg)
     $result = PLG_checkforSpam ($mailtext, $_CONF['spamx']);
     if ($result > 0) {
         COM_updateSpeedlimit ('mail');
-        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+        COM_outputMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
     }
 
     $mailtext .= '------------------------------------------------------------'
@@ -325,10 +339,17 @@ function mailstory($sid, $to, $toemail, $from, $fromemail, $shortmsg)
         $author = COM_getDisplayName ($A['uid']);
         $mailtext .= $LANG01[1] . ' ' . $author . LB;
     }
-    $mailtext .= LB
-        . COM_undoSpecialChars(stripslashes(strip_tags($A['introtext']))).LB.LB
-        . COM_undoSpecialChars(stripslashes(strip_tags($A['bodytext']))).LB.LB
-        . '------------------------------------------------------------'.LB;
+    if($A['postmode']==='wikitext'){
+        $mailtext .= LB
+            . COM_undoSpecialChars(stripslashes(strip_tags(COM_renderWikiText($A['introtext'])))).LB.LB
+            . COM_undoSpecialChars(stripslashes(strip_tags(COM_renderWikiText($A['bodytext'])))).LB.LB
+            . '------------------------------------------------------------'.LB;
+    } else {
+        $mailtext .= LB
+            . COM_undoSpecialChars(stripslashes(strip_tags($A['introtext']))).LB.LB
+            . COM_undoSpecialChars(stripslashes(strip_tags($A['bodytext']))).LB.LB
+            . '------------------------------------------------------------'.LB;
+    }
     if ($A['commentcode'] == 0) { // comments allowed
         $mailtext .= $LANG08[24] . LB
                   . COM_buildUrl ($_CONF['site_url'] . '/article.php?story='
@@ -530,6 +551,6 @@ switch ($what) {
         break;
 }
 
-echo $display;
+COM_output($display);
 
 ?>

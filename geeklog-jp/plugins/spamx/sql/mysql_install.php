@@ -2,11 +2,11 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Spam-X Plugin 1.1                                                         |
+// | Spam-X Plugin 1.2                                                         |
 // +---------------------------------------------------------------------------+
 // | Installation SQL                                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2004-2006 by the following authors:                         |
+// | Copyright (C) 2004-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tom Willett       - tomw AT pigstye DOT net                      |
 // +---------------------------------------------------------------------------+
@@ -25,8 +25,10 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: mysql_install.php,v 1.1 2006/08/20 16:27:52 dhaun Exp $
+
+/**
+* @package Spam-X
+*/
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['spamx']} (
@@ -35,5 +37,7 @@ CREATE TABLE {$_TABLES['spamx']} (
   INDEX spamx_name(name)
 ) TYPE=MyISAM
 ";
+
+$DEFVALUES[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('spamx.counter', '0')";
 
 ?>

@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Polls Plugin 2.0                                                          |
+// | Polls Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | functions.inc                                                             |
 // |                                                                           |
@@ -34,20 +34,29 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Implementation of the Plugin API for the Polls plugin
+*
+* @package Polls
+*/
+
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
 
 $plugin_path = $_CONF['path'] . 'plugins/polls/';
-$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 
+/**
+* Language file include
+*/
+$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 if (file_exists($langfile)) {
     require_once $langfile;
 } else {
     require_once $plugin_path . 'language/english.php';
 }
 
-/*
+/**
 * Check and see if we need to load the plugin configuration
 */ 
 if (!isset($_PO_CONF['pollsloginrequired'])) {
@@ -57,7 +66,6 @@ if (!isset($_PO_CONF['pollsloginrequired'])) {
     $_PO_CONF = $po_config->get_config('polls');
 }
 
-$_PO_CONF['version'] = '2.0.2';
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
@@ -69,13 +77,13 @@ $_PO_CONF['version'] = '2.0.2';
 * NOTE: this MUST return the url/value pairs in the following format
 * $<arrayname>[<label>] = <url>
 *
+* @return   mixed   menu entry, or boolean false if disabled / hidden
 */
 function plugin_getmenuitems_polls ()
 {
-    global $_CONF, $_USER, $_PO_CONF, $LANG_POLLS;
+    global $_CONF, $_PO_CONF, $LANG_POLLS;
 
-    $anon = (empty ($_USER['uid']) || ($_USER['uid'] <= 1)) ? true : false;
-    if (($_PO_CONF['hidepollsmenu'] == 1) || ($anon &&
+    if (($_PO_CONF['hidepollsmenu'] == 1) || (COM_isAnonUser() &&
                 ($_CONF['loginrequired'] || $_PO_CONF['pollsloginrequired']))) {
         return false;
     }
@@ -86,24 +94,8 @@ function plugin_getmenuitems_polls ()
 }
 
 /**
-* Geeklog is checking to see if this plugin supports comments, tell it yes.
-*
-* NOTE: to support comments you must used the same date/time based ID for your
-* widget.  In other words, to make primary keys for your plugin you should call
-* makesid().  Comments are keyed off of that...it is a limitation on how Geeklog
-* does comments.
-*
-*/
-function plugin_commentsupport_polls()
-{
-    // polls will use comments
-    return true;
-}
-
-/**
  * Poll saves a comment
  *
- * @param   string  $type   Plugin to save comment
  * @param   string  $title  comment title
  * @param   string  $comment comment text
  * @param   string  $id     Item id to which $cid belongs
@@ -117,21 +109,26 @@ function plugin_savecomment_polls($title, $comment, $id, $pid, $postmode)
 
     $retval = '';
 
-    $commentcode = DB_getItem ($_TABLES['polltopics'], 'commentcode',
-                               "pid = '$id'");
+    $commentcode = DB_getItem($_TABLES['polltopics'], 'commentcode',
+                              "pid = '$id'");
     if ($commentcode != 0) {
-        return COM_refresh ($_CONF['site_url'] . '/index.php');
+        return COM_refresh($_CONF['site_url'] . '/index.php');
     }
 
-    $ret = CMT_saveComment ($title, $comment, $id, $pid, 'polls', $postmode);
+    $ret = CMT_saveComment($title, $comment, $id, $pid, 'polls', $postmode);
     if ($ret > 0) { // failure //FIXME: some failures should not return to comment form
         $retval .= COM_siteHeader('menu', $LANG03[1])
-                . CMT_commentForm ($title, $comment, $id, $pid, 'polls',
-                                   $LANG03[14], $postmode)
+                . CMT_commentForm($title, $comment, $id, $pid, 'polls',
+                                  $LANG03[14], $postmode)
                 . COM_siteFooter();
     } else { // success
-        $retval = COM_refresh ($_CONF['site_url']
-                                . "/polls/index.php?pid=$id&amp;aid=-1");
+        $msg = '';
+        if (($_CONF['commentsubmission'] == 1) &&
+                !SEC_hasRights('comment.submit')) {
+            $msg = '&msg=15';
+        }
+        $retval = COM_refresh($_CONF['site_url']
+                              . "/polls/index.php?pid=$id&amp;aid=-1$msg");
     }
 
     return $retval;
@@ -221,7 +218,7 @@ function plugin_showstats_polls ($showsitestats)
 
     $retval = '';
 
-    $result = DB_query ("SELECT pid,topic,voters from {$_TABLES['polltopics']} WHERE (voters > 0)" . COM_getPermSQL ('AND') . " ORDER BY voters DESC LIMIT 10");
+    $result = DB_query ("SELECT pid,topic,voters FROM {$_TABLES['polltopics']} WHERE (voters > 0)" . COM_getPermSQL ('AND') . " ORDER BY voters DESC LIMIT 10");
     $nrows  = DB_numRows ($result);
 
     if ($nrows > 0) {
@@ -337,12 +334,13 @@ function plugin_user_delete_polls ($uid)
         $result = DB_query ("SELECT pid FROM {$_TABLES['polltopics']} WHERE owner_id = $uid");
         $numPolls = DB_numRows ($result);
         for ($i = 0; $i < $numPolls; $i++) {
-            list($pid) = DB_fetchArray ($result);
-            DB_delete ($_TABLES['pollanswers'], 'pid', $pid);
-            DB_delete ($_TABLES['pollvoters'], 'pid', $pid);
-            DB_query ("DELETE FROM {$_TABLES['comments']} WHERE sid = '$pid' AND type = 'polls'");
+            list($pid) = DB_fetchArray($result);
+            DB_delete($_TABLES['pollanswers'], 'pid', $pid);
+            DB_delete($_TABLES['pollvoters'], 'pid', $pid);
+            DB_delete($_TABLES['comments'], array('sid', 'type'),
+                                            array($pid, 'polls'));
         }
-        DB_delete ($_TABLES['polltopics'], 'owner_id', $uid);
+        DB_delete($_TABLES['polltopics'], 'owner_id', $uid);
     } else {
         // assign ownership to a user from the Root group
         $rootgroup = DB_getItem ($_TABLES['groups'], 'grp_id',
@@ -360,9 +358,13 @@ function plugin_user_delete_polls ($uid)
 */
 function plugin_chkVersion_polls()
 {
-    global $_PO_CONF;
+    global $_CONF;
 
-    return $_PO_CONF['version'];
+    require_once $_CONF['path'] . 'plugins/polls/autoinstall.php';          
+
+    $inst_parms = plugin_autoinstall_polls('polls'); 
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
@@ -634,7 +636,7 @@ function POLLS_showPoll($size, $pid='', $showall = false )
 
     $retval = '';
 
-    DB_query("DELETE FROM {$_TABLES['pollvoters']} WHERE date < unix_timestamp() - {$_PO_CONF['polladdresstime']}");
+    DB_query("DELETE FROM {$_TABLES['pollvoters']} WHERE date < UNIX_TIMESTAMP() - {$_PO_CONF['polladdresstime']}");
 
     if(!empty($pid)) {
         if(!isset($_COOKIE["poll-".$pid]) && !POLLS_ipAlreadyVoted($pid) && ($Q['is_open'] == 1)) {
@@ -643,7 +645,7 @@ function POLLS_showPoll($size, $pid='', $showall = false )
             $retval .= POLLS_pollResults($pid, $size);
         }
     } else {
-        $result = DB_query("SELECT pid,topic,is_open from {$_TABLES['polltopics']} WHERE display = 1 ORDER BY date DESC");
+        $result = DB_query("SELECT pid,topic,is_open FROM {$_TABLES['polltopics']} WHERE display = 1 ORDER BY date DESC");
         $nrows = DB_numRows($result );
 
         $title = DB_getItem($_TABLES['blocks'], 'title', "name='poll_block'");
@@ -862,7 +864,7 @@ function POLLS_pollResults($pid, $scale=400, $order='', $mode='')
                     if ($scale < 120) {
                         $poll->parse('poll_votes', 'votes_num', true );
                     } else {
-                        $width = $percent * $scale;
+                        $width = (int)($percent * $scale);
                         $poll->set_var('bar_width', $width);
                         $poll->parse('poll_votes', 'votes_bar', true);
                     }
@@ -1108,15 +1110,259 @@ function plugin_getheadercode_polls()
 */
 function plugin_upgrade_polls()
 {
-    // the plugin needs these function so complain when they don't exist
-    if (!function_exists('PLG_uninstall') ||
-            !function_exists('COM_createLink')) {
+    global $_CONF, $_TABLES, $_DB_dbms;
+
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
+                                    "pi_name = 'polls'");
+    $code_version = plugin_chkVersion_polls();
+    if ($installed_version == $code_version) {
+        // nothing to do
+        return true;
+    }
+
+    require_once $_CONF['path'] . 'plugins/polls/autoinstall.php';
+
+    if (! plugin_compatible_with_this_version_polls('polls')) {
         return 3002;
     }
 
-    // upgrades are done by the install script - return a generic error
-    COM_errorLog("Plugin upgrade function not implemented");
-    return 3001;
+    $inst_parms = plugin_autoinstall_polls('polls');
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    require_once $_CONF['path'] . 'plugins/polls/sql/'
+                                . $_DB_dbms . '_updates.php';
+
+    $current_version = $installed_version;
+    $done = false;
+    while (! $done) {
+        switch ($current_version) {
+        case '2.0.1':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+            $current_version = '2.1.0';
+            break;
+
+        default:
+            $done = true;
+        }
+    }
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'polls'");
+
+    return true;
+}
+
+/**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_polls($old_conf)
+{
+    global $_CONF;
+
+    $tables = array(
+        'pollanswers'   => 'aid, answer',
+        'pollquestions' => 'qid, question',
+        'polltopics'    => 'pid, topic'
+    );
+
+    if ($old_conf['site_url'] != $_CONF['site_url']) {
+        INST_updateSiteUrl($old_conf['site_url'], $_CONF['site_url'], $tables);
+    }
+
+    return true;
+}
+
+/**
+* Return information for a poll
+*
+* @param    string  $pid        poll ID or '*'
+* @param    string  $what       comma-separated list of properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
+*
+*/
+function plugin_getiteminfo_polls($pid, $what, $uid = 0, $options = array())
+{
+    global $_CONF, $_TABLES;
+
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
+    foreach ($properties as $p) {
+        switch ($p) {
+        case 'date-modified':
+            $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
+            break;
+        case 'id':
+            $fields[] = 'pid';
+            break;
+        case 'title':
+            $fields[] = 'topic';
+            break;
+        case 'url':
+            // needed for $pid == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'pid';
+            break;
+        default:
+            // nothing to do
+            break;
+        }
+    }
+
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
+    }
+
+    // prepare SQL request
+    if ($pid == '*') {
+        $where = '';
+        $permOp = 'WHERE';
+    } else {
+        $where = " WHERE pid = '" . addslashes($pid) . "'";
+        $permOp = 'AND';
+    }
+    if ($uid > 0) {
+        $permSql = COM_getPermSql($permOp, $uid);
+    } else {
+        $permSql = COM_getPermSql($permOp);
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['polltopics']}" . $where . $permSql;
+    if ($pid != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
+                break;
+            case 'id':
+                $props['id'] = $A['pid'];
+                break;
+            case 'title':
+                $props['title'] = $A['topic'];
+                break;
+            case 'url':
+                if (empty($A['pid'])) {
+                    $props['url'] = $_CONF['site_url']
+                                  . '/polls/index.php?pid=' . $pid
+                                  . '&amp;aid=-1';
+                } else {
+                    $props['url'] = $_CONF['site_url']
+                                  . '/polls/index.php?pid=' . $A['pid']
+                                  . '&amp;aid=-1';
+                }
+                break;
+            default:
+                // return empty string for unknown properties
+                $props[$p] = '';
+                break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($pid == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($pid == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
+        }
+    }
+
+    if (($pid != '*') && (count($retval) == 1)) {
+        $retval = $retval[0];
+    }
+
+    return $retval;
+}
+
+/**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_polls($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'docs/' . $doclang . '/polls.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/docs/english/polls.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
+    }
+
+    return $retval;
+}
+
+/**
+* Provide URL and ID for the link to a comment's parent
+*
+* @return   array   array consisting of the base URL and the ID name
+*
+*/
+function plugin_getcommenturlid_polls()
+{
+    global $_CONF;
+
+    $tmp = array(
+        $_CONF['site_url'] . '/polls/index.php',
+        'pid'
+    );
+
+    return $tmp;
 }
 
 ?>

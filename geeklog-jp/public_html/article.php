@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | article.php                                                               |
 // |                                                                           |
@@ -37,8 +37,8 @@
 * may, or may not, include the comments attached
 *
 * @author   Jason Whittenburg
-* @author   Tony Bibbbs <tony AT tonybibbs DOT com>
-* @author   Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
+* @author   Tony Bibbbs, tony AT tonybibbs DOT com
+* @author   Vincent Furia, vinny01 AT users DOT sourceforge DOT net
 */
 
 /**
@@ -46,6 +46,7 @@
 */
 require_once 'lib-common.php';
 require_once $_CONF['path_system'] . 'lib-story.php';
+require_once $_CONF['path_system'] . 'lib-comment.php';
 if ($_CONF['trackback_enabled']) {
     require_once $_CONF['path_system'] . 'lib-trackback.php';
 }
@@ -57,11 +58,13 @@ if ($_CONF['trackback_enabled']) {
 // echo COM_debug($_POST);
 
 // MAIN
+CMT_updateCommentcodes();
 $display = '';
 
 $order = '';
 $query = '';
 $reply = '';
+$page = 0;
 if (isset ($_POST['mode'])) {
     $sid = COM_applyFilter ($_POST['story']);
     $mode = COM_applyFilter ($_POST['mode']);
@@ -73,6 +76,9 @@ if (isset ($_POST['mode'])) {
     }
     if (isset ($_POST['reply'])) {
         $reply = COM_applyFilter ($_POST['reply']);
+    }
+    if (isset ($_POST['page'])) {
+        $page = COM_applyFilter ($_REQUEST['page'], true);
     }
 } else {
     COM_setArgNames (array ('story', 'mode'));
@@ -86,6 +92,9 @@ if (isset ($_POST['mode'])) {
     }
     if (isset ($_GET['reply'])) {
         $reply = COM_applyFilter ($_GET['reply']);
+    }
+    if (isset ($_GET['page'])) {
+        $page = COM_applyFilter ($_REQUEST['page'], true);
     }
 }
 
@@ -122,6 +131,8 @@ if ($A['count'] > 0) {
                 $story->{$varname} = $output[$fieldname];
             }
         }
+        $story->_username = $output['username'];
+        $story->_fullname = $output['fullname'];
     }
 
     if ($output == STORY_PERMISSION_DENIED) {
@@ -137,6 +148,10 @@ if ($A['count'] > 0) {
         $story_template = new Template($_CONF['path_layout'] . 'article');
         $story_template->set_file('article', 'printable.thtml');
         $story_template->set_var('xhtml', XHTML);
+        if (XHTML != '') {
+            $story_template->set_var('xmlns',
+                                     ' xmlns="http://www.w3.org/1999/xhtml"');
+        }
         $story_template->set_var('direction', $LANG_DIRECTION);
         $story_template->set_var('page_title',
                 $_CONF['site_name'] . ': ' . $story->displayElements('title'));
@@ -154,10 +169,27 @@ if ($A['count'] > 0) {
                                      $story->DisplayElements('username'));
         }
 
-        $story_template->set_var('story_introtext',
-                                 $story->DisplayElements('introtext'));
-        $story_template->set_var('story_bodytext',
-                                 $story->DisplayElements('bodytext'));
+        $introtext = $story->DisplayElements('introtext');
+        $bodytext  = $story->DisplayElements('bodytext');
+        if (empty($bodytext)) {
+            $fulltext = $introtext;
+            $fulltext_no_br = $introtext;
+        } else {
+            $fulltext = $introtext . '<br' . XHTML . '><br' . XHTML . '/>'
+                      . $bodytext;
+            $fulltext_no_br = $introtext . ' ' . $bodytext;
+        }
+        if ($story->DisplayElements('postmode') == 'plaintext') {
+            $introtext = '<p>' . $introtext . '</p>';
+            $bodytext = '<p>' . $bodytext . '</p>';
+            $fulltext = '<p>' . $fulltext . '</p>';
+            $fulltext_no_br = '<p>' . $fulltext_no_br . '</p>';
+        }
+
+        $story_template->set_var('story_introtext', $introtext);
+        $story_template->set_var('story_bodytext',  $bodytext);
+        $story_template->set_var('story_text', $fulltext);
+        $story_template->set_var('story_text_no_br', $fulltext_no_br);
 
         $story_template->set_var('site_url', $_CONF['site_url']);
         $story_template->set_var('site_admin_url', $_CONF['site_admin_url']);
@@ -186,8 +218,11 @@ if ($A['count'] > 0) {
             $story_template->set_var('comments_with_count',
                                      $comments_with_count);
         }
-        $story_template->set_var ('lang_full_article', $LANG08[33]);
-        $story_template->set_var ('article_url', $articleUrl);
+        $story_template->set_var('lang_full_article', $LANG08[33]);
+        $story_template->set_var('article_url', $articleUrl);
+        $printable = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                  . $story->getSid() . '&amp;mode=print');
+        $story_template->set_var('printable_url', $printable);
 
         COM_setLangIdAndAttribute($story_template);
 
@@ -197,21 +232,23 @@ if ($A['count'] > 0) {
         // Set page title
         $pagetitle = $story->DisplayElements('title');
 
-        $rdf = '';
+        $headercode = '';
+        $permalink = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                  . $story->getSid());
+        $headercode .= '<link rel="canonical" href="' . $permalink . '"'
+                    . XHTML . '>';
         if ($story->DisplayElements('trackbackcode') == 0) {
             if ($_CONF['trackback_enabled']) {
-                $permalink = COM_buildUrl ($_CONF['site_url']
-                                           . '/article.php?story=' . $story->getSid());
-                $trackbackurl = TRB_makeTrackbackUrl ($story->getSid());
-                $rdf = '<!--' . LB
-                     . TRB_trackbackRdf ($permalink, $pagetitle, $trackbackurl)
+                $trackbackurl = TRB_makeTrackbackUrl($story->getSid());
+                $headercode .= LB . '<!--' . LB
+                     . TRB_trackbackRdf($permalink, $pagetitle, $trackbackurl)
                      . LB . '-->' . LB;
             }
             if ($_CONF['pingback_enabled']) {
-                header ('X-Pingback: ' . $_CONF['site_url'] . '/pingback.php');
+                header('X-Pingback: ' . $_CONF['site_url'] . '/pingback.php');
             }
         }
-        $display .= COM_siteHeader ('menu', $pagetitle, $rdf);
+        $display .= COM_siteHeader('menu', $pagetitle, $headercode);
 
         if (isset($_GET['msg'])) {
             $msg = COM_applyFilter($_GET['msg'], true);
@@ -256,14 +293,6 @@ if ($A['count'] > 0) {
             $story_template->set_var ('lang_print_story', $LANG11[3]);
             $story_template->set_var ('lang_print_story_alt', $LANG01[65]);
         }
-        if ($_CONF['pdf_enabled'] == 1) {
-            $pdfUrl = $_CONF['site_url']
-                    . '/pdfgenerator.php?pageType=2&amp;pageData='
-                    . urlencode ($printUrl);
-            $story_options[] = COM_createLink($LANG11[5], $pdfUrl);
-            $story_template->set_var ('pdf_story_url', $printUrl);
-            $story_template->set_var ('lang_pdf_story', $LANG11[5]);
-        }
         if ($_CONF['backend'] == 1) {
             $tid = $story->displayElements('tid');
             $result = DB_query("SELECT filename, title, format FROM {$_TABLES['syndication']} WHERE type = 'article' AND topic = '$tid' AND is_enabled = 1");
@@ -291,6 +320,14 @@ if ($A['count'] > 0) {
                  . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
             $story_options[] = COM_createLink($LANG_TRB['send_trackback'], $url);
         }
+    /*
+        if (true) { // can subscribe
+            $commentSubscribeURL = '';
+            $story_options[] = COM_createLink('Nubbies', $commentSubscribeURL, array('rel' => 'nofollow'));
+            $story_template->set_var ('comment_subscribe_url', $commentSubscribeURL);
+            $story_template->set_var ('lang_comment_subscribe', 'Nubbies');
+        }
+    */
         $related = STORY_whatsRelated($story->displayElements('related'),
                                       $story->displayElements('uid'),
                                       $story->displayElements('tid'));
@@ -380,6 +417,6 @@ if ($A['count'] > 0) {
     $display .= COM_refresh($_CONF['site_url'] . '/index.php');
 }
 
-echo $display;
+COM_output($display);
 
 ?>

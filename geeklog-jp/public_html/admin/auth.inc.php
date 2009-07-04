@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | auth.inc.php                                                              |
 // |                                                                           |
 // | Geeklog admin authentication module                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -30,8 +30,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: auth.inc.php,v 1.40 2008/09/21 08:37:09 dhaun Exp $
 
 // this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'auth.inc.php') !== false) {
@@ -41,7 +39,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'auth.inc.php') !== false) {
 // MAIN
 COM_clearSpeedlimit($_CONF['login_speedlimit'], 'login');
 if (COM_checkSpeedlimit('login', $_CONF['login_attempts']) > 0) {
-    COM_displayMessageAndAbort($LANG04[112], '', 403, 'Access denied');
+    COM_outputMessageAndAbort($LANG04[112], '', 403, 'Access denied');
 }
 
 $uid = '';
@@ -107,7 +105,7 @@ if ($status == USER_ACCOUNT_ACTIVE) {
                      . COM_accessLog($LANG20[3] . ' ' . $_POST['loginname']);
         }
 
-        $display .= '<form action="' . $_SERVER['PHP_SELF'] . '" method="post">'
+        $display .= '<form action="' . $_CONF['site_admin_url'] . '/moderation.php" method="post">'
             .'<table cellspacing="0" cellpadding="0" border="0" width="100%">'.LB
             .'<tr><td align="right">'.$LANG20[4].'&nbsp;</td>'.LB
             .'<td><input type="text" name="loginname" size="16" maxlength="16"' . XHTML . '></td>'.LB
@@ -125,7 +123,7 @@ if ($status == USER_ACCOUNT_ACTIVE) {
 
     $display .= COM_endBlock()
              . COM_siteFooter();
-    echo $display;
+    COM_output($display);
     exit;
 }
 

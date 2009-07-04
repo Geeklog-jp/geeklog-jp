@@ -46,10 +46,10 @@ $LANG01 = array(
     2 => 'loe lisaks',
     3 => 'kommentaari',
     4 => 'Toimeta',
-    5 => 'Hääleta',
-    6 => 'Tulemused',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => 'hääletanut',
+    8 => '',
     9 => 'Admini funktsioonid:',
     10 => 'Sisestused',
     11 => 'Lugu',
@@ -152,7 +152,7 @@ $LANG01 = array(
     108 => 'Tühjenda puhvermälu',
     109 => 'Teata kuritahtlikkusest',
     110 => 'Teata sellest postitusest lehe administraatorile',
-    111 => 'Vaata PDF versiooni',
+    111 => '',
     112 => 'Registreeritud kasutajaid',
     113 => 'Dokumentatsioon',
     114 => 'TRACKBACKID',
@@ -204,7 +204,23 @@ $LANG03 = array(
     24 => 'Anonüümne kasutaja',
     25 => 'Kas oled kindel, et soovid teatada sellest postitusest lehe administraatorile?',
     26 => '%s teatas järgmisest kuritahtlikust postitusest:',
-    27 => 'Kuritahtlikkusest teatamine'
+    27 => 'Kuritahtlikkusest teatamine',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -359,15 +375,15 @@ $LANG04 = array(
     146 => 'Salasõna ja E-post',
     147 => 'Muuda oma salasõna, E-postiaadressi või autologimist. Salasõna ja E-postiaadressi muutmisel pead sa vigade vältimiseks sisestama need topelt.',
     148 => 'Kasutaja info',
-    149 => 'Muuda teistele kasutajatele nähtavat kasutajainfot. 
-    <li>Allkiri lisatakse sinu kommentaaridele</li>
-    <li>Bio on lühike sinu kirjeldus teistele</li>
-    <li>Jaga oma PGP võtit</li>',
+    149 => "Muuda teistele kasutajatele nähtavat kasutajainfot. \n    <li>Allkiri lisatakse sinu kommentaaridele</li>\n    <li>Bio on lühike sinu kirjeldus teistele</li>\n    <li>Jaga oma PGP võtit</li>",
     150 => 'Märkus: mugavamaks kasutamiseks on soovitav JavaScript.',
     156 => 'Kustuta konto',
     157 => 'Kustutamisvalik',
     158 => 'Ajavöönd',
-    159 => 'See E-kiri on automaatselt genereeritud . Ära vasta  sellele.'
+    159 => 'See E-kiri on automaatselt genereeritud . Ära vasta  sellele.',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -435,7 +451,10 @@ $LANG08 = array(
     32 => 'Päev',
     33 => 'Loe kogu artiklit aadressil',
     34 => 'Sõnumi lõpp',
-    35 => 'Kahjuks see kasutaja ei soovi kirju saada.'
+    35 => 'Kahjuks see kasutaja ei soovi kirju saada.',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -502,7 +521,16 @@ $LANG09 = array(
     58 => 'Rohkem tulemusi &gt;&gt;',
     59 => 'Tulemused',
     60 => 'lehel',
-    61 => ' täpsusta otsingut'
+    61 => ' täpsusta otsingut',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -550,7 +578,7 @@ $LANG11 = array(
     2 => 'Saada lugu sõbrale',
     3 => 'Lugu prinditaval kujul',
     4 => 'Loo valikud',
-    5 => 'PDF lugude formaat',
+    5 => '',
     6 => 'Telli \'%s\''
 );
 
@@ -566,10 +594,7 @@ $LANG12 = array(
     6 => 'Lisa lugu',
     7 => 'Nõutav on sisselogimine',
     8 => 'Sisesta',
-    9 => 'Kui lisad meie saidile uut infot, palume järgida järgmisi soovitusi . . .
-    <ul><li>Täida kõik väljad, mis on kohustuslikud</li>
-    <li>Anna täielik ja täpne info</li>
-    <li>Kontrolli hoolikalt kirjutatud URL-id (veebiaadressid)</li></ul>',
+    9 => "Kui lisad meie saidile uut infot, palume järgida järgmisi soovitusi . . .\n    <ul><li>Täida kõik väljad, mis on kohustuslikud</li>\n    <li>Anna täielik ja täpne info</li>\n    <li>Kontrolli hoolikalt kirjutatud URL-id (veebiaadressid)</li></ul>",
     10 => 'Tiitel',
     11 => '',
     12 => 'Alguskuupäev',
@@ -631,7 +656,7 @@ $LANG20 = array(
     3 => 'vigane salasõna, kasutajanimi',
     4 => 'Kasutajanimi:',
     5 => 'Salasõna:',
-    6 => 'Kõik katsed pääseda ligi selle lehe administreerimisosadele logitakse ja vaadatakse läbi. <br ' . XHTML . '>See leht on mõeldud ainult autoriseeritud kasutajatele.',
+    6 => 'Kõik katsed pääseda ligi selle lehe administreerimisosadele logitakse ja vaadatakse läbi. <br >See leht on mõeldud ainult autoriseeritud kasutajatele.',
     7 => 'logi sisse'
 );
 
@@ -775,7 +800,7 @@ $LANG24 = array(
     60 => '',
     61 => 'Autoarhiiv',
     62 => 'Autokustuta',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -893,7 +918,7 @@ $LANG28 = array(
     49 => 'Administreerimisgrupp',
     50 => 'Märgi, et seda gruppi filtreeritaks administreerimisgrupina',
     51 => 'Online päevad',
-    52 => '<br' . XHTML . 'Märkus: Online päevad on päevade arv  registreerimisest viimase sisselogimiseni.',
+    52 => '<brMärkus: Online päevad on päevade arv  registreerimisest viimase sisselogimiseni.',
     53 => 'registreeritud',
     54 => 'Masskustutamine',
     55 => 'See töötab vaid siis kui sul on config.php failis <code>$_CONF[\'lastlogin\'] = true;</code>',
@@ -926,7 +951,9 @@ $LANG28 = array(
     82 => "Sinu kontot {$_CONF['site_name']}  lehel pole kasutatud %s alates ning see suletakse , kui seda ei kasutata ka järgmise 30 päeva jooksul.",
     83 => "Sinu kontot {$_CONF['site_name']} lehel pole selle tegemisest alates kasutatud ja see kustutatakse peatselt, kui seda kohe ei kasutata.",
     84 => "Meie lehel: {$_CONF['site_url']} on sinu kasutajanimi  : %s",
-    85 => 'Kui unustasid oma salasõna, kasuta järgmist linki: %s'
+    85 => 'Kui unustasid oma salasõna, kasuta järgmist linki: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -948,11 +975,14 @@ $LANG29 = array(
     18 => 'E-post',
     34 => 'Kontrolli ja otsusta',
     35 => 'Sisestatud lood',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'Sisesta',
     39 => 'Hetkel pole ülevaatamist (modereerimist) vajavaid sisestusi.',
-    40 => 'Kasutajate sisestused'
+    40 => 'Kasutajate sisestused',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1000,8 +1030,7 @@ $LANG32 = array(
     7 => 'Plugin, mida sa soovid installeerida, on juba installeeritud. Palun kustuta see plugin enne taasinstalleerimist.',
     8 => 'Plugina sobivuse kontroll  ebaõnnestus',
     9 => 'See plugin vajab uuemat Geeklogi versiooni. Kas uuenda <a href="http://www.geeklog.net">Geeklog</a> või hangi plugina sobiv versioon.',
-    10 => '<br' . XHTML . '><b>Hetkel pole installeeritud ühtegi pluginat.</b>
-    <br' . XHTML . '><br' . XHTML . '>',
+    10 => "<br" . XHTML . "><b>Hetkel pole installeeritud ühtegi pluginat.</b>\n    <br" . XHTML . "><br" . XHTML . ">",
     11 => 'Plugina muutmiseks või kustutamiseks klõpsa allpool selle nimel. Sulle näidatakse plugina kohta täpsemat infot koos autori veebilehe aadressiga. Näidatakse nii installeeritud versiooni numbrit kui ka plugina koodist saadud plugina versioon. Selle põhjal saad otsustada, kas plugin vajab uuendamist või mitte. Plugina installeerimise või uuendamise kohta loe täpsemalt plugina dokumentatsioonist.',
     12 => 'plugineditor () ei saanud plugina nime',
     13 => 'Plugina toimetaja',
@@ -1029,7 +1058,20 @@ $LANG32 = array(
     35 => 'Toimeta',
     36 => 'Kood',
     37 => 'andmed',
-    38 => 'Uuenda!'
+    38 => 'Uuenda!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1106,8 +1148,8 @@ $MESSAGE = array(
     12 => 'Blokk on edukalt kustutatud.',
     13 => 'Rubriik on edukalt salvestatud.',
     14 => 'Rubriik ja kõik sellega seotud lood ja blokid on edukalt kustutatud.',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1120,24 +1162,24 @@ $MESSAGE = array(
     26 => '',
     27 => 'Sõnum on edukalt saadetud.',
     28 => 'plugin on edukalt salvestatud',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => 'Ligipääs tõkestatud',
-    31 => 'Kahjuks pole sul ligipääsu lugude haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
-    32 => 'Kahjuks pole sul ligipääsu rubriikide haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
-    33 => 'Kahjuks pole sul ligipääsu blokkide haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => 'Kahjuks pole sul ligipääsu kasutajate haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
-    38 => 'Kahjuks pole sul ligipääsu pluginate haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
-    39 => 'Kahjuks pole sul ligipääsu E-posti haldamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => 'Süsteemi teade',
-    41 => 'Kahjuks pole sul ligipääsu sõnade asendamise lehele. Pane tähele, et kõik sellised lubamatud katsed logitakse',
-    42 => 'Sõna on edukalt salvestatud',
-    43 => 'Sõna on edukalt kustutatud.',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => 'Plugin on edukalt installeeritud!',
     45 => 'Plugin on edukalt kustutatud.',
-    46 => 'Kahjuks pole sul ligipääsu  andmebaasi bakupi tööriista juurde. Pane tähele, et kõik sellised lubamatud katsed logitakse',
+    46 => '',
     47 => 'Selliseid võimalusi saab kasutada vaid *nix keskkonnas. Kui süsteem töötab *nix operatsioonisüsteemis, siis puhvermälu on edukalt tühjendatud. Kui operatsioonisüsteemiks on Windows, pead sa otsima faile nimekujuga adodb_*.php ja need failid käsitsi kustutama.',
     48 => "Täname sind oma liikmelisuse kinnitamise eest {$_CONF['site_name']} lehel. Meie meeskond vaatab sinu taotluse läbi. Kui see kinnitatakse, saadetakse sinu poolt antud E-postiaadressile E-kirjaga sinu salasõna.",
     49 => 'Grupp on edukalt salvestatud.',
@@ -1187,8 +1229,14 @@ $MESSAGE = array(
     93 => 'Andmebaasi varundamine oli edukas.',
     94 => 'Varundamine ebaõnnestus: faili suurus on alla 1kb',
     95 => 'Oli viga.',
-    96 => 'Sul pole ligipääsu admistreerimislehele.  Pane tähele, et kõik õigustamata katsed sellele lehele ligi pääseda logitakse.',
-    97 => 'Kõik nõutavad väljad ei läbinud kontrolli - kohandatud liitumise üldine veateade.'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1267,12 +1315,7 @@ $LANG_DB_BACKUP = array(
     'do_backup' => 'Varunda',
     'backup_successful' => 'Andmebaasi varundamine oli edukas.',
     'db_explanation' => 'Sinu Geeklogist uue varukoopia tegemiseks klõpsa allolevat nuppu',
-    'not_found' => 'Ebakorrektne tee programmini, kasutusel turvapiirang  või mysqldump pole käivitatav.<br' . XHTML . '>
-    Kontrolli seadistuses <strong>mysqldump_path</strong> definitsiooni.<br' . XHTML . '>
-    Kontrolli <a href="http://www.php.net/manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a>
-PHP seadistust.<br'
-                    . XHTML . ">  
-    Hetkel on muutuja väärtuseks: <var>{$_DB_mysqldump_path}</var>",
+    'not_found' => "Ebakorrektne tee programmini, kasutusel turvapiirang  või mysqldump pole käivitatav.<br" . XHTML . ">\n    Kontrolli seadistuses <strong>mysqldump_path</strong> definitsiooni.<br" . XHTML . ">\n    Kontrolli <a href=\"http://www.php.net/manual/en/features.safe-mode.php#ini.open-basedir\">open_basedir</a>\nPHP seadistust.<br" . XHTML . ">  \n    Hetkel on muutuja väärtuseks: <var>{$_DB_mysqldump_path}</var>",
     'zero_size' => 'Varundamine ebaõnnestus, faili suurus on 0 baiti',
     'path_not_found' => "{$_CONF['backup_path']} pole olemas või pole kataloog.",
     'no_access' => "Viga: varunduskataloog, {$_CONF['backup_path']}, pole ligipääsetav.",
@@ -1316,26 +1359,6 @@ $LANG_LOGIN = array(
     2 => 'Selle lehe osa vaatamiseks pead kasutajana sisse logima.',
     3 => 'Logi sisse',
     4 => 'Uus kasutaja'
-);
-
-###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'PDF oskused on välja lülitatud',
-    2 => 'Etteantud faili ei teisendatud. Dokument laeti korrektselt, kuid seda ei suudetud töödelda. Jälgi hoolikalt, et laeksid vaid XHTML standardile vastavaid HTML dokumente. Pea meeles, et keeruka kujundusega HTML dokumente võidakse teisendada ebakorrektselt või üldse mitte teisendada. Sinu faili töötluse tulemusena loodi 0 baidi suurusega fail ja see kustutati. Kui sa oled kindel, et sinu faili saab edukalt töödelda, siis lae see uuesti.',
-    3 => 'PDF-i genereerimisel tekkis tundmatu viga',
-    4 => 'No page data was given or you want to use the ad-hoc PDF generation tool below.  If you think you are getting this page in error then please contact the system administrator.  Otherwise, you may use the form below to generate PDF\'s in an ad-hoc fashion.',
-    5 => 'Laen dokumenti.',
-    6 => 'Palun oota, kuni sinu dokumenti laetakse.',
-    7 => 'Sa võid oma dokumendi salvestamiseks teha alloleval lingil hiirega paremklõpsu ning valida menüüst kas "Save target...", "Salvesta sihtmärk...", "Save Link location..." vms.',
-    8 => 'Konfiguratsioonis määratud tee HTMLDoc rakenduseni on kas vale või seda rakendust ei saa käivitada. Palun pöördu probleemi püsimisel lehe administraatori poole.',
-    9 => 'PDF-i genereerija',
-    10 => 'This is the Ad-hoc PDF Generation tool. It will attempt to convert any URL you give into a PDF.  Please note that some web pages will not render properly with this feature.  This is a limitation of the HTMLDoc PDF generation tool and such errors should not be reported to the administrators of this site',
-    11 => 'URL',
-    12 => 'Genereeri PDF!',
-    13 => 'Selle lehe häälestus ei luba kasutada PHP funktsiooni fopen(). Süsteemiadministraator peab selle funktsiooni lubamiseks muutma php.ini faili ning selles allow_url_fopen sisse lülitama.',
-    14 => 'PDF faili, mida soovid vaadata kas pole olemas või üritad sa seda vaadata ilma selleks piisavaid õigusi omamata.'
 );
 
 ###############################################################################
@@ -1437,6 +1460,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1523,7 +1571,8 @@ $LANG_ADMIN = array(
     'records_found' => 'Leitud kirjed',
     'addchild' => 'Lisa alamdetail',
     'list' => 'Loetelu',
-    'list_all' => 'Loetle kõik'
+    'list_all' => 'Loetle kõik',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1597,7 +1646,7 @@ $LANG_CONFIG = array(
     'changes_made' => 'Muudatused tehti edukalt',
     'title' => 'Seadistuste haldaja',
     'disable' => 'Klõpsa antud valiku keelamiseks',
-        'enable'        => 'Luba'
+    'enable' => 'Luba'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1625,7 +1674,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => 'Luba MySQL Dump',
     'mysqldump_path' => 'programmi asukoht',
     'mysqldump_options' => 'MySQL Dump valikud',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => 'Skeem',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Menüü elemendid',
     'path_themes' => 'Skeemide asukoht',
     'disable_new_user_registration' => 'Keela uue kasutaja registreerimine',
@@ -1664,6 +1715,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => 'Skeemiküpsise nimi',
     'cookie_language' => 'Keeleküpsise nimi',
     'cookie_tzid' => 'Ajavööndiküpsise nimi',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Küpsistes on IP?',
     'default_perm_cookie_timeout' => 'Püsiv kehtivusaeg',
     'session_cookie_timeout' => 'Sessiooni kehtivusaeg',
@@ -1671,7 +1723,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Küpsise domeen',
     'cookiesecure' => 'Turvaühenduse küpsis',
     'lastlogin' => 'Salvestan viimatise logimise aja?',
-    'pdf_enabled' => 'PDF lubatud?',
     'num_search_results' => 'Otsingutulemuste arv',
     'loginrequired' => 'Vajab sisselogimist?',
     'submitloginrequired' => 'Sisestamine vajab sisselogimist?',
@@ -1755,6 +1806,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => 'Debugi piltide üleslaadimist?',
     'keep_unscaled_image' => 'Säilita originaalsuuruses pilt?',
     'allow_user_scaling' => 'Luba kasutajal suurendamine?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => 'maks. pildi laius?',
     'max_image_height' => 'Maks. pildi kõrgus?',
     'max_image_size' => 'Maks. pildi suurus?',
@@ -1772,14 +1824,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => 'Kommentaaride piir',
     'comment_mode' => 'Kommentaaride viis',
     'comment_code' => 'Vaikimisi kommenteerimine',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => 'Salasõna kiirusepiirang',
     'login_attempts' => 'Maks. sisselogimiskatseid',
     'login_speedlimit' => 'sisselogimise kiirusepiirang',
     'user_html' => 'Kasutaja HTML',
     'admin_html' => 'Admini HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Jäta HTML filter root jaoks vahele?',
     'allowed_protocols' => 'Lubatud protokollid',
     'disable_autolinks' => 'Keela autolingid?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => 'Tsensuurireþiim?',
     'censorreplace' => 'Tsensuuri asendustekst',
     'censorlist' => 'Tsenseerimisloetelu',
@@ -1790,7 +1849,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => 'Rubriigi vaikimisi õigused',
     'atom_max_stories' => 'Maks. lugusid veebiteenuste lõimedes',
     'disable_webservices' => 'Keela veebiteenused?',
-    'restrict_webservices' => 'Piira veebiteenused?'
+    'restrict_webservices' => 'Piira veebiteenused?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1867,7 +1937,11 @@ $LANG_configselects['Core'] = array(
     15 => array('Arvuliselt' => 'sortnum', 'Tähestikuliselt' => 'alpha'),
     16 => array('Sisselogimine pole tarvilik' => 0, 'Täpsem otsing' => 1, 'Lihtne ja täpsem otsing' => 2),
     17 => array('Kommenteerimine lubatud' => 0, 'Kommenteerimine keelatud' => -1),
-    18 => array('Keelatud' => 0, 'Lubatud (täpne kattumine)' => 1, 'Lubatud (sõna algus)' => 2, 'Lubatud (sõna osa)' => 3)
+    18 => array('Keelatud' => 0, 'Lubatud (täpne kattumine)' => 1, 'Lubatud (sõna algus)' => 2, 'Lubatud (sõna osa)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-admin.php                                                             |
 // |                                                                           |
@@ -32,8 +32,12 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-admin.php,v 1.136 2008/09/21 08:37:11 dhaun Exp $
+
+/**
+* This file contains functions used in the admin panels (mostly for the
+* various lists of stories, users, etc.).
+*
+*/
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-admin.php') !== false) {
     die('This file can not be used on its own!');
@@ -47,6 +51,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-admin.php') !== false) {
 * @param    array   $text_arr       array with different text strings
 * @param    array   $data_arr       array with sql query data - array of list records
 * @param    array   $options        array of options - intially just used for the Check-All feature
+* @param    array   $form_arr       optional extra forms at top or bottom
 * @return   string                  HTML output of function
 *
 */
@@ -200,6 +205,8 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
 * @param    array   $defsort_arr    default sorting values
 * @param    string  $filter         additional drop-down filters
 * @param    string  $extra          additional values passed to fieldfunction
+* @param    array   $options        array of options - intially just used for the Check-All feature
+* @param    array   $form_arr       optional extra forms at top or bottom
 * @return   string                  HTML output of function
 *
 */
@@ -220,14 +227,14 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
     }
 
     $query = '';
-    if (isset ($_REQUEST['q'])) { # get query (text-search)
+    if (isset ($_REQUEST['q'])) { // get query (text-search)
         $query = strip_tags(COM_stripslashes($_REQUEST['q']));
     }
 
-    $query_limit = "";
-    if (isset($_REQUEST['query_limit'])) { # get query-limit (list-length)
-        $query_limit = COM_applyFilter ($_REQUEST['query_limit'], true);
-        if($query_limit == 0) {
+    $query_limit = '';
+    if (isset($_REQUEST['query_limit'])) { // get query-limit (list-length)
+        $query_limit = COM_applyFilter($_REQUEST['query_limit'], true);
+        if ($query_limit == 0) {
             $query_limit = 50;
         }
     }
@@ -245,11 +252,6 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $curpage = 1; #current page has to be larger 0
     }
 
-    #$unfiltered='';
-    #if (!empty($query_arr['unfiltered'])) {
-    #    $unfiltered = $query_arr['unfiltered'];
-    #}
-
     $help_url = ''; # do we have a help url for the block-header?
     if (!empty ($text_arr['help_url'])) {
         $help_url = $text_arr['help_url'];
@@ -265,14 +267,19 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $title = $text_arr['title'];
     }
 
+    $inline_form = false;
+    if (isset($text_arr['inline'])) {
+        $inline_form = $text_arr['inline'];
+    }
+
     # get all template fields.
     $admin_templates = new Template($_CONF['path_layout'] . 'admin/lists');
     $admin_templates->set_file (array (
         'search' => 'searchmenu.thtml',
-        'list' => 'list.thtml',
+        'list'   => ($inline_form ? 'inline.thtml' : 'list.thtml'),
         'header' => 'header.thtml',
-        'row' => 'listitem.thtml',
-        'field' => 'field.thtml'
+        'row'    => 'listitem.thtml',
+        'field'  => 'field.thtml'
     ));
 
     # insert std. values into the template
@@ -316,13 +323,14 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
     if ($has_extras) { // show search
         $admin_templates->set_var('lang_search', $LANG_ADMIN['search']);
         $admin_templates->set_var('lang_submit', $LANG_ADMIN['submit']);
-        $admin_templates->set_var('lang_limit_results', $LANG_ADMIN['limit_results']);
+        $admin_templates->set_var('lang_limit_results',
+                                  $LANG_ADMIN['limit_results']);
         $admin_templates->set_var('last_query', htmlspecialchars($query));
         $admin_templates->set_var('filter', $filter);
     }
 
-    $sql_query = addslashes ($query); # replace quotes etc for security
-    $sql = $query_arr['sql']; # get sql from array that builds data
+    $sql_query = addslashes($query); // replace quotes etc for security
+    $sql = $query_arr['sql']; // get sql from array that builds data
 
     $order_var = ''; # number that is displayed in URL
     $order = '';     # field that is used in SQL
@@ -392,15 +400,15 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             } else {
                 $separator = '?';
             }
-            $th_subtags .= " onclick=\"window.location.href='$form_url$separator" #onclick action
+            $th_subtags .= " onclick=\"window.location.href='$form_url$separator" // onclick action
                     ."order=$order_var&amp;prevorder=$order&amp;direction=$direction";
-            if (!empty ($page)) {
+            if (!empty($page)) {
                 $th_subtags .= '&amp;' . $component . 'listpage=' . $page;
             }
-            if (!empty ($query)) {
+            if (!empty($query)) {
                 $th_subtags .= '&amp;q=' . urlencode($query);
             }
-            if (!empty ($query_limit)) {
+            if (!empty($query_limit)) {
                 $th_subtags .= '&amp;query_limit=' . $query_limit;
             }
             $th_subtags .= "';\"";
@@ -449,7 +457,6 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             $filter_str .= ")";
         }
         $num_pages_sql = $sql . $filter_str;
-        // COM_errorLog($num_pages_sql);
         $num_pages_result = DB_query($num_pages_sql);
         $num_rows = DB_numRows($num_pages_result);
         $num_pages = ceil ($num_rows / $limit);
@@ -567,8 +574,10 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
 * @return   string                  HTML output of function
 *
 */
-function ADMIN_createMenu($menu_arr, $text, $icon = '') {
+function ADMIN_createMenu($menu_arr, $text, $icon = '')
+{
     global $_CONF;
+
     $admin_templates = new Template($_CONF['path_layout'] . 'admin/lists');
     $admin_templates->set_file (
         array ('top_menu' => 'topmenu.thtml')
@@ -599,6 +608,17 @@ function ADMIN_createMenu($menu_arr, $text, $icon = '') {
 }
 
 
+/**
+ * The following functions are helper functions used as $fieldfunction with
+ * ADMIN_list and ADMIN_simpleList (see above)
+ *
+ */
+
+
+/**
+ * used for the list of blocks in admin/block.php
+ *
+ */
 function ADMIN_getListField_blocks($fieldname, $fieldvalue, $A, $icon_arr, $token)
 {
     global $_CONF, $LANG_ADMIN, $LANG21, $_IMAGE_TYPE;
@@ -664,71 +684,95 @@ function ADMIN_getListField_blocks($fieldname, $fieldvalue, $A, $icon_arr, $toke
     return $retval;
 }
 
-function ADMIN_getListField_groups($fieldname, $fieldvalue, $A, $icon_arr)
+/**
+ * used for the list of groups and in the group editor in admin/group.php
+ *
+ */
+function ADMIN_getListField_groups($fieldname, $fieldvalue, $A, $icon_arr, $selected = '')
 {
     global $_CONF, $LANG_ACCESS, $LANG_ADMIN, $thisUsersGroups;
 
     $retval = false;
 
-    if( !is_array($thisUsersGroups) )
-    {
+    if(! is_array($thisUsersGroups)) {
         $thisUsersGroups = SEC_getUserGroups();
     }
 
-    // Extra test required to handle that different ways this option is passed and need to be able to
-    // over-ride the option using the posted form when the URL contains the variable as well
     $show_all_groups = false;
-    if (isset($_POST['q'])) {   // Form has been posted - test actual option in this form
-        if ($_POST['chk_showall'] == 1) {
-            $show_all_groups = true;
-        }
-    } else if (isset ($_GET['showall']) && ($_GET['showall'] == 1)) {
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
         $show_all_groups = true;
     }
 
-    if (in_array ($A['grp_id'], $thisUsersGroups ) ||
-        SEC_groupIsRemoteUserAndHaveAccess( $A['grp_id'], $thisUsersGroups )) {
+    if (in_array($A['grp_id'], $thisUsersGroups) ||
+          SEC_groupIsRemoteUserAndHaveAccess($A['grp_id'], $thisUsersGroups)) {
         switch($fieldname) {
-            case 'edit':
-                if ($show_all_groups) {
-                    $retval = COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=edit&amp;grp_id={$A['grp_id']}&amp;chk_showall=1");
-                } else {
-                    $retval = COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=edit&amp;grp_id={$A['grp_id']}");
-                }
-                break;
-            case 'grp_gl_core':
-                if ($A['grp_gl_core'] == 1) {
-                    $retval = $LANG_ACCESS['yes'];
-                } else {
-                    $retval = $LANG_ACCESS['no'];
-                }
-                break;
-            case 'list':
-                if ($show_all_groups) {
-                    $retval = COM_createLink($icon_arr['list'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=listusers&amp;grp_id={$A['grp_id']}&amp;chk_showall=1")
-                        ."&nbsp;&nbsp;"
-                        . COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=editusers&amp;grp_id={$A['grp_id']}&amp;chk_showall=1");
-                } else {
-                    $retval = COM_createLink($icon_arr['list'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=listusers&amp;grp_id={$A['grp_id']}")
-                        ."&nbsp;&nbsp;"
-                        . COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/group.php?mode=editusers&amp;grp_id={$A['grp_id']}");
-                }
-                break;
-            default:
-                $retval = $fieldvalue;
-                break;
+        case 'edit':
+            $url = $_CONF['site_admin_url'] . '/group.php?mode=edit&amp;grp_id='
+                 . $A['grp_id'];
+            if ($show_all_groups) {
+                $url .= '&amp;chk_showall=1';
+            }
+            $retval = COM_createLink($icon_arr['edit'], $url);
+            break;
+
+        case 'grp_gl_core':
+            if ($A['grp_gl_core'] == 1) {
+                $retval = $LANG_ACCESS['yes'];
+            } else {
+                $retval = $LANG_ACCESS['no'];
+            }
+            break;
+
+        case 'list':
+            $url = $_CONF['site_admin_url'] . '/group.php?mode=';
+            if ($show_all_groups) {
+                $param = '&amp;grp_id=' . $A['grp_id'] . '&amp;chk_showall=1';
+            } else {
+                $param = '&amp;grp_id=' . $A['grp_id'];
+            }
+
+            $retval = COM_createLink($icon_arr['list'],
+                                     $url . 'listusers' . $param);
+            if (($A['grp_name'] != 'All Users') &&
+                    ($A['grp_name'] != 'Logged-in Users')) {
+                $retval .= '&nbsp;&nbsp;' . COM_createLink($icon_arr['edit'],
+                                                $url . 'editusers' . $param);
+            }
+            break;
+
+        case 'checkbox':
+            $retval = '<input type="checkbox" name="groups[]" value="'
+                    . $A['grp_id'] . '"';
+            if (is_array($selected) && in_array($A['grp_id'], $selected)) {
+                $retval .= ' checked="checked"';
+            }
+            $retval .= XHTML . '>';
+            break;
+
+        case 'disabled-checkbox':
+            $retval = '<input type="checkbox" checked="checked" '
+                    . 'disabled="disabled"' . XHTML . '>'
+                    . '<input type="hidden" name="groups[]" value="'
+                    . $A['grp_id'] . '"' . XHTML . '>';
+            break;
+
+        case 'grp_name':
+            $retval = ucwords($fieldvalue);
+            break;
+
+        default:
+            $retval = $fieldvalue;
+            break;
         }
     }
 
     return $retval;
 }
 
+/**
+ * used for the list of users in admin/user.php
+ *
+ */
 function ADMIN_getListField_users($fieldname, $fieldvalue, $A, $icon_arr)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG04, $LANG28, $_IMAGE_TYPE;
@@ -808,100 +852,124 @@ function ADMIN_getListField_users($fieldname, $fieldvalue, $A, $icon_arr)
     return $retval;
 }
 
+/**
+ * used for the list of stories in admin/story.php
+ *
+ */
 function ADMIN_getListField_stories($fieldname, $fieldvalue, $A, $icon_arr)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG24, $LANG_ACCESS, $_IMAGE_TYPE;
 
-    static $topics;
+    static $topics, $topic_access;
 
-    if (!isset ($topics)) {
-        $topics = array ();
+    if (!isset($topics)) {
+        $topics = array();
+    }
+    if (!isset($topic_access)) {
+        $topic_access = array();
     }
 
     $retval = '';
 
-    switch($fieldname) {
-        case "unixdate":
-            $curtime = COM_getUserDateTimeFormat ($A['unixdate']);
-            $retval = strftime($_CONF['daytime'], $curtime[1]);
-            break;
-        case "title":
-            $A['title'] = str_replace('$', '&#36;', $A['title']);
-            $article_url = COM_buildUrl ($_CONF['site_url'] . '/article.php?story='
-                                  . $A['sid']);
-            $retval = COM_createLink(stripslashes($A['title']), $article_url);
-            break;
-        case "draft_flag":
-            if ($A['draft_flag'] == 1) {
-                $retval = $LANG24[35];
-            } else {
-                $retval = $LANG24[36];
+    switch ($fieldname) {
+    case 'unixdate':
+        $curtime = COM_getUserDateTimeFormat($A['unixdate']);
+        $retval = strftime($_CONF['daytime'], $curtime[1]);
+        break;
+
+    case 'title':
+        $A['title'] = str_replace('$', '&#36;', $A['title']);
+        $article_url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                    . $A['sid']);
+        $retval = COM_createLink(stripslashes($A['title']), $article_url);
+        break;
+
+    case 'draft_flag':
+        if ($A['draft_flag'] == 1) {
+            $retval = $LANG24[35];
+        } else {
+            $retval = $LANG24[36];
+        }
+        break;
+
+    case 'access':
+    case 'edit':
+    case 'edit_adv':
+        $access = SEC_hasAccess($A['owner_id'], $A['group_id'],
+                                $A['perm_owner'], $A['perm_group'],
+                                $A['perm_members'], $A['perm_anon']);
+        if ($access == 3) {
+            if (!isset($topic_access[$A['tid']])) {
+                $topic_access[$A['tid']] = SEC_hasTopicAccess($A['tid']);
             }
-            break;
-        case "access":
-        case "edit":
-        case "edit_adv":
-            $access = SEC_hasAccess ($A['owner_id'], $A['group_id'],
-                                     $A['perm_owner'], $A['perm_group'],
-                                     $A['perm_members'], $A['perm_anon']);
-            if ($access == 3) {
-                if (SEC_hasTopicAccess ($A['tid']) == 3) {
-                    $access = $LANG_ACCESS['edit'];
-                } else {
-                    $access = $LANG_ACCESS['readonly'];
-                }
+            if ($topic_access[$A['tid']] == 3) {
+                $access = $LANG_ACCESS['edit'];
             } else {
                 $access = $LANG_ACCESS['readonly'];
             }
-            if ($fieldname == 'access') {
-                $retval = $access;
-            } else if ($access == $LANG_ACCESS['edit']) {
-                if ($fieldname == 'edit_adv') {
-                    $retval = COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/story.php?mode=edit&amp;editor=adv&amp;sid={$A['sid']}");
-                } else if ($fieldname == 'edit') {
-                    $retval = COM_createLink($icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/story.php?mode=edit&amp;editor=std&amp;sid={$A['sid']}");
-                }
+        } else {
+            $access = $LANG_ACCESS['readonly'];
+        }
+        if ($fieldname == 'access') {
+            $retval = $access;
+        } elseif ($access == $LANG_ACCESS['edit']) {
+            if ($fieldname == 'edit_adv') {
+                $editmode = 'adv';
+            } elseif ($fieldname == 'edit') {
+                $editmode = 'std';
             }
-            break;
-        case "featured":
-            if ($A['featured'] == 1) {
-                $retval = $LANG24[35];
-            } else {
-                $retval = $LANG24[36];
-            }
-            break;
-        case "ping":
-            $pingico = '<img src="' . $_CONF['layout_url'] . '/images/sendping.'
-                     . $_IMAGE_TYPE . '" alt="' . $LANG24[21] . '" title="'
-                     . $LANG24[21] . '"' . XHTML . '>';
-            if (($A['draft_flag'] == 0) && ($A['unixdate'] < time())) {
-                $url = $_CONF['site_admin_url']
-                     . '/trackback.php?mode=sendall&amp;id=' . $A['sid'];
-                $retval = COM_createLink($pingico, $url);
-            } else {
-                $retval = '';
-            }
-            break;
-        case 'tid':
-            if (!isset ($topics[$A['tid']])) {
-                $topics[$A['tid']] = DB_getItem ($_TABLES['topics'], 'topic',
-                                                 "tid = '{$A['tid']}'");
-            }
-            $retval = $topics[$A['tid']];
-            break;
-        case 'username':
-            $retval = COM_getDisplayName ($A['uid'], $A['username'], $A['fullname']);
-            break;
-        default:
-            $retval = $fieldvalue;
-            break;
+            $editurl = $_CONF['site_admin_url']
+                     . '/story.php?mode=edit&amp;editor=' . $editmode
+                     . '&amp;sid=' . $A['sid'];
+            $retval = COM_createLink($icon_arr['edit'], $editurl);
+        }
+        break;
+
+    case 'featured':
+        if ($A['featured'] == 1) {
+            $retval = $LANG24[35];
+        } else {
+            $retval = $LANG24[36];
+        }
+        break;
+
+    case 'ping':
+        $pingico = '<img src="' . $_CONF['layout_url'] . '/images/sendping.'
+                 . $_IMAGE_TYPE . '" alt="' . $LANG24[21] . '" title="'
+                 . $LANG24[21] . '"' . XHTML . '>';
+        if (($A['draft_flag'] == 0) && ($A['unixdate'] < time())) {
+            $url = $_CONF['site_admin_url']
+                 . '/trackback.php?mode=sendall&amp;id=' . $A['sid'];
+            $retval = COM_createLink($pingico, $url);
+        } else {
+            $retval = '';
+        }
+        break;
+
+    case 'tid':
+        if (!isset($topics[$A['tid']])) {
+            $topics[$A['tid']] = DB_getItem($_TABLES['topics'], 'topic',
+                                            "tid = '{$A['tid']}'");
+        }
+        $retval = $topics[$A['tid']];
+        break;
+
+    case 'username':
+        $retval = COM_getDisplayName($A['uid'], $A['username'], $A['fullname']);
+        break;
+
+    default:
+        $retval = $fieldvalue;
+        break;
     }
 
     return $retval;
 }
 
+/**
+ * used for the list of feeds in admin/syndication.php
+ *
+ */
 function ADMIN_getListField_syndication($fieldname, $fieldvalue, $A, $icon_arr, $token)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG33, $_IMAGE_TYPE;
@@ -957,14 +1025,23 @@ function ADMIN_getListField_syndication($fieldname, $fieldvalue, $A, $icon_arr, 
     return $retval;
 }
 
-function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $token) {
+/**
+ * used for the list of plugins in admin/plugins.php
+ *
+ */
+function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $token)
+{
     global $_CONF, $LANG_ADMIN, $LANG32;
+
     $retval = '';
     
     switch($fieldname) {
-        case "edit":
+        case 'edit':
             $retval = COM_createLink($icon_arr['edit'],
                 "{$_CONF['site_admin_url']}/plugins.php?mode=edit&amp;pi_name={$A['pi_name']}");
+            break;
+        case 'pi_name':
+            $retval = plugin_get_pluginname($A['pi_name']);
             break;
         case 'pi_version':
             $plugin_code_version = PLG_chkVersion ($A['pi_name']);
@@ -997,7 +1074,7 @@ function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $tok
             }
             if ($not_present) {
                 $retval = '<input type="checkbox" name="enabledplugins['
-                        . $A['pi_name'] . '] disabled="disabled"' . XHTML . '>';
+                        . $A['pi_name'] . ']" disabled="disabled"' . XHTML . '>';
             } else {
                 $retval = '<input type="checkbox" name="enabledplugins['
                         . $A['pi_name'] . ']" onclick="submit()" value="1"'
@@ -1013,6 +1090,10 @@ function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $tok
     return $retval;
 }
 
+/**
+ * used for the lists of submissions and draft stories in admin/moderation.php
+ *
+ */
 function ADMIN_getListField_moderation($fieldname, $fieldvalue, $A, $icon_arr)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN;
@@ -1020,40 +1101,83 @@ function ADMIN_getListField_moderation($fieldname, $fieldvalue, $A, $icon_arr)
     $retval = '';
 
     $type = '';
-    if (isset ($A['_moderation_type'])) {
+    if (isset($A['_moderation_type'])) {
         $type = $A['_moderation_type'];
     }
     switch ($fieldname) {
-        case 'edit':
-            $retval = COM_createLink($icon_arr['edit'], $A['edit']);
-            break;
-        case 'delete':
-            $retval = "<input type=\"radio\" name=\"action[{$A['row']}]\" value=\"delete\"" . XHTML . ">";
-            break;
-        case 'approve':
-            $retval = "<input type=\"radio\" name=\"action[{$A['row']}]\" value=\"approve\"" . XHTML . ">"
-                     ."<input type=\"hidden\" name=\"id[{$A['row']}]\" value=\"{$A[0]}\"" . XHTML . ">";
-            break;
-        case 'day':
-            $retval = strftime ($_CONF['daytime'], $A['day']);
-            break;
-        case 'tid':
-            $retval = DB_getItem ($_TABLES['topics'], 'topic',
-                                  "tid = '{$A['tid']}'");
-            break;
-        default:
-            if (($fieldname == 3) && ($type == 'story')) {
-                $retval = DB_getItem ($_TABLES['topics'], 'topic',
-                                      "tid = '{$A[3]}'");
+    case 'edit':
+        $retval = COM_createLink($icon_arr['edit'], $A['edit']);
+        break;
+
+    case 'delete':
+        $retval = "<input type=\"radio\" name=\"action[{$A['row']}]\" value=\"delete\"" . XHTML . ">";
+        break;
+
+    case 'approve':
+        $retval = "<input type=\"radio\" name=\"action[{$A['row']}]\" value=\"approve\"" . XHTML . ">"
+                 ."<input type=\"hidden\" name=\"id[{$A['row']}]\" value=\"{$A[0]}\"" . XHTML . ">";
+        break;
+
+    case 'day':
+        $retval = strftime($_CONF['daytime'], $A['day']);
+        break;
+
+    case 'tid':
+        $retval = DB_getItem($_TABLES['topics'], 'topic',
+                             "tid = '{$A['tid']}'");
+        break;
+
+    case 'uid':
+        $name = '';
+        if ($A['uid'] == 1) {
+            $name = htmlspecialchars(COM_stripslashes(DB_getItem($_TABLES['commentsubmissions'], 'name', "cid = '{$A['id']}'")));
+        }
+        if (empty($name)) {
+            $name = DB_getItem($_TABLES['users'], 'username',
+                               "uid = '{$A['uid']}'");
+        }
+        if ($A['uid'] == 1) {
+            $retval = $name;
+        } else {
+            $retval = COM_createLink($name, $_CONF['site_url']
+                            . '/users.php?mode=profile&amp;uid=' . $A['uid']);
+        }
+        break;
+
+    case 'publishfuture':
+        if (!SEC_inGroup('Comment Submitters', $A['uid']) && ($A['uid'] > 1)) {
+            $retval = "<input type=\"checkbox\" name=\"publishfuture[]\" value=\"{$A['uid']}\"" . XHTML . ">";
+        } else {
+            $retval = $LANG_ADMIN['na'];
+        }
+        break;
+
+    default:
+        if (($fieldname == 3) && ($type == 'story')) {
+            $retval = DB_getItem($_TABLES['topics'], 'topic',
+                                  "tid = '{$A[3]}'");
+        } elseif (($fieldname == 2) && ($type == 'comment')) {
+            // try to provide a link to the parent item (e.g. article, poll)
+            $info = PLG_getItemInfo($A['type'], $A['sid'], 'title,url');
+            if (empty($info) || empty($info[0]) || empty($info[1])) {
+                // if not available, display excerpt from the comment
+                $retval = COM_truncate(strip_tags($A['comment']), 40, '...');
             } else {
-                $retval = COM_makeClickableLinks (stripslashes ($fieldvalue));
+                $retval = COM_createLink($info[0], $info[1]);
             }
-            break;
+        } else {
+            $retval = COM_makeClickableLinks(stripslashes($fieldvalue));
+        }
+        break;
     }
 
     return $retval;
 }
 
+/**
+ * used for the list of ping services in admin/trackback.php
+ *
+ */
 function ADMIN_getListField_trackback($fieldname, $fieldvalue, $A, $icon_arr, $token)
 {
     global $_CONF, $LANG_TRB;
@@ -1092,6 +1216,54 @@ function ADMIN_getListField_trackback($fieldname, $fieldvalue, $A, $icon_arr, $t
         default:
             $retval = $fieldvalue;
             break;
+    }
+
+    return $retval;
+}
+
+/**
+ * used in the user editor in admin/user.php
+ *
+ */
+function ADMIN_getListField_usergroups($fieldname, $fieldvalue, $A, $icon_arr, $selected = '')
+{
+    global $thisUsersGroups;
+
+    $retval = false;
+
+    if(! is_array($thisUsersGroups)) {
+        $thisUsersGroups = SEC_getUserGroups();
+    }
+
+    if (in_array($A['grp_id'], $thisUsersGroups ) ||
+          SEC_groupIsRemoteUserAndHaveAccess($A['grp_id'], $thisUsersGroups)) {
+        switch($fieldname) {
+        case 'checkbox':
+            $checked = '';
+            if (is_array($selected) && in_array($A['grp_id'], $selected)) {
+                $checked = ' checked="checked"';
+            }
+            if (($A['grp_name'] == 'All Users') ||
+                ($A['grp_name'] == 'Logged-in Users') ||
+                ($A['grp_name'] == 'Remote Users')) {
+                $retval = '<input type="checkbox" disabled="disabled"'
+                        . $checked . XHTML . '>'
+                        . '<input type="hidden" name="groups[]" value="'
+                        . $A['grp_id'] . '"' . $checked . XHTML . '>';
+            } else {
+                $retval = '<input type="checkbox" name="groups[]" value="'
+                        . $A['grp_id'] . '"' . $checked . XHTML . '>';
+            }
+            break;
+
+        case 'grp_name':
+            $retval = ucwords($fieldvalue);
+            break;
+
+        default:
+            $retval = $fieldvalue;
+            break;
+        }
     }
 
     return $retval;

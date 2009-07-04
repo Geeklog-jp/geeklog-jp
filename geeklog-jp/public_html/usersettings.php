@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | usersettings.php                                                          |
 // |                                                                           |
 // | Geeklog user settings page.                                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: usersettings.php,v 1.179 2008/09/15 18:29:39 mjervis Exp $
 
 require_once 'lib-common.php';
 require_once $_CONF['path_system'] . 'lib-user.php';
@@ -194,6 +192,15 @@ function edituser()
             }
             $preferences->set_var ('display_photo', $photo);
         }
+        if (empty($_CONF['image_lib'])) {
+            $scaling = $LANG04[162];
+        } else {
+            $scaling = $LANG04[161];
+        }
+        $preferences->set_var('photo_max_dimensions',
+            sprintf($LANG04[160],
+                    $_CONF['max_photo_width'], $_CONF['max_photo_height'],
+                    $_CONF['max_photo_size'], $scaling));
         $preferences->parse ('userphoto_option', 'photo', true);
     } else {
         $preferences->set_var ('userphoto_option', '');
@@ -258,8 +265,10 @@ function confirmAccountDelete ($form_reqid)
 
     // to change the password, email address, or cookie timeout,
     // we need the user's current password
+    $current_password = DB_getItem($_TABLES['users'], 'passwd',
+                                   "uid = {$_USER['uid']}");
     if (empty($_POST['old_passwd']) ||
-            (SEC_encryptPassword($_POST['old_passwd']) != $_USER['passwd'])) {
+            (SEC_encryptPassword($_POST['old_passwd']) != $current_password)) {
          return COM_refresh($_CONF['site_url']
                             . '/usersettings.php?msg=84');
     }
@@ -583,7 +592,8 @@ function editpreferences()
     // excluded items block
     $permissions = COM_getPermSQL ('');
     $preferences->set_var ('exclude_topic_checklist',
-        COM_checkList($_TABLES['topics'],'tid,topic',$permissions,$A['tids']));
+        COM_checkList($_TABLES['topics'], 'tid,topic', $permissions, $A['tids'],
+                      'topics'));
 
     if (($_CONF['contributedbyline'] == 1) &&
         ($_CONF['hide_author_exclusion'] == 0)) {
@@ -632,13 +642,13 @@ function editpreferences()
         } elseif ($user_etids == '-') { // this means "no topics"
             $user_etids = '';
         }
-        $tmp = COM_checkList ($_TABLES['topics'], 'tid,topic', $permissions,
-                              $user_etids);
-        $preferences->set_var ('email_topic_checklist',
-                str_replace ($_TABLES['topics'], 'etids', $tmp));
-        $preferences->parse ('digest_block', 'digest', true);
+        $tmp = COM_checkList($_TABLES['topics'], 'tid,topic', $permissions,
+                             $user_etids, 'topics');
+        $preferences->set_var('email_topic_checklist',
+                str_replace($_TABLES['topics'], 'etids', $tmp));
+        $preferences->parse('digest_block', 'digest', true);
     } else {
-        $preferences->set_var ('digest_block', '');
+        $preferences->set_var('digest_block', '');
     }
 
     // boxes block
@@ -694,10 +704,12 @@ function editpreferences()
 /**
 * Check if an email address already exists in the database
 *
+* NOTE:    Allows remote accounts to have duplicate email addresses
+*
 * @param   email   string   email address to check
 * @param   uid     int      user id of current user
 * @return          bool     true = exists, false = does not exist
-* @note    Allows remote accounts to have duplicate email addresses
+*
 */
 function emailAddressExists ($email, $uid)
 {
@@ -750,6 +762,9 @@ function handlePhotoUpload ($delete_photo = '')
             $upload->setLogFile ($_CONF['path'] . 'logs/error.log');
             $upload->setDebug (true);
         }
+        if (isset($_CONF['jpeg_quality'])) {
+            $upload->setJpegQuality($_CONF['jpeg_quality']);
+        }
     }
     $upload->setAllowedMimeTypes (array ('image/gif'   => '.gif',
                                          'image/jpeg'  => '.jpg,.jpeg',
@@ -765,7 +780,7 @@ function handlePhotoUpload ($delete_photo = '')
         $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                         'footer'));
         $display .= COM_siteFooter ();
-        echo $display;
+        COM_output($display);
         exit; // don't return
     }
 
@@ -828,7 +843,7 @@ function handlePhotoUpload ($delete_photo = '')
             $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                             'footer'));
             $display .= COM_siteFooter ();
-            echo $display;
+            COM_output($display);
             exit; // don't return
         }
     } else if (!$delete_photo && !empty ($curphoto)) {
@@ -841,7 +856,8 @@ function handlePhotoUpload ($delete_photo = '')
 /**
 * Saves the user's information back to the database
 *
-* @A        array       User's data
+* @param    array   $A  User's data
+* @return   string      HTML error message or meta redirect
 *
 */
 function saveuser($A)
@@ -876,22 +892,37 @@ function saveuser($A)
 
     // to change the password, email address, or cookie timeout,
     // we need the user's current password
+    $current_password = DB_getItem($_TABLES['users'], 'passwd',
+                                   "uid = {$_USER['uid']}");
     if (!empty ($A['passwd']) || ($A['email'] != $_USER['email']) ||
             ($A['cooktime'] != $_USER['cookietimeout'])) {
         if (empty($A['old_passwd']) ||
-                (SEC_encryptPassword($A['old_passwd']) != $_USER['passwd'])) {
+                (SEC_encryptPassword($A['old_passwd']) != $current_password)) {
 
             return COM_refresh ($_CONF['site_url']
                                 . '/usersettings.php?msg=83');
         } elseif ($_CONF['custom_registration'] &&
                     function_exists ('CUSTOM_userCheck')) {
             $ret = CUSTOM_userCheck ($A['username'], $A['email']);
-            // Need a numeric return for the default message hander
-            // - if not numeric use default message
-            if (!is_numeric($ret)) {
-                $ret = 97;
+            if (!empty($ret)) {
+                // Need a numeric return for the default message handler
+                // - if not numeric use default message
+                if (!is_numeric($ret['number'])) {
+                    $ret['number'] = 400;
+                }
+                return COM_refresh("{$_CONF['site_url']}/usersettings.php?msg={$ret['number']}");
             }
-            return COM_refresh("{$_CONF['site_url']}/usersettings.php?msg={$ret}");
+        }
+    } elseif ($_CONF['custom_registration'] &&
+                function_exists ('CUSTOM_userCheck')) {
+        $ret = CUSTOM_userCheck ($A['username'], $A['email']);
+        if (!empty($ret)) {
+            // Need a numeric return for the default message handler
+            // - if not numeric use default message
+            if (!is_numeric($ret['number'])) {
+                $ret['number'] = 400;
+            }
+            return COM_refresh("{$_CONF['site_url']}/usersettings.php?msg={$ret['number']}");
         }
     }
 
@@ -938,7 +969,7 @@ function saveuser($A)
              . $A['about'] . '<br' . XHTML . '>' . $A['pgpkey'] . '</p>';
     $result = PLG_checkforSpam ($profile, $_CONF['spamx']);
     if ($result > 0) {
-        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+        COM_outputMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
     }
 
     $A['email'] = COM_applyFilter ($A['email']);
@@ -962,10 +993,10 @@ function saveuser($A)
         return COM_refresh ($_CONF['site_url']
                 . '/usersettings.php?msg=56');
     } else {
-        
+
         if (!empty($A['passwd'])) {
             if (($A['passwd'] == $A['passwd_conf']) &&
-                    (SEC_encryptPassword($A['old_passwd']) == $_USER['passwd'])) {
+                    (SEC_encryptPassword($A['old_passwd']) == $current_password)) {
                 $passwd = SEC_encryptPassword($A['passwd']);
                 DB_change($_TABLES['users'], 'passwd', "$passwd",
                           "uid", $_USER['uid']);
@@ -977,7 +1008,7 @@ function saveuser($A)
                 setcookie($_CONF['cookie_password'], $passwd, time() + $cooktime,
                           $_CONF['cookie_path'], $_CONF['cookiedomain'],
                           $_CONF['cookiesecure']);
-            } elseif (SEC_encryptPassword($A['old_passwd']) != $_USER['passwd']) {
+            } elseif (SEC_encryptPassword($A['old_passwd']) != $current_password) {
                 return COM_refresh ($_CONF['site_url']
                                     . '/usersettings.php?msg=68');
             } elseif ($A['passwd'] != $A['passwd_conf']) {
@@ -985,7 +1016,7 @@ function saveuser($A)
                                     . '/usersettings.php?msg=67');
             }
         }
-        
+
         if ($_US_VERBOSE) {
             COM_errorLog('cooktime = ' . $A['cooktime'],1);
         }
@@ -1298,7 +1329,8 @@ function userprofile ($user, $msg = 0)
 /**
 * Saves user's preferences back to the database
 *
-* @A        array       User's data to save
+* @param    array   $A  User's data to save
+* @return   void
 *
 */
 function savepreferences($A)
@@ -1345,11 +1377,11 @@ function savepreferences($A)
         }
     }
 
-    $TIDS  = @array_values($A[$_TABLES['topics']]);     // array of strings
-    $AIDS  = @array_values($A['selauthors']);           // array of integers
-    $BOXES = @array_values($A["{$_TABLES['blocks']}"]); // array of integers
-    $ETIDS = @array_values($A['etids']);                // array of strings
-    $AETIDS = USER_getAllowedTopics();                  // array of strings (fetched, needed to "clean" $TIDS and $ETIDS)
+    $TIDS  = @array_values($A['topics']);       // array of strings
+    $AIDS  = @array_values($A['selauthors']);   // array of integers
+    $BOXES = @array_values($A['blocks']);       // array of integers
+    $ETIDS = @array_values($A['etids']);        // array of strings
+    $AETIDS = USER_getAllowedTopics();          // array of strings (fetched, needed to "clean" $TIDS and $ETIDS)
 
     $tids = '';
     if (sizeof ($TIDS) > 0) {
@@ -1388,7 +1420,7 @@ function savepreferences($A)
     }
 
     $etids = '';
-    if (sizeof ($ETIDS) > 0) {
+    if (($_CONF['emailstories'] == 1) && (sizeof($ETIDS) > 0)) {
         // the array_intersect mitigates the need to scrub the ETIDS input
         $etids = addslashes (implode (' ', array_intersect ($AETIDS, $ETIDS)));
     }
@@ -1535,6 +1567,6 @@ if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
     $display .= COM_siteFooter ();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

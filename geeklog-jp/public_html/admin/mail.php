@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | mail.php                                                                  |
 // |                                                                           |
 // | Geeklog mail administration page.                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2001-2008 by the following authors:                         |
+// | Copyright (C) 2001-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs - tony AT tonybibbs DOT com                           |
 // |          Dirk Haun  - dirk AT haun-online DOT de                          |
@@ -29,24 +29,31 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: mail.php,v 1.37 2008/05/27 20:53:10 dhaun Exp $
 
-require_once ('../lib-common.php');
-require_once ('auth.inc.php');
+/**
+* Simple email form that lets you send emails to certain groups of users.
+*
+*/
+
+/**
+* Geeklog common function library
+*/
+require_once '../lib-common.php';
+
+/**
+* Security check to ensure user even belongs on this page
+*/
+require_once 'auth.inc.php';
 
 $display = '';
 
 // Make sure user has access to this page
-if (!SEC_inGroup ('Mail Admin') && !SEC_hasrights ('user.mail')) {
-    $retval .= COM_siteHeader ('menu', $MESSAGE[30]);
-    $retval .= COM_startBlock ($MESSAGE[30], '',
-                               COM_getBlockTemplate ('_msg_block', 'header'));
-    $retval .= $MESSAGE[39];
-    $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $retval .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the mail administration screen.");
-    echo $retval;
+if (!SEC_inGroup('Mail Admin') && !SEC_hasrights('user.mail')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the mail administration screen.");
+    COM_output($display);
     exit;
 }
 
@@ -59,57 +66,72 @@ if (!SEC_inGroup ('Mail Admin') && !SEC_hasrights ('user.mail')) {
 */
 function display_mailform ()
 {
-    global $_CONF, $_TABLES, $_USER, $LANG31;
+    global $_CONF, $LANG31, $LANG_ADMIN, $_IMAGE_TYPE;
+
+    require_once $_CONF['path_system'] . 'lib-admin.php';
 
     $retval = '';
 
-    $mail_templates = new Template ($_CONF['path_layout'] . 'admin/mail');
-    $mail_templates->set_file (array ('form' => 'mailform.thtml'));
-    $mail_templates->set_var ('site_url', $_CONF['site_url']);
-    $mail_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $mail_templates->set_var ('layout_url', $_CONF['layout_url']);
-    $mail_templates->set_var ('startblock_email', COM_startBlock ($LANG31[1],
-            '', COM_getBlockTemplate ('_admin_block', 'header')));
-    $mail_templates->set_var ('php_self', $_CONF['site_admin_url']
-                                          . '/mail.php');
-    $mail_templates->set_var ('lang_note', $LANG31[19]);
-    $mail_templates->set_var ('lang_to', $LANG31[18]);
-    $mail_templates->set_var ('lang_selectgroup', $LANG31[25]);
+    $retval .= COM_startBlock($LANG31[1], '',
+                        COM_getBlockTemplate('_admin_block', 'header'));
+
+    $menu_arr = array(
+        array('url'  => $_CONF['site_admin_url'],
+              'text' => $LANG_ADMIN['admin_home'])
+    );
+
+    $desc = '<p>' . $LANG31[19] . '</p>';
+    $icon = $_CONF['layout_url'] . '/images/icons/mail.' . $_IMAGE_TYPE;
+    $retval .= ADMIN_createMenu($menu_arr, $desc, $icon);
+
+    $mail_templates = new Template($_CONF['path_layout'] . 'admin/mail');
+    $mail_templates->set_file(array('form' => 'mailform.thtml'));
+    $mail_templates->set_var('site_url', $_CONF['site_url']);
+    $mail_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $mail_templates->set_var('layout_url', $_CONF['layout_url']);
+    $mail_templates->set_var('startblock_email', COM_startBlock($LANG31[1],
+            '', COM_getBlockTemplate('_admin_block', 'header')));
+    $mail_templates->set_var('php_self', $_CONF['site_admin_url']
+                                         . '/mail.php');
+    $mail_templates->set_var('lang_note', $LANG31[19]);
+    $mail_templates->set_var('lang_to', $LANG31[18]);
+    $mail_templates->set_var('lang_selectgroup', $LANG31[25]);
+
+    $thisUsersGroups = SEC_getUserGroups();
+    uksort($thisUsersGroups, 'strcasecmp');
     $group_options = '';
-    $result = DB_query("SELECT grp_id, grp_name FROM {$_TABLES['groups']} WHERE grp_name <> 'All Users'");
-    $nrows = DB_numRows ($result);
-    $groups = array ();
-    for ($i = 0; $i < $nrows; $i++) {
-        $A = DB_fetchArray ($result);
-        $groups[$A['grp_id']] = ucwords ($A['grp_name']);
+    foreach ($thisUsersGroups as $groupName => $groupID) {
+        if ($groupName != 'All Users') {
+            $group_options .= '<option value="' . $groupID . '">'
+                           . ucwords($groupName) . '</option>';
+        }
     }
-    asort ($groups);
-    foreach ($groups as $groupID => $groupName) {
-        $group_options .= '<option value="' . $groupID . '">' . $groupName
-                       . '</option>';
-    }
-    $mail_templates->set_var ('group_options', $group_options);
-    $mail_templates->set_var ('lang_from', $LANG31[2]);
-    $mail_templates->set_var ('site_name', $_CONF['site_name']);
-    $mail_templates->set_var ('lang_replyto', $LANG31[3]);
-    $mail_templates->set_var ('site_mail', $_CONF['site_mail']);
-    $mail_templates->set_var ('lang_subject', $LANG31[4]);
-    $mail_templates->set_var ('lang_body', $LANG31[5]);
-    $mail_templates->set_var ('lang_sendto', $LANG31[6]);
-    $mail_templates->set_var ('lang_allusers', $LANG31[7]);
-    $mail_templates->set_var ('lang_admin', $LANG31[8]);
-    $mail_templates->set_var ('lang_options', $LANG31[9]);
-    $mail_templates->set_var ('lang_HTML', $LANG31[10]);
-    $mail_templates->set_var ('lang_urgent', $LANG31[11]);
-    $mail_templates->set_var ('lang_ignoreusersettings', $LANG31[14]);
-    $mail_templates->set_var ('lang_send', $LANG31[12]);
-    $mail_templates->set_var ('end_block', COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer')));
-    $mail_templates->set_var ('xhtml', XHTML);
+
+    $mail_templates->set_var('group_options', $group_options);
+    $mail_templates->set_var('lang_from', $LANG31[2]);
+    $mail_templates->set_var('site_name', $_CONF['site_name']);
+    $mail_templates->set_var('lang_replyto', $LANG31[3]);
+    $mail_templates->set_var('site_mail', $_CONF['site_mail']);
+    $mail_templates->set_var('lang_subject', $LANG31[4]);
+    $mail_templates->set_var('lang_body', $LANG31[5]);
+    $mail_templates->set_var('lang_sendto', $LANG31[6]);
+    $mail_templates->set_var('lang_allusers', $LANG31[7]);
+    $mail_templates->set_var('lang_admin', $LANG31[8]);
+    $mail_templates->set_var('lang_options', $LANG31[9]);
+    $mail_templates->set_var('lang_HTML', $LANG31[10]);
+    $mail_templates->set_var('lang_urgent', $LANG31[11]);
+    $mail_templates->set_var('lang_ignoreusersettings', $LANG31[14]);
+    $mail_templates->set_var('lang_send', $LANG31[12]);
+    $mail_templates->set_var('end_block',
+            COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer')));
+    $mail_templates->set_var('xhtml', XHTML);
     $mail_templates->set_var('gltoken_name', CSRF_TOKEN);
     $mail_templates->set_var('gltoken', SEC_createToken());
 
-    $mail_templates->parse ('output', 'form');
-    $retval = $mail_templates->finish ($mail_templates->get_var ('output'));
+    $mail_templates->parse('output', 'form');
+    $retval .= $mail_templates->finish($mail_templates->get_var('output'));
+
+    $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     return $retval;
 }
@@ -121,23 +143,31 @@ function display_mailform ()
 * @return   string          HTML with success or error message
 *
 */
-function send_messages ($vars)
+function send_messages($vars)
 {
     global $_CONF, $_TABLES, $LANG31;
 
-    require_once($_CONF['path_system'] . 'lib-user.php');
+    require_once $_CONF['path_system'] . 'lib-user.php';
 
     $retval = '';
 
-    if (empty ($vars['fra']) OR empty ($vars['fraepost']) OR
-            empty ($vars['subject']) OR empty ($vars['message']) OR
-            empty ($vars['to_group'])) {
-        $retval .= COM_startBlock ($LANG31[1], '',
-                        COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $LANG31[26];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    if (empty($vars['fra']) OR empty($vars['fraepost']) OR
+            empty($vars['subject']) OR empty($vars['message']) OR
+            empty($vars['to_group'])) {
+        $retval .= COM_showMessageText($LANG31[26]);
 
         return $retval;
+    }
+
+    $to_group = COM_applyFilter($vars['to_group'], true);
+    if ($to_group > 0) {
+        $group_name = DB_getItem($_TABLES['groups'], 'grp_name',
+                                 "grp_id = $to_group");
+        if (! SEC_inGroup($group_name)) {
+            return COM_refresh($_CONF['site_admin_url'] . '/mail.php');
+        }
+    } else {
+        return COM_refresh($_CONF['site_admin_url'] . '/mail.php');
     }
 
     // Urgent message!
@@ -154,16 +184,16 @@ function send_messages ($vars)
         $html = false;
     }
 
-    $groupList = implode (',', USER_getChildGroups($vars['to_group']));
+    $groupList = implode(',', USER_getChildGroups($to_group));
 
     // and now mail it
     if (isset ($vars['overstyr'])) {
         $sql = "SELECT DISTINCT username,fullname,email FROM {$_TABLES['users']},{$_TABLES['group_assignments']} WHERE uid > 1";
-        $sql .= " AND {$_TABLES['users']}.status = 3 AND ((email is not null) and (email != ''))";
+        $sql .= " AND {$_TABLES['users']}.status = 3 AND ((email IS NOT NULL) and (email != ''))";
         $sql .= " AND {$_TABLES['users']}.uid = ug_uid AND ug_main_grp_id IN ({$groupList})";
     } else {
         $sql = "SELECT DISTINCT username,fullname,email,emailfromadmin FROM {$_TABLES['users']},{$_TABLES['userprefs']},{$_TABLES['group_assignments']} WHERE {$_TABLES['users']}.uid > 1";
-        $sql .= " AND {$_TABLES['users']}.status = 3 AND ((email is not null) and (email != ''))";
+        $sql .= " AND {$_TABLES['users']}.status = 3 AND ((email IS NOT NULL) and (email != ''))";
         $sql .= " AND {$_TABLES['users']}.uid = {$_TABLES['userprefs']}.uid AND emailfromadmin = 1";
         $sql .= " AND ug_uid = {$_TABLES['users']}.uid AND ug_main_grp_id IN ({$groupList})";
     }
@@ -230,11 +260,12 @@ $display .= COM_siteHeader ('menu', $LANG31[1]);
 if (isset($_POST['mail']) && ($_POST['mail'] == 'mail') && SEC_checkToken()) {
     $display .= send_messages ($_POST);
 } else {
+    $display .= COM_showMessageFromParameter();
     $display .= display_mailform ();
 }
 
 $display .= COM_siteFooter ();
 
-echo $display;
+COM_output($display);
 
 ?>

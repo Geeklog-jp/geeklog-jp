@@ -411,6 +411,14 @@ select {
   font-size:smaller;
   padding:3px 0px 3px 10px;
 }
+.comment-edit {
+  font-style: italic;
+  padding-top:1ex;
+}
+.comment-sig {
+  color:#666666;
+  padding-top:1ex;
+}
 /******************************************************************************/
 .edit-perm-down {
   text-align:center;

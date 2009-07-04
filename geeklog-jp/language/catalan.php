@@ -43,10 +43,10 @@ $LANG01 = array(
     2 => 'lectura de l\'artícle complet',
     3 => 'comentaris',
     4 => 'Edició',
-    5 => 'Vota',
-    6 => 'Resultats',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => 'vots',
+    8 => '',
     9 => 'Funcions de l\'Administrador/a:',
     10 => 'Propostes',
     11 => 'Notícies',
@@ -149,7 +149,7 @@ $LANG01 = array(
     108 => 'Neteja la còpia de visites (Caché)',
     109 => 'Denúncia els abusos',
     110 => 'Denúncia aquest missatge a l\'administrador d\'aquest lloc',
-    111 => 'Veure la versió PDF',
+    111 => '',
     112 => 'Usuaris inscrits',
     113 => 'Documentació',
     114 => 'TRACKBACKS',
@@ -201,7 +201,23 @@ $LANG03 = array(
     24 => 'Usuari Anònim',
     25 => '¿Estas segur/a de que vols denunciar aquest missatge a l\'administrador del lloc?',
     26 => '%s ha denunciat el següent comentari abusiu:',
-    27 => 'Denúncia d\'abús'
+    27 => 'Denúncia d\'abús',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -361,7 +377,10 @@ $LANG04 = array(
     156 => 'Delete Account',
     157 => 'Delete Option',
     158 => 'Time Zone',
-    159 => 'This email was generated automatically. Please do not reply to this email.'
+    159 => 'This email was generated automatically. Please do not reply to this email.',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -429,7 +448,10 @@ $LANG08 = array(
     32 => 'Data',
     33 => 'Llegeix la Notícia completa a',
     34 => 'Fi del missatge',
-    35 => 'Ho sento, aquest usuari prefereix no rebre missatges.'
+    35 => 'Ho sento, aquest usuari prefereix no rebre missatges.',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -496,7 +518,16 @@ $LANG09 = array(
     58 => 'More results &gt;&gt;',
     59 => 'Results',
     60 => 'per page',
-    61 => 'Refine search'
+    61 => 'Refine search',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -544,7 +575,7 @@ $LANG11 = array(
     2 => 'Envía-ho a un amic',
     3 => 'Versió per imprimir',
     4 => 'Opcions de la Notícia',
-    5 => 'Format de notícia en PDF',
+    5 => '',
     6 => 'Subscribe to \'%s\''
 );
 
@@ -766,7 +797,7 @@ $LANG24 = array(
     60 => '',
     61 => 'Auto arxiu',
     62 => 'Auto borrat',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -917,7 +948,9 @@ $LANG28 = array(
     82 => "Your account on {$_CONF['site_name']} has not been accesssed since %s and will be disabled if not accessed in the 30 days.",
     83 => "Your account on {$_CONF['site_name']} has not been used since it was created and will deleted soon if not accessed.",
     84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
-    85 => 'If you have forgotten the password use the following link: %s'
+    85 => 'If you have forgotten the password use the following link: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -939,11 +972,14 @@ $LANG29 = array(
     18 => 'correu electrònic',
     34 => 'Pàgina d\'administració',
     35 => 'Enviaments de Noticies',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'Enviar',
     39 => 'No hi ha enviaments a moderar en aquest moment',
-    40 => 'Enviaments de l\'usuari/a'
+    40 => 'Enviaments de l\'usuari/a',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1019,7 +1055,20 @@ $LANG32 = array(
     35 => 'Edit',
     36 => 'Code',
     37 => 'Data',
-    38 => 'Update!'
+    38 => 'Update!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1096,8 +1145,8 @@ $MESSAGE = array(
     12 => 'El Bloc s\'ha borrat satisfactoriament.',
     13 => 'La teva Secció s\'ha guardat satisfactoriament.',
     14 => 'La Secció juntament amb totes les teves Noticies i Blocs s\'han borrat satisfactoriament.',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1110,24 +1159,24 @@ $MESSAGE = array(
     26 => '',
     27 => 'Missatge enviat satisfactoriament.',
     28 => 'El Plug-in s\'ha guardat satisfactoriament',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => 'Accés Denegat',
-    31 => 'Disculpa, no tens accés a la pàgina d\'administració de Noticies. Aclarem que tot accés sense autorització queda registrat al servidor.',
-    32 => 'Disculpa, no tens accés a la pàgina d\'administració de Seccions. Aclarem que tot accés sense autorització queda registrat al servidor.',
-    33 => 'Disculpa, no tens accés a la pàgina d\'administració de Blocs. Aclarem que tot accés sense autorització queda registrat al servidor.',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => 'Disculpa, no tens accés a la pàgina d\'administració d\'Usuaris. Aclarem que tot accés sense autorització queda registrat al servidor.',
-    38 => 'Disculpa, no tens accés a la pàgina d\'administració de Plug-in(s). Aclarem que tot accés sense autorització queda registrat al servidor.',
-    39 => 'Disculpa, no tens accés a la pàgina d\'administració de Correu electrònic. Aclarem que tot accés sense autorització queda registrat al servidor.',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => 'Missatge del Sistema',
-    41 => 'Disculpa, no tens accés a la pàgina de Substitució de Paraules. Aclarem que tot accés sense autorització queda registrat al servidor.',
-    42 => 'La Paraula s\'ha guardat satisfactoriament.',
-    43 => 'La Paraula s\'ha borrat satisfactoriament.',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => 'El Plug-In s\'ha instalat satisfactoriament.',
     45 => 'El Plug-In s\'ha borrat satisfactoriament.',
-    46 => 'Disculpa, no tens accés a l\'eina de còpia de seguretat de la base de dades. Aclarem que tot accés sense autorització queda registrat al servidor.',
+    46 => '',
     47 => 'Aquesta funció està disponible sota *nix. Si estàs utilitzant *nix com a sistema operatiu, la teva còpia de visites (cache) s\'ha netejat satisfactoriament. Si estàs sota Windows, hauràs de cercar els arxius adodb_*.php i borrar-los manualment.',
     48 => "Gracies per registrar-te com a membre a {$_CONF['site_name']}. El nostre equip comprobarà la teva solicitut. Si es aprovada, se t\'enviarà la teva Contrassenya a la direcció correu electrònico que ens has proporcionat.",
     49 => 'El teu grup s\'ha guardat satisfactoriament.',
@@ -1177,8 +1226,14 @@ $MESSAGE = array(
     93 => 'Database back up was successful.',
     94 => 'Backup Failed: Filesize less than 1kb',
     95 => 'There was an error.',
-    96 => 'Sorry, you do not have access to the configuration administration page.  Please note that all attempts to access unauthorized features are logged.',
-    97 => 'Not all required fields have been passed validation - default custom membership message'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1304,26 +1359,6 @@ $LANG_LOGIN = array(
 );
 
 ###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'La funció PDF està inhabilitada',
-    2 => 'El document facilitat no s\'ha reproduit. S\'ha rebut el document però no s\'ha processat. Siusplau, assegura\'t de que només s\'enviin documents en format html amb l\'estàndar xHTML. Siusplau, pensa que els documents molt complexes en html és possible que no es reprodueixin correctament o que no apareguin. El document resultant del teu intent té 0 bytes d\'extensió, i ha sigut borrat. Si no estàs segur/a de que el teu document es reprodueixi bé, siusplau, torna a enviar-lo.',
-    3 => 'Error desconegut durant la generació de PDF',
-    4 => 'No has donat dades de la pàgina o vols utilitzar l\'eina de generació ad-hoc de PDF. Si creus que estàs rebent aquesta pàgina per error, contacta amb l\'administrador del sistema. Sinó, pots utilitzar el formulari que hi ha a sota per generar PDFs.',
-    5 => 'Cargant el teu document.',
-    6 => 'Siusplau, espera mentres es carrega el teu document.',
-    7 => 'Pots apretar el botó dret del ratolí sobre el botó de sota i escollir \'save target...\' o \'save link location...\' per guardar una còpia del teu document.',
-    8 => 'La ruta donada per l\'arxiu de configuració a l\'HTMLDoc binari no és vàlida o aquest sistema no el pot executar.  Siusplau contacta amb l\'administrador del sistema si aquest problema continua.',
-    9 => 'Creador de PDF',
-    10 => 'Aquesta es l\'eina ad-hoc de creació de PDF. Intentarà convertir qualsevol URL que li donguis en un PDF.  Siusplau, pensa que algunes pàgines de la xarxa (Web) no es generaràn correctament amb aquesta funció.  Això és una limitació de l\'eina generadora d\'HTMLDoc PDF i aquests errors no haurien de ser enviats a l\'administrador d\'aquest lloc',
-    11 => 'URL',
-    12 => 'Crea un PDF!',
-    13 => 'La configuració PHP en aquest servidor no permet que les URL s\'utilitzin amb la instrucció fopen.  L\'administrador del sistema ha d\'editar l\'arxiu php.ini i que estigui conectat allow_url_fopen',
-    14 => 'El PDF que has solicitat o no existeix o has intentat accedir a un arxiu ilegalment.'
-);
-
-###############################################################################
 # trackback.php
 
 $LANG_TRB = array(
@@ -1422,6 +1457,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1508,7 +1568,8 @@ $LANG_ADMIN = array(
     'records_found' => 'Records found',
     'addchild' => 'Add child',
     'list' => 'list',
-    'list_all' => 'List all'
+    'list_all' => 'List all',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1581,7 +1642,8 @@ $LANG_CONFIG = array(
     'reset_form' => 'Reset Form',
     'changes_made' => 'Changes were successfully made to',
     'title' => 'Configuration Manager',
-    'disable' => 'Click to disable this option'
+    'disable' => 'Click to disable this option',
+    'enable' => 'Enable'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1609,7 +1671,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => 'Allow MySQL Dump',
     'mysqldump_path' => 'Path of Executable',
     'mysqldump_options' => 'MySQL Dump Options',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => 'Theme',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Menu Elements',
     'path_themes' => 'Themes Path',
     'disable_new_user_registration' => 'Disable New Registrations',
@@ -1648,6 +1712,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => 'Theme Cookie Name',
     'cookie_language' => 'Language Cookie Name',
     'cookie_tzid' => 'Timezone Cookie Name',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Cookies embed IP?',
     'default_perm_cookie_timeout' => 'Permanent Timeout',
     'session_cookie_timeout' => 'Session Timeout',
@@ -1655,7 +1720,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Cookie Domain',
     'cookiesecure' => 'Cookie Secure',
     'lastlogin' => 'Record Last Login?',
-    'pdf_enabled' => 'PDF Enabled?',
     'num_search_results' => 'Number of Search Results',
     'loginrequired' => 'Login Required?',
     'submitloginrequired' => 'Submit Login Required?',
@@ -1739,6 +1803,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => 'Debug Image Uploading?',
     'keep_unscaled_image' => 'Keep Unscaled Image?',
     'allow_user_scaling' => 'Allow User Scaling?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => 'Max Image Width?',
     'max_image_height' => 'Max Image Height?',
     'max_image_size' => 'Max Image Size?',
@@ -1756,14 +1821,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => 'Comment Limit',
     'comment_mode' => 'Comment Mode',
     'comment_code' => 'Comment Default',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => 'Password Speed Limit',
     'login_attempts' => 'Max. Login Attempts',
     'login_speedlimit' => 'Login Speed Limit',
     'user_html' => 'User HTML',
     'admin_html' => 'Admin HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Skip HTML Filter for Root?',
     'allowed_protocols' => 'Allowed Protocols',
     'disable_autolinks' => 'Disable Autolinks?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => 'Censor Mode?',
     'censorreplace' => 'Censor Replace Text',
     'censorlist' => 'Censor List',
@@ -1774,7 +1846,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => 'Topic Default Permissions',
     'atom_max_stories' => 'Max. Stories in Webservices Feed',
     'disable_webservices' => 'Disable Webservices?',
-    'restrict_webservices' => 'Restrict Webservices?'
+    'restrict_webservices' => 'Restrict Webservices?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1851,7 +1934,11 @@ $LANG_configselects['Core'] = array(
     15 => array('By Number' => 'sortnum', 'Alphabetically' => 'alpha'),
     16 => array('No Login required' => 0, 'Advanced Search only' => 1, 'Simple + Advanced Search' => 2),
     17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1),
-    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3)
+    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

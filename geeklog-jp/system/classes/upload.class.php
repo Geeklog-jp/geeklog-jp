@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | upload.class.php                                                          |
 // |                                                                           |
 // | Geeklog file upload class library.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2002-2008 by the following authors:                         |
+// | Copyright (C) 2002-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Dirk Haun        - dirk AT haun-online DOT de                    |
@@ -29,15 +29,13 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: upload.class.php,v 1.50 2007/11/25 06:59:56 ospiess Exp $
 
 /**
 * This class will allow you to securely upload one or more files from a form
 * submitted via POST method.  Please read documentation as there are a number of
 * security related features that will come in handy for you.
 *
-* @author       Tony Bibbs <tony AT tonybibbs DOT com>
+* @author       Tony Bibbs, tony AT tonybibbs DOT com
 *
 */
 class upload
@@ -158,6 +156,10 @@ class upload
     * @access private
     */
     var $_imageIndex = 0;                 // Integer
+    /**
+    * @access private
+    */
+    var $_ignoreMimeTest = false;       // Boolean
 
     /**
     * @access private
@@ -265,6 +267,7 @@ class upload
                 'application/x-gzip-compressed'     => '.tar.gz,.tgz',
                 'application/x-zip-compressed'      => '.zip',
                 'application/x-tar'                 => '.tar',
+                'application/x-gtar'                => '.tar',
                 'text/plain'                        => '.phps,.txt,.inc',
                 'text/html'                         => '.html,.htm',
                 'image/bmp'                         => '.bmp,.ico',
@@ -753,7 +756,7 @@ class upload
     }
 
     /**
-    * Sets the path to where the mogrify ImageMagic function is
+    * Sets the path to where the mogrify ImageMagick function is
     *
     * @param     string    $path_to_mogrify    Absolute path to mogrify
     * @return    boolean   True if set, false otherwise
@@ -870,10 +873,11 @@ class upload
     /**
     * Set JPEG quality
     *
+    * NOTE:     The 'quality' is an arbitrary value used by the IJG library.
+    *           It is not a percent value! The default (and a good value) is 75.
+    *
     * @param    int       $quality  JPEG quality (0-100)
     * @return   boolean   true if we set values OK, otherwise false
-    * @note     The 'quality' is an arbitrary value used by the IJG library.
-    *           It is not a percent value! The default (and a good value) is 75.
     *
     */
     function setJpegQuality($quality)
@@ -928,7 +932,7 @@ class upload
     /**
     * Sets log file
     *
-    * @param    string  $fileName   fully qualified path to log files
+    * @param    string  $logFile    fully qualified path to log files
     * @return   boolean returns true if we set the log file, otherwise false
     *
     */
@@ -992,6 +996,22 @@ class upload
     }
 
     /**
+    * If enabled will ignore the MIME checks on file uploads
+    *
+    * @param    boolean     $switch     flag, true or false
+    *
+    */
+    function setIgnoreMimeCheck($switch)
+    {
+        if ($switch) {
+            $this->_ignoreMimeTest = true;
+        } else {
+            $this->_ignoreMimeTest = false;
+        }
+    }
+
+
+    /**
     * This function will print any errors out.  This is useful in debugging
     *
     * @param    boolean     $verbose    whether or not to print immediately or return only a string
@@ -1033,7 +1053,7 @@ class upload
     }
 
     /**
-    * This function will print any debmug messages out.
+    * This function will print any debug messages out.
     *
     */
     function printDebugMsgs()
@@ -1093,6 +1113,10 @@ class upload
     */
     function checkMimeType()
     {
+        if ($this->_ignoreMimeTest) {
+            return true;
+        }
+
         $sc = strpos ($this->_currentFile['type'], ';');
         if ($sc > 0) {
             $this->_currentFile['type'] = substr ($this->_currentFile['type'], 0, $sc);
@@ -1100,7 +1124,12 @@ class upload
         $mimeTypes = $this->getAllowedMimeTypes ();
         foreach ($mimeTypes as $mimeT => $extList) {
             if ($mimeT == $this->_currentFile['type']) {
-                $extensions = explode (',', $extList);
+                // Each defined Mime Type can have multiple possible extesions - need to test each
+                if (is_array($extList)) {   // Used if allowedMimeTypes is being defined using the Online Config Manager
+                    $extensions = array_keys($extList);
+                } else {
+                    $extensions = explode (',', $extList);
+                }
                 $fileName = $this->_currentFile['name'];
                 foreach ($extensions as $ext) {
                     $ext = trim($ext);
@@ -1256,7 +1285,7 @@ class upload
         }
 
         // Verify allowed mime types exist
-        if (!$this->_allowedMimeTypes) {
+        if (!$this->_ignoreMimeTest AND !$this->_allowedMimeTypes) {
             $this->_addError('No allowed mime types specified, use setAllowedMimeTypes() method');
         }
 

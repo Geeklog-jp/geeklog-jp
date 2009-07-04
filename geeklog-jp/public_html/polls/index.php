@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Polls Plugin 2.0                                                          |
+// | Polls Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Display poll results and past polls.                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,9 +31,17 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.29 2008/05/24 09:04:59 dhaun Exp $
 
+/**
+* Display poll results and past polls
+*
+* @package Polls
+* @subpackage public_html
+*/
+
+/**
+* Geeklog common function library
+*/
 require_once '../lib-common.php';
 
 if (!in_array('polls', $_PLUGINS)) {
@@ -143,7 +151,7 @@ if (isset($_REQUEST['msg'])) {
     $msg = COM_applyFilter($_REQUEST['msg'], true);
 }
 
-if (isset($pid)) {
+if (! empty($pid)) {
     $questions_sql = "SELECT question,qid FROM {$_TABLES['pollquestions']} "
     . "WHERE pid='$pid' ORDER BY qid";
     $questions = DB_query($questions_sql);
@@ -160,29 +168,36 @@ if (empty($pid)) {
                $_CONF['cookie_path'], $_CONF['cookiedomain'],
                $_CONF['cookiesecure']);
     $display .= COM_siteHeader() . POLLS_pollsave($pid, $aid);
-} else if (isset($pid)) {
-    $display .= COM_siteHeader();
-    if ($msg > 0) {
-        $display .= COM_showMessage($msg, 'polls');
-    }
-    if (isset($_POST['aid'])) {
-        $display .= COM_startBlock (
-                $LANG_POLLS['not_saved'], '',
-                COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG_POLLS['answer_all'] . ' "'
-            . DB_getItem ($_TABLES['polltopics'], 'topic', "pid = '{$pid}'") . '"'
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    }
-    if (DB_getItem($_TABLES['polltopics'], 'is_open', "pid = '$pid'") != 1) {
-        $aid = -1; // poll closed - show result
-    }
-    if (!isset ($_COOKIE['poll-'.$pid])
-        && !POLLS_ipAlreadyVoted ($pid)
-        && $aid != -1
-        ) {
-        $display .= POLLS_pollVote ($pid);
+} elseif (! empty($pid)) {
+    $topic = DB_getItem($_TABLES['polltopics'], 'topic',
+                        "pid = '{$pid}'" . COM_getPermSQL('AND'));
+    if (empty($topic)) {
+        // poll doesn't exist or user doesn't have access
+        $display .= COM_siteHeader('menu', $LANG_POLLS['pollstitle'])
+                 . COM_showMessageText(sprintf($LANG25[12], $pid));
     } else {
-        $display .= POLLS_pollResults ($pid, 400, $order, $mode);
+        $display .= COM_siteHeader('menu', $topic);
+        if ($msg > 0) {
+            $display .= COM_showMessage($msg, 'polls');
+        }
+        if (isset($_POST['aid'])) {
+            $display .= COM_startBlock (
+                    $LANG_POLLS['not_saved'], '',
+                    COM_getBlockTemplate ('_msg_block', 'header'))
+                . $LANG_POLLS['answer_all'] . ' "' . $topic . '"'
+                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        }
+        if (DB_getItem($_TABLES['polltopics'], 'is_open', "pid = '$pid'") != 1) {
+            $aid = -1; // poll closed - show result
+        }
+        if (!isset ($_COOKIE['poll-'.$pid])
+            && !POLLS_ipAlreadyVoted ($pid)
+            && $aid != -1
+            ) {
+            $display .= POLLS_pollVote ($pid);
+        } else {
+            $display .= POLLS_pollResults ($pid, 400, $order, $mode);
+        }
     }
 } else {
     $poll_topic = DB_query ("SELECT topic FROM {$_TABLES['polltopics']} WHERE pid='$pid'" . COM_getPermSql ('AND'));
@@ -197,6 +212,6 @@ if (empty($pid)) {
 }
 $display .= COM_siteFooter();
 
-echo $display;
+COM_output($display);
 
 ?>

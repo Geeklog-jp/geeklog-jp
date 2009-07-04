@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Static Pages Geeklog Plugin 1.5                                           |
+// | Static Pages Geeklog Plugin 1.6                                           |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Administration page.                                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Phill Gillespie  - phill AT mediaaustralia DOT com DOT au        |
@@ -31,21 +31,28 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.94 2008/06/22 14:49:06 dhaun Exp $
 
+/**
+* Static Pages plugin administration page
+*
+* @package StaticPages
+* @subpackage admin
+*/
+
+/**
+* Geeklog common function library and Admin authentication
+*/
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
 
-if (!SEC_hasRights ('staticpages.edit')) {
-    $display = COM_siteHeader ('menu', $LANG_STATIC['access_denied']);
-    $display .= COM_startBlock ($LANG_STATIC['access_denied'], '',
-                        COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $LANG_STATIC['access_denied_msg'];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the static pages administration screen.");
-    echo $display;
+$display = '';
+
+if (!SEC_hasRights('staticpages.edit')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the static pages administration screen.");
+    COM_output($display);
     exit;
 }
 
@@ -155,6 +162,7 @@ function form ($A, $error = false)
         $sp_template->set_var('lang_permissions', $LANG_ACCESS['permissions']);
         $sp_template->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
         $sp_template->set_var('permissions_msg', $LANG_ACCESS['permmsg']);
+        $sp_template->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
         $sp_template->set_var('site_url', $_CONF['site_url']);
         $sp_template->set_var('site_admin_url', $_CONF['site_admin_url']);
         $sp_template->set_var('start_block_editor',
@@ -354,9 +362,11 @@ function form ($A, $error = false)
         }
         $sp_template->set_var('sp_content', $content);
         if ($_SP_CONF['filter_html'] == 1) {
-            $sp_template->set_var('lang_allowedhtml', COM_allowedHTML());
+            $sp_template->set_var('lang_allowedhtml',
+                                  COM_allowedHTML('staticpages.edit'));
         } else {
-            $sp_template->set_var('lang_allowedhtml', $LANG_STATIC['all_html_allowed']);
+            $sp_template->set_var('lang_allowedhtml',
+                                  $LANG_STATIC['all_html_allowed']);
         }
         $sp_template->set_var ('lang_hits', $LANG_STATIC['hits']);
         if (empty ($A['sp_hits'])) {
@@ -432,11 +442,13 @@ function liststaticpages()
 /**
 * Displays the Static Page Editor
 *
-* @sp_id        string      ID of static page to edit
-* @mode         string      Mode
+* @param    string  $sp_id      ID of static page to edit
+* @param    string  $mode       Mode
+* @param    string  $editor     Editor mode? (unused?)
+* @return   string              HTML for static pages editor
 *
 */
-function staticpageeditor ($sp_id, $mode = '', $editor = '')
+function staticpageeditor($sp_id, $mode = '', $editor = '')
 {
     global $_CONF, $_TABLES, $_USER;
 
@@ -466,7 +478,8 @@ function staticpageeditor ($sp_id, $mode = '', $editor = '')
         if (empty ($A['unixdate'])) {
             $A['unixdate'] = time ();
         }
-        $A['sp_content'] = COM_checkHTML (COM_checkWords ($A['sp_content']));
+        $A['sp_content'] = COM_checkHTML(COM_checkWords($A['sp_content']),
+                                         'staticpages.edit');
     }
     if (isset ($A['sp_title'])) {
         $A['sp_title'] = strip_tags ($A['sp_title']);
@@ -628,11 +641,17 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete']) && SEC_ch
         $display = COM_refresh ($_CONF['site_admin_url'] . '/index.php');
     }
 } else {
-    $display .= COM_siteHeader ('menu', $LANG_STATIC['staticpagelist']);
+    $display .= COM_siteHeader('menu', $LANG_STATIC['staticpagelist']);
+    if (isset($_REQUEST['msg'])) {
+        $msg = COM_applyFilter($_REQUEST['msg'], true);
+        if ($msg > 0) {
+            $display .= COM_showMessage($msg, 'staticpages');
+        }
+    }
     $display .= liststaticpages();
     $display .= COM_siteFooter ();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

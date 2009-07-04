@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | config-install.php                                                        |
 // |                                                                           |
@@ -28,8 +28,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: config-install.php,v 1.33 2008/09/21 08:37:09 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'config-install.php') !== false) {
     die('This file can not be used on its own!');
@@ -83,9 +81,20 @@ function install_config()
     $c->add('allow_mysqldump',1,'select',0,5,0,170,TRUE);
     $c->add('mysqldump_path','/usr/bin/mysqldump','text',0,5,NULL,175,TRUE);
     $c->add('mysqldump_options','-Q','text',0,5,NULL,180,TRUE);
+    $c->add('mysqldump_filename_mask','geeklog_db_backup_%Y_%m_%d_%H_%M_%S.sql','text',0,5,NULL,185,TRUE);
 
+    // squeeze search options between 640 (lastlogin) and 680 (loginrequired)
     $c->add('fs_search', NULL, 'fieldset', 0, 6, NULL, 0, TRUE);
-    $c->add('num_search_results',10,'text',0,6,NULL,670,TRUE);
+    $c->add('search_style','google','select',0,6,19,644,TRUE);
+    $c->add('search_limits','10,15,25,30','text',0,6,NULL,647,TRUE);
+    $c->add('num_search_results',30,'text',0,6,NULL,651,TRUE);
+    $c->add('search_show_limit',TRUE,'select',0,6,1,654,TRUE);
+    $c->add('search_show_sort',TRUE,'select',0,6,1,658,TRUE);
+    $c->add('search_show_num',TRUE,'select',0,6,1,661,TRUE);
+    $c->add('search_show_type',TRUE,'select',0,6,1,665,TRUE);
+    $c->add('search_separator',' &gt; ','text',0,6,NULL,668,TRUE);
+    $c->add('search_def_keytype','phrase','select',0,6,20,672,TRUE);
+    $c->add('search_use_fulltext',FALSE,'hidden',0,6); // 675
 
     // Subgroup: Stories and Trackback
     $c->add('sg_stories', NULL, 'subgroup', 1, 0, NULL, 0, TRUE);
@@ -127,6 +136,7 @@ function install_config()
 
     $c->add('fs_theme', NULL, 'fieldset', 2, 10, NULL, 0, TRUE);
     $c->add('theme','professional','select',2,10,NULL,190,TRUE);
+    $c->add('doctype','html401strict','select',2,10,21,195,TRUE);
     $c->add('menu_elements',array('contribute','search','stats','directory','plugins'),'%text',2,10,NULL,200,TRUE);
     $c->add('path_themes','','text',2,10,NULL,210,TRUE);
 
@@ -143,7 +153,7 @@ function install_config()
     $c->add('link_versionchecker',1,'select',3,12,0,1160,TRUE);
 
     $c->add('fs_topics_block', NULL, 'fieldset', 3, 13, NULL, 0, TRUE);
-    $c->add('sortmethod','sortnum','select',3,13,15,870,TRUE);
+    $c->add('sortmethod','alpha','select',3,13,15,870,TRUE);
     $c->add('showstorycount',1,'select',3,13,0,880,TRUE);
     $c->add('showsubmissioncount',1,'select',3,13,0,890,TRUE);
     $c->add('hide_home_link',0,'select',3,13,0,900,TRUE);
@@ -214,8 +224,14 @@ function install_config()
     $c->add('fs_comments', NULL, 'fieldset', 4, 21, NULL, 0, TRUE);
     $c->add('commentspeedlimit',45,'text',4,21,NULL,1640,TRUE);
     $c->add('comment_limit',100,'text',4,21,NULL,1650,TRUE);
-    $c->add('comment_mode','threaded','select',4,21,11,1660,TRUE);
+    $c->add('comment_mode','nested','select',4,21,11,1660,TRUE);
     $c->add('comment_code',0,'select',4,21,17,1670,TRUE);
+    $c->add('comment_edit',0,'select',4,21,0,1680,TRUE);
+    $c->add('commentsubmission',0,'select',4,21,0, 1682, TRUE);
+    $c->add('comment_edittime',1800,'text',4,21,NULL,1684,TRUE);
+    $c->add('article_comment_close_days',30,'text',4,21,NULL,1686,TRUE);
+    $c->add('comment_close_rec_stories',0,'text',4,21,NULL,1688,TRUE);
+    $c->add('allow_reply_notifications',0,'select',4,21,0, 1689, TRUE);
 
     // Subgroup: Images
     $c->add('sg_images', NULL, 'subgroup', 5, 0, NULL, 0, TRUE);
@@ -228,6 +244,7 @@ function install_config()
     $c->add('fs_upload', NULL, 'fieldset', 5, 23, NULL, 0, TRUE);
     $c->add('keep_unscaled_image',0,'select',5,23,0,1480,TRUE);
     $c->add('allow_user_scaling',1,'select',5,23,0,1490,TRUE);
+    $c->add('jpeg_quality',75,'text',5,23,NULL,1495,FALSE);
     $c->add('debug_image_upload',FALSE,'select',5,23,1,1500,TRUE);
 
     $c->add('fs_articleimg', NULL, 'fieldset', 5, 24, NULL, 0, TRUE);
@@ -283,6 +300,7 @@ function install_config()
     $c->add('cookie_theme','theme','text',7,30,NULL,560,TRUE);
     $c->add('cookie_language','language','text',7,30,NULL,570,TRUE);
     $c->add('cookie_tzid','timezone','text',7,30,NULL,575,TRUE);
+    $c->add('cookie_anon_name','anon_name','text',7,30,NULL,577,TRUE);
     $c->add('cookie_ip',0,'select',7,30,0,580,TRUE);
     $c->add('default_perm_cookie_timeout',28800,'text',7,30,NULL,590,TRUE);
     $c->add('session_cookie_timeout',7200,'text',7,30,NULL,600,TRUE);
@@ -291,10 +309,12 @@ function install_config()
     $c->add('cookiesecure',FALSE,'select',7,30,1,630,TRUE);
 
     $c->add('fs_misc', NULL, 'fieldset', 7, 31, NULL, 0, TRUE);
-    $c->add('pdf_enabled',0,'select',7,31,0,660,TRUE);
     $c->add('notification',array(),'%text',7,31,NULL,800,TRUE);
-    $c->add('cron_schedule_interval',86400,'text',7,31,NULL,860,TRUE);
+    $c->add('cron_schedule_interval',0,'text',7,31,NULL,860,TRUE);
     $c->add('disable_autolinks',0,'select',7,31,0,1750,TRUE);
+    $c->add('clickable_links',1,'select',7,31,1,1753,TRUE);
+    $c->add('compressed_output',0,'select',7,31,1,1756,TRUE);
+    $c->add('frame_options','DENY','select',7,31,22,1758,TRUE);
 
     $c->add('fs_debug', NULL, 'fieldset', 7, 32, NULL, 0, TRUE);
     $c->add('rootdebug',FALSE,'select',7,32,1,520,TRUE);
@@ -307,11 +327,13 @@ function install_config()
     $c->add('fs_htmlfilter', NULL, 'fieldset', 7, 34, NULL, 0, TRUE);
     $c->add('user_html',array ('p' => array(), 'b' => array(), 'strong' => array(),'i' => array(), 'a' => array('href' => 1, 'title' => 1, 'rel' => 1),'em'     => array(),'br'     => array(),'tt'     => array(),'hr'     => array(),        'li'     => array(), 'ol'     => array(), 'ul'     => array(), 'code' => array(), 'pre'    => array()),'**placeholder',7,34,NULL,1710,TRUE);
     $c->add('admin_html',array ('p' => array('class' => 1, 'id' => 1, 'align' => 1), 'div' => array('class' => 1, 'id' => 1), 'span' => array('class' => 1, 'id' => 1), 'table' => array('class' => 1, 'id' => 1, 'width' => 1, 'border' => 1, 'cellspacing' => 1, 'cellpadding' => 1), 'tr' => array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1), 'th' => array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1, 'colspan' => 1, 'rowspan' => 1), 'td' => array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1, 'colspan' => 1, 'rowspan' => 1)),'**placeholder',7,34,NULL,1720,TRUE);
+    $c->add('advanced_html',array ('img' => array('width' => 1, 'height' => 1, 'src' => 1, 'align' => 1, 'valign' => 1, 'border' => 1, 'alt' => 1)),'**placeholder',7,34,NULL,1721,TRUE);
+
     $c->add('skip_html_filter_for_root',0,'select',7,34,0,1730,TRUE);
     $c->add('allowed_protocols',array('http','ftp','https'),'%text',7,34,NULL,1740,TRUE);
 
     $c->add('fs_censoring', NULL, 'fieldset', 7, 35, NULL, 0, TRUE);
-    $c->add('censormode',1,'select',7,35,0,1760,TRUE);
+    $c->add('censormode',1,'select',7,35,18,1760,TRUE);
     $c->add('censorreplace','*censored*','text',7,35,NULL,1770,TRUE);
     $c->add('censorlist', array('fuck','cunt','fucker','fucking','pussy','cock','c0ck',' cum ','twat','clit','bitch','fuk','fuking','motherfucker'),'%text',7,35,NULL,1780,TRUE);
 
@@ -328,28 +350,9 @@ function install_config()
     $c->add('default_permissions_block',array(3, 2, 2, 2),'@select',7,39,12,1810,TRUE);
 
     $c->add('fs_webservices', NULL, 'fieldset', 7, 40, NULL, 0, TRUE);
-    $c->add('disable_webservices',   0, 'select', 7, 40, 0, 1840, TRUE);
+    $c->add('disable_webservices',   1, 'select', 7, 40, 0, 1840, TRUE);
     $c->add('restrict_webservices',  0, 'select', 7, 40, 0, 1850, TRUE);
     $c->add('atom_max_stories',     10, 'text',   7, 40, 0, 1860, TRUE);
-
-
-    // Add the configuration records for the default installed plugins
-    $plugin_path = $_CONF['path'] . 'plugins/';
-
-    require_once $plugin_path . 'calendar/install_defaults.php';
-    plugin_initconfig_calendar();
-
-    require_once $plugin_path . 'links/install_defaults.php';
-    plugin_initconfig_links();
-
-    require_once $plugin_path . 'polls/install_defaults.php';
-    plugin_initconfig_polls();
-
-    require_once $plugin_path . 'spamx/install_defaults.php';
-    plugin_initconfig_spamx();
-
-    require_once $plugin_path . 'staticpages/install_defaults.php';
-    plugin_initconfig_staticpages();
 }
 
 ?>
