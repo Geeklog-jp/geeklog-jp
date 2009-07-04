@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | submit.php                                                                |
 // |                                                                           |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: submit.php,v 1.123 2008/07/07 18:24:00 dhaun Exp $
 
 require_once 'lib-common.php';
 require_once $_CONF['path_system'] . 'lib-story.php';
@@ -100,7 +98,7 @@ function submissionform($type='story', $mode = '', $topic = '')
                 $formresult = PLG_showSubmitForm($type);
                 if ($formresult == false) {
                     COM_errorLog("Someone tried to submit an item to the $type-plugin, which cannot be found.", 1);
-                    COM_displayMessageAndAbort (79, '', 410, 'Gone');
+                    COM_outputMessageAndAbort (79, '', 410, 'Gone');
                 } else {
                     $retval .= $formresult;
                 }
@@ -135,8 +133,6 @@ function submitstory($topic = '')
     } else {
         $story->initSubmission($topic);
     }
-
-    $retval .= COM_startBlock($LANG12[6],'submitstory.html');
 
     $storyform = new Template($_CONF['path_layout'] . 'submit');
     if (isset ($_CONF['advanced_editor']) && ($_CONF['advanced_editor'] == 1) &&
@@ -195,7 +191,12 @@ function submitstory($topic = '')
     $storyform->set_var('story_title', $story->EditElements('title'));
     $storyform->set_var('lang_topic', $LANG12[28]);
 
-    $storyform->set_var('story_topic_options', COM_topicList('tid,topic',$story->EditElements('tid')));
+    $tlist = COM_topicList('tid,topic', $story->EditElements('tid'));
+    if (empty($tlist)) {
+        $retval .= COM_showMessage(101);
+        return $retval;
+    }
+    $storyform->set_var('story_topic_options', $tlist);
     $storyform->set_var('lang_story', $LANG12[29]);
     $storyform->set_var('lang_introtext', $LANG12[54]);
     $storyform->set_var('lang_bodytext', $LANG12[55]);
@@ -207,14 +208,17 @@ function submitstory($topic = '')
     $storyform->set_var('story_uid', $story->EditElements('uid'));
     $storyform->set_var('story_sid', $story->EditElements('sid'));
     $storyform->set_var('story_date', $story->EditElements('unixdate'));
+    $storyform->set_var('lang_preview', $LANG12[32]);
 
+    PLG_templateSetVars('story', $storyform);
     if (($_CONF['skip_preview'] == 1) ||
             (isset($_POST['mode']) && ($_POST['mode'] == $LANG12[32]))) {
-        PLG_templateSetVars ('story', $storyform);
-        $storyform->set_var('save_button', '<input name="mode" type="submit" value="' . $LANG12[8] . '"' . XHTML . '>');
+        $storyform->set_var('save_button',
+                            '<input name="mode" type="submit" value="'
+                            . $LANG12[8] . '"' . XHTML . '>');
     }
 
-    $storyform->set_var('lang_preview', $LANG12[32]);
+    $retval .= COM_startBlock($LANG12[6],'submitstory.html');
     $storyform->parse('theform', 'storyform');
     $retval .= $storyform->finish($storyform->get_var('theform'));
     $retval .= COM_endBlock();
@@ -289,7 +293,7 @@ function savestory ($A)
     if ($result > 0)
     {
         COM_updateSpeedlimit ('submit');
-        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+        COM_outputMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
     }
 
     COM_updateSpeedlimit ('submit');
@@ -411,7 +415,7 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
                          . COM_errorLog ($msg, 2)
                          . submitstory ($topic)
                          . COM_siteFooter();
-                echo $display;
+                COM_output($display);
                 exit;
             }
         }
@@ -452,6 +456,6 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

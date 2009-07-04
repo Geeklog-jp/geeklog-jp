@@ -103,13 +103,17 @@ $LANG_STATIC = array(
     'select_php_none' => 'אל תבצע PHP',
     'select_php_return' => 'בצע PHP (return)',
     'select_php_free' => 'בצע PHP',
-    'php_not_activated' => "השימוש ב-PHP בעמודים סטטיים לא מופעל. אנא ראו את <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\">הדוקומנטציה</a> בשביל פרטים.",
+    'php_not_activated' => "השימוש ב-PHP בעמודים סטטיים לא מופעל. אנא ראו את <a href=\"{$_CONF['site_url']}/docs/english/staticpages.html#php\">הדוקומנטציה</a> בשביל פרטים.",
     'printable_format' => 'פורמט להדפסה',
     'copy' => 'העתקה',
     'limit_results' => 'הגבלת תוצאות',
     'search' => 'חיפוש',
     'submit' => 'שליחה'
 );
+
+$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE19 = 'Your page has been successfully saved.';
+$PLG_staticpages_MESSAGE20 = 'Your page has been successfully deleted.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'אין תמיכה בשידרוג ה-plugin.';

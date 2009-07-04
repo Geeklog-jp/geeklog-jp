@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | directory.php                                                             |
 // |                                                                           |
 // | Directory of all the stories on a Geeklog site.                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2004-2008 by the following authors:                         |
+// | Copyright (C) 2004-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
 // +---------------------------------------------------------------------------+
@@ -28,10 +28,11 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: directory.php,v 1.19 2008/06/20 19:12:56 dhaun Exp $
 
-require_once ('lib-common.php');
+/**
+* Geeklog common function library
+*/
+require_once 'lib-common.php';
 
 // configuration option:
 // List stories for the current month on top of the overview page
@@ -50,7 +51,7 @@ if (empty ($_USER['username']) && (($_CONF['loginrequired'] == 1) ||
                                 COM_getBlockTemplate ('_msg_block', 'header'));
     $login = new Template ($_CONF['path_layout'] . 'submit');
     $login->set_file (array ('login' => 'submitloginrequired.thtml'));
-    $login->set_var ( 'xhtml', XHTML );
+    $login->set_var ('xhtml', XHTML);
     $login->set_var ('site_url', $_CONF['site_url']);
     $login->set_var ('layout_url', $_CONF['layout_url']);
     $login->set_var ('login_message', $LANG_LOGIN[2]);
@@ -60,7 +61,7 @@ if (empty ($_USER['username']) && (($_CONF['loginrequired'] == 1) ||
     $display .= $login->finish ($login->get_var ('output'));
     $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     $display .= COM_siteFooter ();
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -70,7 +71,7 @@ if (empty ($_USER['username']) && (($_CONF['loginrequired'] == 1) ||
 * @param    int     $month  Month
 * @param    int     $year   Year
 * @return   int             Number of days in that month
-* @bugs     Will fail from 2038 onwards ...
+* @todo     Bug: Will fail from 2038 onwards ...
 *
 * "The last day of any given month can be expressed as the "0" day
 * of the next month", http://www.php.net/manual/en/function.mktime.php
@@ -95,7 +96,7 @@ function DIR_lastDayOfMonth ($month, $year)
 * @param    string  $topic          current topic
 * @param    int     $year           current year
 * @param    int     $month          current month
-* @param    bool    $standalone     true: don't display form inline
+* @param    boolean $standalone     true: don't display form inline
 *
 */
 function DIR_topicList ($topic = 'all', $year = 0, $month = 0, $standalone = false)
@@ -243,7 +244,7 @@ function DIR_navBar ($topic, $year, $month = 0)
 * @param    string  $topic  current topic
 * @param    int     $year   year to display
 * @param    int     $month  month to display
-* @param    bool    $main   true: display view on its own page
+* @param    boolean $main   true: display view on its own page
 * @return   string          list of articles for the given month
 *
 */
@@ -319,7 +320,7 @@ function DIR_displayMonth ($topic, $year, $month, $main = false)
 *
 * @param    string  $topic  current topic
 * @param    int     $year   year to display
-* @param    bool    $main   true: display view on its own page
+* @param    boolean $main   true: display view on its own page
 * @return   string          list of months (+ number of stories) for given year
 *
 */
@@ -409,7 +410,7 @@ function DIR_displayYear ($topic, $year, $main = false)
 * the stories for the current month at the top of the page.
 *
 * @param    string  $topic                  current topic
-* @param    bool    $list_current_month     true = list stories f. current month
+* @param    boolean $list_current_month     true = list stories f. current month
 * @return   string                          list of all the years in the db
 *
 */
@@ -450,6 +451,35 @@ function DIR_displayAll ($topic, $list_current_month = false)
     return $retval;
 }
 
+/**
+* Return a canonical link
+*
+* @param    string  $topic  current topic or 'all'
+* @param    int     $year   current year
+* @param    int     $month  current month
+* @return   string          <link rel="canonical"> tag
+*
+*/
+function DIR_canonicalLink($topic, $year = 0, $month = 0)
+{
+    global $_CONF;
+
+    $script = $_CONF['site_url'] . '/' . THIS_SCRIPT;
+
+    $tp = '?topic=' . urlencode($topic);
+    $parts = '';
+    if (($year != 0) && ($month != 0)) {
+        $parts .= "&amp;year=$year&amp;month=$month";
+    } elseif ($year != 0) {
+        $parts .= "&amp;year=$year";
+    } elseif ($topic == 'all') {
+        $tp = '';
+    }
+    $url = COM_buildUrl($script . $tp . $parts);
+
+    return '<link rel="canonical" href="' . $url . '"' . XHTML . '>' . LB;
+}
+
 // MAIN
 $display = '';
 
@@ -477,24 +507,40 @@ if (($month < 1) || ($month > 12)) {
     $month = 0;
 }
 
+$topicName = '';
+if ($topic != 'all') {
+    $topicName = DB_getItem($_TABLES['topics'], 'topic',
+                            "tid = '" . addslashes($topic) . "'");
+}
 if (($year != 0) && ($month != 0)) {
     $title = sprintf ($LANG_DIR['title_month_year'],
                       $year, $month);
-    $display .= COM_siteHeader ('menu', $title);
+    if ($topic != 'all') {
+        $title .= ': ' . $topicName;
+    }
+    $display .= COM_siteHeader('menu', $title,
+                               DIR_canonicalLink($topic, $year, $month));
     $display .= DIR_displayMonth ($topic, $year, $month, true);
     $display .= DIR_navBar ($topic, $year, $month);
 } else if ($year != 0) {
     $title = sprintf ($LANG_DIR['title_year'], $year);
-    $display .= COM_siteHeader ('menu', $title);
-    $display .= DIR_displayYear ($topic, $year, true);
-    $display .= DIR_navBar ($topic, $year);
+    if ($topic != 'all') {
+        $title .= ': ' . $topicName;
+    }
+    $display .= COM_siteHeader('menu', $title, DIR_canonicalLink($topic, $year));
+    $display .= DIR_displayYear($topic, $year, true);
+    $display .= DIR_navBar($topic, $year);
 } else {
-    $display .= COM_siteHeader ('menu', $LANG_DIR['title']);
-    $display .= DIR_displayAll ($topic, $conf_list_current_month);
+    $title = $LANG_DIR['title'];
+    if ($topic != 'all') {
+        $title .= ': ' . $topicName;
+    }
+    $display .= COM_siteHeader('menu', $title, DIR_canonicalLink($topic));
+    $display .= DIR_displayAll($topic, $conf_list_current_month);
 }
 
 $display .= COM_siteFooter (true);
 
-echo $display;
+COM_output($display);
 
 ?>

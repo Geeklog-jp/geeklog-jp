@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-webservices.php                                                       |
 // |                                                                           |
 // | WS-related functions needed in more than one place.                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 by the following authors:                         |
+// | Copyright (C) 2007-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Ramnath R Iyer        - rri AT silentyak DOT com                 |
 // |          Dirk Haun             - dirk AT haun-online DOT de               |
@@ -29,13 +29,19 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-webservices.php,v 1.44 2008/09/21 08:37:12 dhaun Exp $
+
+/**
+* Implementation of the Webservices functions for the Atom Publishing Protocol
+* (AtomPub).
+*/
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-webservices.php') !== false) {
     die('This file can not be used on its own!');
 }
 
+/**
+* Namespaces
+*/
 define('WS_ATOM_NS', 'http://www.w3.org/2005/Atom');
 define('WS_APP_NS',  'http://www.w3.org/2007/app');
 define('WS_APP_NS2', 'http://purl.org/atom/app#');
@@ -56,7 +62,7 @@ if (PHP_VERSION < 5) {
 /**
  * Displays an error message with the appropriate HTTP error-code
  *
- * @param   string  $error_name     the name of the error
+ * @param   string  $error_code     the name of the error
  * @param   string  $error_desc     a short description of the actual error (optional)
  */
 function WS_error($error_code, $error_desc = '')
@@ -109,7 +115,7 @@ function WS_error($error_code, $error_desc = '')
 /**
  * Dissects the URI and obtains parameters
  *
- * @param   array   $args       the array to store any input parameters
+ * @param   array   &$args       the array to store any input parameters
  */
 function WS_dissectURI(&$args)
 {
@@ -454,7 +460,7 @@ function WS_delete()
  * @param   array      &$args       the array to which the content is to be appended
  * @param   object      $atom_doc   current DOMDocument
  * @param   object      $node       the 'content' node
- * @bugs    I guess we could at least support 'text/plain', 'text/html', etc.
+ * @todo    I guess we could at least support 'text/plain', 'text/html', etc.
  */
 function WS_getContent(&$args, $atom_doc, $node)
 {
@@ -645,8 +651,10 @@ function WS_xmlToArgs(&$args)
 /**
  * Converts an array into an XML entry node
  *
- * @param   DOMDocument &$atom_doc  the Atom document to which the entry should be appended
  * @param   array       $arr        the array which is to be converted into XML
+ * @param   array       $extn_elements Geeklog-specific extension elements
+ * @param   object      &$entry_elem   entry to append to
+ * @param   DOMDocument &$atom_doc  the Atom document to which the entry should be appended
  */
 function WS_arrayToEntryXML($arr, $extn_elements, &$entry_elem, &$atom_doc)
 {
@@ -977,16 +985,17 @@ function WS_writeSync()
     echo $WS_TEXT;
 }
 
-/*
-* Create a new ID, preferrably from a provided 'Slug:' header
-*
-* @param    string  $slug           Content of the 'Slug:' header
-* @param    int     $max_length     max. length of the created ID
-* @return   string                  new ID
-* 
-* For more information on the 'Slug:' header, see RFC 5023, section 9.7
-*
-*/
+/**
+ * Create a new ID, preferrably from a provided 'Slug:' header
+ *
+ * For more information on the 'Slug:' header, see RFC 5023, section 9.7
+ *
+ * @param    string  $slug           Content of the 'Slug:' header
+ * @param    int     $max_length     max. length of the created ID
+ * @return   string                  new ID
+ * @link     http://tools.ietf.org/html/rfc5023#section-9.7
+ * 
+ */
 function WS_makeId($slug = '', $max_length = 40)
 {
     $sid = COM_makeSid();

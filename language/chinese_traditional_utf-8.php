@@ -48,10 +48,10 @@ $LANG01 = array(
     2 => '讀整文',
     3 => '個評論',
     4 => '編輯',
-    5 => '投票',
-    6 => '結果',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => '投票',
+    8 => '',
     9 => '管理者功能︰',
     10 => '提交物',
     11 => '文章',
@@ -154,7 +154,7 @@ $LANG01 = array(
     108 => '清除緩衝貯存區',
     109 => '報告濫用',
     110 => '報告此濫登文給網站管理員',
-    111 => '看PDF 版本',
+    111 => '',
     112 => '登記用戶',
     113 => '使用說明',
     114 => '跡回',
@@ -206,7 +206,23 @@ $LANG03 = array(
     24 => '匿名用戶',
     25 => '你肯定想要報告此濫登文給網站管理員否?',
     26 => '%s 報告以下濫登的評論:',
-    27 => '濫用報告'
+    27 => '濫用報告',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -366,7 +382,10 @@ $LANG04 = array(
     156 => '刪除用戶',
     157 => '刪除選項',
     158 => '時區',
-    159 => '這電郵是自動產生的。請不要回信。'
+    159 => '這電郵是自動產生的。請不要回信。',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -434,7 +453,10 @@ $LANG08 = array(
     32 => '日期',
     33 => '完整的文章在：',
     34 => '電郵結束',
-    35 => '對不起，此用戶不願意收電信.'
+    35 => '對不起，此用戶不願意收電信.',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -501,7 +523,16 @@ $LANG09 = array(
     58 => '更多的結果 &gt;&gt;',
     59 => '結果',
     60 => '每頁',
-    61 => '改進搜尋'
+    61 => '改進搜尋',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -549,7 +580,7 @@ $LANG11 = array(
     2 => '寄文章給朋友',
     3 => '可印的文章格式',
     4 => '文章選項',
-    5 => 'PDF 文章版本',
+    5 => '',
     6 => 'Subscribe to \'%s\''
 );
 
@@ -771,7 +802,7 @@ $LANG24 = array(
     60 => '',
     61 => '過期後自動封存',
     62 => '過期後自動刪除',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -922,7 +953,9 @@ $LANG28 = array(
     82 => "你的帳戶於 {$_CONF['site_name']} 自從 %s 就未曾運用，如果此帳戶在三十天內不再運用，它會變成無效。",
     83 => "你的帳戶於 {$_CONF['site_name']} 自從登記時就未曾運用。若不繼續運用，它將變成無效。",
     84 => "你的用戶名是: %s 我們的網站是: {$_CONF['site_url']}",
-    85 => '若你忘記你的密碼請跟從這個連結: %s'
+    85 => '若你忘記你的密碼請跟從這個連結: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -944,11 +977,14 @@ $LANG29 = array(
     18 => '電子郵件',
     34 => '命令和控制',
     35 => '已遞交的文章',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => '遞交',
     39 => '此時沒有遞交的東西',
-    40 => '申請的用戶'
+    40 => '申請的用戶',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1024,7 +1060,20 @@ $LANG32 = array(
     35 => '編輯',
     36 => '代碼',
     37 => '數據',
-    38 => '更新!'
+    38 => '更新!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1101,8 +1150,8 @@ $MESSAGE = array(
     12 => '你的組件已被刪除了。',
     13 => '你的主題已被保存了。',
     14 => '你的主題和所有相關的文章已被刪除了。',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1115,24 +1164,24 @@ $MESSAGE = array(
     26 => '',
     27 => '資訊已發送。',
     28 => '插件已被保存了。',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => '存取被拒絕',
-    31 => '抱歉，你不能進入文章管理的首頁。請注意你的企圖已被記錄。',
-    32 => '抱歉，你不能進入主題管理的首頁。請注意你的企圖已被記錄。',
-    33 => '抱歉，你不能進入組件管理的首頁。請注意你的企圖已被記錄。',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => '抱歉，你不能進入用戶管理的首頁。請注意你的企圖已被記錄。',
-    38 => '抱歉，你不能進入 Plug-in 管理的首頁。請注意你的企圖已被記錄。',
-    39 => '抱歉，你不能進入電郵管理的首頁。請注意你的企圖已被記錄。',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => '系統訊息',
-    41 => '抱歉，你不能進入字詞替換的首頁。請注意你的企圖已被記錄。',
-    42 => '你的字詞已被保存了。',
-    43 => '你的字詞已被刪除了。',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => '插件已被安裝了。',
     45 => '插件已被刪除了。',
-    46 => '抱歉，你不能進入資料庫備份程式。請注意你的企圖已被記錄。',
+    46 => '',
     47 => '這只適用於 *nix 如果你的作業系統是 *nix，那麽你的緩衝器已被清除了。如果你的作業系統是 Windows，你要手動尋找檔命名為 adodb _ *.php 的檔案並把它們除去。',
     48 => "感謝你申請成為 {$_CONF['site_name']} 的會員。只要經過我們員工的核對，我們會把密碼寄到你所登記的電郵中。",
     49 => '你的小組已被保存了。',
@@ -1182,8 +1231,14 @@ $MESSAGE = array(
     93 => '資料庫備份成功。',
     94 => '備份失敗: 文件小於 1kb',
     95 => '有錯誤。',
-    96 => '對不起, 你沒權進入設定管理區。 請注意所有登入企圖都被記錄。',
-    97 => 'Not all required fields have been passed validation - default custom membership message'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1309,26 +1364,6 @@ $LANG_LOGIN = array(
 );
 
 ###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'PDF 版本的作用已被禁止',
-    2 => '所提供的檔沒有呈遞。檔已收到，但是無法處理。請肯定你所提交的檔是 html 格式的檔寫於 xHTML 的標準。請注意過分複雜的 html 檔也可能無法正確呈遞。你的檔提交的結果是 0 bytes 而且已被刪除。你若肯定你的檔應該順利的呈遞，其再次提交。',
-    3 => '不知名的PDF 檔製作錯誤。',
-    4 => '沒提供頁數資料或你要用以下的特別 PDF 製作工具。若你認為你所得到的這頁是錯誤。 請聯絡系統管理員。要不然，你可用以下的表格來特別製作 PDF。',
-    5 => '正在裝置你的檔。',
-    6 => '你的檔被裝置時請等待。',
-    7 => '你可用右擊以下的按鈕，然後選 \'save target...\' or \'save link location...\' 來存續你的檔的一個拷貝。',
-    8 => '在配置檔案裏的 HTMLDoc二進位檔案路徑有錯誤，或此系統無法執行此檔案。若此問題繼續發生，請聯絡網站管理員。',
-    9 => 'PDF 製作器',
-    10 => '這是特別的 PDF 製作工具。它會將任何 URL 轉換成 PDF 版本。請注意，有些網頁不會正確的被這工具處理成功。這是 HTMLDoc PDF 製作工具的有限之處，而這樣的錯誤不需要報告給此網站的管理員。',
-    11 => 'URL',
-    12 => '製作 PDF!',
-    13 => '此伺服器的 PHP 配置不准許 fopen() 命令用在 URL 上。 系統管理員必須先修改  php.ini 檔案，然後設定 allow_url_fopen 到 On',
-    14 => '你要求的 PDF 不存在或你在非法的入取一個檔案。'
-);
-
-###############################################################################
 # trackback.php
 
 $LANG_TRB = array(
@@ -1427,6 +1462,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1513,7 +1573,8 @@ $LANG_ADMIN = array(
     'records_found' => '已找到的資料',
     'addchild' => '加入子單',
     'list' => '列',
-    'list_all' => '列所有'
+    'list_all' => '列所有',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1586,7 +1647,8 @@ $LANG_CONFIG = array(
     'reset_form' => '恢復表格原狀',
     'changes_made' => '更改已成功地安置於',
     'title' => '設定管理',
-    'disable' => 'Click to disable this option'
+    'disable' => 'Click to disable this option',
+    'enable' => 'Enable'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1614,7 +1676,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => '准許 MySQL Dump',
     'mysqldump_path' => 'Executable 路徑',
     'mysqldump_options' => 'MySQL Dump 選項',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => '畫面主題',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => '才當成分',
     'path_themes' => '畫面主題的路徑',
     'disable_new_user_registration' => '關閉新登記',
@@ -1653,6 +1717,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => '版面主題 Cookie 名',
     'cookie_language' => '語言 Cookie 名',
     'cookie_tzid' => '時區 Cookie 名',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Cookies 嵌入IP?',
     'default_perm_cookie_timeout' => '永恆休息',
     'session_cookie_timeout' => '短期休息',
@@ -1660,7 +1725,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Cookie 功能變數名稱',
     'cookiesecure' => 'Cookie 保護',
     'lastlogin' => '記錄最後登入?',
-    'pdf_enabled' => '啟動PDF 嗎?',
     'num_search_results' => '搜尋結果次數',
     'loginrequired' => '需要登入嗎?',
     'submitloginrequired' => '提交需要登入嗎?',
@@ -1744,6 +1808,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => '調試圖像上載?',
     'keep_unscaled_image' => '保存未修改過的圖像?',
     'allow_user_scaling' => '准許用戶修改?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => '圖像寬度限定?',
     'max_image_height' => '圖像高度限定?',
     'max_image_size' => '圖像大小限定?',
@@ -1761,14 +1826,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => '評論限定',
     'comment_mode' => '評論方式',
     'comment_code' => '評論默認',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => '密碼速度限定',
     'login_attempts' => '最多登入企圖次數',
     'login_speedlimit' => '登入速度限定',
     'user_html' => '用戶 HTML',
     'admin_html' => '管理員 HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => '根用戶跳過 HTML 過濾?',
     'allowed_protocols' => '許可 Protocols',
     'disable_autolinks' => '關閉 Autolinks?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => '檢查方式?',
     'censorreplace' => '檢查代替文字',
     'censorlist' => '檢查列',
@@ -1779,7 +1851,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => '主題默認許可設定',
     'atom_max_stories' => 'Webservices Feed裏的文章數定',
     'disable_webservices' => '關閉 Webservices?',
-    'restrict_webservices' => '限制 Webservices?'
+    'restrict_webservices' => '限制 Webservices?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1856,7 +1939,11 @@ $LANG_configselects['Core'] = array(
     15 => array('By Number' => 'sortnum', 'Alphabetically' => 'alpha'),
     16 => array('No Login required' => 0, 'Advanced Search only' => 1, 'Simple + Advanced Search' => 2),
     17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1),
-    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3)
+    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

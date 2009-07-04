@@ -33,10 +33,10 @@ $LANG01 = array(
     2 => 'اطلاعات بيشتر',
     3 => 'نكات',
     4 => 'ويرايش',
-    5 => 'راي دادن',
-    6 => 'نتايج',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => 'آرا',
+    8 => '',
     9 => 'توابع مديريتي',
     10 => 'فرمانبر',
     11 => 'مقاله',
@@ -139,7 +139,7 @@ $LANG01 = array(
     108 => 'پاك كردن كش',
     109 => 'گزارش از تجاوز كردن به حقوق شما',
     110 => 'گزارش دادن اين پست به ريس سايت',
-    111 => ' مشاهده نسخه Pdf ',
+    111 => '',
     112 => 'كاربران ثبت شده',
     113 => 'مستندات سطح بالا',
     114 => 'TRACKBACKS',
@@ -191,7 +191,23 @@ $LANG03 = array(
     24 => 'كاربر بي نام',
     25 => 'آيا از فرستادن اين پست براي رييس سايت اطمينان داريد?',
     26 => '%s گزارش داده شده اين پست خلاف قانون:',
-    27 => 'پست خلاف قوانين'
+    27 => 'پست خلاف قوانين',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -351,7 +367,10 @@ $LANG04 = array(
     156 => 'Delete Account',
     157 => 'Delete Option',
     158 => 'Time Zone',
-    159 => 'This email was generated automatically. Please do not reply to this email.'
+    159 => 'This email was generated automatically. Please do not reply to this email.',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -419,7 +438,10 @@ $LANG08 = array(
     32 => 'روز',
     33 => 'بخوانيد مقاله كامل را در',
     34 => 'پايان پيام',
-    35 => 'متاسفيم تنظيمات اين كاربر براي دريافت اي ميل تنظيم نشده'
+    35 => 'متاسفيم تنظيمات اين كاربر براي دريافت اي ميل تنظيم نشده',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -486,7 +508,16 @@ $LANG09 = array(
     58 => 'More results &gt;&gt;',
     59 => 'Results',
     60 => 'per page',
-    61 => 'Refine search'
+    61 => 'Refine search',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -534,7 +565,7 @@ $LANG11 = array(
     2 => 'ميل کردن مقاله به دوستان',
     3 => 'مقاله قابل چاپ',
     4 => 'اختيارات مقاله',
-    5 => 'قالبPdfمقاله',
+    5 => '',
     6 => 'Subscribe to \'%s\''
 );
 
@@ -756,7 +787,7 @@ $LANG24 = array(
     60 => '',
     61 => 'بايگاني خودكار',
     62 => 'حذف خودكار',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -907,7 +938,9 @@ $LANG28 = array(
     82 => "Your account on {$_CONF['site_name']} has not been accesssed since %s and will be disabled if not accessed in the 30 days.",
     83 => "Your account on {$_CONF['site_name']} has not been used since it was created and will deleted soon if not accessed.",
     84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
-    85 => 'If you have forgotten the password use the following link: %s'
+    85 => 'If you have forgotten the password use the following link: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -929,11 +962,14 @@ $LANG29 = array(
     18 => 'اي-ميل',
     34 => 'کنترل و فرماندهى',
     35 => ' حدود دسترسي به مقالات ',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'ثبت کردن',
     39 => 'هيچ "حق دسترسي" براي مديريت  هم اكنون نيست',
-    40 => 'حدود دسترسي كاربر'
+    40 => 'حدود دسترسي كاربر',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1009,7 +1045,20 @@ $LANG32 = array(
     35 => 'Edit',
     36 => 'Code',
     37 => 'Data',
-    38 => 'Update!'
+    38 => 'Update!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1086,8 +1135,8 @@ $MESSAGE = array(
     12 => 'بلاك شما با موفقيت حذف گرديد',
     13 => 'تاپيك شما با موفقيت ذخيره گرديد',
     14 => 'تمام تاپيك و مقالات درون آ ن و تمام بلاكهاي آن با موفقيت پاك شد ',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1100,24 +1149,24 @@ $MESSAGE = array(
     26 => '',
     27 => 'پيام با موفقيت فرستاده شد',
     28 => 'پلاگين با موفقيت ذخيره گرديد',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => 'غير قابل دسترسي',
-    31 => 'متاسفم - شما اجازه دسترسي به مديريت مقالات را نداريد. تمام تلاشهاي غير مجاز شما براي دسترسي غير مجاز ثبت ميشود',
-    32 => 'متاسفم - شما اجازه دسترسي به صفحه مديريت تاپيكها را نداريد. تمام تلاشهاي غير مجاز شما براي دسترسي غير مجاز ثبت خواهد شد',
-    33 => 'متاسفم- شما اجازه دسترسي به صفحه مديريت بلاكها را نداريد. تمام تلاشهاي غير مجاز براي دسترسي  ثبت خواهد شد',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => 'متاسفم - شما اجازه دسترسي به صفحه مديريت كاربران را نداريد .  تمام تلاشهاي غير مجاز شما براي دسترسي ثبت خواهد شد',
-    38 => 'متاسفم - شما اجازه دسترسي به صفحه مديريت پلاگينها را نداريد.  تمام تلاشهاي غير مجاز شما براي دسترسي ثبت خواهد شد',
-    39 => 'متاسفم - شما اجازه دسترسي به صفحه مديريت ميلها را نداريد .  تمام تلاشهاي غير مجاز شما براي دسترسي ثبت خواهد شد',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => 'پيامهاي سيستم',
-    41 => 'متاسفم - شما اجازه دسترسي  به صفحه تغيير كلمات را نداريد.  تمام تلاشهاي غير مجاز شما براي دسترسي ثبت خواهد شد',
-    42 => 'كلمه شما با موفقيت ذخيره گرديد',
-    43 => 'كلمه مورد نظر با موفقيت پاك شد',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => 'پلاگين مورد نظر با موفقيت نصب گرديد',
     45 => 'پلاگين مورد نظر با موفقيت حذف گرديد',
-    46 => 'متاسفم - شما به نرم افزار پشتيبان گيري سايت دسترسي نداريد.  تمام تلاشهاي غير مجاز شما براي دسترسي ثبت خواهد شد',
+    46 => '',
     47 => 'اين تابع تنها در سيستم عاملهاي مبتي بر *NIX اجرا خواهد شد . اگر شما از ويندوز استفاده ميكنيد براي پاك كردن كش فايلي كه گفته ميشود را سرچ كرده و پاك كنيد. adodb_*.php ',
     48 => "با تشكر از عضويت شما در سايت {$_CONF['site_name']}. تيم ما درخواست شما را بررسي كرده و در صورتي كه مورد قبول گرديد پسورد شما براي آدرس اي ميلي كه شما وارد كرده ايد فرستاده خواهد شد",
     49 => 'گروه شما با موفقيت ذخيره شد',
@@ -1167,8 +1216,14 @@ $MESSAGE = array(
     93 => 'Database back up was successful.',
     94 => 'Backup Failed: Filesize less than 1kb',
     95 => 'There was an error.',
-    96 => 'Sorry, you do not have access to the configuration administration page.  Please note that all attempts to access unauthorized features are logged.',
-    97 => 'Not all required fields have been passed validation - default custom membership message'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1294,26 +1349,6 @@ $LANG_LOGIN = array(
 );
 
 ###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'قابليت ساختن |PDF |در اين سايت محدود شده است',
-    2 => 'اين پرونده در حال حاضر قابل نمايش نيست. پرونده دريافت شده اما قابل پردازش نميباشدو. لطفا از اينكه در آن تنها از عبارات |HTML| استفاده شده كه از استاندارد "xHTML" استفاده شده بهيچ وجه پرونده هاي بيش از اندازه پيچيده نمايش داده نخواهند شد. نتيجه پرونده شما 0 بايت ميباشد و پاك خواهد شد . اگر شما مطمين هستيد كه پرونده ارساليتان به طور صحيح به نمايش در خواهد آمد لطفا دوباره سعي كنيد',
-    3 => 'خطاي ناشناخته هنگام ساختن پي دي اف',
-    4 => 'هيچ صفحه اي انتخاب نشده يا شما خواستار استفاده از ابزار ad-hokدر زير هستيد.  اگر فكر ميكنيد خطايي رخ داده لطفا با ادمين سايت تماس بگيريديا براي ساختار از فرم زير براي ساخت |PDF| در |AD-HOK| بهره بگيريد',
-    5 => 'بارگذاري ‌داكيومنت شما',
-    6 => 'لطفا تا هنگام لود شدن پرونده خود صبر كنيد',
-    7 => 'شما بايد راست كليك كنيد روي دكمه زير و انتخاب كنيد\'save target...\'يا \'save link location...\' براي ذخيره كردن داكيومنت خود',
-    8 => 'مسير داده شده در فايل پيكره بندي براي داكيومنت  |HTML| شما موجود نيست يل اين سيستم قادر به اجراي آن نميباشد . اگر اين  خطا ول كن شما نيست ! لطفا با ادمين سايت تماس بگيريد',
-    9 => ' توليد کننده PDF ',
-    10 => 'اين يك  ابزار توليد كننده پي دي اف به نام  | |Ad-hocميباشد . اين نرم افزار خواهد توانست|URL| داده شده از طرف شما را به |PDF| تبديل نمايد.ممكن است بعضي از صفحات قابل نمايش نباشند. اين نرم افزار يكسري محدوديت ها دارد . لطفا همه خطا ها را به رييس سايت منتقل نكنيد . وعبارات ساده را مورد استفاده قرار دهيدتا به مشكلي بر نخوريد',
-    11 => 'URL',
-    12 => 'ساختن PDF!',
-    13 => 'تنظيمات |PHP| اين سرور اجازه استفاده از دستور fopen()را نميدهد.با ادمين سايت تماس بگيريد',
-    14 => 'مورد درخواست شما وجود ندارد يا اينكه شما اجازه دسترسي به آن را نداريد و دسترسي شما غير قانوني ميباشد '
-);
-
-###############################################################################
 # trackback.php
 
 $LANG_TRB = array(
@@ -1412,6 +1447,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1498,7 +1558,8 @@ $LANG_ADMIN = array(
     'records_found' => 'Records found',
     'addchild' => 'Add child',
     'list' => 'list',
-    'list_all' => 'List all'
+    'list_all' => 'List all',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1571,7 +1632,8 @@ $LANG_CONFIG = array(
     'reset_form' => 'Reset Form',
     'changes_made' => 'Changes were successfully made to',
     'title' => 'Configuration Manager',
-    'disable' => 'Click to disable this option'
+    'disable' => 'Click to disable this option',
+    'enable' => 'Enable'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1599,7 +1661,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => 'Allow MySQL Dump',
     'mysqldump_path' => 'Path of Executable',
     'mysqldump_options' => 'MySQL Dump Options',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => 'Theme',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Menu Elements',
     'path_themes' => 'Themes Path',
     'disable_new_user_registration' => 'Disable New Registrations',
@@ -1638,6 +1702,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => 'Theme Cookie Name',
     'cookie_language' => 'Language Cookie Name',
     'cookie_tzid' => 'Timezone Cookie Name',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Cookies embed IP?',
     'default_perm_cookie_timeout' => 'Permanent Timeout',
     'session_cookie_timeout' => 'Session Timeout',
@@ -1645,7 +1710,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Cookie Domain',
     'cookiesecure' => 'Cookie Secure',
     'lastlogin' => 'Record Last Login?',
-    'pdf_enabled' => 'PDF Enabled?',
     'num_search_results' => 'Number of Search Results',
     'loginrequired' => 'Login Required?',
     'submitloginrequired' => 'Submit Login Required?',
@@ -1729,6 +1793,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => 'Debug Image Uploading?',
     'keep_unscaled_image' => 'Keep Unscaled Image?',
     'allow_user_scaling' => 'Allow User Scaling?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => 'Max Image Width?',
     'max_image_height' => 'Max Image Height?',
     'max_image_size' => 'Max Image Size?',
@@ -1746,14 +1811,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => 'Comment Limit',
     'comment_mode' => 'Comment Mode',
     'comment_code' => 'Comment Default',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => 'Password Speed Limit',
     'login_attempts' => 'Max. Login Attempts',
     'login_speedlimit' => 'Login Speed Limit',
     'user_html' => 'User HTML',
     'admin_html' => 'Admin HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Skip HTML Filter for Root?',
     'allowed_protocols' => 'Allowed Protocols',
     'disable_autolinks' => 'Disable Autolinks?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => 'Censor Mode?',
     'censorreplace' => 'Censor Replace Text',
     'censorlist' => 'Censor List',
@@ -1764,7 +1836,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => 'Topic Default Permissions',
     'atom_max_stories' => 'Max. Stories in Webservices Feed',
     'disable_webservices' => 'Disable Webservices?',
-    'restrict_webservices' => 'Restrict Webservices?'
+    'restrict_webservices' => 'Restrict Webservices?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1841,7 +1924,11 @@ $LANG_configselects['Core'] = array(
     15 => array('By Number' => 'sortnum', 'Alphabetically' => 'alpha'),
     16 => array('No Login required' => 0, 'Advanced Search only' => 1, 'Simple + Advanced Search' => 2),
     17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1),
-    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3)
+    18 => array('Disabled' => 0, 'Enabled (Exact Match)' => 1, 'Enabled (Word Beginning)' => 2, 'Enabled (Word Fragment)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

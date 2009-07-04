@@ -2,7 +2,7 @@
 
 // Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Links Plugin 2.0                                                          |
+// | Links Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | install_defaults.php                                                      |
 // |                                                                           |
@@ -10,7 +10,7 @@
 // | records. These settings are only used during the initial installation     |
 // | and not referenced any more once the plugin is installed.                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
 // |          Mark Limburg       - mlimburg AT users.sourceforge DOT net       |
@@ -35,8 +35,12 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: install_defaults.php,v 1.8 2008/09/22 07:53:40 dhaun Exp $
+
+/**
+* Install data and defaults for the Links plugin configuration
+*
+* @package Links
+*/
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');
@@ -134,6 +138,12 @@ $_LI_DEFAULT['aftersave'] = 'list';
 $_LI_DEFAULT['show_category_descriptions'] = true;
 
 /**
+ * open links in new window
+ * Whether to open external links in a new window or not.
+ */
+$_LI_DEFAULT['new_window'] = false;
+
+/**
  * Links root category id
  */
 $_LI_DEFAULT['root'] = 'site';
@@ -148,6 +158,17 @@ $_LI_DEFAULT['root'] = 'site';
  * (a value of 1, ie. write-only, does not make sense and is not allowed)
  */
 $_LI_DEFAULT['default_permissions'] = array (3, 2, 2, 2);
+
+/**
+ * Define default permissions for new link categories.
+ * Permissions are perm_owner, perm_group, perm_members, perm_anon (in that
+ * order). Possible values:<br>
+ * - 3 = read + write permissions (perm_owner and perm_group only)
+ * - 2 = read-only
+ * - 0 = neither read nor write permissions
+ * (a value of 1, ie. write-only, does not make sense and is not allowed)
+ */
+$_LI_DEFAULT['category_permissions'] = array (3, 2, 2, 2);
 
 
 /**
@@ -182,6 +203,8 @@ function plugin_initconfig_links()
         $c->add('show_top10', $_LI_DEFAULT['show_top10'], 'select',
                 0, 0, 1, 40, true, 'links');
         $c->add('show_category_descriptions', $_LI_DEFAULT['show_category_descriptions'], 'select', 0, 0, 1, 50, true, 'links');
+        $c->add('new_window', $_LI_DEFAULT['new_window'], 'select',
+                0, 0, 1, 55, true, 'links');
 
         $c->add('fs_admin', NULL, 'fieldset', 0, 1, NULL, 0, true, 'links');
         $c->add('hidenewlinks', $_LI_DEFAULT['hidenewlinks'], 'select',
@@ -204,6 +227,10 @@ function plugin_initconfig_links()
         $c->add('fs_permissions', NULL, 'fieldset', 0, 2, NULL, 0, true, 'links');
         $c->add('default_permissions', $_LI_DEFAULT['default_permissions'],
                 '@select', 0, 2, 12, 140, true, 'links');
+
+        $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
+        $c->add('category_permissions', $_LI_DEFAULT['category_permissions'],
+                '@select', 0, 3, 12, 150, true, 'links');
 
     }
 

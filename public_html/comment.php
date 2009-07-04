@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | comment.php                                                               |
 // |                                                                           |
@@ -15,6 +15,7 @@
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
 // |          Vincent Furia     - vinny01 AT users DOT sourceforge DOT net     |
+// |          Jared Wenerd      - wenerd87 AT gmail DOT com                    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -38,8 +39,9 @@
 * comments to the DB.  All comment display stuff is in lib-common.php
 *
 * @author   Jason Whittenburg
-* @author   Tony Bibbs    <tonyAT tonybibbs DOT com>
-* @author   Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
+* @author   Tony Bibbs, tonyAT tonybibbs DOT com
+* @author   Vincent Furia, vinny01 AT users DOT sourceforge DOT net
+* @author   Jared Wenerd, wenerd87 AT gmail DOT com
 *
 */
 
@@ -62,7 +64,7 @@ require_once $_CONF['path_system'] . 'lib-comment.php';
  * Handles a comment submission
  *
  * @copyright Vincent Furia 2005
- * @author Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
+ * @author Vincent Furia, vinny01 AT users DOT sourceforge DOT net
  * @return string HTML (possibly a refresh)
  */
 function handleSubmit()
@@ -87,7 +89,12 @@ function handleSubmit()
                 $_POST['comment'], $sid, COM_applyFilter ($_POST['pid'], true), 
                 'article', COM_applyFilter ($_POST['postmode']));
 
-            if ( $ret > 0 ) { // failure //FIXME: some failures should not return to comment form
+            if ($ret == -1) {
+                $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                    . $sid);
+                $url .= (strpos($url, '?') ? '&' : '?') . 'msg=15';
+                $display = COM_refresh($url);
+            } elseif ( $ret > 0 ) { // failure //FIXME: some failures should not return to comment form
                 $display .= COM_siteHeader ('menu', $LANG03[1])
                          . CMT_commentForm ($_POST['title'], $_POST['comment'],
                            $sid, COM_applyFilter($_POST['pid']), $type,
@@ -114,10 +121,10 @@ function handleSubmit()
 }
 
 /**
- * Handles a comment submission
+ * Handles a comment delete
  *
  * @copyright Vincent Furia 2005
- * @author Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
+ * @author Vincent Furia, vinny01 AT users DOT sourceforge DOT net
  * @return string HTML (possibly a refresh)
  */
 function handleDelete()
@@ -166,7 +173,7 @@ function handleDelete()
  * Handles a comment view request
  *
  * @copyright Vincent Furia 2005
- * @author Vincent Furia <vinny01 AT users DOT sourceforge DOT net>
+ * @author Vincent Furia, vinny01 AT users DOT sourceforge DOT net
  * @param boolean $view View or display (true for view)
  * @return string HTML (possibly a refresh)
  */
@@ -240,18 +247,92 @@ function handleView($view = true)
             break;
 
         default: // assume plugin
+            $order = '';
+            if (isset($_REQUEST['order'])) {
+                $order = COM_applyFilter($_REQUEST['order']);
+            }
+            $page = 0;
+            if (isset($_REQUEST['page'])) {
+                $page = COM_applyFilter($_REQUEST['page'], true);
+            }
             if ( !($display = PLG_displayComment($type, $sid, $cid, $title,
-                                  COM_applyFilter ($_REQUEST['order']), $format, 
-                                  COM_applyFilter ($_REQUEST['page'], true), $view)) ) {
+                                  $order, $format, $page, $view)) ) {
                 return COM_refresh($_CONF['site_url'] . '/index.php');
             }
             break;
     }
 
-    return COM_siteHeader('menu', $title) . $display . COM_siteFooter();
+    return COM_siteHeader('menu', $title)
+           . COM_showMessageFromParameter()
+           . $display
+           . COM_siteFooter();
 }
 
+/**
+ * Handles a comment edit submission
+ *
+ * @copyright Jared Wenerd 2008
+ * @author Jared Wenerd, wenerd87 AT gmail DOT com
+ * @param  string $mode 'edit' or 'editsubmission'
+ * @return string HTML (possibly a refresh)
+ */
+function handleEdit($mode)
+{
+    global $_TABLES, $LANG03;
+    
+    //get needed data
+    $cid = COM_applyFilter ($_REQUEST['cid']);
+    if ($mode == 'editsubmission') {
+        $table = $_TABLES['commentsubmissions'];
+        $result = DB_query("SELECT type, sid FROM {$_TABLES['commentsubmissions']} WHERE cid = $cid");
+        list($type, $sid) = DB_fetchArray($result);
+    } else {
+        $sid = COM_applyFilter ($_REQUEST['sid']);
+        $type = COM_applyFilter ($_REQUEST['type']);
+        $table = $_TABLES['comments'];
+    }
+    
+    //check for bad data 
+    if (!is_numeric ($cid) || ($cid < 0) || empty ($sid) || empty ($type)) {
+        COM_errorLog("handleEdit(): {$_USER['uid']} from {$_SERVER['REMOTE_ADDR']} tried "
+               . 'to edit a comment with one or more missing/bad values.');
+        return COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+        
+    $result = DB_query ("SELECT title,comment FROM $table "
+        . "WHERE cid = $cid AND sid = '$sid' AND type = '$type'"); 
+    if ( DB_numRows($result) == 1 ) {
+        $A = DB_fetchArray ($result);
+        $title = COM_stripslashes($A['title']);
+        $commenttext = COM_stripslashes(COM_undoSpecialChars ($A['comment']));
+        
+        //remove signature   
+        $pos = strpos( $commenttext,'<!-- COMMENTSIG --><span class="comment-sig">');
+        if ( $pos > 0) { 
+            $commenttext = substr($commenttext, 0, $pos);
+        }
+        
+        //get format mode
+        if ( preg_match( '/<.*>/', $commenttext ) != 0 ){
+            $postmode = 'html';
+        } else {
+            $postmode = 'plaintext';
+        }
+    } else {
+        COM_errorLog("handleEdit(): {$_USER['uid']} from {$_SERVER['REMOTE_ADDR']} tried "
+               . 'to edit a comment that doesn\'t exist as described.');
+        return COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+            
+    return COM_siteHeader('menu', $LANG03[1])
+           . CMT_commentForm($title, $commenttext, $sid, $cid, $type, $mode,
+                             $postmode)
+           . COM_siteFooter();
+}
+
+
 // MAIN
+CMT_updateCommentcodes();
 $display = '';
 
 // If reply specified, force comment submission form
@@ -264,6 +345,8 @@ if (!empty ($_REQUEST['mode'])) {
     $mode = COM_applyFilter ($_REQUEST['mode']);
 }
 switch ($mode) {
+case $LANG03[28]: // Preview Changes (for edit)
+case $LANG03[34]: // Preview Submission changes (for edit)
 case $LANG03[14]: // Preview
     $display .= COM_siteHeader('menu', $LANG03[14])
              . CMT_commentForm (strip_tags ($_POST['title']), $_POST['comment'],
@@ -274,6 +357,15 @@ case $LANG03[14]: // Preview
              . COM_siteFooter(); 
     break;
 
+case $LANG03[35]: // Submit Changes to Moderation table
+case $LANG03[29]: // Submit Changes
+    if (SEC_checkToken()) {
+        $display .= CMT_handleEditSubmit($mode);
+    } else {
+        $display .= COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+    break;
+    
 case $LANG03[11]: // Submit Comment
     $display .= handleSubmit();  // moved to function for readibility
     break;
@@ -308,6 +400,38 @@ case 'sendreport':
     } else {
         $display .= COM_refresh($_CONF['site_url'] . '/index.php');
     }
+    break;
+
+case 'editsubmission':
+    if (!SEC_hasRights('comment.moderate')) { 
+        break; 
+    }
+    // deliberate fall-through
+case 'edit':
+    if (SEC_checkToken()) {
+        $display .= handleEdit($mode);
+    } else {
+        $display .= COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+    break;
+
+case 'unsubscribe':
+    $cid = 0;
+    $key = COM_applyFilter($_GET['key']);
+    if (! empty($key)) {
+        $key = addslashes($key);
+        $cid = DB_getItem($_TABLES['commentnotifications'], 'cid',
+                          "deletehash = '$key'");
+        if (! empty($cid)) {
+            $redirecturl = $_CONF['site_url']
+                         . '/comment.php?mode=view&amp;cid=' . $cid
+                         . '&amp;format=nested&amp;msg=16';
+            DB_delete($_TABLES['commentnotifications'], 'deletehash', $key,
+                      $redirecturl);
+            exit;
+        }
+    }
+    $display = COM_refresh($_CONF['site_url'] . '/index.php');
     break;
 
 default:  // New Comment
@@ -347,7 +471,9 @@ default:  // New Comment
                 $title = str_replace ( '&lt;', '<', $title );
                 $title = str_replace ( '&gt;', '>', $title );
             }
-            $display .= COM_siteHeader('menu', $LANG03[1])
+            $noindex = '<meta name="robots" content="noindex"' . XHTML . '>'
+                     . LB;
+            $display .= COM_siteHeader('menu', $LANG03[1], $noindex)
                      . CMT_commentForm ($title, '', $sid,
                             COM_applyFilter ($_REQUEST['pid'], true), $type, $mode,
                             $postmode)
@@ -359,6 +485,6 @@ default:  // New Comment
     break;
 }
 
-echo $display;
+COM_output($display);
 
 ?>

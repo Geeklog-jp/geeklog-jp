@@ -4,13 +4,14 @@
 * File: SLVwhitelist.Admin.class.php
 * This is the SLV Whitelist Module for the Geeklog Spam-X plugin
 *
-* Copyright (C) 2004-2008 by the following authors:
+* Copyright (C) 2004-2009 by the following authors:
 * Author   Tom Willett     tomw AT pigstye DOT net
 *          Dirk Haun       dirk AT haun-online DOT de
 *
 * Licensed under GNU General Public License
 *
-* $Id: SLVwhitelist.Admin.class.php,v 1.8 2008/09/21 08:37:08 dhaun Exp $
+* @package Spam-X
+* @subpackage Modules
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLVwhitelist.Admin.class.php') !== false) {
@@ -18,11 +19,16 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLVwhitelist.Admin.class.php') !==
 }
 
 /**
-* SLV Whitelist Editor
+* Include Abstract Base Class
 */
-
 require_once $_CONF['path'] . 'plugins/spamx/BaseAdmin.class.php';
 
+/**
+* SLV Whitelist Editor
+*
+* @package Spam-X
+*
+*/
 class SLVwhitelist extends BaseAdmin {
     /**
      * Constructor
@@ -47,7 +53,8 @@ class SLVwhitelist extends BaseAdmin {
 
         if (($action == 'delete') && SEC_checkToken()) {
             $entry = addslashes($entry);
-            $result = DB_query("DELETE FROM {$_TABLES['spamx']} WHERE name = 'SLVwhitelist' AND value = '$entry'");
+            DB_delete($_TABLES['spamx'], array('name', 'value'),
+                                         array('SLVwhitelist', $entry));
         } elseif (($action == $LANG_SX00['addentry']) && SEC_checkToken()) {
             if (!empty($entry)) {
                 $entry = addslashes($entry);

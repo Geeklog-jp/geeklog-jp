@@ -144,12 +144,15 @@
                                         <td colspan="2"></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2">{lang_permissionskey}</td>
+                                        <td colspan="2">{lang_perm_key}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2">
                                             {permissions_editor} 
                                         </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">{lang_permissions_msg}</td>
                                     </tr>
                                     <tr><td>&nbsp;</td></tr>
                                     <tr>

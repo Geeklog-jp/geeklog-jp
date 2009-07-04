@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-syndication.php                                                       |
 // |                                                                           |
 // | Geeklog syndication library.                                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2003-2008 by the following authors:                         |
+// | Copyright (C) 2003-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun        - dirk AT haun-online DOT de                    |
 // |          Michael Jervis   - mike AT fuckingbrit DOT com                   |
@@ -29,11 +29,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-syndication.php,v 1.45 2008/09/21 08:37:12 dhaun Exp $
-
-// set to true to enable debug output in error.log
-$_SYND_DEBUG = false;
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-syndication.php') !== false) {
     die('This file can not be used on its own!');
@@ -43,15 +38,18 @@ if ($_CONF['trackback_enabled']) {
     require_once $_CONF['path_system'] . 'lib-trackback.php';
 }
 
+// set to true to enable debug output in error.log
+$_SYND_DEBUG = false;
+
 /**
 * Check if a feed for all stories needs to be updated.
 *
-* @param    bool    $frontpage_only true: only articles shown on the frontpage
+* @param    boolean $frontpage_only true: only articles shown on the frontpage
 * @param    string  $update_info    list of story ids
 * @param    string  $limit          number of entries or number of hours
 * @param    string  $updated_topic  (optional) topic to be updated
 * @param    string  $updated_id     (optional) entry id to be updated
-* @return   bool                    false = feed needs to be updated
+* @return   boolean                 false = feed needs to be updated
 *
 */
 function SYND_feedUpdateCheckAll( $frontpage_only, $update_info, $limit, $updated_topic = '', $updated_id = '' )
@@ -131,7 +129,7 @@ function SYND_feedUpdateCheckAll( $frontpage_only, $update_info, $limit, $update
 * @param    string  $limit          number of entries or number of hours
 * @param    string  $updated_topic  (optional) topic to be updated
 * @param    string  $updated_id     (optional) entry id to be updated
-* @return   bool                    false = feed needs to be updated
+* @return   boolean                 false = feed needs to be updated
 *
 */
 function SYND_feedUpdateCheckTopic( $tid, $update_info, $limit, $updated_topic = '', $updated_id = '' )
@@ -185,11 +183,12 @@ function SYND_feedUpdateCheckTopic( $tid, $update_info, $limit, $updated_topic =
 /**
 * Check if the contents of Geeklog's built-in feeds need to be updated.
 *
-* @param    string  topic           indicator of the feed's "topic"
-* @param    string  limit           number of entries or number of hours
-* @param    string  updated_topic   (optional) specific topic to update
-* @param    string  updated_id      (optional) specific id to update
-* @return   bool                    false = feed has to be updated, true = ok
+* @param    string  $topic          indicator of the feed's "topic"
+* @param    string  $update_data    comma-sep. list of updated ids
+* @param    string  $limit          number of entries or number of hours
+* @param    string  $updated_topic  (optional) specific topic to update
+* @param    string  $updated_id     (optional) specific id to update
+* @return   boolean                 false = feed has to be updated, true = ok
 *
 */
 function SYND_feedUpdateCheck($topic, $update_data, $limit, $updated_topic = '', $updated_id = '')
@@ -272,8 +271,8 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
             $storytext = SYND_truncateSummary( $fulltext, $contentLength );
 
             $fulltext = trim( $fulltext );
-            $fulltext = preg_replace( "/(\015)/", "", $fulltext );
-            
+            $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
+
             if( $row['postmode'] == 'plaintext' ) 
             {
                 if( !empty($storytext) )
@@ -322,7 +321,7 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
 /**
 * Get content for a feed that holds all stories.
 *
-* @param    bool     $frontpage_only true: only articles shown on the frontpage
+* @param    boolean  $frontpage_only true: only articles shown on the frontpage
 * @param    string   $limit    number of entries or number of stories
 * @param    string   $link     link to homepage
 * @param    string   $update   list of story ids
@@ -405,8 +404,8 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
         $fulltext = PLG_replaceTags( $fulltext );
         $storytext = SYND_truncateSummary( $fulltext, $contentLength );
         $fulltext = trim( $fulltext );
-        $fulltext = preg_replace( "/(\015)/", "", $fulltext );
-        
+        $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
+
         if( $row['postmode'] == 'plaintext' ) 
         {
             if( !empty($storytext) )
@@ -623,27 +622,22 @@ function SYND_updateFeed( $fid )
 * @return   string              truncated text
 *
 */
-function SYND_truncateSummary( $text, $length )
+function SYND_truncateSummary($text, $length)
 {
-    if( $length == 0 )
-    {
+    if ($length == 0) {
         return '';
-    }
-    else
-    {
-        $text = stripslashes( $text );
-        $text = trim( $text );
-        $text = preg_replace( "/(\015)/", "", $text );
-        if(( $length > 3 ) && ( MBYTE_strlen( $text ) > $length ))
-        {
-            $text = substr( $text, 0, $length - 3 ) . '...';
+    } else {
+        $text = stripslashes($text);
+        $text = trim($text);
+        $text = str_replace(array("\015\012", "\015"), "\012", $text);
+        if (($length > 3) && (MBYTE_strlen($text) > $length)) {
+            $text = MBYTE_substr($text, 0, $length - 3) . '...';
         }
 
-        // Check if we broke html tag and storytext is now something
+        // Check if we broke an html tag and storytext is now something
         // like "blah blah <a href= ...". Delete "<*" if so.
-        if( strrpos( $text, '<' ) > strrpos( $text, '>' ))
-        {
-            $text = substr( $text, 0, strrpos( $text, '<' ) - 1 )
+        if (MBYTE_strrpos($text, '<' ) > MBYTE_strrpos($text, '>')) {
+            $text = MBYTE_substr($text, 0, MBYTE_strrpos($text, '<'))
                   . ' ...';
         }
 

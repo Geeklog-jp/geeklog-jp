@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | configuration.php                                                         |
 // |                                                                           |
@@ -28,22 +28,19 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: configuration.php,v 1.13 2008/05/03 15:09:13 mjervis Exp $
 
+/**
+* Geeklog common function library
+*/
 require_once '../lib-common.php';
 require_once 'auth.inc.php';
-
-$conf_group = array_key_exists('conf_group', $_POST) ? $_POST['conf_group'] : 'Core';
-
-$config =& config::get_instance();
 
 /**
 * Helper function: Provide language dropdown
 *
-* @return   Array   Array of (filename, displayname) pairs
+* NOTE:     Note that key/value are being swapped!
 *
-* @note     Note that key/value are being swapped!
+* @return   array   Array of (filename, displayname) pairs
 *
 */
 function configmanager_select_language_helper()
@@ -56,9 +53,9 @@ function configmanager_select_language_helper()
 /**
 * Helper function: Provide themes dropdown
 *
-* @return   Array   Array of (filename, displayname) pairs
+* NOTE:     Beautifying code duplicated from usersettings.php
 *
-* @note     Beautifying code duplicated from usersettings.php
+* @return   array   Array of (filename, displayname) pairs
 *
 */
 function configmanager_select_theme_helper()
@@ -87,9 +84,15 @@ function configmanager_select_theme_helper()
     return $themes;
 }
 
-$tokenstate = SEC_checkToken();
 
 // MAIN
+$display = '';
+
+$conf_group = array_key_exists('conf_group', $_POST)
+            ? $_POST['conf_group'] : 'Core';
+$config =& config::get_instance();
+$tokenstate = SEC_checkToken();
+
 if (array_key_exists('set_action', $_POST) && $tokenstate){
     if (SEC_inGroup('Root')) {
         if ($_POST['set_action'] == 'restore') {
@@ -104,11 +107,18 @@ if (array_key_exists('form_submit', $_POST) && $tokenstate) {
     $result = null;
     if (! array_key_exists('form_reset', $_POST)) {
         $result = $config->updateConfig($_POST, $conf_group);
+
+        // notify plugins
+        if (is_array($result) && (count($result) > 0)) {
+            PLG_configChange($conf_group, array_keys($result));
+        }
     }
-    echo $config->get_ui($conf_group, $_POST['sub_group'], $result);
+    $display = $config->get_ui($conf_group, $_POST['sub_group'], $result);
 } else {
-    echo $config->get_ui($conf_group, array_key_exists('subgroup', $_POST) ?
-                         $_POST['subgroup'] : null);
+    $display = $config->get_ui($conf_group, array_key_exists('subgroup', $_POST)
+                                            ?  $_POST['subgroup'] : null);
 }
+
+COM_output($display);
 
 ?>

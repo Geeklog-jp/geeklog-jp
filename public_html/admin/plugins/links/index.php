@@ -2,13 +2,13 @@
 
 // Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Links Plugin 2.0                                                          |
+// | Links Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Geeklog Links Plugin administration page.                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: index.php,v 1.61 2008/06/07 12:41:45 dhaun Exp $
 
 /**
  * Geeklog links administration page.
@@ -43,7 +41,7 @@
  * @version 2.0
  * @since GL 1.4.0
  * @copyright Copyright &copy; 2005-2007
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
  * @author Trinity Bays <trinity93@gmail.com>
  * @author Tony Bibbs <tony@tonybibbs.com>
  * @author Tom Willett <twillett@users.sourceforge.net>
@@ -51,6 +49,9 @@
  * @author Dirk Haun <dirk@haun-online.de>
  */
 
+/** 
+* Geeklog common function library and Admin authentication
+*/
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
 
@@ -64,10 +65,10 @@ $display = '';
 
 if (!SEC_hasRights('links.edit')) {
     $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[34], $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
              . COM_siteFooter();
     COM_accessLog("User {$_USER['username']} tried to illegally access the links administration screen.");
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -201,7 +202,9 @@ function editlink ($mode, $lid = '')
                              SEC_getGroupDropdown ($A['group_id'], $access));
     $link_templates->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $link_templates->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
+    $link_templates->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
     $link_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
+    $link_templates->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $link_templates->set_var('lang_lockmsg', $LANG_ACCESS['permmsg']);
     $link_templates->set_var('gltoken_name', CSRF_TOKEN);
     $link_templates->set_var('gltoken', SEC_createToken());
@@ -251,9 +254,10 @@ function savelink ($lid, $old_lid, $cid, $categorydd, $url, $description, $title
     }
 
     // clean 'em up
-    $description = addslashes (COM_checkHTML (COM_checkWords ($description)));
-    $title = addslashes (COM_checkHTML (COM_checkWords ($title)));
-    $cid = addslashes ($cid);
+    $description = addslashes(COM_checkHTML(COM_checkWords($description),
+                              'links.edit'));
+    $title = addslashes(strip_tags(COM_checkWords($title)));
+    $cid = addslashes($cid);
 
     if (empty ($owner_id)) {
         // this is new link from admin, set default values
@@ -302,10 +306,10 @@ function savelink ($lid, $old_lid, $cid, $categorydd, $url, $description, $title
     }
     if (($access < 3) || !SEC_inGroup($group_id)) {
         $display .= COM_siteHeader('menu', $MESSAGE[30])
-                 . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                 . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                  . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit link $lid.");
-        echo $display;
+        COM_output($display);
         exit;
     } elseif (!empty($title) && !empty($description) && !empty($url)) {
 
@@ -319,6 +323,13 @@ function savelink ($lid, $old_lid, $cid, $categorydd, $url, $description, $title
         DB_delete ($_TABLES['links'], 'lid', $old_lid);
 
         DB_save ($_TABLES['links'], 'lid,cid,url,description,title,date,hits,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon', "'$lid','$cid','$url','$description','$title',NOW(),'$hits',$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon");
+
+        if (empty($old_lid) || ($old_lid == $lid)) {
+            PLG_itemSaved($lid, 'links');
+        } else {
+            PLG_itemSaved($lid, 'links', $old_lid);
+        }
+
         // Get category for rdf check
         $category = DB_getItem ($_TABLES['linkcategories'],"category","cid='{$cid}'");
         COM_rdfUpToDateCheck ('links', $category, $lid);
@@ -461,6 +472,8 @@ function deleteLink($lid, $type = '')
 
         DB_delete($_TABLES['links'], 'lid', $lid);
 
+        PLG_itemDeleted($lid, 'links');
+
         return COM_refresh($_CONF['site_admin_url']
                            . '/plugins/links/index.php?msg=3');
     } elseif ($type == 'submission') {
@@ -538,6 +551,6 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

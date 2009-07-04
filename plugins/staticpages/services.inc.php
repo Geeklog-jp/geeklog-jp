@@ -2,7 +2,7 @@
 
 // Reminder: always indent with 4 spaces (no tabs). 
 // +---------------------------------------------------------------------------+
-// | Static Pages Plugin 1.5                                                   |
+// | Static Pages Plugin 1.6                                                   |
 // +---------------------------------------------------------------------------+
 // | services.inc.php                                                          |
 // |                                                                           |
@@ -33,11 +33,20 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Functions related to the webservices and the internal plugin API
+*
+* @package StaticPages
+*/
+
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'services.inc.php') !== false) {
     die('This file can not be used on its own.');
 }
 
-// this must be kept in synch with the actual size of 'sp_id' in the db ...
+/**
+* Max. length of the ID for a static page.
+* This must be kept in sync with the actual size of 'sp_id' in the db.
+*/
 define('STATICPAGE_MAX_ID_LENGTH', 40);
 
 /**
@@ -53,7 +62,8 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
     global $_CONF, $_TABLES, $_USER, $LANG_ACCESS, $LANG12, $LANG_STATIC,
            $LANG_LOGIN, $_GROUPS, $_SP_CONF;
 
-    if ((PHP_VERSION > 4) && (! $_CONF['disable_webservices'])) {
+    if (version_compare(PHP_VERSION, '5.0.0', '>=') &&
+            (! $_CONF['disable_webservices'])) {
         require_once $_CONF['path_system'] . '/lib-webservices.php';
     }
 
@@ -344,7 +354,7 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             $sp_title = COM_checkWords ($sp_title);
         }
         if ($_SP_CONF['filter_html'] == 1) {
-            $sp_content = COM_checkHTML ($sp_content);
+            $sp_content = COM_checkHTML($sp_content, 'staticpages.edit');
         }
         $sp_title = strip_tags ($sp_title);
         $sp_label = strip_tags ($sp_label);
@@ -360,7 +370,22 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
 
         // make sure there's only one "entire page" static page per topic
         if (($sp_centerblock == 1) && ($sp_where == 0)) {
-            DB_query ("UPDATE {$_TABLES['staticpage']} SET sp_centerblock = 0 WHERE sp_centerblock = 1 AND sp_where = 0 AND sp_tid = '$sp_tid'" . COM_getLangSQL ('sp_id', 'AND'));
+            $sql = "UPDATE {$_TABLES['staticpage']} SET sp_centerblock = 0 WHERE sp_centerblock = 1 AND sp_where = 0 AND sp_tid = '$sp_tid'";
+
+            // if we're in a multi-language setup, we need to allow one "entire
+            // page" centerblock for 'all' or 'none' per language
+            if ((!empty($_CONF['languages']) &&
+                    !empty($_CONF['language_files'])) &&
+                    (($sp_tid == 'all') || ($sp_tid == 'none'))) {
+                $ids = explode('_', $sp_id);
+                if (count($ids) > 1) {
+                    $lang_id = array_pop($ids);
+
+                    $sql .= " AND sp_id LIKE '%\\_$lang_id'";
+                }
+            }
+
+            DB_query($sql);
         }
 
         $formats = array ('allblocks', 'blankpage', 'leftblocks', 'noblocks');
@@ -382,10 +407,19 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             DB_delete ($_TABLES['staticpage'], 'sp_id', $sp_old_id);
         }
 
+        if (empty($sp_old_id) || ($sp_id == $sp_old_id)) {
+            PLG_itemSaved($sp_id, 'staticpages');
+        } else {
+            DB_change($_TABLES['comments'], 'sid', addslashes($sp_id),
+                      array('sid', 'type'),
+                      array(addslashes($sp_old_id), 'staticpages'));
+            PLG_itemSaved($sp_id, 'staticpages', $sp_old_id);
+        }
+
         $url = COM_buildURL($_CONF['site_url'] . '/staticpages/index.php?page='
                             . $sp_id);
         $output .= PLG_afterSaveSwitch($_SP_CONF['aftersave'], $url,
-                                       'staticpages');
+                                       'staticpages', 19);
 
         $svc_msg['id'] = $sp_id;
         return PLG_RET_OK;
@@ -413,7 +447,8 @@ function service_delete_staticpages($args, &$output, &$svc_msg)
     global $_CONF, $_TABLES, $_USER, $LANG_ACCESS, $LANG12, $LANG_STATIC,
            $LANG_LOGIN;
 
-    $output = COM_refresh($_CONF['site_admin_url'] . '/plugins/staticpages/index.php');
+    $output = COM_refresh($_CONF['site_admin_url']
+                          . '/plugins/staticpages/index.php?msg=20');
 
     if (empty($args['sp_id']) && !empty($args['id']))
         $args['sp_id'] = $args['id'];
@@ -441,7 +476,11 @@ function service_delete_staticpages($args, &$output, &$svc_msg)
         }
     }
 
-    DB_delete ($_TABLES['staticpage'], 'sp_id', $sp_id);
+    DB_delete($_TABLES['staticpage'], 'sp_id', $sp_id);
+    DB_delete($_TABLES['comments'], array('sid',  'type'),
+                                    array($sp_id, 'staticpages'));
+
+    PLG_itemDeleted($sp_id, 'staticpages');
 
     return PLG_RET_OK;
 }
@@ -537,9 +576,8 @@ function service_get_staticpages($args, &$output, &$svc_msg)
 
         if (!($error)) {
             $output = DB_fetchArray ($result, false);
-            // WE ASSUME $output doesn't have any confidential fields 
 
-            $_CONF['pagetitle'] = stripslashes ($output['sp_title']);
+            // WE ASSUME $output doesn't have any confidential fields 
 
         } else { // an error occured (page not found, access denied, ...)
             if (empty ($page)) {

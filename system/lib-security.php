@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-security.php                                                          |
 // |                                                                           |
@@ -87,10 +87,8 @@ if (!defined('CSRF_TOKEN')) {
 *       be used once at the beginning of a page.  The resulting array $_GROUPS can then be
 *       used through out the page.
 *
-* @return array Array of group ID's user belongs to
-*
 * @param        int     $uid            User ID to get information for. If empty current user.
-* @return	array	Associative Array grp_name -> ug_main_grp_id
+* @return	array	Associative Array grp_name -> ug_main_grp_id of group ID's user belongs to
 *
 */
 function SEC_getUserGroups($uid='')
@@ -174,7 +172,7 @@ function SEC_groupIsRemoteUserAndHaveAccess($groupid, $groups)
     global $_TABLES, $_CONF;
     if(!isset($_CONF['remote_users_group_id']))
     {
-        $result = DB_Query("SELECT grp_id FROM {$_TABLES['groups']} WHERE grp_name='Remote Users'");
+        $result = DB_query("SELECT grp_id FROM {$_TABLES['groups']} WHERE grp_name='Remote Users'");
         if( $result )
         {
             $row = DB_fetchArray( $result );
@@ -221,13 +219,14 @@ function SEC_inGroup($grp_to_verify,$uid='',$cur_grp_id='')
         }
     }
 
-    if ((empty ($_USER['uid']) && ($uid == 1)) || ($uid == $_USER['uid'])) {
-        if (empty ($_GROUPS)) {
-            $_GROUPS = SEC_getUserGroups ($uid);
+    if ((empty($_USER['uid']) && ($uid == 1)) ||
+            (isset($_USER['uid']) && ($uid == $_USER['uid']))) {
+        if (empty($_GROUPS)) {
+            $_GROUPS = SEC_getUserGroups($uid);
         }
         $groups = $_GROUPS;
     } else {
-        $groups = SEC_getUserGroups ($uid);
+        $groups = SEC_getUserGroups($uid);
     }
 
     if (is_numeric($grp_to_verify)) {
@@ -472,15 +471,15 @@ function SEC_getPermissionsHTML($perm_owner,$perm_group,$perm_members,$perm_anon
 /**
 * Gets everything a user has permissions to within the system
 *
-* This is part of the Geeklog security implmentation.  This function
-* will get all the permissions the current user has call itself recursively.
+* This is part of the Geeklog security implementation.  This function
+* will get all the permissions the current user has. Calls itself recursively.
 *
-* @param        int     $grp_id     DO NOT USE (Used for reccursion) Current group function is working on
-* @uid		int	$uid        User to check, if empty current user.
-* @return       string   returns comma delimited list of features the user has access to
+* @param    int     $grp_id     DO NOT USE (Used for recursion) Current group function is working on
+* @param    int     $uid        User to check, if empty current user.
+* @return   string  returns comma delimited list of features the user has access to
 *
 */
-function SEC_getUserPermissions($grp_id='',$uid='')
+function SEC_getUserPermissions($grp_id='', $uid='')
 {
     global $_TABLES, $_USER, $_SEC_VERBOSE, $_GROUPS;
 
@@ -506,6 +505,11 @@ function SEC_getUserPermissions($grp_id='',$uid='')
         $groups = $_GROUPS;
     } else {
         $groups = SEC_getUserGroups ($uid);
+    }
+
+    if (empty($groups)) {
+        // this shouldn't happen - make a graceful exit to avoid an SQL error
+        return '';
     }
 
     $glist = join(',', $groups);
@@ -594,7 +598,7 @@ function SEC_getPermissionValues($perm_owner,$perm_group,$perm_members,$perm_ano
 * to prepare the permissions to be save to the database
 *
 * @param        array       $perm_x     Array of permission values
-* @return       int         integer representation of a permission array 2 = read 3 = edit/read
+* @return       int         int representation of a permission array 2 = read 3 = edit/read
 * @see SEC_getPermissionValues
 *
 */
@@ -728,9 +732,10 @@ function SEC_authenticate($username, $password, &$uid)
 /**
 * Return the current user status for a user.
 *
+* NOTE:     May not return for banned/non-approved users.
+*
 * @param    int  $userid   Valid uid value.
 * @return   int            user status, 0-3
-* @note     May not return for banned/non-approved users.
 *
 */
 function SEC_checkUserStatus($userid)
@@ -888,11 +893,11 @@ function SEC_collectRemoteAuthenticationModules()
   * Rather self explanitory shortcut function
   * Is this the right place for this, Dirk?
   *
-  * @author Trinity L Bays <trinity93 AT gmail DOT com>
+  * @author Trinity L Bays, trinity93 AT gmail DOT com
   *
   * @param  string  $uid Their user id
   * @param  string  $gname The group name
-  * @return bool    status, true or false.
+  * @return boolean status, true or false.
   */
 function SEC_addUserToGroup($uid, $gname)
 {
@@ -971,7 +976,7 @@ function SEC_buildAccessSql ($clause = 'AND')
 * This function can be used by plugins during uninstall.
 *
 * @param    string  $feature_name   name of the feature, e.g. 'foo.edit'
-* @param    bool    $logging        whether to log progress in error.log
+* @param    boolean $logging        whether to log progress in error.log
 * @return   void
 *
 */
@@ -1031,7 +1036,7 @@ function SEC_getGroupDropdown ($group_id, $access)
             if ($group_id == $ug_id) {
                 $groupdd .= ' selected="selected"';
             }
-            $groupdd .= '>' . $ug_name . '</option>' . LB;
+            $groupdd .= '>' . ucwords($ug_name) . '</option>' . LB;
         }
         $groupdd .= '</select>' . LB;
     } else {
@@ -1068,7 +1073,7 @@ function SEC_encryptPassword($password)
   * added to forms and urls in the admin section as a non-cookie double-check
   * that the admin user really wanted to do that...
   *
-  * @param $ttl integer Time to live for token in seconds. Default is 20 minutes.
+  * @param $ttl int Time to live for token in seconds. Default is 20 minutes.
   *
   * @return string  Generated token, it'll be an MD5 hash (32chars)
   */
@@ -1088,26 +1093,21 @@ function SEC_createToken($ttl = 1200)
     /* Generate the token */
     $token = md5($_USER['uid'].$pageURL.uniqid (rand (), 1));
     $pageURL = addslashes($pageURL);
-    
+
     /* Destroy exired tokens: */
-    if($_DB_dbms == 'mssql') {
-        $sql = "DELETE FROM {$_TABLES['tokens']} WHERE (DATEADD(ss, ttl, created) < NOW())"
-           . " AND (ttl > 0)";
-    } else {
-        $sql = "DELETE FROM {$_TABLES['tokens']} WHERE (DATE_ADD(created, INTERVAL ttl SECOND) < NOW())"
-           . " AND (ttl > 0)";
-    }
-    DB_Query($sql);
-    
+    $sql['mssql'] = "DELETE FROM {$_TABLES['tokens']} WHERE (DATEADD(ss, ttl, created) < NOW()) AND (ttl > 0)";
+    $sql['mysql'] = "DELETE FROM {$_TABLES['tokens']} WHERE (DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND (ttl > 0)";
+    DB_query($sql);
+
     /* Destroy tokens for this user/url combination */
     $sql = "DELETE FROM {$_TABLES['tokens']} WHERE owner_id={$_USER['uid']} AND urlfor='$pageURL'";
-    DB_Query($sql);
+    DB_query($sql);
     
     /* Create a token for this user/url combination */
     /* NOTE: TTL mapping for PageURL not yet implemented */
     $sql = "INSERT INTO {$_TABLES['tokens']} (token, created, owner_id, urlfor, ttl) "
            . "VALUES ('$token', NOW(), {$_USER['uid']}, '$pageURL', $ttl)";
-    DB_Query($sql);
+    DB_query($sql);
            
     $last_token = $token;
 
@@ -1121,7 +1121,7 @@ function SEC_createToken($ttl = 1200)
   * Checks the POST and GET data for a security token, if one exists, validates that it's for this
   * user and URL.
   *
-  * @return bool    true iff the token is valid and for this user.
+  * @return boolean     true if the token is valid and for this user.
   */
 function SEC_checkToken()
 {
@@ -1136,20 +1136,17 @@ function SEC_checkToken()
         $token = COM_applyFilter($_POST[CSRF_TOKEN]);
     }
     
-    if(trim($token) != '') {
-        if($_DB_dbms != 'mssql') {
-            $sql = "SELECT ((DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND ttl > 0) as expired, owner_id, urlfor FROM "
-               . "{$_TABLES['tokens']} WHERE token='$token'";
-        } else {
-            $sql = "SELECT owner_id, urlfor, expired = 
+    if (trim($token) != '') {
+        $sql['mysql'] = "SELECT ((DATE_ADD(created, INTERVAL ttl SECOND) < NOW()) AND ttl > 0) as expired, owner_id, urlfor FROM {$_TABLES['tokens']} WHERE token='$token'";
+        $sql['mssql'] = "SELECT owner_id, urlfor, expired = 
                       CASE 
                          WHEN (DATEADD(s,ttl,created) < getUTCDate()) AND (ttl>0) THEN 1
                 
                          ELSE 0
                       END
                     FROM {$_TABLES['tokens']} WHERE token='$token'";
-        }
-        $tokens = DB_Query($sql);
+        $tokens = DB_query($sql);
+
         $numberOfTokens = DB_numRows($tokens);
         if($numberOfTokens != 1) {
             $return = false; // none, or multiple tokens. Both are invalid. (token is unique key...)
@@ -1171,8 +1168,7 @@ function SEC_checkToken()
             }
            
             // It's a one time token. So eat it.
-            $sql = "DELETE FROM {$_TABLES['tokens']} WHERE token='$token'";
-            DB_Query($sql);
+            DB_delete($_TABLES['tokens'], 'token', $token);
         }
     } else {
         $return = false; // no token.

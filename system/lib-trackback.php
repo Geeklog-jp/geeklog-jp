@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-trackback.php                                                         |
 // |                                                                           |
 // | Functions needed to handle trackback comments.                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2005-2008 by the following authors:                         |
+// | Copyright (C) 2005-2009 by the following authors:                         |
 // |                                                                           |
 // | Author: Dirk Haun - dirk AT haun-online DOT de                            |
 // +---------------------------------------------------------------------------+
@@ -28,8 +28,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-trackback.php,v 1.52 2008/09/21 08:37:12 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-trackback.php') !== false) {
     die('This file can not be used on its own!');
@@ -197,7 +195,7 @@ function TRB_filterExcerpt ($excerpt)
 *
 * @param    string  $sid    ID of the parent object of the comment
 * @param    string  $type   type of the parent object ('article' = story, etc.)
-* @return   bool            true = user can delete the comment, false = nope
+* @return   boolean         true = user can delete the comment, false = nope
 *
 */
 function TRB_allowDelete ($sid, $type)
@@ -342,7 +340,7 @@ function TRB_deleteTrackbackComment ($cid)
 * @param    string      $blog       name of the blog that sent the comment
 * @param    string      $excerpt    excerpt from the comment
 * @param    timestamp   $date       date and time when the comment was sent
-* @param    bool        $delete_option  whether to display a link to delete the trackback comment
+* @param    boolean     $delete_option  whether to display a link to delete the trackback comment
 * @param    string      $cid        id of this trackback comment
 * @param    string      $ipaddress  IP address the comment was sent from
 * @param    string      $token      security token
@@ -470,8 +468,8 @@ function TRB_containsBacklink ($body, $urlToCheck)
 *
 * @param    string  $sid        ID of entry that got pinged
 * @param    string  $type       type of that entry ('article' for stories, etc.)
-* @para     string  $urlToGet   URL of the page that supposedly links to us
-* @return   bool                true = links to us, false = doesn't
+* @param    string  $urlToGet   URL of the page that supposedly links to us
+* @return   boolean             true = links to us, false = doesn't
 *
 */
 function TRB_linksToUs ($sid, $type, $urlToGet)
@@ -493,12 +491,7 @@ function TRB_linksToUs ($sid, $type, $urlToGet)
 
     if ($_CONF['check_trackback_link'] & 2) {
         // build the URL of the pinged page on our site
-        if ($type == 'article') {
-            $urlToCheck = COM_buildUrl ($_CONF['site_url']
-                                        . '/article.php?story=' . $sid);
-        } else {
-            $urlToCheck = PLG_getItemInfo ($type, $sid, 'url');
-        }
+        $urlToCheck = PLG_getItemInfo($type, $sid, 'url');
     } else {
         // check only against the site_url
         $urlToCheck = $_CONF['site_url'];
@@ -535,7 +528,7 @@ function TRB_linksToUs ($sid, $type, $urlToGet)
 *
 * @param    string  $sid    ID of entry that got pinged
 * @param    string  $type   type of that entry ('article' for stories, etc.)
-* @return   bool            true = success, false = an error occured
+* @return   boolean         true = success, false = an error occured
 *
 * P.S. "Critical" errors are rejected with a HTTP 403 Forbidden status code.
 *      According to RFC2616, this status code means
@@ -773,9 +766,9 @@ function TRB_sendTrackbackPing ($targeturl, $url, $title, $excerpt, $blog = '')
         return $LANG_TRB['error_socket'];
     }
 
-    $toSend = 'url=' . rawurlencode ($url) . '&title=' . rawurlencode ($title)
-            . '&blog_name=' . rawurlencode ($blog) . '&excerpt='
-            . rawurlencode ($excerpt);
+    $toSend = 'url=' . rawurlencode($url) . '&title=' . rawurlencode($title)
+            . '&blog_name=' . rawurlencode($blog) . '&excerpt='
+            . rawurlencode($excerpt);
     $charset = COM_getCharset ();
 
     fputs ($sock, 'POST ' . $target['path'] . $target['query'] . " HTTP/1.0\r\n");
@@ -866,7 +859,7 @@ function TRB_detectTrackbackUrl ($url)
     // no luck with the RDF? try searching for a rel="trackback" link
     if ($retval === false) {
         // remove all linefeeds first to help the regexp below
-        $page = preg_replace( "/(\015\012)|(\015)|(\012)/", '', $page);
+        $page = str_replace(array("\015", "\012"), '', $page);
 
         preg_match_all( "/<a[^>]*href=[\"']([^\"']*)[\"'][^>]*>(.*?)<\/a>/i", $page, $matches );
         for ($i = 0; $i < count ($matches[0]); $i++) {
@@ -920,14 +913,10 @@ function TRB_sendNotificationEmail ($cid, $what = 'trackback')
         $mailbody .= $A['excerpt'] . "\n\n";
     }
 
-    if ($type == 'article') {
-        $commenturl = COM_buildUrl ($_CONF['site_url'] . '/article.php?story='
-                                    . $id) . '#trackback';
-    } else {
-        $commenturl = PLG_getItemInfo ($type, $id, 'url');
-    }
+    // assume that plugins follow the convention and have a 'trackback' anchor
+    $trackbackurl = PLG_getItemInfo($type, $id, 'url') . '#trackback';
 
-    $mailbody .= $LANG08[33] . ' <' . $commenturl . ">\n\n";
+    $mailbody .= $LANG08[33] . ' <' . $trackbackurl . ">\n\n";
 
     $mailbody .= "\n------------------------------\n";
     $mailbody .= "\n$LANG08[34]\n";

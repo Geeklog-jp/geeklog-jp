@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | group.php                                                                 |
 // |                                                                           |
 // | Geeklog group administration page.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,13 +31,11 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: group.php,v 1.103 2008/06/07 12:41:44 dhaun Exp $
 
 /**
 * This file is the Geeklog Group administration page
 *
-* @author   Tony Bibbs  <tony@tonybibbs.com>
+* @author   Tony Bibbs, tony AT tonybibbs DOT com
 *
 */
 
@@ -59,15 +57,12 @@ require_once 'auth.inc.php';
 $display = '';
 
 // Make sure user has rights to access this page
-if (!SEC_hasRights ('group.edit')) {
-    $display .= COM_siteHeader ('menu', $MESSAGE[30]);
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[37];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the group administration screen.");
-    echo $display;
+if (!SEC_hasRights('group.edit')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the group administration screen.");
+    COM_output($display);
     exit;
 }
 
@@ -83,74 +78,76 @@ function editgroup($grp_id = '')
     global $_TABLES, $_CONF, $_USER, $LANG_ACCESS, $LANG_ADMIN, $MESSAGE,
            $LANG28, $VERBOSE;
 
+    require_once $_CONF['path_system'] . 'lib-admin.php';
+
     $retval = '';
 
-    $thisUsersGroups = SEC_getUserGroups ();
-    if (!empty ($grp_id) &&
+    $thisUsersGroups = SEC_getUserGroups();
+    if (! empty($grp_id) &&
         ($grp_id > 0) &&
-        !in_array ($grp_id, $thisUsersGroups) &&
+        !in_array($grp_id, $thisUsersGroups) &&
         !SEC_groupIsRemoteUserAndHaveAccess($grp_id, $thisUsersGroups)) {
-        $retval .= COM_startBlock ($LANG_ACCESS['groupeditor'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        if (!SEC_inGroup ('Root') && (DB_getItem ($_TABLES['groups'],
+        $retval .= COM_startBlock($LANG_ACCESS['groupeditor'], '',
+                           COM_getBlockTemplate('_msg_block', 'header'));
+        if (!SEC_inGroup('Root') && (DB_getItem($_TABLES['groups'],
                 'grp_name', "grp_id = $grp_id") == 'Root')) {
             $retval .= $LANG_ACCESS['canteditroot'];
-            COM_accessLog ("User {$_USER['username']} tried to edit the Root group with insufficient privileges.");
+            COM_accessLog("User {$_USER['username']} tried to edit the Root group with insufficient privileges.");
         } else {
             $retval .= $LANG_ACCESS['canteditgroup'];
         }
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
 
         return $retval;
     }
 
     $group_templates = new Template($_CONF['path_layout'] . 'admin/group');
-    $group_templates->set_file('editor','groupeditor.thtml');
+    $group_templates->set_file('editor', 'groupeditor.thtml');
     $group_templates->set_var('site_url', $_CONF['site_url']);
     $group_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
     $group_templates->set_var('layout_url', $_CONF['layout_url']);
     $group_templates->set_var('lang_save', $LANG_ADMIN['save']);
     $group_templates->set_var('lang_cancel', $LANG_ADMIN['cancel']);
-    $group_templates->set_var('lang_admingroup',$LANG28[49]);
+    $group_templates->set_var('lang_admingroup', $LANG28[49]);
     $group_templates->set_var('lang_admingrp_msg', $LANG28[50]);
-    $group_templates->set_var( 'xhtml', XHTML );
+    $group_templates->set_var('xhtml', XHTML);
     $showall = 0;
-    if (isset ($_GET['chk_showall'])) {
-        $showall =  COM_applyFilter ($_GET['chk_showall'], true);
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+        $showall = 1;
     }
     $group_templates->set_var('show_all', $showall);
 
-    if (!empty ($grp_id)) {
-        $result = DB_query ("SELECT grp_id,grp_name,grp_descr,grp_gl_core FROM {$_TABLES['groups']} WHERE grp_id ='$grp_id'");
-        $A = DB_fetchArray ($result);
+    if (! empty($grp_id)) {
+        $result = DB_query("SELECT grp_id,grp_name,grp_descr,grp_gl_core FROM {$_TABLES['groups']} WHERE grp_id ='$grp_id'");
+        $A = DB_fetchArray($result);
         if ($A['grp_gl_core'] > 0) {
-            $group_templates->set_var ('chk_adminuse', 'checked="checked"');
+            $group_templates->set_var('chk_adminuse', 'checked="checked"');
         }
     } else {
         // new group, so it's obviously not a core group
         $A['grp_gl_core'] = 0;
     }
 
-    $retval .= COM_startBlock ($LANG_ACCESS['groupeditor'], '',
-                               COM_getBlockTemplate ('_admin_block', 'header'));
+    $retval .= COM_startBlock($LANG_ACCESS['groupeditor'], '',
+                              COM_getBlockTemplate('_admin_block', 'header'));
 
-    if (!empty($grp_id)) {
+    if (! empty($grp_id)) {
         // Groups tied to Geeklog's functionality shouldn't be deleted
         if ($A['grp_gl_core'] != 1) {
             $delbutton = '<input type="submit" value="' . $LANG_ADMIN['delete']
                        . '" name="mode"%s' . XHTML . '>';
             $jsconfirm = ' onclick="return confirm(\'' . $MESSAGE[76] . '\');"';
-            $group_templates->set_var ('delete_option',
-                                       sprintf ($delbutton, $jsconfirm));
-            $group_templates->set_var ('delete_option_no_confirmation',
-                                       sprintf ($delbutton, ''));
-            $group_templates->set_var ('group_core', 0);
+            $group_templates->set_var('delete_option',
+                                      sprintf($delbutton, $jsconfirm));
+            $group_templates->set_var('delete_option_no_confirmation',
+                                      sprintf($delbutton, ''));
+            $group_templates->set_var('group_core', 0);
         } else {
-            $group_templates->set_var ('group_core', 1);
+            $group_templates->set_var('group_core', 1);
         }
-        $group_templates->set_var ('group_id', $A['grp_id']);
+        $group_templates->set_var('group_id', $A['grp_id']);
     } else {
-        $group_templates->set_var ('group_core', 0);
+        $group_templates->set_var('group_core', 0);
     }
 
     $group_templates->set_var('lang_groupname', $LANG_ACCESS['groupname']);
@@ -176,62 +173,89 @@ function editgroup($grp_id = '')
     }
     $group_templates->set_var('lang_securitygroups', $LANG_ACCESS['securitygroups']);
 
-    //$groups = SEC_getUserGroups('','',$grp_id);
     $selected = '';
-    if (!empty($grp_id)) {
+    if (! empty($grp_id)) {
         $tmp = DB_query("SELECT ug_main_grp_id FROM {$_TABLES['group_assignments']} WHERE ug_grp_id = $grp_id");
         $num_groups = DB_numRows($tmp);
-        for ($x = 1; $x <= $num_groups; $x++) {
+        for ($x = 0; $x < $num_groups; $x++) {
             $G = DB_fetchArray($tmp);
-            if ($x > 1) {
+            if ($x > 0) {
                 $selected .= ' ' . $G['ug_main_grp_id'];
             } else {
                 $selected .= $G['ug_main_grp_id'];
             }
         }
     }
+
+    $groupoptions = '';
     if ($A['grp_gl_core'] == 1) {
-        $group_templates->set_var('lang_securitygroupmsg', $LANG_ACCESS['coregroupmsg']);
-        $group_templates->set_var('hide_adminoption',' style="display:none;"');
+        $group_templates->set_var('lang_securitygroupmsg',
+                                  $LANG_ACCESS['coregroupmsg']);
+        $group_templates->set_var('hide_adminoption',
+                                  ' style="display:none;"');
 
-        if (!empty($selected)) {
-            $inclause = str_replace(' ',',',$selected);
-            $result= DB_query("SELECT grp_id,grp_name FROM {$_TABLES['groups']} WHERE grp_id <> $grp_id AND grp_id in ($inclause) ORDER BY grp_name");
-            $nrows = DB_numRows($result);
-        } else {
-            $nrows = 0;
+        $count = 0;
+        if (! empty($selected)) {
+            $inclause = str_replace(' ', ',', $selected);
+            $result = DB_query("SELECT COUNT(*) AS count FROM {$_TABLES['groups']} WHERE grp_id <> $grp_id AND grp_id IN ($inclause)");
+            list($count) = DB_fetchArray($result);
         }
-
-        if ($nrows == 0) {
+        if ($count == 0) {
             // this group doesn't belong to anything...give a friendly message
-            $group_templates->set_var('group_options', $LANG_ACCESS['nogroupsforcoregroup']);
-        } else {
-            $groupoptions = '';
-            for ($i = 1; $i <= $nrows; $i++) {
-                $GRPS = DB_fetchArray($result);
-                $groupoptions .= $GRPS['grp_name'] . '<input type="hidden" name="groups[]" value="' . $GRPS['grp_id'] . '"' . XHTML . '><br' . XHTML . '>' .LB;
-            }
-            $group_templates->set_var('group_options', $groupoptions);
+            $groupoptions = '<p class="pluginRow1">'
+                          . $LANG_ACCESS['nogroupsforcoregroup'] . '</p>';
         }
     } else {
-        $group_templates->set_var('lang_securitygroupmsg', $LANG_ACCESS['groupmsg']);
-        $group_templates->set_var('hide_adminoption','');
-        if ($VERBOSE) {
-            COM_errorLog("SELECTED: $selected");
-        }
+        $group_templates->set_var('lang_securitygroupmsg',
+                                  $LANG_ACCESS['groupmsg']);
+        $group_templates->set_var('hide_adminoption', '');
+    }
+    if ($VERBOSE) {
+        COM_errorLog("SELECTED: $selected");
+    }
 
+    if (empty($groupoptions)) {
         // make sure to list only those groups of which the Group Admin
         // is a member
         $whereGroups = '(grp_id IN (' . implode (',', $thisUsersGroups) . '))';
 
-        // You can no longer give access to the Root group....
-        // it's pointless and doesn't make any sense
-        if (!empty($grp_id)) {
-            $group_templates->set_var ('group_options', COM_checkList ($_TABLES['groups'], 'grp_id,grp_name', "(grp_id <> $grp_id) AND (grp_name <> 'Root') AND " . $whereGroups, $selected));
+        $header_arr = array(
+                        array('text' => $LANG28[86], 'field' => ($A['grp_gl_core'] == 1 ? 'disabled-checkbox' : 'checkbox'), 'sort' => false),
+                        array('text' => $LANG_ACCESS['groupname'], 'field' => 'grp_name', 'sort' => true),
+                        array('text' => $LANG_ACCESS['description'], 'field' => 'grp_descr', 'sort' => true)
+        );
+
+        $defsort_arr = array('field' => 'grp_name', 'direction' => 'asc');
+
+        $form_url = $_CONF['site_admin_url']
+                  . '/group.php?mode=edit&amp;grp_id=' . $grp_id;
+        $text_arr = array('has_menu' => false,
+                          'title' => '', 'instructions' => '',
+                          'icon' => '', 'form_url' => $form_url,
+                          'inline' => true);
+
+        if ($A['grp_gl_core'] == 1) {
+            $inclause = str_replace(' ', ',', $selected);
+            $sql = "SELECT grp_id, grp_name, grp_descr FROM {$_TABLES['groups']} WHERE grp_id <> $grp_id AND grp_id IN ($inclause)";
         } else {
-            $group_templates->set_var ('group_options', COM_checkList ($_TABLES['groups'], 'grp_id,grp_name', "(grp_name <> 'Root') AND " . $whereGroups, ''));
+            $xsql = '';
+            if (! empty($grp_id)) {
+                $xsql = " AND (grp_id <> $grp_id)";
+            }
+            $sql = "SELECT grp_id, grp_name, grp_descr FROM {$_TABLES['groups']} WHERE (grp_name <> 'Root')" . $xsql . ' AND ' . $whereGroups;
         }
+        $query_arr = array('table' => 'groups',
+                           'sql' => $sql,
+                           'query_fields' => array('grp_name'),
+                           'default_filter' => '',
+                           'query' => '',
+                           'query_limit' => 0);
+
+        $groupoptions = ADMIN_list('groups', 'ADMIN_getListField_groups',
+                                   $header_arr, $text_arr, $query_arr,
+                                   $defsort_arr, '', explode(' ', $selected));
     }
+    $group_templates->set_var('group_options', $groupoptions);
     $group_templates->set_var('lang_rights', $LANG_ACCESS['rights']);
 
     if ($A['grp_gl_core'] == 1) {
@@ -240,7 +264,8 @@ function editgroup($grp_id = '')
         $group_templates->set_var('lang_rightsmsg', $LANG_ACCESS['rightsdescr']);
     }
 
-    $group_templates->set_var('rights_options', printrights($grp_id, $A['grp_gl_core']));
+    $group_templates->set_var('rights_options',
+                              printrights($grp_id, $A['grp_gl_core']));
     $group_templates->set_var('gltoken_name', CSRF_TOKEN);
     $group_templates->set_var('gltoken', SEC_createToken());
     $group_templates->parse('output','editor');
@@ -311,7 +336,7 @@ function getIndirectFeatures ($grp_id)
 * @return   string      HTML for rights
 *
 */
-function printrights ($grp_id = '', $core = 0)
+function printrights($grp_id = '', $core = 0)
 {
     global $_TABLES, $_USER, $LANG_ACCESS, $VERBOSE;
 
@@ -372,35 +397,50 @@ function printrights ($grp_id = '', $core = 0)
     // OK, now loop through and print all the features giving edit rights
     // to only the ones that are direct features
     $ftcount = 0;
-    $retval = '<tr>' . LB;
-    for ($i = 1; $i <= $nfeatures; $i++) {
-        if ($i > 0 AND ($i % 3 == 1)) {
-            $retval .= "</tr>\n<tr>";
-        }
+    $retval = '<tr>';
+    for ($i = 0; $i < $nfeatures; $i++) {
         $A = DB_fetchArray($features);
 
         if ((empty($grpftarray[$A['ft_name']]) OR ($grpftarray[$A['ft_name']] == 'direct')) AND ($core != 1)) {
+            if (($ftcount > 0) && ($ftcount % 3 == 0)) {
+                $retval .= '</tr>' . LB . '<tr>';
+            }
+            $pluginRow = sprintf('pluginRow%d', ($ftcount % 2) + 1);
             $ftcount++;
-            $retval .= '<td><input type="checkbox" name="features[]" value="'. $A['ft_id'] . '"';
-            if (!empty ($grpftarray[$A['ft_name']])) {
+
+            $retval .= '<td class="' . $pluginRow . '">'
+                    . '<input type="checkbox" name="features[]" value="'
+                    . $A['ft_id'] . '"';
+            if (!empty($grpftarray[$A['ft_name']])) {
                 if ($grpftarray[$A['ft_name']] == 'direct') {
                     $retval .= ' checked="checked"';
                 }
             }
-            $retval .= XHTML . '><span title="' . $A['ft_descr'] . '">' . $A['ft_name']
-                    . '</span></td>';
+            $retval .= XHTML . '><span title="' . $A['ft_descr'] . '">'
+                    . $A['ft_name'] . '</span></td>';
         } else {
             // either this is an indirect right OR this is a core feature
-            if ((($core == 1) AND (isset ($grpftarray[$A['ft_name']]) AND (($grpftarray[$A['ft_name']] == 'indirect') OR ($grpftarray[$A['ft_name']] == 'direct')))) OR ($core != 1)) {
+            if ((($core == 1) AND (isset($grpftarray[$A['ft_name']]) AND (($grpftarray[$A['ft_name']] == 'indirect') OR ($grpftarray[$A['ft_name']] == 'direct')))) OR ($core != 1)) {
+                if (($ftcount > 0) && ($ftcount % 3 == 0)) {
+                    $retval .= '</tr>' . LB . '<tr>';
+                }
+                $pluginRow = sprintf('pluginRow%d', ($ftcount % 2) + 1);
                 $ftcount++;
-                $retval .= '<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<i title="'
-                        . $A['ft_descr'] . '">' .  $A['ft_name'] . '</i>)</td>';
+
+                $retval .= '<td class="' . $pluginRow . '">'
+                        . '<input type="checkbox" checked="checked" '
+                        . 'disabled="disabled"' . XHTML . '>'
+                        . '<input type="hidden" name="features[]" value="'
+                        . $A['ft_id'] . '"' . XHTML . '>'
+                        . '(<i title="' . $A['ft_descr'] . '">' . $A['ft_name']
+                        . '</i>)</td>';
             }
         }
     }
     if ($ftcount == 0) {
         // This group doesn't have rights to any features
-        $retval .= '<td colspan="3">' . $LANG_ACCESS['grouphasnorights'] . '</td>';
+        $retval .= '<td colspan="3" class="pluginRow1">'
+                . $LANG_ACCESS['grouphasnorights'] . '</td>';
     }
 
     $retval .= '</tr>' . LB;
@@ -421,13 +461,13 @@ function printrights ($grp_id = '', $core = 0)
 * @return   string                  HTML refresh or error message
 *
 */
-function savegroup ($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $features, $groups)
+function savegroup($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $features, $groups)
 {
     global $_CONF, $_TABLES, $_USER, $LANG_ACCESS, $VERBOSE;
 
     $retval = '';
-    if (!empty ($grp_name) && !empty ($grp_descr)) {
-        $GroupAdminGroups = SEC_getUserGroups ();
+    if (!empty($grp_name) && !empty($grp_descr)) {
+        $GroupAdminGroups = SEC_getUserGroups();
         if (!empty ($grp_id) &&
             ($grp_id > 0) &&
             !in_array ($grp_id, $GroupAdminGroups) &&
@@ -497,19 +537,18 @@ function savegroup ($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $f
         }
 
         // now save the features
-        DB_delete ($_TABLES['access'], 'acc_grp_id', $grp_id);
-        if (SEC_inGroup ('Root')) {
-            for ($i = 1; $i <= sizeof ($features); $i++) {
-                DB_query ("INSERT INTO {$_TABLES['access']} (acc_ft_id,acc_grp_id) VALUES (" . current ($features) . ",$grp_id)");
-                next ($features);
+        DB_delete($_TABLES['access'], 'acc_grp_id', $grp_id);
+        $num_features = count($features);
+        if (SEC_inGroup('Root')) {
+            foreach ($features as $f) {
+                DB_query ("INSERT INTO {$_TABLES['access']} (acc_ft_id,acc_grp_id) VALUES ($f,$grp_id)");
             }
         } else {
-            $GroupAdminFeatures = SEC_getUserPermissions ();
-            $availableFeatures = explode (',', $GroupAdminFeatures);
-            for ($i = 1; $i <= sizeof($features); $i++) {
-                if (in_array (current ($features), $availableFeatures)) {
-                    DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id,acc_grp_id) VALUES (" . current($features) . ",$grp_id)");
-                    next($features);
+            $GroupAdminFeatures = SEC_getUserPermissions();
+            $availableFeatures = explode(',', $GroupAdminFeatures);
+            foreach ($features as $f) {
+                if (in_array($f, $availableFeatures)) {
+                    DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id,acc_grp_id) VALUES ($f,$grp_id)");
                 }
             }
         }
@@ -518,15 +557,14 @@ function savegroup ($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $f
             COM_errorLog("deleting all group_assignments for group $grp_id/$grp_name",1);
         }
 
-        DB_delete ($_TABLES['group_assignments'], 'ug_grp_id', $grp_id);
-        if (!empty ($groups)) {
-            for ($i = 1; $i <= sizeof ($groups); $i++) {
-                if (in_array ($grp_id, $GroupAdminGroups)) {
-                    if ($VERBOSE) COM_errorLog("adding group_assignment " . current($groups) . " for $grp_name",1);
-                    $sql = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_grp_id) VALUES (" . current($groups) . ",$grp_id)";
+        DB_delete($_TABLES['group_assignments'], 'ug_grp_id', $grp_id);
+        if (! empty($groups)) {
+            foreach ($groups as $g) {
+                if (in_array($g, $GroupAdminGroups)) {
+                    if ($VERBOSE) COM_errorLog("adding group_assignment $g for $grp_name",1);
+                    $sql = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_grp_id) VALUES ($g,$grp_id)";
                     DB_query($sql);
                 }
-                next($groups);
             }
         }
 
@@ -549,8 +587,8 @@ function savegroup ($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $f
         } else {
             PLG_groupChanged ($grp_id, 'edit');
         }
-        if ($_POST['chk_showall'] == 1) {
-            echo COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49&showall=1');
+        if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+            echo COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49&chk_showall=1');
         } else {
             echo COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49');
         }
@@ -570,11 +608,11 @@ function savegroup ($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $f
 /**
 * Get a list (actually an array) of all groups this group belongs to.
 *
-* @param   basegroup   int     id of group
-* @return              array   array of all groups 'basegroup' belongs to
+* @param    int     $basegroup  id of group
+* @return   array               array of all groups $basegroup belongs to
 *
 */
-function getGroupList ($basegroup)
+function getGroupList($basegroup)
 {
     global $_TABLES;
 
@@ -606,8 +644,8 @@ function getGroupList ($basegroup)
 /**
 * Display a list of all users in a given group.
 *
-* @param   grp_id   int      group id
-* @return           string   HTML for user listing
+* @param   int      $grp_id     group id
+* @return  string               HTML for user listing
 *
 */
 function listusers ($grp_id)
@@ -653,7 +691,7 @@ function listusers ($grp_id)
     );
 
     $form_url = $_CONF['site_admin_url'] . '/group.php?mode=listusers&amp;grp_id='.$grp_id;
-    if (isset ($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
         $form_url .= '&amp;chk_showall=1';
     }
 
@@ -662,7 +700,7 @@ function listusers ($grp_id)
     $headline = sprintf ($LANG_ACCESS['usersingroup'], $groupname);
 
     $url = $_CONF['site_admin_url'] . '/group.php';
-    if (isset ($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
         $url .= '?chk_showall=1';
     }
     $menu_arr = array (
@@ -715,7 +753,14 @@ function listusers ($grp_id)
     return $retval;
 }
 
-function listgroups()
+/**
+* Display a list of (all) groups
+*
+* @param    boolean     $show_all_groups    include admin groups if true
+* @return   string                          HTML of the group list
+*
+*/
+function listgroups($show_all_groups = false)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG_ACCESS, $LANG28, $_IMAGE_TYPE;
 
@@ -734,7 +779,7 @@ function listgroups()
     $defsort_arr = array('field' => 'grp_name', 'direction' => 'asc');
 
     $form_url = $_CONF['site_admin_url'] . '/group.php';
-    if (isset ($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+    if ($show_all_groups) {
         $form_url .= '?chk_showall=1';
     }
 
@@ -761,18 +806,9 @@ function listgroups()
 
     $filter = '<span style="padding-right:20px;">';
 
-    // Extra test required to handle that different ways this option is passed and need to be able to
-    // over-ride the option using the posted form when the URL contains the variable as well
-    $show_all_groups = false;
     $checked ='';
-    if (isset($_POST['q'])) {   // Form has been posted - test actual option in this form
-        if ($_POST['chk_showall'] == 1) {
-            $show_all_groups = true;
-            $checked = ' checked';
-        }
-    } else if (isset ($_GET['chk_showall']) && ($_GET['chk_showall'] == 1)) {
-        $show_all_groups = true;
-        $checked = ' checked';
+    if ($show_all_groups) {
+        $checked = ' checked="checked"';
     }
 
     if (SEC_inGroup('Root')) {
@@ -790,10 +826,10 @@ function listgroups()
             'query_fields' => array('grp_name', 'grp_descr'),
             'default_filter' => $grpFilter);
     } else {
-        $filter .= "<label for=\"chk_showall\"><input id=\"chk_showall\" type=\"checkbox\" name=\"chk_showall\" value=\"1\"$checked" . XHTML . ">";
+        $filter .= '<label for="chk_showall"><input id="chk_showall" type="checkbox" name="chk_showall" value="1"' . $checked . XHTML . '>';
         $query_arr = array(
             'table' => 'groups',
-            'sql' => "SELECT * FROM {$_TABLES['groups']} WHERE (grp_gl_core = 0 OR grp_id in (2,13))",
+            'sql' => "SELECT * FROM {$_TABLES['groups']} WHERE (grp_gl_core = 0 OR grp_name IN ('All Users','Logged-in Users'))",
             'query_fields' => array('grp_name', 'grp_descr'),
             'default_filter' => $grpFilter);
     }
@@ -806,7 +842,18 @@ function listgroups()
     return $retval;
 }
 
-function grp_selectUsers ($group_id, $allusers = false)
+/**
+* Get list of users in a given group
+*
+* Effectively, this function is used twice: To get a list of all users currently
+* in the given group and to get all list of all users NOT in that group.
+*
+* @param    int     $group_id   group id
+* @param    boolean $allusers   true: return users not in the group
+* @return   string              option list containing uids and user names
+*
+*/
+function grp_selectUsers($group_id, $allusers = false)
 {
     global $_TABLES, $_USER;
 
@@ -856,27 +903,31 @@ function grp_selectUsers ($group_id, $allusers = false)
 */
 function editusers($group)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG_ACCESS, $LANG_ADMIN, $LANG28;
+    global $_CONF, $_TABLES, $_USER, $LANG_ACCESS, $LANG_ADMIN, $LANG28,
+           $_IMAGE_TYPE;
+
+    require_once $_CONF['path_system'] . 'lib-admin.php';
 
     $retval = '';
 
-    $thisUsersGroups = SEC_getUserGroups ();
-    $groupName = DB_getItem($_TABLES['groups'],'grp_name',"grp_id='$group'");
-    if (!empty ($group) &&
-       ($group > 0) &&
-       !in_array ($group, $thisUsersGroups) &&
-       !SEC_groupIsRemoteUserAndHaveAccess($group, $thisUsersGroups)
-       ) {
-        $retval .= COM_startBlock ($LANG_ACCESS['usergroupadmin'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        if (!SEC_inGroup ('Root') && (DB_getItem ($_TABLES['groups'],
-                'grp_name', "grp_id = $group") == 'Root')) {
+    $grp_name = DB_getItem($_TABLES['groups'], 'grp_name', "grp_id = $group");
+
+    $thisUsersGroups = SEC_getUserGroups();
+    $groupName = DB_getItem($_TABLES['groups'], 'grp_name', "grp_id='$group'");
+    if ((!empty($group) && ($group > 0) &&
+                !in_array($group, $thisUsersGroups) &&
+                !SEC_groupIsRemoteUserAndHaveAccess($group, $thisUsersGroups))
+            || (($grp_name == 'All Users') ||
+                ($grp_name == 'Logged-in Users'))) {
+        $retval .= COM_startBlock($LANG_ACCESS['usergroupadmin'], '',
+                                  COM_getBlockTemplate('_msg_block', 'header'));
+        if (!SEC_inGroup('Root') && ($grp_name == 'Root')) {
             $retval .= $LANG_ACCESS['canteditroot'];
-            COM_accessLog ("User {$_USER['username']} tried to edit the Root group with insufficient privileges.");
+            COM_accessLog("User {$_USER['username']} tried to edit the Root group with insufficient privileges.");
         } else {
             $retval .= $LANG_ACCESS['canteditgroup'];
         }
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
 
         return $retval;
     }
@@ -888,8 +939,19 @@ function editusers($group)
         $showall = 1;
     }
 
-    $retval .= COM_startBlock($LANG_ACCESS['usergroupadmin'] . " - $groupName" , '',
-                       COM_getBlockTemplate('_admin_block', 'header'));
+    $menu_arr = array(
+                    array('url'  => $group_listing_url,
+                          'text' => $LANG28[38]),
+                    array('url'  => $_CONF['site_admin_url'],
+                          'text' => $LANG_ADMIN['admin_home'])
+                );
+
+    $retval .= COM_startBlock($LANG_ACCESS['usergroupadmin'] . " - $groupName",
+                        '', COM_getBlockTemplate('_admin_block', 'header'));
+
+    $retval .= ADMIN_createMenu($menu_arr, $LANG_ACCESS['editgroupmsg'],
+                $_CONF['layout_url'] . '/images/icons/group.' . $_IMAGE_TYPE);
+
     $groupmembers = new Template($_CONF['path_layout'] . 'admin/group');
     $groupmembers->set_file(array('groupmembers'=>'groupmembers.thtml'));
     $groupmembers->set_var('site_url', $_CONF['site_url']);
@@ -901,8 +963,8 @@ function editusers($group)
     $groupmembers->set_var('lang_instructions', $LANG_ACCESS['editgroupmsg']);
     $groupmembers->set_var('LANG_sitemembers',$LANG_ACCESS['availmembers']);
     $groupmembers->set_var('LANG_grpmembers',$LANG_ACCESS['groupmembers']);
-    $groupmembers->set_var('sitemembers', grp_selectUsers($group,true) );
-    $groupmembers->set_var('group_list', grp_selectUsers($group) );
+    $groupmembers->set_var('sitemembers', grp_selectUsers($group, true));
+    $groupmembers->set_var('group_list', grp_selectUsers($group));
     $groupmembers->set_var('LANG_add',$LANG_ACCESS['add']);
     $groupmembers->set_var('LANG_remove',$LANG_ACCESS['remove']);
     $groupmembers->set_var('lang_save', $LANG_ADMIN['save']);
@@ -915,28 +977,42 @@ function editusers($group)
     $groupmembers->set_var('gltoken', SEC_createToken());
     $groupmembers->parse('output', 'groupmembers');
     $retval .= $groupmembers->finish($groupmembers->get_var('output'));
+
     $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     return $retval;
 }
 
-function savegroupusers ($groupid, $groupmembers)
+/**
+* Save changes from the form to add/remove users to/from groups
+*
+* @param    int     $groupid        id of the group being changed
+* @param    string  $groupmembers   list of group members
+* @return   string                  HTML redirect
+*
+*/
+function savegroupusers($groupid, $groupmembers)
 {
     global $_CONF, $_TABLES;
+
+    $retval = '';
 
     // Delete all the current buddy records for this user and add all the selected ones
     $sql = "DELETE FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id={$groupid} AND ug_uid IS NOT NULL";
     DB_query($sql);
-    $adduser = explode("|",$groupmembers);
-    for( $i = 0; $i < count($adduser); $i++ )    {
+    $adduser = explode('|', $groupmembers);
+    for ($i = 0; $i < count($adduser); $i++) {
         $adduser[$i] = COM_applyFilter($adduser[$i], true);
         DB_query("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid) VALUES ('$groupid', '$adduser[$i]')");
     }
-    if ($_POST['chk_showall'] == 1) {
-        echo COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49&showall=1');
+
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+        $retval = COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49&chk_showall=1');
     } else {
-        echo COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49');
+        $retval = COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=49');
     }
+
+    return $retval;
 }
 
 /**
@@ -970,8 +1046,8 @@ function deleteGroup ($grp_id)
     DB_delete ($_TABLES['groups'], 'grp_id', $grp_id);
 
     PLG_groupChanged ($grp_id, 'delete');
-    if ($_POST['chk_showall'] == 1) {
-        return COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=50&showall=1');
+    if (isset($_REQUEST['chk_showall']) && ($_REQUEST['chk_showall'] == 1)) {
+        return COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=50&chk_showall=1');
     } else {
         return COM_refresh($_CONF['site_admin_url'] . '/group.php?msg=50');
     }
@@ -995,6 +1071,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
 } elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) {
+    $grp_gl_core = COM_applyFilter($_POST['grp_gl_core'], true);
     $chk_grpadmin = '';
     if (isset($_POST['chk_grpadmin'])) {
         $chk_grpadmin = COM_applyFilter($_POST['chk_grpadmin']);
@@ -1009,13 +1086,12 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     }
     $display .= savegroup(COM_applyFilter($_POST['grp_id'], true),
                           COM_applyFilter($_POST['grp_name']),
-                          $_POST['grp_descr'], $chk_grpadmin,
-                          COM_applyFilter($_POST['grp_gl_core']),
+                          $_POST['grp_descr'], $chk_grpadmin, $grp_gl_core,
                           $features, $groups);
-} else if (($mode == 'savegroupusers') && SEC_checkToken()) {
-    $grp_id = COM_applyFilter ($_REQUEST['grp_id'], true);
-    $display .= savegroupusers ($grp_id, $_POST['groupmembers']);
-} else if ($mode == 'edit') {
+} elseif (($mode == 'savegroupusers') && SEC_checkToken()) {
+    $grp_id = COM_applyFilter($_REQUEST['grp_id'], true);
+    $display .= savegroupusers($grp_id, $_POST['groupmembers']);
+} elseif ($mode == 'edit') {
     $grp_id = 0;
     if (isset ($_REQUEST['grp_id'])) {
         $grp_id = COM_applyFilter ($_REQUEST['grp_id'], true);
@@ -1023,25 +1099,33 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= COM_siteHeader ('menu', $LANG_ACCESS['groupeditor']);
     $display .= editgroup ($grp_id);
     $display .= COM_siteFooter ();
-} else if ($mode == 'listusers') {
+} elseif ($mode == 'listusers') {
     $grp_id = COM_applyFilter ($_REQUEST['grp_id'], true);
     $display .= COM_siteHeader ('menu', $LANG_ACCESS['groupmembers']);
     $display .= listusers ($grp_id);
     $display .= COM_siteFooter ();
-} else if ($mode == 'editusers') {
+} elseif ($mode == 'editusers') {
     $grp_id = COM_applyFilter ($_REQUEST['grp_id'], true);
     $display .= COM_siteHeader ('menu', $LANG_ACCESS['usergroupadmin']);
     $display .= editusers ($grp_id);
     $display .= COM_siteFooter ();
 } else { // 'cancel' or no mode at all
-    $display .= COM_siteHeader ('menu', $LANG28[38]);
-    if (isset ($_REQUEST['msg'])) {
-        $display .= COM_showMessage (COM_applyFilter ($_REQUEST['msg'], true));
+    $show_all_groups = false;
+    if (isset($_POST['q'])) {
+        // check $_POST only, as $_GET['chk_showall'] may also be set
+        if (isset($_POST['chk_showall']) && ($_POST['chk_showall'] == 1)) {
+            $show_all_groups = true;
+        }
+    } elseif (isset($_REQUEST['chk_showall']) &&
+            ($_REQUEST['chk_showall'] == 1)) {
+        $show_all_groups = true;
     }
-    $display .= listgroups();
+    $display .= COM_siteHeader('menu', $LANG28[38]);
+    $display .= COM_showMessageFromParameter();
+    $display .= listgroups($show_all_groups);
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

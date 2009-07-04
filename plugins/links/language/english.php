@@ -25,7 +25,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
-# $Id: english.php,v 1.33 2008/09/22 07:53:40 dhaun Exp $
 
 /**
  * This is the english language page for the Geeklog links Plug-in!
@@ -36,10 +35,10 @@
  * @version 2.0
  * @since GL 1.4.0
  * @copyright Copyright &copy; 2005-2007
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @author Trinity Bays <trinity93 AT gmail DOT com>
- * @author Tony Bibbs <tony AT tonybibbs DOT com>
- * @author Tom Willett <twillett AT users DOT sourceforge DOT net>
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Trinity Bays, trinity93 AT gmail DOT com
+ * @author Tony Bibbs, tony AT tonybibbs DOT com
+ * @author Tom Willett, twillett AT users DOT sourceforge DOT net
  *
  */
 
@@ -274,8 +273,10 @@ $LANG_confignames['links'] = array(
     'delete_links' => 'Delete Links with Owner?',
     'aftersave' => 'After Saving Link',
     'show_category_descriptions' => 'Show Category Description?',
+    'new_window' => 'Open external links in new window?',
     'root' => 'ID of Root Category',
-    'default_permissions' => 'Link Default Permissions'
+    'default_permissions' => 'Link Default Permissions',
+    'category_permissions' => 'Category Default Permissions'
 );
 
 $LANG_configsubgroups['links'] = array(
@@ -285,7 +286,8 @@ $LANG_configsubgroups['links'] = array(
 $LANG_fs['links'] = array(
     'fs_public' => 'Public Links List Settings',
     'fs_admin' => 'Links Admin Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_permissions' => 'Link Permissions',
+    'fs_cpermissions' => 'Category Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']

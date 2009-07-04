@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | users.php                                                                 |
 // |                                                                           |
@@ -100,7 +100,7 @@ function userprofile($user, $msg = 0, $plugin = '')
     $A = DB_fetchArray ($result);
 
     if ($A['status'] == USER_ACCOUNT_DISABLED && !SEC_hasRights ('user.edit')) {
-        COM_displayMessageAndAbort (30, '', 403, 'Forbidden');
+        COM_outputMessageAndAbort (30, '', 403, 'Forbidden');
     }
 
     $display_name = htmlspecialchars(COM_getDisplayName($user, $A['username'],
@@ -404,7 +404,6 @@ function requestpassword($username)
         $subject = $_CONF['site_name'] . ': ' . $LANG04[16];
         if ($_CONF['site_mail'] !== $_CONF['noreply_mail']) {
             $mailfrom = $_CONF['noreply_mail'];
-            global $LANG_LOGIN;
             $mailtext .= LB . LB . $LANG04[159];
         } else {
             $mailfrom = $_CONF['site_mail'];
@@ -500,11 +499,11 @@ function createuser ($username, $email, $email_conf)
             // with a custom userform first, if one exists.
             if ($_CONF['custom_registration'] &&
                     function_exists ('CUSTOM_userCheck')) {
-                $msg = CUSTOM_userCheck ($username, $email);
-                if (!empty ($msg)) {
+                $ret = CUSTOM_userCheck ($username, $email);
+                if (!empty ($ret)) {
                     // no, it's not okay with the custom userform
                     $retval = COM_siteHeader ('menu')
-                            . CUSTOM_userForm ($msg)
+                            . CUSTOM_userForm ($ret['string'])
                             . COM_siteFooter ();
 
                     return $retval;
@@ -776,24 +775,23 @@ function getpasswordform()
 * @return   string  HTML for form
 *
 */
-function defaultform ($msg)
+function defaultform($msg)
 {
-    global $LANG04;
+    global $_CONF, $LANG04;
 
     $retval = '';
 
-    if (!empty ($msg)) {
-        $retval .= COM_startBlock ($LANG04[21], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $msg
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    if (! empty($msg)) {
+        $retval .= COM_showMessageText($msg, $LANG04[21]);
     }
 
-    $retval .= loginform (true);
+    $retval .= loginform(true);
 
-    $retval .= newuserform ();
+    if (! $_CONF['disable_new_user_registration']) {
+        $retval .= newuserform();
+    }
 
-    $retval .= getpasswordform ();
+    $retval .= getpasswordform();
 
     return $retval;
 }
@@ -1214,7 +1212,9 @@ default:
         }
     } else {
         // On failed login attempt, update speed limit
-        COM_updateSpeedlimit('login');
+        if (!empty($loginname) || !empty($passwd) || !empty($service)) {
+            COM_updateSpeedlimit('login');
+        }
 
         $display .= COM_siteHeader('menu');
 
@@ -1259,6 +1259,6 @@ default:
     break;
 }
 
-echo $display;
+COM_output($display);
 
 ?>

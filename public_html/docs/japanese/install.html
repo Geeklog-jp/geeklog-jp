@@ -8,7 +8,7 @@
 </head>
 
 <body>
-<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - インストール方法</div>
 
 <h1>Geeklogのインストール</h1>
@@ -31,6 +31,7 @@
     <ul>
         <li>ディレクトリ: フォルダと同じ。</li>
         <li>パス: Webサーバ上で、ファイルやディレクトリが実際にある場所。Windowsのパスはドライブ文字(<code>c:/inetpub/wwwroot/</code>)で始まり、*nix系列のパスは <code>/var/www/</code> のようにルート(<code>/</code>)から始まる。</li>
+        <li><a name="public_html">public_html</a>: URLでアクセスされる、公開領域のディレクトリ名 (その他: htdocs, www)</li>
         <li><acronym title="Uniform Resource Locator">URL</acronym>: <code>http://www.foo.com/</code> などの、Web上での情報のありかを示すもの。</li>
     </ul>
     
@@ -68,9 +69,9 @@
             <p>MySQLやMicrosoft SQLを使用し、空のデータベースと変更権限のあるユーザを作成します。ホスティング会社がデータベースを作成してアカウントを作成している場合もあるので、必要ならホスティング会社に尋ねてみてください。</p>
         </li>
         <li>
-            <p><code>geeklog-1.5.1/public_html/</code> ディレクトリの中身をWebサーバのドキュメントルートに転送します。ドキュメントルートには、"public_html"や"htdocs"、"www"などの名前がつけられていることが多いです。</p>
+            <p><code>geeklog-1.6.0/public_html/</code> ディレクトリの中身をWebサーバのドキュメントルートに転送します。ドキュメントルートには、"public_html"や"htdocs"、"www"などの名前がつけられていることが多いです。</p>
         
-            <p>次に、<code>geeklog-1.5.1/</code> ディレクトリの中身の残りをドキュメントルートの親ディレクトリ（お勧め!）かWebからアクセスできないディレクトリに転送します。インストールウィザードはこれらの場所を自動的に検出しようとします。検出できない場合は、インストールの過程でパスを入力するよう要求されます。インターネットからのアクセスを防ぐセキュリティ対策としてこのような仕様になっています。</p>
+            <p>次に、<code>geeklog-1.6.0/</code> ディレクトリの中身の残りをドキュメントルートの親ディレクトリ（お勧め!）かWebからアクセスできないディレクトリに転送します。インストールウィザードはこれらの場所を自動的に検出しようとします。検出できない場合は、インストールの過程でパスを入力するよう要求されます。インターネットからのアクセスを防ぐセキュリティ対策としてこのような仕様になっています。</p>
             
             <p><strong>注意:</strong> ホスティング会社がドキュメントツリーの外にファイルを置くことを許可していない場合は、</p>
             <ol>
@@ -106,12 +107,12 @@
         </li>
         <li>
             <p>次のコマンドを実行して、ダウンロードしたターボールを伸張（解凍）します。</p>
-            <p><code>tar -zxvf geeklog-1.5.1.tar.gz</code> </p>
+            <p><code>tar -zxvf geeklog-1.6.0.tar.gz</code> </p>
             
             <p><strong>注意:</strong> WinZipを使用すると、そのバージョンによっては、ファイルが壊れると報告しているユーザがいます。こうなるとインストールの最中にエラーになるので、ローカルでファイルを解凍する必要がある場合は、WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を使うことを強くお勧めします。</p>
         </li>
         <li>
-            <p><code>geeklog-1.5.1/</code> ディレクトリの中身を、現在インストールしているバージョンの同じディレクトリに転送します。たとえば、現在のバージョンを <code>/usr/home/www/geeklog/</code> にインストールしているなら、新しいバージョンも <code>/usr/home/www/geeklog/</code> に転送します。</p>
+            <p><code>geeklog-1.6.0/</code> ディレクトリの中身を、現在インストールしているバージョンの同じディレクトリに転送します。たとえば、現在のバージョンを <code>/usr/home/www/geeklog/</code> にインストールしているなら、新しいバージョンも <code>/usr/home/www/geeklog/</code> に転送します。</p>
         </li>
         <li>
             旧バージョンからのアップグレード：
@@ -219,14 +220,15 @@ Cannnot connect to DB server</code></p>
                 <p><a href="http://www.geeklog.net">http://www.geeklog.net</a> を訪問して、「サポート(Support)」のセクションを調べてみましょう。サポートセクションには、 <a href="http://www.geeklog.net/faqman/">よくある質問(FAQ)</a> と <a href="http://www.geeklog.net/search.php">検索(Search)システム</a>があります。表示されたエラーメッセージを（行番号を除いて）検索してみるとよいでしょう。</p>
             </li>
             <li>
-                <p><a href="http://lists.geeklog.net/pipermail/geeklog-users/">http://lists.geeklog.net/pipermail/geeklog-users/</a> に保存されているメーリングリストの過去ログを読みましょう。<a href="http://lists.geeklog.net/listinfo/geeklog-users">このメーリングリストを購読</a>し、Geeklogコミュニティに（英語で）質問を投稿してもよいでしょう。</p>
+                <p><a href="http://eight.pairlist.net/pipermail/geeklog-users/">http://eight.pairlist.net/pipermail/geeklog-users/</a> に保存されているメーリングリストの過去ログを読みましょう。<a href="http://lists.geeklog.net/listinfo/geeklog-users">このメーリングリストを購読</a>し、Geeklogコミュニティに（英語で）質問を投稿してもよいでしょう。</p>
             </li>
             <li>
-                <p><code>irc.freenode.net, channel #geeklog</code> のIRCを試しましょう。<code>siteconfig.php</code> に含まれるパス情報と <code>lib-common.php</code> を手元に用意しておいてください。</p>
+                <p><code>irc.freenode.net, channel #geeklog</code> のIRCを試しましょう。siteconfig.phpとdb-config.phpに含まれるパス情報とデータベースの情報を手元に用意しておいてください。</p>
             </li>
             <li>
                 <p>エラーメッセージをGoogleで検索してみましょう。他の人が同じ問題に遭遇し、解決している可能性があります。Googleで検索していると、同じエラーが発生している壊れたページが表示されることもあります。</p>
             </li>
+                <p>なお、サポートについて詳しくは、ドキュメント「<a href="support.html">サポート</a>」をご覧ください。</p>
         </ol>
 
 

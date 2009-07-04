@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-story.php                                                             |
 // |                                                                           |
@@ -114,29 +114,33 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     }
     $article->set_var( 'story_id', $story->getSid() );
 
-    if( $_CONF['contributedbyline'] == 1 )
-    {
-        $article->set_var( 'lang_contributed_by', $LANG01[1] );
-        $article->set_var( 'contributedby_uid', $story->DisplayElements('uid') );
+    if ($_CONF['contributedbyline'] == 1) {
+        $article->set_var('lang_contributed_by', $LANG01[1]);
+        $article->set_var('contributedby_uid', $story->DisplayElements('uid'));
+
         $fullname = $story->DisplayElements('fullname');
-        $article->set_var( 'contributedby_user', $story->DisplayElements('username') );
-        if (empty ($fullname)) {
-            $article->set_var( 'contributedby_fullname', $story->DisplayElements('username') );
+        $username = $story->DisplayElements('username');
+        $article->set_var('contributedby_user', $username);
+        if (empty($fullname)) {
+            $article->set_var('contributedby_fullname', $username);
         } else {
-            $article->set_var( 'contributedby_fullname',$story->DisplayElements('fullname') );
+            $article->set_var('contributedby_fullname',$fullname);
         }
-        $authorname = COM_getDisplayName( $story->DisplayElements('uid'), $story->DisplayElements('username'), $fullname );
 
-        $article->set_var( 'author', $authorname );
-        $profileUrl = $_CONF['site_url'] . '/users.php?mode=profile&amp;uid='
-            . $story->DisplayElements('uid');
+        $authorname = COM_getDisplayName($story->DisplayElements('uid'),
+                                         $username, $fullname);
+        $article->set_var('contributedby_author', $authorname);
+        $article->set_var('author', $authorname);
 
-        if( $story->DisplayElements('uid') > 1 )
-        {
-            $article->set_var( 'contributedby_url', $profileUrl );
-            $authorname = COM_createLink($authorname, $profileUrl, array('class' => 'storybyline'));
+        if ($story->DisplayElements('uid') > 1) {
+            $profileUrl = $_CONF['site_url']
+                        . '/users.php?mode=profile&amp;uid='
+                        . $story->DisplayElements('uid');
+            $article->set_var('start_contributedby_anchortag',
+                    '<a class="storybyline" href="' . $profileUrl . '">');
+            $article->set_var('end_contributedby_anchortag', '</a>');
+            $article->set_var('contributedby_url', $profileUrl);
         }
-        $article->set_var( 'contributedby_author', $authorname );
 
         $photo = '';
         if ($_CONF['allow_user_photo'] == 1) {
@@ -282,9 +286,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 $article->set_var( 'story_page', $story_page );
             }
 
-            $article->set_var( 'story_introtext', $introtext . '<br' . XHTML . '><br' . XHTML . '>'
-                               . $bodytext );
-            $article->set_var( 'story_text_no_br', $introtext . $bodytext );
+            $article->set_var('story_introtext', $introtext
+                    . '<br' . XHTML . '><br' . XHTML . '>' . $bodytext);
+            $article->set_var('story_text_no_br', $introtext . ' ' . $bodytext);
         }
         $article->set_var( 'story_introtext_only', $introtext );
         $article->set_var( 'story_bodytext_only', $bodytext );
@@ -379,6 +383,11 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 $article->set_var( 'post_comment_link',
                         COM_createLink($LANG01[60], $postCommentUrl,
                                        array('rel' => 'nofollow')));
+            /*
+                $article->set_var( 'subscribe_link',
+                        COM_createLink('Nubbies', '', array('rel' => 'nofollow'))
+                                 );
+            */
                 $article->set_var( 'lang_post_comment', $LANG01[60] );
                 $article->set_var( 'start_post_comment_anchortag',
                                    '<a href="' . $postCommentUrl
@@ -472,24 +481,6 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             $article->set_var( 'print_story_url', $printUrl );
             $article->set_var( 'lang_print_story', $LANG11[3] );
             $article->set_var( 'lang_print_story_alt', $LANG01[65] );
-        }
-        if( $_CONF['pdf_enabled'] == 1 )
-        {
-            $pdfUrl = $_CONF['site_url'] . '/pdfgenerator.php?pageType=2&amp;'
-                    . 'pageData=' . urlencode( $printUrl );
-            $pdficon = '<img src="'. $_CONF['layout_url'] . '/images/pdf.'
-                         . $_IMAGE_TYPE . '" alt="'. $LANG01[111]
-                         .'" title="'. $LANG11[5] .'"' . XHTML . '>';
-            $article->set_var( 'pdf_icon',
-                COM_createLink($pdficon, $pdfUrl)
-            );
-            $article->set_var( 'pdf_story_url', $pdfUrl );
-            $article->set_var( 'lang_pdf_story', $LANG11[5] );
-            $article->set_var( 'lang_pdf_story_alt', $LANG01[111] );
-        }
-        else
-        {
-            $article->set_var( 'pdf_icon', '' );
         }
         $article->set_var( 'story_display', 'index' );
 
@@ -690,60 +681,101 @@ function STORY_deleteImages ($sid)
 * This is the story equivalent of PLG_getItemInfo. See lib-plugins.php for
 * details.
 *
-* @param    string  $sid    story ID
-* @param    string  $what   comma-separated list of story properties
-* @return   mixed           string or array of strings with the information
+* @param    string  $sid        story ID or '*'
+* @param    string  $what       comma-separated list of story properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
 *
 */
-function STORY_getItemInfo ($sid, $what)
+function STORY_getItemInfo($sid, $what, $uid = 0, $options = array())
 {
     global $_CONF, $_TABLES;
 
-    $properties = explode (',', $what);
-    $fields = array ();
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
     foreach ($properties as $p) {
         switch ($p) {
-            case 'description':
-                $fields[] = 'introtext';
-                $fields[] = 'bodytext';
-                break;
-            case 'excerpt':
-                $fields[] = 'introtext';
-                break;
-            case 'feed':
-                $fields[] = 'tid';
-                break;
-            case 'title':
-                $fields[] = 'title';
-                break;
-            default: // including 'url'
-                // nothing to do
-                break;
+        case 'date-created':
+            $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
+            break;
+        case 'description':
+            $fields[] = 'introtext';
+            $fields[] = 'bodytext';
+            break;
+        case 'excerpt':
+            $fields[] = 'introtext';
+            break;
+        case 'feed':
+            $fields[] = 'tid';
+            break;
+        case 'id':
+            $fields[] = 'sid';
+            break;
+        case 'title':
+            $fields[] = 'title';
+            break;
+        case 'url':
+            // needed for $sid == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'sid';
+            break;
+        default:
+            // nothing to do
+            break;
         }
     }
 
-    if (count ($fields) > 0) {
-        $result = DB_query ("SELECT " . implode (',', $fields)
-                    . " FROM {$_TABLES['stories']} WHERE sid = '$sid'"
-                    . ' AND (draft_flag = 0) AND (date <= NOW())'
-                    . COM_getPermSql ('AND') . COM_getTopicSql ('AND'));
-        $A = DB_fetchArray ($result);
-    } else {
-        $A = array ();
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
     }
 
-    $retval = array ();
-    foreach ($properties as $p) {
-        switch ($p) {
+    // prepare SQL request
+    if ($sid == '*') {
+        $where = ' WHERE';
+    } else {
+        $where = " WHERE (sid = '" . addslashes($sid) . "') AND";
+    }
+    $where .= ' (draft_flag = 0) AND (date <= NOW())';
+    if ($uid > 0) {
+        $permSql = COM_getPermSql('AND', $uid)
+                 . COM_getTopicSql('AND', $uid);
+    } else {
+        $permSql = COM_getPermSql('AND') . COM_getTopicSql('AND');
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['stories']}" . $where . $permSql;
+    if ($sid != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-created':
+                $props['date-created'] = $A['unixdate'];
+                break;
             case 'description':
-                $retval[] = trim (PLG_replaceTags (stripslashes ($A['introtext']) . ' ' . stripslashes ($A['bodytext'])));
+                $props['description'] = trim(PLG_replaceTags(stripslashes($A['introtext']) . ' ' . stripslashes($A['bodytext'])));
                 break;
             case 'excerpt':
-                $excerpt = stripslashes ($A['introtext']);
-                if (!empty ($A['bodytext'])) {
-                    $excerpt .= "\n\n" . stripslashes ($A['bodytext']);
+                $excerpt = stripslashes($A['introtext']);
+                if (!empty($A['bodytext'])) {
+                    $excerpt .= "\n\n" . stripslashes($A['bodytext']);
                 }
-                $retval[] = trim (PLG_replaceTags ($excerpt));
+                $props['excerpt'] = trim(PLG_replaceTags($excerpt));
                 break;
             case 'feed':
                 $feedfile = DB_getItem($_TABLES['syndication'], 'filename',
@@ -752,30 +784,58 @@ function STORY_getItemInfo ($sid, $what)
                     $feedfile = DB_getItem($_TABLES['syndication'], 'filename',
                                            "topic = '::frontpage'");
                 }
-                if (empty ($feedfile)) {
-                    $feedfile = DB_getItem ($_TABLES['syndication'], 'filename',
-                                            "topic = '{$A['tid']}'");
+                if (empty($feedfile)) {
+                    $feedfile = DB_getItem($_TABLES['syndication'], 'filename',
+                                           "topic = '{$A['tid']}'");
                 }
-                if (empty ($feedfile)) {
-                    $retval[] = '';
+                if (empty($feedfile)) {
+                    $props['feed'] = '';
                 } else {
-                    $retval[] = SYND_getFeedUrl ($feedfile);
+                    $props['feed'] = SYND_getFeedUrl($feedfile);
                 }
+                break;
+            case 'id':
+                $props['id'] = $A['sid'];
                 break;
             case 'title':
-                $retval[] = stripslashes ($A['title']);
+                $props['title'] = stripslashes($A['title']);
                 break;
             case 'url':
-                $retval[] = COM_buildUrl ($_CONF['site_url']
-                                          . '/article.php?story=' . $sid);
+                if (empty($A['sid'])) {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                                        . '/article.php?story=' . $sid);
+                } else {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                                        . '/article.php?story=' . $A['sid']);
+                }
                 break;
             default:
-                $retval[] = ''; // return empty string for unknown properties
+                // return empty string for unknown properties
+                $props[$p] = '';
                 break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($sid == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($sid == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
         }
     }
 
-    if (count ($retval) == 1) {
+    if (($sid != '*') && (count($retval) == 1)) {
         $retval = $retval[0];
     }
 
@@ -787,7 +847,8 @@ function STORY_getItemInfo ($sid, $what)
 *
 * This is used to delete a story from the list of stories.
 *
-* @sid      string      ID of the story to delete
+* @param    string  $sid    ID of the story to delete
+* @return   string          HTML, e.g. a meta redirect
 *
 */
 function STORY_deleteStory($sid)
@@ -801,6 +862,38 @@ function STORY_deleteStory($sid)
     PLG_invokeService('story', 'delete', $args, $output, $svc_msg);
 
     return $output;
+}
+
+/**
+* Delete a story and related data immediately.
+*
+* Note: For internal use only! To delete a story, use STORY_deleteStory (see
+*       above), which will do permission checks and eventually end up here.
+*
+* @param    string  $sid    ID of the story to delete
+* @internal For internal use only!
+*
+*/
+function STORY_doDeleteThisStoryNow($sid)
+{
+    global $_CONF, $_TABLES;
+
+    require_once $_CONF['path_system'] . 'lib-comment.php';
+
+    STORY_deleteImages($sid);
+    DB_delete($_TABLES['comments'], array('sid', 'type'),
+                                    array($sid, 'article'));
+    DB_delete($_TABLES['trackback'], array('sid', 'type'),
+                                     array($sid, 'article'));
+    DB_delete($_TABLES['stories'], 'sid', $sid);
+
+    // notify plugins
+    PLG_itemDeleted($sid, 'article');
+
+    // update RSS feed and Older Stories block
+    COM_rdfUpToDateCheck();
+    COM_olderStuff();
+    CMT_updateCommentcodes();
 }
 
 /**
@@ -832,11 +925,13 @@ function service_submit_story($args, &$output, &$svc_msg)
 
     if (!SEC_hasRights('story.edit')) {
         $output .= COM_siteHeader('menu', $MESSAGE[30])
-                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                 . COM_siteFooter();
 
         return PLG_RET_AUTH_FAILED;
     }
+
+    require_once $_CONF['path_system'] . 'lib-comment.php';
 
     $gl_edit = false;
     if (isset($args['gl_edit'])) {
@@ -1033,13 +1128,13 @@ function service_submit_story($args, &$output, &$svc_msg)
         return PLG_RET_ERROR;
     case STORY_EXISTING_NO_EDIT_PERMISSION:
         $output .= COM_siteHeader('menu', $MESSAGE[30])
-                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                 . COM_siteFooter ();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit story $sid.");
         return PLG_RET_PERMISSION_DENIED;
     case STORY_NO_ACCESS_PARAMS:
         $output .= COM_siteHeader('menu', $MESSAGE[30])
-                . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                 . COM_siteFooter ();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit story $sid.");
         return PLG_RET_PERMISSION_DENIED;
@@ -1101,6 +1196,9 @@ function service_submit_story($args, &$output, &$svc_msg)
                     $upload->keepOriginalImage (true);
                 } else {
                     $upload->keepOriginalImage (false);
+                }
+                if (isset($_CONF['jpeg_quality'])) {
+                    $upload->setJpegQuality($_CONF['jpeg_quality']);
                 }
             }
             $upload->setAllowedMimeTypes (array (
@@ -1186,22 +1284,16 @@ function service_submit_story($args, &$output, &$svc_msg)
 
     if ($result == STORY_SAVED) {
         // see if any plugins want to act on that story
-        $plugin_error = PLG_itemSaved ($sid, 'article');
-
-        // always clear 'in_transit' flag
-        DB_change ($_TABLES['stories'], 'in_transit', 0, 'sid', $sid);
-
-        // in case of an error go back to the story editor
-        if ($plugin_error !== false) {
-            $output .= COM_siteHeader ('menu', $LANG24[5]);
-            $output .= storyeditor ($sid, 'retry', $plugin_error);
-            $output .= COM_siteFooter ();
-            return PLG_RET_ERROR;
+        if ((! empty($args['old_sid'])) && ($args['old_sid'] != $sid)) {
+            PLG_itemSaved($sid, 'article', $args['old_sid']);
+        } else {
+            PLG_itemSaved($sid, 'article');
         }
 
         // update feed(s) and Older Stories block
         COM_rdfUpToDateCheck('article', $story->DisplayElements('tid'), $sid);
-        COM_olderStuff ();
+        COM_olderStuff();
+        CMT_updateCommentcodes();
 
         if ($story->type == 'submission') {
             $output = COM_refresh ($_CONF['site_admin_url'] . '/moderation.php?msg=9');
@@ -1254,18 +1346,9 @@ function service_delete_story($args, &$output, &$svc_msg)
         }
     }
 
-    STORY_deleteImages ($sid);
-    DB_query("DELETE FROM {$_TABLES['comments']} WHERE sid = '$sid' AND type = 'article'");
-    DB_delete ($_TABLES['stories'], 'sid', $sid);
+    STORY_doDeleteThisStoryNow($sid);
 
-    // delete Trackbacks
-    DB_query ("DELETE FROM {$_TABLES['trackback']} WHERE sid = '$sid' AND type = 'article';");
-
-    // update RSS feed and Older Stories block
-    COM_rdfUpToDateCheck ();
-    COM_olderStuff ();
-
-    $output = COM_refresh ($_CONF['site_admin_url'] . '/story.php?msg=10');
+    $output = COM_refresh($_CONF['site_admin_url'] . '/story.php?msg=10');
 
     return PLG_RET_OK;
 }
@@ -1353,6 +1436,8 @@ function service_get_story($args, &$output, &$svc_msg)
             $varname = '_' . $fieldname;
             $output[$fieldname] = $story->{$varname};
         }
+        $output['username'] = $story->_username;
+        $output['fullname'] = $story->_fullname;
 
         if ($args['gl_svc']) {
             if (($output['statuscode'] == STORY_ARCHIVE_ON_EXPIRE) ||
@@ -1402,7 +1487,7 @@ function service_get_story($args, &$output, &$svc_msg)
             . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid)" . COM_getPermSQL('AND', $_USER['uid'], 2, 's') . $order . $limit;
 
         $sql['mssql'] =
-            "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid)" . COM_getPermSQL('AND', $_USER['uid'], 2, 's') . $order . $limit;
+            "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid)" . COM_getPermSQL('AND', $_USER['uid'], 2, 's') . $order . $limit;
 
         $result = DB_query($sql);
 

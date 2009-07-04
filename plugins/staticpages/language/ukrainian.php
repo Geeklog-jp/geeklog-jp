@@ -102,13 +102,17 @@ $LANG_STATIC = array(
     'select_php_none' => 'не виконувати PHP',
     'select_php_return' => 'виконувати PHP (return)',
     'select_php_free' => 'виконувати PHP',
-    'php_not_activated' => "Використання PHP у статичних сторінках не активоване. Будь ласка, подивіться в <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\">документацію</a> щодо деталей.",
+    'php_not_activated' => "Використання PHP у статичних сторінках не активоване. Будь ласка, подивіться в <a href=\"{$_CONF['site_url']}/docs/english/staticpages.html#php\">документацію</a> щодо деталей.",
     'printable_format' => 'Формат для друку',
     'copy' => 'Копіювати',
     'limit_results' => 'Обмежити результати',
     'search' => 'Пошук',
     'submit' => 'Відіслати'
 );
+
+$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE19 = 'Your page has been successfully saved.';
+$PLG_staticpages_MESSAGE20 = 'Your page has been successfully deleted.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';

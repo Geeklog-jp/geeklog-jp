@@ -106,13 +106,17 @@ $LANG_STATIC = array(
     'select_php_none' => 'PHP nicht ausführen',
     'select_php_return' => 'PHP ausführen (mit return)',
     'select_php_free' => 'PHP ausführen',
-    'php_not_activated' => "Das Verwenden von PHP in statischen Seiten ist nicht aktiviert. Hinweise zur Aktivierung finden sich in der <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\">Dokumentation</a>.",
+    'php_not_activated' => "Das Verwenden von PHP in statischen Seiten ist nicht aktiviert. Hinweise zur Aktivierung finden sich in der <a href=\"{$_CONF['site_url']}/docs/english/staticpages.html#php\">Dokumentation</a>.",
     'printable_format' => 'Druckfähige Version',
     'copy' => 'Kopieren',
     'limit_results' => 'Ergebnisse einschränken',
     'search' => 'Suchen',
     'submit' => 'Absenden'
 );
+
+$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE19 = 'Seite wurde gespeichert.';
+$PLG_staticpages_MESSAGE20 = 'Seite wurde gelöscht';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';
