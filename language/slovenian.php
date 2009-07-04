@@ -48,10 +48,10 @@ $LANG01 = array(
     2 => 'Beri dalje',
     3 => 'komentarjev.',
     4 => 'Uredi',
-    5 => 'Anketa',
-    6 => 'Rezultati',
+    5 => '',
+    6 => '',
     7 => '',
-    8 => 'glasov<br' . XHTML . '>',
+    8 => '',
     9 => 'Administracijske funkcije:',
     10 => 'Èakajoèa vsebina',
     11 => 'Èlanki',
@@ -154,7 +154,7 @@ $LANG01 = array(
     108 => 'Izprazni cache',
     109 => 'Prijavi zlorabo',
     110 => 'Prijavi ta prispevek skrbniku strani',
-    111 => 'Razlièica PDF',
+    111 => '',
     112 => 'Prijavljeni uporabniki',
     113 => 'Dokumentacija',
     114 => 'TRACKBACKS',
@@ -206,7 +206,23 @@ $LANG03 = array(
     24 => 'Anonimni uporabnik',
     25 => 'Hoèeš ta prispevek res prijaviti skrbniku strani?',
     26 => '%s je prijavil sledeèi prispevek, ki zlorablja:',
-    27 => 'Prijava zlorabe'
+    27 => 'Prijava zlorabe',
+    28 => 'Preview Changes',
+    29 => 'Submit Changes',
+    30 => 'Edited on',
+    31 => 'by',
+    32 => 'Editing a Comment',
+    33 => 'Editing a Comment Submission',
+    34 => 'Preview Submission Changes',
+    35 => 'Save Changes to Queue',
+    36 => 'Notify me of new replies',
+    37 => 'New Comment Reply',
+    38 => 'A reply has been made to your comment \'%s\'.',
+    39 => 'You may view the comment thread at the following address:',
+    40 => 'If you wish to receive no further notifications of replies, visit the following link:',
+    41 => 'Hello %s,',
+    42 => 'Unsubscribe',
+    43 => 'Unsubscribe from reply notifications'
 );
 
 ###############################################################################
@@ -366,7 +382,10 @@ $LANG04 = array(
     156 => 'Izbriši raèun',
     157 => 'Briši opcijo',
     158 => 'Èasovni pas',
-    159 => 'Ta pošta je poslana samodejno. Prosim ne odgovarjaj najo.'
+    159 => 'Ta pošta je poslana samodejno. Prosim ne odgovarjaj najo.',
+    160 => '(max. %d x %d pixels, %d bytes; %s)',
+    161 => 'will be scaled down',
+    162 => 'will not be scaled'
 );
 
 ###############################################################################
@@ -434,7 +453,10 @@ $LANG08 = array(
     32 => 'Datum',
     33 => 'Preberi celotno besedilo na povezavi ',
     34 => 'Konec sporoèila',
-    35 => 'Žal ta uporabnik ne želi prejemati e-pošte.'
+    35 => 'Žal ta uporabnik ne želi prejemati e-pošte.',
+    36 => 'Copy:',
+    37 => 'Send me a copy of this email',
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
 );
 
 ###############################################################################
@@ -501,7 +523,16 @@ $LANG09 = array(
     58 => 'Veè  rezultatov &gt;&gt;',
     59 => 'Rezultati',
     60 => 'na stran',
-    61 => 'Podrobnejše iskanje'
+    61 => 'Podrobnejše iskanje',
+    62 => '#',
+    63 => 'Description',
+    64 => 'Showing %1$d - %2$d of %3$d results',
+    65 => 'Story',
+    66 => 'Comment',
+    67 => 'Show %d Results',
+    68 => 'Sort By',
+    69 => 'Titles Only',
+    70 => 'Not available ...'
 );
 
 ###############################################################################
@@ -549,7 +580,7 @@ $LANG11 = array(
     2 => 'Pošlji èlanek prijatelju po e-pošti',
     3 => 'Za tisk prijazna stran',
     4 => 'Dodatne možnosti',
-    5 => 'Èlanek v formatu PDF',
+    5 => '',
     6 => 'Obvesti me o komentarjih na \'%s\''
 );
 
@@ -771,7 +802,7 @@ $LANG24 = array(
     60 => '',
     61 => 'Samodejno arhiviranje',
     62 => 'Samodejno brisanje',
-    63 => '',
+    63 => 'Disable Comments',
     64 => '',
     65 => '',
     66 => '',
@@ -922,7 +953,9 @@ $LANG28 = array(
     82 => "Vaš raèun na {$_CONF['site_name']} ni bil uporabljen od %s in bo onemogoèen, èe ga ne uporabite v 30 dneh.",
     83 => "Vaš raèun na {$_CONF['site_name']} ni bil uporabljen odkar je bil ustvarjen in bo pobrisak kmalu, èe ga ne uporabite.",
     84 => "Vaše uporabniško ime je: %s  za internetno stran: {$_CONF['site_url']}",
-    85 => 'èe ste pozabili geslo, uporabite tole povezavo: %s'
+    85 => 'èe ste pozabili geslo, uporabite tole povezavo: %s',
+    86 => 'Include',
+    87 => 'Reminders'
 );
 
 ###############################################################################
@@ -944,11 +977,14 @@ $LANG29 = array(
     18 => 'E-naslov',
     34 => 'Skrbnikove strani',
     35 => 'Èakajoèi èlanki',
-    36 => '',
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'Oddaj',
     39 => 'Trenutno ni nobene èakajoèe vsebine',
-    40 => 'Uporabniška èakajoèa vsebina'
+    40 => 'Uporabniška èakajoèa vsebina',
+    41 => 'Comment Submissions',
+    42 => 'User Name',
+    43 => 'Auto-publish Comments?'
 );
 
 ###############################################################################
@@ -1024,7 +1060,20 @@ $LANG32 = array(
     35 => 'Uredi',
     36 => 'Koda',
     37 => 'Podatki',
-    38 => 'Posodobi!'
+    38 => 'Posodobi!',
+    39 => 'Upload a plugin',
+    40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
+    41 => 'Upload',
+    99 => 'An unknown error occured',
+    100 => 'Ok.',
+    101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
+    102 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.',
+    103 => 'The uploaded file was only partially uploaded.',
+    104 => 'No file was uploaded.',
+    105 => '(undefined error)',
+    106 => 'Missing a temporary folder.',
+    107 => 'Failed to write file to disk.',
+    108 => 'File upload stopped by extension.'
 );
 
 ###############################################################################
@@ -1101,8 +1150,8 @@ $MESSAGE = array(
     12 => 'Blok je bil uspešno izbrisan.',
     13 => 'Rubrika je bila uspešno shranjeno.',
     14 => 'Rubrika skupaj z vsemi èlanki in bloki je bila uspešno izbrisana.',
-    15 => '',
-    16 => '',
+    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
     19 => '',
@@ -1115,24 +1164,24 @@ $MESSAGE = array(
     26 => '',
     27 => 'Sporoèilo je bilo uspešno poslano.',
     28 => 'Vtiènik je bil uspešno shranjen',
-    29 => '',
+    29 => 'Sorry, you do not have access to this administration page.  Please note that all attempts to access unauthorized features are logged',
     30 => 'Dostop zavrnjen',
-    31 => 'Žal nimaš dostopa do skrbništva èlankov. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
-    32 => 'Žal nimaš dostopa do skrbništva tematskih podroèij. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
-    33 => 'Žal nimaš dostopa do skrbništva blokov. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
+    31 => '',
+    32 => '',
+    33 => '',
     34 => '',
     35 => '',
     36 => '',
-    37 => 'Žal nimaš dostopa do skrbništva uporabnikov. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
-    38 => 'Žal nimaš dostopa do skrbništva vtiènikov. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
-    39 => 'Žal nimaš dostopa do skrbništva elektronske pošte. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
+    37 => '',
+    38 => '',
+    39 => '',
     40 => 'Sistemsko sporoèilo',
-    41 => 'Žal nimaš dostopa do strani za menjavo besed. Vsi poskusi dostopa do nepooblašèenih funkcij se beležijo.',
-    42 => 'Beseda je uspešno shranjena.',
-    43 => 'Beseda je uspešno izbrisana.',
+    41 => '',
+    42 => '',
+    43 => '',
     44 => 'Vtiènik je uspešno namešèen.',
     45 => 'Vtiènik je uspešno odstranjen.',
-    46 => 'Žal nimaš dostopa do varnostnih kopij baze. Vsak poskus nedovoljenega dostopa se beleži.',
+    46 => '',
     47 => 'To deluje samo v operacijskem sistemu *nix.  Èe uporabljaš operacijski sistem, potem *nix , je bil cache uspešno izpraznjen. Èe uporabljaš Windows OS, boš moral poiskati datoteke po imenu adodb_*.php in jih odstraniti roèno.',
     48 => "Hvala, da si zaprosil za èlanstvo v {$_CONF['site_name']}. Pregledali bomo tvojo prošnjo. Èe bo odobrena, boš dobil geslo na e-naslov, ki si ga ravnokar vnesel.",
     49 => 'Skupina je uspešno shranjena.',
@@ -1182,8 +1231,14 @@ $MESSAGE = array(
     93 => 'Varnostna kopija baze podatkov, je bila uspešno narejena.',
     94 => 'Varnostna kopija baze podatkov NI uspela: Datoteka je manjša kot 1kb',
     95 => 'Prišlo je do napake.',
-    96 => 'Žal, nimaš dostopa do strani z nastavitvami!   Vedi da so vsi poskusi za dostop do zašèitenih lastnosti strani zabeleženi.',
-    97 => 'Not all required fields have been passed validation - default custom membership message'
+    96 => '',
+    97 => '',
+    98 => 'The plugin was successfully uploaded.',
+    99 => 'The plugin already exists.',
+    100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
+    101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    400 => 'Not all required fields have been passed validation',
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1261,11 +1316,8 @@ $LANG_DB_BACKUP = array(
     'last_ten_backups' => 'Zadnjih 10 varnostnih kopij',
     'do_backup' => 'Naredi varnostno kopijo',
     'backup_successful' => 'Varnostno shranjevanje baze podatkov je bilo uspešno.',
-    'db_explanation' => 'Èe hoèeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',    
-    'not_found' => "Napaèna pot ali pa orodje mysqldump ni izvršljivo.<br" 
-        . XHTML . ">Preveri definicijo <strong>\$_DB_mysqldump_path</strong> v Nastavitvah.<br" 
-        . XHTML . '> Preveri <a href="http://www.php.net/ manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a> nastavitev v PHP nastavitvah.<br'
-        . XHTML . ">Pot je trenutno definirana kot: <var>{$_DB_mysqldump_path}</var>",
+    'db_explanation' => 'Èe hoèeš ustvariti novo varnostno kopijo baze podatkov sistema Geeklog , klikni "Ustvari" zgoraj.',
+    'not_found' => "Napaèna pot ali pa orodje mysqldump ni izvršljivo.<br" . XHTML . ">Preveri definicijo <strong>\$_DB_mysqldump_path</strong> v Nastavitvah.<br" . XHTML . "> Preveri <a href=\"http://www.php.net/ manual/en/features.safe-mode.php#ini.open-basedir\">open_basedir</a> nastavitev v PHP nastavitvah.<br" . XHTML . ">Pot je trenutno definirana kot: <var>{$_DB_mysqldump_path}</var>",
     'zero_size' => 'Varnostno kopiranje neuspešno: Velikost datoteke je 0 bajtov',
     'path_not_found' => "{$_CONF['backup_path']} ne obstaja ali pa ni direktorij",
     'no_access' => "NAPAKA: Direktorij {$_CONF['backup_path']} ni dosegljiv.",
@@ -1309,26 +1361,6 @@ $LANG_LOGIN = array(
     2 => 'Oprosti, za ogled tega dela strani moraš biti prijavljen kot uporabnik.',
     3 => 'Prijava',
     4 => 'Nov uporabnik'
-);
-
-###############################################################################
-# pdfgenerator.php
-
-$LANG_PDF = array(
-    1 => 'Funkcija PDF je onemogoèena',
-    2 => 'Priskrbljeni dokument ni bil renderiran. Bil je prejet, ampak ga ni bilo mogoèe procesirati. Peprièaj se, da oddajaš samo dokumente v obliki html, ki so bili napisani po standardu xHTML. Izjemno kompleksni dokumenti se lahko renderirajo nepravilno ali pa sploh ne. Dokument, ki je nastal v poskusu renderiranja, je imel 0 bajtov in je bil izbrisan. Èe si preprièan/a, da bi se ta dokument moral pravilno renderirati, ga pošlji ponovno.',
-    3 => 'Neznana napaka med izdelavo dokumenta PDF',
-    4 => 'Podatki o strani niso bili podani ali pa hoèeš uporabiti orodje za ad-hoc izdelavo dokumentov PDF spodaj. Èe misliš, da si to stran dobil/a pomotoma, prosim sporoèi to skrbniku sistema. V nasprotnem primeru lahko uporabiš spodnji obrazec in ustvariš dokumente PDF na naèin ad-hoc.',
-    5 => 'Nalagam dokument.',
-    6 => 'Prosim poèakaj, dokument se nalaga.',
-    7 => 'Spodnji gumb lahko desnokliknete in izberete \'shrani ciljni dokument ...\' ali \'shrani mesto povezave ...\', da shranite kopijo dokumenta.',
-    8 => 'Pot do izvršilne datoteke HTMLDoc, ki je zapisana v nastavitvah, je napaèna, zato je sistem ne more zagnati. Èe se težava ponavlja, to prosim sporoèite skrbniku strani.',
-    9 => 'Izdelovalnik PDF',
-    10 => 'To je orodje za ad-hoc izdelavo dokumentov PDF. Orodje bo poskusilo predelati vse URL-je  v PDF-ju. Prosim zavedaj se, da se nekatere spletne strani s tem naèinom ne bodo pravilno renderirale.  To je omejitev orodja HTMLDoc za izdelavo dokumentov PDF, zato teh napak ni treba prijavljati skrbniku strani.',
-    11 => 'URL',
-    12 => 'Izdelaj PDF!',
-    13 => 'PHP konfiguracija na tem strežniku ne dovoli odpiranja URL-jev z ukazom fopen(). Skrbnik strani mora popraviti datoteko php.ini, tako da v njej prestavi allow_url_fopen na On.',
-    14 => 'Zahtevani PDF ne obstaja ali pa si poskusil/a do datoteke dostopiti nedovoljeno.'
 );
 
 ###############################################################################
@@ -1430,6 +1462,31 @@ $LANG_DIR = array(
 );
 
 ###############################################################################
+# admin/sectest.php
+
+$LANG_SECTEST = array(
+    'sectest' => 'Geeklog Security Check',
+    'results' => 'Results of the Security Check',
+    'okay' => 'Everything seems to be in order.',
+    'please_fix' => 'Please fix the above issues before using your site!',
+    'please_note' => 'Please note that no site is ever 100% secure. This script can only test for obvious security issues.',
+    'stay_informed' => 'To stay informed about new Geeklog releases and possible security issues, we suggest that you subscribe to the (low-traffic) %s mailing list and/or use the %s option in your Admin menu from time to time to check for available updates.',
+    'public_html' => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
+    'installation' => 'installation instructions',
+    'directory' => 'directory',
+    'failed_bak' => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'fix_it' => 'This is a security risk and should be fixed!',
+    'reachable' => 'Your %s is reachable from the web.',
+    'not_reachable' => 'Good! Your %s is not reachable from the web.',
+    'not_sure' => 'Got an HTTP result code %s when trying to test your %s. Not sure what to make of it ...',
+    'remove_inst' => 'You should really remove the install directory %s once you have your site up and running without any errors.',
+    'remove_inst2' => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
+    'inst_removed' => 'Good! You seem to have removed the install directory already.',
+    'fix_password' => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'password_okay' => 'Good! You seem to have changed the default account password already.'
+);
+
+###############################################################################
 # "What's New" Time Strings
 # 
 # For the first two strings, you can use the following placeholders.
@@ -1516,7 +1573,8 @@ $LANG_ADMIN = array(
     'records_found' => 'Najdeni zapisi',
     'addchild' => 'Dodaj novo (child)',
     'list' => 'izpiši',
-    'list_all' => 'Izpiši vse'
+    'list_all' => 'Izpiši vse',
+    'na' => 'N/A'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1618,7 +1676,9 @@ $LANG_confignames['Core'] = array(
     'allow_mysqldump' => 'Dovoli MySQL Dump',
     'mysqldump_path' => 'Pot do programov',
     'mysqldump_options' => 'MySQL Dump možnosti',
+    'mysqldump_filename_mask' => 'Backup File Name Mask',
     'theme' => 'Postavitev',
+    'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Elementi menija',
     'path_themes' => 'Pot do tem',
     'disable_new_user_registration' => 'Onemogoèi nove registracije',
@@ -1657,6 +1717,7 @@ $LANG_confignames['Core'] = array(
     'cookie_theme' => 'Ime piškotka za temo',
     'cookie_language' => 'Ime piškotka za jezik',
     'cookie_tzid' => 'Ime piškotka za èasovni pas',
+    'cookie_anon_name' => 'Anon. Username Cookie Name',
     'cookie_ip' => 'Naj piškotki vsebujejo IP?',
     'default_perm_cookie_timeout' => 'Iztek stalnega piškotka',
     'session_cookie_timeout' => 'Iztek seje',
@@ -1664,7 +1725,6 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'Domena piškotka',
     'cookiesecure' => 'Varni piškotek',
     'lastlogin' => 'Zapomni si zadnjo prijavo?',
-    'pdf_enabled' => 'PDF omogoèen?',
     'num_search_results' => 'Število rezultatov iskanja',
     'loginrequired' => 'Zahtevana prijava?',
     'submitloginrequired' => 'Zahtevana prijava za pošiljanja?',
@@ -1748,6 +1808,7 @@ $LANG_confignames['Core'] = array(
     'debug_image_upload' => 'Debug Image Uploading?',
     'keep_unscaled_image' => 'Shrani originalne slike?',
     'allow_user_scaling' => 'Dovoli uporabniku spremembo velikosti?',
+    'jpeg_quality' => 'JPEG Quality?',
     'max_image_width' => 'Najveèja širina slike?',
     'max_image_height' => 'Najveèja višina slike?',
     'max_image_size' => 'Najveèja velikost slike?',
@@ -1765,14 +1826,21 @@ $LANG_confignames['Core'] = array(
     'comment_limit' => 'Število komentarjev',
     'comment_mode' => 'Naèin prikaza komentarjev',
     'comment_code' => 'Prednastavljen komentar',
+    'comment_edit' => 'Allow Comment Edit?',
+    'comment_edittime' => 'Comment Edit Time (seconds)',
+    'commentsubmission' => 'Queue Comment Submissions',
     'passwordspeedlimit' => 'Zahtevani èas med vpisi gesla',
     'login_attempts' => 'Najveèje število poizkusov prijave',
     'login_speedlimit' => 'Zahtevani èas med prijavami',
     'user_html' => 'Uporabnikov HTML',
     'admin_html' => 'Adminov HTML',
+    'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Preskoèi HTML Filtriranje za Root-a?',
     'allowed_protocols' => 'Dovoljeni Protokoli',
     'disable_autolinks' => 'Onemogoèi samodejne povezave (Autolinks)?',
+    'clickable_links' => 'Make URLs clickable?',
+    'compressed_output' => 'Send compressed output?',
+    'frame_options' => 'Protection against "clickjacking"',
     'censormode' => 'Naèin cenzor?',
     'censorreplace' => 'Text namesto cenzuriranega',
     'censorlist' => 'seznam cenzur',
@@ -1783,7 +1851,18 @@ $LANG_confignames['Core'] = array(
     'default_permissions_topic' => 'Prednastavljena dovoljenja rubrike',
     'atom_max_stories' => 'Najveèje število èlankov v Webservices Feed',
     'disable_webservices' => 'Onemogoèi Webservices?',
-    'restrict_webservices' => 'Omeji Webservices?'
+    'restrict_webservices' => 'Omeji Webservices?',
+    'article_comment_close_days' => 'Days to close comments (default)',
+    'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
+    'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'search_style' => 'Results List Style',
+    'search_limits' => 'Page Limits',
+    'search_show_num' => 'Show Result Number?',
+    'search_show_type' => 'Show Result Type?',
+    'search_show_sort' => 'Allow User to Sort Results?',
+    'search_show_limit' => 'Show Page Limits?',
+    'search_separator' => 'Group Separator',
+    'search_def_keytype' => 'Default Search Method'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1860,7 +1939,11 @@ $LANG_configselects['Core'] = array(
     15 => array('Po zaporednih številkah' => 'sortnum', 'Po abecedi' => 'alpha'),
     16 => array('Prijava ni potrebna' => 0, 'Samo napredno iskanje' => 1, 'Preprosto in napredno iskanje' => 2),
     17 => array('Komentarji omogoèeni' => 0, 'Komentarji onemogoèeni' => -1),
-    18 => array('Onemogoèeno' => 0, 'Omogoèeno (Popolno ujemanje)' => 1, 'Omogoèeno (Zaèetek besede)' => 2, 'Omogoèeno (Del besede)' => 3)
+    18 => array('Onemogoèeno' => 0, 'Omogoèeno (Popolno ujemanje)' => 1, 'Omogoèeno (Zaèetek besede)' => 2, 'Omogoèeno (Del besede)' => 3),
+    19 => array('Google' => 'google', 'Table' => 'table'),
+    20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
 );
 
 ?>

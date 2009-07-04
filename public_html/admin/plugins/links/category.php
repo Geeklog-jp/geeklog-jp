@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Links Plugin 2.0                                                          |
+// | Links Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | category.php                                                              |
 // |                                                                           |
 // | Geeklog links category administration page.                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users.sourceforge DOT net        |
@@ -32,9 +32,27 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: category.php,v 1.19 2008/06/22 08:55:01 dhaun Exp $
 
+/**
+ * Geeklog links categories administration page.
+ *
+ * @package Links
+ * @subpackage admin
+ * @filesource
+ * @version 2.1
+ * @since Geeklog 1.5.0
+ * @copyright Copyright &copy; 2000-2009
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Tony Bibbs, tony AT tonybibbs DOT com
+ * @author Mark Limburg, mlimburg AT users.sourceforge DOT net
+ * @author Jason Whittenburg, jwhitten AT securitygeeks DOT com
+ * @author Dirk Haun, dirk AT haun-online DOT de
+ * @author Euan McKay, info AT heatherengineering DOT com
+ */
+
+/** 
+* Geeklog common function library and Admin authentication
+*/
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
 
@@ -46,14 +64,11 @@ require_once '../../auth.inc.php';
 $display = '';
 
 if (!SEC_hasRights('links.edit')) {
-    $display .= COM_siteHeader ('menu');
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[34];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog("User {$_USER['username']} tried to illegally access the link administration screen.");
-    echo $display;
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the link category administration screen.");
+    COM_output($display);
     exit;
 }
 
@@ -87,18 +102,19 @@ function links_list_categories($root)
 
     $defsort_arr = array('field' => 'category', 'direction' => 'asc');
 
+    $links_url = $_CONF['site_admin_url'] . '/plugins/links';
     $menu_arr = array (
-        array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php',
+        array('url'  => $links_url . '/index.php',
               'text' => $LANG_LINKS_ADMIN[53]),
-        array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php?mode=edit',
+        array('url'  => $links_url . '/index.php?mode=edit',
               'text' => $LANG_LINKS_ADMIN[51]),
-        array('url' => $_CONF['site_admin_url'] . '/plugins/links/index.php?validate=enabled',
+        array('url'  => $links_url . '/index.php?validate=enabled',
               'text' => $LANG_LINKS_ADMIN[26]),
-        array('url' => $_CONF['site_admin_url'] . '/plugins/links/category.php',
+        array('url'  => $links_url . '/category.php',
               'text' => $LANG_LINKS_ADMIN[50]),
-        array('url' => $_CONF['site_admin_url'] . '/plugins/links/category.php?mode=edit',
+        array('url'  => $links_url . '/category.php?mode=edit',
               'text' => $LANG_LINKS_ADMIN[52]),
-        array('url' => $_CONF['site_admin_url'],
+        array('url'  => $_CONF['site_admin_url'],
               'text' => $LANG_ADMIN['admin_home'])
     );
 
@@ -182,7 +198,7 @@ function links_edit_category($cid, $pid)
         // nothing, so making a new top-level category
         // get default access rights
         $A['group_id'] = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name='Links Admin'");
-        SEC_setDefaultPermissions($A, $_LI_CONF['default_permissions']);
+        SEC_setDefaultPermissions($A, $_LI_CONF['category_permissions']);
         $A['owner_id'] = $_USER['uid'];
         $A['pid']      = $_LI_CONF['root'];
     }
@@ -267,8 +283,10 @@ function links_edit_category($cid, $pid)
     $T->set_var('group_dropdown', SEC_getGroupDropdown($A['group_id'], $access));
     $T->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $T->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
+    $T->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
     $T->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],
             $A['perm_group'], $A['perm_members'], $A['perm_anon']));
+    $T->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $T->set_var('lang_lockmsg', $LANG_ACCESS['permmsg']);
     $T->set_var('gltoken_name', CSRF_TOKEN);
     $T->set_var('gltoken', SEC_createToken());
@@ -298,8 +316,10 @@ function links_save_category($cid, $old_cid, $pid, $category, $description, $tid
     }
 
     // clean 'em up
-    $description = addslashes(COM_checkHTML(COM_checkWords($description)));
-    $category    = addslashes(COM_checkHTML(COM_checkWords($category)));
+    $description = addslashes(COM_checkHTML(COM_checkWords($description),
+                              'links.edit'));
+    $category    = addslashes(COM_checkHTML(COM_checkWords($category),
+                              'links.edit'));
     $pid         = addslashes(strip_tags($pid));
     $cid         = addslashes(strip_tags($cid));
     $old_cid     = addslashes(strip_tags($old_cid));
@@ -414,6 +434,12 @@ function links_save_category($cid, $old_cid, $pid, $category, $description, $tid
                     '{$perm_group}','{$perm_members}','{$perm_anon}')";
             $result = DB_query($sql);
         }
+
+        if (($update == 'existing') && ($cid != $old_cid)) {
+            PLG_itemSaved($cid, 'links.category', $old_cid);
+        } else {
+            PLG_itemSaved($cid, 'links.category');
+        }
     }
 
     return 10; // success message
@@ -447,6 +473,7 @@ function links_delete_category($cid)
             if (($sf == 0) && ($sl == 0)) {
                 // No subfolder/links so OK to delete
                 DB_delete($_TABLES['linkcategories'], 'cid', $cid);
+                PLG_itemDeleted($cid, 'links.category');
                 return 13;
             } else {
                 // Subfolders and/or sublinks exist so return a message
@@ -537,6 +564,6 @@ if ((($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) || ($mo
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

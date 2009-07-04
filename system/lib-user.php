@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-user.php                                                              |
 // |                                                                           |
 // | User-related functions needed in more than one place.                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-user.php,v 1.49 2008/09/21 08:37:12 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-user.php') !== false) {
     die('This file can not be used on its own!');
@@ -135,14 +133,13 @@ function USER_deleteAccount ($uid)
 *
 * @param    string  $username   user's login name
 * @param    string  $useremail  user's email address
-* @return   bool                true = success, false = an error occured
+* @return   boolean             true = success, false = an error occured
 *
 */
 function USER_createAndSendPassword ($username, $useremail, $uid)
 {
     global $_CONF, $_TABLES, $LANG04;
 
-    srand ((double) microtime () * 1000000);
     $passwd = rand ();
     $passwd = md5 ($passwd);
     $passwd = substr ($passwd, 1, 8);
@@ -178,7 +175,6 @@ function USER_createAndSendPassword ($username, $useremail, $uid)
     $subject = $_CONF['site_name'] . ': ' . $LANG04[16];
     if ($_CONF['site_mail'] !== $_CONF['noreply_mail']) {
         $mailfrom = $_CONF['noreply_mail'];
-        global $LANG_LOGIN;
         $mailtext .= LB . LB . $LANG04[159];
     } else {
         $mailfrom = $_CONF['site_mail'];
@@ -192,7 +188,7 @@ function USER_createAndSendPassword ($username, $useremail, $uid)
 *
 * @param    string  $username   user's login name
 * @param    string  $useremail  user's email address
-* @return   bool                true = success, false = an error occured
+* @return   boolean             true = success, false = an error occured
 *
 */
 function USER_sendActivationEmail ($username, $useremail)
@@ -221,7 +217,6 @@ function USER_sendActivationEmail ($username, $useremail)
     $subject = $_CONF['site_name'] . ': ' . $LANG04[120];
     if ($_CONF['site_mail'] !== $_CONF['noreply_mail']) {
         $mailfrom = $_CONF['noreply_mail'];
-        global $LANG_LOGIN;
         $mailtext .= LB . LB . $LANG04[159];
     } else {
         $mailfrom = $_CONF['site_mail'];
@@ -336,7 +331,9 @@ function USER_createAccount ($username, $email, $passwd = '', $fullname = '', $h
         } else {
             $mode = 'active';
         }
-        USER_sendNotification ($username, $email, $uid, $mode);
+        $username = COM_getDisplayName($uid, $username, $fullname,
+                                       $remoteusername, $service);
+        USER_sendNotification($username, $email, $uid, $mode);
     }
 
     return $uid;
@@ -349,6 +346,7 @@ function USER_createAccount ($username, $email, $passwd = '', $fullname = '', $h
 * @param email    string      Email address of the new user
 * @param uid      int         User id of the new user
 * @param mode     string      Mode user was added at.
+* @return         boolean     true = success, false = an error occured
 *
 */
 function USER_sendNotification ($username, $email, $uid, $mode='inactive')
@@ -371,19 +369,20 @@ function USER_sendNotification ($username, $email, $uid, $mode='inactive')
     $mailbody .= "\n------------------------------\n";
 
     $mailsubject = $_CONF['site_name'] . ' ' . $LANG29[40];
-    COM_mail ($_CONF['site_mail'], $mailsubject, $mailbody);
+
+    return COM_mail($_CONF['site_mail'], $mailsubject, $mailbody);
 }
 
 /**
 * Get a user's photo, either uploaded or from an external service
+*
+* NOTE:     All parameters are optional and can be passed as 0 / empty string.
 *
 * @param    int     $uid    User ID
 * @param    string  $photo  name of the user's uploaded image
 * @param    string  $email  user's email address (for gravatar.com)
 * @param    int     $width  preferred image width
 * @return   string          <img> tag or empty string if no image available
-*
-* @note     All parameters are optional and can be passed as 0 / empty string.
 *
 */
 function USER_getPhoto ($uid = 0, $photo = '', $email = '', $width = 0)
@@ -469,11 +468,11 @@ function USER_getPhoto ($uid = 0, $photo = '', $email = '', $width = 0)
 /**
 * Delete a user's photo (i.e. the actual file)
 *
-* @param    string  $photo          name of the photo (without the path)
-* @param    bool    $abortonerror   true: abort script on error, false: don't
-* @return   void
+* NOTE:     Will silently ignore non-existing files.
 *
-* @note     Will silently ignore non-existing files.
+* @param    string  $photo          name of the photo (without the path)
+* @param    boolean $abortonerror   true: abort script on error, false: don't
+* @return   void
 *
 */
 function USER_deletePhoto ($photo, $abortonerror = true)
@@ -610,7 +609,7 @@ function USER_emailMatches ($email, $domain_list)
 *
 * @param    string  $username   initial username
 * @return   string              unique username
-* @bugs     Race conditions apply ...
+* @todo     Bugs: Race conditions apply ...
 *
 */
 function USER_uniqueUsername($username)

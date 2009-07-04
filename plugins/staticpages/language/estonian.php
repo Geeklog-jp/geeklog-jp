@@ -104,13 +104,17 @@ $LANG_STATIC = array(
     'select_php_none' => 'ära käivita PHP',
     'select_php_return' => 'käivita PHP (return)',
     'select_php_free' => 'käivita PHP',
-    'php_not_activated' => "Staatilistel lehtedel pole PHP kasutamine sisse lülitatud. Täpsemat infot palun vaata <a href=\"{$_CONF['site_url']}/docs/staticpages.html#php\">dokumentatsioonist.</a>",
+    'php_not_activated' => "Staatilistel lehtedel pole PHP kasutamine sisse lülitatud. Täpsemat infot palun vaata <a href=\"{$_CONF['site_url']}/docs/english/staticpages.html#php\">dokumentatsioonist.</a>",
     'printable_format' => 'Prinditaval kujul',
     'copy' => 'Koopia',
     'limit_results' => 'Piira tulemused',
     'search' => 'Otsi',
     'submit' => 'Sisesta'
 );
+
+$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE19 = 'Your page has been successfully saved.';
+$PLG_staticpages_MESSAGE20 = 'Your page has been successfully deleted.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'Plugina uuendamine pole toetatud.';
@@ -152,8 +156,8 @@ $LANG_configselects['staticpages'] = array(
     1 => array('Jah' => true, 'Ei' => false),
     2 => array('Aeg' => 'date', 'Lehe ID' => 'id', 'Tiitel' => 'title'),
     3 => array('Aeg' => 'date', 'Lehe ID' => 'id', 'Tiitel' => 'title', 'Silt' => 'label'),
-        9 => array('Suuna edasi lehele' => 'item', 'Näita loetelu' => 'list', 'Näita avalehte' => 'home', 'Näita admini lehten' => 'admin'),
-12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
-    );
+    9 => array('Suuna edasi lehele' => 'item', 'Näita loetelu' => 'list', 'Näita avalehte' => 'home', 'Näita admini lehten' => 'admin'),
+    12 => array('Pole ligipääsu' => 0, 'Ainult loetav' => 2, 'Loetav ja muudetav' => 3)
+);
 
 ?>

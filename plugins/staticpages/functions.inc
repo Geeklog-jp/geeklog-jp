@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Static Pages Plugin 1.5                                                   |
+// | Static Pages Plugin 1.6                                                   |
 // +---------------------------------------------------------------------------+
 // | functions.inc                                                             |
 // |                                                                           |
@@ -34,20 +34,29 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Implementation of the Plugin API for the Static Pages plugin
+*
+* @package StaticPages
+*/
+
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
 
 $plugin_path = $_CONF['path'] . 'plugins/staticpages/';
-$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 
+/**
+* Language file include
+*/
+$langfile = $plugin_path . 'language/' . $_CONF['language'] . '.php';
 if (file_exists($langfile)) {
     require_once $langfile;
 } else {
     require_once $plugin_path . 'language/english.php';
 }
 
-/*
+/**
 * Check and see if we need to load the plugin configuration
 */
 if (!isset($_SP_CONF['allow_php'])) {
@@ -57,7 +66,6 @@ if (!isset($_SP_CONF['allow_php'])) {
     $_SP_CONF = $sp_config->get_config('staticpages');
 }
 
-$_SP_CONF['version'] = '1.5.1';
 
 // +---------------------------------------------------------------------------+
 // | Plugin API - Services                                                     |
@@ -103,21 +111,6 @@ function plugin_getmenuitems_staticpages()
     }
 
     return $menuitems;
-}
-
-/**
-* Geeklog is checking to see if this plugin supports comments, tell it no.
-*
-* NOTE: to support comments you must used the same date/time based ID for your
-* widget.  In other words, to make primary keys for your plugin you should call
-* makesid().  Comments are keyed off of that...it is a limitation on how Geeklog
-* does comments.
-*
-*/
-function plugin_commentsupport_staticpages()
-{
-    // Static Pages will use comments
-    return true;
 }
 
 /**
@@ -168,7 +161,6 @@ function plugin_displaycomment_staticpages ($id, $cid, $title, $order, $format, 
 /**
  * Static Page saves a comment
  *
- * @param   string  $type   Plugin to save comment
  * @param   string  $title  comment title
  * @param   string  $comment comment text
  * @param   string  $id     Item id to which $cid belongs
@@ -182,21 +174,26 @@ function plugin_savecomment_staticpages($title, $comment, $id, $pid, $postmode)
 
     $retval = '';
 
-    $commentcode = DB_getItem ($_TABLES['staticpage'], 'commentcode',
-                               "sp_id = '$id'");
+    $commentcode = DB_getItem($_TABLES['staticpage'], 'commentcode',
+                              "sp_id = '$id'");
     if ($commentcode != 0) {
-        return COM_refresh ($_CONF['site_url'] . '/index.php');
+        return COM_refresh($_CONF['site_url'] . '/index.php');
     }
 
-    $ret = CMT_saveComment ($title, $comment, $id, $pid, 'staticpages', $postmode);
+    $ret = CMT_saveComment($title, $comment, $id, $pid, 'staticpages', $postmode);
     if ($ret > 0) { // failure //FIXME: some failures should not return to comment form
         $retval .= COM_siteHeader('menu', $LANG03[1])
-                . CMT_commentForm ($title, $comment, $id, $pid, 'staticpages',
-                                   $LANG03[14], $postmode)
+                . CMT_commentForm($title, $comment, $id, $pid, 'staticpages',
+                                  $LANG03[14], $postmode)
                 . COM_siteFooter();
     } else { // success
+        $msg = '';
+        if (($_CONF['commentsubmission'] == 1) &&
+                !SEC_hasRights('comment.submit')) {
+            $msg = '&msg=15';
+        }
         $retval = COM_refresh ($_CONF['site_url']
-                                . "/staticpages/index.php?page=$id");
+                                . "/staticpages/index.php?page=$id$msg");
     }
 
     return $retval;
@@ -273,11 +270,16 @@ function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode = 'nes
 
     $retval = '';
 
+    $sp_url = COM_buildUrl($_CONF['site_url'] . '/staticpages/index.php?page='
+                           . $page);
+    $headercode = '<link rel="canonical" href="' . $sp_url . '"' . XHTML . '>'
+                . LB;
+
     if ($A['sp_format'] == 'allblocks' OR $A['sp_format'] == 'leftblocks') {
-        $retval .= COM_siteHeader ('menu');
+        $retval .= COM_siteHeader('menu', $A['sp_title'], $headercode);
     } else {
         if ($A['sp_format'] <> 'blankpage') {
-            $retval .= COM_siteHeader ('none');
+            $retval .= COM_siteHeader('none', $A['sp_title'], $headercode);
         }
     }
     if ($msg > 0) {
@@ -290,6 +292,9 @@ function SP_displayPage ($page, $A, $comment_order = 'ASC', $comment_mode = 'nes
 
     $spage = new Template( $_CONF['path'] . 'plugins/staticpages/templates/' );
     $spage->set_var('xhtml', XHTML);
+    if (XHTML != '') {
+        $spage->set_var('xmlns', ' xmlns="http://www.w3.org/1999/xhtml"');
+    }
     $spage->set_var('site_url', $_CONF['site_url']);
     $spage->set_var('layout_url', $_CONF['layout_url']);
     $spage->set_var('site_admin_url', $_CONF['site_admin_url']);
@@ -418,6 +423,9 @@ function SP_printPage($page, $A)
     $print->set_var('sp_content',
             SP_render_content(stripslashes($A['sp_content']), $A['sp_php']));
     $print->set_var('sp_hits', COM_numberFormat($A['sp_hits']));
+    $printable = COM_buildURL($_CONF['site_url']
+               . '/staticpages/index.php?page=' . $page . '&amp;mode=print');
+    $print->set_var('printable_url', $printable);
     if ($A['commentcode'] >= 0) {
         $commentsUrl = $sp_url . '#comments';
         $comments = DB_count($_TABLES['comments'],
@@ -492,35 +500,43 @@ function SP_returnStaticpage($page='', $mode='', $comment_order = 'ASC', $commen
 function plugin_showstats_staticpages($showsitestats)
 {
     global $_CONF, $_TABLES, $LANG_STATIC;
+
     $retval = '';
 
-    $perms = SP_getPerms ();
-    if (!empty ($perms)) {
+    $perms = SP_getPerms();
+    if (!empty($perms)) {
         $perms = ' AND ' . $perms;
     }
-    $result = DB_query ("SELECT sp_id,sp_title,sp_hits FROM {$_TABLES['staticpage']} WHERE sp_hits > 0" . $perms . ' ORDER BY sp_hits DESC LIMIT 10');
-    $nrows  = DB_numRows ($result);
+    $result = DB_query("SELECT sp_id,sp_title,sp_hits FROM {$_TABLES['staticpage']} WHERE sp_hits > 0" . $perms . ' ORDER BY sp_hits DESC LIMIT 10');
+    $nrows  = DB_numRows($result);
     if ($nrows > 0) {
-        require_once( $_CONF['path_system'] . 'lib-admin.php' );
+        require_once $_CONF['path_system'] . 'lib-admin.php';
+
         $header_arr = array(
-            array('text' => $LANG_STATIC['stats_page_title'], 'field' => 'sid', 'header_class' => 'stats-header-title'),
-            array('text' => $LANG_STATIC['stats_hits'], 'field' => 'sp_hits', 'header_class' => 'stats-header-count', 'field_class' => 'stats-list-count'),
+            array('text'         => $LANG_STATIC['stats_page_title'],
+                  'field'        => 'sid',
+                  'header_class' => 'stats-header-title'),
+            array('text'         => $LANG_STATIC['stats_hits'],
+                  'field'        => 'sp_hits',
+                  'header_class' => 'stats-header-count',
+                  'field_class'  => 'stats-list-count'),
         );
         $data_arr = array();
-        $text_arr = array('has_menu'     => false,
-                          'title'        => $LANG_STATIC['stats_headline'],
+        $text_arr = array('has_menu' => false,
+                          'title'    => $LANG_STATIC['stats_headline']
         );
         for ($i = 0; $i < $nrows; $i++) {
-            $A = DB_fetchArray ($result);
-            $A['sp_title'] = stripslashes ($A['sp_title']);
-            $A['sid'] = COM_createLink($A['sp_title'], COM_buildUrl ($_CONF['site_url']
-                      . "/staticpages/index.php?page={$A['sp_id']}"));
-            $A['sp_hits'] = COM_NumberFormat ($A['sp_hits']);
+            $A = DB_fetchArray($result);
+            $A['sp_title'] = stripslashes($A['sp_title']);
+            $A['sid'] = COM_createLink($A['sp_title'],
+                            COM_buildUrl($_CONF['site_url']
+                                . "/staticpages/index.php?page={$A['sp_id']}"));
+            $A['sp_hits'] = COM_NumberFormat($A['sp_hits']);
             $data_arr[$i] = $A;
         }
         $retval .= ADMIN_simpleList("", $header_arr, $text_arr, $data_arr);
     } else {
-        $retval .= COM_startBlock ($LANG_STATIC['stats_headline']);
+        $retval .= COM_startBlock($LANG_STATIC['stats_headline']);
         $retval .= $LANG_STATIC['stats_no_hits'];
         $retval .= COM_endBlock();
     }
@@ -534,13 +550,13 @@ function plugin_showstats_staticpages($showsitestats)
 * @return   array(item text, item count);
 *
 */
-function plugin_statssummary_staticpages ()
+function plugin_statssummary_staticpages()
 {
-    global $_TABLES, $LANG_STATIC;
+    global $LANG_STATIC;
 
-    $total_pages = SP_countVisiblePages ();
+    $total_pages = SP_countVisiblePages();
 
-    return array ($LANG_STATIC['staticpages'], COM_numberFormat ($total_pages));
+    return array($LANG_STATIC['staticpages'], COM_numberFormat($total_pages));
 }
 
 /**
@@ -567,135 +583,52 @@ function plugin_searchtypes_staticpages()
 * @param    date    $datestart  Start date to get results for
 * @param    date    $dateend    End date to get results for
 * @param    string  $topic      The topic they were searching in
-* @param    string  $type       Type of items they are searching, or 'all'
+* @param    string  $type       Type of items they are searching, or 'all' (deprecated)
 * @param    int     $author     Get all results by this author
 * @param    string  $keyType    search key type: 'all', 'phrase', 'any'
-* @param    int     $page       page number of current search
-* @param    int     $perpage    number of results per page
+* @param    int     $page       page number of current search (deprecated)
+* @param    int     $perpage    number of results per page (deprecated)
 *
 */
 function plugin_dopluginsearch_staticpages($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
 {
-    global $_CONF, $_TABLES, $LANG_STATIC;
+    global $_TABLES, $LANG_STATIC;
 
-    if (empty ($type)) {
-        $type = 'all';
-    }
+    // Make sure the query is SQL safe
+    $query = trim(addslashes($query));
 
-    // Bail if we aren't supppose to do our search
-    if ($type <> 'all' AND $type <> 'staticpages') {
-        $plugin_results = new Plugin();
-        $plugin_results->plugin_name = 'staticpages';
-        $plugin_results->searchlabel = $LANG_STATIC['results'];
+    $sql = "SELECT sp.sp_id AS id, sp.sp_title AS title, sp.sp_content AS description, ";
+    $sql .= "UNIX_TIMESTAMP(sp.sp_date) AS date, sp.sp_uid AS uid, sp.sp_hits AS hits, ";
+    $sql .= "CONCAT('/staticpages/index.php?page=', sp.sp_id) AS url ";
+    $sql .= "FROM {$_TABLES['staticpage']} AS sp,{$_TABLES['users']} AS u ";
+    $sql .= "WHERE (sp.sp_uid = u.uid) AND (sp_php <> 1) ";
+    $sql .= COM_getPermSQL('AND') . COM_getLangSQL('sp_id', 'AND', 'sp') . ' ';
 
-        return $plugin_results;
-    }
-
-    // Build search SQL - exclude static PHP pages from search.
-    $select = "SELECT u.username,u.fullname,sp.sp_id,sp.sp_title,sp.sp_hits,sp.sp_uid,UNIX_TIMESTAMP(sp.sp_date) AS day";
-    $sql = " FROM {$_TABLES['staticpage']} AS sp,{$_TABLES['users']} AS u WHERE (sp.sp_uid = u.uid) AND (sp_php <> 1)" . COM_getPermSQL ('AND') . COM_getLangSql ('sp_id', 'AND', 'sp');
-
-    if (!empty ($query)) {
-        if ($keyType == 'phrase') {
-            $mysearchterm = addslashes ($query);
-            $sql .= " AND ((sp_content LIKE '%$mysearchterm%')"
-                 . " OR (sp_title LIKE '%$mysearchterm%'))";
-        } else if ($keyType == 'all') {
-            $mywords = explode (' ', $query);
-            $sql .= ' AND (';
-            $tmp = '';
-            foreach ($mywords AS $mysearchterm) {
-                $mysearchterm = addslashes (trim ($mysearchterm));
-                if (!empty ($mysearchterm)) {
-                    $tmp .= "(sp_content LIKE '%$mysearchterm%')"
-                         . " OR (sp_title LIKE '%$mysearchterm%') AND ";
-                }
-            }
-            $tmp = substr ($tmp, 0, strlen ($tmp) - 5);
-            $sql .= $tmp . ')';
-        } else if ($keyType == 'any') {
-            $mywords = explode (' ', $query);
-            $sql .= ' AND (';
-            $tmp = '';
-            foreach ($mywords AS $mysearchterm) {
-                $mysearchterm = addslashes (trim ($mysearchterm));
-                if (!empty ($mysearchterm)) {
-                    $tmp .= "(sp_content LIKE '%$mysearchterm%')"
-                         . " OR (sp_title LIKE '%$mysearchterm%') OR ";
-                }
-            }
-            $tmp = substr ($tmp, 0, strlen ($tmp) - 4);
-            $sql .= $tmp . ')';
-        } else {
-            $mysearchterm = addslashes ($query);
-            $sql .= " AND ((sp_content LIKE '%$mysearchterm%')"
-                 . " OR (sp_title LIKE '%$mysearchterm%'))";
+    if (!empty($datestart) && !empty($dateend))
+    {
+        $delim = substr($datestart, 4, 1);
+        if (!empty($delim))
+        {
+            $DS = explode($delim, $datestart);
+            $DE = explode($delim, $dateend);
+            $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+            $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+            $sql .= "AND (UNIX_TIMESTAMP(sp_date) BETWEEN '$startdate' AND '$enddate') ";
         }
     }
-
-    if (!empty ($datestart) && !empty ($dateend)) {
-        $delim = substr ($datestart, 4, 1);
-        if (!empty($delim)) {
-            $DS = explode ($delim, $datestart);
-            $DE = explode ($delim, $dateend);
-            $startdate = mktime (0, 0, 0, $DS[1], $DS[2], $DS[0]);
-            $enddate = mktime (23, 59, 59, $DE[1], $DE[2], $DE[0]);
-            $sql .= " AND (UNIX_TIMESTAMP(sp_date) BETWEEN '$startdate' AND '$enddate')";
-        }
-    }
-
     if (!empty ($author)) {
-        $sql .= "AND (sp_uid = '$author')";
-    }
-    $sql    .= " GROUP BY sp_date, u.username, u.fullname, sp.sp_id, sp.sp_title, sp.sp_hits, sp.sp_uid ORDER BY sp_date DESC ";
-    $l = ($perpage * $page) - $perpage;
-    $sql .= 'LIMIT ' . $l . ',' . $perpage;
-
-    // Perform search
-    $result = DB_query ($select . $sql);
-    $mycount = DB_numRows ($result);
-    $result_count = DB_query ('SELECT COUNT(*)' . $sql);
-    $B = DB_fetchArray ($result_count, true);
-
-    // OK, now return table header labels
-    $plugin_results = new Plugin();
-    $plugin_results->plugin_name = 'staticpages';
-    $plugin_results->searchlabel = $LANG_STATIC['results'];
-    $plugin_results->addSearchHeading ($LANG_STATIC['title']);
-    $plugin_results->addSearchHeading ($LANG_STATIC['date']);
-    $plugin_results->addSearchHeading ($LANG_STATIC['author']);
-    $plugin_results->addSearchHeading ($LANG_STATIC['hits']);
-    $plugin_results->num_searchresults = 0;
-    $plugin_results->num_itemssearched = $B[0];
-    $plugin_results->supports_paging = true;
-
-    // NOTE if any of your data items need to be links then add them here!
-    // make sure data elements are in an array and in the same order as your
-    // headings above!
-    for ($i = 0; $i < $mycount; $i++) {
-        $A = DB_fetchArray ($result);
-
-        $thetime = COM_getUserDateTimeFormat ($A['day']);
-        $A['sp_title'] = stripslashes ($A['sp_title']);
-        $pageurl = COM_buildURL ($_CONF['site_url']
-                        . '/staticpages/index.php?page=' . $A['sp_id']);
-        if (isset ($_CONF['show_fullname']) && ($_CONF['show_fullname'] == 1) &&
-                !empty ($A['fullname'])) {
-            $author = $A['fullname'];
-        } else {
-            $author = $A['username'];
-        }
-        $profile = $_CONF['site_url'] . '/users.php?mode=profile&amp;uid='
-                 . $A['sp_uid'];
-        $row = array (COM_createLink($A['sp_title'], $pageurl),
-                      $thetime[0],
-                      COM_createLink($author, $profile),
-                      COM_NumberFormat ($A['sp_hits']));
-        $plugin_results->addSearchResult ($row);
-        $plugin_results->num_searchresults++;
+        $sql .= "AND (sp_uid = '$author') ";
     }
 
-    return $plugin_results;
+    $search = new SearchCriteria('staticpages', $LANG_STATIC['staticpages']);
+    $columns = array('title' => 'sp_title', 'sp_content');
+    list($sql,$ftsql) = $search->buildSearchSQL($keyType, $query, $columns, $sql);
+    $search->setSQL($sql);
+    $search->setFTSQL($ftsql);
+    $search->setRank(3);
+    $search->setURLRewrite(true);
+
+    return $search;
 }
 
 
@@ -726,7 +659,7 @@ function plugin_getadminoption_staticpages()
     global $_CONF, $_TABLES, $LANG_STATIC;
 
     if (SEC_hasRights ('staticpages.edit,staticpages.delete', 'OR')) {
-        $result = DB_query ("SELECT count(*) AS cnt FROM {$_TABLES['staticpage']}" . COM_getPermSQL ('WHERE', 0, 3));
+        $result = DB_query ("SELECT COUNT(*) AS cnt FROM {$_TABLES['staticpage']}" . COM_getPermSQL ('WHERE', 0, 3));
         $A = DB_fetchArray ($result);
         $total_pages = $A['cnt'];
         return array ($LANG_STATIC['staticpages'], $_CONF['site_admin_url'] . '/plugins/staticpages/index.php', $total_pages);
@@ -986,9 +919,13 @@ function plugin_user_delete_staticpages($uid)
 */
 function plugin_chkVersion_staticpages()
 {
-    global $_SP_CONF;
+    global $_CONF;
 
-    return $_SP_CONF['version'];
+    require_once $_CONF['path'] . 'plugins/staticpages/autoinstall.php';
+
+    $inst_parms = plugin_autoinstall_staticpages('staticpages');
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
@@ -1006,25 +943,29 @@ function plugin_autotags_staticpages($op, $content = '', $autotag = '')
     } else if ($op == 'parse') {
         if ($autotag['tag'] == 'staticpage' ) {
             $sp_id = COM_applyFilter($autotag['parm1']);
-            $url = COM_buildUrl($_CONF['site_url']
+            if (! empty($sp_id)) {
+                $url = COM_buildUrl($_CONF['site_url']
                                 . '/staticpages/index.php?page=' . $sp_id);
-            if (empty($autotag['parm2'])) {
-                $linktext = stripslashes(DB_getItem ($_TABLES['staticpage'],
-                                         'sp_title', "sp_id = '$sp_id'"));
-            } else {
-                $linktext = $autotag['parm2'];
+                if (empty($autotag['parm2'])) {
+                    $linktext = stripslashes(DB_getItem($_TABLES['staticpage'],
+                                             'sp_title', "sp_id = '$sp_id'"));
+                } else {
+                    $linktext = $autotag['parm2'];
+                }
+                $link = COM_createLink($linktext, $url);
+                $content = str_replace($autotag['tagstr'], $link, $content);
             }
-            $link = COM_createLink($linktext, $url);
-            $content = str_replace($autotag['tagstr'], $link, $content);
         } else if ($autotag['tag'] == 'staticpage_content') {
             $sp_id = COM_applyFilter($autotag['parm1']);
-            if (isset($recursive[$sp_id])) {
-                $content = '';
-            } else {
-                $recursive[$sp_id] = true;
-                $sp_content = SP_returnStaticpage($sp_id, 'autotag');
-                $content = str_replace($autotag['tagstr'], $sp_content,
-                                       $content);
+            if (! empty($sp_id)) {
+                if (isset($recursive[$sp_id])) {
+                    $content = '';
+                } else {
+                    $recursive[$sp_id] = true;
+                    $sp_content = SP_returnStaticpage($sp_id, 'autotag');
+                    $content = str_replace($autotag['tagstr'], $sp_content,
+                                           $content);
+                }
             }
         }
 
@@ -1053,17 +994,51 @@ function plugin_geticon_staticpages ()
 */
 function plugin_upgrade_staticpages()
 {
-    // the plugin needs these function so complain when they don't exist
-    if (!function_exists('PLG_uninstall') ||
-            !function_exists('COM_createLink')) {
+    global $_CONF, $_TABLES;
+
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
+                                    "pi_name = 'staticpages'");
+    $code_version = plugin_chkVersion_staticpages();
+    if ($installed_version == $code_version) {
+        // nothing to do
+        return true;
+    }
+
+    require_once $_CONF['path'] . 'plugins/staticpages/autoinstall.php';
+
+    if (! plugin_compatible_with_this_version_staticpages('staticpages')) {
         return 3002;
     }
 
-    // upgrades are done by the install script - return a generic error
-    COM_errorLog("Plugin upgrade function not implemented");
-    return 3001;
+    $inst_parms = plugin_autoinstall_staticpages('staticpages');
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'staticpages'");
+
+    return true;
 }
 
+/**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_staticpages($old_conf)
+{
+    global $_CONF;
+
+    $tables = array(
+        'staticpage'    => 'sp_id, sp_content'
+    );
+
+    if ($old_conf['site_url'] != $_CONF['site_url']) {
+        INST_updateSiteUrl($old_conf['site_url'], $_CONF['site_url'], $tables);
+    }
+
+    return true;
+}
 
 /**
 * Automatic uninstall function for plugins
@@ -1211,10 +1186,207 @@ function SP_render_content ($sp_content, $sp_php)
 /**
  * Return true since this plugin supports webservices
  *
- * @return  bool	True, of webservices are supported
+ * @return  bool	True, if webservices are supported
  */
-function plugin_wsEnabled_staticpages() {
+function plugin_wsEnabled_staticpages()
+{
     return true;
+}
+
+/**
+* Return information for a static page
+*
+* @param    string  $sp_id      static page ID or '*'
+* @param    string  $what       comma-separated list of properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
+*
+*/
+function plugin_getiteminfo_staticpages($sp_id, $what, $uid = 0, $options = array())
+{
+    global $_CONF, $_TABLES;
+
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
+    foreach ($properties as $p) {
+        switch ($p) {
+        case 'date-modified':
+            $fields[] = 'UNIX_TIMESTAMP(sp_date) AS unixdate';
+            break;
+        case 'description':
+        case 'excerpt':
+            $fields[] = 'sp_content';
+            $fields[] = 'sp_php';
+            break;
+        case 'id':
+            $fields[] = 'sp_id';
+            break;
+        case 'title':
+            $fields[] = 'sp_title';
+            break;
+        case 'url':
+            // needed for $sp_id == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'sp_id';
+            break;
+        default:
+            // nothing to do
+            break;
+        }
+    }
+
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
+    }
+
+    // prepare SQL request
+    if ($sp_id == '*') {
+        $where = '';
+        $permOp = 'WHERE';
+    } else {
+        $where = " WHERE sp_id = '" . addslashes($sp_id) . "'";
+        $permOp = 'AND';
+    }
+    if ($uid > 0) {
+        $permSql = COM_getPermSql($permOp, $uid);
+    } else {
+        $permSql = COM_getPermSql($permOp);
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['staticpage']}" . $where . $permSql;
+    if ($sp_id != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
+                break;
+            case 'description':
+            case 'excerpt':
+                $props[$p] = SP_render_content(stripslashes($A['sp_content']),
+                                                            $A['sp_php']);
+                break;
+            case 'id':
+                $props['id'] = $A['sp_id'];
+                break;
+            case 'title':
+                $props['title'] = stripslashes($A['sp_title']);
+                break;
+            case 'url':
+                if (empty($A['sp_id'])) {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/staticpages/index.php?page=' . $sp_id);
+                } else {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/staticpages/index.php?page=' . $A['sp_id']);
+                }
+                break;
+            default:
+                // return empty string for unknown properties
+                $props[$p] = '';
+                break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($sp_id == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($sp_id == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
+        }
+    }
+
+    if (($sp_id != '*') && (count($retval) == 1)) {
+        $retval = $retval[0];
+    }
+
+    return $retval;
+}
+
+/**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_staticpages($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'docs/' . $doclang . '/staticpages.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/docs/english/staticpages.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
+    }
+
+    return $retval;
+}
+
+/**
+* Provide URL and ID for the link to a comment's parent
+*
+* NOTE: The Plugin API does not support $_CONF['url_rewrite'] here,
+*       so we'll end up with a non-rewritten URL ...
+*
+* @return   array   array consisting of the base URL and the ID name
+*
+*/
+function plugin_getcommenturlid_staticpages()
+{
+    global $_CONF;
+
+    $tmp = array(
+        $_CONF['site_url'] . '/staticpages/index.php',
+        'page'
+    );
+
+    return $tmp;
 }
 
 ?>

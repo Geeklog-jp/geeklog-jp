@@ -8,13 +8,42 @@
 </head>
 
 <body>
-<p><a href="index.html" style="background:transparent"><img src="images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - 変更点</div>  
 
 <h1>変更点</h1>
 
 <p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更点の詳細なリストは、  
 <a href="history">ChangeLog</a>をご覧ください。<tt>docs/changed-files</tt>には、前回リリース以来変更されたファイルの一覧があります。</p>
+
+<h2><a name="changes160">Geeklog 1.6.0</a></h2>
+
+<h3>Summer of Codeの成果</h3>
+
+<p>このリリースには、Google Summer of Code 2008で開発されたコードが実装されています:</p>
+
+<ul>
+<li>Matt Westの開発による、プラグインインストールのサポート</li>
+<li>Sami Barakatの開発による、検索プログラムの機能アップ</li>
+<li>Jared Wenerdの開発による、コメント操作と編集の機能アップ</li>
+</ul>
+
+<h3>その他の変更</h3>
+
+<ul>
+<li>Geeklogは現在PHP 4.3.0以降をサポートしていますが、PHP開発チームは2008年8月にはPHP 4のサポートを終了しています。PHP 4でGeeklogを活用しているユーザは、できるだけはやくPHP 5へのアップグレードを検討してください。</li>
+<li><a href="http://www.fckeditor.net/">FCKeditor</a> 2.6.4の実装</li>
+<li>新プラグイン「<a href="http://wiki.geeklog.net/index.php/XMLSitemap_Plugin">XMLSitemap</a>」の実装。これは <a
+    href="http://www.sitemaps.org/">XML サイトマップファイル</a>を自動生成するもので、おもな検索エンジンに対応しています。プラグインはmystral-kk※により開発されました。<br>
+（※訳者註：Geeklog Japaneseコア開発者です。）</li>
+<li><a href="http://wiki.geeklog.net/index.php/New_Plugin_API_Functions_in_Geeklog_1.6.0">新しいプラグインAPIの機能</a>がいくつか追加されており、既存のプラグインAPIも機能が拡張されています。</li>
+<li>ドキュメントの場所は他言語への翻訳に対応するため、<tt>docs/english</tt>に移動しました。Geeklogから自動的に、そのときに利用している言語のドキュメントへリンクします。（無ければ英語のドキュメントを表示します。）</li>
+<li>新しい機能をサポートするために<a href="theme.html#changes">テーマの変更</a> を行い、さまざまなレイアウトの不整合を修正しました。</li>
+</ul>
+
+<p>今回のリリースには、Google Summer of Code 2009に参加した学生諸氏のパッチや開発が数多く含まれています。ありがとうございました！</p>
+
+
 
 <h2><a name="changes152sr4">Geeklog 1.5.2sr4</a></h2>
 
@@ -33,7 +62,7 @@
 
 <h2><a name="changes152sr1">Geeklog 1.5.2sr1</a></h2>  
 
-Fernando Muñoz は，管理者用クエリフォームにおいて<a href="http://en.wikipedia.org/wiki/XSS" title="Click to look up 'XSS' on Wikipedia" style="text-decoration: none; color: black; border-bottom: 1px dotted black;">XSS</a>の問題を報告し，このリリースでフィックスしました。 
+Fernando Muñoz は、管理者用クエリフォームにおいて<a href="http://en.wikipedia.org/wiki/XSS" title="Click to look up 'XSS' on Wikipedia" style="text-decoration: none; color: black; border-bottom: 1px dotted black;">XSS</a>の問題を報告し、このリリースでフィックスしました。 
 
 
 <h2><a name="changes152">Geeklog 1.5.2</a></h2>

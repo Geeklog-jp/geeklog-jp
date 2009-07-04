@@ -9,7 +9,8 @@
 *
 * Licensed under the GNU General Public License
 *
-* $Id: SLV.Examine.class.php,v 1.2 2008/09/21 08:37:08 dhaun Exp $
+* @package Spam-X
+* @subpackage Modules
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLV.Examine.class.php') !== false) {
@@ -26,10 +27,10 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'SLVbase.class.php';
 * Sends posts to SLV (linksleeve.org) for examination
 *
 * @author Dirk Haun     dirk AT haun-online DOT de
-*
 * based on the works of Tom Willet (Spam-X) and Russ Jones (SLV)
+* @package Spam-X
+*
 */
-
 class SLV extends BaseCommand {
     /**
      * No Constructor Use BaseCommand constructor

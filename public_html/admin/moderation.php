@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | moderation.php                                                            |
 // |                                                                           |
 // | Geeklog main administration page.                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -31,13 +31,12 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: moderation.php,v 1.124 2008/09/04 19:03:29 mjervis Exp $
 
 require_once '../lib-common.php';
 require_once 'auth.inc.php';
 require_once $_CONF['path_system'] . 'lib-user.php';
 require_once $_CONF['path_system'] . 'lib-story.php';
+require_once $_CONF['path_system'] . 'lib-comment.php';
 
 // Uncomment the line below if you need to debug the HTTP variables being passed
 // to the script.  This will sometimes cause errors but it will allow you to see
@@ -74,7 +73,9 @@ function render_cc_item (&$template, $url = '', $image = '', $label = '')
 /**
 * Prints the command & control block at the top
 *
-* TODO: The moderation items should be displayed with the help of <ul><li>
+* @param    string  $token  CSRF token
+* @return   string          HTML for the C&C block
+* @todo The moderation items should be displayed with the help of ul/li
 * instead of div's. 
 *
 */
@@ -150,16 +151,26 @@ function commandcontrol($token)
     }
 
     // and finally, add the remaining admin items
+    $docsUrl = $_CONF['site_url'] . '/docs/english/index.html';
+    if ($_CONF['link_documentation'] == 1) {
+        $doclang = COM_getLanguageName();
+        $docs = 'docs/' . $doclang . '/index.html';
+        if (file_exists($_CONF['path_html'] . $docs)) {
+            $docsUrl = $_CONF['site_url'] . '/' . $docs;
+        }
+    }
     $cc_arr = array(
-        array('condition' => ($_CONF['allow_mysqldump'] == 1) && ($_DB_dbms == 'mysql') && SEC_inGroup ('Root'),
+        array('condition' => ($_CONF['allow_mysqldump'] == 1) &&
+                                ($_DB_dbms == 'mysql') && SEC_inGroup('Root'),
             'url' => $_CONF['site_admin_url'] . '/database.php',
             'lang' => $LANG01[103], 'image' => '/images/icons/database.'),
         array('condition' => ($_CONF['link_documentation'] == 1),
-            'url' => $_CONF['site_url'] . '/docs/',
+            'url' => $docsUrl,
             'lang' => $LANG01[113], 'image' => '/images/icons/docs.'),
         array('condition' => (SEC_inGroup ('Root') &&
                               ($_CONF['link_versionchecker'] == 1)),
-            'url' => 'http://www.geeklog.net/versionchecker.php?version=' . VERSION,
+            'url' => 'http://www.geeklog.net/versionchecker.php?version='
+                     . VERSION,
             'lang' => $LANG01[107], 'image' => '/images/icons/versioncheck.'),
         array('condition' => (SEC_inGroup ('Root')),
             'url'=>$_CONF['site_admin_url'] . '/configuration.php',
@@ -214,13 +225,20 @@ function commandcontrol($token)
         $retval .= itemlist('story', $token);
     }
 
-    if (SEC_hasRights('story.edit')) {
-        if ($_CONF['listdraftstories'] == 1) {
+    if ($_CONF['listdraftstories'] == 1) {
+        if (SEC_hasRights('story.edit')) {
             $retval .= draftlist ($token);
         }
     }
+    
+    if ($_CONF['commentsubmission'] == 1) {
+        if (SEC_hasRights('comment.moderate')) {
+            $retval .= itemlist('comment', $token);
+        }
+    }
+
     if ($_CONF['usersubmission'] == 1) {
-        if (SEC_hasRights ('user.edit') && SEC_hasRights ('user.delete')) {
+        if (SEC_hasRights('user.edit') && SEC_hasRights('user.delete')) {
             $retval .= userlist ($token);
         }
     }
@@ -235,7 +253,9 @@ function commandcontrol($token)
 *
 * Displays the moderation list of items from the submission tables
 *
-* @type     string      Type of object to build list for
+* @param    string  $type   Type of object to build list for
+* @param    string  $token  CSRF token
+* @return   string          HTML for the list of items
 *
 */
 function itemlist($type, $token)
@@ -247,7 +267,7 @@ function itemlist($type, $token)
     $retval = '';
     $isplugin = false;
 
-    if ((strlen ($type) > 0) && ($type <> 'story')) {
+    if ((strlen ($type) > 0) && ($type <> 'story') && ($type <> 'comment')) {
         $function = 'plugin_itemlist_' . $type;
         if (function_exists ($function)) {
             // Great, we found the plugin, now call its itemlist method
@@ -262,11 +282,18 @@ function itemlist($type, $token)
                 $isplugin = true;
             }
         }
-    } else { // story submission
+    } elseif ( $type == 'story') { // story submission
         $sql = "SELECT sid AS id,title,date,tid FROM {$_TABLES['storysubmission']}" . COM_getTopicSQL ('WHERE') . " ORDER BY date ASC";
-        $H =  array($LANG29[10],$LANG29[14],$LANG29[15]);
+        $H =  array($LANG29[10], $LANG29[14], $LANG29[15]);
         $section_title = $LANG29[35];
         $section_help = 'ccstorysubmission.html';
+    } elseif ($type == 'comment') {
+        $sql = "SELECT cid AS id,title,comment,date,uid,type,sid "
+              . "FROM {$_TABLES['commentsubmissions']} "
+              . "ORDER BY cid ASC";
+        $H = array($LANG29[10], $LANG29[36], $LANG29[14]);
+        $section_title = $LANG29[41];
+        $section_help = 'ccstorysubmission.html'; // FIXME
     }
 
     // run SQL but this time ignore any errors
@@ -284,9 +311,13 @@ function itemlist($type, $token)
     $data_arr = array();
     for ($i = 0; $i < $nrows; $i++) {
         $A = DB_fetchArray($result);
-        if ($isplugin)  {
+        if ($isplugin) {
             $A['edit'] = $_CONF['site_admin_url'] . '/plugins/' . $type
                      . '/index.php?mode=editsubmission&amp;id=' . $A[0];
+        } elseif ($type == 'comment') {
+            $A['edit'] = $_CONF['site_url'] . '/comment.php'
+                    . '?mode=editsubmission&amp;cid=' . $A[0] .
+                    '&' . CSRF_TOKEN . '=' . $token;
         } else {
             $A['edit'] = $_CONF['site_admin_url'] . '/' .  $type
                      . '.php?mode=editsubmission&amp;id=' . $A[0];
@@ -296,6 +327,7 @@ function itemlist($type, $token)
         $data_arr[$i] = $A;
     }
 
+
     $header_arr = array(      // display 'text' and use table field 'field'
         array('text' => $LANG_ADMIN['edit'], 'field' => 0),
         array('text' => $H[0], 'field' => 1),
@@ -303,12 +335,19 @@ function itemlist($type, $token)
         array('text' => $H[2], 'field' => 3),
         array('text' => $LANG29[2], 'field' => 'delete'),
         array('text' => $LANG29[1], 'field' => 'approve'));
+    if ($type == 'comment') {
+        //data for comment submission headers
+        $header_arr[6]['text'] = $LANG29[42];
+        $header_arr[6]['field'] = 'uid';
+        $header_arr[7]['text'] = $LANG29[43];
+        $header_arr[7]['field'] = 'publishfuture';
+    }
 
-    $text_arr = array('has_menu'    => false,
-                      'title'       => $section_title,
-                      'help_url'    => $section_help,
-                      'no_data'   => $LANG29[39],
-                      'form_url'  => "{$_CONF['site_admin_url']}/moderation.php"
+    $text_arr = array('has_menu' => false,
+                      'title'    => $section_title,
+                      'help_url' => $section_help,
+                      'no_data'  => $LANG29[39],
+                      'form_url' => "{$_CONF['site_admin_url']}/moderation.php"
     );
     $form_arr = array("bottom" => '', "top" => '');
     if ($nrows > 0) {
@@ -335,8 +374,11 @@ function itemlist($type, $token)
 * site membership. When approving an application, an email containing the
 * password is sent out immediately.
 *
+* @param    string  $token  CSRF token
+* @return   string          HTML for the list of users
+*
 */
-function userlist ($token)
+function userlist($token)
 {
     global $_CONF, $_TABLES, $LANG29, $LANG_ADMIN;
 
@@ -398,8 +440,11 @@ function userlist ($token)
 * 'draft'. Approving a story from this list will clear the draft flag and
 * thus publish the story.
 *
+* @param    string  $token  CSRF token
+* @return   string          HTML for the list of draft stories
+*
 */
-function draftlist ($token)
+function draftlist($token)
 {
     global $_CONF, $_TABLES, $LANG24, $LANG29, $LANG_ADMIN;
 
@@ -477,6 +522,11 @@ function moderation ($mid, $action, $type, $count)
         $submissiontable = $_TABLES['storysubmission'];
         $fields = 'sid,uid,tid,title,introtext,date,postmode';
         break;
+    case 'comment':
+        $id = 'cid';
+        $submissiontable = $_TABLES['commentsubmissions'];
+        $sidArray[] = '';
+        break;
     default:
         if (strlen($type) <= 0) {
             // something is terribly wrong, bail
@@ -536,6 +586,7 @@ function moderation ($mid, $action, $type, $count)
                 "'{$A['sid']}',{$A['uid']},'{$A['tid']}','{$A['title']}','{$A['introtext']}','{$A['bodytext']}','{$A['related']}','{$A['date']}','{$_CONF['show_topic_icon']}','{$_CONF['comment_code']}','{$_CONF['trackback_code']}','{$A['postmode']}',$frontpage,{$A['owner_id']},{$T['group_id']},{$T['perm_owner']},{$T['perm_group']},{$T['perm_members']},{$T['perm_anon']}");
                 DB_delete($_TABLES['storysubmission'],"$id",$mid[$i]);
 
+                PLG_itemSaved($A['sid'], 'article');
                 COM_rdfUpToDateCheck ();
                 COM_olderStuff ();
             } else if ($type == 'draft') {
@@ -543,6 +594,11 @@ function moderation ($mid, $action, $type, $count)
 
                 COM_rdfUpToDateCheck ();
                 COM_olderStuff ();
+            } else if ($type == 'comment') {
+                $sid = CMT_approveModeration($mid[$i]);
+                if ( !in_array($sid, $sidArray) ) {
+                    $sidArray[$i] = $sid; 
+                }
             } else {
                 // This is called in case this is a plugin. There may be some
                 // plugin specific processing that needs to happen.
@@ -550,6 +606,26 @@ function moderation ($mid, $action, $type, $count)
                 $retval .= PLG_approveSubmission($type,$mid[$i]);
             }
             break;
+        }
+    }
+    
+    // after loop update comment tree and count for each story
+    if (isset($sidArray)) {
+        foreach($sidArray as $sid) {
+            CMT_rebuildTree($sid);
+            //update comment count of stories;
+            $comments = DB_count ($_TABLES['comments'], 'sid', $sid);
+            DB_change ($_TABLES['stories'], 'comments', $comments, 'sid', $sid);
+        }
+    }
+    
+    //Add new comment users to group comment.submit group
+    if (isset($_POST['publishfuture']) ) {
+        for ($i = 0; $i < count($_POST['publishfuture']); $i++ ) {
+            $uid =  COM_applyFilter($_POST['publishfuture'][$i], true);
+            if ($uid > 1 && !SEC_inGroup('Comment Submitters', $uid) ) {
+                SEC_addUserToGroup($uid, 'Comment Submitters');
+            }
         }
     }
 
@@ -618,7 +694,7 @@ function moderateusers ($uid, $action, $count)
                 if ($nrows == 1) {
                     $A = DB_fetchArray($result);
                     $sql = "UPDATE {$_TABLES['users']} SET status=3 WHERE uid={$A['uid']}";
-                    DB_Query($sql);
+                    DB_query($sql);
                     USER_createAndSendPassword ($A['username'], $A['email'], $A['uid']);
                 }
                 break;
@@ -644,8 +720,9 @@ function moderateusers ($uid, $action, $count)
 /**
 * Display a reminder to execute the security check script
 *
+* @return   string      HTML for security reminder (or empty string)
 */
-function security_check_reminder ()
+function security_check_reminder()
 {
     global $_CONF, $_TABLES, $_IMAGE_TYPE, $MESSAGE;
 
@@ -688,6 +765,6 @@ if (isset ($_POST['mode']) && ($_POST['mode'] == 'moderation') && SEC_checkToken
 
 $display .= COM_siteFooter();
 
-echo $display;
+COM_output($display);
 
 ?>

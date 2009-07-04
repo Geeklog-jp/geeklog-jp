@@ -9,7 +9,8 @@
 *
 * Licensed under the GNU General Public License
 *
-* $Id: SLVreport.Action.class.php,v 1.2 2008/09/21 08:37:08 dhaun Exp $
+* @package Spam-X
+* @subpackage Modules
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLVreport.Action.class.php') !== false) {
@@ -31,8 +32,9 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'SLVbase.class.php';
 * this class ensures that SLV sees spam detected by other Spam-X modules, too.
 *
 * @author Dirk Haun     dirk AT haun-online DOT de
-*
 * based on the works of Tom Willet (Spam-X) and Russ Jones (SLV)
+* @package Spam-X
+*
 */
 class SLVreport extends BaseCommand {
     /**

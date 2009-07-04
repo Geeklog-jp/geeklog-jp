@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | story.class.php                                                           |
 // |                                                                           |
@@ -41,9 +41,9 @@
  * @filesource
  * @version 0.1
  * @since GL 1.4.2
- * @copyright Copyright &copy; 2006
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
- * @author Michael Jervis <mike AT fuckingbrit DOT com>
+ * @copyright Copyright &copy; 2006-2009
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Michael Jervis, mike AT fuckingbrit DOT com
  *
  */
 
@@ -115,6 +115,7 @@ class Story
     var $_date;
     var $_hits;
     var $_numemails;
+    var $_comment_expire;
     var $_comments;
     var $_trackbacks;
     var $_related;
@@ -126,7 +127,6 @@ class Story
     var $_expire;
     var $_advanced_editor_mode;
     var $_frontpage;
-    var $_in_transit;
     var $_owner_id;
     var $_group_id;
     var $_perm_owner;
@@ -187,13 +187,13 @@ class Story
            'featured' => 1,
            'show_topic_icon' => 1,
            'commentcode' => 1,
+           'comment_expire' => 1,
            'trackbackcode' => 1,
            'statuscode' => 1,
            'expire' => 1,
            'postmode' => 1,
            'advanced_editor_mode' => 1,
            'frontpage' => 1,
-           'in_transit' => 1,
            'owner_id' => 1,
            'group_id' => 1,
            'perm_owner' => 1,
@@ -247,6 +247,11 @@ class Story
               (
                 STORY_AL_NUMERIC,
                 '_frontpage'
+              ),
+            'comment_expire' => array
+              (
+                STORY_AL_NUMERIC,
+                '_comment_expire'
               ),
            'commentcode' => array
               (
@@ -339,9 +344,17 @@ class Story
      */
     function hasContent()
     {
-        $test = $this->_title . $this->_introtext . $this->_bodytext;
-        $test = trim($test);
-        return ($test != '');
+        if (trim($this->_title) != '') {
+            return true;
+        }
+        if (trim($this->_introtext) != '') {
+            return true;
+        }
+        if (trim($this->_bodytext) != '') {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -367,12 +380,24 @@ class Story
             }
         }
 
+        if (array_key_exists('username', $story)) {
+            $this->_username = $story['username'];
+        }
+        if (array_key_exists('fullname', $story)) {
+            $this->_fullname = $story['fullname'];
+        }
+
         // Overwrite the date with the timestamp.
         $this->_date = $story['unixdate'];
         if (!empty($story['expireunix'])) {
             $this->_expire = $story['expireunix'];
         } else {
             $this->_expire = '0';
+        }
+        if (!empty($story['cmt_expire_unix'])) {
+            $this->_comment_expire = $story['cmt_expire_unix'];
+        } else {
+            $this->_comment_expire = '0';
         }
 
         // Store the original SID
@@ -400,11 +425,11 @@ class Story
             $sql = array();
 
             $sql['mysql']
-            = "SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, "
+            = "SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, UNIX_TIMESTAMP(s.comment_expire) as cmt_expire_unix, "
                 . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
 
             $sql['mssql'] =
-                "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
+                "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, UNIX_TIMESTAMP(s.comment_expire) as cmt_expire_unix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
         } elseif (!empty($sid) && ($mode == 'editsubmission')) {
             $sql = 'SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
                 . 'u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl, t.group_id, ' . 't.perm_owner, t.perm_group, t.perm_members, t.perm_anon ' . 'FROM ' . $_TABLES['storysubmission'] . ' AS s, ' . $_TABLES['users'] . ' AS u, ' . $_TABLES['topics'] . ' AS t WHERE (s.uid = u.uid) AND' . ' (s.tid = t.tid) AND (sid = \'' . $sid . '\')';
@@ -633,9 +658,8 @@ class Story
 
         // Get the related URLs
         $this->_related = implode("\n", STORY_extractLinks("{$this->_introtext} {$this->_bodytext}"));
-        $this->_in_transit = 1;
-        $values = '';
-        $fields = '';
+        $sql = 'REPLACE INTO ' . $_TABLES['stories'] . ' (';
+        $values = ' VALUES (';
         reset($this->_dbFields);
 
         /* This uses the database field array to generate a SQL Statement. This
@@ -645,8 +669,8 @@ class Story
         while (list($fieldname, $save) = each($this->_dbFields)) {
             if ($save === 1) {
                 $varname = '_' . $fieldname;
-                $fields .= $fieldname . ', ';
-                if (($fieldname == 'date') || ($fieldname == 'expire')) {
+                $sql .= $fieldname . ', ';
+                if (($fieldname == 'date') || ($fieldname == 'expire') || ($fieldname == 'comment_expire')) {
                     // let the DB server do this conversion (cf. timezone hack)
                     $values .= 'FROM_UNIXTIME(' . $this->{$varname} . '), ';
                 } else {
@@ -655,10 +679,11 @@ class Story
             }
         }
 
-        // Fields and values has a trailing ', ' remove them:
-        $fields = substr($fields, 0, strlen($fields) - 2);
+        $sql = substr($sql, 0, strlen($sql) - 2);
         $values = substr($values, 0, strlen($values) - 2);
-        DB_Save($_TABLES['stories'], $fields, $values);
+        $sql .= ') ' . $values . ')';
+
+        DB_query($sql);
 
         /* Clean up the old story */
         if ($oldArticleExists) {
@@ -806,7 +831,7 @@ class Story
     function loadSubmission()
     {
         $array = $_POST;
-        
+
         $this->_expire = time();
         $this->_date = time();
         $this->_expiredate = 0;
@@ -933,6 +958,7 @@ class Story
 
             $this->saveToDatabase();
 
+            PLG_itemSaved($this->_sid, 'article');
             COM_rdfUpToDateCheck();
             COM_olderStuff();
 
@@ -1242,6 +1268,7 @@ class Story
      */
     function EditElements($item = 'title')
     {
+        global $_CONF;
         switch (strtolower($item))
         {
         case 'unixdate':
@@ -1316,6 +1343,46 @@ class Story
 
         case 'expire_year':
             $return = date('Y', $this->_expire);
+
+            break;
+        case 'cmt_close':
+            if (isset($this->_comment_expire) && $this->_comment_expire != 0) {
+                $return = true;
+            } else {
+                $return = false;
+                //return default expire time to form
+                $this->_comment_expire = $this->_date + ($_CONF['article_comment_close_days']*86400);
+            }
+            
+            break;
+            
+        case 'cmt_close_second':
+            $return = date('s', $this->_comment_expire);
+
+            break;
+
+        case 'cmt_close_minute':
+            $return = date('i', $this->_comment_expire);
+
+            break;
+
+        case 'cmt_close_hour':
+            $return = date('H', $this->_comment_expire);
+
+            break;
+
+        case 'cmt_close_day':
+            $return = date('d', $this->_comment_expire);
+
+            break;
+
+        case 'cmt_close_month':
+            $return = date('m', $this->_comment_expire);
+
+            break;
+
+        case 'cmt_close_year':
+            $return = date('Y', $this->_comment_expire);
 
             break;
 
@@ -1446,6 +1513,17 @@ class Story
                 $return = $this->_expire;
             }
 
+            break;
+            
+        case 'commentcode':
+            //check to see if comment_time has past
+            if ($this->_comment_expire != 0 && (time() > $this->_comment_expire) && $this->_commentcode == 0 ) {
+                $return = 1;
+                //if comment code is not 1, change it to 1
+                DB_query("UPDATE {$_TABLES['stories']} SET commentcode = '1' WHERE sid = '$this->_sid'"); //die('changed cc');
+            } else {
+                $return = $this->_commentcode;
+            }
             break;
 
         default:
@@ -1757,6 +1835,33 @@ class Story
         }
 
         $this->_expire = $expiredate;
+        
+        //comment expire time
+        if (isset($array['cmt_close_flag'])) {
+            $cmt_close_ampm = COM_applyFilter($array['cmt_close_ampm']);
+            $cmt_close_hour = COM_applyFilter($array['cmt_close_hour'], true);
+            $cmt_close_minute = COM_applyFilter($array['cmt_close_minute'], true);
+            $cmt_close_second = COM_applyFilter($array['cmt_close_second'], true);
+            $cmt_close_year = COM_applyFilter($array['cmt_close_year'], true);
+            $cmt_close_month = COM_applyFilter($array['cmt_close_month'], true);
+            $cmt_close_day = COM_applyFilter($array['cmt_close_day'], true);
+            
+            if ($cmt_close_ampm == 'pm') {
+                if ($cmt_close_hour < 12) {
+                    $cmt_close_hour = $cmt_close_hour + 12;
+                }
+            }
+
+            if ($cmt_close_ampm == 'am' AND $cmt_close_hour == 12) {
+                $cmt_close_hour = '00';
+            }
+            
+            $cmt_close_date
+            = strtotime("$cmt_close_month/$cmt_close_day/$cmt_close_year $cmt_close_hour:$cmt_close_minute:$cmt_close_second");
+            
+            $this->_comment_expire = $cmt_close_date;
+        }
+
 
         /* Then grab the permissions */
 
@@ -1801,8 +1906,8 @@ class Story
         }
 
         $this->_title = htmlspecialchars(strip_tags(COM_checkWords($title)));
-        $this->_introtext = COM_checkHTML(COM_checkWords($intro));
-        $this->_bodytext = COM_checkHTML(COM_checkWords($body));
+        $this->_introtext = COM_checkHTML(COM_checkWords($intro), 'story.edit');
+        $this->_bodytext = COM_checkHTML(COM_checkWords($body), 'story.edit');
     }
 
 
@@ -1868,27 +1973,4 @@ class Story
 /**************************************************************************/
 }
 
-if (!function_exists('html_entity_decode')) {
-    /**
-     * html_entity_decode()
-     *
-     * Convert all HTML entities to their applicable characters
-     * This function is a fallback if html_entity_decode isn't defined
-     * in the PHP version used (i.e. PHP < 4.3.0).
-     * Please note that this function doesn't support all parameters
-     * of the original html_entity_decode function.
-     *
-     * Function borrowed from postnuke, under the GPL.
-     *
-     * @param  string $string the this function converts all HTML entities to their applicable characters from string.
-     * @return the converted string
-     * @link http://php.net/html_entity_decode The documentation of html_entity_decode
-     **/
-    function html_entity_decode($string)
-    {
-        $trans_tbl = get_html_translation_table(HTML_ENTITIES);
-        $trans_tbl = array_flip($trans_tbl);
-        return (strtr($string, $trans_tbl));
-    }
-}
 ?>

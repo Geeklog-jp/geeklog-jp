@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-sessions.php                                                          |
 // |                                                                           |
@@ -136,12 +136,13 @@ function SESS_sessionCheck()
                     $userid = COM_applyFilter ($userid, true);
                     $cookie_password = '';
                     $userpass = '';
-                    if ($userid > 1) {
+                    if (($userid > 1) &&
+                            isset($_COOKIE[$_CONF['cookie_password']])) {
                         $cookie_password = $_COOKIE[$_CONF['cookie_password']];
-                        $userpass = DB_getItem ($_TABLES['users'], 'passwd',
-                                                "uid = $userid");
+                        $userpass = DB_getItem($_TABLES['users'], 'passwd',
+                                               "uid = $userid");
                     }
-                    if (empty ($cookie_password) || ($cookie_password <> $userpass)) {
+                    if (empty($cookie_password) || ($cookie_password <> $userpass)) {
                         // User may have modified their UID in cookie, ignore them
                     } else if ($userid > 1) {
                         // Check user status
@@ -181,12 +182,12 @@ function SESS_sessionCheck()
                 $userid = COM_applyFilter ($userid, true);
                 $cookie_password = '';
                 $userpass = '';
-                if ($userid > 1) {
-                    $userpass = DB_getItem ($_TABLES['users'], 'passwd',
-                                            "uid = $userid");
+                if (($userid > 1) && isset($_COOKIE[$_CONF['cookie_password']])) {
+                    $userpass = DB_getItem($_TABLES['users'], 'passwd',
+                                           "uid = $userid");
                     $cookie_password = $_COOKIE[$_CONF['cookie_password']];
                 }
-                if (empty ($cookie_password) || ($cookie_password <> $userpass)) {
+                if (empty($cookie_password) || ($cookie_password <> $userpass)) {
                     // User could have modified UID in cookie, don't do shit
                 } else if ($userid > 1) {
                     // Check user status
@@ -240,7 +241,6 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
         COM_errorLog("*************inside new_session*****************",1);
         COM_errorLog("Args to new_session: userid = $userid, remote_ip = $remote_ip, lifespan = $lifespan, md5_based = $md5_based",1);
     }
-    mt_srand((double)microtime()*1000000);
     $sessid = mt_rand();
 
     // For added security we are adding the option to build a IP-based
@@ -258,7 +258,7 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
     $expirytime = (string) (time() - $lifespan);
     if (!isset($_COOKIE[$_CONF['cookie_session']])) {
         // ok, delete any old sessons for this user
-        DB_query("DELETE FROM {$_TABLES['sessions']} WHERE uid = $userid");
+        DB_delete($_TABLES['sessions'], 'uid', $userid);
     } else {
         $deleteSQL = "DELETE FROM {$_TABLES['sessions']} WHERE (start_time < $expirytime)";
         $delresult = DB_query($deleteSQL);
@@ -273,7 +273,8 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
         }
     }
     // Remove the anonymous sesssion for this user
-    DB_query("DELETE FROM {$_TABLES['sessions']} WHERE uid = 1 AND remote_ip = '$remote_ip'");
+    DB_delete($_TABLES['sessions'], array('uid', 'remote_ip'),
+                                    array(1, $remote_ip));
 
     // Create new session
     if (empty ($md5_sessid)) {
@@ -437,8 +438,7 @@ function SESS_endUserSession($userid)
 {
     global $_TABLES;
 
-    $sql = "DELETE FROM {$_TABLES['sessions']} WHERE (uid = $userid)";
-    $result = DB_query($sql);
+    DB_delete($_TABLES['sessions'], 'uid', $userid);
 
     // for cellular phones which has no Cookies.
     if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
@@ -481,28 +481,33 @@ function SESS_getUserData($username)
 *
 * Gets user's data based on their user id
 *
-* @param        int     $userid     User ID of user to get data for
-* @return       array   returns user'd data in an array
+* @param    int     $userid     User ID of user to get data for
+* @return   array               returns user's data in an array
 *
 */
 function SESS_getUserDataFromId($userid)
 {
     global $_TABLES;
 
-    $sql = "SELECT *,format FROM {$_TABLES['dateformats']},{$_TABLES["users"]},{$_TABLES['userprefs']} "
+    $sql = "SELECT *,format FROM {$_TABLES['dateformats']},{$_TABLES['users']},{$_TABLES['userprefs']} "
      . "WHERE {$_TABLES['dateformats']}.dfid = {$_TABLES['userprefs']}.dfid AND "
      . "{$_TABLES['userprefs']}.uid = $userid AND {$_TABLES['users']}.uid = $userid";
 
-    if(!$result = DB_query($sql)) {
-        $userdata = array("error" => "1");
-        return ($userdata);
+    if (!$result = DB_query($sql)) {
+        $userdata = array('error' => '1');
+        return $userdata;
     }
 
-    if(!$myrow = DB_fetchArray($result)) {
-        $userdata = array("error" => "1");
-        return ($userdata);
+    if (!$myrow = DB_fetchArray($result, false)) {
+        $userdata = array('error' => '1');
+        return $userdata;
     }
-    return($myrow);
+
+    if (isset($myrow['passwd'])) {
+        unset($myrow['passwd']);
+    }
+
+    return $myrow;
 }
 
 ?>

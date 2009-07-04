@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | portal.php                                                                |
 // |                                                                           |
 // | Geeklog portal page that tracks link click throughs.                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users.sourceforge DOT net        |
@@ -31,8 +31,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: portal.php,v 1.9 2008/05/24 08:57:35 dhaun Exp $
 
 /** 
  * Geeklog portal page that tracks link click throughs. 
@@ -43,15 +41,18 @@
  * @version 2.0
  * @since GL 1.4.0
  * @copyright Copyright &copy; 2005-2008
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License 
- * @author Trinity Bays <trinity93 AT gmail.com>
- * @author Tony Bibbs <tony AT tonybibbs DOT com>
- * @author Tom Willett <twillett AT users DOT sourceforge DOT net>
- * @author Blaine Lang <langmail AT sympatico DOT ca>
- * @author Dirk Haun <dirk AT haun-online DOT de>
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Trinity Bays, trinity93 AT gmail.com
+ * @author Tony Bibbs, tony AT tonybibbs DOT com
+ * @author Tom Willett, twillett AT users DOT sourceforge DOT net
+ * @author Blaine Lang, langmail AT sympatico DOT ca
+ * @author Dirk Haun, dirk AT haun-online DOT de
  * 
  */
 
+/**
+* Geeklog common function library 
+*/
 require_once '../lib-common.php';
 
 if (!in_array('links', $_PLUGINS)) {

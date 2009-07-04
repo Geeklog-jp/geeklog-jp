@@ -2,11 +2,11 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Polls Plugin 2.0                                                          |
+// | Polls Plugin 2.1                                                          |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
-// | Geeklog poll administration page                                          |
+// | Polls plugin administration page                                          |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
@@ -32,20 +32,30 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-// Set this to true if you want to log debug messages to error.log
-$_POLL_VERBOSE = false;
+/**
+* Polls plugin administration page
+*
+* @package Polls
+* @subpackage admin
+*/
 
+/**
+* Geeklog common function library and Admin authentication
+*/
 require_once '../../../lib-common.php';
 require_once '../../auth.inc.php';
+
+// Set this to true if you want to log debug messages to error.log
+$_POLL_VERBOSE = false;
 
 $display = '';
 
 if (!SEC_hasRights('polls.edit')) {
     $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[36], $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
              . COM_siteFooter();
     COM_accessLog("User {$_USER['username']} tried to illegally access the poll administration screen.");
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -208,10 +218,10 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $statuscode, $open,
     }
     if (($access < 3) || !SEC_inGroup($group_id)) {
         $display .= COM_siteHeader('menu', $MESSAGE[30])
-                 . COM_showMessageText($MESSAGE[31], $MESSAGE[30])
+                 . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
                  . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally submit or edit poll $pid.");
-        echo $display;
+        COM_output($display);
         exit;
     }
 
@@ -292,6 +302,14 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $statuscode, $open,
     DB_save($_TABLES['polltopics'],"pid, topic, voters, questions, date, display, "
            . "is_open, hideresults, statuscode, commentcode, owner_id, group_id, "
            . "perm_owner, perm_group, perm_members, perm_anon",$sql);
+
+    if (empty($old_pid) || ($old_pid == $pid)) {
+        PLG_itemSaved($pid, 'polls');
+    } else {
+        DB_change($_TABLES['comments'], 'sid', addslashes($pid),
+                  array('sid', 'type'), array(addslashes($old_pid), 'polls'));
+        PLG_itemSaved($pid, 'polls', $old_pid);
+    }
 
     if ($_POLL_VERBOSE) {
         COM_errorLog ('**** Leaving savepoll() in '
@@ -435,6 +453,7 @@ function editpoll ($pid = '')
                              SEC_getGroupDropdown ($T['group_id'], $access));
     $poll_templates->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $poll_templates->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
+    $poll_templates->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
     $poll_templates->set_var('permissions_editor', SEC_getPermissionsHTML($T['perm_owner'],$T['perm_group'],$T['perm_members'],$T['perm_anon']));
     $poll_templates->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $poll_templates->set_var('lang_answersvotes', $LANG25[10]);
@@ -523,10 +542,13 @@ function deletePoll ($pid)
         return COM_refresh ($_CONF['site_admin_url'] . '/plugins/polls/index.php');
     }
 
-    DB_delete ($_TABLES['polltopics'], 'pid', $pid);
-    DB_delete ($_TABLES['pollanswers'], 'pid', $pid);
-    DB_delete ($_TABLES['pollquestions'], 'pid', $pid);
-    DB_query ("DELETE FROM {$_TABLES['comments']} WHERE sid = '$pid' AND type = 'polls'");
+    DB_delete($_TABLES['polltopics'], 'pid', $pid);
+    DB_delete($_TABLES['pollanswers'], 'pid', $pid);
+    DB_delete($_TABLES['pollquestions'], 'pid', $pid);
+    DB_delete($_TABLES['comments'], array('sid', 'type'),
+                                    array($pid,  'polls'));
+
+    PLG_itemDeleted($pid, 'polls');
 
     return COM_refresh ($_CONF['site_admin_url'] . '/plugins/polls/index.php?msg=20');
 }
@@ -621,6 +643,6 @@ if ($mode == 'edit') {
     $display .= COM_siteFooter ();
 }
 
-echo $display;
+COM_output($display);
 
 ?>

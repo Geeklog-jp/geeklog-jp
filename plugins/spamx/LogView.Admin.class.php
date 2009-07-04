@@ -9,15 +9,25 @@
  *
  * Licensed under GNU General Public License
  *
- * $Id: LogView.Admin.class.php,v 1.11 2008/09/21 08:37:08 dhaun Exp $
+ * @package Spam-X
+ * @subpackage Modules
  */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'LogView.Admin.class.php') !== false) {
     die('This file can not be used on its own!');
 }
 
+/**
+* Include Abstract Base Class
+*/
 require_once $_CONF['path'] . 'plugins/spamx/BaseAdmin.class.php';
 
+/**
+* LogView class
+*
+* @package Spam-X
+*
+*/
 class LogView extends BaseAdmin {
     /**
      * Constructor

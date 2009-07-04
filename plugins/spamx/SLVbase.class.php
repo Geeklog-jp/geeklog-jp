@@ -9,7 +9,8 @@
 *
 * Licensed under the GNU General Public License
 *
-* $Id: SLVbase.class.php,v 1.7 2008/09/21 08:37:08 dhaun Exp $
+* @package Spam-X
+* @subpackage Modules
 */
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLVbase.class.php') !== false) {
@@ -20,10 +21,10 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'SLVbase.class.php') !== false) {
 * Sends posts to SLV (linksleeve.org) for examination
 *
 * @author Dirk Haun     dirk AT haun-online DOT de
-*
 * based on the works of Tom Willet (Spam-X) and Russ Jones (SLV)
+* @package Spam-X
+*
 */
-
 class SLVbase {
 
     var $_debug = false;

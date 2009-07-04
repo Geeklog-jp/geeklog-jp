@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | block.php                                                                 |
 // |                                                                           |
 // | Geeklog block administration.                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -32,27 +32,23 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: block.php,v 1.124 2008/06/07 12:41:44 dhaun Exp $
 
 require_once '../lib-common.php';
 require_once 'auth.inc.php';
-require_once $_CONF['path_system'] . 'lib-security.php';
 
 // Uncomment the line below if you need to debug the HTTP variables being passed
 // to the script.  This will sometimes cause errors but it will allow you to see
 // the data being passed in a POST operation
 // echo COM_debug($_POST);
 
-if (!SEC_hasRights ('block.edit')) {
-    $display .= COM_siteHeader ('menu', $MESSAGE[30])
-        . COM_startBlock ($MESSAGE[30], '',
-                          COM_getBlockTemplate ('_msg_block', 'header'))
-        . $MESSAGE[33]
-        . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-        . COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the block administration screen");
-    echo $display;
+$display = '';
+
+if (!SEC_hasRights('block.edit')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the block administration screen");
+    COM_output($display);
     exit;
 }
 
@@ -165,6 +161,7 @@ function editdefaultblock ($A, $access)
     $block_templates->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
     $block_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
     $block_templates->set_var('permissions_msg', $LANG_ACCESS['permmsg']);
+    $block_templates->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $block_templates->set_var('max_url_length', 255);
     $block_templates->set_var('gltoken_name', CSRF_TOKEN);
     $block_templates->set_var('gltoken', SEC_createToken());
@@ -513,13 +510,10 @@ function saveblock ($bid, $name, $title, $help, $type, $blockorder, $content, $t
         $access = SEC_hasAccess ($owner_id, $group_id, $perm_owner, $perm_group,
                 $perm_members, $perm_anon);
     }
-    if (($access < 3) || !hasBlockTopicAccess ($tid) || !SEC_inGroup ($group_id)) {
-        $retval .= COM_siteHeader('menu', $MESSAGE[30]);
-        $retval .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $MESSAGE[33];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter();
+    if (($access < 3) || !hasBlockTopicAccess($tid) || !SEC_inGroup($group_id)) {
+        $retval .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+                . COM_siteFooter();
         COM_accessLog("User {$_USER['username']} tried to illegally create or edit block $bid.");
 
         return $retval;
@@ -847,20 +841,13 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= listblocks();
     $display .= COM_siteFooter();
 } else {  // 'cancel' or no mode at all
-    $display .= COM_siteHeader ('menu', $LANG21[19]);
-    $msg = 0;
-    if (isset ($_POST['msg'])) {
-        $msg = COM_applyFilter ($_POST['msg'], true);
-    } else if (isset ($_GET['msg'])) {
-        $msg = COM_applyFilter ($_GET['msg'], true);
-    }
-    if ($msg > 0) {
-        $display .= COM_showMessage ($msg);
-    }
+    $display .= COM_siteHeader('menu', $LANG21[19]);
+    $display .= COM_showMessageFromParameter();
     $display .= listblocks();
 
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
+
 ?>

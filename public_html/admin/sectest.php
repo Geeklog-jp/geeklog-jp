@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | sectest.php                                                               |
 // |                                                                           |
 // | Does a quick security check of the Geeklog install                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2002-2007 by the following authors:                         |
+// | Copyright (C) 2002-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun            - dirk AT haun-online DOT de                |
 // |          Jeffrey Schoolcraft  - dream AT dr3amscap3 DOT com               |
@@ -29,20 +29,32 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: sectest.php,v 1.13 2007/12/09 18:05:39 dhaun Exp $
 
+/**
+* This script does a few quick and simple checks to ensure that you have
+* installed Geeklog in a (relatively) secure fashion. It also gives tips on
+* how to fix issues.
+*
+*/
+
+/**
+* Geeklog common function library
+*/
 require_once '../lib-common.php';
+
+/**
+* Security check to ensure user even belongs on this page
+*/
 require_once 'auth.inc.php';
 
-if (!SEC_inGroup ('Root')) {
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[46];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
-    COM_accessLog ("User {$_USER['username']} tried to illegally access the security check.");
-    echo $display;
+$display = '';
+
+if (!SEC_inGroup('Root')) {
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
+    COM_accessLog("User {$_USER['username']} tried to illegally access the security check.");
+    COM_output($display);
     exit;
 }
 
@@ -53,23 +65,23 @@ $failed_tests = 0;
 * Send an HTTP HEAD request for the given URL
 *
 * @param    string  $url        URL to request
-* @param    string  $errmsg     error message, if any (on return)
+* @param    string  &$errmsg    error message, if any (on return)
 * @return   int                 HTTP response code or 777 on error
 *
 */
-function doHeadRequest ($url, &$errmsg)
+function doHeadRequest($url, &$errmsg)
 {
-    require_once ('HTTP/Request.php');
+    require_once 'HTTP/Request.php';
 
-    $req = new HTTP_Request ($url);
-    $req->setMethod (HTTP_REQUEST_METHOD_HEAD);
-    $req->addHeader ('User-Agent', 'Geeklog/' . VERSION);
-    $response = $req->sendRequest ();
-    if (PEAR::isError ($response)) {
+    $req = new HTTP_Request($url);
+    $req->setMethod(HTTP_REQUEST_METHOD_HEAD);
+    $req->addHeader('User-Agent', 'Geeklog/' . VERSION);
+    $response = $req->sendRequest();
+    if (PEAR::isError($response)) {
         $errmsg = $response->getMessage();
         return 777;
     } else {
-        return $req->getResponseCode ();
+        return $req->getResponseCode();
     }
 }
 
@@ -87,26 +99,26 @@ function urlToCheck()
     if ($_CONF['path'] == $_CONF['path_html']) {
         // not good ...
         $url = $_CONF['site_url'];
-    } else if (substr ($_CONF['path'], 0, strlen ($_CONF['path_html'])) == $_CONF['path_html']) {
+    } elseif (substr($_CONF['path'], 0, strlen($_CONF['path_html'])) == $_CONF['path_html']) {
         // "geeklog" dir in the document root
-        $rest = substr ($_CONF['path'], -(strlen ($_CONF['path']) - strlen ($_CONF['path_html'])));
+        $rest = substr($_CONF['path'], -(strlen($_CONF['path']) - strlen($_CONF['path_html'])));
         $url = $_CONF['site_url'] . '/' . $rest;
     } else {
         // check for sites like www.example.com/geeklog
         $u = $_CONF['site_url'];
-        if (substr ($u, -1) == '/') {
-            $u = substr ($u, 0, -1);
+        if (substr($u, -1) == '/') {
+            $u = substr($u, 0, -1);
         }
-        $pos = strpos ($u, ':');
+        $pos = strpos($u, ':');
         if ($pos !== false) {
-            $u2 = substr ($u, $pos + 3);
+            $u2 = substr($u, $pos + 3);
         } else {
             $u2 = $u;
         }
-        $p = explode ('/', $u2);
-        if (count ($p) > 1) {
-            $cut = strlen ($p[count ($p) - 1]) + 1;
-            $url = substr ($u, 0, -$cut) . '/';
+        $p = explode('/', $u2);
+        if (count($p) > 1) {
+            $cut = strlen($p[count($p) - 1]) + 1;
+            $url = substr($u, 0, -$cut) . '/';
         }
     }
 
@@ -121,22 +133,24 @@ function urlToCheck()
 * @return   string              text explaining the result of the test
 *
 */
-function interpretResult ($retcode, $msg)
+function interpretResult($retcode, $msg)
 {
-    global $failed_tests, $LANG_SECTEST;
+    global $LANG_SECTEST, $failed_tests;
 
     $retval = '';
 
     if ($retcode == 200) {
-        $retval = $LANG_SECTEST[1] . '<strong>' . $msg . '</strong>' . $LANG_SECTEST[2] . '<br' . XHTML . '><em>' . $LANG_SECTEST[3] . '</em>';
+        $retval .= sprintf($LANG_SECTEST['reachable'],
+                           '<strong>' . $msg . '</strong>')
+                . '<br' . XHTML . '><em>' . $LANG_SECTEST['fix_it'] . '</em>';
         $failed_tests++;
     } elseif (($retcode == 401) || ($retcode == 403) || ($retcode == 404)) {
-        $retval = $LANG_SECTEST[4] . $msg . $LANG_SECTEST[5];
-    } else if (is_numeric ($retcode)) {
-        $retval = $LANG_SECTEST[6] . $retcode . $LANG_SECTEST[7] . $msg . $LANG_SECTEST[8];
+        $retval .= sprintf($LANG_SECTEST['not_reachable'], $msg);
+    } elseif (is_numeric($retcode)) {
+        $retval .= sprintf($LANG_SECTEST['not_sure'], $retval, $msg);
         $failed_tests++;
     } else {
-        $retval = $retcode;
+        $retval .= $retcode;
     }
 
     return $retval;
@@ -149,14 +163,14 @@ function interpretResult ($retcode, $msg)
 * @return   boolean         true: success; false: file creation failed
 *
 */
-function makeTempfile ($file)
+function makeTempfile($file)
 {
     $retval = false;
 
-    $tempfile = @fopen ($file, 'w');
+    $tempfile = @fopen($file, 'w');
     if ($tempfile) {
         $retval = true;
-        fclose ($tempfile);
+        fclose($tempfile);
     }
 
     return $retval;
@@ -171,19 +185,19 @@ function makeTempfile ($file)
 * @return   string                  test result as a list item
 *
 */
-function doTest ($baseurl, $urltocheck, $what)
+function doTest($baseurl, $urltocheck, $what)
 {
     global $failed_tests;
 
     $retval = '';
 
     $retval .= '<li>';
-    $retcode = doHeadRequest ($baseurl . $urltocheck, $errmsg);
+    $retcode = doHeadRequest($baseurl . $urltocheck, $errmsg);
     if ($retcode == 777) {
         $retval .= $errmsg;
         $failed_tests++;
     } else {
-        $retval .= interpretResult ($retcode, $what);
+        $retval .= interpretResult($retcode, $what);
     }
     $retval .= '</li>' . LB;
 
@@ -193,38 +207,39 @@ function doTest ($baseurl, $urltocheck, $what)
 /**
 * Check for the existence of the install directory
 *
+* NOTE: This test used to be part of the "Get Bent" block in lib-custom.php
+*
 * @return   string      text explaining the result of the test
 *
-* @note This test used to be part of the "Get Bent" block in lib-custom.php
-*
 */
-function checkInstallDir ()
+function checkInstallDir()
 {
-    global $_CONF, $failed_tests, $LANG_SECTEST;
+    global $_CONF, $LANG_SECTEST, $failed_tests;
 
     $retval = '';
 
     // we don't have the path to the admin directory, so try to figure it out
     // from $_CONF['site_admin_url']
     $adminurl = $_CONF['site_admin_url'];
-    if (strrpos ($adminurl, '/') == strlen ($adminurl)) {
-        $adminurl = substr ($adminurl, 0, -1);
+    if (strrpos($adminurl, '/') == strlen($adminurl)) {
+        $adminurl = substr($adminurl, 0, -1);
     }
-    $pos = strrpos ($adminurl, '/');
+    $pos = strrpos($adminurl, '/');
     if ($pos === false) {
         // only guessing ...
         $installdir = $_CONF['path_html'] . 'admin/install';
     } else {
-        $installdir = $_CONF['path_html'] . substr ($adminurl, $pos + 1)
+        $installdir = $_CONF['path_html'] . substr($adminurl, $pos + 1)
                     . '/install';
     }
 
-    if (is_dir ($installdir)) {
-        $retval .= '<li>' . $LANG_SECTEST[9] . '<b>' . $installdir . '</b>' . $LANG_SECTEST[10];
-        $retval .= $LANG_SECTEST[11] . '</li>';
+    if (is_dir($installdir)) {
+        $retval .= '<li>' . sprintf($LANG_SECTEST['remove_inst'],
+                           '<b>' . $installdir . '</b>') . ' '
+                . $LANG_SECTEST['remove_inst2'] . '</li>';
         $failed_tests++;
     } else {
-        $retval .= '<li>' . $LANG_SECTEST[12] . '</li>';
+        $retval .= '<li>' . $LANG_SECTEST['inst_removed'] . '</li>';
     }
 
     return $retval;
@@ -233,15 +248,15 @@ function checkInstallDir ()
 /**
 * Check for accounts that still use the default password
 *
-* @return   string      text explaining the result of the test
-*
-* @note If one of our users is also using "password" as their password, this
+* NOTE: If one of our users is also using "password" as their password, this
 *       test will also detect that, as it checks all accounts.
 *
+* @return   string      text explaining the result of the test
+*
 */
-function checkDefaultPassword ()
+function checkDefaultPassword()
 {
-    global $_TABLES, $failed_tests, $LANG_SECTEST, $LANG_DIRECTION;
+    global $_TABLES, $LANG_SECTEST, $failed_tests;
 
     $retval = '';
 
@@ -261,78 +276,87 @@ function checkDefaultPassword ()
         }
     }
     if ($pwdRoot > 0) {
-        $retval .= '<li>' . $LANG_SECTEST[13] . $pwdRoot . $LANG_SECTEST[14] . '</li>';
+        $retval .= '<li>' . sprintf($LANG_SECTEST['fix_password'], $pwdRoot)
+                . '</li>';
         $failed_tests++;
     } else {
-        $retval .= '<li>' . $LANG_SECTEST[15] . '</li>';
+        $retval .= '<li>' . $LANG_SECTEST['password_okay'] . '</li>';
     }
 
     return $retval;
 }
 
 // MAIN
-$display = COM_siteHeader ('menu', $LANG_SECTEST[16]);
-$display .= '<div dir="';
-$display .= empty($LANG_DIRECTION) ? 'ltr' : $LANG_DIRECTION;
-$display .= '">' . LB;
-$display .= COM_startBlock ($LANG_SECTEST[17]);
+$display = COM_siteHeader('menu', $LANG_SECTEST['sectest']);
+$display .= COM_startBlock($LANG_SECTEST['results']);
 
-$url = urlToCheck ();
-if (!empty ($url)) {
+$url = urlToCheck();
+if (!empty($url)) {
 
     $display .= '<ol>';
 
-    if (strpos ($_SERVER['PHP_SELF'], 'public_html') !== false) {
-        $display .= '<li>' . $LANG_SECTEST[18]
-            . $LANG_SECTEST[19]
-            . COM_createLink($LANG_SECTEST[20], "../docs/install.html#public_html")
-            . $LANG_SECTEST[21] . '</li>';
+    if (strpos($_SERVER['PHP_SELF'], 'public_html') !== false) {
+        $doclang = COM_getLanguageName();
+        $docs = 'docs/' . $doclang . '/install.html';
+        if (file_exists($_CONF['path_html'] . $docs)) {
+            $instUrl = $_CONF['site_url'] . '/' . $docs;
+        } else {
+            $instUrl = $_CONF['site_url'] . '/docs/english/install.html';
+        }
+        $instUrl .= '#public_html';
+        $display .= sprintf($LANG_SECTEST['public_html'],
+                      COM_createLink($LANG_SECTEST['installation'], $instUrl));
         $failed_tests++;
     }
 
-    $display .= checkInstallDir ();
+    $display .= checkInstallDir();
 
     $urls = array
         (
-        array ('db-config.php',                     'db-config.php'),
-        array ('logs/error.log',                    $LANG_SECTEST[22]),
-        array ('plugins/staticpages/functions.inc', $LANG_SECTEST[23]),
-        array ('system/lib-security.php',           $LANG_SECTEST[24])
+        array('db-config.php',
+              'db-config.php'),
+        array('logs/error.log',
+              'logs ' . $LANG_SECTEST['directory']),
+        array('plugins/staticpages/functions.inc',
+              'plugins ' . $LANG_SECTEST['directory']),
+        array('system/lib-security.php',
+              'system ' . $LANG_SECTEST['directory'])
         );
 
     foreach ($urls as $tocheck) {
-        $display .= doTest ($url, $tocheck[0], $tocheck[1]);
+        $display .= doTest($url, $tocheck[0], $tocheck[1]);
     }
 
     // Note: We're not testing the 'sql' and 'language' directories.
 
     if (($_CONF['allow_mysqldump'] == 1) && ($_DB_dbms == 'mysql')) {
-        if (makeTempfile ($_CONF['backup_path'] . 'test.txt')) {
-            $display .= doTest ($url, 'backups/test.txt', $LANG_SECTEST[25]);
-            @unlink ($_CONF['backup_path'] . 'test.txt');
+        if (makeTempfile($_CONF['backup_path'] . 'test.txt')) {
+            $display .= doTest($url, 'backups/test.txt',
+                               'backups ' . $LANG_SECTEST['directory']);
+            @unlink($_CONF['backup_path'] . 'test.txt');
         } else {
             $display .= '<li>' . $LANG_SECTEST[26] . '</li>';
         }
     }
 
-    if (makeTempfile ($_CONF['path_data'] . 'test.txt')) {
-        $display .= doTest ($url, 'data/test.txt', $LANG_SECTEST[27]);
-        @unlink ($_CONF['path_data'] . 'test.txt');
+    if (makeTempfile($_CONF['path_data'] . 'test.txt')) {
+        $display .= doTest($url, 'data/test.txt', 'data directory');
+        @unlink($_CONF['path_data'] . 'test.txt');
     } else {
-        $display .= '<li>' . $LANG_SECTEST[28] . '</li>';
+        $display .= '<li>' . $LANG_SECTEST['failed_bak'] . '</li>';
     }
 
-    $display .= checkDefaultPassword ();
+    $display .= checkDefaultPassword();
 
     $display .= '</ol>';
 
 } else {
 
-    $resultInstallDirCheck = checkInstallDir ();
-    $resultPasswordCheck = checkDefaultPassword ();
+    $resultInstallDirCheck = checkInstallDir();
+    $resultPasswordCheck = checkDefaultPassword();
 
     if ($failed_tests == 0) {
-        $display .= '<p>' . $LANG_SECTEST[29] . '</p>';
+        $display .= '<p>' . $LANG_SECTEST['okay'] . '</p>';
     } else {
         $display .= '<ol>';
         $display .= $resultInstallDirCheck . LB . $resultPasswordCheck;
@@ -342,31 +366,25 @@ if (!empty ($url)) {
 }
 
 if ($failed_tests > 0) {
-    $display .= '<p class="warningsmall"><strong>' . $LANG_SECTEST[30] . '</strong></p>';
+    $display .= '<p class="warningsmall"><strong>'
+             . $LANG_SECTEST['please_fix'] . '</strong></p>';
 
-    DB_save ($_TABLES['vars'], 'name,value', "'security_check','0'");
+    DB_save($_TABLES['vars'], 'name,value', "'security_check','0'");
 } else {
-    $display .= '<p>' . $LANG_SECTEST[31] . '</p>';
+    $display .= '<p>' . $LANG_SECTEST['please_note'] . '</p>';
 
-    DB_save ($_TABLES['vars'], 'name,value', "'security_check','1'");
+    DB_save($_TABLES['vars'], 'name,value', "'security_check','1'");
 }
 
-if (empty ($LANG_DIRECTION)) {
-    $versioncheck = '<strong>' . $LANG01[107] . '</strong>';
-} else {
-    $versioncheck = '<strong dir="' . $LANG_DIRECTION . '">' . $LANG01[107]
-                  . '</strong>';
-}
+$ml = COM_createLink('geeklog-announce',
+        'http://lists.geeklog.net/mailman/listinfo/geeklog-announce');
+$versioncheck = '<strong>' . $LANG01[107] . '</strong>';
+$display .= '<p>' . sprintf($LANG_SECTEST['stay_informed'], $ml, $versioncheck)
+         . '</p>';
 
-$display .= '<p>' . $LANG_SECTEST[32]
-    . COM_createLink('geeklog-announce', 'http://lists.geeklog.net/mailman/listinfo/geeklog-announce')
-    . $LANG_SECTEST[33] . $versioncheck
-    . $LANG_SECTEST[34] . '</p>';
+$display .= COM_endBlock();
+$display .= COM_siteFooter();
 
-$display .= COM_endBlock ();
-$display .= '</div>' . LB;
-$display .= COM_siteFooter ();
-
-echo $display;
+COM_output($display);
 
 ?>
