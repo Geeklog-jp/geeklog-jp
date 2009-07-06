@@ -1,12 +1,5 @@
 <!-- admin/mail/mailform.thtml { -->
 
-{startblock_email}
-
-<div id="admin-instructions">
-  <img src="{layout_url}/images/icons/mail.png" alt=""{xhtml}>
-  <p>{lang_note}</p>
-</div>
-
 <form action="{php_self}" method="post" id="admin-mailform" class="compact">
   <fieldset>
     <legend>グループメール送信</legend><!-- Geeklog Japanese -->
@@ -49,7 +42,5 @@
     </ul>
   </fieldset>
 </form>
-
-{end_block}
 
 <!-- } admin/mail/mailform.thtml -->
