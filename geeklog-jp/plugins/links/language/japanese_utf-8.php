@@ -31,6 +31,22 @@
 #
 ###############################################################################
 
+/**
+ * This is the Japanese language page for the Geeklog links Plug-in!
+ *
+ * @package Links
+ * @subpackage Language
+ * @filesource
+ * @version 2.0
+ * @since GL 1.4.0
+ * @copyright Copyright &copy; 2005-2007
+ * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
+ * @author Trinity Bays, trinity93 AT gmail DOT com
+ * @author Tony Bibbs, tony AT tonybibbs DOT com
+ * @author Tom Willett, twillett AT users DOT sourceforge DOT net
+ *
+ */
+
 global $LANG32;
 
 ###############################################################################
@@ -49,14 +65,14 @@ $LANG_LINKS = array(
     116 => 'リンク投稿',
     117 => 'リンク切れをご報告ください。',
     118 => 'リンク切れの報告',
-    119 => '次のリンクは切れていると報告されました： ',
-    120 => 'リンクの編集は、ここをクリック： ',
-    121 => 'リンク切れの報告者： ',
+    119 => '次のリンクは切れていると報告されました:',
+    120 => 'リンクの編集は、ここをクリック:',
+    121 => 'リンク切れの報告者:',
     122 => 'リンク切れをご報告いただきありがとうございます。できるだけ速やかに修正いたします。',
     123 => 'ありがとうございます。',
     124 => '表示',
     125 => 'カテゴリ',
-    126 => '現在の位置：',
+    126 => '現在の位置:',
     'root' => 'トップ'
 );
 
@@ -65,7 +81,7 @@ $LANG_LINKS = array(
 
 $LANG_LINKS_STATS = array(
     'links' => 'リンク数（クリック数）',
-    'stats_headline' => 'リンク(上位10件)',
+    'stats_headline' => 'リンク（上位10件）',
     'stats_page_title' => 'リンク',
     'stats_hits' => 'ヒット',
     'stats_no_hits' => 'このサイトにはリンクがないか、クリックした人がいないかのどちらかのようです。'
@@ -91,7 +107,7 @@ $LANG_LINKS_SUBMIT = array(
     3 => 'カテゴリ',
     4 => 'その他',
     5 => '新しいカテゴリ名',
-    6 => 'エラー：カテゴリを選んでください',
+    6 => 'エラー: カテゴリを選んでください',
     7 => '「その他」を選択する場合には新しいカテゴリ名を記入してください。',
     8 => 'タイトル',
     9 => 'URL',
@@ -260,7 +276,7 @@ $LANG_fs['links'] = array(
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['links'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
-    1 => array('はい' => true, 'いいえ' => false),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
     9 => array('リンク先サイトを表示する' => 'item', 'リンク管理を表示する' => 'list', '公開リンクリストを表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
