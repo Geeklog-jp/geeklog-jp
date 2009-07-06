@@ -35,6 +35,8 @@
 -->
 </script>
 
+{googleanalytics}
+
 <!-- } footer.thtml -->
 
 </body>

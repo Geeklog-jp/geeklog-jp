@@ -13,7 +13,7 @@
     </tr>
     <tr>
       <td align="right" valign="top">{lang_blockhelpurl}:</td>
-      <td><input type="text" name="help" value="{block_help}" size="48"{xhtml}>
+      <td><input type="text" name="help" value="{block_help}" size="48" maxlength="{max_url_length}"{xhtml}>
         {lang_includehttp}<br{xhtml}>
         {lang_explanation}</td>
     </tr>
@@ -52,14 +52,14 @@
         <input type="hidden" name="type" value="gldefault"{xhtml}></td>
     </tr>
     <tr>
-      <td colspan="2"><hr></td>
+      <td colspan="2"><hr{xhtml}></td>
     </tr>
     <tr>
       <td colspan="2"><b>{lang_accessrights}</b></td>
     </tr>
     <tr>
       <td align="right">{lang_owner}:</td>
-      <td>{owner_username}
+      <td>{owner_name}
         <input type="hidden" name="owner_id" value="{owner_id}"{xhtml}></td>
     </tr>
     <tr>
@@ -85,7 +85,8 @@
       <td>&nbsp;</td>
     </tr>
     <tr>
-      <td colspan="2"><input type="submit" value="{lang_save}" name="mode"{xhtml}>
+      <td colspan="2">
+        <input type="submit" value="{lang_save}" name="mode"{xhtml}>
         <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
         <input type="hidden" name="bid" value="{block_id}"{xhtml}>
         <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
