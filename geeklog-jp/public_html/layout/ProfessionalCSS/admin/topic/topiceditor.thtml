@@ -49,7 +49,8 @@
 
       <dt><label for="perm_owner">{lang_permissions}</label></dt>
       <dd>{permissions_editor}</dd>
-      <dd class="description">{lang_permissions_key}</dd>
+      <dd class="description">{lang_perm_key}</dd>
+      <dd class="description">{lang_permissions_msg}</dd>
     </dl>
   </fieldset>
 

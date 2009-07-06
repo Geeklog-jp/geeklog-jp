@@ -1,3 +1,5 @@
+<!-- loginform_openid.thtml { -->
+
 <form action="{site_url}/users.php?openid_login=1" method="post">
   <div>
   <label for="identity_url">{lang_openid_login}</label><br{xhtml}>
@@ -5,3 +7,5 @@
   <input src="{site_url}/images/right_arrow.png" style="padding:1px;margin-bottom:-5px;height:16px;width:16px;border:1px" type="image"{xhtml}>
   </div>
 </form>
+
+<!-- } loginform_openid.thtml -->
