@@ -7,7 +7,6 @@
   <ul class="icon">
     <li>{email_icon}</li>
     <li>{print_icon}</li>
-    <li>{pdf_icon}</li>
     <li>{edit_icon}</li>
   </ul>
 
@@ -40,8 +39,8 @@
 
   <ul class="feedback">
     <li>{plugin_itemdisplay}</li>
-    <li>{start_comments_anchortag}{comments_with_count}{end_comments_anchortag}</li>
-    <li>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</li>
+    <li>{comments_with_count}</li>
+    <li>{trackbacks_with_count}</li>
   </ul>
 </div>
 

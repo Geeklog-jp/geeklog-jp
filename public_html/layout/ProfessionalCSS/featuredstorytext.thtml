@@ -6,7 +6,6 @@
   <ul class="icon">
     <li>{email_icon}</li>
     <li>{print_icon}</li>
-    <li>{pdf_icon}</li>
     <li>{edit_icon}</li>
   </ul>
 
@@ -33,14 +32,14 @@
 
   <ul class="navi">
     <li>{page_selector}</li>
-    <li>{start_readmore_anchortag}{lang_readmore}{end_readmore_anchortag}</li>
+    <li>{readmore_link}</li>
     <li>{post_comment_link}</li>
   </ul>
 
   <ul class="feedback">
     <li>{plugin_itemdisplay}</li>
     <li>{comments_with_count}</li>
-    <li>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</li>
+    <li>{trackbacks_with_count}</li>
   </ul>
 </div>
 
