@@ -335,7 +335,7 @@ if (!empty($url)) {
                                'backups ' . $LANG_SECTEST['directory']);
             @unlink($_CONF['backup_path'] . 'test.txt');
         } else {
-            $display .= '<li>' . $LANG_SECTEST[26] . '</li>';
+            $display .= '<li>Failed to create a temporary file in your backups directory. Check your directory permissions!</li>';
         }
     }
 
