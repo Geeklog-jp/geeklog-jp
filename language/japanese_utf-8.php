@@ -1321,8 +1321,11 @@ $LANG_DB_BACKUP = array(
     'last_ten_backups' => 'データベースバックアップ',
     'do_backup' => 'バックアップの実行',
     'backup_successful' => 'データベースのバックアップが完了しました。',
-    'db_explanation' => 'Geeklogをバックアップするには、下のボタンをクリックしてください。',
-    'not_found' => "パスの指定が間違っているか、mysqldumpが実行可能になっていないか、PHPのopen_basedirの制限に引っかかっているかのどれかが原因で失敗しました。<br" . XHTML . "><strong>mysqldump_path</strong>の設定をコンフィギュレーションでチェックしてください。<br" . XHTML . ">現在の設定は、\n<var>{$_DB_mysqldump_path}</var>です。",
+    'db_explanation' => 'Geeklogをバックアップするには、「新規作成」をクリックしてください。',
+    'not_found' => '不正確なパス、セキュリティ上の制限、またはmysqldumpが実行できません。<br'
+                    . XHTML . '> コンフィギュレーションで<strong>mysqldump_path</strong>の設定を確認してください。<br'
+                    . XHTML . '> PHPの<a href="http://www.php.net/manual/en/features.safe-mode.php#ini.open-basedir">open_basedir</a>の設定を確認してください。<br'
+                    . XHTML . "> 現在のパスは<var>{$_DB_mysqldump_path}</var>に設定されています。",
     'zero_size' => 'バックアップに失敗しました。ファイルの大きさが0バイトです。',
     'path_not_found' => "{$_CONF['backup_path']} は存在しないか、ディレクトリではありません。",
     'no_access' => "エラー: {$_CONF['backup_path']} ディレクトリにアクセスできません。",
