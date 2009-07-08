@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: トラックバックスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : トラックバック・トラックバックページのスタイルです。
   適用先  : trackback/trackback.thtml,
             trackback/trackbackcomment.thtml, trackback/formattedcomment.thtml
@@ -17,7 +17,7 @@
 /* トラックバックブロック */
 div#trackback {
   margin: 0;
-  padding: 0;
+  padding-left: 1em; /*-- 修正2007/11/04 koeda@b-lines.jp as みるく--*/
 }
 
 /* タイトル */

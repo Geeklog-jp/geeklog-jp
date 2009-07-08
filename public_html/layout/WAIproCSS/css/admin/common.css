@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 共通スタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : 共通スタイル(管理者ページ)です。
   適用先  : admin/, admin/common/
 ==============================================================================*/
@@ -13,33 +13,8 @@
   共通スタイル
 --------------------------------------*/
 
-div#admin-instructions {
-  overflow: hidden;  /* 浮動要素の調整用 */
-  margin: 0 0 1em 0;
-  padding: 0;
-}
-
-/* 内容生成によってfloatを解除 */
-div#admin-instructions:after {
-  content: "";
-  display: block;
-  clear: both;
-  height: 1px;
-  overflow: hidden;
-}
-
-/* Win IE 6以下用(浮動要素の調整) { \*/
-* html div#admin-instructions {
-  height: 1%;
-  overflow: visible;
-}
-/* } Win IE 6以下用(浮動要素の調整) */
-
 /* アイコン */
-div#admin-instructions img {
-  float: left;
-  margin: 0 8px 8px 0;
-  padding: 0;
+img.plugin {
   width: 48px;
   height: 48px;
 }

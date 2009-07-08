@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 設定ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : 設定ページのスタイルです。
   適用先  : preferences/displayprefs.thtml, preferences/displayblock.thtml,
             preferences/language.thtml, preferences/theme.thtml, preferences/commentblock.thtml,
@@ -27,7 +27,7 @@ form#profile {
 form#profile fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #000000;
 }
 
 form#profile fieldset legend {
@@ -50,7 +50,7 @@ form#profile ul.checkboxes-list {
 form#profile ul.checkboxes-list li {
   display: inline;
   margin-right: 0.5em;
-}
+} 
 
 /* 入力フィールド */
 form#displayprefs dl {
@@ -70,4 +70,4 @@ form#profile dl dd.userphoto-photo img {
 /* 初期値 */
 form#profile span.gldefault {
   font-weight: bold;
-}
+} 

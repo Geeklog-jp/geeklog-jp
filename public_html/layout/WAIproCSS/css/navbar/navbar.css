@@ -54,12 +54,12 @@ ul.navbar-breadcrumbs li a {
   overflow: hidden;
 }
 
-/* Win IE 6以下用(浮動要素の調整) { \*/
+/* Win IE 6用(浮動要素の調整) { \*/
 * html #navcontainer {
   height: 1%;
   overflow: visible;
 }
-/* } Win IE 6以下用(浮動要素の調整) */
+/* } Win IE 6用(浮動要素の調整) */
 
 #navcontainer ul {
   list-style: none;
@@ -86,12 +86,14 @@ ul.navbar-breadcrumbs li a {
   display: block;
   padding: 4px 8px 4px 3px;
   color: #24618E;
-  background: url(../../navbar/images/tabrightJ.gif) no-repeat 100% 0;
+  background: url(../../navbar/images/tabrightJ.gif) no-repeat 100% 0;;
 }
 
+/* Mac IE以外用 { \*/
 #navcontainer a span {
   float: none;
 }
+/* } Mac IE以外用 */
 
 #navcontainer a:hover span {
   color: #FFFFFF;

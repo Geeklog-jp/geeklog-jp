@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: フォームスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Original Coding by Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : フォームのスタイルです。
   適用先  : leftblocks.thtml, loginform.thtml,
             custom-memberlogin.thtml, customlogin-header.thtml, customlogin-footer.thtml
@@ -16,10 +16,10 @@
 
 /* ブロック */
 div#leftblocks div#block-left-search {
-  margin: 0 2px 0.5em 2px;
-  padding: 8px;
-  border-bottom: 1px solid #CCCCCC;
-  background: #E7E7E7;
+  margin: 0 0.2em 0.5em;
+  padding: 0.7em;
+  border-bottom: 1px solid #999999;
+  background: #e0e0e0;
 }
 
 /* フォーム */
