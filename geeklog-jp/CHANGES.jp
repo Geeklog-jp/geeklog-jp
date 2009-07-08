@@ -1,5 +1,11 @@
 $Id$
 
+2009-07-07  Masuko Koeda  <milk851>
+
+	* ProfessionalCSS: 管理画面ブロックの編集ページ修正
+		テーブルレイアウトを修正し、チェックボックス等を
+		label要素と関連付ける為にinput要素にid属性を追加しました。
+
 2009-07-07  Takahiro Kambe  <tacahi>
 
 	* 日本語翻訳: 翻訳の改善
