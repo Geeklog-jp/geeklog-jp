@@ -9,165 +9,99 @@
 
 
 /*==============================================================================
-  [INFO] カスタムテーマスタイルシート(雛型)
-         ProfessionalCSSテーマをベースとしたカスタムテーマの作成を補助するCSSファイル(雛型)です。
-         [BASE]部分で、ProfessionalCSSテーマの基本的なスタイルを初期化しています。
-         [CUSTOM]部分で、カスタムテーマのスタイルを定義していきます。
-         サンプルとして、リキッドレイアウトのスタイルのみ定義してあります。
+ [INFO] カスタムテーマスタイルシート(雛型)
+         WAIproCSSver.2.4.0テーマをベースとしたカスタムテーマの作成を補助するCSSファイル(雛型)です。  
+         WAIproCSSver.2.4.0テーマの背景を指定します。
+        以下では、サンプルに例としてすべて背景色と枠線の色を白で設定しておりますが、
+        (ナビゲーションの文字色は黒で設定しています)
+　      変更される時は、出来る限りコントラストに配慮した配色及び
+　      レイアウトが判りやすい配色をお願いします。
+      　画像を使用される場合は、
+      　例) background: #ffffff url(images/custom/bg_body.png) repeat-x 0 0;
+      　のように記述してください。
 ==============================================================================*/
 
-/*==============================================================================
-  [BASE] ProfessionalCSSテーマのスタイル初期化
-         ProfessionalCSSテーマの基本的なスタイルを初期化します。
-         (背景色: #FFFFFF, 前景色: #000000)
-==============================================================================*/
-
-/*--------------------------------------
-  [BASE] layout.css
----------------------------------------*/
-
+/*--- ページ全体の背景色を指定 ---*/
 body {
-  background: #FFFFFF;
+  background: #ffffff;
+}
+
+/*--- 全体のカラムを囲っている枠線 ---*/
+div#container {
+  border: 0.1em solid #ffffff;
+}
+
+/*--- ヘッダの背景色 ---*/
+div#container div#header {
+  background: #ffffff;
+}
+
+/*--- ナビゲーションの背景色及び上下の線の色を指定 ---*/
+div#container div#navigation {
+  background: #ffffff;
+  border-bottom: 0.1em solid #ffffff;
+  border-top: 0.1em solid #ffffff;
+}
+
+/*--- ナビゲーションの文字の色を指定 ---*/
+div#container div#navigation ul li.menuitem a,
+div#container div#navigation ul li.menuitem a:link,
+div#container div#navigation ul li.menuitem a:visited {
   color: #000000;
 }
 
-div#container {
-  background: transparent;
-}
-
-/*----- ヘッダ -----*/
-div#container div#header {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-}
-
-/*----- ナビゲーション -----*/
-div#container div#navigation {
-  width: 100%;
-  background: transparent;
-}
-
-/*----- フッタ -----*/
+/*--- フッタの背景色及び上部の線の色(全体のカラムを囲っている枠線と同色)を指定 ---*/
 div#container div#footer {
-  background: transparent;
+  background: #ffffff;
+  border-top: 0.09em solid #ffffff;
 }
 
-div#container div#footer a,
-div#container div#footer a:link,
-div#container div#footer a:visited,
-div#container div#footer a:hover {
-  color: #0000ff;
+/*--- 左ブロックの背景色を指定 ---*/
+div#container div#wrapper div#carrier div#leftblocks,
+body.left-center div#container div#wrapper div#carrier div#leftblocks,
+body.js_off div#container div#wrapper div#carrier div#leftblocks {
+  background: #ffffff;
 }
 
-div#container div#footer a:focus,
-div#container div#footer a:active {
-  color: #ff0000;
-}
-
-/*----- ラッパー -----*/
-body.left-center-right div#container div#wrapper,
-body.left-center div#container div#wrapper,
-body.center-right div#container div#wrapper,
-body.center div#container div#wrapper,
-body.js_off div#container div#wrapper {
-  background-image: none;
-}
-
-
-
-/*--------------------------------------
-  [BASE] form.css
----------------------------------------*/
-
+/*--- 左ブロックの検索部分の背景色及び下の線の色を指定 ---*/
 div#leftblocks div#block-left-search {
-  border: none;
-  background: transparent;
+  background: #ffffff;
+  border-bottom: #ffffff;
 }
 
-
-
-/*--------------------------------------
-  [BASE] block.css
----------------------------------------*/
-
-div#centerblocks p.welcome_msg,
-div#leftblocks div.block-left,
-div#rightblocks div.block-right {
-  border: none;
+/*--- 中央ブロックの背景色と左右の枠線を指定 ---*/
+div#container div#wrapper div#carrier div#centerblocks,
+body.center div#container div#wrapper div#carrier div#centerblocks {
+  background: #ffffff;
 }
 
-
-
-/*==============================================================================
-  [CUSTOM] カスタムテーマスタイル
-           カスタムテーマのスタイルを定義します。
-==============================================================================*/
-
-/*--------------------------------------
-  [CUSTOM] layout.css
-           リキッドレイアウトのサンプルです。
-
-             幅(全体)        : 80%
-             最小幅(全体)    : 800px
-             最大幅(全体)    : 80em
-
-             幅(左ブロック)  : 20%
-             幅(中央ブロック): 60%
-             幅(右ブロック)  : 20%
----------------------------------------*/
-
-/*----- コンテナ -----*/
-div#container {
-  width: 80%;
-  min-width: 800px;
-  max-width: 80em;
+body.left-center-right div#container div#wrapper div#carrier div#centerblocks,
+body.js_off div#container div#wrapper div#carrier div#centerblocks {
+  background: #ffffff;
+  border-left: 0.1em solid #ffffff;
+  border-right: 0.1em solid #ffffff;
 }
 
-/*----- 左ブロックコンテナ -----*/
-div#container div#wrapper div#leftblocks {
-  width: 20%;
-  margin: 0 80% 0 0;
+body.left-center div#container div#wrapper div#carrier div#centerblocks {
+  background: #ffffff;
+  border-left: 0.1em solid #ffffff;
 }
 
-body.js_off div#container div#wrapper div#leftblocks {
-  margin: 0 -20% 0 0;
+body.center-right div#container div#wrapper div#carrier div#centerblocks {
+  background: #ffffff;
+  border-right: 0.1em solid #ffffff;
 }
 
-/*----- 中央ブロックコンテナ -----*/
-body.left-center-right div#container div#wrapper div#centerblocks {
-  width: 57%;
-  margin: 0 0 0 -80%;
-  padding: 0 1%;
+/*--- 右ブロックの背景色を指定 ---*/
+div#container div#wrapper div#rightblocks,
+body.left-center-right div#container div#wrapper div#rightblocks,
+body.center-right div#container div#wrapper div#rightblocks,
+body.js_off div#container div#wrapper div#rightblocks {
+  background: #ffffff;
 }
 
-body.left-center div#container div#wrapper div#centerblocks {
-  width: 77%;
-  margin: 0 0 0 -80%;
-  padding: 0 1%;
+/*--- アンケート内の背景色を指定 ---*/
+div.poll-questions {
+  background: #ffffff;
 }
 
-body.center-right div#container div#wrapper div#centerblocks {
-  width: 77%;
-  margin: 0 20% 0 0;
-  padding: 0 1%;
-}
-
-body.center div#container div#wrapper div#centerblocks {
-  width: 97%;
-  margin: 0;
-  padding: 0 1%;
-}
-
-body.js_off div#container div#wrapper div#centerblocks {
-  display: inline;  /* For Win IE 6 */
-  width: 57%;
-  margin: 0 0 0 20%;
-  padding: 0 1%;
-}
-
-/*----- 右ブロックコンテナ -----*/
-div#container div#wrapper div#rightblocks {
-  width: 20%;
-  margin: 0 0 0 -20%;
-}

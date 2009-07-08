@@ -3,14 +3,19 @@
 
 {start_block_postacomment}
 
-<form action="{site_url}/comment.php" method="post" id="commentform" class="linear">
+<form action="{form_url}" method="post" id="commentform" class="linear">
   <fieldset>
     <legend>投稿情報</legend><!-- Geeklog Japanese -->
 
     <dl>
       <dt class="username">{lang_username}</dt>
-      <dd class="username">{username}<a href="{action_url}" rel="nofollow" class="logoutorcreateaccount">{lang_logoutorcreateaccount}</a></dd>
-	  
+      <dd class="username">{cid}{username}
+         <input type="hidden" name="sid" value="{sid}"{xhtml}>
+         <input type="hidden" name="pid" value="{pid}"{xhtml}>
+         <input type="hidden" name="type" value="{type}"{xhtml}>
+         <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+         <a href="{action_url}" rel="nofollow" class="logoutorcreateaccount">{lang_logoutorcreateaccount}</a>
+      </dd>	  
       <dt class="title"><label for="commentform-title">{lang_title}</label></dt>
       <dd class="title"><input type="text" size="32" value="{title}" maxlength="96" name="title" id="commentform-title" class="text"{xhtml}></dd>
 
@@ -48,7 +53,7 @@
         <input type="hidden" value="{pid}" name="pid"{xhtml}>
         <input type="hidden" value="{type}" name="type"{xhtml}>
         <input type="hidden" value="{uid}" name="uid"{xhtml}>
-        {save_option}
+        {save_option} {notification}
       </li>
     </ul>
 

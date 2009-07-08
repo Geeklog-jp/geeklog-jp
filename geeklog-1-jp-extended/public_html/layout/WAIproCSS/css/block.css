@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: ブロックスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Original Coding by Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : 左ブロック・中央ブロック・右ブロック・その他ブロックのスタイルです。
             ブロックはサイト全体を通して使用されます。
   適用先  : header.thtml,
@@ -22,8 +22,15 @@ div#leftblocks ol,
 div#rightblocks ul,
 div#rightblocks ol {
   padding-left: 0;
+  list-style: none;
 }
 
+div#leftblocks ul li,
+div#leftblocks ol li,
+div#rightblocks ul li,
+div#rightblocks ol li {
+  list-style-position: outside;
+} 
 
 
 /*--------------------------------------
@@ -44,7 +51,7 @@ li.listitem {
 --------------------------------------*/
 
 div#centerblocks div#block-message {
-  margin: 2em 0;
+  margin: 2em 1em;
   padding: 0;
   border: 1px solid #000000;
 }
@@ -58,7 +65,7 @@ div#centerblocks div#block-message dl {
 div#centerblocks div#block-message dl dt {
   margin: 0;
   padding: 8px;
-  background: #1A3955 url(../images/css/bg_message_title.gif) repeat-x 0 0;
+  background: #555555;
   color: #FFFFFF;
   font-weight: bold;
 }
@@ -67,7 +74,7 @@ div#centerblocks div#block-message dl dt {
 div#centerblocks div#block-message dl dd {
   margin: 0;
   padding: 8px;
-  background: #E7E7E7;
+  background: #eeeeee;
   font-weight: bold;
 }
 
@@ -81,7 +88,7 @@ div#centerblocks div#block-message dl dd {
 /* ブロック */
 div.block-related {
   margin: 0 0 2em 0;
-  padding: 0;
+  padding-left: 1em;
 }
 
 /* ブロックタイトル */
@@ -104,37 +111,18 @@ div.block-related div.block-related-content {
   中央ブロック
 --------------------------------------*/
 
-/* ウェルカムメッセージ */
-div#centerblocks p.welcome_msg {
-  margin: 0 0 2em 0;
-  padding: 1em 0;
-  border-bottom: 1px solid #CCC;
-}
-
-/* ウェルカムメッセージのリンク */
-div#centerblocks p.welcome_msg a,
-div#centerblocks p.welcome_msg a:link,
-div#centerblocks p.welcome_msg a:visited {
-}
-
-div#centerblocks p.welcome_msg a:hover,
-div#centerblocks p.welcome_msg a:focus,
-div#centerblocks p.welcome_msg a:active {
-}
-
 /* ブロック */
 div#centerblocks div.block-center {
   margin: 0 0 1em 0;
-  padding: 0 0 2em 0;
-  border-bottom: 1px solid #CCC;
+  padding: 0 1em 2em 1em;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
 div#centerblocks h2,
 div#centerblocks h3,
 div#centerblocks h4 {
-  margin: 0 0 1em 0;
-  padding: 0;
+  margin: 1em 0 1em 0;
   font-weight: bold;
 }
 
@@ -163,6 +151,12 @@ div#centerblocks div.block-center div.block-center-content {
   padding: 0;
 }
 
+/* 中央ブロックに表示される時のアンケート内 */
+div#centerblocks div.poll-questions {
+  margin-left: 1em;
+  background: #ffffff;
+}
+
 
 
 /*--------------------------------------
@@ -170,17 +164,18 @@ div#centerblocks div.block-center div.block-center-content {
 --------------------------------------*/
 
 /* ブロック */
-div#leftblocks div.block-left {
-  margin: 0 8px 0.5em 8px;
-  padding: 8px 0;
-  border-bottom: 1px solid #E7E7E7;
+div#leftblocks div.block-left,
+div#leftblocks div.block-center {
+  margin: 0 0.5em 0.5em;
+  padding: 0.5em;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
 div#leftblocks div.block-left h2 {
   margin: 0 0 0.5em 0;
   padding: 0;
-  font-size: 110%;
+  font-size: 1.125em;
   font-weight: bold;
 }
 
@@ -203,16 +198,16 @@ div#leftblocks div.block-left div.block-left-content {
 
 /* ブロック */
 div#rightblocks div.block-right {
-  margin: 0 8px 0.5em 8px;
-  padding: 8px 0;
-  border-bottom: 1px solid #CCCCCC;
+  margin: 0 0.5em 0.5em;
+  padding: 0.5em;
+  border-bottom: 1px solid #999999;
 }
 
 /* ブロックタイトル */
 div#rightblocks div.block-right h2 {
   margin: 0 0 0.5em 0;
   padding: 0;
-  font-size: 110%;
+  font-size: 1.125em;
   font-weight: bold;
 }
 
@@ -226,3 +221,9 @@ div#rightblocks div.block-right div.block-right-content {
   margin: 0;
   padding: 0;
 }
+
+/* アンケート内 */
+div.poll-questions {
+  background: #ffffff;
+}
+

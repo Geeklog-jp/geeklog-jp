@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: グループエディタスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : グループエディタ(管理者ページ)のスタイルです。
   適用先  : admin/group/groupeditor.thtml, admin/group/groupmembers.thtml
 ==============================================================================*/
@@ -21,7 +21,7 @@ form#admin-groupeditor fieldset.admingroup,
 form#admin-groupeditor fieldset.securitygroups,
 form#admin-groupeditor fieldset.rights {
   padding: 0.5em 0 0 0;
-  border-top: 1px solid #CCCCCC;
+  border-top: 1px solid #000000;
 }
 
 /* 説明 */
@@ -54,7 +54,7 @@ form#admin-groupeditor dl dd table tr td {
 
 form#admin-groupmembers fieldset {
   padding: 8px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #000000;
   background: #EFEFEF;
 }
 
