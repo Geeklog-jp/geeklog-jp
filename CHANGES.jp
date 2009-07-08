@@ -1,11 +1,11 @@
+$Id$
+
 2009-07-07  Takahiro Kambe  <tacahi>
 
 	* 日本語翻訳: 翻訳の改善
 		- $LANG_SECTEST['not_sure']の翻訳を改善
 		- 「クリックジャック」を「クリックジャッキング」に変更
 		- $MESSAGE[400]の翻訳の意味が逆だったのを修正
-
-$Id$
 
 2009-07-04  Takahiro Kambe  <tacahi>
 
