@@ -86,14 +86,12 @@ ul.navbar-breadcrumbs li a {
   display: block;
   padding: 4px 8px 4px 3px;
   color: #24618E;
-  background: url(../../navbar/images/tabrightJ.gif) no-repeat 100% 0;;
+  background: url(../../navbar/images/tabrightJ.gif) no-repeat 100% 0;
 }
 
-/* Mac IE以外用 { \*/
 #navcontainer a span {
   float: none;
 }
-/* } Mac IE以外用 */
 
 #navcontainer a:hover span {
   color: #FFFFFF;

@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: コンフィギュレーションページスタイル(管理者ページ)
-  著者    : Hiromi Ikeda as Jiro & Fumito Arakawa as Phize  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
+  著者    : Hiromi Ikeda as Jiro & Fumito Arakawa as Phize
   説明    : コンフィギュレーションページ(管理者ページ)のスタイルです。
   適用先  : admin/config/configuration.thtml, admin/config/config_element.thtml,
             admin/config/menu_element.thtml
@@ -23,7 +23,7 @@ form#config-editor {
 form#config-editor fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #000000;
+  border: 1px solid #CCCCCC;
 }
 
 form#config-editor fieldset legend {
@@ -73,13 +73,13 @@ form#config-editor {
 /* 左メニュー */
 div#config_menu {
   float: left;
+  width: 160px;
   margin-left: -6px;
   padding: 0;
+  background: #F7F7F7;
 }
 
 div#config_menu div.block-center {
-  float: left;
-  width: 20em;
   margin-right: 8px;
   margin-left: 8px;
 }
@@ -91,6 +91,6 @@ div#config_menu div.block-center h2 {
 /* 中央部分 */
 div#config_main {
   float: left;
-  width: 53em;
+  width: 620px;
   padding: 0 0 0 8px;
 }

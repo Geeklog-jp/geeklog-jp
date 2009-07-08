@@ -5,7 +5,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
     die ('This file can not be used on its own!');
 }
 
-$_IMAGE_TYPE = 'gif';
+$_IMAGE_TYPE = 'png';
 
 if (!defined ('XHTML')) {
     define('XHTML',''); // change this to ' /' for XHTML
@@ -21,8 +21,6 @@ for ($i = 0; $i < $nrows; $i++) {
             $_BLOCK_TEMPLATE[$A['name']] = 'blockheader-right.thtml,blockfooter-right.thtml';
     }
 }
-
-$_CONF['left_blocks_in_footer'] = 1;
 
 $_BLOCK_TEMPLATE['_msg_block'] = 'blockheader-message.thtml,blockfooter-message.thtml';
 $_BLOCK_TEMPLATE['configmanager_block'] = 'blockheader-config.thtml,blockfooter-config.thtml';

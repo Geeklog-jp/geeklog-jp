@@ -1,8 +1,8 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 基本レイアウトスタイル(エラスティックレイアウト)
-  著者    : Original Coding by Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
+  タイトル: 基本レイアウトスタイル
+  著者    : Fumito Arakawa as Phize (http://phize.net/)
   説明    : サイトの基本となるレイアウトです。
             Geeklogとの整合性を図る為に、このCSSファイルを含む全てのHTML/CSSファイルにおいて、
             該当する要素について、敢えて「左ブロック」、「中央ブロック」、「右ブロック」と命名しています。
@@ -18,12 +18,12 @@
               ・「js_off」のみが常に指定されています。
 
             各ブロックの幅は下記の通りです。
-              ・サイト全体の幅[W] = 70.2em
-              ・左ブロックの幅[L] = 12.5em
-              ・右ブロックの幅[R] = 12.5em
-              ・中央ブロックの幅(3カラム) = 44.08em
-              ・中央ブロックの幅(2カラム) = 56.694em
-              ・中央ブロックの幅(1カラム) = 68.8em
+              ・サイト全体の幅[W] = 800px
+              ・左ブロックの幅[L] = 160px
+              ・右ブロックの幅[R] = 160px
+              ・中央ブロックの幅(3カラム) = [W] - [L] - [R] = 480px
+              ・中央ブロックの幅(2カラム) = [W] - [L]/[R] = 640px
+              ・中央ブロックの幅(1カラム) = [W] = 800px
   適用先  : header.thtml, footer.thtml, leftblocks.thtml, rightblocks.thtml
 ==============================================================================*/
 
@@ -36,12 +36,9 @@
 
 div#container {
   position: relative;
-  width: 70.2em;  /* サイト全体の幅[W] */
-  min-width: 37.5em; 
-  margin: 20px auto 0;
+  width: 800px;  /* サイト全体の幅[W] */
+  margin: 0 auto;
   padding: 0;
-  border: 0.1em solid #555555;
-  font-size: 1em; 
   text-align: left;
 }
 
@@ -52,46 +49,26 @@ div#container {
 --------------------------------------*/
 
 div#container div#header {
-  position: relative;
-  height: 7.5em;
+  height: 80px;
+  margin: 0;
   padding: 0;
-  background: #ffffff;
+  background: #1A3955 url(../images/css/bg_header.gif) no-repeat 0 0;
 }
 
 /* サイト名 */
 div#container div#header h1.site_name {
   display: inline;  /* Win IE 6用(フロートの左右マージンが指定値より大きくなる) */
-  margin: 0.4em 0 0 0.5em;
+  margin: 12px 0 0 16px;
   padding: 0;
   float: left;
-}
-
-div#container div#header h1.site_name a:hover {
-  background: transparent;
 }
 
 /* スローガン */
 div#container div#header p.site_slogan {
   margin: 0;
-  padding: 1em 1em 0;
-  color: #000000;
+  padding: 16px 16px 0 16px;
+  color: #FFFFFF;
   text-align: right;
-}
-
-/* ウェルカムメッセージ */
-div#container div#header p.welcome_msg {
-  margin: 3.2em 0 0 0.9em;
-}
-
-/* ウェルカムメッセージのリンク */
-div#container div#header p.welcome_msg a,
-div#container div#header p.welcome_msg a:link,
-div#container div#header p.welcome_msg a:visited {
-}
-
-div#container div#header p.welcome_msg a:hover,
-div#container div#header p.welcome_msg a:focus,
-div#container div#header p.welcome_msg a:active {
 }
 
 
@@ -101,11 +78,12 @@ div#container div#header p.welcome_msg a:active {
 --------------------------------------*/
 
 div#container div#navigation {
-  height: 2em;
-  padding: 0.49em;
-  background: #666666;
-  border-top: 0.1em solid #555555;
-  border-bottom: 0.1em solid #555555;
+  top: 0;
+  left: 0;
+  width: 784px;
+  margin: 0;
+  padding: 0.5em 8px;
+  background: #E7E7E7 url(../images/css/bg_navigation.gif) no-repeat 0 100%;
   text-align: left;
 }
 
@@ -117,10 +95,9 @@ div#container div#navigation ul {
 }
 
 div#container div#navigation ul li {
-  float: left;
-  margin: 0 0 0 1.5em;
+  display: inline;
+  margin: 0 2px;
   padding: 0;
-  font-weight:bold;
 }
 
 /* ナビゲーションメニュー(通常) */
@@ -130,15 +107,11 @@ div#container div#navigation ul li.menuitem {
 div#container div#navigation ul li.menuitem a,
 div#container div#navigation ul li.menuitem a:link,
 div#container div#navigation ul li.menuitem a:visited {
-  display: block;
-  padding: 0.3em;
-  color: #ffffff;
 }
 
 div#container div#navigation ul li.menuitem a:hover,
 div#container div#navigation ul li.menuitem a:focus,
 div#container div#navigation ul li.menuitem a:active {
-  color: #000000;
 }
 
 /* ナビゲーションメニュー(最後) */
@@ -159,12 +132,15 @@ div#container div#navigation ul li.last-child a:active {
 
 /*--------------------------------------
   ラッパー
-    コンテンツとなるブロックレベル要素(div#leftblocks, div#carrier, div#centerblocks, div#rightblocks)を包含します。
+    コンテンツとなるブロックレベル要素(div#leftblocks, div#centerblocks, div#rightblocks)を包含します。
 --------------------------------------*/
 
 div#container div#wrapper {
   overflow: hidden;  /* 浮動要素の調整用 */
-  background: #ffffff;
+  margin: 0;
+  padding: 0 0 2em 0;
+  background-repeat: repeat-y;
+  background-position: 0 0;
 }
 
 /* 内容生成によってfloatを解除 */
@@ -172,72 +148,40 @@ div#container div#wrapper:after {
   content: "";
   display: block;
   clear: both;
-  height: 0;
+  height: 1px;
   overflow: hidden;
 }
 
-/* Win IE 6以下用(浮動要素の調整) { \*/
+/* Win IE 6用(浮動要素の調整) { \*/
 * html div#container div#wrapper {
   height: 1%;
   overflow: visible;
 }
-/* } Win IE 6以下用(浮動要素の調整) */
+/* } Win IE 6用(浮動要素の調整) */
 
 /* JavaScript有効・3カラム(左ブロック・中央ブロック・右ブロック)時のラッパー */
 body.left-center-right div#container div#wrapper {
-  float: left;
-  padding: 0;
+  background-image: url(../images/css/bg_wrapper_left-center-right.gif);
 }
 
-/* JavaScript有効・2カラム(左ブロック・中央ブロック)時 */
+/* JavaScript有効・2カラム(左ブロック・中央ブロック)時のラッパー */
 body.left-center div#container div#wrapper {
-  padding: 0;
+  background-image: url(../images/css/bg_wrapper_left-center.gif);
 }
 
-/* 2カラム(中央ブロック・右ブロック)時 */
+/* JavaScript有効・2カラム(中央ブロック・右ブロック)時のラッパー */
 body.center-right div#container div#wrapper {
-  padding: 0;
+  background-image: url(../images/css/bg_wrapper_center-right.gif);
 }
 
-/*1カラム(中央ブロック)時のラッパー */
+/* JavaScript有効・1カラム(中央ブロック)時のラッパー */
 body.center div#container div#wrapper {
-  padding: 0;
+  background-image: url(../images/css/bg_wrapper_center.gif);
 }
 
 /* JavaScript無効時のラッパー */
 body.js_off div#container div#wrapper {
-  float: left;
-  padding: 0;
-}
-
-
-
-/*--------------------------------------
- carrier(中央ブロック=div#centerblocksと左ブロック=div#leftblocksを包含します)
---------------------------------------*/
-
-/* JavaScript有効・3カラム(左ブロック・中央ブロック・右ブロック)時のcarrier */
-body.left-center-right div#container div#wrapper div#carrier {
-  float: left;
-  width: 57.69em;
-}
-
-/* JavaScript有効・2カラム(左ブロック・中央ブロック)時と1カラム(中央ブロック)時のcarrier */
-body.left-center div#container div#wrapper div#carrier,
-body.center div#container div#wrapper div#carrier {
-  width: 70.2em;
-}
-
-/* JavaScript有効・2カラム(中央ブロック・右ブロック)時のcarrier */
-body.center-right div#container div#wrapper div#carrier {
-  float: left;
-  width: 57.69em;
-}
-
-/* JavaScript無効時のcarrier */
-body.js_off div#container div#wrapper div#carrier {
-  float: left;
-  width: 57.69em;
+  background-image: url(../images/css/bg_wrapper_left-center-right.gif);
 }
 
 
@@ -247,24 +191,18 @@ body.js_off div#container div#wrapper div#carrier {
     div#leftblocksは、左ブロックがない場合には表示されません。
 --------------------------------------*/
 
-div#container div#wrapper div#carrier div#leftblocks {
+div#container div#wrapper div#leftblocks {
+  overflow: auto;
   float: left;
-  width: 12.5em;  /* 左ブロックの幅[L] */
-  background: #eeeeee;
+  width: 160px;  /* 左ブロックの幅[L] */
+  margin: 0 640px 0 0;  /* 右マージン = サイト全体の幅[W] - 左ブロックの幅[L] */
+  padding: 0;
 }
 
-/*-- JavaScript有効・2カラム(左ブロック・中央ブロック)時の左ブロックコンテナ --*/
-body.left-center div#container div#wrapper div#carrier div#leftblocks {
+/* JavaScript無効時の左ブロックコンテナ */
+body.js_off div#container div#wrapper div#leftblocks {
   float: left;
-  width: 12.5em;
-  background: #eeeeee;
-}
-
-/*-- JavaScript無効時の左ブロックコンテナ --*/
-body.js_off div#container div#wrapper div#carrier div#leftblocks {
-  float: left;
-  width: 12.5em;
-  background: #eeeeee;
+  margin: 0 -160px 0 0;  /* 右マージン = -(左ブロックの幅[L]) */
 }
 
 
@@ -274,59 +212,48 @@ body.js_off div#container div#wrapper div#carrier div#leftblocks {
     div#centerblocksは、基本的には常に表示されます。
 --------------------------------------*/
 
-div#container div#wrapper div#carrier div#centerblocks {
-  width: 57.3em;
-  background: #ffffff;
-}
-
-/*IE6用ハック*/
-* html div#container div#wrapper div#carrier div#centerblocks {
+div#container div#wrapper div#centerblocks {
   overflow: auto;
 }
 
 /* JavaScript有効・3カラム(左ブロック・中央ブロック・右ブロック)時の中央ブロックコンテナ */
-body.left-center-right div#container div#wrapper div#carrier div#centerblocks {
-  float: right;
-  width: 44.08em;  /* 中央ブロックの幅(3カラム) */
-  padding: 0.45em;
-  background: #ffffff;
-  border-left: 0.1em solid #555555;
-  border-right: 0.1em solid #555555;
+body.left-center-right div#container div#wrapper div#centerblocks {
+  float: left;
+  width: 464px;  /* 中央ブロックの幅 = サイト全体の幅[W] - 左ブロックの幅[L] - 右ブロックの幅[R] - 右パディング - 左パディング */
+  margin: 0 0 0 -640px;  /* 左マージン = -(サイト全体の幅[W] - 左ブロックの幅[L]) */
+  padding: 0 8px;
 }
 
 /* JavaScript有効・2カラム(左ブロック・中央ブロック)時の中央ブロックコンテナ */
-body.left-center div#container div#wrapper div#carrier div#centerblocks {
-  float: right;
-  width: 56.694em;  /* 中央ブロックの幅(2カラム) */
-  padding: 0.45em;
-  background: #ffffff;
-  border-left: 0.1em solid #555555;
+body.left-center div#container div#wrapper div#centerblocks {
+  float: left;
+  width: 624px;  /* 中央ブロックの幅 = サイト全体の幅[W] - 左ブロックの幅[L] - 右パディング - 左パディング */
+  margin: 0 0 0 -640px;  /* 左マージン = -(サイト全体の幅[W] - 左ブロックの幅[L]) */
+  padding: 0 8px;
 }
 
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の中央ブロックコンテナ */
-body.center-right div#container div#wrapper div#carrier div#centerblocks {
+body.center-right div#container div#wrapper div#centerblocks {
   float: left;
-  width: 56.694em;
-  padding: 0.45em;
-  background: #ffffff;
-  border-right: 0.1em solid #555555;
+  width: 624px;  /* サイト全体の幅[W] - 右ブロックの幅[R] - 右パディング - 左パディング */
+  margin: 0 160px 0 0;  /* 右マージン = 右ブロックの幅[R] */
+  padding: 0 8px;
 }
 
 /* JavaScript有効・1カラム(中央ブロック)時の中央ブロックコンテナ */
-body.center div#container div#wrapper div#carrier div#centerblocks {
-  width: 68.8em;  /* 中央ブロックの幅(1カラム) */
-  padding: 0.45em;
-  background: #ffffff;
+body.center div#container div#wrapper div#centerblocks {
+  width: 784px;  /* 中央ブロックの幅 = サイト全体の幅[W] - 右パディング - 左パディング */
+  margin: 0;
+  padding: 0 8px;
 }
 
 /* JavaScript無効時の中央ブロックコンテナ */
-body.js_off div#container div#wrapper div#carrier div#centerblocks {
-  float: right;
-  width: 44.08em;
-  padding: 0.45em;
-  background: #ffffff;
-  border-left: 0.1em solid #555555;
-  border-right: 0.1em solid #555555;
+body.js_off div#container div#wrapper div#centerblocks {
+  display: inline;  /* Win IE 6用(フロートの左右マージンが指定値より大きくなる) */
+  float: left;
+  width: 464px;  /* 中央ブロックの幅 = サイト全体の幅[W] - 左ブロックの幅[L] - 右ブロックの幅[R] - 右パディング - 左パディング */
+  margin: 0 0 0 160px;  /* 左マージン = 左ブロックの幅[L] */
+  padding: 0 8px;
 }
 
 
@@ -337,23 +264,16 @@ body.js_off div#container div#wrapper div#carrier div#centerblocks {
 --------------------------------------*/
 
 div#container div#wrapper div#rightblocks {
-  float: right;
-  width: 12.5em;  /* 右ブロックの幅[R] */
-  background: #eeeeee;
-}
-
-/* JavaScript有効・2カラム(中央ブロック・右ブロック)時の右ブロックコンテナ */
-body.center-right div#container div#wrapper div#rightblocks {
-  float: right;
-  width: 12.5em;  /* 右ブロックの幅[R] */
-  background: #eeeeee;
+  overflow: auto;
+  float: left;
+  width: 160px;  /* 右ブロックの幅[R] */
+  margin: 0 0 0 -160px;  /* 左マージン = -(右ブロックの幅[R]) */
 }
 
 /* JavaScript無効時の右ブロックコンテナ */
 body.js_off div#container div#wrapper div#rightblocks {
   float: right;
-  width: 12.5em;
-  background: #eeeeee;
+  margin: 0;
 }
 
 
@@ -363,34 +283,24 @@ body.js_off div#container div#wrapper div#rightblocks {
 --------------------------------------*/
 
 div#container div#footer {
-  position: relative;
   clear: left;
-  width: 70.2em;
-  margin: 0;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
-  background: #dedede;
-  border-top: 0.09em solid #555555;
-  color: #000000;
+  padding: 16px;
+  background-color: #1A3955;
+  color: #FFFFFF;
   text-align: center;
-}
-
-/* IE6以下用 */
-* html div#container div#footer {
-margin-top: -0.5em;
 }
 
 /* フッタリンク */
 div#container div#footer a,
 div#container div#footer a:link,
 div#container div#footer a:visited {
-  color: #000000;
+  color: #FFFFFF;
 }
 
 div#container div#footer a:hover,
 div#container div#footer a:focus,
 div#container div#footer a:active {
-  color: #000099;
+  color: #00FF00;
 }
 
 /* フッタリスト */
@@ -405,50 +315,7 @@ div#container div#footer ul li {
   padding: 0;
 }
 
-/* validate表示 */
-div#container div#footer p.validate {
-  float: left;
-  margin-left: 28em;
-}
-
-div#container div#footer p.validate a:hover,
-div#container div#footer p.validate a:focus,
-div#container div#footer p.validate a:active {
-  background: transparent;
-}
-
-/* IE6以下用 validate表示 */
-* html div#container div#footer p.validate {
-  float: left;
-  margin-left: 14em;
-}
-
-div#container div#footer p.validate img {
-  margin-right: 1em;
-}
-
-/* ページの先頭へ戻る */
-div#container div#footer p.back {
-  float: right;
-  margin-right: 2em;
-  text-align: right;
-}
-
-div#container div#footer p.back a {
-  display: block;
-  width: 10.38em;
-  background: url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
-}
-
-div#container div#footer p.back a:hover {
-  background: #ffff40 url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
-}
-
 /* コピーライト表示 */
-div#container div#footer ul {
-  clear: both;
-}
-
 div#container div#footer ul li.copyright_notice {
 }
 
