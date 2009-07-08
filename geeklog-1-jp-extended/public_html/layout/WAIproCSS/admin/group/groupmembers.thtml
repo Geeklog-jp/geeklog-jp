@@ -3,15 +3,6 @@
 
 <script type="text/JavaScript" src="{site_url}/javascript/moveusers.js"></script>
 
-<div id="admin-instructions">
-  <img src="{layout_url}/images/icons/group.png" alt=""{xhtml}>
-  <ul>
-    <li><a href="{group_listing_url}">{lang_grouplist}</a></li>
-    <li><a href="{site_admin_url}">{lang_adminhome}</a></li>
-  </ul>
-  <p id="message">{lang_instructions}</p>
-</div>
-
 <form name="groupusers" action="{phpself}?group={groupid}" method="post" id="admin-groupmembers" class="basic">
   <fieldset>
     <legend>グループメンバーの編集</legend><!-- Geeklog Japanese -->

@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: リストスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : リスト(管理者ページ)のスタイルです。
   適用先  : admin/lists/topmenu.thtml, admin/lists/topmenu_nosearch.thtml,
             admin/lists/menufields.thtml, admin/lists/list.thtml,
@@ -65,7 +65,7 @@ form#admin-topmenu ul.submit li {
 
 /* テーブル */
 table.admin-list {
-  width: 100%;
+  width: 98%;
   margin: 0;
   padding: 0;
   border-collapse: collapse;

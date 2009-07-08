@@ -71,13 +71,13 @@ form#admin-batchdelete dl dt input.radio {
   リマンダー
 --------------------------------------*/
 
-ul#reminder-submit {
-  list-style: none outside;
+ul#reminder-submit {   
+list-style: none outside;
 }
 
 ul#reminder-submit,
-ul#reminder-submit li {
-  margin-left: 0;
-  margin-right: 0;
-  padding: 0;
-}
+ul#reminder-submit li {   
+margin-left: 0;
+margin-right: 0;
+padding: 0;
+} 
