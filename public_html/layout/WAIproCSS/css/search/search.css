@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 検索ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)
   説明    : 検索オプションページ・検索結果ページのスタイルです。
   適用先  : search/searchform.thtml, search/searchauthors.thtml,
             search/searchresults.thtml, search/searchblock.thtml,
@@ -33,8 +33,8 @@ body.js_off form#advsearchform textarea {
 
 /* 検索結果の情報 */
 dl#searchresults-found {
-  margin: 0 0 1em 0.5em;
-  padding: 0.3em;
+  margin: 0 0 1em 0;
+  padding: 0;
 }
 
 dl#searchresults-found dt {
@@ -60,7 +60,7 @@ dl#searchresults-found dd.search_time:after {
 
 /* 検索結果 */
 table.searchblock {
-  width: 98%;
+  width: 100%;
   margin: 0;
   padding: 0;
   border-collapse: collapse;

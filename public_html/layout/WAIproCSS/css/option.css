@@ -17,7 +17,7 @@
 
 /* メニュー有効時 */
 li.adminoption {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
@@ -35,7 +35,7 @@ li.adminoption a:active {
 
 /* メニュー無効時 */
 li.adminoption_off {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
@@ -48,7 +48,7 @@ list-style: none outside;
 
 /* メニュー有効時 */
 li.topicoption {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
@@ -66,7 +66,7 @@ li.topicoption a:active {
 
 /* メニュー無効時 */
 li.topicoption_off {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
@@ -79,7 +79,7 @@ list-style: none outside;
 
 /* メニュー有効時 */
 li.useroption {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
@@ -97,7 +97,7 @@ li.useroption a:active {
 
 /* メニュー無効時 */
 li.useroption_off {
-list-style: none outside;
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
