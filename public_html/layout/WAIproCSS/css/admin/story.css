@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: 記事エディタスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : 記事エディタ(管理者ページ)のスタイルです。
   適用先  : admin/story/storyeditor.thtml, admin/story/storyeditor_advanced.thtml
 ==============================================================================*/
@@ -36,7 +36,7 @@ form#admin-storyeditor {
 form#admin-storyeditor fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #000000;
 }
 
 form#admin-storyeditor fieldset legend {
@@ -65,13 +65,13 @@ form#admin-storyeditor_advanced {
 form#admin-storyeditor_advanced fieldset {
   margin: 0 0 1em 0;
   padding: 8px;
-  border: 1px solid #CCCCCC;
+  border: 1px solid #000000;
 }
 
 form#admin-storyeditor_advanced fieldset#admin-storyeditor_advanced-editor {
   margin: 0;
   padding: 0;
-  border: 0 none #CCCCCC;
+  border: 0 none #000000;
 }
 
 form#admin-storyeditor_advanced div#text_editor,
@@ -138,4 +138,9 @@ div#preview div.storytext {
   margin: 2em 0 0 0;
   padding: 0;
   border-bottom: none;
+}
+
+/* 使用できるHTMLタグ */
+div.warningsmall {
+  margin-bottom: 0.5em;
 }
