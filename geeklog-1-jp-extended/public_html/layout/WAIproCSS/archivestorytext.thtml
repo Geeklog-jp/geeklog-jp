@@ -4,6 +4,13 @@
 <div class="archivestorytext">
   <h2>{story_title_link}</h2>
 
+  <ul class="icon">
+    <li>{email_icon}</li>
+    <li>{print_icon}</li>
+    <li>{pdf_icon}</li>
+    <li>{edit_icon}</li>
+  </ul>
+
   <ul class="status">
     <li>{story_date}</li>
     <li>
@@ -25,17 +32,9 @@
     {story_text_no_br}
   </div>
 
-<p class="more">{readmore_link}</p>
-
-  <ul class="icon">
-    <li>{email_icon}</li>
-    <li>{print_icon}</li>
-    <li>{pdf_icon}</li>
-    <li>{edit_icon}</li>
-  </ul>
-
   <ul class="navi">
     <li>{page_selector}</li>
+    <li>{readmore_link}</li>
     <li>{post_comment_link}</li>
   </ul>
 
