@@ -2,20 +2,25 @@
 
 // this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
-    die('This file can not be used on its own!');
+    die ('This file can not be used on its own!');
 }
 
 $_IMAGE_TYPE = 'gif';
 
-/*
- * For left/right block support there is no longer any need for the theme to
- * put code into functions.php to set specific templates for the left/right
- * versions of blocks. Instead, Geeklog will automagically look for
- * blocktemplate-left.thtml and blocktemplate-right.thtml if given
- * blocktemplate.thtml from $_BLOCK_TEMPLATE. So, if you want different left
- * and right templates from admin_block, just create blockheader-list-left.thtml
- * etc.
- */
+if (!defined ('XHTML')) {
+    define('XHTML',''); // change this to ' /' for XHTML
+}
+
+$result = DB_query ("SELECT onleft,name FROM {$_TABLES['blocks']} WHERE is_enabled = 1");
+$nrows = DB_numRows ($result);
+for ($i = 0; $i < $nrows; $i++) {
+    $A = DB_fetchArray ($result);
+        if ($A['onleft'] == 1) {
+            $_BLOCK_TEMPLATE[$A['name']] = 'blockheader-left.thtml,blockfooter-left.thtml';
+        } else {
+            $_BLOCK_TEMPLATE[$A['name']] = 'blockheader-right.thtml,blockfooter-right.thtml';
+    }
+}
 
 $_CONF['left_blocks_in_footer'] = 1;
 
@@ -28,12 +33,11 @@ $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter
 // Define the blocks that are a list of links styled as an unordered list - using class="blocklist"
 $_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
 $_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
-
-
-if (!COM_isAnonUser()) {
+if (isset($_USER['uid']) && $_USER['uid'] > 1) {
     $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+} else {
+    $_BLOCK_TEMPLATE['user_block'] = 'blockheader.thtml,blockfooter.thtml';
 }
-
 
 /********************* FORUM PLUGIN v2.7+ Setup for block layout to use ********************
 * Fourm Plugin for Geeklog v1.4.1 available at http://www.portalparts.com
