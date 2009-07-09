@@ -1,5 +1,11 @@
 $Id$
 
+2009-07-09  Masuko Koeda  <milk851>
+
+	* WAIproCSSで、CSSファイルに誤りがありましたので修正しました。
+	  WAIproCSS1.6対応作業の際、標準版ProfessionalCSSのfunctions.phpと
+	  同様にしていたので、拡張版ProfessionalCSSのfunction.phpに合わせました。
+
 2009-06-23  Takahiro Kambe  <tacahi>
 
 	* 誤って実行すると危険な droptables.phpを削除することとし、その
