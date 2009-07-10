@@ -1,5 +1,13 @@
 $Id$
 
+2009-07-10  Masuko Koeda  <milk851>
+
+	* r1669拡張版ProfessionalCSS/functions.phpと同じように
+          WAIproCSS/functions.phpをもう一度修正しなおしました。
+          記事投稿ページWAIproCSS/submit/submitstory_advanced.thtmlで
+          <label for="submitstory_advanced-postmode">に対するidの値に
+          誤りがありましたので修正しました。
+
 2009-07-09  Masuko Koeda  <milk851>
 
 	* WAIproCSSで、CSSファイルに誤りがありましたので修正しました。
