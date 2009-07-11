@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog Calendarjp Plugin administration page.                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
@@ -45,17 +45,14 @@ $display = '';
 
 // Ensure user even has the rights to access this page
 if (!SEC_hasRights('calendarjp.edit')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30]);
-    $display .= COM_startBlock ($MESSAGE[30], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $display .= $MESSAGE[35];
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter();
+    $display .= COM_siteHeader('menu', $MESSAGE[30])
+             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+             . COM_siteFooter();
 
-    // Log attempt to error.log
+    // Log attempt to access.log
     COM_accessLog("User {$_USER['username']} tried to illegally access the event administration screen.");
 
-    echo $display;
+    COM_output($display);
 
     exit;
 }
@@ -95,7 +92,8 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     $event_templates->set_var('site_url', $_CONF['site_url']);
     $event_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
     $event_templates->set_var('layout_url',$_CONF['layout_url']);
-    $event_templates->set_var('lang_allowed_html', COM_allowedHTML());
+    $event_templates->set_var('lang_allowed_html',
+                              COM_allowedHTML('calendarjp.edit'));
     $event_templates->set_var('lang_postmode', $LANG_CALJP_ADMIN[3]);
     $event_templates->set_var('lang_expandhelp', $LANG24[67]);
     $event_templates->set_var('lang_reducehelp', $LANG24[68]);
@@ -396,7 +394,9 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
                               SEC_getGroupDropdown ($A['group_id'], $access));
     $event_templates->set_var('lang_permissions', $LANG_ACCESS['permissions']);
     $event_templates->set_var('lang_permissionskey', $LANG_ACCESS['permissionskey']);
+    $event_templates->set_var('lang_perm_key', $LANG_ACCESS['permissionskey']);
     $event_templates->set_var('permissions_editor', SEC_getPermissionsHTML($A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']));
+    $event_templates->set_var('lang_permissions_msg', $LANG_ACCESS['permmsg']);
     $event_templates->set_var('gltoken_name', CSRF_TOKEN);
     $event_templates->set_var('gltoken', SEC_createToken());
     $event_templates->parse('output', 'editor');
@@ -449,12 +449,10 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
                 $perm_members, $perm_anon);
     }
     if (($access < 3) || !SEC_inGroup ($group_id)) {
-        $retval .= COM_siteHeader('menu', $MESSAGE[30]);
-        $retval .= COM_startBlock ($MESSAGE[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $MESSAGE[31];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter();
+        $retval .= COM_siteHeader('menu', $MESSAGE[30])
+                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
+                . COM_siteFooter();
+
         COM_accessLog ("User {$_USER['username']} tried to illegally submit or edit event $eid.");
         return $retval;
     }
@@ -559,20 +557,22 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
 
     // clean 'em up
     if (($postmode == 'html') || ($postmode == 'adveditor')) {
-        $description = COM_checkHTML (COM_checkWords ($description));
+        $description = COM_checkHTML(COM_checkWords($description),
+                                     'calendarjp.edit');
     } else {
         $postmode = 'plaintext';
-        $description = htmlspecialchars (COM_checkWords ($description));
+        $description = htmlspecialchars(COM_checkWords($description));
     }
-    $description = addslashes ($description);
-    $title = addslashes (COM_checkHTML (COM_checkWords ($title)));
-    $location = addslashes (COM_checkHTML (COM_checkWords ($location)));
-    $address1 = addslashes (COM_checkHTML (COM_checkWords ($address1)));
-    $address2 = addslashes (COM_checkHTML (COM_checkWords ($address2)));
-    $city = addslashes (COM_checkHTML (COM_checkWords ($city)));
-    $zipcode =  addslashes (COM_checkHTML (COM_checkWords ($zipcode)));
-    $event_type = addslashes (strip_tags (COM_checkWords ($event_type)));
-    $url = addslashes (strip_tags ($url));
+    $description = addslashes($description);
+    $title = addslashes(strip_tags(COM_checkWords($title)));
+    $location = addslashes(COM_checkHTML(COM_checkWords($location),
+                                         'calendarjp.edit'));
+    $address1 = addslashes(strip_tags(COM_checkWords($address1)));
+    $address2 = addslashes(strip_tags(COM_checkWords($address2)));
+    $city = addslashes(strip_tags(COM_checkWords($city)));
+    $zipcode =  addslashes(strip_tags(COM_checkWords($zipcode)));
+    $event_type = addslashes(strip_tags(COM_checkWords($event_type)));
+    $url = addslashes(strip_tags($url));
 
     if ($allday == 0) {
         // Add 12 to make time on 24 hour clock if needed
@@ -650,6 +650,8 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
                        ."$perm_anon,{$P['uid']},'$location','$timestart','$timeend'");
             }
         }
+
+        PLG_itemSaved($eid, 'calendarjp');
         COM_rdfUpToDateCheck('calendarjp', $event_type, $eid);
 
         return PLG_afterSaveSwitch (
@@ -814,6 +816,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= CALENDARJP_listevents();
     $display .= COM_siteFooter ();
 }
-echo $display;
+
+COM_output($display);
 
 ?>
