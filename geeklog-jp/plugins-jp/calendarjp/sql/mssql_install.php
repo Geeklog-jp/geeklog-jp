@@ -4,9 +4,9 @@
 // +---------------------------------------------------------------------------+
 // | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
-// | Installation SQL                                                          |
+// | mssql_install.php                                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
@@ -57,7 +57,7 @@ CREATE TABLE [dbo].[{$_TABLES['eventsjp']}] (
     [event_type] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [location] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [timestart] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-    [timeend] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+    [timeend] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
 ) ON [PRIMARY]
 ";
 

@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog calendarjp plugin                                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 by dengen - taharaxp AT gmail DOT com                  |
+// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
@@ -65,7 +65,7 @@ if (empty ($_USER['username']) &&
     $display .= $login->finish ($login->get_var('output'));
     $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     $display .= COM_siteFooter();
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -412,7 +412,7 @@ if ($mode == 'personal' AND $_CAJP_CONF['personalcalendars'] == 0) {
     // turned on.
     $display .= $LANG_CALJP_2[37];
     $display .= COM_siteFooter();
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -1109,6 +1109,6 @@ break;
 
 } // end switch
 
-echo $display;
+COM_output($display);
 
 ?>
