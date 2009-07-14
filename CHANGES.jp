@@ -1,5 +1,13 @@
 $Id$
 
+2009-07-14  Masuko Koeda  <milk851>
+
+	* WAIproCSSのadmin/lists/inline.thtml、lists/inline/list.thtml、
+          lists/table/list.thtmlの中の<b>タグを<strong>タグに変更しました。
+          また、多言語モード有効でない時も<html>タグにlang属性が入るように
+          header.thtmlを修正しました。
+
+
 2009-07-10  Masuko Koeda  <milk851>
 
 	* r1669拡張版ProfessionalCSS/functions.phpと同じように
