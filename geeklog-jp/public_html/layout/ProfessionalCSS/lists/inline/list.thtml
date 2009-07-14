@@ -9,7 +9,7 @@
                                 </select>
                             </div>
                             {item_row}
-                            <p class="aligncenter" style="{show_message}"><b>{message}</b></p>
+                            <p class="aligncenter" style="{show_message}"><strong>{message}</strong></p>
                             <br{xhtml}>
                             {google_paging}
                             {list_bottom}
