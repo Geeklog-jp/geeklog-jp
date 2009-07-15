@@ -1,6 +1,6 @@
 Geeklog History/Changes:
 
-Jun 28, 2009 (1.6.0rc1)
+Jul 12, 2009 (1.6.0rc2)
 ------------
 
 Geeklog 1.6.0 incorporates the following projects implemented during
@@ -9,6 +9,26 @@ the 2008 Google Summer of Code:
 + Site migration support and easier plugin installation, by Matt West
 + Improved search, by Sami Barakat
 + Comment moderation and editable comments, by Jared Wenerd
+
+Changes since 1.6.0rc1:
+- Updated FCKeditor to version 2.6.4.1 [Dirk]
+- Fixed advanced search not using start and end dates (bug #0000924, patch
+  provided by dengen)
+- Fixed auto-detection of table prefix during migration when the SQL dump
+  contained CREATE TABLE IF NOT EXISTS requests (bug #0000922) [Dirk]
+- When an error occurs in bigdump.php (during migration) send the user back to
+  migrate.php (bug #0000919) [Dirk]
+- Fixed warning in migration script when no backups are available (bug #0000918,
+  patch provided by hiroron)
+
+- Updated Estonian language files, provided by Artur Räpp
+- Updated Hebrew language files, provided by LWC
+- Updated Japanese language files and documentation, provided by the
+  Geeklog.jp group
+
+
+Jun 28, 2009 (1.6.0rc1)
+------------
 
 Changes since 1.6.0b3:
 - Fixed include path for db-config.php in bigdump.php (bug #0000915) [Dirk]
