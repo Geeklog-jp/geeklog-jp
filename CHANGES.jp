@@ -1,5 +1,19 @@
 $Id$
 
+2009-07-16  Takahiro Kambe  <tacahi>
+
+	* fckeditorのconfig.phpの$Config['QuickUploadPath']と
+	  $Config['QuickUploadAbsolutePath']の値を、それぞれ
+	  $Config['FileTypesPath']と$Config['FileTypesAbsolutePath']の値に
+	  合わせました。
+
+	* fckeditorのファイルマネージャで、ファイルタイプに応じたアップ
+	  ロードのディレクトリの名前がすべて小文字になっているのを、最初
+	  だけ大文字にします。
+
+	* fckeditorをgeeklog.netで提供されている、そのままGeeklogで
+	  置き換え用の FCKeditor 2.6.4.1 に更新します。
+
 2009-06-29  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.5.2sr4-jp-1.2をリリースします。
