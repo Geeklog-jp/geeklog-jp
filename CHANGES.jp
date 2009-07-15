@@ -1,5 +1,9 @@
 $Id$
 
+2009-07-15  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイル 月の表記から月を削除しました。
+
 2009-07-14  Masuko Koeda  <milk851>
 
 	* ProfessionalCSSのadmin/lists/inline.thtml、lists/inline/list.thtml、
