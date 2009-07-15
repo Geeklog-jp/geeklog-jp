@@ -3977,9 +3977,9 @@ function COM_getDisplayName( $uid = '', $username='', $fullname='', $remoteusern
         }
 
         if( $_CONF['show_servicename'] )
-    {
-        return "$remoteusername@$remoteservice";
-    }
+        {
+            return "$remoteusername@$remoteservice";
+        }
         else
         {
             return $remoteusername;
