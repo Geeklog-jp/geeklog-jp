@@ -2,6 +2,11 @@ $Id$
 
 2009-07-16  Takahiro Kambe  <tacahi>
 
+	* fckeditorのconfig.phpの$Config['QuickUploadPath']と
+	  $Config['QuickUploadAbsolutePath']の値を、それぞれ
+	  $Config['FileTypesPath']と$Config['FileTypesAbsolutePath']の値に
+	  合わせました。
+
 	* fckeditorのファイル管理のアイコンのファイルとして、重複して
 	  おかしな拡張子で含まれていたファイル default.icon.gif0000644 を
 	  削除しました。
