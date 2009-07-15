@@ -1,5 +1,11 @@
 $Id$
 
+2009-07-16  Takahiro Kambe  <tacahi>
+
+	* fckeditorのファイル管理のアイコンのファイルとして、重複して
+	  おかしな拡張子で含まれていたファイル default.icon.gif0000644 を
+	  削除しました。
+
 2009-07-15  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.0.6rc2をマージしました。
@@ -11,7 +17,7 @@ $Id$
 2009-07-14  Masuko Koeda  <milk851>
 
 	* ProfessionalCSSのadmin/lists/inline.thtml、lists/inline/list.thtml、
-          lists/table/list.thtmlの中の<b>タグを<strong>タグに変更しました。
+	  lists/table/list.thtmlの中の<b>タグを<strong>タグに変更しました。
 
 2009-07-12  Yoshinori Tahara  <dengen>
 
