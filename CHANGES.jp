@@ -1,5 +1,14 @@
 $Id$
 
+2009-07-20  Tetsuko Komma  <ivysoho>
+
+	* 携帯ハックの画像自動縮小がallow_url_fopen = Offのときに表示されるよう
+	  imageresizer.phpを修正しました。(reported by kino)
+
+2009-07-19  Tetsuko Komma  <ivysoho>
+
+	* ドキュメントhistory.htmlにGeeklog1.6.0の内容を更新しました。
+
 2009-07-16  Tetsuko Komma  <ivysoho>
 
 	* ドキュメントhistory.htmlにGeeklog1.6.0rc2の内容を更新しました。
