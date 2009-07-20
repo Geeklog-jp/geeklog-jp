@@ -1,6 +1,6 @@
 Geeklog History/Changes:
 
-Jul 12, 2009 (1.6.0rc2)
+Jul 19, 2009 (1.6.0)
 ------------
 
 Geeklog 1.6.0 incorporates the following projects implemented during
@@ -9,6 +9,15 @@ the 2008 Google Summer of Code:
 + Site migration support and easier plugin installation, by Matt West
 + Improved search, by Sami Barakat
 + Comment moderation and editable comments, by Jared Wenerd
+
+Changes since 1.6.0rc2:
+- Updated language file for formal German, provided by Markus Wollschläger
+- Updated Japanese language file and documentation, provided by the
+  Geeklog.jp group
+
+
+Jul 12, 2009 (1.6.0rc2)
+------------
 
 Changes since 1.6.0rc1:
 - Updated FCKeditor to version 2.6.4.1 [Dirk]
