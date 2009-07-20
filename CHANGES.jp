@@ -1,5 +1,9 @@
 $Id$
 
+2009-07-20  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.0.6をマージしました。
+
 2009-07-20  Tetsuko Komma  <ivysoho>
 
 	* 携帯ハックの画像自動縮小がallow_url_fopen = Offのときに表示されるよう
