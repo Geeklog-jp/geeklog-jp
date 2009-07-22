@@ -39,9 +39,11 @@
 }
 .floatright {
   float:right;
+  padding:5px;
 }
 .floatleft {
   float:left;
+  padding:5px;
 }
 .clearboth {
   clear:both;
