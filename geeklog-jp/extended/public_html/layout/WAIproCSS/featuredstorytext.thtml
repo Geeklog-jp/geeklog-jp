@@ -25,12 +25,11 @@
     {story_text_no_br}
   </div>
 
-<p class="more">{start_readmore_anchortag}{lang_readmore}{end_readmore_anchortag}</p>
+<p class="more">{readmore_link}</p>
 
   <ul class="icon">
     <li>{email_icon}</li>
     <li>{print_icon}</li>
-    <li>{pdf_icon}</li>
     <li>{edit_icon}</li>
   </ul>
 
@@ -42,7 +41,7 @@
   <ul class="feedback">
     <li>{plugin_itemdisplay}</li>
     <li>{comments_with_count}</li>
-    <li>{start_trackbacks_anchortag}{trackbacks_with_count}{end_trackbacks_anchortag}</li>
+    <li>{trackbacks_with_count}</li>
   </ul>
 </div>
 

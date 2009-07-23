@@ -76,12 +76,12 @@ dl#profile-userprofile:after {
   overflow: hidden;
 }
 
-/* Win IE 6以下用(浮動要素の調整) \*/
+/* Win IE 6用(浮動要素の調整) \*/
 * html dl#profile-userprofile {
   height: 1%;
   overflow: visible;
 }
-/* Win IE 6以下用(浮動要素の調整) */
+/* Win IE 6用(浮動要素の調整) */
 
 dl#profile-userprofile dt {
   float: left;
