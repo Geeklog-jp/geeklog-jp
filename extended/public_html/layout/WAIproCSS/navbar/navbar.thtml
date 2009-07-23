@@ -6,5 +6,6 @@
     {menuitems}
   </ul>
 </div>
+<div class="clearboth"></div>
 
 <!-- } navbar/navbar.thtml -->

@@ -5,11 +5,31 @@
 
 <form action="{site_admin_url}/plugins.php" method="post" id="admin-editor" class="compact">
   <fieldset>
-    <legend>{pi_name}</legend>
+    <legend>{pi_display_name}</legend>
+
+      <img src="{pi_icon}" alt="" class="plugin"{xhtml}>
+
+    <dl>
+      <dt>{lang_pluginname}</dt>
+      <dd>{pi_display_name}</dd>
+
+      <dt>{lang_pluginhomepage}</dt>
+      <dd><a href="{pi_homepage}">{pi_homepage}</a></dd>
+
+      <dt>{lang_pluginversion}</dt>
+      <dd>{pi_version}</dd>
+
+      <dt>{lang_plugincodeversion}</dt>
+      <dd>{pi_codeversion}</dd>
+
+      <dt>{lang_geeklogversion}</dt>
+      <dd>{pi_gl_version}</dd>
+
+      <dt>{lang_enabled}</dt>
+      <dd><input type="checkbox" name="enabled" {enabled_checked}{xhtml}></dd>
+    </dl>
 
     <div id="admin-instructions">
-      <img src="{pi_icon}" alt=""{xhtml}>
-
       <ul class="submit">
         <li><input type="submit" value="{lang_save}" name="mode" class="submit"{xhtml}></li>
         <li><input type="submit" value="{lang_cancel}" name="mode" class="submit"{xhtml}></li>
@@ -27,25 +47,6 @@
       </ul>
     </div>
 
-    <dl>
-      <dt>{lang_pluginname}</dt>
-      <dd>{pi_name}</dd>
-
-      <dt>{lang_pluginhomepage}</dt>
-      <dd><a href="{pi_homepage}">{pi_homepage}</a></dd>
-
-      <dt>{lang_pluginversion}</dt>
-      <dd>{pi_version}</dd>
-
-      <dt>{lang_plugincodeversion}</dt>
-      <dd>{pi_codeversion}</dd>
-
-      <dt>{lang_geeklogversion}</dt>
-      <dd>{pi_gl_version}</dd>
-
-      <dt>{lang_enabled}</dt>
-      <dd><input type="checkbox" name="enabled" {enabled_checked}{xhtml}></dd>
-    </dl>
   </fieldset>
 </form>
 
