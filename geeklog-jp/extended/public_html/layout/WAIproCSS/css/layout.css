@@ -66,6 +66,10 @@ div#container div#header h1.site_name {
   float: left;
 }
 
+div#container div#header h1.site_name a {
+  text-decoration: none;
+}
+
 div#container div#header h1.site_name a:hover {
   background: transparent;
 }
@@ -176,12 +180,12 @@ div#container div#wrapper:after {
   overflow: hidden;
 }
 
-/* Win IE 6以下用(浮動要素の調整) { \*/
+/* Win IE 6用(浮動要素の調整) { \*/
 * html div#container div#wrapper {
   height: 1%;
   overflow: visible;
 }
-/* } Win IE 6以下用(浮動要素の調整) */
+/* } Win IE 6用(浮動要素の調整) */
 
 /* JavaScript有効・3カラム(左ブロック・中央ブロック・右ブロック)時のラッパー */
 body.left-center-right div#container div#wrapper {
@@ -403,28 +407,6 @@ div#container div#footer ul {
 div#container div#footer ul li {
   margin: 0;
   padding: 0;
-}
-
-/* validate表示 */
-div#container div#footer p.validate {
-  float: left;
-  margin-left: 28em;
-}
-
-div#container div#footer p.validate a:hover,
-div#container div#footer p.validate a:focus,
-div#container div#footer p.validate a:active {
-  background: transparent;
-}
-
-/* IE6以下用 validate表示 */
-* html div#container div#footer p.validate {
-  float: left;
-  margin-left: 14em;
-}
-
-div#container div#footer p.validate img {
-  margin-right: 1em;
 }
 
 /* ページの先頭へ戻る */
