@@ -177,6 +177,11 @@ function INST_installEngine($install_type, $install_step)
         if ($install_type == 'install') {
             $display .= '
                 <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[92] . ' ' . INST_helpLink('utf8') . '</label> <input type="checkbox" name="utf8"' . ($utf8 ? ' checked="checked"' : '') . XHTML . '></p>';
+        } else {
+            if ($utf8) {
+                $display .= '
+                <input type="hidden" name="utf8" value="on"'. XHTML .'>';
+            }
         }
 
 
@@ -250,12 +255,10 @@ function INST_installEngine($install_type, $install_step)
             }
 
             // for the default charset, patch siteconfig.php again
-            if ($install_type != 'upgrade') {
-                if (!INST_setDefaultCharset($siteconfig_path,
-                        ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
-                    exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
-                         . $LANG_INSTALL[58]);
-                }
+            if (!INST_setDefaultCharset($siteconfig_path,
+                    ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
+                exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
+                     . $LANG_INSTALL[58]);
             }
 
             require $dbconfig_path;
@@ -509,6 +512,10 @@ function INST_installEngine($install_type, $install_step)
                             INST_defaultPluginInstall();
                         }
 
+                        require_once 'LocalizeGeeklog.php';
+                        $obj = new LocalizeGeeklog('ja');
+                        $obj->execute();
+
                         // Installation is complete. Continue onto either
                         // custom plugin installation page or success page
                         header('Location: ' . $next_link);
@@ -578,6 +585,10 @@ function INST_installEngine($install_type, $install_step)
 
                     // disable plugins for which we don't have the source files
                     INST_checkPlugins();
+
+                    require_once 'LocalizeGeeklog.php';
+                    $obj = new LocalizeGeeklog('ja');
+                    $obj->execute();
 
                     // extra step 4: upgrade plugins
                     $next_link = 'index.php?step=4&mode=' . $install_type
@@ -1087,7 +1098,7 @@ if (INST_phpOutOfDate()) {
             /**
              * Display permissions, etc
              */
-            if ($num_wrong) {
+            if ($num_wrong && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
                 // If any files have incorrect permissions.
 
                 $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
@@ -1149,7 +1160,7 @@ if (INST_phpOutOfDate()) {
             // Show the "Select your installation method" buttons
             $upgr_class = ($LANG_DIRECTION == 'rtl') ? 'upgrade-rtl' : 'upgrade' ;
             $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[23] . '</h1>' . LB
-                . '<div><form action="index.php" method="get">' . LB
+                . '<p><form action="index.php" method="GET">' . LB
                 . '<input type="hidden" name="dbconfig_path" value="' . htmlspecialchars($dbconfig_path) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="mode" value="' . htmlspecialchars($mode) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="language" value="' . $language . '"' . XHTML . '>' . LB
@@ -1157,7 +1168,7 @@ if (INST_phpOutOfDate()) {
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[24] . '"' . XHTML .'>' . LB
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[25] . '"' . XHTML .'>' . LB
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[16] . '"' . XHTML .'>' . LB
-                . '</form> </div> <br' . XHTML . '>' . LB;
+                . '</form> </p> <br' . XHTML . '>' . LB;
    
         }
         break;
@@ -1184,7 +1195,7 @@ if (INST_phpOutOfDate()) {
                             "\$_CONF['path'] = '" . str_replace('db-config.php', '', $_PATH['db-config.php']) . "';",
                             $siteconfig_data);
 
-        $siteconfig_file = fopen($siteconfig_path, 'w');
+        $siteconfig_file = fopen($siteconfig_path, 'wb');
         if (!fwrite($siteconfig_file, $siteconfig_data)) {
             exit ($LANG_INSTALL[26] . ' ' . $_PATH['public_html/'] . $LANG_INSTALL[28]);
         }
