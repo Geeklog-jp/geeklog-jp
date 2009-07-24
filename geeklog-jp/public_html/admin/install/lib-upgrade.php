@@ -49,6 +49,10 @@ function INST_doDatabaseUpgrades($current_gl_version)
 
     $_DB->setDisplayError(true);
 
+    // Disable incompatible plugins beforehand to prevent an error
+    require_once 'disable-plugins.php';
+    GEEKLOGJP_disablePlugins();
+
     // Because the upgrade sql syntax can vary from dbms-to-dbms we are
     // leaving that up to each Geeklog database driver
 
@@ -630,7 +634,7 @@ function INST_setDefaultCharset($siteconfig_path, $charset)
              $siteconfig_data
             );
 
-    $siteconfig_file = fopen($siteconfig_path, 'w');
+    $siteconfig_file = fopen($siteconfig_path, 'wb');
     if (!fwrite($siteconfig_file, $siteconfig_data)) {
         $result = false;
     }
