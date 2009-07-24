@@ -385,7 +385,7 @@ function INST_writeConfig($config_file, $db)
     $dbconfig_data = str_replace("\$_DB_dbms = '" . $_DB_dbms . "';", "\$_DB_dbms = '" . $db['type'] . "';", $dbconfig_data); // Database type ('mysql' or 'mssql')
 
     // Write our changes to db-config.php
-    $dbconfig_file = fopen($config_file, 'w');
+    $dbconfig_file = fopen($config_file, 'wb');
     if (!fwrite($dbconfig_file, $dbconfig_data)) {
         return false;
     }
