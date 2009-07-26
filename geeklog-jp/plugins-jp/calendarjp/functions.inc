@@ -99,9 +99,11 @@ function plugin_getmenuitems_calendarjp()
 */
 function phpblock_calendarjp( $help='', $title='' )
 {
-    global $_CONF, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1, $_DB_dbms;
+    global $_CONF, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1, $_DB_dbms, $LANG_WEEK;
 
     $retval = '';
+
+    $ja = ($_CONF['language'] == 'japanese_utf-8');
 
     if( !$_USER['noboxes'] && $_CAJP_CONF['showupcomingevents'] ) {
         $range = $_CAJP_CONF['upcomingeventsrange'];
@@ -110,7 +112,11 @@ function phpblock_calendarjp( $help='', $title='' )
         }
         $dateonly = $_CONF['dateonly'];
         if( empty( $dateonly )) {
-            $dateonly = '%d-%b'; // fallback: day - abbrev. month name
+            if ($ja == 'ja') {
+                $dateonly = '%m/%d'; // fallback: day - abbrev. month name
+            } else {
+                $dateonly = '%d-%b'; // fallback: day - abbrev. month name
+            }
         }
 
         if( empty( $title )) {
@@ -202,13 +208,21 @@ function phpblock_calendarjp( $help='', $title='' )
                     // Start Date strings...
                     $startDate = $theEvent['datestart'];
                     $theTime1 = strtotime( $startDate );
-                    $dayName1 = strftime( '%a', $theTime1 ); // changed from '%A' to '%a'
+                    if ($ja == 'ja') {
+                        $dayName1 = $LANG_WEEK[strftime( '%w', $theTime1 ) + 1]; // no use '%u'
+                    } else {
+                        $dayName1 = strftime( '%a', $theTime1 ); // changed from '%A' to '%a'
+                    }
                     $abbrDate1 = strftime( $dateonly, $theTime1 );
 
                     // End Date strings...
                     $endDate = $theEvent['dateend'];
                     $theTime2 = strtotime( $endDate );
-                    $dayName2 = strftime( '%a', $theTime2 ); // changed from '%A' to '%a'
+                    if ($ja == 'ja') {
+                        $dayName2 = $LANG_WEEK[strftime( '%w', $theTime2 ) + 1]; // no use '%u'
+                    } else {
+                        $dayName2 = strftime( '%a', $theTime2 ); // changed from '%A' to '%a'
+                    }
                     $abbrDate2 = strftime( $dateonly, $theTime2 );
 
                     $todaysEvent = false;
@@ -239,11 +253,25 @@ function phpblock_calendarjp( $help='', $title='' )
                             if( $todaysEvent ) {
                                 $retval .= '<span class="' . $todaysClassName . '">';
                             }
-                            $retval .= '<b>' . $abbrDate1. '(' . $dayName1 . ')</b>';
+                            if ($ja == 'ja') {
+                                $retval .= '<b>' . $abbrDate1. '(' . $dayName1 . ')</b>';
+                            } else {
+//                              $retval .= '<b>' . $dayName1 . '</b>&nbsp;<small>'
+//                                      . $abbrDate1 . '</small>';
+                                $retval .= '<b>' . $dayName1 . '</b>&nbsp;'
+                                        . $abbrDate1 . '';
+                            }
 
                             // If different start and end dates, then display end date:
                             if( $abbrDate1 != $abbrDate2 ) {
-                                $retval .= ' - <b>'. $abbrDate2 . '(' . $dayName2 . ')</b>';
+                                if ($ja == 'ja') {
+                                    $retval .= ' - <b>'. $abbrDate2 . '(' . $dayName2 . ')</b>';
+                                } else {
+//                                  $retval .= ' - <br' . XHTML . '><b>' . $dayName2 . '</b>'
+//                                           . '&nbsp;<small>' . $abbrDate2 . '</small>';
+                                    $retval .= ' - <br' . XHTML . '><b>' . $dayName2 . '</b>'
+                                             . '&nbsp;' . $abbrDate2 . '';
+                                }
                             }
                             if( $todaysEvent ) {
                                 $retval .= '</span>';
@@ -702,9 +730,10 @@ function plugin_submit_calendarjp($mode = 'master')
 
     $retval = '';
 
+    $ja = ($_CONF['language'] == 'japanese_utf-8');
     $retval .= COM_startBlock ($LANG_CALJP_1[26], 'submitevent.html');
     $eventform = new Template ($_CONF['path'] . 'plugins/calendarjp/templates/');
-    $eventform->set_file ('eventform', 'submitevent.thtml');
+    $eventform->set_file ('eventform', 'submitevent' . ($ja ? '_ja' : '') . '.thtml');
     if ($mode != 'personal') {
         $eventform->set_var ('explanation', $LANG_CALJP_1[27]);
         $eventform->set_var ('submit_url', '/submit.php');
@@ -813,6 +842,9 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('lang_addressline2',$LANG_CALJP_1[33]);
     $eventform->set_var('lang_city',$LANG_CALJP_1[34]);
     $eventform->set_var('lang_state',$LANG_CALJP_1[35]);
+    $eventform->set_var('lang_tail_year', $LANG_CALJP_1['tail_year']);
+    $eventform->set_var('lang_tail_month', $LANG_CALJP_1['tail_month']);
+    $eventform->set_var('lang_tail_day', $LANG_CALJP_1['tail_day']);
 
 //  都道府県のリスト表示をできるようにするか
     $eventform->set_var('state_options', '');
@@ -1701,153 +1733,6 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
     return array($search_e,$search_p);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-function plugin_dopluginsearch_calendarjp_old($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
-{
-    global $_CONF, $_TABLES, $LANG09, $LANG_CALJP_1, $_LANG_CALJP_SEARCH;
-
-    if (empty ($type)) {
-        $type = 'all';
-    }
-
-    // Bail if we aren't supppose to do our search
-    if ($type <> 'all' AND $type <> 'calendarjp') {
-        $event_results = new Plugin();
-        $event_results->plugin_name = 'calendarjp';
-        $event_results->num_itemssearched = 0;
-        $event_results->searchlabel = $_LANG_CALJP_SEARCH['results'];
-
-        return $event_results;
-    }
-
-    $select = "SELECT eid,title,location,event_type,datestart,dateend,timestart,timeend,allday,UNIX_TIMESTAMP(datestart) AS day";
-    $sql = " FROM {$_TABLES['eventsjp']} WHERE ";
-
-    if($keyType == 'phrase') {
-        // do an exact phrase search (default)
-        $mywords[] = $query;
-        $mysearchterm = addslashes ($query);
-        $sql .= "(location LIKE '%$mysearchterm%'  ";
-        $sql .= "OR description LIKE '%$mysearchterm%' ";
-        $sql .= "OR title LIKE '%$mysearchterm%') ";
-    } else if ($keyType == 'all') {
-        //must contain ALL of the keywords
-        $mywords = explode(' ', $query);
-        $tmp = '';
-        foreach ($mywords AS $mysearchterm) {
-            $mysearchterm = addslashes (trim ($mysearchterm));
-            $tmp .= "(location LIKE '%$mysearchterm%' OR ";
-            $tmp .= "description LIKE '%$mysearchterm%' OR ";
-            $tmp .= "title LIKE '%$mysearchterm%') AND ";
-        }
-        $tmp = substr($tmp, 0, strlen($tmp) - 4);
-        $sql .= $tmp;
-    } else if ($keyType == 'any') {
-        //must contain ANY of the keywords
-        $mywords = explode(' ', $query);
-        $tmp = '';
-        foreach ($mywords AS $mysearchterm) {
-            $mysearchterm = addslashes (trim ($mysearchterm));
-            $tmp .= "(location LIKE '%$mysearchterm%' OR ";
-            $tmp .= "description LIKE '%$mysearchterm%' OR ";
-            $tmp .= "title LIKE '%$mysearchterm%') OR ";
-        }
-        $tmp = substr($tmp, 0, strlen($tmp) - 3);
-        $sql .= "($tmp)";
-    } else {
-        $mywords[] = $query;
-        $mysearchterm = addslashes ($query);
-        $sql .= "(location LIKE '%$mysearchterm%' ";
-        $sql .= "OR description LIKE '%$mysearchterm%' ";
-        $sql .= "OR title LIKE '%$mysearchterm%') ";
-    }
-
-    if (!empty($datestart) AND !empty($dateend)) {
-        $delim = substr($datestart, 4, 1);
-        if (!empty($delim)) {
-            $DS = explode($delim, $datestart);
-            $DE = explode($delim, $dateend);
-            $startdate = mktime(0, 0, 0, $DS[1], $DS[2], $DS[0]);
-            $enddate = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
-            $sql .= "AND (UNIX_TIMESTAMP(datestart) BETWEEN '$startdate' AND '$enddate') ";
-        }
-    }
-    if (!empty($author)) {
-        $sql .= "AND (owner_id = '$author')";
-    }
-    $sql .= COM_getPermSQL ('AND');
-    $sql .= ' GROUP BY datestart, eid, title, description, location, dateend, timestart, timeend, allday, event_type ORDER BY datestart DESC ';
-    $l = ($perpage * $page) - $perpage;
-    $sql .= 'LIMIT ' . $l . ',' . $perpage;
-
-    $result_events = DB_query ($select . $sql);
-    $result_count = DB_query ('SELECT COUNT(*)' . $sql);
-    $B = DB_fetchArray ($result_count, true);
-
-    $event_results = new Plugin();
-    $event_results->searchresults = array();
-    $event_results->searchlabel = $_LANG_CALJP_SEARCH['results'];
-    $event_results->addSearchHeading ($_LANG_CALJP_SEARCH['title']);
-    $event_results->addSearchHeading ($_LANG_CALJP_SEARCH['date_time']);
-    if (empty ($_LANG_CALJP_SEARCH['event_type'])) {
-        $event_results->addSearchHeading ($LANG_CALJP_1[37]);
-    } else {
-        $event_results->addSearchHeading ($_LANG_CALJP_SEARCH['event_type']);
-    }
-    $event_results->num_searchresults = 0;
-    $event_results->num_itemssearched = $B[0];
-    $event_results->supports_paging = true;
-
-    // NOTE if any of your data items need to be events then add them
-    // here! Make sure data elements are in an array and in the same
-    // order as your headings above!
-    while ($A = DB_fetchArray ($result_events)) {
-        if ($A['allday'] == 0) {
-            if ($A['datestart'] == $A['dateend']) {
-                $fulldate = $A['datestart'] . ' ' . $A['timestart'];
-                if ($A['timestart'] != $A['timeend']) {
-                    $fulldate .= ' - ' . $A['timeend'];
-                }
-            } else {
-                $fulldate = $A['datestart'] . ' ' . $A['timestart'] . ' - '
-                            . $A['dateend'] . ' ' . $A['timeend'];
-            }
-        } else {
-            if ($A['datestart'] <> $A['dateend']) {
-                $fulldate = $A['datestart'] . ' - ' . $A['dateend']
-                                  . ' ' . $LANG09[35];
-            } else {
-                $fulldate = $A['datestart'] . ' ' . $LANG09[35];
-            }
-        }
-        $thetime = COM_getUserDateTimeFormat ($A['day']);
-        $A['title'] = stripslashes ($A['title']);
-        $A['title'] = str_replace ('$', '&#36;', $A['title']);
-        $url = $_CONF['site_url'] . '/calendarjp/event.php?eid=' . $A['eid'];
-        if (!empty($query)) {
-            $url .= '&amp;query=' . urlencode($query);
-        }
-        $link = COM_createLink($A['title'], $url);
-        $row = array ($link, $fulldate, stripslashes ($A['event_type']));
-        $event_results->addSearchResult($row);
-        $event_results->num_searchresults++;
-    }
-
-    return $event_results;
-}
-
-
 /**
 * Set template variables
 *
@@ -1920,82 +1805,6 @@ function plugin_getListField_calendarjp($fieldname, $fieldvalue, $A, $icon_arr)
             $retval = $fieldvalue;
             break;
     }
-    return $retval;
-}
-
-$_STATES = array(
-    '--'=>'都道府県',
-    '01'=>'北海道',
-    '02'=>'青森県',
-    '03'=>'岩手県',
-    '04'=>'宮城県',
-    '05'=>'秋田県',
-    '06'=>'山形県',
-    '07'=>'福島県',
-    '08'=>'茨城県',
-    '09'=>'栃木県',
-    '10'=>'群馬県',
-    '11'=>'埼玉県',
-    '12'=>'千葉県',
-    '13'=>'東京都',
-    '14'=>'神奈川県',
-    '15'=>'山梨県',
-    '16'=>'長野県',
-    '17'=>'新潟県',
-    '18'=>'富山県',
-    '19'=>'石川県',
-    '20'=>'福井県',
-    '21'=>'岐阜県',
-    '22'=>'静岡県',
-    '23'=>'愛知県',
-    '24'=>'三重県',
-    '25'=>'滋賀県',
-    '26'=>'京都府',
-    '27'=>'大阪府',
-    '28'=>'兵庫県',
-    '29'=>'奈良県',
-    '30'=>'和歌山県',
-    '31'=>'鳥取県',
-    '32'=>'島根県',
-    '33'=>'岡山県',
-    '34'=>'広島県',
-    '35'=>'山口県',
-    '36'=>'徳島県',
-    '37'=>'香川県',
-    '38'=>'愛媛県',
-    '39'=>'高知県',
-    '40'=>'福岡県',
-    '41'=>'佐賀県',
-    '42'=>'長崎県',
-    '43'=>'熊本県',
-    '44'=>'大分県',
-    '45'=>'宮崎県',
-    '46'=>'鹿児島県',
-    '47'=>'沖縄県'
-);
-
-
-/**
-* Creates a dropdown list of all the states
-*
-* @param    string  $currstate  current state (to preselect in the list)
-* @return   string              <option> list of states
-*
-*/
-function CALENDARJP_stateList ($currstate = '')
-{
-    global $_STATES;
-
-    $retval = '';
-
-    foreach ($_STATES as $statekey => $state) {
-        $retval .= '<option value="' . $statekey . '"';
-        if ($statekey == $currstate) {
-            $retval .= ' selected="selected"';
-        }
-        $retval .= '>' . $state . '</option>';
-    }
-
     return $retval;
 }
 
@@ -2210,21 +2019,26 @@ function plugin_getdocumentationurl_calendarjp($file)
 * @return   string  HTML Months as option values
 */
 
-function CALENDARJP_getMonthFormOptions( $selected = '' )
+function CALENDARJP_getMonthFormOptions($selected='', $numeric=false )
 {
+    global $LANG_MONTH;
+
     $month_options = '';
 
-    for( $i = 1; $i <= 12; $i++ )
-    {
-        $mval = $i;
-        $month_options .= '<option value="' . $mval . '"';
-
-        if( $i == $selected )
-        {
-            $month_options .= ' selected="selected"';
+    if ($numeric) {
+        for ($i = 1; $i <= 12; $i++) {
+            $mval = $i;
+            $month_options .= '<option value="' . $mval . '"';
+            $month_options .= ($i == $selected) ? ' selected="selected"' : '';
+            $month_options .= '>' . $i . '</option>';
         }
-
-        $month_options .= '>' . $i . '</option>';
+    } else {
+        for ($i = 1; $i <= 12; $i++) {
+            $mval = $i;
+            $month_options .= '<option value="' . $mval . '"';
+            $month_options .= ($i == $selected) ? ' selected="selected"' : '';
+            $month_options .= '>' . $LANG_MONTH[$i] . '</option>';
+        }
     }
 
     return $month_options;

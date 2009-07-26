@@ -20,18 +20,18 @@
             <td align="right">{lang_startdate}:</td>
             <td>
               <span dir="ltr">
-                <select name="start_month">
-                    {startmonth_options}
-                </select>
-                {lang_tail_month}
-                <select name="start_day">
-                    {startday_options}
-                </select>
-                {lang_tail_day}
                 <select name="start_year">
                     {startyear_options}
                 </select>
-                {lang_tail_year}&nbsp;&nbsp;{lang_starttime}:
+                年
+                <select name="start_month">
+                    {startmonth_options}
+                </select>
+                月
+                <select name="start_day">
+                    {startday_options}
+                </select>
+                日&nbsp;&nbsp;{lang_starttime}: 
                 <select name="start_hour">
                     {starthour_options}
                 </select>
@@ -47,18 +47,18 @@
             <td align="right">{lang_enddate}:</td>
             <td>
               <span dir="ltr">
-                <select name="end_month">
-                    {endmonth_options}
-                </select>
-                {lang_tail_month}
-                <select name="end_day">
-                    {endday_options}
-                </select>
-                {lang_tail_day}
                 <select name="end_year">
                     {endyear_options}
                 </select>
-                {lang_tail_year}&nbsp;&nbsp;{lang_endtime}:
+                年
+                <select name="end_month">
+                    {endmonth_options}
+                </select>
+                月
+                <select name="end_day">
+                    {endday_options}
+                </select>
+                日&nbsp;&nbsp;{lang_endtime}: 
                 <select name="end_hour">
                     {endhour_options}
                 </select>

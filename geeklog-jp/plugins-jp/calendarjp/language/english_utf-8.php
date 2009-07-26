@@ -87,7 +87,10 @@ $LANG_CALJP_1 = array(
     48 => 'Hits',
     49 => 'It appears that there are no events on this site or no one has ever clicked on one.',
     50 => 'Events',
-    51 => 'Delete'
+    51 => 'Delete',
+    'tail_year'  => '',
+    'tail_month' => '/',
+    'tail_day'   => '/'
 );
 
 $_LANG_CALJP_SEARCH = array(
@@ -168,7 +171,10 @@ $LANG_CALJP_ADMIN = array(
     33 => 'No events selected for deletion',
     34 => 'Event ID',
     35 => 'could not be deleted',
-    36 => 'Sucessfully deleted'
+    36 => 'Sucessfully deleted',
+    'tail_year'  => '',
+    'tail_month' => '/',
+    'tail_day'   => '/'
 );
 
 $LANG_CALJP_MESSAGE = array(

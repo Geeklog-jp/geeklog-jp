@@ -141,6 +141,12 @@ function setCalendarLanguage (&$aCalendar)
                           'november'  => $LANG_MONTH[11],
                           'december'  => $LANG_MONTH[12]);
 
+    if ($_CONF['language'] == 'japanese_utf-8') {
+        foreach ($lang_months as $key => $val) {
+            $lang_months[$key] = $val . '月';
+        }
+    }
+
     $aCalendar->setLanguage ($lang_days, $lang_months, $_CONF['week_start']);
 }
 
@@ -380,6 +386,11 @@ function getPriorSunday($month, $day, $year)
     return array($newmonth, $newday, $newyear);
 }
 
+function getPrettyDateNum($dnum)
+{
+    return preg_replace('/^0/', ' ', $dnum);
+}
+
 // MAIN
 $mode = '';
 if (isset ($_REQUEST['mode'])) {
@@ -503,13 +514,15 @@ setCalendarLanguage ($cal);
 // Build calendar matrix
 $cal->setCalendarMatrix ($month, $year);
 
+$ja = ($_CONF['language'] == 'japanese_utf-8');
+
 switch ($view) {
 case 'day':
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/dayview');
     $cal_templates->set_file(array('column'=>'column.thtml',
                                    'event'=>'singleevent.thtml',
                                    'dayview'=>'dayview.thtml',
-                                   'quickadd'=>'quickaddform.thtml'));
+                                   'quickadd'=>'quickaddform' . ($ja ? '_ja' : '') . '.thtml'));
     $cal_templates->set_var ( 'xhtml', XHTML );
     $cal_templates->set_var ('site_url', $_CONF['site_url']);
     $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
@@ -519,7 +532,8 @@ case 'day':
     $cal_templates->set_var('lang_week', $LANG_CALJP_2[40]);
     $cal_templates->set_var('lang_month', $LANG_CALJP_2[41]);
 
-    $navbar->set_selected($LANG_CALJP_2[39]); // added by dengen ***********************
+    // navbar
+    $navbar->set_selected($LANG_CALJP_2[39]);
     $cal_templates->set_var('navbar', $navbar->generate());
 
     list($wmonth, $wday, $wyear) = getPriorSunday($month, $day, $year);
@@ -537,8 +551,16 @@ case 'day':
     $cal_templates->set_var('nextmonth', strftime('%m',$nextstamp));
     $cal_templates->set_var('nextday', strftime('%d',$nextstamp));
     $cal_templates->set_var('nextyear', strftime('%Y',$nextstamp));
+    $cal_templates->set_var('lang_tail_year', $LANG_CALJP_1['tail_year']);
+    $cal_templates->set_var('lang_tail_month', $LANG_CALJP_1['tail_month']);
+    $cal_templates->set_var('lang_tail_day', $LANG_CALJP_1['tail_day']);
 
-    $cal_templates->set_var('currentday', strftime('%Y年 %B %d日 (%a)',mktime(0, 0, 0,$month, $day, $year)));
+    if ($ja) {
+        $cal_templates->set_var('currentday', $year . '年 ' . getPrettyDateNum($month) . '月 ' . getPrettyDateNum($day) . '日 '
+                                            . '(' . $LANG_WEEK[strftime('%w',mktime(0, 0, 0,$month, $day, $year)) + 1] . ')');
+    } else {
+        $cal_templates->set_var('currentday', strftime('%A, %x',mktime(0, 0, 0,$month, $day, $year)));
+    }
 
     if ($mode == 'personal') {
         $cal_templates->set_var('calendar_title', $LANG_CALJP_2[28] . ' ' . COM_getDisplayName());
@@ -669,7 +691,7 @@ case 'week':
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates');
     $cal_templates->set_file(array('week'=>'weekview/weekview.thtml',
                                    'events'=>'weekview/events.thtml',
-                                   'quickadd'=>'dayview/quickaddform.thtml'));
+                                   'quickadd'=>'dayview/quickaddform' . ($ja ? '_ja' : '') . '.thtml'));
     $cal_templates->set_var ( 'xhtml', XHTML );
     $cal_templates->set_var ('site_url', $_CONF['site_url']);
     $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
@@ -710,40 +732,68 @@ case 'week':
     $cal_templates->set_var ('lang_day', $LANG_CALJP_2[39]);
     $cal_templates->set_var ('lang_week', $LANG_CALJP_2[40]);
     $cal_templates->set_var ('lang_month', $LANG_CALJP_2[41]);
+    $cal_templates->set_var('lang_tail_year', $LANG_CALJP_1['tail_year']);
+    $cal_templates->set_var('lang_tail_month', $LANG_CALJP_1['tail_month']);
+    $cal_templates->set_var('lang_tail_day', $LANG_CALJP_1['tail_day']);
 
-    $navbar->set_selected($LANG_CALJP_2[40]); // added by dengen ***********************
+    // navbar
+    $navbar->set_selected($LANG_CALJP_2[40]);
     $cal_templates->set_var('navbar', $navbar->generate());
 
-    if ($_CONF['week_start'] == 'Mon') {
-        $time_day1 = mktime (0, 0, 0, $month, $day + 1, $year);
-        $time_day7 = mktime (0, 0, 0, $month, $day + 7, $year);
-        $start_mname = strftime ('%B', $time_day1);
-        $eday = strftime ('%e', $time_day7);
-        $end_mname = strftime ('%B', $time_day7);
-        $end_ynum = strftime ('%Y', $time_day7);
-
-        $date_range = $start_mname . ' ' . strftime ('%e', $time_day1) . '日';
-
+    if ($ja) {
+        if ($_CONF['week_start'] == 'Mon') {
+            $time_day1 = mktime (0, 0, 0, $month, $day + 1, $year);
+            $time_day7 = mktime (0, 0, 0, $month, $day + 7, $year);
+            $start_mname = getPrettyDateNum(strftime ('%m', $time_day1));
+            $eday = getPrettyDateNum(strftime ('%d', $time_day7));
+            $end_mname = getPrettyDateNum(strftime ('%m', $time_day7));
+            $end_ynum = strftime ('%Y', $time_day7);
+            $date_range = $start_mname . ' ' . getPrettyDateNum(strftime ('%d', $time_day1)) . '日';
+        } else {
+            $start_mname = getPrettyDateNum(strftime ('%m', mktime (0, 0, 0, $month, $day, $year)));
+            $time_day6 = mktime (0, 0, 0, $month, $day + 6, $year);
+            $eday = getPrettyDateNum(strftime ('%d', $time_day6));
+            $end_mname = getPrettyDateNum(strftime ('%m', $time_day6));
+            $end_ynum = strftime ('%Y', $time_day6);
+            $date_range = $start_mname . '月 ' . $day . '日';
+        }
+        if ($year <> $end_ynum) {
+            $date_range = $year . '年 ' . $date_range . ' ～ ' . $end_ynum . '年 ';
+        } else {
+            $date_range = $year . '年 ' . $date_range . ' ～ ';
+        }
+        if ($start_mname <> $end_mname) {
+            $date_range .= $end_mname . '月 ' . $eday . '日';
+        } else {
+            $date_range .= $eday . '日';
+        }
     } else {
-        $start_mname = strftime ('%B', mktime (0, 0, 0, $month, $day, $year));
-        $time_day6 = mktime (0, 0, 0, $month, $day + 6, $year);
-        $eday = strftime ('%e', $time_day6);
-        $end_mname = strftime ('%B', $time_day6);
-        $end_ynum = strftime ('%Y', $time_day6);
-
-        $date_range = $start_mname . ' ' . $day . '日';
-    }
-
-    if ($year <> $end_ynum) {
-        $date_range = $year . '年 ' . $date_range . ' ～ ' . $end_ynum . '年 ';
-    } else {
-        $date_range = $year . '年 ' . $date_range . ' ～ ';
-    }
-
-    if ($start_mname <> $end_mname) {
-        $date_range .= $end_mname . ' ' . $eday . '日';
-    } else {
-        $date_range .= $eday . '日';
+        if ($_CONF['week_start'] == 'Mon') {
+            $time_day1 = mktime (0, 0, 0, $month, $day + 1, $year);
+            $time_day7 = mktime (0, 0, 0, $month, $day + 7, $year);
+            $start_mname = strftime ('%B', $time_day1);
+            $eday = getPrettyDateNum(strftime ('%d', $time_day7));
+            $end_mname = strftime ('%B', $time_day7);
+            $end_ynum = strftime ('%Y', $time_day7);
+            $date_range = $start_mname . ' ' . getPrettyDateNum(strftime ('%d', $time_day1));
+        } else {
+            $start_mname = strftime ('%B', mktime (0, 0, 0, $month, $day, $year));
+            $time_day6 = mktime (0, 0, 0, $month, $day + 6, $year);
+            $eday = getPrettyDateNum(strftime ('%d', $time_day6));
+            $end_mname = strftime ('%B', $time_day6);
+            $end_ynum = strftime ('%Y', $time_day6);
+            $date_range = $start_mname . ' ' . $day;
+        }
+        if ($year <> $end_ynum) {
+            $date_range .= ', ' . $year . ' - ';
+        } else {
+            $date_range .= ' - ';
+        }
+        if ($start_mname <> $end_mname) {
+            $date_range .= $end_mname . ' ' . $eday . ', ' . $end_ynum;
+        } else {
+            $date_range .= $eday . ', ' . $end_ynum;
+        }
     }
 
     $cal_templates->set_var('date_range', $date_range);
@@ -770,11 +820,19 @@ case 'week':
             $cal_templates->set_var('class'.$i,'weekview-offday');
         }
         $monthname = $cal->getMonthName($monthnum);
-        $cal_templates->set_var ('day' . $i, 
-            COM_createLink( strftime ('%m/%d', $thedate[1]),
-            $_CONF['site_url'] . '/calendarjp/index.php?' . addMode ($mode)
-            . "view=day&amp;day$daynum&amp;month=$monthnum&amp;year=$yearnum") . ' (' . $dayname . ')'
-        );
+        if ($ja) {
+            $cal_templates->set_var ('day' . $i, 
+                COM_createLink( strftime ('%m/%d', $thedate[1]),
+                $_CONF['site_url'] . '/calendarjp/index.php?' . addMode ($mode)
+                . "view=day&amp;day$daynum&amp;month=$monthnum&amp;year=$yearnum") . ' (' . $dayname . ')'
+            );
+        } else {
+            $cal_templates->set_var ('day' . $i, $dayname . ', '
+                . COM_createLink( strftime ('%x', $thedate[1]),
+                $_CONF['site_url'] . '/calendar/index.php?' . addMode ($mode)
+                . "view=day&amp;day$daynum&amp;month=$monthnum&amp;year=$yearnum")
+            );
+        }
 
         if ($mode == 'personal') {
             $add_str =  $LANG_CALJP_2[8];
@@ -865,7 +923,7 @@ default: // month view
 
 $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates');
 $cal_templates->set_file (array (
-        'calendar'    => 'calendar.thtml',
+        'calendar'    => 'calendar' . ($ja ? '_ja' : '') . '.thtml',
         'week'        => 'calendarweek.thtml',
         'day'         => 'calendarday.thtml',
         'event'       => 'calendarevent.thtml',

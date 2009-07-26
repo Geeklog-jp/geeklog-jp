@@ -26,6 +26,10 @@
             <td align="right">{lang_eventstartdate}:</td>
             <td>
               <span dir="ltr">
+                <select name="start_year">
+                    {startyear_options}
+                </select>
+                {lang_tail_year}
                 <select name="start_month">
                     {startmonth_options}
                 </select>
@@ -33,11 +37,7 @@
                 <select name="start_day">
                     {startday_options}
                 </select>
-                {lang_tail_day}
-                <select name="start_year">
-                    {startyear_options}
-                </select>
-                {lang_tail_year}&nbsp;&nbsp;{lang_starttime}: 
+                {lang_tail_day}&nbsp;&nbsp;{lang_starttime}: 
                 <select name="start_hour">
                     {starthour_options}
                 </select>&nbsp;:
@@ -52,6 +52,10 @@
             <td align="right">{lang_eventenddate}:</td>
             <td>
               <span dir="ltr">
+                <select name="end_year">
+                    {endyear_options}
+                </select>
+                {lang_tail_year}
                 <select name="end_month">
                     {endmonth_options}
                 </select>
@@ -59,11 +63,7 @@
                 <select name="end_day">
                     {endday_options}
                 </select>
-                {lang_tail_day}
-                <select name="end_year">
-                    {endyear_options}
-                </select>
-                {lang_tail_year}&nbsp;&nbsp;{lang_endtime}: 
+                {lang_tail_day}&nbsp;&nbsp;{lang_endtime}: 
                 <select name="end_hour">
                     {endhour_options}
                 </select>&nbsp;:
