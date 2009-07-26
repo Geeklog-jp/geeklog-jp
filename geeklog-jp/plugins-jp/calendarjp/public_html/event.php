@@ -173,8 +173,9 @@ function editpersonalevent ($A)
 {
     global $_CONF, $_CAJP_CONF, $LANG_CALJP_1;
 
+    $ja = ($_CONF['language'] == 'japanese_utf-8');
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
-    $cal_templates->set_file('form','editpersonalevent.thtml');
+    $cal_templates->set_file('form','editpersonalevent' . ($ja ? '_ja' : '') . '.thtml');
     $cal_templates->set_var( 'xhtml', XHTML );
     $cal_templates->set_var('site_url', $_CONF['site_url']);
     $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
@@ -267,6 +268,10 @@ function editpersonalevent ($A)
     } else {
         $cal_templates->set_var ('allday_checked', '');
     }
+
+    $cal_templates->set_var('lang_tail_year', $LANG_CALJP_1['tail_year']);
+    $cal_templates->set_var('lang_tail_month', $LANG_CALJP_1['tail_month']);
+    $cal_templates->set_var('lang_tail_day', $LANG_CALJP_1['tail_day']);
 
     $cal_templates->set_var('lang_location',$LANG_CALJP_1[39]);
     $cal_templates->set_var('event_location', stripslashes ($A['location']));
@@ -504,9 +509,10 @@ default:
                  . "and DATE_FORMAT(dateend,'%Y-%m-%d') "
                  . "ORDER BY datestart ASC,timestart ASC,title";
     }
+    $ja = ($_CONF['language'] == 'japanese_utf-8');
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
     $cal_templates->set_file (array (
-            'events'    => 'events.thtml',
+            'events'    => 'events' . ($ja ? '_ja' : '') . '.thtml',
             'details'   => 'eventdetails.thtml',
             'addremove' => 'addremoveevent.thtml'
             ));
