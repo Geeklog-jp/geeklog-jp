@@ -82,11 +82,13 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
         $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     }
 
+    $ja = ($_CONF['language'] == 'japanese_utf-8');
+
     $event_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/admin');
     if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1 ) ) {
-        $event_templates->set_file('editor','eventeditor_advanced.thtml');
+        $event_templates->set_file('editor','eventeditor_advanced' . ($ja ? '_ja' : '') . '.thtml');
     } else {
-        $event_templates->set_file('editor','eventeditor.thtml');
+        $event_templates->set_file('editor','eventeditor' . ($ja ? '_ja' : '') . '.thtml');
     }
     $event_templates->set_var( 'xhtml', XHTML );
     $event_templates->set_var('site_url', $_CONF['site_url']);
@@ -270,11 +272,6 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     } else {
         $startampm = 'am';
     }
-//  if ($start_hour >= 12) {
-//      $startampm = '午後';
-//  } else {
-//      $startampm = '午前';
-//  }
 
     $start_hour_24 = $start_hour % 24;
     if ($start_hour > 12) {
@@ -290,11 +287,6 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     } else {
         $endampm = 'am';
     }
-//  if ($end_hour >= 12) {
-//      $endampm = '午後';
-//  } else {
-//      $endampm = '午前';
-//  }
 
     $end_hour_24 = $end_hour % 24;
     if ($end_hour > 12) {
@@ -379,6 +371,9 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     $event_templates->set_var('hits', COM_numberFormat ($A['hits']));
     $event_templates->set_var('lang_save', $LANG_ADMIN['save']);
     $event_templates->set_var('lang_cancel', $LANG_ADMIN['cancel']);
+    $event_templates->set_var('lang_tail_year', $LANG_CALJP_ADMIN['tail_year']);
+    $event_templates->set_var('lang_tail_month', $LANG_CALJP_ADMIN['tail_month']);
+    $event_templates->set_var('lang_tail_day', $LANG_CALJP_ADMIN['tail_day']);
 
     // user access info
     $event_templates->set_var('lang_accessrights',$LANG_ACCESS['accessrights']);

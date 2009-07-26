@@ -16,13 +16,14 @@
                                     <form method="post" action="index.php">
                                         <div>
                                             <input type="hidden" name="mode" value="{mode}"{xhtml}>
-                                            <select name="month" onchange="this.form.submit()">
-                                                {month_options}
-                                            </select>
-                                            &nbsp;
                                             <select name="year" onchange="this.form.submit()">
                                                 {year_options}
                                             </select>
+                                            年&nbsp;
+                                            <select name="month" onchange="this.form.submit()">
+                                                {month_options}
+                                            </select>
+                                            月
                                         </div>
                                     </form>
                                 </td>
