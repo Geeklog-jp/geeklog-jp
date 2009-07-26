@@ -1,8 +1,14 @@
 $Id$
 
+2009-07-26  Yoshinori Tahara  <dengen>
+
+	* 言語ファイルの$LANG_MONTHの値変更に合わせた変更を行いました。
+	  言語情報（$_CONF['language']）を見て、日本語以外の場合には英語の
+	  日付様式を採用するようにしました。
+
 2009-07-20  Takahiro Kambe  <tacahi>
 
-	* Geeklog 1.0.6をマージしました。
+	* Geeklog 1.6.0をマージしました。
 
 2009-07-20  Tetsuko Komma  <ivysoho>
 
