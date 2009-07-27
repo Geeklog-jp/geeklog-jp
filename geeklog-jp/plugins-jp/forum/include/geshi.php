@@ -2147,7 +2147,7 @@ class GeSHi
 				if (!$this->use_classes) {
 					$attributes = ' style="' . $this->language_data['STYLES']['REGEXPS'][$key] . '"';
 				} else {
-                   if(is_array($this->language_data['REGEXPS'][$key]) &&
+                   if (is_array($this->language_data['REGEXPS'][$key]) &&
                             array_key_exists(GESHI_CLASS, $this->language_data['REGEXPS'][$key])) {
                         $attributes = ' class="'
                             . $this->language_data['REGEXPS'][$key][GESHI_CLASS] . '"';

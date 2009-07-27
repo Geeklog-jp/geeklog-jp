@@ -33,20 +33,29 @@
 // +---------------------------------------------------------------------------+
 //
 
-require_once("../lib-common.php"); // Path to your lib-common.php
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
-require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
+require_once '../lib-common.php'; // Path to your lib-common.php
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
+
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
 $id = COM_applyFilter($_REQUEST['id'],true);
 $forum = COM_applyFilter($_REQUEST['forum'],true);
 $topic = COM_applyFilter($_REQUEST['topic'],true);
 
-// Display Common headers
-gf_siteHeader();
-
 //Check is anonymous users can access - and need to be signed in
 forum_chkUsercanAccess(true);
+
+$display = '';
+
+// Display Common headers
+$display .= gf_siteHeader();
+
+// Debug Code to show variables
+$display .= gf_showVariables();
 
 // NOTIFY CODE -> SAVE
 if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
@@ -62,28 +71,32 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
         if ($A['topic_id'] == 0) {     // User has subscribed to complete forum
            // Check and see if user has a non-subscribe record for this topic id
             $query = DB_query("SELECT id FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id < '0' " );
-            if (DB_numRows($query) > 0 ) {
+            if (DB_numRows($query) > 0) {
                 list($watchrec) = DB_fetchArray($query);
                 DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE id=$watchrec");
             }  else {
                 DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
             }
-            forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+            $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
         } else {
-            forum_statusMessage($LANG_GF02['msg40'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg40']);
+            $display .= forum_statusMessage($LANG_GF02['msg40'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg40']);
         }
     } else {
         DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
         $nid = -$id;
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id = '$nid'");          
-        forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+        $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
     }
+    $display .= gf_siteFooter();
+    COM_output($display);
     exit();
 
 } elseif (($_REQUEST['submit'] == 'delete') AND ($id != 0))  {
     DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
     $notifytype = COM_applyFilter($_GET['filter']);    
-    forum_statusMessage($LANG_GF02['msg42'], "{$_CONF['site_url']}/forum/notify.php?filter=$notifytype", $LANG_GF02['msg42']);
+    $display .= forum_statusMessage($LANG_GF02['msg42'], "{$_CONF['site_url']}/forum/notify.php?filter=$notifytype", $LANG_GF02['msg42']);
+    $display .= gf_siteFooter();
+    COM_output($display);
     exit();
 
 } elseif (($_REQUEST['submit'] == 'delete2') AND ($id != ''))  {
@@ -96,7 +109,9 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
     } else {
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
     }
-    forum_statusMessage($LANG_GF02['msg146'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$topic",$LANG_GF02['msg146']);
+    $display .= forum_statusMessage($LANG_GF02['msg146'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$topic",$LANG_GF02['msg146']);
+    $display .= gf_siteFooter();
+    COM_output($display);
     exit();
 }
 
@@ -126,15 +141,16 @@ if ($op == 'delchecked') {
     }
 }
 
-$report = new Template($_CONF['path_layout'] . 'forum/layout');
-$report->set_file (array ('report' => 'reports/notifications.thtml',
-                    'records' => 'reports/notifications_line.thtml',
-                    'outline_header'=>'forum_outline_header.thtml',
-                    'outline_footer' => 'forum_outline_footer.thtml' ));
+$report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+$report->set_file (array (
+                  'report'         => 'reports/notifications.thtml',
+                  'records'        => 'reports/notifications_line.thtml',
+                  'outline_header' => 'forum_outline_header.thtml',
+                  'outline_footer' => 'forum_outline_footer.thtml' ));
 
 $report->set_var ('xhtml', XHTML);
 $report->set_var ('imgset', $CONF_FORUM['imgset']);
-$report->set_var ('layout_url', $_CONF['layout_url']);
+$report->set_var ('layout_url', $CONF_FORUM['layout_url']);
 $report->set_var ('site_url', $_CONF['site_url']);
 $report->set_var ('LANG_TITLE', $LANG_GF02['msg89']);
 $report->set_var ('select_forum', f_forumjump($_CONF['site_url'].'/forum/notify.php',$forum));
@@ -191,8 +207,8 @@ $sql .= " LIMIT $offset, $show";
 $notifications = DB_query($sql);
 
 $i = 0;
-while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchARRAY($notifications)) {
-    $forum_name = DB_getITEM($_TABLES['gf_forums'],"forum_name","forum_id='$forum_id'");
+while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchArray($notifications)) {
+    $forum_name = DB_getItem($_TABLES['gf_forums'],"forum_name","forum_id='$forum_id'");
     $is_forum = '';
     if ($topic_id == '0') {
         $subject = '';
@@ -209,7 +225,7 @@ while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchARRAY($noti
         $A = DB_fetchArray($result);
         if ($A['subject'] == '') {
             $subject = $LANG_GF01['MISSINGSUBJECT'];
-        } elseif(strlen($A['subject']) > 50) {
+        } elseif (strlen($A['subject']) > 50) {
             $subject = htmlspecialchars(COM_truncate($A['subject'], 50, '...'), ENT_QUOTES, $CONF_FORUM['charset']);
         } else {
             $subject = htmlspecialchars($A['subject'], ENT_QUOTES, $CONF_FORUM['charset']);
@@ -248,8 +264,9 @@ if ($nrows == 0) {
     }
 }
 $report->parse ('output', 'report');
-echo $report->finish ($report->get_var('output'));
+$display .= $report->finish ($report->get_var('output'));
 // Display Common headers
-gf_siteFooter();
+$display .= gf_siteFooter();
 
+COM_output($display);
 ?>

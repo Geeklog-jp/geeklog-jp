@@ -12,7 +12,7 @@
 // +---------------------------------------------------------------------------+
 // | Plugin Authors                                                            |
 // | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |   
+// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
 // | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -33,12 +33,13 @@
 // +---------------------------------------------------------------------------+
 //
 
-include_once('gf_functions.php');
+include_once 'gf_functions.php';
 
-echo COM_siteHeader();
-echo COM_startBlock($LANG_GF91['gfstats']);
+$display = '';
+$display .= COM_siteHeader();
+$display .= COM_startBlock($LANG_GF91['gfstats']);
 
-echo ppNavbar($navbarMenu,$LANG_GF06['1']);
+$display .= forum_Navbar($navbarMenu,$LANG_GF06['1']);
 
 // CATEGORIES
 $numcats=DB_query("SELECT id FROM {$_TABLES['gf_categories']}");
@@ -86,40 +87,38 @@ if ($totalviews['TOTAL'] != 0) {
 }
 
 
-    $indextemplate = new Template($_CONF['path_layout'] . 'forum/layout/admin');
-    $indextemplate->set_file (array ('indextemplate'=>'index.thtml'));
-    
-    $indextemplate->set_var ('xhtml', XHTML);
-    $indextemplate->set_var ('statsmsg', $LANG_GF91['statsmsg']);
-    $indextemplate->set_var ('totalcatsmsg', $LANG_GF91['totalcats']);
-    $indextemplate->set_var ('totalcats', $totalcats);
-    $indextemplate->set_var ('totalforumsmsg', $LANG_GF91['totalforums']);
-    $indextemplate->set_var ('totalforums', $totalforums);
-    $indextemplate->set_var ('totaltopicsmsg', $LANG_GF91['totaltopics']);
-    $indextemplate->set_var ('totaltopics', $totaltopics);
-    $indextemplate->set_var ('totalpostsmsg', $LANG_GF91['totalposts']);
-    $indextemplate->set_var ('totalposts', $totalposts);
-    $indextemplate->set_var ('totalviewsmsg', $LANG_GF91['totalviews']);
-    $indextemplate->set_var ('totalviews', $totalviews['TOTAL']);
-    $indextemplate->set_var ('category', $LANG_GF91['category']);
-    $indextemplate->set_var ('forum', $LANG_GF91['forum']);
-    $indextemplate->set_var ('topic', $LANG_GF91['topic']);
-    $indextemplate->set_var ('avgpmsg', $LANG_GF91['avgpmsg']);
-    $indextemplate->set_var ('avgcposts', $avgcposts);
-    $indextemplate->set_var ('avgfposts', $avgfposts);
-    $indextemplate->set_var ('avgtposts', $avgtposts);
-    $indextemplate->set_var ('avgvmsg', $LANG_GF91['avgvmsg']);
-    $indextemplate->set_var ('avgcviews', $avgcviews);
-    $indextemplate->set_var ('avgfviews', $avgfviews);
-    $indextemplate->set_var ('avgtviews', $avgtviews);
-    
-    $indextemplate->parse ('output', 'indextemplate');
-    echo $indextemplate->finish ($indextemplate->get_var('output'));
+$indextemplate = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$indextemplate->set_file (array ('indextemplate'=>'index.thtml'));
 
+$indextemplate->set_var ('xhtml', XHTML);
+$indextemplate->set_var ('statsmsg', $LANG_GF91['statsmsg']);
+$indextemplate->set_var ('totalcatsmsg', $LANG_GF91['totalcats']);
+$indextemplate->set_var ('totalcats', $totalcats);
+$indextemplate->set_var ('totalforumsmsg', $LANG_GF91['totalforums']);
+$indextemplate->set_var ('totalforums', $totalforums);
+$indextemplate->set_var ('totaltopicsmsg', $LANG_GF91['totaltopics']);
+$indextemplate->set_var ('totaltopics', $totaltopics);
+$indextemplate->set_var ('totalpostsmsg', $LANG_GF91['totalposts']);
+$indextemplate->set_var ('totalposts', $totalposts);
+$indextemplate->set_var ('totalviewsmsg', $LANG_GF91['totalviews']);
+$indextemplate->set_var ('totalviews', $totalviews['TOTAL']);
+$indextemplate->set_var ('category', $LANG_GF91['category']);
+$indextemplate->set_var ('forum', $LANG_GF91['forum']);
+$indextemplate->set_var ('topic', $LANG_GF91['topic']);
+$indextemplate->set_var ('avgpmsg', $LANG_GF91['avgpmsg']);
+$indextemplate->set_var ('avgcposts', $avgcposts);
+$indextemplate->set_var ('avgfposts', $avgfposts);
+$indextemplate->set_var ('avgtposts', $avgtposts);
+$indextemplate->set_var ('avgvmsg', $LANG_GF91['avgvmsg']);
+$indextemplate->set_var ('avgcviews', $avgcviews);
+$indextemplate->set_var ('avgfviews', $avgfviews);
+$indextemplate->set_var ('avgtviews', $avgtviews);
 
-echo COM_endBlock();
-echo adminfooter();
+$indextemplate->parse ('output', 'indextemplate');
+$display .= $indextemplate->finish ($indextemplate->get_var('output'));
+$display .= COM_endBlock();
+$display .= adminfooter();
+$display .= COM_siteFooter();
 
-echo COM_siteFooter();
-
+COM_output($display);
 ?>

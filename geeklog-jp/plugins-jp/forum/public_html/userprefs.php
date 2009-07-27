@@ -33,28 +33,35 @@
 // +---------------------------------------------------------------------------+
 //
 
-require_once("../lib-common.php"); // Path to your lib-common.php
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
+require_once '../lib-common.php'; // Path to your lib-common.php
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
-// Display Common headers
-gf_siteHeader();
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
 //Check is anonymous users can access - and need to be signed in
 forum_chkUsercanAccess(true);
 
+$display = '';
+
+// Display Common headers
+$display .= gf_siteHeader();
+
 // SAVE SETTINGS
-if(isset($_POST['submit']) && SEC_checkToken()) {
-    $xtopicsperpage = COM_applyFilter($_POST['xtopicsperpage'],true);
-    $xpostsperpage = COM_applyFilter($_POST['xpostsperpage'],true);
-    $xpopularlimit = COM_applyFilter($_POST['xpopularlimit'],true);
+if (isset($_POST['submit']) && SEC_checkToken()) {
+    $xtopicsperpage   = COM_applyFilter($_POST['xtopicsperpage'],true);
+    $xpostsperpage    = COM_applyFilter($_POST['xpostsperpage'],true);
+    $xpopularlimit    = COM_applyFilter($_POST['xpopularlimit'],true);
     $xmessagesperpage = COM_applyFilter($_POST['xmessagesperpage'],true);
-    $xsearchlines = COM_applyFilter($_POST['xsearchlines'],true);
-    $xmembersperpage = COM_applyFilter($_POST['xmembersperpage'],true);
-    $xemailnotify = COM_applyFilter($_POST['xemailnotify'],true);
-    $xviewanonposts = COM_applyFilter($_POST['xviewanonposts'],true);
-    $xalwaysnotify = COM_applyFilter($_POST['xalwaysnotify'],true);
-    $xnotifyonce = COM_applyFilter($_POST['xnotifyonce'],true);
-    $xshowiframe = COM_applyFilter($_POST['xshowiframe'],true);
+    $xsearchlines     = COM_applyFilter($_POST['xsearchlines'],true);
+    $xmembersperpage  = COM_applyFilter($_POST['xmembersperpage'],true);
+    $xemailnotify     = COM_applyFilter($_POST['xemailnotify'],true);
+    $xviewanonposts   = COM_applyFilter($_POST['xviewanonposts'],true);
+    $xalwaysnotify    = COM_applyFilter($_POST['xalwaysnotify'],true);
+    $xnotifyonce      = COM_applyFilter($_POST['xnotifyonce'],true);
+    $xshowiframe      = COM_applyFilter($_POST['xshowiframe'],true);
 
     DB_query("UPDATE {$_TABLES['gf_userprefs']} SET
         topicsperpage='$xtopicsperpage',
@@ -69,10 +76,10 @@ if(isset($_POST['submit']) && SEC_checkToken()) {
         showiframe='$xshowiframe'
      WHERE uid='{$_USER['uid']}'");
 
-
-  forum_statusMessage($LANG_GF92['setsavemsg'],$_CONF['site_url'] .'/forum/userprefs.php',$LANG_GF92['setsavemsg']);
-  gf_siteFooter();
-  exit();
+    $display .= forum_statusMessage($LANG_GF92['setsavemsg'],$_CONF['site_url'] .'/forum/userprefs.php',$LANG_GF92['setsavemsg']);
+    $display .= gf_siteFooter();
+    COM_output($display);
+    exit;
 }
 
 
@@ -129,7 +136,7 @@ if (!isset($_POST['$submit'])) {
         $showiframe_yes = '';
     }
 
-    $usersettings = new Template($_CONF['path_layout'] . 'forum/layout/userprefs');
+    $usersettings = new Template($CONF_FORUM['path_layout'] . 'forum/layout/userprefs');
     $usersettings->set_file (array ('usersettings'=>'user_settings.thtml'));
     $usersettings->set_var ('xhtml', XHTML);
     $usersettings->set_var ('phpself', $_CONF['site_url'] .'/forum/userprefs.php');
@@ -186,10 +193,10 @@ if (!isset($_POST['$submit'])) {
     $usersettings->set_var('gltoken', SEC_createToken());
 
     $usersettings->parse ('output', 'usersettings');
-    echo $usersettings->finish($usersettings->get_var('output'));
-
+    $display .= $usersettings->finish($usersettings->get_var('output'));
 }
 
-gf_siteFooter();
+$display .= gf_siteFooter();
 
+COM_output($display);
 ?>
