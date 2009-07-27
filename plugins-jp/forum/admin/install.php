@@ -40,9 +40,9 @@ if (!defined('XHTML')) {
     define('XHTML', '');
 }
 
-require_once('../../../lib-common.php');
-require_once($_CONF['path'] . 'plugins/forum/config.php');
-require_once($_CONF['path'] . 'plugins/forum/functions.inc');
+require_once '../../../lib-common.php';
+require_once $_CONF['path'] . 'plugins/forum/config.php';
+require_once $_CONF['path'] . 'plugins/forum/functions.inc';
 
 //
 // Universal plugin install variables
@@ -51,8 +51,8 @@ require_once($_CONF['path'] . 'plugins/forum/functions.inc');
 
 $pi_name = 'forum';                          // Plugin name
 $pi_version = $CONF_FORUM['version'];        // Plugin Version
-$gl_version = '1.4';                         // GL Version plugin for
-$pi_url = 'http://www.portalparts.com/';     // Plugin Homepage
+$gl_version = '1.6.0';                       // GL Version plugin for
+$pi_url = 'http://www.geeklog.jp/';          // Plugin Homepage
 
 
 // Default data
@@ -108,7 +108,7 @@ if (!SEC_inGroup('Root')) {
     $display .= $LANG_GF00['access_denied_msg'];
     $display .= COM_endBlock();
     $display .= COM_siteFooter(true);
-    echo $display;
+    COM_output($display);
     exit;
 }
  
@@ -129,7 +129,7 @@ function plugin_install_now()
     $uninstall_plugin = 'plugin_uninstall_' . $pi_name;
 
     // Create the Plugins Tables
-    require_once($_CONF['path'] . 'plugins/forum/sql/mysql_install_2.6.php');
+    require_once $_CONF['path'] . 'plugins/forum/sql/mysql_install_2.6.php';
 
     for ($i = 1; $i <= count($_SQL); $i++) {
         $progress .= "executing " . current($_SQL) . "<br" . XHTML . ">\n";
@@ -273,6 +273,5 @@ if ($_REQUEST['action'] == 'uninstall') {
              . COM_siteFooter();
 }
 
-echo $display;
-
+COM_output($display);
 ?>

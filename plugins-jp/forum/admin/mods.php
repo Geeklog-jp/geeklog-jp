@@ -33,19 +33,23 @@
 // +---------------------------------------------------------------------------+
 //
 
-include_once('gf_functions.php');
-require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
+include_once 'gf_functions.php';
 
-echo COM_siteHeader();
-echo COM_startBlock($LANG_GF94['mod_title']);
-echo ppNavbar($navbarMenu,$LANG_GF06['4']);
+$display = '';
+$display .= COM_siteHeader();
 
-if(DB_count($_TABLES['gf_forums']) == 0) {
-    echo '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
-    echo '<tr><td align="middle">';
-    echo  $LANG_GF93['moderatorwarning'];
-    echo '</td><tr><td align="middle"><br' . XHTML . '><input type="button" value="' .$LANG_GF93['back'] .'" onclick="javascript:history.go(-1)"' . XHTML . '>';
-    echo '</td></tr></table>';
+// Debug Code to show variables
+$display .= gf_showVariables();
+
+$display .= COM_startBlock($LANG_GF94['mod_title']);
+$display .= forum_Navbar($navbarMenu,$LANG_GF06['4']);
+
+if (DB_count($_TABLES['gf_forums']) == 0) {
+    $display .= '<table width="100%" border="0" cellspacing="0" cellpadding="0">';
+    $display .= '<tr><td align="middle">';
+    $display .=  $LANG_GF93['moderatorwarning'];
+    $display .= '</td><tr><td align="middle"><br' . XHTML . '><input type="button" value="' .$LANG_GF93['back'] .'" onclick="javascript:history.go(-1)"' . XHTML . '>';
+    $display .= '</td></tr></table>';
 } else {
     $operation = COM_applyFilter($_POST['operation']);
     $recid = COM_applyFilter($_POST['recid'],true);
@@ -167,7 +171,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
 
     if ( isset($_POST['promptadd']) AND $_POST['promptadd'] == $LANG_GF93['addmoderator']) {
 
-        $addmod= new Template($_CONF['path_layout'] . 'forum/layout/admin');
+        $addmod= new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $addmod->set_file (array ('moderator'=>'mod_add.thtml'));
         $addmod->set_var ('xhtml', XHTML);
         $addmod->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
@@ -192,7 +196,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
         $addmod->set_var('gltoken', SEC_createToken());
 
         $addmod->parse ('output', 'moderator');
-        echo $addmod->finish ($addmod->get_var('output'));
+        $display .= $addmod->finish ($addmod->get_var('output'));
 
     } else {
 
@@ -208,7 +212,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
             }
         }
 
-        $moderators = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+        $moderators = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $moderators->set_file (array ('moderators'=>'moderators.thtml','mod_record'=>'mod_record.thtml'));
         $moderators->set_var ('xhtml', XHTML);
         $moderators->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
@@ -292,7 +296,7 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
             } else {
                 $moderators->set_var ('name', $M['mod_username']);
             }
-            $moderators->set_var ('forum', DB_getITEM($_TABLES['gf_forums'],"forum_name","forum_id={$M['mod_forum']}"));
+            $moderators->set_var ('forum', DB_getItem($_TABLES['gf_forums'],"forum_name","forum_id={$M['mod_forum']}"));
             $moderators->set_var ('delete_yes', $chk_delete);
             $moderators->set_var ('ban_yes', $chk_ban);
             $moderators->set_var ('edit_yes', $chk_edit);
@@ -307,11 +311,11 @@ if(DB_count($_TABLES['gf_forums']) == 0) {
         $moderators->set_var('gltoken', SEC_createToken());
 
         $moderators->parse ('output', 'moderators');
-        echo $moderators->finish ($moderators->get_var('output'));
+        $display .= $moderators->finish ($moderators->get_var('output'));
     }
 }
-echo COM_endBlock();
-echo adminfooter();
-echo COM_siteFooter();
-
+$display .= COM_endBlock();
+$display .= adminfooter();
+$display .= COM_siteFooter();
+COM_output($display);
 ?>

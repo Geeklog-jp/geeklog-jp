@@ -31,7 +31,7 @@
 // +---------------------------------------------------------------------------+
 //
 
-include_once('gf_functions.php');
+include_once 'gf_functions.php';
 
 function gf_RadioButtonSetting(&$template,$title,$help,$parm,$value,$id=1) {
     $template->set_var ('LANG_title', $title);
@@ -60,41 +60,42 @@ function gf_RankSetting(&$template,$title,$help,$value1,$value2,$id) {
     $template->parse ("ranking_options", 'rank_setting',true);
 }
 
-echo COM_siteHeader();
-echo COM_startBlock($LANG_GF92['gfsettings']);
-echo ppNavbar($navbarMenu,$LANG_GF06['2']);
+$display = '';
+$display .= COM_siteHeader();
+$display .= COM_startBlock($LANG_GF92['gfsettings']);
+$display .= forum_Navbar($navbarMenu,$LANG_GF06['2']);
 
 if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
 
     $registrationrequired = COM_applyFilter($_POST['registrationrequired'],true);
-    $registerpost = COM_applyFilter($_POST['registerpost'],true);
-    $allowhtml = COM_applyFilter($_POST['allowhtml'],true);
-    $glfilter = COM_applyFilter($_POST['glfilter'],true);
-    $censor = COM_applyFilter($_POST['censor'],true);
-    $showmood = COM_applyFilter($_POST['showmood'],true);
-    $allowsmilies = COM_applyFilter($_POST['allowsmilies'],true);
-    $allow_notify = COM_applyFilter($_POST['allow_notify'],true);
-    $post_htmlmode = COM_applyFilter($_POST['post_htmlmode'],true);
-    $allow_userdatefmt = COM_applyFilter($_POST['userdateformat'],true);
-    $showiframe = COM_applyFilter($_POST['showiframe'],true);
-    $autorefresh = COM_applyFilter($_POST['autorefresh'],true);
-    $refresh_delay = COM_applyFilter($_POST['refreshdelay'],true);
-    $viewtopicnumchars = COM_applyFilter($_POST['viewtopicnumchars'],true);
-    $topicsperpage = COM_applyFilter($_POST['topicsperpage'],true);
-    $postsperpage = COM_applyFilter($_POST['postsperpage'],true);
-    $messagesperpage = COM_applyFilter($_POST['messagesperpage'],true);
-    $searchesperpage = COM_applyFilter($_POST['searchesperpage'],true);
-    $popular = COM_applyFilter($_POST['popular'],true);
-    $speedlimit = COM_applyFilter($_POST['speedlimit'],true);
-    $edit_timewindow = 60 * COM_applyFilter($_POST['edit_timewindow'],true);
-    $use_spamxfilter = COM_applyFilter($_POST['use_spamxfilter'],true);
+    $registerpost         = COM_applyFilter($_POST['registerpost'],true);
+    $allowhtml            = COM_applyFilter($_POST['allowhtml'],true);
+    $glfilter             = COM_applyFilter($_POST['glfilter'],true);
+    $censor               = COM_applyFilter($_POST['censor'],true);
+    $showmood             = COM_applyFilter($_POST['showmood'],true);
+    $allowsmilies         = COM_applyFilter($_POST['allowsmilies'],true);
+    $allow_notify         = COM_applyFilter($_POST['allow_notify'],true);
+    $post_htmlmode        = COM_applyFilter($_POST['post_htmlmode'],true);
+    $allow_userdatefmt    = COM_applyFilter($_POST['userdateformat'],true);
+    $showiframe           = COM_applyFilter($_POST['showiframe'],true);
+    $autorefresh          = COM_applyFilter($_POST['autorefresh'],true);
+    $refresh_delay        = COM_applyFilter($_POST['refreshdelay'],true);
+    $viewtopicnumchars    = COM_applyFilter($_POST['viewtopicnumchars'],true);
+    $topicsperpage        = COM_applyFilter($_POST['topicsperpage'],true);
+    $postsperpage         = COM_applyFilter($_POST['postsperpage'],true);
+    $messagesperpage      = COM_applyFilter($_POST['messagesperpage'],true);
+    $searchesperpage      = COM_applyFilter($_POST['searchesperpage'],true);
+    $popular              = COM_applyFilter($_POST['popular'],true);
+    $speedlimit           = COM_applyFilter($_POST['speedlimit'],true);
+    $edit_timewindow      = COM_applyFilter($_POST['edit_timewindow'],true) * 60;
+    $use_spamxfilter      = COM_applyFilter($_POST['use_spamxfilter'],true);
     $use_geshi_formatting = COM_applyFilter($_POST['use_geshi'],true);
-    $use_pmplugin = COM_applyFilter($_POST['use_pmplugin'],true);
-    $use_smiliesplugin = COM_applyFilter($_POST['use_smiliesplugin'],true);
-    $min_comment_len = COM_applyFilter($_POST['mincomment_length'],true);
-    $min_name_len = COM_applyFilter($_POST['minname_length'],true);
-    $min_subject_len = COM_applyFilter($_POST['minsubject_length'],true);
-    $html_newline = COM_applyFilter($_POST['convertbreak'],true);
+    $use_pmplugin         = COM_applyFilter($_POST['use_pmplugin'],true);
+    $use_smiliesplugin    = COM_applyFilter($_POST['use_smiliesplugin'],true);
+    $min_comment_len      = COM_applyFilter($_POST['mincomment_length'],true);
+    $min_name_len         = COM_applyFilter($_POST['minname_length'],true);
+    $min_subject_len      = COM_applyFilter($_POST['minsubject_length'],true);
+    $html_newline         = COM_applyFilter($_POST['convertbreak'],true);
     $level1 = COM_applyFilter($_POST['level1'],true);
     $level2 = COM_applyFilter($_POST['level2'],true);
     $level3 = COM_applyFilter($_POST['level3'],true);
@@ -105,13 +106,13 @@ if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
     $level3name = @htmlspecialchars($_POST['level3name'],ENT_QUOTES,$CONF_FORUM['charset']);
     $level4name = @htmlspecialchars($_POST['level4name'],ENT_QUOTES,$CONF_FORUM['charset']);
     $level5name = @htmlspecialchars($_POST['level5name'],ENT_QUOTES,$CONF_FORUM['charset']);
-    $cb_enable = COM_applyFilter($_POST['cb_enable'],true);
-    $cb_homepage = COM_applyFilter($_POST['cb_homepage'],true);
-    $cb_where = COM_applyFilter($_POST['cb_where'],true);
+    $cb_enable      = COM_applyFilter($_POST['cb_enable'],true);
+    $cb_homepage    = COM_applyFilter($_POST['cb_homepage'],true);
+    $cb_where       = COM_applyFilter($_POST['cb_where'],true);
     $cb_subjectsize = COM_applyFilter($_POST['cb_subjectsize'],true);
-    $cb_numposts = COM_applyFilter($_POST['cb_numposts'],true);
+    $cb_numposts    = COM_applyFilter($_POST['cb_numposts'],true);
     $sb_subjectsize = COM_applyFilter($_POST['sb_subjectsize'],true);
-    $sb_numposts = COM_applyFilter($_POST['sb_numposts'],true);
+    $sb_numposts    = COM_applyFilter($_POST['sb_numposts'],true);
     $sb_latestposts = COM_applyFilter($_POST['sb_latestposts'],true);
 
     $CONF_FORUM['autorefresh_delay'] = $refreshdelay;  // Set this so that it can take immediate effect
@@ -166,11 +167,12 @@ if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
         sb_latestposts='$sb_latestposts'
     ");
 
-  forum_statusMessage($LANG_GF92['setsave'],"{$_CONF['site_admin_url']}/plugins/forum/settings.php",$LANG_GF92['setsavemsg']);
-  echo COM_endBlock();
-  echo COM_siteFooter();
-  exit();
-  }
+    $display .= forum_statusMessage($LANG_GF92['setsave'],"{$_CONF['site_admin_url']}/plugins/forum/settings.php",$LANG_GF92['setsavemsg']);
+    $display .= COM_endBlock();
+    $display .= COM_siteFooter();
+    COM_output($display);
+    exit();
+}
 
 $result = DB_query("SELECT * FROM {$_TABLES['gf_settings']}");
 
@@ -185,11 +187,11 @@ $CONF_FORUM['show_posts_perpage']     = $A['postsperpage'];
 $CONF_FORUM['statusmsg_pause']        = $A['statusmsg_pause'];      // Added as of Version 2.4
 
 
-$settings = new Template($_CONF['path_layout'] . 'forum/layout/admin');
-$settings->set_file (array ('settings'=>'settings.thtml',
-                                    'radioBtn_setting' => 'radiosetting_option.thtml',
-                                    'text_setting' => 'textsetting_option.thtml',
-                                    'rank_setting' => 'ranksetting_option.thtml'));
+$settings = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$settings->set_file (array ('settings'         => 'settings.thtml',
+                            'radioBtn_setting' => 'radiosetting_option.thtml',
+                            'text_setting'     => 'textsetting_option.thtml',
+                            'rank_setting'     => 'ranksetting_option.thtml'));
 
 $settings->set_var ('xhtml', XHTML);
 $settings->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/settings.php');
@@ -454,9 +456,10 @@ $settings->set_var('gltoken_name', CSRF_TOKEN);
 $settings->set_var('gltoken', SEC_createToken());
 
 $settings->parse ('output', 'settings');
-echo $settings->finish ($settings->get_var('output'));
+$display .= $settings->finish ($settings->get_var('output'));
 
-echo COM_endBlock();
-echo COM_siteFooter();
+$display .= COM_endBlock();
+$display .= COM_siteFooter();
 
+COM_output($display);
 ?>

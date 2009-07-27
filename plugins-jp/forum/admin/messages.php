@@ -33,16 +33,16 @@
 // +---------------------------------------------------------------------------+
 //
 
-include_once('gf_functions.php');
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
+include_once 'gf_functions.php';
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
-$forum = COM_applyFilter($_REQUEST['forum'],true);
-$op = COM_applyFilter($_REQUEST['op']);
-$id = COM_applyFilter($_REQUEST['id'],true);
-$member = COM_applyFilter($_REQUEST['member'],true);
+$forum      = COM_applyFilter($_REQUEST['forum'],true);
+$op         = COM_applyFilter($_REQUEST['op']);
+$id         = COM_applyFilter($_REQUEST['id'],true);
+$member     = COM_applyFilter($_REQUEST['member'],true);
 $parentonly = COM_applyFilter($_REQUEST['parentonly'],true);
-$show = COM_applyFilter($_REQUEST['show'],true);
-$page = COM_applyFilter($_REQUEST['page'],true);
+$show       = COM_applyFilter($_REQUEST['show'],true);
+$page       = COM_applyFilter($_REQUEST['page'],true);
 
 function selectHTML_forum($selected='') {
     global $_CONF,$_TABLES;
@@ -73,7 +73,7 @@ function selectHTML_forum($selected='') {
 function selectHTML_members($selected='') {
     global $_CONF,$_TABLES,$LANG_GF02;
     $selectHTML = '';
-    $sql  = "SELECT  user.uid,user.username FROM {$_TABLES[users]} user, {$_TABLES[gf_topic]} topic ";
+    $sql  = "SELECT  user.uid,user.username FROM {$_TABLES['users']} user, {$_TABLES['gf_topic']} topic ";
     $sql .= "WHERE user.uid <> 1 AND user.uid=topic.uid GROUP by uid ORDER BY user.username";
     $memberlistsql = DB_query($sql);
     if ($selected == 1) { 
@@ -97,10 +97,12 @@ if (SEC_checkToken()) {
     if ($op == 'delchecked') {
         foreach ($_POST['chkrecid'] as $id) {
             $id = COM_applyFilter($id,true);
-            DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
+            DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE id='$id'");
+            PLG_itemDeleted($id, 'forum');
         }
     } elseif ($op == 'delrecord') {
-       DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE ID='$id'");
+        DB_query("DELETE FROM {$_TABLES['gf_topic']} WHERE id='$id'");
+        PLG_itemDeleted($id, 'forum');
     }
 }
 
@@ -141,8 +143,9 @@ $sql = "SELECT * FROM {$_TABLES['gf_topic']} $whereSQL ORDER BY id DESC";
 $result = DB_query($sql);
 $num_messages = DB_numRows($result);
 
-echo COM_siteHeader();
-$report = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+$display = '';
+$display .= COM_siteHeader();
+$report = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
 $report->set_file (array ('messages'=>'messages.thtml', 'records' => 'message_line.thtml'));
 $report->set_var ('xhtml', XHTML);
 $report->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/messages.php');
@@ -164,7 +167,7 @@ $report->set_var ('LANG_Delete', $LANG_GF01['DELETE']);
 
 $report->set_var ('select_forum',selectHTML_forum($forum));
 $report->set_var ('select_member',selectHTML_members($member));
-$report->set_var('navbar', ppNavbar($navbarMenu,$LANG_GF06['6']));
+$report->set_var('navbar', forum_Navbar($navbarMenu,$LANG_GF06['6']));
 if ($parentonly == 1) {
     $report->set_var('chk_parentonly', 'checked="checked"');
 }
@@ -212,7 +215,7 @@ if ($num_messages == 0) {
         $report->set_var ('replies', $A['replies']);
         $report->set_var ('uid', $A['uid']);
         $report->parse ('message_records', 'records',true);
-        if($csscode == 2) {
+        if ($csscode == 2) {
             $csscode = 1;
         } else {
             $csscode++;
@@ -223,8 +226,8 @@ if ($num_messages == 0) {
 $report->set_var('gltoken_name', CSRF_TOKEN);
 $report->set_var('gltoken', SEC_createToken());
 $report->parse ('output', 'messages');
-echo $report->finish ($report->get_var('output'));
-echo COM_siteFooter();
+$display .= $report->finish ($report->get_var('output'));
+$display .= COM_siteFooter();
 
-
+COM_output($display);
 ?>

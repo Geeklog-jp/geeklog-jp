@@ -33,40 +33,50 @@
 // +---------------------------------------------------------------------------+
 //
 
-require_once("../lib-common.php"); // Path to your lib-common.php
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
-require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
+require_once '../lib-common.php'; // Path to your lib-common.php
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
+
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
 // Use filter to remove all possible hostile SQL injections - only expecting numeric data
-$show = COM_applyFilter($_GET['show'],true);
-$page = COM_applyFilter($_GET['page'],true);
-$prevorder = COM_applyFilter($_GET['prevorder'],true);
-$order = COM_applyFilter($_GET['order'],true);
-$sort = COM_applyFilter($_GET['sort'],true);
-$direction = COM_applyFilter($_GET['direction']);
-$showuser = COM_applyFilter($_GET['showuser'],true);
-$op = COM_applyFilter($_GET['op']);
+$show        = COM_applyFilter($_GET['show'],true);
+$page        = COM_applyFilter($_GET['page'],true);
+$prevorder   = COM_applyFilter($_GET['prevorder'],true);
+$order       = COM_applyFilter($_GET['order'],true);
+$sort        = COM_applyFilter($_GET['sort'],true);
+$direction   = COM_applyFilter($_GET['direction']);
+$showuser    = COM_applyFilter($_GET['showuser'],true);
+$op          = COM_applyFilter($_GET['op']);
 $chkactivity = COM_applyFilter($_REQUEST['chkactivity'],true);
-
-// Display Common headers
-gf_siteHeader();
 
 //Check is anonymous users can access
 forum_chkUsercanAccess();
 
+$display = '';
+
+// Display Common headers
+$display .= gf_siteHeader();
+
+// Debug Code to show variables
+$display .= gf_showVariables();
+
 if ($op == "last10posts") {
 
-    $report = new Template($_CONF['path_layout'] . 'forum/layout');
-    $report->set_file (array ('report' => 'reports/report_results.thtml',
-                    'records' => 'reports/report_record.thtml',
-                    'outline_header'=>'forum_outline_header.thtml',
+    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report->set_file (array (
+                    'report'         => 'reports/report_results.thtml',
+                    'records'        => 'reports/report_record.thtml',
+                    'outline_header' => 'forum_outline_header.thtml',
                     'outline_footer' => 'forum_outline_footer.thtml',
-                    'return1' => 'links/return.thtml',
-                    'return2' => 'links/return.thtml'));
+                    'return1'        => 'links/return.thtml',
+                    'return2'        => 'links/return.thtml'));
 
     $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
-    $report->set_var ('layout_url', $_CONF['layout_url']);
+    $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('phpself', $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$showuser);
     $report->set_var ('startblock', COM_startBlock($LANG_GF02['msg86'] . DB_getItem($_TABLES['users'],"username", "uid=$showuser")) );
     $report->set_var ('endblock', COM_endBlock());
@@ -123,16 +133,18 @@ if ($op == "last10posts") {
     $link .= "&amp;direction=$direction&amp;page=$page\">{$LANG_GF02['msg169']}</a><p />";
     $report->set_var ('bottomlink', $link);
     $report->parse ('output', 'report');
-    echo $report->finish($report->get_var('output'));
-    gf_siteFooter();
+    $display .= $report->finish($report->get_var('output'));
+    $display .= gf_siteFooter();
+    COM_output($display);
     exit();
 
 } else {
 
-    $report = new Template($_CONF['path_layout'] . 'forum/layout');
-    $report->set_file (array ('report' => 'reports/memberlist.thtml',
-                    'records' => 'reports/memberlist_line.thtml',
-                    'link' => 'reports/memberlist_link.thtml',
+    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report->set_file (array (
+                    'report'         => 'reports/memberlist.thtml',
+                    'records'        => 'reports/memberlist_line.thtml',
+                    'link'           => 'reports/memberlist_link.thtml',
                     'outline_header' => 'forum_outline_header.thtml',
                     'outline_footer' => 'forum_outline_footer.thtml'));
 
@@ -179,12 +191,12 @@ if ($op == "last10posts") {
     }
 
     if ($chkactivity) {
-        $memberlistsql = DB_query("SELECT user.uid FROM {$_TABLES[users]} user, {$_TABLES[gf_topic]} topic WHERE user.uid <> 1 AND user.uid=topic.uid GROUP by uid");
+        $memberlistsql = DB_query("SELECT user.uid FROM {$_TABLES['users']} user, {$_TABLES['gf_topic']} topic WHERE user.uid <> 1 AND user.uid=topic.uid GROUP by uid");
     } else {
-        $memberlistsql = DB_query("SELECT uid FROM {$_TABLES[users]} ");
+        $memberlistsql = DB_query("SELECT uid FROM {$_TABLES['users']} ");
     }
 
-    $membercount   = DB_numRows($memberlistsql);
+    $membercount = DB_numRows($memberlistsql);
     $numpages = ceil($membercount / $show);
     $offset = ($page - 1) * $show;
     $base_url = "{$_CONF['site_url']}/forum/memberlist.php?&amp;show={$show}&amp;order={$order}&amp;prevorder={$prevorder}";
@@ -192,14 +204,14 @@ if ($op == "last10posts") {
 
     if ($chkactivity) {
         $sql = "SELECT user.uid,user.uid,user.username,user.regdate,user.email,user.homepage, count(*) as posts, userprefs.emailfromuser ";
-        $sql .= " FROM {$_TABLES[users]} user, {$_TABLES[userprefs]} userprefs, {$_TABLES[gf_topic]} topic WHERE";
+        $sql .= " FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs, {$_TABLES['gf_topic']} topic WHERE";
         $sql .= " user.uid <> 1 AND user.uid=topic.uid AND user.uid=userprefs.uid ";
         $sql .= "GROUP by uid ORDER BY $orderby $direction LIMIT $offset,$show ";
     } else {
         // Option to order by posts - only valid if option for 'forum activity' cheeked
         $orderby = ($orderby == 'posts') ? 'username' : $orderby;
         $sql = "SELECT user.uid,user.uid,user.username,user.regdate,user.email,user.homepage, userprefs.emailfromuser ";
-        $sql .= " FROM {$_TABLES[users]} user, {$_TABLES[userprefs]} userprefs WHERE user.uid > 1 ";
+        $sql .= " FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs WHERE user.uid > 1 ";
         $sql .= "AND user.uid=userprefs.uid ORDER BY $orderby $direction LIMIT $offset,$show ";
     }
 
@@ -207,7 +219,7 @@ if ($op == "last10posts") {
 
     $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
-    $report->set_var ('layout_url', $_CONF['layout_url']);
+    $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('site_url', $_CONF['site_url']);
     $report->set_var ('startblock', COM_startBlock($LANG_GF02['msg88']) );
     $report->set_var ('endblock', COM_endBlock());
@@ -235,7 +247,7 @@ if ($op == "last10posts") {
     }
     $csscode = 1;
 
-    while($siteMembers = DB_fetchArray($query)) {
+    while ($siteMembers = DB_fetchArray($query)) {
         $siteMembers['posts'] = DB_count($_TABLES['gf_topic'],'uid',$siteMembers['uid']);
         if ($siteMembers['posts'] > 0) {
             $reportlinkURL = $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$siteMembers['uid'];
@@ -248,7 +260,7 @@ if ($op == "last10posts") {
             $report->set_var ('lastposts_link', '');
         }
 
-        if($siteMembers['emailfromuser'] == '1') {
+        if ($siteMembers['emailfromuser'] == '1') {
             $emaillinkURL = "{$_CONF['site_url']}/profiles.php?uid={$siteMembers['uid']}";
             $report->set_var ('image', gf_getImage('email'));
             $report->set_var ('link_url', $emaillinkURL);
@@ -270,9 +282,9 @@ if ($op == "last10posts") {
         } else {
             $report->set_var ('pm_link', '');
         }
-        if($siteMembers['homepage'] != '') {
+        if ($siteMembers['homepage'] != '') {
             $homepage = $siteMembers['homepage'];
-            if(!eregi("http",$homepage)) {
+            if (!eregi("http",$homepage)) {
                 $homepage = 'http://' .$homepage;
             }
             $report->set_var ('image', gf_getImage('home'));
@@ -283,7 +295,7 @@ if ($op == "last10posts") {
             $report->set_var ('website_link', '');
         }
 
-        $regdate = explode(" ",$siteMembers['regdate']);
+        $regdate = explode(" ", $siteMembers['regdate']);
         $report->set_var ('member_uid', $siteMembers['uid']);
         $report->set_var ('member_name', COM_getDisplayName($siteMembers['uid']));
         $report->set_var ('csscode', $csscode);
@@ -292,7 +304,7 @@ if ($op == "last10posts") {
         $report->set_var ('member_uid', $siteMembers['uid']);
 
         $report->parse ('report_records', 'records',true);
-        if($csscode == 2) {
+        if ($csscode == 2) {
             $csscode = 1;
         } else {
             $csscode++;
@@ -301,10 +313,11 @@ if ($op == "last10posts") {
 
     $report->set_var ('pagenavigation', COM_printPageNavigation($base_url,$page, $numpages));
     $report->parse ('output', 'report');
-    echo $report->finish($report->get_var('output'));
+    $display .= $report->finish($report->get_var('output'));
 
 }
 
-gf_siteFooter();
+$display .= gf_siteFooter();
 
+COM_output($display);
 ?>
