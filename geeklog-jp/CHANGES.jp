@@ -2,6 +2,11 @@ $Id$
 
 2009-07-28  Yoshinori Tahara  <dengen>
 
+	* search.class.phpに埋め込まれた'<br>'を、xhtmlに対応するため修正
+	  します。
+
+2009-07-28  Yoshinori Tahara  <dengen>
+
 	* forumプラグイン：バージョン2.7.2.JPr5に更新します。
 	  ・Geeklog 1.6.0のオートインストール機能に対応した。
 	  ・Geeklog 1.6.0のCOM_output関数を使用してHTMLを出力するようにした。
