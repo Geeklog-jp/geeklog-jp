@@ -33,8 +33,7 @@
 //
 
 // this file can't be used on its own
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'include_html.php') !== false)
-{
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'include_html.php') !== false) {
     die ('This file can not be used on its own.');
 }
 

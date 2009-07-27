@@ -52,14 +52,21 @@ if (!defined(CSRF_TOKEN)) {
     define('CSRF_TOKEN', 'token');
 }
 
-$langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
-if (file_exists ($langfile))
-{
-    include_once ($langfile);
+if (is_dir($_CONF['path_layout'] . 'forum')) {
+    $CONF_FORUM['path_layout'] = $_CONF['path_layout'];
+    $CONF_FORUM['css_url']     = $_CONF['layout_url'] . '/forum/layout/forum.css';
+    $CONF_FORUM['layout_url']  = $_CONF['layout_url'];
+} else {
+    $CONF_FORUM['path_layout'] = $_CONF['path_html'] . 'forum/';
+    $CONF_FORUM['css_url']     = $_CONF['site_url'] . '/forum/forum/layout/forum.css';
+    $CONF_FORUM['layout_url']  = $_CONF['site_url'] . '/forum';
 }
-else
-{
-    include_once ($_CONF['path'] . 'plugins/forum/language/english.php');
+
+$langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
+if (file_exists ($langfile)) {
+    include_once $langfile;
+} else {
+    include_once $_CONF['path'] . 'plugins/forum/language/english.php';
 }
 
 // Need to add this line because PLG_enableStateChange does an include of this file inside a plugin function and $_TABLES is not global.
@@ -67,12 +74,11 @@ else
 $_TABLES['plugins'] = $_DB_table_prefix . 'plugins';
 
 $pi_version = floatval (DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name='forum'"));
-require_once ($_CONF['path_system'] . 'lib-portalparts.php');
-require_once ($_CONF['path'] . 'plugins/forum/config.php');
+require_once $_CONF['path'] . 'plugins/forum/config.php';
 
-if( empty( $LANG_CHARSET )) {
+if ( empty( $LANG_CHARSET )) {
     $CONF_FORUM['charset'] = $_CONF['default_charset'];
-    if( empty( $charset )) {
+    if ( empty( $charset )) {
         $CONF_FORUM['charset'] = 'iso-8859-1';
     }
 } else {
@@ -127,10 +133,9 @@ function plugin_getadminoption_forum()
     global $_TABLES, $_CONF, $LANG_GF00;
 
     if (SEC_hasRights('forum.edit')) {
-        $numtopics = DB_getITEM($_TABLES['gf_topic'],"count(*)");
+        $numtopics = DB_getItem($_TABLES['gf_topic'],"count(*)");
         return array($LANG_GF00['pluginlabel'], $_CONF['site_admin_url'] . '/plugins/forum/index.php', $numtopics);
     }
-
 }
 
 /**
@@ -172,9 +177,9 @@ function plugin_user_delete_forum ($uid)
 
 function plugin_profileextrassave_forum()
 {
-    global $_CONF,$_USER, $HTTP_POST_VARS, $_TABLES;
+    global $_CONF,$_USER, $HTTP_POST_VARS, $_TABLES, $CONF_FORUM;
 
-    require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
+    require_once $CONF_FORUM['path_include'] . 'gf_format.php';
     $uid = $_USER['uid'];
     if ($uid > 1) {
         $location   = gf_preparefordb($HTTP_POST_VARS['forum_location'],'html');
@@ -295,7 +300,7 @@ function plugin_statssummary_forum() {
 */
 function plugin_showstats_forum($showsitestats)
 {
-    global $_CONF, $_TABLES, $LANG_GF00,$LANG_GF01;
+    global $_CONF, $_TABLES, $LANG_GF00,$LANG_GF01, $CONF_FORUM;
 
     $stat_templates = new Template($_CONF['path_layout'] . 'stats');
     $stat_templates->set_file(array('itemstats'=>'itemstatistics.thtml',
@@ -409,7 +414,8 @@ function plugin_searchtypes_forum()
 * @author           string          Get all results by this author
 *
 */
-function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type, $author,$keyType,$page, $perpage)
+/*
+function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
 {
     global $LANG_GF00, $LANG_GF01, $_TABLES, $_CONF, $CONF_FORUM;
 
@@ -498,7 +504,7 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
 
     // OK, now return coma delmited string of table header labels
     // Need to use language variables
-    require_once($_CONF['path_system'] . 'classes/plugin.class.php');
+    require_once $_CONF['path_system'] . 'classes/plugin.class.php';
     $plugin_results = new Plugin();
     $plugin_results->plugin_name = 'forum';
     if (!empty($author)) {
@@ -538,6 +544,46 @@ function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type
     $plugin_results->num_itemssearched = DB_count($_TABLES['gf_topic']);
 
     return $plugin_results;
+}
+*/
+
+function plugin_dopluginsearch_forum($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
+{
+    global $LANG_GF01, $_TABLES;
+
+    // Make sure the query is SQL safe
+    $query = trim(addslashes($query));
+
+    $sql = "SELECT id, date, subject AS title, comment AS description, views AS hits, uid, "
+         . "CONCAT('/forum/viewtopic.php?showtopic=', id) AS url "
+         . "FROM {$_TABLES['gf_topic']} "
+         . "WHERE date <> 1 ";
+
+    if (!empty($datestart) && !empty($dateend))
+    {
+        $delim = substr($datestart, 4, 1);
+        if (!empty($delim))
+        {
+            $DS = explode($delim, $datestart);
+            $DE = explode($delim, $dateend);
+            $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+            $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+            $sql .= "AND (date BETWEEN '$startdate' AND '$enddate') ";
+        }
+    }
+    if (!empty ($author)) {
+        $sql .= "AND (uid = '$author') ";
+    }
+
+    $search = new SearchCriteria('forum', $LANG_GF01['FORUM']);
+    $columns = array('title' => 'subject', 'comment');
+    list($sql,$ftsql) = $search->buildSearchSQL($keyType, $query, $columns, $sql);
+    $search->setSQL($sql);
+    $search->setFTSQL($ftsql);
+    $search->setRank(3);
+    $search->setAppendQuery(false);
+
+    return $search;
 }
 
 
@@ -622,13 +668,13 @@ function plugin_getfeedcontent_forum ($feed, &$link, &$update)
     $allow_smilies = $CONF_FORUM['allow_smilies'];
     $CONF_FORUM['allow_smilies']=0;
 
-    require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
-    if( !function_exists( 'str_ireplace' ))
+    require_once $CONF_FORUM['path_include'] . 'gf_format.php';
+    if ( !function_exists( 'str_ireplace' ))
     {
-        require_once( 'PHP/Compat.php' );
+        require_once 'PHP/Compat.php';
         PHP_Compat::loadFunction( 'str_ireplace' );
     }
-    require_once ($_CONF['path_html'] . 'forum/include/bbcode/stringparser_bbcode.class.php');
+    require_once $CONF_FORUM['path_include'] . 'bbcode/stringparser_bbcode.class.php';
 
     $result = DB_query ("SELECT topic,limits,content_length FROM {$_TABLES['syndication']} WHERE fid = $feed");
     $F = DB_fetchArray ($result);
@@ -788,6 +834,10 @@ function plugin_upgrade_forum() {
        case "2.7.1" :
              DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2' WHERE `pi_name` = 'forum' LIMIT 1");
              break;
+
+       case "2.7.2" :
+             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2.JPr5', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
+             break;
     }
 
     /* Check if update completed and return a message number to be shown */
@@ -799,12 +849,44 @@ function plugin_upgrade_forum() {
 
 }
 
+/**
+* Automatic uninstall function for plugins
+*
+* @return   array
+*
+* This code is automatically uninstalling the plugin.
+* It passes an array to the core code function that removes
+* tables, groups, features and php blocks from the tables.
+* Additionally, this code can perform special actions that cannot be
+* foreseen by the core code (interactions with other plugins for example)
+*
+*/
+function plugin_autouninstall_forum()
+{
+    $out = array (
+        /* give the name of the tables, without $_TABLES[] */
+        'tables' => array('gf_topic','gf_categories','gf_forums','gf_settings',
+                          'gf_watch','gf_moderators','gf_banned_ip', 
+                          'gf_log', 'gf_userprefs','gf_userinfo'),
+        /* give the full name of the group, as in the db */
+//      'groups' => array('Forum Admin'),
+        'groups' => array('forum Admin'),
+        /* give the full name of the feature, as in the db */
+        'features' => array('forum.edit', 'forum.user'),
+        /* give the full name of the block, including 'phpblock_', etc */
+        'php_blocks' => array('phpblock_forum_newposts', 'phpblock_forum_menu'),
+        /* give all vars with their name */
+        'vars'=> array()
+    );
+    return $out;
+}
 
 /**
 * Removes the datastructures for this plugin from the Geeklog database
 * This may get called by the install routine to undue anything created during the install.
 * Added check to see that plugin is first disabled.
 */
+/*
 function plugin_uninstall_forum($installCheck='')
 {
     global $_TABLES, $LANG_GF00;
@@ -819,7 +901,7 @@ function plugin_uninstall_forum($installCheck='')
         $display .= COM_startBlock($LANG_GF00['warning']);
         $display .= $LANG_GF00['enabled'];
         $display .= COM_endBlock();
-        echo $display;
+        COM_output($display);
         exit;
     }
 
@@ -858,6 +940,146 @@ function plugin_uninstall_forum($installCheck='')
     COM_errorLog('...success',1);
     return true;
 }
+*/
+
+/**
+* Return information for a topic
+*
+* @param    string  $id         link ID or '*'
+* @param    string  $what       comma-separated list of properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
+*
+*/
+function plugin_getiteminfo_forum($id, $what, $uid = 0, $options = array())
+{
+    global $_CONF, $_TABLES;
+
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
+    foreach ($properties as $p) {
+        switch ($p) {
+        case 'date-modified':
+            $fields[] = 'date';
+            break;
+        case 'description':
+        case 'excerpt':
+            $fields[] = 'comment';
+            break;
+        case 'id':
+            $fields[] = 'id';
+            break;
+        case 'title':
+            $fields[] = 'subject';
+            break;
+        case 'url':
+            // needed for $id == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'id';
+            break;
+        default:
+            // nothing to do
+            break;
+        }
+    }
+
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
+    }
+
+    // prepare SQL request
+    if ($id == '*') {
+        $where = '';
+        $permOp = 'WHERE';
+    } else {
+        $where = " WHERE id = '" . addslashes($id) . "'";
+        $permOp = 'AND';
+    }
+/*
+    if ($uid > 0) {
+        $permSql = COM_getPermSql($permOp, $uid);
+    } else {
+        $permSql = COM_getPermSql($permOp);
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['gf_topic']}" . $where . $permSql;
+*/
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_TABLES['gf_topic']}" . $where;
+    if ($id != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-modified':
+                $props['date-modified'] = $A['date'];
+                break;
+            case 'description':
+            case 'excerpt':
+                $props[$p] = stripslashes($A['comment']);
+                break;
+            case 'id':
+                $props['id'] = $A['id'];
+                break;
+            case 'title':
+                $props['title'] = stripslashes($A['subject']);
+                break;
+            case 'url':
+                if (empty($A['id'])) {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/forum/viewtopic.php?showtopic=' . $id);
+                } else {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/forum/viewtopic.php?showtopic=' . $A['id']);
+                }
+                break;
+            default:
+                // return empty string for unknown properties
+                $props[$p] = '';
+                break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($id == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($id == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
+        }
+    }
+
+    if (($id != '*') && (count($retval) == 1)) {
+        $retval = $retval[0];
+    }
+
+    return $retval;
+}
 
 //  ------- GENERAL FORUM FUNCTIONS --------
 
@@ -865,26 +1087,29 @@ function forum_chkUsercanPost() {
     global $_CONF,$CONF_FORUM,$LANG_GF00, $LANG_GF01, $LANG_GF02, $_TABLES, $_USER;
 
     //Check is anonymous users can post
-    if($CONF_FORUM['registered_to_post'] && $_USER['uid'] < 2){
+    if ($CONF_FORUM['registered_to_post'] && $_USER['uid'] < 2) {
         $url = $_CONF['site_url']. '/users.php?mode=new';
+        $display = COM_siteHeader();
         $display .= COM_startBlock($LANG_GF00['access_denied']);
         $display .= '<br' . XHTML . '>' .$LANG_GF01['loginreqpost']. '<p>';
         $display .= '<meta http-equiv="refresh" content="3; URL=' .$url. '">';
         $display .= COM_endBlock();
         $display .= COM_siteFooter();
-        echo $display;
+        COM_output($display);
         exit;
     }
     // Check if IP of user has been banned
     $ip = getenv("REMOTE_ADDR");
     $sqlresult = DB_query ("SELECT * FROM {$_TABLES['gf_banned_ip']} WHERE host_ip like '$ip'");
     $numRows = DB_numRows($sqlresult);
-    if ( $numRows > 0 ) {
-        echo COM_startBlock($LANG_GF00['access_denied']);
-        echo ($LANG_GF02['msg14']);
-        printf ($LANG_GF02['msg15'],$_CONF['site_mail']);
-        echo COM_endBlock();
-        echo COM_siteFooter(true);
+    if ($numRows > 0) {
+        $display = COM_siteHeader();
+        $display .= COM_startBlock($LANG_GF00['access_denied']);
+        $display .= $LANG_GF02['msg14'];
+        $display .= sprintf($LANG_GF02['msg15'], $_CONF['site_mail']);
+        $display .= COM_endBlock();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
     }
 }
@@ -893,15 +1118,19 @@ function forum_chkUsercanAccess($secure=false) {
     global $_CONF, $LANG_GF01, $LANG_GF02, $CONF_FORUM, $_USER;
 
     if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
-            echo  '<table width="100%" height="100"><tr><td><center>';
-        printf($LANG_GF01['loginreqview'], '<a href="' .$_CONF['site_url']. '/users.php?mode=new">', '<a href="' .$_CONF['site_url']. '/users.php">');
-        echo '</center></td></tr></table>';
-        echo COM_siteFooter();
+        $display = COM_siteHeader();
+        $display .= '<table width="100%" height="100"><tr><td><center>';
+        $display .= sprintf($LANG_GF01['loginreqview'], '<a href="' .$_CONF['site_url']. '/users.php?mode=new">', '<a href="' .$_CONF['site_url']. '/users.php">');
+        $display .= '</center></td></tr></table>';
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit;
-    } elseif($secure AND empty($_USER['uid'])) {
-        echo '<br' . XHTML . '>';
-        BlockMessage($LANG_GF01['ACCESSERROR'],$LANG_GF02['msg83'],false);
-        echo COM_siteFooter();
+    } elseif ($secure AND empty($_USER['uid'])) {
+        $display = COM_siteHeader();
+        $display .= '<br' . XHTML . '>';
+        $display .= BlockMessage($LANG_GF01['ACCESSERROR'],$LANG_GF02['msg83'],false);
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit;
     }
 }
@@ -912,29 +1141,33 @@ function forum_xchsmilies($message,$reverse=false) {
     $search = array(":D", ":)", ":(", "8O", ":?", "B)", ":lol:", ":x", ":P" ,":oops:", ":o",":cry:",
         ":evil:", ":twisted:", ":roll:", ";)", ":!:", ":question:", ":idea:", ":arrow:", ":|",
         ":mrgreen:",":mrt:",":love:",":cat:");
+    $str = '<img style="virtical-align:middle;" src="images/smilies/';
     $replace = array(
-    '<img style="virtical-align:middle;" src="images/smilies/biggrin.gif" alt="Big Grin">',
-    '<img style="virtical-align:middle;" src="images/smilies/smile.gif" alt="Smile">',
-    '<img style="virtical-align:middle;" src="images/smilies/frown.gif" alt="Frown">',
-    '<img style="virtical-align:middle;" src="images/smilies/eek.gif" alt="Eek!">',
-    '<img style="virtical-align:middle;" src="images/smilies/confused.gif" alt="Confused">',
-    '<img style="virtical-align:middle;" src="images/smilies/cool.gif" alt="Cool">',
-    '<img style="virtical-align:middle;" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
-    '<img style="virtical-align:middle;" src="images/smilies/mad.gif" alt="Angry">',
-    '<img style="virtical-align:middle;" src="images/smilies/razz.gif" alt="Razz">',
-    '<img style="virtical-align:middle;" src="images/smilies/redface.gif" alt="Oops!">',
-    '<img style="virtical-align:middle;" src="images/smilies/surprised.gif" alt="Surprised!">',
-    '<img style="virtical-align:middle;" src="images/smilies/cry.gif" alt="Cry">',
-    '<img style="virtical-align:middle;" src="images/smilies/evil.gif" alt="Evil">',
-    '<img style="virtical-align:middle;" src="images/smilies/twisted.gif" alt="Twisted Evil">',
-    '<img style="virtical-align:middle;" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
-    '<img style="virtical-align:middle;" src="images/smilies/wink.gif" alt="Wink">',
-    '<img style="virtical-align:middle;" src="images/smilies/exclaim.gif" alt="Exclaimation">',
-    '<img style="virtical-align:middle;" src="images/smilies/question.gif" alt="Question">',
-    '<img style="virtical-align:middle;" src="images/smilies/idea.gif" alt="Idea">',
-    '<img style="virtical-align:middle;" src="images/smilies/arrow.gif" alt="Arrow">',
-    '<img style="virtical-align:middle;" src="images/smilies/neutral.gif" alt="Neutral">',
-    '<img style="virtical-align:middle;" src="images/smilies/mrgreen.gif" alt="Mr. Green">');
+        $str . 'biggrin.gif" alt="Big Grin">',
+        $str . 'smile.gif" alt="Smile">',
+        $str . 'frown.gif" alt="Frown">',
+        $str . 'eek.gif" alt="Eek!">',
+        $str . 'confused.gif" alt="Confused">',
+        $str . 'cool.gif" alt="Cool">',
+        $str . 'lol.gif" alt="Laughing Out Loud">',
+        $str . 'mad.gif" alt="Angry">',
+        $str . 'razz.gif" alt="Razz">',
+        $str . 'redface.gif" alt="Oops!">',
+        $str . 'surprised.gif" alt="Surprised!">',
+        $str . 'cry.gif" alt="Cry">',
+        $str . 'evil.gif" alt="Evil">',
+        $str . 'twisted.gif" alt="Twisted Evil">',
+        $str . 'rolleyes.gif" alt="Rolling Eyes">',
+        $str . 'wink.gif" alt="Wink">',
+        $str . 'exclaim.gif" alt="Exclaimation">',
+        $str . 'question.gif" alt="Question">',
+        $str . 'idea.gif" alt="Idea">',
+        $str . 'arrow.gif" alt="Arrow">',
+        $str . 'neutral.gif" alt="Neutral">',
+        $str . 'mrgreen.gif" alt="Mr. Green">',
+        $str . 'mrt.gif" alt="Mr. T">',
+        $str . 'heart.gif" alt="Love">',
+        $str . 'cat.gif" alt="Kitten">');
 
     if (!$reverse) {
         $message = str_replace($search, $replace, $message);
@@ -951,7 +1184,7 @@ function forum_statusMessage($message='',$url,$prompt,$post=false,$forum='') {
     if ($prompt=="") {
         $prompt = $LANG_GF02['msg140'];
     }
-    $statusmsg = new Template($_CONF['path_layout'] . 'forum/layout');
+    $statusmsg = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
     $statusmsg->set_file (array ('statusmsg'=>'statusmessage.thtml'));
     $statusmsg->set_var ('xhtml', XHTML);
     $statusmsg->set_var ('imgset', $CONF_FORUM['imgset']);
@@ -973,9 +1206,8 @@ function forum_statusMessage($message='',$url,$prompt,$post=false,$forum='') {
         $statusmsg->set_var ('prompt',$prompt);
     }
     $statusmsg->parse ('output', 'statusmsg');
-    echo $statusmsg->finish ($statusmsg->get_var('output'));
 
-    return;
+    return $statusmsg->finish ($statusmsg->get_var('output'));
 }
 
 
@@ -1056,11 +1288,11 @@ function phpblock_forum_newposts() {
                 }
         }
 
-        $block = new Template($_CONF['path_layout'] . 'forum/layout/blocks');
+        $block = new Template($CONF_FORUM['path_layout'] . 'forum/layout/blocks');
         $block->set_file (array ('block'=>'latestpostsblock.thtml','topicrecord' => 'block_displayline.thtml'));
         $block->set_var ('xhtml', XHTML);
         $block->set_var ('phpself', $_CONF['site_url'] .'/index.php');
-        $block->set_var ('layout_url', $_CONF['layout_url']);
+        $block->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $block->set_var ('LANG_ORDERBY', $LANG_GF01['ORDERBY']);
         $block->set_var ('LANG_NEW', $LANG_GF01['NEW']);
         $block->set_var ('LANG_VIEWS', $LANG_GF01['VIEWS']);
@@ -1186,8 +1418,8 @@ function phpblock_forum_newposts() {
 */
 function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
 {
-    global $_CONF, $_USER, $_TABLES, $LANG_GF01,$CONF_FORUM;
-    global $LANG_GF02, $mode, $order,$pi_version;
+    global $_CONF, $_USER, $_TABLES, $LANG_GF01, $CONF_FORUM;
+    global $LANG_GF02, $mode, $order, $pi_version;
 
     //$TIMER = new timerobject();
     //$TIMER->startTimer();
@@ -1230,14 +1462,14 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
 
     if ($cb_enable AND ($cb_where == $where)) {
 
-        $block = new Template ($_CONF['path_layout'] . 'forum/layout/blocks');
+        $block = new Template ($CONF_FORUM['path_layout'] . 'forum/layout/blocks');
         $block->set_file (array ('block'=>'centerblock.thtml','record' => 'centerblock_displayline.thtml'));
         $block->set_var ('xhtml', XHTML);
         $block->set_var ('phpself', $_CONF['site_url'] .'/index.php');
         $block->set_var ('startblock', COM_startBlock($LANG_GF02['msg170']));
         $block->set_var ('endblock', COM_endBlock());
         $block->set_var ('site_url', $_CONF['site_url']);
-        $block->set_var ('layout_url', $_CONF['layout_url']);
+        $block->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $block->set_var ('LANG_title', $LANG_GF02['msg170']);
         $block->set_var ('LANG_FORUM', $LANG_GF01['FORUM']);
         $block->set_var ('LANG_TOPIC', $LANG_GF01['TOPIC']);
@@ -1266,7 +1498,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
 
         while ($A = DB_fetchArray ($result)) {
             $fullsubject = "{$A['subject']}\n{$LANG_GF01['POSTEDBY']}:{$A['name']}{$LANG_GF01['VIEWS']}:{$A['views']}, {$LANG_GF01['REPLIES']}:{$A['replies']}";
-            if(strlen ($A['subject']) > $CONF_FORUM['cb_subject_size']) {
+            if (strlen ($A['subject']) > $CONF_FORUM['cb_subject_size']) {
                 $A['subject'] = COM_truncate($A['subject'], $CONF_FORUM['cb_subject_size'], '...');
             }
 
@@ -1358,19 +1590,19 @@ function forum_modPermission($forum,$uid='',$permission='') {
                     if ($A[$permission] == '1') {
                         return TRUE;
                     }
-                 } else {
+                } else {
                     return TRUE;
-                 }
-           }
+                }
+            }
         } else {
             if ($A['mod_uid'] == $uid) {
                 if ($permission != '') {
                     if ($A[$permission] == '1') {
                         return TRUE;
                     }
-                 } else {
+                } else {
                     return TRUE;
-                 }
+                }
             }
         }
     }
@@ -1393,7 +1625,7 @@ function forumPLG_showsmilies() {
     if ($CONF_FORUM['use_smilies_plugin'] AND function_exists(msg_showsmilies)) {
         return msg_showsmilies();
     } else {
-        $t = new Template($_CONF['path_layout'] . 'forum/layout');
+        $t = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
         $t->set_file ('smilies' , 'smilies.thtml');
         $t->set_var ('xhtml', XHTML);
         $t->set_var ('imgset', "{$_CONF['site_url']}/forum/images");
@@ -1491,7 +1723,6 @@ function phpblock_forum_menu() {
         $retval .= '</td></tr></table>';
     }
     return $retval;
-
 }
 
 
@@ -1514,6 +1745,73 @@ function glmenu_showforums() {
     return $retval;
 }
 
+/* PortalPart Navbar Function */
+
+function forum_Navbar ($menuitems, $selected='', $parms='') {
+    global $_CONF;
+
+    $navbar = new Template($_CONF['path_layout'] . 'navbar');
+    $navbar->set_file (array (
+        'navbar'       => 'navbar.thtml',
+        'menuitem'     => 'menuitem.thtml',
+        ));
+    $navbar->set_var ('xhtml', XHTML);
+    for ($i=1; $i <= count($menuitems); $i++)  {
+        $parms = explode( "=",current($menuitems) );
+        $navbar->set_var( 'link',   current($menuitems));
+        if (key($menuitems) == $selected) {
+            $navbar->set_var( 'cssactive', 'id="active"');
+            $navbar->set_var( 'csscurrent','id="current"');
+        } else {
+            $navbar->set_var( 'cssactive', '');
+            $navbar->set_var( 'csscurrent','');
+        }
+        $navbar->set_var( 'label',  key($menuitems));
+        $navbar->parse( 'menuitems', 'menuitem', true );
+        next($menuitems);
+    }
+    $navbar->parse ('output', 'navbar');
+    $retval = $navbar->finish($navbar->get_var('output'));
+    return $retval;
+}
+
+function forum_GetUserBlocks(&$blocks) {
+    global $_TABLES, $_USER;
+
+    $retval = '';
+    $sql = "SELECT name,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['blocks']} WHERE onleft = 1 AND is_enabled = 1";
+
+    // Get user preferences on blocks
+    if ( !isset( $_USER['noboxes'] ) || !isset( $_USER['boxes'] )) {
+        if ( !empty( $_USER['uid'] )) {
+            $result = DB_query( "SELECT boxes,noboxes FROM {$_TABLES['userindex']} WHERE uid = '{$_USER['uid']}'" );
+            list($_USER['boxes'], $_USER['noboxes']) = DB_fetchArray( $result );
+        } else {
+            $_USER['boxes'] = '';
+            $_USER['noboxes'] = 0;
+        }
+    }
+    $sql .= " AND (tid = 'all' AND type <> 'layout')";
+    if ( !empty( $_USER['boxes'] )) {
+        $BOXES = str_replace( ' ', ',', $_USER['boxes'] );
+        $sql .= " AND (bid NOT IN ($BOXES) OR bid = '-1')";
+    }
+
+    $sql .= ' ORDER BY blockorder,title asc';
+    $result = DB_query( $sql );
+    $nrows = DB_numRows( $result );
+
+    for( $i = 1; $i <= $nrows; $i++ ) {
+        $A = DB_fetchArray( $result );
+        if ( SEC_hasAccess( $A['owner_id'], $A['group_id'], $A['perm_owner'], $A['perm_group'], $A['perm_members'], $A['perm_anon']) > 0 ) {
+            $blocks[] = $A['name'];
+        }
+    }
+
+    return $blocks;
+
+}
+
 function forum_mb_wordwrap($string, $width, $break) {
   $return = "";
   $list = preg_split("/\n/", $string);
@@ -1524,13 +1822,57 @@ function forum_mb_wordwrap($string, $width, $break) {
         for($i = 0; $i < mb_strlen($line); $i += $len){
             for($j = 1; $j<=$n; $j++){
                 $wk = mb_substr($line, $i, $j);
-                if(mb_strwidth($wk) >= $n) break;
+                if (mb_strwidth($wk) >= $n) break;
             }
             $len = mb_strlen($wk);
             $return .= $wk. "<br>";
         }
     }
     return $return;
+}
+
+/**
+* Get header code for inclusion
+*
+* @return   string
+*
+*/
+function plugin_getheadercode_forum()
+{
+    global $CONF_FORUM;
+
+    return '
+<!-- Include CSS for Forum -->
+<link rel="stylesheet" type="text/css" href="' . $CONF_FORUM['css_url'] . '">
+';
+}
+
+function gf_showVariables()
+{
+    global $CONF_FORUM;
+
+    if (!$CONF_FORUM['debug']) return '';
+
+    ob_start();
+    if (!empty($_POST)) {
+        echo COM_startBlock("_POST");
+        var_dump($_POST);
+        echo COM_endBlock();
+    }
+    if (!empty($_GET)) {
+        echo COM_startBlock("_GET");
+        var_dump($_GET);
+        echo COM_endBlock();
+    }
+    if (!empty($_FILES)) {
+        echo COM_startBlock("_FILES");
+        var_dump($_FILES);
+        echo COM_endBlock();
+    }
+    $retval = ob_get_contents();
+    ob_end_clean();
+
+    return $retval;
 }
 
 if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
@@ -1542,6 +1884,12 @@ if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
 if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
     function SEC_createToken() {
         return "1";
+    }
+}
+
+if ((!function_exists('COM_output'))) {
+    function COM_output($display) {
+        echo $display;
     }
 }
 

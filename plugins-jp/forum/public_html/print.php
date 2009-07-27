@@ -32,10 +32,14 @@
 // +---------------------------------------------------------------------------+
 //
 
-require_once("../lib-common.php"); // Path to your lib-common.php
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
-require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
-require_once ($_CONF['path_html'] . 'forum/include/bbcode/stringparser_bbcode.class.php');
+require_once '../lib-common.php'; // Path to your lib-common.php
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
+require_once $CONF_FORUM['path_include'] . 'bbcode/stringparser_bbcode.class.php';
+
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
 function gf_FormatForPrint( $str, $postmode='html' ) {
     global $CONF_FORUM;
@@ -66,67 +70,41 @@ function gf_FormatForPrint( $str, $postmode='html' ) {
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
 $id = COM_applyFilter($_REQUEST['id'],true);
 
+$display = '';
+
 //Check is anonymous users can access
 if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
-    echo COM_siteHeader();
-    echo COM_startBlock();
-    alertMessage($LANG_GF02['msg01'],$LANG_GF02['msg171']);
-    echo COM_endBlock();
-    echo COM_siteFooter();
+    $display .= COM_siteHeader();
+    $display .= COM_startBlock();
+    $display .= alertMessage($LANG_GF02['msg01'],$LANG_GF02['msg171']);
+    $display .= COM_endBlock();
+    $display .= COM_siteFooter();
+    COM_output($display);
     exit;
 }
 
-
 //Check is anonymous users can access
 if ($id == 0 OR DB_count($_TABLES['gf_topic'],"id","$id") == 0) {
-        echo COM_siteHeader();
-        forum_statusMessage($LANG_GF02['msg166'], $_CONF['site_url'] . "/forum/index.php?forum=$forum",$LANG_GF02['msg166']);
-        echo COM_siteFooter();
-        exit;
+    $display .= COM_siteHeader();
+    $display .= forum_statusMessage($LANG_GF02['msg166'], $_CONF['site_url'] . "/forum/index.php?forum=$forum",$LANG_GF02['msg166']);
+    $display .= COM_siteFooter();
+    COM_output($display);
+    exit;
 }
 
 $forum = DB_getItem($_TABLES['gf_topic'],"forum","id='{$id}'");
 $query = DB_query("SELECT grp_name from {$_TABLES['groups']} groups, {$_TABLES['gf_forums']} forum WHERE forum.forum_id='{$forum}' AND forum.grp_id=groups.grp_id");
 list ($groupname) = DB_fetchArray($query);
 if (!SEC_inGroup($groupname) AND $grp_id != 2) {
-        echo COM_siteHeader();
-        alertMessage($LANG_GF02['msg02'],$LANG_GF02['msg171']);
-        echo COM_siteFooter();
-        exit;
+    $display .= COM_siteHeader();
+    $display .= alertMessage($LANG_GF02['msg02'],$LANG_GF02['msg171']);
+    $display .= COM_siteFooter();
+    COM_output($display);
+    exit;
 }
-
 
 $result = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE (id='$id')");
 $A = DB_fetchArray($result);
-
-if ($CONF_FORUM['allow_smilies']) {
-        $search = array(":D", ":)", ":(", "8O", ":?", "B)", ":lol:", ":x", ":P" ,":oops:", ":o",":cry:", ":evil:", ":twisted:", ":roll:", ";)", ":!:", ":question:", ":idea:", ":arrow:", ":|", ":mrgreen:",":mrt:",":love:",":cat:");
-        $replace = array('<img style="virtical-align:middle;" src="images/smilies/biggrin.gif" alt="Big Grin">',
-                         '<img style="virtical-align:middle;" src="images/smilies/smile.gif" alt="Smile">',
-                         '<img style="virtical-align:middle;" src="images/smilies/frown.gif" alt="Frown">',
-                         '<img style="virtical-align:middle;" src="images/smilies/eek.gif" alt="Eek!">',
-                         '<img style="virtical-align:middle;" src="images/smilies/confused.gif" alt="Confused">',
-                         '<img style="virtical-align:middle;" src="images/smilies/cool.gif" alt="Cool">',
-                         '<img style="virtical-align:middle;" src="images/smilies/lol.gif" alt="Laughing Out Loud">',
-                         '<img style="virtical-align:middle;" src="images/smilies/mad.gif" alt="Angry">',
-                         '<img style="virtical-align:middle;" src="images/smilies/razz.gif" alt="Razz">',
-                         '<img style="virtical-align:middle;" src="images/smilies/redface.gif" alt="Oops!">',
-                         '<img style="virtical-align:middle;" src="images/smilies/surprised.gif" alt="Surprised!">',
-                         '<img style="virtical-align:middle;" src="images/smilies/cry.gif" alt="Cry">',
-                         '<img style="virtical-align:middle;" src="images/smilies/evil.gif" alt="Evil">',
-                         '<img style="virtical-align:middle;" src="images/smilies/twisted.gif" alt="Twisted Evil">',
-                         '<img style="virtical-align:middle;" src="images/smilies/rolleyes.gif" alt="Rolling Eyes">',
-                         '<img style="virtical-align:middle;" src="images/smilies/wink.gif" alt="Wink">',
-                         '<img style="virtical-align:middle;" src="images/smilies/exclaim.gif" alt="Exclaimation">',
-                         '<img style="virtical-align:middle;" src="images/smilies/question.gif" alt="Question">',
-                         '<img style="virtical-align:middle;" src="images/smilies/idea.gif" alt="Idea">',
-                         '<img style="virtical-align:middle;" src="images/smilies/arrow.gif" alt="Arrow">',
-                         '<img style="virtical-align:middle;" src="images/smilies/neutral.gif" alt="Neutral">',
-                         '<img style="virtical-align:middle;" src="images/smilies/mrgreen.gif" alt="Mr. Green">',
-                         '<img style="virtical-align:middle;" src="images/smilies/mrt.gif" alt="Mr. T">',
-                         '<img style="virtical-align:middle;" src="images/smilies/heart.gif" alt="Love">',
-                         '<img style="virtical-align:middle;" src="images/smilies/cat.gif" alt="Kitten">');
-}
 
 $A["name"] = COM_getDisplayName($A["uid"]);
 $A["name"] = htmlspecialchars($A["name"],ENT_QUOTES,$CONF_FORUM['charset']);
@@ -138,7 +116,7 @@ $A['comment'] = gf_FormatForPrint( $A['comment'], $A['postmode'] );
 $A['comment'] = str_replace('<br />', '<br>', $A['comment'] );
 
 $date = strftime($CONF_FORUM['default_Datetime_format'], $A['date']);
-echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
+$display .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html>
 <head>
     <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
@@ -169,7 +147,7 @@ while ($B = DB_fetchArray($result2)) {
     $B["name"] = COM_getDisplayName($B["uid"]);
     $B['comment'] = gf_FormatForPrint( $B['comment'], $B['postmode'] );
     $B['comment'] = str_replace('<br />', '<br>', $B['comment'] );
-    echo "
+    $display .= "
     <hr>
     <div style=\"margin-bottom:1em;\">
         <h2>{$B['subject']}</h2>
@@ -181,7 +159,7 @@ while ($B = DB_fetchArray($result2)) {
     <div>{$B['comment']}</div>";
 }
 
-echo "
+$display .= "
     <hr>
     <p>{$_CONF['site_name']} - {$LANG_GF01['FORUM']}<br>
     <a href=\"{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}\">{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}</a>
@@ -189,4 +167,5 @@ echo "
 </body>
 </html>";
 
+COM_output($display);
 ?>
