@@ -1,5 +1,17 @@
 $Id$
 
+2009-07-28  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン：バージョン2.7.2.JPr5に更新します。
+	  ・Geeklog 1.6.0のオートインストール機能に対応した。
+	  ・Geeklog 1.6.0のCOM_output関数を使用してHTMLを出力するようにした。
+	  ・Geeklog 1.6.0の検索機能に対応した。
+	  ・Geeklog 1.6.0のXMLSitemapプラグインに対応した。
+	  ・lib-portalparts.phpを使用しないようにした。
+	  ・forum用テンプレートをpublic_html/forum/の下に移した。
+	  ・public_html/forum/includeディレクトリをsystem/plugins/forumの
+	    下に移した。
+
 2009-07-26  Yoshinori Tahara  <dengen>
 
 	* 言語ファイルの$LANG_MONTHの値変更に合わせた変更を行いました。
