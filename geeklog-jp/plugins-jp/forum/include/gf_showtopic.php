@@ -33,23 +33,22 @@
 // +---------------------------------------------------------------------------+
 //
 
+// this file can't be used on its own
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_showtopic.php') !== false) {
+    die ('This file can not be used on its own.');
+}
+
 if (!defined('XHTML')) {
     define('XHTML', '');
 }
 
-// this file can't be used on its own
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_showtopic.php') !== false)
+if (!function_exists( 'str_ireplace' ))
 {
-    die ('This file can not be used on its own.');
-}
-
-if( !function_exists( 'str_ireplace' ))
-{
-    require_once( 'PHP/Compat.php' );
+    require_once 'PHP/Compat.php';
     PHP_Compat::loadFunction( 'str_ireplace' );
 }
 
-include ($_CONF['path'] . 'system/lib-user.php');
+include $_CONF['path'] . 'system/lib-user.php';
 
 function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     global $CONF_FORUM,$_CONF,$_TABLES,$_USER,$LANG_GF01,$LANG_GF02;
@@ -65,10 +64,10 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     //COM_errorLog("Show Topic Display Time1: $intervalTime");
 
     if (!class_exists('StringParser') ) {
-        require_once ($_CONF['path_html'] . 'forum/include/bbcode/stringparser_bbcode.class.php');
+        require_once $CONF_FORUM['path_include'] . 'bbcode/stringparser_bbcode.class.php';
     }
 
-    $topictemplate = new Template($_CONF['path_layout'] . 'forum/layout');
+    $topictemplate = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
     $topictemplate->set_file (array (
             'topictemplate' =>  'topic.thtml',
             'profile'       =>  'links/profile.thtml',
@@ -139,7 +138,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             $avatar .= '<br' . XHTML . '>' .$LANG_GF01['STATUS']. ' ' .$LANG_GF01['OFFLINE'];
         }
 
-        if($userarray['sig'] != '') {
+        if ($userarray['sig'] != '') {
             $sig = '<hr width="95%" size="1" style="color=:black; text-align:left; margin-left:0; margin-bottom:5;padding:0" noshade' . XHTML . '>';
             $sig .= '<b>' .$userarray['sig']. '</b>';
             $min_height = $min_height + 30;
@@ -191,7 +190,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     $showtopic['comment'] = gf_formatTextBlock($showtopic['comment'],$showtopic['postmode'],$mode);
     $showtopic['subject'] = gf_formatTextBlock($showtopic['subject'],'text',$mode);
 
-    if(strlen ($showtopic['subject']) > $CONF_FORUM['show_subject_length']) {
+    if (strlen ($showtopic['subject']) > $CONF_FORUM['show_subject_length']) {
         $showtopic['subject'] = COM_truncate("$showtopic[subject]", $CONF_FORUM['show_subject_length'], '...');
     }
 
@@ -220,7 +219,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
     }
 
-    if($highlight != '') {
+    if ($highlight != '') {
         $showtopic['subject'] = str_replace("$highlight","<font class=\"highlight\">$highlight</font>", $showtopic['subject']);
         $showtopic['comment'] = str_replace("$highlight","<font class=\"highlight\">$highlight</font>", $showtopic['comment']);
     }
@@ -265,7 +264,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $topictemplate->set_var ('topic_post_link_end', '</a>');
 
         $mod_functions = forum_getmodFunctions($showtopic);
-        if($showtopic['uid'] > 1 && $uservalid) {
+        if ($showtopic['uid'] > 1 && $uservalid) {
             $profile_link = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$showtopic['uid']}";
             $profile_linkimg = '<img src="'.gf_getImage('profile_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['ProfileLink'].'" title="'.$LANG_GF01['ProfileLink'].'">';
             $topictemplate->set_var ('profilelink', $profile_link);
@@ -286,7 +285,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             }
         }
 
-        if($userarray['email'] != '' && $showtopic["uid"] > 1) {
+        if ($userarray['email'] != '' && $showtopic["uid"] > 1) {
             $email_link = "{$_CONF['site_url']}/profiles.php?uid={$showtopic['uid']}";
             $email_linkimg = '<img src="'.gf_getImage('email_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EmailLink'].'" title="'.$LANG_GF01['EmailLink'].'">';
             $topictemplate->set_var ('emaillink', $email_link);
@@ -294,9 +293,9 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             $topictemplate->set_var ('LANG_email', $LANG_GF01['EmailLink']);
             $topictemplate->parse ('email_link', 'email');
         }
-        if($userarray['homepage'] != '') {
+        if ($userarray['homepage'] != '') {
             $homepage = $userarray['homepage'];
-            if(!eregi("http",$homepage)) {
+            if (!eregi("http",$homepage)) {
                 $homepage = 'http://' .$homepage;
             }
             $homepageimg = '<img src="'.gf_getImage('website_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['WebsiteLink'].'" title="'.$LANG_GF01['WebsiteLink'].'">';
@@ -334,7 +333,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     // Temporary correspondence. You should cope in more roots.
     $showtopic['comment'] = str_replace(array("<br />","<br>"), '<br' . XHTML . '>', $showtopic['comment'] );
 
-    $topictemplate->set_var ('layout_url', $_CONF['layout_url']);
+    $topictemplate->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $topictemplate->set_var ('csscode', $onetwo);
     $topictemplate->set_var ('postmode', $showtopic['postmode']);
     $topictemplate->set_var ('userlink', $userlink);
@@ -426,7 +425,7 @@ function gf_chkpostmode($postmode,$postmode_switch) {
     global $_TABLES,$CONF_FORUM;
 
     if ($postmode == "") {
-        if($CONF_FORUM['allow_html']) {
+        if ($CONF_FORUM['allow_html']) {
             $postmode = 'html';
         } else {
             $postmode = 'text';

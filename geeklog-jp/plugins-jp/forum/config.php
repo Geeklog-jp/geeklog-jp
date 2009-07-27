@@ -34,7 +34,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
 }
 
 $CONF_FORUM['debug'] = false;
-$CONF_FORUM['version'] = '2.7.2';
+$CONF_FORUM['version'] = '2.7.2.JPr5';
 
 // Set to true if you are using MYSQL 4.0 or greater and this will improve performance.
 $CONF_FORUM['mysql4+'] = false;
@@ -57,8 +57,10 @@ $CONF_FORUM['allow_img_bbcode'] = true;
 // Disabled by default for performance gains. Enable if you need to show moderators on the main forum index page
 $CONF_FORUM['show_moderators'] = false;
 
-$CONF_FORUM['imgset'] = $_CONF['layout_url'] .'/forum/image_set';
-$CONF_FORUM['imgset_path'] = $_CONF['path_layout'] .'/forum/image_set';
+$CONF_FORUM['imgset']      = $CONF_FORUM['layout_url'] .'/forum/image_set';
+$CONF_FORUM['imgset_path'] = $CONF_FORUM['path_layout'] .'forum/image_set';
+
+$CONF_FORUM['path_include'] = $_CONF['path'] . 'plugins/forum/include/';
 
 /* The forum uses a number of icons and you may have a need to use a mixture of image types.
  * Enabling the $CONF_FORUM['autoimagetype'] feature will invoke a function that will first
@@ -125,7 +127,7 @@ $_TABLES['gf_userinfo']     = $_DB_table_prefix . 'forum_userinfo';
 if ($pi_version >= 2.6) {
     /* Retrieve the list of blocks to show on the left side and make the forum menu the first block */
     $CONF_FORUM['leftblocks'] = array ('forum_menu');
-    $CONF_FORUM['leftblocks'] = ppGetUserBlocks($CONF_FORUM['leftblocks']);
+    $CONF_FORUM['leftblocks'] = forum_GetUserBlocks($CONF_FORUM['leftblocks']);
 
     /* Don't change any settings below this line */
     /* Retrieve the forum global settings and user preferences and save to config array */
@@ -181,7 +183,7 @@ if ($pi_version >= 2.6) {
     $CONF_FORUM['level5name']             = $A['level5name'];
 
     // User Preference Config Parms. Check if user has set their preference or use defaults
-    if(!empty($_USER['uid']) AND DB_getItem($_TABLES['gf_userprefs'],"uid","uid='{$_USER['uid']}'") == $_USER['uid']) {
+    if (!empty($_USER['uid']) AND DB_getItem($_TABLES['gf_userprefs'],"uid","uid='{$_USER['uid']}'") == $_USER['uid']) {
         $sql = DB_query("Select * from {$_TABLES['gf_userprefs']} where uid = '{$_USER['uid']}'");
         $userprefs = DB_fetchArray($sql);
         $CONF_FORUM['show_topics_perpage']        = $userprefs['topicsperpage'];

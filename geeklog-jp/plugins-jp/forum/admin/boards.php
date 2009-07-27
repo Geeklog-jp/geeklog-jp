@@ -33,19 +33,23 @@
 // +---------------------------------------------------------------------------+
 //
 
-include_once('gf_functions.php');
-require_once ($_CONF['path_html'] . 'forum/include/gf_format.php');
-require_once($_CONF['path'] . 'plugins/forum/debug.php');  // Common Debug Code
+include_once 'gf_functions.php';
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
-$mode = COM_applyFilter($_REQUEST['mode']);
-$type = COM_applyFilter($_REQUEST['type']);
-$confirm = COM_applyFilter($_POST['confirm'],true);
-$id = COM_applyFilter($_POST['id'],true);
+$mode     = COM_applyFilter($_REQUEST['mode']);
+$type     = COM_applyFilter($_REQUEST['type']);
+$confirm  = COM_applyFilter($_POST['confirm'],true);
+$id       = COM_applyFilter($_POST['id'],true);
 $catorder = COM_applyFilter($_POST['catorder'],true);
 
-echo COM_siteHeader();
-echo COM_startBlock($LANG_GF93['gfboard']);
-echo ppNavbar($navbarMenu,$LANG_GF06['3']);
+$display = '';
+$display .= COM_siteHeader();
+
+// Debug Code to show variables
+$display .= gf_showVariables();
+
+$display .= COM_startBlock($LANG_GF93['gfboard']);
+$display .= forum_Navbar($navbarMenu,$LANG_GF06['3']);
 
 
 // CATEGORY Maintenance Section
@@ -56,13 +60,14 @@ if ($type == "category") {
             $name = gf_preparefordb($_POST['name'],'text');
             $dscp = gf_preparefordb($_POST['dscp'],'text');
             DB_query("INSERT INTO {$_TABLES['gf_categories']} (cat_order,cat_name,cat_dscp) VALUES ('$catorder','$name','$dscp')");
-            forum_statusMessage($LANG_GF93['catadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catadded']);
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= forum_statusMessage($LANG_GF93['catadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catadded']);
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         } else {
-            $boards_addcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+            $boards_addcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_addcategory->set_file (array ('boards_addcategory'=>'boards_edtcategory.thtml'));
             $boards_addcategory->set_var ('xhtml', XHTML);
             $boards_addcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -78,10 +83,11 @@ if ($type == "category") {
             $boards_addcategory->set_var ('gltoken_name', CSRF_TOKEN);
             $boards_addcategory->set_var ('gltoken', SEC_createToken());
             $boards_addcategory->parse ('output', 'boards_addcategory');
-            echo $boards_addcategory->finish ($boards_addcategory->get_var('output'));
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= $boards_addcategory->finish ($boards_addcategory->get_var('output'));
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         }
 
@@ -89,14 +95,15 @@ if ($type == "category") {
         if (($confirm == 1) && SEC_checkToken()) {
             DB_query("DELETE FROM {$_TABLES['gf_categories']} WHERE id='$id'");
             DB_query("DELETE FROM {$_TABLES['gf_forums']} WHERE forum_cat='$id'");
-            forum_statusMessage($LANG_GF93['catdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catdeleted']);
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= forum_statusMessage($LANG_GF93['catdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catdeleted']);
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         } else {
             $catname = DB_getItem($_TABLES['gf_categories'], "cat_name","id=$id");
-            $boards_delcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+            $boards_delcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_delcategory->set_file (array ('boards_delcategory'=>'boards_delete.thtml'));
             $boards_delcategory->set_var ('xhtml', XHTML);
             $boards_delcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -109,10 +116,11 @@ if ($type == "category") {
             $boards_delcategory->set_var ('gltoken_name', CSRF_TOKEN);
             $boards_delcategory->set_var ('gltoken', SEC_createToken());
             $boards_delcategory->parse ('output', 'boards_delcategory');
-            echo $boards_delcategory->finish ($boards_delcategory->get_var('output'));
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= $boards_delcategory->finish ($boards_delcategory->get_var('output'));
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         }
 
@@ -120,15 +128,16 @@ if ($type == "category") {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
         DB_query("UPDATE {$_TABLES['gf_categories']} SET cat_order='$catorder',cat_name='$name',cat_dscp='$dscp' WHERE id='$id'");
-        forum_statusMessage($LANG_GF93['catedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catedited']);
-        echo COM_endBlock();
-        echo COM_siteFooter();
+        $display .= forum_statusMessage($LANG_GF93['catedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catedited']);
+        $display .= COM_endBlock();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
 
     } elseif ($mode == $LANG_GF01['EDIT']) {
         $esql = DB_query("SELECT * FROM {$_TABLES['gf_categories']} WHERE (id='$id')");
         $E = DB_fetchArray($esql);
-        $boards_edtcategory = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+        $boards_edtcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $boards_edtcategory->set_file (array ('boards_edtcategory'=>'boards_edtcategory.thtml'));
         $boards_edtcategory->set_var ('xhtml', XHTML);
         $boards_edtcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -147,10 +156,11 @@ if ($type == "category") {
         $boards_edtcategory->set_var ('gltoken_name', CSRF_TOKEN);
         $boards_edtcategory->set_var ('gltoken', SEC_createToken());
         $boards_edtcategory->parse ('output', 'boards_edtcategory');
-        echo $boards_edtcategory->finish ($boards_edtcategory->get_var('output'));
-        echo COM_endBlock();
-        echo adminfooter();
-        echo COM_siteFooter();
+        $display .= $boards_edtcategory->finish ($boards_edtcategory->get_var('output'));
+        $display .= COM_endBlock();
+        $display .= adminfooter();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
 
     } elseif ($mode == $LANG_GF01['RESYNCCAT'])  {
@@ -179,13 +189,14 @@ if ($type == "forum") {
             $privgroup = COM_applyFilter($_POST['privgroup'],true);
             if ($privgroup == 0) $privgroup = 2;
             if (forum_addForum($name,$category,$dscp,$order,$privgroup,$is_readonly,$is_hidden,$no_newposts) > 0 ) {
-                forum_statusMessage($LANG_GF93['forumadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumadded']);
+                $display .= forum_statusMessage($LANG_GF93['forumadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumadded']);
             } else {
-                forum_statusMessage($LANG_GF93['forumaddError'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumaddError']);
+                $display .= forum_statusMessage($LANG_GF93['forumaddError'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumaddError']);
             }
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
 
         } else {
@@ -202,13 +213,15 @@ if ($type == "forum") {
                 }
             }
 
-            $boards_addforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+            $category_id = COM_applyFilter($_GET['category'],true);
+            $catname = DB_getItem($_TABLES['gf_categories'], "cat_name","id=$category_id");
+            $boards_addforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_addforum->set_file (array ('boards_addforum'=>'boards_edtforum.thtml'));
             $boards_addforum->set_var ('xhtml', XHTML);
             $boards_addforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_addforum->set_var ('title', "{$LANG_GF93['addforum']}&nbsp;{$LANG_GF93['undercat']}&nbsp;" .stripslashes($catname));
             $boards_addforum->set_var ('mode', 'add');
-            $boards_addforum->set_var ('category_id', COM_applyFilter($_GET['category'],true));
+            $boards_addforum->set_var ('category_id', $category_id);
             $boards_addforum->set_var ('id', $id);
             $boards_addforum->set_var ('confirm', '1');
             $boards_addforum->set_var ('LANG_DESCRIPTION', $LANG_GF01['DESCRIPTION']);
@@ -229,23 +242,25 @@ if ($type == "forum") {
             $boards_addforum->set_var ('gltoken_name', CSRF_TOKEN);
             $boards_addforum->set_var ('gltoken', SEC_createToken());
             $boards_addforum->parse ('output', 'boards_addforum');
-            echo $boards_addforum->finish ($boards_addforum->get_var('output'));
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= $boards_addforum->finish ($boards_addforum->get_var('output'));
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         }
 
     } elseif ($mode == $LANG_GF01['DELETE']) {
         if (($confirm == 1) && SEC_checkToken()) {
             forum_deleteForum($id);
-            forum_statusMessage($LANG_GF93['forumdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumdeleted']);
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= forum_statusMessage($LANG_GF93['forumdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumdeleted']);
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         } else {
-            $boards_delforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+            $boards_delforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_delforum->set_file (array ('boards_delforum'=>'boards_delete.thtml'));
             $boards_delforum->set_var ('xhtml', XHTML);
             $boards_delforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -258,19 +273,21 @@ if ($type == "forum") {
             $boards_delforum->set_var ('gltoken_name', CSRF_TOKEN);
             $boards_delforum->set_var ('gltoken', SEC_createToken());
             $boards_delforum->parse ('output', 'boards_delforum');
-            echo $boards_delforum->finish ($boards_delforum->get_var('output'));
-            echo COM_endBlock();
-            echo adminfooter();
-            echo COM_siteFooter();
+            $display .= $boards_delforum->finish ($boards_delforum->get_var('output'));
+            $display .= COM_endBlock();
+            $display .= adminfooter();
+            $display .= COM_siteFooter();
+            COM_output($display);
             exit();
         }
 
     } elseif (($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') && SEC_checkToken()) {
         $order = COM_applyFilter($_POST['order'],true);
         DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_order='$order' WHERE forum_id='$id'");
-        forum_statusMessage($LANG_GF93['forumordered'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumordered']);
-        echo COM_endBlock();
-        echo COM_siteFooter();
+        $display .= forum_statusMessage($LANG_GF93['forumordered'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumordered']);
+        $display .= COM_endBlock();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
 
     } elseif (($mode == 'save') && SEC_checkToken()) {
@@ -283,9 +300,10 @@ if ($type == "forum") {
         if ($privgroup == 0) $privgroup = 2;
         DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_name='$name',forum_dscp='$dscp', grp_id=$privgroup,
                 is_hidden='$is_hidden', is_readonly='$is_readonly', no_newposts='$no_newposts' WHERE forum_id='$id'");
-        forum_statusMessage($LANG_GF93['forumedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumedited']);
-        echo COM_endBlock();
-        echo COM_siteFooter();
+        $display .= forum_statusMessage($LANG_GF93['forumedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumedited']);
+        $display .= COM_endBlock();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
 
     } elseif ($mode == $LANG_GF01['RESYNC'])  {
@@ -306,7 +324,7 @@ if ($type == "forum") {
             }
         }
 
-        $boards_edtforum = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+        $boards_edtforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $boards_edtforum->set_file (array ('boards_edtforum'=>'boards_edtforum.thtml'));
         $boards_edtforum->set_var ('xhtml', XHTML);
         $boards_edtforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -338,10 +356,11 @@ if ($type == "forum") {
         $boards_edtforum->set_var ('gltoken_name', CSRF_TOKEN);
         $boards_edtforum->set_var ('gltoken', SEC_createToken());
         $boards_edtforum->parse ('output', 'boards_edtforum');
-        echo $boards_edtforum->finish ($boards_edtforum->get_var('output'));
-        echo COM_endBlock();
-        echo adminfooter();
-        echo COM_siteFooter();
+        $display .= $boards_edtforum->finish ($boards_edtforum->get_var('output'));
+        $display .= COM_endBlock();
+        $display .= adminfooter();
+        $display .= COM_siteFooter();
+        COM_output($display);
         exit();
     }
 }
@@ -349,7 +368,7 @@ if ($type == "forum") {
 
 // MAIN CODE
 
-$boards = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+$boards = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
 $boards->set_file (array ('boards'=>'boards.thtml','categories' => 'board_categories.thtml','forums' => 'board_forums.thtml'));
 $boards->set_var ('xhtml', XHTML);
 $boards->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
@@ -420,9 +439,9 @@ while ($A = DB_FetchArray($asql)) {
 $boards->set_var('gltoken_name', CSRF_TOKEN);
 $boards->set_var('gltoken', SEC_createToken());
 $boards->parse ('output', 'boards');
-echo $boards->finish ($boards->get_var('output'));
-
-echo COM_endBlock();
-echo adminfooter();
-echo COM_siteFooter();
+$display .= $boards->finish ($boards->get_var('output'));
+$display .= COM_endBlock();
+$display .= adminfooter();
+$display .= COM_siteFooter();
+COM_output($display);
 ?>

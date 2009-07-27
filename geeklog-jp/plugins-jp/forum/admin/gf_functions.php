@@ -36,15 +36,21 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_functions.php') !== false) {
     die('This file can not be used on its own.');
 }
 
-require_once('../../../lib-common.php');
+require_once '../../../lib-common.php';
+
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
 if (!SEC_hasRights('forum.edit')) {
-  echo COM_siteHeader();
-  echo COM_startBlock($LANG_GF00['access_denied']);
-  echo $LANG_GF00['admin_only'];
-  echo COM_endBlock();
-  echo adminfooter();
-  echo COM_siteFooter(true);
+  $display = COM_siteHeader();
+  $display .= COM_startBlock($LANG_GF00['access_denied']);
+  $display .= $LANG_GF00['admin_only'];
+  $display .= COM_endBlock();
+  $display .= adminfooter();
+  $display .= COM_siteFooter(true);
+  COM_output($display);
   exit();
 }
 
@@ -60,17 +66,16 @@ $navbarMenu = array(
 
 // Site admin can add common footer code here
 function adminfooter() {
-    global $_CONF, $LANG_GF01;
+    global $_CONF, $LANG_GF01, $CONF_FORUM;
     
-    $footertemplate = new Template($_CONF['path_layout'] . 'forum/layout/admin');
+    $footertemplate = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
     $footertemplate->set_file (array ('footertemplate'=>'footer.thtml'));
     
     $footertemplate->set_var ('xhtml', XHTML);
     $footertemplate->set_var ('forumname', $LANG_GF01['forumname']);
     
     $footertemplate->parse ('output', 'footertemplate');
-    echo $footertemplate->finish ($footertemplate->get_var('output'));
-    
+    return $footertemplate->finish ($footertemplate->get_var('output'));
 }
 
 
@@ -97,12 +102,12 @@ function gf_resyncforum($id) {
             $lastrec = DB_fetchArray($lsql);
             if ($lastrec['maxid'] != NULL) {
                 $postCount = DB_count($_TABLES['gf_topic'],'forum',$id);
-                $latest = DB_getITEM($_TABLES['gf_topic'],date,"id={$lastrec['maxid']}");
+                $latest = DB_getItem($_TABLES['gf_topic'],date,"id={$lastrec['maxid']}");
                 DB_query("UPDATE {$_TABLES['gf_topic']} SET lastupdated = '$latest' where id='{$trecord['id']}'");
                 // Update the parent topic record to know the id of the Last Reply
                 DB_query("UPDATE {$_TABLES['gf_topic']} SET last_reply_rec = {$lastrec['maxid']} where id='{$trecord['id']}'");
             } else {
-                $latest = DB_getITEM($_TABLES['gf_topic'],date,"id={$trecord['id']}");
+                $latest = DB_getItem($_TABLES['gf_topic'],date,"id={$trecord['id']}");
                 DB_query("UPDATE {$_TABLES['gf_topic']} SET lastupdated = '$latest' WHERE id='{$trecord['id']}'");
             }
             // Recalculate and Update the number of replies
