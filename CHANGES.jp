@@ -2,8 +2,16 @@ $Id$
 
 2009-07-29  Yoshinori Tahara  <dengen>
 
+	* Dataproxyプラグイン：Mycaljpプラグインの更新に伴い、
+	  機能拡張版1.1.4.1に更新します。
+	  ・Mycaljpプラグインは日付を絞ってコンテンツの検索を行うので、
+	    DataproxyDriverクラスにgetItemsByDateメソッドを追加するなどの
+	    変更を行いました。
+
+2009-07-29  Yoshinori Tahara  <dengen>
+
 	* mycaljpプラグイン：バージョン2.1.0に更新します。
-	  ・eeklog1.6で動作するようにしました。
+	  ・Geeklog1.6で動作するようにしました。
 	  ・Dataproxyに対応しました。
 	    （ただし、Dataproxyの機能拡張版（暫定版1.1.4.1）が必要です）
 	  ・コンフィギュレーションとオートインストール機能に対応しました。
