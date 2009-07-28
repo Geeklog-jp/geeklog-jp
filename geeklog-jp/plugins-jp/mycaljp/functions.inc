@@ -1,15 +1,14 @@
 <?php
-/* Reminder: always indent with 4 spaces (no tabs). */
+// Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Geeklog Site Calendar Plugin 'mycaljp' version 2.0.0                      |
-// | Only Supported with Geeklog 1.4.1 and new Search Class                    |
+// | Site Calendar - Mycaljp Plugin for Geeklog                                |
 // +---------------------------------------------------------------------------+
-// | functions.inc                                                             |
+// | plugins/mycaljp/functions.inc                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2007 by the following authors:                         |
-// | Geeklog Author:       Tony Bibbs   - tony@tonybibbs.com                   |
-// | mycal Block Author:   Blaine Lang  - geeklog@langfamily.ca                |
-// | mycaljp Plugin Author: Yoshinori Tahara - dengen                          |
+// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
+// | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
+// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -28,19 +27,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-
-/**
-* This is the generic functions.inc for the Universal Plugin Toolkit for Geeklog.
-* You need to change all instances of mycaljp with the name of your plugin.
-*/
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die ('This file can not be used on its own.');
-}
-
-if ( !defined('XHTML') ) {
-    define('XHTML', '');
 }
 
 if (!defined('GL_VERSION_15')) {
@@ -66,7 +55,23 @@ if ( file_exists( $langfile ) ) {
 /*
 * Include mycaljp config file
 */
-require_once $_CONF['path'] . 'plugins/mycaljp/config.php';
+//require_once $_CONF['path'] . 'plugins/mycaljp/config.php';
+//$_MYCALJP2_CONF = array();
+
+/**
+* Check and see if we need to load the plugin configuration.
+*/
+/*
+require_once $_CONF['path_system'] . 'classes/config.class.php';
+$plg_config = config::get_instance();
+$temp = $plg_config->get_config('mycaljp');
+if (is_array($temp)) {
+    $_MYCALJP2_CONF = array_merge($_MYCALJP2_CONF, $temp);
+}
+*/
+
+$_MYCALJP2_CONF = MYCALJP_loadConfig();
+
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
@@ -101,7 +106,7 @@ function plugin_cclabel_mycaljp()
 * @return   array   Array containing (plugin name, plugin admin url, # of items in plugin or '')
 *
 */
-
+/*
 function plugin_getadminoption_mycaljp()
 {
     global $_CONF, $_TABLES;
@@ -113,8 +118,9 @@ function plugin_getadminoption_mycaljp()
         return array ( $pi_name, $admin_url, $num_items );
     }
 }
+*/
 
-/*
+/**
  * Returns the version for this plugin
  *
  * @return string VersionNo
@@ -122,9 +128,16 @@ function plugin_getadminoption_mycaljp()
 
 function plugin_chkVersion_mycaljp()
 {
-    global $_MYCALJP2_CONF;
-    
-    return $_MYCALJP2_CONF['pi_version'];
+//    global $_MYCALJP2_CONF;
+//    return $_MYCALJP2_CONF['pi_version'];
+
+    global $_CONF;
+
+    require_once $_CONF['path'] . 'plugins/mycaljp/autoinstall.php';
+
+    $inst_parms = plugin_autoinstall_mycaljp('mycaljp');
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
@@ -133,7 +146,7 @@ function plugin_chkVersion_mycaljp()
 * @return   boolean true (= success)
 *
 */
-
+/*
 function plugin_upgrade_mycaljp()
 {
     global $_CONF, $_TABLES, $_MYCALJP2_CONF;
@@ -148,6 +161,71 @@ function plugin_upgrade_mycaljp()
     COM_errorLog( ucfirst( "mycaljp" ) . " plugin was successfully updated to version {$_MYCALJP2_CONF['pi_version']}." );
     
     return true;
+}
+*/
+function plugin_upgrade_mycaljp()
+{
+    global $_CONF, $_TABLES, $_MYCALJP2_DEFAULT;
+
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
+                                    "pi_name = 'mycaljp'");
+    $code_version = plugin_chkVersion_mycaljp();
+    if ($installed_version == $code_version) {
+        // nothing to do
+        return true;
+    }
+
+    require_once $_CONF['path'] . 'plugins/mycaljp/autoinstall.php';
+
+    if (! plugin_compatible_with_this_version_mycaljp('mycaljp')) {
+        return 3002;
+    }
+
+    if (version_compare($installed_version, '2.1.0') < 0) {
+        require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+        plugin_initconfig_mycaljp();
+    }
+
+    $inst_parms = plugin_autoinstall_mycaljp('mycaljp');
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', "
+           . "pi_gl_version = '$pi_gl_version' WHERE pi_name = 'mycaljp'");
+
+    return true;
+}
+
+
+/**
+* Automatic uninstall function for plugins
+*
+* @return   array
+*
+* This code is automatically uninstalling the plugin.
+* It passes an array to the core code function that removes
+* tables, groups, features and php blocks from the tables.
+* Additionally, this code can perform special actions that cannot be
+* foreseen by the core code (interactions with other plugins for example)
+*
+*/
+function plugin_autouninstall_mycaljp ()
+{
+    global $_CONF;
+
+    $out = array (
+        'tables'     => array(),
+        'groups'     => array('Mycaljp Admin'),
+        'features'   => array('mycaljp.admin'),
+        'php_blocks' => array('phpblock_mycaljp2'),
+        'vars'       => array()
+    );
+
+    $fname = $_CONF['path_data'] . 'mycaljp_conf.php';
+    if ( file_exists( $fname ) ) {
+        @unlink( $fname );
+    }
+
+    return $out;
 }
 
 /**
@@ -165,7 +243,7 @@ function plugin_upgrade_mycaljp()
 * @return   boolean True if successful false otherwise
 *
 */  
-
+/*
 function plugin_uninstall_mycaljp ( $installCheck = '' )
 {
     global $_TABLES, $LANG_MYCALJP, $_CONF;
@@ -234,6 +312,13 @@ function plugin_uninstall_mycaljp ( $installCheck = '' )
         @unlink( $fname );
     }
     
+    if (GL_VERSION_15) {
+        // Remove config table data for this plugin
+        COM_errorLog ("Attempting to remove config table records for group_name: $pi_name", 1);
+        DB_query ("DELETE FROM {$_TABLES['conf_values']} WHERE group_name = '$pi_name'");
+        COM_errorLog ('...success', 1);
+    }
+
     // Unregister the plugin with Geeklog
     // Always attempt to remove these entries or lib-common.php would still
     // try and read our functions.inc file ...
@@ -245,6 +330,106 @@ function plugin_uninstall_mycaljp ( $installCheck = '' )
     
     return true;
 }
+*/
+
+/**
+* Callback function when configuration was changed
+*
+* @param    string  $group      'mycaljp'
+* @param    array   $changes    array of strings: config var key
+* @return   void
+* @see      PLG_configChange
+*/
+
+function plugin_configchange_mycaljp($group, $changes = array())
+{
+    global $_MYCALJP2_CONF;
+
+    if ($group != 'mycaljp') return;
+    if (!is_array($changes)) return;
+    if (count($changes) == 0) return;
+
+    /**
+    * At this time, changes in configuration is not reflected in
+    * $_MYCALJP2_CONF yet.  So we have to reload them from DB.
+    */
+    $_MYCALJP2_CONF = MYCALJP_loadConfig();
+    foreach ($changes as $name) MYCALJP_checkChange($name);
+}
+
+
+/**
+* Loads config infor with config.class.php
+*
+* @return   mixed   Mycaljp config array or FALSE
+*/
+function MYCALJP_loadConfig()
+{
+    global $_CONF;
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $config = config::get_instance();
+    return $config->get_config('mycaljp');
+}
+
+/**
+* Check if changed types, priorities, or frequencies are valid
+*
+* @param  string    $name   either 'supported_contents' or 'enabled_contents'
+* @return void
+*/
+function MYCALJP_checkChange($name)
+{
+    global $_CONF, $_PLUGINS, $_TABLES, $_MYCALJP2_CONF;
+
+    $valids = array();
+
+    require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+
+    // Check and add a valid value to $valids
+    switch ($name) {
+        case 'supported_contents':
+            foreach ($_MYCALJP2_CONF[$name] as $value) {
+                if (!in_array($value, $_MYCALJP2_DEFAULT[$name])) continue;
+                $valids[] = $value;
+            }
+            break;
+
+        case 'enabled_contents':
+            foreach ($_MYCALJP2_CONF['supported_contents'] as $value) {
+                $valids[$value] = 0;
+                if (array_key_exists($value, $_MYCALJP2_CONF[$name])) {
+                    $valids[$value] = $_MYCALJP2_CONF[$name][$value];
+                    if ($valids[$value] !== 1) $valids[$value] = 0;
+                }
+            }
+        
+            break;
+    }
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $config = config::get_instance();
+    if (!empty($valids)) {
+        $config->set($name, $valids, 'mycaljp');
+    }
+    
+    switch ($name) {
+        case 'supported_contents':
+            $enabled_contents = array();
+            foreach ($_MYCALJP2_CONF[$name] as $value) {
+                $enabled_contents[$value] = 1;
+                if (array_key_exists($value, $_MYCALJP2_CONF['enabled_contents'])) {
+                    $enabled_contents[$value] = $_MYCALJP2_CONF['enabled_contents'][$value];
+                }
+            }
+            $config->set('enabled_contents', $enabled_contents, 'mycaljp');
+            break;
+    }
+
+}
+
+
+
 
 
 // +-------------------------------------------------------------------------+
@@ -256,8 +441,8 @@ if ( empty($_MYCALJP2_CONF['template']) ) {
 }
 
 // テンプレートパスおよびCSSのURLを設定する
-if ( ( isset( $_MYCALJP2_CONF['themes'] ) && in_array( $_CONF['theme'], $_MYCALJP2_CONF['themes'] ) )
-    && is_dir( $_CONF['path_layout'] . 'mycaljp' ) ) {
+if ((isset($_MYCALJP2_CONF['themes']) && in_array($_CONF['theme'], $_MYCALJP2_CONF['themes']))
+    && is_dir($_CONF['path_layout'] . 'mycaljp')) {
     $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
     $_MYCALJP2_CONF['css_url'] = $_CONF['layout_url'] . '/mycaljp';
 } else {
@@ -269,9 +454,7 @@ if ( ( isset( $_MYCALJP2_CONF['themes'] ) && in_array( $_CONF['theme'], $_MYCALJ
 // slidecalendarのために残す。
 if ( ! function_exists('mycaljp_setlayoutpath') )
 {
-    function mycaljp_setlayoutpath()
-    {
-    }
+    function mycaljp_setlayoutpath(){}
 }
 
 function MYCALJP_setLayoutPath_old() // for slidecalendar
@@ -347,12 +530,13 @@ function MYCALJP_showCalendar( $caltype = 1 )
 
     setlocale(LC_TIME, $_CONF['locale']);
 
+    $tmpmonth = $_GET['moon'];
     if( isset( $GLOBALS['WorkDate'] ) )
         $WorkDate = $GLOBALS['WorkDate'];
-    else if( !isset($_GET['month']) ) 
+    else if( !isset($tmpmonth) ) 
         $WorkDate = date("Y-m-d");
     else {
-        $WorkDate = $_GET['month'];
+        $WorkDate = $tmpmonth;
         $GLOBALS['WorkDate'] = $WorkDate;
     }
     
@@ -364,7 +548,8 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $firstdaytodisplay  = $firstdayofmonth - (strftime ('%w', $firstdayofmonth) * _MYCAL_DAY_);
     $lastdaytodisplay   = $lastdayofmonth + ((6 - strftime ('%w', $lastdayofmonth)) * _MYCAL_DAY_);
     $totaldays          = ((($lastdaytodisplay - $firstdaytodisplay) / _MYCAL_DAY_) + 1);
-    $totalweeks         = $totaldays / 7;
+//  $totalweeks         = $totaldays / 7;
+    $totalweeks         = 6; // 固定してみる
     
     $firststr = date("Y-m-d", $firstdaytodisplay);
     $laststr  = date("Y-m-d", $lastdaytodisplay);
@@ -383,137 +568,82 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $firstdayofyearstr  = date("Y-01-01", $base);
     $lastdayofyearstr   = date("Y-12-31", $base);
 
+
+    $dataproxy =& new Dataproxy($uid);
+    $drivers = $dataproxy->getAllDriverNames();
+    $dataproxy->setDateStart($firststr);
+    $dataproxy->setDateEnd($laststr);
+
     $days = array();
 
-    if ( isset($_MYCALJP2_CONF['contents']) ) {
-        foreach ( $_MYCALJP2_CONF['contents'] as $pi_name )
+    if ( isset($_MYCALJP2_CONF['enabled_contents']) ) {
+        foreach ($drivers as $driver) {
+
+            $content = $driver;
+            if ($driver=='article') $content = 'stories';
+            if (!in_array($content, $_MYCALJP2_CONF['supported_contents'])) continue;
+            if (!($_MYCALJP2_CONF['enabled_contents'][$content] == 1)) continue;
+            $items = $dataproxy->$driver->getItemsByDate();
+            if (count($items) == 0) continue;
+            foreach ($items as $item) {
+                $item_date = date("Y-m-d", $item['date']);
+                switch ($driver) {
+                    case 'article':
+                        $days[$item_date] |= _STORY_;
+                        break;
+
+                    case 'calendar':
+                    case 'calendarjp':
+                        break;
+
+                    default:
+                        $days[$item_date] |= _ACTIVE_;
+                        break;
+                }
+            }
+        }
+
+        $events = array();
+        foreach ( $_MYCALJP2_CONF['enabled_contents'] as $pi_name => $val )
         {
-            // Check stories
-            if ( $pi_name == "stories" )
-            {
-                $sql = "SELECT UNIX_TIMESTAMP(date) AS day "
-                     . "FROM {$_TABLES['stories']} "
-                     . "WHERE (draft_flag = 0) AND (date <= NOW()) "
-                     . "AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') "
-                     . COM_getTopicSQL('AND')
-                     . COM_getPermSQL('AND')
-                     . COM_getLangSQL( 'sid', 'AND' );
-                $result = DB_query ($sql);
-                while ( $o = DB_fetchArray($result) )
-                    $days[ date( "Y-m-d", $o['day'] ) ] |= _STORY_;
-            }
-
-            // Check comments
-            else if ( $pi_name == "comments" )
-            {
-                //暫定的に記事へのコメントのみ対応する。(search.class.phpもそうなっている)
-                $stsql =  COM_getPermSQL ('AND', 0, 2, 's');
-                $stsql .= COM_getTopicSQL ('AND');
-                $stsql .= COM_getLangSQL ('sid', 'AND', 's');
-                $sql = "SELECT UNIX_TIMESTAMP(c.date) AS day "
-                     . "FROM {$_TABLES['comments']} AS c "
-                     . "LEFT JOIN {$_TABLES['stories']} AS s ON ((s.sid = c.sid) " . $stsql . ") "
-                     . "WHERE (c.date <= NOW()) AND (UNIX_TIMESTAMP(c.date) BETWEEN '$startdate' AND '$enddate') "
-                     . "AND (c.type = 'article') "
-                     . "AND (s.draft_flag = 0) AND (s.commentcode = 0) AND (s.date <= NOW()) ";
-                $result = DB_query ($sql);
-                while ( $o = DB_fetchArray($result) )
-                    $days[ date( "Y-m-d", $o['day'] ) ] |= _ACTIVE_;
-            }
-
-            else if ( in_array( $pi_name, $_PLUGINS ) )
+            if ( in_array( $pi_name, $_PLUGINS ) )
             {
                 switch ( $pi_name ) {
                 case "calendar":
                 case "calendarjp":
-                case "wkyevecal":
-                    if ( MYCALJP_pi_enabled($pi_name) ) {
-                        if ($pi_name == "calendar") {
-                            $table = $_TABLES['events'];
-                        } else if ($pi_name == "calendarjp") {
-                            $table = $_TABLES['eventsjp'];
-                        } else {
-                            $table = $_TABLES['wkyevecal'];
-                        }
-                        $events = array();
-                        $sql = "SELECT eid,title,url,datestart,dateend,timestart,timeend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon "
-                             . "FROM {$table} "
-                             . "WHERE (datestart >= '$firststr') AND (datestart <= '$laststr') "
-                             . COM_getPermSQL('AND');
-                        $result = DB_query($sql);
-                        while ( $o = DB_fetchArray($result) ) {
-                            $events[ $o['datestart'] ][ $o['eid'] ] = $o; // $o['datestart']は"Y-m-d"形式文字列
-                            if ( $o['datestart'] != $o['dateend'] ) {
-                                $e_ds = explode("-", $o['datestart']);
-                                $e_de = explode("-", $o['dateend']);
-                                $e_ts = explode(":", $o['timestart']);
-                                $e_te = explode(":", $o['timeend']);
-                                $event_startdate = mktime($e_ts[0],$e_ts[1],$e_ts[2],$e_ds[1],$e_ds[2],$e_ds[0]);
-                                $event_enddate   = mktime($e_te[0],$e_te[1],$e_te[2],$e_de[1],$e_de[2],$e_de[0]);
+                    if ( ! MYCALJP_pi_enabled($pi_name) ) continue;
+                    if ($pi_name == "calendar") {
+                        $table = $_TABLES['events'];
+                    } else if ($pi_name == "calendarjp") {
+                        $table = $_TABLES['eventsjp'];
+                    }
+                    $sql = "SELECT eid,title,url,datestart,dateend,timestart,timeend,"
+                         . "group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon "
+                         . "FROM {$table} "
+                         . "WHERE (datestart >= '$firststr') AND (datestart <= '$laststr') "
+                         . COM_getPermSQL('AND');
+                    $result = DB_query($sql);
+                    while ( $o = DB_fetchArray($result) ) {
+                        $events[ $o['datestart'] ][ $o['eid'] ] = $o; // $o['datestart']は"Y-m-d"形式文字列
+                        if ( $o['datestart'] != $o['dateend'] ) {
+                            $e_ds = explode("-", $o['datestart']);
+                            $e_de = explode("-", $o['dateend']);
+                            $e_ts = explode(":", $o['timestart']);
+                            $e_te = explode(":", $o['timeend']);
+                            $event_startdate = mktime($e_ts[0],$e_ts[1],$e_ts[2],$e_ds[1],$e_ds[2],$e_ds[0]);
+                            $event_enddate   = mktime($e_te[0],$e_te[1],$e_te[2],$e_de[1],$e_de[2],$e_de[0]);
 
-                                if ( $event_enddate - $event_startdate >= _MYCAL_DAY_ ) {
-                                    $event_middledate = $event_startdate + _MYCAL_DAY_;
-                                    while ( $event_enddate >= $event_middledate ) {
-                                        $events[ date( "Y-m-d", $event_middledate ) ][ $o['eid'] ] = $o;
-                                        $event_middledate += _MYCAL_DAY_;
-                                    }
-                                    $events[ $o['dateend'] ][ $o['eid'] ] = $o;
+                            if ( $event_enddate - $event_startdate >= _MYCAL_DAY_ ) {
+                                $event_middledate = $event_startdate + _MYCAL_DAY_;
+                                while ( $event_enddate >= $event_middledate ) {
+                                    $events[ date( "Y-m-d", $event_middledate ) ][ $o['eid'] ] = $o;
+                                    $event_middledate += _MYCAL_DAY_;
                                 }
+                                $events[ $o['dateend'] ][ $o['eid'] ] = $o;
                             }
                         }
                     }
-                    break;
-
-                case "forum":
-                    if ( MYCALJP_pi_enabled($pi_name) ) {
-                        $sql = "SELECT date AS day "
-                             . "FROM {$_TABLES['gf_topic']} "
-                             . "WHERE (date <= NOW()) AND (date BETWEEN '$startdate' AND '$enddate') ";
-                        $result = DB_query ($sql);
-                        while ( $o = DB_fetchArray($result) )
-                            $days[ date( "Y-m-d", $o['day'] ) ] |= _ACTIVE_;
-                    }
-                    break;
-
-                case "staticpages":
-                    if ( MYCALJP_pi_enabled($pi_name) ) {
-                        $sql = "SELECT UNIX_TIMESTAMP(sp_date) AS day "
-                             . "FROM {$_TABLES['staticpage']} "
-                             . "WHERE (sp_date <= NOW()) AND (UNIX_TIMESTAMP(sp_date) BETWEEN '$startdate' AND '$enddate') "
-                             . "AND (sp_php <> 1)"
-                             . COM_getPermSQL('AND')
-                             . COM_getLangSql ('sp_id', 'AND');
-                        $result = DB_query ($sql);
-                        while ( $o = DB_fetchArray($result) )
-                            $days[ date( "Y-m-d", $o['day'] ) ] |= _ACTIVE_;
-                    }
-                    break;
-
-                case "links":
-                    if ( MYCALJP_pi_enabled($pi_name) ) {
-                        $sql = "SELECT UNIX_TIMESTAMP(date) AS day "
-                             . "FROM {$_TABLES['links']} "
-                             . "WHERE (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') AND (date <> 1) "
-                             . COM_getPermSQL('AND');
-                        $result = DB_query ($sql);
-                        while ( $o = DB_fetchArray($result) )
-                            $days[ date( "Y-m-d", $o['day'] ) ] |= _ACTIVE_;
-                    }
-                    break;
-
-                case "filemgmt":
-                    if ( MYCALJP_pi_enabled($pi_name) ) {
-                        global $_FM_TABLES;
-                        $sql = "SELECT date AS day "
-                             . "FROM {$_FM_TABLES['filemgmt_filedetail']} AS f "
-                             . "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} AS c ON f.cid = c.cid "
-                             . "WHERE (date BETWEEN '$startdate' AND '$enddate') "
-                             . "AND (c.grp_access IN (" . implode( ',', SEC_getUserGroups( $uid ) ) . ")) "
-                             . "AND (f.status > 0)";
-                        $result = DB_query ($sql);
-                        while ( $o = DB_fetchArray($result) )
-                            $days[ date( "Y-m-d", $o['day'] ) ] |= _ACTIVE_;
-                    }
+                    
                     break;
                 }
             }
@@ -539,7 +669,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
     else
         $headertitleyear = ucfirst( strftime( ( substr($_CONF['locale'],0,2) == "ja" ) ? "%Y年" : "%Y", $base ) );
     $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $firstdayofyearstr 
-        . '&amp;dateend=' . $lastdayofyearstr . '&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0&amp;month=' . $thismonth
+        . '&amp;dateend=' . $lastdayofyearstr . '&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0&amp;moon=' . $thismonth
         . '" title="'. $LANG_MYCALJP['headeroflink'] . $headertitleyear . $LANG_MYCALJP['footeroflink'] . '">' . $headertitleyear . '</a>';
     $cal->set_var('title_' . ( ( $_MYCALJP2_CONF['titleorder'] == '1' ) ? '1' : '2' ) ,$anchor);
     $cal->set_var('title_year',$anchor); // for slidecalendar
@@ -555,24 +685,24 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $cal->set_var('title_month',$anchor); // for slidecalendar
 
     // Header with Month Title and Next/Prev links
-    $qstr = preg_replace( '/[&]*month=[0-9]{4}-[0-9]{2}-[0-9]{2}/', '', $_SERVER["QUERY_STRING"] );
+    $qstr = preg_replace( '/[&]*moon=[0-9]{4}-[0-9]{2}-[0-9]{2}/', '', $_SERVER["QUERY_STRING"] );
     $qstr = htmlspecialchars( $qstr );
 
     $url = MYCALJP_htmlspecialchars( $_SERVER['PHP_SELF'] );
 
     $cal->set_var('lang_skipcalendar', $LANG_MYCALJP['skipcalendar'] ); // I consider the visually impaired.
 
-    $tmp = $url . "?" . $qstr . "&amp;month=" . $prevmonth;
+    $tmp = $url . "?" . $qstr . "&amp;moon=" . $prevmonth;
     $tmp = str_replace( '?&amp;', '?', $tmp );
     $cal->set_var('prevmonth', $tmp );
     
-    $tmp = $url . "?" . $qstr . "&amp;month=" . $nextmonth;
+    $tmp = $url . "?" . $qstr . "&amp;moon=" . $nextmonth;
     $tmp = str_replace( '?&amp;', '?', $tmp );
     $cal->set_var('nextmonth', $tmp );
 
 //2007.06.16 ---------------------------------------->>
-    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $prevmonth );
-    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $nextmonth );
+    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;moon=" . $prevmonth );
+    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;moon=" . $nextmonth );
 //---------------------------------------------------<<
 
 //2007.06.30 ---------------------------------------->>
@@ -585,7 +715,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
     {
         $cal->set_var( 'weekday_class', $wdays[$i] );
 
-        if (  $_MYCALJP2_CONF[ $wdays[$i] ] )
+        if ( $_MYCALJP2_CONF[ $wdays[$i] ] )
             $cal->set_var( 'title_weekday', $_MYCALJP2_CONF[ $wdays[$i] ] );
         else
             $cal->set_var( 'title_weekday', ucfirst(strftime("%a", $firstdaytodisplay + ($i * _MYCAL_DAY_))) );
@@ -860,6 +990,22 @@ function is_Japanese_Holiday($timestamp)
   return false;
 }
 
+/**
+* Strips slashes if magic_quotes_gpc is on
+*/
+function MYCALJP_stripslashes($var) {
+    if (get_magic_quotes_gpc()) {
+        if (is_array($var)) {
+            return array_map('MYCALJP_stripslashes', $var);
+        } else {
+            return stripslashes($var);
+        }
+    } else {
+        return $var;
+    }
+}
+
+
 function MYCALJP_htmlspecialchars( $str )
 {
     global $_CONF, $LANG_CHARSET;
@@ -881,31 +1027,41 @@ function MYCALJP_htmlspecialchars( $str )
 
 function MYCALJP_pi_enabled($pi_name)
 {
-    global $_TABLES;
-
+    global $_TABLES, $_MYCALJP2_CONF;
+    
+    if ($_MYCALJP2_CONF['enabled_contents'][$pi_name] != 1) return false;
     return ( DB_getItem($_TABLES['plugins'], 'pi_enabled', "pi_name = '$pi_name'") == 1 );
 }
 
 // PHPブロック関数
 function phpblock_mycaljp2()
 {
+    global $LANG_MYCALJP;
+
+    if (!class_exists('Dataproxy')) return $LANG_MYCALJP['no_dataproxy'];
     return MYCALJP_showCalendar();
 }
 
-if ( ! function_exists('phpblock_mycaljp') )
+if (!function_exists('phpblock_mycaljp'))
 {
     // PHPブロック関数
     function phpblock_mycaljp()
     {
+        global $LANG_MYCALJP;
+
+        if (!class_exists('Dataproxy')) return $LANG_MYCALJP['no_dataproxy'];
         return MYCALJP_showCalendar();
     }
 }
 
-if ( ! function_exists('mycaljp_slidecalender') )
+if (!function_exists('mycaljp_slidecalender'))
 {
     // slidecalender
     function mycaljp_slidecalender()
     {
+        global $LANG_MYCALJP;
+
+        if (!class_exists('Dataproxy')) return $LANG_MYCALJP['no_dataproxy'];
         return MYCALJP_showCalendar( 2 );
     }
 }
@@ -919,6 +1075,12 @@ if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
 if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
     function SEC_createToken() {
         return "1";
+    }
+}
+
+if (!function_exists('COM_output')) {
+    function COM_output($display) {
+        echo $display;
     }
 }
 

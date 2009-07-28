@@ -132,7 +132,7 @@ table.mycaljp2 tr td a:visited {
 /* 日曜日 */
 table.mycaljp2 tr td.sunday,
 table.mycaljp2 tr td.sunday a {
-  color: #E50000;
+  color: #C00000;
 }
 
 /* 土曜日 */
@@ -144,7 +144,7 @@ table.mycaljp2 tr td.saturday a {
 /* 日本の休日(祝日) */
 table.mycaljp2 tr td.holiday,
 table.mycaljp2 tr td.holiday a {
-  color: #E50000;
+  color: #C00000;
 }
 
 /* サイトカレンダのスキップ用スパン */
