@@ -51,6 +51,8 @@ class DataproxyDriver
 	var $encoding;
 	var $options;
 	var $parent;
+	var $startdate;
+	var $enddate;
 	
 	/**
 	* Constructor
@@ -97,6 +99,26 @@ class DataproxyDriver
 	function getAllSupportedDriverNames()
 	{
 		return $this->parent->getAllSupportedDriverNames();
+	}
+	
+	function setDateStart($startdate)
+	{
+		$this->startdate = $startdate;
+	}
+	
+	function getDateStart()
+	{
+		return $this->startdate;
+	}
+	
+	function setDateEnd($enddate)
+	{
+		$this->enddate = $enddate;
+	}
+	
+	function getDateEnd()
+	{
+		return $this->enddate;
 	}
 	
 	/**
@@ -236,6 +258,26 @@ class DataproxyDriver
 	*)
 	*/
 	function getItems($category, $all_langs = false)
+	{
+		return array();
+	}
+	
+	/**
+	* Returns meta data of items under a given date
+	*
+	* @note MUST BE OVERRIDDEN IN CHILD CLASSES
+	*
+	* @param $all_langs boolean: true = all languages, true = current language
+	*
+	* @return array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	*)
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
 	{
 		return array();
 	}
@@ -386,6 +428,8 @@ class Dataproxy
 	var $uid;
 	var $encoding;
 	var $options;
+	var $startdate;
+	var $enddate;
 	
 	/**
 	* Dataproxy drivers are loaded in the following order
@@ -397,6 +441,7 @@ class Dataproxy
 			'article', 'comments', 'trackback',
 			'staticpages', 'calendar', 'links', 'polls',
 			'dokuwiki', 'forum', 'filemgmt', 'faqman', 'mediagallery',
+			'calendarjp', 'download',
 		);
 	
 	/**
@@ -414,6 +459,8 @@ class Dataproxy
 	var $filemgmt;
 	var $faqman;
 	var $mediagallery;
+	var $calendarjp;
+	var $download;
 	
 	/**
 	* References to the loaded drivers (the same as the above, but in an array
@@ -519,7 +566,50 @@ class Dataproxy
 		return $this->options;
 	}
 	
-
+	function setDateStart($datestart = '')
+	{
+		if (!empty($datestart)) {
+			$delim = substr($datestart, 4, 1);
+			if (!empty($delim)) {
+				$DS = explode($delim, $datestart);
+				$this->startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+			}
+		}
+		
+		if (count($this->drivers) > 0) {
+			foreach ($this->drivers as $driver) {
+				$driver->setDateStart($this->startdate);
+			}
+		}
+	}
+	
+	function getDateStart()
+	{
+		return $this->startdate;
+	}
+	
+	function setDateEnd($dateend = '')
+	{
+		if (!empty($dateend)) {
+			$delim = substr($dateend, 4, 1);
+			if (!empty($delim)) {
+				$DE = explode($delim, $dateend);
+				$this->enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+			}
+		}
+		
+		if (count($this->drivers) > 0) {
+			foreach ($this->drivers as $driver) {
+				$driver->setDateEnd($this->enddate);
+			}
+		}
+	}
+	
+	function getDateEnd()
+	{
+		return $this->enddate;
+	}
+	
 # 	/**
 # 	* Returns the reference to the given driver
 # 	*/

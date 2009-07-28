@@ -182,4 +182,72 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+		global $_CONF, $_TABLES;
+		
+		$entries = array();
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql_date = "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if (version_compare(VERSION, '1.5.0') >= 0) {
+			$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
+				 . "FROM {$_TABLES['polltopics']} "
+				 . "WHERE (1 = 1) " . $sql_date;
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('AND', $this->uid);
+			}
+			$sql .= " ORDER BY pid";
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $entries;
+			}
+			
+			while (($A = DB_fetchArray($result, false)) !== false) {
+				$entry = array();
+				$entry['id']        = $A['pid'];
+				$entry['title']     = stripslashes($A['topic']);
+				$entry['uri']       = $_CONF['site_url'] . '/polls/index.php?pid='
+									. urlencode($entry['id']);
+				$entry['date']      = $A['day'];
+				$entry['image_uri'] = false;
+				$entries[] = $entry;
+			}
+		} else {
+			$sql = "SELECT qid, question, UNIX_TIMESTAMP(date) AS day "
+				 . "FROM {$_TABLES['pollquestions']} "
+				 . "WHERE (1 = 1) " . $sql_date;
+			if ($this->uid > 0) {
+				$sql .= COM_getPermSQL('AND', $this->uid);
+			}
+			$sql .= " ORDER BY qid";
+			$result = DB_query($sql);
+			if (DB_error()) {
+				return $entries;
+			}
+		
+			while (($A = DB_fetchArray($result, false)) !== false) {
+				$entry = array();
+				$entry['id']        = $A['qid'];
+				$entry['title']     = stripslashes($A['question']);
+				$entry['uri']       = $_CONF['site_url'] . '/polls/index.php?qid='
+									. urlencode($entry['id']) . '&amp;aid=-1';
+				$entry['date']      = $A['day'];
+				$entry['image_uri'] = false;
+				$entries[] = $entry;
+			}
+		}
+		
+		return $entries;
+	}
 }

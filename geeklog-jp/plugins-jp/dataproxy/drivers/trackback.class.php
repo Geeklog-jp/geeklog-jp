@@ -155,4 +155,48 @@ class Dataproxy_trackback extends DataproxyDriver
 		
 		return $entries;
 	}
+
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+	    global $_CONF, $_TABLES;
+		
+		$entries = array();
+		
+		if (!in_array($category, $this->getAllDriverNames())) {
+			return $entries;
+		}
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT cid, title, url, UNIX_TIMESTAMP(date) AS day "
+			 . "FROM {$_TABLES['trackback']} "
+			 . "WHERE (type = '" . addslashes($category) . "') "
+			 . "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') "
+			 . "ORDER BY date DESC";
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			
+			$entry['id']        = $A['cid'];
+			$entry['title']     = stripslashes($A['title']);
+			$entry['uri']       = $this->cleanUrl($A['url']);
+			$entry['date']      = $A['day'];
+			$entry['image_uri'] = false;
+			
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }

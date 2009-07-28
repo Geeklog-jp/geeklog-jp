@@ -168,4 +168,84 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+	    global $_CONF, $_TABLES, $_DW_CONF;
+		
+		$entries = array();
+		
+		// Collect all Dokuwiki entries since Dokuwiki does no access control.
+		$base_path = $_CONF['path_html'] . substr($_DW_CONF['public_dir'], 1);
+		clearstatcache();
+		if (!file_exists($base_path)) {
+			COM_errorLog("Dataproxy: can't find DokuWiki's directory.");
+			return entries;
+		}
+		
+		require_once $base_path . 'conf/dokuwiki.php';
+		$data_path = realpath($base_path . $conf['savedir'] . '/pages');
+		if ($data_path === false) {
+			COM_errorLog("Dataproxy: can't find DokuWiki's data directory.");
+			return $entries;
+		}
+		
+		$dh = @opendir($data_path);
+		if ($dh === false) {
+			return $entries;
+		}
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		
+		while (($entry_name = readdir($dh)) !== false) {
+			$full_path = $data_path . DIRECTORY_SEPARATOR . $entry_name;
+			$file_time = filemtime($full_path);
+			if (($file_time < $this->startdate) || ($file_time > $this->enddate)) continue;
+			clearstatcache();
+			if (is_file($full_path)
+			 AND preg_match("/^(.*)(\.txt)$/i", $entry_name, $match)) {
+				$entry = array();
+				
+				$entry['id']    = $match[1];
+				$entry['title'] = urldecode($entry['id']);
+				switch ($conf['userewrite']) {
+					case 1: // URL rewrite - .htaccess
+						COM_errorLog('Dataproxy: dokuwiki URL rewrite rule is not defined.  File: ' . __FILE__ . ' line: ' . __LINE__);
+						/* fall through to case 0: */
+					
+					case 0: // URL rewrite - off
+						$entry['uri'] = $_CONF['site_url'] . $_DW_CONF['public_dir']
+									  . 'doku.php?id=' . $entry['id'];
+						break;
+					
+					case 2: // URL rewrite - internal
+						$entry['uri'] = $_CONF['site_url'] . $_DW_CONF['public_dir']
+									  . 'doku.php/' . $entry['id'];
+						break;
+					
+					default:
+						break;
+				}
+				
+				clearstatcache();
+				$entry['date']      = $file_time;
+				$entry['image_uri'] = false;
+				
+				$entries[] = $entry;
+			}
+		}
+		
+		closedir($dh);
+		
+		return $entries;
+	}
 }

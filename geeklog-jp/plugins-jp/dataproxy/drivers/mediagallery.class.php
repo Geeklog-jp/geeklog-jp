@@ -232,4 +232,68 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+		global $_CONF, $_TABLES, $_MG_CONF;
+		
+		$entries = array();
+		
+		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
+			return $entries;
+		}
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		
+		$sql = "SELECT media_id "
+			 . "FROM {$_TABLES['mg_media_albums']} "
+			 . "WHERE (album_id ='" . addslashes($category) . "') "
+			 . "ORDER BY media_order";
+		
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		$media_ids = array();
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$media_ids[] = "'" . $A['media_id'] . "'";
+		}
+		
+		if (count($media_ids) == 0) {
+			return $entries;
+		}
+		
+		$sql = "SELECT media_id, media_title, media_time "
+			 . "FROM {$_TABLES['mg_media']} "
+			 . "WHERE (media_id IN (" . implode(',', $media_ids) . "))"
+			 . "AND (media_time BETWEEN '$this->startdate' AND '$this->enddate') ";
+		
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			$entry['id']        = stripslashes($A['media_id']);
+			$entry['title']     = stripslashes($A['media_title']);
+			$entry['uri']       = $_MG_CONF['site_url'] . '/media.php?s='
+								. urlencode($entry['id']);
+			$entry['date']      = $A['media_time'];
+			$entry['image_uri'] = false;
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }
