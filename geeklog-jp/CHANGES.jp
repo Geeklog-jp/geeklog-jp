@@ -1,5 +1,13 @@
 $Id$
 
+2009-07-29  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン：バージョン2.1.0に更新します。
+	  ・eeklog1.6で動作するようにしました。
+	  ・Dataproxyに対応しました。
+	    （ただし、Dataproxyの機能拡張版（暫定版1.1.4.1）が必要です）
+	  ・コンフィギュレーションとオートインストール機能に対応しました。
+
 2009-07-28  Yoshinori Tahara  <dengen>
 
 	* search.class.phpに埋め込まれた'<br>'を、xhtmlに対応するため修正
