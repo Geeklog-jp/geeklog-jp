@@ -1,15 +1,14 @@
 <?php
-/* Reminder: always indent with 4 spaces (no tabs). */
+// Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Geeklog Site Calendar Plugin 'mycaljp' version 2.0.0                      |
-// | Only Supported with Geeklog 1.4.1 and new Search Class                    |
+// | Site Calendar - Mycaljp Plugin for Geeklog                                |
 // +---------------------------------------------------------------------------+
-// | language/japanese_utf-8.php                                               |
+// | plugins/mycaljp/language/japanese_utf-8.php                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2007 by the following authors:                         |
-// | Geeklog Author:       Tony Bibbs   - tony@tonybibbs.com                   |
-// | mycal Block Author:   Blaine Lang  - geeklog@langfamily.ca                |
-// | mycaljp Plugin Author: Yoshinori Tahara - dengen                          |
+// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
+// | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
+// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -28,7 +27,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 $LANG_MYCALJP = array (
     'plugin'            => 'mycaljpプラグイン',
@@ -51,13 +49,7 @@ $LANG_MYCALJP = array (
     'blocktitle'        => 'ブロックタイトル',
     'selecttemplates'   => 'テンプレートの選択',
     'checkcontents'     => 'チェック対象のコンテンツ',
-    'showholiday'       => '土・日・休日を色分け表示する',
-    'checkjpholiday'    => '日本の休日を調べる',
-    'headertitleyear'   => 'ヘッダタイトル（年）',
-    'headertitlemonth'  => 'ヘッダタイトル（月）',
     'wdays'             => '曜日タイトル',
-    'enablesrblocks'    => '右サイドバーを表示する',
-    'showstoriesintro'  => '記事のイントロを表示する',
     'prevmonth'         => '先月へ',
     'nextmonth'         => '翌月へ',
     'skipcalendar'      => 'サイトカレンダをスキップ',
@@ -65,9 +57,6 @@ $LANG_MYCALJP = array (
     'footeroflink'      => 'のコンテンツ',
     'yes'               => 'はい',
     'no'                => 'いいえ',
-    'titleorder'        => 'ヘッダタイトルの順序',
-    'year_month'        => '年 月',
-    'month_year'        => '月 年',
     'sunday'            => '日',
     'monday'            => '月',
     'tuesday'           => '火',
@@ -76,21 +65,60 @@ $LANG_MYCALJP = array (
     'friday'            => '金',
     'saturday'          => '土',
 
-    'infotitleyear'     => '"Y"  年．4 桁の数字．(例: 1999または2003)<br' . XHTML . '>' .
-                           '"y"  年．2 桁の数字．(例: 99 または 03)',
-    'infotitlemonth'    => '"m"  月．数字。先頭にゼロをつける．(01 から 12)<br' . XHTML . '>' .
-                           '"n"  月．数字。先頭にゼロをつけない．(1 から 12)<br' . XHTML . '>' .
-                           '"F"  月．フルスペルの文字．(January から December)<br' . XHTML . '>' .
-                           '"M"  月．3 文字形式．(Jan から Dec)',
     'applythemetmplate' => 'テーマ提供テンプレートの適用',
-    'infoapplythemetemp' => 'テーマで提供されるmycaljp用テンプレートを検索し<br' . XHTML . '>' .
-                           '見つかった場合はそれを適用します。<br' . XHTML . '>' .
-                           '見つからなかった場合は標準テンプレートを使用します。<br' . XHTML . '>' .
-                           '(テーマ側のサポートが必要です。)',
-    
     'headerofdate'      => '',
     'middleofdate'      => ' ～ ',
     'footerofdate'      => ' の検索結果',
+    'no_dataproxy'      => 'Dataproxy がありません。',
+    'pickup_title'      => 'サイトカレンダ - ピックアップ',
 );
 
+
+// Localization of the Admin Configuration UI
+$LANG_configsections['mycaljp'] = array(
+    'label' => 'Mycaljp',
+    'title' => 'Mycaljp Configulation'
+);
+
+$LANG_confignames['mycaljp'] = array(
+    'headertitleyear'     => 'ヘッダタイトル（年）',
+    'headertitlemonth'    => 'ヘッダタイトル（月）',
+    'titleorder'          => 'ヘッダタイトルの順序',
+    'sunday'              => '日',
+    'monday'              => '月',
+    'tuesday'             => '火',
+    'wednesday'           => '水',
+    'thursday'            => '木',
+    'friday'              => '金',
+    'saturday'            => '土',
+    'showholiday'         => '土・日・休日を色分け表示する',
+    'checkjpholiday'      => '日本の休日を調べる',
+    'enablesrblocks'      => '右サイドバーを表示する',
+    'showstoriesintro'    => '記事のイントロを表示する',
+    'use_theme'           => 'テーマのテンプレートを使う',
+    'template'            => 'テンプレート名',
+    'date_format'         => '日付の形式',
+    'supported_contents'  => 'サポートするコンテンツ',
+    'enabled_contents'    => '有効にするコンテンツ',
+    'sp_type'             => 'リストに掲載するタイプ',
+    'sp_except'           => '除外するページID',
+);
+
+$LANG_configsubgroups['mycaljp'] = array(
+    'sg_main' => 'メイン'
+);
+
+$LANG_fs['mycaljp'] = array(
+    'fs_main' => 'サイトカレンダのメイン設定',
+    'fs_staticpages' => '静的ページの設定',
+);
+
+// Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
+$LANG_configselects['mycaljp'] = array(
+    0 => array('はい' => 1, 'いいえ' => 0),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
+    13 => array('年 月' => TRUE, '月 年' => FALSE),
+    14 => array('すべて' => 0, 'センターブロックに表示されるページのみ' => 1, 'センターブロックに表示されないページのみ' => 2),
+);
 ?>
