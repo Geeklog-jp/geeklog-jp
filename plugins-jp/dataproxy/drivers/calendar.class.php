@@ -166,4 +166,53 @@ class Dataproxy_calendar extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* @param $all_langs boolean: true = all languages, true = current language
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($event_type = '', $all_langs = false)
+	{
+	    global $_CONF, $_TABLES;
+		
+		$entries = array();
+
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
+			 . "FROM {$_TABLES['events']} "
+			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if (!empty($event_type)) {
+			$sql .= "AND (event_type = '" . addslashes($event_type) . "') ";
+		}
+		if ($this->uid > 0) {
+			$sql .= COM_getPermSql('AND', $this->uid);
+		}
+		$sql .= " ORDER BY day1 DESC, day2 DESC";
+
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			
+			$entry['id']        = $A['eid'];
+			$entry['title']     = stripslashes( $A['title'] );
+			$entry['uri']       = $_CONF['site_url'] . '/calendar/event.php?eid='
+								. $entry['id'];
+			$entry['date']      = (int) $A['day1'] + (int) $A['day2'];
+			$entry['image_uri'] = false;
+			
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }
