@@ -28,6 +28,6 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once('../lib-common.php');
-echo phpblock_mycaljp();
+require_once '../lib-common.php';
+echo MYCALJP_showCalendar();
 ?>
