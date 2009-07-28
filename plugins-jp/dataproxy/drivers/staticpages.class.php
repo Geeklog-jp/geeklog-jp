@@ -138,4 +138,60 @@ class Dataproxy_staticpages extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* @note This function ignores static pages which are displayed in the
+	*       center blok.
+	* @refer $_SP_CONF['sort_by']
+	*
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+		global $_CONF, $_TABLES, $_SP_CONF;
+		
+		$entries = array();
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
+			 . "FROM {$_TABLES['staticpage']} "
+			 . "WHERE (UNIX_TIMESTAMP(sp_date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if ($this->uid > 0) {
+			$sql .= COM_getPermSql('AND', $this->uid);
+		}
+		
+		if (in_array($_SP_CONF['sort_by'], array('id', 'title', 'date'))) {
+			$crit = $_SP_CONF['sort_by'];
+		} else {
+			$crit = 'id';
+		}
+		$crit = 'sp_' . $crit;
+		$sql .= " ORDER BY " . $crit;
+		
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			$entry['id']        = stripslashes($A['sp_id']);
+			$entry['title']     = stripslashes($A['sp_title']);
+			$entry['uri']       = COM_buildURL(
+				$_CONF['site_url'] . '/staticpages/index.php?page='
+				. rawurlencode($entry['id'])
+			);
+			$entry['date']      = $A['day'];
+			$entry['image_uri'] = false;
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }

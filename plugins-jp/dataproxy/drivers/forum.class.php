@@ -157,7 +157,48 @@ class Dataproxy_forum extends DataproxyDriver {
 			$entry['title']     = stripslashes($A['subject']);
 			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
 								. $entry['id'];
-			$entry['date']      = $A['lastupdated'];
+			$entry['date']      = $A['date'];
+			$entry['image_uri'] = false;
+			
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($forum_id = '', $all_langs = false)
+	{
+		global $_CONF, $_TABLES;
+		
+		$entries = array();
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT id, subject, lastupdated FROM {$_TABLES['gf_topic']} "
+		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
+			 . "AND (lastupdated BETWEEN '$this->startdate' AND '$this->enddate') "
+			 . "ORDER BY lastupdated DESC";
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			
+			$entry['id']        = $A['id'];
+			$entry['title']     = stripslashes($A['subject']);
+			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
+								. $entry['id'];
+			$entry['date']      = $A['date'];
 			$entry['image_uri'] = false;
 			
 			$entries[] = $entry;
