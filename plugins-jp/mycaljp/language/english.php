@@ -1,15 +1,14 @@
 <?php
-/* Reminder: always indent with 4 spaces (no tabs). */
+// Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | Geeklog Site Calendar Plugin 'mycaljp' version 2.0.0                      |
-// | Only Supported with Geeklog 1.4.1 and new Search Class                    |
+// | Site Calendar - Mycaljp Plugin for Geeklog                                |
 // +---------------------------------------------------------------------------+
-// | language/japanese_utf-8.php                                               |
+// | plugins/mycaljp/language/english.php                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2007 by the following authors:                         |
-// | Geeklog Author:       Tony Bibbs   - tony@tonybibbs.com                   |
-// | mycal Block Author:   Blaine Lang  - geeklog@langfamily.ca                |
-// | mycaljp Plugin Author: Yoshinori Tahara - dengen                          |
+// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
+// | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
+// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -28,8 +27,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-
 $LANG_MYCALJP = array (
     'plugin'            => 'mycaljp Plugin',
     'access_denied'     => 'Access Denied',
@@ -51,13 +48,7 @@ $LANG_MYCALJP = array (
     'blocktitle'        => 'Block Title',
     'selecttemplates'   => 'Select Template',
     'checkcontents'     => 'Checked Contents',
-    'showholiday'       => 'Classification Display Sat, Sun, and Holiday',
-    'checkjpholiday'    => 'Check Holiday of Japan',
-    'headertitleyear'   => 'Header Title（Year）',
-    'headertitlemonth'  => 'Header Title（Month）',
     'wdays'             => 'Week Title',
-    'enablesrblocks'    => 'Display Right Sidebar',
-    'showstoriesintro'  => 'Display Intro of Stories',
     'prevmonth'         => 'Last Month',
     'nextmonth'         => 'Next Month',
     'skipcalendar'      => 'Skip Site Calendar',
@@ -65,9 +56,6 @@ $LANG_MYCALJP = array (
     'footeroflink'      => '',
     'yes'               => 'Yes',
     'no'                => 'No',
-    'titleorder'        => 'Order of Header Title',
-    'year_month'        => 'Year Month',
-    'month_year'        => 'Month Year',
     'sunday'            => 'Su',
     'monday'            => 'M',
     'tuesday'           => 'Tu',
@@ -76,21 +64,60 @@ $LANG_MYCALJP = array (
     'friday'            => 'F',
     'saturday'          => 'Sa',
 
-    'infotitleyear'     => '"Y"  A full numeric representation of a year.<br' . XHTML . '>(Examples: 1999 or 2003)<br' . XHTML . '>' .
-                           '"y"  A two digit representation of a year.<br' . XHTML . '>(Examples: 99 or 03)',
-    'infotitlemonth'    => '"m"  Numeric representation of a month, <br' . XHTML . '>with leading zeros.(01 through 12)<br' . XHTML . '>' .
-                           '"n"  Numeric representation of a month, <br' . XHTML . '>without leading zeros.(1 through 12)<br' . XHTML . '>' .
-                           '"F"  A full textual representation of a month.<br' . XHTML . '>(January through December)<br' . XHTML . '>' .
-                           '"M"  A short textual representation of a month.<br' . XHTML . '>(Jan through Dec)',
     'applythemetmplate' => 'Apply Themes Tmplate',
-    'infoapplythemetemp' => 'Apply it when the template for mycaljp offered<br' . XHTML . '>' .
-                           'by the theme is retrieved, and it is found.<br' . XHTML . '>' .
-                           'Use a standard template when it is not found.<br' . XHTML . '>' .
-                           '(It is necessary to support the theme side)',
-    
     'headerofdate'      => 'Search Result of',
     'middleofdate'      => ' through ',
     'footerofdate'      => '',
+    'no_dataproxy'      => 'Dataproxy does not exist.',
+    'pickup_title'      => 'Site Calendar - Pickup',
 );
 
+
+// Localization of the Admin Configuration UI
+$LANG_configsections['mycaljp'] = array(
+    'label' => 'Mycaljp',
+    'title' => 'Mycaljp Configulation'
+);
+
+$LANG_confignames['mycaljp'] = array(
+    'headertitleyear'     => 'Header Title (Year)',
+    'headertitlemonth'    => 'Header Title (Month)',
+    'titleorder'          => 'Order of Header Title',
+    'sunday'              => 'Sunday',
+    'monday'              => 'Monday',
+    'tuesday'             => 'Tuesday',
+    'wednesday'           => 'Wednesday',
+    'thursday'            => 'Thursday',
+    'friday'              => 'Friday',
+    'saturday'            => 'Saturday',
+    'showholiday'         => 'Separate Sat, Sun, and Holiday by Color',
+    'checkjpholiday'      => 'Check Holiday of Japan',
+    'enablesrblocks'      => 'Display Right Sidebar',
+    'showstoriesintro'    => 'Display Intro of Stories',
+    'use_theme'           => 'Use template at the theme',
+    'template'            => 'Template Name',
+    'date_format'         => 'Date format',
+    'supported_contents'  => 'Supported Contents',
+    'enabled_contents'    => 'Enabled Contents',
+    'sp_type'             => 'Types of pages to be listed',
+    'sp_except'           => 'IDs of pages should not be listed',
+);
+
+$LANG_configsubgroups['mycaljp'] = array(
+    'sg_main' => 'Main Settings'
+);
+
+$LANG_fs['mycaljp'] = array(
+    'fs_main' => 'General Mycaljp Settings',
+    'fs_staticpages' => 'Staticpages Settings',
+);
+
+// Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
+$LANG_configselects['mycaljp'] = array(
+    0 => array('True' => 1, 'False' => 0),
+    1 => array('True' => TRUE, 'False' => FALSE),
+    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3),
+    13 => array('Year Month' => 0, 'Month Year' => 1),
+    14 => array('All' => 0, 'Only pages that appear on the center block' => 1, 'Only pages that do NOT appear on the center block' => 2),
+);
 ?>

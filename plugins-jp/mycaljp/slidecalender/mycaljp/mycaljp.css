@@ -122,7 +122,7 @@ div.mycaljp_slide table tr td a:visited {
 /* 日曜日 */
 div.mycaljp_slide table tr td.sunday,
 div.mycaljp_slide table tr td.sunday a {
-  color: #E50000;
+  color: #C00000;
 }
 
 /* 土曜日 */
@@ -134,7 +134,7 @@ div.mycaljp_slide table tr td.saturday a {
 /* 日本の休日(祝日) */
 div.mycaljp_slide table tr td.holiday,
 div.mycaljp_slide table tr td.holiday a {
-  color: #E50000;
+  color: #C00000;
 }
 
 /* ページ内リンク部分 */
