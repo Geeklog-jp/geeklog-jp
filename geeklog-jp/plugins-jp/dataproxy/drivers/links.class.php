@@ -238,4 +238,58 @@ class Dataproxy_links extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($category = '', $all_langs = false)
+	{
+		global $_CONF, $_TABLES;
+		
+		$entries = array();
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT lid, title, UNIX_TIMESTAMP(date) AS date_u "
+			 . "FROM {$_TABLES['links']} "
+			 . "WHERE (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if (!empty($category)) {
+			if (version_compare(VERSION, '1.5.0') < 0) {
+				$sql .= "AND (category = '" . addslashes($category) . "') ";
+			} else {	// for GL-1.5.0+
+				$sql .= "AND (cid = '" . addslashes($category) . "') ";
+			}
+		}
+		if ($this->uid > 0) {
+			$sql .= COM_getPermSQL('AND', $this->uid);
+		}
+		$sql .= "ORDER BY date_u DESC";
+		$result  = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			$A = array_map('stripslashes', $A);
+			
+			$entry['id']        = $A['lid'];
+			$entry['title']     = $A['title'];
+			$entry['uri']       = COM_buildURL(
+					$_CONF['site_url'] . '/links/portal.php?what=link&amp;item='
+					. urlencode($this->toUtf8($entry['id']))
+			);
+									// GL uses urlencode()
+			$entry['date']      = $A['date_u'];
+			$entry['image_uri'] = false;
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }

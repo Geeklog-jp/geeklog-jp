@@ -191,4 +191,52 @@ class Dataproxy_filemgmt extends DataproxyDriver
 		
 		return $entries;
 	}
+	
+	/**
+	* Returns an array of (
+	*   'id'        => $id (string),
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	function getItemsByDate($cid = '', $all_langs = false)
+	{
+	    global $_CONF, $_TABLES, $_FM_TABLES;
+		
+		$entries = array();
+		
+		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		$sql = "SELECT lid, f.title, logourl, date "
+			 . "FROM {$_FM_TABLES['filemgmt_filedetail']} AS f "
+			 . "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} AS c "
+			 . "ON f.cid = c.cid "
+			 . "WHERE (date BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if (!empty($cid)) {
+			$sql .= "AND (f.cid = '" . addslashes($cid) . "') ";
+		}
+		if ($this->uid > 0) {
+			$sql .= "AND (c.grp_access IN ("
+				 .  implode(',', SEC_getUserGroups($this->uid)) . "))";
+		}
+		$result = DB_query($sql);
+		if (DB_error()) {
+			return $entries;
+		}
+		
+		while (($A = DB_fetchArray($result, false)) !== false) {
+			$entry = array();
+			
+			$entry['id']        = $A['lid'];
+			$entry['title']     = stripslashes($A['title']);
+			$entry['uri']       = $_CONF['site_url'] . '/filemgmt/index.php?id='
+								. $entry['id'];
+			$entry['date']      = $A['date'];
+			$entry['image_uri'] = false;
+			$entries[] = $entry;
+		}
+		
+		return $entries;
+	}
 }
