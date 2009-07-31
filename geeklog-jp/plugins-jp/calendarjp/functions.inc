@@ -757,6 +757,7 @@ function plugin_submit_calendarjp($mode = 'master')
 
     $eventform->set_var('lang_link', $LANG_CALJP_1[43]);
     $eventform->set_var('max_url_length', 255);
+    $eventform->set_var('lang_includehttp', $LANG_CALJP_1['includehttp']);
     $eventform->set_var('lang_startdate', $LANG_CALJP_1[21]);
     $eventform->set_var('lang_starttime', $LANG_CALJP_1[30]);
 
@@ -845,11 +846,7 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('lang_tail_year', $LANG_CALJP_1['tail_year']);
     $eventform->set_var('lang_tail_month', $LANG_CALJP_1['tail_month']);
     $eventform->set_var('lang_tail_day', $LANG_CALJP_1['tail_day']);
-
-//  都道府県のリスト表示をできるようにするか
     $eventform->set_var('state_options', '');
-//    $eventform->set_var('state_options', CALENDARJP_stateList());
-
     $eventform->set_var('lang_zipcode',$LANG_CALJP_1[36]);
     $eventform->set_var('lang_location', $LANG_CALJP_1[39]);
     $eventform->set_var('lang_description', $LANG_CALJP_1[5]);

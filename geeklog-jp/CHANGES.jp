@@ -1,5 +1,11 @@
 $Id$
 
+2009-08-01  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン：一般ユーザーが全体イベントを投稿する場合に、
+	  ・「リンク」の初期値「http://」がスパムリンクと判断されてしまう問題
+	    を修正しました。
+
 2009-07-29  Yoshinori Tahara  <dengen>
 
 	* Dataproxyプラグイン：Mycaljpプラグインの更新に伴い、
