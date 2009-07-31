@@ -1,5 +1,9 @@
 $Id$
 
+2009-07-31  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.5.0sr5でのセキュリティ修正を適用しました。
+
 2009-07-16  Takahiro Kambe  <tacahi>
 
 	* fckeditorのconfig.phpの$Config['QuickUploadPath']と
