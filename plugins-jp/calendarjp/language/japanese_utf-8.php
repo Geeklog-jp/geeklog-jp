@@ -93,9 +93,10 @@ $LANG_CALJP_1 = array(
     49 => 'このサイトにはイベントがないか、誰もイベントをクリックしていないかどちらかのようです。',
     50 => 'イベント',
     51 => '削除',
-    'tail_year'  => '年',
-    'tail_month' => '月',
-    'tail_day'   => '日'
+    'tail_year'   => '年',
+    'tail_month'  => '月',
+    'tail_day'    => '日',
+    'includehttp' => '(http://から始めてください)'
 );
 
 $_LANG_CALJP_SEARCH = array(
