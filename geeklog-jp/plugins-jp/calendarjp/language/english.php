@@ -90,7 +90,8 @@ $LANG_CALJP_1 = array(
     51 => 'Delete',
     'tail_year'  => '',
     'tail_month' => '/',
-    'tail_day'   => '/'
+    'tail_day'   => '/',
+    'includehttp' => '(include http://)'
 );
 
 $_LANG_CALJP_SEARCH = array(
