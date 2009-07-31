@@ -364,10 +364,8 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4.0(2009-7-22)
+■Ver.2.4.0(2009-7-6)
 　・Geeklog 1.6.0に合わせて、ファイルを追加・修正・削除しました。
-  ・記事にメディアギャラリーから画像を挿入した際、記事の中のレイアウトが崩れないようスタイルを設定しました。(*/css/story.css)
-  ・記事に画像を添付し、自動タグで左右寄せ([imageX_right]、[imageX_left])にした際、余白が入るようにスタイルを設定しました。(*/css/compatible.css)
   ・管理画面ブロックの編集ページのテーブルレイアウトを修正し、チェックボックス等をlabel要素と関連付ける為にinput要素にid属性を追加しました。(*/admin/block/defaultblockeditor.thtml)
   ・聞き飛ばし部分に入れているテキスト「記事」を「本文」に変更しました。(*/header.thtml)
   ・パーミッションのチェックボックスをlabelタグと関連付ける為にinputタグにid属性を追加しました。(*/admin/common/edit_permissions.thtml)

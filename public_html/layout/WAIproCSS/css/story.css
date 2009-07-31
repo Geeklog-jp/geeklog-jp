@@ -85,7 +85,6 @@ div#centerblocks div.storytext div.story_introtext {
 
 /* 全文表示 */
 div#centerblocks div.storytext p.more {
-  clear: both;
   margin: 0 0 2em;
 }
 
@@ -156,7 +155,6 @@ div#centerblocks div.featuredstorytext h2 {
 
 /* 全文表示 */
 div#centerblocks div.featuredstorytext p.more {
-  clear: both;
   margin: 0 0 2em;
 }
 

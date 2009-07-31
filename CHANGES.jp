@@ -1,19 +1,12 @@
 $Id$
 
-2009-07-22  Masuko Koeda  <milk851>
-
-	* WAIproCSSで記事にメディアギャラリーから画像を挿入した際、
-          記事の中のレイアウトが崩れないようスタイルを設定し
-          記事に画像を添付し、自動タグで左右寄せにした際、
-          余白が入るようにスタイルを設定しました。
-          この２つの修正をREADMEの更新履歴に記載しました。
-
 2009-07-14  Masuko Koeda  <milk851>
 
 	* WAIproCSSのadmin/lists/inline.thtml、lists/inline/list.thtml、
           lists/table/list.thtmlの中の<b>タグを<strong>タグに変更しました。
           また、多言語モード有効でない時も<html>タグにlang属性が入るように
           header.thtmlを修正しました。
+
 
 2009-07-10  Masuko Koeda  <milk851>
 
