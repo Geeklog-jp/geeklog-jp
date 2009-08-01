@@ -2,7 +2,7 @@
 
 PLUGIN=		mycaljp
 
-FILES=		README_JP config.php functions.inc history readme_jp.html
+FILES=		README_JP autoinstall.php functions.inc history install_defaults.php
 DIRS=		language slidecalender templates
 
 include ../../GNUmakefile.plugins
