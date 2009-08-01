@@ -54,7 +54,11 @@ div#leftblocks div#block-left-search form#searchform p {
   padding: 0;
 }
 
-
+/* 検索結果 */
+.admin-list-search form {
+  display: inline;
+  margin-right: 1em;
+}
 
 /*--------------------------------------
   ログインフォーム

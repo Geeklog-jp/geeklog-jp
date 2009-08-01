@@ -383,7 +383,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   ・音声読み上げソフト利用者の方が解りやすいように、管理画面記事の編集ページの「使用できるHTMLタグの説明」の位置を移動しました。その変更に伴い余白を修正しました。(*/admin/story/storyeditor_advanced.thtml,*/css/admin/story.css,*/css/common.css)
   ・音声読み上げソフト利用者の方が解りやすいように、ゲストの記事の投稿ページの「投稿モード」と「使用できるHTMLタグの説明」を記事入力の上に移動しました。(*/submit/submitstory_advanced.thtml)
   ・音声読み上げソフト利用者の方が解りやすいように、コメントの投稿ページ「注意事項」「投稿方法」「使用できるHTMLタグの説明」をコメント入力前に移動しました。(*/comment/commentform_advanced.thtml)
-  ・Geeklog 1.6.0からDOCTYPEを選択できるようになったので、フッタのvalidate表示を消しました。
+  ・Geeklog 1.6.0からDOCTYPEを選択できるようになったので、フッタのvalidate表示を消しました。(*/footer.thtml,*/css/common.css)
   ・サイト名の部分に付いていた下線を消しました。(*/css/layout.css)
   ・音声読み上げソフト利用者の方が解りやすいように、検索オプションページの日付の書式を入力前に移動しました。(*/search/searchform.thtml)
 

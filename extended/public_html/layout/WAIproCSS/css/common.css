@@ -127,6 +127,13 @@ hr.separator {
   display: none;
 }
 
+p.skip {
+  position: absolute;
+  left: -9999px;
+  margin: 0;
+  padding: 0;
+}
+
 .speech {
   overflow: hidden;
   position: absolute;
@@ -135,7 +142,6 @@ hr.separator {
   height: 0;
 }
 
-div#container div#footer p.validate,
 div#container div#footer ul li.execution_textandtime {
   speak: none;
 }
@@ -162,14 +168,6 @@ div.pagenav {
   text-align: center;
   line-height: 1.5;
 }
-
-p.skip {
-  position: absolute;
-  left: -9999px;
-  margin: 0;
-  padding: 0;
-}
-
 
 /*--------------------------------------
   プラグインの警告
