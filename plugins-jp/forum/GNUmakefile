@@ -2,10 +2,10 @@
 
 PLUGIN=		forum
 
-FILES=		config.php debug.php functions.inc history.txt \
-		readme.html readme.jp upgrade.inc v2.6_changes.txt \
+FILES=		autoinstall.php config.php functions.inc history.txt \
+		install_defaults.php readme.html readme_ja.txt upgrade.inc \
 		v2.7_changes.txt v2.7.1_changes.txt v2.7.2_changes.txt
-DIRS=		language sql system templates themefiles
+DIRS=		include language sql themefiles
 
 include ../../GNUmakefile.plugins
 include ../../GNUmakefile.common
