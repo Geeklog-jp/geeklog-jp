@@ -449,7 +449,11 @@ class Story
                 $this->_show_topic_icon = 1;
             }
 
-            $this->_uid = $_USER['uid'];
+            if (COM_isAnonUser()) {
+                $this->_uid = 1;
+            } else {
+                $this->_uid = $_USER['uid'];
+            }
             $this->_date = time();
             $this->_expire = time();
             $this->_commentcode = $_CONF['comment_code'];
@@ -479,7 +483,11 @@ class Story
 
             $this->_statuscode = 0;
             $this->_featured = 0;
-            $this->_owner_id = $_USER['uid'];
+            if (COM_isAnonUser()) {
+                $this->_owner_id = 1;
+            } else {
+                $this->_owner_id = $_USER['uid'];
+            }
 
             if (isset($_GROUPS['Story Admin'])) {
                 $this->_group_id = $_GROUPS['Story Admin'];
@@ -792,10 +800,10 @@ class Story
     {
         global $_USER, $_CONF, $_TABLES;
 
-        if (isset($_USER['uid']) && ($_USER['uid'] > 1)) {
-            $this->_uid = $_USER['uid'];
-        } else {
+        if (COM_isAnonUser()) {
             $this->_uid = 1;
+        } else {
+            $this->_uid = $_USER['uid'];
         }
 
         $this->_postmode = $_CONF['postmode'];
@@ -845,6 +853,9 @@ class Story
         $this->_postmode = COM_applyFilter($array['postmode']);
         $this->_sid = COM_applyFilter($array['sid']);
         $this->_uid = COM_applyFilter($array['uid'], true);
+        if ($this->_uid < 1) {
+            $this->_uid = 1;
+        }
         $this->_unixdate = COM_applyFilter($array['date'], true);
 
         if (!isset($array['bodytext'])) {
@@ -895,10 +906,10 @@ class Story
         global $_USER, $_CONF, $_TABLES;
         $this->_sid = COM_makeSid();
 
-        if (isset($_USER['uid']) && ($_USER['uid'] > 1)) {
-            $this->_uid = $_USER['uid'];
-        } else {
+        if (COM_isAnonUser()) {
             $this->_uid = 1;
+        } else {
+            $this->_uid = $_USER['uid'];
         }
 
         $tmptid = addslashes(COM_sanitizeID($this->_tid));
@@ -949,7 +960,11 @@ class Story
             $this->_trackbackcode = $_CONF['trackback_code'];
             $this->_statuscode = 0;
             $this->_show_topic_icon = $_CONF['show_topic_icon'];
-            $this->_owner_id = $_USER['uid'];
+            if (COM_isAnonUser()) {
+                $this->_owner_id = 1;
+            } else {
+                $this->_owner_id = $_USER['uid'];
+            }
             $this->_group_id = $T['group_id'];
             $this->_perm_owner = $T['perm_owner'];
             $this->_perm_group = $T['perm_group'];
@@ -1940,6 +1955,8 @@ class Story
      */
     function _sanitizeData()
     {
+        global $_CONF;
+
         if (empty($this->_hits)) {
             $this->_hits = 0;
         }
@@ -1966,6 +1983,11 @@ class Story
             $this->_show_topic_icon = 1;
         } elseif ($this->_show_topic_icon != 1) {
             $this->_show_topic_icon = 0;
+        }
+
+        if (empty($this->_comment_expire)) {
+            $this->_comment_expire = $this->_date
+                            + ($_CONF['article_comment_close_days'] * 86400);
         }
     }
 // End Private Methods.
