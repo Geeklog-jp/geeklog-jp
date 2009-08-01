@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-01  Masuko Koeda  <milk851>
+
+	* ProfessionalCSSの検索結果ページ、メニューの選択肢の不具合を直しました。
+
 2009-08-01  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.0sr1をマージしました。
