@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-01  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr1をマージしました。
+
 2009-08-01  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン：一般ユーザーが全体イベントを投稿する場合に、
