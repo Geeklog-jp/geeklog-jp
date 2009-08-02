@@ -110,6 +110,7 @@ JPr4.2  #edited by dengen
 ・Geeklog 1.6.0から追加されたCOM_output関数を使用してHTMLを出力するようにした。
 ・Geeklog 1.6.0から強化された検索機能に対応した。
 ・Geeklog 1.6.0から追加されたXMLSitemapプラグインに対応した。
+・Geeklog 1.6.0から追加されたサイト移行機能に対応した。
 ・lib-portalparts.phpを使用しないようにした。（インストール時にlib-portalparts.phpをsystemディレクトリに入れる必要がなくなる）
 ・forum用テンプレートをpublic_html/forum/の下に移した。（テーマディレクトリの下にforum用テンプレートを入れる必要がなくなる）
 ・public_html/forum/includeディレクトリをsystem/plugins/forumの下に移した。（よりセキュアに）

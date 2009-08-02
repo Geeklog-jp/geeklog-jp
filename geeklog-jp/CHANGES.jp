@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-03  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン：Geeklog 1.6.0から追加されたサイト移行機能に対応
+	  しました。
+
 2009-08-01  Masuko Koeda  <milk851>
 
 	* WAIproCSSの検索結果ページ、メニューの選択肢部分を
