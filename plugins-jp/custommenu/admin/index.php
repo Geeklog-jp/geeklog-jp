@@ -43,6 +43,11 @@ if (!defined ('UC_CHECKED'))  define('UC_CHECKED',  (XHTML == '') ? 'checked'  :
 if (!defined ('UC_READONLY')) define('UC_READONLY', (XHTML == '') ? 'readonly' : 'readonly="readonly"');
 if (!defined ('UC_DISABLED')) define('UC_DISABLED', (XHTML == '') ? 'disabled' : 'disabled="disabled"');
 
+if (!in_array('custommenu', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
+
 // Only let admin users access this page
 if (!SEC_hasRights('custommenu.admin')) {
     // Someone is trying to illegally access this page
@@ -53,7 +58,7 @@ if (!SEC_hasRights('custommenu.admin')) {
     $display .= $LANG_CMED['access_denied_msg'];
     $display .= COM_endBlock();
     $display .= COM_siteFooter(true);
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -64,7 +69,7 @@ if (version_compare($pi_version, $_CMED_CONF['version']) < 0) {
     $display .= $LANG_CMED['instructions_update'];
     $display .= COM_endBlock();
     $display .= COM_siteFooter(true);
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -959,5 +964,5 @@ if ($mode == 'delete' && SEC_checkToken()) {
     $display .= COM_siteFooter();
 }
 
-echo $display;
+COM_output($display);
 ?>
