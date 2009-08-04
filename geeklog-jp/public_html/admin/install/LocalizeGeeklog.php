@@ -113,12 +113,13 @@ class LocalizeGeeklog
 	function execute($mode = '')
 	{
 		if (!in_array($mode, array_keys($this->_supported_modes))) {
-			$this->setMode('ja');
+			$mode = 'ja';
 		}
+		$this->setMode($mode);
 		
 		$this->_changeMain();
 		$this->_changeLinks();
-//		$this->_changePingServices();
+		$this->_changePingServices();
 		$this->_changeStories();
 		$this->_changeUsers();
 		$this->_changeMisc();
@@ -216,7 +217,8 @@ class LocalizeGeeklog
 	/**
 	* 更新ピング
 	*
-	* 日本語化するときのサイト = (BlogPeople, ping.bloggers.jp, ドリコムRSS, gooブログ)
+	* 日本語化するときのサイト = (BlogPeople, ping.bloggers.jp, ドリコムRSS,
+								  gooブログ, Googleブログ検索, テクノラティ)
 	* 英語に戻すときのサイト   = (Ping-O-Matic)
 	*
 	* @access protected
@@ -258,6 +260,20 @@ class LocalizeGeeklog
 						. "'http://blog.goo.ne.jp/XMLRPC', "
 						. "'weblogUpdates.ping', 1)";
 			}
+			if (DB_count($_TABLES['pingservice'], 'name', 'Googleブログ検索') == 0) {
+				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
+						. "site_url, ping_url, method, is_enabled) VALUES "
+						. "(0, 'Googleブログ検索', 'http://blogsearch.google.co.jp/', "
+						. "'http://blogsearch.google.co.jp/ping/RPC2', "
+						. "'weblogUpdates.extendedPing', 1)";
+			}
+			if (DB_count($_TABLES['pingservice'], 'name', 'テクノラティ') == 0) {
+				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
+						. "site_url, ping_url, method, is_enabled) VALUES "
+						. "(0, 'テクノラティ', 'http://www.technorati.jp/', "
+						. "'http://rpc.technorati.jp/rpc/ping', "
+						. "'weblogUpdates.ping', 1)";
+			}
 		} else if ($this->_mode == 'en') {
 			if (DB_count($_TABLES['pingservice'], 'name', 'Ping-O-Matic') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
@@ -269,7 +285,7 @@ class LocalizeGeeklog
 			
 			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
 					. "WHERE (name IN ('BlogPeople', 'ping.bloggers.jp', "
-					. "'ドリコムRSS', 'gooブログ'))";
+					. "'ドリコムRSS', 'gooブログ', 'Googleブログ検索', 'テクノラティ'))";
 		}
 		
 		if (count($sqls) > 0) {
@@ -345,7 +361,7 @@ class LocalizeGeeklog
 					. "SET username = 'ゲストユーザ', fullname= 'ゲストユーザ' "
 					. "WHERE (uid = 1)";
 			$sqls[] = "UPDATE {$_TABLES['users']} "
-					. "SET fullname= 'サイト管理者', homepage='http://www.example.com/' "
+					. "SET fullname= 'サイト管理者', homepage='' "
 					. "WHERE (uid = 2)";
 		}
 		
@@ -542,7 +558,7 @@ class LocalizeGeeklog
 			// ロケール
 			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 				$c->set('locale', 'C');
-				$c->set('date', '%Y年%m月%d日(%a) %H:%M');
+				$c->set('date', '%Y年%b月%d日(%a) %H:%M');
 				$c->set('daytime', '%b %d %H:%M');
 				$c->set('shortdate', '%x');
 				$c->set('dateonly', '%b %d');
