@@ -1,5 +1,12 @@
 $Id$
 
+2009-08-04  Yoshinori Tahara  <dengen>
+
+	* custommenuプラグイン：バージョン0.4.3に更新します。
+	  ・Geeklog 1.6.0で追加されたサイト移行機能に対応しました。
+	  ・Geeklog 1.6.0から追加されたCOM_output関数を使用してHTMLを出力
+	    するようにしました。
+
 2009-08-04  Masuko Koeda  <milk851>
 
 	* WAIproCSSの各種ブラウザでの確認作業が終了しましたので、
