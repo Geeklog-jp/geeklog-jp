@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-04  Masuko Koeda  <milk851>
+
+	* WAIproCSSの各種ブラウザでの確認作業が終了しましたので、
+          READMEに確認したブラウザを記載しました。
+
 2009-08-03  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン：Geeklog 1.6.0から追加されたサイト移行機能に対応
