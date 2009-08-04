@@ -241,6 +241,28 @@ function plugin_upgrade_custommenu()
 }
 
 /**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_custommenu($old_conf)
+{
+    global $_CONF;
+
+    $tables = array(
+        'menuitems'    => 'mid, url, icon_url, pattern',
+    );
+
+    if ($old_conf['site_url'] != $_CONF['site_url']) {
+        INST_updateSiteUrl($old_conf['site_url'], $_CONF['site_url'], $tables);
+    }
+
+    return true;
+}
+
+/**
 * Automatic uninstall function for plugins
 *
 * @return   array
@@ -696,6 +718,12 @@ function phpmenuitem_login()
         'submenu_entries' => array(),
     );
     return $menuitems;
+}
+
+if ((!function_exists('COM_output'))) {
+    function COM_output($display) {
+        echo $display;
+    }
 }
 
 ?>
