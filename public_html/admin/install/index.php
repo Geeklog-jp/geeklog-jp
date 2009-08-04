@@ -139,6 +139,7 @@ function INST_installEngine($install_type, $install_step)
             if (strcasecmp($LANG_CHARSET, 'utf-8') == 0) {
                 $utf8 = true;
             }
+            $utf8 = true; // use utf-8 only in japanese mode
         }
 
         if ($install_type == 'install') {
@@ -988,7 +989,10 @@ if (INST_phpOutOfDate()) {
 
         $display .= '<h1 class="heading">' . $LANG_INSTALL[3] . '</h1>' . LB;
 
-        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
+//      if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
+        require_once $siteconfig_path; // We need siteconfig.php for core $_CONF['path'] values.
+        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)
+                                                    && !file_exists($_CONF['path'] . $dbconfig_file)) {
             // If the file/directory is not located in the default location
             // or in public_html have the user enter its location.
             $form_fields .= '<p><label class="' . $form_label_dir . '"><code>db-config.php</code></label> ' . LB
@@ -997,9 +1001,16 @@ if (INST_phpOutOfDate()) {
             $num_errors++;
         } else {
             // See whether the file/directory is located in the default place or in public_html
-            $dbconfig_path = file_exists($gl_path . $dbconfig_file)
-                                ? $gl_path . $dbconfig_file
-                                : $gl_path . 'public_html/' . $dbconfig_file;
+//          $dbconfig_path = file_exists($gl_path . $dbconfig_file)
+//                              ? $gl_path . $dbconfig_file
+//                              : $gl_path . 'public_html/' . $dbconfig_file;
+            if (file_exists($gl_path . $dbconfig_file)) {
+                $dbconfig_path = $gl_path . $dbconfig_file;
+            } else if (file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
+                $dbconfig_path = $gl_path . 'public_html/' . $dbconfig_file;
+            } else {
+                $dbconfig_path = $_CONF['path'] . $dbconfig_file;
+            }
         }
 
         if ($num_errors == 0) {
