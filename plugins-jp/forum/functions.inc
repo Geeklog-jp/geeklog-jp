@@ -861,9 +861,9 @@ function plugin_migrate_forum($old_conf)
     global $_CONF;
 
     $tables = array(
-        'forum_topic'      => 'id, comment',
-        'forum_categories' => 'id, cat_dscp',
-        'forum_forums'     => 'forum_id, forum_dscp'
+        'gf_topic'      => 'id, comment',
+        'gf_categories' => 'id, cat_dscp',
+        'gf_forums'     => 'forum_id, forum_dscp'
     );
 
     if ($old_conf['site_url'] != $_CONF['site_url']) {
