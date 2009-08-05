@@ -83,7 +83,7 @@ $_THM_CONF['enable_all_files'] = false;
 * @NOTE: theme names are case-sensitive
 */
 $_THM_CONF['allowed_themes'] = array(
-	'professional', 'ProfessionalCSS', 'mobile', 'mobile_3g',
+	'professional', 'ProfessionalCSS', 'WAIproCSS', 'mobile', 'mobile_3g',
 );
 
 /**
