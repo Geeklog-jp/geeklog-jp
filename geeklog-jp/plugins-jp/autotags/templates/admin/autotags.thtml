@@ -2,7 +2,7 @@
   <form action="{site_admin_url}/plugins/autotags/index.php" method="post">
       <table border="0" cellspacing="0" cellpadding="3" width="100%">
           <tr>
-              <td align="right">{lang_tag}:</td>
+              <td style="width:10em" align="right">{lang_tag}:</td>
               <td><input type="text" size="24" maxlength="24" name="tag" value="{tag}"{xhtml}></td>
           </tr>
           <tr>
