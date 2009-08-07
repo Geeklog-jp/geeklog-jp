@@ -256,10 +256,10 @@ $LANG_confignames['links'] = array(
     'delete_links' => '所有者の削除と共に削除する',
     'aftersave' => 'リンク保存後の画面遷移',
     'show_category_descriptions' => 'カテゴリの説明を表示する',
-    'new_window' => 'リンクを新しいウィンドウで開く？',
+    'new_window' => 'リンクを新しいウィンドウで開く?',
     'root' => 'トップカテゴリのID',
     'default_permissions' => 'パーミッション',
-    'category_permissions' => 'カテゴリパーミッション'
+    'category_permissions' => 'カテゴリデフォルトパーミッション'
 );
 
 $LANG_configsubgroups['links'] = array(
