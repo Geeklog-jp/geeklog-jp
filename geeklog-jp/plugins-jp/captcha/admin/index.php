@@ -38,7 +38,7 @@ if (!SEC_inGroup('Root')) {
     $display .= $LANG27[12];
     $display .= COM_endBlock();
     $display .= COM_siteFooter(true);
-    echo $display;
+    COM_output($display);
     exit;
 }
 
@@ -502,7 +502,6 @@ $T->set_var(array(
 $T->parse('output', 'setting');
 $display .= $T->finish($T->get_var('output'));
 $display .= COM_siteFooter();
-echo $display;
-exit;
+COM_output($display);
 
 ?>
