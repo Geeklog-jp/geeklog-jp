@@ -550,4 +550,10 @@ function plugin_getheadercode_captcha() {
     return $retval;
 }
 
+if ((!function_exists('COM_output'))) {
+    function COM_output($display) {
+        echo $display;
+    }
+}
+
 ?>
