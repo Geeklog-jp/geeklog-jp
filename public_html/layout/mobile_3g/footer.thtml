@@ -12,8 +12,11 @@
       <li>{mn_directory}</li>
       <li>{mn_search}</li>
       <li>{mn_block}</li>
+      {mn_myaccount}
     </ol>
   <hr color="#666699" style="color:#666699" {xhtml}>
+
+{googleanalytics} 
 
 </body>
 </html>
