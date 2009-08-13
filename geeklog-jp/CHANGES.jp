@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-13  Tetsuko Komma  <ivysoho>
+
+	* 携帯テーマのマイアカウントメニューをフッタに移動。Google解析プラグイン
+	  用のテーマ変数を追加しました。
+
 2009-08-04  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン：バージョン0.4.3に更新します。

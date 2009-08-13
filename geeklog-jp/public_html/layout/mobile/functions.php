@@ -251,6 +251,15 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
                       '/mobileblocks.php" accesskey="' . $akey . '">' . $LANG01['12'] . '</a>' );
 	$akey ++;
 	
+    // マイアカウント
+    if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
+        $footer->set_var( 'mn_myaccount', '<li><a href="' . $_CONF['site_url'] .
+                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a></li>' );
+    } else {
+        $footer->set_var( 'mn_myaccount', '' );
+    }
+	$akey ++;
+
     // Call to plugins to set template variables in the footer
     PLG_templateSetVars( 'footer', $footer );
 
