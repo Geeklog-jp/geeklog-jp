@@ -3,6 +3,7 @@ $Id$
 2009-08-14  Hiroshi Sakuramoto <hirorongl>
 	* tkgmapsプラグイン: バージョンは更新せず
 	  ・Geeklog 1.6.0 で追加されたCOM_outputに対応
+	  ・Geeklog 1.6.0 で追加された自動インストールに対応
 
 2009-08-13  Tetsuko Komma  <ivysoho>
 
