@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-15  Hiroshi Sakuramoto <hirorongl>
+
+	* dataproxyプラグイン: バージョンは更新せず。
+	  ・Geeklog 1.6.0 で追加された自動インストールに対応
+
 2009-08-14  Takahiro Kambe  <tacahi>
 
 	* public_html/fckeditor/editor/filemanager/connectors/php/config.php:
