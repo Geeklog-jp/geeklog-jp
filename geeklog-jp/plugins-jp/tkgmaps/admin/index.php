@@ -53,7 +53,7 @@ if ( !SEC_hasRights( 'tkgmaps.admin' ) ) {
 	$display .= $LANG_TKGMAPS['access_denied_msg'];
 	$display .= COM_endBlock();
 	$display .= COM_siteFooter( true );
-	echo $display;
+	COM_output( $display );
 	exit;
 }
 
@@ -176,6 +176,6 @@ if (($mode == 'edit') || ($mode == 'edit_submit' && SEC_checkToken())){
 
 $display .= COM_siteFooter ();
 
-echo $display;
+COM_output( $display );
 
 ?>
