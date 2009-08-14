@@ -52,7 +52,7 @@ if ( !SEC_hasRights( 'tkgmaps.edit,tkgmaps.view,tkgmaps.admin','OR' ) ) {
     $display .= $LANG_{lang_var_postfix}['access_denied_msg'];
     $display .= COM_endBlock();
     $display .= COM_siteFooter( true );
-    echo $display;
+    COM_output( $display );
     exit;
 }
 
@@ -75,6 +75,6 @@ $T->parse( 'output', 'page' );
 $display .= $T->finish( $T->get_var( 'output' ) );
 $display .= COM_siteFooter();
 
-echo $display;
+COM_output( $display );
 
 ?>
