@@ -1,9 +1,25 @@
 $Id$
 
+2009-08-14  Hiroshi Sakuramoto <hirorongl>
+	* tkgmapsプラグイン: バージョンは更新せず
+	  ・Geeklog 1.6.0 で追加されたCOM_outputに対応
+
 2009-08-13  Tetsuko Komma  <ivysoho>
 
 	* 携帯テーマのマイアカウントメニューをフッタに移動。Google解析プラグイン
 	  用のテーマ変数を追加しました。
+
+2009-08-08  Hiroshi Sakuramoto <hirorongl>
+	* captchaプラグイン: バージョンは更新せず
+	  ・Geeklog 1.6.0 で追加されたCOM_outputに対応
+	  ・Geeklog 1.6.0 で追加された自動インストールに対応
+
+2009-08-07  Hiroshi Sakuramoto <hirorongl>
+	* linksプラグイン: 日本語では?を使わないに統一して?を削除
+
+2009-08-06  Hiroshi Sakuramoto <hirorongl>
+	* linksプラグイン:
+	  ・コンフィギュレーション部分の未翻訳の英語を日本語に翻訳
 
 2009-08-04  Yoshinori Tahara  <dengen>
 
