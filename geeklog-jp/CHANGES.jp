@@ -2,7 +2,8 @@ $Id$
 
 2009-08-14  Takahiro Kambe  <tacahi>
 
-	* fckeditorのコードをGeeklog 1.6.0sr1に合わせました。
+	* public_html/fckeditor/editor/filemanager/connectors/php/config.php:
+	  セミコロンの抜けを修正しました。
 
 2009-08-14  Hiroshi Sakuramoto <hirorongl>
 	* tkgmapsプラグイン: バージョンは更新せず
