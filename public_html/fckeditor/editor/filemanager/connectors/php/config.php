@@ -136,7 +136,7 @@ $Config['AllowedExtensions']['Image']	= array('bmp','gif','jpeg','jpg','png') ;
 $Config['DeniedExtensions']['Image']	= array() ;
 $Config['FileTypesPath']['Image']		= $Config['UserFilesPath'] . 'Image/' ;
 $Config['FileTypesAbsolutePath']['Image']= ($Config['UserFilesAbsolutePath'] == '') ? '' : $Config['UserFilesAbsolutePath'].'Image/' ;
-$Config['QuickUploadPath']['Image'] = $Config['FileTypesPath']['Image']
+$Config['QuickUploadPath']['Image'] = $Config['FileTypesPath']['Image'];
 $Config['QuickUploadAbsolutePath']['Image'] = $Config['FileTypesAbsolutePath']['Image'];
 
 $Config['AllowedExtensions']['Flash']	= array('swf','flv') ;
