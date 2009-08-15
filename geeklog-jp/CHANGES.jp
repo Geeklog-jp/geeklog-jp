@@ -1,6 +1,17 @@
 $Id$
 
-2009-08-04  Yoshinori Tahara  <dengen>
+2009-08-16  Yoshinori Tahara  <dengen>
+
+	* filemgmtプラグイン：Geeklog1.6.0の諸機能に対応しました。
+	  ・HTMLの適正化。（XHTMLに対応）
+	  ・コンフィギュレーションに対応。
+	  ・Geeklog1.6.0の新検索機能に対応。
+	  ・COM_output関数に対応。
+	  ・XMLSitemapに対応。
+	  ・サイト移行機能（Site Migration）に対応。
+	  ・その他いろいろな修正。
+
+2009-08-15  Yoshinori Tahara  <dengen>
 
 	* インストール前チェックスクリプト（Precheck）をGeeklog1.6.0に対応させ
 	  ました。
