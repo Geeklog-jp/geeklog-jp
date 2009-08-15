@@ -47,7 +47,7 @@ class ErrorHandler {
             "0010" => "Could not move selected topic to selected forum. Please go back and try again.",
             "0011" => "Could not lock the selected topic. Please go back and try again.",
             "0012" => "Could not unlock the selected topic. Please go back and try again.",
-            "0013" => "Could not query the database. <BR>Error: ".mysql_error()."",
+            "0013" => "Could not query the database. <br' . XHTML . '>Error: ".mysql_error()."",
             "0014" => "No such user or post in the database.",
             "0015" => "Search Engine was unable to query the forums database.",
             "0016" => "That user does not exist. Please go back and search again.",
@@ -77,8 +77,8 @@ class ErrorHandler {
             "1006" => "Please enter value for State/Province.",
             "1007" => "Please enter value for Zipcode.",
             "1008" => "Please enter value for Description.",
-            "1009" => "Vote for the selected resource only once.<br>All votes are logged and reviewed.",
-            "1010" => "You cannot vote on the resource you submitted.<br>All votes are logged and reviewed.",
+            "1009" => "Vote for the selected resource only once.<br" . XHTML . ">All votes are logged and reviewed.",
+            "1010" => "You cannot vote on the resource you submitted.<br" . XHTML . ">All votes are logged and reviewed.",
             "1011" => "No rating selected - no vote tallied.",
             "1013" => "Please enter a search query.",
             "1016" => "Please enter value for Filename.",
@@ -101,12 +101,12 @@ class ErrorHandler {
         }
         include_once($_CONF[path_html]."filemgmt/include/header.php");
         $display  = COM_siteHeader('menu');
-        $display .= '<table width="100%" class="plugin" border="0" cellspacing="0" cellpadding="1">';
-        $display .= '<tr><td class="pluginAlert" style="text-align:right;padding:5px;">File Management Plugin</td>';
-        $display .= "<td class=\"pluginAlert\" width=\"50%\" style=\"padding:5px 0px 5px 10px;\">Error Code: $e_code</td></tr>";
-        $display .= "<tr><td colspan=\"2\" class=\"pluginInfo\"><b>ERROR:</b> $errmsg[$e_code]</td></tr>";
+        $display .= '<table class="plugin" border="0" cellspacing="0" cellpadding="1" style="width:100%;">';
+        $display .= '<tr><td class="pluginAlert" style="text-align:right; padding:5px;">File Management Plugin</td>';
+        $display .= '<td class="pluginAlert" style="width:50%; padding:5px 0px 5px 10px;">Error Code: $e_code</td></tr>';
+        $display .= '<tr><td colspan="2" class="pluginInfo"><b>ERROR:</b> $errmsg[$e_code]</td></tr>';
         $display .= '<tr><td colspan="2" class="pluginInfo" style="text-align:center;padding:10px;">';
-        $display .= "[ <a href='javascript:history.go(-".$pages.")'>Go Back</a> ]</td></tr></table>";
+        $display .= '[ <a href="javascript:history.go(-' . $pages . ')">Go Back</a> ]</td></tr></table>';
         $display .= COM_siteFooter();
         echo $display;
         die("");

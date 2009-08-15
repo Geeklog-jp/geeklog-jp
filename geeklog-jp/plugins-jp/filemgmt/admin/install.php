@@ -41,13 +41,10 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-//@@@@@20080917 CSRF checks for $gl_version = '1.5'
 
 require_once('../../../lib-common.php');
 require_once($_CONF['path'] . 'plugins/filemgmt/config.php');
 require_once($_CONF['path'] . 'plugins/filemgmt/functions.inc');
-
 
 //
 // Universal plugin install variables
@@ -56,9 +53,10 @@ require_once($_CONF['path'] . 'plugins/filemgmt/functions.inc');
 
 $pi_name = 'filemgmt';                    // Plugin name
 $pi_version = $CONF_FM['version'];        // Plugin Version
-$gl_version = '1.5';                      // GL Version plugin for @@@@@20080917
+$gl_version = '1.6.0';                    // GL Version plugin
 $pi_url = 'http://www.portalparts.com';   // Plugin Homepage
 
+$base_path = $_CONF['path'] . 'plugins/' . $pi_name . '/';
 
 // Default data
 // Insert table name and sql to insert default data for your plugin.
@@ -100,6 +98,24 @@ if (!SEC_inGroup('Root')) {
     $display .= COM_siteFooter(true);
     echo $display;
     exit;
+}
+
+/**
+* Loads the configuration records for the GL Online Config Manager
+*
+* @return   boolean     true = proceed with install, false = an error occured
+*
+*/
+function plugin_load_configuration()
+{
+    global $_CONF, $base_path;
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    require_once $base_path . 'install_defaults.php';
+
+    $retval = plugin_initconfig_filemgmt();
+
+    return $retval;
 }
 
 /**
@@ -200,6 +216,15 @@ function plugin_install_now()
         $uninstall_plugin ();
         return false;
         exit;
+    }
+
+    // Load the online configuration records
+    if (function_exists('plugin_load_configuration')) {
+        if (!plugin_load_configuration()) {
+            $uninstall_plugin ();
+            return false;
+            exit;
+        }
     }
 
     // Register the plugin with Geeklog

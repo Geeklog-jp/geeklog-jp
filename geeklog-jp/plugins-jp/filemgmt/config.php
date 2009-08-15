@@ -1,9 +1,9 @@
 <?php
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -31,16 +31,18 @@ This file is set via the Filemgmt Plugin Admin menu - Configuration settings.
 The script reads and write to this file - thus needs to be a separate file.
 */
 
-include ("filemgmt.php");
+if (file_exists('filemgmt.php')) include ('filemgmt.php');
 
-$CONF_FM['version'] = '1.5.3';
+$CONF_FM['version'] = '1.6.0.jp';
 
+$_FM_CONF = array();
+$_FM_CONF['version'] = '1.6.0.jp';
 
 $_FM_TABLES['filemgmt_cat']             = $_DB_table_prefix . 'filemgmt_category';
 $_FM_TABLES['filemgmt_filedetail']      = $_DB_table_prefix . 'filemgmt_filedetail';
 $_FM_TABLES['filemgmt_filedesc']        = $_DB_table_prefix . 'filemgmt_filedesc';
 $_FM_TABLES['filemgmt_brokenlinks']     = $_DB_table_prefix . 'filemgmt_broken';
-$_FM_TABLES['filemgmt_modreq']          = $_DB_table_prefix . 'filemgmt_mod';
+$_FM_TABLES['filemgmt_modreq']          = $_DB_table_prefix . 'filemgmt_mod'; // No use ?
 $_FM_TABLES['filemgmt_votedata']        = $_DB_table_prefix . 'filemgmt_votedata';
 $_FM_TABLES['filemgmt_history']         = $_DB_table_prefix . 'filemgmt_downloadhistory';
 
@@ -66,6 +68,10 @@ $_FMDOWNLOAD  = array(
     'sh'    => 'txt',
     'exe'   => 'reject'
 );
+
+$CONF_FM['ignore_target'] = true;
+$_FM_CONF['ignore_target'] = true;
+
 
 // glmenu only use - for glmenu generated menus
 
