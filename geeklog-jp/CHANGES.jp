@@ -1,5 +1,14 @@
 $Id$
 
+2009-08-04  Yoshinori Tahara  <dengen>
+
+	* インストール前チェックスクリプト（Precheck）をGeeklog1.6.0に対応させ
+	  ました。
+	  ・スタイルとデザインをGeeklog1.6.0のインストールスクリプトに合わせま
+	    した。
+	  ・移行（migrate）機能に対応しました。
+	  ・その他いくつか修正しました。
+
 2009-08-15  Hiroshi Sakuramoto <hirorongl>
 
 	* dataproxyプラグイン: バージョンは更新せず。
