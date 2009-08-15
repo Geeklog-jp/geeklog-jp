@@ -1,7 +1,7 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/precheck.php                                    |
 // |                                                                           |
@@ -33,19 +33,20 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2009-02-03
-* @version  1.3.2
+* @date     2009-08-15
+* @version  1.3.3
 * @license  GPLv2 or later
 */
 error_reporting(E_ALL);
 
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
-define('GL_VERSION', '1.5.1');
-define('PRECHECK_VERSION', '1.3.2');
+define('GL_VERSION', '1.6.0');
+define('PRECHECK_VERSION', '1.3.3');
 define('THIS_SCRIPT', 'precheck.php');
 define('MIN_PHP_VERSION', '4.1.0');
 define('MIN_MYSQL_VERSION', '3.23.2');
+define('OS_WIN', strcasecmp(substr(PHP_OS, 0, 3), 'WIN') === 0);
 
 $_CONF = array();
 
@@ -86,7 +87,7 @@ if (!is_callable('file_put_contents')) {
 		return $retval;
 	}
 }
-		
+
 class Precheck
 {
 	var $path_html;
@@ -105,7 +106,7 @@ class Precheck
 	function Precheck()
 	{
 		$this->fatal_error = $this->error = $this->warning = 0;
-		$this->path_html = realpath(dirname(__FILE__) . DS . '..' . DS . '..' . DS);
+		$this->path_html = realpath(dirname(__FILE__) . DS . '..' . DS . '..' . DS); // 結果の末尾にセパレータはつかない
 	}
 	
 	/**
@@ -115,13 +116,13 @@ class Precheck
 	*/
 	function getHeader()
 	{
-		$retval = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . LB
-				. '<html lang="ja">' . LB
+		$retval = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . LB
+				. '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">' . LB
 				. '<head>' . LB
-				. '  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . LB
-				. '  <meta http-equiv="Content-Style-Type" content="text/css">' . LB
-				. '  <meta http-equiv="Pragma" content="no-cache">' . LB
-				. '  <link href="precheck.css" rel="stylesheet" type="text/css">' . LB;
+				. '  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />' . LB
+				. '  <meta http-equiv="Content-Style-Type" content="text/css" />' . LB
+				. '  <meta http-equiv="Pragma" content="no-cache" />' . LB
+				. '  <link href="precheck.css" rel="stylesheet" type="text/css" />' . LB;
 		
 		/**
 		* Let's include JavaScript
@@ -135,9 +136,20 @@ class Precheck
 				.  PRECHECK_VERSION . '</title>' . LB
 				.  '</head>' . LB
 				.  '<body>' . LB
-				.  '<img src="fb.php?mode=imglogo" alt="Geeklogのロゴ">'
-				.  '<h1>Geeklog-' . GL_VERSION . '　インストール前チェック(v'
-				.  PRECHECK_VERSION . ')</h1>' . LB;
+				.  '<div class="header-navigation-container">' . LB
+				.  '   <div class="header-navigation-line">' . LB
+				.  '       <a href="http://www.geeklog.jp/forum/index.php?forum=6" class="header-navigation">インストールで困ったら、こちらのサイトへ</a>&nbsp;&nbsp;&nbsp;' . LB
+				.  '   </div>' . LB
+				.  '</div>' . LB
+				.  '<div class="header-logobg-container-inner">' . LB
+				.  '    <a class="header-logo" href="http://www.geeklog.net/">' . LB
+				.  '        <img src="layout/logo.png"  width="151" height="56" alt="Geeklog" />' . LB
+				.  '    </a>' . LB
+				.  '    <div class="header-slogan">The Ultimate Weblog System <br /><br />' . LB
+				.  '    </div>' . LB
+				.  '</div>' . LB
+				.  '<div class="installation-container">' . LB
+				.  '<div class="installation-body-container">' . LB;
 		return $retval;
 	}
 	
@@ -149,10 +161,9 @@ class Precheck
 	*/
 	function getFooter()
 	{
-		$retval = '<hr>' . LB
-				. '<p class="center small"><a href="http://www.geeklog.jp/" title="Geeklog.jpのサイトへジャンプ">Geeklog Japanese</a> | <a href="http://wiki.geeklog.jp/" title="Wiki Documentへジャンプ">Wiki Document</a></p>' . LB
-				. '</body>' . LB
-				. '</html>' . LB;
+		$retval = '<p class="precheck-version">Geeklog-' . GL_VERSION
+				. '&nbsp;&nbsp;インストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
+				. '</div>' . LB . '</div>' . LB . '</body>' . LB . '</html>' . LB;
 		return $retval;
 	}
 	
@@ -174,7 +185,7 @@ class Precheck
 				. '  <li class="' . $class2 . '">Step 2. インストールタイプ選択</li>' . LB
 				. '  <li class="' . $class3 . '">Step 3. 初期診断</li>' . LB
 				. '  <li class="' . $class4 . '">Step 4. データベース情報入力</li>' . LB
-				. '</ul><br>' . LB;
+				. '</ul><br />' . LB;
 
 		return $retval;
 	}
@@ -212,7 +223,7 @@ class Precheck
 		}
 		
 		if ($msg != '') {
-			$retval .= '<br>';
+			$retval .= '<br />';
 		if (($this->error == 0) AND ($this->warning == 0)) {
 				$retval .= '<p class="good">' . $msg . '</p>';
 			} else {
@@ -224,7 +235,7 @@ class Precheck
 	}
 	
 	/**
-	* Guess the pasth to db-config.php
+	* Guess the path to db-config.php
 	*
 	* @access  public
 	* @return          mixed - string = path, FALSE = didn't find path
@@ -265,77 +276,77 @@ class Precheck
 		
 		// magic_quotes_gpc
 		if (!$php6 AND @get_magic_quotes_gpc()) {
-			$retval .= '<li class="warning"><strong>magic_quotes_gpc</strong>がオンになっています。文字化けの原因になるので、<strong>httpd.conf</strong>か<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_gpc">詳しくはこちら</a>]。</li>' . LB;
+			$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>magic_quotes_gpc</strong>がオンになっています。文字化けの原因になるので、<strong>httpd.conf</strong>か<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_gpc">詳しくはこちら</a>]。</li>' . LB;
 			$this->warning ++;
 		}
 		
 		// magic_quotes_runtime
 		if (!$php6 AND @get_magic_quotes_runtime()) {
-			$retval .= '<li class="warning"><strong>magic_quotes_runtime</strong>がオンになっています。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_runtime">詳しくはこちら</a>]。</li>' . LB;
+			$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>magic_quotes_runtime</strong>がオンになっています。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_runtime">詳しくはこちら</a>]。</li>' . LB;
 			$this->warning ++;
 		}
 		
 		if (!is_callable('ini_get')) {
-			$retval .= '<li class="bad"><strong>ini_get()関数が無効になっているので、PHPの設定をチェックできませんでした。Webサーバの管理者に依頼して、<strong>php.ini</strong>の<strong>disabled_functions</strong>の設定値から<strong>ini_get</strong>を除外するよう依頼してください。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>ini_get()関数が無効になっているので、PHPの設定をチェックできませんでした。Webサーバの管理者に依頼して、<strong>php.ini</strong>の<strong>disabled_functions</strong>の設定値から<strong>ini_get</strong>を除外するよう依頼してください。</li>' . LB;
 			$this->error ++;
 		} else {
 			// display_errors
 			if (ini_get('display_errors')) {
-				$retval .= '<li class="warning"><strong>display_errors</strong>がオンになっています。エラー発生時に重要な情報を漏洩する原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=display_errors">詳しくはこちら</a>]。</li>' . LB;
+				$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>display_errors</strong>がオンになっています。エラー発生時に重要な情報を漏洩する原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=display_errors">詳しくはこちら</a>]。</li>' . LB;
 				$this->warning ++;
 			}
 			
 			// magic_quotes_sybase
 			if (!$php6 AND @ini_get('magic_quotes_sybase')) {
-				$retval .= '<li class="warning"><strong>magic_quotes_sybase</strong>がオンになっています。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_sybase">詳しくはこちら</a>]。</li>' . LB;
+				$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>magic_quotes_sybase</strong>がオンになっています。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>でオフにすることをお勧めします。[<a href="precheck.php?mode=info&amp;item=magic_quotes_sybase">詳しくはこちら</a>]。</li>' . LB;
 				$this->warning ++;
 			}
 			
 			// mbstring.language
 			$mbstring_language = ini_get('mbstring.language');
-			if (strcasecmp($mbstring_language, 'japanese')) {
-				if (!strcasecmp($mbstring_language, 'neutral')) {
-					$retval .= '<li class="warning"><strong>mbstring.language</strong>に<strong>neutral</strong>が設定されています。文字化けするようなら、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Japanese</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_language">詳しくはこちら</a>]。</li>' . LB;
+			if (strcasecmp($mbstring_language, 'japanese') != 0) {
+				if (strcasecmp($mbstring_language, 'neutral') == 0) {
+					$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>mbstring.language</strong>に<strong>neutral</strong>が設定されています。文字化けするようなら、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Japanese</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_language">詳しくはこちら</a>]。</li>' . LB;
 					$this->warning ++;
 				} else {
-					$retval .= '<li class="bad"><strong>mbstring.language</strong>に<strong>Japanese</strong>以外の言語が設定されているようです。文字化けの原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Japanese</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_language">詳しくはこちら</a>]。</li>' . LB;
+					$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>mbstring.language</strong>に<strong>Japanese</strong>以外の言語が設定されているようです。文字化けの原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Japanese</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_language">詳しくはこちら</a>]。</li>' . LB;
 					$this->error ++;
 				}
 			}
 			
 			// mbstring.http_output
 			$mbstring_http_output = ini_get('mbstring.http_output');
-			if (!strcasecmp($mbstring_http_output, 'pass')
-			 AND !strcasecmp($mbstring_http_output, 'utf-8')) {
-				$retval .= '<li class="bad"><strong>mbstring.http_output</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>pass</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_http_output">詳しくはこちら</a>]。</li>' . LB;
+			if ((strcasecmp($mbstring_http_output, 'pass') != 0)
+			 AND (strcasecmp($mbstring_http_output, 'utf-8') != 0)) {
+				$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>mbstring.http_output</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>pass</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_http_output">詳しくはこちら</a>]。</li>' . LB;
 				$this->error ++;
 			}
 			
 			$mbstring_encoding_translation = @ini_get('mbstring.encoding_translation');
 			if ($mbstring_encoding_translation) {
-				$retval .= '<li class="bad"><strong>mbstring.encoding_translation</strong>が<strong>On</strong>になっています。文字化けやセキュリティ低下の原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Off</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_encoding_translation">詳しくはこちら</a>]。</li>' . LB;
+				$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>mbstring.encoding_translation</strong>が<strong>On</strong>になっています。文字化けやセキュリティ低下の原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Off</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_encoding_translation">詳しくはこちら</a>]。</li>' . LB;
 				$this->error ++;
 			}
 			
 			// mbstring.internal_encoding
 			$mbstring_internal_encoding = ini_get('mbstring.internal_encoding');
 			if (($mbstring_internal_encoding != '')
-			 AND !strcasecmp($mbstring_internal_encoding, 'utf-8')) {
-				$retval .= '<li class="warning"><strong>mbstring.internal_encoding</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_internal_encoding">詳しくはこちら</a>]。</li>' . LB;
+			 AND (strcasecmp($mbstring_internal_encoding, 'utf-8') != 0)) {
+				$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>mbstring.internal_encoding</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_internal_encoding">詳しくはこちら</a>]。</li>' . LB;
 				$this->warning ++;
 			}
 			
 			// default_charset
 			$default_charset = @ini_get('default_charset');
 			if (($default_charset != '')
-			 AND !strcasecmp($default_charset, 'utf-8')) {
-				$retval .= '<li class="bad"><strong>default_charset</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>\'\'</strong>（空文字列）か<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=default_charset">詳しくはこちら</a>]</li>' . LB;
+			 AND (strcasecmp($default_charset, 'utf-8') != 0)) {
+				$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>default_charset</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>\'\'</strong>（空文字列）か<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=default_charset">詳しくはこちら</a>]</li>' . LB;
 				$this->error ++;
 			}
 			
 			// register_globals
 			if (!$php6 AND @ini_get('register_globals')) {
-				$retval .= '<li class="warning"><strong>register_globals</strong>が<strong>On</strong>になっています。セキュリティを低下させる原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Off</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=register_globals">詳しくはこちら</a>]</li>' . LB;
+				$retval .= '<li><span class="warning">警告</span>&nbsp;<strong>register_globals</strong>が<strong>On</strong>になっています。セキュリティを低下させる原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Off</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=register_globals">詳しくはこちら</a>]</li>' . LB;
 				$this->warning ++;
 			}
 		}
@@ -358,68 +369,69 @@ class Precheck
 		$this->error = $this->warning = 0;
 		$retval = '';
 		$path = $this->path;
-		$path_html = realpath(dirname(__FILE__) . '/../../');
+//		$path_html = realpath(dirname(__FILE__) . '/../../');
+		$path_html = $this->path_html;
 		
 		// path_html/siteconfig.php
 		clearstatcache();
-		if (!is_writable($path_html . 'siteconfig.php')) {
-			$retval .= '<li class="bad"><strong>公開領域/siteconfig.php</strong>が書き込み禁止になっています。</li>' . LB;
+		if (!is_writable($path_html . DS . 'siteconfig.php')) {
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>公開領域/siteconfig.php</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/db-config.php
 		clearstatcache();
 		if (!is_writable($path . 'db-config.php')) {
-			$retval .= '<li class="bad"><strong>非公開領域/db-config.php</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/db-config.php</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/data
 		clearstatcache();
 		if (!is_writable($path . 'data' . DS)) {
-			$retval .= '<li class="bad"><strong>非公開領域/data</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/data</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/backups
 		clearstatcache();
 		if (!is_writable($path . 'backups' . DS)) {
-			$retval .= '<li class="bad"><strong>非公開領域/backups</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/backups</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/logs/error.log
 		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'error.log')) {
-			$retval .= '<li class="bad"><strong>非公開領域/logs/error.log</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/logs/error.log</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/logs/access.log
 		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'access.log')) {
-			$retval .= '<li class="bad"><strong>非公開領域/logs/access.log</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/logs/access.log</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path/logs/spamx.log
 		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'spamx.log')) {
-			$retval .= '<li class="bad"><strong>非公開領域/logs/spamx.log</strong>が書き込み禁止になっています。</li>' . LB;
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>非公開領域/logs/spamx.log</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path_html/backend/geeklog.rss
 		clearstatcache();
-		if (!is_writable($this->path_html . 'backend' . DS . 'geeklog.rss')) {
-			$retval .= '<li class="bad"><strong>公開領域/backend/geeklog.rss</strong>が書き込み禁止になっています。</li>' . LB;
+		if (!is_writable($path_html . DS . 'backend' . DS . 'geeklog.rss')) {
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>公開領域/backend/geeklog.rss</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
 		// path_html/backend
 		clearstatcache();
-		if (!is_writable($this->path_html . 'backend' . DS)) {
-			$retval .= '<li class="bad"><strong>公開領域/backend</strong>が書き込み禁止になっています。</li>' . LB;
+		if (!is_writable($path_html . DS . 'backend' . DS)) {
+			$retval .= '<li><span class="bad">エラー</span>&nbsp;<strong>公開領域/backend</strong>が書き込み禁止になっています。</li>' . LB;
 			$this->error ++;
 		}
 		
@@ -445,7 +457,7 @@ class Precheck
 			case 'magic_quotes_gpc':	// INI_PERDIR
 				$retval .= '<p>（<strong>php.ini</strong>で設定する場合）</p>' . LB
 						.  '<code>magic_quotes_gpc = Off</code>' . LB
-						.  '<p><strong>.htaccess</strong>で設定する場合）</p>' . LB
+						.  '<p>（<strong>.htaccess</strong>で設定する場合）</p>' . LB
 						.  '<code>php_flag magic_quotes_gpc Off</code>' . LB;
 				break;
 				
@@ -479,7 +491,7 @@ class Precheck
 			case 'mbstring_language':	// INI_PERDIR
 				$retval .= '<p>（<strong>php.ini</strong>で設定する場合）</p>' . LB
 						.  '<code>mbstring.language = Japanese</code>' . LB
-						.  '<p><strong>.htaccess</strong>で設定する場合）</p>' . LB
+						.  '<p>（<strong>.htaccess</strong>で設定する場合）</p>' . LB
 						.  '<code>php_value mbstring.language Japanese</code>' . LB;
 				break;
 			
@@ -495,7 +507,7 @@ class Precheck
 			case 'mbstring_encoding_translation':	// INI_PERDIR
 				$retval .= '<p>（<strong>php.ini</strong>で設定する場合）</p>' . LB
 						.  '<code>mbstring.encoding_translation = Off</code>' . LB
-						.  '<p><strong>.htaccess</strong>で設定する場合）</p>' . LB
+						.  '<p>（<strong>.htaccess</strong>で設定する場合）</p>' . LB
 						.  '<code>php_flag mbstring.encoding_translation Off</code>' . LB;
 				break;
 				
@@ -520,7 +532,7 @@ class Precheck
 			case 'register_globals':	// INI_PERDIR
 				$retval .= '<p>（<strong>php.ini</strong>で設定する場合）</p>' . LB
 						.  '<code>register_globals = Off</code>' . LB
-						.  '<p><strong>.htaccess</strong>で設定する場合）</p>' . LB
+						.  '<p>（<strong>.htaccess</strong>で設定する場合）</p>' . LB
 						.  '<code>php_flag register_globals Off</code>' . LB;
 				break;
 				
@@ -546,7 +558,12 @@ class Precheck
 		if (file_exists($siteconfig)) {
 			$content = file_get_contents($siteconfig);
 			if ($content !== FALSE) {
-				$path = str_replace("'", "\\'", $this->path);
+				if (OS_WIN) {
+					$path = str_replace("//", "/", $this->path);
+				    $path = str_replace("'", "\\'", $path);
+				} else {
+				    $path = str_replace("'", "\\'", $this->path);
+				}
 				$content = str_replace('/path/to/Geeklog/', $path, $content);
 				if (file_put_contents($siteconfig, $content) !== FALSE) {
 					return TRUE;
@@ -566,26 +583,25 @@ class Precheck
 	{
 		$retval = '';
 		if (version_compare(PHP_VERSION, MIN_PHP_VERSION) < 0) {
-			$retval .= '<p class="error">PHPのバージョンが低すぎます。最低でも'
-					.  MIN_PHP_VERSION . 'が必要です。</p>' . LB;
+			$retval .= '<p><span class="bad">エラー</span>&nbsp;PHPのバージョンが低すぎます。最低でも' . MIN_PHP_VERSION . 'が必要です。</p>' . LB;
 			$this->fatal_error ++;
 		}
 		
 		$extensions = get_loaded_extensions();
 		$extensions = array_map('strtolower', $extensions);
 		if (!in_array('mysql', $extensions) AND !in_array('mssql', $extensions)) {
-			$retval .= '<p class="error">PHPにデータベースを利用する機能が組み込まれていません。</p>' . LB;
+			$retval .= '<p><span class="bad">エラー</span>&nbsp;PHPにデータベースを利用する機能が組み込まれていません。</p>' . LB;
 			$this->fatal_error ++;
 		}
 		
 		if (!in_array('mbstring', $extensions)) {
-			$retval .= '<p class="error">PHPに日本語処理関数(mbstring)が組み込まれていません。</p>' . LB;
+			$retval .= '<p><span class="bad">エラー</span>&nbsp;PHPに日本語処理関数(mbstring)が組み込まれていません。</p>' . LB;
 			$this->fatal_error ++;
 		}
 		
 		if ($retval != '') {
-			$retval = '<h2>Step 0. PHPの設定確認</h2>' . LB
-					. '<p class="bad">致命的なエラーが見つかったため、インストールできません。表示された<strong>赤い背景のエラー</strong>を解決してから、もう一度チェックし直してください。' . LB
+			$retval = '<h1 class="heading">Step 0. PHPの設定確認</h1>' . LB
+					. '<p>致命的なエラーが見つかったため、インストールできません。表示されたエラーを解決してから、もう一度チェックし直してください。</p>' . LB
 					. $retval;
 		}
 		
@@ -604,8 +620,9 @@ class Precheck
 			header('Location: ' . THIS_SCRIPT . '?path=' . rawurlencode($this->path));
 			exit;
 		} else {
-			$retval = '<h2>Step 1. db-config.phpのパス確認</h2>' . LB
-					. '<p class="error"><code>db-config.php</code>の場所がわかりません。[<a href="fb.php">ファイルブラウザで探す</a>]をクリックしてください。</p>' . LB;
+			$retval = '<h1 class="heading">Step 1. db-config.phpのパス確認</h1>' . LB
+					. '<p>db-config.php の場所がわかりません。</p><p style="margin:20px 0">'
+					. '<a class="big-button" href="fb.php">ファイルブラウザで探す</a></p>' . LB;
 		}
 		
 		return $retval;
@@ -619,13 +636,16 @@ class Precheck
 	function _step2()
 	{
 		$path = rawurlencode($this->path);
-		$retval = '<h2>Step 2. インストールタイプを選択してください：</h2>' . LB
-				. '<p class="large center">' . LB
-				. '<a href="' . THIS_SCRIPT . '?step=3&amp;mode=install&amp;path='
-				. $path . '">'
-				. $this->esc('新規インストール') . '</a>&nbsp;|&nbsp;'
-				. '<a href="' . THIS_SCRIPT . '?step=3&amp;mode=upgrade&amp;path='
-				. $path . '">' . $this->esc('アップグレード') . '</a></p>' . LB;
+
+		$retval = '<h1 class="heading">Step 2. インストールタイプを選択してください：</h1>' . LB
+				. '<p style="margin:20px 0">' . LB
+				. '<a class="big-button" href="' . THIS_SCRIPT . '?step=3&amp;mode=install&amp;path='
+				. $path . '">' . $this->esc('新規インストール') . '</a>&nbsp;'
+				. '<a class="big-button" href="' . THIS_SCRIPT . '?step=3&amp;mode=upgrade&amp;path='
+				. $path . '">' . $this->esc('アップグレード') . '</a>&nbsp;'
+				. '<a class="big-button" href="' . THIS_SCRIPT . '?step=3&amp;mode=migrate&amp;path='
+				. $path . '">' . $this->esc('移行') . '</a></p>' . LB;
+
 		return $retval;
 	}
 	
@@ -636,14 +656,14 @@ class Precheck
 	*/
 	function _step3()
 	{
-		$retval = '<h2>Step 3. 初期診断：</h2>' . LB
+		$retval = '<h1 class="heading">Step 3. 初期診断：</h1>' . LB
 				. '<ol>' . LB
 				. '<li><strong>PHPの設定チェック</strong>：'
 				. $this->displayErrorAndWarning($this->menuCheckPHPSettings())
 				. '</li>' . LB;
 		$this->fatal_error += $this->error;
 		
-		if ($this->mode == 'install') {
+		if (($this->mode == 'install') || ($this->mode == 'migrate')) {
 			$retval .= '<li><strong>ディレクトリ・パスが書き込み可かどうかのチェック</strong>：'
 					.  $this->displayErrorAndWarning($this->menuCheckWritable())
 					.  '</li>' . LB;
@@ -651,14 +671,19 @@ class Precheck
 		}
 		
 		$retval .= '</ol>' . LB
-				.  '<hr>' . LB
-				.  '<h2>診断結果：</h2>' . LB;
+				.  '<h2 class="heading">診断結果：</h2>' . LB;
 		if ($this->fatal_error > 0) {
-			$retval .= '<p class="bad">致命的なエラーが見つかったため、インストールできません。表示された<strong>赤い背景のエラー</strong>を解決してから、もう一度チェックし直してください。なお、<strong>黄色い背景の警告</strong>の部分はとりあえず無視しても構いませんが、いったんインストールに成功したら、修正してください。[<a class="large" href="' . THIS_SCRIPT . '">チェックし直す</a>]</p>' . LB;
+			$retval .= '<p>致命的なエラーが見つかったため、インストールできません。表示されたエラーを解決してから、もう一度チェックし直してください。なお、警告の部分はとりあえず無視しても構いませんが、いったんインストールに成功したら、修正してください。</p><p style="margin:20px 0"><a class="big-button" href="' . THIS_SCRIPT . '">チェックし直す</a></p>' . LB;
 		} else {
+
 			if ($this->mode == 'install') {
 				$target = 'precheck.php?mode=install&amp;step=4&amp;path='
 						. rawurlencode($this->path);
+			} else if ($this->mode == 'migrate') {
+				$target = 'migrate.php?'
+						. "dbconfig_path=" . rawurlencode($this->path . 'db-config.php')
+						. "&amp;public_html_path=" . rawurlencode($this->path_html)
+						. "&amp;language=japanese_utf-8";
 			} else {
 				global $_DB_host, $_DB_name, $_DB_user, $_DB_pass, $_DB_table_prefix, $_DB_dbms;
 				
@@ -668,23 +693,25 @@ class Precheck
 						. rawurlencode($this->path . 'db-config.php');
 			}
 			
-			$retval .= '<p class="good">致命的なエラーはなさそうなので、インストールできます。続行するには、下の「続行する」をクリックしてください。</p>' . LB
+			$retval .= '<p>致命的なエラーはなさそうなので、インストールできます。続行するには、下の「続行する」をクリックしてください。</p>' . LB
 					.  '<form action="' . $target. '" method="post">' . LB
-					.  '<p class="center"><input class="large" type="submit" name="submit" value="続行する"></p>' . LB;
+					.  '<p><input class="submit button big-button" type="submit" name="submit" value="続行する" /></p>' . LB;
+
 			if ($this->mode == 'upgrade') {
 				$retval .= '<input type="hidden" name="db_host" value="'
-						.  $_DB_host . '">' . LB
+						.  $_DB_host . '" />' . LB
 						.  '<input type="hidden" name="db_name" value="'
-						.  $_DB_name . '">' . LB
+						.  $_DB_name . '" />' . LB
 						.  '<input type="hidden" name="db_user" value="'
-						.  $_DB_user . '">' . LB
+						.  $_DB_user . '" />' . LB
 						.  '<input type="hidden" name="db_pass" value="'
-						.  $_DB_pass . '">' . LB
+						.  $_DB_pass . '" />' . LB
 						.  '<input type="hidden" name="db_prefix" value="'
-						.  $_DB_table_prefix . '">' . LB
+						.  $_DB_table_prefix . '" />' . LB
 						.  '<input type="hidden" name="db_type" value="'
-						.  $_DB_dbms . '">' . LB;
+						.  $_DB_dbms . '" />' . LB;
 			}
+
 			
 			$retval .= '</form>' . LB;
 		}
@@ -703,46 +730,42 @@ class Precheck
 		$mode     = $this->mode;
 		$language = 'japanese_utf-8';
 		$path     = rawurlencode($this->path . 'db-config.php');
-		
-		$params = "mode={$mode}&amp;language={$language}&amp;dbconfig_path={$path}";
-		
-		$retval	= <<<EOD
+		$params   = "mode={$mode}&amp;language={$language}&amp;dbconfig_path={$path}&amp;display_step=2";
+		$retval = <<<EOD
 <div id="container">
-	<h2>Step 4. データベース情報入力</h2>
+	<h1 class="heading">Step 4. データベース情報入力</h1>
 	<form action="index.php?{$params}" method="post">
 	<fieldset>
 	<legend>情報</legend>
-	<p><label class="lbl right">データベースの種類：</label>
+	<p><label class="lbl right">データベースの種類：</label>&nbsp;
 		<select id="db_type" name="db_type">
 			<option value="mysql" selected="selected">MySQL</option>
 			<option value="mysql-innodb">MySQL (InnoDB)</option>
 			<option value="mssql">Microsoft SQL</option>
 		</select>
-		<p id="db_err" class="right"></p>
 	</p>
-	<p><label class="lbl right">データベースのホスト名：</label>
-		<input type="text" id="db_host" name="db_host" size="30" maxlength="30" value="localhost">
-	<p><label class="lbl right">データベースのユーザ名：</label>
-		<input type="text" id="db_user" name="db_user" size="30" maxlength="30">
+	<p><label class="lbl right">データベースのホスト名：</label>&nbsp;
+		<input type="text" id="db_host" name="db_host" size="30" maxlength="30" value="localhost" />
 	</p>
-	<p><label class="lbl right">データベースのパスワード：</label>
-		<input type="password" id="db_pass" name="db_pass" size="30" maxlength="30">
+	<p><label class="lbl right">データベース名：</label>&nbsp;
+		<input type="text" id="db_name" name="db_name" size="30" maxlength="30" />
 	</p>
-	<p><label class="lbl right">データベース名：</label>
-		<span id="db_name_parent"><input type="text" id="db_name" name="db_name" size="30" maxlength="30"></span><span id="db_name_warning" class="hidden">（エラー：テーブルが既に存在しています。）</span>
+	<p><label class="lbl right">データベースのユーザ名：</label>&nbsp;
+		<input type="text" id="db_user" name="db_user" size="30" maxlength="30" />
 	</p>
-	<p><label class="lbl right">データベースの接頭子：</label>
-		<input type="text" id="db_prefix" name="db_prefix" size="30" maxlength="30" value="gl_">
+	<p><label class="lbl right">データベースのパスワード：</label>&nbsp;
+		<input type="password" id="db_pass" name="db_pass" size="30" maxlength="30" />
 	</p>
-	<p><label class="lbl right">UTF-8を使用する：</label>
-		<input id="utf8on" type="radio" name="utf8" value="on" checked="checked">
-		<label for="utf8on">はい</label>
-		<input id="utf8off" type="radio" name="utf8" value="off">
-		<label for="utf8off">いいえ</label>
+	<p><label class="lbl right">データベースの接頭子：</label>&nbsp;
+		<input type="text" id="db_prefix" name="db_prefix" size="30" maxlength="30" value="gl_" />
+	</p>
+	<p><label class="lbl right">UTF-8を使用する：</label>&nbsp;
+		<input id="utf8on" type="radio" name="utf8" value="on" checked="checked" />はい
+		<input id="utf8off" type="radio" name="utf8" value="off" />いいえ
 	</p>
 	</fieldset>
-	<p class="center">
-		<input id="install_submit" class="large" type="submit" value="インストーラへ">
+	<p>
+		<input id="install_submit" class="submit button big-button" type="submit" value="インストーラへ" />
 	</p>
 	</form>
 </div>
@@ -898,7 +921,7 @@ if (isset($_GET['mode'])) {
 } else if (isset($_POST['mode'])) {
 	$mode = $_POST['mode'];
 }
-if (!in_array($mode, array('install', 'upgrade', 'info', 'lookupdb', 'counttable'))) {
+if (!in_array($mode, array('install', 'upgrade', 'migrate', 'info', 'lookupdb', 'counttable'))) {
 	$step = 2;
 }
 
@@ -936,7 +959,7 @@ $display = $p->getHeader();
 if ($mode == 'info') {
 	$display .= $p->getInfo($_GET['item']);
 } else {
-	$display .= $p->getNav();
+//	$display .= $p->getNav();
 	
 	switch ($step) {
 		case 0: // Check PHP setting
@@ -949,18 +972,23 @@ if ($mode == 'info') {
 			/* Fall through intentionally */
 			
 		case 1:	// Check the path to "db-config.php"
+		    $p->step = 1;
+		    $display .= $p->getNav();
 			$display .= $p->_step1();
 			break;
 		
 		case 2:	// Select install type
+		    $display .= $p->getNav();
 			$display .= $p->_step2();
 			break;
 		
 		case 3:	// Check PHP settings and path permissions
+		    $display .= $p->getNav();
 			$display .= $p->_step3();
 			break;
 		
 		case 4:	// Check DB settings
+		    $display .= $p->getNav();
 			$display .= $p->_step4();
 			break;
 	}
