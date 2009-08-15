@@ -2,10 +2,10 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -36,6 +36,12 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
 }
 //@@@@@20080926add include check <----
 
+if (!defined('GL_VERSION_15')) {
+    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
+}
+if (!defined('GL_VERSION_16')) {
+    define('GL_VERSION_16', (version_compare(VERSION, '1.6') >= 0));
+}
 
 $langfile = $_CONF['path'] . 'plugins/filemgmt/language/' . $_CONF['language'] . '.php';
 if (file_exists ($langfile)) {
@@ -46,6 +52,18 @@ if (file_exists ($langfile)) {
 
 include($_CONF['path'] . 'plugins/filemgmt/config.php');
 
+/**
+* Check and see if we need to load the plugin configuration
+*/
+if (GL_VERSION_15) {
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $plg_config = config::get_instance();
+    $temp = $plg_config->get_config('filemgmt');
+    if (is_array($temp)) {
+        $_FM_CONF = array_merge($_FM_CONF, $temp);
+    }
+    foreach ($_FM_CONF as $key => $val) $$key = $_FM_CONF[$key];
+}
 
 /**
 * Returns the items for this plugin that should appear on the main menu
@@ -77,7 +95,9 @@ function plugin_chkVersion_filemgmt() {
 /**
 * Called by the plugin Editor to run the SQL Update for a plugin update
 */
-function plugin_upgrade_filemgmt() {
+function plugin_upgrade_filemgmt()
+{
+/*
     global $_TABLES,$_FM_TABLES,$CONF_FM;
 
     $cur_version = DB_getItem($_TABLES['plugins'],'pi_version', "pi_name='filemgmt'");
@@ -114,6 +134,60 @@ function plugin_upgrade_filemgmt() {
     } else {
         return 3;
     }
+*/
+
+    global $_TABLES, $_FM_TABLES, $CONF_FM, $_CONF, $_FM_CONF;
+
+    $cur_version = DB_getItem($_TABLES['plugins'],'pi_version', "pi_name='filemgmt'");
+    if (version_compare(VERSION, '1.6') < 0) return 3;
+
+    if (version_compare($cur_version, '1.3') <= 0) {
+        DB_query("ALTER TABLE {$_FM_TABLES['filemgmt_cat']} ADD `grp_access` mediumint(8) DEFAULT '2' NOT NULL AFTER imgurl");
+
+        // Update all the comment records
+        $result = DB_query("SELECT cid,sid FROM {$_TABLES['comments']} WHERE type='filemgmt'");
+        while (list($cid,$sid) = DB_fetchArray($result)) {
+            if (strpos($sid,'fileid_') === FALSE) {
+                $sid = "fileid_{$sid}";
+                DB_query("UPDATE {$_TABLES['comments']} SET sid='$sid' WHERE cid='$cid'");
+            }
+        }
+    }
+
+    if (version_compare($cur_version, '1.6.0.jp') < 0) {
+        require_once $_CONF['path'] . 'plugins/filemgmt/install_defaults.php';
+        plugin_initconfig_filemgmt();
+    }
+
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '{$_FM_CONF['version']}' WHERE pi_name = 'filemgmt'");
+    DB_query("UPDATE {$_TABLES['plugins']} SET pi_gl_version = '1.6.0' WHERE pi_name = 'filemgmt'");
+
+    return true;
+}
+
+
+/**
+* Called during site migration - handle changed URLs or paths
+*
+* @param    array   $old_conf   contents of the $_CONF array on the old site
+* @param    boolean             true on success, otherwise false
+*
+*/
+function plugin_migrate_filemgmt($old_conf)
+{
+    global $_CONF;
+
+    $tables = array(
+        'filemgmt_cat'        => 'cid, imgurl',
+        'filemgmt_filedetail' => 'lid, homepage',
+        'filemgmt_filedesc'   => 'lid, description'
+    );
+
+    if ($old_conf['site_url'] != $_CONF['site_url']) {
+        INST_updateSiteUrl($old_conf['site_url'], $_CONF['site_url'], $tables);
+    }
+
+    return true;
 }
 
 
@@ -234,7 +308,8 @@ function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$pa
         'category'         =>     'filelisting_category.thtml'));
 
     $p->set_var ('layout_url', $_CONF['layout_url']);
-    $p->set_var ('site_url',$_CONF['site_url']);    
+    $p->set_var ('site_url',$_CONF['site_url']);
+    $p->set_var ('xhtml', XHTML);
 
     $pathstring = "<a href='index.php'>"._MD_MAIN."</a>&nbsp;:&nbsp;";
     $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php?op=");
@@ -305,8 +380,10 @@ function plugin_showstats_filemgmt($showsitestats)
 global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
 
     $stat_templates = new Template($_CONF['path_layout'] . 'stats');
-    $stat_templates->set_file(array('itemstats'=>'itemstatistics.thtml',
-                            'statrow'=>'singlestat.thtml'));
+    $stat_templates->set_file(array(
+        'itemstats' => 'itemstatistics.thtml',
+        'statrow'   => 'singlestat.thtml'));
+    $stat_templates->set_var('xhtml', XHTML);
     if ($showsitestats == 1) {
         $sql = "SELECT COUNT(*), SUM(hits) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
@@ -371,6 +448,7 @@ function plugin_searchtypes_filemgmt()
 * @author           string          Get all results by this author
 *
 */
+/*
 function plugin_dopluginsearch_filemgmt($query, $datestart, $dateend, $topic, $type, $author) 
 {
     global $LANG_FILEMGMT, $_TABLES, $_FM_TABLES, $_CONF, $filemgmt_FileStoreURL;
@@ -436,7 +514,7 @@ function plugin_dopluginsearch_filemgmt($query, $datestart, $dateend, $topic, $t
         $A = DB_fetchArray($result);
         $thetime = COM_getUserDateTimeFormat($A['day']);
         $url = $_CONF[site_url]. "/filemgmt/index.php?id=".$A['lid'];
-        $row = array("<a href={$url}>{$A['title']}</a>", wordwrap($A['description'],70,"<br>"), COM_getDisplayName($A['submitter']), $A['hits']);
+        $row = array("<a href={$url}>{$A['title']}</a>", wordwrap($A['description'],70,"<br".XHTML.">"), COM_getDisplayName($A['submitter']), $A['hits']);
         $plugin_results->addSearchResult($row);
     }
 
@@ -444,8 +522,65 @@ function plugin_dopluginsearch_filemgmt($query, $datestart, $dateend, $topic, $t
 
     return $plugin_results;
 }
+*/
 
+/**
+* This searches for links matching the user query and returns an array for the
+* header and table rows back to search.php where it will be formated and printed
+*
+* @param    string  $query      Keywords user is looking for
+* @param    date    $datestart  Start date to get results for
+* @param    date    $dateend    End date to get results for
+* @param    string  $topic      The topic they were searching in
+* @param    string  $type       Type of items they are searching, or 'all' (deprecated)
+* @param    int     $author     Get all results by this author
+* @param    string  $keyType    search key type: 'all', 'phrase', 'any'
+* @param    int     $page       page number of current search (deprecated)
+* @param    int     $perpage    number of results per page (deprecated)
+* @return   object              search result object
+*
+*/
+function plugin_dopluginsearch_filemgmt($query, $datestart, $dateend, $topic, $type, $author, $keyType, $page, $perpage)
+{
+    global $_TABLES, $_FM_TABLES, $LANG_DLM, $LANG_FILEMGMT;
 
+    // Make sure the query is SQL safe
+    $query = trim(addslashes($query));
+
+    // filemgmt search
+    $sql  = "SELECT a.lid AS id, a.title AS title, date, a.submitter AS uid, hits, "
+          . "c.description AS description, "
+          . "CONCAT('/filemgmt/index.php?id=', a.lid) AS url "
+          . "FROM {$_FM_TABLES['filemgmt_filedetail']} AS a "
+          . "LEFT JOIN {$_FM_TABLES['filemgmt_filedesc']} c ON c.lid=a.lid "
+          . "WHERE date <> 1 "
+          . "AND date<=UNIX_TIMESTAMP(NOW()) ";
+
+    if (!empty($datestart) && !empty($dateend)) {
+        $delim = substr($datestart, 4, 1);
+        if (!empty($delim)) {
+            $DS = explode($delim, $datestart);
+            $DE = explode($delim, $dateend);
+            $startdate = mktime(0,  0,  0,  $DS[1], $DS[2], $DS[0]);
+            $enddate   = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
+            $sql .= "AND (date BETWEEN '$startdate' AND '$enddate') ";
+        }
+    }
+
+    if (!empty ($author)) {
+        $sql .= "AND (a.submitter = '$author') ";
+    }
+
+    $search = new SearchCriteria('filemgmt', $LANG_FILEMGMT['downloads']);
+    $columns = array('title' => 'a.title', 'description');
+    list($sql_tmp,$ftsql_tmp) = $search->buildSearchSQL($keyType, $query, $columns, $sql);
+    $search->setSQL($sql_tmp);
+    $search->setFTSQL($ftsql_tmp);
+    $search->setRank(3);
+    $search->setAppendQuery(false);
+
+    return $search;
+}
 
 
 /**
@@ -497,13 +632,45 @@ function plugin_getadminoption_filemgmt()
 
 
 /**
+* Automatic uninstall function for plugins
+*
+* @return   array
+*
+* This code is automatically uninstalling the plugin.
+* It passes an array to the core code function that removes
+* tables, groups, features and php blocks from the tables.
+* Additionally, this code can perform special actions that cannot be
+* foreseen by the core code (interactions with other plugins for example)
+*
+*/
+/*
+function plugin_autouninstall_filemgmt()
+{
+    $out = array (
+        // give the name of the tables, without $_TABLES[]
+        'tables' => array('filemgmt_cat', 'filemgmt_filedetail', 'filemgmt_filedesc',
+                          'filemgmt_brokenlinks', 'filemgmt_votedata', 'filemgmt_history'),
+        // give the full name of the group, as in the db
+        'groups' => array('Filemgmt Admin'),
+        // give the full name of the feature, as in the db
+        'features' => array('filemgmt.edit', 'filemgmt.user', 'filemgmt.upload'),
+        // give the full name of the block, including 'phpblock_', etc
+        'php_blocks' => array('phpblock_NewDownloads'),
+        // give all vars with their name
+        'vars'=> array('filemgmt_admingrp_id')
+    );
+    return $out;
+}
+*/
+
+/**
 * Removes the datastructures for this plugin from the Geeklog database
 * This may get called by the install routine to undue anything created during the install.
 * Added check to see that plugin is first disabled.
-*/  
+*/
 function plugin_uninstall_filemgmt($installCheck='')
 {
-    global $LANG_FM00, $LANG_FILEMGMT, $_TABLES,$_FM_TABLES;
+    global $_CONF, $LANG_FM00, $LANG_FILEMGMT, $_TABLES, $_FM_TABLES;
 
     $pi_name='filemgmt';
     $FEATURES = array ('filemgmt.edit', 'filemgmt.user','filemgmt.upload');
@@ -561,10 +728,31 @@ function plugin_uninstall_filemgmt($installCheck='')
     DB_query("DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn='phpblock_NewDownloads'");
     COM_errorLog("Removing block definition for plugin $pi_name");
 
+    // Delete config info
+    if (GL_VERSION_15) {
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        $plg_config = config::get_instance();
+        if ($plg_config->group_exists('filemgmt')) {
+            $param_names = array();
+            $param_names = $plg_config->get_config('filemgmt');
+            $param_names['sg_main'] = NULL;
+            $param_names['fs_main'] = NULL;
+            $param_names['fs_path'] = NULL;
+            $param_names['fs_url']  = NULL;
+            foreach ($param_names as $key => $val) {
+                $plg_config->del($key, 'filemgmt');
+            }
+/*
+            foreach ($param_names as $param_name) {
+                $plg_config->del($param_name, 'filemgmt');
+            }
+*/
+        }
+    }
+
     COM_errorLog('...success',1);
     return true;
 }
-
 
 // Common function used to build group access SQL
 function filemgmt_buildAccessSql($clause='AND') {
@@ -737,7 +925,7 @@ function plugin_getwhatsnew_filemgmt() {
         $result = DB_query( $sql );
         $nrows1 = DB_numRows( $result );
         if( $nrows1 == 0 ) {
-            $retval .= $LANG_FILEMGMT['no_new_files'] . '<br>' . LB;
+            $retval .= $LANG_FILEMGMT['no_new_files'] . '<br' . XHTML . '>' . LB;
         } else {
             for( $i = 0; $i < $nrows1; $i++ ) {
                 list($lid, $title) = DB_fetchArray( $result );
@@ -763,7 +951,7 @@ function plugin_getwhatsnew_filemgmt() {
             $result = DB_query($sql);
             $nrows2 = DB_numRows( $result );
             if( $nrows2 == 0 ) {
-                $retval .= $LANG_FILEMGMT['no_comments'] . '<br>' . LB;
+                $retval .= $LANG_FILEMGMT['no_comments'] . '<br' . XHTML . '>' . LB;
             } else {
                 for( $i = 0; $i < $nrows2; $i++ ) {
                     list($lid, $title) = DB_fetchArray( $result );
@@ -820,6 +1008,141 @@ function plugin_autotags_filemgmt ($op, $content = '', $autotag = '')
     }
 }
 
+/**
+* Return information for a filemgmt
+*
+* @param    string  $lid        file ID or '*'
+* @param    string  $what       comma-separated list of properties
+* @param    int     $uid        user ID or 0 = current user
+* @param    array   $options    (reserved for future extensions)
+* @return   mixed               string or array of strings with the information
+*
+*/
+
+function plugin_getiteminfo_filemgmt($lid, $what, $uid = 0, $options = array())
+{
+    global $_CONF, $_TABLES, $_FM_TABLES;
+
+    // parse $what to see what we need to pull from the database
+    $properties = explode(',', $what);
+    $fields = array();
+    foreach ($properties as $p) {
+        switch ($p) {
+        case 'date-modified':
+            $fields[] = 'date AS unixdate';
+            break;
+//      case 'description':
+//      case 'excerpt':
+//          $fields[] = 'description';
+//          break;
+        case 'id':
+            $fields[] = 'lid';
+            break;
+        case 'title':
+            $fields[] = 'title';
+            break;
+        case 'url':
+            // needed for $lid == '*', but also in case we're only requesting
+            // the URL (so that $fields isn't emtpy)
+            $fields[] = 'lid';
+            break;
+        default:
+            // nothing to do
+            break;
+        }
+    }
+
+    $fields = array_unique($fields);
+
+    if (count($fields) == 0) {
+        $retval = array();
+
+        return $retval;
+    }
+
+    // prepare SQL request
+    if ($lid == '*') {
+        $where = '';
+        $permOp = 'WHERE';
+    } else {
+        $where = " WHERE lid = '" . addslashes($lid) . "'";
+        $permOp = 'AND';
+    }
+    if ($uid > 0) {
+        $permSql = '';
+    } else {
+        $permSql = '';
+    }
+    $sql = "SELECT " . implode(',', $fields)
+            . " FROM {$_FM_TABLES['filemgmt_filedetail']}" . $where . $permSql;
+    if ($lid != '*') {
+        $sql .= ' LIMIT 1';
+    }
+
+    $result = DB_query($sql);
+    $numRows = DB_numRows($result);
+
+    $retval = array();
+    for ($i = 0; $i < $numRows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $props = array();
+        foreach ($properties as $p) {
+            switch ($p) {
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
+                break;
+//          case 'description':
+//          case 'excerpt':
+//              $props[$p] = stripslashes($A['description']);
+//              break;
+            case 'id':
+                $props['id'] = $A['lid'];
+                break;
+            case 'title':
+                $props['title'] = stripslashes($A['title']);
+                break;
+            case 'url':
+                if (empty($A['lid'])) {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/filemgmt/index.php?id=' . $lid);
+                } else {
+                    $props['url'] = COM_buildUrl($_CONF['site_url']
+                            . '/filemgmt/index.php?id=' . $A['lid']);
+                }
+                break;
+            default:
+                // return empty string for unknown properties
+                $props[$p] = '';
+                break;
+            }
+        }
+
+        $mapped = array();
+        foreach ($props as $key => $value) {
+            if ($lid == '*') {
+                if ($value != '') {
+                    $mapped[$key] = $value;
+                }
+            } else {
+                $mapped[] = $value;
+            }
+        }
+
+        if ($lid == '*') {
+            $retval[] = $mapped;
+        } else {
+            $retval = $mapped;
+            break;
+        }
+    }
+
+    if (($lid != '*') && (count($retval) == 1)) {
+        $retval = $retval[0];
+    }
+
+    return $retval;
+}
 
 
 /* GLMENU USE ONLY API FUNCTIONS */
@@ -889,5 +1212,10 @@ function plugin_glMenuCreateMenus_filemgmt() {
 
 }
 
+if (!function_exists('COM_output')) {
+    function COM_output(&$display) {
+        echo $display;
+    }
+}
 
 ?>

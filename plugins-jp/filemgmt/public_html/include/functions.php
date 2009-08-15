@@ -1,9 +1,9 @@
 <?php
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -39,9 +39,9 @@ function newdownloadgraphic($time, $status) {
     $startdate = (time()-(86400 * $count));
     if ($startdate < $time) {
         if($status==1){
-            $functionretval = "&nbsp<img src=\"{$_CONF[site_url]}/filemgmt/images/newred.gif\" alt=\"" ._MD_NEWTHISWEEK . '">';
+            $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/newred.gif" alt="' . _MD_NEWTHISWEEK . '"' . XHTML . '>';
         }elseif($status==2){
-            $functionretval = "&nbsp<img src=\"{$_CONF[site_url]}/filemgmt/images/update.gif\" alt=\"" ._MD_UPTHISWEEK . '">';
+            $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/update.gif" alt="' . _MD_UPTHISWEEK . '"' . XHTML . '>';
             }
         }
         return $functionretval;
@@ -51,7 +51,7 @@ function popgraphic($hits) {
         global $_CONF, $mydownloads_popular;
 
         if ($hits >= $mydownloads_popular) {
-            $functionretval = "&nbsp<img src=\"{$_CONF[site_url]}/filemgmt/images/pop.gif\" alt=\"" ._MD_POPULAR . '" >';
+            $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/pop.gif" alt="' . _MD_POPULAR . '"' . XHTML . '>';
         }
         return $functionretval;
 }
@@ -134,7 +134,7 @@ function themecenterposts($title, $content) {
     ."</tr>"
     ."<tr><td>$content</td>"
     ."</tr>"
-    ."<tr><td align='right'>&nbsp;</td>"
+    ."<tr><td style=\"text-align:right;\">&nbsp;</td>"
     ."</tr>"
     ."</table>";
 
@@ -150,7 +150,7 @@ function redirect_header($url, $time=3, $message=''){
     $display .= COM_startBlock();
     $display .= "<center>";
     if ( $message!="" ) {
-        $display .= "<br><p><h4>".$message."</h4>\n";
+        $display .= "<br /><p><h4>".$message."</h4>\n";
     }
     $display .= "<br /><b>\n";
     $display .= sprintf(_IFNOTRELOAD,$url);
