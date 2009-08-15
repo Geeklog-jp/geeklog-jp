@@ -51,38 +51,40 @@ $result=DB_query("SELECT date,uid,remote_ip FROM {$_FM_TABLES['filemgmt_history'
 $display = COM_siteHeader('none');
 
 $display .= "<table width='100%' border='0' cellspacing='1' cellpadding='4' class='plugin'><tr>";
-$display .= "<td colspan='3'><center><H2>". $LANG_FILEMGMT['DownloadReport'] ."</H2></center></td></tr><tr>";
-$display .= "<td colspan='3'><H4>File: " .$dtitle ."</H4></td></tr><tr>";
-$display .= "<td bgcolor='#000000' width='20%'><b><center><font color='#ffffff' size='3'>Date</font></center></b></td>";
-$display .= "<td bgcolor='#000000' width='20%'><b><center><font color='#ffffff' size='3'>User</font></center></b></td>";
-$display .= "<td bgcolor='#000000' width='20%'><b><center><font color='#ffffff' size='3'>Remote IP</font></center></b></td>";
+$display .= "<td colspan='3'><div style=\"text-align:center;\"><h2>". $LANG_FILEMGMT['DownloadReport'] ."</h2></div></td></tr><tr>";
+$display .= "<td colspan='3'><h4>File: " . $dtitle . "</h4></td></tr><tr>";
+$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">Date</span></b></td>";
+$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">User</span></b></td>";
+$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">Remote IP</span></b></td>";
 $display .= "</tr>";
 
 $highlight = true;
-while(list($date,$uid,$remote_ip)=DB_fetchARRAY($result)){
+while (list($date,$uid,$remote_ip) = DB_fetchARRAY($result)) {
     $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
     list ($username) = DB_fetchARRAY($result2);    
     $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
     list ($username) = DB_fetchARRAY($result2);
 
     if ($highlight) {
-           $highlight=false;
-        $display .= "<td bgcolor='#f5f5f5' width=20%>$date</td>";
-        $display .= "<td bgcolor='#f5f5f5' width=20%>$username</td>";
-        $display .= "<td bgcolor='#f5f5f5' width=20%>$remote_ip</td>";
+        $highlight = false;
+        $display .= "<tr>";
+        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$date</td>";
+        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$username</td>";
+        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$remote_ip</td>";
         $display .= "</tr>";
     }else {
-        $highlight=true;
-        $display .= "<td  width=20%>$date</td>";
-        $display .= "<td  width=20%>$username</td>";
-        $display .= "<td  width=20%>$remote_ip</td>";
+        $highlight = true;
+        $display .= "<tr>";
+        $display .= "<td style=\"width:20%;\">$date</td>";
+        $display .= "<td style=\"width:20%;\">$username</td>";
+        $display .= "<td style=\"width:20%;\">$remote_ip</td>";
         $display .= "</tr>";
     }
 
 }
 $display .= "</table>";
-$display .= "<br>";
+$display .= "<br" . XHTML . ">";
 $display .= COM_siteFooter();
-echo $display;
+COM_output($display);
 
 ?>

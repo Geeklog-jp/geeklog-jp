@@ -67,6 +67,7 @@ $p->set_file (array (
 $p->set_var ('layout_url', $_CONF['layout_url']);
 $p->set_var ('site_url',$_CONF['site_url']);
 $p->set_var ('site_admin_url',$_CONF['site_admin_url']);
+$p->set_var ('xhtml', XHTML);
 $p->set_var ('imgset',$_CONF['layout_url'] . '/nexflow/images');
 $p->set_var ('tablewidth', $mydownloads_shotwidth+10);
 $p->set_var('block_header', COM_startBlock(_MD_CATEGORYTITLE));
@@ -98,25 +99,24 @@ $subcategories = '';
 $arr=array();
 $arr=$mytree->getFirstChild($cid, 'title');
 
-$count = 1;
-foreach($arr as $ele) {
-    $totalfiles = 0;
-    $chtitle=$myts->makeTboxData4Show($ele['title']);
-    $totalfiles = $totalfiles + getTotalItems($ele['cid'], 1);
-    $subcategories = '<a href="' .$_CONF[site_url] .'/filemgmt/viewcat.php?cid=' .$ele['cid'] .'">' .$chtitle .'</a></b>&nbsp;('.$totalfiles.')&nbsp;&nbsp;';
-    $p->set_var('subcategories',$subcategories);
-    if ($count == $numCategoriesPerRow) {
-        $p->set_var('end_of_row','</tr>');
+if (count($arr) > 0) {
+    $count = 1;
+    foreach($arr as $ele) {
+        $totalfiles = 0;
+        $chtitle=$myts->makeTboxData4Show($ele['title']);
+        $totalfiles = $totalfiles + getTotalItems($ele['cid'], 1);
+        $subcategories = '<a href="' .$_CONF[site_url] .'/filemgmt/viewcat.php?cid=' .$ele['cid'] .'">' .$chtitle .'</a>&nbsp;('.$totalfiles.')&nbsp;&nbsp;';
+        $p->set_var('subcategories',$subcategories);
+        $p->set_var('new_table_row', ($count == 1) ? '<tr>' : '');
+        $p->set_var('end_of_row', ($count == $numCategoriesPerRow) ? '</tr>' : '');
+        $count = ($count == $numCategoriesPerRow) ? 1 : ($count + 1);
         $p->parse ('category_records', 'category',true);
-        $p->set_var('new_table_row','<tr>');
-        $count = 1;
-        $subcategories = '';
-    } else {
-        $p->set_var('end_of_row','');
-        $p->parse ('category_records', 'category',true);
-        $p->set_var('new_table_row','');
-        $count++;
     }
+} else {
+    $p->set_var('subcategories','');
+    $p->set_var('new_table_row', '<tr>');
+    $p->set_var('end_of_row', '</tr>');
+    $p->parse ('category_records', 'category');
 }
 
 $sql = "SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
@@ -167,19 +167,19 @@ if($maxrows > 0) {
         $cssid = ($cssid == 2) ? 1 : 2;
         
         // Print Google-like paging navigation
-        $base_url = $_CONF['site_url'] . '/filemgmt/viewcat.php?cid='.$cid.'&orderby='.$orderby;
+        $base_url = $_CONF['site_url'] . '/filemgmt/viewcat.php?cid='.$cid.'&amp;orderby='.$orderby;
         $p->set_var('page_navigation', COM_printPageNavigation($base_url,$page, $numpages));
     }
 
     $p->parse ('output', 'page');
     $display .= $p->finish ($p->get_var('output'));
 }  else {
-    $p->set_var('filelisting_records','<div class="pluginAlert" style="width:500px;padding:10px;margin:10px;border:1px dashed #CCC;">'._MD_NOFILES.'</div>');
+    $p->set_var('filelisting_records','<tr><td><div class="pluginAlert" style="width:500px;padding:10px;margin:10px;border:1px dashed #CCC;">'._MD_NOFILES.'</div></td></tr>');
     $p->parse ('output', 'page');
     $display .= $p->finish ($p->get_var('output'));
 }
 
 $display .= COM_siteFooter();
-echo $display;
+COM_output($display);
 
 ?>
