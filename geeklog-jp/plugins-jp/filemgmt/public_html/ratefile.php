@@ -1,9 +1,9 @@
 <?php
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -105,28 +105,27 @@ if($_POST['submit']) {
     $result=DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
     list($title) = DB_fetchARRAY($result);
     $title = $myts->makeTboxData4Show($title);
-    $display .= '<table border=0 cellpadding=1 cellspacing=0 width="80%" class="plugin"><tr>';
-    $display .= '<td class="pluginHeader">'._MD_FILE.':&nbsp;'.$title.'</td></tr>';
-    $display .= '<tr><td style="padding:10px;">';
-    $display .= '<LI>'._MD_VOTEONCE;
-    $display .= '<LI>'._MD_RATINGSCALE;
-    $display .= '<LI>'._MD_BEOBJECTIVE;
-    $display .= '<LI>'._MD_DONOTVOTE;
+    $display .= '<table border="0" cellpadding="1" cellspacing="0" width="80%" class="plugin"><tr>';
+    $display .= '<td class="pluginHeader">' . _MD_FILE . ':&nbsp;' . $title . '</td></tr>';
+    $display .= '<tr><td style="padding:10px;"><ul>';
+    $display .= '<li>'._MD_VOTEONCE . '</li>';
+    $display .= '<li>'._MD_RATINGSCALE . '</li>';
+    $display .= '<li>'._MD_BEOBJECTIVE . '</li>';
+    $display .= '<li>'._MD_DONOTVOTE . '</li>';
     $display .=  "
-         </UL></td></tr><tr><td align=\"center\">
-         <form method=\"POST\" action=\"ratefile.php\">
-         <input type=\"hidden\" name=\"lid\" value=\"$lid\">
+         </ul></td></tr><tr><td style=\"text-align:center;\">
+         <form method=\"post\" action=\"ratefile.php\"><div>
+         <input type=\"hidden\" name=\"lid\" value=\"$lid\"" . XHTML . ">
          <select name=\"rating\"><option>--</option>";
-         for($i=10;$i>0;$i--){
-            $display .=  "<option value=\"".$i."\">".$i."</option>\n";
+         for ($i=10; $i>0; $i--) {
+            $display .= "<option value=\"" . $i . "\">" . $i . "</option>\n";
         }
-    $display .= "</select><br><br><input type=\"submit\" name=\"submit\" value=\""._MD_RATEIT."\"\n>";
-    $display .= "&nbsp;<input type=\"button\" value=\""._MD_CANCEL."\" onclick=\"javascript:history.go(-1)\">\n";
-    $display .= "</form></td></tr></table>";
+    $display .= "</select><br" . XHTML . "><br" . XHTML . "><input type=\"submit\" name=\"submit\" value=\"" . _MD_RATEIT . "\"" . XHTML . ">\n";
+    $display .= "&nbsp;<input type=\"button\" value=\"" . _MD_CANCEL . "\" onclick=\"javascript:history.go(-1)\"" . XHTML . ">\n";
+    $display .= "</div></form></td></tr></table>";
     $display .= COM_endBlock();
     $display .= COM_siteFooter();
-    echo $display;
-
+    COM_output($display);
 }
 
 ?>

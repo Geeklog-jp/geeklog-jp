@@ -54,6 +54,8 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     $p->set_var ('layout_url', $_CONF['layout_url']);
     $p->set_var ('site_url',$_CONF['site_url']);
     $p->set_var ('site_admin_url',$_CONF['site_admin_url']);
+    $p->set_var ('xhtml', XHTML);
+    $p->set_var ('target', ($CONF_FM['ignore_target']) ? '' : 'target="_blank"');
 
     $myts = new MyTextSanitizer;
     $mytree = new XoopsTree($_DB_name,$_FM_TABLES['filemgmt_cat'],"cid","pid");
@@ -117,7 +119,12 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         } else {
             $delete_option = false;
         }
-        $p->set_var('comment_records', CMT_userComments( "fileid_{$lid}", $title, 'filemgmt',$_POST['order'],$_POST['mode'],0,1,false,$delete_option));
+        $p->set_var('comment_records', CMT_userComments( "fileid_{$lid}", $dtitle, 'filemgmt', $_POST['order'], $_POST['mode'], 0, 1, false, $delete_option ));
+	    $p->set_var('subcategories','');
+	    $p->set_var('new_table_row', '<tr>');
+	    $p->set_var('end_of_row', '</tr>');
+	    $p->parse ('category_records', 'category');
+
         $p->parse ('output', 'page');
         $display .= $p->finish ($p->get_var('output'));
 
@@ -132,6 +139,8 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $p->set_var ('layout_url', $_CONF['layout_url']);
         $p->set_var ('site_url',$_CONF['site_url']);
         $p->set_var ('site_admin_url',$_CONF['site_admin_url']);
+        $p->set_var ('xhtml', XHTML);
+        $p->set_var ('target', ($CONF_FM['ignore_target']) ? '' : 'target="_blank"');
         $p->set_var ('imgset',$_CONF['layout_url'] . '/nexflow/images');
         $p->set_var ('tablewidth', $mydownloads_shotwidth+10);
 
@@ -170,7 +179,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     if ( $mydownloads_useshots && $myrow['imgurl'] && $myrow['imgurl'] != "http://") {
                         $imgurl = $myts->makeTboxData4Edit($myrow['imgurl']);
                         $category_image_link = '<a href="' .$_CONF[site_url] .'/filemgmt/viewcat.php?cid=' .$myrow['cid'] .'">';
-                        $category_image_link .= '<img src=' .$filemgmt_SnapCatURL.$imgurl .' width="'.$mydownloads_shotwidth.'" border="0"></a>';
+                        $category_image_link .= '<img src="' .$filemgmt_SnapCatURL.$imgurl .'" width="' . $mydownloads_shotwidth . '" style="border:none;" alt=""' . XHTML . '></a>';
                         $p->set_var('category_link',$category_image_link);
                     } else {
                         $p->set_var('category_link','&nbsp;');
@@ -205,16 +214,11 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     }
                     $p->set_var('subcategories',$subcategories);
                     $count++;
-                    if ($count == $numCategoriesPerRow) {
-                        $p->set_var('end_of_row','</tr>');
-                        $p->parse ('category_records', 'category',true);
-                        $p->set_var('new_table_row','<tr>');
-                        $count = 0;
-                    } else {
-                        $p->set_var('end_of_row','');
-                        $p->parse ('category_records', 'category',true);
-                        $p->set_var('new_table_row','');
-                    }
+                    $p->set_var('new_table_row', ($count == 1) ? '<tr>' : '');
+                    $p->set_var('end_of_row', ($count == $numCategoriesPerRow) ? '</tr>' : (($count == $nrows) ? '</tr>' : ''));
+
+                    if ($count == $numCategoriesPerRow) $count = 0;
+                    $p->parse ('category_records', 'category',true);
                 }
             }
         }
@@ -249,7 +253,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     $description = $myts->makeTareaData4Show($description,0); //no html
                     $breakPosition = strpos($description,"<br /><br />");
                     if (($breakPosition > 0) AND ($breakPosition < strlen($description)) AND $mydownloads_trimdesc) {
-                        $description = substr($description, 0,$breakPosition) . "<p align=left><a href=\"{$_CONF[site_url]}/filemgmt/index.php?id=$lid&comments=1\">{$LANG_FILEMGMT['more']}</a></p>";
+                        $description = substr($description, 0,$breakPosition) . "<p style=\"text-align:left\"><a href=\"{$_CONF[site_url]}/filemgmt/index.php?id=$lid&amp;comments=1\">{$LANG_FILEMGMT['more']}</a></p>";
                     }
                     $result2 = DB_query("SELECT username,fullname,photo  FROM {$_TABLES['users']} WHERE uid = $submitter");
                     list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
@@ -271,7 +275,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     }
 
     $display .= COM_siteFooter();
-    echo $display;
+    COM_output($display);
 
 } else {
     COM_errorLOG("Index.php => Filemgmt Plugin Access denied. Attempted direct (not via menu) to FileMgmt Plugin, Remote address is: {$_SERVER['REMOTE_ADDR']}");

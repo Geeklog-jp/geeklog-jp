@@ -204,7 +204,7 @@ class XoopsTree{
         if (strpos($funcURL,'?',0) === FALSE) {
             $path = "<a href=\"{$funcURL}?{$this->id}={$sel_id}\">{$name}</a>&nbsp;:&nbsp;{$path}";
         } else {
-            $path = "<a href=\"{$funcURL}&{$this->id}={$sel_id}\">{$name}</a>&nbsp;:&nbsp;{$path}";
+            $path = "<a href=\"{$funcURL}&amp;{$this->id}={$sel_id}\">{$name}</a>&nbsp;:&nbsp;{$path}";
         }                    
         if ( $parentid == 0 ) {
             return $path;

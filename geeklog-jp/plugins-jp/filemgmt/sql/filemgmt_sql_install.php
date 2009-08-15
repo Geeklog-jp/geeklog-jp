@@ -107,7 +107,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_history']} (
 $_SQL[] = "INSERT INTO {$_FM_TABLES['filemgmt_cat']} (
   cid, pid, title, imgurl, grp_access
   ) VALUES (
-  1, 0, '--Select Categori', '', 2
+  1, 0, 'Sample Category', '', 2
   )";
 //@@@@@add20080115<----
 

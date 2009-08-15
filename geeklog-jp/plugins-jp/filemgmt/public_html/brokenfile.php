@@ -1,9 +1,9 @@
 <?php
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -33,7 +33,7 @@
 
 require_once('../lib-common.php');
 include_once($_CONF[path_html]."filemgmt/include/header.php");
-include($_CONF[path_html] ."filemgmt/include/functions.php"); 
+include($_CONF[path_html] ."filemgmt/include/functions.php");
 $lid = COM_applyFilter($_REQUEST['lid'],true);
 if ($lid == 0) {
     echo COM_refresh($_CONF['site_url'] .'/filemgmt/index.php');
@@ -70,21 +70,21 @@ if ( isset($_POST['submit']) ) {
 
 } else {
     $display = COM_siteHeader('menu');
-    $display .= COM_startBlock("<b>"._MD_ADMINTITLE."</b>");
-    $display .= "<form action='brokenfile.php' method='post'>";
-    $display .= "<input type='hidden' name='lid' value='$lid' />";    
-    $display .= "<table border=0 cellpadding=1 cellspacing=0 width=\"80%\" class=\"plugin\"><tr>";
-    $display .= '<td class="pluginHeader">'._MD_REPORTBROKEN.'</td></tr>';
-    $display .= '<tr><td style="padding:10px;">';
-    $display .= _MD_THANKSFORHELP;
-    $display .= "<br>"._MD_FORSECURITY."<br /><br />";
-    $display .= '</td></tr><tr><td style="padding:0px 0px 10px 10px;">';     
-    $display .= "<input type='submit' name='submit' value='"._MD_REPORTBROKEN."' />";
-    $display .= "&nbsp;<input type='button' value='"._MD_CANCEL."' onclick='javascript:history.go(-1)' />";
-    $display .= "</td></tr></table></form>";
+    $display .= COM_startBlock(_MD_ADMINTITLE) . LB;
+    $display .= "<form action=\"brokenfile.php\" method=\"post\"><div>" . LB;
+    $display .= "<input type=\"hidden\" name=\"lid\" value=\"$lid\"" . XHTML . ">" . LB;
+    $display .= "<table border=\"0\" cellpadding=\"1\" cellspacing=\"0\" width=\"80%\" class=\"plugin\"><tr>" . LB;
+    $display .= '<td class="pluginHeader">' . _MD_REPORTBROKEN . '</td></tr>' . LB;
+    $display .= '<tr><td style="padding:10px;">' . LB;
+    $display .= _MD_THANKSFORHELP . "<br" . XHTML . ">" . LB;
+    $display .= _MD_FORSECURITY . "<br" . XHTML . "><br" . XHTML . ">" . LB;
+    $display .= '</td></tr><tr><td style="padding:0px 0px 10px 10px;">' . LB;
+    $display .= "<input type=\"submit\" name=\"submit\" value=\"" . _MD_REPORTBROKEN . "\"" . XHTML . ">" . LB;
+    $display .= "&nbsp;<input type=\"button\" value=\""._MD_CANCEL."\" onclick=\"javascript:history.go(-1)\"" . XHTML . ">" . LB;
+    $display .= "</td></tr></table></div></form>" . LB;
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();    
-    echo $display;
+    $display .= COM_siteFooter();
+    COM_output($display);
 }
 
 ?>
