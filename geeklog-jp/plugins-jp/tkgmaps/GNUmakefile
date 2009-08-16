@@ -2,7 +2,7 @@
 
 PLUGIN=		tkgmaps
 
-FILES=		INSTALL README_ja.html config.php \
+FILES=		INSTALL README_ja.html autoinstall.php config.php \
 		function_tkgmaps-admin.php function_tkgmaps.php functions.inc \
 		install.html install_ja.html
 
