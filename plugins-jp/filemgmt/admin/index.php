@@ -388,6 +388,11 @@ function modDownload() {
         $display .= '<input type="radio" name="commentoption" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;' . LB;
     }
     $display .= '</td></tr>' .LB;
+
+    $display .= '<tr><td>' . _MD_MODOPT . '</td><td colspan="2">' . LB;
+    $display .= '<input type="checkbox" name="updateregdate"' . XHTML . '>&nbsp;' . _MD_OPTUPDATE . LB;
+    $display .= '</td></tr>' .LB;
+
     $display .= '<tr><td colspan="3" style="text-align:center;padding:10px;">' . LB;
     $display .= '<input type="submit" value="' . _MD_SUBMIT . '"' . XHTML . '><span style="padding-left:15px;padding-right:15px;">' . LB;
     $display .= '<input type="submit" value="' . _MD_DELETE . '" onclick=\'if (confirm("Delete this file ?")) {this.form.op.value="delDownload";return true}; return false\'' . XHTML . '>' . LB;
@@ -637,7 +642,8 @@ function modDownloadS() {
     $size = $myts->makeTboxData4Save($_POST['size']);
     $description = $myts->makeTareaData4Save($_POST['description']);
     $commentoption = $_POST['commentoption'];
-    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET cid='$cid', title='$title', url='$url', homepage='$homepage', version='$version', size='$size', status=1, date=".time().", comments='$commentoption' WHERE lid='{$_POST['lid']}'");
+    $update = (isset($_POST['updateregdate'])) ? "date=" . time() . ", " : "";
+    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET cid='$cid', title='$title', url='$url', homepage='$homepage', version='$version', size='$size', status=1, " . $update . "comments='$commentoption' WHERE lid='{$_POST['lid']}'");
     DB_query("UPDATE {$_FM_TABLES['filemgmt_filedesc']} SET description='$description' WHERE lid='{$_POST['lid']}'");
     redirect_header("{$_CONF['site_url']}/filemgmt/index.php",2,_MD_DBUPDATED);
     exit();
