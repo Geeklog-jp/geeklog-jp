@@ -363,6 +363,8 @@ define("_MD_DIRCATTHUMBS","リポジトリのパス - カテゴリ画像: ");
 define("_MD_URLFILES","リポジトリのURL - ファイル: ");
 define("_MD_URLTHUMBS","リポジトリのURL - ファイル画像: ");
 define("_MD_URLCATTHUMBS","リポジトリのURL - カテゴリ画像: ");
+define("_MD_MODOPT","オプション: ");
+define("_MD_OPTUPDATE","登録日を更新する");
 
 // Additional Geeklog Defines
 define("_MD_NOVOTE","まだ評価されていません。");
