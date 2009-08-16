@@ -8,7 +8,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="pluginCellText pluginCellFill" style="padding-left: 5px;">
+                <td colspan="2" class="pluginCellText pluginCellFill" style="padding-left: 5px;">
                     <textarea name="comment" id="input2" rows="8" cols="45" tabindex="6" class="post" style="width:98%" onselect="storeCaret(this);" onclick="storeCaret(this);" onkeyup="storeCaret(this);">{post_message}</textarea>
                 </td>
             </tr>
@@ -20,8 +20,6 @@
                         <tr>
                             <td style="width:20%; white-space:nowrap; padding-right:5px; display:{hide_notify};">{notify_prompt}</td>
                             <td style="width:20%;">{mode_prompt}</td>
-                            <td style="width:20%;">{locked_prompt}</td>
-                            <td style="width:20%;">{sticky_prompt}</td>
                             <td style="width:20%;">{edit_prompt}</td>
                         </tr>
                     </table>
