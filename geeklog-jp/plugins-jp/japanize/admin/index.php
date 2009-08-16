@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: index.php
 // public_html/admin/plugins/japanize/index.php
-// 20080915 tsuchi AT geeklog DOT jp  
+// 20080915 tsuchi AT geeklog DOT jp
 
 define ('THIS_SCRIPT', 'index.php');
 define ('THIS_PLUGIN', 'japanize');
@@ -47,6 +47,7 @@ function fncEdit ()
 {
     global $_CONF;
     global $LANG04,$LANG_ADMIN;
+    global $_TABLES;
 
     $retval = '';
     $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
@@ -63,6 +64,12 @@ function fncEdit ()
     $T->set_var ('lang_submit', $LANG04[9]);
     $T->set_var ('lang_cancel',$LANG_ADMIN['cancel']);
 
+    $japanize_custommail=DB_getItem($_TABLES['vars'],"value","name='japanize_custommail'");
+    if ($japanize_custommail==1){
+        $T->set_var ('japanize_custommail_value',"　　(現在　geeklogjp仕様です)　　");
+    }else{
+        $T->set_var ('japanize_custommail_value',"　　(現在　オリジナル設定です)　　");
+    }
 
     $T->parse('output', 'admin');
     $retval .= $T->finish($T->get_var('output'));
@@ -94,7 +101,7 @@ if (isset ($_REQUEST['msg'])) {
                                                   true), 'japanize');
 }
 
-$display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['1']);
+$display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['1']);
 
 if (substr($mode,0,3)=="cmd") {
     $no=trim($mode,"cmd");
@@ -105,7 +112,7 @@ if (substr($mode,0,3)=="cmd") {
     echo COM_refresh($url);
 
 }elseif (substr($mode,0,3)=="ALL") {
-    for ($no = 1; $no <= 7; $no++) {
+    for ($no = 1; $no <= 8; $no++) {
         fncCmdExec($no);
         $var = 'PLG_japanize_MESSAGE'. $no;
         $display .=$$var."<br>";

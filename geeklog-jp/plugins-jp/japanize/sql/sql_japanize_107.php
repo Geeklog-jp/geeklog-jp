@@ -5,7 +5,7 @@
 // $Id: sql_japanize6.php
 // もし万一エンコードの種類が  utf-8でない場合は、utf-8に変換してください。
 // 最終更新日　2008/09/02 tsuchi AT geeklog DOT jp
-// 更新日　2008/11/27 ivy AT geeklog DOT jp
+
 
 // (18) 初期ブロックタイトル等日本語化
 $_SQL[] = "
@@ -52,7 +52,7 @@ $_SQL[] = "
 $_SQL[] = "
     UPDATE   {$_TABLES['blocks']} SET 
     title = 'About Geeklog'
-    ,content = '<p><strong>Welcome to Geeklog!</strong></p><p>If you''re already familiar with Geeklog - and especially if you''re not: There have been many improvements to Geeklog since earlier versions that you might want to read up on. Please read the <a href=\"docs/changes.html\">release notes</a>. If you need help, please see the <a href=\"docs/support.html\">support options</a>.</p>'
+    ,content = '<p><b>Welcome to Geeklog!</b></p><p>If you''re already familiar with Geeklog - and especially if you''re not: There have been many improvements to Geeklog since earlier versions that you might want to read up on. Please read the <a href=\"docs/changes.html\">release notes</a>. If you need help, please see the <a href=\"docs/support.html\">support options</a>.</p>'
     WHERE name = 'first_block'
     ";
 

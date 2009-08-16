@@ -4,9 +4,11 @@
 // +---------------------------------------------------------------------------+
 // $Id: index.php
 // public_html/admin/plugins/japanize/japanize_function.php
-// 20080729 tsuchi AT geeklog DOT jp  
+// 20080729 tsuchi AT geeklog DOT jp
 require_once('../../../lib-common.php');
-require_once ($_CONF['path_system'] . 'lib-portalparts.php');
+$base_path = $_CONF['path'] . 'plugins/' . THIS_PLUGIN . '/';
+$lib = $base_path . "lib/";
+require_once ($lib . 'ppNavbar.php');
 
 
 // 権限チェック
@@ -28,10 +30,10 @@ if (!SEC_hasRights('japanize.edit')) {
 }
 
 $navbarMenu = array(
-    $LANG_JPN_admin_menu['1']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/index.php',
-    $LANG_JPN_admin_menu['2']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/settings.php',
-    $LANG_JPN_admin_menu['3']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/information.php',
-    $LANG_JPN_admin_menu['4']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN
+    $LANG_JPN_admin_menu['1']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/index.php'
+    ,$LANG_JPN_admin_menu['2']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/settings.php'
+    ,$LANG_JPN_admin_menu['3']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN.'/information.php'
+    ,$LANG_JPN_admin_menu['4']   => $_CONF['site_admin_url'] .'/plugins/'.THIS_PLUGIN
         .'/convertconfig_1.4.1jp_to_1.5.0.php'
 );
 
