@@ -1,5 +1,12 @@
 $Id$
 
+2009-08-17  Hiroshi Sakuramoto <hirorongl>
+
+	* captchaプラグイン: GNUmakefileへautoinstall.phpを追加
+	* dataproxyプラグイン: GNUmakefileへautoinstall.phpを追加
+	* tkgmapsプラグイン: GNUmakefileへautoinstall.phpを追加
+
+
 2009-08-16  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン：Issue37の問題を修正しました。
