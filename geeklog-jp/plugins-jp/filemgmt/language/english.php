@@ -359,6 +359,8 @@ define("_MD_DIRCATTHUMBS","Directory to store category thumbnails: ");
 define("_MD_URLFILES","URL to files: ");
 define("_MD_URLTHUMBS","URL to file thumbnails: ");
 define("_MD_URLCATTHUMBS","URL to category thumbnails: ");
+define("_MD_MODOPT","Option: ");
+define("_MD_OPTUPDATE","Update Registration Date");
 
 // Additional Geeklog Defines
 define("_MD_NOVOTE","Not rated yet");
