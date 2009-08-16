@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-16  Tetsuko Komma  <ivysoho>
+
+	* 言語ファイルのプラグイン関係を修正しました。
+
 2009-08-16  Yoshinori Tahara  <dengen>
 
 	* filemgmtプラグイン：Geeklog1.6.0の諸機能に対応しました。
@@ -37,8 +41,7 @@ $Id$
 
 2009-08-13  Tetsuko Komma  <ivysoho>
 
-	* 携帯テーマのマイアカウントメニューをフッタに移動。Google解析プラグイン
-	  用のテーマ変数を追加しました。
+	* 携帯テーマにGoogle解析プラグイン用のテーマ変数を追加しました。
 
 2009-08-08  Hiroshi Sakuramoto <hirorongl>
 	* captchaプラグイン: バージョンは更新せず
