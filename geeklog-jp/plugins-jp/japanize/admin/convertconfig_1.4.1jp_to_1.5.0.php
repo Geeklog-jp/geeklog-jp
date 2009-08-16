@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: convertconfig_1.4.1_to_1.5.0.php
 // public_html/admin/plugins/japanize/convertconfig_1.4.1jp_to_1.5.0.php
-// 20080717 tsuchi AT geeklog DOT jp  
+// 20080717 tsuchi AT geeklog DOT jp
 
 //
 
@@ -216,7 +216,7 @@ if (isset ($_REQUEST['msg'])) {
                                                   true), 'japanize');
 }
 
-$display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['4']);
+$display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['4']);
 
 // 初期表示
 if  ($action ==""){

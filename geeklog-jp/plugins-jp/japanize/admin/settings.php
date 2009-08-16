@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: settings.php
 // public_html/admin/plugins/japanize/settings.php
-// 20080915 tsuchi AT geeklog DOT jp  
+// 20080915 tsuchi AT geeklog DOT jp
 
 //
 
@@ -91,7 +91,7 @@ if (isset ($_REQUEST['msg'])) {
                                                   true), 'japanize');
 }
 
-$display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['2']);
+$display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['2']);
 
 if($_POST['savesettings'] == 'yes'){
 

@@ -4,13 +4,31 @@
 // +---------------------------------------------------------------------------+
 // $Id: install.php
 // public_html/admin/plugins/japanize/install.php
-// 20080729 tsuchi AT geeklog DOT jp  
+// 20080729 tsuchi AT geeklog DOT jp
+// 20090812 Ver1.0.3
 
 require_once ('../../../lib-common.php');
+
+// CUSTOM_mail があるかどうかチェック！
+if( function_exists( 'custom_mail' )){
+
+    $msg="CUSTOM_mailが競合します！<br>";
+    $msg.="lib_custom.phpなどで　使用していないかどうか確認してください!<br>";
+    $display = COM_siteHeader('menu', "CUSTOM_mail check!")
+             . COM_startBlock("CUSTOM_mail check!")
+             . $msg
+             . COM_endBlock()
+             . COM_siteFooter();
+
+    echo $display;
+    exit;
+}
+
+
 require_once ($_CONF['path'] . 'plugins/japanize/functions.inc');
 
 //--------------------
-// Plugin information 
+// Plugin information
 //--------------------
 // plugin display name
 $pi_display_name = 'japanize';
@@ -34,13 +52,13 @@ $GROUPS = array();
 $GROUPS[$pi_admin] = 'Has full access to ' . $pi_name . ' features';
 
 //----------------------------------------------------------------
-// the plugin's feature - 
+// the plugin's feature -
 //----------------------------------------------------------------
 $FEATURES = array();
-$FEATURES['japanize.edit']         = 'Access to assist editor';
+$FEATURES['japanize.edit']         = 'Access to japanize editor';
 
 //----------------------------------------------------------------
-// the plugin's mappings - 
+// the plugin's mappings -
 //----------------------------------------------------------------
 $MAPPINGS = array();
 $MAPPINGS['japanize.edit']         = array ($pi_admin);
@@ -55,6 +73,7 @@ $DEFVALUES = array(); // not used here - see plugin_postinstall
 //if (file_exists($defvalues)) {
 //    require_once ($defvalues);
 //}
+//$DEFVALUES[] = "INSERT INTO {$_TABLES['vars']} VALUES ('japanize_custommail', '0')";
 
 
 
@@ -106,7 +125,7 @@ function plugin_compatible_with_this_geeklog_version()
 
 
 // ------
-//  MAIN 
+//  MAIN
 // ------
 $base_path = $_CONF['path'] . 'plugins/' . $pi_name . '/';
 $langfile = $base_path . "language/".$_CONF['language'] . '.php';
@@ -115,8 +134,9 @@ $langfile = $base_path . "language/".$_CONF['language'] . '.php';
 if (file_exists($langfile)) {
     require_once $langfile;
 } else {
-    require_once $base_path . 'language/japanese_utf-8.php';
+    require_once $base_path . 'language/english.php';
 }
+
 require_once $base_path . 'functions.inc';
 
 
@@ -136,21 +156,8 @@ if (!SEC_inGroup('Root')) {
     exit;
 }
 
-// lib-portalparts.php があるかどうかチェック！
-$portalparts = $_CONF['path_system'] . 'lib-portalparts.php';
 
-if (!file_exists($portalparts)) {
-    $msg="system/lib-portalparts.php not exist!<br>";
-    $msg="system/lib-portalparts.php がありません!<br>";
-    $display = COM_siteHeader('menu', "lib-portalparts.php check!")
-             . COM_startBlock("lib-portalparts.php check!")
-             . $msg
-             . COM_endBlock()
-             . COM_siteFooter();
 
-    echo $display;
-    exit;
-}
 
 /**
 * インストール
@@ -323,7 +330,7 @@ if (SEC_checkToken()) {
         }
     } else if (DB_count($_TABLES['plugins'], 'pi_name', $pi_name) == 0) {
         // plugin not installed
-    
+
         if (plugin_compatible_with_this_geeklog_version()) {
             if (plugin_install_now()) {
                 $display = COM_refresh($_CONF['site_admin_url']

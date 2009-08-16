@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: information.php
 // public_html/admin/plugins/japanize/information.php
-// 20080729 tsuchi AT geeklog DOT jp  
+// 20080729 tsuchi AT geeklog DOT jp
 
 //
 // $Id: information.php
@@ -23,7 +23,7 @@ if (isset ($_REQUEST['msg'])) {
     $display .= COM_showMessage (COM_applyFilter ($_REQUEST['msg'],
                                                   true), 'japanize');
 }
-$display.=ppNavbar($navbarMenu,$LANG_JPN_admin_menu['3']);
+$display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['3']);
 
 //
 $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
