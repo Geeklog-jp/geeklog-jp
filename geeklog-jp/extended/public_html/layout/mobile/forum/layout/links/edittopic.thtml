@@ -1,3 +1,3 @@
 <!-- start edittopic.thtml -->
-<td style="padding-top:3px; padding-right:3px;"><a href="{editlink}">{editlinkimg}</a></td>                      
+<a href="{editlink}">編集</a>
 <!-- end edittopic.thtml -->
