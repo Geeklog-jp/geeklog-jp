@@ -146,16 +146,15 @@ function redirect_header($url, $time=3, $message=''){
     $display .= "<html><head>\n";
     $display .= "<meta http-equiv='Content-Type' content='text/html;' />\n";
     $display .= "<meta http-equiv='Refresh' content='$time; url=$url' />\n";
-    $display .= "</head><body><div id='content'>\n";
+    $display .= "</head><body>\n";
     $display .= COM_startBlock();
-    $display .= "<center>";
+    $display .= "";
     if ( $message!="" ) {
-        $display .= "<br /><p><h4>".$message."</h4>\n";
+        $display .= "<h4>".$message."</h4>\n";
     }
-    $display .= "<br /><b>\n";
+    $display .= "\n";
     $display .= sprintf(_IFNOTRELOAD,$url);
     $display .= "\n";
-    $display .= "<p></center></div>\n";
     $display .= COM_endBlock();
     $display .= COM_siteFooter(false);
     echo $display;
