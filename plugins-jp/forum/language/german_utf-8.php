@@ -1,5 +1,4 @@
 <?php
-
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
 // | Geeklog Forums Plugin 2.0 for Geeklog - The Ultimate Weblog               |
@@ -255,6 +254,7 @@ $LANG_GF01['INDEXPAGE']      = 'Alle Foren';
 $LANG_GF01['FEATURE']        = 'Feature';
 $LANG_GF01['SETTING']        = 'Einstellung';
 $LANG_GF01['MARKALLREAD']    = 'Mark All Read';
+$LANG_GF01['MSG_NO_CAT']     = 'No Categories or Forums Defined';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'Code';

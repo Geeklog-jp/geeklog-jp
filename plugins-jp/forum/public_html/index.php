@@ -694,8 +694,8 @@ if ($forum == 0) {
 
     }
 
-    if ($numCategories == 0 ) {         // Do we have any categories defined yet
-        $display .= '<h1 style="padding:10px; color:#F00; background-color:#000">No Categories or Forums Defined</h1>';
+    if ($numCategories == 0) {         // Do we have any categories defined yet
+        $display .= '<p style="padding:10px; color:#DF000D; background-color:#FFF7D9; border:solid #FFDA35 1px; font-weight:bold">' . $LANG_GF01['MSG_NO_CAT'] . '</p>';
     }
 
     $forumlisting->parse ('outline_header', 'forum_outline_header');
