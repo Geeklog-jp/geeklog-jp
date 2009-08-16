@@ -257,6 +257,7 @@ $LANG_GF01['INDEXPAGE']      = 'Forum Index';
 $LANG_GF01['FEATURE']        = 'Feature';
 $LANG_GF01['SETTING']        = 'Setting';
 $LANG_GF01['MARKALLREAD']    = 'Mark All Read';
+$LANG_GF01['MSG_NO_CAT']     = 'No Categories or Forums Defined';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'Code';

@@ -269,6 +269,7 @@ $LANG_GF01['INDEXPAGE']      = '掲示板目次';
 $LANG_GF01['FEATURE']        = '機能';
 $LANG_GF01['SETTING']        = '設定';
 $LANG_GF01['MARKALLREAD']    = 'すべて既読にする';
+$LANG_GF01['MSG_NO_CAT']     = 'カテゴリーまたは掲示板が定義されていません。';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'コード';
