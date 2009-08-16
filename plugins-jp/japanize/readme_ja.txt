@@ -1,9 +1,9 @@
 --------------------------------------------------------------------------------
 Geeklog 日本語化（japanize)プラグイン
 tsuchi AT geeklog DOT jp
-2008/09/14
+2009/08/16
 --------------------------------------------------------------------------------
-概要 ：Geeklog1.5.0を日本人流にするプラグインです
+概要 ：Geeklog1.5 1.6を日本人流にするプラグインです
        詳細については、管理画面をご参照ください
 --------------------------------------------------------------------------------
 ファイル構成
@@ -17,8 +17,12 @@ tsuchi AT geeklog DOT jp
   │ └ settings.php
   ├ doc
   │ 更新履歴ほかのドキュメント
+  ├ custom
+  │ └ custom_mail_japanize.php
   ├ language
   │ └ japanese_utf-8.php
+  ├ lib
+  │ └ ppNavbar.php
   ├ public_html
   │ ├ images
   │ │ └ japanize.png
@@ -26,21 +30,31 @@ tsuchi AT geeklog DOT jp
   │ ├ index.html
   │ └ memberlogin_help.php
   ├ sql
+  │ ├ updates
+  │ │ └ upgrade 用のSQL
+  │ ├ mysql_install.php
   │ ├ sql_japanize_1.php
   │ ├ sql_japanize_2.php
   │ ├ sql_japanize_3.php
   │ ├ sql_japanize_4.php
   │ ├ sql_japanize_5.php
-  │ └ sql_japanize_105.php
-  │ templates
+  │ ├ sql_japanize_6.php
+  │ ├ sql_japanize_7.php
+  │ ├ sql_japanize_8.php
+  │ ├ sql_japanize_105.php
+  │ ├ sql_japanize_107.php
+  │ └ sql_japanize_108.php
+  ├ templates
   │ ├ admin
   │ │ ├ index.thtml
   │ │ ├ information.thtml
   │ │ └ settings.thtml
   │ └custom-memberlogin.thtml
+  ├ autoinstall.php
   ├ functions.inc
   ├ install_defaults.php
   ├ readme_ja.txt
+  ├ upgrade.inc
   └ version.php
 
 
@@ -48,9 +62,9 @@ tsuchi AT geeklog DOT jp
      指定されているテーマにcustom-memberlogin.thtmlがある場合は、そちらを
      使用します
 注2：指定の言語ファイルがない場合はjapanese_utf-8.phpを使用します
-注3：Geeklog1.5.0日本語版で追加されている以下のファイルを必要とします
-     system/lib-portalparts.php
-     lib-portalparts.php は、Forum ,nexProシリーズのファイルでもかまいません
+注3：Gl1.5日本語版に同梱のcustom_mail_jp.php とは共存できません
+     必ず、lin_custom.php のrequire_once('custom/custom_mail_jp.php');
+     は、削除またはコメントアウトしてください
 --------------------------------------------------------------------------------
 インストール方法
 １．データベースおよびファイルのバックアップをとります。

@@ -4,7 +4,8 @@
 // | 日本語化プラグイン                                                        |
 // +---------------------------------------------------------------------------+
 // $Id: plugins/japanize/functions.inc
-//2008/09/26 08:18 tsuchi AT geeklog DOT jp 
+//2008/09/26 08:18 tsuchi AT geeklog DOT jp
+//2009/08/15 Ver1.0.3用
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -22,51 +23,10 @@ if (file_exists ($langfile)) {
     require_once ($_CONF['path'] . "plugins/{$pi_name}/language/japanese_utf-8.php");
 }
 
-//設定ファイル
-//現在設定項目がないのでコメントにしています
-//require_once ($_CONF['path'] . "plugins/{$pi_name}/config.php");
-//if (!isset($_JPN_CONF['xxxxxxxxxx'])) {
-//    require_once $_CONF['path_system'] . 'classes/config.class.php';
-
-//    $ca_config = config::get_instance();
-//    $_CA_CONF = $ca_config->get_config($pi_name);
-//}
-
 include_once 'version.php';
 
-
-// アドバンストエディタ用．管理ユーザーが使ってもよいHTMLタグと属性．
-//user_htmlにマージされます．
-if ($_CONF['advanced_editor']) {
-    $_CONF['admin_html']['a'] = array('href' => 1, 'title' => 1, 'id' => 1, 'lang' => 1, 'name' => 1, 'type' => 1, 'rel' => 1);
-    $_CONF['admin_html']['br'] = array('clear' => 1,'style' => 1);
-    $_CONF['admin_html']['caption'] = array('style' => 1);
-    $_CONF['admin_html']['div'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['embed'] = array('src' => 1, 'loop' => 1, 'quality' => 1, 'width' => 1, 'height' => 1, 'type' => 1, 'pluginspage' => 1, 'align' => 1);
-    $_CONF['admin_html']['h1'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['h2'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['h3'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['h4'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['h5'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['h6'] = array('class' => 1, 'id' => 1, 'style' => 1);
-    $_CONF['admin_html']['hr'] = array('class' => 1, 'id' => 1, 'align' => 1);
-    $_CONF['admin_html']['img'] = array('src' => 1, 'width' => 1, 'height' => 1, 'vspace' => 1, 'hspace' => 1, 'dir' => 1, 'align' => 1, 'valign' => 1, 'border' => 1, 'lang' => 1, 'longdesc' => 1, 'title' => 1, 'id' => 1, 'alt' => 1, 'style' => 1);
-    $_CONF['admin_html']['noscript'] = array();
-    $_CONF['admin_html']['object'] = array('type' => 1,'data' => 1,'classid' => 1, 'codebase' => 1, 'width' => 1, 'height' => 1, 'align' => 1);
-    $_CONF['admin_html']['ol'] = array('class' => 1, 'style' => 1);
-    $_CONF['admin_html']['p'] = array('class' => 1, 'id' => 1, 'align' => 1, 'lang' => 1);
-    $_CONF['admin_html']['param'] = array('name' => 1, 'value' => 1);
-    $_CONF['admin_html']['script'] = array('src' => 1, 'language' => 1, 'type' => 1);
-    $_CONF['admin_html']['span' ] = array('class' => 1, 'id' => 1, 'lang' => 1);
-    $_CONF['admin_html']['table'] = array('class' => 1, 'id' => 1, 'width' => 1, 'border' => 1, 'cellspacing' => 1, 'cellpadding' => 1);
-    $_CONF['admin_html']['tbody'] = array();
-    $_CONF['admin_html']['td'] = array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1, 'colspan' => 1, 'rowspan' => 1);
-    $_CONF['admin_html']['th'] = array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1, 'colspan' => 1, 'rowspan' => 1);
-    $_CONF['admin_html']['tr'] = array('class' => 1, 'id' => 1, 'align' => 1, 'valign' => 1);
-    $_CONF['admin_html']['ul'] = array('class' => 1, 'style' => 1);
-}
-
-
+// 日本語メール
+require_once('custom/custom_mail_japanize.php');
 
 // +-----------+
 // | 専用関数  |
@@ -77,12 +37,6 @@ if ($_CONF['advanced_editor']) {
 // | Geeklog Plugin API Implementation                                         |
 // +---------------------------------------------------------------------------+
 
-// +---------------------------------------------------------------------------+
-// | 自動タグ                                                                  |
-// | 書式 plugin_autotags_japanize ($op, $content, $autotag)                   |
-// +---------------------------------------------------------------------------+
-//現在当該機能はないのでコメントにしています
-//function plugin_autotags_japanize ($op, $content = '', $autotag = '')
 
 // +---------------------------------------------------------------------------+
 // | 現在インストールされているバージョン取得                                  |
@@ -94,13 +48,6 @@ function plugin_chkVersion_japanize ()
 
     return $_JPN_CONF['version'];
 }
-
-// +---------------------------------------------------------------------------+
-// | 一覧取得                                                                  |
-// | 書式 plugin_getListField_japanize                                         |
-// +---------------------------------------------------------------------------+
-//現在当該機能はないのでコメントにしています
-//function plugin_getListField_japanize($fieldname, $fieldvalue, $A, $icon_arr)
 
 // +---------------------------------------------------------------------------+
 // | 機能  プラグイン更新:バージョンナンバーの更新                             |
@@ -115,6 +62,8 @@ function plugin_upgrade_japanize ()
         !function_exists ('MBYTE_strpos')) {
         return 3002;
     }
+
+    include ('upgrade.inc');        // Include the upgrade functions
 
     // no db changes - just update the version numbers
     DB_query ("UPDATE {$_TABLES['plugins']} SET pi_version = '{$_JPN_CONF['version']}', pi_gl_version = '" . VERSION . "' WHERE pi_name = 'japanize'");
@@ -132,17 +81,17 @@ function plugin_autouninstall_japanize ()
 {
     // (1) 削除するテーブル
     $out['tables']=array();
-    // (2) 削除するグループ名 
+    // (2) 削除するグループ名
     $out['groups'][]='japanize Admin';
-    // (3) 削除するfeatures 
+    // (3) 削除するfeatures
     $out['features'][]='japanize.edit';
     $out['features'][]='japanize.moderate';
     $out['features'][]='japanize.submit';
-    // (4) 削除するphp_blocks 
+    // (4) 削除するphp_blocks
     $out['php_blocks']=array();
     // (5) 削除する vars */
-    $out['vars']=array();
-    
+    $out['vars']=array('japanize_custommail');
+
     return $out;
 }
 
@@ -219,10 +168,10 @@ function plugin_getadminoption_japanize()
 // | 機能  テンプレート変数設定                                                |
 // | 書式 plugin_templatesetvars_japanize                                      |
 // +---------------------------------------------------------------------------+
-//  2006/10/16 Geeklog Japanese ivy added 
-//  2007/05/14 Geeklog Japanese kino changed 
+//  2006/10/16 Geeklog Japanese ivy added
+//  2007/05/14 Geeklog Japanese kino changed
 //  2007.8.26 Ivy added
-//  2007/12/22 Geeklog Japanese Ivy changed 
+//  2007/12/22 Geeklog Japanese Ivy changed
 //  2008/06/11 Geeklog Japanese Tsuchi modify custom_templatesetvars
 function plugin_templatesetvars_japanize($templatename, &$template) {
     global  $LANG01, $LANG_JPN;
@@ -234,7 +183,7 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
     switch ($templatename) {
         case 'header':
 
-            //Frontpageの場合は 'sub' そうでなければ  'home' 
+            //Frontpageの場合は 'sub' そうでなければ  'home'
             if( COM_isFrontpage() ){
                 $home_id='sub';
             } else {
@@ -283,5 +232,6 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
 
     }
 }
+
 
 ?>

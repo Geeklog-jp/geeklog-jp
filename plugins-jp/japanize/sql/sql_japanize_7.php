@@ -4,8 +4,8 @@
 // +---------------------------------------------------------------------------+
 // $Id: sql_japanize6.php
 // もし万一エンコードの種類が  utf-8でない場合は、utf-8に変換してください。
-// 更新日　2008/09/02 tsuchi AT geeklog DOT jp
-// 更新日　2008/11/27 ivy AT geeklog DOT jp
+// 最終更新日　2008/09/02 tsuchi AT geeklog DOT jp
+
 
 // (18) 初期ブロックタイトル等日本語化
 $_SQL[] = "
@@ -51,8 +51,8 @@ $_SQL[] = "
     ";
 $_SQL[] = "
     UPDATE   {$_TABLES['blocks']} SET 
-    title = 'Geeklogについて'
-    ,content = '<p><strong>Geeklogへようこそ!</strong></p><p>Geeklogのサポートは、<a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wikiドキュメント</a>をどうぞ。</p> '
+    title = 'GeekLogについて'
+    ,content = '<p><b>ようこそ、GeekLogへ！</b><p>Geeklogについてのサポートは、 <a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。'
     WHERE name = 'first_block'
     ";
 
