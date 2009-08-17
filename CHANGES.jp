@@ -5,7 +5,7 @@ $Id$
 	* japanizeプラグイン: Ver 1.0.3（2009/08/16）に更新
 	* system/lib_custon.php: 日本語メールのrequire_onceをコメントアウト
 
-2009-08-16  Tetsuko Komma  <ivysoho>
+2009-08-17  Tetsuko Komma  <ivysoho>
 
 	* forumプラグインの表示を改善：
 	  ・言語ファイルの，通知設定関係の変更および，重複指定部分を削除しま
