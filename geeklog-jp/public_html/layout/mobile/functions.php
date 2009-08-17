@@ -29,7 +29,7 @@ $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter
 
 function mobile_siteFooter( $rightblock = -1, $custom = '' )
 {
-    global $_CONF, $_TABLES, $LANG01, $LANG04, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
+    global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
 
     // use the right blocks here only if not in header already
     if ($_CONF['right_blocks_in_footer'] == 1)
@@ -253,13 +253,12 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
 	
     // マイアカウント
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-        $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
-    } else {
-        $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/users.php?mode=new" accesskey="' . $akey . '">' . $LANG04['22'] . '</a>' );
-    }
+        $footer->set_var( 'mn_myaccount', '<li><a href="' . $_CONF['site_url'] .
+                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a></li>' );
 	$akey ++;
+    } else {
+        $footer->set_var( 'mn_myaccount', '' );
+    }
 
     // Call to plugins to set template variables in the footer
     PLG_templateSetVars( 'footer', $footer );
