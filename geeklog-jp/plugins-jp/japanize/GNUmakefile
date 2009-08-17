@@ -2,7 +2,8 @@
 
 PLUGIN=		japanize
 
-FILES=		autoinstall.php functions.inc install_defaults.php readme_ja.txt upgrade.inc version.php
+FILES=		autoinstall.php functions.inc install_defaults.php \
+		readme_ja.txt upgrade.inc version.php
 DIRS=		custom doc language lib sql templates
 
 include ../../GNUmakefile.plugins
