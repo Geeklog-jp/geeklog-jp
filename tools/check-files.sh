@@ -101,8 +101,13 @@ check_properties() {
 	}
 	delete a;
     }
-    /  *svn:eol-style : native/ {
-    	a[file] = "native";
+    /  *svn:eol-style/ {
+	flagged = 1;
+    }
+    /  *native/ {
+	if (flagged) {
+    		a[file] = "native";
+	}
     }
     END {
         if (a[file] == "native") {
