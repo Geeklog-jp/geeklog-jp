@@ -40,6 +40,7 @@ if (isset ($_GET['site_url'])) {
 if(!preg_match("!https*?:\/\/!", $image)) {
     $image = $site_url . $image;
  }
+$image = str_replace($site_url . '/' ,'', $image);
 
 // 元イメージのサイズを取得
 list($s_width, $s_height) = getimagesize($image);
