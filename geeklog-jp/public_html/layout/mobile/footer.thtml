@@ -12,7 +12,7 @@
       <li>{mn_directory}</li>
       <li>{mn_search}</li>
       <li>{mn_block}</li>
-      <li>{mn_myaccount}</li>
+      {mn_myaccount}
     </ol>
   <hr style="color:#666699"{xhtml}>
 
