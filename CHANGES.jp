@@ -2,6 +2,8 @@ $Id$
 
 2009-08-18  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.5.2sr5-jp-1.0をリリースします。
+
 	* r1842の変更(mycaljpのXSS脆弱性の修正)をマージしました。
 
 2009-08-01  Takahiro Kambe  <tacahi>
