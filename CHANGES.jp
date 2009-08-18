@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-19  Takahiro Kambe  <tacahi>
+
+	* r1737の変更(calendarjpプラグインをバージョン1.0.8に更新)をマージ
+	  しました。
+
 2009-08-18  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.5.2sr5-jp-1.0をリリースします。
