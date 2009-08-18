@@ -87,8 +87,7 @@ $LANG_CALJP_1 = array(
     48 => 'Hits',
     49 => 'It appears that there are no events on this site or no one has ever clicked on one.',
     50 => 'Events',
-    51 => 'Delete',
-    'includehttp' => '(include http://)'
+    51 => 'Delete'
 );
 
 $_LANG_CALJP_SEARCH = array(

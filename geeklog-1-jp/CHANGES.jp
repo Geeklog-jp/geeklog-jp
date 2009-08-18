@@ -1,11 +1,5 @@
 $Id$
 
-2009-08-01  Yoshinori Tahara  <dengen>
-
-	* calendarjpプラグインをバージョン1.0.8に更新しました。
-	  一般ユーザーが全体イベントを投稿する場合に、「リンク」の初期値
-	  「http://」がスパムリンクと判断されてしまう問題を修正しました。
-
 2009-06-23  Takahiro Kambe  <tacahi>
 
 	* 誤って実行すると危険な droptables.phpを削除することとし、その
