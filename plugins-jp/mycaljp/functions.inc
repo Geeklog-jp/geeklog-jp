@@ -556,7 +556,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
 
     // Header with Month Title and Next/Prev links
     $qstr = preg_replace( '/[&]*month=[0-9]{4}-[0-9]{2}-[0-9]{2}/', '', $_SERVER["QUERY_STRING"] );
-    $qstr = htmlspecialchars( $qstr );
+    $qstr = MYCALJP_htmlspecialchars( $qstr );
 
     $url = MYCALJP_htmlspecialchars( $_SERVER['PHP_SELF'] );
 
@@ -570,15 +570,11 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $tmp = str_replace( '?&amp;', '?', $tmp );
     $cal->set_var('nextmonth', $tmp );
 
-//2007.06.16 ---------------------------------------->>
-    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $prevmonth );
-    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?" . $qstr . "&amp;month=" . $nextmonth );
-//---------------------------------------------------<<
+    $cal->set_var('testprevmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?month=" . $prevmonth );
+    $cal->set_var('testnextmonth', $_CONF["site_url"] . "/mycaljp/showcal.php" . "?month=" . $nextmonth );
 
-//2007.06.30 ---------------------------------------->>
     $cal->set_var('lang_prevmonth', $LANG_MYCALJP['prevmonth'] );
     $cal->set_var('lang_nextmonth', $LANG_MYCALJP['nextmonth'] );
-//---------------------------------------------------<<
 
     $wdays = array('sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday');
     for ( $i = 0; $i < 7; $i++ )
@@ -876,6 +872,7 @@ function MYCALJP_htmlspecialchars( $str )
     {
         $encoding = 'utf-8';
     }
+    $str = str_replace('%27', "'", $str);
     return htmlspecialchars( $str, ENT_QUOTES, $encoding );
 }
 
