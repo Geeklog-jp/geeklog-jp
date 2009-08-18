@@ -82,7 +82,7 @@
             </td>
         </tr>
         <tr>
-            <td align="right" style="whight-space:nowrap">{lang_zipcode}:</td>
+            <td align="right" nowrap="nowrap">{lang_zipcode}:</td>
             <td><input type="text" name="zipcode" size="8" maxlength="8"{xhtml}></td>
         </tr>
         <tr>
@@ -90,15 +90,15 @@
             <td><input type="text" name="state" size="40"{xhtml}></td>
         </tr>
         <tr>
-            <td align="right" style="whight-space:nowrap">{lang_city}:</td>
+            <td align="right" nowrap="nowrap">{lang_city}:</td>
             <td><input type="text" name="city" size="40" maxlength="60"{xhtml}></td>
         </tr>
         <tr>
-            <td align="right" style="whight-space:nowrap">{lang_addressline1}:</td>
+            <td align="right" nowrap="nowrap">{lang_addressline1}:</td>
             <td><input type="text" name="address1" size="40"{xhtml}></td>
         </tr>
         <tr>
-            <td align="right" style="whight-space:nowrap">{lang_addressline2}:</td>
+            <td align="right" nowrap="nowrap">{lang_addressline2}:</td>
             <td><input type="text" name="address2" size="40"{xhtml}></td>
         </tr>
         <tr>
@@ -107,7 +107,7 @@
         </tr>
         <tr>
             <td align="right" valign="top">{lang_description}:</td>
-            <td><textarea name="description" style="width:98%" cols="50" rows="10"></textarea><br{xhtml}>
+            <td><textarea name="description" style="width:100%" cols="50" rows="10"></textarea><br{xhtml}>
             {lang_htmnotallowed}</td>
         </tr>
         <tr>
