@@ -103,7 +103,7 @@
         </tr>
         <tr>
             <td align="right">{lang_link}:</td>
-            <td><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" name="url" value=""{xhtml}> {lang_includehttp}</td>
+            <td><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" name="url" value="http://"{xhtml}></td>
         </tr>
         <tr>
             <td align="right" valign="top">{lang_description}:</td>

@@ -58,7 +58,7 @@ if (!isset($_CAJP_CONF['calendarloginrequired'])) {
     $_CAJP_CONF = $ca_config->get_config('calendarjp');
 }
 
-$_CAJP_CONF['version'] = '1.0.8';
+$_CAJP_CONF['version'] = '1.0.7';
 
 $_TABLES['eventsjp']              = $_DB_table_prefix . 'eventsjp';
 $_TABLES['eventsubmissionjp']     = $_DB_table_prefix . 'eventsubmissionjp';
@@ -728,7 +728,6 @@ function plugin_submit_calendarjp($mode = 'master')
 
     $eventform->set_var('lang_link', $LANG_CALJP_1[43]);
     $eventform->set_var('max_url_length', 255);
-    $eventform->set_var('lang_includehttp', $LANG_CALJP_1['includehttp']);
     $eventform->set_var('lang_startdate', $LANG_CALJP_1[21]);
     $eventform->set_var('lang_starttime', $LANG_CALJP_1[30]);
 
