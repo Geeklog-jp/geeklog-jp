@@ -1,3 +1,0 @@
-<!-- /lists/table/page_limit.thtml { -->
-<option{limit_selected}{limit_subtags}>{limit_text}</option>
-<!-- } /lists/table/page_limit.thtml -->
