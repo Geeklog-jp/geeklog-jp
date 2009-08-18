@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-16  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン：XSS脆弱性を修正しました。
+
 2009-08-17  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: Ver 1.0.3（2009/08/16）に更新
