@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-18  Takahiro Kambe  <tacahi>
+
+	* r1842の変更(mycaljpのXSS脆弱性の修正)をマージしました。
+
 2009-08-01  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.5.0sr5の変更をgeeklog.netのリポジトリから適用しました。
