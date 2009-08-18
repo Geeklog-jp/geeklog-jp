@@ -1,3 +1,0 @@
-<!-- /lists/inline/page_sort.thtml { -->
-<option{sort_selected}{sort_subtags}>{sort_text}</option>
-<!-- } /lists/inline/page_sort.thtml -->

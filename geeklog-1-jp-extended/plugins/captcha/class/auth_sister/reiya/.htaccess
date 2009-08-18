@@ -1,3 +1,0 @@
-<Files ~ ".(htaccess|htpasswd|txt|php)$">
-deny from all
-</Files>
