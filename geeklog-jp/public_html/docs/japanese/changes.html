@@ -17,6 +17,23 @@
 <p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更点の詳細なリストは、  
 <a href="history">ChangeLog</a>をご覧ください。<tt>docs/changed-files</tt>には、前回リリース以来変更されたファイルの一覧があります。</p>
 
+<h2><a name="changes160sr1">Geeklog 1.6.0sr1</a></h2>
+
+<p>このリリースでは以下のセキュリティ対策を行いました:</p>
+<ol>
+  <li>Gerendi Sandor Attilaはメール送信および記事を友人にメールで送るメールフォーム
+  においてXSSを報告しました。</li>
+  <li>記事を知人にメールで送信する機能は、記事のパーミッションを無視していました。
+  そのため、閲覧できない記事までメールで送信可能でした。</li>
+</ol>
+
+<p>その他:</p>
+<ul>
+<li>記事投稿キューがOFFのときのSQL errorをフィックスしました。</li>
+<li>存在しない<code>COM_outputMessageAndAbort</code>を呼ぶ不具合をフィックスしました。</li>
+</ul>
+
+
 <h2><a name="changes160">Geeklog 1.6.0</a></h2>
 
 <h3>Summer of Codeの成果</h3>
@@ -44,6 +61,16 @@
 
 <p>今回のリリースには、Google Summer of Code 2009に参加した学生諸氏のパッチや開発が数多く含まれています。ありがとうございました!</p>
 
+<h2><a name="changes152sr5">Geeklog 1.5.2sr5</a></h2>
+
+<p>このリリースで以下のセキュリティ対策が行われました:</p>
+
+<ol>
+  <li>Gerendi Sandor Attilaはメール送信および記事を友人にメールで送るメールフォーム
+  においてXSSを報告しました。</li>
+  <li>記事を知人にメールで送信する機能は、記事のパーミッションを無視していました。
+  そのため、閲覧できない記事までメールで送信可能でした。</li>
+</ol>
 
 
 <h2><a name="changes152sr4">Geeklog 1.5.2sr4</a></h2>
