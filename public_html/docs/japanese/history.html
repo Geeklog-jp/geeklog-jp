@@ -13,6 +13,27 @@
 <body>
 <h1>Geeklog History/Changes:</h1>
 
+<h2>July 30, 2009 (1.6.0sr1)</h2>
+
+<p>このリリースでは以下のセキュリティ対策を行いました:</p>
+
+<ul>
+  <li>Gerendi Sandor Attilaはメール送信および記事を友人にメールで送るメールフォーム
+  においてXSSを報告しました。</li>
+  <li>記事を知人にメールで送信する機能は、記事のパーミッションを無視していました。
+  そのため、閲覧できない記事までメールで送信可能でした。</li>
+</ul>
+
+<p>セキュリティとは無関係の更新:</p>
+<ul>
+  <li>記事投稿キューがOFFのとき変数の初期化することによりSQL errorをフィックスしました。
+  (reported by Dieter Thomas) [Dirk]</li>
+  <li>存在しないCOM_outputMessageAndAbortを呼ぶ不具合をフィックスしました。
+  (COM_displayMessageAndAbortを呼ぶべきでした。) [Dirk]</li>
+</ul>
+
+
+
 <h2>July 19, 2009 (1.6.0)</h2>
 
 <p>Geeklog 1.6.0には、以下のGoogle Summer of Code 2008における開発成果が取り込まれている:</p>  
@@ -402,6 +423,16 @@
     [Dirk]</li>
 </ul>
 
+<h2>July 30, 2009 (1.5.2sr5)</h2>
+
+<p>このリリースでは以下のセキュリティ対策を行いました:</p>
+
+<ul>
+  <li>Gerendi Sandor Attilaはメール送信および記事を友人にメールで送るメールフォーム
+  においてXSSを報告しました。</li>
+  <li>記事を知人にメールで送信する機能は、記事のパーミッションを無視していました。
+  そのため、閲覧できない記事までメールで送信可能でした。</li>
+</ul>
 
 <h2>Apr 18, 2009 (1.5.2sr4)</h2>
 
