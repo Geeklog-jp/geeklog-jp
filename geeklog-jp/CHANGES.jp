@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-20  Takahiro Kambe  <tacahi>
+
+	* CHANGES.jp: 箇条書きにUS-ASCIIの文字を使用します。
+
 2009-08-20  Tetsuko Komma  <ivysoho>
 
 	* mobileテーマのtitleを{page_title_and_site_name}に変更しました。
@@ -16,10 +20,10 @@ $Id$
 2009-08-17  Tetsuko Komma  <ivysoho>
 
 	* forumプラグインの表示を改善：
-	  ・言語ファイルの，通知設定関係の変更および，重複指定部分を削除しま
+	  - 言語ファイルの，通知設定関係の変更および，重複指定部分を削除しま
 	    した。
-	  ・mobile,mobile_3gテーマの表示をシンプル化しました。
-	  ・ProfessionalCSS WAIproCSSテーマを含めたすべてのテーマで，メール
+	  - mobile,mobile_3gテーマの表示をシンプル化しました。
+	  - ProfessionalCSS WAIproCSSテーマを含めたすべてのテーマで，メール
 	    通知の表記を改善しました。
 	    あわせてメール通知アイコンを修正しました。
 	* filemgmtプラグインの保存後の画面遷移時のHTML文法エラーを修正しました。
@@ -50,27 +54,27 @@ $Id$
 2009-08-16  Yoshinori Tahara  <dengen>
 
 	* filemgmtプラグイン：Geeklog1.6.0の諸機能に対応しました。
-	  ・HTMLの適正化。（XHTMLに対応）
-	  ・コンフィギュレーションに対応。
-	  ・Geeklog1.6.0の新検索機能に対応。
-	  ・COM_output関数に対応。
-	  ・XMLSitemapに対応。
-	  ・サイト移行機能（Site Migration）に対応。
-	  ・その他いろいろな修正。
+	  - HTMLの適正化。（XHTMLに対応）
+	  - コンフィギュレーションに対応。
+	  - Geeklog1.6.0の新検索機能に対応。
+	  - COM_output関数に対応。
+	  - XMLSitemapに対応。
+	  - サイト移行機能（Site Migration）に対応。
+	  - その他いろいろな修正。
 
 2009-08-15  Yoshinori Tahara  <dengen>
 
 	* インストール前チェックスクリプト（Precheck）をGeeklog1.6.0に対応させ
 	  ました。
-	  ・スタイルとデザインをGeeklog1.6.0のインストールスクリプトに合わせま
+	  - スタイルとデザインをGeeklog1.6.0のインストールスクリプトに合わせま
 	    した。
-	  ・移行（migrate）機能に対応しました。
-	  ・その他いくつか修正しました。
+	  - 移行（migrate）機能に対応しました。
+	  - その他いくつか修正しました。
 
 2009-08-15  Hiroshi Sakuramoto <hirorongl>
 
 	* dataproxyプラグイン: バージョンは更新せず。
-	  ・Geeklog 1.6.0 で追加された自動インストールに対応
+	  - Geeklog 1.6.0 で追加された自動インストールに対応
 
 2009-08-14  Takahiro Kambe  <tacahi>
 
@@ -79,8 +83,8 @@ $Id$
 
 2009-08-14  Hiroshi Sakuramoto <hirorongl>
 	* tkgmapsプラグイン: バージョンは更新せず
-	  ・Geeklog 1.6.0 で追加されたCOM_outputに対応
-	  ・Geeklog 1.6.0 で追加された自動インストールに対応
+	  - Geeklog 1.6.0 で追加されたCOM_outputに対応
+	  - Geeklog 1.6.0 で追加された自動インストールに対応
 
 2009-08-13  Tetsuko Komma  <ivysoho>
 
@@ -88,21 +92,21 @@ $Id$
 
 2009-08-08  Hiroshi Sakuramoto <hirorongl>
 	* captchaプラグイン: バージョンは更新せず
-	  ・Geeklog 1.6.0 で追加されたCOM_outputに対応
-	  ・Geeklog 1.6.0 で追加された自動インストールに対応
+	  - Geeklog 1.6.0 で追加されたCOM_outputに対応
+	  - Geeklog 1.6.0 で追加された自動インストールに対応
 
 2009-08-07  Hiroshi Sakuramoto <hirorongl>
 	* linksプラグイン: 日本語では?を使わないに統一して?を削除
 
 2009-08-06  Hiroshi Sakuramoto <hirorongl>
 	* linksプラグイン:
-	  ・コンフィギュレーション部分の未翻訳の英語を日本語に翻訳
+	  - コンフィギュレーション部分の未翻訳の英語を日本語に翻訳
 
 2009-08-04  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン：バージョン0.4.3に更新します。
-	  ・Geeklog 1.6.0で追加されたサイト移行機能に対応しました。
-	  ・Geeklog 1.6.0から追加されたCOM_output関数を使用してHTMLを出力
+	  - Geeklog 1.6.0で追加されたサイト移行機能に対応しました。
+	  - Geeklog 1.6.0から追加されたCOM_output関数を使用してHTMLを出力
 	    するようにしました。
 
 2009-08-04  Masuko Koeda  <milk851>
@@ -142,24 +146,24 @@ $Id$
 2009-08-01  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン：一般ユーザーが全体イベントを投稿する場合に、
-	  ・「リンク」の初期値「http://」がスパムリンクと判断されてしまう問題
+	  - 「リンク」の初期値「http://」がスパムリンクと判断されてしまう問題
 	    を修正しました。
 
 2009-07-29  Yoshinori Tahara  <dengen>
 
 	* Dataproxyプラグイン：Mycaljpプラグインの更新に伴い、
 	  機能拡張版1.1.4.1に更新します。
-	  ・Mycaljpプラグインは日付を絞ってコンテンツの検索を行うので、
+	  - Mycaljpプラグインは日付を絞ってコンテンツの検索を行うので、
 	    DataproxyDriverクラスにgetItemsByDateメソッドを追加するなどの
 	    変更を行いました。
 
 2009-07-29  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン：バージョン2.1.0に更新します。
-	  ・Geeklog1.6で動作するようにしました。
-	  ・Dataproxyに対応しました。
+	  - Geeklog1.6で動作するようにしました。
+	  - Dataproxyに対応しました。
 	    （ただし、Dataproxyの機能拡張版（暫定版1.1.4.1）が必要です）
-	  ・コンフィギュレーションとオートインストール機能に対応しました。
+	  - コンフィギュレーションとオートインストール機能に対応しました。
 
 2009-07-28  Yoshinori Tahara  <dengen>
 
@@ -169,13 +173,13 @@ $Id$
 2009-07-28  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン：バージョン2.7.2.JPr5に更新します。
-	  ・Geeklog 1.6.0のオートインストール機能に対応した。
-	  ・Geeklog 1.6.0のCOM_output関数を使用してHTMLを出力するようにした。
-	  ・Geeklog 1.6.0の検索機能に対応した。
-	  ・Geeklog 1.6.0のXMLSitemapプラグインに対応した。
-	  ・lib-portalparts.phpを使用しないようにした。
-	  ・forum用テンプレートをpublic_html/forum/の下に移した。
-	  ・public_html/forum/includeディレクトリをsystem/plugins/forumの
+	  - Geeklog 1.6.0のオートインストール機能に対応した。
+	  - Geeklog 1.6.0のCOM_output関数を使用してHTMLを出力するようにした。
+	  - Geeklog 1.6.0の検索機能に対応した。
+	  - Geeklog 1.6.0のXMLSitemapプラグインに対応した。
+	  - lib-portalparts.phpを使用しないようにした。
+	  - forum用テンプレートをpublic_html/forum/の下に移した。
+	  - public_html/forum/includeディレクトリをsystem/plugins/forumの
 	    下に移した。
 
 2009-07-26  Yoshinori Tahara  <dengen>
