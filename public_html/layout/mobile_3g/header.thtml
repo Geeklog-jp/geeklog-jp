@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=Shift_JIS"{xhtml}>
 <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
-<title>{page_title}</title>
+<title>{page_title_and_site_name}</title>
 <meta http-equiv="Pragma" content="no-cache"{xhtml}>
 <meta http-equiv="Cache-Control" content="no-cache"{xhtml}>
 <meta HTTP-EQUIV="Expires" CONTENT="Tue, 01 Jan 1980 1:00:00 GMT"{xhtml}>
