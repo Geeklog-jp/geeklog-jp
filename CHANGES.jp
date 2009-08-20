@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-20  Tetsuko Komma  <ivysoho>
+
+	* mobileテーマのtitleを{page_title_and_site_name}に変更しました。
+
 2009-08-16  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン：XSS脆弱性を修正しました。
