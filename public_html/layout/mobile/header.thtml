@@ -17,7 +17,7 @@
     <div style="font-size:small">{welcome_msg_jp}</div>
     <?php
         if (function_exists('CUSTOM_MOBILE_is_cellular') AND !CUSTOM_MOBILE_is_cellular()) {
-            echo '<p><a href="' . $_CONF['site_url'] . '/usersettings.php?mode=edit">İ’è•ÏX</a></p>';
+            echo phpblock_themetester();
         }
     ?>
     <hr style="color:#666699"{xhtml}>
