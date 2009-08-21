@@ -251,13 +251,16 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
                       '/mobileblocks.php" accesskey="' . $akey . '">' . $LANG01['12'] . '</a>' );
 	$akey ++;
 	
-    // マイアカウント
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-        $footer->set_var( 'mn_myaccount', '<li><a href="' . $_CONF['site_url'] .
-                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a></li>' );
+    // マイアカウント
+        $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
+                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
     } else {
-        $footer->set_var( 'mn_myaccount', '' );
+    // 新規登録
+        	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
+                      '/users.php?mode=new" accesskey="' . $akey . '">会員登録</a>' );
+	$akey ++;
     }
 
     // Call to plugins to set template variables in the footer
