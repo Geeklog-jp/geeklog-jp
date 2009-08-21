@@ -1,9 +1,3 @@
-<noscript><div class="pluginAlert" style="padding:10px;">{no_javascript_warning}</div></noscript>
-<script type="text/JavaScript" src="{site_url}/javascript/profile_editor.js"></script>
-
-<div id="pe_navbar" style="display:none">
-{navbar}
-</div>
 <div class="clearboth" style="min-width:600px;">
 <form action="{site_url}/usersettings.php" method="post" {enctype}>
     <div id="pe_preview" class="jsenabled_hide" style="display:none;">
@@ -93,6 +87,12 @@
 
     {prefs}
     <p class="aligncenter" id="save_button">
+
+<!-- サイトのデフォルトの値に差し替えてください -->
+        <input type="hidden" name="theme" value="professional"{xhtml}>
+        <input type="hidden" name="maxstories" value="10"{xhtml}>
+<!-- ここまで -->
+
         <input type="hidden" name="uid" value="{uid_value}"{xhtml}>
         <input type="hidden" name="mode" value="saveuser"{xhtml}>
         <input type="hidden" name="username" value="{username_value}"{xhtml}>
@@ -101,29 +101,4 @@
     </p>
 </form>
 </div>
-<!-- JS Functions which will execute only if JS enabled will un-hide the special features that enhance the profile editor -->
-<script type="text/JavaScript">
-//<![CDATA[
-    /* Initially the navbar is hidden - in case JS is disabled. Enable it now */
-    document.getElementById('pe_navbar').style.display='';
 
-    /* Now cycle through the profile tabs as the number in the template could have been modified (personalized)
-       If you add custom panels, just ensure you use the class jsenabled_hide or jsenabled_show
-       Build an object that can then be referenced in the functon showhideProfileEditorDiv
-    */
-
-    var profilepanels = new Object;
-    var el;
-    el=document.getElementsByTagName('div');
-    for(i=0;i<el.length;i++) {
-        var divname = el[i].id  
-        if(el[i].className == 'jsenabled_show'){
-            el[i].style.display = '';
-            profilepanels[divname] = 'show';
-        } else if(el[i].className == 'jsenabled_hide'){
-            el[i].style.display = 'none';
-            profilepanels[divname] = 'hidden';   
-        }
-    }
-//]]>
-</script>
