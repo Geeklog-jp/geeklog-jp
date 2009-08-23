@@ -248,7 +248,7 @@ function mobile_3g_siteFooter( $rightblock = -1, $custom = '' )
 	
     // ブロック
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="' . $akey . '">' . $LANG01['12'] . '</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">サブメニュー</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
