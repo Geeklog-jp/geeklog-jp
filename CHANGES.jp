@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-23  Tetsuko Komma  <ivysoho>
+
+	* mobile,mobile_3gテーマ　フッタのブロックおよびブロックページのメニュー
+	  タイトルをサブメニューに変更しました。
+
 2009-08-22  Tetsuko Komma  <ivysoho>
 
 	* mobile,mobile_3gテーマのヘッダにPC表示時専用のテーマテスタ表示を追加し、

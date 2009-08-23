@@ -650,7 +650,7 @@ function CUSTOM_MOBILE_getBlocks($side = 'left')
 function CUSTOM_MOBILE_blockMenu()
 {
 
-    $blockmenu .= "<h1>Block Menu</h1>\n";
+    $blockmenu .= "<h1>サブメニュー</h1>\n";
     $blockmenu .= "<ul>\n";
     $b = CUSTOM_MOBILE_getBlocks();
     $rb = CUSTOM_MOBILE_getBlocks('right');
