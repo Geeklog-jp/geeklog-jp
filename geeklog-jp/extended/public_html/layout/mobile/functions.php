@@ -6,10 +6,6 @@ if (strpos ($_SERVER['PHP_SELF'], 'functions.php') !== false) {
 
 $_IMAGE_TYPE = 'png';
 
-if (!defined ('XHTML')) {
-    define('XHTML',''); // change this to ' /' for XHTML
-}
-
 $result = DB_query ("SELECT onleft,name FROM {$_TABLES['blocks']} WHERE is_enabled = 1");
 $nrows = DB_numRows ($result);
 for ($i = 0; $i < $nrows; $i++) {
@@ -219,34 +215,64 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     /*
      * メニュー
      */
+	$akey = 1;
+	
     // ホーム
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
-                      '/" accesskey="1">' . $LANG01['68'] . '</a>' );
+                      '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
+	$akey ++;
+	
     // ログイン/ログアウト
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
-                              '/users.php?mode=logout" accesskey="2">' . $LANG01['19'] . '</a>' );
+                              '/users.php?mode=logout" accesskey="' . $akey . '">' . $LANG01['19'] . '</a>' );
     } else {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
-                              '/users.php?mode=login" accesskey="2">' . $LANG01['47'] . '</a>' );
-    }        
+                              '/users.php?mode=login" accesskey="' . $akey . '">' . $LANG01['47'] . '</a>' );
+    }
+	$akey ++;
+	
     // 記事投稿
     $footer->set_var( 'mn_submit', '<a href="' . $_CONF['site_url'] .
-                      '/submit.php?type=story" accesskey="3">' . $LANG01['71'] . '</a>' );
+                      '/submit.php?type=story" accesskey="' . $akey . '">' . $LANG01['71'] . '</a>' );
+	$akey ++;
+	
     // 掲示板
-    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
-                      '/forum/index.php" accesskey="4">' . "掲示板</a>" );
+	$temp = DB_query("SELECT 1 AS cnt FROM {$_TABLES['plugins']} WHERE (pi_name = 'forum') AND (pi_enabled = '1')");
+	if (DB_numRows($temp) == 1) {
+	    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
+    	                  '/forum/index.php" accesskey="' . $akey . '">' . "掲示板</a>" );
+		$akey ++;
+	}
+	
     // 記事一覧
     $footer->set_var( 'mn_directory', '<a href="' . $_CONF['site_url'] .
-                      '/directory.php" accesskey="5">' . $LANG01['117'] . '</a>' );
+                      '/directory.php" accesskey="' . $akey . '">' . $LANG01['117'] . '</a>' );
+	$akey ++;
+	
     // 検索
     $footer->set_var( 'mn_search', '<a href="' . $_CONF['site_url'] .
-                      '/search.php" accesskey="6">' . $LANG01['75'] . '</a>' );
+                      '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
+	$akey ++;
+	
     // ブロック
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="7">' . $LANG01['12'] . '</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">サブメニュー</a>' );
+	$akey ++;
+	
+    if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
+    // マイアカウント
+        $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
+                      '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
+	$akey ++;
+    } else {
+    // 新規登録
+        	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
+                      '/users.php?mode=new" accesskey="' . $akey . '">会員登録</a>' );
+	$akey ++;
+    }
 
     // Call to plugins to set template variables in the footer
     PLG_templateSetVars( 'footer', $footer );
