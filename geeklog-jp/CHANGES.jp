@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-24  Tetsuko Komma  <ivysoho>
+
+	* mobile,mobile_3g,professionalテーマ拡張版のfunctions.phpを標準版に
+	  合わせました。
+
 2009-08-23  Tetsuko Komma  <ivysoho>
 
 	* mobile,mobile_3gテーマ　フッタのブロックおよびブロックページのメニュー
