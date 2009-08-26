@@ -41,15 +41,15 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'custom_mail_japanize.php') !== FAL
 //      てみる。CUSTOM_ENCODEの場合は、「メールヘッダの1行の長さの最大値」を既
 //      定値の76を大きくすることで改善される場合があります。
 //
-//2009/08/12 japanize プラグイン用に変更を加えています
-//2009/08/12 geeklogjp仕様対応の追加
+//2009/08/12-26 japanize プラグイン用に変更を加えています
+//2009/08/12-26 geeklogjp仕様対応の追加
 
 global $_CONF, $LANG_CHARSET;
 
-//20090812add---->geeklogjp仕様対応
+//@@@@@20090812add---->geeklogjp仕様対応
 global $_TABLES;
 $japanize_custommail=DB_getItem($_TABLES['vars'],"value","name='japanize_custommail'");
-//20090812add<----
+//@@@@@20090812add<----
 
 // デバッグ用
 //define('CUSTOM_MAIL_DEBUG', true);
@@ -73,9 +73,18 @@ define('CUSTOM_MAIL_ENCODING', 'ISO-2022-JP');
 *                       ン(4.3.11, 4.4.0, 4.4.1, 5.0.0～5.1.0など)用に独自の
 *                       エンコード方法を使用する
 */
-define('CUSTOM_MAIL_HEADER_ENCODE', 'MB_ENCODE_MIMEHEADER');
-//define('CUSTOM_MAIL_HEADER_ENCODE', 'ICONV_MIME_ENCODE');
-//define('CUSTOM_MAIL_HEADER_ENCODE', 'CUSTOM_ENCODE');
+
+//@@@@@20090826update---->geeklogjp仕様対応
+//define('CUSTOM_MAIL_HEADER_ENCODE', 'MB_ENCODE_MIMEHEADER');
+////define('CUSTOM_MAIL_HEADER_ENCODE', 'ICONV_MIME_ENCODE');
+////define('CUSTOM_MAIL_HEADER_ENCODE', 'CUSTOM_ENCODE');
+if ($japanize_custommail==1){
+    define('CUSTOM_MAIL_HEADER_ENCODE', 'CUSTOM_ENCODE');
+}else{
+    define('CUSTOM_MAIL_HEADER_ENCODE', 'MB_ENCODE_MIMEHEADER');
+}
+
+//@@@@@20090826update<----
 
 /**
 * CUSTOM_ENCODEを使用する場合のメールヘッダの1行の長さの最大値
@@ -85,7 +94,7 @@ define('CUSTOM_MAIL_HEADER_ENCODE', 'MB_ENCODE_MIMEHEADER');
 */
 
 
-//20090812update---->geeklogjp仕様対応
+//@@@@@20090812update---->geeklogjp仕様対応
 //define('CUSTOM_MAIL_HEADER_LENGTH', 76);
 ////define('CUSTOM_MAIL_HEADER_LENGTH', 400);
 if ($japanize_custommail==1){
@@ -93,7 +102,7 @@ if ($japanize_custommail==1){
 }else{
     define('CUSTOM_MAIL_HEADER_LENGTH', 76);
 }
-//20090812update<----
+//@@@@@20090812update<----
 
 
 
@@ -105,7 +114,7 @@ if ($japanize_custommail==1){
 * 方法」に CUSTOM_ENCODE を指定した場合は、\n にしないと動作しないことが多いよ
 * うです。
 */
-//20090812update---->geeklogjp仕様対応
+//@@@@@20090812update---->geeklogjp仕様対応
 ////define('CUSTOM_MAIL_HEADER_LINEBREAK', "\n");
 //define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
 if ($japanize_custommail==1){
@@ -113,7 +122,7 @@ if ($japanize_custommail==1){
 }else{
     define('CUSTOM_MAIL_HEADER_LINEBREAK', "\r\n");
 }
-//20090812update<----
+//@@@@@20090812update<----
 
 /**
 * アドレスのコメント部分の引用符
