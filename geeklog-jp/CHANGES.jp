@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-27  Yoshinori Tahara  <dengen>
+
+	* sitemapプラグイン：calendarjpプラグインに対応しました。
+
 2009-08-27  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: readme_ja.txt 訂正
