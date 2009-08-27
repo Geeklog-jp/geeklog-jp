@@ -1,9 +1,9 @@
 --------------------------------------------------------------------------------
 Geeklog 日本語化（japanize)プラグイン
 tsuchi AT geeklog DOT jp
-2008/09/14
+2008/09/27
 --------------------------------------------------------------------------------
-概要 ：Geeklog1.5.0を日本人流にするプラグインです
+概要 ：Geeklog1.5 1.6 を日本人流にするプラグインです
        詳細については、管理画面をご参照ください
 --------------------------------------------------------------------------------
 ファイル構成
@@ -15,10 +15,14 @@ tsuchi AT geeklog DOT jp
   │ ├ install.php
   │ ├ japanize_functions.php
   │ └ settings.php
+  ├ custom
+  │ └ custom_mail_japanize.php
   ├ doc
   │ 更新履歴ほかのドキュメント
   ├ language
   │ └ japanese_utf-8.php
+  ├ lib
+  │ └ ppNavbar.php
   ├ public_html
   │ ├ images
   │ │ └ japanize.png
@@ -26,12 +30,19 @@ tsuchi AT geeklog DOT jp
   │ ├ index.html
   │ └ memberlogin_help.php
   ├ sql
+  │ ├ updates
+  │ │ └ mysql_1.0.2_to_1.0.3.php
   │ ├ sql_japanize_1.php
   │ ├ sql_japanize_2.php
   │ ├ sql_japanize_3.php
   │ ├ sql_japanize_4.php
   │ ├ sql_japanize_5.php
-  │ └ sql_japanize_105.php
+  │ ├ sql_japanize_6.php
+  │ ├ sql_japanize_7.php
+  │ ├ sql_japanize_8.php
+  │ ├ sql_japanize_105.php
+  │ ├ sql_japanize_107.php
+  │ └ sql_japanize_108.php
   │ templates
   │ ├ admin
   │ │ ├ index.thtml
@@ -49,9 +60,6 @@ tsuchi AT geeklog DOT jp
      指定されているテーマにcustom-memberlogin.thtmlがある場合は、そちらを
      使用します
 注2：指定の言語ファイルがない場合はjapanese_utf-8.phpを使用します
-注3：Geeklog1.5.0日本語版で追加されている以下のファイルを必要とします
-     system/lib-portalparts.php
-     lib-portalparts.php は、Forum ,nexProシリーズのファイルでもかまいません
 --------------------------------------------------------------------------------
 インストール方法
 １．データベースおよびファイルのバックアップをとります。
@@ -73,4 +81,12 @@ tsuchi AT geeklog DOT jp
     admin/plugins/japanize/以下に　admin以下のファイルを移動
     public_html/japanize/以下に　public_html以下のファイルを移動
 ３．Rootユーザーとしてログインし，プラグイン管理の画面で更新を実行します
+--------------------------------------------------------------------------------
+☆Gl1.6未満の日本語バージョンにインストールまたはアップグレードする場合の注意
+    Gl1.6未満の日本語バージョンなどで、lib_custon.php 等で日本語メールを読
+    み込んでいる場合は、
+    require_once('custom/custom_mail_jp.php');　という行がある場合は
+    この行をあらかじめ削除してください。
+    残っている場合は
+    Fatal error: Cannot redeclare custom_convertencoding() というエラーがでます
 --------------------------------------------------------------------------------
