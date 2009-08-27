@@ -132,3 +132,7 @@ $DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $VALUES_100_T
 // Appends data for sitemap-1.1.4
 require_once 'sql-1.0.1_1.1.4.php';
 $DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $DATA_101_TO_114);
+
+// Appends data for sitemap-1.1.6
+require_once 'sql-1.1.5_1.1.6.php';
+$DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $VALUES_115_TO_116['smap_config']);

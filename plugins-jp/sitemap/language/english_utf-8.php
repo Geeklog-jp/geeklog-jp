@@ -63,6 +63,7 @@ $LANG_SMAP = array (
 	'filemgmt'          => 'File Management',
 	'faqman'            => 'FAQ',
 	'mediagallery'      => 'Media Gallery',
+	'calendarjp'        => 'Calendar',
 	'sitemap_setting'   => 'Sitemap configuration',
 	'sitemap_setting_misc' => 'Display settings',
 	'order'             => 'Display Order',
