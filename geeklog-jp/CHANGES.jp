@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-27  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: public_html/inex.html delete
+	* custom/custom_mail_jp.php delete
+
 2009-08-27  Yoshinori Tahara  <dengen>
 
 	* sitemapプラグイン：calendarjpプラグインに対応しました。
