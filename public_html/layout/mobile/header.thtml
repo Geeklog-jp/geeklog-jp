@@ -16,7 +16,7 @@
     <div bgcolor="#CCCCFF" style="background-color: #CCCCFF"><a href="{site_url}">{site_name}</a></div>
     <div style="font-size:small">{welcome_msg_jp}</div>
     <?php
-        if (function_exists('CUSTOM_MOBILE_is_cellular') AND !CUSTOM_MOBILE_is_cellular()) {
+        if (function_exists('phpblock_themetester') AND function_exists('CUSTOM_MOBILE_is_cellular') AND !CUSTOM_MOBILE_is_cellular()) {
             echo phpblock_themetester();
         }
     ?>
