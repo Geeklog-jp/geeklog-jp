@@ -187,6 +187,19 @@ function plugin_upgrade_sitemap() {
 				DB_query($sql, 1);
 			}
 			break;
+
+		case '1.1.5':
+			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.1.5_1.1.6.php';
+			COM_errorLog("Sitemap: inserting default data into $table table", 1);
+			
+			foreach ($VALUES_115_TO_116 as $table => $sqls) {
+				COM_errorLog("Sitemap: inserting default data into $table table", 1);
+				foreach ($sqls as $sql) {
+					DB_query($sql, 1);
+				}
+			}
+			break;
+
 		
 		default:
 			COM_errorLog('Sitemap: upgrade procedure for version ' . $pi_version . ' is not implemented in plugin_upgrade_sitemap().');

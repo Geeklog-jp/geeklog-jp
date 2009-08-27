@@ -67,7 +67,7 @@ function SITEMAP_getSelectForm($selected = 'all') {
 	
 	$this_script = $_CONF['site_url'] . '/sitemap/index.php';
 	
-	$retval = '<form method="post" action="' . $this_script .  '"><div>' . LB
+	$retval = '<form method="post" action="' . $this_script .  '">' . LB
 			. '  <select name="type" onchange="this.form.submit()">' . LB
 			. '    <option value="all"';
 	if ($selected == 'all') {
@@ -97,11 +97,11 @@ function SITEMAP_getSelectForm($selected = 'all') {
 	}
 	
 	$retval .= '  </select>' . LB
-			.  '  <noscript><div>' . LB
+			.  '  <noscript>' . LB
 			.  '    <input name="submit" type="submit" value="'
 			.  SITEMAP_str('submit') . '"' . XHTML . '>' . LB
-			.  '  </div></noscript>' . LB
-			.  '</div></form>' . LB;
+			.  '  </noscript>' . LB
+			.  '</form>' . LB;
 	
 	return $retval;
 }
