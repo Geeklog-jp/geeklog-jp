@@ -25,11 +25,11 @@
       <dt><label for="admin-mailform-message">{lang_body}</label></dt>
       <dd><textarea rows="12" cols="44" name="message" id="admin-mailform-message"></textarea></dd>
 
-      <dt><label for="admin-mailform-html">{lang_options}</label></dt>
+      <dt>{lang_options}</dt>
       <dd>
-        <input type="checkbox" name="html" id="admin-mailform-html"{xhtml}>{lang_HTML}
-        <input type="checkbox" name="priority"{xhtml}>{lang_urgent}
-        <input type="checkbox" name="overstyr"{xhtml}>{lang_ignoreusersettings}
+        <label><input type="checkbox" name="html"{xhtml}>{lang_HTML}</label>
+        <label><input type="checkbox" name="priority"{xhtml}>{lang_urgent}</label>
+        <label><input type="checkbox" name="overstyr"{xhtml}>{lang_ignoreusersettings}</label>
       </dd>
     </dl>
 
