@@ -1,5 +1,12 @@
 $Id$
 
+2009-08-28  Masuko Koeda  <milk851>
+
+	* WAIproCSS: アクセシビリティに配慮し、<label>タグを追記して、
+          チェックボックスでテキスト部分をクリックしても
+          チェックできるようにしました。
+          更新履歴をREADMEに記載しました。
+
 2009-08-27  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: public_html/inex.html delete
