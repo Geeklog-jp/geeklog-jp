@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-30  Yoshinori Tahara  <dengen>
+
+	* r1691で言語ファイルを変更したことに伴い、記事一覧で「月」が表示され
+	  なくなった問題に対応しました。
+
 2009-08-29  Yoshinori Tahara  <dengen>
 
 	* professionalテーマのstyle.cssを修正し、リストのヘッダータイトルの
