@@ -165,8 +165,9 @@ th {
   color:#000000;
   background-color:#DAE0ED;
   font-weight:bold;
-  font-size:larger;
-  padding-left:3px;
+/*  font-size:larger; */
+/*  padding-left:3px; */
+  padding:3px;
   text-align:left;
 }
 p {
@@ -214,9 +215,10 @@ select {
 }
 .admin-list-headerfield {
   text-align:left;
-  padding-left:5px;
-  padding-right:5px;
-  font-size:larger;
+/*  padding-left:5px; */
+/*  padding-right:5px; */
+/*  font-size:larger; */
+  padding:3px 5px;
 }
 /* Menus in blocks *****************************************************************/
 .blocklist ul {
@@ -411,14 +413,6 @@ select {
   font-size:smaller;
   padding:3px 0px 3px 10px;
 }
-.comment-edit {
-  font-style: italic;
-  padding-top:1ex;
-}
-.comment-sig {
-  color:#666666;
-  padding-top:1ex;
-}
 /******************************************************************************/
 .edit-perm-down {
   text-align:center;
@@ -540,11 +534,6 @@ select {
   font-size:.9em;
   border-left: 1px dotted #FFFFFF;
 }
-
-.header-navigation-container li.last {
-  border:none;
-}
-
 .header-navigation-container a:link {
   color:#0000FF;
 }
@@ -1031,3 +1020,32 @@ a.tooltip:hover span {
 
 /* End of Common Plugin CSS */
 
+/* Forum Plugin specific CSS */
+.codeblock  { 
+  background-color:#ECE9D8; 
+  color:#000;
+  width: 550px;
+  height: 160px;
+  overflow: auto;
+  min-height: 50px;
+  max-height: 120px;
+  margin: 5px 0px 5px 5px;
+  padding:5px;
+  border: 1px dashed black;
+}
+.quotemain
+{
+  background:#FAFCFE url('forum/image_set/img_quote.gif') no-repeat top right;
+  border: 1px dotted #000;
+  border-left: 4px solid #8394B2;
+  color:#465584;
+  padding: 4px;
+  margin: 5px auto 8px auto;
+}
+
+/* CSS Declarations for Code block feature - default will use the .php one */
+div .php { max-height:400px; overflow:auto; height:auto; width:auto; min-height:100px; }
+div .html { height:300px; overflow:auto; width:auto; min-height:100px; }  
+div .css { height:300px; overflow:auto; width:auto; min-height:100px; }  
+
+/* END of Forum Plugin CSS */
