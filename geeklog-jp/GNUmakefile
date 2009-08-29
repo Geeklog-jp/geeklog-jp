@@ -27,6 +27,9 @@ pre-release:
 
 install: $(PREINSTALL) install-myfiles install-dirs install-pubdir
 
+print-release:
+	@echo ${GL_RELEASE}
+
 release: pre-release update-release-jp install
 	cd $(TOPDIR); \
 	$(MV) $(GLBASE) $(GL_RELEASE); \
