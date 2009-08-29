@@ -1,5 +1,10 @@
 $Id$
 
+2009-08-29  Yoshinori Tahara  <dengen>
+
+	* professionalテーマのstyle.cssを修正し、リストのヘッダータイトルの
+	  文字サイズを小さくします。
+
 2009-08-29  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.0sr1-jp-0.99.2をベータ2版としてリリースします。
