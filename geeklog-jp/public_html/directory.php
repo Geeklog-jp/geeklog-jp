@@ -138,9 +138,9 @@ function DIR_topicList ($topic = 'all', $year = 0, $month = 0, $standalone = fal
 */
 function DIR_monthLink ($topic, $year, $month, $count)
 {
-    global $_CONF, $LANG_MONTH;
+    global $_CONF, $LANG_MONTH, $LANG_WEEK;
 
-    $retval = $LANG_MONTH[$month] . ' (' . COM_numberFormat ($count) . ')' . LB;
+    $retval = $LANG_MONTH[$month] . (($_CONF['language'] == 'japanese_utf-8') ? $LANG_WEEK[2] : '') . ' (' . COM_numberFormat ($count) . ')' . LB;
 
     if ($count > 0) {
         $month_url = COM_buildUrl ($_CONF['site_url'] . '/'
