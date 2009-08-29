@@ -36,8 +36,8 @@ $Id$
 
 2009-08-22  Tetsuko Komma  <ivysoho>
 
-	* mobile,mobile_3gテーマのヘッダにPC表示時専用のテーマテスタ表示を追加し、
-	  フッタにマイアカウントを追加しました。
+	* mobile,mobile_3gテーマのヘッダにPC表示時専用のテーマテスタ表示を追加
+	  し、フッタにマイアカウントを追加しました。
 
 2009-08-20  Takahiro Kambe  <tacahi>
 
@@ -47,7 +47,8 @@ $Id$
 
 2009-08-20  Tetsuko Komma  <ivysoho>
 
-	* mobile,mobile_3gテーマのtitleを{page_title_and_site_name}に変更しました。
+	* mobile,mobile_3gテーマのtitleを{page_title_and_site_name}に変更しまし
+	  た。
 
 2009-08-16  Yoshinori Tahara  <dengen>
 
@@ -178,7 +179,8 @@ $Id$
 
 2009-08-01  Masuko Koeda  <milk851>
 
-	* ProfessionalCSSの検索結果ページ、メニューの選択肢の不具合を直しました。
+	* ProfessionalCSSの検索結果ページ、メニューの選択肢の不具合を直しまし
+	  た。
 
 2009-08-01  Takahiro Kambe  <tacahi>
 
