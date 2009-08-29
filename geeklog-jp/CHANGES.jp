@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-29  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr1-jp-0.99.2をベータ2版としてリリースします。
+
 2009-08-28  Masuko Koeda  <milk851>
 
 	* WAIproCSS: アクセシビリティに配慮し、<label>タグを追記して、
