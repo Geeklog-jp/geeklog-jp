@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-01  Yoshinori Tahara  <dengen>
+
+	* japanizeプラグインをプレインストールするよう変更しました。
+
 2009-08-31  Yoshinori Tahara  <dengen>
 
 	* install-plugins.phpに日本語版独自の変更を加えました。
