@@ -2,6 +2,12 @@ $Id$
 
 2009-09-01  Yoshinori Tahara  <dengen>
 
+	* nmoxtopicownプラグイン：表示言語が英語のとき、管理者専用メニューに
+	  タイトルが表示されない問題を修正しました。
+	  管理画面のXHTML化とHTMLの適正化を行いました。
+
+2009-09-01  Yoshinori Tahara  <dengen>
+
 	* japanizeプラグインをプレインストールするよう変更しました。
 
 2009-08-31  Yoshinori Tahara  <dengen>
