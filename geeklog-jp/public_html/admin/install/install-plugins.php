@@ -37,6 +37,30 @@
 require_once '../../lib-common.php';
 require_once 'lib-install.php';
 
+$pi_preinstall = array(
+    'calendar'     => TRUE,
+    'links'        => TRUE,
+    'polls'        => TRUE,
+    'spamx'        => TRUE,
+    'staticpages'  => TRUE,
+    'xmlsitemap'   => TRUE,
+    'autotags'     => FALSE,
+    'calendarjp'   => FALSE,
+    'captcha'      => FALSE,
+    'custommenu'   => FALSE,
+    'dataproxy'    => FALSE,
+    'dbman'        => FALSE,
+    'filemgmt'     => FALSE,
+    'forum'        => FALSE,
+    'japanize'     => FALSE,
+    'mycaljp'      => FALSE,
+    'nmoxqrblock'  => FALSE,
+    'nmoxtopicown' => FALSE,
+    'sitemap'      => FALSE,
+    'themedit'     => FALSE,
+    'tkgmaps'      => FALSE
+);
+
 // Set some vars
 $html_path          = INST_getHtmlPath();
 $siteconfig_path    = '../../siteconfig.php';
@@ -362,6 +386,7 @@ if (INST_phpOutOfDate()) {
                             $pi_version      = $info['pi_version'];
                             $gl_version      = $info['pi_gl_version'];
                             $pi_url          = $info['pi_homepage'];
+                            $pi_checked      = ($pi_preinstall[$plugin]) ? ' checked="checked"' : '';
                         }
 
                         // If the plugin has been installed to the admin directory
@@ -439,7 +464,7 @@ if (INST_phpOutOfDate()) {
 
                         $display .= '<tr>' . LB
                             . '<td align="center"><input type="checkbox" name="plugins[' . $plugin . '][install]"'
-                                . ($missing_autoinstall ? ' disabled="disabled"' : ' checked="checked"') . XHTML . '>' . LB
+                                . ($missing_autoinstall ? ' disabled="disabled"' : $pi_checked) . XHTML . '>' . LB
                             . '</td>' . LB
                             . '<td valign="top">' . LB
                                 . '<input type="hidden" name="plugins[' . $plugin . '][name]" value="' . $plugin . '"' . XHTML . '>' 
