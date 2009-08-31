@@ -1,5 +1,11 @@
 $Id$
 
+
+2009-09-01  Tetsuko Komma  <ivysoho>
+
+	* FCKeditorのLinkUpload ImageUpload FlashUploadのモードをfalseに変更
+	  して，タブメニューのアップロード３箇所を無効にしました。
+
 2009-09-01  Yoshinori Tahara  <dengen>
 
 	* nmoxtopicownプラグイン：表示言語が英語のとき、管理者専用メニューに
