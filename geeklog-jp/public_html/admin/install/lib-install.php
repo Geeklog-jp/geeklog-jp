@@ -56,7 +56,7 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.6.0sr1');
+    define('VERSION', '1.6.0sr2');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -370,6 +370,9 @@ function INST_writeConfig($config_file, $db)
                 'pass' => (isset($db['pass']) ? $db['pass'] : $_DB_pass),
                 'table_prefix' => (isset($db['table_prefix']) ? $db['table_prefix'] : $_DB_table_prefix),
                 'type' => (isset($db['type']) ? $db['type'] : $_DB_dbms) );
+    if ($db['type'] == 'mysql-innodb') {
+        $db['type'] = 'mysql';
+    }
 
     // Read in db-config.php so we can insert the DB information
     $dbconfig_file = fopen($config_file, 'r');
@@ -450,6 +453,8 @@ function INST_dbExists($db)
     $db_exists = false;
     switch ($db['type']) {
     case 'mysql':
+        // deliberate fallthrough - no "break"
+    case 'mysql-innodb':
         if (@mysql_select_db($db['name'], $db_handle)) {
             return true;
         }
