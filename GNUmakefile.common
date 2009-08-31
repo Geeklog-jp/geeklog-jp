@@ -104,6 +104,7 @@ PAX?=		pax
 RM?=		rm
 SED?=		sed
 TAR?=		tar
+TOUCH?=		touch
 TRUE=		true
 FALSE=		false
 
