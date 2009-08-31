@@ -2,6 +2,9 @@ $Id$
 
 2009-08-31  Takahiro Kambe  <tacahi>
 
+	* r1923, r1924の修正(リリース作業に関するGNUmakefileの修正)を
+	  マージしました。
+
 	* Geeklog 1.6.0sr2のfckeditorの修正を反映させました。
 
 2009-08-19  Takahiro Kambe  <tacahi>
