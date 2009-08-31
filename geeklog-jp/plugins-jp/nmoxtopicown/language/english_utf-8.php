@@ -1,7 +1,7 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | nmoxtopicown Geeklog Plugin 1.0                                       |
+// | nmoxtopicown Geeklog Plugin 1.0                                           |
 // +---------------------------------------------------------------------------+
 // | english_utf-8.php                                                         |
 // |                                                                           |
@@ -38,6 +38,7 @@
 */
 
 $LANG_NMOXTOPICOWN= array (
+'nmoxtopicown'			=> 'NmoxTopicOwn',
 'plugin'				=> 'nmoxtopicown',
 'access_denied'			=> 'Access Denied',
 'access_denied_msg'		=> 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
@@ -49,9 +50,9 @@ $LANG_NMOXTOPICOWN= array (
 'uninstall_msg'			=> 'Plugin Successfully Uninstalled',
 'install'				=> 'Install',
 'uninstall'				=> 'UnInstall',
-'ok'					=> 'ok',
-'message_caution'		=> '* you will change owner of topic with included all stories.',
-'change_writer'			=> 'change writer all stories in this topic.',
-'done'					=> 'done'
+'ok'					=> 'OK',
+'message_caution'		=> '* You will change owner of topic with included all stories.',
+'change_writer'			=> 'Change writer all stories in this topic.',
+'done'					=> 'Done'
 );
 ?>
