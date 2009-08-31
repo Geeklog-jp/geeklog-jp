@@ -1,6 +1,6 @@
 <?php
 // +---------------------------------------------------------------------------+
-// | nmoxtopicown Geeklog Plugin 1.0                                       |
+// | nmoxtopicown Geeklog Plugin 1.0                                           |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
@@ -21,6 +21,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 //
+
+require_once("../../../lib-common.php");
+
 class nmoxtopicown{
 	function listup(){
 		global $_TABLES,$LANG_NMOXTOPICOWN;
@@ -35,7 +38,7 @@ class nmoxtopicown{
 		
 		$html.="
 		<form action='index.php' method='post'>
-		<table>
+		<table style='padding-bottom:32px'>
 		";
 		$n=1;
 		$users=array();
@@ -50,14 +53,14 @@ class nmoxtopicown{
 			$html.="
 			<tr>
 			<td>".$rc["topic"]."
-			<input type='hidden' name='id".$n."' value='".$rc["tid"]."'></input></td>
+			<input type='hidden' name='id".$n."' value='".$rc["tid"]."'".XHTML."></td>
 			<td><select name='n".$n."'>
 			";
 			foreach($users as $user){
 				$html.="<option value='".$user["uid"]."'".($user["uid"]==$rc["owner_id"]?" selected":"").">".$user["username"]."</option>";
 			}
 			$html.="</select></td>
-			<td><input type='checkbox' name='touser".$n."' value='1'><small>".$LANG_NMOXTOPICOWN["change_writer"]."</small></input>
+			<td><input type='checkbox' name='touser".$n."' value='1'".XHTML.">".$LANG_NMOXTOPICOWN["change_writer"]."
 			</td>
 			</tr>
 			";
@@ -65,10 +68,11 @@ class nmoxtopicown{
 		}
 		$html.="
 		</table>
-		<br><br>
-		<input type='hidden' name='mode' value='dbset'></input>
-		<input type='hidden' name='".CSRF_TOKEN."' value='".SEC_createToken()."' />
-		<input type='submit' value='".$LANG_NMOXTOPICOWN["ok"]."'></input>
+		<div>
+			<input type='hidden' name='mode' value='dbset'".XHTML.">
+			<input type='hidden' name='".CSRF_TOKEN."' value='".SEC_createToken()."'".XHTML.">
+			<input type='submit' value='".$LANG_NMOXTOPICOWN["ok"]."'".XHTML.">
+		</div>
 		</form>
 		".$LANG_NMOXTOPICOWN["message_caution"]."
 		</div>
@@ -92,7 +96,6 @@ class nmoxtopicown{
 	}
 }
 
-require_once("../../../lib-common.php");
 //CSRF対策
 if (version_compare(VERSION, '1.5.0') < 0) {
 	if (!function_exists('SEC_checkToken')) {
