@@ -33,11 +33,14 @@ release: pre-release install
 	$(RM) -f $(GL_RELEASE).zip; \
 	$(ZIP) -qr $(GL_RELEASE).zip $(GL_RELEASE)
 
-update-release-jp:
+update-release-jp: release_jp.php
+
+release_jp.php: GNUmakefile.common
 	@$(SED) -e '/release_no =/s/".*"/"$(GL_JPVERSION)"/' release_jp.php \
 		> release_jp.php.tmp; \
 	if ${CMP} -s release_jp.php release_jp.php.tmp; then \
-		:; \
+		${RM} release_jp.php.tmp; \
+		${TOUCH} release_jp.php; \
 	else \
 		${MV} release_jp.php.tmp release_jp.php; \
 	fi; \
