@@ -2,6 +2,8 @@ $Id$
 
 2009-08-31  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.5.2sr5-jp-1.1.99.0のスナップショットを作成します。
+
 	* r1923, r1924の修正(リリース作業に関するGNUmakefileの修正)を
 	  マージしました。
 
