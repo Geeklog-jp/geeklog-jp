@@ -1,5 +1,9 @@
 $Id$
 
+2009-08-31  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr2をマージしました。
+
 2009-08-30  Yoshinori Tahara  <dengen>
 
 	* r1691で言語ファイルを変更したことに伴い、記事一覧で「月」が表示され
