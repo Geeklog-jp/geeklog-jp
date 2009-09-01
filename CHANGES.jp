@@ -1,5 +1,11 @@
 $Id$
 
+2009-09-02  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン：コンフィギュレーションに移行し、もうmycaljpの
+	  管理画面はないのに、投稿管理にアイコンとリンクが残っていたので
+	  修正しました。
+
 2009-09-01  Tetsuko Komma  <ivysoho>
 
 	* 日本語化プラグイン(japanize)の用語および説明文を変更しました。
