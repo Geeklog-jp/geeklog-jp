@@ -66,9 +66,9 @@ function fncEdit ()
 
     $japanize_custommail=DB_getItem($_TABLES['vars'],"value","name='japanize_custommail'");
     if ($japanize_custommail==1){
-        $T->set_var ('japanize_custommail_value',"　　(現在　geeklogjp仕様です)　　");
+        $T->set_var ('japanize_custommail_value',"(現在、Geeklog Japanese推奨値です)");
     }else{
-        $T->set_var ('japanize_custommail_value',"　　(現在　オリジナル設定です)　　");
+        $T->set_var ('japanize_custommail_value',"(現在、オリジナル設定です)");
     }
 
     $T->parse('output', 'admin');

@@ -40,7 +40,7 @@ $PLG_japanize_MESSAGE105 = "グループ　詳細を英語に戻しました。"
 $PLG_japanize_MESSAGE6 = " 日本語サンプルアンケート追加しました。";
 $PLG_japanize_MESSAGE7 = " 初期ブロックタイトルを日本語に変更しました。";
 $PLG_japanize_MESSAGE107 = " 初期ブロックタイトルを英語に戻しました。";
-$PLG_japanize_MESSAGE8 = " 日本語メールをgeeklogjp仕様にしました。";
+$PLG_japanize_MESSAGE8 = " 日本語メールをGeeklog Japanese推奨値に変更しました。";
 $PLG_japanize_MESSAGE108 = " 日本語メールを元に戻しました。";
 
 
