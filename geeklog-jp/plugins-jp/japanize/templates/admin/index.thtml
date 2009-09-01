@@ -138,16 +138,22 @@
 
 <fieldset style="margin-top:10px;">
 <legend>(8)日本語メール {japanize_custommail_value}</legend>
-<p>CUSTOM_MAIL_HEADER_LENGTHを400に CUSTOM_MAIL_HEADER_LINEBREAKを\nに CUSTOM_MAIL_HEADER_ENCODEをCUSTOM_ENCODEにします</p>
+<p>ヘッダの設定をGeeklog Japanese推奨値に変更します。</p>
+<ul>
+  <li>カスタムエンコード方法を使用</li>
+  <li>ヘッダ長:400</li>
+  <li>ヘッダ改行コード:\n</li>
+</ul>
+
 
 <blockquote>
-<form method="POST" action="{this_script}?mode=cmd8"><p><input type="submit" value="geeklogjp仕様にする" name="cmd8"></p>
+<form method="POST" action="{this_script}?mode=cmd8"><p><input type="submit" value="Geeklog Japanese推奨値に変更する" name="cmd8"></p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 </form>
 </blockquote>
 <p>オリジナルの設定に戻します。</p>
 <blockquote>
-<form method="POST" action="{this_script}?mode=cmd108"><p><input type="submit" value="元に戻す" name="cmd108"></p>
+<form method="POST" action="{this_script}?mode=cmd108"><p><input type="submit" value="オリジナルの設定に戻す" name="cmd108"></p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 </form>
 </blockquote>
