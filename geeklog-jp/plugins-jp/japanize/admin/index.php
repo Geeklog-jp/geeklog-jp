@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: index.php
 // public_html/admin/plugins/japanize/index.php
-// 20080915 tsuchi AT geeklog DOT jp
+// 20090902 tsuchi AT geeklog DOT jp
 
 define ('THIS_SCRIPT', 'index.php');
 define ('THIS_PLUGIN', 'japanize');

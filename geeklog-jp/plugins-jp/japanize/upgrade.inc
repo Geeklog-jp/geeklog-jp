@@ -9,7 +9,6 @@ $curversion = DB_getItem($_TABLES['plugins'],'pi_version',"pi_name = 'japanize'"
 
 $wk = explode('_', $curversion);
 $curversion2 =$wk[0];
-echo "curversion2=".$curversion2."";
 
 IF ($curversion2=="1.0.2") {
     profile_upgrade("mysql_1.0.2_to_1.0.3","1.0.3");

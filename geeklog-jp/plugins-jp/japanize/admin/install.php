@@ -5,7 +5,7 @@
 // $Id: install.php
 // public_html/admin/plugins/japanize/install.php
 // 20080729 tsuchi AT geeklog DOT jp
-// 20090812 Ver1.0.3
+// 20090902 Ver1.0.4
 
 require_once ('../../../lib-common.php');
 
@@ -31,7 +31,7 @@ require_once ($_CONF['path'] . 'plugins/japanize/functions.inc');
 // Plugin information
 //--------------------
 // plugin display name
-$pi_display_name = 'japanize';
+$pi_display_name = 'Japanize';
 // Plugin name  Must be 15 chars or less
 $pi_name         = 'japanize';
 // Plugin Version

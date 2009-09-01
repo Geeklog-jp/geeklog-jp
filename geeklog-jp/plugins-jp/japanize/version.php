@@ -1,3 +1,3 @@
 <?php
-$_JPN_CONF['version'] = '1.0.3'; // Plugin Version
+$_JPN_CONF['version'] = '1.0.4'; // Plugin Version
 ?>
