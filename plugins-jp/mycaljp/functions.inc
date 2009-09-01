@@ -92,7 +92,7 @@ function plugin_cclabel_mycaljp()
     global $_CONF;
 
     $pi_name   = ucfirst( 'mycaljp' );
-    $admin_url = $_CONF['site_admin_url'] . '/plugins/mycaljp/index.php';
+    $admin_url = '';
     $icon_url  = $_CONF['site_url'] . '/mycaljp/images/mycaljp.png';
 
     return array ( $pi_name, $admin_url, $icon_url );
