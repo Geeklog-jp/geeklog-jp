@@ -44,7 +44,7 @@
 function plugin_autoinstall_japanize($pi_name)
 {
     $pi_name         = 'japanize';
-    $pi_display_name = 'Japanize';
+    $pi_display_name = 'japanize';
     $pi_admin        = $pi_display_name . ' Admin';
 
     include_once 'version.php';
