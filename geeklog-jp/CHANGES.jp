@@ -2,6 +2,10 @@ $Id$
 
 2009-09-02  Yoshinori Tahara  <dengen>
 
+	* calendarjpプラグイン：HTMLの適正化を行いました。
+
+2009-09-02  Yoshinori Tahara  <dengen>
+
 	* mycaljpプラグイン：コンフィギュレーションに移行し、もうmycaljpの
 	  管理画面はないのに、投稿管理にアイコンとリンクが残っていたので
 	  修正しました。
