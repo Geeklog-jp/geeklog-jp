@@ -11,6 +11,7 @@ admin/install.php
 language/japanese_utf-8.php
 template/admin/index.thtml
 upgrade.inc
+autoinstall.php
 
 version.php
 
