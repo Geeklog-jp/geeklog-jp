@@ -1,9 +1,19 @@
 $Id$
 
+2009-09-04  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプト: インストールのスクリプトとprecheck.phpで
+	  発生し得る文字化けへの対処を加えてみました。
+
 2009-09-03  Yoshinori Tahara  <dengen>
 
 	* Professionalテーマ：コメントフォームの項目名の幅を日本語環境向けに
 	  調整しました。そのほか一部HTML適正化を実施しました。
+
+2009-09-03  Takahiro Kambe  <tacahi>
+
+	* 日本語ドキュメント: changes.htmlとhistory.htmlの日本語ドキュメントの
+	  翻訳内容を改善してみました。
 
 2009-09-03  Kazuko Tsuchitani <Tsuchi>
 
