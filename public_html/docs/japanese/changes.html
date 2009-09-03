@@ -29,9 +29,9 @@
   さらに、FCKeditorを使ってファイルをアップロードするには、何らかの「編集」の権限が必要です。(これは一時的な対応です。将来のGeeklogのバージョンでは「アップロード」という独立した権限を採用する予定です)。</li>
 </ul>
 
-<p>その他:</p>
+<p>その他の修正:</p>
 <ul>
-<li>InnoDBテーブルを利用したインストール時の問題を修正しました</li>
+<li>InnoDBテーブルを使用してインストールする時の問題を修正しました</li>
 <li>記事のコメントコードのフィールドを自動更新するときの(悪用されることのない)SQLエラーを修正しました。</li>
 <li>リンクプラグイン(links)に含まれる間違った関数名を修正しました</li>
 </ul>
@@ -48,7 +48,7 @@
 
 <p>その他:</p>
 <ul>
-<li>記事投稿キューがOFFな状態で記事を投稿するときのSQLエラーを修正しました。</li>
+<li>記事投稿キューがOFFな状態で、記事を投稿するときのSQLエラーを修正しました。</li>
 <li>存在しない<code>COM_outputMessageAndAbort</code>関数を呼び出していた問題を修正しました。</li>
 </ul>
 
@@ -57,12 +57,12 @@
 
 <h3>Summer of Codeの成果</h3>
 
-<p>このリリースには、Google Summer of Code 2008で実装されたコードを取り込んでいます:</p>
+<p>このリリースには、Google Summer of Code 2008の間に実装されたコードを取り込んでいます:</p>
 
 <ul>
-<li>サイト移行のサポートと簡単なプラグインのインストール (作者：Matt West)</li>
-<li>検索機能の改善 (作者：Sami Barakat)</li>
-<li>コメントの承認と編集の機能 (作者：Jared Wenerd)</li>
+<li>サイト移行のサポートとより簡単なプラグインのインストール (開発者: Matt West氏)</li>
+<li>検索機能の改善 (開発者: Sami Barakat氏)</li>
+<li>コメントの承認と編集の機能 (開発者: Jared Wenerd氏)</li>
 </ul>
 
 <h3>その他の変更</h3>
@@ -70,7 +70,7 @@
 <ul>
 <li>Geeklogは現在PHP 4.3.0以降をサポートしていますが、PHP開発チームは2008年8月にはPHP 4のサポートを終了しています。PHP 4でGeeklogを活用しているユーザは、できるだけはやくPHP 5へのアップグレードを検討してください。</li>
 <li><a href="http://www.fckeditor.net/">FCKeditor</a>を2.6.4.1を同梱しました。</li>
-<li>新しいプラグイン「<a href="http://wiki.geeklog.net/index.php/XMLSitemap_Plugin">XMLSitemap</a>」を同梱しました。このプラグインは、すべての主要な検索エンジンでサポートされている、<a href="http://www.sitemaps.org/">XMLのサイトマップ・ファイル</a>を自動生成します。プラグインはmystral-kk氏※により開発されました。<br>
+<li>新しいプラグイン「<a href="http://wiki.geeklog.net/index.php/XMLSitemap_Plugin">XMLSitemap</a>」を同梱しました。このプラグインは、すべての主要な検索エンジンがサポートしている<a href="http://www.sitemaps.org/">XMLのサイトマップ・ファイル</a>を自動生成します。プラグインはmystral-kk氏※により開発されました。<br>
 （※訳者註：Geeklog Japaneseコア開発者です。）</li>
 <li>いくつかの<a href="http://wiki.geeklog.net/index.php/New_Plugin_API_Functions_in_Geeklog_1.6.0">新しいプラグインAPIの機能</a>が追加されて、既存のプラグインAPIも拡張されてました。</li>
 <li>他の言語に翻訳できるように、含めているドキュメントの場所を<tt>docs/english</tt>に移動しました。Geeklogの中のドキュメントへのリンクは自動的に、そのときに利用している言語に応じたリンクとなります。(適切な翻訳がみつからなければ、英語のドキュメントを表示します。）</li>
@@ -374,7 +374,7 @@
 <h3>セキュリティ問題</h3>
 <ul>
     <li>ゲストユーザによる投稿がconfig.phpで無効にされていても、ゲストユーザが記事を投稿することが可能でした。 (Barry Wongの報告)<br>しかし、config.phpで無効にしていない限り、これらの記事は承認待ちの状態になっていました。</li>
-    <li>リンクやイベント投稿のパラメータがフィルタリングされておらず、SQLインジェクションの可能性がありました。。</li>
+    <li>リンクやイベント投稿のパラメータがフィルタリングされておらず、SQLインジェクションの可能性がありました。</li>
     <li>関連ブロック用のリンクが、フィルタリングされていない記事テキストから作成され、クロスサイト・スクリプティング攻撃の可能性がありました。(Vincent Furiaの報告)</li>
 </ul>
 <h3>バグ修正</h3>
