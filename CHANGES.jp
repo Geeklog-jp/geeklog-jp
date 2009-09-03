@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-03  Yoshinori Tahara  <dengen>
+
+	* Professionalテーマ：コメントフォームの項目名の幅を日本語環境向けに
+	  調整しました。そのほか一部HTML適正化を実施しました。
+
 2009-09-03  Kazuko Tsuchitani <Tsuchi>
 
 	* siteconfig.php: VERSION値　1.6.0に戻す
