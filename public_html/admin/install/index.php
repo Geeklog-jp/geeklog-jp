@@ -1264,6 +1264,7 @@ $display .= '<br' . XHTML . '><br' . XHTML . '>' . LB
     . '</body>' . LB 
     . '</html>';
 
+header('Content-Type: text/plain; charset=' . COM_getCharset());
 echo $display;
 
 ?>
