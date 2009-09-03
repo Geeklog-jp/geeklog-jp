@@ -2,7 +2,7 @@
                                             <form action="{form_url}" method="post">
                                                 <table cellspacing="0" cellpadding="3" width="95%">
                                                     <tr>
-                                                        <td class="alignright"><b>{lang_username}:</b></td>
+                                                        <td class="alignright" style="width:6.5em"><b>{lang_username}:</b></td>
                                                         <td>
                                                             {cid}
                                                             <input type="hidden" name="sid" value="{sid}"{xhtml}>
@@ -18,7 +18,7 @@
                                                     </tr>
                                                     <tr>
                                                         <td class="alignright" style="vertical-align:top;"><b>{lang_comment}:</b></td>
-                                                        <td><textarea name="comment" rows="10" style="width:95%">{comment}</textarea></td>
+                                                        <td><textarea name="comment" cols="60" rows="10" style="width:95%">{comment}</textarea></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="alignright" style="vertical-align:top;"><b>{lang_postmode}:</b></td>
