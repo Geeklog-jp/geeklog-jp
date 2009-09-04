@@ -2,6 +2,10 @@ $Id$
 
 2009-09-05  Yoshinori Tahara  <dengen>
 
+	* 日本語言語ファイル内のHTMLの適正化を行いました。（Pタグの閉じ漏れ）
+
+2009-09-05  Yoshinori Tahara  <dengen>
+
 	* Professionalテーマ：記事編集フォームのプレビューの表示ズレを修正し
 	  ました。
 
