@@ -1161,14 +1161,14 @@ function SP_render_content ($sp_content, $sp_php)
     if ($_SP_CONF['allow_php'] == 1) {
         // Check for type (ie html or php)
         if ($sp_php == 1) {
-            $retval .= eval ($sp_content);
+            $retval = eval ($sp_content);
         } else if ($sp_php == 2) {
             ob_start ();
             eval ($sp_content);
-            $retval .= ob_get_contents ();
+            $retval = ob_get_contents ();
             ob_end_clean ();
         } else {
-            $retval .= $sp_content;
+            $retval = $sp_content;
         }
         $retval = PLG_replacetags ($retval);
     } else {
