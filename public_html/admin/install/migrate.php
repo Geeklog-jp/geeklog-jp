@@ -1011,7 +1011,7 @@ if (INST_phpOutOfDate()) {
 
 $display .= INST_getFooter();
 
-header('Content-Type: text/plain; charset=' . $LANG_CHARSET);
+header('Content-Type: text/html; charset=' . $LANG_CHARSET);
 echo $display;
 
 ?>
