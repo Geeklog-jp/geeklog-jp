@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-04  Yoshinori Tahara  <dengen>
+
+	* Staticpagesプラグイン：静的ページの編集フォームのテキストエリアの幅
+	  を調整しました。
+
 2009-09-04  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: インストールのスクリプトとprecheck.phpで
