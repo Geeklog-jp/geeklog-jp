@@ -922,12 +922,12 @@ $p->path = $path;
 
 if ($mode == 'lookupdb') {
 	$result = $p->lookupDb();
-	header('Content-Type: text/plain');
+	header('Content-Type: text/plain; charset=utf-8');
 	echo $result;
 	exit;
 } else if ($mode == 'counttable') {
 	$result = $p->countTable();
-	header('Content-Type: text/plain');
+	header('Content-Type: text/plain; charset=utf-8');
 	echo $result;
 	exit;
 }

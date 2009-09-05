@@ -92,6 +92,7 @@ foreach ($_CONF as $option => $value) {
 }
 $display .= "</table>\n</body>\n</html>";
 
+header('Content-Type: text/html; charset=' . COM_getCharset());
 echo $display;
 
 ?>

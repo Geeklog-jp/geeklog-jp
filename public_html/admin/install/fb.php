@@ -231,4 +231,5 @@ if ($result === TRUE) {
 	$msg = '<p style="padding: 5px; border: solid 2px #cc3333; background-color: #ffccff;">下に表示されているリンクをクリックして、<strong>' . TARGET . '</strong>を探してください。</p>' . LB;
 }
 
+header('Content-Type: text/html; charset=utf-8');
 echo $header . $msg . $body;

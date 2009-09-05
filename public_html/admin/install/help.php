@@ -141,6 +141,7 @@ $display .= '<head>
 </body>
 </html>' . LB;
 
+header('Content-Type: text/html; charset=' . $LANG_CHARSET);
 echo $display;
 
 ?>
