@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-06  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプトのHTTPの応答ヘッダで、Conent-Typeフィー
+	  ルドにcharsetパラメータがない問題に、1.5.2系も対応してみました。
+
 2009-08-31  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.5.2sr5-jp-1.1.99.0のスナップショットを作成します。
