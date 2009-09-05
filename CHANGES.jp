@@ -2,6 +2,8 @@ $Id$
 
 2009-09-06  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.6.0sr2-jp-0.99.1をベータ版2としてリリースします。
+
 	* インストール・スクリプト: HTTP応答ヘッダのContent-Typeフィールドに
 	  charsetパラメータが抜けている問題への対処がGeeklog 1.6.1に向けた
 	  変更として取り込まれました。ここで、bigdump.phpとhelp.phpにも対応が
@@ -92,6 +94,8 @@ $Id$
 
 2009-08-31  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.6.0sr2-jp-0.99.0をベータ版としてリリースします。
+
 	* Geeklog 1.6.0sr2をマージしました。
 
 2009-08-30  Yoshinori Tahara  <dengen>
@@ -106,7 +110,7 @@ $Id$
 
 2009-08-29  Takahiro Kambe  <tacahi>
 
-	* Geeklog 1.6.0sr1-jp-0.99.2をベータ2版としてリリースします。
+	* Geeklog 1.6.0sr1-jp-0.99.2をベータ版2としてリリースします。
 
 2009-08-28  Masuko Koeda  <milk851>
 
