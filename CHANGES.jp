@@ -2,7 +2,9 @@ $Id$
 
 2009-09-06  Takahiro Kambe  <tacahi>
 
-	* インストール・スクリプトのHTTPの応答ヘッダで、Conent-Typeフィー
+	* 言語ファイル: r1991とr1992のHTMLの修正を取り込みました。
+
+	* インストール・スクリプト: HTTPの応答ヘッダで、Conent-Typeフィー
 	  ルドにcharsetパラメータがない問題に、1.5.2系も対応してみました。
 
 2009-08-31  Takahiro Kambe  <tacahi>
