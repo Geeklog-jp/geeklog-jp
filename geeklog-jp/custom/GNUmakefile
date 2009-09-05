@@ -1,7 +1,7 @@
 #
 
 # Basic custom functions for Geeklog Japanese release.
-FILES=		custom_cellular.php custom_mail_jp.php
+FILES=		custom_cellular.php
 
 # Additional custom functions for Geeklog Japanese extended release.
 EFILES+=	custom_getstaticpage.php phpblock_lastarticles.php
