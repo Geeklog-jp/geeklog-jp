@@ -2,7 +2,7 @@ $Id$
 
 2009-09-05  Yoshinori Tahara  <dengen>
 
-	* 日本語言語ファイル内のHTMLの適正化を行いました。（Pタグの閉じ漏れ）
+	* 日本語言語ファイル内のHTMLの適正化を行いました。(余分なPタグの削除)
 
 2009-09-05  Yoshinori Tahara  <dengen>
 
