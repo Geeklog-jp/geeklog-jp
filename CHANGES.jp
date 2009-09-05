@@ -1,5 +1,12 @@
 $Id$
 
+2009-09-06  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプト: HTTP応答ヘッダのContent-Typeフィールドに
+	  charsetパラメータが抜けている問題への対処がGeeklog 1.6.1に向けた
+	  変更として取り込まれました。ここで、bigdump.phpとhelp.phpにも対応が
+	  必要と言うことなので、変更を日本語版にも取り込みました。
+
 2009-09-05  Yoshinori Tahara  <dengen>
 
 	* 日本語言語ファイルを一部修正しました。(コメント関連)
