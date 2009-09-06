@@ -2,6 +2,9 @@ $Id$
 
 2009-09-06  Takahiro Kambe  <tacahi>
 
+	* インストール・スクリプト: fb.phpにもcharsetパラメータを付加する
+	  対応を行いました。
+
 	* Geeklog 1.6.0sr2-jp-0.99.1をベータ版2としてリリースします。
 
 	* インストール・スクリプト: HTTP応答ヘッダのContent-Typeフィールドに
