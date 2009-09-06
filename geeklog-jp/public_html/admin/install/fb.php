@@ -173,4 +173,5 @@ $body .= '<br /><p class="precheck-version">Geeklog-' . GL_VERSION
        . '&nbsp;&nbsp;インストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
        . '</div>' . LB . '</div>' . LB . '</body>' . LB . '</html>' . LB;
 
+header('Content-Type: text/plain; charset=utf-8');
 echo $header . $msg . $curpath . $body;
