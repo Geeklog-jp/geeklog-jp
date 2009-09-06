@@ -2,6 +2,8 @@ $Id$
 
 2009-09-06  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.5.2sr5-jp-1.1.99.1のスナップショットを作成します。
+
 	* 言語ファイル: r1991とr1992のHTMLの修正を取り込みました。
 
 	* インストール・スクリプト: HTTPの応答ヘッダで、Conent-Typeフィー
