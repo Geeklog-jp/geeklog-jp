@@ -223,9 +223,44 @@
     <th style="width:25%">初期値</th>
     <th style="width:50%">説明</th></tr>
 <tr>
+  <td valign="top"><a name="desc_search_style">search_style</a></td>
+  <td valign="top">'google'</td>
+  <td valign="top">Sets the style of the results page. Can be either 'google' or 'table'</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_limits">search_limits</a></td>
+  <td valign="top">10,15,25,30</td>
+  <td valign="top">The result limits a user can select. Each value <b>must</b> be seperated with a comma.</td></tr><tr>
   <td valign="top"><a name="desc_num_search_results">検索結果表示数(num_search_results)</a></td>
   <td valign="top">10</td>
   <td valign="top">ページごと(とタイプごと）に検索結果を表示する件数。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_show_limit">search_show_limit</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Shows (= true) or hides (= false) the page limits selection box.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_show_sort">search_show_sort</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Shows (= true) or hides (= false) the 'Sort By' selection box. (When using the table style it will enable/disable column sorting)</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_show_num">search_show_num</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Shows (= true) or hides (= false) the result number.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_show_type">search_show_type</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Shows (= true) or hides (= false) the plugin name the result came from.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_separator">search_separator</a></td>
+  <td valign="top"> &amp;gt; (Space before and after character)</td>
+  <td valign="top">The character to display between result type sub groups.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_def_keytype">search_def_keytype</a></td>
+  <td valign="top">'phrase'</td>
+  <td valign="top">Default to one of these search methods:<ul>
+    <li>'all': results must contain all of the search terms.</li>
+    <li>'any': results may contain any of the search terms.</li>
+    <li>'phrase': search for the exact phrase as entered. (default)</li>
+    </ul></td></tr>
 </table>
 
 
@@ -395,6 +430,14 @@
   <td valign="top"><a name="desc_theme">テーマ(theme)</a></td>
   <td valign="top">professional</td>
   <td valign="top">サイトで使用するテーマの初期値。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_doctype">doctype</a></td>
+  <td valign="top">HTML 4.01 Strict</td>
+  <td valign="top"><a
+    href="http://en.wikipedia.org/wiki/Document_Type_Declaration">Document Type
+    Declaration</a> (aka DOCTYPE aka DTD) to use for all the themes on your
+    site, assuming they use the <tt>{doctype}</tt> variable instead of a
+    hard-coded DOCTYPE in their <tt>header.thtml</tt>.</td></tr>
 <tr>
   <td valign="top"><a name="desc_menu_elements">メニュー項目(menu_elements)</a></td>
   <td valign="top"><code>array('contribute', 'calendar', 'search', 'stats',
@@ -747,6 +790,42 @@
   <td valign="top"><a name="desc_comment_code">コメント許可の初期値(comment_code)</a></td>
   <td valign="top">はい(0)</td>
   <td valign="top">新規記事に対する初期値。はい(0)なら許可し、いいえ(-1)なら許可しない。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_comment_edit">comment_edit</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Whether to allow users and admins (i.e. those with
+    comment.edit permission) to edit comments.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_commentsubmission">commentsubmission</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Enable (1) or disable (0) comment submission queue.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_comment_edittime">comment_edittime</a></td>
+  <td valign="top">1800</td>
+  <td valign="top">How long (in seconds) a comment is editable for the user who
+    submitted it. Requires that comments are editable (see <a href="#desc_comment_edit">above</a>). Anonymous users (those that did not register an account) can
+    never edit their comments while admins can always edit comments.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_article_comment_close_days">article_comment_close_days</a></td>
+  <td valign="top">30</td>
+  <td valign="top">Number of days after which a story is to be automatically
+    closed for comments, i.e. no new comments can be posted after that many
+    days.<br>
+    Note that this is only the default value to which the "Disable Comments"
+    option is set when creating a new story. It will not take effect unless it
+    has also been enabled for the story.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_comment_close_rec_stories">comment_close_rec_stories</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Number of most recent stories for which comment posting is
+    allowed. Posting a new story will automatically close comments for the
+    oldest of these stories.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_allow_reply_notifications">allow_reply_notifications</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Allow (1) or disallow (0) subscribing to comment
+    notifications. Registered users can get an email notifying them of direct
+    replies to comments they left.</td></tr>
 </table>
 
 
@@ -787,6 +866,19 @@
   <td valign="top"><a name="desc_allow_user_scaling">ユーザに画像サイズ変更を許可(allow_user_scaling)</a></td>
   <td valign="top">はい(1)</td>
   <td valign="top">はい(1)にすると、上記のように元画像を保存する場合、記事の中でリサイズされた画像を使えるようになる。言い換えると、記事中で（<code>[image<i>X</i>]</code> に加えて）<code>[unscaled<i>X</i>]</code> タグを使えるようになる。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_jpeg_quality">jpeg_quality</a></td>
+  <td valign="top"><i>(disabled)</i></td>
+  <td valign="top">Control the image quality when resizing JPEGs. All the image
+    libraries supported by Geeklog are based on the IJG JPEG library which uses
+    an arbitrary range of 0-100 to specify the "quality" (note that this is
+    <em>not</em> a percent value). The default, when not set, is 75 which
+    provides good quality in most cases. In some cases, higher values may
+    provide better results.<br>
+    Rules of thumb: Values above 90 usually don't improve the image quality any
+    more but only produce larger files. Values below 50 will result in poor
+    image quality. Values of 25 and below will produce distorted
+    images.</td></tr>
 <tr>
   <td valign="top"><a name="desc_debug_image_upload">画像アップロードのデバッグを行う(debug_image_upload)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
@@ -1034,10 +1126,6 @@
     <th style="width:25%">初期値</th>
     <th style="width:50%">説明</th></tr>
 <tr>
-  <td valign="top"><a name="desc_pdf_enabled">PDFを有効にする(pdf_enabled)</a></td>
-  <td valign="top">いいえ(0)</td>
-  <td valign="top">記事を<acronym title="Portable Document Format">PDF</acronym>に変換する機能はまだ実装が完了していない。サイトに未完成の機能が表示されないよう、この設定はいいえ(0)にしておくこと。</td></tr>
-<tr>
   <td valign="top"><a name="desc_notification">通知(notification)</a></td>
   <td valign="top">空リスト（登録なし）</td>
   <td valign="top">新規の記事・コメントが投稿された場合、トラックバック・ピングバックを受信した場合、新規ユーザが登録された場合に、サイトのメールアドレスに通知メールを送信するリスト。この<tt>リスト</tt>に登録できるのは、<br>
@@ -1059,6 +1147,32 @@
   <td valign="top"><a name="desc_disable_autolinks">自動リンクを無効にする(disable_autolinks)</a></td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、自動リンク、つまり、[story:] 形式の自動リンクが無効になる。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_clickable_links">clickable_links</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Whether or not URLs in plain-text posting should
+    automatically be turned into clickable links.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_compressed_output">disable_compressed_output</a></td>
+  <td valign="top">false</td>
+  <td valign="top">If enabled and supported by both the browser and the
+    webserver, HTML output will be compressed before sending it to the browser.
+    This will typically result in much smaller amounts of data to be sent
+    (usually between 20% and 25%, compared to the uncompressed output). It may,
+    however, result in slightly more load on the webserver.<br>
+    For now, this feature should be considered <strong>experimental</strong> and
+    hasn't been implemented for all HTML output yet.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_frame_options">frame_options</a></td>
+  <td valign="top">DENY</td>
+  <td valign="top">Protection against <a
+    href="http://en.wikipedia.org/wiki/Clickjacking">Clickjacking</a>: This
+    option indicates that the site's content should not be displayed in a frame.
+    This only works, however, when the visitor's browser respects the
+    <tt>X-FRAME-OPTIONS</tt> HTTP header. Options are to disallow all framing
+    (Strict), only allow framing from within the same site (Same Origin), or to
+    allow all framing (disabled). We strongly suggest <em>not</em> to disable
+    this option.</td></tr>
 </table>
 
 <h3><a name="misc_debug">その他: デバッグ</a></h3>
@@ -1107,6 +1221,13 @@
   <td valign="top"><a name="desc_admin_html">管理者HTML(admin_html)</a></td>
   <td valign="top">テーブル用などの追加のHTMLタグ</td>
   <td valign="top">管理者が使用できるHTMLタグと属性のリスト。管理者は上記のユーザHTMLも使える。ユーザHTMLに登録されているHTMLタグに属性を追加して再定義した場合、管理者HTMLの方が有効になる。たとえば、ユーザHTMLでは&lt;p&gt;タグのstyle属性を使用できないが（JavaScriptを使えないようにするため）、管理者HTMLではstyle属性を有効にする、など。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_advanced_html">advanced_html</a></td>
+  <td valign="top">additional HTML tags for use with the Advanced Editor, e.g.
+      for images</td>
+  <td valign="top">Additional HTML tags and attributes that users are allowed
+      to use when the <a href="#desc_advanced_editor">Advanced Editor</a> is
+      enabled.</td></tr>
 <tr>
   <td valign="top"><a name="desc_skip_html_filter_for_root">RootユーザはHTMLフィルタを無効にする(skip_html_filter_for_root)</a></td>
   <td valign="top">いいえ(0)</td>
