@@ -3,8 +3,8 @@ $Id$
 2009-09-11  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: 状況によって、インストール・スクリプトが
-	  言語パラメータを引き継ない問題を修正しました。(Geeklog-jp Issue #74,
-	  Geeklog Bugtracker #0000969)
+	  言語パラメータを引き継がない問題を修正しました。
+	  (Geeklog-jp Issue #74, Geeklog Bugtracker #0000969)
 
 2009-09-10  Yoshinori Tahara  <dengen>
 
