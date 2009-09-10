@@ -1,5 +1,11 @@
 $Id$
 
+2009-09-11  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプト: 状況によって、インストール・スクリプトが
+	  言語パラメータを引き継ない問題をへの修正を適用しました。
+	  (Geeklog-jp Issue #74, Geeklog Bugtracker #0000969)
+
 2009-09-06  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.5.2sr5-jp-1.1.99.1のスナップショットを作成します。
