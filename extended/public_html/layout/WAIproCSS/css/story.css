@@ -264,8 +264,8 @@ div#centerblocks div.featuredstorytext ul.feedback li {
 /* コンテナ */
 div#centerblocks div.archivestorytext {
   margin: 0 0 2em 0;
-  padding: 1em 0.5em 0 0.5em;
-  border-bottom: 1px solid #E7E7E7;
+  padding: 1em 1em 0;
+  border-bottom: 1px solid #af9b83;
 }
 
 /* 記事タイトル */
@@ -273,22 +273,21 @@ div#centerblocks div.archivestorytext h2 {
   float: left;
   margin: 0 0 1em 0;
   padding: 0;
-  font-size: 110%;
+  font-size: 1.125em;
   font-weight: bold;
 }
 
 /* アイコン(メールを送る・印刷用ページ・PDF) */
 div#centerblocks div.archivestorytext ul.icon {
   list-style-type: none;
-  float: right;
   margin: 0;
   padding: 0;
-  text-align: right;
+  text-align: left;
 }
 
 div#centerblocks div.archivestorytext ul.icon li{
   display: inline;
-  margin: 0;
+  margin-right: 2em;
   padding: 0;
 }
 
@@ -333,8 +332,8 @@ div#centerblocks div.archivestorytext div.story_introtext {
 /* 話題画像 */
 div#centerblocks div.archivestorytext div.story_introtext span.story_image {
   float: right;
-  width: 48px;
-  height: 48px;
+  width: 4.2em;
+  height: 4.2em;
   margin: 0;
   padding: 0;
 }
@@ -350,7 +349,7 @@ div#centerblocks div.archivestorytext ul.navi {
 
 div#centerblocks div.archivestorytext ul.navi li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }
 
@@ -364,6 +363,6 @@ div#centerblocks div.archivestorytext ul.feedback {
 
 div#centerblocks div.archivestorytext ul.feedback li {
   display: inline;
-  margin: 0 2px;
+  margin: 0 0.125em;
   padding: 0;
 }

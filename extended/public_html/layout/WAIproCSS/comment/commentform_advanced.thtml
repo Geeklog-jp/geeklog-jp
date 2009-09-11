@@ -62,13 +62,14 @@
     {captcha}
 
     <ul class="submit">
+      <li>{notification}</li>
       <li><input type="submit" name="mode" value="{lang_preview}" class="submit"{xhtml}></li>
       <li>
         <input type="hidden" value="{sid}" name="sid"{xhtml}>
         <input type="hidden" value="{pid}" name="pid"{xhtml}>
         <input type="hidden" value="{type}" name="type"{xhtml}>
         <input type="hidden" value="{uid}" name="uid"{xhtml}>
-        {save_option} {notification}
+	{save_option}
       </li>
     </ul>
   </fieldset>
