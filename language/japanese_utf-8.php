@@ -9,7 +9,7 @@
 # Copyright (C) 2000 Jason Whittenburg
 # jwhitten AT securitygeeks DOT com
 # Copyright (C) 2002,2003,2004,2005,2006 SAKATA Yusuke
-# sakata@ecofirm.com
+# sakata AT ecofirm.com
 # Copyright (C) 2008 Takahiro Kambe
 # taca AT back-street DOT net
 # Copyright (C) 2006,2007,2008 Tetsuko Komma
@@ -1731,7 +1731,7 @@ $LANG_confignames['Core'] = array(
     'cookiedomain' => 'クッキーのドメイン',
     'cookiesecure' => 'セキュア(HTTPS)なクッキー',
     'lastlogin' => '最終のログインを記録する',
-    'num_search_results' => '検索結果表示数',
+    'num_search_results' => '検索結果表示件数初期値',
     'loginrequired' => 'すべてにログインを要求する',
     'submitloginrequired' => '投稿[ログイン要求]',
     'commentsloginrequired' => 'コメント投稿[ログイン要求]',
@@ -1861,13 +1861,13 @@ $LANG_confignames['Core'] = array(
     'article_comment_close_days' => 'クローズする日数(デフォルト)',
     'comment_close_rec_stories' => 'コメント可能な最新記事数',
     'allow_reply_notifications' => '返信のメール通知を許可する',
-    'search_style' => 'リストスタイル',
-    'search_limits' => 'ページ制限',
+    'search_style' => '表示スタイル',
+    'search_limits' => '検索結果表示件数',
     'search_show_num' => '検索数を表示する',
     'search_show_type' => 'タイプを表示する',
     'search_show_sort' => 'ユーザーにソートを許可する',
-    'search_show_limit' => 'ページ制限を表示する',
-    'search_separator' => 'グループセパレータ',
+    'search_show_limit' => '表示件数選択を表示する',
+    'search_separator' => 'タイプのセパレータ',
     'search_def_keytype' => '検索方法のデフォルト'
 );
 
