@@ -291,7 +291,7 @@ form.compact ul.submit {
 
 form.compact ul.submit li {
   display: inline;
-  margin: 0;
+  margin-right: 13px;
   padding: 0;
 }
 

@@ -364,9 +364,13 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4.0(2009-8-28)
+■Ver.2.4.0(2009-9-11)
 　・Geeklog 1.6.0に合わせて、ファイルを追加・修正・削除しました。
-  ・<label>タグを追記して、チェックボックスでテキスト部分をクリックしてもチェックできるようにしました。(*/search/searchform.thtml,/admin/mail/mailform.thtml,/preferences/displayblock.thtml,/preferences/privacyblock.thtml)
+　・アーカイブされた記事のスタイルを通常記事と同じになるよう修正しました。(*/css/story.css)
+　・記事(管理者ページ)の公開オプションでボタンの上に余白を追加しました。(*/css/admin/story.css)
+　・通常画面と管理画面でのフォームのボタン間(左右)の余白を広くしました。(*/css/admin/configuration.css,*/css/admin/plugins.css,*/css/common.css)
+  ・音声読み上げソフト利用者の方が解りやすいように、ログインユーザーのコメント投稿で「返信があったらメールで通知」のチェックボックスがプレビューボタンの前に読上げられるよう位置の修正しました。(*/comment/commentform.thtml,*/comment/commentform_advanced.thtml)
+  ・<label>タグを追記して、チェックボックスでテキスト部分をクリックしてもチェックできるようにしました。(*/search/searchform.thtml,*/admin/mail/mailform.thtml,*/preferences/displayblock.thtml,*/preferences/privacyblock.thtml)
   ・記事にメディアギャラリーから画像を挿入した際、記事の中のレイアウトが崩れないようスタイルを設定しました。(*/css/story.css)
   ・記事に画像を添付し、自動タグで左右寄せ([imageX_right]、[imageX_left])にした際、余白が入るようにスタイルを設定しました。(*/css/compatible.css)
   ・管理画面ブロックの編集ページのテーブルレイアウトを修正し、チェックボックス等をlabel要素と関連付ける為にinput要素にid属性を追加しました。(*/admin/block/defaultblockeditor.thtml)

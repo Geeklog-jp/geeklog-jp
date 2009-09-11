@@ -144,3 +144,8 @@ div#preview div.storytext {
 div.warningsmall {
   margin-bottom: 0.5em;
 }
+
+/* 公開オプション */
+div#se_bottom {
+  margin-top: 15px;
+}

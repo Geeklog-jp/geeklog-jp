@@ -2,7 +2,7 @@
 
 /*==============================================================================
   タイトル: プラグインページスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
+  著者    : Fumito Arakawa as Phize (http://phize.net/)  Accessibility Modifid by Masuko koeda as みるく(http://white-stage.com/)
   説明    : プラグインページ(管理者ページ)のスタイルです。
   適用先  : admin/plugins/editor.thtml,
             admin/plugins/newpluginlist.thtml, admin/plugins/newlistitem.thtml
@@ -28,5 +28,5 @@ form#admin-editor div#admin-instructions ul:after {
 }
 
 form#admin-editor div#admin-instructions ul li {
-  margin: 0;
+  margin-right: 13px;
 }

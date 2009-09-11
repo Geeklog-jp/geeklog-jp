@@ -45,7 +45,7 @@ form#config-editor ul.submit {
 
 form#config-editor ul.submit li {
   display: inline;
-  margin: 0;
+  margin-right: 13px;
   padding: 0;
 }
 
