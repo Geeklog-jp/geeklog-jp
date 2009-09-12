@@ -1,5 +1,7 @@
 <!-- start print.thtml -->
-<a href="{printlink}">{LANG_print}</a>
+<form action="{printlink}" method="post" style="margin:0;"><div>
+    <input type="submit" name="btnsubmit" value="{LANG_print}">
+</div></form>
 <!--   Alternative layout to use Images -->
 <!--
 <a href="{printlink}">{printlinkimg}</a>  

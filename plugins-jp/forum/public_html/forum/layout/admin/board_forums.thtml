@@ -5,18 +5,16 @@
                         <form action="{phpself}" method="post" style="margin:0px;">
                             <table border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td>
-                                        <input type="hidden" name="type" value="forum"{xhtml}>
-                                        <input type="hidden" name="forumname" value="{forumname}"{xhtml}>
-                                        <input type="hidden" name="id" value="{forumid}"{xhtml}>
-                                        <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-                                    </td>
                                     <td style="padding:2px 2px 0px 2px; white-space:nowrap;"><input type="submit" name="mode" value="{delete}"{xhtml}></td>
                                     <td style="padding:2px 0px 0px 2px; white-space:nowrap;"><input type="submit" name="mode" value="{edit}"{xhtml}></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" style="padding:2px 0px 2px 2px;">
                                         <input type="submit" name="mode" value="{resync}"{xhtml}>
+                                        <input type="hidden" name="type" value="forum"{xhtml}>
+                                        <input type="hidden" name="forumname" value="{forumname}"{xhtml}>
+                                        <input type="hidden" name="id" value="{forumid}"{xhtml}>
+                                        <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
                                     </td>
                                 </tr>
                             </table>
