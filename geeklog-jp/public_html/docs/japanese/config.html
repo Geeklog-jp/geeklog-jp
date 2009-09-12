@@ -223,43 +223,43 @@
     <th style="width:25%">初期値</th>
     <th style="width:50%">説明</th></tr>
 <tr>
-  <td valign="top"><a name="desc_search_style">search_style</a></td>
-  <td valign="top">'google'</td>
-  <td valign="top">Sets the style of the results page. Can be either 'google' or 'table'</td></tr>
+  <td valign="top"><a name="desc_search_style">検索結果表示スタイル(search_style)</a></td>
+  <td valign="top">'Google'</td>
+  <td valign="top">検索結果表示のスタイルを設定。「Googleスタイル(Google)」もしくは「テーブルスタイル(Table)」を選択可。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_limits">search_limits</a></td>
+  <td valign="top"><a name="desc_search_limits">表示件数オプション(search_limits)</a></td>
   <td valign="top">10,15,25,30</td>
-  <td valign="top">The result limits a user can select. Each value <b>must</b> be seperated with a comma.</td></tr><tr>
-  <td valign="top"><a name="desc_num_search_results">検索結果表示数(num_search_results)</a></td>
+  <td valign="top">検索フォームで表示される1ページ内の検索数のオプションを指定。値はカンマ(,)で区切って下さい。</td></tr><tr>
+  <td valign="top"><a name="desc_num_search_results">検索結果表示件数初期値(num_search_results)</a></td>
   <td valign="top">10</td>
-  <td valign="top">ページごと(とタイプごと）に検索結果を表示する件数。</td></tr>
+  <td valign="top">検索数のオプションの初期値。表示件数オプションのいずれかでなければならない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_show_limit">search_show_limit</a></td>
+  <td valign="top"><a name="desc_search_show_limit">表示件数オプションを表示する(search_show_limit)</a></td>
   <td valign="top">true</td>
-  <td valign="top">Shows (= true) or hides (= false) the page limits selection box.</td></tr>
+  <td valign="top">検索フォームでユーザーが1ページあたりの結果表示件数を選択できるメニューを表示。表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_show_sort">search_show_sort</a></td>
+  <td valign="top"><a name="desc_search_show_sort">ユーザーにソートを許可する(search_show_sort)</a></td>
   <td valign="top">true</td>
-  <td valign="top">Shows (= true) or hides (= false) the 'Sort By' selection box. (When using the table style it will enable/disable column sorting)</td></tr>
+  <td valign="top">検索結果表示で「テーブルスタイル(Table)」のみ有効。カラム毎に並び替えができるようにソートボタンを表示する</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_show_num">search_show_num</a></td>
+  <td valign="top"><a name="desc_search_show_num">検索順の番号を表示する(search_show_num)</a></td>
   <td valign="top">true</td>
-  <td valign="top">Shows (= true) or hides (= false) the result number.</td></tr>
+  <td valign="top">検索結果表示で検索順の番号を、表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_show_type">search_show_type</a></td>
+  <td valign="top"><a name="desc_search_show_type">タイプを表示する(search_show_type)</a></td>
   <td valign="top">true</td>
-  <td valign="top">Shows (= true) or hides (= false) the plugin name the result came from.</td></tr>
+  <td valign="top">検索結果表示でプラグイン名を、表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_separator">search_separator</a></td>
-  <td valign="top"> &amp;gt; (Space before and after character)</td>
-  <td valign="top">The character to display between result type sub groups.</td></tr>
+  <td valign="top"><a name="desc_search_separator">セパレータ(search_separator)</a></td>
+  <td valign="top"> &amp;gt; (前後に空白)</td>
+  <td valign="top">検索結果表示でタイプとサブグループを隔てるセパレータ（文字・記号）。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_def_keytype">search_def_keytype</a></td>
+  <td valign="top"><a name="desc_search_def_keytype">検索条件のデフォルト(search_def_keytype)</a></td>
   <td valign="top">'phrase'</td>
-  <td valign="top">Default to one of these search methods:<ul>
-    <li>'all': results must contain all of the search terms.</li>
-    <li>'any': results may contain any of the search terms.</li>
-    <li>'phrase': search for the exact phrase as entered. (default)</li>
+  <td valign="top">検索条件のデフォルト:<ul>
+    <li>'すべてのキーワードを含む(all)': すべてのキーワードが含まれているページ。</li>
+    <li>'いずれかのキーワードを含む(any)': いずれかのキーワードを含むページ。</li>
+    <li>'正確なフレーズ(phrase)': 検索キーワードが同じ順(フレーズ)で含まれているページ。(デフォルト)</li>
     </ul></td></tr>
 </table>
 
