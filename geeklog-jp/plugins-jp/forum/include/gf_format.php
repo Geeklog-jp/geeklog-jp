@@ -650,6 +650,7 @@ function gf_getImage($image,$directory='') {
         if (file_exists($fullImagePath)) {
             $fullImageURL .= "{$image}.{$_IMAGE_TYPE}";
         } else {
+            $CONF_FORUM['image_type_override'] = ($_IMAGE_TYPE == 'gif') ? 'png' : 'gif'; // added
             $fullImageURL .= "{$image}.{$CONF_FORUM['image_type_override']}";
         }
     } else {
