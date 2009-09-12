@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-12  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプト: precheck.phpのHTTP応答ヘッダで、
+	  Content-Typeの出力内容や、出力の欠けている部分を加えます。
+
 2009-09-11  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: 状況によって、インストール・スクリプトが
