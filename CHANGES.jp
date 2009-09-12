@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-02  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: extended内のprofessional用テンプレートに欠落していた
+	  ファイル（forum.css）を追加しました。
+
 2009-09-12  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: fb.phpとprecheck.phpのHTTP応答ヘッダで、
