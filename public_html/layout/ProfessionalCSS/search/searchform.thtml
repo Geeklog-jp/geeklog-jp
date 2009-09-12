@@ -23,7 +23,7 @@
         <input type="text" size="10" maxlength="10" name="datestart" value="{datestart}" id="advsearchform-datestart" class="text"{xhtml}> {lang_to} <input type="text" size="10" maxlength="10" name="dateend" value="{dateend}" id="advsearchform-dateend" class="text"{xhtml}>
       </dd>
       <dd class="description">{date_format}</dd>
-  
+
       <dt><label for="advsearchform-topic">{lang_topic}</label></dt>
       <dd>
         <select name="topic" id="advsearchform-topic">
@@ -34,17 +34,13 @@
 
       <dt><label for="advsearchform-type">{lang_type}</label></dt>
       <dd>
-
         <select name="type" id="advsearchform-type">
-          <option value="all" {type_all_selected}>{lang_all}</option>
-          <option value="stories" {stories_selected}>{lang_stories}</option>
-          <option value="comments" {comments_selected}>{lang_comments}</option>
           {plugin_types}
         </select>
       </dd>
 
       {author_form_element}
-  
+
       <dt><label for="advsearchform-results">{lang_results}</label></dt>
       <dd>
         <select name="results" id="advsearchform-results">

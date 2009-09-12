@@ -2,6 +2,11 @@ $Id$
 
 2009-09-03  Yoshinori Tahara  <dengen>
 
+	* ProfessionalCSSおよびWAIproCSSのsearchform.thtmlに残っていたバグを
+	  修正しました。
+
+2009-09-03  Yoshinori Tahara  <dengen>
+
 	* ProfessionalCSS: css/compatible.cssをWAIproCSSのものと置き換えまし
 	  た。
 
