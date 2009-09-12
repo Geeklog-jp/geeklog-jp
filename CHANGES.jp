@@ -1,5 +1,11 @@
 $Id$
 
+2009-09-12  Takahiro Kambe  <tacahi>
+
+	* インストール・スクリプト: fb.phpとprecheck.phpのHTTP応答ヘッダで、
+	  Content-Typeフィールドの内容や、出力が抜けているケースを修正しま
+	  した。
+
 2009-09-11  Masuko Koeda  <milk851>
 
 	* WAIproCSS: 音声読上げソフト利用者の方が解りやすいように、
