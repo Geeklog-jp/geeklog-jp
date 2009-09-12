@@ -945,15 +945,17 @@ $p->path = $path;
 
 if ($mode == 'lookupdb') {
 	$result = $p->lookupDb();
-	header('Content-Type: text/plain; charset=utf-8');
+    header('Content-Type: text/html; charset=utf-8');
 	echo $result;
 	exit;
 } else if ($mode == 'counttable') {
 	$result = $p->countTable();
-	header('Content-Type: text/plain; charset=utf-8');
+    header('Content-Type: text/plain; charset=utf-8');
 	echo $result;
 	exit;
 }
+
+header('Content-Type: text/html; charset=utf-8');
 
 $display = $p->getHeader();
 if ($mode == 'info') {
