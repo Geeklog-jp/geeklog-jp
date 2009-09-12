@@ -235,19 +235,19 @@
   <td valign="top">検索数のオプションの初期値。表示件数オプションのいずれかでなければならない。</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_show_limit">表示件数オプションを表示する(search_show_limit)</a></td>
-  <td valign="top">true</td>
+  <td valign="top">はい(true)</td>
   <td valign="top">検索フォームでユーザーが1ページあたりの結果表示件数を選択できるメニューを表示。表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_show_sort">ユーザーにソートを許可する(search_show_sort)</a></td>
-  <td valign="top">true</td>
+  <td valign="top">はい(true)</td>
   <td valign="top">検索結果表示で「テーブルスタイル(Table)」のみ有効。カラム毎に並び替えができるようにソートボタンを表示する</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_show_num">検索順の番号を表示する(search_show_num)</a></td>
-  <td valign="top">true</td>
+  <td valign="top">はい(true)</td>
   <td valign="top">検索結果表示で検索順の番号を、表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_show_type">タイプを表示する(search_show_type)</a></td>
-  <td valign="top">true</td>
+  <td valign="top">はい(true)</td>
   <td valign="top">検索結果表示でプラグイン名を、表示する (= true) もしくは、隠す (= false)。</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_separator">セパレータ(search_separator)</a></td>
@@ -255,7 +255,7 @@
   <td valign="top">検索結果表示でタイプとサブグループを隔てるセパレータ（文字・記号）。</td></tr>
 <tr>
   <td valign="top"><a name="desc_search_def_keytype">検索条件のデフォルト(search_def_keytype)</a></td>
-  <td valign="top">'phrase'</td>
+  <td valign="top">'正確なフレーズ'(phrase)</td>
   <td valign="top">検索条件のデフォルト:<ul>
     <li>'すべてのキーワードを含む(all)': すべてのキーワードが含まれているページ。</li>
     <li>'いずれかのキーワードを含む(any)': いずれかのキーワードを含むページ。</li>
@@ -791,41 +791,34 @@
   <td valign="top">はい(0)</td>
   <td valign="top">新規記事に対する初期値。はい(0)なら許可し、いいえ(-1)なら許可しない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_comment_edit">comment_edit</a></td>
-  <td valign="top">0</td>
-  <td valign="top">Whether to allow users and admins (i.e. those with
-    comment.edit permission) to edit comments.</td></tr>
+  <td valign="top"><a name="desc_comment_edit">編集を許可する(comment_edit)</a></td>
+  <td valign="top">いいえ(0)</td>
+  <td valign="top">コメント編集権限を持つユーザあるいは管理者は、コメントを編集できる。はい(1)、または、いいえ(0)</td></tr>
 <tr>
-  <td valign="top"><a name="desc_commentsubmission">commentsubmission</a></td>
-  <td valign="top">0</td>
-  <td valign="top">Enable (1) or disable (0) comment submission queue.</td></tr>
+  <td valign="top"><a name="desc_commentsubmission">承認待ちリストに入れる(commentsubmission) </a></td>
+  <td valign="top">いいえ(0)</td>
+  <td valign="top">コメントを承認待ちリストに入れる。はい(1)、または、いいえ(0)</td></tr>
 <tr>
-  <td valign="top"><a name="desc_comment_edittime">comment_edittime</a></td>
+  <td valign="top"><a name="desc_comment_edittime">編集期間(comment_edittime)</a></td>
   <td valign="top">1800</td>
-  <td valign="top">How long (in seconds) a comment is editable for the user who
-    submitted it. Requires that comments are editable (see <a href="#desc_comment_edit">above</a>). Anonymous users (those that did not register an account) can
-    never edit their comments while admins can always edit comments.</td></tr>
+  <td valign="top">上記コメント編集権限を持ったユーザが、コメント投稿後、コメントを編集できる期間（秒）。ゲストユーザは、編集できない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_article_comment_close_days">article_comment_close_days</a></td>
+  <td valign="top"><a name="desc_article_comment_close_days">閉鎖するまでの日数(article_comment_close_days)</a></td>
   <td valign="top">30</td>
-  <td valign="top">Number of days after which a story is to be automatically
-    closed for comments, i.e. no new comments can be posted after that many
-    days.<br>
-    Note that this is only the default value to which the "Disable Comments"
-    option is set when creating a new story. It will not take effect unless it
-    has also been enabled for the story.</td></tr>
+  <td valign="top">記事投稿後、コメント投稿機能を自動的に閉鎖するまでの日数。<br>
+
+記事の新規作成時のデフォルトはコメント不可であることに注意。
+有効にしない限りコメントが有効にならない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_comment_close_rec_stories">comment_close_rec_stories</a></td>
-  <td valign="top">0</td>
-  <td valign="top">Number of most recent stories for which comment posting is
-    allowed. Posting a new story will automatically close comments for the
-    oldest of these stories.</td></tr>
+  <td valign="top"><a name="desc_comment_close_rec_stories">コメント可能な記事の最大値(comment_close_rec_stories)</a></td>
+  <td valign="top">無効(0)</td>
+  <td valign="top">コメントが許可されている記事の最大値。記事が投稿されると、コメントが許可されている記事数がこの最大値を超えたら自動的に古い記事のコメントが閉鎖される。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_allow_reply_notifications">allow_reply_notifications</a></td>
-  <td valign="top">0</td>
-  <td valign="top">Allow (1) or disallow (0) subscribing to comment
-    notifications. Registered users can get an email notifying them of direct
-    replies to comments they left.</td></tr>
+  <td valign="top"><a name="desc_allow_reply_notifications">返信のメール通知を許可する(allow_reply_notifications)</a></td>
+  <td valign="top">いいえ(0)</td>
+  <td valign="top">コメントに対して返信があったらメールで通知するオプションをユーザに許可するかどうか。
+はい(1)、いいえ(0)。
+登録ユーザは、コメントが付いたら通知メールを受け取ることができる。</td></tr>
 </table>
 
 
@@ -869,16 +862,13 @@
 <tr>
   <td valign="top"><a name="desc_jpeg_quality">jpeg_quality</a></td>
   <td valign="top"><i>(disabled)</i></td>
-  <td valign="top">Control the image quality when resizing JPEGs. All the image
-    libraries supported by Geeklog are based on the IJG JPEG library which uses
-    an arbitrary range of 0-100 to specify the "quality" (note that this is
-    <em>not</em> a percent value). The default, when not set, is 75 which
-    provides good quality in most cases. In some cases, higher values may
-    provide better results.<br>
-    Rules of thumb: Values above 90 usually don't improve the image quality any
-    more but only produce larger files. Values below 50 will result in poor
-    image quality. Values of 25 and below will produce distorted
-    images.</td></tr>
+  <td valign="top">JPEG画像の画質を指定。Geeklogでは、すべての画像は
+    IJGでサポートしている。JPEGライブラリでは0から100のレンジで画質を指定する。
+    (これはパーセントではないことに注意)。
+    値をセットしなければデフォルトのちょうど良い値の75となる。
+    いくつかのケースでは高画質のほうが良い場合もある。<br>
+    値のルール:90以上を指定すると画像サイズが大きくなるので注意。
+    50以下は画質がわるくなる。25以下は画像がゆがむので注意。</td></tr>
 <tr>
   <td valign="top"><a name="desc_debug_image_upload">画像アップロードのデバッグを行う(debug_image_upload)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
@@ -967,7 +957,7 @@
 <tr>
   <td valign="top"><a name="desc_gravatar_rating">Gravatar評価を許可(gravatar_rating)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画鑑賞用に使われている評価システム<br>
+  <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画鑑賞用に使われている評価システム
 		<ul>
 			<li>G = General：一般向け</li>
 			<li>PG = Parental Guidance：保護者の指導が望ましい</li>
@@ -1128,7 +1118,7 @@
 <tr>
   <td valign="top"><a name="desc_notification">通知(notification)</a></td>
   <td valign="top">空リスト（登録なし）</td>
-  <td valign="top">新規の記事・コメントが投稿された場合、トラックバック・ピングバックを受信した場合、新規ユーザが登録された場合に、サイトのメールアドレスに通知メールを送信するリスト。この<tt>リスト</tt>に登録できるのは、<br>
+  <td valign="top">新規の記事・コメントが投稿された場合、トラックバック・ピングバックを受信した場合、新規ユーザが登録された場合に、サイトのメールアドレスに通知メールを送信するリスト。この<tt>リスト</tt>に登録できるのは、
 		<ul>
 			<li><tt>story</tt></li>
 			<li><tt>comment</tt></li>
@@ -1144,35 +1134,25 @@
   <td valign="top">Geeklogは<a href="http://en.wikipedia.org/wiki/Cronjob">cronjob</a>、つまり、一定の間隔で行う作業を擬似的に行うことができる。実行されるPHPのコードは、プラグインか<tt>lib-custom.php</tt>中の<code>CUSTOM_runScheduledTask</code> 関数で与える。ここで設定する値は、作業が行われる間隔を秒単位で与える。初期値は 86400秒 = 24時間である。<br>
     この作業が行われるには、予定の時刻付近で誰かがサイトを訪問する必要があることに注意。訪問者がほとんどいないサイトでは、作業の開始がかなり遅れる可能性がある。<br>この機能を無効にするには、0を指定する。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_disable_autolinks">自動リンクを無効にする(disable_autolinks)</a></td>
+  <td valign="top"><a name="desc_disable_autolinks">自動タグを無効にする(disable_autolinks)</a></td>
   <td valign="top">いいえ(0)</td>
-  <td valign="top">はい(1)にすると、自動リンク、つまり、[story:] 形式の自動リンクが無効になる。</td></tr>
+  <td valign="top">はい(1)にすると、自動タグ、つまり、[story:] 
+    形式の自動タグがすべて無効になる。</td></tr>  
 <tr>
-  <td valign="top"><a name="desc_clickable_links">clickable_links</a></td>
-  <td valign="top">true</td>
-  <td valign="top">Whether or not URLs in plain-text posting should
-    automatically be turned into clickable links.</td></tr>
+  <td valign="top"><a name="desc_clickable_links">クリッカブルURLを作成する(clickable_links)</a></td>
+  <td valign="top">はい(true)</td>
+  <td valign="top"> 
+    テキストモードの記事を自動的にクリッカブルURLに置き換えるかどうか。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_compressed_output">disable_compressed_output</a></td>
-  <td valign="top">false</td>
-  <td valign="top">If enabled and supported by both the browser and the
-    webserver, HTML output will be compressed before sending it to the browser.
-    This will typically result in much smaller amounts of data to be sent
-    (usually between 20% and 25%, compared to the uncompressed output). It may,
-    however, result in slightly more load on the webserver.<br>
-    For now, this feature should be considered <strong>experimental</strong> and
-    hasn't been implemented for all HTML output yet.</td></tr>
+  <td valign="top"><a name="desc_compressed_output">HTML出力を圧縮して送信する(disable_compressed_output) </a></td>
+  <td valign="top">いいえ(false)</td>
+  <td valign="top">ブラウザとウェブサーバーの両方がサポートしているのであれば、HTMLをブラウザに送信する前に圧縮できる。これにより通常20%から25%圧縮できる。しかしながら、ウェブサーバに負荷を若干かける。そのため、今のところこの機能は<strong>試験的</strong>と考えるべきで、すべてのHTML出力用にはまだ実装されていない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_frame_options">frame_options</a></td>
-  <td valign="top">DENY</td>
-  <td valign="top">Protection against <a
-    href="http://en.wikipedia.org/wiki/Clickjacking">Clickjacking</a>: This
-    option indicates that the site's content should not be displayed in a frame.
-    This only works, however, when the visitor's browser respects the
-    <tt>X-FRAME-OPTIONS</tt> HTTP header. Options are to disallow all framing
-    (Strict), only allow framing from within the same site (Same Origin), or to
-    allow all framing (disabled). We strongly suggest <em>not</em> to disable
-    this option.</td></tr>
+  <td valign="top"><a name="desc_frame_options">フレームオプション(frame_options) </a></td>
+  <td valign="top">Strict(DENY)</td>
+  <td valign="top"><a
+    href="http://en.wikipedia.org/wiki/Clickjacking">クリックジャック</a>を阻止: このオプションにより、サイトはフレームで表示されることがなくなる。しかしながら、閲覧するユーザが<tt>X-FRAME-OPTIONS</tt> HTTPヘッダのときだけ動作する。 
+    オプションは、すべてのフレームを許可しない(Strict)、同一サイト内からのフレームのみ許可する(Same Origin)、または、すべてのフレームを許可する(disabled)。このオプションを<em>(disable)にしない</em>ことを強調したい。</td></tr>
 </table>
 
 <h3><a name="misc_debug">その他: デバッグ</a></h3>
