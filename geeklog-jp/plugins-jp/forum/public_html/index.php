@@ -827,6 +827,7 @@ if ($forum > 0) {
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
             $topiclisting->set_var ('LANG_subscribe', $LANG_GF01['FORUMSUBSCRIBE']);
+            $topiclisting->set_var ('LANG_subscribe_state', $LANG_GF01['FORUMSUBSCRIBE_FALSE']);
             $topiclisting->parse ('subscribe_link','subscribe');
         } else {
             $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_off').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'">';
@@ -834,6 +835,7 @@ if ($forum > 0) {
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
             $topiclisting->set_var ('LANG_subscribe', $LANG_GF01['FORUMUNSUBSCRIBE']);
+            $topiclisting->set_var ('LANG_subscribe_state', $LANG_GF01['FORUMSUBSCRIBE_TRUE']);
             $topiclisting->parse ('subscribe_link','subscribe');
         }
     }

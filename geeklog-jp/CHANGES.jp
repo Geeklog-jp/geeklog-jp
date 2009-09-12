@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-03  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: 主にレイアウト関連の修正を行いました。
+
 2009-09-02  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: extended内のprofessional用テンプレートに欠落していた
