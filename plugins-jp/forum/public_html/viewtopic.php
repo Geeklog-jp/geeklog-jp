@@ -211,6 +211,7 @@ if ($mode != 'preview') {
             $notifylinkimg = '<img src="'.gf_getImage('notify_on').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg62'].'" title="'.$LANG_GF02['msg62'].'">';
             $notifylink = "{$_CONF['site_url']}/forum/notify.php?forum=$forumid&amp;submit=save&amp;id=$showtopic";
             $topicnavbar->set_var ('LANG_notify', $LANG_GF01['SubscribeLink']);
+            $topicnavbar->set_var ('LANG_notify_state', $LANG_GF01['SubscribeLink_FALSE']);
 
         /* Check if user has subscribed to complete forum */
         } elseif (DB_count($_TABLES['gf_watch'], array('forum_id', 'topic_id', 'uid'), array($forumid, '0',$_USER['uid'])) > 0) {
@@ -218,6 +219,7 @@ if ($mode != 'preview') {
             $notifylinkimg = '<img src="'.gf_getImage('notify_off').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg137'].'" title="'.$LANG_GF02['msg137'].'">';
             $notifylink = "{$_CONF['site_url']}/forum/notify.php?submit=delete2&amp;id=$notifyID&amp;forum=$forumid&amp;topic=$showtopic";
             $topicnavbar->set_var ('LANG_notify', $LANG_GF01['unSubscribeLink']);
+            $topicnavbar->set_var ('LANG_notify_state', $LANG_GF01['SubscribeLink_TRUE']);
 
         /* Check if user is subscribed to this specific topic */
         } elseif (DB_count($_TABLES['gf_watch'], array('forum_id', 'topic_id', 'uid'), array($forumid, $showtopic,$_USER['uid'])) > 0) {
@@ -225,11 +227,13 @@ if ($mode != 'preview') {
             $notifylinkimg = '<img src="'.gf_getImage('notify_off').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg137'].'" title="'.$LANG_GF02['msg137'].'">';
             $notifylink = "{$_CONF['site_url']}/forum/notify.php?submit=delete2&amp;id=$notifyID&amp;forum=$forumid&amp;topic=$showtopic";
             $topicnavbar->set_var ('LANG_notify', $LANG_GF01['unSubscribeLink']);
+            $topicnavbar->set_var ('LANG_notify_state', $LANG_GF01['SubscribeLink_TRUE']);
 
         } else {
             $notifylinkimg = '<img src="'.gf_getImage('notify_on').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg62'].'" title="'.$LANG_GF02['msg62'].'">';
             $notifylink = "{$_CONF['site_url']}/forum/notify.php?forum=$forumid&amp;submit=save&amp;id=$showtopic";
             $topicnavbar->set_var ('LANG_notify', $LANG_GF01['SubscribeLink']);
+            $topicnavbar->set_var ('LANG_notify_state', $LANG_GF01['SubscribeLink_FALSE']);
         }
 
         $topicnavbar->set_var ('notifylinkimg', $notifylinkimg);
