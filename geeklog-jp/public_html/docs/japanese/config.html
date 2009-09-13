@@ -1139,20 +1139,19 @@
   <td valign="top">はい(1)にすると、自動タグ、つまり、[story:] 
     形式の自動タグがすべて無効になる。</td></tr>  
 <tr>
-  <td valign="top"><a name="desc_clickable_links">クリッカブルURLを作成する(clickable_links)</a></td>
+  <td valign="top"><a name="desc_clickable_links">URLを自動リンクさせる(clickable_links)</a></td>
   <td valign="top">はい(true)</td>
   <td valign="top"> 
-    テキストモードの記事を自動的にクリッカブルURLに置き換えるかどうか。</td></tr>
+    テキストモードの記事内のURLに自動的にリンクを張るかどうか。</td></tr>
 <tr>
   <td valign="top"><a name="desc_compressed_output">HTML出力を圧縮して送信する(disable_compressed_output) </a></td>
   <td valign="top">いいえ(false)</td>
-  <td valign="top">ブラウザとウェブサーバーの両方がサポートしているのであれば、HTMLをブラウザに送信する前に圧縮できる。これにより通常20%から25%圧縮できる。しかしながら、ウェブサーバに負荷を若干かける。そのため、今のところこの機能は<strong>試験的</strong>と考えるべきで、すべてのHTML出力用にはまだ実装されていない。</td></tr>
+  <td valign="top">ブラウザとウェブサーバーの両方がサポートしているのであれば、HTMLをブラウザに送信する前に圧縮できる。これにより通常20%から25%圧縮できる。しかしながら、ウェブサーバに負荷を若干かける。そのため、今のところこの機能は<strong>実験的</strong>と考えるべきで、すべてのHTML出力用にはまだ実装されていない。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_frame_options">フレームオプション(frame_options) </a></td>
+  <td valign="top"><a name="desc_frame_options">"クリックジャッキング"を防止する(frame_options) </a></td>
   <td valign="top">Strict(DENY)</td>
-  <td valign="top"><a
-    href="http://en.wikipedia.org/wiki/Clickjacking">クリックジャッキング</a>を阻止: このオプションにより、サイトはフレームで表示されることがなくなる。しかしながら、閲覧するユーザが<tt>X-FRAME-OPTIONS</tt> HTTPヘッダのときだけ動作する。 
-    オプションは、すべてのフレームを許可しない(Strict)、同一サイト内からのフレームのみ許可する(Same Origin)、または、すべてのフレームを許可する(disabled)。このオプションを<em>(disable)にしない</em>ことを強調したい。</td></tr>
+  <td valign="top"><a href="http://en.wikipedia.org/wiki/Clickjacking">クリックジャッキング</a>の防止: HTTPレスポンスヘッダであるX-FRAME-OPTIONSにより、サイトはフレーム内で表示されることがなくなる。ただし、ブラウザが<tt>X-FRAME-OPTIONS</tt>に対応する場合のみ有効。
+    X-FRAME-OPTIONSには、フレーム内表示を一切許可しないStrict(DENY)、同一サイトでのフレーム内表示のみ許可するSame Origin(SAMEORIGIN)、すべてのフレーム内表示を許可する(disabled)('')がある。このオプションを<em>(disabled)にしない</em>ことを強く推奨する。</td></tr>
 </table>
 
 <h3><a name="misc_debug">その他: デバッグ</a></h3>
