@@ -176,7 +176,6 @@
                                                   <input type="hidden" name="cmt_close_second" value="{cmt_close_second}"{xhtml}>
                                                       </span><br{xhtml}>
                                         </td>
-                              </td>
                         </tr>
                     </table>
                 </fieldset>
