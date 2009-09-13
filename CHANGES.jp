@@ -1,26 +1,31 @@
 $Id$
 
+2009-09-13  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: 日本語言語ファイルを修正しました。
+	  「レス投稿」から「返信投稿」へ修正。
+
 2009-09-13  Tetsuko Komma  <ivy>
 
 	* 言語ファイルのコンフィギュレーション，特にコメント関係および，
 	  ファイル管理プラグイン(filemgmt)の言語ファイル，
 	  ドキュメントのコンフィギュレーション1.6.0翻訳を追加しました。
 
-2009-09-03  Yoshinori Tahara  <dengen>
+2009-09-13  Yoshinori Tahara  <dengen>
 
 	* ProfessionalCSSおよびWAIproCSSのsearchform.thtmlに残っていたバグを
 	  修正しました。
 
-2009-09-03  Yoshinori Tahara  <dengen>
+2009-09-13  Yoshinori Tahara  <dengen>
 
 	* ProfessionalCSS: css/compatible.cssをWAIproCSSのものと置き換えまし
 	  た。
 
-2009-09-03  Yoshinori Tahara  <dengen>
+2009-09-13  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: 主にレイアウト関連の修正を行いました。
 
-2009-09-02  Yoshinori Tahara  <dengen>
+2009-09-12  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: extended内のprofessional用テンプレートに欠落していた
 	  ファイル（forum.css）を追加しました。
