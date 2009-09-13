@@ -212,6 +212,7 @@
            <input type="hidden" name="cmt_close_second" value="{cmt_close_second}"{xhtml}>
            </span>
       </dd>
+    </dl>
   </fieldset>
   </div>
 
