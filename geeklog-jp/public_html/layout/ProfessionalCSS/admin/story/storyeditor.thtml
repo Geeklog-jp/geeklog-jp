@@ -54,7 +54,7 @@ function enablearchive(obj) {
         /
         <select name="publish_day">
           {publish_day_options}
-        </select>
+        </select>&nbsp;&nbsp;
 
         <select name="publish_hour">
           {publish_hour_options}
@@ -103,7 +103,7 @@ function enablearchive(obj) {
         /
         <select name="expire_day">
           {expire_day_options}
-        </select>
+        </select>&nbsp;&nbsp;
         <select name="expire_hour">
           {expire_hour_options}
         </select>
