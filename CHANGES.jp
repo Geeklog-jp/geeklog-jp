@@ -1,5 +1,13 @@
 $Id$
 
+2009-09-13  Masuko Koeda  <milk851>
+
+	* ProfessionalCSS: /admin/story/storyeditor_advanced.thtmlの215行目に
+          <dl>の閉じタグ</dl>を追加しました。
+          WAIproCSS: ProfessionalCSSと同様に記事の編集で
+          日付順番を年月日に変更しました。
+          日と時の間に&nbsp;&nbsp;を追加して見やすくしました。
+
 2009-09-13  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: 日本語言語ファイルを修正しました。
