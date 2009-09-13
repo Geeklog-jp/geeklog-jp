@@ -100,16 +100,16 @@
                             <td class="alignright" style="vertical-align:top;">{lang_date}:</td>
                             <td>
                               <span dir="ltr">
+                                <select name="publish_year">
+                                    {publish_year_options}
+                                </select>
+                                /
                                 <select name="publish_month">
                                     {publish_month_options}
                                 </select>
                                 /
                                 <select name="publish_day">
                                     {publish_day_options}
-                                </select>
-                                /
-                                <select name="publish_year">
-                                    {publish_year_options}
                                 </select>&nbsp;&nbsp;
                                 <select name="publish_hour">
                                     {publish_hour_options}
@@ -154,16 +154,16 @@
                             <td>{lang_cmt_disable}:</td>
                                         <td class="alignleft" style="vertical-align:top;" colspan="1">{lang_enabled}:<input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
                                             <span dir="ltr">
-                                                <select name="cmt_close_month">
+                                                 <select name="cmt_close_year">
+                                                    {cmt_close_year_options}
+                                                 </select>
+                                                 /
+                                                 <select name="cmt_close_month">
                                                     {cmt_close_month_options}
                                                  </select>
                                                  /
                                                  <select name="cmt_close_day">
                                                     {cmt_close_day_options}
-                                                 </select>
-                                                 /
-                                                 <select name="cmt_close_year">
-                                                    {cmt_close_year_options}
                                                  </select>&nbsp;&nbsp;
                                                  <select name="cmt_close_hour">
                                                      {cmt_close_hour_options}
@@ -176,7 +176,7 @@
                                                   <input type="hidden" name="cmt_close_second" value="{cmt_close_second}"{xhtml}>
                                                       </span><br{xhtml}>
                                         </td>
-
+                              </td>
                         </tr>
                     </table>
                 </fieldset>
@@ -207,14 +207,14 @@
                             <td class="alignright" style="vertical-align:top;padding-right:5px;">{lang_date}:</td>
                             <td colspan="2">
                               <span dir="ltr">
+                                <select name="expire_year">
+                                    {expire_year_options}
+                                </select>
                                 <select id="expire_month" name="expire_month">
                                     {expire_month_options}
                                 </select>
                                 <select name="expire_day">
                                     {expire_day_options}
-                                </select>
-                                <select name="expire_year">
-                                    {expire_year_options}
                                 </select>
                                 <select name="expire_hour">
                                     {expire_hour_options}
