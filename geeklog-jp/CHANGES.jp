@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-14  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: r2037の修正に伴い、画像ファイルを一部整理しました。
+
 2009-09-13  Masuko Koeda  <milk851>
 
 	* ProfessionalCSS: WAIproCSSと同様に記事の編集で
