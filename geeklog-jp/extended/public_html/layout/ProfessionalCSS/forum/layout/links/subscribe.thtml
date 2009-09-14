@@ -1,7 +1,0 @@
-<!-- start subscribe.thtml -->
-<a href="{notifylink}">{notifylinkimg}</a>&nbsp;{LANG_notify}
-<!--   Alternative layout to use Images -->  
-<!--
-<a href="{notifylink}">{notifylinkimg}</a>  
--->
-<!-- end subscribe.thtml -->
