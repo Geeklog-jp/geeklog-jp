@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-16  Yoshinori Tahara  <dengen>
+
+	* 「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
+	  した。
+
 2009-09-14  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: r1718で、forum用テンプレートをpublic_html/forum/の
