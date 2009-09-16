@@ -1,5 +1,11 @@
 $Id$
 
+2009-09-16  Masuko Koeda  <milk851>
+
+	* ProfessionalCSSとWAIproCSSで不要になった
+          css/plugin/forum.cssを削除し、
+          css/plugin.cssでforum.cssをインポートしている行を削除しました。
+
 2009-09-16  Yoshinori Tahara  <dengen>
 
 	* 「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
