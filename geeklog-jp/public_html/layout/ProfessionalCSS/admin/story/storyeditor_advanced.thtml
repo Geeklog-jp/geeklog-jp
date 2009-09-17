@@ -143,17 +143,18 @@
     <dl>
       <dt><label for="admin-storyeditor_advanced-publish_month">{lang_date}</label></dt>
       <dd>
-        <select name="publish_year">
-          {publish_year_options}
-        </select>
-        /
         <select name="publish_month" id="admin-storyeditor_advanced-publish_month">
           {publish_month_options}
         </select>
         /
         <select name="publish_day">
           {publish_day_options}
+        </select>
+        /
+        <select name="publish_year">
+          {publish_year_options}
         </select>&nbsp;&nbsp;
+
         <select name="publish_hour">
           {publish_hour_options}
         </select>
@@ -189,10 +190,6 @@
       <dd>
         {lang_enabled}
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
-           <select name="cmt_close_year">
-              {cmt_close_year_options}
-           </select>
-           /
            <span dir="ltr">
                <select name="cmt_close_month">
                    {cmt_close_month_options}
@@ -200,7 +197,12 @@
            /
            <select name="cmt_close_day">
               {cmt_close_day_options}
+           </select>
+           /
+           <select name="cmt_close_year">
+              {cmt_close_year_options}
            </select>&nbsp;&nbsp;
+
            <select name="cmt_close_hour">
                {cmt_close_hour_options}
            </select>
@@ -246,17 +248,18 @@
 
       <dt><label for="admin-storyeditor_advanced-expire_month">{lang_archivetitle}({lang_date})</label></dt>
       <dd>
-        <select name="expire_year">
-          {expire_year_options}
-        </select>
-        /
         <select name="expire_month" id="admin-storyeditor_advanced-expire_month">
           {expire_month_options}
         </select>
         /
         <select name="expire_day">
           {expire_day_options}
+        </select>
+        /
+        <select name="expire_year">
+          {expire_year_options}
         </select>&nbsp;&nbsp;
+
         <select name="expire_hour">
           {expire_hour_options}
         </select>
