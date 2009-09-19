@@ -431,13 +431,10 @@
   <td valign="top">professional</td>
   <td valign="top">サイトで使用するテーマの初期値。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_doctype">doctype</a></td>
+  <td valign="top"><a name="desc_doctype">DOCTYPE宣言(doctype)</a></td>
   <td valign="top">HTML 4.01 Strict</td>
-  <td valign="top"><a
-    href="http://en.wikipedia.org/wiki/Document_Type_Declaration">Document Type
-    Declaration</a> (aka DOCTYPE aka DTD) to use for all the themes on your
-    site, assuming they use the <tt>{doctype}</tt> variable instead of a
-    hard-coded DOCTYPE in their <tt>header.thtml</tt>.</td></tr>
+  <td valign="top">サイトのすべてのテーマの<tt>header.thtml</tt>で<a
+    href="http://en.wikipedia.org/wiki/Document_Type_Declaration">DOCTYPE宣言</a>(別名 DOCTYPE、DTD)を指定するテーマ変数<tt>{doctype}</tt>を利用できる。</td></tr>
 <tr>
   <td valign="top"><a name="desc_menu_elements">メニュー項目(menu_elements)</a></td>
   <td valign="top"><code>array('contribute', 'calendar', 'search', 'stats',
@@ -1198,15 +1195,12 @@
   <td valign="top">ふつうのユーザが記事やコメントを投稿するときに使用できるHTMLタグのリスト。</td></tr>
 <tr>
   <td valign="top"><a name="desc_admin_html">管理者HTML(admin_html)</a></td>
-  <td valign="top">テーブル用などの追加のHTMLタグ</td>
+  <td valign="top">管理者HTMLに追加するHTMLタグ(例 テーブルタグ)</td>
   <td valign="top">管理者が使用できるHTMLタグと属性のリスト。管理者は上記のユーザHTMLも使える。ユーザHTMLに登録されているHTMLタグに属性を追加して再定義した場合、管理者HTMLの方が有効になる。たとえば、ユーザHTMLでは&lt;p&gt;タグのstyle属性を使用できないが（JavaScriptを使えないようにするため）、管理者HTMLではstyle属性を有効にする、など。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_advanced_html">advanced_html</a></td>
-  <td valign="top">additional HTML tags for use with the Advanced Editor, e.g.
-      for images</td>
-  <td valign="top">Additional HTML tags and attributes that users are allowed
-      to use when the <a href="#desc_advanced_editor">Advanced Editor</a> is
-      enabled.</td></tr>
+  <td valign="top"><a name="desc_advanced_html">アドバンストエディタ用追加HTML(advanced_html)</a></td>
+  <td valign="top">アドバンストエディタに追加するHTMLタグ(例 画像)</td>
+  <td valign="top"><a href="#desc_advanced_editor">アドバンストエディタ</a>の利用が許可されている場合のアドバンストエディタ用追加HTMLタグと属性。</td></tr>
 <tr>
   <td valign="top"><a name="desc_skip_html_filter_for_root">RootユーザはHTMLフィルタを無効にする(skip_html_filter_for_root)</a></td>
   <td valign="top">いいえ(0)</td>
