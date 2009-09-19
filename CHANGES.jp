@@ -1,10 +1,15 @@
 $Id$
 
+2009-09-16  Yoshinori Tahara  <dengen>
+
+	* 「記事の編集」フォームで投稿モードを変更したときなどに、「エディタ」
+	  タブにフォーカスが移らない問題を修正しました。(Issue 85)
+
 2009-09-17  Masuko Koeda  <milk851>
 
 	* Professionalと同様にProfessionalCSSとWAIproCSSも
-　　　　　「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
-　　　　　した。
+          「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
+          した。
 
 2009-09-16  Masuko Koeda  <milk851>
 
