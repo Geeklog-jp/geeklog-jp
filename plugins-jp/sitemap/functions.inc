@@ -501,7 +501,7 @@ function SITEMAP_createGoogleSitemap() {
 		
 		foreach ($items as $item) {
 			if ($driver == 'staticpages') {
-				if (in_array($item['id'], $sp_excepts)) {
+				if (SITEMAP_isExcepted($item['id'], $sp_excepts)) {
 					continue;
 				}
 				
@@ -542,6 +542,23 @@ function SITEMAP_createGoogleSitemap() {
 	}
 	
 	return !$retval;
+}
+
+/**
+* Check if a given static page id is excepted
+*
+* @param  string   id          a static page id
+* @param  string   sp_excepts  an array of regular expressions WITH delimiters
+* @return boolean  TRUE = excepted, FALSE = otherwise
+*/
+function SITEMAP_isExcepted($id, $sp_excepts) {
+	foreach ($sp_excepts as $except) {
+		if (preg_match($pattern , $id)) {
+			return TRUE;
+		}
+	}
+	
+	return FALSE;
 }
 
 /**
