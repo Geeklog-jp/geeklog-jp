@@ -549,12 +549,18 @@ function SITEMAP_createGoogleSitemap() {
 *
 * @param  string   id          a static page id
 * @param  string   sp_excepts  an array of regular expressions WITH delimiters
+*                              being '/'
 * @return boolean  TRUE = excepted, FALSE = otherwise
 */
 function SITEMAP_isExcepted($id, $sp_excepts) {
 	foreach ($sp_excepts as $except) {
-		if (preg_match($pattern , $id)) {
-			return TRUE;
+		if (strlen($except) > 0) {
+			if ($except[0] != '/') {
+				$except = '/' . $except . '/';
+			}
+			if (preg_match($pattern , $id)) {
+				return TRUE;
+			}
 		}
 	}
 	
