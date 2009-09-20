@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-20 mystral-kk <mystral-kk>
+
+	* サイトマッププラグインで静的ページの除外IDを指定する際に、ワイルド
+	  カードを使用したいという要望(Issue #81)に対応しました。
 
 2009-09-16  Yoshinori Tahara  <dengen>
 
