@@ -128,7 +128,7 @@ function SITEMAP_buildItems(&$driver, $pid) {
 		foreach ($items as $item) {
 			// Static pages
 			if ($driver->getDriverName() == 'staticpages') {
-				if (in_array($item['id'], $sp_except)) {
+				if (SITEMAP_isExcepted($item['id'], $sp_excepts)) {
 					$num_items --;
 					continue;
 				}
