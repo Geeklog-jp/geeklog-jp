@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-26  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr2-jp-1.0rc1(リリース候補1)をリリースします。
+
 2009-09-20 mystral-kk <mystral-kk>
 
 	* サイトマッププラグインで静的ページの除外IDを指定する際に、ワイルド
