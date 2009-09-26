@@ -1,5 +1,10 @@
 $Id$
 
+2009-09-26  Yoshinori Tahara  <dengen>
+
+	* 「記事の編集」フォームの多言語化が原因でKZ_Templateクラスのoverride
+	  機能のエラーが発生する問題を修正しました。(Issue #90)
+
 2009-09-26  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.0sr2-jp-1.0rc1(リリース候補1)をリリースします。
@@ -9,10 +14,10 @@ $Id$
 	* サイトマッププラグインで静的ページの除外IDを指定する際に、ワイルド
 	  カードを使用したいという要望(Issue #81)に対応しました。
 
-2009-09-16  Yoshinori Tahara  <dengen>
+2009-09-19  Yoshinori Tahara  <dengen>
 
 	* 「記事の編集」フォームで投稿モードを変更したときなどに、「エディタ」
-	  タブにフォーカスが移らない問題を修正しました。(Issue 85)
+	  タブにフォーカスが移らない問題を修正しました。(Issue #85)
 
 2009-09-17  Masuko Koeda  <milk851>
 
