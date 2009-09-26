@@ -310,7 +310,9 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         && file_exists ($_CONF['path_layout'] . 'admin/story/storyeditor_advanced.thtml')) {
         $advanced_editormode = true;
         $thtml = $_CONF['path_layout'] . 'admin/story/storyeditor_advanced.' . $_CONF['language'] . '.thtml';
-        if (!file_exists($thtml)) {
+        if (file_exists($thtml)) {
+            $thtml = 'storyeditor_advanced.' . $_CONF['language'] . '.thtml';
+        } else {
             $thtml = 'storyeditor_advanced.thtml';
         }
         $story_templates->set_file(array('editor' => $thtml));
@@ -338,7 +340,9 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         }
     } else {
         $thtml = $_CONF['path_layout'] . 'admin/story/storyeditor.' . $_CONF['language'] . '.thtml';
-        if (!file_exists($thtml)) {
+        if (file_exists($thtml)) {
+            $thtml = 'storyeditor.' . $_CONF['language'] . '.thtml';
+        } else {
             $thtml = 'storyeditor.thtml';
         }
         $story_templates->set_file(array('editor' => $thtml));
