@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-27  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.5.2sr5-jp-1.2rc1をリリースします。
+
 2009-09-12  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: precheck.phpのHTTP応答ヘッダで、
