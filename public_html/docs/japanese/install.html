@@ -30,10 +30,10 @@
 <h2><a name="glossary">用語</a></h2>
 
     <ul>
-        <li>ディレクトリ: フォルダと同じ。</li>
-        <li>パス: Webサーバ上で、ファイルやディレクトリが実際にある場所。Windowsのパスはドライブ文字(<code>c:/inetpub/wwwroot/</code>)で始まり、*nix系列のパスは <code>/var/www/</code> のようにルート(<code>/</code>)から始まる。</li>
-        <li><a name="public_html">public_html</a>: URLでアクセスされる、公開領域のディレクトリ名 (その他: htdocs, www)</li>
-        <li><acronym title="Uniform Resource Locator">URL</acronym>: <code>http://www.foo.com/</code> などの、Web上での情報のありかを示すもの。</li>
+        <li>ディレクトリ: フォルダと同じです。</li>
+        <li>パス: Webサーバ上で、ファイルやディレクトリが実際にある場所です。Windows上でパスはドライブ文字(<code>c:/inetpub/wwwroot/</code>)で始まり、*nix系OS上でパスは <code>/var/www/</code> のようにルート(<code>/</code>)から始まります。</li>
+        <li><a name="public_html">public_html</a>: URLでアクセスされる、公開領域の一般的なディレクトリ名(その他: htdocs, www)です。</li>
+        <li><acronym title="Uniform Resource Locator">URL</acronym>: Uniform Resource LocatorはWeb上の情報の特定の部分を表すアドレス(<code>http://www.foo.com/</code>)です。</li>
     </ul>
     
 
@@ -41,14 +41,14 @@
 
     <h3><a name="preinstall">必要なソフトウェア</a></h3>
 
-        <p>Geeklogをインストールして使用するには、ApacheやMicrosoft IISなどのWebサーバとPHPのバージョン4.1.0以降が必要です（訳注：PHPの4.x系列はほぼメンテナンスが終了していますので、今さら選択する理由はありません。5.x系列のできるだけ新しいバージョンを選ぶとよいでしょう。2008年6月16日の時点では、最新バージョンは5.2.6です）。また、データベースとして、<a href="http://dev.mysql.com/downloads/">MySQL 3.23.2</a>以降か、<a href="http://www.microsoft.com/sql/default.mspx">Microsoft SQL Server 2000</a>以降が必要です。</p>
+        <p>Geeklogをインストールして使用するには、ApacheやMicrosoft IISなどのWebサーバとPHPのバージョン4.1.0以降が必要です（訳注：PHPの4.x系列は2008年8月でセキュリティ対応を含めた保守が終了しています。PHP 5.x系列のできるだけ新しいバージョンを選ぶべきです。2009年9月17日の時点で5.2系列の最新バージョンは5.2.11です）。また、データベースとして、<a href="http://dev.mysql.com/downloads/">MySQL 3.23.2</a>以降か、<a href="http://www.microsoft.com/sql/default.mspx">Microsoft SQL Server 2000</a>以降が必要です。</p>
 
     <h3><a name="things_you_should_know">必要な技術力</a></h3>
 
     <p>はじめてGeeklogをインストールするなら、次のことを確認しましょう。</p>
     <ul>
-        <li>Webディレクトリのルート（ドキュメントルート）の決め方を知っている(<a href="#glossary">パスとは?</a>)。
-        <li>ダウンロードしたGeeklogのターボール（圧縮ファイル）を伸張（解凍）できる。
+        <li>Webディレクトリのルート（ドキュメントルート）のパス(<a href="#glossary">パスとは?</a>)を見つけ出す方法を理解している。
+        <li>ダウンロードしたGeeklogのターボール（圧縮ファイル）を展開（解凍）できる。
         <li>データベースを新規作成するか、既存のデータベースにアクセスできる。
         <li>WebサーバにSSHやFTPでアクセスして、いくつかのファイルとディレクトリのパーミッションを変更できる。
     </ul>
@@ -61,7 +61,7 @@
             <p>Geeklogの現バージョンのターボール（圧縮ファイル）を<a href="http://www.geeklog.net/">Geeklog.net</a>や<a href="http://www.geeklog.jp/">Geeklog.jp</a>からダウンロードします。</p>
         </li>
         <li>
-            <p>次のコマンドを実行して、ダウンロードしたターボールを伸張（解凍）します。</p>
+            <p>次のコマンドを実行して、ダウンロードしたターボールを展開（解凍）します。</p>
             <p><code>tar -zxvf geeklog-1.5.1.tar.gz</code> </p>
             
             <p><strong>注意:</strong> WinZipを使用すると、そのバージョンによっては、ファイルが壊れると報告しているユーザがいます。こうなるとインストールの最中にエラーになるので、ローカルでファイルを解凍する必要がある場合は、WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を使うことを強くお勧めします。</p>
@@ -107,7 +107,7 @@
             <p>Geeklogの現バージョンのターボール（圧縮ファイル）を<a href="http://www.geeklog.net/">Geeklog.net</a>や<a href="http://www.geeklog.jp/">Geeklog.jp</a>からダウンロードします。</p>
         </li>
         <li>
-            <p>次のコマンドを実行して、ダウンロードしたターボールを伸張（解凍）します。</p>
+            <p>次のコマンドを実行して、ダウンロードしたターボールを展開（解凍）します。</p>
             <p><code>tar -zxvf geeklog-1.6.0.tar.gz</code> </p>
             
             <p><strong>注意:</strong> WinZipを使用すると、そのバージョンによっては、ファイルが壊れると報告しているユーザがいます。こうなるとインストールの最中にエラーになるので、ローカルでファイルを解凍する必要がある場合は、WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を使うことを強くお勧めします。</p>
@@ -180,7 +180,7 @@
                 <p><strong>答え:</strong> 上記の例はすべて(また、 <code>lib-common.php</code> で発生する "parse error" で、エラーが発生した行番号が特に3000から4000台の場合)、 <code>lib-common.php</code> が破損していることを示しています。</p>
                 <p>このドキュメントの冒頭に示したとおり、このエラーの原因は普通、次のうちの1つです:</p>
                 <ul>
-                    <li>あるバージョンのWinZipを用いてターボールを伸張（展開）した(WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を試してみてください)</li>
+                    <li>あるバージョンのWinZipを用いてターボールを展開した場合(WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を試してみてください)</li>
                     <li><code>lib-common.php</code> をDreamweaverなどのいわゆる<acronym title="What You See Is What You Get: 編集画面で表示されているとおりに実際に表示されること">WYSIWYG</acronym> HTMLエディタで編集した(代わりに、シンプルなテキストエディタを使用してください)</li>
                     <li><code>lib-common.php</code> をCpanelなどの管理ツールに組み込まれているオンラインのエディタで編集した(代わりに、シンプルなテキストエディタを使用してください)</li>
                 </ul>
