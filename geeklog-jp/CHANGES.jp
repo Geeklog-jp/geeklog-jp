@@ -1,5 +1,9 @@
 $Id$
 
+2009-09-27  Takahiro Kambe  <tacahi>
+
+	* ドキュメントの翻訳: いくつかの修正と文体の統一を行いました。
+
 2009-09-26  Yoshinori Tahara  <dengen>
 
 	* 「記事の編集」フォームの多言語化が原因でKZ_Templateクラスのoverride
