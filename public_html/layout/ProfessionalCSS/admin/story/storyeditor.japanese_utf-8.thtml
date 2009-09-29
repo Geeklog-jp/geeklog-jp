@@ -1,5 +1,5 @@
 
-<!-- admin/story/storyeditor.thtml { -->
+<!-- admin/story/storyeditor.japanese_utf-8.thtml { -->
 
 <script type="text/javascript">
 //<![CDATA[
@@ -260,4 +260,4 @@ if (jstest2) {
 }
 </script>
 
-<!-- } admin/story/storyeditor.thtml -->
+<!-- } admin/story/storyeditor.japanese_utf-8.thtml -->
