@@ -1,5 +1,5 @@
 
-<!-- admin/story/storyeditor_advanced.thtml { -->
+<!-- admin/story/storyeditor_advanced.japanese_utf-8.thtml { -->
 
 <!-- Hide the Advanced Editor as Javascript is required. If JS is not enabled then the message below in the <nonscript> tags will be displayed -->
 
@@ -351,4 +351,4 @@ if (jstest2) {
 }
 </script>
 
-<!-- } admin/story/storyeditor_advanced.thtml -->
+<!-- } admin/story/storyeditor_advanced.japanese_utf-8.thtml -->
