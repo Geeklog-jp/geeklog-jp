@@ -2,6 +2,11 @@ $Id$
 
 2009-10-02  Yoshinori Tahara  <dengen>
 
+	* Geeklogの新規インストール時にjapanizeプラグインをプレインストール
+	  しない設定に変更しました。
+
+2009-10-02  Yoshinori Tahara  <dengen>
+
 	* forumプラグインとmycaljpプラグイン：XHTML化されていない部分を修正
 	  しました。
 
