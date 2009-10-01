@@ -1867,7 +1867,7 @@ function plugin_getheadercode_forum()
 
     return '
 <!-- Include CSS for Forum -->
-<link rel="stylesheet" type="text/css" href="' . $CONF_FORUM['css_url'] . '">
+<link rel="stylesheet" type="text/css" href="' . $CONF_FORUM['css_url'] . '"' . XHTML . '>
 ';
 }
 
