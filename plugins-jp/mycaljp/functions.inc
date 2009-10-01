@@ -509,7 +509,7 @@ function plugin_getheadercode_mycaljp()
 
     return '
 <!-- Include CSS & Script for Site Calendar Mycaljp -->
-<link rel="stylesheet" type="text/css" href="' . $_MYCALJP2_CONF['css_url'] . '/mycaljp.css">
+<link rel="stylesheet" type="text/css" href="' . $_MYCALJP2_CONF['css_url'] . '/mycaljp.css"' . XHTML . '>
 <script type="text/javascript" src="' . $_CONF['site_url'] . '/mycaljp/xmlhttp.js"></script>
 ';
 }

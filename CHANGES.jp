@@ -1,5 +1,10 @@
 $Id$
 
+2009-10-02  Yoshinori Tahara  <dengen>
+
+	* forumプラグインとmycaljpプラグイン：XHTML化されていない部分を修正
+	  しました。
+
 2009-09-29  Masuko Koeda  <milk851>
 
 	* ProfessionalCSSとWAIproCSSの
