@@ -25,9 +25,5 @@ function FixHTML( leftblocksID, centerblocksID, rightblocksID ) {
     } else {  /* Gecko, Opera, Safari, IE8他用 */
       document.body.setAttribute('class', classValue);
     }
-
-    /* テーマに依存したプラグインテンプレート等の不具合を補正します(暫定的措置)。 */
-    var br = document.createElement("br");
-    centerblocks.appendChild(br);
   }
 }
