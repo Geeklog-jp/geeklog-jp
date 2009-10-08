@@ -1,5 +1,9 @@
 $Id$
 
+2009-10-08  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: Ver 1.0.5RC1に更新しました
+
 2009-10-02  Yoshinori Tahara  <dengen>
 
 	* ProfessionalCSSとWAIproCSSの<br>タグが挿入される問題を修正しました。
