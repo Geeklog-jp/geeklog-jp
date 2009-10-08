@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: plugins/japanize/functions.inc
 //2008/09/26 08:18 tsuchi AT geeklog DOT jp
-//2009/08/15 Ver1.0.3用
+//2009/10/06 Ver1.0.5用
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -229,6 +229,51 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
             $template->set_var( 'prof_url_jp', $prof_url );
             //メンバーログイン:memberlogin　(ログインHTML,ログアウトHTML)
             $template->set_var( 'memberlogin', $memberlogin);
+
+            //html_attribute 暫定処置
+            $langId   = '';
+
+            if (!empty($_CONF['languages']) && !empty($_CONF['language_files'])) {
+                $langId = COM_getLanguageId();
+            } else {
+                // try to derive the language id from the locale
+                $l = explode('.', $_CONF['locale']); // get rid of character set
+                $langId = $l[0];
+                $l = explode('@', $langId); // get rid of '@euro', etc.
+                $langId = $l[0];
+            }
+            if (!empty($langId)) {
+                $l = explode('-', str_replace('_', '-', $langId));
+                if ((count($l) == 1) && (strlen($langId) == 2)) {
+                } else if (count($l) == 2) {
+                    if (($l[0] == 'i') || ($l[0] == 'x')) {
+                        $langId = implode('-', $l);
+                    } else if (strlen($l[0]) == 2) {
+                        $langId = implode('-', $l);
+                    } else {
+                        $langId = $l[0];
+                    }
+                }
+            }
+            //$template->set_var('lang_id', $langId);
+
+            //--
+            switch ($_CONF['doctype']) {
+            case 'html401transitional':
+            case 'html401strict':
+                $html_attribute = ' lang="'.$langId.'"';
+                break;
+
+            case 'xhtml10transitional':
+            case 'xhtml10strict':
+                $html_attribute = ' xml:lang="'.$langId.'"';
+                break;
+
+            default:
+                $html_attribute = ' lang="'.$langId.'"';
+                break;
+            }
+            $template->set_var( 'html_attribute', $html_attribute);
 
     }
 }
