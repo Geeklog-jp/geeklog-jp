@@ -1,5 +1,11 @@
 $Id$
 
+2009-10-12  Tetsuko Komma  <ivy>
+
+	* テーマ professional, ProfessionalCSS, WAIproCSSの<head>要素に
+	  japanizeプラグインで生成されるテーマ変数を挿入してlang属性を反映
+	  させました。<html{html_attribute}{xmlns}>
+
 2009-10-08  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: Ver 1.0.5RC1に更新しました
