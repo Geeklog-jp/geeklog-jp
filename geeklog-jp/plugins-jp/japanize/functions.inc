@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // $Id: plugins/japanize/functions.inc
 //2008/09/26 08:18 tsuchi AT geeklog DOT jp
-//2009/10/06 Ver1.0.5用
+//2009/10/13 Ver1.0.5用
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -266,7 +266,7 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
 
             case 'xhtml10transitional':
             case 'xhtml10strict':
-                $html_attribute = ' xml:lang="'.$langId.'"';
+                $html_attribute = ' xml:lang="'.$langId.'" lang="'.$langId.'"';
                 break;
 
             default:
