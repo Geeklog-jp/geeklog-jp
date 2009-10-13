@@ -18,6 +18,7 @@
 <li>ようこそメッセージ:welcome_msg_jp</li>
 <li>プロフィールのURL:prof_url_jp</li>
 <li>メンバーログイン:memberlogin　(ログインHTML,ログアウトHTML)</li>
+<li>html attribute:html_attribute （DOCTYPE別に設定 GL1.5の場合はHTML4.0.1として設定）</li>
 </ul>
 </div>
 <!-- } plugins/japanize/templates/admin/information.thtml -->
