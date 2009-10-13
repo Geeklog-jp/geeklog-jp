@@ -1,5 +1,9 @@
 $Id$
 
+2009-10-13  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: Ver 1.0.5RC2に更新しました
+
 2009-10-12  Tetsuko Komma  <ivy>
 
 	* テーマ professional, ProfessionalCSS, WAIproCSSの<head>要素に
