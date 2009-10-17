@@ -540,7 +540,7 @@ if ($forum == 0) {
 
     $forumlisting->set_var ('xhtml', XHTML);
     $forumlisting->set_var ('imgset', $CONF_FORUM['imgset']);
-    $forumlisting->set_var ('forumindeximg','<img alt="forum index" src="'.gf_getImage('forumindex').'">');
+    $forumlisting->set_var ('forumindeximg','<img alt="forum index" src="'.gf_getImage('forumindex').'"' . XHTML . '>');
     $forumlisting->set_var ('phpself', $_CONF['site_url'] .'/forum/index.php');
     $forumlisting->set_var('layout_url', $CONF_FORUM['layout_url']);
     $viewnewpostslink = false;  // Set true when we have set the view newposts link template var
@@ -613,12 +613,12 @@ if ($forum == 0) {
                     // Determine if there are new topics since last visit for this user.
                     $lsql = DB_query("SELECT * FROM {$_TABLES['gf_log']} WHERE uid='{$_USER['uid']}' AND forum='{$B['forum_id']}' AND time > 0");
                     if ($topicCount > DB_numRows($lsql)) {
-                        $folderimg = '<img src="'.gf_getImage('busyforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg111'].'" title="'.$LANG_GF02['msg111'].'">';
+                        $folderimg = '<img src="'.gf_getImage('busyforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg111'].'" title="'.$LANG_GF02['msg111'].'"' . XHTML . '>';
                     } else {
-                        $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
+                        $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'"' . XHTML . '>';
                     }
                 } else {
-                    $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
+                    $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'"' . XHTML . '>';
                 }
 
                 $lastdate1 = strftime('%d', $B['date']);
@@ -648,7 +648,7 @@ if ($forum == 0) {
                 $forumlisting->set_var ('lastpostmsgDate', $LANG_GF01['nolastpostmsg']);
                 $forumlisting->set_var ('lastpostmsgTopic', '');
                 $forumlisting->set_var ('lastpostmsgBy', '');
-                $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'">';
+                $folderimg = '<img src="'.gf_getImage('quietforum').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['quietforum'].'" title="'.$LANG_GF02['quietforum'].'"' . XHTML . '>';
             }
 
             if ($B['pid'] == 0) {
@@ -725,17 +725,17 @@ if ($forum > 0) {
     $topiclisting->set_var ('site_url',$_CONF['site_url']);
     $topiclisting->set_var ('LANG_HOME', $LANG_GF01['HOMEPAGE']);
     $topiclisting->set_var ('forum_home',$LANG_GF01['INDEXPAGE']);
-    $topiclisting->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'">');
-    $topiclisting->set_var ('img_asc1', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;">');
-    $topiclisting->set_var ('img_asc2', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;">');
-    $topiclisting->set_var ('img_asc3', '<img alt="" src="' .$CONF_FORUM['imgset']. '/asc.gif" style="border:none;">');
-    $topiclisting->set_var ('img_asc4', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;">');
-    $topiclisting->set_var ('img_asc5', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;">');
-    $topiclisting->set_var ('img_desc1', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;">');
-    $topiclisting->set_var ('img_desc2', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;">');
-    $topiclisting->set_var ('img_desc3', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;">');
-    $topiclisting->set_var ('img_desc4', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;">');
-    $topiclisting->set_var ('img_desc5', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;">');
+    $topiclisting->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'"' . XHTML . '>');
+    $topiclisting->set_var ('img_asc1', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_asc2', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_asc3', '<img alt="" src="' .$CONF_FORUM['imgset']. '/asc.gif" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_asc4', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_asc5', '<img alt="" src="'.gf_getImage('asc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_desc1', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_desc2', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_desc3', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_desc4', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;"' . XHTML . '>');
+    $topiclisting->set_var ('img_desc5', '<img alt="" src="'.gf_getImage('desc').'" style="border:none;"' . XHTML . '>');
 
     if (function_exists(prj_getSessionProject)) {
         $projectid = prj_getSessionProject();
@@ -749,51 +749,51 @@ if ($forum > 0) {
         case 1:
             if ($order == 0) {
                 $sortOrder = "subject ASC";
-                $topiclisting->set_var ('img_asc1', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_asc1', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;"' . XHTML . '>');
             } else {
                 $sortOrder = "subject DESC";
-                $topiclisting->set_var ('img_desc1', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_desc1', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;"' . XHTML . '>');
             }
             break;
         case 2:
             if ($order == 0) {
                 $sortOrder = "views ASC";
-                $topiclisting->set_var ('img_asc2', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_asc2', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;"' . XHTML . '>');
             } else {
                 $sortOrder = "views DESC";
-                $topiclisting->set_var ('img_desc2', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_desc2', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;"' . XHTML . '>');
             }
             break;
         case 3:
             if ($order == 0) {
                 $sortOrder = "replies ASC";
-                $topiclisting->set_var ('img_asc3', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_asc3', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;"' . XHTML . '>');
             } else {
                 $sortOrder = "replies DESC";
-                $topiclisting->set_var ('img_desc3', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_desc3', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;"' . XHTML . '>');
             }
             break;
         case 4:
             if ($order == 0) {
                 $sortOrder = "name ASC";
-                $topiclisting->set_var ('img_asc4', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_asc4', '<img alt="" src="'.gf_getImage('asc_on').'" style="border:none;"' . XHTML . '>');
             } else {
                 $sortOrder = "name DESC";
-                $topiclisting->set_var ('img_desc4', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;">');
+                $topiclisting->set_var ('img_desc4', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;"' . XHTML . '>');
             }
             break;
         case 5:
             if ($order == 0) {
                 $sortOrder = "lastupdated ASC";
-                $topiclisting->set_var ('img_asc5', '<img alt="" src="' .$CONF_FORUM['imgset']. '/asc_on.gif" style="border:none;">');
+                $topiclisting->set_var ('img_asc5', '<img alt="" src="' .$CONF_FORUM['imgset']. '/asc_on.gif" style="border:none;"' . XHTML . '>');
             } else {
                 $sortOrder = "lastupdated DESC";
-                $topiclisting->set_var ('img_desc5', '<img alt="" src="' .$CONF_FORUM['imgset']. '/desc_on.gif" style="border:none;">');
+                $topiclisting->set_var ('img_desc5', '<img alt="" src="' .$CONF_FORUM['imgset']. '/desc_on.gif" style="border:none;"' . XHTML . '>');
             }
             break;
         default:
             $sortOrder = "lastupdated DESC";
-            $topiclisting->set_var ('img_desc5', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;">');
+            $topiclisting->set_var ('img_desc5', '<img alt="" src="'.gf_getImage('desc_on').'" style="border:none;"' . XHTML . '>');
             break;
     }
 
@@ -822,7 +822,7 @@ if ($forum > 0) {
         // Check for user subscription status
         $sub_check = DB_getITEM($_TABLES['gf_watch'],"id","forum_id='$forum' AND topic_id=0 AND uid='{$_USER['uid']}'");
         if ($sub_check == '') {
-            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_on').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['FORUMSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMSUBSCRIBE'].'">';
+            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_on').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['FORUMSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMSUBSCRIBE'].'"' . XHTML . '>';
             $subscribelink = "{$_CONF['site_url']}/forum/index.php?op=subscribe&amp;forum=$forum";
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
@@ -830,7 +830,7 @@ if ($forum > 0) {
             $topiclisting->set_var ('LANG_subscribe_state', $LANG_GF01['FORUMSUBSCRIBE_FALSE']);
             $topiclisting->parse ('subscribe_link','subscribe');
         } else {
-            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_off').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'">';
+            $subscribelinkimg = '<img src="'.gf_getImage('forumnotify_off').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'" title="'.$LANG_GF01['FORUMUNSUBSCRIBE'].'"' . XHTML . '>';
             $subscribelink = "{$_CONF['site_url']}/forum/notify.php?filter=2";
             $topiclisting->set_var ('subscribelink', $subscribelink);
             $topiclisting->set_var ('subscribelinkimg', $subscribelinkimg);
@@ -854,7 +854,7 @@ if ($forum > 0) {
     $topiclisting->set_var ('LANG_newforumposts', $LANG_GF02['msg113']);
 
     if ($category['is_readonly'] == 0 OR forum_modPermission($forum,$_USER['uid'],'mod_edit')) {
-        $newtopiclinkimg = '<img src="'.gf_getImage('post_newtopic').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['NEWTOPIC'].'" title="'.$LANG_GF01['NEWTOPIC'].'">';
+        $newtopiclinkimg = '<img src="'.gf_getImage('post_newtopic').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['NEWTOPIC'].'" title="'.$LANG_GF01['NEWTOPIC'].'"' . XHTML . '>';
         $topiclisting->set_var ('LANG_newtopic', $LANG_GF01['NEWTOPIC']);
         $topiclisting->set_var('newtopiclinkimg',$newtopiclinkimg);
         $topiclisting->set_var ('newtopiclink',"{$_CONF['site_url']}/forum/createtopic.php?method=newtopic&amp;forum=$forum");
@@ -951,25 +951,25 @@ if ($forum > 0) {
             $lsql = DB_query($sql);
             if (DB_numRows($lsql) == 0) {
                 if ($record['sticky'] == 1) {
-                    $folderimg = '<img src="'.gf_getImage('sticky_new').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg115'].'" title="'.$LANG_GF02['msg115'].'">';
+                    $folderimg = '<img src="'.gf_getImage('sticky_new').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg115'].'" title="'.$LANG_GF02['msg115'].'"' . XHTML . '>';
                 } elseif ($record['locked'] == 1) {
-                    $folderimg = '<img src="'.gf_getImage('locked_new').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg116'].'" title="'.$LANG_GF02['msg116'].'">';
+                    $folderimg = '<img src="'.gf_getImage('locked_new').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg116'].'" title="'.$LANG_GF02['msg116'].'"' . XHTML . '>';
                 } else {
-                    $folderimg = '<img src="'.gf_getImage('newposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg60'].'" title="'.$LANG_GF02['msg60'].'">';
+                    $folderimg = '<img src="'.gf_getImage('newposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg60'].'" title="'.$LANG_GF02['msg60'].'"' . XHTML . '>';
                 }
             } elseif ($record['sticky'] == 1) {
-                $folderimg = '<img src="'.gf_getImage('sticky').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'">';
+                $folderimg = '<img src="'.gf_getImage('sticky').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'"' . XHTML . '>';
             } elseif ($record['locked'] == 1) {
-                $folderimg = '<img src="'.gf_getImage('locked').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'">';
+                $folderimg = '<img src="'.gf_getImage('locked').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'"' . XHTML . '>';
             } else {
-                $folderimg = '<img src="'.gf_getImage('noposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'">';
+                $folderimg = '<img src="'.gf_getImage('noposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'"' . XHTML . '>';
             }
         } elseif ($record['sticky'] == 1) {
-            $folderimg = '<img src="'.gf_getImage('sticky').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'">';
+            $folderimg = '<img src="'.gf_getImage('sticky').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg61'].'" title="'.$LANG_GF02['msg61'].'"' . XHTML . '>';
         } elseif ($record['locked'] == 1) {
-            $folderimg = '<img src="'.gf_getImage('locked').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'">';
+            $folderimg = '<img src="'.gf_getImage('locked').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg114'].'" title="'.$LANG_GF02['msg114'].'"' . XHTML . '>';
         } else {
-           $folderimg = '<img src="'.gf_getImage('noposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'">';
+           $folderimg = '<img src="'.gf_getImage('noposts').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF02['msg59'].'" title="'.$LANG_GF02['msg59'].'"' . XHTML . '>';
         }
 
 

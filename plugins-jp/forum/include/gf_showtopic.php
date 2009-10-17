@@ -98,7 +98,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $postcount = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE uid='{$showtopic['uid']}'");
         $posts = DB_numRows($postcount);
         // STARS CODE
-        $starimage = "<img src=\"%s\" alt=\"{$LANG_GF01['FORUM']} %s\" title=\"{$LANG_GF01['FORUM']} %s\">";
+        $starimage = "<img src=\"%s\" alt=\"{$LANG_GF01['FORUM']} %s\" title=\"{$LANG_GF01['FORUM']} %s\"" . XHTML . ">";
         if ($posts < $CONF_FORUM['level2']) {
             $user_level = sprintf($starimage, gf_getImage('rank1','ranks'), $CONF_FORUM['level1name'],$CONF_FORUM['level1name']);
             $user_levelname = $CONF_FORUM['level1name'];
@@ -152,7 +152,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     }
 
     if ($CONF_FORUM['show_moods'] &&  $showtopic['mood'] != "") {
-        $moodimage = '<img style="virtical-align:middle;" src="'.gf_getImage($showtopic['mood'],'moods') .'" title="'.$showtopic['mood'].'" alt="'.$showtopic['mood'].'"><br'. XHTML . '>';
+        $moodimage = '<img style="virtical-align:middle;" src="'.gf_getImage($showtopic['mood'],'moods') .'" title="'.$showtopic['mood'].'" alt="'.$showtopic['mood'].'"' . XHTML . '><br'. XHTML . '>';
         $min_height = $min_height + 30;
     }
 
@@ -211,7 +211,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
         if ($editAllowed) {
             $editlink = "{$_CONF['site_url']}/forum/createtopic.php?method=edit&amp;forum={$showtopic['forum']}&amp;id={$showtopic['id']}&amp;editid={$showtopic['id']}&amp;page=$page";
-            $editlinkimg = '<img src="'.gf_getImage('edit_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EDITICON'].'" title="'.$LANG_GF01['EDITICON'].'">';
+            $editlinkimg = '<img src="'.gf_getImage('edit_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EDITICON'].'" title="'.$LANG_GF01['EDITICON'].'"' . XHTML . '>';
             $topictemplate->set_var ('editlink', $editlink);
             $topictemplate->set_var ('editlinkimg', $editlinkimg);
             $topictemplate->set_var ('LANG_edit', $LANG_GF01['EDITICON']);
@@ -230,7 +230,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $views = $showtopic['views'];
         $topictemplate->set_var ('read_msg', sprintf($LANG_GF02['msg49'],$views) );
         if ($is_lockedtopic) {
-            $topictemplate->set_var('locked_icon','<img src="'.gf_getImage('padlock').'" title="'.$LANG_GF02['msg114'].'">');
+            $topictemplate->set_var('locked_icon','<img src="'.gf_getImage('padlock').'" title="'.$LANG_GF02['msg114'].'"' . XHTML . '>');
         }
     } else {
         $replytopicid = $showtopic['pid'];
@@ -251,7 +251,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             $is_readonly = DB_getItem($_TABLES['gf_forums'],'is_readonly','forum_id=' . $showtopic['forum']);
             if ($is_readonly == 0 OR forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_edit')) {
                 $quotelink = "{$_CONF['site_url']}/forum/createtopic.php?method=postreply&amp;forum={$showtopic['forum']}&amp;id=$replytopicid&amp;quoteid={$showtopic['id']}";
-                $quotelinkimg = '<img src="'.gf_getImage('quote_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['QUOTEICON'].'" title="'.$LANG_GF01['QUOTEICON'].'">';
+                $quotelinkimg = '<img src="'.gf_getImage('quote_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['QUOTEICON'].'" title="'.$LANG_GF01['QUOTEICON'].'"' . XHTML . '>';
                 $topictemplate->set_var ('quotelink', $quotelink);
                 $topictemplate->set_var ('quotelinkimg', $quotelinkimg);
                 $topictemplate->set_var ('LANG_quote', $LANG_GF01['QUOTEICON']);
@@ -266,7 +266,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $mod_functions = forum_getmodFunctions($showtopic);
         if ($showtopic['uid'] > 1 && $uservalid) {
             $profile_link = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$showtopic['uid']}";
-            $profile_linkimg = '<img src="'.gf_getImage('profile_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['ProfileLink'].'" title="'.$LANG_GF01['ProfileLink'].'">';
+            $profile_linkimg = '<img src="'.gf_getImage('profile_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['ProfileLink'].'" title="'.$LANG_GF01['ProfileLink'].'"' . XHTML . '>';
             $topictemplate->set_var ('profilelink', $profile_link);
             $topictemplate->set_var ('profilelinkimg', $profile_linkimg);
             $topictemplate->set_var ('LANG_profile',$LANG_GF01['ProfileLink']);
@@ -276,7 +276,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
                 $pmplugin_link = forumPLG_getPMlink($pmusernmame);
                 if ($pmplugin_link != '') {
                     $pm_link = $pmplugin_link;
-                    $pm_linkimg = '<img src="'.gf_getImage('pm_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['PMLink'].'" title="'.$LANG_GF01['PMLink'].'">';
+                    $pm_linkimg = '<img src="'.gf_getImage('pm_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['PMLink'].'" title="'.$LANG_GF01['PMLink'].'"' . XHTML . '>';
                     $topictemplate->set_var ('pmlink', $pm_link);
                     $topictemplate->set_var ('pmlinkimg', $pm_linkimg);
                     $topictemplate->set_var ('LANG_pm', $LANG_GF01['PMLink']);
@@ -287,7 +287,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
 
         if ($userarray['email'] != '' && $showtopic["uid"] > 1) {
             $email_link = "{$_CONF['site_url']}/profiles.php?uid={$showtopic['uid']}";
-            $email_linkimg = '<img src="'.gf_getImage('email_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EmailLink'].'" title="'.$LANG_GF01['EmailLink'].'">';
+            $email_linkimg = '<img src="'.gf_getImage('email_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EmailLink'].'" title="'.$LANG_GF01['EmailLink'].'"' . XHTML . '>';
             $topictemplate->set_var ('emaillink', $email_link);
             $topictemplate->set_var ('emaillinkimg', $email_linkimg);
             $topictemplate->set_var ('LANG_email', $LANG_GF01['EmailLink']);
@@ -298,7 +298,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
             if (!eregi("http",$homepage)) {
                 $homepage = 'http://' .$homepage;
             }
-            $homepageimg = '<img src="'.gf_getImage('website_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['WebsiteLink'].'" title="'.$LANG_GF01['WebsiteLink'].'">';
+            $homepageimg = '<img src="'.gf_getImage('website_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['WebsiteLink'].'" title="'.$LANG_GF01['WebsiteLink'].'"' . XHTML . '>';
             $topictemplate->set_var ('websitelink', $homepage);
             $topictemplate->set_var ('websitelinkimg', $homepageimg);
             $topictemplate->set_var ('LANG_website', $LANG_GF01['WebsiteLink']);
@@ -378,7 +378,7 @@ function forum_getmodFunctions($showtopic) {
     $retval = '';
     $options = '';
     if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_edit')) {
-        $options .= '<option value="editpost">' .$LANG_GF03['edit'];
+        $options .= '<option value="editpost">' .$LANG_GF03['edit']. '</option>';
         if ($showtopic['locked'] == 1) {
             $options .= '<option value="lockedpost">' .$LANG_GF03['lockedpost']. '</option>';
         }

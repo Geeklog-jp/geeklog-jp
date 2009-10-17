@@ -54,12 +54,16 @@ if (!defined(CSRF_TOKEN)) {
 
 if (is_dir($_CONF['path_layout'] . 'forum')) {
     $CONF_FORUM['path_layout'] = $_CONF['path_layout'];
-    $CONF_FORUM['css_url']     = $_CONF['layout_url'] . '/forum/layout/forum.css';
     $CONF_FORUM['layout_url']  = $_CONF['layout_url'];
+    if (file_exists($_CONF['path_layout'] . 'forum/layout/forum.css')) {
+        $CONF_FORUM['css_url'] = $_CONF['layout_url'] . '/forum/layout/forum.css';
+    } else {
+        $CONF_FORUM['css_url'] = $_CONF['site_url'] . '/forum/forum/layout/forum.css';
+    }
 } else {
     $CONF_FORUM['path_layout'] = $_CONF['path_html'] . 'forum/';
-    $CONF_FORUM['css_url']     = $_CONF['site_url'] . '/forum/forum/layout/forum.css';
     $CONF_FORUM['layout_url']  = $_CONF['site_url'] . '/forum';
+    $CONF_FORUM['css_url'] = $_CONF['site_url'] . '/forum/forum/layout/forum.css';
 }
 
 $langfile = $_CONF['path'] . 'plugins/forum/language/' . $_CONF['language'] . '.php';
@@ -1167,31 +1171,31 @@ function forum_xchsmilies($message,$reverse=false) {
         ":mrgreen:",":mrt:",":love:",":cat:");
     $str = '<img style="virtical-align:middle;" src="images/smilies/';
     $replace = array(
-        $str . 'biggrin.gif" alt="Big Grin">',
-        $str . 'smile.gif" alt="Smile">',
-        $str . 'frown.gif" alt="Frown">',
-        $str . 'eek.gif" alt="Eek!">',
-        $str . 'confused.gif" alt="Confused">',
-        $str . 'cool.gif" alt="Cool">',
-        $str . 'lol.gif" alt="Laughing Out Loud">',
-        $str . 'mad.gif" alt="Angry">',
-        $str . 'razz.gif" alt="Razz">',
-        $str . 'redface.gif" alt="Oops!">',
-        $str . 'surprised.gif" alt="Surprised!">',
-        $str . 'cry.gif" alt="Cry">',
-        $str . 'evil.gif" alt="Evil">',
-        $str . 'twisted.gif" alt="Twisted Evil">',
-        $str . 'rolleyes.gif" alt="Rolling Eyes">',
-        $str . 'wink.gif" alt="Wink">',
-        $str . 'exclaim.gif" alt="Exclaimation">',
-        $str . 'question.gif" alt="Question">',
-        $str . 'idea.gif" alt="Idea">',
-        $str . 'arrow.gif" alt="Arrow">',
-        $str . 'neutral.gif" alt="Neutral">',
-        $str . 'mrgreen.gif" alt="Mr. Green">',
-        $str . 'mrt.gif" alt="Mr. T">',
-        $str . 'heart.gif" alt="Love">',
-        $str . 'cat.gif" alt="Kitten">');
+        $str . 'biggrin.gif" alt="Big Grin"' . XHTML . '>',
+        $str . 'smile.gif" alt="Smile"' . XHTML . '>',
+        $str . 'frown.gif" alt="Frown"' . XHTML . '>',
+        $str . 'eek.gif" alt="Eek!"' . XHTML . '>',
+        $str . 'confused.gif" alt="Confused"' . XHTML . '>',
+        $str . 'cool.gif" alt="Cool"' . XHTML . '>',
+        $str . 'lol.gif" alt="Laughing Out Loud"' . XHTML . '>',
+        $str . 'mad.gif" alt="Angry"' . XHTML . '>',
+        $str . 'razz.gif" alt="Razz"' . XHTML . '>',
+        $str . 'redface.gif" alt="Oops!"' . XHTML . '>',
+        $str . 'surprised.gif" alt="Surprised!"' . XHTML . '>',
+        $str . 'cry.gif" alt="Cry"' . XHTML . '>',
+        $str . 'evil.gif" alt="Evil"' . XHTML . '>',
+        $str . 'twisted.gif" alt="Twisted Evil"' . XHTML . '>',
+        $str . 'rolleyes.gif" alt="Rolling Eyes"' . XHTML . '>',
+        $str . 'wink.gif" alt="Wink"' . XHTML . '>',
+        $str . 'exclaim.gif" alt="Exclaimation"' . XHTML . '>',
+        $str . 'question.gif" alt="Question"' . XHTML . '>',
+        $str . 'idea.gif" alt="Idea"' . XHTML . '>',
+        $str . 'arrow.gif" alt="Arrow"' . XHTML . '>',
+        $str . 'neutral.gif" alt="Neutral"' . XHTML . '>',
+        $str . 'mrgreen.gif" alt="Mr. Green"' . XHTML . '>',
+        $str . 'mrt.gif" alt="Mr. T"' . XHTML . '>',
+        $str . 'heart.gif" alt="Love"' . XHTML . '>',
+        $str . 'cat.gif" alt="Kitten"' . XHTML . '>');
 
     if (!$reverse) {
         $message = str_replace($search, $replace, $message);
@@ -1684,11 +1688,11 @@ function forumPLG_getMemberBadge($uid) {
         if (!SEC_inGroup('Root',$uid)) {
             foreach ($CONF_FORUM['grouptags'] as $groupid => $buttonimg) {
                 if (SEC_inGroup($groupid,$uid)) {
-                    return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$buttonimg}\"><br" . XHTML . ">";
+                    return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$buttonimg}\"" . XHTML . "><br" . XHTML . ">";
                 }
             }
         } else {
-            return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$CONF_FORUM['grouptags']['Root']}\"><br" . XHTML . ">";
+            return "<img alt=\"\" src=\"{$CONF_FORUM['imgset']}/badges/{$CONF_FORUM['grouptags']['Root']}\"" . XHTML . "><br" . XHTML . ">";
         }
     }
 }
