@@ -581,8 +581,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     $topicnavbar->set_file (array ('topicnavbar'=>'post_topic_navbar.thtml'));
     $topicnavbar->set_var ('xhtml', XHTML);
     $topicnavbar->set_var ('imgset', $CONF_FORUM['imgset']);
-    $topicnavbar->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'">');
-    $topicnavbar->set_var ('navtopicimg','<img alt="" src="'.gf_getImage('nav_topic').'">');
+    $topicnavbar->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'"' . XHTML . '>');
+    $topicnavbar->set_var ('navtopicimg','<img alt="" src="'.gf_getImage('nav_topic').'"' . XHTML . '>');
     $topicnavbar->set_var ('site_url', $_CONF['site_url']);
     $topicnavbar->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $topicnavbar->set_var ('phpself', $_CONF['site_url'] .'/forum/createtopic.php');

@@ -170,7 +170,7 @@ function do_bbcode_img ($action, $attributes, $content, $params, $node_object) {
             $align = '';
         }
 
-        return '<img src="'.htmlspecialchars($content,ENT_QUOTES, $CONF_FORUM['charset']).'" ' . $dim . $align . ' alt="">';
+        return '<img src="'.htmlspecialchars($content,ENT_QUOTES, $CONF_FORUM['charset']).'" ' . $dim . $align . ' alt=""'. XHTML .'>';
     } else {
         return '[img]' . $content . '[/img]';
     }
@@ -817,19 +817,19 @@ function f_legend() {
     if ($forum == '') {
         $forum_legend->set_var ('normal_msg', $LANG_GF02['msg194']);
         $forum_legend->set_var ('new_msg', $LANG_GF02['msg108']);
-        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('quietforum').'" alt="'.$LANG_GF02['msg194'].'" title="' .$LANG_GF02['msg194']. '">');
-        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('busyforum').'" alt="'.$LANG_GF02['msg111'].'" title="' .$LANG_GF02['msg111']. '">');
-        $forum_legend->set_var ('viewnew_icon','<img src="'.gf_getImage('viewnew').'" alt="' . $LANG_GF02['msg112'] .'" title="' .$LANG_GF02['msg112']. '">');
+        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('quietforum').'" alt="'.$LANG_GF02['msg194'].'" title="' .$LANG_GF02['msg194']. '"'. XHTML .'>');
+        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('busyforum').'" alt="'.$LANG_GF02['msg111'].'" title="' .$LANG_GF02['msg111']. '"'. XHTML .'>');
+        $forum_legend->set_var ('viewnew_icon','<img src="'.gf_getImage('viewnew').'" alt="' . $LANG_GF02['msg112'] .'" title="' .$LANG_GF02['msg112']. '"'. XHTML .'>');
         $forum_legend->set_var ('viewnew_msg', $LANG_GF02['msg112']);
-        $forum_legend->set_var ('markread_icon','<img src="'.gf_getImage('allread').'" alt="' . $LANG_GF02['msg84'] .'" title="' .$LANG_GF02['msg84']. '">');
+        $forum_legend->set_var ('markread_icon','<img src="'.gf_getImage('allread').'" alt="' . $LANG_GF02['msg84'] .'" title="' .$LANG_GF02['msg84']. '"'. XHTML .'>');
         $forum_legend->set_var ('markread_msg', $LANG_GF02['msg84']);
     } else {
-        $sticky_icon = '<img src="'.gf_getImage('sticky').'" alt="' .$LANG_GF02['msg61']. '" title="' .$LANG_GF02['msg61']. '">';
-        $locked_icon = '<img src="'.gf_getImage('locked').'" alt="' .$LANG_GF02['msg114']. '" title="' .$LANG_GF02['msg114']. '">';
-        $stickynew_icon = '<img src="'.gf_getImage('sticky_new').'" alt="' .$LANG_GF02['msg115']. '" title="' .$LANG_GF02['msg115']. '">';
-        $lockednew_icon = '<img src="'.gf_getImage('locked_new').'" alt="' .$LANG_GF02['msg116']. '" title="' .$LANG_GF02['msg116']. '">';
-        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('noposts').'" alt="'.$LANG_GF02['msg59'].'" title="' .$LANG_GF02['msg59']. '">');
-        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('newposts').'" alt="'.$LANG_GF02['msg60'].'" title="' .$LANG_GF02['msg60']. '">');
+        $sticky_icon = '<img src="'.gf_getImage('sticky').'" alt="' .$LANG_GF02['msg61']. '" title="' .$LANG_GF02['msg61']. '"'. XHTML .'>';
+        $locked_icon = '<img src="'.gf_getImage('locked').'" alt="' .$LANG_GF02['msg114']. '" title="' .$LANG_GF02['msg114']. '"'. XHTML .'>';
+        $stickynew_icon = '<img src="'.gf_getImage('sticky_new').'" alt="' .$LANG_GF02['msg115']. '" title="' .$LANG_GF02['msg115']. '"'. XHTML .'>';
+        $lockednew_icon = '<img src="'.gf_getImage('locked_new').'" alt="' .$LANG_GF02['msg116']. '" title="' .$LANG_GF02['msg116']. '"'. XHTML .'>';
+        $forum_legend->set_var ('normal_icon','<img src="'.gf_getImage('noposts').'" alt="'.$LANG_GF02['msg59'].'" title="' .$LANG_GF02['msg59']. '"'. XHTML .'>');
+        $forum_legend->set_var ('new_icon','<img src="'.gf_getImage('newposts').'" alt="'.$LANG_GF02['msg60'].'" title="' .$LANG_GF02['msg60']. '"'. XHTML .'>');
         $forum_legend->set_var ('normal_msg', $LANG_GF02['msg59']);
         $forum_legend->set_var ('new_msg', $LANG_GF02['msg60']);
         $forum_legend->set_var ('sticky_msg',$LANG_GF02['msg61']);
@@ -865,13 +865,13 @@ function f_forumrules() {
 
     if ( $CONF_FORUM['registered_to_post'] AND ($_USER['uid'] < 2 OR empty($_USER['uid'])) ) {
         $postperm_msg = $LANG_GF01['POST_PERM_MSG2'];
-        $post_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'">';
+        $post_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'"'. XHTML .'>';
     } else {
         $postperm_msg = $LANG_GF01['POST_PERM_MSG1'];
-        $post_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'">';
+        $post_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'"'. XHTML .'>';
     }
     if ($CONF_FORUM['allow_html']) {
-        $html_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'">';
+        $html_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'"'. XHTML .'>';
         if ($CONF_FORUM['use_glfilter']) {
             $htmlmsg = $LANG_GF01['HTML_FILTER_MSG'];
         } else {
@@ -879,18 +879,18 @@ function f_forumrules() {
         }
     } else {
         $htmlmsg = $LANG_GF01['HTML_MSG'];
-        $html_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'">';
+        $html_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'"'. XHTML .'>';
     }
     if ($CONF_FORUM['use_censor']) {
-        $censor_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'">';
+        $censor_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'"'. XHTML .'>';
     } else {
-        $censor_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'">';
+        $censor_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'"'. XHTML .'>';
     }
 
     if ($CONF_FORUM['show_anonymous_posts']) {
-        $anon_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'">';
+        $anon_perm_image = '<img alt="" src="'.gf_getImage('green_dot').'"'. XHTML .'>';
     } else {
-        $anon_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'">';
+        $anon_perm_image = '<img alt="" src="'.gf_getImage('red_dot').'"'. XHTML .'>';
     }
     $forum_rules = new Template($CONF_FORUM['path_layout'] . 'forum/layout/footer');
     $forum_rules->set_file (array ('forum_rules'=>'forum_rules.thtml'));
