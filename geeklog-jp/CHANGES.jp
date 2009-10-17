@@ -1,12 +1,18 @@
 $Id$
 
+2009-10-18  Yoshinori Tahara  <dengen>
+
+	* dataproxyプラグイン: dataproxyプラグインに管理画面は用意されて
+	  いないので、Geeklogの管理者専用メニューのリンクと、投稿管理の
+	  アイコンが表示されないようにしました。(Issue #80)
+
 2009-10-17  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: 次のとおり修正しました。
 	  XHTML化の不備を修正（imgタグが全然できていなかった）
 	  日本語言語ファイルの修正（「特集記事」から「注目記事」へ修正）
 	  COM_refresh関数の引数に含まれる&amp;(実体参照)を&に書き換えた。
-	  forum.cssの有無を厳密に確認するようにした。(Issue 99)
+	  forum.cssの有無を厳密に確認するようにした。(Issue #99)
 
 2009-10-13  Kazuko Tsuchitani <Tsuchi>
 
