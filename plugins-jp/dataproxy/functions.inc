@@ -100,7 +100,8 @@ function plugin_cclabel_dataproxy() {
     global $_CONF;
 	
 	$pi_name   = DPXY_str('menu_label');
-	$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
+//	$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
+	$admin_url = '';
 	$icon_url  = $_CONF['site_admin_url'] . '/plugins/dataproxy/images/dataproxy.gif';
 	
     return array($pi_name, $admin_url, $icon_url);
@@ -120,7 +121,8 @@ function plugin_getadminoption_dataproxy() {
 
 	if (SEC_hasRights('dataproxy.admin')) {
 		$pi_name   = DPXY_str('menu_label');
-		$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
+//		$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
+		$admin_url = '';
 		$num_items = '';
 //		$num_items = DB_count($_TABLES['table1']);
 		return array($pi_name, $admin_url, $num_items);
