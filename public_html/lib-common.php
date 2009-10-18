@@ -6922,11 +6922,13 @@ function COM_output($display)
 
             $zlib_comp = ini_get('zlib.output_compression');
             if (empty($zlib_comp) || (strcasecmp($zlib_comp, 'off') == 0)) {
+                if ( !function_exists('CUSTOM_MOBILE_is_cellular') || !CUSTOM_MOBILE_is_cellular() ) {
 
-                header('Content-encoding: gzip');
-                echo gzencode($display);
-                return;
+                    header('Content-encoding: gzip');
+                    echo gzencode($display);
+                    return;
 
+                }
             }
         }
     }
