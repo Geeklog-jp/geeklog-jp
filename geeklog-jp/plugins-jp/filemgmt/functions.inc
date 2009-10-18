@@ -758,7 +758,8 @@ function plugin_uninstall_filemgmt($installCheck='')
 function filemgmt_buildAccessSql($clause='AND') {
     global $_TABLES,$_USER;
 
-    if (DB_getItem($_TABLES['plugins'],'pi_version', "pi_name='filemgmt'") != 1.5) {
+    $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name='filemgmt'");
+    if (version_compare($pi_version, '1.5') < 0) {
         return '';
     }
 

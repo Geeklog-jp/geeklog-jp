@@ -2,6 +2,12 @@ $Id$
 
 2009-10-18  Yoshinori Tahara  <dengen>
 
+	* filemgmtプラグイン: アクセス権のないグループに属するファイルを、
+	  そのURLに直接アクセスしてダウンロードできてしまう問題を修正しました。
+	  (Issue #100)
+
+2009-10-18  Yoshinori Tahara  <dengen>
+
 	* dataproxyプラグイン: dataproxyプラグインに管理画面は用意されて
 	  いないので、Geeklogの管理者専用メニューのリンクと、投稿管理の
 	  アイコンが表示されないようにしました。(Issue #80)
