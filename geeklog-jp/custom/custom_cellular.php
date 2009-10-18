@@ -695,6 +695,10 @@ function CUSTOM_MOBILE_getBlock($bid) {
 // ユーザエージェントを確認
 _mobile_parse_ua();
 if(CUSTOM_MOBILE_is_cellular()) {
+    // COM_output対応の携帯版
+    if ($_CONF['compressed_output']) {
+        ob_start("ob_gzhandler");
+    }
     // セッション管理の初期化(Cookieを使わない)
     ini_set('session.use_cookies', false);
     ini_set('session.use_only_cookies', false);
