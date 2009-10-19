@@ -24,8 +24,12 @@
     }
 
     function change_editmode(obj) {
-        showhideEditorDiv("editor",
-                document.getElementById('navlist').childElementCount - 6);
+        if (document.addEventListener) {    // W3C DOM 2
+            var navlistcount = document.getElementById('navlist').childElementCount;
+        } else if (document.attachEvent) {  // Internet Explorer
+            var navlistcount = document.getElementById('navlist').childNodes.length;
+        }
+        showhideEditorDiv("editor", navlistcount - 6);
         if (obj.value == 'html') {
             document.getElementById('html_editor').style.display='none';
             document.getElementById('text_editor').style.display='';
