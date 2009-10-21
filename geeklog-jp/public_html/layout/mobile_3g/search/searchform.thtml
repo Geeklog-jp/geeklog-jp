@@ -51,6 +51,7 @@
                                         <td colspan="2">
                                             <input type="submit" value="{lang_search}"{xhtml}>
                                             <input type="hidden" name="mode" value="search"{xhtml}>
+                                            <input type="hidden" name="%MOBILE_SID_NAME%" value="%MOBILE_SID_VALUE%"{xhtml}>
                                         </td>
                                     </tr>
                                 </table>

@@ -450,6 +450,10 @@ function _mobile_output_handler($content, $status)
         // Cookieが使える場合はSIDに''が設定されるため、埋め込みを行わない
         CUSTOM_MOBILE_debug("SID: " . SID);
         $content = _mobile_add_sessid($content);
+        // (Issue 96) 検索対策として一時的な対応
+        list($sid_key, $sid_val) = explode('=', SID);
+        $content = str_replace('%MOBILE_SID_NAME%', $sid_key, $content);
+        $content = str_replace('%MOBILE_SID_VALUE%', $sid_val, $content);
     }
 
     if(CUSTOM_MOBILE_is_3g()) {
