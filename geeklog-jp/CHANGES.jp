@@ -1,5 +1,10 @@
 $Id$
 
+2009-10-22  mystral-kk <mystral-kk>
+
+	* インストールスクリプトにprecheck.phpへのリンクを追加しました。
+	  (Issue #104)
+
 2009-10-22  Yoshinori Tahara  <dengen>
 
 	* 掲示板で投稿する内容を書いて「プレビュー」をクリックするとエラーが
