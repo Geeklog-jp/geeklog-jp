@@ -365,4 +365,8 @@ $LANG_LABEL = array(
     'plugin_upload'  => $LANG_PLUGINS[10]
 );
 
+$LANG_INSTALL_JP = array(
+    1 => '日本語環境のインストール前チェック',
+);
+
 ?>
