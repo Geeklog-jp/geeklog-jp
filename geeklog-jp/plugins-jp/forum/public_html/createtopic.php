@@ -476,7 +476,7 @@ if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
     $preview_header->set_file (array ('preview_header'=>'topicpreview_header.thtml'));
     $preview_header->set_var ('xhtml', XHTML);
     $preview_header->set_var ('imgset', $CONF_FORUM['imgset']);
-    $preview_header->set_var ('startblock', COM_startBlock('<b>' .$LANG_GF01['TopicPreview']. '</b>','','forum/layout/blockheader.thtml') );
+//    $preview_header->set_var ('startblock', COM_startBlock('<b>' .$LANG_GF01['TopicPreview']. '</b>','','forum/layout/blockheader.thtml') );
     $preview_header->parse ('output', 'preview_header');
     $display .= $preview_header->finish($preview_header->get_var('output'));
 
