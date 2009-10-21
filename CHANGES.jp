@@ -1,5 +1,10 @@
 $Id$
 
+2009-10-22  Yoshinori Tahara  <dengen>
+
+	* 掲示板で投稿する内容を書いて「プレビュー」をクリックするとエラーが
+	  出る問題を修正しました。(Issue #105)
+
 2009-10-21  Hiroshi Sakuramoto <hirorongl>
 
 	* 携帯で検索するとログアウトされる問題に簡易対応の修正を行いました。(Issue #96)
