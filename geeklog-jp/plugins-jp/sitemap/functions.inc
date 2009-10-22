@@ -558,7 +558,7 @@ function SITEMAP_isExcepted($id, $sp_excepts) {
 			if ($except[0] != '/') {
 				$except = '/' . $except . '/';
 			}
-			if (preg_match($pattern , $id)) {
+			if (preg_match($except , $id)) {
 				return TRUE;
 			}
 		}

@@ -1,5 +1,10 @@
 $Id$
 
+2009-10-23  Yoshinori Tahara  <dengen>
+
+	* sitemapプラグイン: サーバーによってエラーが発生する問題を修正しまし
+	  た。(Issue #106)
+
 2009-10-22  mystral-kk <mystral-kk>
 
 	* r2107の修正で不十分だった点を修正しました。
