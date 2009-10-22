@@ -47,7 +47,7 @@ require_once 'lib-upgrade.php';
  */
 function INST_installEngine($install_type, $install_step)
 {
-    global $_CONF, $_TABLES, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_DB_dbms, $_DB_table_prefix, $_URL, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $form_label_dir, $use_innodb;
+    global $_CONF, $_TABLES, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_DB_dbms, $_DB_table_prefix, $_URL, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $form_label_dir, $use_innodb, $LANG_INSTALL_JP;
 
     switch ($install_step) {
 
@@ -669,7 +669,7 @@ function INST_checkIfWritable($files)
  */
 function INST_permissionWarning($files)
 {
-    global $LANG_INSTALL, $form_label_dir;
+    global $LANG_INSTALL, $form_label_dir, $LANG_INSTALL_JP;
     $display .= '
         <div class="install-path-container-outer">
             <div class="install-path-container-inner">
@@ -711,7 +711,7 @@ function INST_permissionWarning($files)
  */
 function INST_showReturnFormData($post_data)
 {
-    global $mode, $dbconfig_path, $language, $LANG_INSTALL;
+    global $mode, $dbconfig_path, $language, $LANG_INSTALL, $LANG_INSTALL_JP;
 
     $display = '
         <form action="index.php" method="post">
