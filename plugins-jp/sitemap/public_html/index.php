@@ -121,7 +121,7 @@ function SITEMAP_buildItems(&$driver, $pid) {
 	
 	$html = '';
 	$T->clear_var('items');
-	$sp_except = explode(' ', $_SMAP_CONF['sp_except']);
+	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	$items = $driver->getItems($pid);
 	$num_items = count($items);
 	if ($num_items > 0) {
