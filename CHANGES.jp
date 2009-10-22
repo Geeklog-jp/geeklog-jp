@@ -2,6 +2,10 @@ $Id$
 
 2009-10-23  Yoshinori Tahara  <dengen>
 
+	* professionalテーマ: HTMLの適正化のためテンプレートを修正しました。
+
+2009-10-23  Yoshinori Tahara  <dengen>
+
 	* sitemapプラグイン: サーバーによってエラーが発生する問題を修正しまし
 	  た。(Issue #106)
 
