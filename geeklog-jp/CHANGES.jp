@@ -2,6 +2,10 @@ $Id$
 
 2009-10-22  mystral-kk <mystral-kk>
 
+	* 欠落していたglobal宣言を追加しました。
+
+2009-10-22  mystral-kk <mystral-kk>
+
 	* インストールスクリプトにprecheck.phpへのリンクを追加しました。
 	  (Issue #104)
 
