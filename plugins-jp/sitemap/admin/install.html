@@ -30,6 +30,11 @@
 			background-color: green;
 			font-weight: bold;
 		}
+		.code {
+			color: white;
+			background: black;
+			padding: 5px;
+		}
 	-->
 	</style>
 </head>
@@ -37,7 +42,7 @@
 <body>
 	<h1>Install/Uninstall instruction for the Geeklog sitemap plugin</h1>
 
-	<h2>Sitemap plugin [ver. 1.1.6: 2009-08-27]</h2>
+	<h2>Sitemap plugin [ver. 1.1.7: 2009-10-23]</h2>
 	<p>In the following descriptions</p>
 	<ul>
 		<li><span class="geeklog">&lt;geeklog_dir&gt;</span> is the directory where the system config.php file resides</li>
@@ -79,6 +84,48 @@
 			</ul></li>
 	</ul>
 	
+	<h2>Static Pages IDs to be excepted from the sitemap</h2>
+	
+	<p>Since version 1.1.7, you can use regular expressions in specifying Static Pages IDs to be excepted.  The IDs you have already exntered are valid.  Regular expressions start with "/" and ends with "/".  In regular expressions, characters / . [ ] ^ $ | ? * + ( ) { } have special meanings.</p>
+	
+	<h3>Specifying an ID starting with "form"</h3>
+	<p class="code">/^form/</p>
+	
+	<h3>Specifying an ID starting with "form" followed by digits</h3>
+	<p class="code">/^form\d+/</p>
+	
+	<h3>Specifying an ID starting with "form" followed by 5 digits</h3>
+	<p class="code">/^form\d{5}/</p>
+	
+	<h3>Specifying an ID starting with "form" followed by 1-5 digits</h3>
+	<p class="code">/^form\d{1,5}/</p>
+	
+	<h3>Specifying an ID ending with "form"</h3>
+	<p class="code">/form$/</p>
+	
+	<h3>Specifying an ID containing "form"</h3>
+	<p class="code">/form/</p>
+	
+	<h3>Specifying an ID starting with "event" and ending with "form"</h3>
+	<p class="code">/^event.*form$/</p>
+	
+	<h3>Specifying an ID starting with "event", followed by 5 digits and ending with "form"</h3>
+	<p class="code">/^event\d{5}form$/</p>
+	
+	<h3>Specifying an ID containing either "apply" or "confirm"</h3>
+	<p class="code">/(apply|confirm)/</p>
+	
+	<h3>Specifying an ID starting with "event_", followed by either "apply" or "confirm"</h3>
+	<p class="code">/^event_(apply|confirm)/</p>
+	
+	<h3>Specifying an ID starting with "event_", followed by either "apply", "confirm" or "submit"</h3>
+	<p class="code">/^event_(apply|confirm|submit)/</p>
+	
+	<h3>Specifying an ID starting with "event_", followed by 5 digits, ending with either "apply", "confirm" or "submit</h3>
+	<p class="code">/^event_\d{5}(apply|confirm|submit)$/</p>
+	
+	<p>If you would like to specify more complicated patterns, please visit sites such as <a href="http://jp2.php.net/manual/en/reference.pcre.pattern.syntax.php">this page</a> and learn for yourself.</p>
+	
 	<h2>HISTORY</h2>
 	<table border="1" summary="History of Geeklog Sitemap plugin">
 		<tr>
@@ -87,10 +134,18 @@
 			<th>Description</th>
 		</tr>
 		<tr>
+			<td align="right">1.1.7</td>
+			<td>2009-10-23</td>
+			<td>
+				<span class="new">New</span> Supported regular expressions in specifying Static Pages IDs to be excepted.  See above.<br>
+				<span class="fix">Fixed</span> Fixed a bug in specifying Static Pages IDs to be excepted.  Thanks, dengen!
+			</td>
+		</tr>
+		<tr>
 			<td align="right">1.1.6</td>
 			<td>2009-08-27</td>
 			<td>
-				<span class="new">New</span> Added support for Calendarjp plugin.
+				<span class="new">New</span> Added support for Calendarjp plugin.  Thanks, dengen!
 			</td>
 		</tr>
 		<tr>
