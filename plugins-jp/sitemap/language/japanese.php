@@ -63,7 +63,8 @@ $LANG_SMAP = array(
 	'filemgmt'          => 'ファイル管理',
 	'faqman'            => 'FAQ',
 	'mediagallery'      => 'メディアギャラリ',
-	'calendarjp'        => 'カレンダ',
+	'calendarjp'        => 'カレンダjp',
+	'download'          => 'ダウンロード',
 	'sitemap_setting'   => 'サイトマップの設定',
 	'sitemap_setting_misc' => 'サイトマップの表示設定',
 	'order'             => '表示順',
@@ -104,5 +105,5 @@ $LANG_SMAP = array(
 	'sp_type0'          => 'すべて',
 	'sp_type1'          => 'センターブロックに表示されるページのみ',
 	'sp_type2'          => 'センターブロックに表示されないページのみ',
-	'sp_except'         => '除外するページID（半角スペースで区切る）',
+	'sp_except'         => '除外するページID（正規表現可。半角スペースで区切る）',
 );
