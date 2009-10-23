@@ -63,7 +63,8 @@ $LANG_SMAP = array (
 	'filemgmt'          => 'File Management',
 	'faqman'            => 'FAQ',
 	'mediagallery'      => 'Media Gallery',
-	'calendarjp'        => 'Calendar',
+	'calendarjp'        => 'CalendarJP',
+	'download'          => 'Download',
 	'sitemap_setting'   => 'Sitemap configuration',
 	'sitemap_setting_misc' => 'Display settings',
 	'order'             => 'Display Order',
@@ -104,5 +105,5 @@ $LANG_SMAP = array (
 	'sp_type0'          => 'All',
 	'sp_type1'          => 'Only pages that appear on the center block',
 	'sp_type2'          => 'Only pages that do NOT appear on the center block',
-	'sp_except'         => 'IDs of pages that should not be listed on the sitemap (space separated)',
+	'sp_except'         => 'IDs of pages that should not be listed on the sitemap (space separated, regular expression supported)',
 );
