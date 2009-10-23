@@ -1,5 +1,11 @@
 $Id$
 
+2009-10-23  mystral-kk <mystral-kk>
+
+	* dengenさんの作業結果に加えた上でドキュメントの更新を行い、Sitemap
+	  プラグインをバージョン1.1.7に更新しました。結果として、Issue #103に
+	  対応しました。
+
 2009-10-23  Yoshinori Tahara  <dengen>
 
 	* sitemapプラグイン: r2113の修正で不十分だった点を修正しました。
