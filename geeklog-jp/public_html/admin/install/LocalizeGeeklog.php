@@ -302,7 +302,7 @@ class LocalizeGeeklog
 		if ($this->_mode == 'en') {
 			$sqls[] = "UPDATE {$_TABLES['stories']} "
 					. "SET title = 'Welcome to Geeklog!', "
-					. "introtext = '" . addslashes("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>")
+					. "introtext = '" . addslashes("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/english/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>")
 					. "' "
 					. "WHERE (sid = 'welcome')";
 			$sqls[] = "UPDATE {$_TABLES['storysubmission']} "
