@@ -267,13 +267,6 @@ class LocalizeGeeklog
 						. "'http://blogsearch.google.co.jp/ping/RPC2', "
 						. "'weblogUpdates.extendedPing', 1)";
 			}
-			if (DB_count($_TABLES['pingservice'], 'name', 'テクノラティ') == 0) {
-				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
-						. "site_url, ping_url, method, is_enabled) VALUES "
-						. "(0, 'テクノラティ', 'http://www.technorati.jp/', "
-						. "'http://rpc.technorati.jp/rpc/ping', "
-						. "'weblogUpdates.ping', 1)";
-			}
 		} else if ($this->_mode == 'en') {
 			if (DB_count($_TABLES['pingservice'], 'name', 'Ping-O-Matic') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
@@ -285,7 +278,7 @@ class LocalizeGeeklog
 			
 			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
 					. "WHERE (name IN ('BlogPeople', 'ping.bloggers.jp', "
-					. "'ドリコムRSS', 'gooブログ', 'Googleブログ検索', 'テクノラティ'))";
+					. "'ドリコムRSS', 'gooブログ', 'Googleブログ検索'))";
 		}
 		
 		if (count($sqls) > 0) {
@@ -731,13 +724,13 @@ class LocalizeGeeklog
 				'en'     => 'Topics',
 				'ja'     => '記事カテゴリ',
 			),
-			array(
-				'field'  => 'name',
-				'value'  => 'polls_block',
-				'target' => 'title',
-				'en'     => 'Poll',
-				'ja'     => 'アンケート',
-			),
+# 			array(
+# 				'field'  => 'name',
+# 				'value'  => 'polls_block',
+# 				'target' => 'title',
+# 				'en'     => 'Poll',
+# 				'ja'     => 'アンケート',
+# 			),
 			array(
 				'field'  => 'name',
 				'value'  => 'events_block',
@@ -1328,135 +1321,135 @@ class LocalizeGeeklog
 		/**
 		* アンケートの選択肢
 		*/
-		'pollanswers' => array(
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 1,
-				'target' => 'answer',
-				'en'     => 'MS SQL support',
-				'ja'     => 'Microsoft SQLサーバのサポート',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 2,
-				'target' => 'answer',
-				'en'     => 'Multi-language support',
-				'ja'     => '多言語サポート',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 3,
-				'target' => 'answer',
-				'en'     => 'Calendar as a plugin',
-				'ja'     => 'カレンダのプラグイン化',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 4,
-				'target' => 'answer',
-				'en'     => 'SLV spam protection',
-				'ja'     => 'SLVによるスパム防御',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 5,
-				'target' => 'answer',
-				'en'     => 'Mass-delete users',
-				'ja'     => 'ユーザ一括削除',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'aid',
-				'value2' => 6,
-				'target' => 'answer',
-				'en'     => 'Other',
-				'ja'     => 'その他',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 1,
-				'field2' => 'aid',
-				'value2' => 1,
-				'target' => 'answer',
-				'en'     => 'Story-Images',
-				'ja'     => '記事で画像を扱える',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 1,
-				'field2' => 'aid',
-				'value2' => 2,
-				'target' => 'answer',
-				'en'     => 'User-Rights handling',
-				'ja'     => 'ユーザ権限管理',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 1,
-				'field2' => 'aid',
-				'value2' => 3,
-				'target' => 'answer',
-				'en'     => 'The Support',
-				'ja'     => 'サポート体制',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 1,
-				'field2' => 'aid',
-				'value2' => 4,
-				'target' => 'answer',
-				'en'     => 'Plugin Availability',
-				'ja'     => 'プラグイン',
-			),
-		),
+# 		'pollanswers' => array(
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 1,
+# 				'target' => 'answer',
+# 				'en'     => 'MS SQL support',
+# 				'ja'     => 'Microsoft SQLサーバのサポート',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 2,
+# 				'target' => 'answer',
+# 				'en'     => 'Multi-language support',
+# 				'ja'     => '多言語サポート',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 3,
+# 				'target' => 'answer',
+# 				'en'     => 'Calendar as a plugin',
+# 				'ja'     => 'カレンダのプラグイン化',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 4,
+# 				'target' => 'answer',
+# 				'en'     => 'SLV spam protection',
+# 				'ja'     => 'SLVによるスパム防御',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 5,
+# 				'target' => 'answer',
+# 				'en'     => 'Mass-delete users',
+# 				'ja'     => 'ユーザ一括削除',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'aid',
+# 				'value2' => 6,
+# 				'target' => 'answer',
+# 				'en'     => 'Other',
+# 				'ja'     => 'その他',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 1,
+# 				'field2' => 'aid',
+# 				'value2' => 1,
+# 				'target' => 'answer',
+# 				'en'     => 'Story-Images',
+# 				'ja'     => '記事で画像を扱える',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 1,
+# 				'field2' => 'aid',
+# 				'value2' => 2,
+# 				'target' => 'answer',
+# 				'en'     => 'User-Rights handling',
+# 				'ja'     => 'ユーザ権限管理',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 1,
+# 				'field2' => 'aid',
+# 				'value2' => 3,
+# 				'target' => 'answer',
+# 				'en'     => 'The Support',
+# 				'ja'     => 'サポート体制',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 1,
+# 				'field2' => 'aid',
+# 				'value2' => 4,
+# 				'target' => 'answer',
+# 				'en'     => 'Plugin Availability',
+# 				'ja'     => 'プラグイン',
+# 			),
+# 		),
 		
 		/**
 		* アンケートの質問事項
 		*/
-		'pollquestions' => array(
-			array(
-				'field'  => 'qid',
-				'value'  => 0,
-				'field2' => 'pid',
-				'value2' => 'geeklogfeaturepoll',
-				'target' => 'question',
-				'en'     => 'What is the best new feature of Geeklog?',
-				'ja'     => 'Geeklogの新機能で一番良いものは?',
-			),
-			array(
-				'field'  => 'qid',
-				'value'  => 1,
-				'field2' => 'pid',
-				'value2' => 'geeklogfeaturepoll',
-				'target' => 'question',
-				'en'     => 'What is the all-time best feature of Geeklog?',
-				'ja'     => 'Geeklogの機能で今も変わらず一番良い機能は?',
-			),
-		),
-		
-		/**
-		* アンケートの話題
-		*/
-		'polltopics' => array(
-			array(
-				'field'  => 'pid',
-				'value'  => 'geeklogfeaturepoll',
-				'target' => 'topic',
-				'en'     => 'Tell us your opinion about Geeklog',
-				'ja'     => 'Geeklogについてお答えください。',
-			),
-		),
+# 		'pollquestions' => array(
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 0,
+# 				'field2' => 'pid',
+# 				'value2' => 'geeklogfeaturepoll',
+# 				'target' => 'question',
+# 				'en'     => 'What is the best new feature of Geeklog?',
+# 				'ja'     => 'Geeklogの新機能で一番良いものは?',
+# 			),
+# 			array(
+# 				'field'  => 'qid',
+# 				'value'  => 1,
+# 				'field2' => 'pid',
+# 				'value2' => 'geeklogfeaturepoll',
+# 				'target' => 'question',
+# 				'en'     => 'What is the all-time best feature of Geeklog?',
+# 				'ja'     => 'Geeklogの機能で今も変わらず一番良い機能は?',
+# 			),
+# 		),
+# 		
+# 		/**
+# 		* アンケートの話題
+# 		*/
+# 		'polltopics' => array(
+# 			array(
+# 				'field'  => 'pid',
+# 				'value'  => 'geeklogfeaturepoll',
+# 				'target' => 'topic',
+# 				'en'     => 'Tell us your opinion about Geeklog',
+# 				'ja'     => 'Geeklogについてお答えください。',
+# 			),
+# 		),
 		
 		/**
 		* 投稿モード
