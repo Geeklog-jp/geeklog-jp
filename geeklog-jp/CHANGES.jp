@@ -1,5 +1,9 @@
 $Id$
 
+2009-10-24  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr2-jp-1.0rc2(リリース候補2)をリリースします。
+
 2009-10-24  mystral-kk <mystral-kk>
 
 	* 携帯ハックで、画像URIにクエリストリングがついている場合、画像自動縮小
