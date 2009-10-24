@@ -2,6 +2,11 @@ $Id$
 
 2009-10-24  mystral-kk <mystral-kk>
 
+	* 新規インストール直後の画面で、アンケートが既に日本語化されている問題
+	  (Issue #84)に対応しました。
+
+2009-10-24  mystral-kk <mystral-kk>
+
 	* 携帯ハックの画像自動縮小がallow_url_fopen = Offのときにも表示されるよ
 	  うimageresizer.phpを修正しました。また、他サイトの画像を読み込む場合
 	  にも対応しました。
