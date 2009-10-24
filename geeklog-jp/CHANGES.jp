@@ -9,13 +9,13 @@ $Id$
 
 	* Issue 107 の新規インストール後、デフォルトで入っている
 	 「Geeklogへようこそ!」記事内のdocs ディレクトリのリンク先が
-          表示されない不具合の英語の方も修正しました。
+	  表示されない不具合の英語の方も修正しました。
 
 2009-10-24  Masuko Koeda  <milk851>
 
 	* Issue 107 の新規インストール後、デフォルトで入っている
 	 「Geeklogへようこそ!」記事内のdocs ディレクトリのリンク先が
-          表示されない不具合を修正しました。
+	  表示されない不具合を修正しました。
 
 2009-10-24  mystral-kk <mystral-kk>
 
@@ -71,7 +71,8 @@ $Id$
 
 2009-10-21  Hiroshi Sakuramoto <hirorongl>
 
-	* 携帯で検索するとログアウトされる問題に簡易対応の修正を行いました。(Issue #96)
+	* 携帯で検索するとログアウトされる問題に簡易対応の修正を行いました。
+	  (Issue #96)
 
 2009-10-20  Yoshinori Tahara  <dengen>
 
@@ -135,9 +136,9 @@ $Id$
 2009-09-29  Masuko Koeda  <milk851>
 
 	* ProfessionalCSSとWAIproCSSの
-          /admin/story/storyeditor.japanese_utf-8.thtmlと
-          storyeditor_advanced.japanese_utf-8.thtmlで、それぞれのコメント部分の
-          ファイル名をただしいファイル名に置き換えました。
+	  /admin/story/storyeditor.japanese_utf-8.thtmlと
+	  storyeditor_advanced.japanese_utf-8.thtmlで、それぞれのコメント部分の
+	  ファイル名を正しいファイル名に置き換えました。
 
 2009-09-27  Takahiro Kambe  <tacahi>
 
@@ -165,14 +166,14 @@ $Id$
 2009-09-17  Masuko Koeda  <milk851>
 
 	* Professionalと同様にProfessionalCSSとWAIproCSSも
-          「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
-          した。
+	  「記事の編集」フォームの日付を言語モードに応じて切り替わるようにしま
+	  した。
 
 2009-09-16  Masuko Koeda  <milk851>
 
 	* ProfessionalCSSとWAIproCSSで不要になった
-          css/plugin/forum.cssを削除し、
-          css/plugin.cssでforum.cssをインポートしている行を削除しました。
+	  css/plugin/forum.cssを削除し、
+	  css/plugin.cssでforum.cssをインポートしている行を削除しました。
 
 2009-09-16  Yoshinori Tahara  <dengen>
 
@@ -192,15 +193,15 @@ $Id$
 2009-09-13  Masuko Koeda  <milk851>
 
 	* ProfessionalCSS: WAIproCSSと同様に記事の編集で
-          日と時の間に&nbsp;&nbsp;を追加して見やすくしました。
+	  日と時の間に&nbsp;&nbsp;を追加して見やすくしました。
 
 2009-09-13  Masuko Koeda  <milk851>
 
 	* ProfessionalCSS: /admin/story/storyeditor_advanced.thtmlの215行目に
-          <dl>の閉じタグ</dl>を追加しました。
-          WAIproCSS: ProfessionalCSSと同様に記事の編集で
-          日付順番を年月日に変更しました。
-          日と時の間に&nbsp;&nbsp;を追加して見やすくしました。
+	  <dl>の閉じタグ</dl>を追加しました。
+	  WAIproCSS: ProfessionalCSSと同様に記事の編集で
+	  日付順番を年月日に変更しました。
+	  日と時の間に&nbsp;&nbsp;を追加して見やすくしました。
 
 2009-09-13  Yoshinori Tahara  <dengen>
 
@@ -241,13 +242,13 @@ $Id$
 2009-09-11  Masuko Koeda  <milk851>
 
 	* WAIproCSS: 音声読上げソフト利用者の方が解りやすいように、
-          ログインユーザーのコメント投稿で「返信があったらメールで通知」の
-          チェックボックスがプレビューボタンの前に読上げられるよう
-          位置の修正しました。
-          通常画面と管理画面でのフォームのボタン間(左右)の余白を広くしました。
-          記事(管理者ページ)の公開オプションでボタンの上に余白を追加しました。
-          アーカイブされた記事のスタイルを通常記事と同じになるよう修正しました。
-          更新履歴をREADMEに記載しました。
+	  ログインユーザーのコメント投稿で「返信があったらメールで通知」の
+	  チェックボックスがプレビューボタンの前に読上げられるよう
+	  位置の修正しました。
+	  通常画面と管理画面でのフォームのボタン間(左右)の余白を広くしました。
+	  記事(管理者ページ)の公開オプションでボタンの上に余白を追加しました。
+	  アーカイブされた記事のスタイルを通常記事と同じになるよう修正しました。
+	  更新履歴をREADMEに記載しました。
 
 2009-09-11  Takahiro Kambe  <tacahi>
 
@@ -382,9 +383,9 @@ $Id$
 2009-08-28  Masuko Koeda  <milk851>
 
 	* WAIproCSS: アクセシビリティに配慮し、<label>タグを追記して、
-          チェックボックスでテキスト部分をクリックしても
-          チェックできるようにしました。
-          更新履歴をREADMEに記載しました。
+	  チェックボックスでテキスト部分をクリックしても
+	  チェックできるようにしました。
+	  更新履歴をREADMEに記載しました。
 
 2009-08-27  Kazuko Tsuchitani <Tsuchi>
 
@@ -533,7 +534,7 @@ $Id$
 2009-08-04  Masuko Koeda  <milk851>
 
 	* WAIproCSSの各種ブラウザでの確認作業が終了しましたので、
-          READMEに確認したブラウザを記載しました。
+	  READMEに確認したブラウザを記載しました。
 
 2009-08-03  Yoshinori Tahara  <dengen>
 
@@ -543,18 +544,18 @@ $Id$
 2009-08-01  Masuko Koeda  <milk851>
 
 	* WAIproCSSの検索結果ページ、メニューの選択肢部分を
-          アクセシビリティに配慮し音声読上げソフトで選択肢が読上げられてから
-          ボタンでページが切り替わるように修正しました。
+	  アクセシビリティに配慮し音声読上げソフトで選択肢が読上げられてから
+	  ボタンでページが切り替わるように修正しました。
 
 2009-08-01  Masuko Koeda  <milk851>
 
 	* WAIproCSSの検索結果ページ、メニューの選択肢の不具合を直しました。
-          検索結果ページ、メニューの選択肢のスタイルの修正をしました。
-          聞き飛ばし部分のスタイルをcommon.cssファイル中の
-          ページナビゲーションからスキップ要素に移動しました。
-          フッタのvalidate表示を消したので、
-          その部分の音声で読み上げないようにする記述を削除しました。
-          READMEの更新履歴を修正しました。
+	  検索結果ページ、メニューの選択肢のスタイルの修正をしました。
+	  聞き飛ばし部分のスタイルをcommon.cssファイル中の
+	  ページナビゲーションからスキップ要素に移動しました。
+	  フッタのvalidate表示を消したので、
+	  その部分の音声で読み上げないようにする記述を削除しました。
+	  READMEの更新履歴を修正しました。
 
 2009-08-01  Masuko Koeda  <milk851>
 
