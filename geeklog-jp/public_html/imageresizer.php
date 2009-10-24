@@ -57,7 +57,7 @@ if (!preg_match("!^https*?:\/\/!", $image)) {
 	$image = $site_url . $image;
 } 
 
-// 自分サイトの場合は、URI --> パス変換
+// 自サイトの場合は、URI --> パス変換
 if (strcasecmp($site_url, substr($image, 0, strlen($site_url))) === 0) {
 	$image = realpath($path_html . str_replace($site_url . '/' ,'', $image));
 } else {
@@ -102,11 +102,13 @@ if (strcasecmp($site_url, substr($image, 0, strlen($site_url))) === 0) {
 // 元イメージのサイズを取得
 list($s_width, $s_height) = getimagesize($image);
 
-if (preg_match('/\.jpe?g$/i', $org_image)) {
+// 画像ファイル名の後にクエリストリングがついている場合を考慮して、パターンに
+// (\?.*)? を追加。
+if (preg_match('/\.jpe?g(\?.*)?$/i', $org_image)) {
 	$src_img = imagecreatefromjpeg($image);
-} else if (preg_match('/\.gif$/i', $org_image)) {
+} else if (preg_match('/\.gif(\?.*)?$/i', $org_image)) {
 	$src_img = imagecreatefromgif($image);
-} else if (preg_match('/\.png$/i', $org_image)) {
+} else if (preg_match('/\.png(\?.*)?$/i', $org_image)) {
 	$src_img = imagecreatefrompng($image);
 } else {
 	COM_errorLog(RESIZER . ': Image format is not supported.');
