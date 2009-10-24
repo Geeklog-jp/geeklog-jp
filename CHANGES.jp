@@ -1,5 +1,11 @@
 $Id$
 
+2009-10-24  mystral-kk <mystral-kk>
+
+	* 携帯ハックの画像自動縮小がallow_url_fopen = Offのときにも表示されるよ
+	  うimageresizer.phpを修正しました。また、他サイトの画像を読み込む場合
+	  にも対応しました。
+
 2009-10-24  Masuko Koeda  <milk851>
 
 	* WAIproCSSのREADMEの更新履歴を修正、追記しました。
