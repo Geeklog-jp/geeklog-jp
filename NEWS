@@ -1,0 +1,123 @@
+NEWS
+
+							2009年10月25日
+							Geeklog Japanese
+
+1. 概要
+
+Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです。
+
+	* 日本語環境に特有な地域化の改良
+	* オリジナルのGeeklogに先行したバグ修正
+	* 有用なプラグイン、カスタム関数やブロックの同梱
+
+オリジナルのGeeklogに近い内容の通常版と、より多くのプラグイン等を追加
+した拡張版を提供しています。
+
+
+2. Geeklog 1.6.0sr2-jp-1.0の内容
+
+  * 独自プラグイン
+
+    以下で、(*)を後ろに付けたものはGeeklog 1.6からのプラグイン管理の
+    機能に対応していないものです。
+
+    o 通常版と拡張版に同梱
+
+	calendarjp バージョン 1.1.0
+		Calendarプラグインを日本人ユーザー向けにローカライズ
+	japanize バージョン 1.0.5RC2
+		Geeklogを日本人流に構成
+
+    o 拡張版に同梱
+
+	autotags バージョン 1.02jp1 (*)
+		autotagsプラグインに日本語言語ファイルとタグ管理画面の
+		テンプレートを変更したものを追加・差し換え
+
+	captcha バージョン 4.0.2
+		画像を使用した認証を提供
+
+	custommenu バージョン 0.4.3 (*)
+		メインメニュー(ヘッダーメニュー)を管理画面で設定
+
+	dataproxy バージョン 1.1.4.1
+		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
+		する共通のAPIを提供
+
+	dbman バージョン 0.5.2 (*)
+		mysqldumpコマンドを使用せずにデータベースのバックアッ
+		プやリストアを実行
+
+	filemgmt バージョン 1.5.3-20090602 (*)
+		ファイル管理の機能を提供
+
+	forum バージョン 2.7.2.JPr5
+		掲示板を提供
+
+	mycaljp バージョン 2.1.0
+		サイトカレンダーを提供
+
+	nmoxqrblock バージョン 1.0.0 (*)
+		表示しているページのQRコードを表示するブロックを生成
+
+	nmoxtopicown バージョン1.0.0 (*)
+		トピックとその中の記事の所有者を変更する機能を提供
+
+	sitemap バージョン 1.1.7 (*)
+		GeeklogサイトのサイトマップとGoogleサイトマップを作成
+
+	themedit バージョン 1.1.3 (*)
+		テンプレートとカスケーディング・スタイルシートの編集
+		機能を提供
+
+	tkgmaps バージョン 0.9.4
+		GoogleMapsAPIを使用して複数ピンとバルーンをGoogle
+		マップに表示
+
+  * カスタム関数やブロック
+
+    o 通常版と拡張版に同梱
+
+	custom_cellular
+		携帯端末のサポート
+
+    * 拡張版に同梱
+
+	getStaticpage
+		統計ページの内容を取得
+
+	phpblock_lastarticles
+		最近の記事のタイトルとリンクを表示するブロック
+
+	phpblock_showrights
+		現在ログインしているユーザの権限を表示するブロック
+
+	phpblock_sitemapmenu
+		単純なサイトマップのメニューを表示するブロック
+
+	phpblock_stats
+		訪問者数を表示するブロック
+
+	phpblock_themetester
+		テーマ・テスターのブロック
+
+
+3. Google CodeのIssueの情報
+
+  * 1.6.0sr1-jp-1.0で修正されたIssueの一覧
+
+    以下のURLのページで確認できます。
+
+    http://code.google.com/p/geeklog-jp/issues/list?can=1&q=label%3AMilestone-1.6.0sr2-jp-1.0
+
+  * 1.6.0sr1-jp-1.0で未解決なIssueの一覧
+
+    http://code.google.com/p/geeklog-jp/issues/list
+
+4. さらなる情報
+
+Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
+ご覧ください。
+
+以上です。
