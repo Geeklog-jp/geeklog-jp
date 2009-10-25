@@ -1,5 +1,137 @@
 Geeklog History/Changes:
 
+Oct ??, 2009 (1.6.1)
+------------
+
+- When a Story Admin did not have permission to edit a story, Geeklog threw a
+  "call to a member function on a non-object" error when trying to display a
+  proper "access denied" message (reported by Chase and Cesar) [Dirk]
+- Don't display the comment form for a story when comments aren't enabled for it
+  (bug #0000994) [Dirk]
+- Fixed a long-standing quirk of the submission handling where the "Submissions"
+  entry in the Admins Block wasn't updated after accepting / rejecting a
+  submission [Dirk]
+- Fixed creation of multiple plugin groups in plugin autoinstall [Randy, Dirk]
+- Added new option $_CONF['article_comment_close_enabled'] to enable/disable
+  automatically closing stories for comments after a certain amount of days
+  (bug #0000959). Changed handling of comment_expire field in gl_stories such
+  that 0 means the story is always open for comments [Dirk]
+- The "Admin Group" checkbox in the Group Editor didn't work (bug #0000995,
+  reported & fix provided by Tsuchi)
+- Setting $_CONF['article_comment_close_days'] to a high value (to work around
+  bugs with the "Disable Comments" option in 1.6.0) may result in values outside
+  of the range of the year dropdown for that option, in which case it reverted
+  to the current year a may have caused comments to be closed immediately [Dirk]
+- When viewing your own profile page, you now get an "edit" link that take you
+  to "My Account" [Dirk]
+- Additional checks in "Mail Story to a Friend", "Send mail to user", and
+  "Mail Users" dialogs to make sure users don't enter email addresses into the
+  name fields (bug #0000992) [Dirk]
+- Added an option to send a copy to self to the "Mail Story to a Friend" dialog
+  and made the look of this and the "Send mail to user" dialogs more consistent
+  [Dirk]
+- Display the number of stories in the current topic in the Topic Editor
+  (feature request #0000806) [Dirk]
+- Call CUSTOM_userCheck from admin/user.php (bug #0000925) [Dirk]
+- You can now have one featured story per topic (feature request #0000750,
+  patch provided by Tom Homer)
+- Changing the Post Mode in Advanced Editor mode selected the wrong tab
+  (bug #0000980, patch provided by dengen)
+- Made the former $cc parameter for COM_mail an optional array of additional
+  email headers (using a string for that parameter still works as CC:) [Dirk]
+- Fixed reply notification for the very first comment (bug #0000973)
+  [dengen, Dirk]
+- When an anonymous commenter left a name, use it in the comment notification
+  email (bug #0000960) [Dirk]
+- Removed the CSRF token from all links to edit a comment. We only need it in
+  the actual comment editor and it caused problems on the moderation page [Dirk]
+- For anonymous comments, use the anonymous user's name from the database, not
+  from the language file (cf. bug #0000960) [Dirk]
+- The session and password cookies are now created with the HttpOnly flag set
+  to make it somewhat harder to read them from JavaScript (requires browser
+  support) [Dirk]
+- Fixed visibility of the "Send Ping" links in the Story Admin's list of stories
+  and the Story Options block [Dirk]
+- The install script was switching back to English in some upgrade scenarios
+  (bug #0000969, patch provided by taca)
+- Added a workaround to not lose the XMLSitemap priorities for Locales where
+  the comma is used as the decimal separator [Dirk]
+- Keep track of actual upper/lowercase spelling of plugin names in the
+  XMLSitemap plugin [mystral-kk, Dirk]
+- Added support for a CUSTOM_renderMenu function when rendering the top menu
+  (feature request #0000845) [Dirk]
+- In the install script, always open db-config.php and siteconfig.php in
+  binary mode to avoid EOL character mixup on Windows (bug #0000730) [Dirk]
+- Avoid SQL error with certain db dumps during migration (bug #0000955) [Dirk]
+- Plugin migration was only called when the plugin also needed an upgrade
+  (bug #0000947) [Dirk]
+- The Migrate option in the install script now also works on an existing
+  database (feature request #0000945) [Dirk]
+- Comment notifications used the phrase "Read the full article" when pointing
+  to the new comment post (bug #0000940) [Dirk]
+- Send correct content type and character set header in the install script
+  (bug #0000964, patch provided by taca)
+- The "Remember Me For" option under My Account did not recognize the "(don't)"
+  option any more (bug #0000961) [Dirk]
+- Send a notification when a comment goes into the submission queue [Dirk]
+- Added a link back to the story to the "Mail Story to a Friend" form [Dirk]
+- Only list [code], [raw] tags when story.* permissions are required [Dirk]
+- [page_break] was not listed when all HTML was allowed for Root users [Dirk]
+- Added support for meta tags and meta keywords, provided by Tom Homer
+- When an error occurs in bigdump.php (during migration) keep the selected
+  language when sending the user back to migrate.php (bug #0000943) [Dirk]
+- Use COM_getUserDateTimeFormat, i.e. the user's preferred format, for
+  displaying the date and time in search results [Dirk]
+- When disabling a feed, delete the feed file [Dirk]
+- Moved leftover hard-coded text from admin/sectest.php to the language files
+  [Dirk]
+- When creating Pingback excerpts, convert the other site's content to our
+  site's character set, when necessary [Dirk]
+- New function COM_getTextContent converts HTML into continuous text. Used for
+  a more accurate "read more" count for articles and to improve the text
+  excerpts for search results and pingbacks [Dirk]
+- Use COM_numberFormat to format the number of registered and anonymous users
+  displayed in the Who's Online block [Dirk]
+- Use $LANG_ADMIN['na'] instead of hard-coding 'N/A' in several places [Dirk]
+- For Remote Users, display their service name in the User Editor [Dirk]
+
+Calendar Plugin 1.1.1
+---------------
+- Keep track of the user id for submitted events (bug #0000993) [Dirk]
+- Reintroduced {event_begin_anchortag} and {event_end_anchortag} variables
+  in event.php [Dirk]
+- The number of hits for an event was reset when editing the event [Dirk]
+- When cloning an event, the number of hits for the clone should be 0 [Dirk]
+- Avoid triggering a false spam report when submitting an event with the default
+  "http://" entry for the link still in place (bug #0000946) [Dirk]
+
+Links Plugin
+------------
+- Display the number of links in the current category in the Category Editor.
+  Note: Does not (yet) count links in sub-categories [Dirk]
+- Link titles in autotags showed up with backslashes before quotes (bug
+  #0000986) [Dirk]
+
+Polls Plugin
+------------
+- Fixed display of the Polls block when it only contained polls not visible
+  for anonymous visitors (bug #0000996) [Dirk]
+- When upgrading from Geeklog 1.5.2, the length of the poll IDs was not extended
+  to 40 characters - only fresh installs of Geeklog 1.6.0 and upgrades from
+  older versions worked correctly (cf. feature request #0000754) [Dirk]
+- Added support for meta tags and meta keywords, provided by Tom Homer
+- Introduced [poll:], [poll_vote:], and [poll_result:] autotags, allowing to
+  embed polls where autotags are allowed, provided by Tom Homer
+
+Static Pages Plugin 1.6.1
+-------------------
+- Fresh installs of the plugin in Geeklog 1.6.0 accidentally used a wrong name
+  for the plugin's admin group. Silently fix that during the upgrade [Dirk]
+- Made the list of pages sortable by author (feature request #0000978) [Dirk]
+- List available autotags in the static pages editor [Dirk]
+- Added support for meta tags and meta keywords, provided by Tom Homer
+
+
 Aug 30, 2009 (1.6.0sr2)
 ------------
 

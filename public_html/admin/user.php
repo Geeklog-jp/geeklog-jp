@@ -155,7 +155,7 @@ function edituser($uid = '', $msg = '')
 
     $user_templates->set_var('lang_userid', $LANG28[2]);
     if (empty ($A['uid'])) {
-        $user_templates->set_var ('user_id', 'n/a');
+        $user_templates->set_var ('user_id', $LANG_ADMIN['na']);
     } else {
         $user_templates->set_var ('user_id', $A['uid']);
     }
@@ -174,6 +174,15 @@ function edituser($uid = '', $msg = '')
     } else {
         $user_templates->set_var('username', '');
     }
+
+    $remoteservice = '';
+    if ($_CONF['show_servicename'] && ($_CONF['user_login_method']['3rdparty']
+            || $_CONF['user_login_method']['openid'])) {
+        if (! empty($A['remoteservice'])) {
+            $remoteservice = '@' . $A['remoteservice'];
+        }
+    }
+    $user_templates->set_var('remoteservice', $remoteservice);
 
     if ($_CONF['allow_user_photo'] && ($A['uid'] > 0)) {
         $photo = USER_getPhoto ($A['uid'], $A['photo'], $A['email'], -1);
@@ -444,7 +453,7 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
     $userChanged = false;
 
     if ($_USER_VERBOSE) COM_errorLog("**** entering saveusers****",1);
-    if ($_USER_VERBOSE) COM_errorLog("group size at beginning = " . sizeof($groups),1);
+    if ($_USER_VERBOSE) COM_errorLog("group size at beginning = " . count($groups),1);
 
     if ($passwd != $passwd_conf) { // passwords don't match
         return edituser($uid, 67);
@@ -510,6 +519,18 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         if ($ucount > 0) {
             // Admin just changed a user's email to one that already exists
             return edituser($uid, 56);
+        }
+
+        if ($_CONF['custom_registration'] &&
+                function_exists('CUSTOM_userCheck')) {
+            $ret = CUSTOM_userCheck($username, $email);
+            if (! empty($ret)) {
+                // need a numeric return value - otherwise use default message
+                if (! is_numeric($ret['number'])) {
+                    $ret['number'] = 400;
+                }
+                return edituser($uid, $ret['number']);
+            }
         }
 
         if (empty ($uid) || !empty ($passwd)) {
