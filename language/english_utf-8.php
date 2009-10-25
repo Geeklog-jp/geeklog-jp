@@ -419,8 +419,8 @@ $LANG05 = array(
 $LANG08 = array(
     1 => 'There was an error sending your message. Please try again.',
     2 => 'Message sent successfully.',
-    3 => 'Please make sure you use a valid email address in the Reply To field.',
-    4 => 'Please fill in the Your Name, Reply To, Subject and Message fields',
+    3 => 'Please make sure you use a valid email address in the Your Email Address field.',
+    4 => 'Please fill in the Your Name, Your Email Address, Subject and Message fields',
     5 => 'Error: No such user.',
     6 => 'There was an error.',
     7 => 'User Profile for',
@@ -428,7 +428,7 @@ $LANG08 = array(
     9 => 'User URL',
     10 => 'Send mail to',
     11 => 'Your Name:',
-    12 => 'Reply To:',
+    12 => 'Your Email Address:',
     13 => 'Subject:',
     14 => 'Message:',
     15 => 'HTML will not be translated.',
@@ -825,7 +825,9 @@ $LANG24 = array(
     85 => 'Show All',
     86 => 'Advanced Editor',
     87 => 'Story Stats',
-    88 => 'Wiki-style format'
+    88 => 'Wiki-style format',
+    89 => 'Meta Description',
+    90 => 'Meta Keywords'
 );
 
 
@@ -861,7 +863,8 @@ $LANG27 = array(
     26 => 'make this the default topic for archived stories. Only one topic allowed.',
     27 => 'Or Upload Topic Icon',
     28 => 'Maximum',
-    29 => 'File Upload Errors'
+    29 => 'File Upload Errors',
+    30 => 'Stories in Topic'
 );
 
 ###############################################################################
@@ -991,10 +994,10 @@ $LANG29 = array(
 
 $LANG31 = array(
     1 => "{$_CONF['site_name']} Mail Utility",
-    2 => 'From',
-    3 => 'Reply-to',
+    2 => 'From Name',
+    3 => 'From Email Address',
     4 => 'Subject',
-    5 => 'Body',
+    5 => 'Message',
     6 => 'Send to:',
     7 => 'All users',
     8 => 'Admin',
@@ -1030,7 +1033,7 @@ $LANG32 = array(
     6 => 'Warning: Plugin Already Installed!',
     7 => 'The plugin you are trying to install already exists.  Please delete the plugin before re-installing it',
     8 => 'Plugin Compatibility Check Failed',
-    9 => 'This plugin requires a newer version of Geeklog. Either upgrade your copy of <a href="http://www.geeklog.net">Geeklog</a> or get a newer version of the plugin.',
+    9 => 'This plugin requires a newer version of Geeklog. Please upgrade your copy of <a href="http://www.geeklog.net/">Geeklog</a>.',
     10 => '<br' . XHTML . '><b>There are no plugins currently installed.</b><br' . XHTML . '><br' . XHTML . '>',
     11 => 'To modify or delete a plugin, click on that plugin\'s edit icon below. This will show the plugin details including the authors\'s website. Both the installed version and the version returned from the plugin\'s code are shown. This will aid you to know if the plugin needs to be upgraded. To install or upgrade a plugin please consult its documentation.',
     12 => 'no plugin name provided to plugineditor()',
@@ -1479,7 +1482,7 @@ $LANG_SECTEST = array(
     'public_html'   => '"public_html" should never be part of your site\'s URL.  Please read the part about public_html in the %s again and change your setup accordingly before you proceed.',
     'installation'  => 'installation instructions',
     'directory'     => 'directory',
-    'failed_bak'    => 'Failed to create a temporary file in your data directory. Check your directory permissions!',
+    'failed_tmp'    => 'Failed to create a temporary file in your %s directory. Check your directory permissions!',
     'fix_it'        => 'This is a security risk and should be fixed!',
     'reachable'     => 'Your %s is reachable from the web.',
     'not_reachable' => 'Good! Your %s is not reachable from the web.',
@@ -1573,6 +1576,8 @@ $LANG_ADMIN = array (
     'addchild'      => 'Add child',
     'list'          => 'list',
     'list_all'      => 'List all',
+    'meta_description' => 'Meta Description',
+    'meta_keywords' => 'Meta Keywords',        
     'na'            => 'N/A'
 );
 
@@ -1845,12 +1850,16 @@ $LANG_confignames['Core'] = array(
     'censorlist' => "Censor List",
     'ip_lookup' => "IP Lookup",
     'url_rewrite' => "Enable URL Rewrite",
+    'meta_tags' => "Meta Tags",
+    'meta_description' => "Default Meta Description",
+    'meta_keywords' => "Default Meta Keywords",
     'default_permissions_block' => "Block Default Permissions",
     'default_permissions_story' => "Story Default Permissions",
     'default_permissions_topic' => "Topic Default Permissions",
     'atom_max_stories' => "Max. Stories in Webservices Feed",
     'disable_webservices' => 'Disable Webservices?',
     'restrict_webservices' => 'Restrict Webservices?',
+    'article_comment_close_enabled' => 'Automatically close comments (default)',
     'article_comment_close_days' => 'Days to close comments (default)',
     'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
     'allow_reply_notifications' => 'Allow comment reply notifications?',
@@ -1949,7 +1958,8 @@ $LANG_configselects['Core'] = array(
     19 => array('Google' => 'google', 'Table' => 'table'),
     20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
-    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => '')
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
 );
 
 ?>
