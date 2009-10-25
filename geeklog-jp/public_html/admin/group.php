@@ -307,7 +307,7 @@ function getIndirectFeatures ($grp_id)
             }
         }
     }
-    while (sizeof ($tocheck) > 0);
+    while (count($tocheck) > 0);
 
     // get features for all groups in $checked
     $glist = join (',', $checked);
@@ -370,7 +370,7 @@ function printrights($grp_id = '', $core = 0)
         $indirectfeatures = explode (',', $indirectfeatures);
 
         // Build an array of indirect features
-        for ($i = 0; $i < sizeof($indirectfeatures); $i++) {
+        for ($i = 0; $i < count($indirectfeatures); $i++) {
             $grpftarray[current($indirectfeatures)] = 'indirect';
             next($indirectfeatures);
         }
@@ -387,7 +387,7 @@ function printrights($grp_id = '', $core = 0)
         $grpftarray = array_merge ($grpftarray, $grpftarray1);
         if ($VERBOSE) {
             // this is for debugging purposes
-            for ($i = 1; $i < sizeof($grpftarray); $i++) {
+            for ($i = 1; $i < count($grpftarray); $i++) {
                 COM_errorLog("element $i is feature " . key($grpftarray) . " and is " . current($grpftarray),1);
                 next($grpftarray);
             }
@@ -529,7 +529,7 @@ function savegroup($grp_id, $grp_name, $grp_descr, $grp_admin, $grp_gl_core, $fe
 
         // Use the field grp_gl_core to indicate if this is non-core GL Group is an Admin related group
         if (($grp_gl_core != 1) AND ($grp_id > 1)) {
-            if ($grp_admin == 'on') {
+            if ($grp_admin == 1) {
                 DB_query("UPDATE {$_TABLES['groups']} SET grp_gl_core=2 WHERE grp_id=$grp_id");
             } else {
                 DB_query("UPDATE {$_TABLES['groups']} SET grp_gl_core=0 WHERE grp_id=$grp_id");
@@ -621,7 +621,7 @@ function getGroupList($basegroup)
 
     $checked = array ();
 
-    while (sizeof ($to_check) > 0) {
+    while (count($to_check) > 0) {
         $thisgroup = array_pop ($to_check);
         if ($thisgroup > 0) {
             $result = DB_query ("SELECT ug_grp_id FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = $thisgroup");
