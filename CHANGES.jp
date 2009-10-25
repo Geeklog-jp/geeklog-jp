@@ -1,5 +1,10 @@
 $Id$
 
+2009-10-26  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.0sr2-jpの保守は branches/geeklog-1.6.0-jp の
+	  ブランチで行います。
+
 2009-10-25  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.0sr2-jp-1.0をリリースします。
