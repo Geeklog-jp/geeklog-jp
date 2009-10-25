@@ -233,8 +233,10 @@ function INST_installEngine($install_type, $install_step)
         // Check if the user's version of MySQL is out of date
         } else if (INST_mysqlOutOfDate($DB)) { 
 
-            $display .= '<h1>' . $LANG_INSTALL[51] . '</h1>' . LB;
-            $display .= '<p>' . $LANG_INSTALL[52]
+            $myv = mysql_v($DB['host'], $DB['user'], $DB['pass']);
+            $display .= '<h1>' . sprintf($LANG_INSTALL[51], SUPPORTED_MYSQL_VER)
+                     . '</h1>' . LB;
+            $display .= '<p>' . sprintf($LANG_INSTALL[52], SUPPORTED_MYSQL_VER)
                      . $myv[0] . '.' . $myv[1] . '.' . $myv[2]
                      . $LANG_INSTALL[53] . '</p>' . LB;
 
@@ -343,7 +345,7 @@ function INST_installEngine($install_type, $install_step)
                               . '<p>' . $LANG_INSTALL[91] . '</p>';
                 } else {
 
-                    $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0','1.5.1','1.5.2');
+                    $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0','1.5.1','1.5.2','1.6.0');
                     if (empty($curv)) {
                         // If we were unable to determine the current GL
                         // version is then ask the user what it is
@@ -424,7 +426,7 @@ function INST_installEngine($install_type, $install_step)
                             <li>' . $LANG_INSTALL[65] . '</li>
                         </ol>
 
-                        <div style="margin-left: auto; margin-right: auto; width: 125px">
+                        <div style="margin-left: auto; margin-right: auto; width: 175px">
                             <div style="position: absolute">
                                 <form action="index.php" method="post">
                                 <input type="hidden" name="mode" value="install"' . XHTML . '>
@@ -437,7 +439,7 @@ function INST_installEngine($install_type, $install_step)
                                 </form>
                             </div>
 
-                            <div style="position: relative; left: 55px; top: 5px">
+                            <div style="position: relative; left: 105px; top: 5px">
                                 <form action="index.php" method="post">
                                 <input type="hidden" name="mode" value="upgrade"' . XHTML . '>
                                 <input type="hidden" name="language" value="' . $language . '"' . XHTML . '>
@@ -965,8 +967,8 @@ $display .= '
 if (INST_phpOutOfDate()) {
 
     // If their version of PHP is not supported, print an error:
-    $display .= '<h1 class="heading">' . str_replace('4.1.0', SUPPORTED_PHP_VER, $LANG_INSTALL[4]) . '</h1>' . LB;
-    $display .= '<p>' . str_replace('4.1.0', SUPPORTED_PHP_VER, $LANG_INSTALL[5]) . phpversion() . $LANG_INSTALL[6] . '</p>' . LB;
+    $display .= '<h1 class="heading">' . sprintf($LANG_INSTALL[4], SUPPORTED_PHP_VER) . '</h1>' . LB;
+    $display .= '<p>' . sprintf($LANG_INSTALL[5], SUPPORTED_PHP_VER) . phpversion() . $LANG_INSTALL[6] . '</p>' . LB;
 
 } else {
 
@@ -1198,7 +1200,7 @@ if (INST_phpOutOfDate()) {
 
         // Edit siteconfig.php and enter the correct GL path and system directory path
         $siteconfig_path = $_PATH['public_html/'] . 'siteconfig.php';
-        $siteconfig_file = fopen($siteconfig_path, 'r');
+        $siteconfig_file = fopen($siteconfig_path, 'rb');
         $siteconfig_data = fread($siteconfig_file, filesize($siteconfig_path));
         fclose($siteconfig_file);
 
