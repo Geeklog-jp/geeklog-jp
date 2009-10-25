@@ -2,6 +2,11 @@ $Id$
 
 2009-10-26  Takahiro Kambe  <tacahi>
 
+	* GeeklogのMercurialのリポジトリから1.6.1に向けたコード、
+	  2009年10月20日版を取り込んマージを行いました。
+
+2009-10-26  Takahiro Kambe  <tacahi>
+
 	* Geeklog 1.6.0sr2-jpの保守は branches/geeklog-1.6.0-jp の
 	  ブランチで行います。
 
