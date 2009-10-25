@@ -391,10 +391,11 @@ $display = '';
 
 // note that 'type' _may_ come in through $_GET even when the
 // other parameters are in $_POST
-if (isset ($_POST['type'])) {
-    $type = COM_applyFilter ($_POST['type']);
-} else {
-    $type = COM_applyFilter ($_GET['type']);
+$type = '';
+if (isset($_POST['type'])) {
+    $type = COM_applyFilter($_POST['type']);
+} elseif (isset($_GET['type'])) {
+    $type = COM_applyFilter($_GET['type']);
 }
 
 $mode = '';
@@ -451,7 +452,8 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
             $pagetitle = '';
             break;
     }
-    $display .= COM_siteHeader ('menu', $pagetitle);
+    $noindex = '<meta name="robots" content="noindex"' . XHTML . '>' . LB;
+    $display .= COM_siteHeader ('menu', $pagetitle, $noindex);
     $display .= submissionform($type, $mode, $topic);
     $display .= COM_siteFooter();
 }
