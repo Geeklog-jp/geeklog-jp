@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.6.1                                                             |
 // +---------------------------------------------------------------------------+
 // | listfactory.class.php                                                     |
 // |                                                                           |
@@ -251,15 +251,27 @@ class ListFactory {
     }
 
     /**
-    * Appends a result to the list
+    * Appends a single result to the list
     *
     * @access public
-    * @param array $result An single result that will be appended to the rest
+    * @param array $result A single result that will be appended to the rest
     *
     */
     function addResult( $result )
     {
         $this->_preset_rows[] = $result;
+    }
+
+    /**
+    * Appends several results to the list
+    *
+    * @access public
+    * @param array $result An array of result that will be appended to the rest
+    *
+    */
+    function addResultArray( $arr )
+    {
+        $this->_preset_rows = array_merge($this->_preset_rows, $arr);
     }
 
     /**
@@ -516,7 +528,9 @@ class ListFactory {
             foreach ($this->_page_limits as $key => $val)
             {
                 $text = is_numeric($key) ? sprintf($LANG09[67], $val) : $key;
-                $href = $this->_page_url . "results=$val";
+                $href = $this->_page_url . "order={$this->_sort_arr['field']}&amp;" .
+                            "direction={$this->_sort_arr['direction']}&amp;results=$val";
+
                 $selected = $this->_per_page == $val ? ' selected="selected"' : '';
 
                 $list_templates->set_var('limit_text', $text);
@@ -545,6 +559,12 @@ class ListFactory {
             if (!$show_sort) {
                 $list_templates->set_var('show_sort', 'display:none;');
             }
+
+            // Write field
+            $list_templates->set_var('sort_text', "$sort_text...");
+            $list_templates->set_var('sort_href', "");
+            $list_templates->set_var('sort_selected', $sort_selected);
+            $list_templates->parse('page_sort', 'sort', true);
         }
 
         // Draw the sorting select box/table headings
@@ -561,11 +581,13 @@ class ListFactory {
 
                     // Show the sort arrow
                     if ($this->_sort_arr['field'] === $field['name']) {
-                        $selected = $sort_selected;
+                        //$selected = $sort_selected;
                         $direction = $this->_sort_arr['direction'] == 'asc' ? 'desc' : 'asc';
+                        $text .= " ($direction)";
                     }
 
-                    $href = $this->_page_url . "order={$field['name']}&amp;direction=$direction";
+                    $href = $this->_page_url . "results={$this->_per_page}&amp;" .
+                                "order={$field['name']}&amp;direction=$direction";
 
                     if ($this->_style == 'table') {
                         $text = "<a href=\"$href\">$text</a>";
