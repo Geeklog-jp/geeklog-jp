@@ -362,18 +362,6 @@ class Search {
         $sql .= "WHERE (draft_flag = 0) AND (date <= NOW()) AND (u.uid = s.uid) ";
         $sql .= COM_getPermSQL('AND') . COM_getTopicSQL('AND') . COM_getLangSQL('sid', 'AND') . ' ';
 
-        if (!empty($this->_dateStart) && !empty($this->_dateEnd))
-        {
-            $delim = substr($this->_dateStart, 4, 1);
-            if (!empty($delim))
-            {
-                $DS = explode($delim, $this->_dateStart);
-                $DE = explode($delim, $this->_dateEnd);
-                $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
-                $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
-                $sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') ";
-            }
-        }
         if (!empty($this->_topic)) {
             $sql .= "AND (s.tid = '$this->_topic') ";
         }
@@ -381,33 +369,18 @@ class Search {
             $sql .= "AND (s.uid = '$this->_author') ";
         }
 
-        $search = new SearchCriteria('stories', $LANG09[65]);
+        $search_s = new SearchCriteria('stories', $LANG09[65]);
+
         $columns = array('title' => 'title', 'introtext', 'bodytext');
-        list($sql, $ftsql) = $search->buildSearchSQL($this->_keyType, $query, $columns, $sql);
-        $search->setSQL($sql);
-        $search->setFTSQL($ftsql);
-        $search->setRank(5);
-        $search->setURLRewrite(true);
+        $sql .= $search_s->getDateRangeSQL('AND', 'date', $this->_dateStart, $this->_dateEnd);
+        list($sql, $ftsql) = $search_s->buildSearchSQL($this->_keyType, $query, $columns, $sql);
 
-        return $search;
-    }
+        $search_s->setSQL($sql);
+        $search_s->setFTSQL($ftsql);
+        $search_s->setRank(5);
+        $search_s->setURLRewrite(true);
 
-    /**
-    * Performs search on all comments
-    *
-    * @author Tony Bibbs, tony AT geeklog DOT net
-    * @author Sami Barakat, s.m.barakat AT gmail DOT com
-    * @access private
-    * @return object plugin object
-    *
-    */
-    function _searchComments()
-    {
-        global $_TABLES, $_DB_dbms, $LANG09;
-
-        // Make sure the query is SQL safe
-        $query = trim(addslashes($this->_query));
-
+        // Search Story Comments
         $sql = "SELECT c.cid AS id, c.title AS title, c.comment AS description, ";
         $sql .= "UNIX_TIMESTAMP(c.date) AS date, c.uid AS uid, ";
 
@@ -423,18 +396,6 @@ class Search {
         $sql .= COM_getPermSQL('AND',0,2,'s') . COM_getTopicSQL('AND',0,'s') . COM_getLangSQL('sid','AND','s') . ") ";
         $sql .= "WHERE (u.uid = c.uid) AND (s.draft_flag = 0) AND (s.commentcode >= 0) AND (s.date <= NOW()) ";
 
-        if (!empty($this->_dateStart) && !empty($this->_dateEnd))
-        {
-            $delim = substr($this->_dateStart, 4, 1);
-            if (!empty($delim))
-            {
-                $DS = explode($delim, $this->_dateStart);
-                $DE = explode($delim, $this->_dateEnd);
-                $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
-                $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
-                $sql .= "AND (UNIX_TIMESTAMP(c.date) BETWEEN '$startdate' AND '$enddate') ";
-            }
-        }
         if (!empty($this->_topic)) {
             $sql .= "AND (s.tid = '$this->_topic') ";
         }
@@ -442,14 +403,17 @@ class Search {
             $sql .= "AND (c.uid = '$this->_author') ";
         }
 
-        $search = new SearchCriteria('comments', $LANG09[66]);
-        $columns = array('title' => 'c.title', 'comment');
-        list($sql, $ftsql) = $search->buildSearchSQL($this->_keyType, $query, $columns, $sql);
-        $search->setSQL($sql);
-        $search->setFTSQL($ftsql);
-        $search->setRank(2);
+        $search_c = new SearchCriteria('comments', array($LANG09[65],$LANG09[66]));
 
-        return $search;
+        $columns = array('title' => 'c.title', 'comment');
+        $sql .= $search_c->getDateRangeSQL('AND', 'c.date', $this->_dateStart, $this->_dateEnd);
+        list($sql, $ftsql) = $search_c->buildSearchSQL($this->_keyType, $query, $columns, $sql);
+
+        $search_c->setSQL($sql);
+        $search_c->setFTSQL($ftsql);
+        $search_c->setRank(2);
+
+        return array($search_s, $search_c);
     }
 
     /**
@@ -545,14 +509,7 @@ class Search {
         $result_plugins = PLG_doSearch($this->_query, $this->_dateStart, $this->_dateEnd, $this->_topic, $this->_type, $this->_author, $this->_keyType, $page, 5);
 
         // Add core searches
-        if ($this->_type == 'all' || $this->_type == 'stories')
-        {
-            $result_plugins[] = $this->_searchStories();
-        }
-        if ($this->_type == 'all' || $this->_type == 'comments')
-        {
-            $result_plugins[] = $this->_searchComments();
-        }
+        $result_plugins = array_merge($result_plugins, $this->_searchStories());
 
         // Loop through all plugins separating the new API from the old
         $new_api = 0;
@@ -563,6 +520,14 @@ class Search {
         {
             if (is_a($result, 'SearchCriteria'))
             {
+                if ($this->_type != 'all' && $this->_type != $result->getName())
+                {
+                    if ($this->_verbose) {
+                        COM_errorLog($result->getName() . " using APIv2. Skipped as type is not " . $this->_type);
+                    }
+                    continue;
+                }
+
                 $debug_info = $result->getName() . " using APIv2 with ";
 
                 if ($_CONF['search_use_fulltext'] == true && $result->getFTSQL() != '')
@@ -581,6 +546,11 @@ class Search {
                 $debug_info .= "SQL = " . print_r($sql,1);
                 if ($this->_verbose) {
                     COM_errorLog($debug_info);
+                }
+
+                $api_results = $result->getResults();
+                if (!empty($api_results)) {
+                    $obj->addResultArray($api_results);
                 }
 
                 $obj->setQuery($result->getLabel(), $result->getName(), $sql, $result->getRank());
@@ -765,7 +735,8 @@ class Search {
             }
 
             if ($row['date'] != 'LF_NULL') {
-                $row['date'] = strftime($_CONF['daytime'], intval($row['date']));
+                $dt = COM_getUserDateTimeFormat(intval($row['date']));
+                $row['date'] = $dt[0];
             }
 
             if ($row['hits'] != 'LF_NULL') {
@@ -795,10 +766,7 @@ class Search {
     */
     function _shortenText($keyword, $text, $num_words = 7)
     {
-        $text = strip_tags($text);
-        $text = str_replace(array("\011", "\012", "\015"), ' ', trim($text));
-        $text = str_replace('&nbsp;', ' ', $text);
-        $text = preg_replace('/\s\s+/', ' ', $text);
+        $text = COM_getTextContent($text);
         $words = explode(' ', $text);
         $word_count = count($words);
         if ($word_count <= $num_words) {

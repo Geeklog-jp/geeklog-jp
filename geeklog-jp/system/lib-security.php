@@ -137,7 +137,7 @@ function SEC_getUserGroups($uid='')
             }
         }
 
-        if (sizeof ($cgroups) > 0) {
+        if (count($cgroups) > 0) {
             $glist = join(',', $cgroups);
             $result = DB_query("SELECT ug_main_grp_id,grp_name FROM {$_TABLES["group_assignments"]},{$_TABLES["groups"]}"
                     . " WHERE grp_id = ug_main_grp_id AND ug_grp_id IN ($glist)",1);
@@ -579,10 +579,10 @@ function SEC_getPermissionValues($perm_owner,$perm_group,$perm_members,$perm_ano
     }
 
     if ($_SEC_VERBOSE) {
-        COM_errorlog('perm_owner = ' . $perm_owner, 1);
-        COM_errorlog('perm_group = ' . $perm_group, 1);
-        COM_errorlog('perm_member = ' . $perm_members, 1);
-        COM_errorlog('perm_anon = ' . $perm_anon, 1);
+        COM_errorLog('perm_owner = ' . $perm_owner, 1);
+        COM_errorLog('perm_group = ' . $perm_group, 1);
+        COM_errorLog('perm_member = ' . $perm_members, 1);
+        COM_errorLog('perm_anon = ' . $perm_anon, 1);
         COM_errorLog('**** Leaving SEC_getPermissionValues ****', 1);
     }
 
@@ -612,7 +612,7 @@ function SEC_getPermissionValue($perm_x)
 
     $retval = 0;
 
-    for ($i = 1; $i <= sizeof($perm_x); $i++) {
+    for ($i = 1; $i <= count($perm_x); $i++) {
         if ($_SEC_VERBOSE) {
             COM_errorLog("perm_x[$i] = " . current($perm_x), 1);
         }
@@ -671,7 +671,7 @@ function SEC_getFeatureGroup ($feature, $uid = '')
     $group = 0;
 
     $ft_id = DB_getItem ($_TABLES['features'], 'ft_id', "ft_name = '$feature'");
-    if (($ft_id > 0) && (sizeof ($ugroups) > 0)) {
+    if (($ft_id > 0) && (count($ugroups) > 0)) {
         $grouplist = implode (',', $ugroups);
         $result = DB_query ("SELECT acc_grp_id FROM {$_TABLES['access']} WHERE (acc_ft_id = $ft_id) AND (acc_grp_id IN ($grouplist)) ORDER BY acc_grp_id LIMIT 1");
         $A = DB_fetchArray ($result);
@@ -1175,6 +1175,121 @@ function SEC_checkToken()
     }
     
     return $return;
+}
+
+/**
+* Set a cookie using the HttpOnly flag
+*
+* Use this function to set "important" cookies (session, password, ...).
+* Browsers that support the HttpOnly flag will not allow JavaScript access
+* to such a cookie.
+*
+* @param    string  $name       cookie name
+* @param    string  $value      cookie value
+* @param    int     $expire     expire time
+* @param    string  $path       path on the server or $_CONF['cookie_path']
+* @param    string  $domain     domain or $_CONF['cookiedomain']
+* @param    bool    $secure     whether to use HTTPS or $_CONF['cookiesecure']
+* @link http://blog.mattmecham.com/2006/09/12/http-only-cookies-without-php-52/
+*
+*/
+function SEC_setCookie($name, $value, $expire = 0, $path = null, $domain = null, $secure = null)
+{
+    global $_CONF;
+
+    $retval = false;
+
+    if ($path === null) {
+        $path = $_CONF['cookie_path'];
+    }
+    if ($domain === null) {
+        $domain = $_CONF['cookiedomain'];
+    }
+    if ($secure === null) {
+        $secure = $_CONF['cookiesecure'];
+    }
+
+    // the httponly parameter is only available as of PHP 5.2.0
+    if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
+        $retval = setcookie($name, $value, $expire, $path, $domain, $secure,
+                            true);
+    } else {
+        // fake it for older PHP versions; kudos to Matt Mecham
+        $retval = setcookie($name, $value, $expire, $path,
+                            $domain . '; httponly', $secure);
+    }
+
+    return $retval;
+}
+
+/**
+* Prepare an array of the standard permission values
+*
+* This helper functions does the following:
+* 1) filter permission values, e.g. after a POST request
+* 2) translates the permission checkbox arrays into numerical values
+* 3) ensures that all the standard permission entries are set, so you don't
+*    have to check with isset() all the time
+*
+* <code>
+* $PERM = SEC_filterPermissions($_POST);
+* if ($PERM['perm_anon'] != 0) { ...
+* </code>
+*
+* @param    array   $A  array to filter on, e.g. $_POST
+* @return   array       array of only the 6 standard permission values
+* @see      SEC_getPermissionValues
+*
+*/
+function SEC_filterPermissions($A)
+{
+    $retval = array();
+
+    if (isset($A['owner_id'])) {
+        $retval['owner_id'] = COM_applyFilter($A['owner_id'], true);
+    } else {
+        $retval['owner_id'] = 0;
+    }
+
+    if (isset($A['group_id'])) {
+        $retval['group_id'] = COM_applyFilter($A['group_id'], true);
+    } else {
+        $retval['group_id'] = 0;
+    }
+
+    $perms = array('perm_owner', 'perm_group', 'perm_members', 'perm_anon');
+
+    $B = array();
+    foreach ($perms as $p) {
+        if (isset($A[$p])) {
+            $B[$p] = $A[$p];
+        } else {
+            $B[$p] = array();
+        }
+    }
+
+    $B = SEC_getPermissionValues($B['perm_owner'], $B['perm_group'],
+                                 $B['perm_members'], $B['perm_anon']);
+    for ($i = 0; $i < 4; $i++) {
+        $retval[$perms[$i]] = $B[$i];
+    }
+
+    return $retval;
+}
+
+/**
+* Helper function for when you want to call SEC_hasAccess and have all the
+* values to check in an array.
+*
+* @param    array   $A  array with the standard permission values
+* @return   int         returns 3 for read/edit 2 for read only 0 for no access
+* @see      SEC_hasAccess
+*
+*/
+function SEC_hasAccess2($A)
+{
+    return SEC_hasAccess($A['owner_id'], $A['group_id'], $A['perm_owner'],
+                         $A['perm_group'], $A['perm_members'], $A['perm_anon']);
 }
 
 ?>

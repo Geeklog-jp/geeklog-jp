@@ -40,6 +40,7 @@ class SearchCriteria {
     var $_rank;
     var $_url_rewrite;
     var $_append_query;
+    var $_results = array();
 
     function SearchCriteria( $pluginName, $pluginLabel )
     {
@@ -73,6 +74,11 @@ class SearchCriteria {
     function setAppendQuery( $append_query )
     {
         $this->_append_query = $append_query;
+    }
+
+    function setResults( $result_arr )
+    {
+        $this->_results = $result_arr;
     }
 
     function getSQL()
@@ -115,6 +121,11 @@ class SearchCriteria {
     function AppendQueryEnable()
     {
         return $this->_append_query;
+    }
+
+    function getResults()
+    {
+        return $this->_results;
     }
 
     function buildSearchSQL( $keyType, $query, $columns, $sql = '' )
@@ -167,7 +178,7 @@ class SearchCriteria {
         {
             $word = trim($word);
             $tmp .= '(';
-            
+
             if ($titles) {
                 $tmp .= $columns['title'] . " LIKE '%$word%' OR ";
             } else {
@@ -180,6 +191,24 @@ class SearchCriteria {
         $sql .= substr($tmp, 0, -5) . ') ';
 
         return array($sql,$ftsql);
+    }
+
+    function getDateRangeSQL( $type = 'WHERE', $column, $datestart, $dateend )
+    {
+        if (!empty($datestart) && !empty($dateend))
+        {
+            $delim = substr($datestart, 4, 1);
+            if (!empty($delim))
+            {
+                $DS = explode($delim, $datestart);
+                $DE = explode($delim, $dateend);
+                $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+                $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+                return " $type (UNIX_TIMESTAMP($column) BETWEEN '$startdate' AND '$enddate') ";
+            }
+        }
+
+        return "";
     }
 }
 
