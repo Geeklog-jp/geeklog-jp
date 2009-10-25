@@ -165,8 +165,6 @@ th {
   color:#000000;
   background-color:#DAE0ED;
   font-weight:bold;
-/*  font-size:larger; */
-/*  padding-left:3px; */
   padding:3px;
   text-align:left;
 }
@@ -195,6 +193,10 @@ select {
 .admin-menu-item { /* a single link in the menu */
   padding: 0px 5px 0px 5px;
 }
+.admin-list-smalltable {
+  text-align:left;
+  border-spacing:1px;
+}
 .admin-list-table {
   width:100%;
   text-align:left;
@@ -215,9 +217,6 @@ select {
 }
 .admin-list-headerfield {
   text-align:left;
-/*  padding-left:5px; */
-/*  padding-right:5px; */
-/*  font-size:larger; */
   padding:3px 5px;
 }
 /* Menus in blocks *****************************************************************/
