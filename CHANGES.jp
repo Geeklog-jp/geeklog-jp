@@ -1,5 +1,9 @@
 $Id$
 
+2009-10-26  Takahiro Kambe  <tacahi>
+
+	* 以後、本ブランチでは変更点の記述はCHANGES-1.6.0.jpに追記します。
+
 2009-10-25  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.0sr2-jp-1.0をリリースします。
