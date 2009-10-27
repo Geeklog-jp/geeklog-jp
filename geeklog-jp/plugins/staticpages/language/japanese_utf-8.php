@@ -142,7 +142,7 @@ $LANG_confignames['staticpages'] = array(
     'default_permissions' => 'パーミッション',
     'aftersave' => 'ページ保存後の画面遷移',
     'atom_max_items' => 'フィードに書き出す最大ページ数',
-    'meta_tags' => 'Enable Meta Tags'
+    'meta_tags' => 'メタタグを有効にする'
 );
 
 $LANG_configsubgroups['staticpages'] = array(
@@ -157,7 +157,7 @@ $LANG_fs['staticpages'] = array(
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
-    1 => array('はい' => true, 'いいえ' => false),
+    1 => array('はい' => TRUE, 'いいえ' => FALSE),
     2 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title'),
     3 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title', 'ラベル' => 'label'),
     9 => array('編集した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
