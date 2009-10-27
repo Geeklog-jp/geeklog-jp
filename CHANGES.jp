@@ -1,9 +1,13 @@
 $Id$
 
+2009-10-28  Yoshinori Tahara  <dengen>
+
+	* コアの日本語言語ファイルの翻訳と一部修正を行いました。
+
 2009-10-26  Takahiro Kambe  <tacahi>
 
 	* GeeklogのMercurialのリポジトリから1.6.1に向けたコード、
-	  2009年10月20日版を取り込んマージを行いました。
+	  2009年10月20日版を取り込んでマージを行いました。
 
 2009-10-26  Takahiro Kambe  <tacahi>
 
