@@ -23,11 +23,11 @@
 
 <p>最初に、自分が作成したいテーマに最も似ている既存のテーマがあれば、それをコピーします。作成したいテーマが根本的に違うものであるなら（我々としてはそうであってほしいのですが）、どのテーマをコピーしてもかまいません。既存のテーマを自分が希望するテーマ名でコピーしましょう(テーマ名に<strong>スペースを含めないでください</strong>)。</p>
 
-<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd></p>
+<p><kbd>cp -R /path/to/geeklog/public_html/layout/professional /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含んではいけません。）</kbd></p>
 
 <p>新しくできたディレクトリ（MS Windowsの場合は「フォルダ」。以下、同様。）に移動します。</p>
 
-<p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含まない）</kbd></p>
+<p><kbd>cd /path/to/geeklog/public_html/layout/自分のテーマ名（スペースを含んではいけません。）</kbd></p>
 
 <p>必要に応じてテンプレートを編集します。一般的に、GeeklogでいうテンプレートとはHTMLファイルの断片です。今作成したディレクトリにはGeeklogが必要とするすべてのテンプレートファイルが収められていますが、外見を大きく変えるのに変更する必要があるのはほんの少数でしょう。</p>
 
@@ -54,7 +54,7 @@
 
 <p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけです。Geeklogで見かける様々なエディタやリストだけでなく、カレンダプラグインなど、Geeklogのあらゆる部分を構成するために様々なテンプレートが存在しています。</p>
 
-<p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ、大抵の場合は、テンプレートのあるディレクトリ名とファイル名を見れば、用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は、URLを見るとよいでしょう。たとえば、ユーザのプロフィールを表示しているときなら、<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き、 <kbd>.thtml</kbd> を検索します。プロフィールの場合は、次の行が <code>function userprofile()</code> の中に見つかります。</p>
+<p>どのテンプレートファイルがGeeklogのどの部分の表示に使用されているのかを説明する完全なリストは今のところ存在していません。とはいえ、たいていの場合は、テンプレートのあるディレクトリ名とファイル名を見れば、用途は明らかなはずです。Geeklogのある部分を表示しているテンプレートファイルが分からない場合は、URLを見るとよいでしょう。たとえば、ユーザのプロフィールを表示しているときなら、<tt>users.php</tt> というPHPのファイル名に気がつくでしょう。そのファイルをテキストエディタで開き、 <kbd>.thtml</kbd> を検索します。プロフィールの場合は、次の行が <code>function userprofile()</code> の中に見つかります。</p>
 <pre style="margin-left:4em;"><code>$user_templates = new Template ($_CONF['path_layout'] . 'users');
 $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));</code></pre>
 <p>PHPを理解していなくても、この部分で <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, <tt>storyrow.thtml</tt> テンプレートファイルが使用されていることは分かるでしょう。最初の行を見れば、これらのテンプレートファイルがテーマディレクトリ内の <tt>users</tt> ディレクトリから読み込まれているのが分かります。</p>
@@ -106,7 +106,7 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <h2><a name="changes">Geeklog 1.6.0におけるテーマの変更点</a></h2>
 
 <ul>
-<li>テーマは、<tt>header.thtml</tt>において、ハードコードのDOCTYPEではなく、テーマ変数<tt>{doctype}</tt>を使える様になりました。
+<li>テーマは、<tt>header.thtml</tt>において、ハードコードのDOCTYPEではなく、テーマ変数<tt>{doctype}</tt>を使えるようになりました。
     DOCTYPEはコンフィギュレーションでセットされます(現在設定可能:
     HTML 4.01 Strict and Transitional, XHTML 1.0 Strict and Transitional)。
     <tt>functions.php</tt>ファイルの<code>XHTML</code>定数で設定<em>しないで</em>ください!</li>
@@ -117,11 +117,11 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
      </li>
 <li>バグフィックス: テーマ変数<tt>{contributedby_user}</tt>と
     <tt>{contributedby_fullname}</tt>は、すでに空です。</li>
-<li>２つのテーマ変数<tt>{start_contributedby_anchortag}</tt>と
-    <tt>{end_contributedby_anchortag}</tt>には、なにもセットしていません(Geeklog
+<li>2つのテーマ変数<tt>{start_contributedby_anchortag}</tt>と
+    <tt>{end_contributedby_anchortag}</tt>には、何もセットしていません(Geeklog
     1.5.0以降)。その代わり<tt>{contributedby_author}</tt>に所有者へのリンクを追加しました。
-    そのためこれら３つのテーマ変数(記事テンプレートで利用される)はまだ動いています。
-    Geeklog 1.6.0 古い定義を復帰させます。つまり、アンカータグのテーマ変数は
+    そのためこれら3つのテーマ変数(記事テンプレートで利用される)はまだ利用可能です。
+    Geeklog 1.6.0では古い定義を復活させます。つまり、アンカータグのテーマ変数は
     所有者のプロファイルへのリンクの開始と終了のタグを含みます。
     テーマ変数<tt>{contributedby_author}</tt>は、所有者の名前だけです。</li>
 <li>新テーマ変数<tt>{photo_max_dimensions}</tt>はユーザ写真の最大値をセットしています。<br>
