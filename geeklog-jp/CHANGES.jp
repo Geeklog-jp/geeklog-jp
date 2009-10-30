@@ -1,5 +1,9 @@
 $Id$
 
+2009-10-30  mystral-kk <mystral-kk>
+
+	* public_html/docs内のドキュメントを敬体に統一しました。
+
 2009-10-28  Yoshinori Tahara  <dengen>
 
 	* Calendar、Polls、Spam-X、Static Pagesの各プラグインの日本語言語
