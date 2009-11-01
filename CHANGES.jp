@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-01  mystral-kk <mystral-kk>
+
+	* 非多言語モード時にlang属性が出力されない問題に対応しました（Issue
+	  #47のcomment #23まで）。
+
 2009-10-30  mystral-kk <mystral-kk>
 
 	* public_html/docs内のドキュメントを敬体に統一しました。
