@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-02  Takahiro Kambe  <tacahi>
+
+	* トップのGNUmakefileでリリース処理の些細な改良と、makefileの
+	  マクロを表示するターゲットshow-varを追加しました。
+
 2009-11-01  mystral-kk <mystral-kk>
 
 	* 非多言語モード時にlang属性が出力されない問題に対応しました（Issue
