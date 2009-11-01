@@ -49,11 +49,4 @@ release_jp.php: GNUmakefile.common
 		${MV} release_jp.php.tmp release_jp.php; \
 	fi
 
-show-var:
-	@if test "x$(VARNAME)" != x; then \
-		echo $($(VARNAME)); \
-	else \
-		:; \
-	fi
-
 include GNUmakefile.common
