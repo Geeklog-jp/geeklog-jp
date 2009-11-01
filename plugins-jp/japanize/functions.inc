@@ -32,6 +32,114 @@ require_once('custom/custom_mail_japanize.php');
 // | 専用関数  |
 // +-----------+
 
+/**
+* 言語ファイル名を言語IDに変換
+*/
+function JAPANIZE_languageToLangId($language) {
+    $retval = '';
+    
+    $lang_mappings = array(
+        'afrikaans'           => 'af',
+        'bosnian'             => 'bs',
+        'bulgarian'           => 'bg',
+        'catalan'             => 'ca',
+        'chinese_simplified'  => 'zh-cn',
+        'chinese_traditional' => 'zh',
+        'croatian'            => 'hr',
+        'czech'               => 'cs',
+        'danish'              => 'da',
+        'dutch'               => 'nl',
+        'english'             => 'en',
+        'estonian'            => 'et',
+        'farsi'               => 'fa',
+        'finnish'             => 'fi',
+        'french_canada'       => 'fr-ca',
+        'french_france'       => 'fr',
+        'german'              => 'de',
+        'german_formal'       => 'de',
+        'hebrew'              => 'he',
+        'hellenic'            => 'el',
+        'indonesian'          => '',
+        'italian'             => 'it',
+        'japanese'            => 'ja',
+        'korean'              => 'ko',
+        'norwegian'           => 'no',
+        'polish'              => 'pl',
+        'portuguese'          => 'pt',
+        'portuguese_brazil'   => 'pt-br',
+        'romanian'            => 'ro',
+        'russian'             => 'ru',
+        'slovak'              => 'sk',
+        'slovenian'           => 'sl',
+        'spanish'             => 'es',
+        'spanish_argentina'   => 'es',
+        'swedish'             => 'sv',
+        'turkish'             => 'tr',
+        'ukrainian'           => 'uk',
+    );
+    
+    if (isset($language)) {
+        $lang = str_replace('_utf-8', '', $language);
+        if (isset($lang_mappings[$lang])) {
+            $retval = $lang_mappings[$lang];
+        }
+    }
+    
+    return $retval;
+}
+
+/**
+* {html_attribute}に変数をセットする
+*/
+function JAPANIZE_setHtmlAttribute(&$template) {
+    global  $_USER, $_CONF;
+    
+    $langId = COM_getLanguageId();
+    
+    if ($langId === '') {
+        $langId = JAPANIZE_languageToLangId($_USER['language']);
+        if ($langId === '') {
+            // try to derive the language id from the locale
+            $l = explode('.', $_CONF['locale']); // get rid of character set
+            $langId = $l[0];
+            $l = explode('@', $langId); // get rid of '@euro', etc.
+            $langId = $l[0];
+        }
+    }
+    
+    if (!empty($langId)) {
+        $l = explode('-', str_replace('_', '-', $langId));
+        if ((count($l) === 1) AND (strlen($langId) === 2)) {
+            // Do nothing
+        } else if (count($l) === 2) {
+            if (($l[0] === 'i') OR ($l[0] === 'x')) {
+                $langId = implode('-', $l);
+            } else if (strlen($l[0]) === 2) {
+                $langId = implode('-', $l);
+            } else {
+                $langId = $l[0];
+            }
+        }
+    }
+
+    switch ($_CONF['doctype']) {
+        case 'html401transitional':
+        case 'html401strict':
+            $html_attribute = ' lang="' . $langId . '"';
+            break;
+
+        case 'xhtml10transitional':
+        case 'xhtml10strict':
+            $html_attribute = ' xml:lang="' . $langId . '" lang="' . $langId . '"';
+            break;
+
+        default:
+            $html_attribute = ' lang="' . $langId.'"';
+            break;
+    }
+    
+    $template->set_var( 'html_attribute', $html_attribute);
+}
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementation                                         |
@@ -231,50 +339,7 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
             $template->set_var( 'memberlogin', $memberlogin);
 
             //html_attribute 暫定処置
-            $langId   = '';
-
-            if (!empty($_CONF['languages']) && !empty($_CONF['language_files'])) {
-                $langId = COM_getLanguageId();
-            } else {
-                // try to derive the language id from the locale
-                $l = explode('.', $_CONF['locale']); // get rid of character set
-                $langId = $l[0];
-                $l = explode('@', $langId); // get rid of '@euro', etc.
-                $langId = $l[0];
-            }
-            if (!empty($langId)) {
-                $l = explode('-', str_replace('_', '-', $langId));
-                if ((count($l) == 1) && (strlen($langId) == 2)) {
-                } else if (count($l) == 2) {
-                    if (($l[0] == 'i') || ($l[0] == 'x')) {
-                        $langId = implode('-', $l);
-                    } else if (strlen($l[0]) == 2) {
-                        $langId = implode('-', $l);
-                    } else {
-                        $langId = $l[0];
-                    }
-                }
-            }
-            //$template->set_var('lang_id', $langId);
-
-            //--
-            switch ($_CONF['doctype']) {
-            case 'html401transitional':
-            case 'html401strict':
-                $html_attribute = ' lang="'.$langId.'"';
-                break;
-
-            case 'xhtml10transitional':
-            case 'xhtml10strict':
-                $html_attribute = ' xml:lang="'.$langId.'" lang="'.$langId.'"';
-                break;
-
-            default:
-                $html_attribute = ' lang="'.$langId.'"';
-                break;
-            }
-            $template->set_var( 'html_attribute', $html_attribute);
-
+            JAPANIZE_setHtmlAttribute($template);
     }
 }
 
