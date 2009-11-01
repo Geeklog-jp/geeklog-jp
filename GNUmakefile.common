@@ -194,3 +194,11 @@ install:
 		(cd $$d && $(MAKE) $@); \
 	done
 endif
+
+# その他ユーティリティ
+show-var:
+	@if test "x$(VARNAME)" != x; then \
+		echo $($(VARNAME)); \
+	else \
+		:; \
+	fi

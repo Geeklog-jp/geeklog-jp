@@ -24,6 +24,7 @@ pre-release:
 		echo "$(GLPUBDIR) should be under $(GLDIR) when making release."; \
 		exit 1; \
 	fi
+	$(RM) -fr $(DESTDIR)$(GLDIR)
 
 install: $(PREINSTALL) install-myfiles install-dirs install-pubdir
 
