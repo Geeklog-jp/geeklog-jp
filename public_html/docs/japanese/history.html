@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="description" content="Geeklog History/Changes" />
   <title>Geeklog History/Changes</title>
-  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet">
+  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet" />
   <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet" />
   <meta name="keywords" content="Geeklog, history, changes" />
 </head>
@@ -17,11 +17,11 @@
 
 <p>このリリースでは以下のセキュリティ対策を行いました:</p>
 <ul>
-  <li>不正なファイルをFCKeditorを介してアップロード可能でした。<br>
+  <li>不正なファイルをFCKeditorを介してアップロード可能でした。<br />
   アップロードされるファイルはFCKeditorのフィルターを通過しなければならないため、スクリプトをアップロードすることは不可能でした。(したがって、Geeklogのサイトとしての整合性が壊されるといった危険性はありませんでした。)
-  しかしながら、マルウェアの置き場として使用されていたという報告がありました。<br>
-  今回のアップデートではFCKeditorを無効としているか、ゲストユーザの場合にはアップロードの機能を使用できないようにしました。<br>
-  また、アーカイブ形式のファイルのアップロードも許可しません。<br>
+  しかしながら、マルウェアの置き場として使用されていたという報告がありました。<br />
+  今回のアップデートではFCKeditorを無効としているか、ゲストユーザの場合にはアップロードの機能を使用できないようにしました。<br />
+  また、アーカイブ形式のファイルのアップロードも許可しません。<br />
   さらに、FCKeditorを使ってファイルをアップロードするには、何らかの「編集」の権限が必要です。(これは一時的な対応です。将来のGeeklogのバージョンでは「アップロード」という独立した権限を採用する予定です)。</li>
 </ul>
 
@@ -63,9 +63,9 @@
   <li>コメントの承認と編集の機能 (開発者: Jared Wenerd氏)</li>  
 </ul>
 
-<p>1.6.0rc2からの変更:<p>
+<p>1.6.0rc2からの変更:</p>
 <ul>
-  <li>(Markus Wollschläger氏提供による)公式ドイツ語の言語ファイルを更新しました。</li>
+  <li>(Markus Wollschlager氏提供による)公式ドイツ語の言語ファイルを更新しました。</li>
   <li>(Geeklog.jp groupの提供による)日本語の言語ファイルとドキュメントを更新しました。</li>
 </ul>
 
@@ -81,7 +81,7 @@
     移行処理の間のテーブルのプリフィックスの自動検知の問題を修正しました。(バグ #0000922) [Dirk]  </li>
   <li>(移行処理の間に)bigdump.phpでエラーが発生したときに、ユーザをmigrate.phpに戻るようにしました。(バグ #0000919) [Dirk]  </li>
   <li>バックアップが利用できないときの、移行処理でのウォーニングを修正しました。(バグ #0000918: パッチはhiroron氏に提供)  </li>
-  <li>Artur Räpp氏からの提供により、エストニア語の言語ファイルを更新しました。</li>
+  <li>Artur Rapp氏からの提供により、エストニア語の言語ファイルを更新しました。</li>
   <li>LWC氏からの提供により、ヘブライ語の言語ファイルを更新しました。</li>
   <li>Geeklog.jpグループの提供により、日本語の言語ファイルとドキュメントを更新しました。</li>
 </ul>
@@ -107,7 +107,7 @@
   <li>インストール・スクリプトを削除するように、より目立つ念押しの表示を追加しました。 [Dirk]</li>
   <li>プラグインで、コメント・バーから親のオブジェクト(記事と静的ページ)へのリンクが適切に動作するようにしました。 [Dirk]</li>
   <li>(検索文字列無しで)話題での検索を再度できるようにしました。(Markus
-    Wollschlägerによる報告) [Dirk]</li>
+    Wollschlagerによる報告) [Dirk]</li>
   <li><code>$_CONF['comment_close_rec_stories']</code>の扱いを修正しました。 (バグ #0000899) [Dirk]</li>
   <li>検索結果に表示される、文字列の(検索対象の)選択を改善しました。 [Dirk]</li>
   <li>トラックバック消去後に起こるエラーを修正しました。 [Dirk]</li>
@@ -190,7 +190,7 @@
   <li>サイトマップに含めずに除外するプラグインを設定するオプションを追加しました。デフォルトではリンクプラグインが除外の対象となっています。 [Dirk]</li>
   <li>プラグインをアンインストールするときに、サイトマップのファイルも削除するようにしました。 [Dirk]</li>
   <li><code>sitemap.xml</code>に自動的にリンクを含めないようにしました。 [Dirk]</li>
-  <li>設定オプションをすると、<code>"missing argument 2"</code>というエラーになる問題を修正しました。(Markus Wollschläger氏により報告) [Dirk]</li>
+  <li>設定オプションをすると、<code>"missing argument 2"</code>というエラーになる問題を修正しました。(Markus Wollschlager氏により報告) [Dirk]</li>
 </ul>
 
 
@@ -203,7 +203,7 @@
   <li>タイトルだけで検索するオプションを追加しました。(機能要望 #0000840) [Sami]</li>
   <li>管理者専用メニューの「プラグイン」管理画面は、有効なプラグインの数を表示するようにしました。(従来は、無効なプラグインの数も含めて表示していました。) [Dirk]</li>
   <li>コンフィギュレーションに、「テキスト中のURLを自動的にクリック可能なURLにする」機能を有効または無効とするオプションを追加しました。 [Dirk]</li>
-  <li>デフォルト設定をいくつか変更しました。 [Dirk]</li>
+  <li>デフォルト設定をいくつか変更しました。 [Dirk]
   <ul>
     <li>ウェブサービスは無効にしました。</li>
     <li>cronjobのエミュレーションはoffです。</li>
@@ -273,7 +273,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>db-config.phpを見つけられないときの、パスのヒントをインストール・スクリプトに再び導入しました。 [Dirk]</li>
   <li>マイアカウントのページにある「個人情報」の管理画面で、ユーザー写真の最大の解像度についての記述を加えました。(機能要望 #0000629) [Dirk]</li>
   <li>話題が存在しないときにメッセージを表示して、ユーザーが記事の編集画面に入れないようにしました。(バグ #0000738) [Dirk]</li>
-  <li>JPEGの品質を制御するコンフィギュレーションのオプションを追加しました。(機能要望 #0000720) [Dirk]<br></li>
+  <li>JPEGの品質を制御するコンフィギュレーションのオプションを追加しました。(機能要望 #0000720) [Dirk]<br /></li>
   <li>LWC氏の提供により、インストール・スクリプトのヘブライ語の言語ファイルを更新しました。</li>
   <li>Aleksandar Scepanovic氏の提供により、新しいセルビア語(ラテン)の言語ファイルを追加しました。</li>
 </ul>
@@ -362,7 +362,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
 
 <p>このリリースでは以下のセキュリティ対策を行いました:</p>
 
-<p>Fernando Muñoz氏から、管理者用問い合わせの殆んどのフォームにXSSの可能性があると報告がありましたので、このリリースでそれらの問題を修正しました。</p>
+<p>Fernando Munoz氏から、管理者用問い合わせの殆んどのフォームにXSSの可能性があると報告がありましたので、このリリースでそれらの問題を修正しました。</p>
 
 <h2>Feb 8, 2009 (1.5.2)</h2>
 
@@ -376,7 +376,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>コメントがスパムとして拒否された場合に報告メールを管理者に送った旨のメッセージを表示するようにしました。 [Dirk]</li>
   <li>新しいパスワードでログインに失敗した場合に報告メールを管理者に送った旨のメッセージを表示するようにしました。 [Dirk]</li>
   <li>カレンダープラグイン用エストニア語の言語ファイルを更新しました。(Artur
-    Räpp氏による提供)</li>
+    Rapp氏による提供)</li>
   <li>日本語言語ファイルを更新しました。(Geeklog.jpグループによる提供)</li>
 </ul>
 
@@ -441,7 +441,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>ダウンローダクラスで許可されているIPアドレスチェックが漏れていたので追加しました。(バグ #0000709) [Dirk]</li>
   <li>プラグインのアンインストール後に強制的にリフレッシュするようにして、管理者専用ブロックからそのプラグインのエントリーが消えるようにしました。
     [Dirk]</li>
-  <li>Window上のPHP4環境にあった記事の有効期限の問題を修正しました。(zeb氏による報告)<br></li>
+  <li>Window上のPHP4環境にあった記事の有効期限の問題を修正しました。(zeb氏による報告)<br /></li>
   <li>LWC氏の提供による、スパム-Xプラグインとインストールスクリプトのヘブライ語の言語ファイルを更新しました。</li>
   <li>Geeklog.jpグループの提供による、日本語の言語ファイルを更新しました。</li>
   <li>Robert Stadnik氏の提供による、ポーランド語の言語ファイルを更新しました。</li>
@@ -494,7 +494,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>文字セットが大文字で書かれている場合に、MySQLがUTF-8をを認識しない問題を修正
     (バグ #0000731) [Dirk]</li>
   <li>ヘブライ語言語ファイルをアップデート。(LWC提供)</li>
-  <li>エストニア語言語ファイルをアップデート。(Artur Räpp提供)</li>
+  <li>エストニア語言語ファイルをアップデート。(Artur Rapp提供)</li>
   <li>日本語言語ファイルをアップデート。(Geeklog.jpグループ提供)</li>
   <li>スロバキア語言語ファイルアップデート。(gape提供)</li>
 </ul>
@@ -682,13 +682,13 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     トールを再度実行する際にデータベース認証要素を再度入力しなければいけなくなった。</li>
   <li>Links plugin: The word &quot;Root&quot; wasn't taken from the language
     file for the pagetitle of the public list of links (reported by Markus
-    Wollschläger) [Dirk]</li>
+    Wollschlager) [Dirk]</li>
   <li>リンクプラグイン: リンクの公開リストのページタイトルの言語ファイルから&quot;root&quot;が呼び出されていなかった。(Markus
-    Wollschlägerのレポートによる) [Dirk]</li>
+    Wollschlagerのレポートによる) [Dirk]</li>
   <li>管理者画面のレイアウト不整合で残っていた問題を修正。イベントのカレンダーリストとアンケートプラグイン
     (バグ #0000650) [Dirk]</li>
   <li>LWC提供によるヘブライ言語ファイルのアップデート</li>
-  <li>Markus Wollschläger提供によるドイツ語言語ファイルのアップデート</li>
+  <li>Markus Wollschlager提供によるドイツ語言語ファイルのアップデート</li>
   <li>幾つかの韓国語言語ファイルの罫線にCR/LFとLFが混在していた。</li>
 </ul>
 
@@ -725,9 +725,9 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     (Michael Bruslettenの報告による) [Dirk]</li>
   <li>インストールスクリプトの文字列方向に関する問題を修正
     (LWCの報告による)[Dirk]</li>
-  <li>Artur Räpp提供のエストニア言語ファイルのアップデート</li>
+  <li>Artur Rapp提供のエストニア言語ファイルのアップデート</li>
   <li>LWC提供のヘブライ言語ファイルのアップデート</li>
-  <li>Takahiro Kambe、Tetsuko KommaとGeeklog.jpグループ提供の日本語言語ファイルのアップデート。<br>
+  <li>Takahiro Kambe、Tetsuko KommaとGeeklog.jpグループ提供の日本語言語ファイルのアップデート。<br />
     メモ: 今後日本語言語ファイルはUTF-8バージョンのみをサポートする。ecu-jpバージョンは今後の配布から除かれる。</li>
   <li>Robert Stadnik提供によるポーランド語言語ファイルのアップデート</li>
   <li>gage提供によるスロベニア語言語ファイルのアップデート</li>
@@ -753,7 +753,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     poll-vote-results classを削除。今後のためにempty reqired-field
     classとmissing-field classを追加。(バグ #0000635参照) [Dirk]</li>
   <li>Samuel M. Stone提供の中国語言語ファイルをアップデート</li>
-  <li>Artur Räpp提供のエストニア語言語ファイルをアップデート</li>
+  <li>Artur Rapp提供のエストニア語言語ファイルをアップデート</li>
   <li>gape提供のスロベニア語言語ファイルをアップデート</li>
 </ul>
 <h3>カレンダープラグイン</h3>
@@ -793,7 +793,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     (バグ #0000621) [Dirk]</li>
   <li>ユーザー登録通知に表示されているURLが'&amp;amp'を含んでいたので'&amp;'に訂正
     [Dirk]</li>
-  <li>Markus Wollschläger提供のドイツ語言語ファイルのアップデート</li>
+  <li>Markus Wollschlager提供のドイツ語言語ファイルのアップデート</li>
 </ul>
 <h3>リンクプラグイン</h3>
 <ul>
@@ -819,7 +819,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     レートファイルからこれらのアイコンを除き、{lastupdate}と{hits}変数をそこに配置した。
     (バグ #0000628) [Dirk]</li>
   <li>staticpage.thtmlテンプレートファイルから余分な}を取り除いた。(Markus
-    Wollschlägerの報告による) [Dirk]</li>
+    Wollschlagerの報告による) [Dirk]</li>
 </ul>
 
 <h2>May 5, 2008 (1.5.0b1)</h2>
@@ -833,7 +833,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>Geeklogが送信するemailはX-Orginating-IPヘッダを持つようになるのでspamやabuseの追跡の役に立つようになる
     [Dirk]</li>
   <li>話題管理画面で半角20文字以上のIDを使えるようにした(Markus
-    Wollschlägerの報告による) [Dirk]</li>
+    Wollschlagerの報告による) [Dirk]</li>
   <li>ユーザーの登録メールアドレスが他のユーザーと重なっていないことの制限を緩和。リモートユーザーの場合、重なっていても良い。オンサイトのユーザーの場合は今までの変わらずダメ。
     [Dirk]</li>
   <li>バグ: ユーザー用emailフォームがsubjectに&quot;があると正しく表示されていなかった．不完全なフィールドになってしまう為。
@@ -857,7 +857,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>管理者メニューで登録ユーザーへのお知らせ機能を追加
     [Blaine]</li>
   <li>ユーザー登録を許可していない場合には、記事投稿フォームで「ユーザー登録」リンクを表示しないようにした。
-    (Markus Wollschlägerの報告による) [Dirk]</li>
+    (Markus Wollschlagerの報告による) [Dirk]</li>
   <li>COM_startBlockをアップデートし、作成済みのidと重ならない｛blockid｝テンプレート変数を設定した。
     [Blaine]</li>
   <li>グループ管理画面が2ページ以上の表示になる際の&quot;Show
@@ -918,7 +918,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>記事にwikiテキスト投稿オプションを追加 [Oliver]</li>
   <li>スパマーがサイトに登録しているadminのemailアドレスを取得することが出来ないよう、config.phpにnoreply-emailアドレスオプションを追加
     [Oliver]</li>
-  <li>index.phpに&quot;microsummaries&quot;サポートを追加。<a href="http://wiki.mozilla.org/Microsummariesãåç§" class="external free" title="http://wiki.mozilla.org/Microsummariesを参照" rel="nofollow">http://wiki.mozilla.org/Microsummariesを参照</a>
+  <li>index.phpに&quot;microsummaries&quot;サポートを追加。<a href="http://wiki.mozilla.org/Microsummaries" class="external free" title="http://wiki.mozilla.org/Microsummariesを参照" rel="nofollow">http://wiki.mozilla.org/Microsummariesを参照</a>
     [Mike]</li>
   <li>記事関連の改変 - HTML特別文字での投稿に関する全ての問題に対応する為に記事のコードを大幅に再編した。 [Mike]</li>
   <li>ユーザー投稿記事においてBody Textを持つことが出来るようにした。これを無効にするには、layout\theme\submit\submitstory.thtmlとsubmitstory_advanced.thtmlを編集する[Mike]</li>
@@ -1016,7 +1016,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
 	<li>Fixed page title after a successful batch import of users (which read "Error") [Dirk]</li>
 	<li>Back in Geeklog 1.4.0, a counter was added to the Spam-X plugin to count all deleted spam posts. The counter was only added in fresh installs of 1.4.0, though, but not when upgrading from an earlier version. Fixed that [Dirk]</li>
 	<li>In lists created from the Links and Calendar plugins, use "links-new-plugin" as the CSS class name [Oliver]</li>
-	<li>Updated Estonian language file, provided by Artur Räpp</li>
+	<li>Updated Estonian language file, provided by Artur Rapp</li>
 	<li>Updated Russian language file, provided by Alexander Yurchenko</li>
 	<li>New Russian language file for the Calendar plugin, provided by Alexander Yurchenko</li>
 	<li>Updated Turkish language file, provided by Kemal Cellat</li>
@@ -1096,7 +1096,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
 	<li>Fixed SQL error with some older MySQL versions when calling up the Batch User Delete option [Oliver]</li>
 	<li>Comments always displayed the comment author's full name, even when $_CONF['show_fullname'] was set to 0 [Dirk]</li>
 	<li>Fixed 404 (caused by a request for a file named '(none)') in the user profile display when a user doesn't have a userphoto [Dirk]</li>
-	<li>New Estonian language files for Geeklog and most of the plugins, provided by Artur Räpp</li>
+	<li>New Estonian language files for Geeklog and most of the plugins, provided by Artur Rapp</li>
 	<li>Updated Hebrew language file, provided by LWC</li>
 	<li>Updated Japanese language files for Geeklog and all the plugins, provided by the Geeklog Japanese group</li>
 	<li>New Russian language files for the Spam-X plugin, provided by Pavel Kovalenko</li>
@@ -1289,15 +1289,15 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
 <p>Two exploits have been released by "rgod" for insecure Geeklog installations for a bug in the "mcpuk" file manager that we've been shipping as part of in all 1.4.0 releases.</p>
 
 <ul>
-	<li>Some of the files outside of the public_html directory were not protected against direct execution. If Geeklog was installed such that those files were accessible from a URL (which has always been strongly discouraged in the installation instructions) then those files could be used to load and execute malicious code from a remote server.<br>
+	<li>Some of the files outside of the public_html directory were not protected against direct execution. If Geeklog was installed such that those files were accessible from a URL (which has always been strongly discouraged in the installation instructions) then those files could be used to load and execute malicious code from a remote server.<br />
   <p>More information: http://www.geeklog.net/article.php/so-called-exploit</p>
 
   <p>In this release, we've added the missing execution prevention for all files outside of public_html. We would still, however, suggest that you fix your Geeklog install if the files outside of public_html are accessible from a URL.</p></li>
 
-	<li>The "mcpuk" file manager that we've integrated into FCKeditor allowed the upload of arbitrary PHP code (even if FCKeditor was disabled in Geeklog's config.php). Depending on your webserver's configuration, it was then possible to execute that uploaded code.<br>
+	<li>The "mcpuk" file manager that we've integrated into FCKeditor allowed the upload of arbitrary PHP code (even if FCKeditor was disabled in Geeklog's config.php). Depending on your webserver's configuration, it was then possible to execute that uploaded code.<br />
 
-  <p>More information:<br>
-  <a href="http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager">http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager</a><br>
+  <p>More information:<br />
+  <a href="http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager">http://www.geeklog.net/article.php/exploit-for-fckeditor-filemanager</a><br />
   The file manager has been removed from this release. You will therefore no longer be able to upload files, e.g. images, through FCKeditor. Future versions of Geeklog will ship with an updated version of FCKeditor and its included file manager.</p></li>
 </ul>
 
@@ -1325,7 +1325,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
 <h2>Feb 19, 2006 (1.4.0sr1)</h2>
 
 <p>Security issues:</p>
-<p>James Bercegay of GulfTech Security Research reported several issues with Geeklog's cookie handling that made it vulnerable to SQL injections, arbitrary file access, and even injection and execution of arbitrary code.<br>
+<p>James Bercegay of GulfTech Security Research reported several issues with Geeklog's cookie handling that made it vulnerable to SQL injections, arbitrary file access, and even injection and execution of arbitrary code.<br />
 Bugfixes:</p>
 <ul>
 	<li>Fixed bug in page-break combined with url rewrite (bug #521) [Oliver]</li>
@@ -1347,7 +1347,7 @@ Bugfixes:</p>
 	<li>Fixed another bug in google pagination of admin-lists [Oliver]</li>
 	<li>Fixed "wrap static page in a block" and "exit type" options in the static page editor. Also link to the "rewritten" URL from the list of static pages when URL rewriting is on [Dirk]</li>
 	<li>Fixed JavaScript error in the Admin's story editor (bug #479) [Dirk]</li>
-	<li>Fixed hard-coded paths in the check.php script and added tests for missing directories (reported by Markus Wollschläger) [Dirk]</li>
+	<li>Fixed hard-coded paths in the check.php script and added tests for missing directories (reported by Markus Wollschlager) [Dirk]</li>
 	<li>A humble attempt to add some semantics [Dirk]
 	<ul>
   	<li>Added rel="category tag" to a story's topic link</li>
@@ -1519,15 +1519,15 @@ Bugfixes:</p>
 	<li>Don't update a story's date any more when unchecking the 'draft' flag (bug #400) [Dirk]</li>
 	<li>Don't use "rewritten" URLs in the static pages editor any more (bug #403). Also updated the list of static pages to use alternating colors for the rows [Dirk]</li>
 	<li>Use "\r\n" when sending trackback pings (bug #407) [Dirk]</li>
-	<li>Allow autotags to optionally have a space after the tag name [Blaine]<br>
-  Valid tags are:<br>
+	<li>Allow autotags to optionally have a space after the tag name [Blaine]<br />
+  Valid tags are:<br />
   [story:20040101093000103 here] or [story: 20040101093000103 here]</li>
 	<li>Fixed inconsistent use of {site_url} and {layout_url} in some of the professional theme's admin template files - using {layout_url} everywhere now when referring to icons (bug #395) [Dirk]</li>
 	<li>Event titles containing quotes were cut off at the first quote in the event editor, i.e. both the admin's event editor and the editor for personal events. (bug #399) [Dirk]</li>
-	<li>Modified PLG_templateSetVars API to also check for a custom function [Blaine]<br>
+	<li>Modified PLG_templateSetVars API to also check for a custom function [Blaine]<br />
   Users can now set header template using CUSTOM_templatesetvars()</li>
 	<li>Added new CSS declarations as recommened CSS for plugins   [Blaine]</li>
-	<li>Added a basic scheduler Plugin API plugin_runScheduledTask  [Blaine]<br>
+	<li>Added a basic scheduler Plugin API plugin_runScheduledTask  [Blaine]<br />
   Interval is set in config.php - $_CONF['cron_schedule_interval']</li>
 	<li>Enhanced the Group Admin interface display [Blaine]</li>
 	<li>Enhanced the User Admin display and made the headings sortable [Blaine]</li>
@@ -1541,7 +1541,7 @@ Bugfixes:</p>
 	<li>Overhauled install script: It will now abort the installation if the minumum requirements (PHP 4.1.0, MySQL 3.23.2) are not met. It also displays a warning message if register_long_arrays is off (PHP 5 only, bug #360). Another warning message is displayed if "public_html" is part of the URL. When upgrading, it now tries to identify the Geeklog version that was used previously (only really works for versions 1.3.8 - 1.3.11) [Dirk]</li>
 	<li>Fixed date in comment preview (bug #370) [Dirk]</li>
 	<li>Incorporated the new syndication framework for reading and writing feeds of different formats (RSS, RDF, Atom), provided by Michael Jervis (patch #352). This contribution also addresses Task #19 ("RSS import class") and Feature Request #67 ("Limiting number of entries in RSS feeds"). Please note that the feed writer classes, system/classes/*.feed.class.php, are now obsolete and can be removed. Please also note this adds new PEAR package requirements for Net_URL and HTTP_Request.</li>
-	<li>Added support for sending and receiving trackback comments (Feature Request #34) Also implemented Pingback support in pretty much the same way. Once received, Geeklog treats Trackbacks and Pingbacks the same and stores them in the gl_trackback table. [Dirk]<br>
+	<li>Added support for sending and receiving trackback comments (Feature Request #34) Also implemented Pingback support in pretty much the same way. Once received, Geeklog treats Trackbacks and Pingbacks the same and stores them in the gl_trackback table. [Dirk]<br />
   Both can be switched off in config.php: $_CONF['trackback_enabled'] = false; and $_CONF['pingback_enabled'] = false;</li>
 	<li>Added a new script, directory.php, that implements a date-based listing of all the stories on a site [Dirk]</li>
   <li>A link to the directory is available as a new option, 'directory', for the $_CONF['menu_elements'] config variable, so that it can be added to the menu. The column headline for event search results was not displayed [Dirk]</li>
@@ -1634,9 +1634,9 @@ Bugfixes:</p>
 
 <h3>Security and Spam protection:</h3>
 <ul>
-	<li>Added speedlimit to login attempts, defaults to allowing three tries in a five minute period.  [Vinny]<br>
+	<li>Added speedlimit to login attempts, defaults to allowing three tries in a five minute period.  [Vinny]<br />
   See new config options $_CONF['login_attempts'] and $_CONF['login_speedlimit']</li>
-	<li>Changed the spam handling to update the speed limit when spam is detected (i.e. handle spam posts as if they were successful posts and make the submitter wait for the speed limit to expire). Also send a 403 "Forbidden" HTTP response code when displaying the "spam detected" message [Dirk]<br>
+	<li>Changed the spam handling to update the speed limit when spam is detected (i.e. handle spam posts as if they were successful posts and make the submitter wait for the speed limit to expire). Also send a 403 "Forbidden" HTTP response code when displaying the "spam detected" message [Dirk]<br />
   To quote RFC2616: "403 Forbidden: The server understood the request, but is refusing to fulfill it. Authorization will not help and the request SHOULD NOT be repeated."</li>
 	<li>Filter linefeeds in the To:, From:, and Subject: fields of an email in COM_mail [Dirk]</li>
 	<li>When a new user account is created and the user submission queue is enabled in config.php, ensure that the user is properly "queued" even in the unlikely event that the account creation fails halfway through (reported by LWC) [Dirk]</li>
@@ -1725,18 +1725,18 @@ Bugfixes:</p>
 
 <p>Bugfixes:</p>
 <ul>
-	<li>Added a missing stripslashes() call for the topic name in the What's Related block (bug #351) [Dirk]<br>(affected file: system/lib-story.php)</li>
-	<li>Fixed problems in the story editor when editing plain-text posts with uploaded images (bug #356) [Dirk]<br>
+	<li>Added a missing stripslashes() call for the topic name in the What's Related block (bug #351) [Dirk]<br />(affected file: system/lib-story.php)</li>
+	<li>Fixed problems in the story editor when editing plain-text posts with uploaded images (bug #356) [Dirk]<br />
   (affected file: public_html/admin/story.php)</li>
-	<li>When changing a story ID, update the story ID in any comments to that story, too (bug #357) [Dirk]<br>
+	<li>When changing a story ID, update the story ID in any comments to that story, too (bug #357) [Dirk]<br />
   (affected file: public_html/admin/story.php)</li>
-	<li>Fixed handling of autotags that started with the same substring, e.g. for 2 tags 'mytag' and 'mytagtwo', the second tag would not be recognized (reported by Dr. Shakagee) [Dirk]<br>
+	<li>Fixed handling of autotags that started with the same substring, e.g. for 2 tags 'mytag' and 'mytagtwo', the second tag would not be recognized (reported by Dr. Shakagee) [Dirk]<br />
   (affected file: system/lib-plugins.php)</li>
-	<li>Fixed caching of $_GROUPS [Dirk]<br>
+	<li>Fixed caching of $_GROUPS [Dirk]<br />
   (affected files: system/lib-security.php, public_html/lib-common.php)</li>
-	<li>Made a minor optimization to save one SQL request when displaying the comment bar for anonymous users [Dirk]<br>
+	<li>Made a minor optimization to save one SQL request when displaying the comment bar for anonymous users [Dirk]<br />
   (affected file: public_html/lib-common.php)</li>
-	<li>Updated Slovenian language file, provided by gape.<br>
+	<li>Updated Slovenian language file, provided by gape.<br />
   (affected file: language/slovenian.php)</li>
 </ul>
 
@@ -1760,7 +1760,7 @@ Bugfixes:</p>
 	<li>More parameter filtering and permission checks in submit.php [Dirk]</li>
 	<li>Fixed over-zealous parameter filtering in links.php which prevented categories with apostrophes from working [Dirk]</li>
 	<li>Fixed broken URLs when editing a plain-text story that contained uploaded images (reported by LWC) [Dirk]</li>
-	<li>The PEAR classes that ship with Geeklog actually require PHP 4.2.x now. However, the missing functions in older PHP versions (minimum requirement for Geeklog itself is now PHP 4.1.0) are provided by the PEAR PHP_Compat package, which we will have to ship with Geeklog from now on. Added the necessary code to lib-common.php to load PHP_Compat, if required [Dirk]<br>
+	<li>The PEAR classes that ship with Geeklog actually require PHP 4.2.x now. However, the missing functions in older PHP versions (minimum requirement for Geeklog itself is now PHP 4.1.0) are provided by the PEAR PHP_Compat package, which we will have to ship with Geeklog from now on. Added the necessary code to lib-common.php to load PHP_Compat, if required [Dirk]<br />
   Many thanks to Tom Willet for providing a test setup.</li>
 	<li>Fixed "quick add form" for personal events, so that it stores the new event directly now [Dirk]</li>
 	<li>Fixed handling of 12am/pm in events, event submissions, and when passing the time from the calendar to the event submission forms [Dirk]</li>
@@ -1784,7 +1784,7 @@ Bugfixes:</p>
 
 <h2>Nov 28, 2004 (1.3.10)</h2>
 <ul>
-	<li>Allow omission of the link text for the [story:], [event:], and [staticpage:] autotags. Geeklog will then use the title (of the story / event / static page) as the link text [Dirk]<br>
+	<li>Allow omission of the link text for the [story:], [event:], and [staticpage:] autotags. Geeklog will then use the title (of the story / event / static page) as the link text [Dirk]<br />
   (affected files: system/lib-plugins.php, plugins/staticpages/functions.inc)</li>
 	<li>Updated Chinese language files (all 4 of them), provided by Samuel M. Stone</li>
 </ul>
@@ -1798,7 +1798,7 @@ Bugfixes:</p>
 	<li>Links in "plain text" stories and comments are now made clickable (i.e. enclosed in &lt;a&gt; tags) when the post is saved instead of when it's displayed, as in the previous release candidates. This also fixes bug #308. [Dirk]</li>
 	<li>Added $_CONF['disable_autolinks'] config option to disable autolinks [Dirk]</li>
 	<li>Removed ViewBlacklist.Admin.class.php from the Spam-X plugin [Tom Willet]</li>
-	<li>Overhauled handling of personal events [Dirk]:<br>
+	<li>Overhauled handling of personal events [Dirk]:<br />
 		<ul>
 			<li>Fixed deleting personal events (again).</li>
 			<li>The upcoming events block now links to the event details of personal events (just like it already did for site events).</li>
@@ -1832,7 +1832,7 @@ Bugfixes:</p>
 	<li>Fixed display of the number of static pages that the user has access to (in the Admin Block) [Dirk]</li>
 	<li>COM_makeClickableLinks did not recognize links with the 'http:' at the start of a line [Dirk]</li>
 	<li>Re-introduced &lt;br&gt; between plugin sections in the What's New block, pretty much reverting the change suggested by feature request #292 [Dirk]</li>
-	<li>Introduced function COM_formatEmailAddress that creates a (more or less) RFC(2)822 compliant email address from a name and an address [Dirk]<br>
+	<li>Introduced function COM_formatEmailAddress that creates a (more or less) RFC(2)822 compliant email address from a name and an address [Dirk]<br />
   This function is now used for formatting the site address, as well as for addresses entered by the user in profiles.php and admin/mail.php.</li>
 	<li>The Spam-X plugin's MailAdmin action didn't send any email notifications, since the call to COM_mail was commented out ... [Dirk]</li>
 	<li>admin/mail.php and admin/group.php use the complete URL to the script in the &lt;form action="..."&gt; now (instead of relying on PHP_SELF) [Dirk]</li>
@@ -1853,7 +1853,7 @@ Bugfixes:</p>
 	<li>Fixed an error message when plugins didn't return an array from plugin_getmenuitems_xxx (reported by computerade) [Dirk]</li>
 	<li>When sending emails from the admin/mail.php, some user's names weren't set in their email address (reported by LWC) [Dirk]</li>
 	<li>Removed an extra &lt;br&gt; from before and between data provided by plugins in the What's New block (feature request #292) [Dirk]</li>
-	<li>When creating a new user from admin/user.php, don't determine the uid before actually creating the database entries to avoid race conditions / collisions with other user accounts created at the same time (bug #243) [Dirk]<br>
+	<li>When creating a new user from admin/user.php, don't determine the uid before actually creating the database entries to avoid race conditions / collisions with other user accounts created at the same time (bug #243) [Dirk]<br />
   Also took the opportunity to refactor and move the almost identical code from users.php and admin/user.php into a new function USER_createAccount in system/lib-user.php.</li>
 	<li>usersettings.php was missing a default case for unsupported values of 'mode' (bug #287). This only displayed a blank page and was not exploitable [Dirk]</li>
 	<li>Fixed hard-coded default group names in the Admin sections (e.g. when a user had story.edit permissions but was not in the Story Admin group, any new story created by that user would default to being owned by the Story Admin group nonetheless) [Dirk]</li>
@@ -1868,7 +1868,7 @@ Bugfixes:</p>
 	<li>Introduced new function COM_sanitizeID() to filter special characters out of user-editable IDs as used for stories, polls, topics, and static pages (also fixes bug #181). Allowed characters are letters a-z (both upper and lower case), digits 0-9, the dash '-', and the underscore '_' [Dirk]</li>
 	<li>The Upcoming Events block didn't use the help URL, even if it was set (reported by Wolfgang M. Schmitt) [Dirk]</li>
 	<li>Geeklog now comes with Tom Willet's Spam-X plugin pre-installed. The plugin now stores the blacklists in the database and uses a new plugin API function to filter comment posts [Tom Willet, Tony, Blaine, Dirk]</li>
-	<li>Plugins can now offer their own tags to allow easy linking to their content. These tags take the form [name:id link text], where 'name' is a name associated with the plugin, 'id' is a unique id referring to one of the objects under the plugin's control, and 'link text' is text used in the &lt;a&gt; tag that Geeklog creates from these tags. Built-in tags are [story:] to link to a story and [event:] to link to an event [Blaine, Dirk]<br>
+	<li>Plugins can now offer their own tags to allow easy linking to their content. These tags take the form [name:id link text], where 'name' is a name associated with the plugin, 'id' is a unique id referring to one of the objects under the plugin's control, and 'link text' is text used in the &lt;a&gt; tag that Geeklog creates from these tags. Built-in tags are [story:] to link to a story and [event:] to link to an event [Blaine, Dirk]<br />
   Example: [story:email-bug About the email bug] would be translated into &lt;a href="http://example.com/article.php/email-bug"&gt;About the email bug&lt;/a&gt;</li>
 	<li>portal.php now sends a 301 HTTP status code for the links instead of a 302. While a 302 status code would actually make more sense, Google does have a tendency to list search results with the URL of the portal script but with the content of the linked site, thus giving the impression that the content is actually located on another site. Sending a 301 avoids this problem [Dirk]</li>
 	<li>Group Admins should not even see the groups of which they are not a member (bug #280) [Dirk]</li>
@@ -1876,7 +1876,7 @@ Bugfixes:</p>
 	<li>Introduced $_CONF['left_blocks_in_footer'] config option that makes the {left_blocks} variable available in footer.thtml (disabling it in header.thtml at the same time). This is really only useful for two-column layouts where you want the side blocks in the right column [Dirk]</li>
 	<li>Polls linked from the stats page now display the result of the poll instead of letting the user vote on them (feature request #267) [Dirk]</li>
 	<li>In the Admin's list of events and stories, don't list items for which the Admin doesn't have read access (bug #269). [Dirk]</li>
-	<li>Story IDs are now editable (just like the IDs of static pages). [Dirk]<br>
+	<li>Story IDs are now editable (just like the IDs of static pages). [Dirk]<br />
   Important: Update the story editor template (admin/story/storyeditor.thtml)!</li>
 	<li>Fixed a bug that reset every user's password request as soon as some user changed their account information (bug #265) [Dirk]</li>
 	<li>Added support for URL rewriting to portal.php [Dirk]</li>
@@ -1914,15 +1914,15 @@ Bugfixes:</p>
 	<li>Improved the commentbar to logically support comments viewed from comment.php [Vinny]</li>
 	<li>Removed a bug in comment.php that allowed a story/comment mismatch during display.  This was not exploitable.  [Vinny]</li>
 	<li>Integrated the timezone hack to compensate for time differences when your webserver is located in another timezone (original timezone hack by Yew Loong, with additions by "Joe" as well as several other geeklog.net users) [Dirk]</li>
-	<li>The calendar can now be configured so that the week starts on either a Sunday or a Monday - see new config variable $_CONF['week_start']<br>
+	<li>The calendar can now be configured so that the week starts on either a Sunday or a Monday - see new config variable $_CONF['week_start']<br />
   (based on a patch by bond_anton) [Dirk]</li>
 	<li>Sort the admin's list of events by date (newest first). Also added paging, a row number and parameter filtering. Paging and the row number require theme changes in admin/event/eventlist.thtml and listitem.thtml [Dirk]</li>
 	<li>Incorporated a patch provided by Drago Goricanec to sort the Admin's user list by uid [Dirk]</li>
-	<li>Introduced 2 config options for the Who's Online block:<br>
+	<li>Introduced 2 config options for the Who's Online block:<br />
 		<ul>
 			<li>$_CONF['whosonline_fullname'] will display the user's full name,</li>
 			<li>$_CONF['whosonline_anonymous'] does not display the names of registered users to anonymous visitors of the site.</li>
-		</ul><br>
+		</ul><br />
   <p>Both options are disabled by default [Dirk]</p></li>
 	<li>Added support for single quotes and nested tags to COM_extractLinks [Vinny]</li>
 	<li>The admin_html and user_html are now merged recursively (bug #240) [Vinny]</li>
@@ -1949,7 +1949,7 @@ Bugfixes:</p>
 	<li>Use an UPDATE request when increasing the number of times a story has been emailed [Dirk]</li>
 	<li>When an error occurs while creating a backup, the complete command line used to call mysqldump is now added to error.log [Dirk]</li>
 	<li>Added 'view' mode to allow links directly to a single comment (and optionally its children) in comments.php.  [Vinny]</li>
-	<li>Added a few variables to be used in the eventdetails.thtml template file:<br>
+	<li>Added a few variables to be used in the eventdetails.thtml template file:<br />
 		<ul>
 			<li>{event_state_name} (full name of the state), {event_state_only} and</li>
 			<li>{event_state_name_only} (abbreviated and full state name without the comma),</li>
@@ -1987,7 +1987,7 @@ Bugfixes:</p>
 	<li>Implemented a change to DB_fetchArray, suggested by Niels Leenheer: Geeklog will now, by default, only return associative array indices. In case the numeric indices are needed, a new (optional) second parameter for DB_fetchArray has to be set to "true". [Dirk]</li>
 	<li>Removed extra quotes in SQL statements in admin/block.php to ensure compatibility with old MySQL versions (reported by Elmer Masters). [Dirk]</li>
 	<li>In admin/database.php, if the is_executable function is not available (e.g. on Windows), do at least a file_exists to check if the mysqldump executable exists in the path given in config.php. [Dirk]</li>
-	<li>Introduced function COM_getTopicSQL which returns part of an SQL request to check for a user's topic access [Dirk]<br>
+	<li>Introduced function COM_getTopicSQL which returns part of an SQL request to check for a user's topic access [Dirk]<br />
   (This was actually introduced in 1.3.9sr1 but missing from the changelog)</li>
 </ul>
 
@@ -2006,7 +2006,7 @@ Bugfixes:</p>
 	<li>Added an option to sort the static pages that are added to a site's menu (see {plg_menu_elements} in header.thtml) by id, label, title, or date [Dirk]</li>
 	<li>The block templates used to wrap a static page in a block can now be overridden, using '_staticpages_block' and '_staticpages_centerblock' as the index for the $_BLOCK_TEMPLATE array [Dirk]</li>
 	<li>The plugin now checks for template files in the current theme's directory (layout/THEMENAME/staticpages) first before using the default template files from plugin/staticpages/templates [Dirk]</li>
-	<li>When displaying a static page, the plugin no longer checks if the current user is a member of the Root group, so that "Root" users shouldn't see static pages that are for anonymous users only [Dirk]<br>
+	<li>When displaying a static page, the plugin no longer checks if the current user is a member of the Root group, so that "Root" users shouldn't see static pages that are for anonymous users only [Dirk]<br />
   This change was actually supposed to be in Static Pages 1.4 (Geeklog 1.3.9), but somehow didn't make it ...</li>
 	<li>For center blocks, ignore the "blank page" setting, unless it's for a page that is supposed to replace the entire frontpage (bug #234) [Dirk]</li>
 	<li>The static pages editor doesn't display a "delete" button for new and cloned pages any more (since, obviously, you can't delete what hasn't been saved yet ...). [Dirk]</li>
@@ -2046,7 +2046,7 @@ Bugfixes:</p>
 <p>This release addresses 2 security issues:</p>
 <ul>
 	<li>Fixed a cross site scripting vulnerability caused by using the $topic variable in the language files ($LANG05[3]) where it should have been using '%s' instead (bug #293) [Vinny, Dirk]</li>
-	<li>It was possible to post comments to stories or polls for which comment posting had been switched off [Dirk]<br>
+	<li>It was possible to post comments to stories or polls for which comment posting had been switched off [Dirk]<br />
   This was only a problem if you allowed anonymous posts or when spammers went through the trouble of actually signing up for an account before posting.</li>
 </ul>
 
@@ -2108,9 +2108,9 @@ Bugfixes:</p>
 
 <h2>Feb 29, 2004 (1.3.9rc2)</h2>
 <ul>
-	<li>The new Admin interface for handling blocks (introduced in 1.3.9rc1) will renumber the block order in steps of 10, which can lead to order numbers &gt; 255 if you have many blocks. Changed the 'blockorder' field in the "gl_blocks" table from TINYINT to SMALLINT to compensate.<br>
-  If you are upgrading from 1.3.9rc1, you will need to run the following SQL request manually:<br>
-      <code>ALTER TABLE gl_blocks CHANGE blockorder blockorder smallint(5) unsigned NOT NULL default '1';</code><br>
+	<li>The new Admin interface for handling blocks (introduced in 1.3.9rc1) will renumber the block order in steps of 10, which can lead to order numbers &gt; 255 if you have many blocks. Changed the 'blockorder' field in the "gl_blocks" table from TINYINT to SMALLINT to compensate.<br />
+  If you are upgrading from 1.3.9rc1, you will need to run the following SQL request manually:<br />
+      <code>ALTER TABLE gl_blocks CHANGE blockorder blockorder smallint(5) unsigned NOT NULL default '1';</code><br />
   Replacing "gl_blocks" with the proper table name, if you are using a table prefix other than 'gl_'. This step is not necessary when upgrading from 1.3.8 or earlier versions.</li>
 	<li>The Group Admin restrictions introduced in 1.3.9rc1 didn't even let the Admin assign unassigned features to groups (e.g. there was no way to add the staticpages.PHP feature to the Static Page Admin group on a fresh 1.3.9rc1 install).</li>
 	<li>When normal users tried to submit an event, they were redirected to the story submission form (this bug was only introduced in 1.3.9rc1).</li>
@@ -2136,7 +2136,7 @@ Bugfixes:</p>
 <h2>Feb 16, 2004 (1.3.9rc1)</h2>
 <ul>
 	<li>Use COM_getYearFormOptions() etc. for the event submission form in submit.php, thus avoiding duplicated code.</li>
-	<li>Plugins can now add their new entries to the What's New block by implementing the new plugin_whatsnewsupported and plugin_getwhatsnew API functions.<br>
+	<li>Plugins can now add their new entries to the What's New block by implementing the new plugin_whatsnewsupported and plugin_getwhatsnew API functions.<br />
   This section can be enabled/disabled with the new $_CONF['hidenewplugins'] config variable.</li>
 	<li>When a user is deleted, make sure we assign any objects that require Admin access (blocks, topics, ...) to a user from the Root group.</li>
 	<li>Slightly revamped the install script and made it catch (or silently ignore) the most popular problems with the path to Geeklog ...</li>
@@ -2146,10 +2146,10 @@ Bugfixes:</p>
 	<li>Fixed a bug/typo introduced in 1.3.8-1sr4 that prevented you from deleting story submissions from the Admin's story editor (reported by James Bothe).</li>
 	<li>Changed all url fields in the database to hold up to 255 characters per URL. Please note that the template files in most themes will limit the max. number of characters to 96 or 128 characters. See docs/theme.html for more information on how to update the themes.</li>
 	<li>Fixed problems batch-importing users with single quotes in their names (bug #141).</li>
-	<li>The permissions for the "Group Admin" group have been changed such that members of that group now only have access to groups of which they themselves are a member of. When creating new groups, the rights (permissions) to chose from are also limited to those that the Group Admin users have themselves. These changes should make the Group Admin group more useful.<br>
+	<li>The permissions for the "Group Admin" group have been changed such that members of that group now only have access to groups of which they themselves are a member of. When creating new groups, the rights (permissions) to chose from are also limited to those that the Group Admin users have themselves. These changes should make the Group Admin group more useful.<br />
   Note: Group admins can still see all the existing groups and who is a member of those groups.</li>
 	<li>Fixed search class so that the simplified and the advanced search return the same results (as long as none of the advanced options are used).</li>
-	<li>Added new config variable $_CONF['allowed_protocols'] which lets you specify the protocols that are allowed to be used in a link (feature request #109).<br>
+	<li>Added new config variable $_CONF['allowed_protocols'] which lets you specify the protocols that are allowed to be used in a link (feature request #109).<br />
   Note: The kses class has a hard-coded list of allowed protocols to which the above will be added. It is currently not possible to remove any of the predefined protocols.</li>
 	<li>Introduced variable {allowed_menu_elements} in header.thtml which only includes those menu elements that the current user is allowed to use (i.e. honoring the $_CONF['XXXloginrequired'] settings).</li>
 	<li>COM_accessLog() now logs the user's uid and IP address automatically.</li>
@@ -2176,7 +2176,7 @@ Bugfixes:</p>
 	<li>Fixed search displaying all the links for an empty search string, e.g. when searching for "more from" some user (bug #87).</li>
 	<li>Fixed link from search results that contained a '/' (bug #115).</li>
 	<li>Comments from a story that has been marked as "draft" are no longer returned from a search (bug #128).</li>
-	<li>The Admin's link list now uses "google paging", 50 links per page (bug #104).<br>
+	<li>The Admin's link list now uses "google paging", 50 links per page (bug #104).<br />
   Note: Requires a change in the admin/link/linklist.thtml template file.</li>
 	<li>(Block)Admins can now change the order of blocks and enable / disable blocks directly from the Admin's list of blocks (based on a concept by stratosfear).</li>
 	<li>An alternative interface to adding (multiple) users to a group is now available from the Admin's list of groups. This feature requires JavaScript.</li>
@@ -2190,7 +2190,7 @@ Bugfixes:</p>
 	<li>The option to delete comments was only available to users in the Root group (e.g. Admin). Since comments don't have permissions, comments can now be deleted by users with Story Admin permissions for the story they are commenting on (or Poll Admin permissions for comments on polls; bug #27).</li>
 	<li>Display a generic (and localised) error message when there is a problem importing an (RSS) feed - details will be available in error.log. Also checks for empty (but existing) feeds now.</li>
 	<li>When the user submission queue is activated, you now have an "edit" link that takes you to the Admin's user editor (the profile link is now on the username). Contributed by Ed Magin.</li>
-	<li>COM_siteHeader() now uses output buffering for the eval(), preventing the header from being output directly.<br>
+	<li>COM_siteHeader() now uses output buffering for the eval(), preventing the header from being output directly.<br />
   Note: This may require changes in 3rd party scripts, e.g. the Geeklog/Gallery integration.</li>
 	<li>The install script will set the 'date' field for links to sensible values now (reconstructed from the date that's encoded in the link id).</li>
 	<li>The author exclusion list in the preferences is now a (multi-select) listbox.</li>
@@ -2208,7 +2208,7 @@ Bugfixes:</p>
 	<li>Added an 'edit' link to links/linkdetails.thtml, so that (Link) Admins can edit links easily (contributed by Euan McKay).</li>
 	<li>What's Related applied COM_checkHTML() on the entire block instead of on the individual items, thus stripping out HTML from the template file (bug #52).</li>
 	<li>Words from a search query are now properly highlighted in comments when the words occured only in the comments (but not in the story).</li>
-	<li>Integrated Vincent Furia's new comment code to use templates for comments (instead of hard-coded HTML).<br>
+	<li>Integrated Vincent Furia's new comment code to use templates for comments (instead of hard-coded HTML).<br />
   New template files: comment/comment.thtml, comment/thread.thtml.</li>
 </ul>
 
@@ -2240,9 +2240,9 @@ Bugfixes:</p>
 
 <p>This release addresses 2 security issues:</p>
 <ul>
-	<li>Fixed a cross site scripting vulnerability caused by using the $topic variable in the language files ($LANG05[3]) where it should have been using '%s' instead (bug #293) [Vinny, Dirk]<br>
+	<li>Fixed a cross site scripting vulnerability caused by using the $topic variable in the language files ($LANG05[3]) where it should have been using '%s' instead (bug #293) [Vinny, Dirk]<br />
   Note: german.php was not affected and is therefore not included.</li>
-	<li>It was possible to post comments to stories or polls for which comment posting had been switched off [Dirk]<br>
+	<li>It was possible to post comments to stories or polls for which comment posting had been switched off [Dirk]<br />
   This was only a problem if you allowed anonymous posts or when spammers went through the trouble of actually signing up for an account before posting.</li>
 </ul>
 
@@ -2273,7 +2273,7 @@ Bugfixes:</p>
 <p>This release addresses the following security-related issues:</p>
 <ol>
 	<li>As "dr.wh0" pointed out, the category field for link submissions was not filtered at all. Although you probably can't cause too much harm with those 32 characters, this has now been fixed.</li>
-	<li>Vincent Furia found that the restrictions for the form to email users could be circumvented and could even be used to spam users.<br>
+	<li>Vincent Furia found that the restrictions for the form to email users could be circumvented and could even be used to spam users.<br />
    In addition to fixing theses issues, there is now also a speed limit on that form (defaults to the speed limit for story submissions).</li>
 	<li>There was a way to post comments anonymously even when posting for anonymous users had been disabled.</li>
 	<li>It was possible to post comments under someone else's username.</li>
@@ -2294,9 +2294,9 @@ Bugfixes:</p>
 <ol>
 	<li>Includes Ulf Harnhammar's kses HTML filter to address possible Javascript injections and CSS defacements.</li>
 	<li>When upgrading from an earlier version, please make sure to copy over the $_CONF['user_html'] and $_CONF['admin_html'] arrays from the included config.php to your own copy of that file.</li>
-	<li>While almost all of the alleged SQL injection issues could not be reproduced, this release includes an update to the MySQL class to not report SQL errors in the browser any more (but only in Geeklog's error.log). This will avoid disclosing any sensitive information as part of the error message.<br>
+	<li>While almost all of the alleged SQL injection issues could not be reproduced, this release includes an update to the MySQL class to not report SQL errors in the browser any more (but only in Geeklog's error.log). This will avoid disclosing any sensitive information as part of the error message.<br />
 
-   Please note that at the moment we do NOT recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway).<br>
+   Please note that at the moment we do NOT recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway).<br />
 
    An upcoming release of Geeklog will address the remaining SQL issues, including any problems with MySQL 4.1.</li>
 </ol>
@@ -2365,7 +2365,7 @@ Bugfixes:</p>
 	<li>Check the topic permissions when doing a search on stories and comments.</li>
 	<li>Check the topic permissions when displaying the new stories and comments in the What's New block.</li>
 	<li>Need to use date_sub() in the SQL request for the display=new mode on the index page to ensure compatibility with old versions of MySQL (reported by Markus Guske).</li>
-	<li>New users created manually from the Admin's User menu were assigned a random password, even when the Admin entered one (reported by TechFan).<br>
+	<li>New users created manually from the Admin's User menu were assigned a random password, even when the Admin entered one (reported by TechFan).<br />
   This bug was only introduced in 1.3.8rc1.</li>
 	<li>The printer-friendly version of a story in HTML format should not call nl2br() on the story text (bug #762636).</li>
 	<li>When attempting to edit a submission, check that it still exists in the submission queue (since another Admin could already have handled it), avoiding an SQL error (reported by Simon Lord).</li>
@@ -2388,10 +2388,10 @@ Bugfixes:</p>
 	<li>Fixed bug where blocks assigned to a topic disappeared when viewing articles.</li>
 	<li>Add new Plugin API PLG_getHeaderCode, Used to return JS Functions or other Header Meta Tags required by the plugin. Added new variable {plg_headercode} to the template header.thtml files.</li>
 	<li>New search: You can search for the exact phrase, all of the words, or any of the words from the query. Search words are highlighted in stories. Also, results in stories and comments are listed separately.</li>
-	<li>Added new block "Privacy Options" to the Preferences:<br>
+	<li>Added new block "Privacy Options" to the Preferences:<br />
 		<ul>
 			<li>chose to receive email from admins and/or other users</li>
-			<li>chose to show up in Who's Online block<br>
+			<li>chose to show up in Who's Online block<br />
   (Feature requests #609758 and #609759)</li>
 		</ul></li>
 	<li>New config option $_CONF['hide_author_exclusion'] to hide the author exclusion list from the user's preferences (useful e.g. when it's a rather long list but hardly used by the users of your site).</li>
@@ -2407,9 +2407,9 @@ Bugfixes:</p>
 	<li>Added a check for an existing email address in the user's profile so that users can't change their email address to one that's already in use for another account.</li>
 	<li>Pick up the 'postmode' default setting for the Admin's story editor.</li>
 	<li>Stories in the Daily Digest are now sorted by date (newest first, as on the index page).</li>
-	<li>Changed handling of plugin comments slightly: Plugins will have to do the 'delete' operation on their comments on their own now since Geeklog can't possibly know which (if any) permissions are needed to delete a comment.<br>
+	<li>Changed handling of plugin comments slightly: Plugins will have to do the 'delete' operation on their comments on their own now since Geeklog can't possibly know which (if any) permissions are needed to delete a comment.<br />
   The 'id' parameter in the call to plugin_handlecomment_&lt;type&gt; will now always be the comment id.</li>
-	<li>In another attempt to solve the various issues regarding "www vs. non-www" URLs and related login problems:<br>
+	<li>In another attempt to solve the various issues regarding "www vs. non-www" URLs and related login problems:<br />
 		<ul>
 			<li>Made sure all setcookie() calls use all 6 parameters</li>
 			<li>Try to guess the correct value for $_CONF['cookiedomain'] if it isn't set</li>
@@ -2421,7 +2421,7 @@ Bugfixes:</p>
 	<li>Introduced new "forgot password" functionality: When requesting a new password for an account, the user will now receive an email with a link that s/he has to click on. It will take the user to a form where s/he can enter a new password (a unique id is contained in the URL and checked when entering the new password, thus preventing misuse). The old password remains valid until a new password is entered from this form, so the email can simply be ignored in case the user didn't request a new password (cf. Feature Request #567979).</li>
 	<li>Removed unused commentheader.thtml file from all default themes.</li>
 	<li>Fixed the redirect after posting a comment to a poll (should return to the poll, not to the index page).</li>
-	<li>You can now "clone" events, i.e. make a copy of an existing event. This comes in handy if you have a lot of similar events (e.g. repeating events).<br>
+	<li>You can now "clone" events, i.e. make a copy of an existing event. This comes in handy if you have a lot of similar events (e.g. repeating events).<br />
   Template files admin/event/eventlist.thtml and admin/event/listitem.thtml need to be updated or the "clone" option will not show up ...</li>
 	<li>Fixed a bug in the Admin's poll editor which let you enter more than $_CONF['maxanswers'] answers for a poll. You may need to adjust your setting of $_CONF['maxanswers'] or you may lose an answer when editing such a poll (found &amp; fixed by Tom Willet).</li>
 	<li>Moved hard-coded HTML for the poll block and poll results to new template files.</li>
@@ -2438,7 +2438,7 @@ Bugfixes:</p>
 	<li>Moved hard-coded HTML for the login form in the User Functions block to a new template file.</li>
 	<li>The Sections block now uses the useroption.thtml and the new useroption_off.thtml template files for the list of topics. You can also use $_CONF['hide_home_link'] to hide the "Home" link from the Sections block.</li>
 	<li>New config option $_CONF['keep_unscaled_image'] allows you to keep the original, unscaled image after upload (in stories only, for now). The smaller, scaled image will be used as a thumbnail and link to the original image (based on code provided by Alexander Schmacks).</li>
-	<li>In admin/database.php:<br>
+	<li>In admin/database.php:<br />
 		<ul>
 			<li>Made sure we really display the last 10 backups (fix by Alexander Schmacks)</li>
 			<li>Display total number of backups in the directory</li>
@@ -2446,9 +2446,9 @@ Bugfixes:</p>
 			<li>Replaced $PHP_SELF with $_CONF['site_admin_url']/database.php since $PHP_SELF seems to cause problems in some environments</li>
 		</ul></li>
 	<li>You can now make one topic the default topic. The topic selection in the story submission form will then default to this topic.</li>
-	<li>When clicking on the "contribute" link from the topic index page, the new story will now default to the topic you just viewed.<br>
+	<li>When clicking on the "contribute" link from the topic index page, the new story will now default to the topic you just viewed.<br />
   This only works with themes that use the {menu_elements} variable in header.thtml. Other themes can use the new variable {current_topic} which holds '&amp;topic=&lt;topicid&gt;' when a topic is selected (and is empty otherwise).</li>
-	<li>Integrated Vincent Furia's improvements for COM_exportRDF. You can now use $_CONF['rdf_limit'] to limit the number of stories in the RDF file by setting this to a number (e.g. 10) or a number of hours (e.g. 24h).<br>
+	<li>Integrated Vincent Furia's improvements for COM_exportRDF. You can now use $_CONF['rdf_limit'] to limit the number of stories in the RDF file by setting this to a number (e.g. 10) or a number of hours (e.g. 24h).<br />
   $_CONF['rdf_storytext'] lets you add the story's introtext to the RDF feed. Also fixed a bug with un-escaped special characters in the feed's title.</li>
 	<li>Added paging to the list of Static Pages (for more than 50 pages).</li>
 	<li>Fixed problem with the Older Stories block disappearing when it was edited (e.g. moved from left to right), bug #670673.</li>
@@ -2466,7 +2466,7 @@ Bugfixes:</p>
 	<li>What's Related block is now created dynamically.</li>
 	<li>Top Ten Commented Stories didn't count comments on stories submitted by anonymous users (found &amp; fixed by Laurence Whitworth).</li>
 	<li>Allow users to change their username if $_CONF['allow_username_change'] is set to 1.</li>
-	<li>Jan 18/03: (Blaine) Corrected problem in mysql.class.php where the checks in dbdelete, dbchange, dbcount and dbcopy for a passed value of 0 were not sufficient. If the parameter was 0 - it was assuming it was empty.<br>
+	<li>Jan 18/03: (Blaine) Corrected problem in mysql.class.php where the checks in dbdelete, dbchange, dbcount and dbcopy for a passed value of 0 were not sufficient. If the parameter was 0 - it was assuming it was empty.<br />
   Consequence: The dbdelete would delete all records or dbcount would return count(*)</li>
 	<li>Display Preferences and Comment Preferences have been merged. There is now only one option, Preferences, in the User Functions block.</li>
 	<li>Hard-coded HTML for the Display Preferences, Comment Preferences, and Account information has been moved to template files (new "preferences" directory).</li>
@@ -2474,13 +2474,13 @@ Bugfixes:</p>
 
 <h3>静的ページプラグイン 1.3</h3>
 <ul>
-	<li>Integrated (and extended) the 静的ページプラグイン 1.2 (originally started by Phill Gillespie and later supported by Tom Willet). This "combined" version is now called Static Pages 1.3.<br>
+	<li>Integrated (and extended) the 静的ページプラグイン 1.2 (originally started by Phill Gillespie and later supported by Tom Willet). This "combined" version is now called Static Pages 1.3.<br />
   Use Geeklog's install script to upgrade from any previous version (1.1 or 1.2)</li>
 	<li>Supports the use of PHP in static pages.</li>
-	<li>You can now edit the ID of a static page to create more readable URLs like http://yoursite/staticpages/index.php?page=about<br>
+	<li>You can now edit the ID of a static page to create more readable URLs like http://yoursite/staticpages/index.php?page=about<br />
 	In combination with Geeklog's $_CONF['url_rewrite'] option, the URL can even look like http://yoursite/staticpages/index.php/page/about</li>
 	<li>You can now "clone" static pages, i.e. make a copy of an existing page.</li>
-	<li>Removed the "static pages on frontpage" hack and changed the plugin to use the new Center Block API instead:<br>
+	<li>Removed the "static pages on frontpage" hack and changed the plugin to use the new Center Block API instead:<br />
   A static page can now be displayed on the top of the front page, on the bottom, or after the featured story. It can also replace the front page entirely. Instead of using special label names (like "frontpage"), the display mode and position can now be selected from drop-down menus in the static pages editor.</li>
 </ul>
 
@@ -2519,10 +2519,10 @@ Bugfixes:</p>
 <ol>
 	<li>Includes Ulf Harnhammar's kses HTML filter to address possible Javascript injections and CSS defacements.</li>
 	<li>When upgrading from an earlier version, please make sure to copy over the $_CONF['user_html'] and $_CONF['admin_html'] arrays from the included config.php to your own copy of that file.</li>
-	<li>While almost all of the alleged SQL injection issues could not be reproduced, this release includes an update to the MySQL class to not report SQL errors in the browser any more (but only in Geeklog's error.log).<br>
-   This will avoid disclosing any sensitive information as part of the error message.<br>
+	<li>While almost all of the alleged SQL injection issues could not be reproduced, this release includes an update to the MySQL class to not report SQL errors in the browser any more (but only in Geeklog's error.log).<br />
+   This will avoid disclosing any sensitive information as part of the error message.<br />
 
-   Please note that at the moment we do NOT recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway).<br>
+   Please note that at the moment we do NOT recommend to use Geeklog with MySQL 4.1 (which, at the time of this writing, is in alpha state and should not be used on production sites anyway).<br />
 
    An upcoming release of Geeklog will address the remaining SQL issues, including any problems with MySQL 4.1.</li>
 </ol>
@@ -2534,10 +2534,10 @@ Bugfixes:</p>
 <ul>
 	<li>It was possible to obtain valid session ids for every account (reported by SCAN Associates).</li>
 	<li>Using Internet Explorer, it was possible to upload an image with embedded PHP code and execute it (reported by SCAN Associates).</li>
-	<li>Story permissions could override topic permissions, resulting in the display of stories to users who shouldn't have access to them (reported by Andrew Lawlor).<br>
+	<li>Story permissions could override topic permissions, resulting in the display of stories to users who shouldn't have access to them (reported by Andrew Lawlor).<br />
    Note: This was already fixed with the new index.php, released 2003-05-15.</li>
-	<li>Added a warning in config.php that adding any of the following tags to the list of allowable HTML can make the site vulnerable to scripting attacks:<br>
-   &lt;img&gt; &lt;span&gt; &lt;marquee&gt; &lt;script&gt; &lt;embed&gt; &lt;object&gt; &lt;iframe&gt;<br>
+	<li>Added a warning in config.php that adding any of the following tags to the list of allowable HTML can make the site vulnerable to scripting attacks:<br />
+   &lt;img&gt; &lt;span&gt; &lt;marquee&gt; &lt;script&gt; &lt;embed&gt; &lt;object&gt; &lt;iframe&gt;<br />
    (pointed out by Joat Dede)</li>
 	<li>Fixed the bug in several of the admin areas (blocks, events, links, polls, stories, topics) where admins without root access got a message stating that they did not have the proper permissions when trying to save an object.</li>
 	<li>Fixed a typo in lib-sessions.php that caused the creation of unnecessary sessions (pointed out by Kobaz).</li>
@@ -2572,7 +2572,7 @@ Bugfixes:</p>
 <ul>
 	<li>The new user notification email was always sent out, even if 'user' was not listed in $_CONF['notification'].</li>
 	<li>In admin/database.php, added a check to test if function is_executable() is available (since it is not available on Windows).</li>
-	<li>{copyright_notice} in the site's footer (footer.thtml) will now use the current year for the copyright notice. You can override this by setting $_CONF['copyrightyear'] to the year you want.<br>
+	<li>{copyright_notice} in the site's footer (footer.thtml) will now use the current year for the copyright notice. You can override this by setting $_CONF['copyrightyear'] to the year you want.<br />
   Also, new variables {lang_copyright} and {current_year} as well as {site_name} and {site_slogan} are now available in footer.thtml so that you can build a customised copyright notice from them.</li>
 	<li>Fixed incomplete links to search results from poll comments.</li>
 	<li>Fixed wrong link to the week view from the last week of the month view.</li>
@@ -2653,7 +2653,7 @@ Bugfixes:</p>
 	<li>Added several new variables which can be used in the story template files.</li>
 	<li>New config options $_CONF['dateonly'] and $_CONF['timeonly'] which hold the format string for day + month (to be used in the Upcoming Events and Older Stories blocks) and the time (to be used for event details).</li>
 	<li>Fixed calls to unknown function printErrorMsgs in the file upload class.</li>
-	<li>New options in config.php:<br>
+	<li>New options in config.php:<br />
 		<ul>
 			<li>$_CONF['upcomingeventsrange'] = no. of days to look ahead for upcoming events</li>
 			<li>$_CONF['emailstoryloginrequired'] = disallow "send story be email" for anonymous users</li>
@@ -2666,14 +2666,14 @@ Bugfixes:</p>
       静的ページプラグイン to do exactly that.</li>
 	<li>Fixed problems when using multiple [code] ... [/code] sections.</li>
 	<li>PHP blocks which return an empty string are not displayed any more. This allows PHP blocks to "hide" themselves.</li>
-	<li>Searching for links caused an SQL error on installs that were upgraded from Geeklog 1.1 (missing "date" field in links table). However, links don't use that field anyway, so searching by date was removed (the "date" field will be added when upgrading the database to 1.3.7).<br>
+	<li>Searching for links caused an SQL error on installs that were upgraded from Geeklog 1.1 (missing "date" field in links table). However, links don't use that field anyway, so searching by date was removed (the "date" field will be added when upgrading the database to 1.3.7).<br />
   Also, the search results are now sorted by link title.</li>
 	<li>The calendar displayed an empty last week (in month view) for some months, e.g. November 2002.</li>
 	<li>COM_pollResults() will not use the side block templates when called from pollbooth.php (thus allowing different block layouts for the poll results in a side block and in pollbooth.php).</li>
 	<li>Allow for theme-based topic icons by using the $_THEME_URL variable as the base directory for topic icons (if that variable is set).</li>
 	<li>Fixed display (or lack thereof) of $ signs in portal blocks.</li>
 	<li>lib-common.php didn't use $_CONF['path_language'] to include the default language file.</li>
-	<li>What's Related block<br>
+	<li>What's Related block<br />
 		<ul>
 			<li>content is now set for all user submitted stories (previously, links where only added in stories submitted by the Admin or user submissions edited by the Admin)</li>
 			<li>block is not displayed when it's empty</li>
@@ -2689,12 +2689,12 @@ Bugfixes:</p>
 	<li>Added sanity checks in admin/story.php to prevent possible loss of stories when using an incomplete language file (or manipulating the URL).</li>
 	<li>Fixed a variable in admin/plugins/editor.ththml of the Smooth Blue theme.</li>
 	<li>Fixed a typo and a grammatical error in english.php</li>
-	<li>Fixed problems with the "static page as frontpage" hack:<br>
+	<li>Fixed problems with the "static page as frontpage" hack:<br />
 		<ul>
 			<li>will now check if the 静的ページプラグイン is installed and enabled</li>
 			<li>uses sp_format (i.e. display blocks as specified in the static pages editor)</li>
 			<li>added a missing stripslashes() call</li>
-		</ul><br>
+		</ul><br />
   New: When you have $_SP_CONF['in_block'] == 1 and the label of the static page is neither empty nor "nonews" then that label is used as the block title for the static page.</li>
 	<li>The "userevent" table is back in lib-database.php. Geeklog doesn't use this table any more, but the name is needed when upgrading from old versions.</li>
 </ul>
@@ -2714,7 +2714,7 @@ Bugfixes:</p>
 <h2>September 20, 2002 (1.3.6)</h2>
 <ul>
 	<li>Images in stories can now be resized automatically during upload, provided you have either ImageMagick or netpbm installed. See the image settings in config.php for details.</li>
-	<li>If you create a static page with the title "Frontpage" then the content of this static page will be displayed above the first story on the front page of your site. If you additionally set the label of this static page to "nonews", then the static page will completeley replace the news on the front page of your site. You may want to wrap static pages in a block - set $_SP_CONF['in_block'] = 1;<br>
+	<li>If you create a static page with the title "Frontpage" then the content of this static page will be displayed above the first story on the front page of your site. If you additionally set the label of this static page to "nonews", then the static page will completeley replace the news on the front page of your site. You may want to wrap static pages in a block - set $_SP_CONF['in_block'] = 1;<br />
   in /path/to/geeklog/plugins/staticpages/config.php</li>
 	<li>A user assigned only to the Mail Admin group wasn't able to use the "Mail Users" function.</li>
 	<li>The filter to disable Javascript onXXX events also changed certain links in HTML postings. This should be fixed now.</li>
@@ -2724,13 +2724,13 @@ Bugfixes:</p>
 	<li>When the first character of the content of a block is a '&lt;' it is now assumed that the block contains HTML and nl2br() is not applied to the block content. This allows proper HTML usage and even the use of Javascript in blocks.</li>
 	<li>Sanity checks have been added to the admin editors (including the editor for static pages) to prevent possible damage to the database in case of incomplete translations (language files) or invalid IDs.</li>
 	<li>The delete button in the plugin editor, which was unused since the removal of the automated plugin install (in Geeklog 1.3.4), will now cause a function plugin_uninstall_&lt;plugin name&gt; to be called. This allows plugins to uninstall themselves (if possible).</li>
-	<li>The author's name was missing from emailed stories. Also changed it so that the author's name is only included when $_CONF['contributedbyline'] == 1.<br>
+	<li>The author's name was missing from emailed stories. Also changed it so that the author's name is only included when $_CONF['contributedbyline'] == 1.<br />
   The daily digest now also includes the author's name.</li>
 	<li>Fixed the "1054: Unknown column 'deleted' in 'where clause'" SQL error that some people were getting when logging out.</li>
 	<li>Submitted stories will now pick up the permissions from the topic they were posted under (instead of using default permissions).</li>
 	<li>Added new features story.submit, link.submit, event.submit which, when assigned to a group, allow members of that group to post directly (skipping the submission queue) even when the submissione queue is active.</li>
 	<li>Fixed issues with backslashes in block titles, as suggested by Neil Darlow.</li>
-	<li>The page navigation is now wrapped in a &lt;div class="pagenav"&gt; so that it can be formatted by a theme using CSS.<br>
+	<li>The page navigation is now wrapped in a &lt;div class="pagenav"&gt; so that it can be formatted by a theme using CSS.<br />
   Because of this change, the template files admin/user/userslist.thtml and links/links.thtml had to be changed, because they wrapped the page navigation in a &lt;p&gt;.</li>
 	<li>Submission of links and events by anonymous users failed when the link submission queues were switched off.</li>
 	<li>Anonymous users were able to submit comments even when $_CONF['loginrequired'] was set to 1.</li>
@@ -2749,14 +2749,14 @@ Bugfixes:</p>
 	<li>Fresh installations now have a "Are you secure?" block pre-installed that only the Admin can see and which does some (very simple) tests whether the site is secure or not.</li>
 	<li>Fixed the page navigation in (admin's) user list.</li>
 	<li>Using the preview in the admin story editor will now keep the topic icon and the time will not revert from pm to am any more.</li>
-	<li>The links section now includes a list of the link categories at the top. The list of links is now also separated into pages (10 links per page by default, configurable in config.php).<br>
+	<li>The links section now includes a list of the link categories at the top. The list of links is now also separated into pages (10 links per page by default, configurable in config.php).<br />
   To get back the old (pre-1.3.6) style of the links section, just set both $_CONF['linkcols'] and $_CONF['linksperpage'] (in config.php) to 0. These changes are based on code provided by Tom Willett.</li>
 	<li>Fixed the SQL syntax for some requests ("count(*) AS count" instead of "count(*) count") which seems to have caused problems with some (older) versions of MySQL.</li>
 	<li>A proper error message is now displayed when attempting to use "Mail Users" but not filling out all the fields.</li>
 	<li>Editing a portal block shouldn't make it disappear any more ...</li>
 	<li>The somewhat random order of poll answers has been fixed.</li>
 	<li>The site can be disabled by setting $_CONF['site_enabled'] = false; in config.php. $_CONF['site_disabled_msg'] can either contain a message to be displayed in that case or a URL (has to start with http:) to which all requests will be redirected.</li>
-	<li>Fixed various access rights / privacy issues where users could see (but not access) information even when they shouldn't ...<br>
+	<li>Fixed various access rights / privacy issues where users could see (but not access) information even when they shouldn't ...<br />
 		<ul>
 			<li>Search returns only those stories, comments, links, and events to which the user has the proper access rights</li>
 			<li>What's New block counts stories and comments according to access rights now (this should also fix the problems some people had when New Comments were not displayed for anonymous users). New Links also take access rights into account.</li>
@@ -2772,13 +2772,13 @@ Bugfixes:</p>
 	<li>The submission queues for stories, links, events, and users can now be switched off separately (in config.php), i.e. items submitted by users will then be visible to everybody immediately.</li>
 	<li>The database backup is more verbose now, especially when there are problems (changes provided by Blaine Lang).</li>
 	<li>Fixed a bug where the admin's user photo overwrote a user's photo when the admin was editing the user's account information.</li>
-	<li>Group editor:<br>
+	<li>Group editor:<br />
 		<ul>
 			<li>Could not create new groups when using a non-english language file.</li>
 			<li>Once you've added one group to another (by checking off an option from the "Security Groups" list), there was no way to uncheck it again.</li>
 			<li>The message after saving/deleting a group said that the topic(!) had been saved/deleted ...</li>
 		</ul></li>
-	<li>Changes in search:<br>
+	<li>Changes in search:<br />
 		<ul>
 			<li>Should be faster now.</li>
 			<li>Search by date did not work (mostly because the date format recommended to be used in a search is really YYYY-MM-DD and not MM-DD-YYYY).</li>
@@ -2787,11 +2787,11 @@ Bugfixes:</p>
 			<li>When no results are returned for a search, then the search form will now be displayed below that message again.</li>
 		</ul></li>
 	<li>The 静的ページプラグイン uses the table prefix now (databases created with Geeklog 1.3.5 or older need to be upgraded).</li>
-	<li>A user submission queue has been added. When activated in config.php ($_CONF['usersubmission'] = 1;), new users will not get their password emailed until they are approved by an admin.<br>
+	<li>A user submission queue has been added. When activated in config.php ($_CONF['usersubmission'] = 1;), new users will not get their password emailed until they are approved by an admin.<br />
   You can, however, let users from certain domains be approved automatically by adding their domain names to the comma-separated list of domains in $_CONF['allow_domains'].</li>
 	<li>Fixed problems with quotes in poll question and answers.</li>
 	<li>The default value for the number of stories per page for a new user is now taken from $_CONF['limitnews'] (was hard-coded to 10).</li>
-	<li>The user profile has been extended to include<br>
+	<li>The user profile has been extended to include<br />
 		<ul>
 			<li>last 10 stories by that user</li>
 			<li>total number of stories and comments posted by that user</li>
@@ -2806,10 +2806,10 @@ Bugfixes:</p>
 	<li>In the admin menu, the count of available submissions is now displayed according to the admin's access rights (e.g. don't count story submissions for someone who's only a link admin).</li>
 	<li>Links in the What's New block are now counted when clicked (for the site statistics).</li>
 	<li>Fixed a stray "(N/A)" that would show up in the admin menu for admins which were not static pages admins.</li>
-	<li>You can now block anonymous users from accessing any part of a Geeklog site or you can block them from certain parts, e.g. block anonymous access to the calendar (via a new set of XXXloginrequired flags in config.php).<br>
+	<li>You can now block anonymous users from accessing any part of a Geeklog site or you can block them from certain parts, e.g. block anonymous access to the calendar (via a new set of XXXloginrequired flags in config.php).<br />
   Please note that $_CONF['loginrequired'] is now used to require login to all areas. To require login for submissions, use $_CONF['submitloginrequired'].</li>
 	<li>New RDF/RSS parser, provided by Roger Webster. This should now properly import even those RDF feeds which Geeklog previously refused to display.</li>
-	<li>Updated language files:<br>
+	<li>Updated language files:<br />
 		<ul>
 			<li>Italian, provided by quess65</li>
 			<li>Japanese, provided by Yusuke Sakata</li>
@@ -2837,7 +2837,7 @@ Bugfixes:</p>
 	<li>All admin editors have the save / cancel / delete buttons at the bottom now.</li>
 	<li>The link to the plugin homepage did not work from the plugin editor.</li>
 	<li>Added $_CONF['default_charset'] in config.php and $LANG_CHARSET in the language files to specify a character set to be used for the web pages (use {charset} in header.thtml) and email sent by Geeklog.</li>
-	<li>Changes in the themes and the admin editors, moving lots of hard-coded english texts to the language files.<br>
+	<li>Changes in the themes and the admin editors, moving lots of hard-coded english texts to the language files.<br />
   This affects most of the files in the admin and calendar directories within the themes directories.</li>
 	<li>The 静的ページプラグイン will now pick the language automatically, based on the user / default setting for the language. Currently, only English and German language files are included.</li>
 	<li>New variables that can be used in footer.thtml: {execution_textandtime}, {powered_by}.</li>
@@ -2849,12 +2849,12 @@ Bugfixes:</p>
 	<li>New installation instructions (now back in docs/install.html). Please note that some of the other documentation may be out of date ...</li>
 	<li>Display of stories in older stories block was off by one day.</li>
 	<li>Number of guest users in Who's online block should now be reset properly.</li>
-	<li>Added some scripts in admin/install to help with the installation:<br>
+	<li>Added some scripts in admin/install to help with the installation:<br />
 		<ul>
 			<li>info.php just does a phpinfo()</li>
 			<li>check.php will check the file and directory permissions</li>
 			<li>configinfo.php will display the contents of config.php</li>
-		</ul><br>
+		</ul><br />
   Note: It is now even more important that you remove the install directory after the installation went through (or at least block read access to this directory).</li>
 	<li>Disable all onXXX Javascript events in HTML postings (stories and comments).</li>
 	<li>Fill in user name and email address when writing an email to a user (via the 'send email' form from the user profile).</li>
@@ -2874,7 +2874,7 @@ Bugfixes:</p>
 <h2>June 10, 2002 (1.3.5sr1)</h2>
 <ul>
 	<li>This release addresses security issues recently discovered by the people at olympos.org. These issues allow for the injection of malicious javascript code (which could be used to access the admin's cookie) and the injection of MySQL code which could be used to access and even damaged the database (under certain circumstances). Details will be available in a report on the Bugtraq list shortly after this release is out.</li>
-	<li>The following bugs from the 1.3.5 release have also been fixed:<br>
+	<li>The following bugs from the 1.3.5 release have also been fixed:<br />
 		<ul>
 			<li>missing field 'emailfromadmin' in userprefs table (fresh installs only)</li>
 			<li>fixed a typo that prevented the page navigation from working</li>
@@ -2914,12 +2914,12 @@ Bugfixes:</p>
 	<li>complete overhauled upload.class.php for ease of use, better security, better logging and for use in putting images in articles.</li>
 	<li>fixed bug in users.php that allows accounts with same email addresses yet different
   usernames to be created.</li>
-	<li>New strings in english.php (and german.php):<br>
+	<li>New strings in english.php (and german.php):<br />
 		<ul>
 			<li>$LANG02: 15 (moved from calendar_event.php)</li>
 			<li>$LANG04: 74, 75, 76 (moved from usersettings.php)</li>
 			<li>$LANG08: 31, 32, 33, 34 (moved from lib-common.php)</li>
-		</ul><br>
+		</ul><br />
   These strings need to be added to the other language files!</li>
 	<li>Fixed user selection of emailed topics (usersettings.php) and removed the hard coded texts for the daily digest from lib-common.php (again).</li>
 	<li>Slightly changed display of event block: The type of event is no longer underlined and the event date is displayed as 03-Apr etc.</li>
@@ -2928,16 +2928,16 @@ Bugfixes:</p>
 	<li>Fixed bug #529621 and added the variable layout_url in COM_endBlock in lib-common.php</li>
 	<li>(Sort of) fixed bug #530142: {geeklog_blocks} is now set to an empty string in lib-common.php</li>
 	<li>Fixed bug #531018: {contributedby_use} had an 'r' too many in lib-common.php</li>
-	<li>There have been lots of minor changes in the themes so that they now contain valid HTML. Nearly all those change fall into one of the following categories:<br>
+	<li>There have been lots of minor changes in the themes so that they now contain valid HTML. Nearly all those change fall into one of the following categories:<br />
 		<ul>
 			<li>changed '&amp;' in URLs to '&amp;amp;'</li>
 			<li>added alt="" to &lt;img&gt; tags</li>
 			<li>changed the script tags to &amp;lt;script type="text/javascript"&amp;gt;</li>
 			<li>changed the DOCTYPE to HTML 4.01 (there is a bug in the HTML 4.0 specification which prevents the use of 'name' attributes in forms).</li>
 			<li>added '#' signs in front of colour values (mostly in the Classic theme)</li>
-		</ul><br>
+		</ul><br />
 		These kinds of changes have also been applied to index.php and lib-common.php</li>
-	<li>During those changes for valid HTML, some typos were corrected:<br>
+	<li>During those changes for valid HTML, some typos were corrected:<br />
 		<ul>
 			<li>Classic/header.thtml: added a missing &lt;b&gt; before {welcome_message}</li>
 			<li>Classic/storytext.thtml: added a missing 'n' in {end_contributedby_anchortag}</li>
@@ -3161,7 +3161,7 @@ Bugfixes:</p>
 <ul>
 	<li>Fixed the // uri issue.</li>
 	<li>Fixed a few issues surronding the $CONF["site_url"] placement in links.</li>
-	<li>Began work on new user customization system!<br>
+	<li>Began work on new user customization system!<br />
 		<ul>
 			<li>Index Configuration</li>
 			<li>Comment Configuration</li>
@@ -3304,7 +3304,7 @@ Bugfixes:</p>
 	<li>Completed new story editor and managment functions.</li>
 	<li>Completed database widgets.</li>
 	<li>Began work on reworking the poll editor and managment.</li>
-	<li>Removed the following functions that have become obsolete:<br>
+	<li>Removed the following functions that have become obsolete:<br />
 		<ul>
 			<li>countx</li>
 			<li>topicsel</li>
@@ -3435,13 +3435,13 @@ Bugfixes:</p>
 
 <h2>July 8, 2000</h2>
 <ul>
-	<li>Update the poll to restrict votes by IP.  This function only creates a table of IP addresses pollids and timestamps, votes are NOT tracked!<br>
+	<li>Update the poll to restrict votes by IP.  This function only creates a table of IP addresses pollids and timestamps, votes are NOT tracked!<br />
   Addresses are deleted after an admin specified peroid of time set with the config.php variable $CONF["polladdresstime"].</li>
 	<li>Added $CONF["pollcookietime"] to config.php to allow you to set the amount of time the poll cookies will exist for the user.</li>
 	<li>Changed poll to only show a % in the smaller index window.  Graphs are now only on the full view of the results.</li>
 	<li>Added SQL query interface for admins.  This was added for those that don't have shell access or shell access isn't alaways avaiable for troubleshooting.  Be VERY careful with this!</li>
 	<li>Fixed a really nasty bug with the RDF import HTTP calls!  This was causing the server to lock up under certian circumstances.</li>
-	<li>Update showblocks() to now order polls and olderstuff as well.  Here's the new method:<br>
+	<li>Update showblocks() to now order polls and olderstuff as well.  Here's the new method:<br />
 		<ul>
 			<li>show blockoder = 0 to 1</li>
 			<li>show the polls</li>
@@ -3469,7 +3469,7 @@ Bugfixes:</p>
 <ul>
 	<li>Added additional security checks for admins as well as adding additional admin tracking.</li>
 	<li>REMOVAL: function isAdmin() is being removed.</li>
-	<li>Created a new story format and parser.  The story text is now broken in to two blocks, an introtext block and bodytext block.  Introtext is all that is displayed on the index page.<br>
+	<li>Created a new story format and parser.  The story text is now broken in to two blocks, an introtext block and bodytext block.  Introtext is all that is displayed on the index page.<br />
   Both introtext and bodytext are displayed on an article page.  There are many other neat things that have changed to go along with this, too many to mention!  An example is "read more" is only displayed when there is data in bodytext.</li>
 	<li>Added comment and poll stats to the stats page.</li>
 </ul>
@@ -3619,7 +3619,7 @@ Bugfixes:</p>
 <h2>June 18, 2000</h2>
 <ul>
 	<li>Optimizations made to the SQL connections and calls.  Too much done here to talk about, but part of it was moving the site configuration to a flat file.  These changes should decrease the usage of the SQL server a great deal. This took up most of my day.</li>
-	<li>Variable usage optimizations.  Made many, many chnages in the way variables were being used.  This should result in cleaner, faster code that _may_ use a little less memory?<br>
+	<li>Variable usage optimizations.  Made many, many chnages in the way variables were being used.  This should result in cleaner, faster code that _may_ use a little less memory?<br />
   Hey, if I can save 2k per hit, thats a big deal! :-)</li>
 	<li>Updated all code and tested to ensure php4 compatibility. So from now on only php4 will be run on the Geeks web servers.  So I changed all the extentions and links from .php3 to .php to mark this moment.</li>
 	<li>Restructured the directory layout so I can implement some new security settings on the files.  Hmmm, I bet you wondering "what is this mad-man thinking?"</li>
