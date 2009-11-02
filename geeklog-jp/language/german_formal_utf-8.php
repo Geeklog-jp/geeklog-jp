@@ -829,9 +829,10 @@ $LANG24 = array(
     85 => 'Alles anzeigen',
     86 => 'WYSIWYG-Editor',
     87 => 'Artikel-Statistik',
-    88 => 'Format im Wiki-Stil ',
+    88 => 'Format im Wiki-Stil',
     89 => 'Meta Description',
-    90 => 'Meta Keywords'
+    90 => 'Meta Keywords',
+    91 => 'Sie können aber jederzeit auf "Vorschau" klicken, um diese Zeit zu verlängern.'
 );
 
 ###############################################################################
@@ -1069,6 +1070,7 @@ $LANG32 = array(
     39 => 'Upload a plugin',
     40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
     41 => 'Upload',
+    42 => 'Click to update',
     99 => 'An unknown error occured',
     100 => 'Ok.',
     101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
@@ -1330,7 +1332,26 @@ $LANG_DB_BACKUP = array(
     'size' => 'Größe',
     'bytes' => 'Bytes',
     'total_number' => 'Gesamtanzahl Backups: %d',
-    'download' => 'Anklicken, um diese Datei runterzuladen'
+    'download' => 'Anklicken, um diese Datei runterzuladen',
+    'new_backup' => 'New Backup',
+    'delete_failure' => 'One or more backup files could not be deleted.',
+    'delete_success' => 'Backup file(s) successfully deleted.',
+    'convert_menu' => 'Convert to InnoDB',
+    'convert_title' => 'Convert to InnoDB tables',
+    'convert_button' => 'Convert',
+    'sorry_no_innodb' => 'Sorry, your version of MySQL does not support InnoDB tables.',
+    'innodb_explain' => 'InnoDB tables provide better performance on <em>really</em> large databases but make the backup process more complicated. Please <a href="http://dev.mysql.com/doc/mysql/en/innodb.html">read up</a> on the pros and cons of InnoDB tables before you perform this operation.',
+    'already_converted' => 'Note: It appears that all of the tables have already been converted to InnoDB.',
+    'conversion_patience' => 'Note: Conversion may take some time - please be patient.',
+    'innodb_success' => 'Successfully converted tables to InnoDB.',
+    'table_issues' => 'There may have been problems with some tables, though. Please check error.log for details.',
+    'optimize_menu' => 'Tabellen optimieren',
+    'optimize_title' => 'Tabellen Optimieren',
+    'optimize_button' => 'Optimieren',
+    'optimize_explain' => 'Optimizing tables may help to improve the performance of your site. The actual impact depends on the table usage and some tables may benefit from it more than others. Do no expect to see a huge difference in performance. The <a href="http://dev.mysql.com/doc/mysql/en/optimize-table.html">MySQL manual</a> states: <q>it is not likely that you need to do this more than once a week or month</q>.',
+    'last_optimization' => 'Letzte Optimierung',
+    'optimization_patience' => 'Hinweis: Die Optimierung kann etwas Zeit in Anspruch nehmen. Bitte haben Sie etwas Geduld.',
+    'optimize_success' => 'Tabellen wurden erfolgreich optimiert.'
 );
 
 ###############################################################################
@@ -1581,7 +1602,8 @@ $LANG_ADMIN = array(
     'list_all' => 'Alle auflisten',
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
-    'na' => 'N/A'
+    'na' => 'n/v',
+    'token_expiry' => 'Sie sollten Ihre Änderungen bis spätestens %s durchführen. Danach wird das Security-Token, das in diese Seite eingebettet ist, ungültig und Sie würden Ihre Änderungen verlieren.'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1955,7 +1977,7 @@ $LANG_configselects['Core'] = array(
     20 => array('Exakter Ausdruck' => 'phrase', 'Alle Worte' => 'all', 'Eines der Worte' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Aktiviert' => 0, 'Deaktiviert' => 1, 'Aktiviert (Default nur auf der Startseite)' => 2)
 );
 
 ?>
