@@ -2,6 +2,10 @@ $Id$
 
 2009-11-02  Takahiro Kambe  <tacahi>
 
+	* Geeklog 1.6.1b1をマージしました。
+
+2009-11-02  Takahiro Kambe  <tacahi>
+
 	* トップのGNUmakefileでリリース処理の些細な改良と、makefileの
 	  マクロを表示するターゲットshow-varを追加しました。
 
