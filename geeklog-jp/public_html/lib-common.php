@@ -130,12 +130,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-common.php') !== false) {
     exit;
 }
 
-// timezone hack - set the webserver's timezone
-if( !empty( $_CONF['timezone'] ) && !ini_get( 'safe_mode' ) &&
-        function_exists( 'putenv' )) {
-    putenv( 'TZ=' . $_CONF['timezone'] );
-}
-
 
 // +---------------------------------------------------------------------------+
 // | Library Includes: You shouldn't have to touch anything below here         |
@@ -158,6 +152,13 @@ if (! $_CONF['have_pear']) {
         COM_errorLog('set_include_path failed - there may be problems using the PEAR classes.', 1);
     }
 }
+
+/**
+* Set the webserver's timezone
+*/
+
+require_once $_CONF['path_system'] . 'classes/timezoneconfig.class.php';
+TimeZoneConfig::setSystemTimeZone();
 
 /**
 * Include plugin class.
@@ -235,6 +236,7 @@ require_once( $_CONF['path_system'] . 'lib-custom.php' );
 */
 
 require_once( $_CONF['path_system'] . 'lib-sessions.php' );
+TimeZoneConfig::setUserTimeZone();
 
 /**
 * Ulf Harnhammar's kses class
@@ -2122,7 +2124,7 @@ function COM_showTopics( $topic='' )
         $op = 'AND';
     }
 
-    $sql = "SELECT tid,topic,imageurl FROM {$_TABLES['topics']}" . $langsql;
+    $sql = "SELECT tid,topic,imageurl,meta_description FROM {$_TABLES['topics']}" . $langsql;
     if( !COM_isAnonUser() )
     {
         $tids = DB_getItem( $_TABLES['userindex'], 'tids',
@@ -2271,6 +2273,17 @@ function COM_showTopics( $topic='' )
                         . '" title="' . $topicname . '"' . XHTML . '>';
         }
         $sections->set_var( 'topic_image', $topicimage );
+
+        $desc = trim($A['meta_description']);
+        $sections->set_var('topic_description', $desc);
+        $desc_escaped = htmlspecialchars($desc);
+        $sections->set_var('topic_description_escaped', $desc_escaped);
+        if (! empty($desc)) {
+            $sections->set_var('topic_title_attribute',
+                               'title="' . $desc_escaped . '"');
+        } else {
+            $sections->set_var('topic_title_attribute', '');
+        }
 
         if(( $A['tid'] == $topic ) && ( $page == 1 ))
         {
