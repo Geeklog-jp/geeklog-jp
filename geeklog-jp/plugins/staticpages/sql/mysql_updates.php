@@ -53,6 +53,8 @@ function update_ConfValues_1_6_0()
 
     $c = config::get_instance();
 
+    require_once $_CONF['path'] . 'plugins/staticpages/install_defaults.php';
+
     // meta tag config options.
     $c->add('meta_tags', $_SP_DEFAULT['meta_tags'], 'select', 0, 0, 0, 120, true, 'staticpages');
 
@@ -73,6 +75,23 @@ function update_ConfValues_1_6_0()
             DB_delete($_TABLES['groups'], 'grp_name', 'Static Pages Admin');
         }
     }
+
+    // move Default Permissions fieldset
+    DB_query("UPDATE {$_TABLES['conf_values']} SET fieldset = 3 WHERE (group_name = 'staticpages') AND (fieldset = 1)");
+
+    // What's New Block
+    $c->add('fs_whatsnew', NULL, 'fieldset', 0, 1, NULL, 0, true, 'staticpages');
+    $c->add('newstaticpagesinterval',$_SP_DEFAULT['new_staticpages_interval'],'text', 0, 1, NULL, 10, TRUE, 'staticpages');
+    $c->add('hidenewstaticpages',$_SP_DEFAULT['hide_new_staticpages'],'select', 0, 1, 0, 20, TRUE, 'staticpages');
+    $c->add('title_trim_length',$_SP_DEFAULT['title_trim_length'],'text', 0, 1, NULL, 30, TRUE, 'staticpages');
+    $c->add('includecenterblocks',$_SP_DEFAULT['include_centerblocks'],'select', 0, 1, 0, 40, TRUE, 'staticpages');
+    $c->add('includephp',$_SP_DEFAULT['include_PHP'],'select', 0, 1, 0, 50, TRUE, 'staticpages');        
+    
+    // Search Results
+    $c->add('fs_search', NULL, 'fieldset', 0, 2, NULL, 0, true, 'staticpages');
+    $c->add('includesearch', $_SP_DEFAULT['include_search'], 'select', 0, 2, 0, 10, true, 'staticpages');
+    $c->add('includesearchcenterblocks',$_SP_DEFAULT['include_search_centerblocks'],'select', 0, 2, 0, 20, TRUE, 'staticpages');
+    $c->add('includesearchphp',$_SP_DEFAULT['include_search_PHP'],'select', 0, 2, 0, 30, TRUE, 'staticpages');   
 
     return true;
 }
