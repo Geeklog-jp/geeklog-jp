@@ -44,12 +44,16 @@
 * Geeklog common function library
 */
 require_once '../lib-common.php';
-require_once $_CONF['path_system'] . 'lib-story.php';
 
 /**
 * Security check to ensure user even belongs on this page
 */
 require_once 'auth.inc.php';
+
+/**
+* Geeklog story function library
+*/
+require_once $_CONF['path_system'] . 'lib-story.php';
 
 // Set this to true if you want to have this code output debug messages to
 // the error log
@@ -232,8 +236,8 @@ function liststories()
 */
 function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
 {
-    global $_CONF, $_GROUPS, $_TABLES, $_USER, $LANG24, $LANG_ACCESS,
-           $LANG_ADMIN, $MESSAGE;
+    global $_CONF, $_TABLES, $_USER, $LANG24, $LANG_ACCESS, $LANG_ADMIN,
+           $MESSAGE;
 
     $display = '';
 
@@ -739,13 +743,16 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
     $story_templates->set_var('lang_cancel', $LANG_ADMIN['cancel']);
     $story_templates->set_var('lang_delete', $LANG_ADMIN['delete']);
     $story_templates->set_var('gltoken_name', CSRF_TOKEN);
-    $story_templates->set_var('gltoken', SEC_createToken());
+    $token = SEC_createToken();
+    $story_templates->set_var('gltoken', $token);
     $story_templates->parse('output','editor');
 
-    $display .= COM_startBlock ($LANG24[5], '',
-                        COM_getBlockTemplate ('_admin_block', 'header'));
+    $display .= COM_startBlock($LANG24[5], '',
+                        COM_getBlockTemplate('_admin_block', 'header'));
+    $display .= SEC_getTokenExpiryNotice($token, $LANG24[91]);
+
     $display .= $story_templates->finish($story_templates->get_var('output'));
-    $display .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
+    $display .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     return $display;
 }
