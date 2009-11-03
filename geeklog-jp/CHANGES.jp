@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-03  Yoshinori Tahara  <dengen>
+
+	* Geeklog 1.6.1b1のマージ(r2186 - r2189)に伴い、コアおよびStatic Pages
+	  プラグインの日本語言語ファイルの翻訳と一部修正を行いました。
+
 2009-11-02  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.1b1をマージしました。
