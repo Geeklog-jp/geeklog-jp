@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.5                                                               |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-custom.php                                                            |
 // |                                                                           |
@@ -20,7 +20,7 @@
 // | not include lib-common.php in this file.                                  |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
+// | Copyright (C) 2000-2009 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Blaine Lang      - blaine AT portalparts DOT com                 |
@@ -42,8 +42,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: lib-custom.php,v 1.43 2008/09/21 08:37:11 dhaun Exp $
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-custom.php') !== false) {
     die('This file can not be used on its own!');
@@ -78,6 +76,8 @@ require_once('custom/custom_cellular.php');
 function phpblock_showrights()
 {
     global $_RIGHTS, $_CST_VERBOSE;
+
+    $retval = '';
 
     if ($_CST_VERBOSE) {
         COM_errorLog('**** Inside phpblock_showrights in lib-custom.php ****', 1);
@@ -129,14 +129,41 @@ function CUSTOM_loginErrorHandler($msg='') {
 
 /**
 * Include any code in this function to add custom template variables.
-* Initially, this function is only called in the COM_siteHeader function to set
-* header.thtml variables
+*
+* Called from within Geeklog for:
+* - 'header' (site header)
+* - 'footer' (site footer)
+* - 'storytext', 'featuredstorytext', 'archivestorytext' (story templates)
+* - 'story' (story submission)
+* - 'comment' (comment submission form)
+* - 'registration' (user registration form)
+* - 'contact' (email user form)
+* - 'emailstory' (email story to a friend)
+*
+* This function is called whenever PLG_templateSetVars is called, i.e. in
+* addition to the templates listed here, it may also be called from plugins.
+*
+* @param    string  $templatename   name of the template, e.g. 'header'
+* @param    ref    &$template       reference to the template
+* @return   void
+* @see      PLG_templateSetVars
+*
 */
-function CUSTOM_templateSetVars ($templatename, &$template)
+function CUSTOM_templateSetVars($templatename, &$template)
 {
-    if ($templatename == 'header') {
-        // define a {hello_world} variable which displays "Hello, world!"
-        $template->set_var ('hello_world', 'Hello, world!');
+    // define a {hello_world} variable available in header.thtml and
+    // a {hello_again} variable available in the story templates
+
+    switch ($templatename) {
+    case 'header':
+        $template->set_var('hello_world', 'Hello, world!');
+        break;
+
+    case 'storytext':
+    case 'featuredstorytext':
+    case 'archivestorytext':
+        $template->set_var('hello_again', 'Hello (again)!');
+        break;
     }
 }
 
@@ -213,6 +240,8 @@ function CUSTOM_userDisplay($uid)
 {
     global $_CONF, $_TABLES;
 
+    $retval = '';
+
     $var = "Value from custom table";
     $retval .= '<tr>
         <td align="right"><b>Custom Fields:</b></td>
@@ -237,6 +266,8 @@ function CUSTOM_userDisplay($uid)
 function CUSTOM_userEdit($uid)
 {
     global $_CONF, $_TABLES;
+
+    $retval = '';
 
     $var = "Value from custom table";
     $cookietimeout = DB_getitem($_TABLES['users'], 'cookietimeout', $uid);
@@ -287,6 +318,8 @@ function CUSTOM_userSave($uid)
 function CUSTOM_userForm ($msg = '')
 {
     global $_CONF, $_TABLES, $LANG04;
+
+    $retval = '';
 
     if (!empty ($msg) && ($msg != 'new')) {
         $retval .= COM_startBlock($LANG04[21]) . $msg . COM_endBlock();
@@ -354,22 +387,26 @@ function CUSTOM_userForm ($msg = '')
 * e.g. to check if all required data has been entered.
 *
 * @param    string  $username   username that Geeklog would use for the new user* @param    string  $email      email address of that user
-* @return   mixed               Creating a new user: An error message or an empty string for "OK".
-*                               Edit user function under My Account:  the script expects a message number,
-*                                 that will map to the GLOBALS $MESSAGE define in the site language files
-*                                 By default $MESSAGE[97] will appear if a non-numeric is returned to usersettings.php - saveuser function
+* @return   mixed               Returns an empty string if no issues found validating user account form
+*                               If a validation test fails, return both a message and code
+*                                  > usercreate needs a string and usersettings saveuser() needs a message number
+*                               The message number will map to the GLOBALS $MESSAGE define in the site language files
+*                               By default $MESSAGE[400] will appear if a non-numeric is returned to usersettings.php - saveuser function
 */
 function CUSTOM_userCheck ($username, $email='')
 {
-    $msg = '';
+    global $MESSAGE;
+
+    $retval = '';
 
     // Example, check that the full name has been entered
     // and complain if it's missing
-    if (empty ($_POST['fullname'])) {
-        $msg = 'Please enter your full name!';
+    if (empty($_POST['fullname'])) {
+        $retval['string'] = $MESSAGE['401'];
+        $retval['number'] = 401;
     }
 
-    return $msg;
+    return $retval;
 }
 
 
@@ -394,6 +431,7 @@ function CUSTOM_showBlocks($showblocks)
     global $_CONF, $_USER, $_TABLES;
 
     $retval = '';
+
     if( !isset( $_USER['noboxes'] )) {
         if( !empty( $_USER['uid'] )) {
             $noboxes = DB_getItem( $_TABLES['userindex'], 'noboxes', "uid = {$_USER['uid']}" );
