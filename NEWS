@@ -1,6 +1,6 @@
 NEWS
 
-							2009年10月25日
+							2009年11月4日
 							Geeklog Japanese
 
 1. 概要
@@ -14,8 +14,11 @@ Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです
 オリジナルのGeeklogに近い内容の通常版と、より多くのプラグイン等を追加
 した拡張版を提供しています。
 
+Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
+ご覧ください。
 
-2. Geeklog 1.6.0sr2-jp-1.0の内容
+
+2. Geeklog 1.6.1-jp-1.0の内容
 
   * 独自プラグイン
 
@@ -105,19 +108,15 @@ Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです
 
 3. Google CodeのIssueの情報
 
-  * 1.6.0sr1-jp-1.0で修正されたIssueの一覧
+  * 1.6.1-jp-1.0で修正されたIssueの一覧
 
     以下のURLのページで確認できます。
 
-    http://code.google.com/p/geeklog-jp/issues/list?can=1&q=label%3AMilestone-1.6.0sr2-jp-1.0
+    http://code.google.com/p/geeklog-jp/issues/list?can=1&q=label%3AMilestone-1.6.1-jp-1.0
 
-  * 1.6.0sr1-jp-1.0で未解決なIssueの一覧
+  * 1.6.1-jp-1.0で未解決なIssueの一覧
 
     http://code.google.com/p/geeklog-jp/issues/list
 
-4. さらなる情報
-
-Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
-ご覧ください。
 
 以上です。
