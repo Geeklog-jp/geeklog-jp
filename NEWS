@@ -1,6 +1,6 @@
 NEWS
 
-							2009年10月25日
+							2009年11月4日
 							Geeklog Japanese
 
 1. 概要
@@ -13,6 +13,9 @@ Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです
 
 オリジナルのGeeklogに近い内容の通常版と、より多くのプラグイン等を追加
 した拡張版を提供しています。
+
+Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
+ご覧ください。
 
 
 2. Geeklog 1.6.0sr2-jp-1.0の内容
@@ -115,9 +118,14 @@ Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです
 
     http://code.google.com/p/geeklog-jp/issues/list
 
-4. さらなる情報
 
-Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
-ご覧ください。
+4. Geeklog 1.6.0sr2-jp-1.1での変更
+
+以下の修正を行いました。
+
+  * 非多言語モード時にlang属性が出力されない問題に対応(HTML/XHTML)しました。
+  * public_html/docs/japanese/以下のドキュメントを敬体に統一しました。
+  * 拡張版で system/lib-custom.php が 1.6.0にもなっていなかった問題を修正しました。
+  * 日本語の翻訳ファイルを1.6.1に合わせて改善しました。
 
 以上です。
