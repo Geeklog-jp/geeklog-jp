@@ -2,6 +2,8 @@ $Id$
 
 2009-11-04  Takahiro Kambe  <tacahi>
 
+	* geeklog-1.6.0sr2-jp-1.1rc2をリリースします。
+
 	* extend/system/lib-custom.php: r2164はGeeklog 1.6.1に向けた修正
 	  だったため、該当部分の変更を元に戻しまた。
 
