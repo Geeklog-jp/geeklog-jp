@@ -1,5 +1,14 @@
 $Id$
 
+2009-11-03  Takahiro Kambe  <tacahi>
+
+	* 拡張版用のlib-custom.php(extended/system/lib-custom.php)に、
+	  Geeklog 1.6以降のマージ処理が欠けていましたのを適用しました。
+	  system/lib-custom.phpの以下のコミットが該当します。
+
+		- r1649: Geeklog 1.6.0rc1のマージ
+		- r2164: geeklog-snap-20091020のマージ
+
 2009-11-03  Yoshinori Tahara  <dengen>
 
 	* Geeklog 1.6.1b1のマージ(r2186 - r2189)に伴い、コアおよびStatic Pages
