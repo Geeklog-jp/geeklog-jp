@@ -833,9 +833,9 @@ $LANG24 = array(
     86 => 'アドバンストエディタ',
     87 => '記事の情報',
     88 => 'Wikiスタイル',
-    89 => 'ページ内容説明のメタタグ',
-    90 => 'キーワードのメタタグ'
-    91 => 'You can always hit "Preview" to extend the expiry time.'
+    89 => '説明文のメタタグ',
+    90 => 'キーワードのメタタグ',
+    91 => '「プレビュー」ボタンをクリックすれば、いつでも満了時間を延ばせます。'
 );
 
 ###############################################################################
@@ -1073,8 +1073,12 @@ $LANG32 = array(
     39 => 'プラグインアップロード',
     40 => 'プラグインの圧縮ファイル (.tar.gz, .tgz, .zip) を直接ここにアップロードできます:',
     41 => 'アップロード',
-    42 => 'Click to update',
-    99 => '不明なエラーが発生しました。',
+    42 => 'アップデート',
+
+    // to match the PHP error constants,
+    // http://www.php.net/manual/en/features.file-upload.errors.php
+    // TBD: move to a separate $LANG array
+     99 => '不明なエラーが発生しました。',
     100 => 'Ok.',
     101 => 'アップロードファイルのサイズは、php.ini 内の upload_max_filesize の値を超えています。',
     102 => 'アップロードファイルのサイズは、HTMLフォームで指定された MAX_FILE_SIZE の値を超えています。',
@@ -1339,25 +1343,26 @@ $LANG_DB_BACKUP = array(
     'bytes' => 'バイト',
     'total_number' => 'バックアップ総数は %d です。',
     'download' => 'ファイルダウンロード',
-    'new_backup' => 'New Backup',
-    'delete_failure' => 'One or more backup files could not be deleted.',
-    'delete_success' => 'Backup file(s) successfully deleted.',
-    'convert_menu' => 'Convert to InnoDB',
-    'convert_title' => 'Convert to InnoDB tables',
-    'convert_button' => 'Convert',
-    'sorry_no_innodb' => 'Sorry, your version of MySQL does not support InnoDB tables.',
-    'innodb_explain' => 'InnoDB tables provide better performance on <em>really</em> large databases but make the backup process more complicated. Please <a href="http://dev.mysql.com/doc/mysql/en/innodb.html">read up</a> on the pros and cons of InnoDB tables before you perform this operation.',
-    'already_converted' => 'Note: It appears that all of the tables have already been converted to InnoDB.',
-    'conversion_patience' => 'Note: Conversion may take some time - please be patient.',
-    'innodb_success' => 'Successfully converted tables to InnoDB.',
-    'table_issues' => 'There may have been problems with some tables, though. Please check error.log for details.',
-    'optimize_menu' => 'Optimize Tables',
-    'optimize_title' => 'Optimize Tables',
-    'optimize_button' => 'Optimize',
-    'optimize_explain' => 'Optimizing tables may help to improve the performance of your site. The actual impact depends on the table usage and some tables may benefit from it more than others. Do no expect to see a huge difference in performance. The <a href="http://dev.mysql.com/doc/mysql/en/optimize-table.html">MySQL manual</a> states: <q>it is not likely that you need to do this more than once a week or month</q>.',
-    'last_optimization' => 'Last optimization',
-    'optimization_patience' => 'Note: Optimization may take some time - please be patient.',
-    'optimize_success' => 'Successfully optimized database tables.'
+    'new_backup' => '新規バックアップ',
+    'delete_failure' => '1つ以上のバックアップファイルが削除できませんでした。',
+    'delete_success' => 'バックアップファイルの削除が完了しました。',
+    'convert_menu' => 'InnoDBへの変換',
+    'convert_title' => 'InnoDBテーブルへの変換',
+    'convert_button' => '変換',
+    'sorry_no_innodb' => '申し訳ありませんが、あなたのMySQLのバージョンはInnoDBテーブルをサポートしていません。',
+    'innodb_explain' => 'InnoDBテーブルは <em>真に</em> 大きなデータベースではより良い性能を提供しますが、バックアップ作業をより複雑にします。この操作を実行する前に、InnoDBテーブルの長所と短所について<a href="http://dev.mysql.com/doc/mysql/en/innodb.html">調べて</a>ください。',
+    'already_converted' => '注意: 全てのテーブルがすでにInnoDBに変換されているようです。',
+    'conversion_patience' => '注意: 変換にはある程度の時間を要します。辛抱強くお待ちください。',
+    'innodb_success' => 'InnoDBテーブルへの変換が完了しました。',
+    'table_issues' => 'いくつかのテーブルに問題が発生した可能性があります。詳細については、error.logを確認してください。',
+
+    'optimize_menu' => 'テーブルの最適化',
+    'optimize_title' => 'テーブルの最適化',
+    'optimize_button' => '最適化',
+    'optimize_explain' => 'テーブルの最適化はサイトの性能を改善することに役立つかも知れません。実際の効果はテーブルの利用状況に依存し、テーブルによっては比較的大きな効果が得られるかも知れません。性能に大きな差がでることは期待しないでください。<a href="http://dev.mysql.com/doc/mysql/en/optimize-table.html">MySQLマニュアル</a>サイトは次のように述べています: <q>1週間または1ヶ月のうちに何回もこれを行う必要はないでしょう。</q>',
+    'last_optimization' => '最新の最適化',
+    'optimization_patience' => '注意: 最適化にはある程度の時間を要します。辛抱強くお待ちください。',
+    'optimize_success' => 'データベーステーブルの最適化が完了しました。'
 );
 
 ###############################################################################
@@ -1606,10 +1611,10 @@ $LANG_ADMIN = array (
     'addchild'      => '子を追加',
     'list'          => 'リスト',
     'list_all'      => 'すべてのリスト',
-    'meta_description' => 'ページ内容説明のメタタグ',
+    'meta_description' => '説明文のメタタグ',
     'meta_keywords' => 'キーワードのメタタグ',
-    'na'            => 'N/A'
-    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.'
+    'na'            => 'N/A',
+    'token_expiry'  => '%s までに編集してください。この時間を過ぎると、このページに埋め込まれたセキュリティートークンは期限切れとなり、編集内容は失われます。'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1882,8 +1887,8 @@ $LANG_confignames['Core'] = array(
     'ip_lookup' => 'IP検索',
     'url_rewrite' => 'URLリライト',
     'meta_tags' => 'メタタグ',
-    'meta_description' => 'ページ内容説明のデフォルト',
-    'meta_keywords' => 'キーワードのデフォルト',
+    'meta_description' => '説明文のメタタグのデフォルト',
+    'meta_keywords' => 'キーワードのメタタグのデフォルト',
     'default_permissions_block' => 'パーミッション',
     'default_permissions_story' => 'パーミッション',
     'default_permissions_topic' => 'パーミッション',
