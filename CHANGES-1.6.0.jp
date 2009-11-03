@@ -1,5 +1,14 @@
 $Id$
 
+2009-11-03  Takahiro Kambe  <tacahi>
+
+	* r2192による変更をマージしました。
+
+	    extended/system/lib-custom.php への更新
+
+		r1649: Geeklog 1.6.0rc1のマージ
+		r2164: geeklog-snap-20091020のマージ
+
 2009-11-02  Takahiro Kambe  <tacahi>
 
 	* 以下のtrunkのリビジョンををマージしました。
