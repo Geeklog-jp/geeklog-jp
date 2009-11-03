@@ -1,10 +1,11 @@
 $Id$
 
-2009-11-03  Takahiro Kambe  <tacahi>
+2009-11-04  Takahiro Kambe  <tacahi>
 
-	* r2192による変更をマージしました。
+	* 以下のtrunkの修正をマージしました。
 
-	    extended/system/lib-custom.php への更新
+	  r2167:	1.6.1の翻訳追加を除いた日本語訳の改善部分
+	  r2192:	extended/system/lib-custom.php への更新
 
 		r1649: Geeklog 1.6.0rc1のマージ
 		r2164: geeklog-snap-20091020のマージ
