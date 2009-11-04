@@ -488,7 +488,7 @@ class Dataproxy
 			} else if (isset($_CONF['default_charset'])) {
 				$encoding = $_CONF['default_charset'];
 			} else {
-				$encoding = 'utf-8';
+				$encoding = 'iso-8859-1';
 			}
 		}
 		

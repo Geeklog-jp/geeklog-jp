@@ -22,8 +22,6 @@
 #
 ###############################################################################
 
-$LANG_CHARSET = 'utf-8';
-
 $LANG_AUTO = array(
     'newpage' => 'New Page',
     'adminhome' => 'Admin Home',

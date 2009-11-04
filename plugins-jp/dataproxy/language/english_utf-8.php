@@ -30,8 +30,6 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
-$LANG_CHARSET = 'utf-8';
-
 $LANG_DPXY = array(
 	'plugin'            => 'dataproxy Plugin',
 	'access_denied'     => 'Access Denied',
