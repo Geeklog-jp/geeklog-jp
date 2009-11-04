@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-04  mystral-kk <mystral-kk>
+
+	* 非多言語モード時に使用言語を英語・日本語以外に変更すると、文字化けが
+	  発生するバグに対処しました。（Issue #108）。
+
 2009-11-04  Takahiro Kambe  <tacahi>
 
 	* plugins-jp/dataproxy/dataproxy.php: charsetのデフォルト値を
