@@ -34,7 +34,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
     o 拡張版に同梱
 
-	autotags バージョン 1.02jp1 (*)
+	autotags バージョン 1.02jp2 (*)
 		autotagsプラグインに日本語言語ファイルとタグ管理画面の
 		テンプレートを変更したものを追加・差し換え
 
@@ -44,11 +44,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	custommenu バージョン 0.4.3 (*)
 		メインメニュー(ヘッダーメニュー)を管理画面で設定
 
-	dataproxy バージョン 1.1.4.1
+	dataproxy バージョン 1.1.5
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供
 
-	dbman バージョン 0.5.2 (*)
+	dbman バージョン 0.5.3 (*)
 		mysqldumpコマンドを使用せずにデータベースのバックアッ
 		プやリストアを実行
 
@@ -67,10 +67,10 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	nmoxtopicown バージョン1.0.0 (*)
 		トピックとその中の記事の所有者を変更する機能を提供
 
-	sitemap バージョン 1.1.7 (*)
+	sitemap バージョン 1.1.8 (*)
 		GeeklogサイトのサイトマップとGoogleサイトマップを作成
 
-	themedit バージョン 1.1.3 (*)
+	themedit バージョン 1.1.4 (*)
 		テンプレートとカスケーディング・スタイルシートの編集
 		機能を提供
 
