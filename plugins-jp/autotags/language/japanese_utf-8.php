@@ -24,8 +24,6 @@
 ###############################################################################
 # Last Update 2008/01/14 by Ivy (Geeklog Japanese)
 
-$LANG_CHARSET = 'utf-8';
-
 $LANG_AUTO = array(
     'newpage' => '新規ページ',
     'adminhome' => '管理者HOME',
