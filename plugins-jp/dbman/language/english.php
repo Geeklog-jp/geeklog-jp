@@ -29,8 +29,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-$LANG_CHARSET = 'iso-8859-1';
-
 $LANG_DBMAN = array(
     'access_denied' => 'Access Denied',
     'access_denied_msg' => 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',

@@ -34,8 +34,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'english.php') !== FALSE) {
 	die('This file cannot be used on its own.');
 }
 
-$LANG_CHARSET = 'iso-8859-1';
-
 $LANG_SMAP = array (
     'plugin'            => 'sitemap Plugin',
 	'access_denied'     => 'Access Denied',
