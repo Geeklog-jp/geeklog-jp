@@ -2,6 +2,10 @@ $Id$
 
 2009-11-04  Takahiro Kambe  <tacahi>
 
+	* plugins-jp/dataproxy/dataproxy.php: charsetのデフォルト値を
+	  iso-8859-1から、他のplugins-jp以下のプラグインと同様にutf-8に
+	  変更しました。(Issue #108への対応の試みです。)
+
 	* geeklog-1.6.1-jp-1.0alpha1をリリースします。
 
 	* NEWSの内容をGeeklog 1.6.1に向けて更新しました。
