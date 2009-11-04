@@ -30,8 +30,6 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
-$LANG_CHARSET = 'utf-8';
-
 $LANG_THM = array(
     'plugin'            => 'Plugin',
 	'access_denied'     => 'Access Denied',
