@@ -34,8 +34,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'japanese_utf-8.php') !== FALSE) {
 	die('This file cannot be used on its own.');
 }
 
-$LANG_CHARSET = 'utf-8';
-
 $LANG_SMAP = array(
     'plugin'            => 'sitemapプラグイン',
 	'access_denied'     => 'アクセスは拒否されました。',
