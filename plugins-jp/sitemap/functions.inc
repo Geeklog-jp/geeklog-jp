@@ -201,7 +201,9 @@ function plugin_upgrade_sitemap() {
 			break;
 		
 		case '1.1.6':
+		case '1.1.7':
 			// Nothing done from 1.1.6 -> 1.1.7
+			// Nothing done from 1.1.8 -> 1.1.8
 			break;
 		
 		default:

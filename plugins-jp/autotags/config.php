@@ -42,7 +42,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
 
 $_AUTO_CONF = Array();
 
-$_AUTO_CONF['version'] = '1.02jp1';
+$_AUTO_CONF['version'] = '1.02jp2';
 
 /*
  *  Adds a link to top menu for access to the autotag link in

@@ -34,8 +34,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'japanese.php') !== FALSE) {
 	die('This file cannot be used on its own.');
 }
 
-$LANG_CHARSET = 'euc-jp';
-
 $LANG_SMAP = array(
     'plugin'            => 'sitemapプラグイン',
 	'access_denied'     => 'アクセスは拒否されました。',
