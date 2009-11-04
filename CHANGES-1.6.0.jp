@@ -2,12 +2,15 @@ $Id$
 
 2009-11-04  Takahiro Kambe  <tacahi>
 
+	* geeklog-1.6.0sr2-jp-1.1rc3をリリースします。
+
 	* 以下のtrunkの修正をマージしました。
 
 	  r2217: 非多言語モード時に、使用する言語を日本語・英語以外に変更する
 	  	 起きる文字化けを修正
 
-	* geeklog-1.6.0sr2-jp-1.1rc2をリリースします。
+	* geeklog-1.6.0sr2-jp-1.1rc2をリリースします。(タグの作成のみとなり
+	  ました。)
 
 	* extend/system/lib-custom.php: r2164はGeeklog 1.6.1に向けた修正
 	  だったため、該当部分の変更を元に戻しまた。
