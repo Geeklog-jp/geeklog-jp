@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-04  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.6.1-jp-1.0alpha2をリリースします。
+
 2009-11-04  mystral-kk <mystral-kk>
 
 	* 非多言語モード時に使用言語を英語・日本語以外に変更すると、文字化けが
