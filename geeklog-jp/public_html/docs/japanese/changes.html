@@ -17,6 +17,28 @@
 <p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更点の詳細なリストは、  
 <a href="history">ChangeLog</a>をご覧ください。<tt>docs/changed-files</tt>には、前回リリース以来変更されたファイルの一覧があります。</p>
 
+<h2><a name="changes161">Geeklog 1.6.1</a></h2>
+
+<h3>新機能と改善点</h3>
+
+<ul>
+<li>メインページ、記事、話題、静的ページ、アンケートに&lt;meta name="description"&gt;タグと&lt;meta name="keywors"&gt;タグを指定できるようになりました。検索エンジンの中には、これらのメタタグを<a href="http://www.mattcutts.com/blog/keywords-meta-tag-in-web-search/">使用しない</a>ものもあります。</li>
+<li>（「該当する話題にのみ表示する」が指定された記事に関しては）話題ごとに注目記事を1つずつ指定できるようになりました。</li>
+<li>記事の中など自動タグが使用できるところならどこでもアンケート埋め込めるようになりました。</li>
+<li>ちょっとしたセキュリティ強化: (セッションクッキーなどの)「重要な」クッキーは HttpOnlyのフラグをセットした状態で作成されるようになりました。お使いのWebブラウザがサポートしていれば、ある種の<acronym title="Cross Site Scripting">XSS</acronym>攻撃を防げるようになりました。</li>
+<li>インストールスクリプトの移行オプションを既存のデータベースにも適用できるようになりました(つまり、URLやパスを設定し直すためにダンプしたデータベースを読み込む必要はありません。)。</li>
+<li>データベースバックアップの管理者パネルで、データベースを最適化し、テーブルをInnoDBに変換するオプションがサポートされました(MySQLのみ)。</li>
+</ul>
+
+<h3>バグ修正</h3>
+
+<ul>
+<li>一定の期日が経過した後で、自動的に<a href="config.html#desc_article_comment_close_enabled">記事に対するコメントの受付を終了する</a>機能のバグを修正しました。このバグのためにコメントの受付が終了した記事で再びコメントを受け付けるようにするには、次のSQLコマンドを使用します:<br>
+    <code style="margin-left:2em">UPDATE gl_stories SET commentcode = 0, comment_expire = 0 WHERE commentcode = 1;</code></li>
+<li>コメントの投稿間隔制限が無視されていました。</li>
+<li>Geeklog 1.6.0(新規インストールのみ)では、静的ページプラグインの管理者グループが間違った名前になっていました。.</li>
+</ul>
+
 <h2><a name="changes160sr2">Geeklog 1.6.0sr2</a></h2>
 
 <p>このリリースでは以下のセキュリティ対策を行いました:</p>

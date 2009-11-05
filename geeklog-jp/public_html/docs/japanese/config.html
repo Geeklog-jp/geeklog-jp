@@ -82,6 +82,20 @@
   <td valign="top">いいえ(false)</td>
   <td valign="top">はい(true)でURLリライトを行い、いいえ(false)で行わないようになります。<br>
     下記の<a href="#url-rewrite">URLリライト</a>のセクションをご覧ください。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_meta_tags">メタタグ(meta_tags)</a></td>
+  <td valign="top">無効にする</td>
+  <td valign="top">有効にする - 記事と話題用のメタタグが出力されます。メタタグが見つからない場合、初期値が使用されます。メタタグがない他のすべてのページで初期値が使用されます。<br>
+      有効にする(トップページにのみ初期値を使用する) - トップページに対してだけ初期値を使用するという点を除いて、「はい」と同じです。<br>
+    無効にする - メタタグを使用しません。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_meta_description">meta_description</a></td>
+  <td valign="top">'Geeklog, the open source content management system designed with security in mind.'</td>
+  <td valign="top">サイトのdescriptionメタタグの初期値を指定します。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_meta_keywords">meta_keywords</a></td>
+  <td valign="top">'Geeklog, Blog, Content Management System, CMS, Open Source, Security'</td>
+  <td valign="top">サイトのkeywordsメタタグの初期値を指定します。</td></tr>    
 </table>
 
 <h3><a name="site_mail">サイト: メール</a></h3>
@@ -259,7 +273,7 @@
   <td valign="top">検索条件の初期値を指定します:<ul>
     <li>'すべてのキーワードを含む(all)': すべてのキーワードが含まれているページ。</li>
     <li>'いずれかのキーワードを含む(any)': いずれかのキーワードを含むページ。</li>
-    <li>'完全一致(phrase)': 検索キーワードが同じ順(フレーズ)ですべて含まれているページ。(デフォルト)</li>
+    <li>'完全一致(phrase)': 検索キーワードが同じ順(フレーズ)ですべて含まれているページ。(初期値)</li>
     </ul></td></tr>
 </table>
 
@@ -744,7 +758,7 @@
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、管理者画面(<tt>moderation.php</tt>)にドラフト記事の一覧が表示されます。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_postmode">デフォルトの投稿モード(postmode)</a></td>
+  <td valign="top"><a name="desc_postmode">既定の投稿モード(postmode)</a></td>
   <td valign="top">テキスト(plaintext)</td>
   <td valign="top">投稿モードの初期値をHTML(html)かテキスト(plaintext)で指定します。</td></tr>
 <tr>
@@ -800,14 +814,18 @@
   <td valign="top">1800</td>
   <td valign="top">上記コメント編集権限を持ったユーザが、コメント投稿後、コメントを編集できる期間（秒）を指定します。ゲストユーザは編集できません。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_article_comment_close_days">閉鎖するまでの日数(article_comment_close_days)</a></td>
+  <td valign="top"><a name="desc_article_comment_close_enabled">article_comment_close_enabled</a></td>
+  <td valign="top">いいえ(0)</td>
+  <td valign="top">一定の期間が経過した後で記事がコメントの受付を終了するかどうかを指定します(次のオプションをご覧ください)。この設定は新規記事に対する初期値であり、記事ごとに変更することができます。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_article_comment_close_days">受付終了までの日数(article_comment_close_days)</a></td>
   <td valign="top">30</td>
-  <td valign="top">記事投稿後、コメント投稿機能を自動的に無効するまでの日数を指定します。<br>
+  <td valign="top">記事投稿後、コメント受付を自動的に終了するまでの日数を指定します。<br>
 記事の新規作成時の初期値はコメント不可です。有効にしない限り、コメントは有効になりません。</td></tr>
 <tr>
   <td valign="top"><a name="desc_comment_close_rec_stories">コメント可能な記事の最大数(comment_close_rec_stories)</a></td>
   <td valign="top">無効(0)</td>
-  <td valign="top">コメントが許可されている記事の最大数を指定します。記事が投稿され、コメントが許可されている記事数がこの最大値を超えると、自動的にそれより古い記事のコメントが無効になります。</td></tr>
+  <td valign="top">コメントが許可されている記事の最大数を指定します。記事が投稿され、コメントが許可されている記事数がこの最大値を超えると、自動的にそれより古い記事のコメントが無効になります。このオプションを無効にするには、0を指定してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_allow_reply_notifications">返信のメール通知を許可する(allow_reply_notifications)</a></td>
   <td valign="top">いいえ(0)</td>
@@ -830,8 +848,7 @@
 <tr>
   <td valign="top"><a name="desc_path_to_mogrify">Mogrifyへのパス(path_to_mogrify)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">上記の「画像ライブラリ」にimagemagickを選んだ場合、mogrifyバイナリの<strong>完全なパス</strong>を '/usr/bin/mogrify' のように指定します。<br>
-    かなり新しいバージョンの<a href="http://www.imagemagick.org/">ImageMagick</a>が必要です（バージョン5.4.9以降推奨）。</td></tr>
+  <td valign="top">上記の「画像ライブラリ」にimagemagickを選んだ場合、<a href="http://www.imagemagick.org/">ImageMagick</a>パッケージ中のmogrifyバイナリへの<strong>完全なパス</strong>を '/usr/bin/mogrify' のように指定します(バージョン5.4.9以降を推奨します。)。</td></tr>
 <tr>
   <td valign="top"><a name="desc_path_to_netpbm">Netpbmへのパス(path_to_netpbm)</a></td>
   <td valign="top"><i>(無効)</i></td>
@@ -860,7 +877,7 @@
 <tr>
   <td valign="top"><a name="desc_debug_image_upload">画像アップロードのデバッグを行う(debug_image_upload)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
-  <td valign="top">はい(<code>true</code>)にすると、画像のアップロード中にデバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれます。画像アップロード時の問題を解明する際に役立ちます。</td></tr>
+  <td valign="top">はい(<code>true</code>)にすると、画像のアップロード・リサイズ中にデバッグ情報がGeeklogの<tt>error.log</tt>に書き込まれます。画像アップロード時の問題を解明する際に役立ちます。</td></tr>
 </table>
 
 <h3><a name="images_articles">画像: 記事の画像</a></h3>
@@ -926,9 +943,9 @@
   <td valign="top"><i>(無効)</i></td>
   <td valign="top">この設定を有効にしても、ユーザの写真を<em>表示する</em>ときにしか適用されません。写真表示用の <code>&lt;img&gt;</code>タグがここで指定されたサイズで出力されます。つまり、実際の写真のサイズはより大きくても、小さな（ここで指定された）サイズでしか表示されません。（掲示板などで）奇妙な形をしたユーザの写真がページのレイアウトを台無しにするのを防ぎたい場合に役に立つでしょう。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_default_photo">デフォルトの写真(default_photo)</a></td>
+  <td valign="top"><a name="desc_default_photo">既定の写真(default_photo)</a></td>
   <td valign="top"><i>(無効)</i></td>
-  <td valign="top">有効にする場合には、画像ファイルの完全なURLを指定します。写真のないユーザの場合、このデフォルトの写真が表示されます。この設定が無効で、ユーザが写真もアバターを持っていない場合、何も表示されません。</td></tr>
+  <td valign="top">有効にする場合には、画像ファイルの完全なURLを指定します。写真のないユーザの場合、この既定の写真が表示されます。この設定が無効で、ユーザが写真も<a href="#images_gravatar">アバター</a>も持っていない場合、何も表示されません。</td></tr>
 </table>
 
 <h3><a name="images_gravatar">画像: Gravatar</a></h3>
@@ -1150,7 +1167,8 @@
 <tr>
   <td valign="top"><a name="desc_rootdebug">Rootデバッグ(rootdebug)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
-  <td valign="top">PHPのエラーが発生したとき、（重要な情報の漏洩を防ぐため）GeeklogのエラーハンドラはRootグループに属するメンバーにしか実際のエラー情報を表示しません。はい(<code>true</code>)にすると、この情報が<em>すべての</em> ユーザに表示されるようになります。<strong>デバッグ目的にのみ使用してください。</strong></td></tr>
+  <td valign="top">PHPのエラーが発生したとき、（重要な情報の漏洩を防ぐため）GeeklogのエラーハンドラはRootグループに属するメンバーにしか実際のエラー情報を表示しません。はい(<code>true</code>)にすると、この情報が<em>すべての</em> ユーザに表示されるようになります。<strong>デバッグ目的にのみ使用してください。</strong><br>
+    ヒント: エラーのためにサイトにログインできない場合、<a href="#desc_rootdebug_siteconfig">このオプションを<tt>siteconfig.php</tt></a>の中で有効にすることができます。</td></tr>
 </table>
 
 <h3><a name="misc_digest">その他: デイリーダイジェスト</a></h3>
@@ -1168,7 +1186,7 @@
   <td valign="top">1</td>
   <td valign="top">上記の機能を有効にした場合、この設定値を <code>0</code> にすると、新規記事のタイトルとリンクのみが送信され、<code>1</code> にすると冒頭文全体が送信され、<code>2</code> 以上にすると、冒頭文の最初からその文字数分だけが送信されます。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_emailstoriesperdefault">新規ユーザのデフォルト(emailstoriesperdefault)</a></td>
+  <td valign="top"><a name="desc_emailstoriesperdefault">新規ユーザの初期値(emailstoriesperdefault)</a></td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、ユーザが新規登録したとき、自動的にデイリーダイジェストが有効になります。</td></tr>
 </table>
@@ -1314,6 +1332,12 @@
   <td valign="top">iso-8859-1</td>
   <td valign="top">HTMLページやEメールを送信するときにGeeklogが使用する文字セットのエンコーディングを指定します。言語ファイルによってエンコーディングが設定されていない場合にのみ、この設定値が使用されます。<br>
     <a href="http://wiki.geeklog.net/wiki/index.php/Multi-Language_Support">多言語サポート(multi-language)</a>を行うサイトの場合、 <code>utf-8</code> を初期値として使用することが推奨されています。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_rootdebug_siteconfig">rootdebug</a></td>
+  <td valign="top"><i>(無効)</i></td>
+  <td valign="top">コンフィギュレーションの'<a href="#desc_rootdebug">rootdebug</a>'オプションと同じです。しかしながら、時にはエラーが発生するため、サイトにログインして'rootdebug'オプションを有効にできないときがあります。このような場合には、この行のコメントを外し、この箇所でオプションを有効にできます。<br>
+    'true'と'false'以外に、'force'(<tt>siteconfig.php</tt>の中でのみ有効)を指定できます。これを指定すると、パスワードやクッキーなどの重要な情報も表示できます。<br>
+    いずれにせよ、<a href="#desc_rootdebug">上述</a>と同様な警告をしておきます。<strong>実際に使用しているサイトでこのオプションを有効なままにしておかないでください!</strong></td></tr>
 </table>
 
 
