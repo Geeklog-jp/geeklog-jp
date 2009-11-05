@@ -1,5 +1,12 @@
 $Id$
 
+2009-11-05  mystral-kk <mystral-kk>
+
+	* 1.6.1b1に合わせて、docs/japanese以下の一部のドキュメントを翻訳しまし
+	  た。
+	
+	* 日本語ファイルを一部修正しました。
+
 2009-11-04  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.6.1-jp-1.0alpha2をリリースします。
