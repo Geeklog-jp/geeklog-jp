@@ -829,7 +829,7 @@ case 'week':
         } else {
             $cal_templates->set_var ('day' . $i, $dayname . ', '
                 . COM_createLink( strftime ('%x', $thedate[1]),
-                $_CONF['site_url'] . '/calendar/index.php?' . addMode ($mode)
+                $_CONF['site_url'] . '/calendarjp/index.php?' . addMode ($mode)
                 . "view=day&amp;day$daynum&amp;month=$monthnum&amp;year=$yearnum")
             );
         }
