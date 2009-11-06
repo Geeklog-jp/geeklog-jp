@@ -35,6 +35,12 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Implementation of the Plugin API for the Calendarjp plugin
+*
+* @package Calendarjp
+*/
+
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
@@ -373,7 +379,7 @@ function plugin_moderationvalues_calendarjp()
     return array (
         'eid',
         $_TABLES['eventsjp'],
-        "eid,title,description,location,address1,address2,city,state,zipcode,datestart,timestart,dateend,timeend,url",
+        "eid,title,description,location,address1,address2,city,state,zipcode,datestart,timestart,dateend,timeend,url,owner_id",
         $_TABLES['eventsubmissionjp']
     );
 }
@@ -394,21 +400,21 @@ function plugin_moderationapprove_calendarjp ($id)
 {
     global $_CAJP_CONF, $_GROUPS, $_TABLES, $_USER;
 
-    $A = array ();
-    SEC_setDefaultPermissions ($A, $_CAJP_CONF['default_permissions']);
+    // The eventsubmission table only keeps track of the submitter's uid,
+    // but not of grous and permissions. So set those to sensible defaults.
 
-    // Since the eventsubmission table does not contain fields for the owner
-    // and group, we set those to the current user. Also set the default
-    // permissions as specified in the plugin's configuration
-    if (isset ($_GROUPS['Calendarjp Admin'])) {
+    if (isset($_GROUPS['Calendarjp Admin'])) {
         $group_id = $_GROUPS['Calendarjp Admin'];
     } else {
-        $group_id = SEC_getFeatureGroup ('calendarjp.moderate');
+        $group_id = SEC_getFeatureGroup('calendarjp.moderate');
     }
-    DB_query ("UPDATE {$_TABLES['eventsjp']} SET owner_id = '{$_USER['uid']}',"
-             ."group_id = '$group_id',perm_owner = {$A['perm_owner']}, "
-             ."perm_group = {$A['perm_group']}, perm_members = {$A['perm_members']},"
-             ."perm_anon = {$A['perm_anon']} WHERE eid = $id");
+
+    $A = array();
+    SEC_setDefaultPermissions($A, $_CAJP_CONF['default_permissions']);
+
+    DB_query("UPDATE {$_TABLES['eventsjp']} SET group_id = '$group_id', perm_owner = '{$A['perm_owner']}', perm_group = '{$A['perm_group']}', perm_members = '{$A['perm_members']}', perm_anon = '{$A['perm_anon']}' WHERE eid = '$id'");
+
+    return '';
 }
 
 /**
@@ -502,15 +508,26 @@ function plugin_savesubmission_calendarjp($A)
     $A['description'] = (isset($A['description']) ? $A['description'] : '');
     $A['event_type']  = (isset($A['event_type']) ? $A['event_type'] : '');
 
+    if ($A['url'] == 'http://') {
+        // remove default entry now to avoid false spam reports
+        $A['url'] = '';
+    }
+
     // pseudo-formatted event description for the spam check
-    $spamcheck = COM_createLink($A['title'], $A['url']) . '<br' . XHTML . '>'
-               . $A['location'] . '<br' . XHTML . '>' . $A['address1'] . '<br' . XHTML . '>'
-               . $A['address2'] . '<br' . XHTML . '>' . $A['city'] . ', ' . $A['zipcode']
+    $spamcheck = '';
+    if (empty($A['url'])) {
+        $spamcheck .= $A['title'];
+    } else {
+        $spamcheck .= COM_createLink($A['title'], $A['url']);
+    }
+    $spamcheck .= '<br' . XHTML . '>' . $A['location'] . '<br' . XHTML . '>'
+               . $A['address1'] . '<br' . XHTML . '>' . $A['address2']
+               . '<br' . XHTML . '>' . $A['city'] . ', ' . $A['zipcode']
                . '<br' . XHTML . '>' . $A['description'] . '</p>';
-    $result = PLG_checkforSpam ($spamcheck, $_CONF['spamx']);
+    $result = PLG_checkforSpam($spamcheck, $_CONF['spamx']);
     if ($result > 0) {
-        COM_updateSpeedlimit ('submit');
-        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+        COM_updateSpeedlimit('submit');
+        COM_displayMessageAndAbort($result, 'spamx', 403, 'Forbidden');
     }
 
     $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
@@ -523,10 +540,7 @@ function plugin_savesubmission_calendarjp($A)
     $A['event_type'] = addslashes (strip_tags (COM_checkWords ($A['event_type'])));
     $A['title'] = addslashes ($A['title']);
 
-    $A['url'] = addslashes (COM_sanitizeUrl ($A['url']));
-    if ($A['url'] == 'http://') {
-        $A['url'] = '';
-    }
+    $A['url'] = addslashes(COM_sanitizeUrl($A['url']));
 
     if (!empty ($A['eid'])) {
         $A['eid'] = addslashes (COM_applyFilter ($A['eid']));
@@ -595,8 +609,14 @@ function plugin_savesubmission_calendarjp($A)
         if (($_CAJP_CONF['eventsubmission'] == 1) &&
                 !SEC_hasRights('calendarjp.submit')) {
 
+            if (COM_isAnonUser()) {
+                $uid = 1;
+            } else {
+                $uid = $_USER['uid'];
+            }
+
             DB_save ($_TABLES['eventsubmissionjp'],
-                     'eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description',
+                     'eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description,owner_id',
                      "{$A['eid']},'{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}'");
 
             if (isset ($_CAJP_CONF['notification']) &&
@@ -1497,7 +1517,7 @@ function plugin_chkVersion_calendarjp()
 */
 function plugin_upgrade_calendarjp()
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_TABLES, $_DB_dbms;
 
     $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
                                     "pi_name = 'calendarjp'");
@@ -1515,6 +1535,34 @@ function plugin_upgrade_calendarjp()
 
     $inst_parms = plugin_autoinstall_calendarjp('calendarjp');
     $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    require_once $_CONF['path'] . 'plugins/calendarjp/sql/'
+                                . $_DB_dbms . '_updates.php';
+
+    $current_version = $installed_version;
+    $done = false;
+    while (! $done) {
+        switch ($current_version) {
+        case '1.0.3':
+            $current_version = '1.1.0';
+            break;
+
+        case '1.1.0':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            $current_version = '1.1.1';
+            break;
+
+        default:
+            $done = true;
+            break;
+        }
+    }
 
     DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'calendarjp'");
 
@@ -1691,26 +1739,17 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
 
     $sql = COM_getPermSQL('AND') . ' ';
 
-    if (!empty($datestart) && !empty($dateend))
-    {
-        $delim = substr($datestart, 4, 1);
-        if (!empty($delim))
-        {
-            $DS = explode($delim, $datestart);
-            $DE = explode($delim, $dateend);
-            $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
-            $enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
-            $sql .= "AND (UNIX_TIMESTAMP(datestart) BETWEEN '$startdate' AND '$enddate') ";
-        }
-    }
     if (!empty ($author)) {
         $sql .= "AND (owner_id = '$author') ";
     }
 
     // Search the public events
     $search_e = new SearchCriteria('calendarjp', array($LANG_CALJP_1[16],$LANG_CALJP_1[24]));
+
     $columns = array('title' => 'title', 'location', 'description');
+    $sql .= $search_e->getDateRangeSQL('AND', 'datestart', $datestart, $dateend);
     list($sql_tmp,$ftsql_tmp) = $search_e->buildSearchSQL($keyType, $query, $columns, $sql_e . $sql);
+
     $search_e->setSQL($sql_tmp);
     $search_e->setFTSQL($ftsql_tmp);
     $search_e->setRank(2);
@@ -1721,14 +1760,17 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
 
     // Search personal events
     $search_p = new SearchCriteria('calendarjp', array($LANG_CALJP_1[16],$LANG_CALJP_1[23]));
+
     $columns = array('title' => 'title', 'location', 'description');
     list($sql_tmp,$ftsql_tmp) = $search_p->buildSearchSQL($keyType, $query, $columns, $sql_p . $sql);
+
     $search_p->setSQL($sql_tmp);
     $search_p->setFTSQL($ftsql_tmp);
     $search_p->setRank(2);
 
     return array($search_e,$search_p);
 }
+
 
 /**
 * Set template variables
