@@ -735,9 +735,14 @@ function MYCALJP_showCalendar( $caltype = 1 )
 
 function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $caltype=1)
 {
-    global $_TABLES, $_CONF, $_MYCALJP2_CONF;
+    global $_TABLES, $_CONF, $_MYCALJP2_CONF, $CUSTOM_MOBILE_UA;
 
     $day = date( "j", $timestamp );
+    $space = '';
+    if ($CUSTOM_MOBILE_UA) {
+        $day = substr('__' . $day, -2);
+        $space = '--';
+    }
     $key = date( "Y-m-d", $timestamp );
     $today = ( date("Y-m-d") == $key );
     $story  = ( ( $days[ $key ] & _STORY_  ) > 0 );
@@ -790,7 +795,7 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
     {
         if ( ! $thismonth )
         {
-            $event_url = '<td class="NotThisMonth">';
+            $event_url = '<td class="NotThisMonth">' . $space;
         } 
         else 
         {
@@ -801,7 +806,7 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
     {
         if ( ! $thismonth )
         {
-            $event_url = '<td class="NotThisMonth">';
+            $event_url = '<td class="NotThisMonth">' . $space;
         }
         else 
         {
@@ -829,7 +834,7 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
     {
         if ( ! $thismonth )
         {
-            $event_url = '<td class="NotThisMonth">';
+            $event_url = '<td class="NotThisMonth">' . $space;
         }
         else 
         {
