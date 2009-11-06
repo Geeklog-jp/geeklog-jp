@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-06  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: Geeklog 1.6.1b1のcalendarjpプラグイン1.1.1の
+	  変更をマージしました。
+
 2009-11-05  mystral-kk <mystral-kk>
 
 	* 1.6.1b1に合わせて、docs/japanese以下の一部のドキュメントを翻訳しまし

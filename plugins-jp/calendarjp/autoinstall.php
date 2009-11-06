@@ -34,6 +34,12 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
+/**
+* Calendarjp plugin automatic plugin install
+*
+* @package Calendarjp
+*/
+
 function plugin_autoinstall_calendarjp($pi_name)
 {
     $pi_name         = 'calendarjp';
@@ -43,8 +49,8 @@ function plugin_autoinstall_calendarjp($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.1.0',
-        'pi_gl_version'   => '1.6.0',
+        'pi_version'      => '1.1.1',
+        'pi_gl_version'   => '1.6.1',
         'pi_homepage'     => 'http://www.geeklog.jp/'
     );
 
@@ -130,6 +136,10 @@ function plugin_compatible_with_this_version_calendarjp($pi_name)
     }
 
     if (!function_exists('COM_showMessageText')) {
+        return false;
+    }
+
+    if (!function_exists('SEC_getTokenExpiryNotice')) {
         return false;
     }
 
