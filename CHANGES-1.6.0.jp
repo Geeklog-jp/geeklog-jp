@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-07  Takahiro Kambe  <tacahi>
+
+	* r2241で加えられた翻訳の修正で、1.6.0に適用できるものを反映しました。
+
 2009-11-04  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.6.0sr2-jp-1.1rc3をリリースします。
