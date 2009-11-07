@@ -27,6 +27,12 @@
       <dd><input type="file" name="newicon" id="admin-topiceditor-newicon"{xhtml}></dd>
       <dd class="description">{lang_maxsize}{icon_dimensions}</dd>
 
+      <dt><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
+      <dd><textarea name="meta_description" style="width:100%" rows="2">{meta_description}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
+      <dd><textarea name="meta_keywords" style="width:100%" rows="2">{meta_keywords}</textarea></dd>
+
       <dt><label for="admin-topiceditor-is_default">{lang_defaulttopic}</label></dt>
       <dd><input type="checkbox" {default_checked} name="is_default" id="admin-topiceditor-is_default"{xhtml}>{lang_defaulttext}</dd>
 
