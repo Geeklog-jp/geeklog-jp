@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-08  mystral-kk <mystral-kk>
+
+	* Dataproxyプラグインが掲示板の日付を正しく出力していなかったバグを修正
+	  しました(Issue #110)。
+	
 2009-11-07  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン: 携帯電話でのカレンダ表示を改善し、月めくり操作が
