@@ -142,7 +142,7 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		$entries = array();
 		
-		$sql = "SELECT id, subject, lastupdated FROM {$_TABLES['gf_topic']} "
+		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
 			 . "ORDER BY lastupdated DESC";
 		$result = DB_query($sql);
@@ -182,7 +182,7 @@ class Dataproxy_forum extends DataproxyDriver {
 		$entries = array();
 		
 		if (empty($this->startdate) || empty($this->enddate)) return $entries;
-		$sql = "SELECT id, subject, lastupdated FROM {$_TABLES['gf_topic']} "
+		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
 			 . "AND (lastupdated BETWEEN '$this->startdate' AND '$this->enddate') "
 			 . "ORDER BY lastupdated DESC";
