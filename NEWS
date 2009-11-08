@@ -1,6 +1,6 @@
 NEWS
 
-							2009年11月4日
+							2009年11月8日
 							Geeklog Japanese
 
 1. 概要
@@ -27,7 +27,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
     o 通常版と拡張版に同梱
 
-	calendarjp バージョン 1.1.0
+	calendarjp バージョン 1.1.1
 		Calendarプラグインを日本人ユーザー向けにローカライズ
 	japanize バージョン 1.0.5RC2
 		Geeklogを日本人流に構成
