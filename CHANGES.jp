@@ -2,6 +2,10 @@ $Id$
 
 2009-11-08  mystral-kk <mystral-kk>
 
+	* r2250の修正で不十分だった点を再び修正しました。
+	
+2009-11-08  mystral-kk <mystral-kk>
+
 	* Dataproxyプラグインが掲示板の日付を正しく出力していなかったバグを修正
 	  しました(Issue #110)。
 	
