@@ -144,7 +144,7 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
-			 . "ORDER BY lastupdated DESC";
+			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
 		if (DB_error()) {
 			return $entries;
@@ -184,8 +184,8 @@ class Dataproxy_forum extends DataproxyDriver {
 		if (empty($this->startdate) || empty($this->enddate)) return $entries;
 		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
-			 . "AND (lastupdated BETWEEN '$this->startdate' AND '$this->enddate') "
-			 . "ORDER BY lastupdated DESC";
+			 . "AND (date BETWEEN '$this->startdate' AND '$this->enddate') "
+			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
 		if (DB_error()) {
 			return $entries;
