@@ -52,11 +52,11 @@ $LANG_AUTO = array(
     'no_tag_or_replacement' => '<b>タグ</b>と<b>置換文字列</b>フィールドは必ず入力してください。',
 
     'instructions' => '<p>自動タグの編集・削除は、タグの編集アイコンをクリックしてください。新規作成は、上の"新規作成"をクリックしてください。編集できないか、有効にできないタグがある場合は、それらは関数ベースのタグであり、あなたに autotags.PHP 権限がないか、変数 $_AUTO_CONF により関数ベースの自動タグが無効になっています。</p>',
-    'replace_explain' => '自動タグの記述形式は <b>[tag:parameter1 parameter2]</b> です。<br>置換文字列フィールドにはHTMLを記述できます。<br>置換文字列フィールドの文字列中に <b>#1</b> や <b>#2</b> を記述することにより、<b>parameter1</b> や <b>parameter2</b> を含めることができます。</p>'
-                        .'<p>自動タグは、一般的にリンクを作成するために使用されます。<br>タグ <b>[tag:foo This is a link]</b> が、置換文字列フィールドの文字列<br> <b>&lt;a href="http://path.to.somewhere/#1"&gt;#2&lt;/a&gt;</b> <br>に関連付けられているとき、そのタグは文字列<br> <b>&lt;a href="http://path.to.somewhere/foo"&gt;This is a link&lt;/a&gt;</b><br>に置換されます。</p>'
+    'replace_explain' => '自動タグの記述形式は <b>[tag:parameter1 parameter2]</b> です。<br' . XHTML . '>置換文字列フィールドにはHTMLを記述できます。<br' . XHTML . '>置換文字列フィールドの文字列中に <b>#1</b> や <b>#2</b> を記述することにより、<b>parameter1</b> や <b>parameter2</b> を含めることができます。</p>'
+                        .'<p>自動タグは、一般的にリンクを作成するために使用されます。<br' . XHTML . '>タグ <b>[tag:foo This is a link]</b> が、置換文字列フィールドの文字列<br' . XHTML . '> <b>&lt;a href="http://path.to.somewhere/#1"&gt;#2&lt;/a&gt;</b> <br' . XHTML . '>に関連付けられているとき、そのタグは文字列<br' . XHTML . '> <b>&lt;a href="http://path.to.somewhere/foo"&gt;This is a link&lt;/a&gt;</b><br' . XHTML . '>に置換されます。</p>'
                         . '<p>#1 と #2 に加えて、<b>#0</b> は最初のコロンの後の全文字列です。 <b>#U</b> はサイトのベースURLです。</p>',
 
-    'php_not_activated' => '静的ページPHPは機能していません。詳しくは<a href="' . $_CONF['site_url'] . '/docs/staticpages.html#php">ドキュメント</a>を。',
+    'php_not_activated' => '静的ページでPHPが有効になっていません。詳しくは<a href="' . $_CONF['site_url'] . '/docs/japanese/staticpages.html#php">ドキュメント</a>をご覧ください。',
 
     'edit' => '編集',
 
@@ -71,7 +71,9 @@ $LANG_AUTO = array(
     'descr_event' => 'このサイトのイベントの自動タグ: [event:event_id]',
     'descr_calendar' => 'このサイトのカレンダの自動タグ: [calendar:event_id]',
     'descr_link' => 'このサイトのリンクの自動タグ: [link:link_id]',
-    'descr_staticpage' => 'このサイトの静的ページの自動タグ: [staticpage:page_id]'
+    'descr_staticpage' => 'このサイトの静的ページの自動タグ: [staticpage:page_id]',
+// Added since 1.02jp3
+	'admin_label' => '自動タグ',
 );
 
 ?>
