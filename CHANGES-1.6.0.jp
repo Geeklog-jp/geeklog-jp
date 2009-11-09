@@ -2,6 +2,9 @@ $Id$
 
 2009-11-09  Takahiro Kambe  <tacahi>
 
+	* r2268: Autotagsプラグインを自動インストールに対応 (Issue #111)をマージ
+	  して、autotagsプラグインを1.02jp3としました。
+
 	* r2244で加えられたIssue #94に対する修正(mycaljpプラグインを2.1.1とする)
 	  変更をマージしました。
 
