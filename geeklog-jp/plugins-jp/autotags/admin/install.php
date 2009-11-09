@@ -51,7 +51,7 @@ $_TABLES['autotags']  = $_DB_table_prefix . 'autotags_plg';
 //
 $pi_display_name = 'Autotags';
 $pi_name         = 'autotags';
-$pi_version      = '1.02jp1';
+$pi_version      = '1.02jp3';
 $gl_version      = '1.4.0';
 $pi_url          = 'http://www.geeklog.net/';
 
@@ -164,7 +164,7 @@ function plugin_install_now()
     // Create the plugin's table(s)
     $_SQL = array ();
 //    if (file_exists ($base_path . 'sql/install.php')) {
-        require_once ($base_path . 'sql/install.php');
+        require_once ($base_path . 'sql/mysql_install.php');
 //    }
 
     foreach ($_SQL as $sql) {
