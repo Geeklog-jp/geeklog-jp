@@ -1,14 +1,18 @@
 $Id$
 
+2009-11-09  Takahiro Kambe  <tacahi>
+
+	* public_html/docs/japanese/links.html: 些細な日本語訳を修正しました。
+
 2009-11-08  mystral-kk <mystral-kk>
 
 	* r2250の修正で不十分だった点を再び修正しました。
-	
+
 2009-11-08  mystral-kk <mystral-kk>
 
 	* Dataproxyプラグインが掲示板の日付を正しく出力していなかったバグを修正
 	  しました(Issue #110)。
-	
+
 2009-11-07  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン: 携帯電話でのカレンダ表示を改善し、月めくり操作が
@@ -23,7 +27,7 @@ $Id$
 
 	* 1.6.1b1に合わせて、docs/japanese以下の一部のドキュメントを翻訳しまし
 	  た。
-	
+
 	* 日本語ファイルを一部修正しました。
 
 2009-11-04  Takahiro Kambe  <tacahi>
