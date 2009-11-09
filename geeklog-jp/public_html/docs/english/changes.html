@@ -26,17 +26,26 @@ list of files that have been changed since the last release.</p>
     meta tags <a href="http://www.mattcutts.com/blog/keywords-meta-tag-in-web-search/">may not be used</a> by some search engines.</li>
 <li>You can now have one featured story per topic (for stories set to "Show
     only in Topic").</li>
-<li>New autotags now allow you to embed polls in stories and everywhere else
-    where autotags are allowed.</li>
-<li>Minor security enhancement: "Important" cookies (like the session cookies)
-    are now created with the HttpOnly flag set. This will help avoid some XSS
-    attacks, provided your browser supports this flag.</li>
+<li>New <a href="polls.html#autotags">autotags</a> now allow you to embed polls
+    in stories and everywhere else where autotags are allowed.</li>
 <li>The Migrate option in the install script can now also be applied to an
     existing database (i.e. you don't need to import a database dump to update
     your URLs and paths).</li>
 <li>The Database Backup admin panel now includes options to optimize the
     database and convert tables to InnoDB (MySQL only).</li>
+<li>Improved <a href="http://wiki.geeklog.net/index.php/Timezone_Support">timezone support</a> and let users actually set their own timezone.</li>
+<li>Minor security enhancements:
+    <ul>
+        <li>"Important" cookies (like the session cookies) are now created with
+            the HttpOnly flag set. This will help avoid some XSS attacks,
+            provided your browser supports this flag.</li>
+        <li>Template errors will now trigger the <a href="http://www.geeklog.net/faqman/index.php?op=view&amp;t=65">standard error handler</a> instead of
+            exposing the template path.</li>
+        <li>Fixed inclusion protection for some of the Spam-X class files.</li>
+    </ul>
 </ul>
+
+<p>Please also see the list of <a href="theme.html#changes">theme changes</a>.</p>
 
 <h3>Bugfixes</h3>
 
@@ -46,6 +55,8 @@ list of files that have been changed since the last release.</p>
     this SQL request:<br>
     <code style="margin-left:2em">UPDATE gl_stories SET commentcode = 0, comment_expire = 0 WHERE commentcode = 1;</code></li>
 <li>The comment speed limit was being ignored.</li>
+<li>Fixed a bug in the Group Editor that didn't let you add groups to other
+    groups (this problem was only introduced in Geeklog 1.6.0).</li>
 <li>The admin group for the Static Pages plugin was created with a wrong name
     in Geeklog 1.6.0 (fresh installs only).</li>
 </ul>
@@ -1374,8 +1385,8 @@ already has the new index fields.</p>
     access to).</li>
   <li>Several fixes have been made to make sure that Geeklog can now be
     properly localized (provided you have a language file that is up to date
-    and have chosen the proper <a href="config.html#locale">locale settings</a>
-    for your country and language).</li>
+    and have chosen the proper <a href="config.html#languages_locale">locale
+    settings</a> for your country and language).</li>
   <li>The variable $_CONF['site_admin_url'] is now used properly so that you
     can rename Geeklog's <tt>admin</tt> directory if needed.</li>
   <li>New RDF parser will now import most (if not all) RDF news feeds
