@@ -196,13 +196,13 @@ function plugin_cclabel_autotags()
 
 function plugin_getadminoption_autotags()
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_TABLES, $LANG_AUTO;
 
     if (SEC_hasRights ('autotags.admin')) {
         $result = DB_query ("SELECT count(*) AS cnt FROM {$_TABLES['autotags']}");
         $A = DB_fetchArray ($result);
         $total_pages = $A['cnt'];
-        return array('Autotags', $_CONF['site_admin_url'] . '/plugins/autotags/index.php', $total_pages);
+        return array(htmlspecialchars($LANG_AUTO['admin_label'], ENT_QUOTES), $_CONF['site_admin_url'] . '/plugins/autotags/index.php', $total_pages);
     }
 }
 
