@@ -2,6 +2,11 @@ $Id$
 
 2009-11-10  Yoshinori Tahara  <dengen>
 
+	* インストーラの、本体インストール時に同時にインストールするプラグイン
+	  を制御する仕組みが、うまく動作していなかった問題を修正しました。
+
+2009-11-10  Yoshinori Tahara  <dengen>
+
 	* calendarjpプラグイン: Geeklog 1.6.1rc1のcalendarプラグインの変更を
 	  マージしました。
 
