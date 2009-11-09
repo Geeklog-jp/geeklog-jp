@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-10  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: Geeklog 1.6.1rc1のcalendarプラグインの変更を
+	  マージしました。
+
 2009-11-09  mystral-kk <mystral-kk>
 
 	* Autotagsプラグインを自動インストールに対応させました(Issue #2268)。
