@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-09  mystral-kk <mystral-kk>
+
+	* Autotagsプラグインを自動インストールに対応させました(Issue #2268)。
+
 2009-11-09  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.6.1rc1をマージしました。
