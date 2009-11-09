@@ -66,3 +66,33 @@ function GEEKLOGJP_disablePlugins() {
 		}
 	}
 }
+
+/**
+* Geeklog日本語拡張版に同梱のプラグインを、Geeklog本体のインストールと同時に
+* インストールするかどうかを制御する。
+* TRUE:インストールする。 FALSE:インストールしない。
+*/
+$_GEEKLOGJP_pi_preinstall = array(
+    'calendar'     => TRUE,
+    'links'        => TRUE,
+    'polls'        => TRUE,
+    'spamx'        => TRUE,
+    'staticpages'  => TRUE,
+    'xmlsitemap'   => TRUE,
+    'autotags'     => FALSE,
+    'calendarjp'   => FALSE,
+    'captcha'      => FALSE,
+    'custommenu'   => FALSE,
+    'dataproxy'    => FALSE,
+    'dbman'        => FALSE,
+    'filemgmt'     => FALSE,
+    'forum'        => FALSE,
+    'japanize'     => FALSE,
+    'mycaljp'      => FALSE,
+    'nmoxqrblock'  => FALSE,
+    'nmoxtopicown' => FALSE,
+    'sitemap'      => FALSE,
+    'themedit'     => FALSE,
+    'tkgmaps'      => FALSE
+);
+
