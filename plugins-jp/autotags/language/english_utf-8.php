@@ -1,7 +1,7 @@
 <?php
 
 ###############################################################################
-# english.php
+# english_utf-8.php
 # This is the english language page for the Geeklog Autotags Plug-in!
 #
 # Copyright (C) 2006 Joe Mucchiello
@@ -54,7 +54,7 @@ $LANG_AUTO = array(
                         .'<p>Autotags are commonly used to create links. A Replace With field of <b>&lt;a href="http://path.to.somewhere/#1"&gt;#2&lt;/a&gt;</b> when combined with this tag <b>[tag:foo This is a link]</b> will result in the string <b>&lt;a href="http://path.to.somewhere/foo"&gt;This is a link&lt;/a&gt;</b>'
                         .'<p>In addition to #1 and #2, #0 is the entire string after the first colon. #U is the base url of the website.',
 
-    'php_not_activated' => 'The use of PHP in static pages is not activated. Please see the <a href="' . $_CONF['site_url'] . '/docs/staticpages.html#php">documentation</a> for details.',
+    'php_not_activated' => 'The use of PHP in static pages is not activated. Please see the <a href="' . $_CONF['site_url'] . '/docs/english/staticpages.html#php">documentation</a> for details.',
 
     'edit' => 'Edit',
 
@@ -69,7 +69,9 @@ $LANG_AUTO = array(
     'descr_event' => 'Links to an event on this website. Title of the event is link text: [event:event_id]',
     'descr_calendar' => 'Links to a calendar entry on this website. Title of the entry is link text: [calendar:event_id]',
     'descr_link' => 'Links to a web resource on this website. Title of remote page is link text: [link:link_id]',
-    'descr_staticpage' => 'Links to a staticpage on this website. Title of the page is link text: [staticpage:page_id]'
+    'descr_staticpage' => 'Links to a staticpage on this website. Title of the page is link text: [staticpage:page_id]',
+// Added since 1.02jp3
+	'admin_label' => 'Autotags',
 );
 
 ?>
