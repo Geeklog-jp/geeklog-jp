@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.4.0 for Geeklog1.6.0
+  バージョン: 2.4.1 for Geeklog1.6.1
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -364,6 +364,12 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
+■Ver.2.4.1(2009-11-10)
+  ・友だちに記事を送信するページとユーザーへのメール送信ページで「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入るように修正しました。(*/profiles/contactauthorform.thtml,*/profiles/contactuserform.thtml)
+　・記事編集すべてと話題変種に，メタタグ編集フォームを追加しました。(*/admin/story/storyeditor.japanese_utf-8.thtml,*/admin/story/storyeditor.thtml,*/admin/story/storyeditor_advanced.japanese_utf-8.thtml,*/admin/story/storyeditor_advanced.thtml,*/admin/topic/topiceditor.thtml)
+  ・メール送信フォームで1.6.0から1.6.1への変更を加えました。(*/profiles/contactauthorform.thtml,*/profiles/contactuserform.thtml)
+  ・話題に記事数表示を追加・ユーザ名にremoteserviceを表示追加しました。(1.6.1への変更)(*/admin/topic/topiceditor.thtml,*/admin/user/edituser.thtml)
+
 ■Ver.2.4.0(2009-9-11)
 　・Geeklog 1.6.0に合わせて、ファイルを追加・修正・削除しました。
   ・<head>要素にjapanizeプラグインで生成されるテーマ変数を挿入して lang属性を反映させました。(*/header.thtml)
@@ -377,10 +383,10 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   ・管理画面ブロックの編集ページのテーブルレイアウトを修正し、チェックボックス等をlabel要素と関連付ける為にinput要素にid属性を追加しました。(*/admin/block/defaultblockeditor.thtml)
   ・聞き飛ばし部分に入れているテキスト「記事」を「本文」に変更しました。(*/header.thtml)
   ・パーミッションのチェックボックスをlabelタグと関連付ける為にinputタグにid属性を追加しました。(*/admin/common/edit_permissions.thtml)
-  ・音声読み上げソフト利用者の方が解りやすいように、記事の編集ページの「パーミッションR、Eの説明」の位置を修正しました。(*admin/story/storyeditor.thtml,*admin/story/storyeditor_advanced.thtml)
+  ・音声読み上げソフト利用者の方が解りやすいように、記事の編集ページの「パーミッションR、Eの説明」の位置を修正しました。(*/admin/story/storyeditor.thtml,*/admin/story/storyeditor_advanced.thtml)
   ・音声読み上げソフト利用者の方が解りやすいように、管理画面フィードの編集ページの「エントリの長さの説明」と「ロゴの説明」の位置を修正しました。(*/admin/syndication/feededitor.thtml)
-  ・音声読み上げソフト利用者の方が解りやすいように、管理画面プラグイン編集ページの「保存、キャンセル、削除」の位置を修正し、それに伴いアイコン部分のスタイルを変更しました。(*/admin/plugins/editor.thtml,*css/admin/common.css)
-  ・音声読み上げソフト利用者の方が解りやすいように、管理画面話題の編集ページの「半角英数字とハイフン」と「初期値は：10」と「最大48 x 48」と「デフォルトの説明」と「アーカイブの説明」と「パーミッションR、Eの説明」の位置を修正しました。(*admin/topic/topiceditor.thtml)
+  ・音声読み上げソフト利用者の方が解りやすいように、管理画面プラグイン編集ページの「保存、キャンセル、削除」の位置を修正し、それに伴いアイコン部分のスタイルを変更しました。(*/admin/plugins/editor.thtml,*/css/admin/common.css)
+  ・音声読み上げソフト利用者の方が解りやすいように、管理画面話題の編集ページの「半角英数字とハイフン」と「初期値は：10」と「最大48 x 48」と「デフォルトの説明」と「アーカイブの説明」と「パーミッションR、Eの説明」の位置を修正しました。(*/admin/topic/topiceditor.thtml)
   ・音声読み上げソフト利用者の方が解りやすいように、管理画面ブロックの編集及び新規作成ページの「http://を含む」と「0 - 9999」と「半角英数字とハイフン」と「PHPブロックのオプション説明文」と「自動タグ使用許可」と「パーミッションR、Eの説明」の位置を修正しました。その変更に伴い余白を修正しました。(*/admin/block/defaultblockeditor.thtml,*/admin/block/blockeditor.thtml,*/css/common.css)
   ・音声読み上げソフト利用者の方が解りやすいように、個別ユーザーへのメール送信ページの「HTMLタグは使えません。」の位置を修正しました。(*/profiles/contactuserform.thtml)
   ・音声読み上げソフト利用者の方が解りやすいように、管理画面ユーザー情報ページのユーザー名とパスワード「パスワード説明文」と「パスワード（再入力）説明文」と「メール説明文」と「現在のパスワードの説明」の位置を修正しました。(*/preferences/profile.thtml)
