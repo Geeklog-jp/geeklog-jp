@@ -1,5 +1,13 @@
 $Id$
 
+2009-11-10  Masuko Koeda  <milk851>
+
+	* テーマ WAIproCSSもProfessionalCSS同様1.6.1に対応させました。
+	  友だちに記事を送信するページとユーザーへのメール送信ページで
+	  「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入るように
+	  修正しました。
+	  上記の修正をREADMEの更新履歴に記載し、WAIproCSSのバージョンを2.4.1にしました。
+
 2009-11-10  Tetsuko Komma  <ivy>
 
 	* テーマ ProfessionalCSSを1,6,1に対応させました。
