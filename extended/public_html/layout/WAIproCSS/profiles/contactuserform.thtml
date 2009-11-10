@@ -14,14 +14,15 @@
       <dt><label for="contactuserform-authoremail">{lang_useremail}</label></dt>
       <dd><input type="text" size="32" value="{useremail}" maxlength="96" name="authoremail" id="contactuserform-authoremail" class="text"{xhtml}></dd>
 
-      <dt><label for="lang_cc">{lang_cc}</label></dt>
-      <dd><input type="checkbox" name="cc" checked="checked" id="lang_cc" {xhtml}>&nbsp;{lang_cc_description}</dd>
-
       <dt><label for="contactuserform-subject">{lang_subject}</label></dt>
       <dd><input type="text" size="32" maxlength="96" value="{subject}" name="subject" id="contactuserform-subject" class="text"{xhtml}></dd>
 
       <dt><label for="contactuserform-message">{lang_message}&nbsp;{lang_nohtml}</label></dt>
       <dd><textarea rows="10" cols="50" name="message" id="contactuserform-message">{message}</textarea></dd>
+
+      <dt>{lang_cc}</dt>
+      <dd><input type="checkbox" id="contactuserform-cc" name="cc" checked="checked"{xhtml}>&nbsp;<label for="contactuserform-cc">{lang_cc_description}</label></dd>
+
     </dl>
 
     {captcha}
