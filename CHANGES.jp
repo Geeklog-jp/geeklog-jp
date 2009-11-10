@@ -1,6 +1,10 @@
 $Id$
 
 2009-11-10  Masuko Koeda  <milk851>
+	* テーマ WAIproCSSの記事編集すべてに追加したメタタグ編集フォームの
+	  textarea要素にlabel要素のfor属性の値に対するid属性を追加しました。
+
+2009-11-10  Masuko Koeda  <milk851>
 
 	* テーマ WAIproCSSもProfessionalCSS同様1.6.1に対応させました。
 	  友だちに記事を送信するページとユーザーへのメール送信ページで
