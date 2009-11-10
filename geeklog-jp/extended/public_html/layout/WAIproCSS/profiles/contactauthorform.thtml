@@ -7,6 +7,9 @@
       <legend>送信情報</legend><!-- Geeklog Japanese -->
 
       <dl>
+        <dt><label for="contactauthorform-title">{lang_title}</label></dt>
+        <dd>{story_link}</dd>
+
         <dt><label for="contactauthorform-from">{lang_fromname}</label></dt>
         <dd><input type="text" size="30" maxlength="96" value="{name}" name="from" id="contactauthorform-from" class="text"{xhtml}></dd>
 
@@ -21,6 +24,9 @@
 
         <dt><label for="contactauthorform-shortmsg">{lang_shortmessage}</label></dt>
         <dd><textarea rows="8" cols="50" name="shortmsg" id="contactauthorform-shortmsg">{shortmsg}</textarea></dd>
+        <dt>{lang_cc}</dt>
+        <dd><input type="checkbox" id="contactauthorform-cc" name="cc" checked="checked"{xhtml}>&nbsp;<label for="contactauthorform-cc">{lang_cc_description}</label></dd>
+
       </dl>
 
       {captcha}

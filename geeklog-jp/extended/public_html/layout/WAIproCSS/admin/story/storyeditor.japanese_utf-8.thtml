@@ -164,6 +164,12 @@ function enablearchive(obj) {
       <dt><label for="admin-storyeditor-sid">{lang_sid}</label></dt>
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="text"{xhtml}></dd>
 
+      <dt><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
+      <dd><textarea name="meta_description" style="width:100%" rows="2">{meta_description}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
+      <dd><textarea name="meta_keywords" style="width:100%" rows="2">{meta_keywords}</textarea></dd>
+
       <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
       <dd><textarea cols="45" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
 
