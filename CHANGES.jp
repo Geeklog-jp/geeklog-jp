@@ -1,5 +1,11 @@
 $Id$
 
+2009-11-10  Tetsuko Komma  <ivy>
+
+	* テーマ ProfessionalCSSを1,6,1に対応させました。
+		r2277:「自分宛にコピーを送信」の重複を削除(r2247の修正)
+		r2276:話題に記事数表示を追加・ユーザ名にremoteserviceを表示追加
+
 2009-11-10  Yoshinori Tahara  <dengen>
 
 	* インストーラの、本体インストール時に同時にインストールするプラグイン
@@ -28,6 +34,11 @@ $Id$
 
 	* Dataproxyプラグインが掲示板の日付を正しく出力していなかったバグを修正
 	  しました(Issue #110)。
+
+2009-11-07  Tetsuko Komma  <ivy>
+
+	* テーマ ProfessionalCSSの話題と，ProfessionalCSSおよびProfessionalCSSの
+	  記事編集の日本語専用テンプレートにメタタグフォームを追加して1.6.1対応させました。
 
 2009-11-07  Yoshinori Tahara  <dengen>
 
