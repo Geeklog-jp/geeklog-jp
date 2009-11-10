@@ -38,6 +38,10 @@
 
       <dt><label for="admin-topiceditor-is_archive">{lang_archivetopic}</label></dt>
       <dd><input type="checkbox" {archive_checked} {archive_disabled} name="is_archive" id="admin-topiceditor-is_archive"{xhtml}>{lang_archivetext}</dd>
+
+      <dt><label for="admin-topiceditor-num_stories">{lang_num_stories}</label></dt>
+      <dd>{num_stories}</dd>
+
     </dl>
   </fieldset>
 
