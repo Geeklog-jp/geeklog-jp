@@ -45,4 +45,17 @@ $_UPDATES = array(
 
 );
 
+function update_ConfValues_1_1_1_1()
+{
+    global $_CONF, $_CAJP_DEFAULT;
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+    $c = config::get_instance();
+    
+    $c->add('addeventloginrequired', $_CAJP_DEFAULT['addeventloginrequired'], 'select', 0, 0, 0, 15, true, 'calendarjp');
+
+    return true;
+}
+
 ?>
