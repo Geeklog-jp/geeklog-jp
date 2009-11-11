@@ -103,6 +103,8 @@ $_CAJP_DEFAULT['advanced_editor'] = true;
 // Default Post Mode
 $_CAJP_DEFAULT['postmode'] = 'plaintext';
 
+// when set to 1 will only allow logged-in users to add master events
+$_CAJP_DEFAULT['addeventloginrequired'] = 0;
 
 /**
 * Initialize Calendarjp plugin configuration
@@ -144,6 +146,8 @@ function plugin_initconfig_calendarjp()
         $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, true, 'calendarjp');
         $c->add('calendarloginrequired', $_CAJP_DEFAULT['calendarloginrequired'],
                 'select', 0, 0, 0, 10, true, 'calendarjp');
+        $c->add('addeventloginrequired', $_CAJP_DEFAULT['addeventloginrequired'],
+                'select', 0, 0, 0, 15, true, 'calendarjp');
         $c->add('hidecalendarmenu', $_CAJP_DEFAULT['hidecalendarmenu'],
                 'select', 0, 0, 1, 20, true, 'calendarjp');
         $c->add('personalcalendars', $_CAJP_DEFAULT['personalcalendars'],
