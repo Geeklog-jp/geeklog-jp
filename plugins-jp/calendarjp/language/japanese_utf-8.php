@@ -211,6 +211,7 @@ $LANG_configsections['calendarjp'] = array(
 
 $LANG_confignames['calendarjp'] = array(
     'calendarloginrequired' => 'ログインを要求する',
+    'addeventloginrequired' => 'イベント投稿でログインを要求する',
     'hidecalendarmenu' => 'メニューに表示しない',
     'personalcalendars' => '個人カレンダを有効にする',
     'eventsubmission' => 'イベント投稿を管理者が承認する',

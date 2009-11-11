@@ -206,6 +206,7 @@ $LANG_configsections['calendarjp'] = array(
 
 $LANG_confignames['calendarjp'] = array(
     'calendarloginrequired' => 'Calendar Login Required?',
+    'addeventloginrequired' => 'Add Event Login Required?',
     'hidecalendarmenu' => 'Hide Calendar Menu Entry?',
     'personalcalendars' => 'Enable Personal Calendars?',
     'eventsubmission' => 'Enable Submission Queue?',
