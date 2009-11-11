@@ -748,6 +748,10 @@ function plugin_submit_calendarjp($mode = 'master')
     }
     // otherwise non-admin or admin-personal. do personal form or public submission.
 
+    if ($mode != 'personal') {
+        CALENDARJP_authAddingEvent();
+    }
+
     $retval = '';
 
     $ja = ($_CONF['language'] == 'japanese_utf-8');
@@ -1558,6 +1562,11 @@ function plugin_upgrade_calendarjp()
             $current_version = '1.1.1';
             break;
 
+        case '1.1.1':
+            update_ConfValues_1_1_1_1();
+            $current_version = '1.1.1.1b1';
+            break;
+
         default:
             $done = true;
             break;
@@ -2128,6 +2137,38 @@ function CALENDARJP_getAmPmFormSelection( $name, $selected = '' )
     }
 
     return $retval;
+}
+
+
+/**
+* Authenticate adding events
+*
+*/
+function CALENDARJP_authAddingEvent()
+{
+    global $_USER, $_CONF, $_CAJP_CONF, $LANG_LOGIN;
+
+    if (empty ($_USER['username']) &&
+        (($_CONF['loginrequired'] == 1) || ($_CAJP_CONF['addeventloginrequired'] == 1))) {
+        $display .= COM_siteHeader('');
+        $display .= COM_startBlock ($LANG_LOGIN[1], '',
+                                    COM_getBlockTemplate ('_msg_block', 'header'));
+        $login = new Template($_CONF['path_layout'] . 'submit');
+        $login->set_file (array ('login'=>'submitloginrequired.thtml'));
+        $login->set_var ( 'xhtml', XHTML );
+        $login->set_var ('login_message', $LANG_LOGIN[2]);
+        $login->set_var ('site_url', $_CONF['site_url']);
+        $login->set_var ('site_admin_url', $_CONF['site_admin_url']);
+        $login->set_var ('layout_url', $_CONF['layout_url']);
+        $login->set_var ('lang_login', $LANG_LOGIN[3]);
+        $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
+        $login->parse ('output', 'login');
+        $display .= $login->finish ($login->get_var('output'));
+        $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_siteFooter();
+        COM_output($display);
+        exit;
+    }
 }
 
 ?>
