@@ -260,7 +260,7 @@ $LANG_confignames['links'] = array(
     'new_window' => 'リンクを新しいウィンドウで開く',
     'root' => 'トップカテゴリのID',
     'default_permissions' => 'パーミッション',
-    'category_permissions' => 'カテゴリデフォルトパーミッション'
+    'category_permissions' => 'パーミッション'
 );
 
 $LANG_configsubgroups['links'] = array(
@@ -270,8 +270,8 @@ $LANG_configsubgroups['links'] = array(
 $LANG_fs['links'] = array(
     'fs_public' => 'リンクの表示',
     'fs_admin' => 'リンクの管理',
-    'fs_permissions' => 'リンクのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_cpermissions' => 'Category Permissions'
+    'fs_permissions' => 'リンクの権限の初期値（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
+    'fs_cpermissions' => 'カテゴリの権限の初期値（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
