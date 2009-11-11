@@ -1,5 +1,16 @@
 $Id$
 
+2009-11-12  Tetsuko Komma  <ivy>
+
+	* ProfessionalCSSのメタタグ入力フォームの幅を調整しました。
+	* 掲示板プラグイン(Forum)および日本語化プラグイン(Japanize)でも不要に
+	  なったsystem/lib-portalparts.phpを削除しました。
+	* 静的ページプラグイン(Staticpages)の編集用テンプレートで、タイトル部分が
+	  折り返されないよう、タイトル部にすべてstyle="white-space:nowrap;"を追加
+	  しました。
+	* コアとコアプラグインの言語ファイルの、「デフォルト」を「初期値」に変更
+	  他、言語ファイルを修正しました。
+
 2009-11-12  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: 全体イベント投稿にログインを要求するモードを
@@ -54,7 +65,7 @@ $Id$
 
 2009-11-07  Tetsuko Komma  <ivy>
 
-	* テーマ ProfessionalCSSの話題と，ProfessionalCSSおよびProfessionalCSSの
+	* テーマ ProfessionalCSSの話題と、ProfessionalCSSおよびProfessionalCSSの
 	  記事編集の日本語専用テンプレートにメタタグフォームを追加して1.6.1対応させました。
 
 2009-11-07  Yoshinori Tahara  <dengen>
@@ -364,8 +375,8 @@ $Id$
 
 2009-09-13  Tetsuko Komma  <ivy>
 
-	* 言語ファイルのコンフィギュレーション，特にコメント関係および，
-	  ファイル管理プラグイン(filemgmt)の言語ファイル，
+	* 言語ファイルのコンフィギュレーション、特にコメント関係および、
+	  ファイル管理プラグイン(filemgmt)の言語ファイル、
 	  ドキュメントのコンフィギュレーション1.6.0翻訳を追加しました。
 
 2009-09-13  Yoshinori Tahara  <dengen>
@@ -497,7 +508,7 @@ $Id$
 2009-09-01  Tetsuko Komma  <ivy>
 
 	* FCKeditorのLinkUpload ImageUpload FlashUploadのモードをfalseに変更
-	  して，タブメニューのアップロード３箇所を無効にしました。
+	  して、タブメニューのアップロード３箇所を無効にしました。
 
 2009-09-01  Yoshinori Tahara  <dengen>
 
@@ -596,14 +607,14 @@ $Id$
 2009-08-17  Tetsuko Komma  <ivy>
 
 	* forumプラグインの表示を改善:
-	  - 言語ファイルの，通知設定関係の変更および，重複指定部分を削除しま
+	  - 言語ファイルの、通知設定関係の変更および、重複指定部分を削除しま
 	    した。
 	  - mobile,mobile_3gテーマの表示をシンプル化しました。
-	  - ProfessionalCSS WAIproCSSテーマを含めたすべてのテーマで，メール
+	  - ProfessionalCSS WAIproCSSテーマを含めたすべてのテーマで、メール
 	    通知の表記を改善しました。
 	    あわせてメール通知アイコンを修正しました。
 	* filemgmtプラグインの保存後の画面遷移時のHTML文法エラーを修正しました。
-	* インストーラの言語ファイルで，プラグイン設定付きインストールメニュー
+	* インストーラの言語ファイルで、プラグイン設定付きインストールメニュー
 	  表記を修正しました。
 
 2009-08-17  Hiroshi Sakuramoto <hirorongl>
