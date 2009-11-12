@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-12  Yoshinori Tahara  <dengen>
+
+	* 日本語拡張版向けのprofessional/style.cssにGeeklog1.6.1rc1までの変更を
+	  マージしました。
+
 2009-11-12  Masuko Koeda  <milk851>
 	* テーマProfessionalCSSに記事編集すべてと話題変種と
 	  メール送信フォームの追加部分label要素のfor属性の値に対する
