@@ -873,6 +873,8 @@ function INST_autoinstallNewPlugins()
         }
     }
 
+    require_once 'disable-plugins.php';
+
     // automatically install all new plugins that come with a autoinstall.php
     foreach ($newplugins as $pi_name) {
         $plugin_inst = $_CONF['path'] . 'plugins/' . $pi_name
@@ -896,6 +898,10 @@ function INST_autoinstallNewPlugins()
 
             $inst_parms = $auto_install($pi_name);
             if (($inst_parms === false) || empty($inst_parms)) {
+                continue; // with next plugin
+            }
+
+            if ($_GEEKLOGJP_pi_preinstall[$pi_name] == FALSE) {
                 continue; // with next plugin
             }
 
