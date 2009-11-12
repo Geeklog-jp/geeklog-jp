@@ -2,8 +2,8 @@
 
 /* STYLESHEET FORMAT GUIDE *****************************************************
 
-  split the following sections:
-  - semantics (direct formatting for <td>, <a > etc
+  split into the following sections:
+  - semantics (direct formatting for <td>, <a>, etc)
   - classes (.whatever)
   - common plugin CSS
   - navbar
@@ -165,8 +165,6 @@ th {
   color:#000000;
   background-color:#DAE0ED;
   font-weight:bold;
-/*  font-size:larger; */
-/*  padding-left:3px; */
   padding:3px;
   text-align:left;
 }
@@ -185,15 +183,22 @@ select {
   float:left;
   padding:5px;
 }
-.admin-menu { /* the box around the menu */
+.admin-menu {
+  /* the box around the menu */
   padding:5px;
   border:1px solid #EEEEEE;
 }
-.admin-menu-text { /* the text below the links */
+.admin-menu-text {
+  /* the text below the links */
   padding:5px;
 }
-.admin-menu-item { /* a single link in the menu */
+.admin-menu-item {
+  /* a single link in the menu */
   padding: 0px 5px 0px 5px;
+}
+.admin-list-smalltable {
+  text-align:left;
+  border-spacing:1px;
 }
 .admin-list-table {
   width:100%;
@@ -215,12 +220,9 @@ select {
 }
 .admin-list-headerfield {
   text-align:left;
-/*  padding-left:5px; */
-/*  padding-right:5px; */
-/*  font-size:larger; */
   padding:3px 5px;
 }
-/* Menus in blocks *****************************************************************/
+/* Menus in blocks ************************************************************/
 .blocklist ul {
   list-style:none;
   padding:0px;
@@ -264,7 +266,7 @@ select {
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
 /* End hide from IE-mac */
-/* general formatting classes **************************************************/
+/* general formatting classes *************************************************/
 .b {
   font-weight:bold;
 }
@@ -413,6 +415,14 @@ select {
   font-size:smaller;
   padding:3px 0px 3px 10px;
 }
+.comment-edit {
+  font-style: italic;
+  padding-top:1ex;
+}
+.comment-sig {
+  color:#666666;
+  padding-top:1ex;
+}
 /******************************************************************************/
 .edit-perm-down {
   text-align:center;
@@ -477,15 +487,18 @@ select {
   padding-bottom:5px;
   margin-left:105px;
 }
-.checkboxes-list {  /* this is used for example by COM_checkList */
+.checkboxes-list {
+  /* this is used for example by COM_checkList */
   list-style:none;
   padding:0px;
   margin:0px;
 }
-.checkboxes-list span { /* space between the text and the checkbox */
+.checkboxes-list span {
+  /* space between the text and the checkbox */
   padding-left:5px;
 }
-.checkboxes-list .gldefault { /* default blocks in the user settings block list */
+.checkboxes-list .gldefault {
+  /* default blocks in the user settings block list */
   font-weight:bold;
 }
 .missing-field {
@@ -534,6 +547,11 @@ select {
   font-size:.9em;
   border-left: 1px dotted #FFFFFF;
 }
+
+.header-navigation-container li.last {
+  border:none;
+}
+
 .header-navigation-container a:link {
   color:#0000FF;
 }
@@ -619,6 +637,9 @@ select {
   background:transparent;
   color:#000000;
   text-align:right;
+}
+.searchresult-byline {
+  color:green;
 }
 .site-slogan {
   color:#ffffff;
@@ -714,6 +735,14 @@ select {
   margin:0px;
 }
 /******************************************************************************/
+#token-expirynotice {
+  padding:1em;
+  border:1px solid #CCCCCC;
+  background:#F7F7F7;
+}
+#token-expirytime {
+  font-weight:bold;
+}
 .topicoption,
 .topicoption-off {
 }
@@ -986,7 +1015,7 @@ a.pluginButton:hover {
 
 /* Common CSS for on-hover tooltip feature */
 a.tooltip {
-  position: relative; /*this is the key*/
+  position: relative; /* this is the key */
   z-index:10;
   color:#000;
   text-decoration:none;
@@ -999,7 +1028,7 @@ a.tooltip span {
   display: none;
 }
 a.tooltip:hover span {
-  /*the span will display just on :hover state*/
+  /* the span will display just on :hover state */
   z-index:100;
   color:#033666;
   font-style:normal;
