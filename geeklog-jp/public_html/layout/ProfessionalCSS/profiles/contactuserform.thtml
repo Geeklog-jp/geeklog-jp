@@ -21,7 +21,7 @@
       <dd><textarea rows="10" cols="50" name="message" id="contactuserform-message">{message}</textarea></dd>
 
       <dt><label for="contactuserform-cc">{lang_cc}</label></dt>
-      <dd><input type="checkbox" name="cc" checked="checked"{xhtml}>&nbsp;{lang_cc_description}</dd>
+      <dd><input type="checkbox" name="cc" id="contactuserform-cc" checked="checked"{xhtml}>&nbsp;{lang_cc_description}</dd>
 
       <dd class="description">{lang_nohtml}</dd>
     </dl>
