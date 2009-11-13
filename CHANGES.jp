@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-13  Takahiro Kambe  <tacahi>
+
+	* public_html/docs/japanese/changes.html: Geeklog 1.6.1の追加部分の
+	  翻訳を行いました。
+
 2009-11-12  Yoshinori Tahara  <dengen>
 
 	* 日本語拡張版向けのprofessional/style.cssにGeeklog1.6.1rc1までの変更を
@@ -15,11 +20,11 @@ $Id$
 	* ProfessionalCSSのメタタグ入力フォームの幅を調整しました。
 	* 掲示板プラグイン(Forum)および日本語化プラグイン(Japanize)でも不要に
 	  なったsystem/lib-portalparts.phpを削除しました。
-	* 静的ページプラグイン(Staticpages)の編集用テンプレートで、タイトル部分が
-	  折り返されないよう、タイトル部にすべてstyle="white-space:nowrap;"を追加
-	  しました。
-	* コアとコアプラグインの言語ファイルの、「デフォルト」を「初期値」に変更
-	  他、言語ファイルを修正しました。
+	* 静的ページプラグイン(Staticpages)の編集用テンプレートで、タイトル
+	  部分が折り返されないよう、タイトル部にすべて
+	style="white-space:nowrap;"を追加しました。
+	* コアとコアプラグインの言語ファイルの、「デフォルト」を「初期値」に
+	  変更他、言語ファイルを修正しました。
 
 2009-11-12  Yoshinori Tahara  <dengen>
 
@@ -34,9 +39,10 @@ $Id$
 
 	* テーマ WAIproCSSもProfessionalCSS同様1.6.1に対応させました。
 	  友だちに記事を送信するページとユーザーへのメール送信ページで
-	  「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入るように
-	  修正しました。
-	  上記の修正をREADMEの更新履歴に記載し、WAIproCSSのバージョンを2.4.1にしました。
+	  「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入る
+	  ように修正しました。
+	  上記の修正をREADMEの更新履歴に記載し、WAIproCSSのバージョンを2.4.1に
+	  しました。
 
 2009-11-10  Tetsuko Komma  <ivy>
 
@@ -75,8 +81,9 @@ $Id$
 
 2009-11-07  Tetsuko Komma  <ivy>
 
-	* テーマ ProfessionalCSSの話題と、ProfessionalCSSおよびProfessionalCSSの
-	  記事編集の日本語専用テンプレートにメタタグフォームを追加して1.6.1対応させました。
+	* テーマ ProfessionalCSSの話題と、ProfessionalCSSおよびProfessionalCSS
+	  の記事編集の日本語専用テンプレートにメタタグフォームを追加して1.6.1
+	  対応させました。
 
 2009-11-07  Yoshinori Tahara  <dengen>
 
