@@ -113,6 +113,31 @@
 /*  font-size: larger;*/
 }
 
+/******************************************************************************/
+#token-expirynotice {
+  padding:1em;
+  border:1px solid #CCCCCC;
+  background:#F7F7F7;
+}
+#token-expirytime {
+  font-weight:bold;
+}
+.topicoption,
+.topicoption-off {
+}
+.warning {
+  background:transparent;
+  color:#FF0000;
+  font-weight:bold;
+}
+.warningsmall {
+  background:transparent;
+  color:#FF0000;
+}
+
+/* Default Plugin CSS Declarations */
+/* Recommended CSS to be used by Plugin Authors - allows easier site themeing */
+
 .plugin {
   border: 1px solid #CCCCCC;
   background: #EFEFEF;
