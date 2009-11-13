@@ -103,105 +103,61 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば、注目記事にも永続リンクが表示されるようになります。</li>
 </ol>
 
-<h2><a name="changes">Theme changes in Geeklog 1.6.1</a></h2>
+<h2><a name="changes">Geeklog 1.6.1におけるテーマの変更点</a></h2>
 
 <ul>
-<li>Added rules for the <tt>token-expirynotice</tt> and
-    <tt>token-expirytime</tt> ids (<em>not</em> classes!) to the stylesheet.
-    These are used to format the new notice in the editors, informing the user
-    when the security token will expire.</li>
-<li>Added an icon, <tt>images/update.png</tt>, to be displayed in the admin's
-    list of plugins when a plugin needs to be updated. The icon should have the
-    same size as the "edit" icon (16x16 pixel in the Professional theme).</li>
-<li>The Topic Editor now contains a line displaying the number of stories in
-    the current topic. New variables in <tt>admin/topic/topiceditor.thtml</tt>:
-    <code>{lang_num_stories}</code>, <code>{num_stories}</code></li>
-<li>Added a link back to the story to the "Mail Story to a Friend" form,
-    <tt>profiles/contactauthorform.thtml</tt>. Available variables:
-    <tt>{lang_title}</tt>, <tt>{story_title}</tt>, <tt>{story_url}</tt>,
-    <tt>{story_link}</tt>.</li>
-<li>Added a "send copy to myself" option to
-    <tt>profiles/contactauthorform.thtml</tt></li>
-<li>Added textarea fields for meta description and meta keywords to the Story
-    Editor (<tt>admin/story/storyeditor.thtml</tt>,
-    <tt>admin/story/storyeditor_advanced.thtml</tt>).</li>
-<li>Added textarea fields for meta description and meta keywords to the Topic
-    Editor (<tt>admin/topic/topiceditor.thtml</tt>).</li>
-<li>Added a <code>{remoteservice}</code> variable in
-    <tt>admin/user/edituser.thtml</tt> to optionally display the name of the
-    service a Remote User was using to log in.</li>
-<li>Added a <code>{title_checked}</code> variable to <tt>search/searchform.thtml</tt>, so that the "Refine search" option can keep the status of the "Titles
-    Only" checkbox.</li>
-<li>Moved hard-coded green color for the byline of search results in "Google"
-    style to the stylesheet: New class <code>searchresult-byline</code>.</li>
+<li>Added rules for the <tt>token-expirynotice(セキュリティトークンの期限切れ警告)</tt>と    <tt>token-expirytime(セキュリティトークンの期限)</tt> id(<em>クラスではありません</em>!)をスタイルシートに追加しました。
+    これらのidはエディタでセキュリティトークンの期限を表示する書式として使用されます。</li>
+<li>プラグインを更新する必要があるときに、プラグインエディタでの表示に使用するアイコン(<tt>images/update.png</tt>)を追加しました。このアイコンは編集アイコンと同じサイズにした方がよいでしょう(Professionalテーマでは、16x16ピクセルです。)。</li>
+<li>話題エディタに現在の話題に含まれる記事数を表示する行が追加されました。<tt>admin/topic/topiceditor.thtml</tt> テンプレートに追加された変数は、<code>{lang_num_stories}</code> と <code>{num_stories}</code> です。</li>
+<li>「友だちに記事をメールする」フォームと <tt>profiles/contactauthorform.thtml</tt>フォームに元記事へのリンクが追加されました。使用可能な変数は、<tt>{lang_title}</tt>、<tt>{story_title}</tt>、<tt>{story_url}</tt>、<tt>{story_link}</tt>です。</li>
+<li><tt>profiles/contactauthorform.thtml</tt>フォームに「自分宛にコピーを送信」というオプションを追加しました。</li>
+<li>記事エディタのテンプレート(<tt>admin/story/storyeditor.thtml</tt>と<tt>admin/story/storyeditor_advanced.thtml</tt>)に記事のdescriptionメタタグとkeywordsメタタグを入力するtextareaフィールドを追加しました。</li>
+<li>話題エディタのテンプレート(<tt>admin/topic/topiceditor.thtml</tt>)に話題のdescriptionメタタグとkeywordsメタタグを入力するtextareaフィールドを追加しました。</li>
+<li>リモートユーザがログインするのに使用しているサービス名をオプションで表示するために、<code>{remoteservice}</code>変数を<tt>admin/user/edituser.thtml</tt>テンプレートに追加しました。</li>
+<li><code>{title_checked}</code>変数を<tt>search/searchform.thtml</tt>テンプレートに追加し、「検索条件の修正」で「タイトルのみ」のチェックボックスの状態が維持されるようにしました。</li>
+<li>Google風に検索結果を表示する際に署名の色が緑色にハードコードされていましたが、これをスタイルシートに移し、<code>searchresult-byline</code>という新しいクラスとしました。</li>
 </ul>
 
-<h3>Cosmetic changes</h3>
+<h3>軽微な変更点</h3>
 
-<p>These changes are mostly cosmetic and won't affect the functionality of a
-theme if not applied:</p>
+<p>以下の変更はほとんどの場合些細なものであり、たとえ変更しなくてもテーマの機能に影響を与えないでしょう。</p>
 
 <ul>
-<li>Cosmetics: Made the look and layout of the "Send mail to user"
-    (<tt>profiles/contactuserform.thtml</tt>), "Mail Story to a Friend"
-    (<tt>profiles/contactauthorform.thtml</tt>), and "Mail Users"
-    (<tt>admin/mail/mailform.thtml</tt>) dialogs more consistent (alignment,
-    size of input fields).</li>
-<li>Cosmetics: Fixed the position of the story preview when using the
-    advanced editor (was slightly shifted to the right, <a
-    href="http://project.geeklog.net/tracking/view.php?id=963">bug #0000963</a>). Changes to the <code>&lt;div id="preview"&gt;</code> in
-    <tt>admin/story/storyeditor_advanced.thtml</tt>.</li>
-<li>Cosmetics: Removed <code>font-size:larger;</code> for the header fields of
-    the admin lists from the stylesheet, but added some top/bottom padding
-    (<a href="http://project.geeklog.net/tracking/view.php?id=956">bug #0000956</a>).</li>
-<li>Cosmetics: Removed a <code>width="180"</code> from the Block editor template
-    (<tt>admin/block/blockeditor.thtml</tt>) that pushed the first column too
-    far to the right.</li>
-<li>Cosmetics: Made the permission checkboxes look more like an Admin list,
-    <tt>admin/common/edit_permissions.thtml</tt>. Introduced new CSS class
-    <tt>admin-list-smalltable</tt>, which is almost identical to
-    <tt>admin-list-table</tt> but without the <code>width:100%;</code></li>
+<li>軽微な変更: 「（アカウント情報からの）メール送信」フォーム(<tt>profiles/contactuserform.thtml</tt>)、「友だちに記事をメールする」フォーム(<tt>profiles/contactauthorform.thtml</tt>)、「グループメール」フォーム(<tt>admin/mail/mailform.thtml</tt>)の外見とレイアウトを統一しました(アラインメントや入力フィールドのサイズなど)。</li>
+<li>軽微な変更: アドバンストエディタ使用時に記事のプレビューがわずかに右にずれていたバグを修正しました(<a href="http://project.geeklog.net/tracking/view.php?id=963">bug #0000963</a>)。<tt>admin/story/storyeditor_advanced.thtml</tt>テンプレートの<code>&lt;div id="preview"&gt;</code>を変更しています。</li>
+<li>軽微な変更: 管理画面で使用するリストヘッダフィールドで使用されていた<code>font-size:larger;</code>をスタイルシートから削除し、top/bottomのpaddingを追加しました(<a href="http://project.geeklog.net/tracking/view.php?id=956">bug #0000956</a>)。</li>
+<li>軽微な変更: 第1列を右側に押しやっていた <code>width="180"</code> をブロックエディタのテンプレート(<tt>admin/block/blockeditor.thtml</tt>)から削除しました。</li>
+<li>軽微な変更: パーミションを指定するチェックボックス(<tt>admin/common/edit_permissions.thtml</tt>)の外見を管理者リストの外見に揃えました。新しいCSSクラス(<tt>admin-list-smalltable</tt>)を導入しました。このクラスは<tt>admin-list-table</tt> とほぼ同じですが <code>width:100%;</code> の指定がありません。</li>
 </ul>
 
-<h3>Changes to plugin templates</h3>
+<h3>プラグインテンプレートの変更点</h3>
 
-<p>Note that plugin template files are kept in a directory
-<tt>plugins/<i>pluginnname</i>/templates</tt> and not in the <tt>layout</tt>
-directory.</p>
+<p>各プラグインのテンプレートは<tt>layout</tt>ディレクトリではなく、<tt>plugins/<i>プラグイン名</i>/templates</tt>ディレクトリにあります。</p>
 
 <ul>
-<li>Links: Removed a <code>width="150"</code> from the Category editor template
-    (<tt>admin/categoryeditor.thtml</tt>) that pushed the first column too far
-    to the right.</li>
-<li>Static Pages: Added new input fields for a meta description and meta
-    keywords to the Static Pages editor.</li>
-<li>Static Pages: In the Static Pages editor, moved the Hits display below
-    the Last Updated entry (<tt>admin/editor.thtml</tt>,
-    <tt>admin/editor_advanced.thtml</tt>).</li>
-<li>Static Pages: Added textarea fileds for meta description and meta keywords
-    in the Static Pages editor (<tt>admin/editor.thtml</tt>,
-    <tt>admin/editor_advanced.thtml</tt>).</li>
-<li>Polls: Added new input fields for a meta description and meta keywords to
-    the Polls editor.</li>
-<li>Polls: Added new CSS classes <tt>poll-autotag-message</tt>,
-    <tt>poll-autotag</tt>, <tt>poll-autotag-left</tt>, used when embedding polls
-    via the new autotags.</li>
+<li>リンク(Links): カテゴリエディタのテンプレート(<tt>admin/categoryeditor.thtml</tt>)から第1列を右側に押しやっていた<code>width="150"</code>を削除しました。</li>
+<li>静的ページ(Static Pages): 静的ページエディタにdescriptionメタタグとkeywordsメタタグ用の入力フィールドを追加しました。</li>
+<li>静的ページ(Static Pages): 静的ページエディタで、閲覧数を最終更新日時の下に移動しました(<tt>admin/editor.thtml</tt>、<tt>admin/editor_advanced.thtml</tt>)。</li>
+<li>静的ページ(Static Pages): 静的ページエディタで、descriptionメタタグとkeywordsメタタグを入力するtextareaフィールドを追加しました(<tt>admin/editor.thtml</tt>、<tt>admin/editor_advanced.thtml</tt>)。</li>
+<li>アンケート(Polls): アンケートエディタにdescriptionメタタグとkeywordsメタタグ用の入力フィールドを追加しました。</li>
+<li>Polls: 自動タグを使用してアンケートを（記事などに）埋め込む際に使用される新しいCSSクラス(<tt>poll-autotag-message</tt>、<tt>poll-autotag</tt>、<tt>poll-autotag-left</tt>)を追加しました。</li>
 </ul>
 
 
-<h2><a name="changes">Geeklog 1.6.0におけるテーマの変更点</a></h2>
+<h2><a name="changes160">Geeklog 1.6.0におけるテーマの変更点</a></h2>
 
 <ul>
-<li>テーマは、<tt>header.thtml</tt>において、ハードコードのDOCTYPEではなく、テーマ変数<tt>{doctype}</tt>を使えるようになりました。
-    DOCTYPEはコンフィギュレーションでセットされます(現在設定可能:
-    HTML 4.01 Strict and Transitional, XHTML 1.0 Strict and Transitional)。
+<li>テーマの<tt>header.thtml</tt>では、ハードコードされたDOCTYPEではなく、テーマ変数<tt>{doctype}</tt>を使えるようになりました。
+    DOCTYPEはコンフィギュレーションでセットされます(現在設定可能なのは、
+    HTML 4.01 StrictとTransitional, XHTML 1.0 StrictとTransitionalです)。
     <tt>functions.php</tt>ファイルの<code>XHTML</code>定数で設定<em>しないで</em>ください!</li>
 <li><a href="#xhtml">XHTML</a>にするとき、テーマ変数<tt>{xmlns}</tt>は、現在XHTMLコンプライアンス
     <tt>xmlns="http://www.w3.org/1999/xhtml"</tt>を満たしています。
     (<tt>&lt;html&gt;</tt>タグ内で利用).</li>
 <li>テーマ変数<tt>{story_text_no_br}</tt>で、記事の冒頭文と本文のテキストにスペースを追加しました。
      </li>
-<li>バグフィックス: テーマ変数<tt>{contributedby_user}</tt>と
+<li>バグ修正: テーマ変数<tt>{contributedby_user}</tt>と
     <tt>{contributedby_fullname}</tt>は、すでに空です。</li>
 <li>2つのテーマ変数<tt>{start_contributedby_anchortag}</tt>と
     <tt>{end_contributedby_anchortag}</tt>には、何もセットしていません(Geeklog

@@ -135,23 +135,15 @@
 
 <h2><a name="autotags">Autotags</a></h2>
 
-<p>The Links Plugin provides one <a href="http://www.geeklog.net/article.php/autolinks" title="geeklog.net: About Autolinks and Autotags">autotag</a>,
-<code>[link:]</code>. You can use this autotag to embed one of the links from
-your site's Links section into an article or a comment (amongst other things)
-without having to type out the full URL. Simply add the link's ID after the
-colon. It will then create a link to the site in question and use the link's
-title as the link text. Alternatively, you can add your own link text after the
-ID (but before the closing bracket).</p>
+<p>リンクプラグインは、<code>[link:]</code>という<a href="http://www.geeklog.net/article.php/autolinks" title="geeklog.net: About Autolinks and Autotags">自動タグ</a>を提供します。このタグを使用すると、完全なURLを記述せずに、リンクセクションに表示されているリンクを記事やコメントなどに埋め込むことができます。コロンの後にリンクIDを記述してください。リンクが作成され、元のリンクのタイトルがリンクテキストとして使用されます。別の方法としては、リンクIDの後に半角スペースに続けて独自のリンクテキストを指定することもできます(閉じカッコの前でなければなりません)。</p>
 
-<p>For example, on geeklog.net:</p>
+<p>geeklog.netを例に取ると、</p>
 <ul>
-<li><code>[link:20030921074903113]</code> will be translated to: <code>&lt;a href="http://www.geeklog.net/links/portal.php/link/20030921074903113"&gt;Groklaw&lt;/a&gt;</code></li>
-<li><code>[event:20030921074903113 read everything about the SCO case]</code> will be translated to: <code>&lt;a href="http://www.geeklog.net/links/portal.php/link/20030921074903113"&gt;read everything about the SCO case&lt;/a&gt;</code></li>
+<li><code>[link:20030921074903113]</code> は <code>&lt;a href="http://www.geeklog.net/links/portal.php/link/20030921074903113"&gt;Groklaw&lt;/a&gt;</code> に変換されます。</li>
+<li><code>[event:20030921074903113 read everything about the SCO case]</code> は <code>&lt;a href="http://www.geeklog.net/links/portal.php/link/20030921074903113"&gt;read everything about the SCO case&lt;/a&gt;</code> に変換されます。</li>
 </ul>
 
-<p>Note that the <code>[link:]</code> autotag will always create links that go
-through Geeklog's <tt>portal.php</tt> script so that the number of clicks on
-that link can be counted.</p>
+<p>リンクのクリック数を数えるために、<code>[link:]</code>自動タグは常にGeeklogの <tt>portal.php</tt> 経由のリンクを作成することにご注意ください。</p>
 
 
 <div class="footer">
