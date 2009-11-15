@@ -271,7 +271,7 @@ $LANG_fs['links'] = array(
     'fs_public' => 'リンクの表示',
     'fs_admin' => 'リンクの管理',
     'fs_permissions' => 'リンクの権限の初期値（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_cpermissions' => 'カテゴリの権限の初期値（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_cpermissions' => 'カテゴリのパーミッションの初期設定（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
