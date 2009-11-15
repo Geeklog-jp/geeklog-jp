@@ -51,7 +51,7 @@ $LANG_CHARSET = 'utf-8';
 
 $LANG01 = array(
     1 => '投稿者:',
-    2 => '全文表示',
+    2 => '続きを読む',
     3 => '件のコメント',
     4 => '編集',
     5 => '',
@@ -1995,7 +1995,7 @@ $LANG_configselects['Core'] = array(
     20 => array('完全一致' => 'phrase', 'すべてのキーワードを含む' => 'all', 'いずれかのキーワードを含む' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみ初期値を使用する)' => 2)
+    23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみデフォルトを使用する)' => 2)
 );
 
 ?>
