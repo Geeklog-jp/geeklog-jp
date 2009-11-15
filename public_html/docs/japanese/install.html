@@ -23,6 +23,7 @@
     </ul></li>
   <li><a href="#install">新規インストール</a>
   <li><a href="#upgrade">旧バージョンからのアップグレード</a>
+  <li><a href="#migrate">Migrating</a>
   <li><a href="#installprob">よくある問題と解決法</a></li>
 </ul>
 
@@ -62,7 +63,7 @@
         </li>
         <li>
             <p>次のコマンドを実行して、ダウンロードしたターボールを展開（解凍）します。</p>
-            <p><code>tar -zxvf geeklog-1.5.1.tar.gz</code> </p>
+            <p><code>tar -zxvf geeklog-1.6.1.tar.gz</code> </p>
             
             <p><strong>注意:</strong> WinZipを使用すると、そのバージョンによっては、ファイルが壊れると報告しているユーザがいます。こうなるとインストールの最中にエラーになるので、ローカルでファイルを解凍する必要がある場合は、WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を使うことを強くお勧めします。</p>
         </li>
@@ -70,9 +71,9 @@
             <p>MySQLやMicrosoft SQLを使用し、空のデータベースと変更権限のあるユーザを作成します。ホスティング会社がデータベースを作成してアカウントを作成している場合もあるので、必要ならホスティング会社に尋ねてみてください。</p>
         </li>
         <li>
-            <p><code>geeklog-1.6.0/public_html/</code> ディレクトリの中身をWebサーバのドキュメントルートに転送します。ドキュメントルートには、"public_html"や"htdocs"、"www"などの名前がつけられていることが多いです。</p>
+            <p><code>geeklog-1.6.1/public_html/</code> ディレクトリの中身をWebサーバのドキュメントルートに転送します。ドキュメントルートには、"public_html"や"htdocs"、"www"などの名前がつけられていることが多いです。</p>
         
-            <p>次に、<code>geeklog-1.6.0/</code> ディレクトリの中身の残りをドキュメントルートの親ディレクトリ（お勧め!）かWebからアクセスできないディレクトリに転送します。インストールウィザードはこれらの場所を自動的に検出しようとします。検出できない場合は、インストールの過程でパスを入力するよう要求されます。インターネットからのアクセスを防ぐセキュリティ対策としてこのような仕様になっています。</p>
+            <p>次に、<code>geeklog-1.6.1/</code> ディレクトリの中身の残りをドキュメントルートの親ディレクトリ（お勧め!）かWebからアクセスできないディレクトリに転送します。インストールウィザードはこれらの場所を自動的に検出しようとします。検出できない場合は、インストールの過程でパスを入力するよう要求されます。インターネットからのアクセスを防ぐセキュリティ対策としてこのような仕様になっています。</p>
             
             <p><strong>注意:</strong> ホスティング会社がドキュメントツリーの外にファイルを置くことを許可していない場合は、</p>
             <ol>
@@ -108,12 +109,12 @@
         </li>
         <li>
             <p>次のコマンドを実行して、ダウンロードしたターボールを展開（解凍）します。</p>
-            <p><code>tar -zxvf geeklog-1.6.0.tar.gz</code> </p>
+            <p><code>tar -zxvf geeklog-1.6.1.tar.gz</code> </p>
             
             <p><strong>注意:</strong> WinZipを使用すると、そのバージョンによっては、ファイルが壊れると報告しているユーザがいます。こうなるとインストールの最中にエラーになるので、ローカルでファイルを解凍する必要がある場合は、WinZipの代わりに<a href="http://www.7-zip.org/">7-Zip</a>や<a href="http://www.rarlab.com/">WinRAR</a>を使うことを強くお勧めします。</p>
         </li>
         <li>
-            <p><code>geeklog-1.6.0/</code> ディレクトリの中身を、現在インストールしているバージョンの同じディレクトリに転送します。たとえば、現在のバージョンを <code>/usr/home/www/geeklog/</code> にインストールしているなら、新しいバージョンも <code>/usr/home/www/geeklog/</code> に転送します。</p>
+            <p><code>geeklog-1.6.1/</code> ディレクトリの中身を、現在インストールしているバージョンの同じディレクトリに転送します。たとえば、現在のバージョンを <code>/usr/home/www/geeklog/</code> にインストールしているなら、新しいバージョンも <code>/usr/home/www/geeklog/</code> に転送します。</p>
         </li>
         <li>
             旧バージョンからのアップグレード：
@@ -136,6 +137,16 @@
         </li>
     </ol>
    
+
+<h2><a name="migrate">Migrating</a></h2>
+
+<p>The install script's "Migrate" option will help you move your site to another server or domain name. It will update the configuration information stored in the database and can also update URLs in content, such as articles (in case the domain name or URL of your Geeklog site changed).</p>
+
+<p>After clicking on "Migrate", you will have to enter the database credentials for your (new) database server, as usual. Note that you don't need to enter a table prefix, as the Migrate option will detect it automatically.</p>
+
+<p>You then have the option to upload a database backup from your computer, to import from a backup that's already on the server (in Geeklog's <tt>backups</tt> directory), or you can use the current content of the database, in case you already imported it through other means.</p>
+
+<p><strong>Note:</strong> Uploading a backup file from your computer will only work as long as the size of the backup file is below the server's max. upload limit. The max. allowed size will be displayed when you select this option. If your backup file is over that limit, try compressing it (zip or gzip should work) or use one of the other two options.</p>
 
 <h2><a name="installprob">よくある問題と解決法</a></h2>
 
@@ -202,9 +213,7 @@ Cannnot connect to DB server</code></p>
             </li>
             <li>
                 <p><strong>エラー:</strong> <code>Warning: fopen("/some/path/logs/error.log", "a") - Permission denied in /some/path/public_html/lib-common.php on line 1440</code></p>
-                <p><strong>答え:</strong> logsディレクトリとその中に含まれるファイルの両方に少なくとも 775 のパーミッションがあることを確認します。775 でうまくいかないなら、777 にする必要があるでしょう。同様に、 <code>public_html/backend</code> ディレクトリとその中に含まれるファイル(geeklog.rssなど)にも 775 または 777 のパーミッションが必要です。</p>
-    
-                <p><strong>ヒント:</strong> <code>http://自分のサイトのURL/admin/install/check.php</code> を利用して、パーミッションがすべて適切に設定されているか確認するとよいでしょう。</p>
+                <p><strong>Answer:</strong> Make sure that the logs/ directory has the permissions set to at least 755 AND the files in it have permissions of at least 644. You may need to make the permissions 775 or 777 and 664 or 666 (respectively) if 755 and 644 isn't working for you. For good measure, make sure the <code>public_html/backend</code> directory and the geeklog.rss file have the same permissions.</p>
             </li>
             <li>
                 <p><strong>誰かがログイン・ログアウトするたびに、次のエラーが発生する:</strong></p>
