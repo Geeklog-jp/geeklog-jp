@@ -147,7 +147,7 @@ $LANG_configsubgroups['polls'] = array(
 
 $LANG_fs['polls'] = array(
     'fs_main' => 'アンケートのメイン設定',
-    'fs_permissions' => 'アンケートの権限の初期値（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => 'アンケートのパーミッションの初期設定（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
