@@ -23,7 +23,7 @@
     </ul></li>
   <li><a href="#install">新規インストール</a>
   <li><a href="#upgrade">旧バージョンからのアップグレード</a>
-  <li><a href="#migrate">Migrating</a>
+  <li><a href="#migrate">移行</a>
   <li><a href="#installprob">よくある問題と解決法</a></li>
 </ul>
 
@@ -138,15 +138,15 @@
     </ol>
    
 
-<h2><a name="migrate">Migrating</a></h2>
+<h2><a name="migrate">移行</a></h2>
 
-<p>The install script's "Migrate" option will help you move your site to another server or domain name. It will update the configuration information stored in the database and can also update URLs in content, such as articles (in case the domain name or URL of your Geeklog site changed).</p>
+<p>インストール・スクリプトの「移行」オプションは、他のサーバやドメイン名からサイトの移動の手助けとなります。これはデータベースに保持されている構成情報を更新と、記事にようなコンテンツに含まれる(変更するGeeklogサイトのドメイン名やURLである)URLも更新できます。
 
-<p>After clicking on "Migrate", you will have to enter the database credentials for your (new) database server, as usual. Note that you don't need to enter a table prefix, as the Migrate option will detect it automatically.</p>
+<p>「移行」をクリックした後は、いつものように(新しい)データベース・サーバの認証情報を入力しなければなりません。移行オプションは自動的に検出するので、テーブルの接頭子を入力する必要はないことに注意してください。</p>
 
-<p>You then have the option to upload a database backup from your computer, to import from a backup that's already on the server (in Geeklog's <tt>backups</tt> directory), or you can use the current content of the database, in case you already imported it through other means.</p>
+<p>次に、あなたのコンピュータからデータベースのバックアップをアップロードするか、サーバ(のGeeklogの<tt>backups</tt>ディレクトリ)に既に存在するバックアップから取り込むか、既に他の手段で取り込んでいる場合に現在のデータベースを使用するか、オプションから選択します。</p>
 
-<p><strong>Note:</strong> Uploading a backup file from your computer will only work as long as the size of the backup file is below the server's max. upload limit. The max. allowed size will be displayed when you select this option. If your backup file is over that limit, try compressing it (zip or gzip should work) or use one of the other two options.</p>
+<p><strong>注意:</strong> あなたのコンピュータからバックアップをアップロードするには、バックアップ・ファイルの大きさがサーバのアップロードの制限の最大値以下の場合だけ動作します。許可されている最大のサイズは、このオプションを選択すると表示されます。バックアップ・ファイルの大きさが制限を越えている場合はバックアップ・ファイルを圧縮する(zipやgzipが使用できます)か、他の2つのオプションを使用してください。</p>
 
 <h2><a name="installprob">よくある問題と解決法</a></h2>
 
