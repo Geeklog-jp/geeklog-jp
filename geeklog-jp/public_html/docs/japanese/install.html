@@ -213,7 +213,7 @@ Cannnot connect to DB server</code></p>
             </li>
             <li>
                 <p><strong>エラー:</strong> <code>Warning: fopen("/some/path/logs/error.log", "a") - Permission denied in /some/path/public_html/lib-common.php on line 1440</code></p>
-                <p><strong>Answer:</strong> Make sure that the logs/ directory has the permissions set to at least 755 AND the files in it have permissions of at least 644. You may need to make the permissions 775 or 777 and 664 or 666 (respectively) if 755 and 644 isn't working for you. For good measure, make sure the <code>public_html/backend</code> directory and the geeklog.rss file have the same permissions.</p>
+                <p><strong>答え:</strong> logsディレクトリのパーミッションが少なくとも 775 であることと、*加えて* その中のファイルのパーミッションが少なくとも 644 であることを確認してください。755 と 644 のパーミッションで動作しない場合は、(それぞれ) 775 または 777 と 664 または 666 といったパーミッションにする必要があるかもしれません。同様に、ディレクトリ <code>public_html/backend</code> と (その中の)ファイル geeklog.rss も同じパーミッションであることを確認してください。</p>
             </li>
             <li>
                 <p><strong>誰かがログイン・ログアウトするたびに、次のエラーが発生する:</strong></p>
