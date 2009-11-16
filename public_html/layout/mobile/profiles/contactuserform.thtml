@@ -1,34 +1,41 @@
-<form action="{site_url}/profiles.php" method="post" name="contact">
-    <table cellspacing="0" cellpadding="0" width="100%" class="plugin">
-        <tr>
-            <td colspan="2" class="pluginInfo">{lang_description}</td>
-        </tr>
-        <tr>
-            <td>{lang_username}</td>
-            <td><input type="text" name="author" size="32" value="{username}" maxlength="32"{xhtml}></td>
-        </tr>
-        <tr>
-            <td>{lang_useremail}</td>
-            <td><input type="text" name="authoremail" size="32" value="{useremail}" maxlength="96"{xhtml}></td>
-        </tr>
-        <tr>
-            <td>{lang_subject}</td>
-            <td><input type="text" name="subject" size="32" maxlength="96" value="{subject}"{xhtml}></td>
-        </tr>
-        <tr>
-            <td style="vertical-align:top;">{lang_message}</td>
-            <td><textarea name="message" wrap="physical" rows="10" cols="50">{message}</textarea></td>
-        </tr>
-        {captcha}
-        <tr>
-            <td colspan="2" class="warning alignleft" style="padding-left:200px;padding-top:10px;">
-                {lang_nohtml}
-                <div style="padding:5px;">
-                    <input type="hidden" name="what" value="contact"{xhtml}>
-                    <input type="hidden" name="uid" value="{uid}"{xhtml}>
-                    <input type="submit" value="{lang_submit}"{xhtml}>
-                </div>
-            </td>
-        </tr>
-    </table>
+
+<!-- profiles/contactuserform.thtml { -->
+
+<form action="{site_url}/profiles.php" method="post" id="contactuserform" class="compact">
+  <fieldset>
+    <legend>送信情報</legend><!-- Geeklog Japanese -->
+
+    <p class="message">{lang_description}</p>
+
+    <dl>
+      <dt><label for="contactuserform-author">{lang_username}</label></dt>
+      <dd><input type="text" size="32" value="{username}" maxlength="32" name="author" id="contactuserform-author" class="text"{xhtml}></dd>
+
+      <dt><label for="contactuserform-authoremail">{lang_useremail}</label></dt>
+      <dd><input type="text" size="32" value="{useremail}" maxlength="96" name="authoremail" id="contactuserform-authoremail" class="text"{xhtml}></dd>
+
+      <dt><label for="contactuserform-subject">{lang_subject}</label></dt>
+      <dd><input type="text" size="32" maxlength="96" value="{subject}" name="subject" id="contactuserform-subject" class="text"{xhtml}></dd>
+
+      <dt><label for="contactuserform-message">{lang_message}</label></dt>
+      <dd><textarea rows="10" cols="50" name="message" id="contactuserform-message">{message}</textarea></dd>
+
+      <dt><label for="contactuserform-cc">{lang_cc}</label></dt>
+      <dd><input type="checkbox" name="cc" id="contactuserform-cc" checked="checked"{xhtml}>&nbsp;{lang_cc_description}</dd>
+
+      <dd class="description">{lang_nohtml}</dd>
+    </dl>
+
+    {captcha}
+
+    <ul class="submit">
+      <li>
+        <input type="hidden" name="what" value="contact"{xhtml}>
+        <input type="hidden" name="uid" value="{uid}"{xhtml}>
+        <input type="submit" value="{lang_submit}" onclick="return postconfirm();" onkeypress="return postconfirm();" class="submit"{xhtml}>
+      </li>
+    </ul>
+  </fieldset>
 </form>
+
+<!-- } profiles/contactuserform.thtml-->

@@ -1,81 +1,76 @@
-                            <form action="{site_admin_url}/topic.php" method="post" enctype="multipart/form-data">
-                                <table cellspacing="0" cellpadding="2" width="100%">
-                                    <tr>
-                                        <td class="alignright">{lang_topicid}:</td>
-                                        <td><input type="text" size="20" maxlength="20" name="tid" value="{topic_id}"{xhtml}> {lang_donotusespaces}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_sortorder}:</td>
-                                        <td>{sort_order}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_storiesperpage}:</td>
-                                        <td><input type="text" size="3" maxlength="3" name="limitnews" value="{story_limit}"{xhtml}> ({lang_defaultis} {default_limit})</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_topicname}:</td>
-                                        <td><input type="text" size="48" name="topic" value="{topic_name}"{xhtml}></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_topicimage}:</td>
-                                        <td><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" name="imageurl" value="{image_url}"{xhtml}></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_uploadimage}:</td>
-                                        <td><input type="file" name="newicon"{xhtml}> ({lang_maxsize} {icon_dimensions})</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_defaulttopic}:</td>
-                                        <td><input type="checkbox" name="is_default" {default_checked}{xhtml}> ({lang_defaulttext})</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_archivetopic}:</td>
-                                        <td><input type="checkbox" name="is_archive" {archive_checked} {archive_disabled}{xhtml}> ({lang_archivetext})</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><hr{xhtml}></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><b>{lang_accessrights}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_owner}:</td>
-                                        <td>{owner_name}<input type="hidden" name="owner_id" value="{owner_id}"{xhtml}></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="alignright">{lang_group}:</td>
-                                        <td>
-                                            {group_dropdown}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><b>{lang_permissions}</b>:</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">{lang_permissions_key}</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            {permissions_editor}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><hr{xhtml}></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2" class="warning">{warning_msg}</td>
-                                    </tr>
-                                    <tr><td>&nbsp;</td></tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <input type="submit" value="{lang_save}" name="mode"{xhtml}>
-                                            <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
-                                            {delete_option}
-                                            <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </form>
+
+<!-- admin/topic/topiceditor.thtml { -->
+
+<form action="{site_admin_url}/topic.php" method="post" enctype="multipart/form-data" id="admin-topiceditor" class="compact">
+  <fieldset>
+    <legend>話題の編集</legend><!-- Geeklog Japanese -->
+
+    <dl>
+      <dt><label for="admin-topiceditor-tid">{lang_topicid}</label></dt>
+      <dd><input type="text" size="20" maxlength="20" value="{topic_id}" name="tid" id="admin-topiceditor-tid" class="text"{xhtml}></dd>
+      <dd class="description">{lang_donotusespaces}</dd>
+
+      <dt><label for="sortnum">{lang_sortorder}</label></dt>
+      <dd>{sort_order}</dd>
+
+      <dt><label for="admin-topiceditor-limitnews">{lang_storiesperpage}</label></dt>
+      <dd><input type="text" size="3" maxlength="3" value="{story_limit}" name="limitnews" id="admin-topiceditor-limitnews" class="text"{xhtml}></dd>
+      <dd class="description">{lang_defaultis}{default_limit}</dd>
+
+      <dt><label for="admin-topiceditor-topic">{lang_topicname}</label></dt>
+      <dd><input type="text" size="48" value="{topic_name}" name="topic" id="admin-topiceditor-topic" class="text"{xhtml}></dd>
+
+      <dt><label for="admin-topiceditor-imageurl">{lang_topicimage}</label></dt>
+      <dd><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" value="{image_url}" name="imageurl" id="admin-topiceditor-imageurl" class="text"{xhtml}></dd>
+
+      <dt><label for="admin-topiceditor-newicon">{lang_uploadimage}</label></dt>
+      <dd><input type="file" name="newicon" id="admin-topiceditor-newicon"{xhtml}></dd>
+      <dd class="description">{lang_maxsize}{icon_dimensions}</dd>
+
+      <dt><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
+      <dd><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:100%" rows="2">{meta_description}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
+      <dd><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:100%" rows="2">{meta_keywords}</textarea></dd>
+
+      <dt><label for="admin-topiceditor-is_default">{lang_defaulttopic}</label></dt>
+      <dd><input type="checkbox" {default_checked} name="is_default" id="admin-topiceditor-is_default"{xhtml}>{lang_defaulttext}</dd>
+
+      <dt><label for="admin-topiceditor-is_archive">{lang_archivetopic}</label></dt>
+      <dd><input type="checkbox" {archive_checked} {archive_disabled} name="is_archive" id="admin-topiceditor-is_archive"{xhtml}>{lang_archivetext}</dd>
+
+      <dt><label for="admin-topiceditor-num_stories">{lang_num_stories}</label></dt>
+      <dd>{num_stories}</dd>
+
+    </dl>
+  </fieldset>
+
+  <fieldset>
+    <legend>{lang_accessrights}</legend>
+
+    <h3>{lang_accessrights}</h3>
+
+    <dl>
+      <dt>{lang_owner}</dt>
+      <dd>{owner_name}</dd>
+
+      <dt><label for="group_id">{lang_group}</label></dt>
+      <dd>{group_dropdown}</dd>
+
+      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dd>{permissions_editor}</dd>
+      <dd class="description">{lang_perm_key}</dd>
+      <dd class="description">{lang_permissions_msg}</dd>
+    </dl>
+  </fieldset>
+
+  <p class="description">{warning_msg}</p>
+
+  <ul class="submit">
+    <li><input type="hidden" name="owner_id" value="{owner_id}"{xhtml}><input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}><input type="submit" value="{lang_save}" name="mode"{xhtml}></li>
+    <li><input type="submit" value="{lang_cancel}" name="mode"{xhtml}></li>
+    <li>{delete_option}</li>
+  </ul>
+</form>
+
+<!-- } admin/topic/topiceditor.thtml -->

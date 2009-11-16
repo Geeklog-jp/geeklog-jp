@@ -1,3 +1,6 @@
+
+<!-- admin/lists/inline.thtml { -->
+
                             {search_menu}
                             {formfields_top}
                             <table class="admin-list-table">
@@ -10,5 +13,7 @@
                                 <input style="padding:5px 0px 0px 9px;{show_deleteimage}" name="delbutton" alt="delbutton" type="image" src="{layout_url}/images/deleteitem.png" title="{lang_deleteall}" onclick="return confirm('{lang_delconfirm}');"{xhtml}>
                                 {formfields_bottom}
                             </div>
-                            <p class="aligncenter" style="{show_message}"><b>{message}</b></p>
+                            <p class="aligncenter" style="{show_message}"><strong>{message}</strong></p>
                             {google_paging}
+
+<!-- } admin/lists/inline.thtml -->
