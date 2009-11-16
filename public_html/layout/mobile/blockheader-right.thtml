@@ -1,5 +1,8 @@
-<div class="block-box-right">
-    <span class="block-helpicon">
-        {block_help}
-    </span>
-    <h2>{block_title}</h2>
+
+<!-- blockheader-right.thtml { -->
+
+    <div class="block-right">
+      <h2>{block_title}{block_help}</h2>
+      <div class="block-right-content">
+
+<!-- } blockheader-right.thtml -->

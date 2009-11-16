@@ -1,4 +1,8 @@
-           <tr>
-                <td style="width:100px;"><label for="photo">{lang_userphoto}:</label></td>
-                <td><input type="file" dir="ltr" id="photo" name="photo" size="30"{xhtml}><br{xhtml}>{display_photo}</td>
-           </tr>
+
+<!-- preferences/userphoto.thtml { -->
+
+<dt><label for="profile-photo">{lang_userphoto}</label></dt>
+<dd><input type="file" name="photo" id="profile-photo"{xhtml}></dd>
+<dd id="userphoto-photo" class="description">{lang_userphoto_text}{display_photo}<br{xhtml}>{photo_max_dimensions}</dd>
+
+<!-- } preferences/userphoto.thtml -->

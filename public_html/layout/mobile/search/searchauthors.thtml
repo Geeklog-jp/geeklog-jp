@@ -1,9 +1,11 @@
-                                    <tr>
-                                        <td class="alignright">{lang_authors}:</td>
-                                        <td>
-                                            <select name="author">
-                                                <option selected="selected" value="0">{lang_all}</option>
-                                                {author_option_list}
-                                            </select>
-                                        </td>
-                                    </tr>
+<!-- search/searchauthors.thtml { -->
+
+<dt><label for="advsearchform-author">{lang_authors}</label></dt>
+<dd>
+  <select name="author" id="advsearchform-author">
+    <option selected="selected" value="0">{lang_all}</option>
+    {author_option_list}
+  </select>
+</dd>
+
+<!-- } search/searchauthors.thtml -->

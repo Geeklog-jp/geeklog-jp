@@ -1,5 +1,6 @@
+<!-- blockfooter-config.thtml { -->
+
+    </div>
 </div>
-<div class="aligncenter">
-    <div class="block-divider"></div>
-</div>
-<div class="block-bg-spreader"></div>
+
+<!-- } blockfooter-config.thtml -->

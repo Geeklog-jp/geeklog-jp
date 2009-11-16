@@ -1,1 +1,6 @@
-<!-- empty -->
+
+<!-- admin/moderation/ccrow.thtml { -->
+
+{cc_main_options}
+
+<!-- } admin/moderation/ccrow.thtml -->
