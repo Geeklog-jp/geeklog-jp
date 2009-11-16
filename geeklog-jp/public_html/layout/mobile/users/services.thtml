@@ -1,4 +1,7 @@
-<tr>
-	<td class="alignright"><b><label for="service">{lang_service}</label>:</b></td>
-  <td>{select_service}</td>
-</tr>
+
+<!-- users/services.thtml { -->
+
+<dt><label for="service">{lang_service}</label></dt>
+<dd>{select_service}</dd>
+
+<!-- } users/services.thtml -->

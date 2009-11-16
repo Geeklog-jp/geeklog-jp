@@ -1,6 +1,9 @@
-<div style="padding-left: {indent}px">
-  <ul style="margin: 0; padding: 0"><li>
-    <a href="{site_url}/comment.php?mode=display&amp;format=threaded&amp;order={order}&amp;pid={pid}">{title}</a>
-    - {lang_authoredby} {start_author_anchortag}{author}{end_author_anchortag} {lang_on} {date}
-  </li></ul>
-</div>
+
+<!-- comment/thread.thtml { -->
+
+<ul class="thread level-{indent}">
+  <li class="title"><a href="{site_url}/comment.php?mode=display&amp;format=threaded&amp;order={order}&amp;pid={pid}">{title}</a></li>
+  <li class="author">{lang_authoredby}{start_author_anchortag}{author}{end_author_anchortag}&nbsp;{lang_on}&nbsp;{date}</li>
+</ul>
+
+<!-- } comment/thread.thtml -->
