@@ -1,6 +1,9 @@
-<!-- Load Advanced Editor -->
+
+<!-- advanced_editor_header.thtml { -->
+
 <script type="text/javascript" src="{site_url}/fckeditor/fckeditor.js"></script>
 <script type="text/javascript">
-    var geeklogEditorBaseUrl = '{site_url}';
+  var geeklogEditorBaseUrl = '{site_url}';
 </script>
-<!-- End of Editor Load -->
+
+<!-- } advanced_editor_header.thtml -->

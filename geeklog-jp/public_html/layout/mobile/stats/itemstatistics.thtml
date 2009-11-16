@@ -1,7 +1,18 @@
-                            <table cellpadding="0" cellspacing="1" width="99%">
-                                <tr>
-                                    <td width="100%"><b>{item_label}</b></td><td class="alignright"><b>{stat_name}</b></td>
-                                </tr>
-                                {stat_row}
-                            </table>
 
+<!-- stats/itemstatistics.thtml { -->
+
+<table class="itemstatistics">
+  <thead>
+    <tr>
+      <th>{item_label}</th>
+      <th>{stat_name}</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {stat_row}
+  </tbody>
+
+</table>
+
+<!-- } stats/itemstatistics.thtml -->

@@ -1,6 +1,9 @@
-                                <tr>
-                                    <td>
-                                        <a href="{item_url}">{item_text}</a>
-                                    </td>
-                                    <td class="alignright">{item_stat}</td>
-                                </tr>
+
+<!-- stats/singlestat.thtml { -->
+
+    <tr>
+      <th><a href="{item_url}">{item_text}</a></th>
+      <td>{item_stat}</td>
+    </tr>
+
+<!-- } stats/singlestat.thtml -->
