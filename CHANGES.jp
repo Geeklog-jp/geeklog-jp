@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-17  Hiroshi Sakuramoto <hirorongl>
+
+	* CAPTCHAのソース内コメントの不備を修正。
+	  (Issue #126)
+
 2009-11-16  Masuko Koeda  <milk851>
 	* テーマWAIproCSSもテーマProfessionalCSSで"絞込み検索"でタイトルのみの
 	  モードの状態を維持しなかったバグ修正への取り込み漏れがあったので追加された

@@ -543,7 +543,7 @@ function plugin_getheadercode_captcha() {
             $url = $_CONF['site_admin_url'] . '/plugins/captcha/style.css';
         }
         $retval .= '
-<!-- Include CSS for userconfig plugin -->
+<!-- Include CSS for CAPTCHA plugin -->
 <link rel="stylesheet" type="text/css" href="' . $url . '"' . XHTML . '>
 ';
     }
