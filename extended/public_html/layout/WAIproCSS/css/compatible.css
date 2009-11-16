@@ -49,6 +49,30 @@
   clear: both;
 }
 
+/* general formatting classes *************************************************/
+.b {
+  font-weight:bold;
+}
+.ext-link {
+  background-color: transparent;
+  background: url(./images/external.png) center right no-repeat;
+  background-attachment: scroll;
+  padding-right: 13px;
+}
+.ext-link-rtl {
+}
+.feed-link {
+  background-color: transparent;
+  background: url(./images/feed.png) center right no-repeat;
+  background-attachment: scroll;
+  padding: 2px 16px 2px 0px;
+}
+.feed-link-rtl {
+}
+.strike {
+  text-decoration: line-through;
+}
+
 /* Admin lists ****************************************************************/
 .admin-menu-icon {
   float: left;
@@ -89,6 +113,31 @@
 /*  font-size: larger;*/
 }
 
+/******************************************************************************/
+#token-expirynotice {
+  padding:1em;
+  border:1px solid #CCCCCC;
+  background:#F7F7F7;
+}
+#token-expirytime {
+  font-weight:bold;
+}
+.topicoption,
+.topicoption-off {
+}
+.warning {
+  background:transparent;
+  color:#D90000;
+  font-weight:bold;
+}
+.warningsmall {
+  background:transparent;
+  color:#D90000;
+}
+
+/* Default Plugin CSS Declarations */
+/* Recommended CSS to be used by Plugin Authors - allows easier site themeing */
+
 .plugin {
   border: 1px solid #CCCCCC;
   background: #EFEFEF;
@@ -117,7 +166,7 @@
 }
 
 .pluginAltBG {
-  background: #7398BA;
+  background: #507AA1;
 }
 
 .pluginAltBG td {
@@ -163,7 +212,7 @@
 .pluginInfo {
   padding: 5px 15px 5px 15px;
   background: #FEF1B4;
-  color: #707070;
+  color: #5F5F5F;
   font-weight: normal;
 }
 
@@ -213,7 +262,7 @@
   padding-left: 6px;
   padding-right: 6px;
   background: #507AA1;
-  color: #F5F9FF;
+  color: #FFFFFF;
 }
 
 .pluginCellSubTitle {
