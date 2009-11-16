@@ -1,5 +1,8 @@
 <!-- start subscribe.thtml -->
-<a href="{notifylink}">{notifylinkimg}</a>&nbsp;{LANG_notify}
+<form action="{notifylink}" method="post" style="margin:0;">
+    {LANG_notify_state}&nbsp;
+    <input type="submit" name="btnsubmit" value="{LANG_notify}"{xhtml}>
+</form>
 <!--   Alternative layout to use Images -->  
 <!--
 <a href="{notifylink}">{notifylinkimg}</a>  
