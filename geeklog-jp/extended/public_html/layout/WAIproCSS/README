@@ -366,7 +366,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 
 ■Ver.2.4.1(2009-11-16)
   ・"絞込み検索"でタイトルのみのモードの状態を維持しなかったバグ修正への取り込み漏れがあったので追加しました。(*/search/searchform.thtml)
-  ・professionalコンパチブルスタイルで足りないスタイル(general formatting classes)とセキュリティートークンの警告メッセージ表示のスタイルを追加し、背景色と文字色のコンストラストを考慮し文字色或いは背景色の修正をしました。(*/css/compatible.css)
+  ・professionalコンパチブルスタイルで足りないスタイル(general formatting classes)とセキュリティートークンの警告メッセージ表示のスタイルとマイアカウントのコンテンツ設定のスタイルを追加し、背景色と文字色のコンストラストを考慮し文字色或いは背景色の修正をしました。(*/css/compatible.css)
   ・友だちに記事を送信するページとユーザーへのメール送信ページで「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入るように修正しました。(*/profiles/contactauthorform.thtml,*/profiles/contactuserform.thtml)
 　・記事編集すべてと話題変種に，メタタグ編集フォームを追加しました。(*/admin/story/storyeditor.japanese_utf-8.thtml,*/admin/story/storyeditor.thtml,*/admin/story/storyeditor_advanced.japanese_utf-8.thtml,*/admin/story/storyeditor_advanced.thtml,*/admin/topic/topiceditor.thtml)
   ・メール送信フォームで1.6.0から1.6.1への変更を加えました。(*/profiles/contactauthorform.thtml,*/profiles/contactuserform.thtml)
