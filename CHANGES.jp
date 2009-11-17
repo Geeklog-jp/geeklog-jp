@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-17  Hiroshi Sakuramoto <hirorongl>
+
+	* japanese_utf-8.php内のピングバックの説明外部リンクを英語から日本語に変更
+
 2009-11-17  Masuko Koeda  <milk851>
 	* ProfessionalCSSテーマのprofessionalコンパチブルスタイルシートに追加された
 	  スタイルで必要なスタイルのみ
