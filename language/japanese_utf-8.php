@@ -1445,7 +1445,7 @@ $LANG_TRB = array (
     'pingback_success'   => 'ピングバックを送信しました。',
     'no_pingback_url'    => 'ピングバックURLが見つかりません。',
     'resend'             => '再送',
-    'ping_all_explain'   => 'あなたがリンクしたことを相手のサイトに知らせたり(<a href="http://en.wikipedia.org/wiki/Pingback">ピングバック</a>)、ウェブログディレクトリサービスにピングを送ってサイトが更新されたことを知らせたり、誰かのサイトの記事について書いたときに<a href="http://ja.wikipedia.org/wiki/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%82%AF">トラックバック</a>を送ったりすることができます。',
+    'ping_all_explain'   => 'あなたがリンクしたことを相手のサイトに知らせたり(<a href="http://ja.wikipedia.org/wiki/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%82%AF">ピングバック</a>)、ウェブログディレクトリサービスにピングを送ってサイトが更新されたことを知らせたり、誰かのサイトの記事について書いたときに<a href="http://ja.wikipedia.org/wiki/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%82%AF">トラックバック</a>を送ったりすることができます。',
     'pingback_button'    => 'ピングバック送信',
     'pingback_short'     => '記事のすべてのリンク先にピングバックを送信します。',
     'pingback_disabled'  => '(ピングバックは無効です)',
