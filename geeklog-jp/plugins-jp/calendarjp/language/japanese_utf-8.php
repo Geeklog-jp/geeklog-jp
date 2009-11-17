@@ -235,7 +235,7 @@ $LANG_configsubgroups['calendarjp'] = array(
 
 $LANG_fs['calendarjp'] = array(
     'fs_main' => 'カレンダjpのメイン設定',
-    'fs_permissions' => 'カレンダjpのパーミッションの初期設定（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => 'カレンダjpのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
