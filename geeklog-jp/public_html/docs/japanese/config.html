@@ -203,7 +203,7 @@
 <tr><th style="width:25%">項目</th>
     <th style="width:25%">初期値</th>
     <th style="width:50%">説明</th></tr>
-<tr><td valign="top"><a name="desc_have_pear">PEARがある(have_pear)</a></td>
+<tr><td valign="top"><a name="desc_have_pear">PEARをインストールしている(have_pear)</a></td>
     <td valign="top">いいえ(<code>false</code>)</td>
     <td valign="top"><a href="http://pear.php.net/">PEAR</a>をサーバにインストールしているかどうかを指定します。いいえ(<code>false</code>)にすると、Geeklogは<code>$_CONF['path_pear']</code>（下記参照）にインストールされているPEARパッケージを使用します。</td></tr>
 <tr><td valign="top"><a name="desc_path_pear">PEARのパス(path_pear)</a></td>
@@ -225,9 +225,15 @@
 <tr><td valign="top"><a name="desc_mysqldump_path">mysqldump のパス(_DB_mysqldump_path)</a></td>
     <td valign="top">/usr/bin/mysqldump</td>
     <td valign="top">データベースのバックアップを取るための<a href="http://www.mysql.com/doc/en/mysqldump.html">mysqldump(.exe)</a>ユーティリティ(MySQLに含まれている)の完全なパスを指定します。Microsoft Windowsの場合は、<code>c:/mysql/bin/mysqldump.exe</code>のように、パスに.exeを含める必要があります。</td></tr>
-<tr><td valign="top"><a name="desc_mysqldump_options">mysqldump のオプション(mysqldump_options)</a></td>
+<tr>
+  <td valign="top"><a name="desc_mysqldump_options">mysqldump のオプション(mysqldump_options)</a></td>
     <td valign="top">-Q</td>
-    <td valign="top">データベースのバックアップを取るために、<a href="http://www.mysql.com/doc/en/mysqldump.html">mysqldump</a> を呼び出す時、オプションの引数を指定します。</td></tr>
+    <td valign="top">データベースのバックアップを取るために、<a href="http://www.mysql.com/doc/en/mysqldump.html">mysqldump</a> を呼び出す時、オプションの引数を指定します。</td>
+</tr>
+<tr><td valign="top"><a name="desc_mysqldump_filename_mask">バックアップファイル名(mysqldump_filename_mask</a>)</td>
+    <td valign="top">geeklog_db_backup_%Y_%m_%d_%H_%M_%S.sql</td>
+    <td valign="top">バックアップファイルのmask。<a
+        href="#date_formats">date formats</a>を参照してファイル名を作成します。</td></tr>
 </table>
 
 <h3><a name="site_search">サイト: 検索</a></h3>
@@ -244,7 +250,7 @@
   <td valign="top"><a name="desc_search_limits">表示件数の選択オプション(search_limits)</a></td>
   <td valign="top">10,15,25,30</td>
   <td valign="top">検索フォームで表示される1ページ内の検索数のオプションを指定。値はカンマ(,)で区切って下さい。</td></tr><tr>
-  <td valign="top"><a name="desc_num_search_results">検索結果表示件数の初期値(num_search_results)</a></td>
+  <td valign="top"><a name="desc_num_search_results">検索結果表示件数のデフォルト(num_search_results)</a></td>
   <td valign="top">10</td>
   <td valign="top">検索数のオプションの初期値を指定します。表示件数オプションで指定した数値のうちの1つでなければなりません。</td></tr>
 <tr>
@@ -268,7 +274,7 @@
   <td valign="top"> &amp;gt; (前後に空白)</td>
   <td valign="top">検索結果表示でタイプとサブグループを隔てるセパレータ（文字・記号）を指定します。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_search_def_keytype">検索条件の初期設定(search_def_keytype)</a></td>
+  <td valign="top"><a name="desc_search_def_keytype">検索条件のデフォルト(search_def_keytype)</a></td>
   <td valign="top">'完全一致'(phrase)</td>
   <td valign="top">検索条件の初期値を指定します:<ul>
     <li>'すべてのキーワードを含む(all)': すべてのキーワードが含まれているページ。</li>
@@ -313,7 +319,7 @@
 <tr>
   <td valign="top"><a name="desc_hideprintericon">プリンタアイコンを表示しない(hideprintericon)</a></td>
   <td valign="top">いいえ(0)</td>
-  <td valign="top">はい(1)にすると、記事を印刷用のフォーマットで表示する機能が無効になり、記事のプリンタアイコンと記事オプションの「印刷フォームページ」リンクが表示されなくなります。</td></tr>
+  <td valign="top">はい(1)にすると、記事を印刷用のフォーマットで表示する機能が無効になり、記事のプリンタアイコンと記事オプションの「印刷用ページ」リンクが表示されなくなります。</td></tr>
 <tr>
   <td valign="top"><a name="desc_allow_page_breaks">改ページを許可する(allow_page_breaks)</a></td>
   <td valign="top">はい(1)</td>
@@ -374,7 +380,7 @@
   <td valign="top">はい(true)</td>
   <td valign="top">はい(true)にすると、<a href="http://ja.wikipedia.org/wiki/%E3%83%88%E3%83%A9%E3%83%83%E3%82%AF%E3%83%90%E3%83%83%E3%82%AF">トラックバック</a>が有効になります。この設定はトラックバックの送信・受信の両方に適用されます。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_trackback_code">新規記事のトラックバック初期設定(trackback_code)</a></td>
+  <td valign="top"><a name="desc_trackback_code">新規作成時のデフォルト(trackback_code)</a></td>
   <td valign="top">トラックバック有効(0)</td>
   <td valign="top">新規記事の初期値を設定します。0 ならトラックバックを有効、-1 なら無効にします。</td></tr>
 <tr>
@@ -455,8 +461,8 @@
   <td valign="top"><code>array('contribute', 'calendar', 'search', 'stats',
     'directory', 'plugins')</code></td>
   <td valign="top">どのメニュー項目をサイトのメニューバー（グローバルメニュー）に表示するかを指定します（使用するテーマにメニューバーを表示するための<code>{menu_elements}</code>テンプレート変数が使用されている場合）。<tt>'home'</tt>（トップページ）,
-    <tt>'contribute'</tt>（記事投稿）, <tt>'calendar'</tt>（カレンダ）, <tt>'search'</tt>（検索）, 
-    <tt>'directory'</tt>（記事一覧）, <tt>'prefs'</tt>（マイアカウント）, <tt>'plugins'</tt>（プラグイン）, 
+    <tt>'contribute'</tt>（記事投稿）, <tt>'calendar'</tt>（カレンダ）, <tt>'search'</tt>（検索）,
+    <tt>'directory'</tt>（記事一覧）, <tt>'prefs'</tt>（マイアカウント）, <tt>'plugins'</tt>（プラグイン）,
     <tt>'custom'</tt>（カスタム）を好きな数だけ好きな順序で組み合わせることができます。<tt>'plugins'</tt>（プラグイン）は<code>{plg_menu_elements}</code>テンプレート変数と同じで、各プラグインが提供するメニュー項目です。<tt>'custom'</tt>（カスタム）は<code>CUSTOM_menuEntries</code>カスタム関数が返すメニュー項目です（詳細は<tt>lib-custom.php</tt>をご覧ください。）。</td></tr>
 <tr>
   <td valign="top"><a name="desc_path_themes">テーマパス(path_themes)</a></td>
@@ -759,7 +765,7 @@
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、管理者画面(<tt>moderation.php</tt>)にドラフト記事の一覧が表示されます。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_postmode">デフォルトの投稿モード(postmode)</a></td>
+  <td valign="top"><a name="desc_postmode">投稿モードのデフォルト(postmode)</a></td>
   <td valign="top">テキスト(plaintext)</td>
   <td valign="top">投稿モードの初期値をHTML(html)かテキスト(plaintext)で指定します。</td></tr>
 <tr>
@@ -799,7 +805,7 @@
   <td valign="top">ツリー(threaded)</td>
   <td valign="top">コメントの表示方法として、「一覧」(flat)、「入れ子」(nested)、「ツリー」(threaded)、「表示しない」(表示しない)のうちのどれかを指定します。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_comment_code">許可の初期設定(comment_code)</a></td>
+  <td valign="top"><a name="desc_comment_code">新規作成時のデフォルト(comment_code)</a></td>
   <td valign="top">はい(0)</td>
   <td valign="top">新規記事に対する初期値を指定します。はい(0)なら許可し、いいえ(-1)なら許可しません。</td></tr>
 <tr>
@@ -811,15 +817,15 @@
   <td valign="top">いいえ(0)</td>
   <td valign="top">コメントを承認待ちリストに入れるかどうかをはい(1)、または、いいえ(0)で指定します。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_comment_edittime">編集期間(comment_edittime)</a></td>
+  <td valign="top"><a name="desc_comment_edittime">編集時間(comment_edittime)</a></td>
   <td valign="top">1800</td>
   <td valign="top">上記コメント編集権限を持ったユーザが、コメント投稿後、コメントを編集できる期間（秒）を指定します。ゲストユーザは編集できません。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_article_comment_close_enabled">自動的にコメントの受付を停止する(article_comment_close_enabled</a>)</td>
+  <td valign="top"><a name="desc_article_comment_close_enabled">自動的にコメントの受付を停止する(デフォルト)(article_comment_close_enabled</a>)</td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">一定の期間が経過した後で記事がコメントの受付を停止するかどうかを指定します(次のオプションをご覧ください)。この設定は新規記事に対する初期値であり、記事ごとに変更することができます。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_article_comment_close_days">停止までの日数(初期値)(article_comment_close_days)</a></td>
+  <td valign="top"><a name="desc_article_comment_close_days">停止までの日数(デフォルト)(article_comment_close_days)</a></td>
   <td valign="top">30</td>
   <td valign="top">記事投稿後、コメント受付を自動的に停止するまでの日数を指定します。<br>
 記事の新規作成時の初期値はコメント不可です。有効にしない限り、コメントは有効になりません。</td></tr>
@@ -944,7 +950,7 @@
   <td valign="top"><i>(無効)</i></td>
   <td valign="top">この設定を有効にしても、ユーザの写真を<em>表示する</em>ときにしか適用されません。写真表示用の <code>&lt;img&gt;</code>タグがここで指定されたサイズで出力されます。つまり、実際の写真のサイズはより大きくても、小さな（ここで指定された）サイズでしか表示されません。（掲示板などで）奇妙な形をしたユーザの写真がページのレイアウトを台無しにするのを防ぎたい場合に役に立つでしょう。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_default_photo">既定の写真(default_photo)</a></td>
+  <td valign="top"><a name="desc_default_photo">写真のデフォルト(default_photo)</a></td>
   <td valign="top"><i>(無効)</i></td>
   <td valign="top">有効にする場合には、画像ファイルの完全なURLを指定します。写真のないユーザの場合、この既定の写真が表示されます。この設定が無効で、ユーザが写真も<a href="#images_gravatar">アバター</a>も持っていない場合、何も表示されません。</td></tr>
 </table>
@@ -1029,7 +1035,7 @@
   <td valign="top">%I:%M %p %Z</td>
   <td valign="top">時間だけを表すフォーマットを指定します。「イベントの詳細」などのページで使われます。下記の<a href="#date_formats">日付のフォーマット</a>をご覧ください。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_week_start">週のはじまり(week_start)</a></td>
+  <td valign="top"><a name="desc_week_start">週の開始(week_start)</a></td>
   <td valign="top">日曜日(Sun)</td>
   <td valign="top">カレンダの週の始まりを指定します。日曜日(<tt>'Sun'</tt>)か月曜日(<tt>'Mon'</tt>)のどちらかです。</td></tr>
 <tr>
@@ -1090,6 +1096,10 @@
   <td valign="top">timezone</td>
   <td valign="top">タイムゾーンを保存するクッキーの名前を指定します。</td></tr>
 <tr>
+  <td valign="top"><a name="desc_cookie_anon_name">ゲストユーザ名のクッキー名（cookie_anon_name</a>）</td>
+  <td valign="top">anon_name</td>
+  <td valign="top">ゲストユーザの名前を保存するクッキーの名前を指定します。</td></tr>
+<tr>
   <td valign="top"><a name="desc_cookie_ip">クッキーにIPを埋め込む(cookie_ip)</a></td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、セッションIDにランダムな数字だけでなくユーザのIPも埋め込みます。こうすることで、安全性は高まりますが、ダイアルアップユーザが毎回ログインしなければならなくなる可能性も高まります。</td></tr>
@@ -1142,8 +1152,8 @@
 <tr>
   <td valign="top"><a name="desc_disable_autolinks">自動タグを無効にする(disable_autolinks)</a></td>
   <td valign="top">いいえ(0)</td>
-  <td valign="top">はい(1)にすると、自動タグ、つまり、[story:] 
-    形式の自動タグがすべて無効になります。</td></tr> 
+  <td valign="top">はい(1)にすると、自動タグ、つまり、[story:]
+    形式の自動タグがすべて無効になります。</td></tr>
 <tr>
   <td valign="top"><a name="desc_clickable_links">URLを自動リンクさせる(clickable_links)</a></td>
   <td valign="top">はい(true)</td>
