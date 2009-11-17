@@ -163,7 +163,7 @@ $LANG_fs['staticpages'] = array(
     'fs_main' => '静的ページのメイン設定',
     'fs_whatsnew' => '新着情報ブロック',
     'fs_search' => '検索結果',
-    'fs_permissions' => '静的ページのパーミッションの初期設定（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => '静的ページのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
