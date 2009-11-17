@@ -1,5 +1,13 @@
 $Id$
 
+2009-11-17  Masuko Koeda  <milk851>
+	* ProfessionalCSSテーマのprofessionalコンパチブルスタイルシートに追加された
+	  スタイルで必要なスタイルのみ
+	  テーマWAIproCSSにも追加しました。
+
+	* 上記修正をREADME更新履歴に追記しました。
+
+
 2009-11-17  Hiroshi Sakuramoto <hirorongl>
 
 	* CAPTCHAのソース内コメントの不備を修正。
