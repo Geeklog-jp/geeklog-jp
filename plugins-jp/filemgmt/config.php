@@ -33,18 +33,25 @@ The script reads and write to this file - thus needs to be a separate file.
 
 if (file_exists('filemgmt.php')) include ('filemgmt.php');
 
-$CONF_FM['version'] = '1.6.0.jp';
+$CONF_FM['version'] = '1.6.0.jp2';
 
 $_FM_CONF = array();
-$_FM_CONF['version'] = '1.6.0.jp';
+$_FM_CONF['version'] = '1.6.0.jp2';
 
-$_FM_TABLES['filemgmt_cat']             = $_DB_table_prefix . 'filemgmt_category';
-$_FM_TABLES['filemgmt_filedetail']      = $_DB_table_prefix . 'filemgmt_filedetail';
-$_FM_TABLES['filemgmt_filedesc']        = $_DB_table_prefix . 'filemgmt_filedesc';
-$_FM_TABLES['filemgmt_brokenlinks']     = $_DB_table_prefix . 'filemgmt_broken';
-$_FM_TABLES['filemgmt_modreq']          = $_DB_table_prefix . 'filemgmt_mod'; // No use ?
-$_FM_TABLES['filemgmt_votedata']        = $_DB_table_prefix . 'filemgmt_votedata';
-$_FM_TABLES['filemgmt_history']         = $_DB_table_prefix . 'filemgmt_downloadhistory';
+$_FM_TABLES['filemgmt_cat']           = $_DB_table_prefix . 'filemgmt_category';
+$_FM_TABLES['filemgmt_filedetail']    = $_DB_table_prefix . 'filemgmt_filedetail';
+$_FM_TABLES['filemgmt_filedesc']      = $_DB_table_prefix . 'filemgmt_filedesc';
+$_FM_TABLES['filemgmt_brokenlinks']   = $_DB_table_prefix . 'filemgmt_broken';
+//$_FM_TABLES['filemgmt_modreq']        = $_DB_table_prefix . 'filemgmt_mod'; // No use ?
+$_FM_TABLES['filemgmt_votedata']      = $_DB_table_prefix . 'filemgmt_votedata';
+$_FM_TABLES['filemgmt_history']       = $_DB_table_prefix . 'filemgmt_downloadhistory';
+
+$_TABLES['filemgmt_category']        = $_FM_TABLES['filemgmt_cat'];
+$_TABLES['filemgmt_filedetail']      = $_FM_TABLES['filemgmt_filedetail'];
+$_TABLES['filemgmt_filedesc']        = $_FM_TABLES['filemgmt_filedesc'];
+$_TABLES['filemgmt_broken']          = $_FM_TABLES['filemgmt_brokenlinks'];
+$_TABLES['filemgmt_votedata']        = $_FM_TABLES['filemgmt_votedata'];
+$_TABLES['filemgmt_downloadhistory'] = $_FM_TABLES['filemgmt_history'];
 
 // Permissions that will be used for new files into the repository
 $filemgmtFilePermissions = (int) 0755;

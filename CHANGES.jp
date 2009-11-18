@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-18  Yoshinori Tahara  <dengen>
+
+	* filemgmtプラグイン: 自動インストール機能に対応しました。(Issue #114)
+
 2009-11-17  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイル全般，日本語ドキュメント全般で用語を統一させました。
