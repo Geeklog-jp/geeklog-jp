@@ -1,3 +1,14 @@
-                            <p class="basic"> {lang_matchesfor} {lang_found} <b>{num_matches}</b> ({search_time} {lang_seconds}). {refine_search}</p>
-                            {search_blocks}
-                            {search_pager}
+
+<!-- search/searchresults.thtml { -->
+
+<dl id="searchresults-found">
+  <dt>{lang_matchesfor}</dt>
+  <dd>{lang_found}{num_matches}</dd>
+  <dd class="search_time">{search_time}{lang_seconds}</dd>
+  <dd>{refine_search}</dd>
+</dl>
+
+{search_blocks}
+{search_pager}
+
+<!-- } search/searchresults.thtml -->

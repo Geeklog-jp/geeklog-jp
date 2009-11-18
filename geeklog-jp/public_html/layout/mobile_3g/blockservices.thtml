@@ -1,2 +1,7 @@
-<b><label for="service">{lang_service}</label>:</b><br{xhtml}>
-{select_service}<br{xhtml}>
+
+<!-- blockservices.thtml { -->
+
+<dt><label for="service">{lang_service}</label></dt>
+<dd>{select_service}</dd>
+
+<!-- } blockservices.thtml -->

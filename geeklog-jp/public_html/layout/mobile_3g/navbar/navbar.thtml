@@ -1,6 +1,11 @@
-        <div id="navcontainer">
-            <ul id="navlist" style="padding-left:15px;">
-                {menuitems}
-            </ul>
-        </div>
-        <div class="clearboth"></div>
+
+<!-- navbar/navbar.thtml { -->
+
+<div id="navcontainer">
+  <ul id="navlist">
+    {menuitems}
+  </ul>
+</div>
+<div class="clearboth"></div>
+
+<!-- } navbar/navbar.thtml -->

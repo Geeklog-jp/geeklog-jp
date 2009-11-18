@@ -1,4 +1,7 @@
-   <tr>
-        <td style="width:100px;"><label for="language">{lang_language}:</label></td>
-        <td>{language_selector}</td>
-   </tr>
+
+<!-- preferences/language.thtml { -->
+
+<dt><label for="language">{lang_language}</label></dt>
+<dd>{language_selector}</dd>
+
+<!-- } preferences/language.thtml -->

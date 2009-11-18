@@ -1,1 +1,6 @@
-<td class="alignleft">{data}</td>
+
+<!-- search/resultcolumn.thtml { -->
+
+<td>{data}</td>
+
+<!-- } search/resultcolumn.thtml -->

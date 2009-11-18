@@ -1,3 +1,8 @@
-                                <tr>
-                                    {heading_columns}
-                                </tr>
+
+<!-- search/searchresults_heading.thtml { -->
+
+<tr>
+  {heading_columns}
+</tr>
+
+<!-- } search/searchresults_heading.thtml -->

@@ -1,1 +1,6 @@
-<li class="topicoption"><a href="{option_url}">{option_label}</a> {option_count}</li>
+
+<!-- topicoption.thtml { -->
+
+        <li class="topicoption"><a href="{option_url}">{option_label}</a>&nbsp;{option_count}</li>
+
+<!-- } topicoption.thtml -->

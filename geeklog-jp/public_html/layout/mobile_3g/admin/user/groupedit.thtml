@@ -1,8 +1,10 @@
-                                    <tr>
-                                        <td colspan="2"><b>{lang_securitygroups}</b></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2"><p>{lang_groupinstructions}</p>
-                                            {group_options}
-                                        </td>
-                                    </tr>
+
+<!-- admin/user/groupedit.thtml { -->
+
+<dt>{lang_securitygroups}</dt>
+<dd>
+  <p class="groupinstructions">{lang_groupinstructions}</p>
+  {group_options}
+</dd>
+
+<!-- } admin/user/groupedit.thtml -->
