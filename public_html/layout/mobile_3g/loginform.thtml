@@ -1,10 +1,29 @@
-<form action="{site_url}/users.php" method="post">
-  {lang_message}  {lang_newreglink}<br{xhtml}>
-  <b><label for="loginname">{lang_username}</label>:</b><br{xhtml}>
-  <input type="text" size="16" name="loginname"{xhtml}><br{xhtml}>
-  <b><label for="passwd">{lang_password}</label>:</b><br{xhtml}>
-  <input type="password" name="passwd" size="16"{xhtml}><br{xhtml}>
-  <input type="submit" value="{lang_login}"{xhtml}><br{xhtml}>
-  <a href="{site_url}/users.php?mode=getpassword" rel="nofollow">{lang_forgetpassword}</a>
+<!-- loginform.thtml { -->
+
+<form action="{site_url}/users.php" method="post" id="loginform" class="basic">
+  <fieldset>
+    <legend>{lang_login}</legend>
+
+    <dl>
+      <dt><label for="loginform-loginname">{lang_username}</label></dt>
+      <dd><input type="text" size="12" value="" name="loginname" id="loginform-loginname" class="text"{xhtml}></dd>
+
+      {services}
+
+      <dt><label for="loginform-passwd">{lang_password}</label></dt>
+      <dd><input type="password" size="12" name="passwd" id="loginform-passwd" class="text"{xhtml}></dd>
+    </dl>
+
+    <ul class="submit">
+      <li><input type="submit" value="{lang_login}" class="submit"{xhtml}></li>
+    </ul>
+
+    <ul class="navi">
+      <li>{lang_signup}</li>
+      <li>{lang_forgetpassword}</li>
+    </ul>
+  </fieldset>
 </form>
 {openid_login}
+
+<!-- } loginform.thtml -->

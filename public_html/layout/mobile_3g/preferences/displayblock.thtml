@@ -1,34 +1,37 @@
-    <fieldset style="margin-top:10px;"><legend>{lang_misc_title}</legend>
-        <div class="notes" style="width:250px;">
-        <h4>{lang_misc_help_title}</h4>
-             <ul>
-            {lang_misc_help}
-            </ul>
-        </div>
-        <table class="inputTable">
-            {language_selection}
-            {theme_selection}
-            <tr>
-                <td style="width:120px;"><label for="noicons">{lang_noicons}:</label></td>
-                <td><input type="checkbox" id="noicons" name="noicons" {noicons_checked}{xhtml}></td>
-            </tr>
-            <tr>
-                <td style="width:100px;"><label for="noboxes">{lang_noboxes}:</label></td>
-                <td><input type="checkbox" id="noboxes" name="noboxes" {noboxes_checked}{xhtml}></td>
-            </tr>
-            <tr>
-                <td style="width:100px;"><label for="maxstories">{lang_maxstories}:</label></td>
-                <td><input type="text" size="3" maxlength="3" id="maxstories" name="maxstories" value="{maxstories_value}"{xhtml}></td>
-            </tr>
-        </table>
-        <table class="inputTable">
-            <tr>
-                <td style="width:120px;"><label for="tzid">{lang_timezone}:</label></td>
-                <td>{timezone_selector}</td>
-            </tr>
-            <tr>
-                <td style="width:100px;"><label for="dfid">{lang_dateformat}:</label></td>
-                <td>{dateformat_selector}</td>
-            </tr>
-        </table>
-    </fieldset>
+
+<!-- preferences/displayblock.thtml { -->
+
+<fieldset>
+  <legend>{lang_misc_title}</legend>
+
+  <dl class="notes">
+    <dt>{lang_misc_help_title}</dt>
+    <dd><ul>{lang_misc_help}</ul></dd>
+  </dl>
+
+  <dl>
+    {language_selection}
+    {theme_selection}
+
+    <dt><label for="displayprefs-noicons">{lang_noicons}</label></dt>
+    <dd><input type="checkbox" {noicons_checked} name="noicons" id="displayprefs-noicons" class="text"{xhtml}>{lang_noicons_text}</dd>
+
+    <dt><label for="displayprefs-noboxes">{lang_noboxes}</label></dt>
+    <dd><input type="checkbox" {noboxes_checked} name="noboxes" id="displayprefs-noboxes" class="text"{xhtml}>{lang_noboxes_text}</dd>
+
+<!--
+記事最大数は携帯表示の際には無効になるためコメントアウトします。
+    <dt><label for="displayprefs-maxstories">{lang_maxstories}</label></dt>
+    <dd><input type="text" size="3" maxlength="3" value="{maxstories_value}" name="maxstories" id="displayprefs-maxstories" class="text"{xhtml}></dd>
+    <dd class="description">{lang_maxstories_text}</dd>
+-->
+
+    <dt><label for="tzid">{lang_timezone}</label></dt>
+    <dd>{timezone_selector}</dd>
+
+    <dt><label for="dfid">{lang_dateformat}</label></dt>
+    <dd>{dateformat_selector}</dd>
+  </dl>
+</fieldset>
+
+<!-- } preferences/displayblock.thtml -->

@@ -1,1 +1,6 @@
-                                <td>{no_rows_msg}</td>
+
+<!-- search/searchresults_norows.thtml { -->
+
+<p id="searchresults_norows">{no_rows_msg}</p>
+
+<!-- } search/searchresults_norows.thtml -->

@@ -1,3 +1,6 @@
-<div>
-  {formatted_comment}
-</div>
+
+<!-- trackback/trackbackcomment.thtml { -->
+
+{formatted_comment}
+
+<!-- } trackback/trackbackcomment.thtml -->

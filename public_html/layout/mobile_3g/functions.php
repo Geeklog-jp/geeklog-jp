@@ -27,7 +27,7 @@ $_BLOCK_TEMPLATE['customlogin'] = 'customlogin-header.thtml,customlogin-footer.t
 $_BLOCK_TEMPLATE['whats_related_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 
-function mobile_3g_siteFooter( $rightblock = -1, $custom = '' )
+function mobile_siteFooter( $rightblock = -1, $custom = '' )
 {
     global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
 
@@ -262,7 +262,7 @@ function mobile_3g_siteFooter( $rightblock = -1, $custom = '' )
                       '/users.php?mode=new" accesskey="' . $akey . '">会員登録</a>' );
 	$akey ++;
     }
-	
+
     // Call to plugins to set template variables in the footer
     PLG_templateSetVars( 'footer', $footer );
 
