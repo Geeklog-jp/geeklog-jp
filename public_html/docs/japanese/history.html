@@ -134,7 +134,7 @@
   <li>event.phpで、{event_begin_anchortag}と{event_end_anchortag}テンプレート変数を再導入しました。[Dirk]</li>
   <li>イベントを編集すると、イベントの閲覧数がリセットされていました。[Dirk]</li>
   <li>イベントをコピーすると、閲覧数が0にならずにそのままコピーされていました。[Dirk]</li>
-  <li>リンクの初期値の"http://"が残ったままイベントを投稿すると、間違ってスパムと報告されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=946">#0000946</a>) [Dirk]</li>
+  <li>リンクのデフォルトの"http://"が残ったままイベントを投稿すると、間違ってスパムと報告されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=946">#0000946</a>) [Dirk]</li>
 </ul>
 
 <h3>リンクプラグイン</h3>
@@ -752,7 +752,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
       [Mike]</li>
     <li>記事IDが分かれば、未来の日付の記事とドラフトモードの記事にアクセスできるようにした
       (バグ <a href="http://project.geeklog.net/tracking/view.php?id=678">#0000678</a>) [Mike]</li>
-    <li>siteconfig.phpがコアのデータベースにオーバーライドできるようにした。初期値ではrootdebug。
+    <li>siteconfig.phpがコアのデータベースにオーバーライドできるようにした。デフォルトではrootdebug。
       [バグ0000673] [Mike]</li>
     <li>リモートユーザーがwebservicesをつかえるようにした (バグ <a href="http://project.geeklog.net/tracking/view.php?id=640">#0000640</a>)。認証方式が原因でOpenIDユーザーはwebservicesを使えない。これ以外のリモートユーザーが
       webservicesにログインする場合にはusername@servicenameをユーザー名の代わりに使う必要がある。
