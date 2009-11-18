@@ -1,2 +1,8 @@
-<div class="block-box">
-    <div bgcolor="#CCCCFF" style="background-color: #CCCCFF">{block_title}</div>
+
+<!-- blockheader.thtml { -->
+
+<div class="block-center">
+  <h2>{block_title}{block_help}</h2>
+  <div class="block-center-content">
+
+<!-- } blockheader.thtml -->

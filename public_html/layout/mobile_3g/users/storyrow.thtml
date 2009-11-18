@@ -1,4 +1,6 @@
-                                            <tr>
-                                                <td>{row_number} {story_title}</td>
-                                                <td>{story_date}</td>
-                                            </tr>
+
+<!-- users/storyrow.thtml { -->
+
+<p class="storyrow">{row_number}{story_title}{story_date}</p>
+
+<!-- } users/storyrow.thtml -->
