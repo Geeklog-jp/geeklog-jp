@@ -643,25 +643,23 @@ function plugin_getadminoption_filemgmt()
 * foreseen by the core code (interactions with other plugins for example)
 *
 */
-/*
 function plugin_autouninstall_filemgmt()
 {
     $out = array (
         // give the name of the tables, without $_TABLES[]
-        'tables' => array('filemgmt_cat', 'filemgmt_filedetail', 'filemgmt_filedesc',
-                          'filemgmt_brokenlinks', 'filemgmt_votedata', 'filemgmt_history'),
+        'tables' => array('filemgmt_category', 'filemgmt_filedetail', 'filemgmt_filedesc',
+                          'filemgmt_broken', 'filemgmt_votedata', 'filemgmt_downloadhistory'),
         // give the full name of the group, as in the db
-        'groups' => array('Filemgmt Admin'),
+        'groups' => array('filemgmt Admin'),
         // give the full name of the feature, as in the db
         'features' => array('filemgmt.edit', 'filemgmt.user', 'filemgmt.upload'),
         // give the full name of the block, including 'phpblock_', etc
         'php_blocks' => array('phpblock_NewDownloads'),
         // give all vars with their name
-        'vars'=> array('filemgmt_admingrp_id')
+        'vars'=> array('filemgmt_admingrp_id', 'filemgmt_usersgrp_id') // no use now
     );
     return $out;
 }
-*/
 
 /**
 * Removes the datastructures for this plugin from the Geeklog database
