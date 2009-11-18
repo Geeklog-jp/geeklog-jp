@@ -1,1 +1,6 @@
-<th class="alignleft">{label}</th>
+
+<!-- search/headingcolumn.thtml { -->
+
+<th>{label}</th>
+
+<!-- } search/headingcolumn.thtml -->

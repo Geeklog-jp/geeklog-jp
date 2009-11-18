@@ -1,3 +1,12 @@
-        {formatted_article}
-	<hr>
-        {commentbar}
+
+<!-- article.thtml { -->
+
+{formatted_article}
+
+{whats_related}
+{story_options}
+
+{trackback}
+{commentbar}
+
+<!-- } article.thtml -->

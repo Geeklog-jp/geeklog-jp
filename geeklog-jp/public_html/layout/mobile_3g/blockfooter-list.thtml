@@ -1,5 +1,8 @@
+
+<!-- blockfooter-list.thtml { -->
+
     </ul>
+    </div>
 </div>
-<div class="aligncenter">
-    <div class="block-divider"></div>
-</div>
+
+<!-- } blockfooter-list.thtml -->

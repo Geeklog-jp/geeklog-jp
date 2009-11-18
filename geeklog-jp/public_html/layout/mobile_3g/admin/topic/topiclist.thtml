@@ -1,4 +1,12 @@
-                            {top_menu}
-                            <table cellspacing="0" cellpadding="2" width="100%">
-                                {list_row}
-                            </table>
+
+<!-- admin/topic/topiclist.thtml { -->
+
+<div id="admin-instructions">
+  {top_menu}
+</div>
+
+<ul id="admin-topiclist">
+  {list_row}
+</ul>
+
+<!-- } admin/topic/topiclist.thtml -->

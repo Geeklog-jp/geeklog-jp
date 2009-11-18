@@ -1,5 +1,11 @@
-<div id="commentarea">
-{commentbar}
-{comments}
-<p class="aligncenter">{pagenav}</p>
+
+<!-- comment/startcomment.thtml { -->
+
+<div id="comments">
+  {commentbar}
+  {comments}
+
+  <p class="pagenav">{pagenav}</p>
 </div>
+
+<!-- } comment/startcomment.thtml -->
