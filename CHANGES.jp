@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-19  mystral-kk <mystral-kk>
+
+	* history.htmlで1.6.1rc1以降に追加された部分を翻訳しました。
+
 2009-11-18  Yoshinori Tahara  <dengen>
 
 	* filemgmtプラグイン: 自動インストール機能に対応しました。(Issue #114)
