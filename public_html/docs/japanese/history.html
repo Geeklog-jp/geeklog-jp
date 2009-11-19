@@ -11,29 +11,23 @@
 </head>
 
 <body>
-<h1>Geeklogの変更履歴(<a href="../history">public_html/docs/history</a>をHTML化したものです)</h1>
+<h1>Geeklogの変更履歴(<a href="../history">public_html/docs/history</a>をHTML化&amp;翻訳したものです)</h1>
 
 <h2>Nov ??, 2009 (1.6.1)</h2>
 
 <p>1.6.1rc1以降の変更点:</p>
 <ul>
-  <li>Updated the age-old help texts and added help files for comment and user
-  submissions as well as the draft stories list [Dirk]</li>
-  <li>The success message at the end of the install recommended setting
-  db-config.php and siteconfig.php to 755. These files don't need to be
-  executable, so recommend 644 instead (bug #0001036) [Dirk]</li>
+  <li>古くなっていたヘルプファイルを更新し、コメント、ユーザによる投稿、ドラフト記事一覧についてヘルプファイルを追加しました。 [Dirk]</li>
+  <li>インストール成功時にdb-config.phpとsiteconfig.phpのパーミッションを755に変更することを勧めていましたが、これらのファイルを実行する必要はないので644への変更を勧めるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1036">#0001036</a>) [Dirk]</li>
 </ul>
 <ul>
-  <li>Updated Estonian language file, provided by Artur Räpp</li>
+  <li>(Artur Rapp氏提供による)エストニア語の言語ファイルを更新しました。</li>
 </ul>
 
-<h3>Static Pages Plugin</h3>
+<h3>静的ページプラグイン</h3>
 <ul>
-  <li>Added missing code to handle $_SP_CONF['includesearchcenterblocks'] and
-  $_SP_CONF['includesearchphp'] options that was accidentally left out when
-  merging Tom's patch [Dirk]</li>
-  <li>Removed reference to undeclared variable in SP_render_content (bug #0001032)
-  [Dirk]</li>
+  <li>Tomさんのパッチを取り込む際に偶然取り込まれなかった、$_SP_CONF['includesearchcenterblocks']と$_SP_CONF['includesearchphp']オプションを処理するコードを追加しました。[Dirk]</li>
+  <li>SP_render_content内の宣言されていない変数の参照を取り除きました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1032">#0001032</a>)[Dirk]</li>
 </ul>
 
 <h2>Nov 8, 2009 (1.6.1rc1)</h2>
