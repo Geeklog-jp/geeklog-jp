@@ -1,5 +1,10 @@
 $Id$
 
+2009-11-21  mystral-kk <mystral-kk>
+
+	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
+	  問題(Issue #124)に対応しました。
+
 2009-11-19  mystral-kk <mystral-kk>
 
 	* history.htmlで1.6.1rc1以降に追加された部分を翻訳しました。
