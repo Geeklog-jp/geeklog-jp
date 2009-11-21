@@ -35,6 +35,8 @@
 * @package DataProxy
 */
 
+require_once 'config.php';
+
 /**
 * Plugin autoinstall function
 *
@@ -44,6 +46,8 @@
 */
 function plugin_autoinstall_dataproxy($pi_name)
 {
+	global $_DPXY_CONF;
+	
     $pi_name         = 'dataproxy';
     $pi_display_name = 'DataProxy';
     $pi_admin        = $pi_display_name . ' Admin';
@@ -51,9 +55,9 @@ function plugin_autoinstall_dataproxy($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.1.4.1',
-        'pi_gl_version'   => '1.4.0',
-        'pi_homepage'     => 'http://mystral-kk.net/'
+        'pi_version'      => $_DPXY_CONF['pi_version'],
+        'pi_gl_version'   => $_DPXY_CONF['gl_version'],
+        'pi_homepage'     => $_DPXY_CONF['pi_url']
     );
 
     $groups = array(
@@ -161,5 +165,3 @@ function plugin_postinstall_dataproxy($pi_name)
 
     return true;
 }
-
-?>
