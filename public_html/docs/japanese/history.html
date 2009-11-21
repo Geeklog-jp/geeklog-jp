@@ -17,6 +17,9 @@
 
 <p>1.6.1rc1以降の変更点:</p>
 <ul>
+  <li>It wasn't possible to email a user via their profile page - checked the wrong
+  field for '@' characters (cf. bug #0000992; reported by rayleigh) [Dirk]</li>
+  <li>Fixed use of wrong constant in unpacker.class.php [Blaine]</li>
   <li>古くなっていたヘルプファイルを更新し、コメント、ユーザによる投稿、ドラフト記事一覧についてヘルプファイルを追加しました。 [Dirk]</li>
   <li>インストール成功時にdb-config.phpとsiteconfig.phpのパーミッションを755に変更することを勧めていましたが、これらのファイルを実行する必要はないので644への変更を勧めるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1036">#0001036</a>) [Dirk]</li>
 </ul>
@@ -26,6 +29,8 @@
 
 <h3>静的ページプラグイン</h3>
 <ul>
+  <li>Content in curly braces in a static page was mistaken for template variables
+  in the static pages editor (bug #0001038) [Dirk]</li>
   <li>Tomさんのパッチを取り込む際に偶然取り込まれなかった、$_SP_CONF['includesearchcenterblocks']と$_SP_CONF['includesearchphp']オプションを処理するコードを追加しました。[Dirk]</li>
   <li>SP_render_content内の宣言されていない変数の参照を取り除きました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1032">#0001032</a>)[Dirk]</li>
 </ul>
