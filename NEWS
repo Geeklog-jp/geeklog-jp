@@ -1,6 +1,6 @@
 NEWS
 
-							2009年11月8日
+							2009年11月22日
 							Geeklog Japanese
 
 1. 概要
@@ -27,14 +27,14 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
     o 通常版と拡張版に同梱
 
-	calendarjp バージョン 1.1.1
+	calendarjp バージョン 1.1.1.1b1
 		Calendarプラグインを日本人ユーザー向けにローカライズ
 	japanize バージョン 1.0.5RC2
 		Geeklogを日本人流に構成
 
     o 拡張版に同梱
 
-	autotags バージョン 1.02jp2 (*)
+	autotags バージョン 1.02jp3
 		autotagsプラグインに日本語言語ファイルとタグ管理画面の
 		テンプレートを変更したものを追加・差し換え
 
@@ -44,7 +44,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	custommenu バージョン 0.4.3 (*)
 		メインメニュー(ヘッダーメニュー)を管理画面で設定
 
-	dataproxy バージョン 1.1.5
+	dataproxy バージョン 1.1.6
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供
 
@@ -52,7 +52,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		mysqldumpコマンドを使用せずにデータベースのバックアッ
 		プやリストアを実行
 
-	filemgmt バージョン 1.5.3-20090602 (*)
+	filemgmt バージョン 1.6.0.jp2
 		ファイル管理の機能を提供
 
 	forum バージョン 2.7.2.JPr5
@@ -61,10 +61,10 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	mycaljp バージョン 2.1.0
 		サイトカレンダーを提供
 
-	nmoxqrblock バージョン 1.0.0 (*)
+	nmoxqrblock バージョン 1.1.1 (*)
 		表示しているページのQRコードを表示するブロックを生成
 
-	nmoxtopicown バージョン1.0.0 (*)
+	nmoxtopicown バージョン1.0.10 (*)
 		トピックとその中の記事の所有者を変更する機能を提供
 
 	sitemap バージョン 1.1.8 (*)
