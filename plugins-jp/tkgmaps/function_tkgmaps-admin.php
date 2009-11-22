@@ -38,7 +38,7 @@ function edit_tkgmaps($mode='edit')
 		$retval = '';
 		$retval .= "<form action='{$_CONF['site_admin_url']}/plugins/tkgmaps/index.php' method='post'>" .LB;
 		$retval .= "	<div>Google API Key</div>".LB;
-		$retval .= "	<div><input name='googlemapsapikey' size='150' value='$googlemapsapikey' type='text'".XHTML.">".LB;
+		$retval .= "	<div><input name='googlemapsapikey' size='140' value='$googlemapsapikey' type='text'".XHTML.">".LB;
 		$retval .= "	</div>".LB;
 		$retval .= "	<div>".LB;
         if (version_compare(VERSION, '1.5.0') >= 0) {
