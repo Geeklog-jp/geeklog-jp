@@ -1,5 +1,12 @@
 $Id$
 
+2009-11-22  Masuko Koeda  <milk851>
+
+	* tkgmapsのGoogleMaps管理画面の編集で
+	  GoogleMaps API 入力画面のテキスト入力フィールドの横幅を
+	  適度なサイズに変更しました。
+
+
 2009-11-21  mystral-kk <mystral-kk>
 
 	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
@@ -37,6 +44,7 @@ $Id$
 	* japanese_utf-8.php内のピングバックの説明外部リンクを英語から日本語に変更
 
 2009-11-17  Masuko Koeda  <milk851>
+
 	* ProfessionalCSSテーマのprofessionalコンパチブルスタイルシートに追加された
 	  スタイルで必要なスタイルのみ
 	  テーマWAIproCSSにも追加しました。
@@ -49,6 +57,7 @@ $Id$
 	  (Issue #126)
 
 2009-11-16  Masuko Koeda  <milk851>
+
 	* テーマWAIproCSSもテーマProfessionalCSSで"絞込み検索"でタイトルのみの
 	  モードの状態を維持しなかったバグ修正への取り込み漏れがあったので追加された
 	  のとprofessionalコンパチブルスタイルで足りないスタイルと
@@ -99,6 +108,7 @@ $Id$
 	  マージしました。
 
 2009-11-12  Masuko Koeda  <milk851>
+
 	* テーマProfessionalCSSに記事編集すべてと話題変種と
 	  メール送信フォームの追加部分label要素のfor属性の値に対する
 	  id属性を追加しました。
@@ -126,6 +136,7 @@ $Id$
 	  しました。
 
 2009-11-10  Masuko Koeda  <milk851>
+
 	* テーマ WAIproCSSの記事編集すべてに追加したメタタグ編集フォームの
 	  textarea要素にlabel要素のfor属性の値に対するid属性を追加しました。
 
