@@ -13,13 +13,12 @@
 <body>
 <h1>Geeklogの変更履歴(<a href="../history">public_html/docs/history</a>をHTML化&amp;翻訳したものです)</h1>
 
-<h2>Nov ??, 2009 (1.6.1)</h2>
+<h2>Nov 22, 2009 (1.6.1)</h2>
 
 <p>1.6.1rc1以降の変更点:</p>
 <ul>
-  <li>It wasn't possible to email a user via their profile page - checked the wrong
-  field for '@' characters (cf. bug #0000992; reported by rayleigh) [Dirk]</li>
-  <li>Fixed use of wrong constant in unpacker.class.php [Blaine]</li>
+  <li>プロフィールページのメールをユーザに送信する箇所で@チェックの不具合を修正しました。(cf. バグ <a href="http://project.geeklog.net/tracking/view.php?id=992">#0000992</a> reported by rayleigh) [Dirk]</li>
+  <li>unpacker.class.phpの間違った定数を修正しました。 [Blaine]</li>
   <li>古くなっていたヘルプファイルを更新し、コメント、ユーザによる投稿、ドラフト記事一覧についてヘルプファイルを追加しました。 [Dirk]</li>
   <li>インストール成功時にdb-config.phpとsiteconfig.phpのパーミッションを755に変更することを勧めていましたが、これらのファイルを実行する必要はないので644への変更を勧めるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1036">#0001036</a>) [Dirk]</li>
 </ul>
@@ -29,8 +28,7 @@
 
 <h3>静的ページプラグイン</h3>
 <ul>
-  <li>Content in curly braces in a static page was mistaken for template variables
-  in the static pages editor (bug #0001038) [Dirk]</li>
+  <li>静的ページエディターでのテーマ変数処理の不具合を修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1038"> #0001038</a>) [Dirk]</li>
   <li>Tomさんのパッチを取り込む際に偶然取り込まれなかった、$_SP_CONF['includesearchcenterblocks']と$_SP_CONF['includesearchphp']オプションを処理するコードを追加しました。[Dirk]</li>
   <li>SP_render_content内の宣言されていない変数の参照を取り除きました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1032">#0001032</a>)[Dirk]</li>
 </ul>
