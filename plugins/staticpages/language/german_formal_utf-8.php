@@ -38,7 +38,7 @@ global $LANG32;
 
 $LANG_STATIC = array(
     'newpage' => 'Neue Seite',
-    'adminhome' => 'Kommandozentrale',
+    'adminhome' => 'Schaltzentrale',
     'staticpages' => 'Statische Seiten',
     'staticpageeditor' => 'Editor für Statische Seiten',
     'writtenby' => 'Autor',
@@ -112,11 +112,11 @@ $LANG_STATIC = array(
     'limit_results' => 'Ergebnisse einschränken',
     'search' => 'Suchen',
     'submit' => 'Absenden',
-    'no_new_pages' => 'No new pages',
-    'pages' => 'Pages'
+    'no_new_pages' => 'Keine neuen Seiten',
+    'pages' => 'SEITEN'
 );
 
-$PLG_staticpages_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_staticpages_MESSAGE15 = 'Ihr Kommentar wurde gespeichert, muss aber noch von einem Moderator freigegeben werden.';
 $PLG_staticpages_MESSAGE19 = 'Seite wurde gespeichert.';
 $PLG_staticpages_MESSAGE20 = 'Seite wurde gelöscht';
 
@@ -143,15 +143,15 @@ $LANG_confignames['staticpages'] = array(
     'default_permissions' => 'Grundeinstellungen Statische Seiten',
     'aftersave' => 'Nach dem Speichern der Seiten',
     'atom_max_items' => 'Max. Seiten in Webservices News-Feed',
-    'meta_tags' => 'Enable Meta Tags',
-    'newstaticpagesinterval' => 'New Static Page Interval',
-    'hidenewstaticpages' => 'Hide New Static Pages',
-    'title_trim_length' => 'Title Trim Length',
-    'includecenterblocks' => 'Include Center Block Static Pages',
-    'includephp' => 'Include Static Pages with PHP',
-    'includesearch' => 'Enable Static Pages in Search',
-    'includesearchcenterblocks' => 'Include Center Block Static Pages',
-    'includesearchphp' => 'Include Static Pages with PHP'
+    'meta_tags' => 'Meta-Tags verwenden',
+    'newstaticpagesinterval' => 'Zeitabstand für neue Seiten',
+    'hidenewstaticpages' => 'Neue Seiten ausblenden',
+    'title_trim_length' => 'Titel abschneiden nach',
+    'includecenterblocks' => 'Centerblock-Seiten berücksichtigen',
+    'includephp' => 'Seiten mit PHP berücksichtigen',
+    'includesearch' => 'Statische Seiten durchsuchen',
+    'includesearchcenterblocks' => 'Centerblock-Seiten berücksichtigen',
+    'includesearchphp' => 'Seiten mit PHP berücksichtigen'
 );
 
 $LANG_configsubgroups['staticpages'] = array(
@@ -160,8 +160,8 @@ $LANG_configsubgroups['staticpages'] = array(
 
 $LANG_fs['staticpages'] = array(
     'fs_main' => 'Statische Seiten Haupteinstellungen',
-    'fs_whatsnew' => 'What\'s New Block',
-    'fs_search' => 'Search Results',
+    'fs_whatsnew' => 'Was-ist-neu-Block',
+    'fs_search' => 'Suchergebnisse',
     'fs_permissions' => 'Grundeinstellungen Rechte'
 );
 
@@ -171,7 +171,7 @@ $LANG_configselects['staticpages'] = array(
     1 => array('Ja' => true, 'Nein' => false),
     2 => array('Datum' => 'date', 'Seiten-ID' => 'id', 'Titel' => 'title'),
     3 => array('Datum' => 'date', 'Seiten-ID' => 'id', 'Titel' => 'title', 'Menüpunkt' => 'label'),
-    9 => array('Zur Seite weiterleiten' => 'item', 'Liste anzeigen' => 'list', 'Startseite' => 'home', 'Kommandozentrale' => 'admin'),
+    9 => array('Zur Seite weiterleiten' => 'item', 'Liste anzeigen' => 'list', 'Startseite' => 'home', 'Schaltzentrale' => 'admin'),
     12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3)
 );
 
