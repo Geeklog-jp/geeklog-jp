@@ -395,7 +395,8 @@ $LANG04 = array(
 );
 
 ###############################################################################
-# Customize if need to modify the Tabbed navbar MyAccount panels used. Array index key matches preference div id
+# Customize if need to modify the Tabbed navbar MyAccount panels used.
+# Array index key matches preference div id
 
 $LANG_MYACCOUNT = array(
     'pe_preview' => 'プレビュー',

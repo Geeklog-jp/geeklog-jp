@@ -56,8 +56,8 @@ $LANG_POLLS = array(
     'upgrade1' => 'Neue Version des Umfrage-Plugins installiert. Bitte',
     'upgrade2' => 'upgraden',
     'editinstructions' => 'Bitte für die Umfrage-ID mindestens eine Frage und zwei Antworten eintragen.',
-    'pollclosed' => 'This poll is closed for voting.',
-    'pollhidden' => 'You have already voted. This poll results will only be shown when voting is closed.',
+    'pollclosed' => 'Diese Umfrage ist abgeschlossen.',
+    'pollhidden' => 'Du hast schon abgestimmt. Die Ergebnisse dieser Umfrage werden veröffentlicht, sobald sie abgeschlossen ist.',
     'start_poll' => 'Zur Umfrage'
 );
 
@@ -88,7 +88,7 @@ $LANG25 = array(
     21 => 'Kein Zugang',
     22 => "You are trying to access a poll that you don't have rights to.  This attempt has been logged. Please <a href=\"{$_CONF['site_admin_url']}/poll.php\">go back to the poll administration screen</a>.",
     23 => 'Neue Umfrage',
-    24 => 'Kommandozentrale',
+    24 => 'Schaltzentrale',
     25 => 'Ja',
     26 => 'Nein',
     27 => 'Editieren',
@@ -107,7 +107,7 @@ $LANG25 = array(
     40 => 'Alle Antworten zu dieser Umfrage ansehen'
 );
 
-$PLG_polls_MESSAGE15 = 'Your comment has been submitted for review and will be published when approved by a moderator.';
+$PLG_polls_MESSAGE15 = 'Dein Kommentar wurde gespeichert, muss aber noch von einem Moderator freigegeben werden.';
 $PLG_polls_MESSAGE19 = 'Umfrage wurde gespeichert.';
 $PLG_polls_MESSAGE20 = 'Umfrage wurde gelöscht.';
 
@@ -132,7 +132,7 @@ $LANG_confignames['polls'] = array(
     'delete_polls' => 'Umfragen mit User löschen?',
     'aftersave' => 'Nach speichern der Umfrage',
     'default_permissions' => 'Grundeinstellungen Umfragen',
-    'meta_tags' => 'Enable Meta Tags'
+    'meta_tags' => 'Meta-Tags verwenden'
 );
 
 $LANG_configsubgroups['polls'] = array(
@@ -149,7 +149,7 @@ $LANG_configselects['polls'] = array(
     0 => array('Ja' => 1, 'Nein' => 0),
     1 => array('Ja' => true, 'Nein' => false),
     2 => array('Wie eingereicht' => 'submitorder', 'Nach Abstimmung' => 'voteorder'),
-    9 => array('Zur Umfrage weiterleiten' => 'item', 'Admin Liste anzeigen' => 'list', 'Öffentliche Liste anzeigen' => 'plugin', 'Startseite anzeigen' => 'home', 'Kommandozentrale' => 'admin'),
+    9 => array('Zur Umfrage weiterleiten' => 'item', 'Admin Liste anzeigen' => 'list', 'Öffentliche Liste anzeigen' => 'plugin', 'Startseite anzeigen' => 'home', 'Schaltzentrale' => 'admin'),
     12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3)
 );
 
