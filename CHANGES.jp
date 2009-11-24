@@ -1,5 +1,11 @@
 $Id$
 
+2009-11-24  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSS:Internet Explorer6で記事にblockquote要素とpre要素が
+	  ある場合に横スクロールバーが出ていたので、スタイルを修正しました。
+	  上記の修正をREADMEに記載し、確認したブラウザのバージョンを修正しました。
+
 2009-11-24  Tetsuko Komma  <ivy>
 	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
 	  問題(Issue #124)に対し，config.phpに追加対応しました。
