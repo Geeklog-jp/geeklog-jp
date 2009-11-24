@@ -1,5 +1,9 @@
 $Id$
 
+2009-11-24  Tetsuko Komma  <ivy>
+	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
+	  問題(Issue #124)に対し，config.phpに追加対応しました。
+
 2009-11-23  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.6.1-jp-1.0beta2をリリースします。
