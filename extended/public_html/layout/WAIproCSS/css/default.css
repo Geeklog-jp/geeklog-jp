@@ -109,7 +109,7 @@ p {
 
 pre {
   display: block;
-  margin: 1em 20px;
+  margin: 1em 0 1em 10px;
   padding: 0 8px 8px;
   border: 1px solid #C4C4C4;
   font-family: monospace;
@@ -118,7 +118,7 @@ pre {
 
 blockquote {
   display: block;
-  margin: 1.12em 40px;
+  margin: 1.12em 0 1.12em 20px;
   padding: 0 8px;
   border: 6px dotted #D8D8D8;
 }
