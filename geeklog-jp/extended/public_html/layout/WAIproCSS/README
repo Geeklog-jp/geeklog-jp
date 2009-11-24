@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera9.6のズーム200%、 Firefox3.0.11、3.0.12、3.5.1の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome2.0.172.31のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.2のテキストのみ拡大×４及び拡大×４、Firefox3.5.1の文字サイズだけ拡大×４」で確認)
+(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.01のズーム200%、 Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome3.0.195.33のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -364,7 +364,8 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4.1(2009-11-16)
+■Ver.2.4.1(2009-11-22)
+  ・Internet Explorer6で記事にblockquote要素とpre要素がある場合に横スクロールバーが出ていたので、スタイルを修正しました。(*/css/default.css)
   ・"絞込み検索"でタイトルのみのモードの状態を維持しなかったバグ修正への取り込み漏れがあったので追加しました。(*/search/searchform.thtml)
   ・professionalコンパチブルスタイルで足りないスタイル(general formatting classes)とセキュリティートークンの警告メッセージ表示のスタイルとマイアカウントのコンテンツ設定のスタイルを追加し、背景色と文字色のコンストラストを考慮し文字色或いは背景色の修正をしました。(*/css/compatible.css)
   ・友だちに記事を送信するページとユーザーへのメール送信ページで「自分宛にコピーを送信」のラベル部分をクリックしてもチェックが入るように修正しました。(*/profiles/contactauthorform.thtml,*/profiles/contactuserform.thtml)
