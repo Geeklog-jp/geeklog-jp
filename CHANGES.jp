@@ -2,9 +2,15 @@ $Id$
 
 2009-11-24  Masuko Koeda  <milk851>
 
+	* テーマWAIproCSSのREADMEに音声読み上げソフト利用者の方が解りやすいように
+	  テーマ以外での変更箇所を追記しました。
+
+2009-11-24  Masuko Koeda  <milk851>
+
 	* テーマWAIproCSS:Internet Explorer6で記事にblockquote要素とpre要素が
 	  ある場合に横スクロールバーが出ていたので、スタイルを修正しました。
-	  上記の修正をREADMEに記載し、確認したブラウザのバージョンを修正しました。
+
+	* 上記の修正をREADMEに記載し、確認したブラウザのバージョンを修正しました。
 
 2009-11-24  Tetsuko Komma  <ivy>
 	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
