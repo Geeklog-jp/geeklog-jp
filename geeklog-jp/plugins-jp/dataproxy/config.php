@@ -36,6 +36,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
 }
 
 global $_DB_table_prefix, $_TABLES;
+global $_DPXY_CONF;
 
 // set Plugin Table Prefix the Same as Geeklogs
 
