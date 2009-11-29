@@ -1,5 +1,12 @@
 $Id$
 
+2009-11-29  Tetsuko Komma  <ivy>
+	* 携帯のカスタム関数custom_cellular.phpで，3G携帯の場合，テーマmobile_3gを
+	  利用するよう，モードを復活させました。
+	  さらに，Operaの場合にのみ，3Gテーマを利用しないように設定してエラーを回避
+	  させました。
+	* 携帯テーマmobile_3gの利用されていないcssファイルをすべて削除しました。
+
 2009-11-24  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSのREADMEに音声読み上げソフト利用者の方が解りやすいように
