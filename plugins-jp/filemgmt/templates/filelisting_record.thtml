@@ -1,3 +1,5 @@
+<!-- plugins/filemgmt/templates/filelisting_record.thtml { -->
+
 <tr class="pluginRow{cssid}">
     <td style="margin:0px;padding:0px;">
         <table border="0" cellspacing="0" cellpadding="0" class="plugin" style="width:100%; margin:0px; padding:0px;">
@@ -15,23 +17,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3">{file_description}</td>
+                            <td colspan="3"><a href="{snapshot_url}"><div style="display:{show_snapshoticon};"><img src="{snapshot_url}" width="200" style="float:left; border:1px solid #aaa; margin:0 10px 5px 0"></a></div>{file_description}</td>
                         </tr>
                         <tr>
-                            <!-- Enable one the following two table columns to change the filelisting format or alter to meet your needs -->
-
-                            <!-- 1) Enable this row if you just want to show the icon that has to be clicked to view snapshot image -->
-                            <td style="width:15%; display:{show_snapshoticon};">
-                                <a href="{snapshot_url}" {target} title="{LANG_CLICK2SEE}">{snapshot_icon}{LANG_SCREENSHOT}</a>
-                            </td>
-
-                            <!-- 2) Enable this row if you just want to show the a thumbnail image of the download snapshot image -->
-                            <!--
-                            <td style="width:15%; display:{show_snapshoticon};">
-                                <img src="{snapshot_url}" width="75" height="75"{xhtml} alt=""{xhtml}>
-                            </td>
-                            -->
-
                             <td style="width:15%; display:{show_snapshoticon_na};">{LANG_MD_SCREENSHOT_NA}</td>
                             <td colspan="2" style="width:85%; text-align:right;"><b>{LANG_VERSION}:</b>&nbsp;
                                 {version}&nbsp;&nbsp;<b>{LANG_SUBMITDATE}:</b>&nbsp;{datetime}&nbsp;&nbsp;&nbsp;<b>{LANG_RATING}</b>{rating}{votestring}&nbsp;
@@ -56,3 +44,6 @@
         </table>
     </td>
 </tr>
+
+<!-- } plugins/filemgmt/templates/filelisting_record.thtml -->
+
