@@ -120,8 +120,8 @@ function _mobile_parse_ua()
         }
     }
 
-    // Opera mobile の場合は，3Gをfalseにするために，機種をnon 3Gにセットする。
-    if( strpos( $_SERVER["HTTP_USER_AGENT"], "Opera")){
+    // Opera,Safari,Chrome の場合は，3Gをfalseにするために，機種をnon 3Gにセットする。
+    if( strpos( $_SERVER["HTTP_USER_AGENT"], "Opera") || strpos( $_SERVER["HTTP_USER_AGENT"], "Safari") || strpos( $_SERVER["HTTP_USER_AGENT"], "Chrome") ){
         $CUSTOM_MOBILE_UA = 1;
     }
 
