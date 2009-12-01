@@ -17,10 +17,23 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="3"><a href="{snapshot_url}"><div style="display:{show_snapshoticon};"><img src="{snapshot_url}" width="200" style="float:left; border:1px solid #aaa; margin:0 10px 5px 0"></a></div>{file_description}</td>
+                            <td colspan="3">
+
+<!-- Enable one the following two table columns to change the filelisting format or alter to meet your needs { 
+
+<div style="display:{show_snapshoticon};"><a href="{snapshot_url}"><img src="{snapshot_url}" width="200" style="float:left; border:1px solid #aaa; margin:0 10px 5px 0"></a></div>
+
+ } Enable one the following two table columns to change the filelisting format or alter to meet your needs -->
+
+                                {file_description}
+
+                            </td>
                         </tr>
                         <tr>
-                            <td style="width:15%; display:{show_snapshoticon_na};">{LANG_MD_SCREENSHOT_NA}</td>
+                            <td style="width:15%; display:{show_snapshoticon};">
+                                <a href="{snapshot_url}" {target} title="{LANG_CLICK2SEE}">{snapshot_icon}{LANG_SCREENSHOT}</a>
+                            </td>
+
                             <td colspan="2" style="width:85%; text-align:right;"><b>{LANG_VERSION}:</b>&nbsp;
                                 {version}&nbsp;&nbsp;<b>{LANG_SUBMITDATE}:</b>&nbsp;{datetime}&nbsp;&nbsp;&nbsp;<b>{LANG_RATING}</b>{rating}{votestring}&nbsp;
                                 {begin_dlreport_link}<img src="{site_url}/filemgmt/images/counter.gif" width="14" height="14" style="border:none; text-align:middle;" title="{download_times}" alt=""{xhtml}>{end_dlreport_link}&nbsp;{download_count}&nbsp;&nbsp;
