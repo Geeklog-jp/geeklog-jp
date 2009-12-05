@@ -45,16 +45,28 @@ $display .= COM_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
+$msg = '';
+if (isset($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF96['ipbanned']);
+}
+if ($msg==2) {
+    $display .= COM_showMessageText($LANG_GF96['ipunbanned']);
+}
+
 $display .= COM_startBlock($LANG_GF96['gfipman']);
 $display .= forum_Navbar($navbarMenu,$LANG_GF06['7']);
 
 if (($op == 'banip') && ($ip != '')) {
     if ($_POST['sure'] == 'yes') {
         DB_query("INSERT INTO {$_TABLES['gf_banned_ip']} (host_ip) VALUES ('$ip')");
-        $display .= forum_statusMessage($LANG_GF96['ipbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipbanned']);
-        $display .= COM_endBlock();
-        $display .= adminfooter();
-        $display .= COM_siteFooter();
+//        $display .= forum_statusMessage($LANG_GF96['ipbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipbanned']);
+//        $display .= COM_endBlock();
+//        $display .= adminfooter();
+//        $display .= COM_siteFooter();
+        $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/ips.php?msg=1');
         COM_output($display);
         exit;
     }
@@ -100,10 +112,11 @@ if (($op == 'banip') && ($ip != '')) {
 
 if (($op == 'unban') && ($ip != '') && SEC_checkToken()) {
     DB_query ("DELETE FROM {$_TABLES['gf_banned_ip']} WHERE (host_ip='$ip')");
-    $display .= forum_statusMessage($LANG_GF96['ipunbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipunbanned']);
-    $display .= COM_endBlock();
-    $display .= adminfooter();
-    $display .= COM_siteFooter();
+//    $display .= forum_statusMessage($LANG_GF96['ipunbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipunbanned']);
+//    $display .= COM_endBlock();
+//    $display .= adminfooter();
+//    $display .= COM_siteFooter();
+    $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/ips.php?msg=2');
     COM_output($display);
     exit;
 }

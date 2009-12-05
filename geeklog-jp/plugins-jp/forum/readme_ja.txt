@@ -115,3 +115,7 @@ JPr4.2  #edited by dengen
 ・forum用テンプレートをpublic_html/forum/の下に移した。（テーマディレクトリの下にforum用テンプレートを入れる必要がなくなる）
 ・public_html/forum/includeディレクトリをsystem/plugins/forumの下に移した。（よりセキュアに）
 
+2.7.2.JPr6  #edited by dengen
+
+・ユーザーエージェントがケータイと判定された場合、１ページ当りリスト件数や投稿のソート順を変更するようにした。
+・設定変更や投稿を行った直後に、その結果を表示するための一時的なページの表示を廃止した。（より軽快な操作が可能となる）
