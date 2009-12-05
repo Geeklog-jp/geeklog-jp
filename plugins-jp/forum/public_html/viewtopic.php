@@ -84,6 +84,36 @@ if ($_REQUEST['onlytopic'] == 1) {
     $display .= gf_siteHeader($subject);
     // Debug Code to show variables
     $display .= gf_showVariables();
+
+    $msg = '';
+    if (isset($_GET['msg'])) {
+        $msg = COM_applyFilter($_GET['msg'], true);
+    }
+    if ($msg==1) {
+        $display .= COM_showMessageText($LANG_GF02['msg19']);
+    }
+    if ($msg==2) {
+        $display .= COM_showMessageText($LANG_GF02['msg142']);
+    }
+    if ($msg==3) {
+        $display .= COM_showMessageText($LANG_GF02['msg40']);
+    }
+    if ($msg==4) {
+        $display .= COM_showMessageText($LANG_GF02['msg146']);
+    }
+    if ($msg==5) {
+        $display .= COM_showMessageText($LANG_GF02['msg55']);
+    }
+    if ($msg==6) {
+        $display .= COM_showMessageText($LANG_GF02['msg56']);
+    }
+    if ($msg==7) {
+        $display .= COM_showMessageText($LANG_GF02['msg183']);
+    }
+    if ($msg==8) {
+        $display .= COM_showMessageText($LANG_GF02['msg163']);
+    }
+
     // Now display the forum header
     ForumHeader($forum, $showtopic, $display);
 }
@@ -103,20 +133,27 @@ $sql .= "WHERE a.id=$showtopic";
 $viewtopic = DB_fetchArray(DB_query($sql),false);
 $numpages = ceil(($viewtopic['replies'] + 1) / $show);
 
-if ($_REQUEST['lastpost']) {
-    if ($page == 0) {
-        $page = $numpages;
+if ($CONF_FORUM['sort_order_asc']) {
+    if ($_REQUEST['lastpost']) {
+        if ($page == 0) {
+            $page = $numpages;
+        }
+        $order = 'ASC';
+    } else {
+        if ($page == 0) {
+            $page = 1;
+        }
+        if ($_REQUEST['onlytopic'] == 1) {
+            $order = 'DESC';
+        } else {
+            $order = 'ASC';
+        }
     }
-    $order = 'ASC';
 } else {
     if ($page == 0) {
         $page = 1;
     }
-    if ($_REQUEST['onlytopic'] == 1) {
-        $order = 'DESC';
-    } else {
-        $order = 'ASC';
-    }
+    $order = 'DESC';
 }
 if ($page > 1) {
     $offset = ($page - 1) * $show;

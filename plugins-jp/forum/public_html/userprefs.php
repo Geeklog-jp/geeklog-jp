@@ -48,6 +48,13 @@ $display = '';
 
 // Display Common headers
 $display .= gf_siteHeader();
+$msg = '';
+if (isset($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF92['setsavemsg']);
+}
 
 // SAVE SETTINGS
 if (isset($_POST['submit']) && SEC_checkToken()) {
@@ -76,8 +83,9 @@ if (isset($_POST['submit']) && SEC_checkToken()) {
         showiframe='$xshowiframe'
      WHERE uid='{$_USER['uid']}'");
 
-    $display .= forum_statusMessage($LANG_GF92['setsavemsg'],$_CONF['site_url'] .'/forum/userprefs.php',$LANG_GF92['setsavemsg']);
-    $display .= gf_siteFooter();
+//    $display .= forum_statusMessage($LANG_GF92['setsavemsg'],$_CONF['site_url'] .'/forum/userprefs.php',$LANG_GF92['setsavemsg']);
+//    $display .= gf_siteFooter();
+    $display = COM_refresh($_CONF['site_url'] .'/forum/userprefs.php?msg=1');
     COM_output($display);
     exit;
 }

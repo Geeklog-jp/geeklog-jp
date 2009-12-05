@@ -373,7 +373,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
 }
 
 function forum_getmodFunctions($showtopic) {
-    global $_USER,$_TABLES,$LANG_GF03,$LANG_GF01,$page;
+    global $_USER,$_CONF,$_TABLES,$LANG_GF03,$LANG_GF01,$page;
 
     $retval = '';
     $options = '';
@@ -398,7 +398,7 @@ function forum_getmodFunctions($showtopic) {
     }
 
     if ($options != '') {
-        $retval .= '<form action="moderation.php" method="post" style="margin:0px;"><div><select name="modfunction">';
+        $retval .= '<form action="'.$_CONF['site_url'].'/forum/moderation.php" method="post" style="margin:0px;"><div><select name="modfunction">';
         $retval .= $options;
 
         if ($showtopic['pid'] == 0) {

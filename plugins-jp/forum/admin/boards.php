@@ -48,6 +48,35 @@ $display .= COM_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
+$msg = '';
+if (isset($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF93['catadded']);
+}
+if ($msg==2) {
+    $display .= COM_showMessageText($LANG_GF93['catdeleted']);
+}
+if ($msg==3) {
+    $display .= COM_showMessageText($LANG_GF93['catedited']);
+}
+if ($msg==4) {
+    $display .= COM_showMessageText($LANG_GF93['forumadded']);
+}
+if ($msg==5) {
+    $display .= COM_showMessageText($LANG_GF93['forumaddError']);
+}
+if ($msg==6) {
+    $display .= COM_showMessageText($LANG_GF93['forumdeleted']);
+}
+if ($msg==7) {
+    $display .= COM_showMessageText($LANG_GF93['forumordered']);
+}
+if ($msg==8) {
+    $display .= COM_showMessageText($LANG_GF93['forumedited']);
+}
+
 $display .= COM_startBlock($LANG_GF93['gfboard']);
 $display .= forum_Navbar($navbarMenu,$LANG_GF06['3']);
 
@@ -60,10 +89,11 @@ if ($type == "category") {
             $name = gf_preparefordb($_POST['name'],'text');
             $dscp = gf_preparefordb($_POST['dscp'],'text');
             DB_query("INSERT INTO {$_TABLES['gf_categories']} (cat_order,cat_name,cat_dscp) VALUES ('$catorder','$name','$dscp')");
-            $display .= forum_statusMessage($LANG_GF93['catadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catadded']);
-            $display .= COM_endBlock();
-            $display .= adminfooter();
-            $display .= COM_siteFooter();
+//            $display .= forum_statusMessage($LANG_GF93['catadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catadded']);
+//            $display .= COM_endBlock();
+//            $display .= adminfooter();
+//            $display .= COM_siteFooter();
+            $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=1');
             COM_output($display);
             exit();
         } else {
@@ -95,10 +125,11 @@ if ($type == "category") {
         if (($confirm == 1) && SEC_checkToken()) {
             DB_query("DELETE FROM {$_TABLES['gf_categories']} WHERE id='$id'");
             DB_query("DELETE FROM {$_TABLES['gf_forums']} WHERE forum_cat='$id'");
-            $display .= forum_statusMessage($LANG_GF93['catdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catdeleted']);
-            $display .= COM_endBlock();
-            $display .= adminfooter();
-            $display .= COM_siteFooter();
+//            $display .= forum_statusMessage($LANG_GF93['catdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catdeleted']);
+//            $display .= COM_endBlock();
+//            $display .= adminfooter();
+//            $display .= COM_siteFooter();
+            $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=2');
             COM_output($display);
             exit();
         } else {
@@ -128,9 +159,10 @@ if ($type == "category") {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
         DB_query("UPDATE {$_TABLES['gf_categories']} SET cat_order='$catorder',cat_name='$name',cat_dscp='$dscp' WHERE id='$id'");
-        $display .= forum_statusMessage($LANG_GF93['catedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catedited']);
-        $display .= COM_endBlock();
-        $display .= COM_siteFooter();
+//        $display .= forum_statusMessage($LANG_GF93['catedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['catedited']);
+//        $display .= COM_endBlock();
+//        $display .= COM_siteFooter();
+        $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=3');
         COM_output($display);
         exit();
 
@@ -189,13 +221,15 @@ if ($type == "forum") {
             $privgroup = COM_applyFilter($_POST['privgroup'],true);
             if ($privgroup == 0) $privgroup = 2;
             if (forum_addForum($name,$category,$dscp,$order,$privgroup,$is_readonly,$is_hidden,$no_newposts) > 0 ) {
-                $display .= forum_statusMessage($LANG_GF93['forumadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumadded']);
+//                $display .= forum_statusMessage($LANG_GF93['forumadded'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumadded']);
+                $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=4');
             } else {
-                $display .= forum_statusMessage($LANG_GF93['forumaddError'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumaddError']);
+//                $display .= forum_statusMessage($LANG_GF93['forumaddError'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumaddError']);
+                $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=5');
             }
-            $display .= COM_endBlock();
-            $display .= adminfooter();
-            $display .= COM_siteFooter();
+//            $display .= COM_endBlock();
+//            $display .= adminfooter();
+//            $display .= COM_siteFooter();
             COM_output($display);
             exit();
 
@@ -253,10 +287,11 @@ if ($type == "forum") {
     } elseif ($mode == $LANG_GF01['DELETE']) {
         if (($confirm == 1) && SEC_checkToken()) {
             forum_deleteForum($id);
-            $display .= forum_statusMessage($LANG_GF93['forumdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumdeleted']);
-            $display .= COM_endBlock();
-            $display .= adminfooter();
-            $display .= COM_siteFooter();
+//            $display .= forum_statusMessage($LANG_GF93['forumdeleted'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumdeleted']);
+//            $display .= COM_endBlock();
+//            $display .= adminfooter();
+//            $display .= COM_siteFooter();
+            $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=6');
             COM_output($display);
             exit();
         } else {
@@ -284,9 +319,10 @@ if ($type == "forum") {
     } elseif (($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') && SEC_checkToken()) {
         $order = COM_applyFilter($_POST['order'],true);
         DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_order='$order' WHERE forum_id='$id'");
-        $display .= forum_statusMessage($LANG_GF93['forumordered'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumordered']);
-        $display .= COM_endBlock();
-        $display .= COM_siteFooter();
+//        $display .= forum_statusMessage($LANG_GF93['forumordered'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumordered']);
+//        $display .= COM_endBlock();
+//        $display .= COM_siteFooter();
+        $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=7');
         COM_output($display);
         exit();
 
@@ -300,9 +336,10 @@ if ($type == "forum") {
         if ($privgroup == 0) $privgroup = 2;
         DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_name='$name',forum_dscp='$dscp', grp_id=$privgroup,
                 is_hidden='$is_hidden', is_readonly='$is_readonly', no_newposts='$no_newposts' WHERE forum_id='$id'");
-        $display .= forum_statusMessage($LANG_GF93['forumedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumedited']);
-        $display .= COM_endBlock();
-        $display .= COM_siteFooter();
+//        $display .= forum_statusMessage($LANG_GF93['forumedited'],$_CONF['site_admin_url'] .'/plugins/forum/boards.php',$LANG_GF93['forumedited']);
+//        $display .= COM_endBlock();
+//        $display .= COM_siteFooter();
+        $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=8');
         COM_output($display);
         exit();
 

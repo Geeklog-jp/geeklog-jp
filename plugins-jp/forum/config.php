@@ -209,4 +209,18 @@ if ($pi_version >= 2.6) {
 
 }
 
+// When this value is true, set the sort order of the topic view list in ASC.
+$CONF_FORUM['sort_order_asc'] = true;
+
+// When the user agent is mobile, overwrite setting specially.
+if (function_exists(CUSTOM_MOBILE_is_cellular) && CUSTOM_MOBILE_is_cellular()) {
+    $CONF_FORUM['sort_order_asc'] = false;
+    $CONF_FORUM['show_topics_perpage'] = 5;
+    $CONF_FORUM['show_posts_perpage'] = 5;
+    $CONF_FORUM['centerblock_numposts'] = 5;
+    $CONF_FORUM['show_searches_perpage'] = 5;
+    $CONF_FORUM['show_messages_perpage'] = 5;
+    $CONF_FORUM['sideblock_numposts'] = 5;
+}
+
 ?>
