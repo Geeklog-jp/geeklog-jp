@@ -57,6 +57,14 @@ $display .= gf_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
+$msg = '';
+if (isset ($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF02['msg146']);
+}
+
 // NOTIFY CODE -> SAVE
 if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
     $sql = "SELECT * FROM {$_TABLES['gf_watch']} WHERE ((topic_id='$id') AND (uid='{$_USER['uid']}') OR ";
@@ -77,25 +85,29 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
             }  else {
                 DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
             }
-            $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+//            $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+            $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=2&amp;showtopic=$id");
         } else {
-            $display .= forum_statusMessage($LANG_GF02['msg40'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg40']);
+//            $display .= forum_statusMessage($LANG_GF02['msg40'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg40']);
+            $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=3&amp;showtopic=$id");
         }
     } else {
         DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
         $nid = -$id;
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id = '$nid'");          
-        $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+//        $display .= forum_statusMessage($LANG_GF02['msg142'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$id",$LANG_GF02['msg142']);
+        $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=2&amp;showtopic=$id");
     }
-    $display .= gf_siteFooter();
+//    $display .= gf_siteFooter();
     COM_output($display);
     exit();
 
 } elseif (($_REQUEST['submit'] == 'delete') AND ($id != 0))  {
     DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
     $notifytype = COM_applyFilter($_GET['filter']);    
-    $display .= forum_statusMessage($LANG_GF02['msg42'], "{$_CONF['site_url']}/forum/notify.php?filter=$notifytype", $LANG_GF02['msg42']);
-    $display .= gf_siteFooter();
+//    $display .= forum_statusMessage($LANG_GF02['msg42'], "{$_CONF['site_url']}/forum/notify.php?filter=$notifytype", $LANG_GF02['msg42']);
+//    $display .= gf_siteFooter();
+    $display = COM_refresh($_CONF['site_url'] . "/forum/notify.php?msg=1&amp;filter=$notifytype");
     COM_output($display);
     exit();
 
@@ -109,8 +121,9 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
     } else {
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
     }
-    $display .= forum_statusMessage($LANG_GF02['msg146'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$topic",$LANG_GF02['msg146']);
-    $display .= gf_siteFooter();
+//    $display .= forum_statusMessage($LANG_GF02['msg146'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$topic",$LANG_GF02['msg146']);
+//    $display .= gf_siteFooter();
+    $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=4&amp;showtopic=$topic");
     COM_output($display);
     exit();
 }
