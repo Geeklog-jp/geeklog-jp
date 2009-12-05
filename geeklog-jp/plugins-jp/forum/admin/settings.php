@@ -62,6 +62,13 @@ function gf_RankSetting(&$template,$title,$help,$value1,$value2,$id) {
 
 $display = '';
 $display .= COM_siteHeader();
+$msg = '';
+if (isset ($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF92['setsavemsg']);
+}
 $display .= COM_startBlock($LANG_GF92['gfsettings']);
 $display .= forum_Navbar($navbarMenu,$LANG_GF06['2']);
 
@@ -167,11 +174,13 @@ if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
         sb_latestposts='$sb_latestposts'
     ");
 
-    $display .= forum_statusMessage($LANG_GF92['setsave'],"{$_CONF['site_admin_url']}/plugins/forum/settings.php",$LANG_GF92['setsavemsg']);
-    $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+//    $display .= forum_statusMessage($LANG_GF92['setsave'],"{$_CONF['site_admin_url']}/plugins/forum/settings.php",$LANG_GF92['setsavemsg']);
+//    $display .= COM_endBlock();
+//    $display .= COM_siteFooter();
+//    COM_output($display);
+    $display = COM_refresh($_CONF['site_admin_url'] . "/plugins/forum/settings.php?msg=1");
     COM_output($display);
-    exit();
+    exit;
 }
 
 $result = DB_query("SELECT * FROM {$_TABLES['gf_settings']}");
@@ -245,7 +254,7 @@ gf_RadioButtonSetting($settings,
             'allow_htmlsig',
             $CONF_FORUM['allow_HTML_signatures']);
 */
-
+/*
 gf_RadioButtonSetting($settings,
             $LANG_GF92['autorefresh'],
             $LANG_GF92['autorefreshdscp'],
@@ -256,6 +265,7 @@ gf_TextSetting($settings,
             $LANG_GF92['refreshdelaydscp'],
             'refreshdelay',
             $CONF_FORUM['autorefresh_delay']);
+*/
 gf_TextSetting($settings,
             $LANG_GF92['topicspp'],
             $LANG_GF92['topicsppdscp'],
@@ -456,6 +466,7 @@ $settings->set_var('gltoken_name', CSRF_TOKEN);
 $settings->set_var('gltoken', SEC_createToken());
 
 $settings->parse ('output', 'settings');
+
 $display .= $settings->finish ($settings->get_var('output'));
 
 $display .= COM_endBlock();

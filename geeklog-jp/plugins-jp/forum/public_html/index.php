@@ -110,6 +110,20 @@ $display .= gf_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
+$msg = '';
+if (isset($_GET['msg'])) {
+    $msg = COM_applyFilter($_GET['msg'], true);
+}
+if ($msg==1) {
+    $display .= COM_showMessageText($LANG_GF02['msg134'] . "<br" . XHTML . ">" . $LANG_GF02['msg135']);
+}
+if ($msg==2) {
+    $display .= COM_showMessageText($LANG_GF02['msg166']);
+}
+if ($msg==3) {
+    $display .= COM_showMessageText($LANG_GF02['msg55']);
+}
+
 if ($op == 'newposts' AND $_USER['uid'] > 1) {
     $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
@@ -472,7 +486,10 @@ if ($op == 'subscribe') {
         DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','0','{$_USER['uid']}', now() )");
         // Delete all individual topic notification records
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id > '0' " );
-        $display .= forum_statusMessage($LANG_GF02['msg134'],$_CONF['site_url'] .'/forum/index.php?forum=' .$forum,$LANG_GF02['msg135']);
+//        $display .= forum_statusMessage($LANG_GF02['msg134'],$_CONF['site_url'] .'/forum/index.php?forum=' .$forum,$LANG_GF02['msg135']);
+        $display = COM_refresh($_CONF['site_url'] .'/forum/index.php?msg=1&amp;forum=' .$forum);
+        COM_output($display);
+        exit();
     } else {
         $display .= BlockMessage($LANG_GF01['ERROR'],$LANG_GF02['msg136'],false);
     }
