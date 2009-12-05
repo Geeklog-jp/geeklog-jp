@@ -1,5 +1,9 @@
 $Id$
 
+2009-12-05  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのREADMEに仕様説明文を追記しました。
+
 2009-11-29  Tetsuko Komma  <ivy>
 	* 携帯のカスタム関数custom_cellular.phpで，3G携帯の場合，テーマmobile_3gを
 	  利用するよう，モードを復活させました。
