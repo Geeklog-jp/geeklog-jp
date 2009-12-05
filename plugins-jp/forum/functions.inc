@@ -842,6 +842,10 @@ function plugin_upgrade_forum() {
        case "2.7.2" :
              DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2.JPr5', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
              break;
+
+       case "2.7.2.JPr5" :
+             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2.JPr6', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
+             break;
     }
 
     /* Check if update completed and return a message number to be shown */
