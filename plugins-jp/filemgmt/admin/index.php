@@ -192,7 +192,7 @@ function listNewDownloads(){
             //@@@@@20080917add CSRF checks <----
             $display .= '<span style="padding-left:10px;">' . LB;
             $display .= '<input type="submit" value="' . _MD_APPROVE . '" onclick=\'this.form.op.value="approve"\'' . XHTML . '></span>' . LB;
-            $display .= '</td><td style="padding:10px;">Download to preview:&nbsp;<a href="' . $tempfileurl . '">tempfile</a></td></tr>' . LB;
+            $display .= '</td><td style="padding:10px;">' . _MD_DLTEMPFILE . '<a href="' . $tempfileurl . '">' . _MD_TEMPFILE . '</a></td></tr>' . LB;
             if ($numrows > 1 and $i < $numrows ) {
                $i++;
             }
