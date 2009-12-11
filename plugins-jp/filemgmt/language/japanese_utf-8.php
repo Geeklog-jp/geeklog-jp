@@ -396,7 +396,7 @@ $LANG_configsections['filemgmt'] = array(
 );
 
 $LANG_confignames['filemgmt'] = array(
-    'mydownloads_popular'         => '人気を判断するヒット数のしきい値',
+    'mydownloads_popular'         => '人気を判断する閲覧数のしきい値',
     'mydownloads_newdownloads'    => '新着ファイルの表示件数',
     'mydownloads_perpage'         => '1ページあたりのファイル表示件数',
 
