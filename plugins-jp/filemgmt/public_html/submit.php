@@ -38,6 +38,29 @@ include_once($_CONF[path_html]."filemgmt/include/xoopstree.php");
 include_once($_CONF[path_html]."filemgmt/include/errorhandler.php");
 include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
 
+/**
+* Send an email notification for a new submission.
+*
+* @param    array   $A      submission data
+*
+*/
+function filemgmt_sendNotification($A)
+{
+    global $_CONF, $LANG08;
+
+    $mailbody = _MD_SUBMITTER . $A['username'] . "\n"
+              . _MD_DLFILENAME . $A['title'] . "\n"
+              . _MD_CATEGORYC . $A['category'] . "\n\n";
+    $mailbody .= "<{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=listNewDownloads>\n\n";
+    $mailsubject = $_CONF['site_name'] . ' - ' . _MD_SUBMITNOTIFY;
+
+    $mailbody .= "\n------------------------------\n";
+    $mailbody .= "\n$LANG08[34]\n";
+    $mailbody .= "\n------------------------------\n";
+
+    COM_mail ($_CONF['site_mail'], $mailsubject, $mailbody);
+}
+
 if (SEC_hasRights("filemgmt.upload") OR $mydownloads_uploadselect) {
 
     // Get the number of files in the database and post it in the title.
@@ -178,6 +201,15 @@ if (SEC_hasRights("filemgmt.upload") OR $mydownloads_uploadselect) {
             DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedetail']} (cid, title, url, homepage, version, size, platform, logourl, submitter, status, date, hits, rating, votes, comments) VALUES ('$cid', '$title', '$url', '$homepage', '$version', '$size', '$tmpfilename', '$logourl', '$submitter', 0, '$date', 0, 0, 0, '$comments')")  or $eh->show("0013");
             $newid = DB_insertID();
             DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedesc']} (lid, description) VALUES ($newid, '$description')") or $eh->show("0013");
+
+            if ($_FM_CONF['notification']) {
+                filemgmt_sendNotification(
+                    array('username' => $_USER['username'],
+                          'title'    => stripslashes($title),
+                          'category' => DB_getItem($_FM_TABLES['filemgmt_cat'], 'title', "cid='$cid'")
+                         ));
+            }
+
             redirect_header("index.php",2,_MD_RECEIVED."<br>"._MD_WHENAPPROVED."");
             exit();
         } else {

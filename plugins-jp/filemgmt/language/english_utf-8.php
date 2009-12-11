@@ -381,8 +381,9 @@ define("_MD_ORDERBY","Order By: ");
 define("_MD_ORDERBY","Order By: ");
 define("_MD_ORDERBY","Order By: ");
 
-
-
+define("_MD_DLTEMPFILE","Download to preview: ");
+define("_MD_TEMPFILE","tempfile");
+define("_MD_SUBMITNOTIFY","Notification of File Submissions");
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['filemgmt'] = array(
