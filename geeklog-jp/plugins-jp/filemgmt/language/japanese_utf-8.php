@@ -385,8 +385,9 @@ define("_MD_ORDERBY","ソート: ");
 define("_MD_ORDERBY","ソート: ");
 define("_MD_ORDERBY","ソート: ");
 
-
-
+define("_MD_DLTEMPFILE","投稿ファイルをダウンロードする: ");
+define("_MD_TEMPFILE","ダウンロード");
+define("_MD_SUBMITNOTIFY","ファイル提供のお知らせ");
 
 // Localization of the Admin Configuration UI
 $LANG_configsections['filemgmt'] = array(
