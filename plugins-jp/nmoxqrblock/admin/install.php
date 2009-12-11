@@ -134,7 +134,7 @@ function plugin_install_now()
 		DB_query("insert into ".$_TABLES['blocks']."
 		(is_enabled,name,type,title,tid,blockorder,onleft,phpblockfn,owner_id,group_id)
 		values
-		(1,'nmoxqrbock','phpblock','".$LANG_NMOXQRBLOCK["title_block"]."','all',90,1,'phpblock_nmoxqrblock',2,".$group_id.")",1);
+		(1,'nmoxqrblock','phpblock','".$LANG_NMOXQRBLOCK["title_block"]."','all',90,1,'phpblock_nmoxqrblock',2,".$group_id.")",1);
 	    if (DB_error()) {
 	    	COM_errorLog('failed insert blocks table',1);
 	        plugin_uninstall_nmoxqrblock();
