@@ -33,10 +33,10 @@ The script reads and write to this file - thus needs to be a separate file.
 
 if (file_exists('filemgmt.php')) include ('filemgmt.php');
 
-$CONF_FM['version'] = '1.6.0.jp2';
+$CONF_FM['version'] = '1.6.0.jp3';
 
 $_FM_CONF = array();
-$_FM_CONF['version'] = '1.6.0.jp2';
+$_FM_CONF['version'] = '1.6.0.jp3';
 
 $_FM_TABLES['filemgmt_cat']           = $_DB_table_prefix . 'filemgmt_category';
 $_FM_TABLES['filemgmt_filedetail']    = $_DB_table_prefix . 'filemgmt_filedetail';
@@ -79,6 +79,8 @@ $_FMDOWNLOAD  = array(
 $CONF_FM['ignore_target'] = true;
 $_FM_CONF['ignore_target'] = true;
 
+// Send an email notification for a new submission
+$_FM_CONF['notification'] = true;
 
 // glmenu only use - for glmenu generated menus
 
