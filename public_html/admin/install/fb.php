@@ -33,16 +33,15 @@
 * "db-config.php" visually.
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2009-08-15
-* @version  1.3.3
+* @date     2009-12-13
+* @version  1.3.4
 * @license  GPLv2 or later
 */
 define('DS', DIRECTORY_SEPARATOR);
 define('LB', "\n");
 define('OS_WIN', strcasecmp(substr(PHP_OS, 0, 3), 'WIN') === 0);
 define('TARGET', 'db-config.php');
-define('GL_VERSION', '1.6.0');
-define('PRECHECK_VERSION', '1.3.3');
+define('PRECHECK_VERSION', '1.3.4');
 
 /**
 * Convert charset of a string to SJIS
@@ -169,8 +168,7 @@ if ($result === TRUE) {
 }
 $curpath .= '<strong>現在のパス</strong>：' . convertCharset($path) . '</p>' . LB;
 
-$body .= '<br /><p class="precheck-version">Geeklog-' . GL_VERSION
-       . '&nbsp;&nbsp;インストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
+$body .= '<br /><p class="precheck-version">Geeklogインストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
        . '</div>' . LB . '</div>' . LB . '</body>' . LB . '</html>' . LB;
 
 header('Content-Type: text/html; charset=utf-8');
