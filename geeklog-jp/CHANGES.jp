@@ -1,5 +1,10 @@
 $Id$
 
+2009-12-13  mystral-kk <mystral-kk>
+
+	* メンテナンスしやすくするために、PrecheckからGeeklogのバージョン表記を
+	  削除しました。
+
 2009-12-12  Tetsuko Komma  <ivy>
 
 	* コア、日本語版プラグインの日本語言語ファイルの、ヒット、閲覧回数、
