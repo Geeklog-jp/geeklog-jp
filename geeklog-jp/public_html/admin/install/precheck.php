@@ -33,16 +33,15 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2009-08-15
-* @version  1.3.3
+* @date     2009-12-13
+* @version  1.3.4
 * @license  GPLv2 or later
 */
 error_reporting(E_ALL);
 
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
-define('GL_VERSION', '1.6.0');
-define('PRECHECK_VERSION', '1.3.3');
+define('PRECHECK_VERSION', '1.3.4');
 define('THIS_SCRIPT', 'precheck.php');
 define('MIN_PHP_VERSION', '4.1.0');
 define('MIN_MYSQL_VERSION', '3.23.2');
@@ -132,8 +131,8 @@ class Precheck
 					.  '  <script type="text/javascript" src="precheck.js"></script>' . LB;
 		}
 		
-		$retval .= '  <title>Geeklog-' . GL_VERSION . ' Precheck-'
-				.  PRECHECK_VERSION . '</title>' . LB
+		$retval .= '  <title>Precheck-'
+				.  PRECHECK_VERSION . ' for Geeklog</title>' . LB
 				.  '</head>' . LB
 				.  '<body>' . LB
 				.  '<div class="header-navigation-container">' . LB
@@ -161,8 +160,7 @@ class Precheck
 	*/
 	function getFooter()
 	{
-		$retval = '<p class="precheck-version">Geeklog-' . GL_VERSION
-				. '&nbsp;&nbsp;インストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
+		$retval = '<p class="precheck-version">Geeklogインストール前チェック&nbsp;&nbsp;Ver' . PRECHECK_VERSION . '</p>' . LB
 				. '</div>' . LB . '</div>' . LB . '</body>' . LB . '</html>' . LB;
 		return $retval;
 	}
