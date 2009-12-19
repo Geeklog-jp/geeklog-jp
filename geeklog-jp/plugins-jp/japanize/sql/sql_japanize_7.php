@@ -51,8 +51,8 @@ $_SQL[] = "
     ";
 $_SQL[] = "
     UPDATE   {$_TABLES['blocks']} SET 
-    title = 'GeekLogについて'
-    ,content = '<p><b>ようこそ、GeekLogへ！</b><p>Geeklogについてのサポートは、 <a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。'
+    title = 'Geeklogについて'
+    ,content = '<p><b>ようこそ、Geeklogへ！</b><p>Geeklogについてのサポートは、 <a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。'
     WHERE name = 'first_block'
     ";
 
