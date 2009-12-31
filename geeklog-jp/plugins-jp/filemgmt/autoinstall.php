@@ -49,7 +49,7 @@ function plugin_autoinstall_filemgmt($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.6.0.jp2',
+        'pi_version'      => '1.6.0.jp3',
         'pi_gl_version'   => '1.6.0',
         'pi_homepage'     => 'http://www.geeklog.jp/'
     );
