@@ -32,6 +32,10 @@
 // +-------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'xoopstree.php') !== false) {
+    die ('This file can not be used on its own.');
+}
+
 class XoopsTree{
 
     var $table;     //table with parent-child structure
