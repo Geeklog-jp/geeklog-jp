@@ -2,6 +2,12 @@ $Id$
 
 2009-12-31  Yoshinori Tahara  <dengen>
 
+	* filemgmtプラグイン: エラーメッセージのエラーコードが正しく表示され
+	  ない問題を修正しました。（Issue #133）
+	  一部のファイルにインクルード対策を施しました。
+
+2009-12-31  Yoshinori Tahara  <dengen>
+
 	* filemgmtプラグイン: 新規インストール直後、更新を要求する問題を修正
 	  しました。（Issue #132）
 

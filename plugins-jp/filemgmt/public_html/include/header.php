@@ -31,6 +31,10 @@
 // +-------------------------------------------------------------------------+
 //
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'header.php') !== false) {
+    die ('This file can not be used on its own.');
+}
+
 $FilemgmtUser  = false;
 $FilemgmtAdmin = false;
 

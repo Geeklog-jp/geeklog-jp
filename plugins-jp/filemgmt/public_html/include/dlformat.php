@@ -29,8 +29,8 @@
 // ------------------------------------------------------------------------- //
 //@@@@@20090602 update urlrewrite
 
-if (basename($GLOBALS['PHP_SELF']) == "dlformat.php") {
-    exit();
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'dlformat.php') !== false) {
+    die ('This file can not be used on its own.');
 }
 
 $path = $mytree->getPathFromId($cid, "title");
