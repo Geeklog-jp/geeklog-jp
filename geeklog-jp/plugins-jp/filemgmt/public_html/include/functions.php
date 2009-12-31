@@ -32,6 +32,10 @@
 //
 //@@@@@20080129update datetime format multilang 20080118 hiroron 
 
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
+    die ('This file can not be used on its own.');
+}
+
 function newdownloadgraphic($time, $status) {
     global $_CONF;
 
