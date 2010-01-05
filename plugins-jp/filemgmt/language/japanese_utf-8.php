@@ -118,7 +118,7 @@ $LANG_FILEMGMT= array(
     'all_html_allowed' => 'HTMLは全て許可されています',
     'no_new_files'  => '-',
     'no_comments'   => '-',
-    'more'          => '<em>[全文表示]</em>'
+    'more'          => '続きを読む'
 );
 
 $PLG_filemgmt_MESSAGE1 = 'ファイル管理プラグインのインストールを中断しました。<br>ファイル: plugins/filemgmt/filemgmt.php が書き込み可になっていません。';
