@@ -155,7 +155,7 @@ function dbman_quoteItem($item) {
 */
 function dbman_quoteString($item) {
     $item = str_replace(array("\r", "\n"), array('\\r', '\\n'), $item);
-    if (!get_magic_quotes_gpc()) {
+    if (!get_magic_quotes_runtime()) {
         $item = addslashes($item);
         $item = str_replace(array('\\\\r', '\\\\n'), array('\\r', '\\n'), $item);
     }
