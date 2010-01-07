@@ -1,5 +1,10 @@
 $Id$
 
+2010-01-08  mystral-kk <mystral-kk>
+
+	* Dbmanプラグインでmagic_quotes_runtimeがオンの場合に文字化けするバグに
+	  対応しました。
+
 2009-12-31  Yoshinori Tahara  <dengen>
 
 	* filemgmtプラグイン: エラーメッセージのエラーコードが正しく表示され
