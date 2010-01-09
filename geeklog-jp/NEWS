@@ -1,6 +1,6 @@
 NEWS
 
-							2009年11月22日
+							2010年1月9日
 							Geeklog Japanese
 
 1. 概要
@@ -52,10 +52,10 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		mysqldumpコマンドを使用せずにデータベースのバックアッ
 		プやリストアを実行
 
-	filemgmt バージョン 1.6.0.jp2
+	filemgmt バージョン 1.6.0.jp3
 		ファイル管理の機能を提供
 
-	forum バージョン 2.7.2.JPr5
+	forum バージョン 2.7.2.JPr6
 		掲示板を提供
 
 	mycaljp バージョン 2.1.0
