@@ -211,7 +211,7 @@ $Id$
 	  なったsystem/lib-portalparts.phpを削除しました。
 	* 静的ページプラグイン(Staticpages)の編集用テンプレートで、タイトル
 	  部分が折り返されないよう、タイトル部にすべて
-	style="white-space:nowrap;"を追加しました。
+	  style="white-space:nowrap;"を追加しました。
 	* コアとコアプラグインの言語ファイルの、「デフォルト」を「初期値」に
 	  変更他、言語ファイルを修正しました。
 
