@@ -1,5 +1,9 @@
 $Id$
 
+2010-01-09  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.6.1-jp-1.0beta3をリリースします。
+
 2010-01-08  mystral-kk <mystral-kk>
 
 	* Dbmanプラグインでmagic_quotes_runtimeがオンの場合に文字化けするバグに
