@@ -1,5 +1,10 @@
 $Id$
 
+2010-01-21  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: 全体イベント投稿したときに、承認待ちリストに
+	  追加されない問題を修正しました。
+
 2010-01-18  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.6.1-jp-1.0をリリースします。beta3からの変更点はありません。

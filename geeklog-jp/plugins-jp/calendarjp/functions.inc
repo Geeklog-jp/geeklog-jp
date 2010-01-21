@@ -617,7 +617,7 @@ function plugin_savesubmission_calendarjp($A)
 
             DB_save ($_TABLES['eventsubmissionjp'],
                      'eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description,owner_id',
-                     "{$A['eid']},'{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}'");
+                     "{$A['eid']},'{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}',{$uid}");
 
             if (isset ($_CAJP_CONF['notification']) &&
                     ($_CAJP_CONF['notification'] == 1)) {
@@ -1565,6 +1565,10 @@ function plugin_upgrade_calendarjp()
         case '1.1.1':
             update_ConfValues_1_1_1_1();
             $current_version = '1.1.1.1b1';
+            break;
+
+        case '1.1.1.1b1':
+            $current_version = '1.1.1.1b2';
             break;
 
         default:
