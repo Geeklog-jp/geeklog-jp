@@ -202,8 +202,10 @@ function plugin_upgrade_sitemap() {
 		
 		case '1.1.6':
 		case '1.1.7':
+		case '1.1.8':
 			// Nothing done from 1.1.6 -> 1.1.7
-			// Nothing done from 1.1.8 -> 1.1.8
+			// Nothing done from 1.1.7 -> 1.1.8
+			// Nothing done from 1.1.8 -> 1.1.9
 			break;
 		
 		default:
@@ -576,5 +578,12 @@ function SITEMAP_isExcepted($id, $sp_excepts) {
 * callback function for the pseudo cron job 
 */
 function plugin_runScheduledTask_sitemap() {
+	SITEMAP_createGoogleSitemap();
+}
+
+/**
+* callback function when a new item was saved
+*/
+function plugin_itemsaved_sitemap($id, $type) {
 	SITEMAP_createGoogleSitemap();
 }
