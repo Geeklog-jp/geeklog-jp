@@ -1,5 +1,10 @@
 $Id$
 
+2010-01-23  mystral-kk <mystral-kk>
+
+	* Sitemapプラグインで記事が投稿されたときにサイトマップを再生成する機能
+	  を追加しました。
+
 2010-01-21  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: 全体イベント投稿したときに、承認待ちリストに
