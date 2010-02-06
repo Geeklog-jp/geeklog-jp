@@ -1,5 +1,10 @@
 $Id$
 
+2010-02-06  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: gf_showtopic.php内のlib-user.phpの読み込み処理を
+	  includeからrequire_onceに変更しました。（関数の重複定義の可能性を排除）
+
 2010-01-23  mystral-kk <mystral-kk>
 
 	* Sitemapプラグインで記事が投稿されたときにサイトマップを再生成する機能
