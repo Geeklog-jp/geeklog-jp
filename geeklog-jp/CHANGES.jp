@@ -1,5 +1,10 @@
 $Id$
 
+2010-02-10  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: アイコン画像を、背景色が完全に透明なものに差し替え
+	  ました。なお、図柄の変更ではありません。
+
 2010-02-06  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: gf_showtopic.php内のlib-user.phpの読み込み処理を
