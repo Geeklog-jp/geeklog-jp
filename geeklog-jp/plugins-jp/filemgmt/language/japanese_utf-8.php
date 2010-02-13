@@ -47,8 +47,8 @@ $LANG_FM00 = array (
     'editor'            => 'プラグインエディタ',
     'warning'           => 'アンインストール前の警告',
     'enabled'           => '<p style="padding: 15px 0px 5px 25px;">このプラグインはインストールされ、有効になっています。<br>アンインストールする前に、このプラグインを無効にしてください。</p><div style="padding:5px 0px 5px 25px;"><a href="'.$_CONF['site_admin_url'].'/plugins.php">Plugin Editor</a></div',
-    'WhatsNewLabel'    => '新着ファイル',
-    'WhatsNewPeriod'   => '(%s 日以内)'
+    'WhatsNewLabel'    => 'ファイル',
+    'WhatsNewPeriod'   => '(%s日)'
 );
 
 // Admin Navbar
