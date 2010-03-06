@@ -1,5 +1,10 @@
 $Id$
 
+2010-03-06  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン: 「テーマのテンプレートを使う」機能が実際には動作
+	  していなかった問題を修正しました。
+
 2010-02-20  Tetsuko Komma  <ivy>
 
 	* 活用されていないmobile_3gを削除しました。（Issue #135）
