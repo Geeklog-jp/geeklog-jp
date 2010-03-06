@@ -191,8 +191,16 @@
 * XSS脆弱性の修正．                                                             *
 *                                                                               *
 * mycaljp plugin version 2.1.0                                                  *
-* 2009.X.XX : Yoshinori Tahara as dengen                                        *
+* 2009.11.3 : Yoshinori Tahara as dengen                                        *
 * Geeklog1.6で動作するようにした．                                              *
 * Dataproxyに対応した．                                                         *
 * コンフィギュレーションとオートインストール機能に対応した．                    *
+*                                                                               *
+* mycaljp plugin version 2.1.1                                                  *
+* 2009.11.7 : Yoshinori Tahara as dengen                                        *
+* 携帯電話でのカレンダ表示を改善し、月めくり操作が問題なくできるようにした．    *
+*                                                                               *
+* mycaljp plugin version 2.1.2                                                  *
+* 2010.3.6 : Yoshinori Tahara as dengen                                         *
+* 「テーマのテンプレートを使う」機能が実際には動作していなかった問題を修正した．*
 *********************************************************************************/

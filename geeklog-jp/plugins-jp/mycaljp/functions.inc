@@ -441,8 +441,7 @@ if ( empty($_MYCALJP2_CONF['template']) ) {
 }
 
 // テンプレートパスおよびCSSのURLを設定する
-if ((isset($_MYCALJP2_CONF['themes']) && in_array($_CONF['theme'], $_MYCALJP2_CONF['themes']))
-    && is_dir($_CONF['path_layout'] . 'mycaljp')) {
+if ($_MYCALJP2_CONF['use_theme'] && is_dir($_CONF['path_layout'] . 'mycaljp')) {
     $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
     $_MYCALJP2_CONF['css_url'] = $_CONF['layout_url'] . '/mycaljp';
 } else {
