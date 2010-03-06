@@ -197,8 +197,6 @@ $_MYCALJP2_DEFAULT['showstoriesintro'] = true;
 
 $_MYCALJP2_DEFAULT['template'] = 'default';
 
-$_MYCALJP2_DEFAULT['themes'] = array();
-
 $_MYCALJP2_DEFAULT['use_theme'] = false;
 
 
