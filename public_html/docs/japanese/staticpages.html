@@ -170,37 +170,43 @@
   <td>サイトメニューの順番を設定します。ページラベル、ページID, ページタイトル、最後に編集した日付から選べます。</td>
 </tr>
 <tr class="r2">
+  <td><a name="desc_sort_list_by">sort_list_by</a></td>
+  <td>'title'</td>
+  <td>Defines the default sort order for the admin's list of static pages.
+    Allows sorting by author, page ID, page title, and date of last change.</td>
+</tr>
+<tr>
   <td><a name="desc_delete_pages">所有者の削除と共に削除する</a></td>
   <td><tt>いいえ</tt></td>
   <td>ページの所有者のアカウントが削除された場合、つまりその静的ページを最初に作成したユーザが居なくなった場合、そのページを'True'なら削除、'False'なら"Root"グループのユーザ(通常は最も小さい値のIDのRootユーザ)に変更します。</td>
 </tr>
-<tr>
+<tr class="r2">
   <td><a name="desc_in_block">ページをブロックで囲む </a></td>
   <td><tt>はい</tt></td>
   <td>静的ページを作成する際、ページをブロックで囲むモードのデフォルトを設定します。</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_show_hits">ヒット数を表示する </a></td>
   <td><tt>いいえ</tt></td>
   <td>閲覧回数を表示するかどうかを設定します。</td>
 </tr>
-<tr>
+<tr class="r2">
   <td><a name="desc_show_date">日時を表示する</a></td>
   <td><tt>はい</tt></td>
   <td>最後に編集した日時を表示するかどうかを設定します。</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_filter_html">HTMLフィルターを適用する</a></td>
   <td><tt>いいえ</tt></td>
   <td>GeeklogのHTMLフィルターを静的ページの編集時に適用させるかどうかを設定します。</td>
 </tr>
-<tr>
+<tr class="r2">
   <td><a name="desc_censor">内容を検閲する</a></td>
   <td><tt>いいえ</tt></td>
   <td>Geeklogの"バッドワード"フィルターを静的ページの編集時に適用させるかどうかを設定します。
   </td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_aftersave">ページ保存後の画面遷移</a></td>
   <td><tt>静的ページ管理を表示する</tt></td>
   <td>静的ページ保存後の画面遷移を設定します:
@@ -211,11 +217,80 @@
     <li>管理画面トップを表示します。</li>
     </ul></td>
 </tr>
-<tr>
+<tr class="r2">
   <td><a name="desc_atom_max_items">フィードに書き出す最大ページ数</a></td>
   <td>10</td>
   <td>WebサービスAPIによってatomフィードに書き出す静的ページ数の最大値を指定します。</td>
 </tr>
+<tr>
+  <td><a name="desc_meta_tags">meta_tags</a></td>
+  <td>false</td>
+  <td>Whether to include the meta tags of the staticpage when it is displayed.</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_comment_code">comment_code</a></td>
+  <td>-1</td>
+  <td>Allows you to define whether new Static Pages will allow comments (0) or
+    not (-1). This is only the default setting for new pages and can be
+    overridden for every single page.</td>
+</tr>
+<tr>
+  <td><a name="desc_draft_flag">draft_flag</a></td>
+  <td>0</td>
+  <td>Default setting for new Static Pages: Whether the page's draft flag should be set (1) or not (0).</td>
+</tr>
+</table>
+
+
+<h3><a name="whatsnew">What's New Block</a></h3>
+
+<table>
+<tr><th style="width:25%">Variable</th>
+    <th style="width:25%">Default Value</th>
+    <th style="width:50%">Description</th>
+</tr>
+<tr>
+  <td valign="top"><a name="desc_newstaticpagesinterval">newstaticpagesinterval</a></td>
+  <td valign="top">1209600</td>
+  <td valign="top">Static pages are "new" if they are this many seconds old.</td></tr>
+<tr class="r2">
+  <td valign="top"><a name="desc_hidenewstaticpages">hidenewstaticpages</a></td>
+  <td valign="top">'hide'</td>
+  <td valign="top">Set to 'modified' date or 'created' date to display new static pages in the What's New block.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_title_trim_length">title_trim_length</a></td>
+  <td valign="top">20</td>
+  <td valign="top">Max. length of the title of items listed in the What's New block.</td></tr>
+<tr class="r2">
+  <td valign="top"><a name="desc_includecenterblocks">includecenterblocks</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set to true to include static pages that are displayed as a center block.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_includephp">includephp</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set to true to include static pages that execute PHP.</td></tr>
+</table>
+
+
+<h3><a name="search">Search Results</a></h3>
+
+<table>
+<tr><th style="width:25%">Variable</th>
+    <th style="width:25%">Default Value</th>
+    <th style="width:50%">Description</th>
+</tr>
+<tr>
+  <td valign="top"><a name="desc_includesearch">includesearch</a></td>
+  <td valign="top">true</td>
+  <td valign="top">Set to true to enable static pages in search results.</td></tr>
+<tr class="r2">
+  <td valign="top"><a name="desc_includesearchcenterblocks">includesearchcenterblocks</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set to true to include static pages that are displayed as a center block.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_includesearchphp">includesearchphp</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set to true to include static pages that execute PHP.</td></tr>
 </table>
 
 
