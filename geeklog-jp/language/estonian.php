@@ -81,7 +81,7 @@ $LANG01 = array(
     37 => 'Pole kasutaja lugusid',
     38 => 'Sisu jagamine',
     39 => 'V‰rskenda',
-    40 => 'Sul on <tt>php.ini</tt> failis <tt>register_globals = Off</tt>. Kuid Geeklogi jaoks peab olema <tt>register_globals</tt> = <strong>on</strong>. Enne j‰tkamist sea selle v‰‰rtuseks <strong>"on"</strong> ja taask‰ivita veebiserver.',
+    40 => '',
     41 => 'K¸laliskasutajaid',
     42 => 'Autoriks:',
     43 => 'Vasta sellele',
@@ -220,7 +220,8 @@ $LANG03 = array(
     40 => 'Kui sa ei soovi enam saada  teaviusi vastuste kohta, k¸lasta j‰rgnevat aadressit:',
     41 => 'Tere %s,',
     42 => 'Loobu tellimisest',
-    43 => 'Loobu vastuste teavitustest.'
+    43 => 'Loobu vastuste teavitustest.',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -383,7 +384,10 @@ $LANG04 = array(
     159 => 'See E-kiri on automaatselt genereeritud . ƒra vasta  sellele.',
     160 => '(maks. %d x %d pikslit, %d baiti; %s)',
     161 => 'V‰hendatakse',
-    162 => 'Ei v‰hendata'
+    162 => 'Ei v‰hendata',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -530,7 +534,9 @@ $LANG09 = array(
     67 => 'N‰ita %d tulemust',
     68 => 'Sorteerimisalus',
     69 => 'Ainult pealkirjad',
-    70 => 'Pole saadaval ...'
+    70 => 'Pole saadaval ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -713,7 +719,7 @@ $LANG21 = array(
     47 => '',
     48 => 'Bloki nimi',
     49 => ' (ilma t¸hikuteta ja erinev teistest)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => 'koos http://',
     52 => 'Kui sa j‰tad selle v‰lja t¸hjaks, siis selle bloki jaoks ei n‰idata abiikooni.',
     53 => 'kasutuses',
@@ -957,7 +963,10 @@ $LANG28 = array(
     84 => "Meie lehel: {$_CONF['site_url']} on sinu kasutajanimi  : %s",
     85 => 'Kui unustasid oma salasına, kasuta j‰rgmist linki: %s',
     86 => 'Lisa',
-    87 => 'Meeldetuletused'
+    87 => 'Meeldetuletused',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -1185,7 +1194,7 @@ $MESSAGE = array(
     44 => 'Plugin on edukalt installeeritud!',
     45 => 'Plugin on edukalt kustutatud.',
     46 => '',
-    47 => 'Selliseid vıimalusi saab kasutada vaid *nix keskkonnas. Kui s¸steem tˆˆtab *nix operatsioonis¸steemis, siis puhverm‰lu on edukalt t¸hjendatud. Kui operatsioonis¸steemiks on Windows, pead sa otsima faile nimekujuga adodb_*.php ja need failid k‰sitsi kustutama.',
+    47 => '',
     48 => "T‰name sind oma liikmelisuse kinnitamise eest {$_CONF['site_name']} lehel. Meie meeskond vaatab sinu taotluse l‰bi. Kui see kinnitatakse, saadetakse sinu poolt antud E-postiaadressile E-kirjaga sinu salasına.",
     49 => 'Grupp on edukalt salvestatud.',
     50 => 'Grupp on edukalt kustutatud.',
@@ -1581,6 +1590,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => 'Tee uus (lisa)',
     'enabled' => 'Kasutuses',
     'title' => 'Tiitel',
+    'page_title' => 'Page Title',
     'type' => 'T¸¸p',
     'topic' => 'Rubriik',
     'help_url' => 'Abifaili URL',
@@ -1599,7 +1609,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta kirjeldus',
     'meta_keywords' => 'Meta m‰rksınad',
     'na' => 'N/A',
-    'token_expiry' => 'Sul on aega kuni %s, et teha muutusi. P‰rast seda aegub lehele lisatud turvalisuskood ja tehtud muutused l‰hevad kaotsi.'
+    'token_expiry' => 'Sul on aega kuni %s, et teha muutusi. P‰rast seda aegub lehele lisatud turvalisuskood ja tehtud muutused l‰hevad kaotsi.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1891,7 +1904,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Luba kasutajal tulemusi sorteerida?',
     'search_show_limit' => 'N‰ita lehe limiiti?',
     'search_separator' => 'Grupi eraldaja',
-    'search_def_keytype' => 'Vaikimisi otsimisviis'
+    'search_def_keytype' => 'Vaikimisi otsimisviis',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1973,7 +1987,11 @@ $LANG_configselects['Core'] = array(
     20 => array('T‰pne fraas' => 'phrase', 'Kıik sınad' => 'all', 'Mıni sınadest' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Range' => 'DENY', 'Sama allikas' => 'SAMEORIGIN', '(v‰ljas)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Display poll results and past polls.                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -58,27 +58,15 @@ if (!in_array('polls', $_PLUGINS)) {
 * @return   string          HTML for poll listing
 *
 */
-function polllist ()
+function polllist()
 {
-    global $_CONF, $_TABLES, $_USER, $_PO_CONF,
-           $LANG25, $LANG_LOGIN, $LANG_POLLS;
+    global $_CONF, $_TABLES, $_PO_CONF, $LANG25, $LANG_POLLS;
 
     $retval = '';
 
-    if (empty ($_USER['username']) && (($_CONF['loginrequired'] == 1) ||
+    if (COM_isAnonUser() && (($_CONF['loginrequired'] == 1) ||
             ($_PO_CONF['pollsloginrequired'] == 1))) {
-        $retval = COM_startBlock ($LANG_LOGIN[1], '',
-                          COM_getBlockTemplate ('_msg_block', 'header'));
-        $login = new Template ($_CONF['path_layout'] . 'submit');
-        $login->set_file (array ('login' => 'submitloginrequired.thtml'));
-        $login->set_var ( 'xhtml', XHTML );
-        $login->set_var ('login_message', $LANG_LOGIN[2]);
-        $login->set_var ('site_url', $_CONF['site_url']);
-        $login->set_var ('lang_login', $LANG_LOGIN[3]);
-        $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $login->parse ('output', 'login');
-        $retval .= $login->finish ($login->get_var('output'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= SEC_loginRequiredForm();
     } else {
         require_once( $_CONF['path_system'] . 'lib-admin.php' );
         $header_arr = array(    // display 'text' and use table field 'field'
@@ -95,7 +83,7 @@ function polllist ()
                           'icon' => '', 'form_url' => '');
 
         $query_arr = array('table' => 'polltopics',
-                           'sql' => $sql = "SELECT *,UNIX_TIMESTAMP(date) AS unixdate, display "
+                           'sql' => $sql = "SELECT *,UNIX_TIMESTAMP(created) AS unixdate, display "
                                 . "FROM {$_TABLES['polltopics']} WHERE 1=1",
                            'query_fields' => array('topic'),
                            'default_filter' => COM_getPermSQL (),
@@ -125,7 +113,7 @@ if (isset ($_POST['reply']) && ($_POST['reply'] == $LANG01[25])) {
     echo $display;
     exit;
 }
-
+//var_dump($_POST);die();
 $pid = 0;
 $aid = 0;
 if (isset ($_REQUEST['pid'])) {
@@ -135,8 +123,6 @@ if (isset ($_REQUEST['pid'])) {
     } else if (isset ($_POST['aid'])) {
         $aid = $_POST['aid'];
     }
-} elseif (isset($_POST['id'])) {       // Refresh from comment tool bar
-    $qid = COM_applyFilter ($_POST['id']);
 }
 $order = '';
 if (isset ($_REQUEST['order'])) {
@@ -145,6 +131,10 @@ if (isset ($_REQUEST['order'])) {
 $mode = '';
 if (isset ($_REQUEST['mode'])) {
     $mode = COM_applyFilter ($_REQUEST['mode']);
+}
+$page = 1;
+if (isset ($_REQUEST['cpage'])) {
+    $page = COM_applyFilter ($_REQUEST['cpage']);
 }
 $msg = 0;
 if (isset($_REQUEST['msg'])) {
@@ -172,21 +162,21 @@ if (empty($pid)) {
     $result = DB_query ("SELECT topic, meta_description, meta_keywords FROM {$_TABLES['polltopics']} WHERE pid = '{$pid}'" . COM_getPermSQL('AND'));
     $A = DB_fetchArray ($result);
     
-    $topic = $A['topic'];
-    if (empty($topic)) {
+    $polltopic = $A['topic'];
+    if (empty($polltopic)) {
         // poll doesn't exist or user doesn't have access
         $display .= COM_siteHeader('menu', $LANG_POLLS['pollstitle'])
                  . COM_showMessageText(sprintf($LANG25[12], $pid));
     } else {
         // Meta Tags
         $headercode = '';
-        If ($_PO_CONF['meta_tags'] > 0) {
+        if ($_PO_CONF['meta_tags'] > 0) {
             $meta_description = stripslashes($A['meta_description']);
             $meta_keywords = stripslashes($A['meta_keywords']);            
             $headercode = COM_createMetaTags($meta_description, $meta_keywords);
         }
-        
-        $display .= COM_siteHeader('menu', $topic, $headercode);
+
+        $display .= COM_siteHeader('menu', $polltopic, $headercode);
         if ($msg > 0) {
             $display .= COM_showMessage($msg, 'polls');
         }
@@ -194,7 +184,7 @@ if (empty($pid)) {
             $display .= COM_startBlock (
                     $LANG_POLLS['not_saved'], '',
                     COM_getBlockTemplate ('_msg_block', 'header'))
-                . $LANG_POLLS['answer_all'] . ' "' . $topic . '"'
+                . $LANG_POLLS['answer_all'] . ' "' . $polltopic . '"'
                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         }
         if (DB_getItem($_TABLES['polltopics'], 'is_open', "pid = '$pid'") != 1) {
@@ -204,22 +194,16 @@ if (empty($pid)) {
             && !POLLS_ipAlreadyVoted ($pid)
             && $aid != -1
             ) {
-            $display .= POLLS_pollVote ($pid);
+            $display .= POLLS_pollVote($pid, true, 0, $order, $mode, $page);
         } else {
-            $display .= POLLS_pollResults ($pid, 400, $order, $mode);
+            $display .= POLLS_pollResults($pid, 400, $order, $mode, $page);
         }
     }
 } else {
-    $poll_topic = DB_query ("SELECT topic FROM {$_TABLES['polltopics']} WHERE pid='$pid'" . COM_getPermSql ('AND'));
-    $Q = DB_fetchArray ($poll_topic);
-    if (empty ($Q['topic'])) {
-        $display .= COM_siteHeader ('menu', $LANG_POLLS['pollstitle'])
-                 . polllist ();
-    } else {
-        $display .= COM_siteHeader ('menu', $Q['topic'])
-                 . POLLS_pollResults ($pid, 400, $order, $mode);
-    }
+    $display .= COM_siteHeader('menu', $LANG_POLLS['pollstitle'])
+             . polllist();
 }
+
 $display .= COM_siteFooter();
 
 COM_output($display);

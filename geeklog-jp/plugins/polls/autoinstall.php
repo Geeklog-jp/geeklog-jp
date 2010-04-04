@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by the following authors:                         |
+// | Copyright (C) 2008-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
 // +---------------------------------------------------------------------------+
@@ -51,7 +51,7 @@ function plugin_autoinstall_polls($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.1.1',
+        'pi_version'      => '2.1.2',
         'pi_gl_version'   => '1.6.1',
         'pi_homepage'     => 'http://www.geeklog.net/'
     );
@@ -147,6 +147,10 @@ function plugin_compatible_with_this_version_polls($pi_name)
     }
 
     if (! function_exists('SEC_getTokenExpiryNotice')) {
+        return false;
+    }
+
+    if (! function_exists('SEC_loginRequiredForm')) {
         return false;
     }
 

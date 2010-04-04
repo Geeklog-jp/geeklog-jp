@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Story-related functions needed in more than one place.                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -101,9 +101,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             ));
 
     $article->set_var( 'xhtml', XHTML );
-    $article->set_var( 'layout_url', $_CONF['layout_url'] );
     $article->set_var( 'site_url', $_CONF['site_url'] );
     $article->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
+    $article->set_var( 'layout_url', $_CONF['layout_url'] );
     $article->set_var( 'site_name', $_CONF['site_name'] );
     $article->set_var( 'story_date', $story->DisplayElements('date') );
     $article->set_var( 'story_date_short', $story->DisplayElements('shortdate') );
@@ -444,7 +444,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
         }
 
         if(( $_CONF['hideemailicon'] == 1 ) ||
-           ( empty( $_USER['username'] ) &&
+           ( COM_isAnonUser() &&
                 (( $_CONF['loginrequired'] == 1 ) ||
                  ( $_CONF['emailstoryloginrequired'] == 1 ))))
         {
@@ -585,7 +585,7 @@ function STORY_extractLinks( $fulltext, $maxlength = 26 )
 
 function STORY_whatsRelated( $related, $uid, $tid )
 {
-    global $_CONF, $_TABLES, $_USER, $LANG24;
+    global $_CONF, $_TABLES, $LANG24;
 
     // get the links from the story text
     if (!empty ($related)) {
@@ -594,7 +594,7 @@ function STORY_whatsRelated( $related, $uid, $tid )
         $rel = array ();
     }
 
-    if( !empty( $_USER['username'] ) || (( $_CONF['loginrequired'] == 0 ) &&
+    if( !COM_isAnonUser() || (( $_CONF['loginrequired'] == 0 ) &&
            ( $_CONF['searchloginrequired'] == 0 ))) {
         // add a link to "search by author"
         if( $_CONF['contributedbyline'] == 1 )
@@ -676,6 +676,112 @@ function STORY_deleteImages ($sid)
 }
 
 /**
+* Delete a story.
+*
+* This is used to delete a story from the list of stories.
+*
+* @param    string  $sid    ID of the story to delete
+* @return   string          HTML, e.g. a meta redirect
+*
+*/
+function STORY_deleteStory($sid)
+{
+    $args = array (
+                    'sid' => $sid
+                  );
+
+    $output = '';
+
+    PLG_invokeService('story', 'delete', $args, $output, $svc_msg);
+
+    return $output;
+}
+
+/**
+* Delete a story and related data immediately.
+*
+* Note: For internal use only! To delete a story, use STORY_deleteStory (see
+*       above), which will do permission checks and eventually end up here.
+*
+* @param    string  $sid    ID of the story to delete
+* @internal For internal use only!
+*
+*/
+function STORY_doDeleteThisStoryNow($sid)
+{
+    global $_CONF, $_TABLES;
+
+    require_once $_CONF['path_system'] . 'lib-comment.php';
+
+    STORY_deleteImages($sid);
+    DB_delete($_TABLES['comments'], array('sid', 'type'),
+                                    array($sid, 'article'));
+    DB_delete($_TABLES['trackback'], array('sid', 'type'),
+                                     array($sid, 'article'));
+    DB_delete($_TABLES['stories'], 'sid', $sid);
+
+    // notify plugins
+    PLG_itemDeleted($sid, 'article');
+
+    // update RSS feed and Older Stories block
+    COM_rdfUpToDateCheck();
+    COM_olderStuff();
+    CMT_updateCommentcodes();
+}
+
+
+/*
+ * Implement *some* of the Plugin API functions for stories. While stories
+ * aren't a plugin (and likely never will be), implementing some of the API
+ * functions here will save us from doing special handling elsewhere.
+ */
+ 
+/**
+* Return new Story comments for the What's New block
+*
+* @param    string  $numreturn  If 0 will return results for What's New Block. 
+*                               If > 0 will return last X new comments for User Profile.
+* @param    string  $uid        ID of the user to return results for. 0 = all users.
+* @return   array list of new comments (dups, type, title, sid, lastdate) or (sid, title, cid, unixdate)
+*
+*/
+function plugin_getwhatsnewcomment_story($numreturn = 0, $uid = 0)
+{
+    global $_CONF, $_TABLES;
+
+    $topicsql = COM_getTopicSql ('AND', 0, $_TABLES['stories']);
+    
+    $stwhere = '';
+    if( !COM_isAnonUser() ) {
+        $stwhere .= "({$_TABLES['stories']}.owner_id IS NOT NULL AND {$_TABLES['stories']}.perm_owner IS NOT NULL) OR ";
+        $stwhere .= "({$_TABLES['stories']}.group_id IS NOT NULL AND {$_TABLES['stories']}.perm_group IS NOT NULL) OR ";
+        $stwhere .= "({$_TABLES['stories']}.perm_members IS NOT NULL)";
+    } else {
+        $stwhere .= "({$_TABLES['stories']}.perm_anon IS NOT NULL)";
+    }
+    
+    if ($uid > 0) {
+        $stwhere .= " AND ({$_TABLES['comments']}.uid = $uid)";
+    }
+    if ($numreturn == 0 ) {
+        $sql['mssql'] = "SELECT DISTINCT COUNT(*) AS dups, type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid, max({$_TABLES['comments']}.date) AS lastdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$_TABLES['comments']}.date >= (DATE_SUB(NOW(), INTERVAL {$_CONF['newcommentsinterval']} SECOND))) AND ((({$stwhere}))) GROUP BY {$_TABLES['comments']}.sid,type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid ORDER BY 5 DESC LIMIT 15";          
+        $sql['mysql'] = "SELECT DISTINCT COUNT(*) AS dups, type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid, max({$_TABLES['comments']}.date) AS lastdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$_TABLES['comments']}.date >= (DATE_SUB(NOW(), INTERVAL {$_CONF['newcommentsinterval']} SECOND))) AND ((({$stwhere}))) GROUP BY {$_TABLES['comments']}.sid,type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid ORDER BY 5 DESC LIMIT 15";
+        $sql['pgsql'] = "SELECT DISTINCT COUNT(*) AS dups, type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid, max({$_TABLES['comments']}.date) AS lastdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$_TABLES['comments']}.date >= (NOW()+ INTERVAL '{$_CONF['newcommentsinterval']} SECOND')) AND ((({$stwhere}))) GROUP BY {$_TABLES['comments']}.sid,type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid ORDER BY 5 DESC LIMIT 15";
+    } else {
+        $sql = "SELECT {$_TABLES['stories']}.sid,{$_TABLES['stories']}.title, cid, UNIX_TIMESTAMP({$_TABLES['comments']}.date) AS unixdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$stwhere}) ORDER BY unixdate DESC LIMIT $numreturn";
+    }
+    $result = DB_query($sql);
+    $nrows = DB_numRows($result);
+    if ($nrows > 0) {
+        for ($x = 0; $x < $nrows; $x++) {
+            $A[] = DB_fetchArray($result);    
+        }
+        
+        return $A;
+    }
+}
+
+/**
 * Return information for a story
 *
 * This is the story equivalent of PLG_getItemInfo. See lib-plugins.php for
@@ -688,7 +794,7 @@ function STORY_deleteImages ($sid)
 * @return   mixed               string or array of strings with the information
 *
 */
-function STORY_getItemInfo($sid, $what, $uid = 0, $options = array())
+function plugin_getiteminfo_story($sid, $what, $uid = 0, $options = array())
 {
     global $_CONF, $_TABLES;
 
@@ -843,68 +949,181 @@ function STORY_getItemInfo($sid, $what, $uid = 0, $options = array())
 }
 
 /**
-* Delete a story.
+* Return true since this component supports webservices
 *
-* This is used to delete a story from the list of stories.
-*
-* @param    string  $sid    ID of the story to delete
-* @return   string          HTML, e.g. a meta redirect
+* @return   boolean     True, if webservices are supported
 *
 */
-function STORY_deleteStory($sid)
-{
-    $args = array (
-                    'sid' => $sid
-                  );
-
-    $output = '';
-
-    PLG_invokeService('story', 'delete', $args, $output, $svc_msg);
-
-    return $output;
-}
-
-/**
-* Delete a story and related data immediately.
-*
-* Note: For internal use only! To delete a story, use STORY_deleteStory (see
-*       above), which will do permission checks and eventually end up here.
-*
-* @param    string  $sid    ID of the story to delete
-* @internal For internal use only!
-*
-*/
-function STORY_doDeleteThisStoryNow($sid)
-{
-    global $_CONF, $_TABLES;
-
-    require_once $_CONF['path_system'] . 'lib-comment.php';
-
-    STORY_deleteImages($sid);
-    DB_delete($_TABLES['comments'], array('sid', 'type'),
-                                    array($sid, 'article'));
-    DB_delete($_TABLES['trackback'], array('sid', 'type'),
-                                     array($sid, 'article'));
-    DB_delete($_TABLES['stories'], 'sid', $sid);
-
-    // notify plugins
-    PLG_itemDeleted($sid, 'article');
-
-    // update RSS feed and Older Stories block
-    COM_rdfUpToDateCheck();
-    COM_olderStuff();
-    CMT_updateCommentcodes();
-}
-
-/**
- * Return true since this component supports webservices
- *
- * @return  bool	True, if webservices are supported
- */
 function plugin_wsEnabled_story()
 {
     return true;
 }
+
+/**
+* Returns list of moderation values
+*
+* The array returned contains (in order): the row 'id' label, main table,
+* moderation fields (comma separated), and submission table
+*
+* @return   array       Returns array of useful moderation values
+*
+*/
+function plugin_moderationvalues_story()
+{
+    global $_TABLES;
+
+    return array(
+        'sid',
+        $_TABLES['stories'],
+        'sid,uid,tid,title,introtext,date,postmode',
+        $_TABLES['storysubmission']
+    );
+}
+
+/**
+* Performs story exclusive work for items deleted by moderation
+*
+* While moderation.php handles the actual removal from the submission
+* table, within this function we handle all other deletion related tasks
+*
+* @param    string  $sid    Identifying string, i.e. the story id
+* @return   string          Any wanted HTML output
+*
+*/
+function plugin_moderationdelete_story($sid)
+{
+    global $_TABLES;
+
+    DB_delete($_TABLES['storysubmission'], 'sid', $sid);
+
+    return '';
+}
+
+/**
+* Checks that the current user has the rights to moderate stories.
+* Returns true if this is the case, false otherwise
+*
+* @return   boolean     Returns true if moderator
+*
+*/
+function plugin_ismoderator_story()
+{
+    return SEC_hasRights('story.moderate');
+}
+
+/**
+* Returns SQL & Language texts to moderation.php
+*
+* @return   mixed   Plugin object or void if not allowed
+*
+*/
+function plugin_itemlist_story()
+{
+    global $_TABLES, $LANG29;
+
+    if (plugin_ismoderator_story()) {
+        $plugin = new Plugin();
+        $plugin->submissionlabel = $LANG29[35];
+        $plugin->submissionhelpfile = 'ccstorysubmission.html';
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,tid FROM {$_TABLES['storysubmission']}" . COM_getTopicSQL ('WHERE') . " ORDER BY date ASC";
+        $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[14]);
+        $plugin->addSubmissionHeading($LANG29[15]);
+
+        return $plugin;
+    }
+}
+
+
+/*
+ * Another pseudo plugin API for draft stories
+ */
+
+/**
+* Returns list of moderation values
+*
+* The array returned contains (in order): the row 'id' label, main table,
+* moderation fields (comma separated), and submission table
+*
+* @return   array       Returns array of useful moderation values
+*
+*/
+function plugin_moderationvalues_story_draft()
+{
+    global $_TABLES;
+
+    return array(
+        'sid',
+        $_TABLES['stories'],
+        'sid,uid,tid,title,introtext,date,postmode',
+        $_TABLES['stories']
+    );
+}
+
+/**
+* Performs draft story exclusive work for items deleted by moderation
+*
+* While moderation.php handles the actual removal from the submission
+* table, within this function we handle all other deletion related tasks
+*
+* @param    string  $sid    Identifying string, i.e. the story id
+* @return   string          Any wanted HTML output
+*
+*/
+function plugin_moderationdelete_story_draft($sid)
+{
+    global $_TABLES;
+
+    STORY_deleteStory($sid);
+
+    return '';
+}
+
+/**
+* Returns SQL & Language texts to moderation.php
+*
+* @return   mixed   Plugin object or void if not allowed
+*
+*/
+function plugin_itemlist_story_draft()
+{
+    global $_TABLES, $LANG24, $LANG29;
+
+    if (SEC_hasRights('story.edit')) {
+        $plugin = new Plugin();
+        $plugin->submissionlabel = $LANG29[35] . ' (' . $LANG24[34] . ')';
+        $plugin->submissionhelpfile = 'ccdraftsubmission.html';
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,tid FROM {$_TABLES['stories']} WHERE (draft_flag = 1)" . COM_getTopicSQL ('AND') . COM_getPermSQL ('AND', 0, 3) . " ORDER BY date ASC";
+        $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[14]);
+        $plugin->addSubmissionHeading($LANG29[15]);
+
+        return $plugin;
+    }
+}
+
+/**
+* "Approve" a draft story
+*
+* @param    string  $sid    story id
+* @return   void
+*
+*/
+function plugin_moderationapprove_story_draft($sid)
+{
+    global $_TABLES;
+
+    DB_change($_TABLES['stories'], 'draft_flag', 0, 'sid', $sid);
+
+    PLG_itemSaved($sid, 'article');
+
+    // update feeds
+    COM_rdfUpToDateCheck();
+
+    // update Older Stories block
+    COM_olderStuff();
+}
+
 
 /*
  * START SERVICES SECTION
@@ -1480,6 +1699,7 @@ function service_get_story($args, &$output, &$svc_msg)
         $max_items = $_CONF['atom_max_stories'] + 1;
 
         $limit = " LIMIT $offset, $max_items";
+        $limit_pgsql = " LIMIT $max_items OFFSET $offset";
         $order = " ORDER BY unixdate DESC";
 
         $sql['mysql']
@@ -1489,6 +1709,7 @@ function service_get_story($args, &$output, &$svc_msg)
         $sql['mssql'] =
             "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid)" . COM_getPermSQL('AND', $_USER['uid'], 2, 's') . $order . $limit;
 
+        $sql['pgsql'] = "SELECT  s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl  FROM stories s, users u, topics t WHERE (s.uid = u.uid) AND (s.tid = t.tid) FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid)" . COM_getPermSQL('AND', $_USER['uid'], 2, 's') . $order . $limit_pgsql;
         $result = DB_query($sql);
 
         $count = 0;

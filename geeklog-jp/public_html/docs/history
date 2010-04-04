@@ -1,5 +1,180 @@
 Geeklog History/Changes:
 
+Apr 4, 2010 (1.7.0b1)
+-----------
+
+Geeklog 1.7.0 now supports PostgreSQL, implemented by Stan Palatnik during the
+2009 Google Summer of Code.
+
+- Fixed paths for image upload in FCKeditor (bug #0000931) and disabled Flash
+  upload [Dirk]
+- Updated FCKeditor to version 2.6.6 [Dirk]
+- Raised minimum required PHP version to PHP 4.4.0 [Dirk]
+- Fixed an old bug that would create a new topic when you tried to change the
+  topic ID [Stan, Dirk]
+- Introduced an optional page title for stories (feature request #0001096,
+  patch provided by Vlad Voicu)
+- A new right called htmlfilter.skip allows user groups to skip any html   
+  filtering on posts (feature request #0000952) [Tom]
+- Allow empty database passwords only for local installs (bug #0000923, patch
+  provided by Chetan)
+- New Plugin API PLG_getWhatsNewComment for adding comments from plugins to the 
+  Whats New Block and the User Profile page (feature request #0000835) [Tom]
+- Truncated stories in Feeds now will have any open html tags closed. 
+  (bug #0000749) [Tom]  
+- Introduced a [user:] autotag that links to a user's profile (feature request
+  #0001081, patch provided by Akeda Bagus)
+- The "Users" entry in the Admins block now displays the number of active users
+  only, i.e. it only counts users that logged in at least once [Dirk]
+- Fixed display of list of allowed HTML tags and available autotags in
+  advanced story editor mode (bug #0001020, patch provided by Chetan)
+- Fixed sort by date in search results (bug #0001002) [Sami]
+- Since we can now re-authenticate expired security tokens, we don't need to
+  display the token expiry notice any longer. Exception: Users who logged in
+  through OpenID can't re-authenticate and will still get the message [Dirk]
+- Block Names can no longer be empty [Dirk]
+- When you had more than 50 blocks per side, disabling a block on one page of
+  the block list would also disable all blocks on all the other pages of the
+  list (reported by cesar)
+  On closer inspection, the same effect could also be triggered when using the
+  list's search or dropdown to only display a certain amount of entries. The
+  same problems also existed in the lists for Feeds, Plugins, and Weblog
+  Directory Services. All fixed now [Dirk]
+- Fixed links to comment pages (bug #0001061) [Tom]
+- Improved comment readability by adding a paragraph tag around "Plain Old Text"
+  comments and some padding in threaded mode (bug #0000833) [Dirk]
+- Hide the "Logout" link when editing a comment or comment submission
+  (bug #0000893) [Dirk]
+- CR and LF are now removed from the submitted password when a user logs in
+  (for bug #0000799) [Dirk]
+- Changed the label for the $_CONF['disable_autolinks'] config option to read
+  "Disable Autotags" and updated the documentation (bug #0000912) [Dirk]
+- Allow Spam-X to skip filtering of submitted content from certain user groups
+  (feature request #0001018) [Tom]
+- Changed the 'gravatar_rating' config option to a dropdown since it only
+  supports four options anyway [Dirk]
+- For anonymous comment submissions, use "Your Name" instead of "Username" in
+  the comment submission form (feature request #0001039) [Dirk]
+- CUSTOM_group_change() was being called with wrong parameters (bug #0001051)
+  [Blaine]
+- Added clickjacking protection for the printer-friendly version of articles
+  [Dirk]
+- When a login is required to view some part of the site, we now display a
+  login form. This replaces the simple "Login required" message [Dirk]
+- Hide "New user" option from "Login required" form when new user registration
+  is disabled (bug #0000933) [Dirk]
+- Show the block name in the list of blocks (feature request #0000819) [Dirk]
+- Added an option (under My Account > Layout & Language) for users to select
+  whether they want to use the Advanced Editor or not. The option is on by
+  default but only available when Advanced Editor has been enabled in the
+  Configuration (feature request #0000984) [Dirk]
+- Added support for textarea input fields in the Configuration (feature request
+  #0000905) [Dirk]
+- Blocks could not contain words in curly braces as they were mistaken for
+  template variables (bug #0001057) [Dirk]
+- Allow groups to be marked as a Default Group. New users will automatically be
+  added to all default groups (feature request #0000798) [Dirk]
+- Make sure all onclick events in the Configuration return false (bug #0001054)
+- Moved hard-coded sort direction indicator (asc/desc) for search results to
+  the language files [Dirk]
+- Changed the 'default_perm_cookie_timeout' config option to a dropdown so that
+  it's consistent with the "Remember me for" dropdown in My Account [Dirk]
+- Raised minimum required MySQL version to MySQL 4.0.18 [Dirk]
+- Fixed a non-feature where canceling out of the story editor would select that
+  story's topic in the admin's list of stories [Dirk]
+- Fixed problem uninstalling plugins - missing globals (bug #0001048)
+- Added an option to create a copy of a story (feature request #0000811) [Dirk]
+- Prepare database for storing IPv6 addresses (feature request #0000971) [Dirk]
+- Implemented re-authentication when trying to submit a form with an expired
+  security token. This will allow the user to save changes even when the token
+  has expired [Dirk]
+- Hide meta tag entry fields from the Story and Topic editors when meta tag
+  support is disabled [Dirk]
+- Fixed topic selection for the Daily Digest (bug #0001041, patch provided by
+  Ben)
+- Changed the 'menu_elements' and 'notification' config options to dropdowns
+  since there's only a fixed number of keywords that these two options recognize
+  [Dirk]
+- Fixed delete option for dynamically added config options: Back in 1.5.1, we
+  renamed our JavaScript remove() function to gl_cfg_remove() but forgot to
+  update the dynamically created function calls (cf. bug #0000681) [Dirk]
+
+Calendar Plugin
+---------------
+- Added support for a CAPTCHA in the submission form (bug #0001091, patch
+  provided by tuxcanfly)
+- Fixed an old bug in the event submission form: The text of the "Submit" button
+  must match the text $LANG12[8] to be recognized. Changed the form to always
+  use that string instead of the one from the Calendar plugin's language file
+  (originally reported by kokaku in 2006(!) and again by Tereso Ramos in 2010).
+
+Links Plugin
+------------
+- A link to an invalid Link Category could lead to an endless loop for users
+  with Links Admin permissions (bug #0001090; reported and patch provided by
+  Akeda Bagus)
+- Allow autotags in the Links and Link Category description (feature request
+  #0001079, patch provided by Akeda Bagus)
+- Added support for a CAPTCHA in the submission form (bug #0001091, patch
+  provided by tuxcanfly)
+- Added a link to "New category" from the Links editor [Dirk]
+- Fixed localization of "Root" category (bug #0001047) [Dirk]
+
+Polls Plugin
+------------
+- Added What's New Block Support for Polls and Poll comments 
+  (feature request #0000835) [Tom]
+- Poll Topics now have a created and a modified date (bug #0000761) [Tom]
+- Fixed display of the edit icon in the Poll block - didn't check for polls.edit
+  permissions (but wouldn't let you edit the poll) [Dirk]
+- Fixed wrong "access denied" message when attempting to view comments on a poll
+  that the user is not allowed to view (bug #0001044) [Dirk]
+- Fixed comment bar Refresh button (bug #0001044) [Dirk]
+- Hide meta tag entry fields from Polls editor when meta tag support is
+  disabled [Dirk]
+
+Spam-X Plugin
+-------------
+- Fixed "Edit IP of URL Blacklist" module (bug #0001102, reported and patch
+  provided by Abhishek Shrivastava)
+- A new right called spamx.skip allows SPAM-X to skip filtering of submitted 
+  content from certain user groups (bug #0001018) [Tom] 
+- Make sure the Notification Email config option can be disabled [Dirk]
+- List $_CONF['site_url'] as a non-editable entry in the SLV whitelist to
+  indicate that the site's URL is whitelisted automatically [Dirk]
+
+Static Pages Plugin 1.6.2
+-------------------
+- Introduced an optional page title for static pages (feature request #0001096,
+  patch provided by Vlad Voicu)
+- Fixed SQL error in the search when multi-language support was enabled (bug
+  #0001099) [Dirk]
+- Added What's New Block Support for Static Page comments
+  (feature request #0000835) [Tom]
+- Added modified date column. What's New Block Support for Static Page now 
+  allows you to use created or modified date [Tom]
+- Added clickjacking protection for the printer-friendly version [Dirk]
+- Fixed SQL compatibility with MS SQL (bug #0001050)
+- Added a draft flag (feature request #0000884) [Dirk]
+- Removed the sp_uid field since it's simply a duplicate of owner_id [Dirk]
+- Display number of comments in Static Page editor [Dirk]
+- Fixed wrong "access denied" message when attempting to view comments on a page
+  that the user is not allowed to view (bug #0001043) [Dirk]
+- Fixed comment bar Refresh button (bug #0001043) [Dirk]
+- Hide meta tag entry fields from Static Page editor when meta tag support is
+  disabled [Dirk]
+- Avoid a pair of empty brackets on the printer-friendly version for Static
+  Pages which have comments disabled [Dirk]
+- Added a config option to define the default sort order for the admin's list
+  of Static Pages (feature request #0000812) [Dirk]
+- Made the initial size of the Static Pages edit area (when using FCKeditor)
+  larger (feature request #0001037) [Dirk]
+- If a page does not exist and the user has staticpages.edit rights, send them
+  to the Static Page Editor (feature request #0000975) [Dirk]
+- Added a Comment Default config option (feature request #0000966) [Dirk]
+- Added support for query highlighting [Dirk]
+
+
 Nov 22, 2009 (1.6.1)
 ------------
 

@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-install.php                                                           |
 // |                                                                           |
 // | Additional functions for install script.                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by the following authors:                         |
+// | Copyright (C) 2008-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Matt West - matt.danger.west AT gmail DOT com                    |
 // |          Dirk Haun - dirk AT haun-online DOT de                           |
@@ -56,19 +56,25 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.6.1');
+    define('VERSION', '1.7.0b1');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
 }
 if (!defined('SUPPORTED_PHP_VER')) {
-    define('SUPPORTED_PHP_VER', '4.3.0');
+    define('SUPPORTED_PHP_VER', '4.4.0');
 }
 if (!defined('SUPPORTED_MYSQL_VER')) {
-    define('SUPPORTED_MYSQL_VER', '3.23.2');
+    define('SUPPORTED_MYSQL_VER', '4.0.18');
 }
 
 $_REQUEST = array_merge($_GET, $_POST);
+
+if (function_exists('date_default_timezone_get')) {
+    // this is not ideal but will stop PHP 5.3.0ff from complaining ...
+    $system_timezone = @date_default_timezone_get();
+    date_default_timezone_set($system_timezone);
+}
 
 if (empty($LANG_DIRECTION)) {
     $LANG_DIRECTION = 'ltr';
@@ -221,7 +227,7 @@ function php_v()
 /**
  * Check if the user's PHP version is supported by Geeklog
  *
- * @return bool True if supported, falsed if not supported
+ * @return boolean True if supported, falsed if not supported
  *
  */
 function INST_phpOutOfDate()
@@ -272,7 +278,7 @@ function mysql_v($_DB_host, $_DB_user, $_DB_pass)
  * Check if the user's MySQL version is supported by Geeklog
  *
  * @param   array   $db     Database information
- * @return  bool    True if supported, falsed if not supported
+ * @return  boolean True if supported, falsed if not supported
  *
  */
 function INST_mysqlOutOfDate($db)
@@ -367,7 +373,7 @@ function INST_prettifyLanguageName($filename)
  *
  * @param   string  $config_file    Full path to db-config.php
  * @param   array   $db             Database information to save
- * @return  bool    True if successful, false if not
+ * @return  boolean True if successful, false if not
  *
  */
 function INST_writeConfig($config_file, $db)
@@ -434,9 +440,6 @@ function INST_checkTableExists($table)
  */
 function INST_dbConnect($db)
 {
-    if (empty($db['pass'])) {
-        return false;
-    }
     $db_handle = false;
     switch ($db['type']) {
     case 'mysql-innodb':
@@ -451,6 +454,11 @@ function INST_dbConnect($db)
             return $db_handle;
         }
         break;
+    case 'pgsql':
+        if ($db_handle = @pg_connect('host='.$db['host'].' dbname='.$db['name'].' user='.$db['user'].' password='.$db['pass'])) {
+            return $db_handle;
+        }
+        break;
     }
     return $db_handle;
 }
@@ -459,7 +467,7 @@ function INST_dbConnect($db)
  * Check if a Geeklog database exists
  *
  * @param   array   $db Array containing connection info
- * @return  bool        True if a database exists, false if not
+ * @return  boolean     True if a database exists, false if not
  *
  */
 function INST_dbExists($db)
@@ -479,6 +487,10 @@ function INST_dbExists($db)
             return true;
         }
         break;
+    case 'pgsql':
+        $result = @pg_query('select count(*) from pg_catalog.pg_database where datname = \''.$db['name'].'\' ;');
+        $ifExists = pg_fetch_row($result);
+        return $ifExists[0]?true:false;
     }
     return false;
 }
@@ -489,7 +501,7 @@ function INST_dbExists($db)
  * NOTE:    This code is a modified copy from marufit at gmail dot com
  *
  * @param   string  $url    URL
- * @return  bool            True if URL exists, false if not
+ * @return  boolean         True if URL exists, false if not
  *
  */
 function INST_urlExists($url) 
@@ -1193,6 +1205,101 @@ function INST_sanitizePath($path)
     $path = str_replace('..', '', $path);
 
     return $path;
+}
+
+/**
+* Prepare a dropdown list of all available databases
+*
+* Checks which driver classes and "tableanddata" files are actually present,
+* so that unwanted dbs can be removed (still requires special code all over the
+* place so you can't simply drop in new files to add support for new dbs).
+*
+* If support for a database has not been compiled into PHP, the option will be
+* listed as disabled.
+*
+* @param    string  $gl_path            base Geeklog install path
+* @param    string  $selected_dbtype    currently selected db type
+* @param    boolean $list_innodb        whether to list InnoDB option
+*
+*/
+function INST_listOfSupportedDBs($gl_path, $selected_dbtype, $list_innodb = false)
+{
+    global $LANG_INSTALL;
+
+    $retval = '';
+
+    if (substr($gl_path, -13) == 'db-config.php') {
+        $gl_path = dirname($gl_path);
+    }
+
+    $dbs = array(
+        'mysql'        => array('file'  => 'mysql',
+                                'fn'    => 'mysql_connect',
+                                'label' => $LANG_INSTALL[35]),
+        'mysql-innodb' => array('file'  => 'mysql',
+                                'fn'    => 'mysql_connect',
+                                'label' => $LANG_INSTALL[36]),
+        'mssql'        => array('file'  => 'mssql',
+                                'fn'    => 'mssql_connect',
+                                'label' => $LANG_INSTALL[37]),
+        'pgsql'        => array('file'  => 'pgsql',
+                                'fn'    => 'pg_connect',
+                                'label' => $LANG_INSTALL[106])
+    );
+
+    // may not be needed as a separate option, e.g. for upgrades
+    if (! $list_innodb) {
+        unset($dbs['mysql-innodb']);
+    }
+
+    foreach ($dbs as $dbname => $info) {
+        $prefix = $info['file']; 
+        if (file_exists($gl_path . '/sql/' . $prefix . '_tableanddata.php') &&
+                file_exists($gl_path . '/system/databases/' . $prefix
+                                     . '.class.php')) {
+            $retval .= '<option value="' . $dbname . '"';
+            if (! function_exists($info['fn'])) {
+                $retval .= ' disabled="disabled"';
+                unset($dbs[$dbname]);
+            } elseif ($dbname == $selected_dbtype) {
+                $retval .= ' selected="selected"';
+            }
+            $retval .= '>' . $info['label'] . '</option>' . LB;
+        } else {
+            unset($dbs[$dbname]);
+        }
+    }
+
+    $num_dbs = count($dbs);
+    if ($num_dbs == 0) {
+        $retval = '<span class="error">' . $LANG_INSTALL[108] . '</span>' . LB;
+    } elseif ($num_dbs == 1) {
+        $remaining = array_keys($dbs);
+        $retval = $dbs[$remaining[0]]['label']
+                . ' <input type="hidden" name="db_type" value="'
+                . $remaining[0] . '"' . XHTML . '>' . LB;
+    } else {
+        $retval = '<select name="db_type">' . LB . $retval . '</select>' . LB;
+    }
+
+    return $retval;
+}
+
+/**
+* Check for blank database password in production environment
+*
+* @param   array   $db Database    information
+* @param   string  $site_url       The site's URL
+* @return  boolean                 True if password is set or it is a local server
+*
+*/
+function INST_dbPasswordCheck($site_url, $db)
+{
+    if (!empty($db['pass']) || (isset($site_url)  && (strpos($site_url, '127.0.0.1') !== false)  || (strpos($site_url, 'localhost') !== false))) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 ?>

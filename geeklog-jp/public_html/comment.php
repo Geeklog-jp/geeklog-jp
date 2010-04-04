@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Let user comment on a story or plugin.                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -204,11 +204,11 @@ function handleView($view = true)
         $format = COM_applyFilter( $_REQUEST['format'] );
     }
     if ( $format != 'threaded' && $format != 'nested' && $format != 'flat' ) {
-        if ( $_USER['uid'] > 1 ) {
+        if (COM_isAnonUser()) {
+            $format = $_CONF['comment_mode'];
+        } else {
             $format = DB_getItem( $_TABLES['usercomment'], 'commentmode', 
                                   "uid = {$_USER['uid']}" );
-        } else {
-            $format = $_CONF['comment_mode'];
         }
     }
 
@@ -433,18 +433,24 @@ case 'unsubscribe':
 
 default:  // New Comment
     $abort = false;
-    $sid = COM_applyFilter ($_REQUEST['sid']);
-    $type = COM_applyFilter ($_REQUEST['type']);
+    $sid = '';
+    if (isset($_REQUEST['sid'])) {
+        $sid = COM_applyFilter($_REQUEST['sid']);
+    }
+    $type = 'article';
+    if (isset($_REQUEST['type'])) {
+        $type = COM_applyFilter($_REQUEST['type']);
+    }
     $title = '';
-    if (isset ($_REQUEST['title'])) {
-        $title = strip_tags ($_REQUEST['title']);
+    if (isset($_REQUEST['title'])) {
+        $title = strip_tags($_REQUEST['title']);
     }
     $postmode = $_CONF['postmode'];
-    if (isset ($_REQUEST['postmode'])) {
-        $postmode = COM_applyFilter ($_REQUEST['postmode']);
+    if (isset($_REQUEST['postmode'])) {
+        $postmode = COM_applyFilter($_REQUEST['postmode']);
     }
 
-    if ($type == 'article') {
+    if (($type == 'article') && !empty($sid)) {
         $dbTitle = DB_getItem($_TABLES['stories'], 'title',
                     "(sid = '$sid') AND (draft_flag = 0) AND (date <= NOW()) AND (commentcode = 0)"
                     . COM_getPermSQL('AND') . COM_getTopicSQL('AND'));
@@ -455,8 +461,8 @@ default:  // New Comment
         }
     }
     if (!$abort) {
-        if (!empty ($sid) && !empty ($type)) { 
-            if (empty ($title)) {
+        if (!empty($sid) && !empty($type)) {
+            if (empty($title)) {
                 if ($type == 'article') {
                     $title = $dbTitle;
                 }

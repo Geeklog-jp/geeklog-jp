@@ -80,7 +80,7 @@ $LANG01 = array(
     37 => 'Geen gebruiker artikels',
     38 => 'Inhoud Sindikasie',
     39 => 'Herlaai',
-    40 => 'Jou <tt>register_globals = Off</tt> in jou <tt>php.ini</tt>. Geekolog vereis egter dat <tt>register_globals</tt> <strong>aan</strong> is. Voordat jy verder gaan, stel dit na <strong>on</strong> en herlaai jou webblaaier.',
+    40 => '',
     41 => 'Besoekers',
     42 => 'Geskryf deur:',
     43 => 'Antwoord hierop',
@@ -219,7 +219,8 @@ $LANG03 = array(
     40 => 'If you wish to receive no further notifications of replies, visit the following link:',
     41 => 'Hello %s,',
     42 => 'Unsubscribe',
-    43 => 'Unsubscribe from reply notifications'
+    43 => 'Unsubscribe from reply notifications',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -365,7 +366,7 @@ $LANG04 = array(
     137 => 'Filter Story Content',
     138 => 'Misc Settings',
     139 => 'Layout and Language',
-    140 => '<li>No Topic Icons if checked will not display the story topic icons</li><li>No boxes if checked will only show the Admin Menu, User Menu and Topics<li>Set the maximum number of stories to show per page</li><li>Set your theme and perferred date format</li>',
+    140 => '<li>No Topic Icons if checked will not display the story topic icons</li><li>No boxes if checked will only show the Admin Menu, User Menu and Topics</li><li>Set the maximum number of stories to show per page</li><li>Set your theme, timezone and preferred date format</li>',
     141 => 'Privacy Settings',
     142 => 'The default setting is to allow users & admins to email fellow site members and show your status as online. Un-check these options to protect your privacy.',
     143 => 'Filter Block Content',
@@ -382,7 +383,10 @@ $LANG04 = array(
     159 => 'This email was generated automatically. Please do not reply to this email.',
     160 => '(max. %d x %d pixels, %d bytes; %s)',
     161 => 'will be scaled down',
-    162 => 'will not be scaled'
+    162 => 'will not be scaled',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -529,7 +533,9 @@ $LANG09 = array(
     67 => 'Show %d Results',
     68 => 'Sort By',
     69 => 'Titles Only',
-    70 => 'Not available ...'
+    70 => 'Not available ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -712,7 +718,7 @@ $LANG21 = array(
     47 => '',
     48 => 'Bloknaam',
     49 => ' (geen spasies en moet uniek wees)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => 'sluit http:// in',
     52 => 'As jy hierdie leeg los sal die hulp-ikoon vir hierdie blok nie vertoon word nie',
     53 => 'Geaktiveer',
@@ -956,7 +962,10 @@ $LANG28 = array(
     84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
     85 => 'If you have forgotten the password use the following link: %s',
     86 => 'Include',
-    87 => 'Reminders'
+    87 => 'Reminders',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -984,7 +993,7 @@ $LANG29 = array(
     39 => 'Daar is geen bydraes op hierdie tydstip wat aksie vereis nie',
     40 => 'Gebruikersbydraes',
     41 => 'Comment Submissions',
-    42 => 'User Name',
+    42 => 'Username',
     43 => 'Auto-publish Comments?'
 );
 
@@ -1184,7 +1193,7 @@ $MESSAGE = array(
     44 => 'Die prop is suksesvol gestoor!',
     45 => 'Die prop is suksesvol verwyder.',
     46 => '',
-    47 => 'Hierdie funksie werk slegs onder *nix stelsels.  Indien u wel \'n *nix bedryfstelsel gebruik is u kasgeheue suksesvol skoongevee. As u op Windows werk, moet u na l&ecirc;ers soek met die naam adodb_*.php en hulle handmatig verwyder.',
+    47 => '',
     48 => "Dankie vir u aansoek vir lidmaatskap tot {$_CONF['site_name']}. Ons span sal u aansoek nagaan.  Indien goedgekeur, sal u wagwoord gestuur word aan die epos adres wat u verskaf het.",
     49 => 'U groep is suksesvol gestoor.',
     50 => 'Die groep is suksesvol verwyder.',
@@ -1580,6 +1589,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => 'Create New (Adv.)',
     'enabled' => 'Aktief',
     'title' => 'Titel',
+    'page_title' => 'Page Title',
     'type' => 'Tipe',
     'topic' => 'Onderwerp',
     'help_url' => 'Hulpl&ecirc;er URL',
@@ -1598,7 +1608,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
-    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.'
+    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1843,7 +1856,7 @@ $LANG_confignames['Core'] = array(
     'max_photo_height' => 'Max Photo Height?',
     'max_photo_size' => 'Max Photo Size?',
     'use_gravatar' => 'Use Gravatar?',
-    'gravatar_rating' => 'Gravatar Rating Allowed',
+    'gravatar_rating' => 'Gravatar Rating',
     'force_photo_width' => 'Force Photo Width',
     'default_photo' => 'Default Photo',
     'commentspeedlimit' => 'Comment Speed Limit',
@@ -1861,7 +1874,7 @@ $LANG_confignames['Core'] = array(
     'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Skip HTML Filter for Root?',
     'allowed_protocols' => 'Allowed Protocols',
-    'disable_autolinks' => 'Disable Autolinks?',
+    'disable_autolinks' => 'Disable Autotags?',
     'clickable_links' => 'Make URLs clickable?',
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
@@ -1890,7 +1903,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Allow User to Sort Results?',
     'search_show_limit' => 'Show Page Limits?',
     'search_separator' => 'Group Separator',
-    'search_def_keytype' => 'Default Search Method'
+    'search_def_keytype' => 'Default Search Method',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1972,7 +1986,11 @@ $LANG_configselects['Core'] = array(
     20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

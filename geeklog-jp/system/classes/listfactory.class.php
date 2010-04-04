@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6.1                                                             |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | listfactory.class.php                                                     |
 // |                                                                           |
@@ -10,7 +10,7 @@
 // | from arrays or SQL statements. It will also supports the sorting and      |
 // | paging of results.                                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Sami Barakat     - s.m.barakat AT gmail DOT com                  |
 // +---------------------------------------------------------------------------+
@@ -105,7 +105,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'listfactory.class.php') !== false)
         if ($preSort)
         {
             // extract any further information from the results.
-            // such as converting user ID's to user names
+            // such as converting user ID's to usernames
         }
         else
         {
@@ -338,6 +338,9 @@ class ListFactory {
         if (is_array($sql)) {
             $sql['mysql'] = preg_replace('/SELECT.*FROM/is', 'SELECT COUNT(*) FROM', $sql['mysql']);
             $sql['mssql'] = preg_replace('/SELECT.*FROM/is', 'SELECT COUNT(*) FROM', $sql['mssql']);
+            $sql['pgsql'] = preg_replace('/SELECT.*FROM/is', 'SELECT COUNT(*) FROM', $sql['pgsql']);
+
+            
         }
         else {
             $sql = preg_replace('/SELECT.*FROM/is', 'SELECT COUNT(*) FROM', $sql);
@@ -445,23 +448,32 @@ class ListFactory {
     */
     function ExecuteQueries()
     {
-        // Get the details for sorting the list
-        $this->_sort_arr['field'] = isset($_GET['order']) ? COM_applyFilter($_GET['order']) : $this->_def_sort_arr['field'];
-        if (isset($_GET['direction']))
-            $this->_sort_arr['direction'] = $_GET['direction'] == 'asc' ? 'asc' : 'desc';
-        else
-            $this->_sort_arr['direction'] = $this->_def_sort_arr['direction'];
+        // Set to default sort, we will check the passed param in the next bit
+        $this->_sort_arr['field'] = $this->_def_sort_arr['field'];
 
-        if (is_numeric($this->_sort_arr['field']))
-        {
+        if (isset($_GET['order'])) {
+            // Loop though the order fields and find a match against $_GET param
+            foreach ($this->_fields as $field) {
+                if ($field['sort'] == true && $field['name'] == $_GET['order']) {
+                    $this->_sort_arr['field'] = $field['name']; // Use a trusted value
+                    break;
+                }
+            }
+        }
+
+        if (isset($_GET['direction'])) {
+            $this->_sort_arr['direction'] = $_GET['direction'] == 'asc' ? 'asc' : 'desc';
+        } else {
+            $this->_sort_arr['direction'] = $this->_def_sort_arr['direction'];
+        }
+
+        if (is_numeric($this->_sort_arr['field'])) {
             $ord = $this->_def_sort_arr['field'];
             $this->_sort_arr['field'] = LF_SOURCE_TITLE;
-        }
-        else
-        {
+        } else {
             $ord = $this->_sort_arr['field'];
         }
-        $order_sql = ' ORDER BY "' . addslashes($ord) . '" ' . strtoupper($this->_sort_arr['direction']);
+        $order_sql = ' ORDER BY ' . $ord . ' ' . strtoupper($this->_sort_arr['direction']);
 
         $this->_page = isset($_GET['page']) ? COM_applyFilter($_GET['page'], true) : 1;
         if (isset($_GET['results'])) {
@@ -472,8 +484,9 @@ class ListFactory {
         $this->_total_found = count($this->_preset_rows);
 
         // When the preset rows exceed per_page bail early
-        if ($this->_total_found > $this->_per_page)
+        if ($this->_total_found > $this->_per_page) {
             return array_slice($rows_arr, 0, $this->_per_page);
+        }
 
         // Calculate the limits for each query
         $num_query_results = $this->_per_page - $this->_total_found;
@@ -545,8 +558,7 @@ class ListFactory {
         $direction = $this->_sort_arr['direction'] == 'asc' ? SORT_ASC : SORT_DESC;
         $column = array();
         foreach ($rows_arr as $sortarray) {
-            $tmp = strip_tags($sortarray[ $this->_sort_arr['field'] ]);
-            $column[] = ($tmp == 'LF_NULL' ? 0 : $tmp);
+            $column[] = strip_tags($sortarray[ $this->_sort_arr['field'] ]);
         }
         array_multisort($column, $direction, $rows_arr);
 
@@ -583,6 +595,7 @@ class ListFactory {
         // insert std. values into the template
         $list_templates->set_var('xhtml', XHTML);
         $list_templates->set_var('site_url', $_CONF['site_url']);
+        $list_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
         $list_templates->set_var('layout_url', $_CONF['layout_url']);
 
         if (count($rows_arr) == 0)
@@ -678,14 +691,24 @@ class ListFactory {
                     if ($this->_sort_arr['field'] === $field['name'])
                     {
                         // Add drop down item for current sort order
-                        $list_templates->set_var('sort_text', $text.' ('.$this->_sort_arr['direction'].')');
+                        if ($this->_sort_arr['direction'] == 'asc') {
+                            $list_templates->set_var('sort_text',
+                                    $text . ' (' . $LANG09[71] . ')');
+                        } else {
+                            $list_templates->set_var('sort_text',
+                                    $text . ' (' . $LANG09[72] . ')');
+                        }
                         $list_templates->set_var('sort_href', '');
                         $list_templates->set_var('sort_selected', ' selected="selected"');
                         $list_templates->parse('page_sort', 'sort', true);
 
                         // Set up the sort order for the opposite direction
                         $direction = $this->_sort_arr['direction'] == 'asc' ? 'desc' : 'asc';
-                        $text .= " ($direction)";
+                        if ($direction == 'asc') {
+                            $text .= ' (' . $LANG09[71] . ')';
+                        } else {
+                            $text .= ' (' . $LANG09[72] . ')';
+                        }
                     }
                     $href = $this->_page_url . "results={$this->_per_page}&amp;" .
                                 "order={$field['name']}&amp;direction=$direction";

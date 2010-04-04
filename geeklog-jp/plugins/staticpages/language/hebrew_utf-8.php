@@ -41,6 +41,7 @@ $LANG_STATIC = array(
     'writtenby' => 'נכתב על ידי',
     'date' => 'עידכון אחרון',
     'title' => 'כותרת',
+    'page_title' => 'Page Title',
     'content' => 'תוכן',
     'hits' => 'לחיצות',
     'staticpagelist' => 'רשימת עמודים סטטיים',
@@ -110,13 +111,17 @@ $LANG_STATIC = array(
     'search' => 'חיפוש',
     'submit' => 'שליחה',
     'no_new_pages' => 'אין עמודים חדשים',
-    'pages' => 'עמודים'
-
+    'pages' => 'עמודים',
+    'comments' => 'Comments',
+    'draft' => 'Draft',
+    'draft_yes' => 'Yes',
+    'draft_no' => 'No'
 );
 
 $PLG_staticpages_MESSAGE15 = 'תגובתכם נשלחה לסקירה ותפורסם כאשר תאושר על ידי המשגיחים.';
 $PLG_staticpages_MESSAGE19 = 'העמוד שלכם נשמר בהצלחה.';
 $PLG_staticpages_MESSAGE20 = 'העמוד שלכם נמחק בהצלחה.';
+$PLG_staticpages_MESSAGE21 = 'This page does not exist yet. To create the page, please fill in the form below. If you are here by mistake, click the Cancel button.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'אין תמיכה בשידרוג ה-plugin.';
@@ -132,6 +137,7 @@ $LANG_confignames['staticpages'] = array(
     'allow_php' => 'איפשור PHP?',
     'sort_by' => 'מיון קוביות מידע מרכזיות לפי',
     'sort_menu_by' => 'מיון פריטים בתפריט לפי',
+    'sort_list_by' => 'Sort Admin List by',
     'delete_pages' => 'מחיקת עמודים עם יוצריהם?',
     'in_block' => 'עטיפת העמודים בקוביית מידע?',
     'show_hits' => 'הצגת כמות לחיצות?',
@@ -142,6 +148,8 @@ $LANG_confignames['staticpages'] = array(
     'aftersave' => 'לאחר שמירת עמוד',
     'atom_max_items' => 'הכמות המקסימלית של עמודים בהזנת שירותי רשת',
     'meta_tags' => 'אפשרו תגיות Meta',
+    'comment_code' => 'Comment Default',
+    'draft_flag' => 'Draft Flag Default',
     'newstaticpagesinterval' => 'מרווח עמוד סטטי חדש',
     'hidenewstaticpages' => 'החביאו עמודים סטטיים חדשים',
     'title_trim_length' => 'אורך קיצוץ כותרות',
@@ -163,14 +171,17 @@ $LANG_fs['staticpages'] = array(
     'fs_permissions' => 'הרשאות ברירת המחדל'
 );
 
-// Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
+// Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
     0 => array('כן' => 1, 'לא' => 0),
     1 => array('כן' => true, 'לא' => false),
     2 => array('תאריך' => 'date', 'קוד זיהוי עמוד' => 'id', 'כותרת' => 'title'),
     3 => array('תאריך' => 'date', 'קוד זיהוי עמוד' => 'id', 'כותרת' => 'title', 'תווית' => 'label'),
+    4 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Author' => 'author'),
+    5 => array('Hide' => 'hide', 'Show - Use Modified Date' => 'modified', 'Show - Use Created Date' => 'created'),
     9 => array('הפנייה לעמוד' => 'item', 'הצגת רשימה' => 'list', 'הצגת דף הבית' => 'home', 'הצגת דף הניהול' => 'admin'),
-    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3)
+    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3),
+    17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1)
 );
 
 ?>

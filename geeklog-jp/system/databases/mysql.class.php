@@ -257,7 +257,7 @@ class database {
         if ($ignore_errors == 1) {
             $result = @mysql_query($sql,$this->_db);
         } else {
-            $result = @mysql_query($sql,$this->_db) or trigger_error($this->dbError($sql));
+            $result = @mysql_query($sql,$this->_db) or trigger_error($this->dbError($sql), E_USER_ERROR);
         }
 
         // If OK, return otherwise echo error
@@ -668,7 +668,7 @@ class database {
     * @return   int                             Returns last auto-generated ID
     *
     */
-    function dbInsertId($link_identifier = '')
+    function dbInsertId($link_identifier = '',$sequence='')
     {
         if (empty($link_identifier)) {
             return @mysql_insert_id();

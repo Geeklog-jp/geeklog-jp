@@ -2,15 +2,15 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | hebrew_utf-8.php                                                          |
 // |                                                                           |
 // | Hebrew language file for the Geeklog installation script                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009                                                   |
+// | Copyright (C) 2008-2010                                                   |
 // | http://lior.weissbrod.com                                                 |
-// | Version 1                                                             |
+// | Version 1                                                                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -45,9 +45,9 @@ $LANG_DIRECTION = 'rtl';
 // install.php
 
 $LANG_INSTALL = array(
-    0 => 'Geeklog - The Ultimate Weblog System',
+    0 => 'Geeklog - The secure CMS.',
     1 => 'תמיכת התקנה',
-    2 => 'The Ultimate Weblog System',
+    2 => '<span dir="ltr">The secure CMS.</span>',
     3 => 'התקנת Geeklog',
     4 => 'דרוש PHP %s',
     5 => 'מצטערים, אבל Geeklog דורש לפחות PHP %s בשביל לרוץ (לכם יש גירסה ',
@@ -150,7 +150,10 @@ $LANG_INSTALL = array(
     102 => 'הכניסו את מידע הכיוון',
     103 => 'וכיוון plugins נוספים',
     104 => 'נתיב בספריית ניהול לא נכון',
-    105 => 'מצטערים, אבל נתיב ספריית הניהול שהכנסתם אינו נראה נכון. אנא חיזרו אחורה ונסו שנית.'
+    105 => 'מצטערים, אבל נתיב ספריית הניהול שהכנסתם אינו נראה נכון. אנא חיזרו אחורה ונסו שנית.',
+    106 => 'PostgreSQL',
+    107 => 'Database Password is required for production environments.',
+    108 => 'No Database Drivers found!'
 );
 
 // +---------------------------------------------------------------------------+

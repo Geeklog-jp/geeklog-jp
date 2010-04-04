@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Calendar   |
 // | plugin's PHP files.                                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -74,13 +74,13 @@ if (!isset($_CA_CONF['calendarloginrequired'])) {
 * NOTE: this MUST return the url/value pairs in the following format
 * $<arrayname>[<label>] = <url>
 *
-* @return   mixed   menu entry, or boolean false if disabled / hidden
 */
-function plugin_getmenuitems_calendar()
+function plugin_getmenuitems_calendar ()
 {
-    global $_CONF, $_CA_CONF, $LANG_CAL_1;
+    global $_CONF, $_USER, $_CA_CONF, $LANG_CAL_1;
 
-    if (($_CA_CONF['hidecalendarmenu'] == 1) || (COM_isAnonUser() &&
+    $anon = (empty ($_USER['uid']) || ($_USER['uid'] <= 1)) ? true : false;
+    if (($_CA_CONF['hidecalendarmenu'] == 1) || ($anon &&
             ($_CONF['loginrequired'] || $_CA_CONF['calendarloginrequired']))) {
         return false;
     }
@@ -119,22 +119,30 @@ function phpblock_calendar( $help='', $title='' )
             $title = DB_getItem( $_TABLES['blocks'], 'title',
                                  "name = 'events_block'" );
         }
-
         $eventSql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
         . "FROM {$_TABLES['events']} ";
         if($_DB_dbms == 'mssql') {
             $eventSql .= "WHERE dateend >= DATEADD(hh, 24, NOW()) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
-        } else {
-            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL 24 HOUR) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
+        } else if($_DB_dbms =='pgsql')
+        {
+            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL '1 day') AND (NOW() - INTERVAL '$range days') < datestart ";   
+        } 
+        else {
+            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL 24 HOUR) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";            
         }
         $eventSql .= 'ORDER BY datestart,timestart';
 
-        if(( $_CA_CONF['personalcalendars'] == 1 ) && !empty( $_USER['uid'] )) {
+        if (($_CA_CONF['personalcalendars'] == 1) && !COM_isAnonUser()) {
             $personaleventsql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
             . "FROM {$_TABLES['personal_events']} ";
             if($_DB_dbms == 'mssql') {
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= DATEADD(hh, 24, getUTCDate())  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
-            } else {
+            }
+            else if($_DB_dbms=='pgsql')
+            {
+                $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL '1 day')  AND (NOW() - INTERVAL '$range days') < datestart ";
+            }
+             else {
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL 24 HOUR)  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
             }
             $personaleventsql .= 'ORDER BY datestart, dateend';
@@ -149,7 +157,7 @@ function phpblock_calendar( $help='', $title='' )
         $oldDate1 = 'no_day';  // Invalid Date!
         $oldDate2 = 'last_d';  // Invalid Date!
 
-        if( $_CA_CONF['personalcalendars'] == 1 AND !empty( $_USER['uid'] )) {
+        if (($_CA_CONF['personalcalendars'] == 1) AND !COM_isAnonUser()) {
             $iterations = 2;
         } else {
             $iterations = 1;
@@ -312,6 +320,9 @@ function plugin_ismoderator_calendar()
 
 /**
 * Returns SQL & Language texts to moderation.php
+*
+* @return   mixed   Plugin object or void if not allowed
+*
 */
 function plugin_itemlist_calendar()
 {
@@ -367,7 +378,7 @@ function plugin_moderationvalues_calendar()
 */
 function plugin_moderationapprove_calendar($id)
 {
-    global $_CA_CONF, $_GROUPS, $_TABLES, $_USER;
+    global $_CA_CONF, $_GROUPS, $_TABLES;
 
     // The eventsubmission table only keeps track of the submitter's uid,
     // but not of grous and permissions. So set those to sensible defaults.
@@ -668,7 +679,7 @@ function plugin_getheadercode_calendar()
 */
 function plugin_submit_calendar($mode = 'master')
 {
-    global $_CONF, $_USER, $_CA_CONF, $LANG_CAL_1;
+    global $_CONF, $_CA_CONF, $LANG_CAL_1, $LANG12;
 
     if (isset($_POST['calendar_type'])) {
         $mode = $_POST['calendar_type'];
@@ -722,6 +733,10 @@ function plugin_submit_calendar($mode = 'master')
     $retval .= COM_startBlock ($LANG_CAL_1[26], 'submitevent.html');
     $eventform = new Template ($_CONF['path'] . 'plugins/calendar/templates/');
     $eventform->set_file ('eventform', 'submitevent.thtml');
+    $eventform->set_var ('xhtml', XHTML);
+    $eventform->set_var ('site_url', $_CONF['site_url']);
+    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
+    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     if ($mode != 'personal') {
         $eventform->set_var ('explanation', $LANG_CAL_1[27]);
         $eventform->set_var ('submit_url', '/submit.php');
@@ -734,9 +749,6 @@ function plugin_submit_calendar($mode = 'master')
     } else {
         $eventform->set_var ('hour_mode', 12);
     }
-    $eventform->set_var ('site_url', $_CONF['site_url']);
-    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     $eventform->set_var ('lang_title', $LANG_CAL_1[28]);
 
     $eventform->set_var('lang_eventtype', $LANG_CAL_1[37]);
@@ -806,7 +818,8 @@ function plugin_submit_calendar($mode = 'master')
     $eventform->set_var('lang_location', $LANG_CAL_1[39]);
     $eventform->set_var('lang_description', $LANG_CAL_1[5]);
     $eventform->set_var('lang_htmnotallowed', $LANG_CAL_1[44]);
-    $eventform->set_var('lang_submit', $LANG_CAL_1[45]);
+    PLG_templateSetVars('calendar', $eventform);
+    $eventform->set_var('lang_submit', $LANG12[8]);
     $eventform->set_var('mode', $mode);
     if ($mode == 'personal') {
         $token = SEC_createToken();
@@ -816,7 +829,6 @@ function plugin_submit_calendar($mode = 'master')
     } else {
         $eventform->set_var('hidden_fields', '');
     }
-    $eventform->set_var('xhtml', XHTML);
     $eventform->parse('theform', 'eventform');
     $retval .= $eventform->finish($eventform->get_var('theform'));
     $retval .= COM_endBlock();
@@ -884,12 +896,16 @@ function CALENDAR_listOld()
     $retval = '';
 
     $header_arr = array(      # display 'text' and use table field 'field'
-        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true),
-        array('text' => $LANG_CAL_ADMIN[13], 'field' => 'username', 'sort' => true),
-        array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false),
-        array('text' => $LANG_CAL_ADMIN[14], 'field' => 'datestart', 'sort' => true),
-        array('text' => $LANG_CAL_ADMIN[15], 'field' => 'dateend', 'sort' => true)
+        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true)
     );
+    if ($_CONF['show_fullname'] == 1) {
+        $header_arr[] = array('text' => $LANG_CAL_ADMIN[13], 'field' => 'fullname', 'sort' => true);
+    } else {
+        $header_arr[] = array('text' => $LANG_CAL_ADMIN[13], 'field' => 'username', 'sort' => true);
+    }
+    $header_arr[] = array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false);
+    $header_arr[] = array('text' => $LANG_CAL_ADMIN[14], 'field' => 'datestart', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_CAL_ADMIN[15], 'field' => 'dateend', 'sort' => true);
 
     $defsort_arr = array('field' => 'datestart', 'direction' => 'desc');
 
@@ -903,17 +919,17 @@ function CALENDAR_listOld()
     );
 
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendar/templates/admin');
-    $cal_templates->set_file (array ('form' => 'batchdelete.thtml'));
-    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var ('site_url', $_CONF['site_url']);
-    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
+    $cal_templates->set_file(array('form' => 'batchdelete.thtml'));
     $cal_templates->set_var('xhtml', XHTML);
-    $cal_templates->set_var ('usr_time', $usr_time);
-    $cal_templates->set_var ('lang_text_start', $LANG_CAL_ADMIN[28]);
-    $cal_templates->set_var ('lang_text_end', $LANG_CAL_ADMIN[29]);
-    $cal_templates->set_var ('lang_updatelist', $LANG_CAL_ADMIN[30]);
-    $cal_templates->set_var ('lang_delete_sel', $LANG_ADMIN['delete_sel']);
-    $cal_templates->set_var ('lang_delconfirm', $LANG_CAL_ADMIN[31]);
+    $cal_templates->set_var('site_url', $_CONF['site_url']);
+    $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
+    $cal_templates->set_var('usr_time', $usr_time);
+    $cal_templates->set_var('lang_text_start', $LANG_CAL_ADMIN[28]);
+    $cal_templates->set_var('lang_text_end', $LANG_CAL_ADMIN[29]);
+    $cal_templates->set_var('lang_updatelist', $LANG_CAL_ADMIN[30]);
+    $cal_templates->set_var('lang_delete_sel', $LANG_ADMIN['delete_sel']);
+    $cal_templates->set_var('lang_delconfirm', $LANG_CAL_ADMIN[31]);
     $cal_templates->parse('form', 'form');
     $desc = $cal_templates->finish($cal_templates->get_var('form'));
 
@@ -1005,12 +1021,16 @@ function CALENDAR_listevents()
     $header_arr = array(      # display 'text' and use table field 'field'
         array('text' => $LANG_ADMIN['edit'], 'field' => 'edit', 'sort' => false),
         array('text' => $LANG_ADMIN['copy'], 'field' => 'copy', 'sort' => false),
-        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true),
-        array('text' => $LANG_CAL_ADMIN[13], 'field' => 'username', 'sort' => true),
-        array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false),
-        array('text' => $LANG_CAL_ADMIN[14], 'field' => 'datestart', 'sort' => true),
-        array('text' => $LANG_CAL_ADMIN[15], 'field' => 'dateend', 'sort' => true)
+        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true)
     );
+    if ($_CONF['show_fullname'] == 1) {
+        $header_arr[] = array('text' => $LANG_CAL_ADMIN[13], 'field' => 'fullname', 'sort' => true);
+    } else {
+        $header_arr[] = array('text' => $LANG_CAL_ADMIN[13], 'field' => 'username', 'sort' => true);
+    }
+    $header_arr[] = array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false);
+    $header_arr[] = array('text' => $LANG_CAL_ADMIN[14], 'field' => 'datestart', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_CAL_ADMIN[15], 'field' => 'dateend', 'sort' => true);
 
     $defsort_arr = array('field' => 'datestart', 'direction' => 'desc');
 
@@ -1725,7 +1745,7 @@ function plugin_templatesetvars_calendar ($templatename, &$template)
 {
     global $LANG_CAL_1;
 
-    if ($templatename == 'header') {
+    if (($templatename == 'header') || ($templatename == 'footer')) {
         $template->set_var ('button_calendar', $LANG_CAL_1[16]);
     }
 }
@@ -1740,45 +1760,52 @@ function plugin_getListField_calendar($fieldname, $fieldvalue, $A, $icon_arr)
                             $A['perm_group'],$A['perm_members'],$A['perm_anon']);
 
     switch($fieldname) {
-        case "delete":
-            $retval = "<input type=\"checkbox\" name=\"delitem[{$A['eid']}]\" checked=\"checked\"" . XHTML . ">";
-            break;
-        case "edit":
-            if ($access == 3) {
-                $retval = COM_createLink(
-                    $icon_arr['edit'],
-                    "{$_CONF['site_admin_url']}/plugins/calendar/index.php"
-                    . "?mode=edit&amp;eid={$A['eid']}");
-            }
-            break;
-        case "copy":
-            if ($access == 3) {
-                $retval = COM_createLink(
-                    $icon_arr['copy'],
-                    "{$_CONF['site_admin_url']}/plugins/calendar/index.php"
-                    . "?mode=clone&amp;eid={$A['eid']}");
-            }
-            break;
-        case 'access':
-            if ($access == 3) {
-                $retval = $LANG_ACCESS['edit'];
-            } else {
-                $retval = $LANG_ACCESS['readonly'];
-            }
-            break;
-        case 'title':
-            $retval = stripslashes ($A['title']);
-            $retval = COM_createLink( $retval,
-                "{$_CONF['site_url']}/calendar/event.php?eid={$A['eid']}"
-            );
-            break;
-        case 'username':
-            $retval = COM_getDisplayName ($A['owner_id'], $A['username'], $A['fullname']);
-            break;
-        default:
-            $retval = $fieldvalue;
-            break;
+    case 'delete':
+        $retval = "<input type=\"checkbox\" name=\"delitem[{$A['eid']}]\" checked=\"checked\"" . XHTML . ">";
+        break;
+
+    case 'edit':
+        if ($access == 3) {
+            $retval = COM_createLink(
+                $icon_arr['edit'],
+                "{$_CONF['site_admin_url']}/plugins/calendar/index.php"
+                . "?mode=edit&amp;eid={$A['eid']}");
+        }
+        break;
+
+    case 'copy':
+        if ($access == 3) {
+            $retval = COM_createLink(
+                $icon_arr['copy'],
+                "{$_CONF['site_admin_url']}/plugins/calendar/index.php"
+                . "?mode=clone&amp;eid={$A['eid']}");
+        }
+        break;
+
+    case 'access':
+        if ($access == 3) {
+            $retval = $LANG_ACCESS['edit'];
+        } else {
+            $retval = $LANG_ACCESS['readonly'];
+        }
+        break;
+
+    case 'title':
+        $retval = COM_createLink(stripslashes($A['title']),
+                    "{$_CONF['site_url']}/calendar/event.php?eid={$A['eid']}");
+        break;
+
+    case 'username':
+    case 'fullname':
+        $retval = COM_getDisplayName($A['owner_id'], $A['username'],
+                                     $A['fullname']);
+        break;
+
+    default:
+        $retval = $fieldvalue;
+        break;
     }
+
     return $retval;
 }
 
@@ -1845,9 +1872,10 @@ function plugin_getiteminfo_calendar($eid, $what, $uid = 0, $options = array())
             $fields[] = 'title';
             break;
         case 'url':
-            // needed for $eid == '*', but also in case we're only requesting
-            // the URL (so that $fields isn't emtpy)
-            $fields[] = 'eid';
+            if ($eid == '*') {
+                // in this case, we need the eid to build the URL
+                $fields[] = 'eid';
+            }
             break;
         default:
             // nothing to do

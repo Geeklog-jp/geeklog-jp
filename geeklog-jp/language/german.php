@@ -84,7 +84,7 @@ $LANG01 = array(
     37 => 'Keine Artikel.',
     38 => 'Newsfeed',
     39 => 'Neuladen',
-    40 => 'Auf dem Webserver ist <tt>register_globals = Off</tt>. Für Geeklog muss <tt>register_globals</tt> jedoch auf <strong>on</strong> stehen. Bitte dies vom Hoster ändern lassen auf <strong>on</strong>.',
+    40 => '',
     41 => 'Gäste',
     42 => 'Autor:',
     43 => 'Antwort schreiben',
@@ -214,7 +214,7 @@ $LANG03 = array(
     31 => 'von',
     32 => 'Kommentar editieren',
     33 => 'Eingereichten Kommentar editieren',
-    34 => 'Vorschau der Änderungen',
+    34 => 'Kommentar-Vorschau',
     35 => 'Änderungen abspeichern',
     36 => 'Mich bei Antworten benachrichtigen',
     37 => 'Neue Antwort auf Kommentar',
@@ -223,7 +223,8 @@ $LANG03 = array(
     40 => 'Wenn keine weiteren Benachrichtigungen gewünscht sind, dann bitte folgenden Link besuchen:',
     41 => 'Hallo %s,',
     42 => 'Abmelden',
-    43 => 'Abmelden von Benachrichtigungen auf Kommentare'
+    43 => 'Abmelden von Benachrichtigungen auf Kommentare',
+    44 => 'Dein Name'
 );
 
 ###############################################################################
@@ -369,7 +370,7 @@ $LANG04 = array(
     137 => 'Artikel ausfiltern',
     138 => 'Darstellung und Sprache',
     139 => 'Darstellung und Sprache',
-    140 => '<li>Kategorien ohne Icons: Wenn angekreuzt werden in Artikeln keine Icons mehr angezeigt.</li><li>Keine Blöcke: Wenn angekreuzt werden nur noch die Blöcke Einstellungen, Kategorien und der Admin-Block angezeigt.<li>Einstellung für die maximale Anzahl von Artikeln pro Seite.</li><li>Wähle das Erscheinungsbild der Website und das bevorzugte Datumsformat.</li>',
+    140 => '<li>Kategorien ohne Icons: Wenn angekreuzt werden in Artikeln keine Icons mehr angezeigt.</li><li>Keine Blöcke: Wenn angekreuzt werden nur noch die Blöcke Einstellungen, Kategorien und der Admin-Block angezeigt.<li>Einstellung für die maximale Anzahl von Artikeln pro Seite.</li><li>Wähle das Erscheinungsbild der Website, Deine Zeitzone und das bevorzugte Datumsformat.</li>',
     141 => 'Privatsphäre',
     142 => 'Per Default ist es Admins und anderen Usern der Site erlaubt, Dir E-Mails zu schicken sowie Deinen Status unter "Wer Ist Online?" zu sehen. Hier kannst Du diese Einstellungen ändern.',
     143 => 'Blöcke anzeigen',
@@ -386,7 +387,10 @@ $LANG04 = array(
     159 => 'Diese E-Mail wurde automatisch generiert. Bitte nicht auf diese E-Mail antworten.',
     160 => '(max. %d x %d Pixel, %d Bytes; %s)',
     161 => 'wird ggfs. skaliert',
-    162 => 'wird nicht skaliert'
+    162 => 'wird nicht skaliert',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'WYSIWYG-Editor'
 );
 
 ###############################################################################
@@ -486,7 +490,7 @@ $LANG09 = array(
     20 => 'Datum',
     21 => 'bis',
     22 => '(Datumsformat: JJJJ-MM-TT)',
-    23 => 'Treffer',
+    23 => 'Angezeigt',
     24 => '%d Einträge gefunden',
     25 => 'Gesucht wurde nach',
     26 => 'Beiträgen in',
@@ -513,7 +517,7 @@ $LANG09 = array(
     47 => 'zurück',
     48 => 'Autor',
     49 => 'Datum',
-    50 => 'Treffer',
+    50 => 'Angezeigt',
     51 => '',
     52 => 'Wohnort',
     53 => 'Gefundene Artikel',
@@ -533,7 +537,9 @@ $LANG09 = array(
     67 => 'Zeige %d Suchergebnisse',
     68 => 'Sortieren nach',
     69 => 'Nur Titel durchsuchen',
-    70 => 'Nicht verfügbar ...'
+    70 => 'Nicht verfügbar ...',
+    71 => 'aufsteigend',
+    72 => 'absteigend'
 );
 
 ###############################################################################
@@ -716,7 +722,7 @@ $LANG21 = array(
     47 => '',
     48 => 'Block-Name',
     49 => ' (keine Leerzeichen, muss eindeutig sein)',
-    50 => '',
+    50 => 'Der Block-Name kann nicht leer sein',
     51 => '(mit http://)',
     52 => 'Wenn das Feld leer ist, wird kein Hilfesymbol zu diesem Block angezeigt.',
     53 => 'Aktiv',
@@ -758,7 +764,7 @@ $LANG24 = array(
     15 => 'Datum',
     16 => 'Einleitung',
     17 => 'Haupttext',
-    18 => 'Gelesen',
+    18 => 'Angezeigt',
     19 => 'Kommentare',
     20 => 'Ping',
     21 => 'Senden',
@@ -960,7 +966,10 @@ $LANG28 = array(
     84 => "Ihr Einlogname ist: %s  auf der Site: {$_CONF['site_url']}",
     85 => 'Wenn Du das Passwort vergessen hast, benutze folgenden Link: %s',
     86 => 'Enthalten',
-    87 => 'Erinnerungen'
+    87 => 'Erinnerungen',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -1188,7 +1197,7 @@ $MESSAGE = array(
     44 => 'Das Plugin wurde erfolgreich installiert.',
     45 => 'Das Plugin wurde gelöscht.',
     46 => '',
-    47 => 'Diese Funktion läuft nur unter *nix.  Wenn *nix als Betriebssystem läuft, dann wurde der Cache erfolgreich gelöscht. Wenn Windows als Betriebssystem läuft, bitte nach den Dateien adodb_*.php suchen und diese manuell entfernen.',
+    47 => '',
     48 => "Danke, dass Du dich bei {$_CONF['site_name']} angemeldet hast. Dein Aufnahmeantrag wird von unserem Team geprüft. Sobald er akzeptiert wird, wirst Du Dein Passwort per E-Mail erhalten.",
     49 => 'Die Gruppe wurde gespeichert.',
     50 => 'Die Gruppe wurde gelöscht.',
@@ -1251,11 +1260,11 @@ $MESSAGE = array(
 
 $LANG_ACCESS = array(
     'access' => 'Zugriff',
-    'ownerroot' => 'Eigent./Root',
+    'ownerroot' => 'Eigentümer/Root',
     'group' => 'Gruppe',
     'readonly' => 'Nur Lesen',
     'accessrights' => 'Zugriffsrechte',
-    'owner' => 'Eigent.',
+    'owner' => 'Eigentümer',
     'grantgrouplabel' => 'Obige Gruppenrechte zum Editieren gewähren',
     'permmsg' => 'Hinweis: Mitglieder bedeutet alle eingeloggten Mitglieder und Gast steht für alle nicht eingeloggten Besucher.',
     'securitygroups' => 'Security-Gruppen',
@@ -1335,14 +1344,14 @@ $LANG_DB_BACKUP = array(
     'new_backup' => 'Neues Backup',
     'delete_failure' => 'Eins oder mehrere Backups konnten nicht gelöscht werden.',
     'delete_success' => 'Backupdateien erfolgreich gelöscht.',
-    'convert_menu' => 'Convert to InnoDB',
-    'convert_title' => 'Convert to InnoDB tables',
-    'convert_button' => 'Convert',
+    'convert_menu' => 'Nach InnoDB konvertieren',
+    'convert_title' => 'In InnoDB-Tabellen konvertieren',
+    'convert_button' => 'Konvertieren',
     'sorry_no_innodb' => 'Sorry, die MySQL-Version auf dem Server unterstützt kein InnoDB.',
     'innodb_explain' => 'InnoDB tables provide better performance on <em>really</em> large databases but make the backup process more complicated. Please <a href="http://dev.mysql.com/doc/mysql/en/innodb.html">read up</a> on the pros and cons of InnoDB tables before you perform this operation.',
     'already_converted' => 'Note: It appears that all of the tables have already been converted to InnoDB.',
-    'conversion_patience' => 'Note: Conversion may take some time - please be patient.',
-    'innodb_success' => 'Successfully converted tables to InnoDB.',
+    'conversion_patience' => 'Hinweis: Die Konvertierung kann etwas Zeit in Anspruch nehmen. Bitte etwas Geduld mitbringen.',
+    'innodb_success' => 'Tabellen wurden erfolgreich konvertiert.',
     'table_issues' => 'There may have been problems with some tables, though. Please check error.log for details.',
     'optimize_menu' => 'Tabellen optimieren',
     'optimize_title' => 'Tabellen Optimieren',
@@ -1584,6 +1593,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => 'Neu anlegen (Erw.)',
     'enabled' => 'Funktion aktivieren',
     'title' => 'Titel',
+    'page_title' => 'Page Title',
     'type' => 'Typ',
     'topic' => 'Kategorie',
     'help_url' => 'URL f. Hilfe-Datei',
@@ -1602,7 +1612,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Metatag Description',
     'meta_keywords' => 'Metatag Keywords',
     'na' => 'n/v',
-    'token_expiry' => 'Achtung, zeitgesteuerte Sicherheitsfunktion (Security-Token). Nach %s lässt sich diese Seite nicht mehr speichern. Änderungen gehen verloren.'
+    'token_expiry' => 'Achtung, zeitgesteuerte Sicherheitsfunktion (Security-Token). Nach %s lässt sich diese Seite nicht mehr speichern. Änderungen gehen verloren.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1771,7 +1784,7 @@ $LANG_confignames['Core'] = array(
     'speedlimit' => 'Post Speedlimit',
     'skip_preview' => 'Vorschau überspringen in Posts',
     'advanced_editor' => 'WYSIWYG-Editor?',
-    'wikitext_editor' => 'Wikitext Editor?',
+    'wikitext_editor' => 'Wikitext-Editor?',
     'cron_schedule_interval' => 'Zeitabstand für Cronjobs',
     'sortmethod' => 'Kategorien sortieren',
     'showstorycount' => 'Anzahl Artikel anzeigen?',
@@ -1847,7 +1860,7 @@ $LANG_confignames['Core'] = array(
     'max_photo_height' => 'Max. Fotohöhe?',
     'max_photo_size' => 'Max. Fotogröße?',
     'use_gravatar' => 'Gravatare von Gravatar.com benutzen?',
-    'gravatar_rating' => 'Gravatar-Rating möglich',
+    'gravatar_rating' => 'Gravatar-Rating',
     'force_photo_width' => 'Fotogröße erzwingen',
     'default_photo' => 'Standardfoto',
     'commentspeedlimit' => 'Kommentar Speed-Limit',
@@ -1862,10 +1875,10 @@ $LANG_confignames['Core'] = array(
     'login_speedlimit' => 'Login Speed-Limit',
     'user_html' => 'Erlaubtes User HTML',
     'admin_html' => 'Erlaubtes Admin HTML',
-    'advanced_html' => 'Zusätzl. HTML f.d. WYSIWYG Editor',
+    'advanced_html' => 'Zusätzl. HTML f.d. WYSIWYG-Editor',
     'skip_html_filter_for_root' => 'HTML des Root ungefiltert?',
     'allowed_protocols' => 'Erlaubte Protokolle',
-    'disable_autolinks' => 'Autolinks ausschalten?',
+    'disable_autolinks' => 'Autotags ausschalten?',
     'clickable_links' => 'URLs anklickbar machen?',
     'compressed_output' => 'Komprimierten Output senden?',
     'frame_options' => 'Schutz gegen "Clickjacking"',
@@ -1894,7 +1907,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Darf User Ergebnisse sortieren?',
     'search_show_limit' => 'Seiteneinstellung zeigen?',
     'search_separator' => 'Trennzeichen für Gruppen',
-    'search_def_keytype' => 'Grundeinstellung Suchmethode'
+    'search_def_keytype' => 'Grundeinstellung Suchmethode',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1976,7 +1990,11 @@ $LANG_configselects['Core'] = array(
     20 => array('Exakter Ausdruck' => 'phrase', 'Alle Worte' => 'all', 'Eines der Worte' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Deaktiviert' => 0, 'Aktiviert' => 1, 'Aktiviert (Default nur auf der Startseite)' => 2)
+    23 => array('Deaktiviert' => 0, 'Aktiviert' => 1, 'Aktiviert (Default nur auf der Startseite)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

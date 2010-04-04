@@ -45,6 +45,7 @@ $LANG_STATIC = array(
     'writtenby' => '所有者',
     'date' => '最終更新日',
     'title' => 'タイトル',
+    'page_title' => 'Page Title',
     'content' => '内容',
     'hits' => '閲覧数',
     'staticpagelist' => '静的ページ管理',
@@ -114,12 +115,17 @@ $LANG_STATIC = array(
     'search' => '検索',
     'submit' => '登録',
     'no_new_pages' => '-',
-    'pages' => 'ページ'
+    'pages' => 'ページ',
+    'comments' => 'Comments',
+    'draft' => 'Draft',
+    'draft_yes' => 'Yes',
+    'draft_no' => 'No'
 );
 
 $PLG_staticpages_MESSAGE15 = 'コメントは投稿されました。管理者の承認をお待ちください。';
 $PLG_staticpages_MESSAGE19 = '静的ページを保存しました。';
 $PLG_staticpages_MESSAGE20 = '静的ページを削除しました。';
+$PLG_staticpages_MESSAGE21 = 'This page does not exist yet. To create the page, please fill in the form below. If you are here by mistake, click the Cancel button.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
@@ -135,6 +141,7 @@ $LANG_confignames['staticpages'] = array(
     'allow_php' => 'PHPを許可する',
     'sort_by' => 'センターブロックでのソート項目',
     'sort_menu_by' => 'メニューでのソート項目',
+    'sort_list_by' => 'Sort Admin List by',
     'delete_pages' => '所有者の削除と共に削除する',
     'in_block' => 'ページをブロックで囲む',
     'show_hits' => '閲覧数を表示する',
@@ -145,6 +152,8 @@ $LANG_confignames['staticpages'] = array(
     'aftersave' => 'ページ保存後の画面遷移',
     'atom_max_items' => 'フィードに書き出す最大ページ数',
     'meta_tags' => 'メタタグを有効にする',
+    'comment_code' => 'Comment Default',
+    'draft_flag' => 'Draft Flag Default',
     'newstaticpagesinterval' => '静的ページの"新着"の期間',
     'hidenewstaticpages' => '新着ページを表示しない',
     'title_trim_length' => 'タイトル最大長',
@@ -166,14 +175,17 @@ $LANG_fs['staticpages'] = array(
     'fs_permissions' => '静的ページのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
-// Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
+// Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
-    1 => array('はい' => TRUE, 'いいえ' => FALSE),
+    1 => array('はい' => true, 'いいえ' => false),
     2 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title'),
     3 => array('日付' => 'date', 'ページID' => 'id', 'タイトル' => 'title', 'ラベル' => 'label'),
+    4 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Author' => 'author'),
+    5 => array('Hide' => 'hide', 'Show - Use Modified Date' => 'modified', 'Show - Use Created Date' => 'created'),
     9 => array('編集した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
-    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
+    17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1)
 );
 
 ?>
