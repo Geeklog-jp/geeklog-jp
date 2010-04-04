@@ -1,6 +1,6 @@
 NEWS
 
-							2010年1月9日
+							2010年4月5日
 							Geeklog Japanese
 
 1. 概要
@@ -18,7 +18,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
 
 
-2. Geeklog 1.6.1-jp-1.0の内容
+2. Geeklog 1.6.1-jp-1.1の内容
 
   * 独自プラグイン
 
@@ -27,7 +27,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
     o 通常版と拡張版に同梱
 
-	calendarjp バージョン 1.1.1.1b1
+	calendarjp バージョン 1.1.1.1b2
 		Calendarプラグインを日本人ユーザー向けにローカライズ
 	japanize バージョン 1.0.5RC2
 		Geeklogを日本人流に構成
@@ -58,7 +58,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	forum バージョン 2.7.2.JPr6
 		掲示板を提供
 
-	mycaljp バージョン 2.1.0
+	mycaljp バージョン 2.1.2
 		サイトカレンダーを提供
 
 	nmoxqrblock バージョン 1.1.1 (*)
@@ -67,7 +67,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	nmoxtopicown バージョン1.0.10 (*)
 		トピックとその中の記事の所有者を変更する機能を提供
 
-	sitemap バージョン 1.1.8 (*)
+	sitemap バージョン 1.1.9 (*)
 		GeeklogサイトのサイトマップとGoogleサイトマップを作成
 
 	themedit バージョン 1.1.4 (*)
@@ -108,15 +108,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 3. Google CodeのIssueの情報
 
-  * 1.6.1-jp-1.0で修正されたIssueの一覧
+   以下から、Geeklog日本語版のIssueを参照できます。
 
-    以下のURLのページで確認できます。
-
-    http://code.google.com/p/geeklog-jp/issues/list?can=1&q=label%3AMilestone-1.6.1-jp-1.0
-
-  * 1.6.1-jp-1.0で未解決なIssueの一覧
-
-    http://code.google.com/p/geeklog-jp/issues/list
-
+    http://code.google.com/p/geeklog-jp/issues/
 
 以上です。
