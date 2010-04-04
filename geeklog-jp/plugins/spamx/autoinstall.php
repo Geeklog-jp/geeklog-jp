@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by the following authors:                         |
+// | Copyright (C) 2008-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
 // +---------------------------------------------------------------------------+
@@ -51,9 +51,9 @@ function plugin_autoinstall_spamx($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.2.0',
+        'pi_version'      => '1.2.1',
         'pi_gl_version'   => '1.6.0',
-        'pi_homepage'     => 'http://www.pigstye.net/gplugs/staticpages/index.php/spamx'
+        'pi_homepage'     => 'http://www.geeklog.net/'
     );
 
     $groups = array(
@@ -63,7 +63,8 @@ function plugin_autoinstall_spamx($pi_name)
 
     $features = array(
         $pi_name . '.admin'    => 'Full access to ' . $pi_display_name
-                                  . ' plugin'
+                                  . ' plugin',
+        $pi_name . '.skip'    =>  'Skip checking posts for Spam'
     );
 
     $mappings = array(

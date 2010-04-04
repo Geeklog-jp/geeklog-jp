@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Directory of all the stories on a Geeklog site.                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2004-2009 by the following authors:                         |
+// | Copyright (C) 2004-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
 // +---------------------------------------------------------------------------+
@@ -44,23 +44,11 @@ define ('THIS_SCRIPT', 'directory.php');
 
 $display = '';
 
-if (empty ($_USER['username']) && (($_CONF['loginrequired'] == 1) ||
-                                   ($_CONF['directoryloginrequired'] == 1))) {
-    $display = COM_siteHeader ('menu', $LANG_DIR['title']);
-    $display .= COM_startBlock ($LANG_LOGIN[1], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $login = new Template ($_CONF['path_layout'] . 'submit');
-    $login->set_file (array ('login' => 'submitloginrequired.thtml'));
-    $login->set_var ('xhtml', XHTML);
-    $login->set_var ('site_url', $_CONF['site_url']);
-    $login->set_var ('layout_url', $_CONF['layout_url']);
-    $login->set_var ('login_message', $LANG_LOGIN[2]);
-    $login->set_var ('lang_login', $LANG_LOGIN[3]);
-    $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-    $login->parse ('output', 'login');
-    $display .= $login->finish ($login->get_var ('output'));
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $display .= COM_siteFooter ();
+if (COM_isAnonUser() && (($_CONF['loginrequired'] == 1) ||
+                         ($_CONF['directoryloginrequired'] == 1))) {
+    $display = COM_siteHeader('menu', $LANG_DIR['title']);
+    $display .= SEC_loginRequiredForm();
+    $display .= COM_siteFooter();
     COM_output($display);
     exit;
 }
@@ -189,15 +177,21 @@ function DIR_navBar ($topic, $year, $month = 0)
         }
     }
 
-    $result = DB_query ("SELECT MIN(YEAR(date)) AS year FROM {$_TABLES['stories']}");
+    $result = DB_query ("SELECT MIN(EXTRACT(Year from date)) AS year FROM {$_TABLES['stories']}");
     $A = DB_fetchArray ($result);
     if ($prevyear < $A['year']) {
         $prevyear = 0;
     }
 
-    $currentyear = date ('Y', time ());
+    $currentyear = date('Y', time());
     if ($nextyear > $currentyear) {
         $nextyear = 0;
+    }
+    if (($month > 0) && ($nextyear > 0) && ($nextyear >= $currentyear)) {
+        $currentmonth = date('n', time());
+        if ($nextmonth > $currentmonth) {
+            $nextyear = 0;
+        }
     }
 
     if ($prevyear > 0) {
@@ -267,11 +261,20 @@ function DIR_displayMonth ($topic, $year, $month, $main = false)
     $lastday = DIR_lastDayOfMonth ($month, $year);
     $end   = sprintf ('%04d-%02d-%02d 23:59:59', $year, $month, $lastday);
 
-    $sql = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-    if ($topic != 'all') {
-        $sql .= " AND (tid = '$topic')";
+    $sql = array();
+    $sql['mysql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
+    $sql['mssql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
+    $sql['pgsql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,EXTRACT(day from date) AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
+        if ($topic != 'all') {
+        $sql['mysql'] .= " AND (tid = '$topic')";
+        $sql['mssql'] .= " AND (tid = '$topic')";
+        $sql['pgsql'] .= " AND (tid = '$topic')";
     }
-    $sql .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+    $sql['mysql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+         . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";
+    $sql['mssql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+         . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";    
+    $sql['pgsql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
          . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";
 
     $result = DB_query ($sql);
@@ -347,18 +350,23 @@ function DIR_displayYear ($topic, $year, $main = false)
     $monthsql = array();
     $monthsql['mysql'] = "SELECT DISTINCT MONTH(date) AS month,COUNT(*) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
     $monthsql['mssql'] = "SELECT MONTH(date) AS month,COUNT(sid) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
+    $monthsql['pgsql'] = "SELECT EXTRACT(Month from date) AS month,COUNT(sid) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
     if ($topic != 'all') {
         $monthsql['mysql'] .= " AND (tid = '$topic')";
         $monthsql['mssql'] .= " AND (tid = '$topic')";
+        $monthsql['pgsql'] .= " AND (tid = '$topic')";
     }
     $monthsql['mysql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
               . COM_getLangSQL ('sid', 'AND');
     $monthsql['mssql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
               . COM_getLangSQL ('sid', 'AND');
+    $monthsql['pgsql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+              . COM_getLangSQL ('sid', 'AND');
 
     $msql = array();
     $msql['mysql'] = $monthsql['mysql'] . " GROUP BY MONTH(date) ORDER BY date ASC";
     $msql['mssql'] = $monthsql['mssql'] . " GROUP BY MONTH(date) ORDER BY month(date) ASC";
+    $msql['pgsql'] = $monthsql['pgsql'] . " GROUP BY month,date ORDER BY DATE ASC";
 
     $mresult = DB_query ($msql);
     $nummonths = DB_numRows ($mresult);
@@ -435,9 +443,11 @@ function DIR_displayAll ($topic, $list_current_month = false)
     $yearsql = array();
     $yearsql['mysql'] = "SELECT DISTINCT YEAR(date) AS year,date FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
     $yearsql['mssql'] = "SELECT YEAR(date) AS year FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
+    $yearsql['pgsql'] = "SELECT EXTRACT( YEAR from date) AS year FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
     $ysql = array();
     $ysql['mysql'] = $yearsql['mysql'] . " GROUP BY YEAR(date) ORDER BY date DESC";
     $ysql['mssql'] = $yearsql['mssql'] . " GROUP BY YEAR(date) ORDER BY YEAR(date) DESC";
+    $ysql['pgsql'] = $yearsql['pgsql'] . " GROUP BY year,date ORDER BY year DESC";
 
     $yresult = DB_query ($ysql);
     $numyears = DB_numRows ($yresult);

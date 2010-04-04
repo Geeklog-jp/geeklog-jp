@@ -10,7 +10,7 @@
 // | records. These settings are only used during the initial installation     |
 // | and not referenced any more once the plugin is installed.                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by the following authors:                         |
+// | Copyright (C) 2008-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Blaine Lang      - blaine AT portalparts DOT com                 |
 // |          Dirk Haun        - dirk AT haun-online DOT de                    |
@@ -65,6 +65,9 @@ $_SP_DEFAULT['sort_by'] = 'id'; // can be 'id', 'title', 'date'
 // (assuming you're using a theme that uses the {plg_menu_elements} variable)
 $_SP_DEFAULT['sort_menu_by'] = 'label'; // can be 'id', 'label', 'title', 'date'
 
+// Sort admin list by which field?
+$_SP_DEFAULT['sort_list_by'] = 'title'; // can be 'id', 'title', 'date', 'author'
+
 // When a user is deleted, ownership of static pages created by that user can
 // be transfered to a user in the Root group (= 0) or the pages can be
 // deleted (= 1).
@@ -90,16 +93,13 @@ $_SP_DEFAULT['show_hits'] = 1;
 // the default for that option (1 = show date, 0 = don't).
 $_SP_DEFAULT['show_date'] = 1;
 
-// If you experience timeout issues, you may need to set both of the
-// following values to 0 as they are intensive
-
-// NOTE: using filter_html will render any blank pages useless
+// Whether to filter HTML or naughty words
 $_SP_DEFAULT['filter_html'] = 0;
-$_SP_DEFAULT['censor'] = 1;
+$_SP_DEFAULT['censor'] = 0;
 
 // What's New Block
 $_SP_DEFAULT['new_staticpages_interval'] = 1209600; // 2 weeks
-$_SP_DEFAULT['hide_new_staticpages'] = 0;
+$_SP_DEFAULT['hide_new_staticpages'] = 'hide'; // 'hide', 'created', 'modified'
 $_SP_DEFAULT['title_trim_length'] = 20;
 $_SP_DEFAULT['include_centerblocks'] = 0;
 $_SP_DEFAULT['include_PHP'] = 0;
@@ -114,6 +114,12 @@ $_SP_DEFAULT['atom_max_items'] = 10;
 
 // Display Meta Tags for static pages (1 = show, 0 = don't) 
 $_SP_DEFAULT['meta_tags'] = 0;
+
+// Whether to enable (0) or disable (-1) comments by default
+$_SP_DEFAULT['comment_code'] = -1;
+
+// Whether to set the draft flag by default for new pages
+$_SP_DEFAULT['draft_flag'] = 0;
 
 // Define default permissions for new pages created from the Admin panel.
 // Permissions are perm_owner, perm_group, perm_members, perm_anon (in that
@@ -156,6 +162,8 @@ function plugin_initconfig_staticpages()
                 0, 0, 2, 20, true, 'staticpages');
         $c->add('sort_menu_by', $_SP_DEFAULT['sort_menu_by'], 'select',
                 0, 0, 3, 30, true, 'staticpages');
+        $c->add('sort_list_by', $_SP_DEFAULT['sort_list_by'], 'select',
+                0, 0, 4, 35, true, 'staticpages');
         $c->add('delete_pages', $_SP_DEFAULT['delete_pages'], 'select',
                 0, 0, 0, 40, true, 'staticpages');
         $c->add('in_block', $_SP_DEFAULT['in_block'], 'select',
@@ -174,13 +182,17 @@ function plugin_initconfig_staticpages()
                 0, 0, null, 110, true, 'staticpages');
         $c->add('meta_tags', $_SP_DEFAULT['meta_tags'], 'select',
                 0, 0, 0, 120, true, 'staticpages');
+        $c->add('comment_code', $_SP_DEFAULT['comment_code'], 'select',
+                0, 0, 17, 125, true, 'staticpages');
+        $c->add('draft_flag', $_SP_DEFAULT['draft_flag'], 'select',
+                0, 0, 0, 127, true, 'staticpages');
 
         $c->add('fs_whatsnew', NULL, 'fieldset',
                 0, 1, NULL, 0, true, 'staticpages');
         $c->add('newstaticpagesinterval',$_SP_DEFAULT['new_staticpages_interval'],'text',
                 0, 1, NULL, 10, TRUE, 'staticpages');
         $c->add('hidenewstaticpages',$_SP_DEFAULT['hide_new_staticpages'],'select',
-                0, 1, 0, 20, TRUE, 'staticpages');
+                0, 1, 5, 20, TRUE, 'staticpages');
         $c->add('title_trim_length',$_SP_DEFAULT['title_trim_length'],'text',
                 0, 1, NULL, 30, TRUE, 'staticpages');
         $c->add('includecenterblocks',$_SP_DEFAULT['include_centerblocks'],'select',
@@ -200,7 +212,7 @@ function plugin_initconfig_staticpages()
         $c->add('fs_permissions', NULL, 'fieldset',
                 0, 3, NULL, 0, true, 'staticpages');
         $c->add('default_permissions', $_SP_DEFAULT['default_permissions'],'@select',
-                0, 3, 12, 120, true, 'staticpages');
+                0, 3, 12, 130, true, 'staticpages');
 
     }
 

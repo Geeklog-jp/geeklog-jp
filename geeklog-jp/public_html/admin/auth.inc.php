@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog admin authentication module                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -105,13 +105,13 @@ if ($status == USER_ACCOUNT_ACTIVE) {
         }
 
         $display .= '<form action="' . $_CONF['site_admin_url'] . '/moderation.php" method="post">'
-            .'<table cellspacing="0" cellpadding="0" border="0" width="100%">'.LB
-            .'<tr><td align="right">'.$LANG20[4].'&nbsp;</td>'.LB
-            .'<td><input type="text" name="loginname" size="16" maxlength="16"' . XHTML . '></td>'.LB
+            .'<table cellspacing="0" cellpadding="3" border="0" width="100%">'.LB
+            .'<tr><td class="alignright"><b><label for="loginname">'.$LANG20[4].'</label></b></td>'.LB
+            .'<td><input type="text" name="loginname" id="loginname" size="16" maxlength="16"' . XHTML . '></td>'.LB
             .'</tr>'.LB
             .'<tr>'.LB
-            .'<td align="right">'.$LANG20[5].'&nbsp;</td>'.LB
-            .'<td><input type="password" name="passwd" size="16"' . XHTML . '></td>'
+            .'<td class="alignright"><b><label for="passwd">'.$LANG20[5].'</label></b></td>'.LB
+            .'<td><input type="password" name="passwd" id="passwd" size="16"' . XHTML . '></td>'
             .'</tr>'.LB
             .'<tr>'.LB
             .'<td colspan="2" align="center" class="warning">'.$LANG20[6].'<input type="hidden" name="warn" value="1"' . XHTML . '>'

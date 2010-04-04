@@ -81,7 +81,7 @@ $LANG01 = array(
     37 => '-',
     38 => 'RSS 배신',
     39 => '갱신',
-    40 => '당신의 <tt>php.ini</tt>에서 off 로 되어 있는 것 같습니다. Geeklog는 <tt>register_globals가</tt>으로 되어야만 합니다. Geeklog를 사용하기 위해서는 <strong>on</strong> 으로 하여 웹서버를 재기동해 주시기 바랍니다.',
+    40 => '',
     41 => '손님',
     42 => '글쓴이',
     43 => '덧글추가',
@@ -220,7 +220,8 @@ $LANG03 = array(
     40 => 'If you wish to receive no further notifications of replies, visit the following link:',
     41 => 'Hello %s,',
     42 => 'Unsubscribe',
-    43 => 'Unsubscribe from reply notifications'
+    43 => 'Unsubscribe from reply notifications',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -383,7 +384,10 @@ $LANG04 = array(
     159 => 'This email was generated automatically. Please do not reply to this email.',
     160 => '(max. %d x %d pixels, %d bytes; %s)',
     161 => 'will be scaled down',
-    162 => 'will not be scaled'
+    162 => 'will not be scaled',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -530,7 +534,9 @@ $LANG09 = array(
     67 => 'Show %d Results',
     68 => 'Sort By',
     69 => 'Titles Only',
-    70 => 'Not available ...'
+    70 => 'Not available ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -713,7 +719,7 @@ $LANG21 = array(
     47 => '',
     48 => '블로그아이디',
     49 => '(반각 영문, 숫자 그리고 하이푼)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => 'http://를 포함함',
     52 => '빈칸을 그대로 남겨놓으면 이 블로그에 대한 도움아이콘은 표시 되지 않습니다.',
     53 => '유효',
@@ -957,7 +963,10 @@ $LANG28 = array(
     84 => "Your login name is: %s  for our site: {$_CONF['site_url']}",
     85 => 'If you have forgotten the password use the following link: %s',
     86 => 'Include',
-    87 => 'Reminders'
+    87 => 'Reminders',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -985,7 +994,7 @@ $LANG29 = array(
     39 => '현재 신청자 없음',
     40 => '사용자의 등록신청',
     41 => 'Comment Submissions',
-    42 => 'User Name',
+    42 => 'Username',
     43 => 'Auto-publish Comments?'
 );
 
@@ -1185,7 +1194,7 @@ $MESSAGE = array(
     44 => '플러그인을 인스트롤 하였습니다',
     45 => '플러그인을 삭제 하였습니다',
     46 => '',
-    47 => '이 기능은 *nix 상에서만 움직이지 않습니다.  만약 *nix 상에서 움직이고 있다면 캐슈는 무사합니다.  윈도우즈 상에서 움직이고 있는 경우는 adodb_*.php라고 하는 파일을 검색하여, 수동으로 삭제하시기 바랍니다.',
+    47 => '',
     48 => "{$_CONF['site_name']}에 등록해 주셔서 감사합니다.  관리자 측에서 심사합니다.  등록이 인정되면 당신의 등록된 메일주소에 비밀번호가 보내집니다.",
     49 => '그룹이 무사히 등록되었습니다.',
     50 => '그룹을 삭제하였습니다.',
@@ -1581,6 +1590,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => '신규작성',
     'enabled' => '유효해짐',
     'title' => '제목',
+    'page_title' => 'Page Title',
     'type' => '종류',
     'topic' => '토픽',
     'help_url' => '도움파일 URL',
@@ -1599,7 +1609,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
-    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.'
+    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1844,7 +1857,7 @@ $LANG_confignames['Core'] = array(
     'max_photo_height' => 'Max Photo Height?',
     'max_photo_size' => 'Max Photo Size?',
     'use_gravatar' => 'Use Gravatar?',
-    'gravatar_rating' => 'Gravatar Rating Allowed',
+    'gravatar_rating' => 'Gravatar Rating',
     'force_photo_width' => 'Force Photo Width',
     'default_photo' => 'Default Photo',
     'commentspeedlimit' => 'Comment Speed Limit',
@@ -1862,7 +1875,7 @@ $LANG_confignames['Core'] = array(
     'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Skip HTML Filter for Root?',
     'allowed_protocols' => 'Allowed Protocols',
-    'disable_autolinks' => 'Disable Autolinks?',
+    'disable_autolinks' => 'Disable Autotags?',
     'clickable_links' => 'Make URLs clickable?',
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
@@ -1891,7 +1904,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Allow User to Sort Results?',
     'search_show_limit' => 'Show Page Limits?',
     'search_separator' => 'Group Separator',
-    'search_def_keytype' => 'Default Search Method'
+    'search_def_keytype' => 'Default Search Method',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1973,7 +1987,11 @@ $LANG_configselects['Core'] = array(
     20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

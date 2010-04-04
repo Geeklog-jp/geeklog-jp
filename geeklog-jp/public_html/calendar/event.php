@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendar Plugin 1.0                                                       |
+// | Calendar Plugin 1.1                                                       |
 // +---------------------------------------------------------------------------+
 // | event.php                                                                 |
 // |                                                                           |
 // | Shows details of an event or events                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -72,20 +72,23 @@ function adduserevent ($eid)
         $cal_template->set_var('layout_url', $_CONF['layout_url']);
         $cal_template->set_var('intro_msg', $LANG_CAL_1[8]);
         $cal_template->set_var('lang_event', $LANG_CAL_1[12]);
-        $event_title = stripslashes($A['title']);
 
+        $event_title = stripslashes($A['title']);
         if (!empty($A['url']) && ($A['url'] != 'http://')) {
-            $event_title = COM_createLink($event_title, $A['url']);
+            $event_title_and_url = COM_createLink($event_title, $A['url'],
+                                                  array('class' => 'url'));
             $cal_template->set_var('event_url', $A['url']);
             $cal_template->set_var('event_begin_anchortag',
-                                   '<a href="' . $A['url'] . '">');
+                '<a href="' . $A['url'] . '" class="url">');
             $cal_template->set_var('event_end_anchortag', '</a>');
         } else {
+            $event_title_and_url = $event_title;
             $cal_template->set_var('event_url', '');
             $cal_template->set_var('event_begin_anchortag', '');
             $cal_template->set_var('event_end_anchortag', '');
         }
-        $cal_template->set_var('event_title', $event_title);
+        $cal_template->set_var('event_title', $event_title_and_url);
+        $cal_template->set_var('event_title_only', $event_title);
         $cal_template->set_var('lang_starts', $LANG_CAL_1[13]);
         $cal_template->set_var('lang_ends', $LANG_CAL_1[14]);
 
@@ -141,7 +144,7 @@ function saveuserevent ($eid)
 {
     global $_CONF, $_TABLES, $_USER;
 
-    if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+    if (! COM_isAnonUser()) {
 
         // Try to delete the event first in case it has already been added
         DB_query ("DELETE FROM {$_TABLES['personal_events']} WHERE uid={$_USER['uid']} AND eid='$eid'");
@@ -390,7 +393,7 @@ case 'saveuserevent':
 
 case $LANG_CAL_1[45]: // save edited personal event
     if (!empty($LANG_CAL_1[45]) && ($_CA_CONF['personalcalendars'] == 1) &&
-            (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) &&
+            !COM_isAnonUser() &&
             (isset ($_POST['calendar_type']) &&
              ($_POST['calendar_type'] == 'personal')) && SEC_checkToken()) {
         $display = plugin_savesubmission_calendar ($_POST);
@@ -403,7 +406,7 @@ case 'deleteevent':
 case $LANG_CAL_1[51]:
     if (($_CA_CONF['personalcalendars'] == 1) && SEC_checkToken()) {
         $eid = COM_applyFilter ($_REQUEST['eid']);
-        if (!empty ($eid) && (isset ($_USER['uid']) && ($_USER['uid'] > 1))) {
+        if (!empty($eid) && !COM_isAnonUser()) {
             DB_query ("DELETE FROM {$_TABLES['personal_events']} WHERE uid={$_USER['uid']} AND eid='$eid'");
             $display .= COM_refresh ($_CONF['site_url']
                      . '/calendar/index.php?mode=personal&amp;msg=26');
@@ -418,7 +421,7 @@ case $LANG_CAL_1[51]:
 case 'edit':
     if ($_CA_CONF['personalcalendars'] == 1) {
         $eid = COM_applyFilter ($_GET['eid']);
-        if (!empty ($eid) && (isset ($_USER['uid']) && ($_USER['uid'] > 1))) {
+        if (!empty($eid) && !COM_isAnonUser()) {
             $result = DB_query ("SELECT * FROM {$_TABLES['personal_events']} WHERE (eid = '$eid') AND (uid = {$_USER['uid']})");
             if (DB_numRows ($result) == 1) {
                 $A = DB_fetchArray ($result);
@@ -453,7 +456,7 @@ default:
     }
     if (!empty ($eid)) {
         if (($mode == 'personal') && ($_CA_CONF['personalcalendars'] == 1) &&
-                (isset ($_USER['uid']) && ($_USER['uid'] > 1))) {
+                !COM_isAnonUser()) {
             $datesql = "SELECT * FROM {$_TABLES['personal_events']} "
                      . "WHERE (eid = '$eid') AND (uid = {$_USER['uid']})";
             $pagetitle = $LANG_CAL_2[28] . ' ' . COM_getDisplayName();
@@ -556,16 +559,20 @@ default:
 
                 $event_title = stripslashes($A['title']);
                 if (!empty($A['url'])) {
-                    $event_title = COM_createLink($event_title, $A['url']);
+                    $event_title_and_url = COM_createLink($event_title,
+                                            $A['url'], array('class' => 'url'));
                     $cal_templates->set_var('event_url', $A['url']);
                     $cal_templates->set_var('event_begin_anchortag',
-                                            '<a href="' . $A['url'] . '">');
+                        '<a href="' . $A['url'] . '" class="url">');
                     $cal_templates->set_var('event_end_anchortag', '</a>');
                 } else {
+                    $event_title_and_url = $event_title;
+                    $cal_templates->set_var('event_url', '');
                     $cal_templates->set_var('event_begin_anchortag', '');
                     $cal_templates->set_var('event_end_anchortag', '');
                 }
-                $cal_templates->set_var('event_title', $event_title);
+                $cal_templates->set_var('event_title', $event_title_and_url);
+                $cal_templates->set_var('event_title_only', $event_title);
 
                 if (($_CA_CONF['personalcalendars'] == 1)
                         && !COM_isAnonUser()) {

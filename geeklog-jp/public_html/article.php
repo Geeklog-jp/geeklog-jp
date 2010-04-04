@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Shows articles in various formats.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
@@ -77,8 +77,8 @@ if (isset ($_POST['mode'])) {
     if (isset ($_POST['reply'])) {
         $reply = COM_applyFilter ($_POST['reply']);
     }
-    if (isset ($_POST['page'])) {
-        $page = COM_applyFilter ($_REQUEST['page'], true);
+    if (isset ($_POST['cpage'])) {
+        $page = COM_applyFilter ($_POST['cpage'], true);
     }
 } else {
     COM_setArgNames (array ('story', 'mode'));
@@ -93,8 +93,8 @@ if (isset ($_POST['mode'])) {
     if (isset ($_GET['reply'])) {
         $reply = COM_applyFilter ($_GET['reply']);
     }
-    if (isset ($_GET['page'])) {
-        $page = COM_applyFilter ($_REQUEST['page'], true);
+    if (isset ($_GET['cpage'])) {
+        $page = COM_applyFilter ($_GET['cpage'], true);
     }
 }
 
@@ -148,16 +148,21 @@ if ($A['count'] > 0) {
         $story_template = new Template($_CONF['path_layout'] . 'article');
         $story_template->set_file('article', 'printable.thtml');
         $story_template->set_var('xhtml', XHTML);
+        $story_template->set_var('site_url', $_CONF['site_url']);
+        $story_template->set_var('site_admin_url', $_CONF['site_admin_url']);
+        $story_template->set_var('layout_url', $_CONF['layout_url']);
         if (XHTML != '') {
             $story_template->set_var('xmlns',
                                      ' xmlns="http://www.w3.org/1999/xhtml"');
         }
         $story_template->set_var('direction', $LANG_DIRECTION);
-        $story_template->set_var('page_title',
-                $_CONF['site_name'] . ': ' . $story->displayElements('title'));
+        $story_template->set_var('page_title', $story->DisplayElements('page_title'));
         $story_template->set_var('story_title',
                                  $story->DisplayElements('title'));
         header('Content-Type: text/html; charset=' . COM_getCharset());
+        if (! empty($_CONF['frame_options'])) {
+            header('X-FRAME-OPTIONS: ' . $_CONF['frame_options']);
+        }
         $story_template->set_var('story_date', $story->displayElements('date'));
 
         if ($_CONF['contributedbyline'] == 1) {
@@ -191,9 +196,6 @@ if ($A['count'] > 0) {
         $story_template->set_var('story_text', $fulltext);
         $story_template->set_var('story_text_no_br', $fulltext_no_br);
 
-        $story_template->set_var('site_url', $_CONF['site_url']);
-        $story_template->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $story_template->set_var('layout_url', $_CONF['layout_url']);
         $story_template->set_var('site_name', $_CONF['site_name']);
         $story_template->set_var('site_slogan', $_CONF['site_slogan']);
         $story_template->set_var('story_id', $story->getSid());
@@ -230,7 +232,10 @@ if ($A['count'] > 0) {
         $display = $story_template->finish($story_template->get_var('output'));
     } else {
         // Set page title
-        $pagetitle = $story->DisplayElements('title');
+        $pagetitle = $story->DisplayElements('page_title');
+        if(empty($pagetitle)) {
+            $pagetitle = $story->DisplayElements('title');
+        }
 
         $headercode = '';
         $permalink = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
@@ -284,7 +289,7 @@ if ($A['count'] > 0) {
         $story_template->set_var('story_id', $story->getSid());
         $story_template->set_var('story_title', $pagetitle);
         $story_options = array ();
-        if (($_CONF['hideemailicon'] == 0) && (!empty ($_USER['username']) ||
+        if (($_CONF['hideemailicon'] == 0) && (!COM_isAnonUser() ||
                 (($_CONF['loginrequired'] == 0) &&
                  ($_CONF['emailstoryloginrequired'] == 0)))) {
             $emailUrl = $_CONF['site_url'] . '/profiles.php?sid=' . $story->getSid()

@@ -82,7 +82,7 @@ $LANG01 = array(
     37 => 'טרם נכתבו מאמרים',
     38 => 'סינדיקציית תוכן',
     39 => 'רענן',
-    40 => 'מוגדר לכם <tt>register_globals = Off</tt> ב-<tt>php.ini</tt> שלכם. עם זאת, דרוש ש- <tt>register_globals</tt> יהיה <strong>on</strong>. לפני שהנכם ממשיכים, אנא הגדירו אותו על <strong>on</strong> ואתחלו מחדש את שרת הרשת שלכם.',
+    40 => '',
     41 => 'אורחים',
     42 => 'נכתב על ידי:',
     43 => 'הגיבו לזה',
@@ -221,7 +221,8 @@ $LANG03 = array(
     40 => 'אם אינכם רוצים לקבל יותר הודעות על תגובות, בקרו בקישור הבא:',
     41 => 'שלום %s,',
     42 => 'ביטול הרשמה',
-    43 => 'ביטול הרשמה מהודעות על תגובות'
+    43 => 'ביטול הרשמה מהודעות על תגובות',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -229,7 +230,7 @@ $LANG03 = array(
 
 $LANG04 = array(
     1 => 'פרופיל המשתמש של',
-    2 => 'User Name',
+    2 => 'Username',
     3 => 'שמכם המלא',
     4 => 'Password',
     5 => 'Email',
@@ -384,7 +385,10 @@ $LANG04 = array(
     159 => 'הודעת אימייל זו נוצרה אוטומטית. אנא אל תענו לה.',
     160 => '(מקסימום %d x %d פיקסלים, %d bytes; %s)',
     161 => 'יותאם למטה',
-    162 => 'לא יותאם'
+    162 => 'לא יותאם',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -531,7 +535,9 @@ $LANG09 = array(
     67 => 'הצגת %d תוצאות',
     68 => 'מיון לפי',
     69 => 'כותרות בלבד',
-    70 => 'לא זמין ...'
+    70 => 'לא זמין ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -714,7 +720,7 @@ $LANG21 = array(
     47 => '',
     48 => 'שם קוביה',
     49 => ' (ללא רווחים וחייב להיות ייחודי)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => 'כולל <span dir=ltr><b>http://</b></span>',
     52 => 'אם תשאירו שדה זה ריק, אייקון העזרה של קוביית מידע זו לא יופיע',
     53 => 'אפשרו',
@@ -958,7 +964,10 @@ $LANG28 = array(
     84 => "שם המשתמש שלך הוא: %s  בשביל האתר: {$_CONF['site_url']}",
     85 => 'אם שכחתם את הסיסמה, השתמשו בקישור הבא: %s',
     86 => 'שיוך',
-    87 => 'תזכורות'
+    87 => 'תזכורות',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -1186,7 +1195,7 @@ $MESSAGE = array(
     44 => 'ה-plugin הותקן בהצלחה!',
     45 => 'ה-plugin נמחק בהצלחה.',
     46 => '',
-    47 => 'יכולת זו עובדת רק תחת nix*. אם הינכם מריצים nix* כמערכת ההפעלה שלכם אז זיכרון המטמון שלכם נוקה בהצלחה. אם הנכם משתמשים בחלונות, תיאלצו לחפש אחר קבצים בשם adodb_*.php ולהסירם באופן ידני.',
+    47 => '',
     48 => "תודה לך על הגשת הבקשה שלך להצטרף ל-{$_CONF['site_name']}. אנו נבדוק את בקשתך. אם תאושר, סיסמתך תישלח אליך באימייל לכתובת האימייל שהרגע ציינת.",
     49 => 'קבוצתך נשמרה בהצלחה.',
     50 => 'הקבוצה נמחקה בהצלחה.',
@@ -1497,7 +1506,7 @@ $LANG_SECTEST = array(
     'public_html' => '"public_html" לעולם אינו צריך להיות חלק מכתובת האתר שלכם. אנא קיראו את החלק לגבי public_html %s שוב ושנו את ההגדרות שלכם בהתאם לפני שתמשיכו.',
     'installation' => 'בהוראות ההתקנה',
     'directory' => '(ספרייה)',
-    'failed_tmp'    => 'נכשלה יצירת קובץ זמני בספריית ה-%s שלכם. בידקו את הרשאות הספרייה שלכם!',
+    'failed_tmp' => 'נכשלה יצירת קובץ זמני בספריית ה-%s שלכם. בידקו את הרשאות הספרייה שלכם!',
     'fix_it' => 'זהו סיכון בטחוני שיש לתקנו!',
     'reachable' => 'ה-%s שלכם נגיש מהרשת.',
     'not_reachable' => 'מצוין! ה-%s שלכם אינו נגיש מהרשת.',
@@ -1582,6 +1591,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => 'צרו חדש (מתקדם)',
     'enabled' => 'מאופשר',
     'title' => 'כותרת',
+    'page_title' => 'Page Title',
     'type' => 'סוג',
     'topic' => 'נושא',
     'help_url' => 'כתובת קובץ עזרה',
@@ -1600,7 +1610,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'לא זמין',
-    'token_expiry' => 'יש לכם עד %s לערוך שינויים. אחרי זמן זה, כרטיס הביטחון שמוטמע בעמוד זה יאבד את תוקפו ואתם תאבדו את השינויים שלכם.'
+    'token_expiry' => 'יש לכם עד %s לערוך שינויים. אחרי זמן זה, כרטיס הביטחון שמוטמע בעמוד זה יאבד את תוקפו ואתם תאבדו את השינויים שלכם.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1863,7 +1876,7 @@ $LANG_confignames['Core'] = array(
     'advanced_html' => 'HTML נוסף עבור העורך המתקדם',
     'skip_html_filter_for_root' => 'דילוג על פילטר HTML למנהלים ראשיים?',
     'allowed_protocols' => 'פרוטוקולים מאופשרים',
-    'disable_autolinks' => 'ביטול Autolinks?',
+    'disable_autolinks' => 'ביטול Autotags?',
     'clickable_links' => 'היפכו קישורים לנלחצים?',
     'compressed_output' => 'שליחת פלט מכווץ?',
     'frame_options' => 'הגנה נגד "clickjacking"',
@@ -1892,7 +1905,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'איפשור למשתמש למיין תוצאות?',
     'search_show_limit' => 'הצגת תחומי עמוד?',
     'search_separator' => 'מפריד קבוצות',
-    'search_def_keytype' => 'שיטת חיפוש ברירת המחדל'
+    'search_def_keytype' => 'שיטת חיפוש ברירת המחדל',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1974,7 +1988,11 @@ $LANG_configselects['Core'] = array(
     20 => array('ביטוי מדויק' => 'phrase', 'כל המילים שהוכנסו' => 'all', 'לפחות אחת מהמילים שהוכנסו' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('נוקשה' => 'DENY', 'מאותו המקור' => 'SAMEORIGIN', '(מנוטרל)' => ''),
-    23 => array('מנוטרל' => 0, 'מאופשר' => 1, 'מאופשר (ברירת המחדל לדף הבית בלבד)' => 2)
+    23 => array('מנוטרל' => 0, 'מאופשר' => 1, 'מאופשר (ברירת המחדל לדף הבית בלבד)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

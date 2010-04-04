@@ -124,7 +124,7 @@ CREATE TABLE [dbo].[{$_TABLES['comments']}] (
     [indent] [numeric](10, 0) NULL ,
     [name] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [uid] [int] NULL ,
-    [ipaddress] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+    [ipaddress] [varchar] (39) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
 ";
 
@@ -139,7 +139,7 @@ CREATE TABLE [dbo].[{$_TABLES['commentsubmissions']}] (
   [uid] [INT] NOT NULL default '1',
   [name] [varchar] (32) default NULL,
   [pid] [INT] NOT NULL default '0',
-  [ipaddress] [varchar](15) NOT NULL
+  [ipaddress] [varchar](39) NOT NULL
 ) ON [PRIMARY]
 ";
 
@@ -213,7 +213,8 @@ CREATE TABLE [dbo].[{$_TABLES['groups']}] (
     [grp_id] [int] IDENTITY (1, 1) NOT NULL ,
     [grp_name] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [grp_descr] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [grp_gl_core] [tinyint] NOT NULL
+    [grp_gl_core] [tinyint] NOT NULL ,
+    [grp_default] [tinyint] NOT NULL
 ) ON [PRIMARY]
 ";
 
@@ -256,7 +257,7 @@ $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['sessions']}] (
     [sess_id] [numeric](10, 0) NOT NULL ,
     [start_time] [numeric](10, 0) NOT NULL ,
-    [remote_ip] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [remote_ip] [varchar] (39) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [uid] [int] NOT NULL ,
     [md5_sess_id] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
 ) ON [PRIMARY]
@@ -272,7 +273,7 @@ CREATE TABLE [dbo].[{$_TABLES['sortcodes']}] (
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['speedlimit']}] (
     [id] [numeric](10, 0) IDENTITY (1, 1) NOT NULL ,
-    [ipaddress] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [ipaddress] [varchar] (39) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [date] [numeric](10, 0) NULL ,
     [type] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
@@ -293,6 +294,7 @@ CREATE TABLE [dbo].[{$_TABLES['stories']}] (
     [tid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [date] [datetime] NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [page_title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [introtext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [bodytext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [hits] [numeric](8, 0) NOT NULL ,
@@ -395,7 +397,7 @@ CREATE TABLE [dbo].[{$_TABLES['trackback']}] (
     [excerpt] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [date] [datetime] NULL ,
     [type] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [ipaddress] [varchar] (15) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
+    [ipaddress] [varchar] (39) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
 ";
 
@@ -447,6 +449,7 @@ CREATE TABLE [dbo].[{$_TABLES['userprefs']}] (
     [noicons] [tinyint] NULL ,
     [willing] [tinyint] NULL ,
     [dfid] [tinyint] NULL ,
+    [advanced_editor] [tinyint] NULL ,
     [tzid] [varchar] (125) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [emailstories] [smallint] NULL ,
     [emailfromadmin] [smallint] NULL ,
@@ -1321,6 +1324,7 @@ INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (19,'group.assign','Ability to assign users to groups',1)
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (20, 'comment.moderate', 'Ability to moderate comments', 1)
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (21, 'comment.submit', 'Comments are automatically published', 1)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (22, 'htmlfilter.skip', 'Skip filtering posts for HTML', 1)
 
 set identity_insert {$_TABLES['features']} off
 ";

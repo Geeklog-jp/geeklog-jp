@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Geeklog installation script.                                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2009 by the following authors:                         |
+// | Copyright (C) 2007-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Matt West         - matt AT mattdanger DOT net                   |
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
@@ -77,28 +77,32 @@ function INST_installEngine($install_type, $install_step)
         // go back because they entered incorrect database information.
         $site_name = (isset($_POST['site_name'])) ? str_replace('\\', '', $_POST['site_name']) : $LANG_INSTALL[29];
         $site_slogan = (isset($_POST['site_slogan'])) ? str_replace('\\', '', $_POST['site_slogan']) : $LANG_INSTALL[30];
-        $mysql_innodb_selected = '';
-        $mysql_selected = '';
-        $mssql_selected = '';
+        $db_selected = '';
         if (isset($_POST['db_type'])) {
             switch ($_POST['db_type']) {
                 case 'mysql-innodb':
-                    $mysql_innodb_selected = ' selected="selected"';
+                    $db_selected = 'mysql-innodb';
                     break;
                 case 'mssql':
-                    $mssql_selected = ' selected="selected"';
+                    $db_selected = 'mssql';
+                    break;
+                case 'pgsql':
+                    $db_selected = 'pgsql';
                     break;
                 default:
-                    $mysql_selected = ' selected="selected"';
+                    $db_selected = 'mysql';
                     break;
             }
         } else {
             switch ($_DB_dbms) {
                 case 'mssql':
-                    $mssql_selected = ' selected="selected"';
+                    $db_selected = 'mssql';
+                    break;
+                case 'pgsql':
+                    $db_selected = 'pgsql';
                     break;
                 default:
-                    $mysql_selected = ' selected="selected"';
+                    $db_selected = 'mysql';
                     break;
             }
         }
@@ -158,10 +162,12 @@ function INST_installEngine($install_type, $install_step)
 
             <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[32] . ' ' . INST_helpLink('site_name') . '</label> <input type="text" name="site_name" value="' . htmlspecialchars($site_name) . '" size="40"' . XHTML . '></p>
             <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[33] . ' ' . INST_helpLink('site_slogan') . '</label> <input type="text" name="site_slogan" value="' . htmlspecialchars($site_slogan) . '" size="40"' . XHTML . '></p>
-            <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[34] . ' ' . INST_helpLink('db_type') . '</label> <select name="db_type">
-                <option value="mysql"' . $mysql_selected . '>' . $LANG_INSTALL[35] . '</option>
-                ' . ($install_type == 'install' ? '<option value="mysql-innodb"' . $mysql_innodb_selected . '>' . $LANG_INSTALL[36] . '</option>' : '') . '
-                <option value="mssql"' . $mssql_selected . '>' . $LANG_INSTALL[37] . '</option></select> ' . '</p>
+            <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[34] . ' ' . INST_helpLink('db_type') . '</label> '
+
+            . INST_listOfSupportedDBs($dbconfig_path, $db_selected,
+                    ($install_type == 'install' ? true : false)) .
+
+           '</p>
             <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[39] . ' ' . INST_helpLink('db_host') . '</label> <input type="text" name="db_host" value="'. htmlspecialchars($db_host) .'" size="20"' . XHTML . '></p>
             <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[40] . ' ' . INST_helpLink('db_name') . '</label> <input type="text" name="db_name" value="'. htmlspecialchars($db_name) . '" size="20"' . XHTML . '></p>
             <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[41] . ' ' . INST_helpLink('db_user') . '</label> <input type="text" name="db_user" value="' . htmlspecialchars($db_user) . '" size="20"' . XHTML . '></p>
@@ -222,10 +228,13 @@ function INST_installEngine($install_type, $install_step)
             $display .= '<h2>' . $LANG_INSTALL[104] . '</h2><p>'
                      . $LANG_INSTALL[105] . '</p>'
                      . INST_showReturnFormData($_POST) . LB;
-
+        // Check for blank password in production environment
+        } else if (!INST_dbPasswordCheck($site_url, $DB)) {
+            $display .= '<h2>' . $LANG_INSTALL[54] . '</h2><p>'
+                     . $LANG_INSTALL[107] . '</p>'
+                     . INST_showReturnFormData($_POST) . LB;
         // Check if we can connect to the database
         } else if (!INST_dbConnect($DB)) { 
-
             $display .= '<h2>' . $LANG_INSTALL[54] . '</h2><p>'
                      . $LANG_INSTALL[55] . '</p>'
                      . INST_showReturnFormData($_POST) . LB;
@@ -345,7 +354,7 @@ function INST_installEngine($install_type, $install_step)
                               . '<p>' . $LANG_INSTALL[91] . '</p>';
                 } else {
 
-                    $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0','1.5.1','1.5.2','1.6.0');
+                    $old_versions = array('1.2.5-1','1.3','1.3.1','1.3.2','1.3.2-1','1.3.3','1.3.4','1.3.5','1.3.6','1.3.7','1.3.8','1.3.9','1.3.10','1.3.11','1.4.0','1.4.1','1.5.0','1.5.1','1.5.2','1.6.0','1.6.1');
                     if (empty($curv)) {
                         // If we were unable to determine the current GL
                         // version is then ask the user what it is
@@ -416,6 +425,35 @@ function INST_installEngine($install_type, $install_step)
                 require_once $dbconfig_path;
                 require_once $siteconfig_path;
                 require_once $_CONF['path_system'] . 'lib-database.php';
+                
+                if($_DB_dbms=='pgsql')
+                {
+                    //Create a func to check if plpgsql is already installed
+                    DB_query("CREATE OR REPLACE FUNCTION make_plpgsql() 
+                    RETURNS VOID LANGUAGE SQL AS $$
+                    CREATE LANGUAGE plpgsql;
+                    $$;
+                    SELECT
+                        CASE
+                        WHEN EXISTS( SELECT 1 FROM pg_catalog.pg_language WHERE lanname='plpgsql')
+                        THEN NULL
+                        ELSE make_plpgsql() END;");
+                    //Create a function to check if table exists
+                    DB_query("CREATE OR REPLACE FUNCTION check_table(varchar, varchar) 
+                        RETURNS boolean AS $$ 
+                         DECLARE 
+                           v_cnt integer; 
+                           v_tbl boolean; 
+                         BEGIN 
+                           SELECT count(1) INTO v_cnt FROM pg_tables where tablename = $1 and 
+                        schemaname = $2; 
+                            IF v_cnt > 0 THEN 
+                             v_tbl = 'true'; 
+                            END IF; 
+                        return v_tbl; 
+                        END; 
+                        $$ LANGUAGE 'plpgsql'");
+                }
 
                 // Check if GL is already installed
                 if (INST_checkTableExists('vars')) {
@@ -751,7 +789,7 @@ function INST_createDatabaseStructures()
     global $_CONF, $_TABLES, $_DB, $_DB_dbms, $_DB_host, $_DB_user, $_DB_pass,
            $site_url, $use_innodb;
 
-    $_DB->setDisplayError (true);
+    $_DB->setDisplayError(true);
 
     // Because the create table syntax can vary from dbms-to-dbms we are
     // leaving that up to each database driver (e.g. mysql.class.php,
@@ -762,28 +800,39 @@ function INST_createDatabaseStructures()
 
     $progress = '';
 
-    if (INST_checkTableExists ('access')) {
+    if (INST_checkTableExists('access')) {
         return false;
     }
 
     switch($_DB_dbms){
-        case 'mysql':
-            INST_updateDB($_SQL);
-            if ($use_innodb) {
-                DB_query ("INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('database_engine', 'InnoDB')");
-            }
-            break;
-        case 'mssql':
-            foreach ($_SQL as $sql) {
-                $_DB->dbQuery($sql, 0, 1);
-            }
-            break;
+    case 'mysql':
+        INST_updateDB($_SQL);
+        if ($use_innodb) {
+            DB_query("INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('database_engine', 'InnoDB')");
+        }
+        break;
+
+    case 'mssql':
+        foreach ($_SQL as $sql) {
+            $_DB->dbQuery($sql, 0, 1);
+        }
+        break;
+
+    case 'pgsql':
+        foreach ($_SQL as $sql) {
+            $_DB->dbQuery($sql, 0, 1);
+        }
+        break;
+
+    default:
+        die("Unknown DB type '$_DB_dbms'");
+        break;
     }
 
     // Now insert mandatory data and a small subset of initial data
     foreach ($_DATA as $data) {
         $progress .= "executing " . $data . "<br" . XHTML . ">\n";
-        DB_query ($data);
+        DB_query($data);
     }
 
     return true;
@@ -801,7 +850,7 @@ function INST_personalizeAdminAccount($site_mail, $site_url)
 {
     global $_TABLES, $_DB_dbms;
 
-    if (($_DB_dbms == 'mysql') || ($_DB_dbms == 'mssql')) {
+    if (($_DB_dbms == 'mysql') || ($_DB_dbms == 'mssql') || ($_DB_dbms== 'pgsql')) {
 
         // let's try and personalize the Admin account a bit ...
 
@@ -1030,7 +1079,7 @@ if (INST_phpOutOfDate()) {
                 ' . $form_fields . '
                 <input type="submit" name="submit" class="submit button big-button" value="' . $LANG_INSTALL[62] . ' &gt;&gt;"' . XHTML . '>
                 </form>' . LB;
-            $display .= '<p>' . $LANG_INSTALL[94] . '<p>' . LB
+            $display .= '<p>' . $LANG_INSTALL[94] . '</p>' . LB
                      . '<ul><li>' . $LANG_INSTALL[95] . '<br' . XHTML . '>' . LB
                      . '<code>' . strtr(__FILE__, '\\', '/') . '</code></li>'
                      . '<li>' . sprintf($LANG_INSTALL[96],
@@ -1135,8 +1184,8 @@ if (INST_phpOutOfDate()) {
                     . $display_permissions . '</div>' . LB
                     . '<h2>' . $LANG_INSTALL[98] . '</h2>' . LB
                     . '<p>' . $LANG_INSTALL[99] . '</p>' . LB
-                    . '<p><div class="codeblock"><code>' . $chmod_string . LB 
-                    . '</code></div></p><br ' . XHTML . '>' . LB;
+                    . '<p class="codeblock"><code>' . $chmod_string . LB 
+                    . '</code></p><br ' . XHTML . '>' . LB;
                 $step++;
 
             } else {

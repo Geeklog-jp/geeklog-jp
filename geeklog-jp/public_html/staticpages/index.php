@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This is the main page for the Geeklog Static Pages Plugin                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -54,12 +54,18 @@ if (!in_array('staticpages', $_PLUGINS)) {
 COM_setArgNames(array('page', 'disp_mode'));
 $page = COM_applyFilter(COM_getArgument('page'));
 $display_mode = COM_applyFilter(COM_getArgument('disp_mode'));
+$query = '';
+if (isset($_REQUEST['query'])) {
+    $query = COM_applyfilter($_GET['query']);
+}
 
 // from comments display refresh:
-if (isset($_POST['order'])) {
-    $comment_order = COM_applyFilter($_POST['order']);
-    $comment_mode  = COM_applyFilter($_POST['mode']);
-    $page = COM_applyFilter($_POST['id']);
+if (isset($_REQUEST['order'])) {
+    $comment_order = COM_applyFilter($_REQUEST['order']);
+    $comment_mode  = COM_applyFilter($_REQUEST['mode']);
+    if (isset($_REQUEST['cpage'])) {
+        $comment_page = COM_applyFilter($_REQUEST['cpage']);
+    }
     if ((strcasecmp($comment_order, 'ASC') != 0) &&
             (strcasecmp($comment_order, 'DESC') != 0)) {
         $comment_order = '';
@@ -67,6 +73,7 @@ if (isset($_POST['order'])) {
 } else {
     $comment_order = '';
     $comment_mode  = '';
+    $comment_page = 1;
 }
 
 if ($display_mode != 'print') {
@@ -81,10 +88,13 @@ if (isset($_GET['msg'])) {
     }
 }
 
-$retval = SP_returnStaticpage($page, $display_mode, $comment_order, $comment_mode, $msg);
+$retval = SP_returnStaticpage($page, $display_mode, $comment_order, $comment_mode, $comment_page, $msg, $query);
 
 if ($display_mode == 'print') {
     header('Content-Type: text/html; charset=' . COM_getCharset());
+    if (! empty($_CONF['frame_options'])) {
+        header('X-FRAME-OPTIONS: ' . $_CONF['frame_options']);
+    }
 }
 
 COM_output($retval);

@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog user administration page.                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -139,7 +139,7 @@ function edituser($uid = '', $msg = '')
     $user_templates = new Template($_CONF['path_layout'] . 'admin/user');
     $user_templates->set_file (array ('form' => 'edituser.thtml',
                                       'groupedit' => 'groupedit.thtml'));
-    $user_templates->set_var( 'xhtml', XHTML );
+    $user_templates->set_var('xhtml', XHTML);
     $user_templates->set_var('site_url', $_CONF['site_url']);
     $user_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
     $user_templates->set_var('layout_url', $_CONF['layout_url']);
@@ -236,7 +236,7 @@ function edituser($uid = '', $msg = '')
     if (!empty($uid)) {
         if ($A['uid'] == $_USER['uid']) {
             $allow_ban = false; // do not allow to ban yourself
-        } else if (SEC_inGroup('Root', $A['uid'])) { // editing a Root user?
+        } elseif (SEC_inGroup('Root', $A['uid'])) { // editing a Root user?
             $count_root_sql = "SELECT COUNT(ug_uid) AS root_count FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = 1 GROUP BY ug_uid;";
             $count_root_result = DB_query($count_root_sql);
             $C = DB_fetchArray($count_root_result); // how many are left?
@@ -294,6 +294,14 @@ function edituser($uid = '', $msg = '')
                       . ' ';
             $selected .= DB_getItem($_TABLES['groups'], 'grp_id',
                                     "grp_name = 'Logged-in Users'");
+
+            // add default groups, if any
+            $result = DB_query("SELECT grp_id FROM {$_TABLES['groups']} WHERE grp_default = 1");
+            $num_defaults = DB_numRows($result);
+            for ($i = 0; $i < $num_defaults; $i++) {
+                list($def_grp) = DB_fetchArray($result);
+                $selected .= ' ' . $def_grp;
+            }
         }
         $thisUsersGroups = SEC_getUserGroups();
         $remoteGroup = DB_getItem($_TABLES['groups'], 'grp_id',
@@ -437,7 +445,7 @@ function listusers()
 * Saves user to the database
 *
 * @param    int     $uid            user id
-* @param    string  $usernmae       (short) user name
+* @param    string  $usernmae       (short) username
 * @param    string  $fullname       user's full name
 * @param    string  $email          user's email address
 * @param    string  $regdate        date the user registered with the site
@@ -454,8 +462,10 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
     $retval = '';
     $userChanged = false;
 
-    if ($_USER_VERBOSE) COM_errorLog("**** entering saveusers****",1);
-    if ($_USER_VERBOSE) COM_errorLog("group size at beginning = " . count($groups),1);
+    if ($_USER_VERBOSE) {
+        COM_errorLog("**** entering saveusers****", 1);
+        COM_errorLog("group size at beginning = " . count($groups), 1);
+    }
 
     if ($passwd != $passwd_conf) { // passwords don't match
         return edituser($uid, 67);
@@ -687,7 +697,9 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         exit;
     }
 
-    if ($_USER_VERBOSE) COM_errorLog("***************leaving saveusers*****************",1);
+    if ($_USER_VERBOSE) {
+        COM_errorLog("***************leaving saveusers*****************", 1);
+    }
 
     return $retval;
 }
@@ -956,7 +968,10 @@ function batchreminders()
             if (file_exists ($_CONF['path_data'] . 'reminder_email.txt')) {
                 $template = new Template ($_CONF['path_data']);
                 $template->set_file (array ('mail' => 'reminder_email.txt'));
+                $template->set_var ('xhtml', XHTML);
                 $template->set_var ('site_url', $_CONF['site_url']);
+                $template->set_var ('site_admin_url', $_CONF['site_admin_url']);
+                $template->set_var ('layout_url', $_CONF['layout_url']);
                 $template->set_var ('site_name', $_CONF['site_name']);
                 $template->set_var ('site_slogan', $_CONF['site_slogan']);
                 $template->set_var ('lang_username', $LANG04[2]);
@@ -1103,7 +1118,7 @@ function importusers()
                 if ($result && $verbose_import) {
                     $retval .= "<br" . XHTML . "> Account for <b>$u_name</b> created successfully.<br" . XHTML . ">\n";
                     COM_errorLog("Account for $u_name created successfully",1);
-                } else if ($result) {
+                } elseif ($result) {
                     $successes++;
                 } else {
                     // user creation failed
@@ -1240,6 +1255,7 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
     } else {
         COM_accessLog("User {$_USER['username']} tried to illegally delete user $uid and failed CSRF checks.");
         echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
+        exit;
     }
 } elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) { // save
     $delphoto = '';
@@ -1252,29 +1268,39 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
     if (!isset ($_POST['userstatus'])) {
         $_POST['userstatus'] = USER_ACCOUNT_ACTIVE;
     }
-    $display = saveusers (COM_applyFilter ($_POST['uid'], true),
-            $_POST['username'], $_POST['fullname'],
-            $_POST['passwd'], $_POST['passwd_conf'], $_POST['email'],
-            $_POST['regdate'], $_POST['homepage'], $_POST['groups'],
-            $delphoto, $_POST['userstatus'], $_POST['oldstatus']);
-    if (!empty($display)) {
-        $tmp = COM_siteHeader('menu', $LANG28[22]);
-        $tmp .= $display;
-        $tmp .= COM_siteFooter();
-        $display = $tmp;
+    $uid = COM_applyFilter($_POST['uid'], true);
+    if ($uid == 1) {
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
+        exit;
+    } else {
+        $display = saveusers($uid, $_POST['username'], $_POST['fullname'],
+                    $_POST['passwd'], $_POST['passwd_conf'], $_POST['email'],
+                    $_POST['regdate'], $_POST['homepage'], $_POST['groups'],
+                    $delphoto, $_POST['userstatus'], $_POST['oldstatus']);
+        if (!empty($display)) {
+            $tmp = COM_siteHeader('menu', $LANG28[22]);
+            $tmp .= $display;
+            $tmp .= COM_siteFooter();
+            $display = $tmp;
+        }
     }
 } elseif ($mode == 'edit') {
     $display .= COM_siteHeader('menu', $LANG28[1]);
     $msg = '';
-    if (isset ($_GET['msg'])) {
-        $msg = COM_applyFilter ($_GET['msg'], true);
+    if (isset($_GET['msg'])) {
+        $msg = COM_applyFilter($_GET['msg'], true);
     }
     $uid = '';
-    if (isset ($_GET['uid'])) {
-        $uid = COM_applyFilter ($_GET['uid'], true);
+    if (isset($_GET['uid'])) {
+        $uid = COM_applyFilter($_GET['uid'], true);
     }
-    $display .= edituser ($uid, $msg);
-    $display .= COM_siteFooter();
+    if ($uid == 1) {
+        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
+        exit;
+    } else {
+        $display .= edituser($uid, $msg);
+        $display .= COM_siteFooter();
+    }
 } elseif (($mode == 'import') && SEC_checkToken()) {
     $display .= importusers();
 } elseif ($mode == 'importform') {
