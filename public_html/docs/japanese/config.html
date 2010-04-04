@@ -281,6 +281,10 @@
     <li>'いずれかのキーワードを含む(any)': いずれかのキーワードを含むページ。</li>
     <li>'完全一致(phrase)': 検索キーワードが同じ順(フレーズ)ですべて含まれているページ。(デフォルト)</li>
     </ul></td></tr>
+<tr>
+  <td valign="top"><a name="desc_search_def_sort">search_def_sort</a></td>
+  <td valign="top">'Hits (desc)'</td>
+  <td valign="top">The default sort order for the search results.</td></tr>
 </table>
 
 
@@ -458,10 +462,10 @@
     href="http://en.wikipedia.org/wiki/Document_Type_Declaration">DOCTYPE宣言</a>(別名 DOCTYPE、DTD)を指定するテーマ変数<tt>{doctype}</tt>を指定できます。</td></tr>
 <tr>
   <td valign="top"><a name="desc_menu_elements">メニュー項目(menu_elements)</a></td>
-  <td valign="top"><code>array('contribute', 'calendar', 'search', 'stats',
-    'directory', 'plugins')</code></td>
+  <td valign="top"><code>array('contribute', 'search', 'stats', 'directory',
+    'plugins')</code></td>
   <td valign="top">どのメニュー項目をサイトのメニューバー（グローバルメニュー）に表示するかを指定します（使用するテーマにメニューバーを表示するための<code>{menu_elements}</code>テンプレート変数が使用されている場合）。<tt>'home'</tt>（トップページ）,
-    <tt>'contribute'</tt>（記事投稿）, <tt>'calendar'</tt>（カレンダ）, <tt>'search'</tt>（検索）,
+    <tt>'contribute'</tt>（記事投稿）, <tt>'search'</tt>（検索）, <tt>'stats'</tt>,
     <tt>'directory'</tt>（記事一覧）, <tt>'prefs'</tt>（マイアカウント）, <tt>'plugins'</tt>（プラグイン）,
     <tt>'custom'</tt>（カスタム）を好きな数だけ好きな順序で組み合わせることができます。<tt>'plugins'</tt>（プラグイン）は<code>{plg_menu_elements}</code>テンプレート変数と同じで、各プラグインが提供するメニュー項目です。<tt>'custom'</tt>（カスタム）は<code>CUSTOM_menuEntries</code>カスタム関数が返すメニュー項目です（詳細は<tt>lib-custom.php</tt>をご覧ください。）。</td></tr>
 <tr>
@@ -1152,8 +1156,9 @@
 <tr>
   <td valign="top"><a name="desc_disable_autolinks">自動タグを無効にする(disable_autolinks)</a></td>
   <td valign="top">いいえ(0)</td>
-  <td valign="top">はい(1)にすると、自動タグ、つまり、[story:]
-    形式の自動タグがすべて無効になります。</td></tr>
+  <td valign="top">はい(1)にすると、<a
+    href="http://www.geeklog.net/article.php/autolinks">自動タグ</a>、
+    つまり、([story:]といった)角括弧による特殊タグ形式の自動タグがすべて無効になります。</td></tr>
 <tr>
   <td valign="top"><a name="desc_clickable_links">URLを自動リンクさせる(clickable_links)</a></td>
   <td valign="top">はい(true)</td>
