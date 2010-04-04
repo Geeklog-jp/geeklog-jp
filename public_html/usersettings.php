@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog user settings page.                                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -60,6 +60,10 @@ function edituser()
                                    'photo'         => 'userphoto.thtml',
                                    'username'      => 'username.thtml',
                                    'deleteaccount' => 'deleteaccount.thtml'));
+    $preferences->set_var('xhtml', XHTML);
+    $preferences->set_var('site_url', $_CONF['site_url']);
+    $preferences->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $preferences->set_var('layout_url', $_CONF['layout_url']);
 
     include ($_CONF['path_system'] . 'classes/navbar.class.php');
     $navbar = new navbar;
@@ -69,17 +73,14 @@ function edituser()
         $cnt++;
     }
     $navbar->set_selected($LANG_MYACCOUNT['pe_namepass']);
-    $preferences->set_var ( 'xhtml', XHTML );
     $preferences->set_var ('navbar', $navbar->generate());
 
-    $preferences->set_var ('site_url', $_CONF['site_url']);
-    $preferences->set_var ('layout_url', $_CONF['layout_url']);
-    $preferences->set_var ('no_javascript_warning',$LANG04[150]);
+    $preferences->set_var ('no_javascript_warning', $LANG04[150]);
 
     $preferences->set_var ('cssid1', 1);
     $preferences->set_var ('cssid2', 2);
 
-    $preferences->set_var ('preview', userprofile($_USER['uid']));
+    $preferences->set_var ('preview', USER_showProfile($_USER['uid'], true));
     $preferences->set_var ('prefs', editpreferences());
 
     // some trickery to ensure alternating colors with the available options ...
@@ -327,9 +328,9 @@ function deleteUserAccount ($form_reqid)
 */
 function editpreferences()
 {
-    global $_TABLES, $_CONF, $LANG04, $_USER, $_GROUPS;
+    global $_CONF, $_TABLES, $_USER, $_GROUPS, $LANG04;
 
-    $result = DB_query("SELECT noicons,willing,dfid,tzid,noboxes,maxstories,tids,aids,boxes,emailfromadmin,emailfromuser,showonline FROM {$_TABLES['userprefs']},{$_TABLES['userindex']} WHERE {$_TABLES['userindex']}.uid = {$_USER['uid']} AND {$_TABLES['userprefs']}.uid = {$_USER['uid']}");
+    $result = DB_query("SELECT noicons,willing,dfid,tzid,noboxes,maxstories,tids,aids,boxes,emailfromadmin,emailfromuser,showonline,advanced_editor FROM {$_TABLES['userprefs']},{$_TABLES['userindex']} WHERE {$_TABLES['userindex']}.uid = {$_USER['uid']} AND {$_TABLES['userprefs']}.uid = {$_USER['uid']}");
 
     $A = DB_fetchArray($result);
 
@@ -352,10 +353,12 @@ function editpreferences()
                                    'comment' => 'commentblock.thtml',
                                    'language' => 'language.thtml',
                                    'theme' => 'theme.thtml',
-                                   'privacy' => 'privacyblock.thtml'
+                                   'privacy' => 'privacyblock.thtml',
+                                   'editor' => 'editor.thtml'
                                   ));
-    $preferences->set_var ( 'xhtml', XHTML );
+    $preferences->set_var ('xhtml', XHTML);
     $preferences->set_var ('site_url', $_CONF['site_url']);
+    $preferences->set_var ('site_admin_url', $_CONF['site_admin_url']);
     $preferences->set_var ('layout_url', $_CONF['layout_url']);
 
     $preferences->set_var ('user_name', $_USER['username']);
@@ -501,8 +504,8 @@ function editpreferences()
             $words = explode('_', $theme);
             $bwords = array();
             foreach ($words as $th) {
-                if ((strtolower($th{0}) == $th{0}) &&
-                    (strtolower($th{1}) == $th{1})) {
+                if ((strtolower($th[0]) == $th[0]) &&
+                    (strtolower($th[1]) == $th[1])) {
                     $bwords[] = ucfirst($th);
                 } else {
                     $bwords[] = $th;
@@ -517,6 +520,18 @@ function editpreferences()
         $preferences->set_var('theme_selection', '');
     }
 
+    if ($_CONF['advanced_editor'] == 1) {
+        $preferences->set_var('lang_advanced_editor', $LANG04[165]);
+        if ($A['advanced_editor'] == 1) {
+            $preferences->set_var('advanced_editor_checked', 'checked="checked"');
+        } else {
+            $preferences->set_var('advanced_editor_checked', '');
+        }
+        $preferences->parse('advanced_editor_option', 'editor', true);
+    } else {
+        $preferences->set_var('advanced_editor_option', '');
+    }
+
     // Timezone
     require_once $_CONF['path_system'] . 'classes/timezoneconfig.class.php';
 
@@ -527,13 +542,13 @@ function editpreferences()
     $preferences->set_var('timezone_selector', $selection);
     $preferences->set_var('lang_timezone', $LANG04[158]);
 
-    if ($A['noicons'] == '1') {
+    if (isset ($A['noicons']) && $A['noicons'] == '1') {
         $preferences->set_var ('noicons_checked', 'checked="checked"');
     } else {
         $preferences->set_var ('noicons_checked', '');
     }
 
-    if ($A['noboxes'] == 1) {
+    if (isset ($A['noboxes']) && $A['noboxes'] == '1') {
         $preferences->set_var ('noboxes_checked', 'checked="checked"');
     } else {
         $preferences->set_var ('noboxes_checked', '');
@@ -619,7 +634,7 @@ function editpreferences()
             $user_etids = '';
         }
         $tmp = COM_checkList($_TABLES['topics'], 'tid,topic', $permissions,
-                             $user_etids, 'topics');
+                             $user_etids, 'etids');
         $preferences->set_var('email_topic_checklist',
                 str_replace($_TABLES['topics'], 'etids', $tmp));
         $preferences->parse('digest_block', 'digest', true);
@@ -643,7 +658,7 @@ function editpreferences()
     if (!empty ($permissions)) {
         $whereblock .= $permissions . ' AND ';
     }
-    $whereblock .= "((type != 'layout' AND type != 'gldefault' AND is_enabled = 1) OR "
+    $whereblock .= "((type != 'gldefault' AND is_enabled = 1) OR "
                  . "(type = 'gldefault' AND is_enabled = 1 AND name IN ('whats_new_block','older_stories'))) "
                  . "ORDER BY onleft desc,blockorder,title";
     $preferences->set_var ('boxes_checklist', COM_checkList ($_TABLES['blocks'],
@@ -684,7 +699,7 @@ function editpreferences()
 *
 * @param   email   string   email address to check
 * @param   uid     int      user id of current user
-* @return          bool     true = exists, false = does not exist
+* @return          boolean  true = exists, false = does not exist
 *
 */
 function emailAddressExists ($email, $uid)
@@ -1060,246 +1075,6 @@ function saveuser($A)
 }
 
 /**
-* Shows a profile for a user
-*
-* This grabs the user profile for a given user and displays it
-*
-* @param    int     $user   User ID of profile to get
-* @param    int     $msg    Message to display (if != 0)
-* @return   string          HTML for user profile page
-*
-*/
-function userprofile ($user, $msg = 0)
-{
-    global $_CONF, $_TABLES, $_USER, $LANG01, $LANG04, $LANG09, $LANG_LOGIN;
-
-    $retval = '';
-
-    if (empty ($_USER['username']) &&
-        (($_CONF['loginrequired'] == 1) || ($_CONF['profileloginrequired'] == 1))) {
-        $retval .= COM_siteHeader ('menu');
-        $retval .= COM_startBlock ($LANG_LOGIN[1], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        $login = new Template($_CONF['path_layout'] . 'submit');
-        $login->set_file (array ('login'=>'submitloginrequired.thtml'));
-        $login->set_var ( 'xhtml', XHTML );
-        $login->set_var ('login_message', $LANG_LOGIN[2]);
-        $login->set_var ('site_url', $_CONF['site_url']);
-        $login->set_var ('site_admin_url', $_CONF['site_admin_url']);
-        $login->set_var ('layout_url', $_CONF['layout_url']);
-        $login->set_var ('lang_login', $LANG_LOGIN[3]);
-        $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $login->parse ('output', 'login');
-        $retval .= $login->finish ($login->get_var('output'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
-
-        return $retval;
-    }
-
-    $result = DB_query ("SELECT {$_TABLES['users']}.uid,username,fullname,regdate,homepage,about,location,pgpkey,photo,email FROM {$_TABLES['userinfo']},{$_TABLES['users']} WHERE {$_TABLES['userinfo']}.uid = {$_TABLES['users']}.uid AND {$_TABLES['users']}.uid = $user");
-    $nrows = DB_numRows ($result);
-    if ($nrows == 0) { // no such user
-        return COM_refresh ($_CONF['site_url'] . '/index.php');
-    }
-    $A = DB_fetchArray ($result);
-
-    $display_name = COM_getDisplayName ($user, $A['username'], $A['fullname']);
-
-    // format date/time to user preference
-    $curtime = COM_getUserDateTimeFormat ($A['regdate']);
-    $A['regdate'] = $curtime[0];
-
-    $user_templates = new Template ($_CONF['path_layout'] . 'users');
-    $user_templates->set_file (array ('profile' => 'profile.thtml',
-                                      'row'     => 'commentrow.thtml',
-                                      'strow'   => 'storyrow.thtml'));
-    $user_templates->set_var ( 'xhtml', XHTML );
-    $user_templates->set_var ('site_url', $_CONF['site_url']);
-    $user_templates->set_var ('start_block_userprofile',
-            COM_startBlock ($LANG04[1] . ' ' . $display_name));
-    $user_templates->set_var ('end_block', COM_endBlock ());
-    $user_templates->set_var ('lang_username', $LANG04[2]);
-    if ($_CONF['show_fullname'] == 1) {
-        $user_templates->set_var ('username', $A['fullname']);
-        $user_templates->set_var ('user_fullname', $A['username']);
-    } else {
-        $user_templates->set_var ('username', $A['username']);
-        $user_templates->set_var ('user_fullname', $A['fullname']);
-    }
-
-    if (SEC_hasRights('user.edit')) {
-        global $_IMAGE_TYPE, $LANG_ADMIN;
-        $edit_icon = '<img src="' . $_CONF['layout_url'] . '/images/edit.'
-             . $_IMAGE_TYPE . '" alt="' . $LANG_ADMIN['edit']
-             . '" title="' . $LANG_ADMIN['edit'] . '"' . XHTML . '>';
-        $edit_link_url = COM_createLink(
-            $edit_icon,
-            "{$_CONF['site_admin_url']}/user.php?mode=edit&amp;uid={$A['uid']}"
-        );
-        $user_templates->set_var ('edit_link', $edit_link_url);
-    }
-
-    $photo = USER_getPhoto ($user, $A['photo'], $A['email'], -1);
-    $user_templates->set_var ('user_photo', $photo);
-
-    $user_templates->set_var ('lang_membersince', $LANG04[67]);
-    $user_templates->set_var ('user_regdate', $A['regdate']);
-    $user_templates->set_var ('lang_email', $LANG04[5]);
-    $user_templates->set_var ('user_id', $user);
-    $user_templates->set_var ('lang_sendemail', $LANG04[81]);
-    $user_templates->set_var ('lang_homepage', $LANG04[6]);
-    $user_templates->set_var ('user_homepage', COM_killJS ($A['homepage']));
-    $user_templates->set_var ('lang_location', $LANG04[106]);
-    $user_templates->set_var ('user_location', strip_tags ($A['location']));
-    $user_templates->set_var ('lang_bio', $LANG04[7]);
-    $user_templates->set_var ('user_bio', nl2br (stripslashes ($A['about'])));
-    $user_templates->set_var ('lang_pgpkey', $LANG04[8]);
-    $user_templates->set_var ('user_pgp', nl2br ($A['pgpkey']));
-    $user_templates->set_var ('start_block_last10stories',
-            COM_startBlock ($LANG04[82] . ' ' . $display_name));
-    $user_templates->set_var ('start_block_last10comments',
-            COM_startBlock($LANG04[10] . ' ' . $display_name));
-    $user_templates->set_var ('start_block_postingstats',
-            COM_startBlock ($LANG04[83] . ' ' . $display_name));
-    $user_templates->set_var ('lang_title', $LANG09[16]);
-    $user_templates->set_var ('lang_date', $LANG09[17]);
-
-    // for alternative layouts: use these as headlines instead of block titles
-    $user_templates->set_var ('headline_last10stories', $LANG04[82]);
-    $user_templates->set_var ('headline_last10comments', $LANG04[10]);
-    $user_templates->set_var ('headline_postingstats', $LANG04[83]);
-
-    $result = DB_query ("SELECT tid FROM {$_TABLES['topics']}"
-            . COM_getPermSQL ());
-    $nrows = DB_numRows ($result);
-    $tids = array ();
-    for ($i = 0; $i < $nrows; $i++) {
-        $T = DB_fetchArray ($result);
-        $tids[] = $T['tid'];
-    }
-    $topics = "'" . implode ("','", $tids) . "'";
-
-    // list of last 10 stories by this user
-    if (count($tids) > 0) {
-        $sql = "SELECT sid,title,UNIX_TIMESTAMP(date) AS unixdate FROM {$_TABLES['stories']} WHERE (uid = $user) AND (draft_flag = 0) AND (date <= NOW()) AND (tid IN ($topics))" . COM_getPermSQL ('AND');
-        $sql .= " ORDER BY unixdate DESC LIMIT 10";
-        $result = DB_query ($sql);
-        $nrows = DB_numRows ($result);
-    } else {
-        $nrows = 0;
-    }
-    if ($nrows > 0) {
-        for ($i = 0; $i < $nrows; $i++) {
-            $C = DB_fetchArray ($result);
-            $user_templates->set_var ('cssid', ($i % 2) + 1);
-            $user_templates->set_var ('row_number', ($i + 1) . '.');
-            $articleUrl = COM_buildUrl ($_CONF['site_url']
-                                        . '/article.php?story=' . $C['sid']);
-            $user_templates->set_var ('article_url', $articleUrl);
-            $C['title'] = str_replace ('$', '&#36;', $C['title']);
-            $user_templates->set_var ('story_title',
-                COM_createLink(
-                    stripslashes ($C['title']),
-                    $articleUrl,
-                    array('class'=> 'b')
-                )
-            );
-            $storytime = COM_getUserDateTimeFormat ($C['unixdate']);
-            $user_templates->set_var ('story_date', $storytime[0]);
-            $user_templates->parse ('story_row', 'strow', true);
-        }
-    } else {
-        $user_templates->set_var ('story_row',
-                                  '<tr><td>' . $LANG01[37] . '</td></tr>');
-    }
-
-    // list of last 10 comments by this user
-    $sidArray = array();
-    if (count($tids) > 0) {
-        // first, get a list of all stories the current visitor has access to
-        $sql = "SELECT sid FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW()) AND (tid IN ($topics))" . COM_getPermSQL ('AND');
-        $result = DB_query($sql);
-        $numsids = DB_numRows($result);
-        for ($i = 1; $i <= $numsids; $i++) {
-            $S = DB_fetchArray ($result);
-            $sidArray[] = $S['sid'];
-        }
-    }
-
-    $sidList = implode("', '",$sidArray);
-    $sidList = "'$sidList'";
-
-    // then, find all comments by the user in those stories
-    $sql = "SELECT sid,title,cid,UNIX_TIMESTAMP(date) AS unixdate FROM {$_TABLES['comments']} WHERE (uid = $user) GROUP BY sid,title,cid,UNIX_TIMESTAMP(date)";
-
-    // SQL NOTE:  Using a HAVING clause is usually faster than a where if the
-    // field is part of the select
-    // if (!empty ($sidList)) {
-    //     $sql .= " AND (sid in ($sidList))";
-    // }
-    if (!empty ($sidList)) {
-        $sql .= " HAVING sid in ($sidList)";
-    }
-    $sql .= " ORDER BY unixdate DESC LIMIT 10";
-
-    $result = DB_query($sql);
-    $nrows = DB_numRows($result);
-    if ($nrows > 0) {
-        for ($i = 0; $i < $nrows; $i++) {
-            $C = DB_fetchArray ($result);
-            $user_templates->set_var ('cssid', ($i % 2) + 1);
-            $user_templates->set_var ('row_number', ($i + 1) . '.');
-            $comment_url = $_CONF['site_url']
-                . '/comment.php?mode=view&amp;cid=' . $C['cid'];
-            $C['title'] = str_replace ('$', '&#36;', $C['title']);
-            $user_templates->set_var ('comment_title',
-                COM_createLink(
-                    stripslashes ($C['title']),
-                    $comment_url,
-                    array('class'=> 'b')
-                )
-            );
-            $commenttime = COM_getUserDateTimeFormat ($C['unixdate']);
-            $user_templates->set_var ('comment_date', $commenttime[0]);
-            $user_templates->parse ('comment_row', 'row', true);
-        }
-    } else {
-        $user_templates->set_var('comment_row','<tr><td>' . $LANG01[29] . '</td></tr>');
-    }
-
-    // posting stats for this user
-    $user_templates->set_var ('lang_number_stories', $LANG04[84]);
-    $sql = "SELECT COUNT(*) AS count FROM {$_TABLES['stories']} WHERE (uid = $user) AND (draft_flag = 0) AND (date <= NOW())" . COM_getPermSQL ('AND');
-    $result = DB_query($sql);
-    $N = DB_fetchArray ($result);
-    $user_templates->set_var ('number_stories', COM_numberFormat ($N['count']));
-    $user_templates->set_var ('lang_number_comments', $LANG04[85]);
-    $sql = "SELECT COUNT(*) AS count FROM {$_TABLES['comments']} WHERE (uid = $user)";
-    if (!empty ($sidList)) {
-        $sql .= " AND (sid in ($sidList))";
-    }
-    $result = DB_query ($sql);
-    $N = DB_fetchArray ($result);
-    $user_templates->set_var ('number_comments', COM_numberFormat($N['count']));
-    $user_templates->set_var ('lang_all_postings_by',
-                              $LANG04[86] . ' ' . $display_name);
-
-    // Call custom registration function if enabled and exists
-    if ($_CONF['custom_registration'] && function_exists ('CUSTOM_userDisplay') ) {
-        $user_templates->set_var ('customfields', CUSTOM_userDisplay ($user));
-    }
-    PLG_profileVariablesDisplay ($user, $user_templates);
-
-    $user_templates->parse ('output', 'profile');
-    $retval .= $user_templates->finish ($user_templates->get_var ('output'));
-
-    $retval .= PLG_profileBlocksDisplay ($user);
-
-    return $retval;
-}
-
-/**
 * Saves user's preferences back to the database
 *
 * @param    array   $A  User's data to save
@@ -1339,6 +1114,11 @@ function savepreferences($A)
         $A['showonline'] = 1;
     } else {
         $A['showonline'] = 0;
+    }
+    if (isset($A['advanced_editor']) && ($A['advanced_editor'] == 'on')) {
+        $A['advanced_editor'] = 1;
+    } else {
+        $A['advanced_editor'] = 0;
     }
 
     $A['maxstories'] = COM_applyFilter ($A['maxstories'], true);
@@ -1436,13 +1216,12 @@ function savepreferences($A)
 
     $A['dfid'] = COM_applyFilter ($A['dfid'], true);
 
-    DB_query("UPDATE {$_TABLES['userprefs']} SET noicons='{$A['noicons']}', willing='{$A['willing']}', dfid='{$A['dfid']}', tzid='{$A['tzid']}', emailfromadmin='{$A['emailfromadmin']}', emailfromuser='{$A['emailfromuser']}', showonline='{$A['showonline']}' WHERE uid='{$_USER['uid']}'");
+    DB_query("UPDATE {$_TABLES['userprefs']} SET noicons='{$A['noicons']}', willing='{$A['willing']}', dfid='{$A['dfid']}', tzid='{$A['tzid']}', emailfromadmin='{$A['emailfromadmin']}', emailfromuser='{$A['emailfromuser']}', showonline='{$A['showonline']}', advanced_editor='{$A['advanced_editor']}' WHERE uid='{$_USER['uid']}'");
 
     if (empty ($etids)) {
         $etids = '-';
     }
-    DB_save($_TABLES['userindex'],"uid,tids,aids,boxes,noboxes,maxstories,etids","'{$_USER['uid']}','$tids','$aids','$selectedblocks','{$A['noboxes']}',{$A['maxstories']},'$etids'");
-
+    DB_save($_TABLES['userindex'],"uid,tids,aids,boxes,noboxes,maxstories,etids","{$_USER['uid']},'$tids','$aids','$selectedblocks','{$A['noboxes']}',{$A['maxstories']},'$etids'");
     $A['commentmode'] = COM_applyFilter ($A['commentmode']);
     if (empty ($A['commentmode'])) {
         $A['commentmode'] = $_CONF['comment_mode'];
@@ -1460,8 +1239,7 @@ function savepreferences($A)
         $A['commentlimit'] = $_CONF['comment_limit'];
     }
 
-    DB_save($_TABLES['usercomment'],'uid,commentmode,commentorder,commentlimit',"'{$_USER['uid']}','{$A['commentmode']}','{$A['commentorder']}','{$A['commentlimit']}'");
-
+    DB_save($_TABLES['usercomment'],'uid,commentmode,commentorder,commentlimit',"{$_USER['uid']},'{$A['commentmode']}','{$A['commentorder']}','{$A['commentlimit']}'");
     PLG_userInfoChanged ($_USER['uid']);
 }
 
@@ -1480,7 +1258,7 @@ if (isset($_POST['btncancel']) AND $_POST['btncancel'] == $LANG_ADMIN['cancel'])
 
 $display = '';
 
-if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+if (! COM_isAnonUser()) {
     switch ($mode) {
     case 'saveuser':
         savepreferences ($_POST);

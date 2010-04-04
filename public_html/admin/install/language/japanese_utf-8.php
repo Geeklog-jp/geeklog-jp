@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | japanese_utf-8.php                                                        |
 // |                                                                           |
 // | Japanese language file for the Geeklog installation script                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -51,9 +51,9 @@ $LANG_CHARSET = 'utf-8';
 // install.php
 
 $LANG_INSTALL = array(
-    0 => 'Geeklog - The Ultimate Weblog System',
+    0 => 'Geeklog - The secure CMS.',
     1 => 'インストールで困ったら、こちらのサイトへ',
-    2 => 'The Ultimate Weblog System',
+    2 => 'The secure CMS.',
     3 => 'Geeklogをインストールする',
     4 => 'PHP %s以上が必要です',
     5 => '残念ながらGeeklogをインストールするには最低でもPHP %sが必要です(現在のバージョンは ',
@@ -156,7 +156,10 @@ $LANG_INSTALL = array(
     102 => 'コンフィギュレーションモード入力',
     103 => '＋追加プラグインの設定',
     104 => '不正な管理者パス',
-    105 => '入力した管理者のディレクトリパスは不正確でした。もう一度やり直してください。'
+    105 => '入力した管理者のディレクトリパスは不正確でした。もう一度やり直してください。',
+    106 => 'PostgreSQL',
+    107 => 'Database Password is required for production environments.',
+    108 => 'No Database Drivers found!'
 );
 
 // +---------------------------------------------------------------------------+
@@ -177,7 +180,7 @@ $LANG_SUCCESS = array(
     11 => '次の',
     12 => 'つのことを忘れずに行ってください',
     13 => 'installディレクトリを削除またはリネームする:',
-    14 => '',
+    14 => 'Change the',
     15 => 'アカウントのパスワードを変更する。',
     16 => 'パーミッションを設定する:',
     17 => 'と',
@@ -302,7 +305,7 @@ $LANG_BIGDUMP = array(
     25 => ' ミリ秒</b> 次のセッションが始まるまで...',
     26 => 'インポート中止',
     27 => 'インポートの中止はこちら。',
-    28 => '',
+    28 => 'or wait!',
     29 => 'エラーが発生しました。',
     30 => '最初からスタート',
     31 => '(再起動する前に古いテーブルを削除してください)'
@@ -364,10 +367,6 @@ $LANG_LABEL = array(
     'utf8'           => $LANG_INSTALL[92],
     'migrate_file'   => $LANG_MIGRATE[6],
     'plugin_upload'  => $LANG_PLUGINS[10]
-);
-
-$LANG_INSTALL_JP = array(
-    1 => '日本語環境のインストール前チェック',
 );
 
 ?>

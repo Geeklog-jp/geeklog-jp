@@ -8,7 +8,7 @@
 // |                                                                           |
 // | User-related functions needed in more than one place.                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -149,10 +149,12 @@ function USER_createAndSendPassword ($username, $useremail, $uid)
     if (file_exists ($_CONF['path_data'] . 'welcome_email.txt')) {
         $template = new Template ($_CONF['path_data']);
         $template->set_file (array ('mail' => 'welcome_email.txt'));
-        $template->set_var ( 'xhtml', XHTML );
+        $template->set_var ('xhtml', XHTML);
+        $template->set_var ('site_url', $_CONF['site_url']);
+        $template->set_var ('site_admin_url', $_CONF['site_admin_url']);
+        $template->set_var ('layout_url', $_CONF['layout_url']);
         $template->set_var ('auth_info',
                             "$LANG04[2]: $username\n$LANG04[4]: $passwd");
-        $template->set_var ('site_url', $_CONF['site_url']);
         $template->set_var ('site_name', $_CONF['site_name']);
         $template->set_var ('site_slogan', $_CONF['site_slogan']);
         $template->set_var ('lang_text1', $LANG04[15]);
@@ -198,8 +200,10 @@ function USER_sendActivationEmail ($username, $useremail)
     if (file_exists ($_CONF['path_data'] . 'activation_email.txt')) {
         $template = new Template ($_CONF['path_data']);
         $template->set_file (array ('mail' => 'activation_email.txt'));
-        $template->set_var ( 'xhtml', XHTML );
+        $template->set_var ('xhtml', XHTML);
         $template->set_var ('site_url', $_CONF['site_url']);
+        $template->set_var ('site_admin_url', $_CONF['site_admin_url']);
+        $template->set_var ('layout_url', $_CONF['layout_url']);
         $template->set_var ('site_name', $_CONF['site_name']);
         $template->set_var ('site_slogan', $_CONF['site_slogan']);
         $template->set_var ('lang_text1', $LANG04[15]);
@@ -232,7 +236,7 @@ function USER_sendActivationEmail ($username, $useremail)
 *
 * NOTE: Does NOT send out password emails.
 *
-* @param    string  $username    user name (mandatory)
+* @param    string  $username    username (mandatory)
 * @param    string  $email       user's email address (mandatory)
 * @param    string  $passwd      password (optional, see above)
 * @param    string  $fullname    user's full name (optional)
@@ -241,37 +245,37 @@ function USER_sendActivationEmail ($username, $useremail)
 * @return   int                  new user's ID
 *
 */
-function USER_createAccount ($username, $email, $passwd = '', $fullname = '', $homepage = '', $remoteusername = '', $service = '',$batchimport=false)
+function USER_createAccount($username, $email, $passwd = '', $fullname = '', $homepage = '', $remoteusername = '', $service = '', $batchimport = false)
 {
     global $_CONF, $_TABLES;
 
     $queueUser = false;
-    $username = addslashes ($username);
-    $email = addslashes ($email);
+    $username = addslashes($username);
+    $email = addslashes($email);
 
-    $regdate = strftime ('%Y-%m-%d %H:%M:%S', time ());
+    $regdate = strftime('%Y-%m-%d %H:%M:%S', time());
     $fields = 'username,email,regdate,cookietimeout';
     $values = "'$username','$email','$regdate','{$_CONF['default_perm_cookie_timeout']}'";
 
-    if (!empty ($passwd)) {
-        $passwd = addslashes ($passwd);
+    if (! empty($passwd)) {
+        $passwd = addslashes($passwd);
         $fields .= ',passwd';
         $values .= ",'$passwd'";
     }
-    if (!empty ($fullname)) {
-        $fullname = addslashes ($fullname);
+    if (! empty($fullname)) {
+        $fullname = addslashes($fullname);
         $fields .= ',fullname';
         $values .= ",'$fullname'";
     }
-    if (!empty ($homepage)) {
-        $homepage = addslashes ($homepage);
+    if (! empty($homepage)) {
+        $homepage = addslashes($homepage);
         $fields .= ',homepage';
         $values .= ",'$homepage'";
     }
-    if (($_CONF['usersubmission'] == 1) && !SEC_hasRights ('user.edit')) {
+    if (($_CONF['usersubmission'] == 1) && !SEC_hasRights('user.edit')) {
         $queueUser = true;
-        if (!empty ($_CONF['allow_domains'])) {
-            if (USER_emailMatches ($email, $_CONF['allow_domains'])) {
+        if (!empty($_CONF['allow_domains'])) {
+            if (USER_emailMatches($email, $_CONF['allow_domains'])) {
                 $queueUser = false;
             }
         }
@@ -280,52 +284,59 @@ function USER_createAccount ($username, $email, $passwd = '', $fullname = '', $h
             $values .= ',' . USER_ACCOUNT_AWAITING_APPROVAL;
         }
     } else {
-        if (!empty($remoteusername)) {
+        if (! empty($remoteusername)) {
             $fields .= ',remoteusername';
             $values .= ",'$remoteusername'";
         }
-        if (!empty($service)) {
+        if (! empty($service)) {
             $fields .= ',remoteservice';
             $values .= ",'$service'";
         }
     }
 
-    DB_query ("INSERT INTO {$_TABLES['users']} ($fields) VALUES ($values)");
+    DB_query("INSERT INTO {$_TABLES['users']} ($fields) VALUES ($values)");
     // Get the uid of the user, possibly given a service:
-    if ($remoteusername != '')
-    {
-        $uid = DB_getItem ($_TABLES['users'], 'uid', "remoteusername = '$remoteusername' AND remoteservice='$service'");
+    if ($remoteusername != '') {
+        $uid = DB_getItem($_TABLES['users'], 'uid', "remoteusername = '$remoteusername' AND remoteservice='$service'");
     } else {
-        $uid = DB_getItem ($_TABLES['users'], 'uid', "username = '$username' AND remoteservice IS NULL");
+        $uid = DB_getItem($_TABLES['users'], 'uid', "username = '$username' AND remoteservice IS NULL");
     }
 
     // Add user to Logged-in group (i.e. members) and the All Users group
-    $normal_grp = DB_getItem ($_TABLES['groups'], 'grp_id',
-                              "grp_name='Logged-in Users'");
-    $all_grp = DB_getItem ($_TABLES['groups'], 'grp_id',
-                           "grp_name='All Users'");
-    DB_query ("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id,ug_uid) VALUES ($normal_grp, $uid)");
-    DB_query ("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id,ug_uid) VALUES ($all_grp, $uid)");
+    $normal_grp = DB_getItem($_TABLES['groups'], 'grp_id',
+                             "grp_name='Logged-in Users'");
+    $all_grp = DB_getItem($_TABLES['groups'], 'grp_id',
+                          "grp_name='All Users'");
+    DB_query("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid) VALUES ($normal_grp, $uid)");
+    DB_query("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid) VALUES ($all_grp, $uid)");
 
-    DB_query ("INSERT INTO {$_TABLES['userprefs']} (uid) VALUES ($uid)");
-    if ($_CONF['emailstoriesperdefault'] == 1) {
-        DB_query ("INSERT INTO {$_TABLES['userindex']} (uid,etids) VALUES ($uid,'')");
-    } else {
-        DB_query ("INSERT INTO {$_TABLES['userindex']} (uid,etids) VALUES ($uid, '-')");
+    // any default groups?
+    $result = DB_query("SELECT grp_id FROM {$_TABLES['groups']} WHERE grp_default = 1");
+    $num_groups = DB_numRows($result);
+    for ($i = 0; $i < $num_groups; $i++) {
+        list($def_grp) = DB_fetchArray($result);
+        DB_query("INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid) VALUES ($def_grp, $uid)");
     }
 
-    DB_query ("INSERT INTO {$_TABLES['usercomment']} (uid,commentmode,commentlimit) VALUES ($uid,'{$_CONF['comment_mode']}','{$_CONF['comment_limit']}')");
-    DB_query ("INSERT INTO {$_TABLES['userinfo']} (uid) VALUES ($uid)");
+    DB_query("INSERT INTO {$_TABLES['userprefs']} (uid) VALUES ($uid)");
+    if ($_CONF['emailstoriesperdefault'] == 1) {
+        DB_query("INSERT INTO {$_TABLES['userindex']} (uid,etids) VALUES ($uid,'')");
+    } else {
+        DB_query("INSERT INTO {$_TABLES['userindex']} (uid,etids) VALUES ($uid, '-')");
+    }
+
+    DB_query("INSERT INTO {$_TABLES['usercomment']} (uid,commentmode,commentlimit) VALUES ($uid,'{$_CONF['comment_mode']}','{$_CONF['comment_limit']}')");
+    DB_query("INSERT INTO {$_TABLES['userinfo']} (uid) VALUES ($uid)");
 
     // call custom registration function and plugins
-    if ($_CONF['custom_registration'] && (function_exists ('CUSTOM_userCreate'))) {
-        CUSTOM_userCreate ($uid,$batchimport);
+    if ($_CONF['custom_registration'] && function_exists('CUSTOM_userCreate')) {
+        CUSTOM_userCreate($uid,$batchimport);
     }
-    PLG_createUser ($uid);
+    PLG_createUser($uid);
 
     // Notify the admin?
-    if (isset ($_CONF['notification']) &&
-        in_array ('user', $_CONF['notification'])) {
+    if (isset($_CONF['notification']) &&
+            in_array('user', $_CONF['notification'])) {
         if ($queueUser) {
             $mode = 'inactive';
         } else {
@@ -342,7 +353,7 @@ function USER_createAccount ($username, $email, $passwd = '', $fullname = '', $h
 /**
 * Send an email notification when a new user registers with the site.
 *
-* @param username string      User name of the new user
+* @param username string      Username of the new user
 * @param email    string      Email address of the new user
 * @param uid      int         User id of the new user
 * @param mode     string      Mode user was added at.
@@ -517,7 +528,7 @@ function USER_addGroup ($groupid, $uid = '')
      // set $uid if $uid is empty
     if (empty ($uid)) {
         // bail for anonymous users
-        if (empty ($_USER['uid']) || ($_USER['uid'] == 1)) {
+        if (COM_isAnonUser()) {
             return false;
         } else {
             // If logged in set to current uid
@@ -552,7 +563,7 @@ function  USER_delGroup ($groupid, $uid = '')
     // set $uid if $uid is empty
     if (empty ($uid)) {
         // bail for anonymous users
-        if (empty ($_USER['uid']) || ($_USER['uid'] == 1)) {
+        if (COM_isAnonUser()) {
             return false;
         } else {
             // If logged in set to current uid
@@ -824,6 +835,273 @@ function USER_getAllowedTopics()
     }
 
     return $topics;
+}
+
+/**
+* Shows a profile for a user
+*
+* This grabs the user profile for a given user and displays it
+*
+* @param    int     $uid        User ID of profile to get
+* @param    boolean $preview    whether being called as preview from My Account
+* @param    int     $msg        Message to display (if != 0)
+* @param    string  $plugin     optional plugin name for message
+* @return   string              HTML for user profile page
+*
+*/
+function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
+{
+    global $_CONF, $_TABLES, $_USER, $_IMAGE_TYPE,
+           $LANG01, $LANG04, $LANG09, $LANG_LOGIN, $LANG_ADMIN;
+
+    $retval = '';
+
+    if (COM_isAnonUser() &&
+        (($_CONF['loginrequired'] == 1) || ($_CONF['profileloginrequired'] == 1))) {
+        $retval .= COM_siteHeader('menu', $LANG_LOGIN[1]);
+        $retval .= SEC_loginRequiredForm();
+        $retval .= COM_siteFooter();
+
+        return $retval;
+    }
+
+    $result = DB_query("SELECT {$_TABLES['users']}.uid,username,fullname,regdate,homepage,about,location,pgpkey,photo,email,status FROM {$_TABLES['userinfo']},{$_TABLES['users']} WHERE {$_TABLES['userinfo']}.uid = {$_TABLES['users']}.uid AND {$_TABLES['users']}.uid = $uid");
+    $nrows = DB_numRows($result);
+    if ($nrows == 0) { // no such user
+        return COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+    $A = DB_fetchArray($result);
+
+    if ($A['status'] == USER_ACCOUNT_DISABLED && !SEC_hasRights('user.edit')) {
+        COM_displayMessageAndAbort(30, '', 403, 'Forbidden');
+    }
+
+    $display_name = COM_getDisplayName($uid, $A['username'], $A['fullname']);
+    $display_name = htmlspecialchars($display_name);
+
+    if (! $preview) {
+        $retval .= COM_siteHeader('menu', $LANG04[1] . ' ' . $display_name);
+        if ($msg > 0) {
+            $retval .= COM_showMessage($msg, $plugin);
+        }
+    }
+
+    // format date/time to user preference
+    $curtime = COM_getUserDateTimeFormat($A['regdate']);
+    $A['regdate'] = $curtime[0];
+
+    $user_templates = new Template($_CONF['path_layout'] . 'users');
+    $user_templates->set_file(array('profile' => 'profile.thtml',
+                                    'row'     => 'commentrow.thtml',
+                                    'strow'   => 'storyrow.thtml'));
+    $user_templates->set_var('xhtml', XHTML);
+    $user_templates->set_var('site_url', $_CONF['site_url']);
+    $user_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $user_templates->set_var('layout_url', $_CONF['layout_url']);
+
+    $user_templates->set_var('start_block_userprofile',
+            COM_startBlock($LANG04[1] . ' ' . $display_name));
+    $user_templates->set_var('end_block', COM_endBlock());
+    $user_templates->set_var('lang_username', $LANG04[2]);
+
+    if ($_CONF['show_fullname'] == 1) {
+        if (empty($A['fullname'])) {
+            $username = $A['username'];
+            $fullname = '';
+        } else {
+            $username = $A['fullname'];
+            $fullname = $A['username'];
+        }
+    } else {
+        $username = $A['username'];
+        $fullname = $A['fullname'];
+    }
+    $username = htmlspecialchars($username);
+    $fullname = htmlspecialchars($fullname);
+
+    if ($A['status'] == USER_ACCOUNT_DISABLED) {
+        $username = sprintf('<s title="%s">%s</s>', $LANG28[42], $username);
+        if (! empty($fullname)) {
+            $fullname = sprintf('<s title="%s">%s</s>', $LANG28[42], $fullname);
+        }
+    }
+
+    $user_templates->set_var('username', $username);
+    $user_templates->set_var('user_fullname', $fullname);
+
+    if ($preview) {
+        $user_templates->set_var('edit_icon', '');
+        $user_templates->set_var('edit_link', '');
+        $user_templates->set_var('user_edit', '');
+    } elseif (!COM_isAnonUser() && ($_USER['uid'] == $uid)) {
+        $edit_icon = '<img src="' . $_CONF['layout_url'] . '/images/edit.'
+                   . $_IMAGE_TYPE . '" alt="' . $LANG01[48]
+                   . '" title="' . $LANG01[48] . '"' . XHTML . '>';
+        $edit_link_url = COM_createLink($edit_icon,
+                            $_CONF['site_url'] . '/usersettings.php');
+        $user_templates->set_var('edit_icon', $edit_icon);
+        $user_templates->set_var('edit_link', $edit_link_url);
+        $user_templates->set_var('user_edit', $edit_link_url);
+    } elseif (SEC_hasRights('user.edit')) {
+        $edit_icon = '<img src="' . $_CONF['layout_url'] . '/images/edit.'
+                   . $_IMAGE_TYPE . '" alt="' . $LANG_ADMIN['edit']
+                   . '" title="' . $LANG_ADMIN['edit'] . '"' . XHTML . '>';
+        $edit_link_url = COM_createLink($edit_icon,
+            "{$_CONF['site_admin_url']}/user.php?mode=edit&amp;uid={$A['uid']}");
+        $user_templates->set_var('edit_icon', $edit_icon);
+        $user_templates->set_var('edit_link', $edit_link_url);
+        $user_templates->set_var('user_edit', $edit_link_url);
+    }
+
+    if (isset($A['photo']) && empty($A['photo'])) {
+        $A['photo'] = '(none)'; // user does not have a photo
+    }
+    $photo = USER_getPhoto($uid, $A['photo'], $A['email'], -1);
+    $user_templates->set_var('user_photo', $photo);
+
+    $user_templates->set_var('lang_membersince', $LANG04[67]);
+    $user_templates->set_var('user_regdate', $A['regdate']);
+    $user_templates->set_var('lang_email', $LANG04[5]);
+    $user_templates->set_var('user_id', $uid);
+    $user_templates->set_var('uid', $uid);
+    $user_templates->set_var('lang_sendemail', $LANG04[81]);
+    $user_templates->set_var('lang_homepage', $LANG04[6]);
+    $user_templates->set_var('user_homepage', COM_killJS($A['homepage']));
+    $user_templates->set_var('lang_location', $LANG04[106]);
+    $user_templates->set_var('user_location', strip_tags($A['location']));
+    $user_templates->set_var('lang_bio', $LANG04[7]);
+    $user_templates->set_var('user_bio', nl2br(stripslashes ($A['about'])));
+    $user_templates->set_var('lang_pgpkey', $LANG04[8]);
+    $user_templates->set_var('user_pgp', nl2br ($A['pgpkey']));
+    $user_templates->set_var('start_block_last10stories',
+            COM_startBlock($LANG04[82] . ' ' . $display_name));
+    $user_templates->set_var('start_block_last10comments',
+            COM_startBlock($LANG04[10] . ' ' . $display_name));
+    $user_templates->set_var('start_block_postingstats',
+            COM_startBlock($LANG04[83] . ' ' . $display_name));
+    $user_templates->set_var('lang_title', $LANG09[16]);
+    $user_templates->set_var('lang_date', $LANG09[17]);
+
+    // for alternative layouts: use these as headlines instead of block titles
+    $user_templates->set_var('headline_last10stories', $LANG04[82]);
+    $user_templates->set_var('headline_last10comments', $LANG04[10]);
+    $user_templates->set_var('headline_postingstats', $LANG04[83]);
+
+    $result = DB_query("SELECT tid FROM {$_TABLES['topics']}"
+                       . COM_getPermSQL());
+    $nrows = DB_numRows($result);
+    $tids = array();
+    for ($i = 0; $i < $nrows; $i++) {
+        $T = DB_fetchArray($result);
+        $tids[] = $T['tid'];
+    }
+    $topics = "'" . implode("','", $tids) . "'";
+
+    // list of last 10 stories by this user
+    if (count($tids) > 0) {
+        $sql = "SELECT sid,title,UNIX_TIMESTAMP(date) AS unixdate FROM {$_TABLES['stories']} WHERE (uid = $uid) AND (draft_flag = 0) AND (date <= NOW()) AND (tid IN ($topics))" . COM_getPermSQL('AND');
+        $sql .= " ORDER BY unixdate DESC LIMIT 10";
+        $result = DB_query($sql);
+        $nrows = DB_numRows($result);
+    } else {
+        $nrows = 0;
+    }
+    if ($nrows > 0) {
+        for ($i = 0; $i < $nrows; $i++) {
+            $C = DB_fetchArray($result);
+            $user_templates->set_var('cssid', ($i % 2) + 1);
+            $user_templates->set_var('row_number', ($i + 1) . '.');
+            $articleUrl = COM_buildUrl($_CONF['site_url']
+                                       . '/article.php?story=' . $C['sid']);
+            $user_templates->set_var('article_url', $articleUrl);
+            $C['title'] = str_replace('$', '&#36;', $C['title']);
+            $user_templates->set_var('story_title',
+                COM_createLink(
+                    stripslashes($C['title']),
+                    $articleUrl,
+                    array('class'=>'b'))
+            );
+            $storytime = COM_getUserDateTimeFormat($C['unixdate']);
+            $user_templates->set_var('story_date', $storytime[0]);
+            $user_templates->parse('story_row', 'strow', true);
+        }
+    } else {
+        $user_templates->set_var('story_row',
+                                 '<tr><td>' . $LANG01[37] . '</td></tr>');
+    }
+
+    // list of last 10 comments by this user
+    $new_plugin_comments = array();
+    $new_plugin_comments = PLG_getWhatsNewComment('', 10, $uid);
+    
+    if( !empty($new_plugin_comments) ) {
+        // Sort array by element lastdate newest to oldest
+        foreach($new_plugin_comments as $k=>$v) {		
+            $b[$k] = strtolower($v['unixdate']);	
+        }	
+        arsort($b);	
+        foreach($b as $key=>$val) {		
+            $temp[] = $new_plugin_comments[$key];	
+        }	   
+        $new_plugin_comments = $temp;   
+           
+        $i = 0;
+        foreach ($new_plugin_comments as $C) {
+            $i = $i + 1;
+            $user_templates->set_var('cssid', ($i % 2));
+            $user_templates->set_var('row_number', ($i) . '.');
+            $C['title'] = str_replace('$', '&#36;', $C['title']);
+            $comment_url = $_CONF['site_url']
+                         . '/comment.php?mode=view&amp;cid=' . $C['cid'];
+            $user_templates->set_var('comment_title',
+                COM_createLink(
+                    stripslashes($C['title']),
+                    $comment_url,
+                    array('class'=>'b'))
+            );
+            $commenttime = COM_getUserDateTimeFormat($C['unixdate']);
+            $user_templates->set_var('comment_date', $commenttime[0]);
+            $user_templates->parse('comment_row', 'row', true);
+            
+            if ($i == 10) {
+                break;   
+            }
+        }
+    } else {
+        $user_templates->set_var('comment_row',
+                                 '<tr><td>' . $LANG01[29] . '</td></tr>');
+    }
+
+    // posting stats for this user
+    $user_templates->set_var('lang_number_stories', $LANG04[84]);
+    $sql = "SELECT COUNT(*) AS count FROM {$_TABLES['stories']} WHERE (uid = $uid) AND (draft_flag = 0) AND (date <= NOW())" . COM_getPermSQL('AND');
+    $result = DB_query($sql);
+    $N = DB_fetchArray($result);
+    $user_templates->set_var('number_stories', COM_numberFormat($N['count']));
+    $user_templates->set_var('lang_number_comments', $LANG04[85]);
+    $sql = "SELECT COUNT(*) AS count FROM {$_TABLES['comments']} WHERE (uid = $uid)";
+    $result = DB_query($sql);
+    $N = DB_fetchArray($result);
+    $user_templates->set_var('number_comments', COM_numberFormat($N['count']));
+    $user_templates->set_var('lang_all_postings_by',
+                             $LANG04[86] . ' ' . $display_name);
+
+    // Call custom registration function if enabled and exists
+    if ($_CONF['custom_registration'] && function_exists('CUSTOM_userDisplay') ) {
+        $user_templates->set_var('customfields', CUSTOM_userDisplay($uid));
+    }
+    PLG_profileVariablesDisplay($uid, $user_templates);
+
+    $user_templates->parse('output', 'profile');
+    $retval .= $user_templates->finish($user_templates->get_var('output'));
+
+    $retval .= PLG_profileBlocksDisplay($uid);
+
+    if (! $preview) {
+        $retval .= COM_siteFooter();
+    }
+
+    return $retval;
 }
 
 ?>

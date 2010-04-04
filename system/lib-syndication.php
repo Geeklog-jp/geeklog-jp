@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog syndication library.                                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2003-2009 by the following authors:                         |
+// | Copyright (C) 2003-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Dirk Haun        - dirk AT haun-online DOT de                    |
 // |          Michael Jervis   - mike AT fuckingbrit DOT com                   |
@@ -268,7 +268,7 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
             $storytitle = stripslashes( $row['title'] );
             $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
             $fulltext = PLG_replaceTags( $fulltext );
-            $storytext = SYND_truncateSummary( $fulltext, $contentLength );
+            $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
 
             $fulltext = trim( $fulltext );
             $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
@@ -402,7 +402,7 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
 
         $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
         $fulltext = PLG_replaceTags( $fulltext );
-        $storytext = SYND_truncateSummary( $fulltext, $contentLength );
+        $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
         $fulltext = trim( $fulltext );
         $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
 
@@ -505,8 +505,9 @@ function SYND_updateFeed( $fid )
                 if ($A['content_length'] != 1) {
                     $count = count($content);
                     for ($i = 0; $i < $count; $i++ ) {
-                        $content[$i]['summary'] = SYND_truncateSummary(
-                                    $content[$i]['text'], $A['content_length']);
+                        $content[$i]['summary'] = COM_truncateHTML(
+                                    $content[$i]['text'], $A['content_length'], ' ...');
+      
                     }
                 }
             }
@@ -621,28 +622,12 @@ function SYND_updateFeed( $fid )
 * @param    int     $length     max. length
 * @return   string              truncated text
 *
+* Note: Use COM_truncateHTML from now on.
+*
 */
 function SYND_truncateSummary($text, $length)
 {
-    if ($length == 0) {
-        return '';
-    } else {
-        $text = stripslashes($text);
-        $text = trim($text);
-        $text = str_replace(array("\015\012", "\015"), "\012", $text);
-        if (($length > 3) && (MBYTE_strlen($text) > $length)) {
-            $text = MBYTE_substr($text, 0, $length - 3) . '...';
-        }
-
-        // Check if we broke an html tag and storytext is now something
-        // like "blah blah <a href= ...". Delete "<*" if so.
-        if (MBYTE_strrpos($text, '<' ) > MBYTE_strrpos($text, '>')) {
-            $text = MBYTE_substr($text, 0, MBYTE_strrpos($text, '<'))
-                  . ' ...';
-        }
-
-        return $text;
-    }
+    return COM_truncateHTML ($text, $length, ' ...');
 }
 
 
@@ -697,6 +682,44 @@ function SYND_getMimeType($format)
     $type = strtolower($fmt[0]);
 
     return 'application/' . $type . '+xml';
+}
+
+/**
+* Helper function: Derive printable feed format name
+*
+* @param    string  $format     internal name of the feed format, e.g. Atom-1.0
+* @return   string              MIME type, e.g. application/atom+xml
+*
+*/
+function SYND_getFeedType($format)
+{
+    $fmt = explode('-', $format);
+
+    return ucwords($fmt[0]);
+}
+
+/**
+* Helper function: Get default feed URL
+*
+* This is mostly for backward compatibility: Back in the dark ages, Geeklog
+* only had one RSS feed and its URL was available as a template variable.
+* Moved that code here from COM_siteHeader/Footer for better encapsulation.
+*
+* @return   string      URL of the feed
+*
+*/
+function SYND_getDefaultFeedUrl()
+{
+    global $_CONF;
+
+    $feed = '';
+
+    if ($_CONF['backend'] > 0) {
+        $feed = substr_replace($_CONF['rdf_file'], $_CONF['site_url'], 0,
+                               strlen($_CONF['path_html']) - 1);
+    }
+
+    return $feed;
 }
 
 ?>

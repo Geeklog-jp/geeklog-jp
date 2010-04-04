@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file implements plugin support in Geeklog.                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Blaine Lang      - blaine AT portalparts DOT com                 |
@@ -723,32 +723,6 @@ function PLG_getSearchTypes()
     return $types;
 }
 
-/**
-* Determines if a specific plugin supports Geeklog's
-* expanded search results feature
-*
-* NOTE: This function is not currently used
-*
-* @author   Tony Bibbs, tony AT tonybibbs DOT com
-* @access   public
-* @param    string  $type   Plugin name
-* @return   boolean         True if it is supported, otherwise false
-* @deprecated no longer used
-*
-*/
-function PLG_supportsExpandedSearch($type)
-{
-    $retval = '';
-    $function = 'plugin_supportsexpandedsearch_' . $type;
-    if (function_exists($function)) {
-        $retval = $function();
-    }
-    if (empty($retval) OR !is_bool($retval)) {
-        $retval = false;
-    }
-
-    return $retval;
-}
 
 /**
 * This function gives each plugin the opportunity to do their search
@@ -1296,7 +1270,7 @@ function PLG_groupChanged($grp_id, $mode)
 
     $function = 'CUSTOM_group_changed';
     if (function_exists($function)) {
-        $function($uid);
+        $function($grp_id, $mode);
     }
 }
 
@@ -1511,7 +1485,9 @@ function PLG_collectTags()
 
     // Determine which Core Modules and Plugins support AutoLinks
     //                        'tag'   => 'module'
-    $autolinkModules = array('story' => 'geeklog');
+    $autolinkModules = array(
+        'story' => 'geeklog', 'user' => 'geeklog'
+    );
 
     foreach ($_PLUGINS as $pi_name) {
         $function = 'plugin_autotags_' . $pi_name;
@@ -1627,6 +1603,22 @@ function PLG_replaceTags($content, $plugin = '')
                              . '/article.php?story=' . $autotag['parm1']);
                         if (empty($linktext)) {
                             $linktext = stripslashes(DB_getItem($_TABLES['stories'], 'title', "sid = '{$autotag['parm1']}'"));
+                        }
+                    }
+                }
+
+                if ($autotag['tag'] == 'user') {
+                    $autotag['parm1'] = COM_applyFilter($autotag['parm1']);
+                    if (! empty($autotag['parm1'])) {
+                        $uname = addslashes($autotag['parm1']);
+                        $sql = "SELECT uid, fullname FROM {$_TABLES['users']} WHERE username = '$uname'";
+                        $result = DB_query($sql);
+                        if (DB_numRows($result) == 1) {
+                            $A = DB_fetchArray($result);
+                            $url = $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid'];
+                            if (empty($linktext)) {
+                                $linktext = COM_getDisplayName($A['uid'], $autotag['parm1'], $A['fullname']);
+                            }
                         }
                     }
                 }
@@ -1962,6 +1954,84 @@ function PLG_getWhatsNew()
     return array($newheadlines, $newbylines, $newcontent);
 }
 
+
+/**
+* Ask plugins if they want to add new comments to Geeklog's What's New block or 
+* User Profile Page.
+*
+
+* @param    string  $type       Plugin name. '' for all plugins.
+* @param    string  $numreturn  If 0 will return results for What's New Block. 
+*                               If > 0 will return last X new comments for User Profile.
+* @param    string  $uid        ID of the user to return results for. 0 = all users.
+* @return   array list of new comments (dups, type, title, sid, lastdate) or (sid, title, cid, unixdate)
+*
+*/
+function PLG_getWhatsNewComment($type = '', $numreturn = 0, $uid = 0)
+{
+    global $_PLUGINS, $_CONF;
+
+    $whatsnew = array();
+    $plugintypes = array();
+
+    // Get Story new comment info first
+    if (($type == 'article') || ($type == 'story') || ($type == '')) {
+        require_once $_CONF['path_system'] . 'lib-story.php';
+        $whatsnew  = plugin_getwhatsnewcomment_story($numreturn, $uid);
+        
+        if ($type == '') {
+            $plugintypes = $_PLUGINS;
+        }
+    } else {
+        $plugintypes[] = $type;
+    }
+   
+     if (!(($type == 'article') || ($type == 'story'))) {
+        // Now check new comments for plugins
+        foreach ($plugintypes as $pi_name) {
+            $fn_head = 'plugin_whatsnewsupported_' . $pi_name;
+            if (function_exists($fn_head)) {
+                $supported = $fn_head();
+                if (is_array($supported)) {
+                    list($headline, $byline) = $supported;
+    
+                    $fn_new = 'plugin_getwhatsnewcomment_' . $pi_name;
+                    if (function_exists($fn_new)) {
+                        $tempwhatsnew = $fn_new ($numreturn, $uid);
+                        if(!empty($tempwhatsnew) && is_array($tempwhatsnew)) {
+                            if (!empty($whatsnew)) {
+                                $whatsnew = array_merge($tempwhatsnew, $whatsnew);
+                            } else {
+                                $whatsnew = $tempwhatsnew;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Now check new comments for custom changes
+    $fn_head = 'CUSTOM_whatsnewsupported';
+    if (function_exists($fn_head)) {
+        $supported = $fn_head();
+        if (is_array($supported)) {
+            list($headline, $byline) = $supported;
+
+            $fn_new = 'CUSTOM_getwhatsnewcomment';
+            if (function_exists($fn_new)) {
+                $tempwhatsnew = $fn_new ($numreturn, $uid);
+                if(!empty($tempwhatsnew) && is_array($tempwhatsnew)) {
+                    $whatsnew = array_merge($tempwhatsnew, $whatsnew);
+                }
+            }
+        }
+    }
+
+    return $whatsnew;    
+    
+}
+
 /**
 * Allows plugins and Core Geeklog Components to filter out spam.
 *
@@ -2086,25 +2156,24 @@ function PLG_spamAction($content, $action = -1)
 */
 function PLG_getItemInfo($type, $id, $what, $uid = 0, $options = array())
 {
-    if ($type == 'article') {
+    if (($type == 'article') || ($type == 'story')) {
 
         global $_CONF;
 
         require_once $_CONF['path_system'] . 'lib-story.php';
 
-        return STORY_getItemInfo($id, $what, $uid, $options);
+        $type = 'story';
 
-    } else {
-
-        $args[1] = $id;
-        $args[2] = $what;
-        $args[3] = $uid;
-        $args[4] = $options;
-
-        $function = 'plugin_getiteminfo_' . $type;
-
-        return PLG_callFunctionForOnePlugin($function, $args);
     }
+
+    $args[1] = $id;
+    $args[2] = $what;
+    $args[3] = $uid;
+    $args[4] = $options;
+
+    $function = 'plugin_getiteminfo_' . $type;
+
+    return PLG_callFunctionForOnePlugin($function, $args);
 }
 
 /**
@@ -2314,7 +2383,7 @@ function PLG_getBlocks($side, $topic='')
     foreach ($_PLUGINS as $pi_name) {
         $function = 'plugin_getBlocks_' . $pi_name;
         if (function_exists($function)) {
-            $items = $function($side, $topic='');
+            $items = $function($side, $topic);
             if (is_array($items)) {
                 $ret = array_merge($ret, $items);
             }
@@ -2322,7 +2391,7 @@ function PLG_getBlocks($side, $topic='')
     }
 
     if (function_exists('CUSTOM_getBlocks')) {
-       $cust_items .= CUSTOM_getBlocks($side, $topic='');
+       $cust_items .= CUSTOM_getBlocks($side, $topic);
        if (is_array($cust_items)) {
           $ret = array_merge($ret, $cust_items);
        }

@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | Installation SQL                                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -31,7 +31,7 @@
 // +---------------------------------------------------------------------------+
 
 /**
-* MS SQL updates
+* MS SQL install
 *
 * @package StaticPages
 */
@@ -39,17 +39,19 @@
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['staticpage']}] (
     [sp_id] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [sp_uid] [int] NOT NULL ,
     [sp_title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [sp_page_title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [sp_content] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [sp_hits] [numeric](8, 0) NOT NULL ,
-    [sp_date] [datetime] NOT NULL ,
+    [created] [datetime] NOT NULL ,
+    [modified] [datetime] NOT NULL ,
     [sp_format] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [sp_onmenu] [tinyint] NOT NULL ,
     [sp_label] [varchar] (64) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [commentcode] [numeric](4, 0) NOT NULL,
     [meta_description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [meta_keywords] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [draft_flag] [tinyint] NULL ,
     [owner_id] [numeric](8, 0) NOT NULL ,
     [group_id] [numeric](8, 0) NOT NULL ,
     [perm_owner] [tinyint] NOT NULL ,

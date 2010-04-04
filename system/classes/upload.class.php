@@ -435,7 +435,7 @@ class upload
     *
     * @access   private
     * @param    string  $filename   name of uploaded file
-    * @return   bool                true: okay, false: an error occured
+    * @return   boolean             true: okay, false: an error occured
     *
     */
     function _keepOriginalFile ($filename)
@@ -526,7 +526,16 @@ class upload
                 $sizeOK = false;
             }
         }
-        $returnMove = move_uploaded_file($this->_currentFile['tmp_name'], $this->_fileUploadDirectory . '/' . $this->_getDestinationName());
+
+        if (isset($this->_currentFile['_gl_data_dir']) &&
+                $this->_currentFile['_gl_data_dir']) {
+            // uploaded file was involved in a recreated POST after an expired
+            // token - can't use move_uploaded_file() here
+            $returnMove = rename($this->_currentFile['tmp_name'], $this->_fileUploadDirectory . '/' . $this->_getDestinationName());
+        } else {
+            $returnMove = move_uploaded_file($this->_currentFile['tmp_name'], $this->_fileUploadDirectory . '/' . $this->_getDestinationName());
+        }
+
         if (!($sizeOK)) {
             // OK, resize
             $sizefactor = $this->_calcSizefactor ($imageInfo['width'],

@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Admin functions handle Trackback, Pingback, and Ping                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2005-2009 by the following authors:                         |
+// | Copyright (C) 2005-2010 by the following authors:                         |
 // |                                                                           |
 // | Author: Dirk Haun - dirk AT haun-online DOT de                            |
 // +---------------------------------------------------------------------------+
@@ -96,17 +96,20 @@ function trackback_editor ($target = '', $url = '', $title = '', $excerpt = '', 
             $p_excerpt = MBYTE_substr ($p_excerpt, 0, 252) . '...';
         }
 
-        $retval .= COM_startBlock ($LANG_TRB['preview']);
+        $retval .= COM_startBlock($LANG_TRB['preview']);
 
-        $preview = new Template ($_CONF['path_layout'] . 'trackback');
-        $preview->set_file (array ('comment' => 'trackbackcomment.thtml'));
-        $comment = TRB_formatComment ($url, $p_title, $p_blog, $p_excerpt);
+        $preview = new Template($_CONF['path_layout'] . 'trackback');
+        $preview->set_file(array('comment' => 'trackbackcomment.thtml'));
         $preview->set_var('xhtml', XHTML);
+        $preview->set_var('site_url', $_CONF['site_url']);
+        $preview->set_var('site_admin_url', $_CONF['site_admin_url']);
+        $preview->set_var('layout_url', $_CONF['layout_url']);
+        $comment = TRB_formatComment($url, $p_title, $p_blog, $p_excerpt);
         $preview->set_var('formatted_comment', $comment);
-        $preview->parse ('output', 'comment');
-        $retval .= $preview->finish ($preview->get_var ('output'));
+        $preview->parse('output', 'comment');
+        $retval .= $preview->finish($preview->get_var('output'));
 
-        $retval .= COM_endBlock ();
+        $retval .= COM_endBlock();
     }
 
     if (empty ($url) && empty ($blog)) {
@@ -473,6 +476,7 @@ function listServices()
     require_once $_CONF['path_system'] . 'lib-admin.php';
 
     $retval = '';
+    $token = SEC_createToken();
 
     $header_arr = array(      # display 'text' and use table field 'field'
         array('text' => $LANG_ADMIN['edit'], 'field' => 'edit', 'sort' => false),
@@ -515,11 +519,16 @@ function listServices()
 
     // this is a dummy variable so we know the form has been used if all services
     // should be disabled in order to disable the last one.
-    $form_arr = array('bottom' => '<input type="hidden" name="serviceChanger" value="true"' . XHTML . '>');
+    $form_arr = array(
+        'top'    => '<input type="hidden" name="' . CSRF_TOKEN . '" value="'
+                    . $token . '"' . XHTML . '>',
+        'bottom' => '<input type="hidden" name="serviceChanger" value="true"'
+                    . XHTML . '>'
+    );
 
     $retval .= ADMIN_list('pingservice', 'ADMIN_getListField_trackback',
                           $header_arr, $text_arr, $query_arr, $defsort_arr,
-                          '', SEC_createToken(), '', $form_arr);
+                          '', $token, '', $form_arr);
     $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     if ($_CONF['trackback_enabled']) {
@@ -732,23 +741,29 @@ function saveService ($pid, $name, $site_url, $ping_url, $method, $enabled)
 /**
 * Toggle status of a ping service from enabled to disabled and back
 *
-* @param    int     $pid    ID of the service
+* @param    array   $enabledservices    array containing ids of enabled services
+* @param    array   $visibleservices    array containing ids of visible services
 * @return   void
 *
 */
-function changeServiceStatus ($pid_arr)
+function changeServiceStatus($enabledservices, $visibleservices)
 {
     global $_TABLES;
 
-    // first, disable all
-    DB_query ("UPDATE {$_TABLES['pingservice']} SET is_enabled = '0'");
-    if (isset($pid_arr)) {
-        foreach ($pid_arr as $pid) { //enable those listed
-            $pid = addslashes (COM_applyFilter ($pid, true));
-            if (!empty ($pid)) {
-                DB_query ("UPDATE {$_TABLES['pingservice']} SET is_enabled = '1' WHERE pid = '$pid'");
-            }
-        }
+    $disabled = array_diff($visibleservices, $enabledservices);
+
+    // disable services
+    $in = implode(',', $disabled);
+    if (! empty($in)) {
+        $sql = "UPDATE {$_TABLES['pingservice']} SET is_enabled = 0 WHERE pid IN ($in)";
+        DB_query($sql);
+    }
+
+    // enable services
+    $in = implode(',', $enabledservices);
+    if (! empty($in)) {
+        $sql = "UPDATE {$_TABLES['pingservice']} SET is_enabled = 1 WHERE pid IN ($in)";
+        DB_query($sql);
     }
 }
 
@@ -820,11 +835,15 @@ function getHelpUrl()
 $display = '';
 $mode = '';
 if ($_CONF['ping_enabled'] && isset($_POST['serviceChanger']) && SEC_checkToken()) {
-    $changedservices = array();
-    if (isset($_POST['changedservices'])) {
-        $changedservices = $_POST['changedservices'];
+    $enabledservices = array();
+    if (isset($_POST['enabledservices'])) {
+        $enabledservices = $_POST['enabledservices'];
     }
-    changeServiceStatus($changedservices);
+    $visibleservices = array();
+    if (isset($_POST['visibleservices'])) {
+        $visibleservices = $_POST['visibleservices'];
+    }
+    changeServiceStatus($enabledservices, $visibleservices);
 }
 
 if (isset ($_POST['mode']) && is_array ($_POST['mode'])) {
