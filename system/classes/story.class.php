@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog Story Abstraction.                                                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2009 by the following authors:                         |
+// | Copyright (C) 2006-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Michael Jervis, mike AT fuckingbrit DOT com                      |
 // +---------------------------------------------------------------------------+
@@ -107,6 +107,7 @@ class Story
      */
     var $_sid;
     var $_title;
+    var $_page_title;
     var $_meta_description;
     var $_meta_keywords;    
     var $_introtext;
@@ -180,6 +181,7 @@ class Story
            'tid' => 1,
            'date' => 1,
            'title' => 1,
+           'page_title' => 1, 
            'meta_description' => 1,
            'meta_keywords' => 1,           
            'introtext' => 1,
@@ -227,6 +229,11 @@ class Story
               (
                 STORY_AL_ALPHANUM,
                 '_tid'
+              ),
+           'page_title' => array
+              (
+                STORY_AL_ANYTHING,
+                '_page_title'
               ),
            'meta_description' => array
               (
@@ -386,7 +393,7 @@ class Story
             $varname = '_' . $fieldname;
 
             if (array_key_exists($fieldname, $story)) {
-                $this->{$varname}= stripslashes($story[$fieldname]);
+                $this->{$varname} = stripslashes($story[$fieldname]);
             }
         }
 
@@ -433,7 +440,7 @@ class Story
 
         $sid = addslashes(COM_applyFilter($sid));
 
-        if (!empty($sid) && (($mode == 'edit') || ($mode == 'view'))) {
+        if (!empty($sid) && (($mode == 'edit') || ($mode == 'view') || ($mode == 'clone'))) {
             $sql = array();
 
             $sql['mysql']
@@ -442,8 +449,15 @@ class Story
 
             $sql['mssql'] =
                 "SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, " . " UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, " . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
+            $sql['pgsql'] =
+              "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, UNIX_TIMESTAMP(s.comment_expire) as cmt_expire_unix, "
+                . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
         } elseif (!empty($sid) && ($mode == 'editsubmission')) {
-            $sql = 'SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
+            $sql['mysql'] = 'SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
+                . 'u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl, t.group_id, ' . 't.perm_owner, t.perm_group, t.perm_members, t.perm_anon ' . 'FROM ' . $_TABLES['storysubmission'] . ' AS s, ' . $_TABLES['users'] . ' AS u, ' . $_TABLES['topics'] . ' AS t WHERE (s.uid = u.uid) AND' . ' (s.tid = t.tid) AND (sid = \'' . $sid . '\')';
+            $sql['mssql'] = 'SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
+                . 'u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl, t.group_id, ' . 't.perm_owner, t.perm_group, t.perm_members, t.perm_anon ' . 'FROM ' . $_TABLES['storysubmission'] . ' AS s, ' . $_TABLES['users'] . ' AS u, ' . $_TABLES['topics'] . ' AS t WHERE (s.uid = u.uid) AND' . ' (s.tid = t.tid) AND (sid = \'' . $sid . '\')';
+            $sql['pgsql'] = 'SELECT  s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
                 . 'u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl, t.group_id, ' . 't.perm_owner, t.perm_group, t.perm_members, t.perm_anon ' . 'FROM ' . $_TABLES['storysubmission'] . ' AS s, ' . $_TABLES['users'] . ' AS u, ' . $_TABLES['topics'] . ' AS t WHERE (s.uid = u.uid) AND' . ' (s.tid = t.tid) AND (sid = \'' . $sid . '\')';
         } elseif ($mode == 'edit') {
             $this->_sid = COM_makesid();
@@ -477,6 +491,7 @@ class Story
             $this->_commentcode = $_CONF['comment_code'];
             $this->_trackbackcode = $_CONF['trackback_code'];
             $this->_title = '';
+            $this->_page_title = '';
             $this->_meta_description = '';
             $this->_meta_keywords = '';            
             $this->_introtext = '';
@@ -493,7 +508,8 @@ class Story
             $this->_trackbacks = 0;
             $this->_numemails = 0;
 
-            if (isset($_CONF['advanced_editor']) && $_CONF['advanced_editor'] && ($_CONF['postmode'] != 'plaintext')) {
+            if (($_CONF['advanced_editor'] && $_USER['advanced_editor']) &&
+                    ($_CONF['postmode'] != 'plaintext')) {
                 $this->_advanced_editor_mode = 1;
                 $this->_postmode = 'adveditor';
             } else {
@@ -535,6 +551,19 @@ class Story
                     return STORY_INVALID_SID;
                 }
                 $this->loadFromArray($story);
+
+                /**
+                * The above SQL also got the story owner's username etc. from
+                * the DB. If the user doing the cloning is different from the
+                * original author, we need to fix those here.
+                */
+                if (($mode == 'clone') && ($this->_uid != $_USER['uid'])) {
+                    $this->_uid = $_USER['uid'];
+                    $story['owner_id'] = $this->_uid;
+                    $uresult = DB_query("SELECT username, fullname, photo, email FROM {$_TABLES['users']} WHERE uid = {$_USER['uid']}");
+                    list($this->_username, $this->_fullname, $this->_photo, $this->_email) = DB_fetchArray($uresult);
+                }
+
                 if (!isset($story['owner_id'])) {
                     $story['owner_id'] = 1;
                 }
@@ -593,9 +622,40 @@ class Story
             $this->_numemails = 0;
             $this->_statuscode = 0;
             $this->_owner_id = $this->_uid;
+
+        } elseif ($mode == 'clone') {
+
+            // new story, new sid ...
+            $this->_sid = COM_makesid();
+            $this->_old_sid = $this->_sid;
+
+            // assign ownership to current user
+            if (COM_isAnonUser()) {
+                $this->_uid = 1;
+            } else {
+                $this->_uid = $_USER['uid'];
+            }
+            $this->_owner_id = $this->_uid;
+
+            // use current date + time
+            $this->_date = time();
+            $this->_expire = time();
+
+            // if the original story uses comment expire, update the time
+            if ($this->_comment_expire != 0) {
+                $this->_comment_expire = time() +
+                    ($_CONF['article_comment_close_days'] * 86400);
+            }
+
+            // reset counters
+            $this->_hits = 0;
+            $this->_comments = 0;
+            $this->_trackbacks = 0;
+            $this->_numemails = 0;
         }
 
         $this->_sanitizeData();
+
         return STORY_LOADED_OK;
     }
 
@@ -607,7 +667,7 @@ class Story
      */
     function saveToDatabase()
     {
-        global $_TABLES;
+        global $_TABLES,$_DB_dbms;
 
         if (DB_getItem($_TABLES['topics'], 'tid', 'archive_flag=1') == $this->_tid) {
             $this->_featured = 0;
@@ -693,9 +753,9 @@ class Story
 
         // Get the related URLs
         $this->_related = implode("\n", STORY_extractLinks("{$this->_introtext} {$this->_bodytext}"));
-        $sql = 'REPLACE INTO ' . $_TABLES['stories'] . ' (';
-        $values = ' VALUES (';
-        reset($this->_dbFields);
+        $fields='';
+        $values = '';
+        reset($this->_dbFields); 
 
         /* This uses the database field array to generate a SQL Statement. This
          * means that when adding new fields to save and load, all we need to do
@@ -704,27 +764,39 @@ class Story
         while (list($fieldname, $save) = each($this->_dbFields)) {
             if ($save === 1) {
                 $varname = '_' . $fieldname;
-                $sql .= $fieldname . ', ';
+                $fields .= $fieldname . ', ';
                 if (($fieldname == 'date') || ($fieldname == 'expire') ||
                         ($fieldname == 'comment_expire')) {
                     // let the DB server do this conversion (cf. timezone hack)
                     $values .= 'FROM_UNIXTIME(' . $this->{$varname} . '), ';
                 } else {
-                    $values .= '\'' . addslashes($this->{$varname}) . '\', ';
+                    if ($this->{$varname} === '')
+                    {
+                        $values.="'', ";
+                    }
+                    else
+                    {
+                        if(is_numeric($this->{$varname}))
+                        {              
+                            $values .= addslashes($this->{$varname}).', ';
+                        }
+                        else
+                        {
+                            $values .= '\''.addslashes($this->{$varname}) . '\', ';     
+                        }
+                    }
                 }
             }
         }
 
-        $sql = substr($sql, 0, strlen($sql) - 2);
+        $fields = substr($fields, 0, strlen($fields) - 2);
         $values = substr($values, 0, strlen($values) - 2);
-        $sql .= ') ' . $values . ')';
 
-        DB_query($sql);
+        DB_save($_TABLES['stories'],$fields,$values);
 
-        /* Clean up the old story */
         if ($oldArticleExists) {
-            $sql = "DELETE FROM {$_TABLES['stories']} WHERE sid='$checksid'";
-            DB_query($sql);
+            /* Clean up the old story */
+            DB_delete($_TABLES['stories'], 'sid', $checksid);
         }
 
         if ($this->type == 'submission') {
@@ -1465,6 +1537,11 @@ class Story
             $return = $this->_title; //htmlspecialchars($this->_title);
 
             break;
+
+        case 'page_title':
+            $return = $this->_page_title;
+
+            break;
             
         case 'meta_description':
             $return = $this->_meta_description;
@@ -1558,6 +1635,11 @@ class Story
 
         case 'title':
             $return = $this->_displayEscape($this->_title);
+
+            break;
+
+        case 'page_title':
+            $return = $this->_displayEscape($this->_page_title);
 
             break;
 
@@ -2045,7 +2127,7 @@ class Story
             $this->_hits = 0;
         }
 
-        if (empty($this->_commentcount)) {
+        if (empty($this->_comments)) {
             $this->_comments = 0;
         }
 

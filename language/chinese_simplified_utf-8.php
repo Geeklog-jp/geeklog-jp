@@ -83,7 +83,7 @@ $LANG01 = array(
     37 => '没有文章',
     38 => '内容辛迪加',
     39 => '使新',
-    40 => '你的服务器的 <tt>php.ini</tt> 里设定为 <tt>register_globals = Off</tt>. 可是此软件需要将 <tt>register_globals</tt> 设定成 <strong>on</strong>. 所以在你继续以前，必须将它设定为<strong>on</strong>，然后重新开机.',
+    40 => '',
     41 => '客人',
     42 => '作者:',
     43 => '回复这个',
@@ -222,7 +222,8 @@ $LANG03 = array(
     40 => 'If you wish to receive no further notifications of replies, visit the following link:',
     41 => 'Hello %s,',
     42 => 'Unsubscribe',
-    43 => 'Unsubscribe from reply notifications'
+    43 => 'Unsubscribe from reply notifications',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -385,7 +386,10 @@ $LANG04 = array(
     159 => '这电邮是自动产生的。请不要回信。',
     160 => '(max. %d x %d pixels, %d bytes; %s)',
     161 => 'will be scaled down',
-    162 => 'will not be scaled'
+    162 => 'will not be scaled',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -532,7 +536,9 @@ $LANG09 = array(
     67 => 'Show %d Results',
     68 => 'Sort By',
     69 => 'Titles Only',
-    70 => 'Not available ...'
+    70 => 'Not available ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -715,7 +721,7 @@ $LANG21 = array(
     47 => '',
     48 => '组件名',
     49 => ' (不可有空隔和必须是唯一的)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => '包括 http://',
     52 => '如果这里留白，组件的求助文件图示将不被显示',
     53 => '使有效',
@@ -959,7 +965,10 @@ $LANG28 = array(
     84 => "你的用户名是: %s 我们的网站是: {$_CONF['site_url']}",
     85 => '若你忘记你的密码请跟从这个连结: %s',
     86 => 'Include',
-    87 => 'Reminders'
+    87 => 'Reminders',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -987,7 +996,7 @@ $LANG29 = array(
     39 => '此时没有递交的东西',
     40 => '申请的用户',
     41 => 'Comment Submissions',
-    42 => 'User Name',
+    42 => 'Username',
     43 => 'Auto-publish Comments?'
 );
 
@@ -1187,7 +1196,7 @@ $MESSAGE = array(
     44 => '插件已被安装了。',
     45 => '插件已被删除了。',
     46 => '',
-    47 => '这只适用於 *nix 如果你的作业系统是 *nix，那麽你的缓冲器已被清除了。如果你的作业系统是 Windows，你要手动寻找文件命名为 adodb _ *.php 的档案并把它们除去。',
+    47 => '',
     48 => "感谢你申请成为 {$_CONF['site_name']} 的会员。只要经过我们员工的核对，我们会把密码寄到你所登记的电邮中。",
     49 => '你的小组已被保存了。',
     50 => '小组已被删除了。',
@@ -1583,6 +1592,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => '建新 (Adv.)',
     'enabled' => '启动',
     'title' => '标题',
+    'page_title' => 'Page Title',
     'type' => '类型',
     'topic' => '题目',
     'help_url' => '帮助文 URL',
@@ -1601,7 +1611,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
-    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.'
+    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1864,7 +1877,7 @@ $LANG_confignames['Core'] = array(
     'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => '根用户跳过 HTML 过滤?',
     'allowed_protocols' => '许可 Protocols',
-    'disable_autolinks' => '关闭 Autolinks?',
+    'disable_autolinks' => '关闭 Autotags?',
     'clickable_links' => 'Make URLs clickable?',
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
@@ -1893,7 +1906,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Allow User to Sort Results?',
     'search_show_limit' => 'Show Page Limits?',
     'search_separator' => 'Group Separator',
-    'search_def_keytype' => 'Default Search Method'
+    'search_def_keytype' => 'Default Search Method',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1975,7 +1989,11 @@ $LANG_configselects['Core'] = array(
     20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

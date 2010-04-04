@@ -44,8 +44,9 @@ $LANG_STATIC = array(
     'writtenby' => 'Autor',
     'date' => 'Letzte Änderung',
     'title' => 'Titel',
+    'page_title' => 'Page Title',
     'content' => 'Inhalt',
-    'hits' => 'Abrufe',
+    'hits' => 'Angezeigt',
     'staticpagelist' => 'Liste der Statischen Seiten',
     'url' => 'URL',
     'edit' => 'Ändern',
@@ -113,12 +114,17 @@ $LANG_STATIC = array(
     'search' => 'Suchen',
     'submit' => 'Absenden',
     'no_new_pages' => 'Keine neuen Seiten',
-    'pages' => 'SEITEN'
+    'pages' => 'SEITEN',
+    'comments' => 'Kommentare',
+    'draft' => 'Entwurf',
+    'draft_yes' => 'Ja',
+    'draft_no' => 'Nein'
 );
 
 $PLG_staticpages_MESSAGE15 = 'Dein Kommentar wurde gespeichert, muss aber noch von einem Moderator freigegeben werden.';
 $PLG_staticpages_MESSAGE19 = 'Seite wurde gespeichert.';
 $PLG_staticpages_MESSAGE20 = 'Seite wurde gelöscht';
+$PLG_staticpages_MESSAGE21 = 'This page does not exist yet. To create the page, please fill in the form below. If you are here by mistake, click the Cancel button.';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'Plugin upgrade not supported.';
@@ -134,9 +140,10 @@ $LANG_confignames['staticpages'] = array(
     'allow_php' => 'PHP erlauben?',
     'sort_by' => 'Centerblocks sortieren nach',
     'sort_menu_by' => 'Menüeinträge sortieren nach',
+    'sort_list_by' => 'Sort Admin List by',
     'delete_pages' => 'Seiten mit Benutzer löschen?',
     'in_block' => 'Block-Template verwenden?',
-    'show_hits' => 'Treffer anzeigen?',
+    'show_hits' => 'Anzeigezähler einblenden?',
     'show_date' => 'Datum anzeigen?',
     'filter_html' => 'HTML filtern?',
     'censor' => 'Inhalt zensieren?',
@@ -144,6 +151,8 @@ $LANG_confignames['staticpages'] = array(
     'aftersave' => 'Nach dem Speichern der Seiten',
     'atom_max_items' => 'Max. Seiten in Webservices News-Feed',
     'meta_tags' => 'Meta-Tags verwenden',
+    'comment_code' => 'Kommentar Grundeinstellung',
+    'draft_flag' => 'Als Grundeinstellung auf Entwurf',
     'newstaticpagesinterval' => 'Zeitabstand für neue Seiten',
     'hidenewstaticpages' => 'Neue Seiten ausblenden',
     'title_trim_length' => 'Titel abschneiden nach',
@@ -165,14 +174,17 @@ $LANG_fs['staticpages'] = array(
     'fs_permissions' => 'Grundeinstellungen Rechte'
 );
 
-// Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
+// Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
 $LANG_configselects['staticpages'] = array(
     0 => array('Ja' => 1, 'Nein' => 0),
     1 => array('Ja' => true, 'Nein' => false),
     2 => array('Datum' => 'date', 'Seiten-ID' => 'id', 'Titel' => 'title'),
     3 => array('Datum' => 'date', 'Seiten-ID' => 'id', 'Titel' => 'title', 'Menüpunkt' => 'label'),
+    4 => array('Date' => 'date', 'Page ID' => 'id', 'Title' => 'title', 'Author' => 'author'),
+    5 => array('Hide' => 'hide', 'Show - Use Modified Date' => 'modified', 'Show - Use Created Date' => 'created'),
     9 => array('Zur Seite weiterleiten' => 'item', 'Liste anzeigen' => 'list', 'Startseite' => 'home', 'Schaltzentrale' => 'admin'),
-    12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3)
+    12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3),
+    17 => array('Kommentare eingeschaltet' => 0, 'Kommentare ausgeschaltet' => -1)
 );
 
 ?>

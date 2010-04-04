@@ -107,7 +107,7 @@ function listpolls()
 
     $query_arr = array(
         'table' => 'polltopics',
-        'sql' => "SELECT *,UNIX_TIMESTAMP(date) AS unixdate "
+        'sql' => "SELECT *,UNIX_TIMESTAMP(created) AS unixdate "
             . "FROM {$_TABLES['polltopics']} WHERE 1=1",
         'query_fields' => array('topic'),
         'default_filter' => COM_getPermSql ('AND')
@@ -245,6 +245,12 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     if (!empty($old_pid) && ($pid != $old_pid)) {
         $del_pid = $old_pid; // delete by old pid, create using new pid below
     }
+    // Retrieve Created Date before delete
+    $created_date = DB_getItem($_TABLES['polltopics'], 'created', "pid = '{$del_pid}'");
+    if ($created_date == '') {
+        $created_date = date ('Y-m-d H:i:s');
+    }
+    
     DB_delete($_TABLES['polltopics'], 'pid', $del_pid);
     DB_delete($_TABLES['pollanswers'], 'pid', $del_pid);
     DB_delete($_TABLES['pollquestions'], 'pid', $del_pid);
@@ -284,7 +290,7 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
         }
     }
     // save topics after the questions so we can include question count into table
-    $sql = "'$pid','$topic','$meta_description','$meta_keywords',$v, $k, '" . date ('Y-m-d H:i:s');
+    $sql = "'$pid','$topic','$meta_description','$meta_keywords',$v, $k, '$created_date', '" . date ('Y-m-d H:i:s');
 
     if ($mainpage == 'on') {
         $sql .= "',1";
@@ -305,7 +311,7 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     $sql .= ",'$statuscode','$commentcode',$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon";
 
     // Save poll topic
-    DB_save($_TABLES['polltopics'], "pid, topic, meta_description, meta_keywords, voters, questions, date, display, is_open, hideresults, statuscode, commentcode, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon", $sql);
+    DB_save($_TABLES['polltopics'], "pid, topic, meta_description, meta_keywords, voters, questions, created, modified, display, is_open, hideresults, statuscode, commentcode, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon", $sql);
 
     if (empty($old_pid) || ($old_pid == $pid)) {
         PLG_itemSaved($pid, 'polls');
@@ -430,7 +436,8 @@ function editpoll ($pid = '')
     $poll_templates->set_var('poll_topic', htmlspecialchars ($T['topic']));
     $poll_templates->set_var('lang_mode', $LANG25[1]);
     
-    $poll_templates->set_var('lang_metadescription', $LANG_ADMIN['meta_description']);
+    $poll_templates->set_var('lang_metadescription',
+                             $LANG_ADMIN['meta_description']);
     $poll_templates->set_var('lang_metakeywords', $LANG_ADMIN['meta_keywords']);
     if (!empty($T['meta_description'])) {
         $poll_templates->set_var('meta_description', $T['meta_description']);
@@ -438,7 +445,11 @@ function editpoll ($pid = '')
     if (!empty($T['meta_keywords'])) {
         $poll_templates->set_var('meta_keywords', $T['meta_keywords']);        
     }
-    
+    if (($_CONF['meta_tags'] > 0) && ($_PO_CONF['meta_tags'] > 0)) {
+        $poll_templates->set_var('hide_meta', '');
+    } else {
+        $poll_templates->set_var('hide_meta', ' style="display:none;"');
+    }
 
     $poll_templates->set_var('status_options', COM_optionList ($_TABLES['statuscodes'], 'code,name', $T['statuscode']));
     $poll_templates->set_var('comment_options', COM_optionList($_TABLES['commentcodes'],'code,name',$T['commentcode']));

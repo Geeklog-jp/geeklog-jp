@@ -83,7 +83,7 @@ $LANG01 = array(
     37 => 'Ni èlankov',
     38 => 'Združevanje vsebine (Syndication)',
     39 => 'Osveži',
-    40 => 'Izkljuèene so <tt>register_globals = Off</tt> v <tt>php.ini</tt>. Geeklog zahteva <tt>register_globals</tt> <strong>vkljuèene</strong>. Preden nadaljuješ, jih prosim <strong>vkljuèi</strong> in ponovno zaženi spletni strežnik.',
+    40 => '',
     41 => 'Gostje',
     42 => 'Prispeval/a:',
     43 => 'Odgovori na to',
@@ -222,7 +222,8 @@ $LANG03 = array(
     40 => 'If you wish to receive no further notifications of replies, visit the following link:',
     41 => 'Hello %s,',
     42 => 'Unsubscribe',
-    43 => 'Unsubscribe from reply notifications'
+    43 => 'Unsubscribe from reply notifications',
+    44 => 'Your Name'
 );
 
 ###############################################################################
@@ -385,7 +386,10 @@ $LANG04 = array(
     159 => 'Ta pošta je poslana samodejno. Prosim ne odgovarjaj najo.',
     160 => '(max. %d x %d pixels, %d bytes; %s)',
     161 => 'will be scaled down',
-    162 => 'will not be scaled'
+    162 => 'will not be scaled',
+    163 => 'Re-Authentication Failed',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
+    165 => 'Use Advanced Editor'
 );
 
 ###############################################################################
@@ -532,7 +536,9 @@ $LANG09 = array(
     67 => 'Show %d Results',
     68 => 'Sort By',
     69 => 'Titles Only',
-    70 => 'Not available ...'
+    70 => 'Not available ...',
+    71 => 'asc',
+    72 => 'desc'
 );
 
 ###############################################################################
@@ -715,7 +721,7 @@ $LANG21 = array(
     47 => '',
     48 => 'Ime bloka',
     49 => ' (brez presledkiov in imena ne smejo biti podvojena)',
-    50 => '',
+    50 => 'The Block Name can not be empty',
     51 => 'zaèni s http://',
     52 => 'Èe pustiš prazno, se ikona za pomoè za ta blok ne bo izpisala!',
     53 => 'Omogoèeno',
@@ -959,7 +965,10 @@ $LANG28 = array(
     84 => "Vaše uporabniško ime je: %s  za internetno stran: {$_CONF['site_url']}",
     85 => 'èe ste pozabili geslo, uporabite tole povezavo: %s',
     86 => 'Include',
-    87 => 'Reminders'
+    87 => 'Reminders',
+    88 => 'Default Group',
+    89 => 'Check to make this a default group for new users',
+    90 => 'Apply "Default Group" change to existing user accounts'
 );
 
 ###############################################################################
@@ -987,7 +996,7 @@ $LANG29 = array(
     39 => 'Trenutno ni nobene èakajoèe vsebine',
     40 => 'Uporabniška èakajoèa vsebina',
     41 => 'Comment Submissions',
-    42 => 'User Name',
+    42 => 'Username',
     43 => 'Auto-publish Comments?'
 );
 
@@ -1187,7 +1196,7 @@ $MESSAGE = array(
     44 => 'Vtiènik je uspešno namešèen.',
     45 => 'Vtiènik je uspešno odstranjen.',
     46 => '',
-    47 => 'To deluje samo v operacijskem sistemu *nix.  Èe uporabljaš operacijski sistem, potem *nix , je bil cache uspešno izpraznjen. Èe uporabljaš Windows OS, boš moral poiskati datoteke po imenu adodb_*.php in jih odstraniti roèno.',
+    47 => '',
     48 => "Hvala, da si zaprosil za èlanstvo v {$_CONF['site_name']}. Pregledali bomo tvojo prošnjo. Èe bo odobrena, boš dobil geslo na e-naslov, ki si ga ravnokar vnesel.",
     49 => 'Skupina je uspešno shranjena.',
     50 => 'Skupina je uspešno izbrisana.',
@@ -1583,6 +1592,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => 'Ustvari (napredno)',
     'enabled' => 'Omogoèeno',
     'title' => 'Naslov',
+    'page_title' => 'Page Title',
     'type' => 'Tip',
     'topic' => 'Rubrika',
     'help_url' => 'URL dokumenta za pomoè',
@@ -1601,7 +1611,10 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
-    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.'
+    'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.',
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
+    'authenticate' => 'Authenticate'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1864,7 +1877,7 @@ $LANG_confignames['Core'] = array(
     'advanced_html' => 'Additional HTML for Adv. Editor',
     'skip_html_filter_for_root' => 'Preskoèi HTML Filtriranje za Root-a?',
     'allowed_protocols' => 'Dovoljeni Protokoli',
-    'disable_autolinks' => 'Onemogoèi samodejne povezave (Autolinks)?',
+    'disable_autolinks' => 'Onemogoèi samodejne povezave (Autotags)?',
     'clickable_links' => 'Make URLs clickable?',
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
@@ -1893,7 +1906,8 @@ $LANG_confignames['Core'] = array(
     'search_show_sort' => 'Allow User to Sort Results?',
     'search_show_limit' => 'Show Page Limits?',
     'search_separator' => 'Group Separator',
-    'search_def_keytype' => 'Default Search Method'
+    'search_def_keytype' => 'Default Search Method',
+    'search_def_sort' => 'Default Sort Order'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1975,7 +1989,11 @@ $LANG_configselects['Core'] = array(
     20 => array('Exact Phrase' => 'phrase', 'All of The Words' => 'all', 'Any of The Words' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
-    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2)
+    23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
 );
 
 ?>

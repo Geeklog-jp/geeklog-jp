@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Geeklog homepage.                                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony@tonybibbs.com                           |
 // |          Mark Limburg      - mlimburg@users.sourceforge.net               |
@@ -79,11 +79,17 @@ if( $microsummary )
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND"
          . $sql . "ORDER BY featured DESC, date DESC LIMIT 0, 1";
-
+         
     $msql['mssql']="SELECT STRAIGHT_JOIN s.title "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND"
          . $sql . "ORDER BY featured DESC, date DESC LIMIT 0, 1";
+         
+      $msql['pgsql']="SELECT s.title "
+     . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
+     . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND"
+     . $sql . "ORDER BY featured DESC, date DESC LIMIT 1 OFFSET 0";
+         
     $result = DB_query ($msql);
 
     if ( $A = DB_fetchArray( $result ) ) {
@@ -127,26 +133,25 @@ if (!$newstories && !$displayall) {
     }
 }
 
-if($topic)
+if ($topic)
 {
     $header = '<link rel="microsummary" href="' . $_CONF['site_url']
             . '/index.php?display=microsummary&amp;topic=' . urlencode($topic)
             . '" title="Microsummary"' . XHTML . '>';
 
     // Meta Tags
-    If ($_CONF['meta_tags'] > 0) {
+    if ($_CONF['meta_tags'] > 0) {
         $result = DB_query ("SELECT meta_description, meta_keywords FROM {$_TABLES['topics']} WHERE tid = '{$topic}'");
         $A = DB_fetchArray ($result);
 
         $meta_description = stripslashes($A['meta_description']);
         $meta_keywords = stripslashes($A['meta_keywords']);
-        //$meta_description = stripslashes( DB_getItem( $_TABLES['topics'], 'meta_description', "tid = '$topic'" ));
-        //$meta_keywords = stripslashes( DB_getItem( $_TABLES['topics'], 'meta_keywords', "tid = '$topic'" ));
-        $header .=  COM_createMetaTags($meta_description, $meta_keywords);
+        $header .= COM_createMetaTags($meta_description, $meta_keywords);
     }
 } else {
     $header = '<link rel="microsummary" href="' . $_CONF['site_url']
-            . '/index.php?display=microsummary" title="Microsummary"' . XHTML . '>';
+            . '/index.php?display=microsummary" title="Microsummary"' . XHTML
+            . '>';
 }
 $display .= COM_siteHeader('menu', '', $header);
 if (isset ($_GET['msg'])) {
@@ -207,11 +212,11 @@ if (!empty ($displayBlock)) {
     }
 }
 
-if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
+if (COM_isAnonUser()) {
+    $U['maxstories'] = 0;
+} else {
     $result = DB_query("SELECT maxstories,tids,aids FROM {$_TABLES['userindex']} WHERE uid = '{$_USER['uid']}'");
     $U = DB_fetchArray($result);
-} else {
-    $U['maxstories'] = 0;
 }
 
 $maxstories = 0;
@@ -300,7 +305,17 @@ if (!empty($U['tids'])) {
 $sql .= COM_getTopicSQL ('AND', 0, 's') . ' ';
 
 if ($newstories) {
-    $sql .= "AND (date >= (date_sub(NOW(), INTERVAL {$_CONF['newstoriesinterval']} SECOND))) ";
+    switch ($_DB_dbms) {
+    case 'mysql':
+        $sql .= "AND (date >= (date_sub(NOW(), INTERVAL {$_CONF['newstoriesinterval']} SECOND))) ";
+        break;
+    case 'pgsql':
+        $sql .= "AND (date >= (NOW() - INTERVAL '{$_CONF['newstoriesinterval']} SECOND')) ";
+        break;
+    case 'mssql':
+        $sql .= "AND (date >= (date_sub(NOW(), INTERVAL {$_CONF['newstoriesinterval']} SECOND))) ";
+        break;
+    }
 }
 
 $offset = ($page - 1) * $limit;
@@ -312,7 +327,7 @@ if ($_CONF['allow_user_photo'] == 1) {
     }
 }
 
-$msql = array();
+$msql = array(); 
 $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, "
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
@@ -327,6 +342,12 @@ $msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, 
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND"
          . $sql . "ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
+$msql['pgsql']="SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate,
+            UNIX_TIMESTAMP(s.expire) as expireunix,
+            {$userfields}, t.topic, t.imageurl
+            FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u,
+            {$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND
+            {$sql} ORDER BY featured DESC, date DESC LIMIT {$limit} OFFSET {$offset}";
 
 $result = DB_query ($msql);
 
@@ -337,7 +358,6 @@ $D = DB_fetchArray ($data);
 $num_pages = ceil ($D['count'] / $limit);
 
 if ( $A = DB_fetchArray( $result ) ) {
-
     $story = new Story();
     $story->loadFromArray($A);
     if ( $_CONF['showfirstasfeatured'] == 1 ) {

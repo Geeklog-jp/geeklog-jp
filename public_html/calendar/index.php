@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Calendar Plugin 1.0                                                       |
+// | Calendar Plugin 1.1                                                       |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // |                                                                           |
 // | Geeklog calendar plugin                                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -43,23 +43,10 @@ require_once $_CONF['path_system'] . 'classes/calendar.class.php';
 
 $display = '';
 
-if (empty ($_USER['username']) &&
+if (COM_isAnonUser() &&
     (($_CONF['loginrequired'] == 1) || ($_CA_CONF['calendarloginrequired'] == 1))) {
-    $display .= COM_siteHeader('');
-    $display .= COM_startBlock ($LANG_LOGIN[1], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-    $login = new Template($_CONF['path_layout'] . 'submit');
-    $login->set_file (array ('login'=>'submitloginrequired.thtml'));
-    $login->set_var ( 'xhtml', XHTML );
-    $login->set_var ('login_message', $LANG_LOGIN[2]);
-    $login->set_var ('site_url', $_CONF['site_url']);
-    $login->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $login->set_var ('layout_url', $_CONF['layout_url']);
-    $login->set_var ('lang_login', $LANG_LOGIN[3]);
-    $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-    $login->parse ('output', 'login');
-    $display .= $login->finish ($login->get_var('output'));
-    $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    $display .= COM_siteHeader('menu', $LANG_CAL_1[41]);
+    $display .= SEC_loginRequiredForm();
     $display .= COM_siteFooter();
     COM_output($display);
     exit;
@@ -533,7 +520,7 @@ case 'day':
         );
     } else {
         $cal_templates->set_var('calendar_title', '[' . $_CONF['site_name'] . ' ' . $LANG_CAL_2[29]);
-        if (!empty($_USER['uid']) AND $_CA_CONF['personalcalendars'] == 1) {
+        if (!COM_isAnonUser() AND $_CA_CONF['personalcalendars'] == 1) {
             $cal_templates->set_var('calendar_toggle', '|&nbsp;'
                 . COM_createLink($LANG_CAL_2[12], $_CONF['site_url']
                     . "/calendar/index.php?mode=personal&amp;view=day&amp;month=$month&amp;day=$day&amp;year=$year") . ']'
@@ -547,17 +534,17 @@ case 'day':
     if ($mode == 'personal') {
         $calsql = "SELECT eid,title,datestart,dateend,timestart,timeend,allday,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['personal_events']} "
                 . "WHERE (uid = {$_USER['uid']}) "
-                . "AND ((allday=1 AND datestart = \"$year-$month-$day\") "
-                . "OR (datestart >= \"$year-$month-$day 00:00:00\" AND datestart <= \"$year-$month-$day 23:59:59\") "
-                . "OR (dateend >= \"$year-$month-$day 00:00:00\" AND dateend <= \"$year-$month-$day 23:59:59\") "
-                . "OR (\"$year-$month-$day\" BETWEEN datestart AND dateend)) "
+                . "AND ((allday=1 AND datestart = '$year-$month-$day') "
+                . "OR (datestart >= '$year-$month-$day 00:00:00' AND datestart <= '$year-$month-$day 23:59:59') "
+                . "OR (dateend >= '$year-$month-$day 00:00:00' AND dateend <= '$year-$month-$day 23:59:59') "
+                . "OR ('$year-$month-$day' BETWEEN datestart AND dateend)) "
                 . "ORDER BY datestart,timestart";
     } else {
         $calsql = "SELECT eid,title,datestart,dateend,timestart,timeend,allday,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['events']} WHERE ((allday=1 "
-                . "AND datestart = \"$year-$month-$day\") "
-                . "OR (datestart >= \"$year-$month-$day 00:00:00\" AND datestart <= \"$year-$month-$day 23:59:59\") "
-                . "OR (dateend >= \"$year-$month-$day 00:00:00\" AND dateend <= \"$year-$month-$day 23:59:59\") "
-                . "OR (\"$year-$month-$day\" BETWEEN datestart AND dateend))" . COM_getPermSql ('AND')
+                . "AND datestart = '$year-$month-$day') "
+                . "OR (datestart >= '$year-$month-$day 00:00:00' AND datestart <= '$year-$month-$day 23:59:59') "
+                . "OR (dateend >= '$year-$month-$day 00:00:00' AND dateend <= '$year-$month-$day 23:59:59') "
+                . "OR ('$year-$month-$day' BETWEEN datestart AND dateend))" . COM_getPermSql ('AND')
                 . " ORDER BY datestart,timestart";
     }
     $result = DB_query($calsql);
@@ -650,7 +637,7 @@ case 'week':
         );
     } else {
         $cal_templates->set_var('calendar_title', '[' . $_CONF['site_name'] . ' ' . $LANG_CAL_2[29]);
-        if (!empty($_USER['uid']) AND $_CA_CONF['personalcalendars'] == 1) {
+        if (!COM_isAnonUser() AND $_CA_CONF['personalcalendars'] == 1) {
             $cal_templates->set_var('calendar_toggle', '|&nbsp;'
                 . COM_createLink($LANG_CAL_2[12], $_CONF['site_url']
                     . "/calendar/index.php?mode=personal&amp;view=week&amp;month=$month&amp;day=$day&amp;year=$year") . ']'
@@ -965,11 +952,11 @@ for ($i = 1; $i <= 6; $i++) {
             }
 
             $calsql = "SELECT eid,title,datestart,dateend,timestart,timeend,allday,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM $calsql_tbl WHERE "
-                    . "((datestart >= \"$year-$month-$curday->daynumber 00:00:00\" "
-                    . "AND datestart <= \"$year-$month-$curday->daynumber 23:59:59\") "
-                    . "OR (dateend >= \"$year-$month-$curday->daynumber 00:00:00\" "
-                    . "AND dateend <= \"$year-$month-$curday->daynumber 23:59:59\") "
-                    . "OR (\"$year-$month-$curday->daynumber\" BETWEEN datestart AND dateend))"
+                    . "((datestart >= '$year-$month-$curday->daynumber 00:00:00' "
+                    . "AND datestart <= '$year-$month-$curday->daynumber 23:59:59') "
+                    . "OR (dateend >= '$year-$month-$curday->daynumber 00:00:00' "
+                    . "AND dateend <= '$year-$month-$curday->daynumber 23:59:59') "
+                    . "OR ('$year-$month-$curday->daynumber' BETWEEN datestart AND dateend))"
                     . $calsql_filt . " ORDER BY datestart,timestart";
 
             $query2 = DB_query($calsql);
@@ -1048,8 +1035,7 @@ if ($mode == 'personal') {
     $cal_templates->set_var('lang_mastercal', $LANG_CAL_2[25] . $LANG_CAL_2[11]);
     $cal_templates->parse('master_calendar_option','mastercal',true);
 } else {
-    if (isset ($_USER['uid']) && ($_USER['uid'] > 1) &&
-            ($_CA_CONF['personalcalendars'] == 1)) {
+    if (!COM_isAnonUser() && ($_CA_CONF['personalcalendars'] == 1)) {
         $cal_templates->set_var('lang_mycalendar', $LANG_CAL_2[12]);
         $cal_templates->parse('personal_calendar_option','personalcal',true);
     } else {

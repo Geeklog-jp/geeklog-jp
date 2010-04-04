@@ -8,13 +8,13 @@
 // |                                                                           |
 // | Geeklog comment library.                                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
-// |          Vincent Furia     - vinny01 AT users DOT sourceforge DOT net     |
+// |          Vincent Furia     - vinny01 AT users DOT sourceforge DOT net     |                                       
 // |          Jared Wenerd      - wenerd87 AT gmail DOT com                    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -122,7 +122,7 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
         $commentbar->set_var('story_link', $articleUrl);
     }
 
-    if( !empty( $_USER['uid'] ) && ( $_USER['uid'] > 1 )) {
+    if (! COM_isAnonUser()) {
         $username = $_USER['username'];
         $fullname = $_USER['fullname'];
     } else {
@@ -137,7 +137,7 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
     $commentbar->set_var( 'user_name', $username );
     $commentbar->set_var( 'user_fullname', $fullname );
 
-    if( !empty( $_USER['username'] )) {
+    if (! COM_isAnonUser()) {
         $author = COM_getDisplayName( $_USER['uid'], $username, $fullname );
         $commentbar->set_var( 'user_nullname', $author );
         $commentbar->set_var( 'author', $author );
@@ -223,7 +223,7 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
 
     $template = new Template( $_CONF['path_layout'] . 'comment' );
     $template->set_file( array( 'comment' => 'comment.thtml',
-                                'thread'  => 'thread.thtml'  ));
+                               'thread'  => 'thread.thtml'  ));
 
     // generic template variables
     $template->set_var( 'xhtml', XHTML );
@@ -331,39 +331,33 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
 
             $photo = '';
             if ($_CONF['allow_user_photo']) {
-                if (isset ($A['photo']) && empty($A['photo'])) {
+                if (isset($A['photo']) && empty($A['photo'])) {
                     $A['photo'] = '(none)';
                 }
                 $photo = USER_getPhoto($A['uid'], $A['photo'], $A['email']);
             }
-            if( !empty( $photo )) {
-                $template->set_var( 'author_photo', $photo );
+            $profile_link = $_CONF['site_url']
+                          . '/users.php?mode=profile&amp;uid=' . $A['uid'];
+            if (! empty($photo)) {
+                $template->set_var('author_photo', $photo);
                 $camera_icon = '<img src="' . $_CONF['layout_url']
-                    . '/images/smallcamera.' . $_IMAGE_TYPE . '" alt=""' . XHTML . '>';
-                $template->set_var( 'camera_icon',
-                    COM_createLink(
-                        $camera_icon,
-                        $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid']
-                    )
-                );
+                    . '/images/smallcamera.' . $_IMAGE_TYPE . '" alt=""'
+                    . XHTML . '>';
+                $template->set_var('camera_icon',
+                                   COM_createLink($camera_icon, $profile_link));
             } else {
-                $template->set_var( 'author_photo', '' );
-                $template->set_var( 'camera_icon', '' );
+                $template->set_var('author_photo', '');
+                $template->set_var('camera_icon', '');
             }
 
-            $template->set_var( 'start_author_anchortag', '<a href="'
-                    . $_CONF['site_url'] . '/users.php?mode=profile&amp;uid='
-                    . $A['uid'] . '">' );
-            $template->set_var( 'end_author_anchortag', '</a>' );
-            $template->set_var( 'author_link',
-                COM_createLink(
-                    $fullname,
-                    $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid']
-                )
-            );
+            $template->set_var('start_author_anchortag',
+                               '<a href="' . $profile_link . '">' );
+            $template->set_var('end_author_anchortag', '</a>');
+            $template->set_var('author_link',
+                               COM_createLink($fullname, $profile_link));
 
         } else {
-            //comment is from anonymous user
+            // comment is from anonymous user
             if (isset($A['name'])) {
                 $A['username'] = strip_tags($A['name']);
             }
@@ -378,8 +372,8 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
 
         // hide reply link from anonymous users if they can't post replies
         $hidefromanon = false;
-        if( empty( $_USER['username'] ) && (( $_CONF['loginrequired'] == 1 )
-                || ( $_CONF['commentsloginrequired'] == 1 ))) {
+        if (COM_isAnonUser() && (($_CONF['loginrequired'] == 1) ||
+                                 ($_CONF['commentsloginrequired'] == 1))) {
             $hidefromanon = true;
         }
 
@@ -508,8 +502,8 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         $text = str_replace('</div><!-- /COMMENTSIG -->', '', $text);
         $text = str_replace('<div class="comment-edit">', '', $text);
         $text = str_replace('</div><!-- /COMMENTEDIT -->', '', $text);
-        if( preg_match( '/<.*>/', $text ) == 0 ) {
-            $A['comment'] = nl2br( $A['comment'] );
+        if (preg_match('/<.*>/', $text) == 0) {
+            $A['comment'] = '<p>' . nl2br($A['comment']) . '</p>';
         }
 
         // highlight search terms if specified
@@ -559,7 +553,9 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
             $retval .= $template->parse( 'output', 'comment' );
         }
         $row++;
-    } while( $A = DB_fetchArray( $comments ));
+    } while( !$preview && ($A = DB_fetchArray( $comments )));
+    
+
 
     return $retval;
 }
@@ -587,7 +583,9 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 {
     global $_CONF, $_TABLES, $_USER, $LANG01;
 
-    if( !empty( $_USER['uid'] ) ) {
+    $retval = '';
+
+    if (! COM_isAnonUser()) {
         $result = DB_query( "SELECT commentorder,commentmode,commentlimit FROM {$_TABLES['usercomment']} WHERE uid = '{$_USER['uid']}'" );
         $U = DB_fetchArray( $result );
         if( empty( $order ) ) {
@@ -717,9 +715,17 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 
         // Pagination
         $tot_pages =  ceil($count / $limit);
-        $pLink = $_CONF['site_url'] . "/article.php?story=$sid&amp;type=$type&amp;order=$order&amp;mode=$mode";
+        if ($type == 'article') {
+            $pLink = $_CONF['site_url'] . "/article.php?story=$sid";
+        } else {
+            list($plgurl, $plgid) = PLG_getCommentUrlId($type);
+            $pLink = "$plgurl?$plgid=$sid"; 
+        }
+        $pLink .= "&amp;type=$type&amp;order=$order&amp;mode=$mode";
+        
+        $page_str = "cpage=";
         $template->set_var('pagenav',
-                           COM_printPageNavigation($pLink, $page, $tot_pages));
+                           COM_printPageNavigation($pLink, $page, $tot_pages, $page_str, false));
 
         $template->set_var('comments', $thecomments);
         $retval = $template->finish($template->parse('output', 'commentarea'));
@@ -743,7 +749,7 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 */
 function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_LOGIN,
+    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12;
            $LANG_ACCESS;
 
     $retval = '';
@@ -768,19 +774,7 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 
     if (COM_isAnonUser() &&
             (($_CONF['loginrequired'] == 1) || ($_CONF['commentsloginrequired'] == 1))) {
-        $retval .= COM_startBlock ($LANG_LOGIN[1], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        $loginreq = new Template($_CONF['path_layout'] . 'submit');
-        $loginreq->set_file('loginreq', 'submitloginrequired.thtml');
-        $loginreq->set_var( 'xhtml', XHTML );
-        $loginreq->set_var('login_message', $LANG_LOGIN[2]);
-        $loginreq->set_var('site_url', $_CONF['site_url']);
-        $loginreq->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $loginreq->set_var('lang_login', $LANG_LOGIN[3]);
-        $loginreq->set_var('lang_newuser', $LANG_LOGIN[4]);
-        $loginreq->parse('errormsg', 'loginreq');
-        $retval .= $loginreq->finish($loginreq->get_var('errormsg'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= SEC_loginRequiredForm();
         return $retval;
     } else {
         COM_clearSpeedlimit ($_CONF['commentspeedlimit'], 'comment');
@@ -801,9 +795,9 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         } else {
 
-            if (($_CONF['advanced_editor'] == 1) && file_exists ($_CONF['path_layout'] . 'comment/commentform_advanced.thtml')) {
+            if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
                 $postmode = 'html';
-            } elseif (empty ($postmode)) {
+            } elseif (empty($postmode)) {
                 $postmode = $_CONF['postmode'];
             }
 
@@ -836,13 +830,13 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 
             // Preview mode:
             if (($mode == $LANG03[14] || $mode == $LANG03[28] || $mode == $LANG03[34]) && !empty($title) && !empty($comment) ) {
-                $start = new Template( $_CONF['path_layout'] . 'comment' );
-                $start->set_file( array( 'comment' => 'startcomment.thtml' ));
-                $start->set_var( 'xhtml', XHTML );
-                $start->set_var( 'site_url', $_CONF['site_url'] );
-                $start->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-                $start->set_var( 'layout_url', $_CONF['layout_url'] );
-                $start->set_var( 'hide_if_preview', 'style="display:none"' );
+                $start = new Template($_CONF['path_layout'] . 'comment');
+                $start->set_file(array('comment' => 'startcomment.thtml'));
+                $start->set_var('xhtml', XHTML);
+                $start->set_var('site_url', $_CONF['site_url']);
+                $start->set_var('site_admin_url', $_CONF['site_admin_url']);
+                $start->set_var('layout_url', $_CONF['layout_url']);
+                $start->set_var('hide_if_preview', 'style="display:none"');
 
                 // Clean up all the vars
                 $A = array();
@@ -889,10 +883,10 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             }
 
             $comment_template = new Template($_CONF['path_layout'] . 'comment');
-            if (($_CONF['advanced_editor'] == 1) && file_exists ($_CONF['path_layout'] . 'comment/commentform_advanced.thtml')) {
-                $comment_template->set_file('form','commentform_advanced.thtml');
+            if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
+                $comment_template->set_file('form', 'commentform_advanced.thtml');
             } else {
-                $comment_template->set_file('form','commentform.thtml');
+                $comment_template->set_file('form', 'commentform.thtml');
             }
             $comment_template->set_var('xhtml', XHTML);
             $comment_template->set_var('site_url', $_CONF['site_url']);
@@ -901,12 +895,20 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             $comment_template->set_var('start_block_postacomment', COM_startBlock($LANG03[1]));
             if ($_CONF['show_fullname'] == 1) {
                 $comment_template->set_var('lang_username', $LANG_ACCESS['name']);
+            } elseif (COM_isAnonUser()) {
+                $comment_template->set_var('lang_username', $LANG03[44]);
             } else {
                 $comment_template->set_var('lang_username', $LANG03[5]);
             }
             $comment_template->set_var('sid', $sid);
             $comment_template->set_var('pid', $pid);
             $comment_template->set_var('type', $type);
+            if ($mode == 'edit' || $mode == 'editsubmission' || $mode == $LANG03[28] || $mode == $LANG03[34]) {
+                $comment_template->set_var('hidewhenediting',
+                                           ' style="display:none;"');
+            } else {
+                $comment_template->set_var('hidewhenediting', '');
+            }
 
             $formurl = $_CONF['site_url'] . '/comment.php';
             if ($mode == 'edit' || $mode == $LANG03[28]) { //edit modes
@@ -998,18 +1000,20 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 $comment_template->set_var('lang_preview', $LANG03[14]);
             }
 
-            PLG_templateSetVars('comment', $comment_template); 
-            if ($mode == $LANG03[28] || ($mode == 'edit' && $_CONF['skip_preview'] == 1)) { 
+            if ($mode == $LANG03[28] || ($mode == 'edit' && $_CONF['skip_preview'] == 1)) {
+                PLG_templateSetVars('comment', $comment_template); // Only for a edit form with a save button displayed (CAPTCHA related issue)
                 // for editing
                 $comment_template->set_var('save_option',
                     '<input type="submit" name="mode" value="' . $LANG03[29]
                     . '"' . XHTML . '>');
             } elseif ($mode == $LANG03[34] || ($mode == 'editsubmission' && $_CONF['skip_preview'] == 1))  {
+                PLG_templateSetVars('comment', $comment_template);
                 // editing submission comment
                 $comment_template->set_var('save_option',
                     '<input type="submit" name="mode" value="' . $LANG03[35]
                     . '"' . XHTML . '>');
             } elseif (($_CONF['skip_preview'] == 1) || ($mode == $LANG03[14])) {
+                PLG_templateSetVars('comment', $comment_template);
                 $comment_template->set_var('save_option',
                     '<input type="submit" name="mode" value="' . $LANG03[11]
                     . '"' . XHTML . '>');
@@ -1131,33 +1135,31 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             !SEC_hasRights('comment.submit')) {
         // comment into comment submission table enabled
         if (isset($name)) {
-            DB_save($_TABLES['commentsubmissions'],
-                    'sid,uid,name,comment,date,title,pid,ipaddress,type',
-                    "'$sid',$uid,'$name','$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}','$type'");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,name,comment,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$name','$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         } else {
-            DB_save($_TABLES['commentsubmissions'],
-                    'sid,uid,comment,date,title,pid,ipaddress,type',
-                    "'$sid',$uid,'$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}','$type'");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,comment,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         }
 
         $ret = -1; // comment queued
     } elseif ($pid > 0) {
         DB_lockTable ($_TABLES['comments']);
-        
+
         $result = DB_query("SELECT rht, indent FROM {$_TABLES['comments']} WHERE cid = $pid "
                          . "AND sid = '$sid'");
         list($rht, $indent) = DB_fetchArray($result);
         if ( !DB_error() ) {
+            $rht2=$rht+1;
+            $indent+=1;
             DB_query("UPDATE {$_TABLES['comments']} SET lft = lft + 2 "
                    . "WHERE sid = '$sid' AND type = '$type' AND lft >= $rht");
             DB_query("UPDATE {$_TABLES['comments']} SET rht = rht + 2 "
                    . "WHERE sid = '$sid' AND type = '$type' AND rht >= $rht");
             if (isset($name)) {
                 DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress,name',
-             "'$sid',$uid,'$comment',now(),'$title',$pid,$rht,$rht+1,$indent+1,'$type','{$_SERVER['REMOTE_ADDR']}','$name'");
+             "'$sid',$uid,'$comment',now(),'$title',$pid,$rht,$rht2,$indent,'$type','{$_SERVER['REMOTE_ADDR']}','$name'");
             } else {
                 DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress',
-             "'$sid',$uid,'$comment',now(),'$title',$pid,$rht,$rht+1,$indent+1,'$type','{$_SERVER['REMOTE_ADDR']}'");
+             "'$sid',$uid,'$comment',now(),'$title',$pid,$rht,$rht2,$indent,'$type','{$_SERVER['REMOTE_ADDR']}'");
             }
             
         } else { //replying to non-existent comment or comment in wrong article
@@ -1170,21 +1172,19 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
         if ( DB_error() ) {
             $rht = 0;
         }
+        $rht2=$rht+1;
+        $rht3=$rht+2;
         if (isset($name)) {
             DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress,name',
-                "'$sid',$uid,'$comment',now(),'$title',$pid,$rht+1,$rht+2,0,'$type','{$_SERVER['REMOTE_ADDR']}','$name'");
+                "'$sid',$uid,'$comment',now(),'$title',$pid,$rht2,$rht3,0,'$type','{$_SERVER['REMOTE_ADDR']}','$name'");
         } else {
-            $rht = DB_getItem($_TABLES['comments'], 'MAX(rht)', "sid = '$sid'");
-            if ( DB_error() ) {
-                $rht = 0;
-            }
             DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress',
-                "'$sid',$uid,'$comment',now(),'$title',$pid,$rht+1,$rht+2,0,'$type','{$_SERVER['REMOTE_ADDR']}'");
+                "'$sid',$uid,'$comment',now(),'$title',$pid,$rht2,$rht3,0,'$type','{$_SERVER['REMOTE_ADDR']}'");
         }
         
     }
 
-    $cid = DB_insertId();
+    $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
     DB_unlockTable($_TABLES['comments']);
 
     // notify of new comment 
@@ -1371,23 +1371,12 @@ function CMT_deleteComment ($cid, $sid, $type)
 */
 function CMT_reportAbusiveComment ($cid, $type)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_LOGIN;
+    global $_CONF, $_TABLES, $LANG03, $LANG12;
 
     $retval = '';
 
-    if (empty ($_USER['username'])) {
-        $retval .= COM_startBlock ($LANG_LOGIN[1], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        $loginreq = new Template ($_CONF['path_layout'] . 'submit');
-        $loginreq->set_file ('loginreq', 'submitloginrequired.thtml');
-        $loginreq->set_var ('xhtml', XHTML);
-        $loginreq->set_var ('login_message', $LANG_LOGIN[2]);
-        $loginreq->set_var ('site_url', $_CONF['site_url']);
-        $loginreq->set_var ('lang_login', $LANG_LOGIN[3]);
-        $loginreq->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $loginreq->parse ('errormsg', 'loginreq');
-        $retval .= $loginreq->finish ($loginreq->get_var ('errormsg'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    if (COM_isAnonUser()) {
+        $retval .= SEC_loginRequiredForm();
 
         return $retval;
     }
@@ -1407,6 +1396,7 @@ function CMT_reportAbusiveComment ($cid, $type)
     $start->set_file(array('report' => 'reportcomment.thtml'));
     $start->set_var('xhtml', XHTML);
     $start->set_var('site_url', $_CONF['site_url']);
+    $start->set_var('site_admin_url', $_CONF['site_admin_url']);
     $start->set_var('layout_url', $_CONF['layout_url']);
     $start->set_var('lang_report_this', $LANG03[25]);
     $start->set_var('lang_send_report', $LANG03[10]);
@@ -1448,25 +1438,14 @@ function CMT_reportAbusiveComment ($cid, $type)
 * @return   string          Meta refresh or HTML for error message
 *
 */
-function CMT_sendReport ($cid, $type)
+function CMT_sendReport($cid, $type)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG08, $LANG_LOGIN;
+    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG08;
 
-    if (empty ($_USER['username'])) {
-        $retval = COM_siteHeader ('menu', $LANG_LOGIN[1]);
-        $retval .= COM_startBlock ($LANG_LOGIN[1], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'));
-        $loginreq = new Template ($_CONF['path_layout'] . 'submit');
-        $loginreq->set_file ('loginreq', 'submitloginrequired.thtml');
-        $loginreq->set_var ('xhtml', XHTML);
-        $loginreq->set_var ('login_message', $LANG_LOGIN[2]);
-        $loginreq->set_var ('site_url', $_CONF['site_url']);
-        $loginreq->set_var ('lang_login', $LANG_LOGIN[3]);
-        $loginreq->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $loginreq->parse ('errormsg', 'loginreq');
-        $retval .= $loginreq->finish ($loginreq->get_var ('errormsg'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
+    if (COM_isAnonUser()) {
+        $retval = COM_siteHeader('menu', $LANG03[27]);
+        $retval .= SEC_loginRequiredForm();
+        $retval .= COM_siteFooter();
 
         return $retval;
     }
@@ -1617,7 +1596,7 @@ function CMT_handleEditSubmit($mode = null)
  * @param string  $comment  comment text
  * @param string  $postmode ('html', 'plaintext', ...)
  * @param string  $type     Type of item (article, polls, etc.)
- * @param bool    $edit     if true append edit tag
+ * @param boolean $edit     if true append edit tag
  * @param int     $cid      commentid if editing comment (for proper sig)
  * @return string of comment text
  */
@@ -1735,6 +1714,7 @@ function CMT_rebuildTree($sid, $pid = 0, $left = 0)
 /**
  * Moves comment from submission table to comments table
  * 
+ * @param   int   cid  comment id
  * @copyright Jared Wenerd 2008
  * @author Jared Wenerd, wenerd87 AT gmail DOT com
  * @param  string $cid comment id
@@ -1770,7 +1750,7 @@ function CMT_approveModeration($cid)
                         "'{$A['type']}','{$A['sid']}','{$A['date']}','{$A['title']}','{$A['comment']}','{$A['uid']}',".
                         "'{$A['pid']}','{$A['ipaddress']}',$indent");
     }
-    $newcid = DB_insertId();
+    $newcid = DB_insertId('','comments_cid_seq');
 
     DB_delete($_TABLES['commentsubmissions'], 'cid', $cid);
 

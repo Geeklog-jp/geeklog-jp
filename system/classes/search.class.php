@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6.1                                                             |
+// | Geeklog 1.6                                                               |
 // +---------------------------------------------------------------------------+
 // | search.class.php                                                          |
 // |                                                                           |
 // | Geeklog search class.                                                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT geeklog DOT net                       |
 // |          Dirk Haun        - dirk AT haun-online DOT de                    |
@@ -110,39 +110,6 @@ class Search {
     }
 
     /**
-    * Shows an error message to anonymous users
-    *
-    * This is called when anonymous users attempt to access search
-    * functionality that has been locked down by the Geeklog admin.
-    *
-    * @author Tony Bibbs, tony AT geeklog DOT net
-    * @access private
-    * @return string HTML output for error message
-    *
-    */
-    function _getAccessDeniedMessage()
-    {
-        global $_CONF, $LANG_LOGIN;
-
-        $retval .= COM_startBlock ($LANG_LOGIN[1], '',
-                        COM_getBlockTemplate ('_msg_block', 'header'));
-        $login = new Template($_CONF['path_layout'] . 'submit');
-        $login->set_file (array ('login'=>'submitloginrequired.thtml'));
-        $login->set_var ( 'xhtml', XHTML );
-        $login->set_var ('login_message', $LANG_LOGIN[2]);
-        $login->set_var ('site_url', $_CONF['site_url']);
-        $login->set_var ('site_admin_url', $_CONF['site_admin_url']);
-        $login->set_var ('layout_url', $_CONF['layout_url']);
-        $login->set_var ('lang_login', $LANG_LOGIN[3]);
-        $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $login->parse ('output', 'login');
-        $retval .= $login->finish ($login->get_var('output'));
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-
-        return $retval;
-    }
-
-    /**
     * Determines if user is allowed to perform a search
     *
     * Geeklog has a number of settings that may prevent
@@ -156,9 +123,9 @@ class Search {
     */
     function _isSearchAllowed()
     {
-        global $_USER, $_CONF;
+        global $_CONF;
 
-        if (empty($_USER['username'])) {
+        if (COM_isAnonUser()) {
             //check if an anonymous user is attempting to illegally access privilege search capabilities
             if (($this->_type != 'all') OR !empty($this->_dateStart) OR !empty($this->_dateEnd) OR ($this->_author > 0) OR !empty($topic)) {
                 if (($_CONF['loginrequired'] == 1) OR ($_CONF['searchloginrequired'] >= 1)) {
@@ -188,9 +155,9 @@ class Search {
     */
     function _isFormAllowed ()
     {
-        global $_CONF, $_USER;
+        global $_CONF;
 
-        if (empty($_USER['username']) AND (($_CONF['loginrequired'] == 1) OR ($_CONF['searchloginrequired'] >= 1))) {
+        if (COM_isAnonUser() AND (($_CONF['loginrequired'] == 1) OR ($_CONF['searchloginrequired'] >= 1))) {
             return false;
         }
 
@@ -215,18 +182,18 @@ class Search {
 
         // Verify current user my use the search form
         if (!$this->_isFormAllowed()) {
-            return $this->_getAccessDeniedMessage();
+            return SEC_loginRequiredForm();
         }
 
         $retval .= COM_startBlock($LANG09[1],'advancedsearch.html');
         $searchform = new Template($_CONF['path_layout'].'search');
         $searchform->set_file (array ('searchform' => 'searchform.thtml',
                                       'authors'    => 'searchauthors.thtml'));
-        $searchform->set_var( 'xhtml', XHTML );
-        $searchform->set_var('search_intro', $LANG09[19]);
+        $searchform->set_var('xhtml', XHTML);
         $searchform->set_var('site_url', $_CONF['site_url']);
         $searchform->set_var('site_admin_url', $_CONF['site_admin_url']);
         $searchform->set_var('layout_url', $_CONF['layout_url']);
+        $searchform->set_var('search_intro', $LANG09[19]);
         $searchform->set_var('lang_keywords', $LANG09[2]);
         $searchform->set_var('lang_date', $LANG09[20]);
         $searchform->set_var('lang_to', $LANG09[21]);
@@ -440,9 +407,8 @@ class Search {
         global $_CONF, $LANG01, $LANG09, $LANG31;
 
         // Verify current user can perform requested search
-        if (!$this->_isSearchAllowed())
-        {
-            return $this->_getAccessDeniedMessage();
+        if (!$this->_isSearchAllowed()) {
+            return SEC_loginRequiredForm();
         }
 
         // Make sure there is a query string
@@ -505,7 +471,11 @@ class Search {
             $obj->setField('',          '_html',        true,       false, '</span>');
             $this->_wordlength = 50;
         }
-        $obj->setDefaultSort('hits');
+
+        // get default sort order
+        $default_sort = explode('|', $_CONF['search_def_sort']);
+        $obj->setDefaultSort($default_sort[0], $default_sort[1]);
+
         // set this only now, for compatibility with PHP 4
         $obj->setRowFunction(array($this, 'searchFormatCallback'));
 
@@ -619,9 +589,9 @@ class Search {
                                 LF_SOURCE_TITLE =>  $label,
                                 'title' =>        $col_title == -1 ? '<i>' . $LANG09[70] . '</i>' : $old_row[$col_title],
                                 'description' =>  $col_desc == -1 ? '<i>' . $LANG09[70] . '</i>' : $old_row[$col_desc],
-                                'date' =>         $col_date == -1 ? 'LF_NULL' : $date,
-                                'uid' =>          $col_user == -1 ? 'LF_NULL' : $old_row[$col_user],
-                                'hits' =>         $col_hits == -1 ? 'LF_NULL' : str_replace(',', '', $old_row[$col_hits])
+                                'date' =>         $col_date == -1 ? '&nbsp;' : $date,
+                                'uid' =>          $col_user == -1 ? '&nbsp;' : $old_row[$col_user],
+                                'hits' =>         $col_hits == -1 ? '0' : str_replace(',', '', $old_row[$col_hits])
                             );
                     preg_match('/href="([^"]+)"/i', $api_results['title'], $links);
                     $api_results['url'] = empty($links) ? '#' : $links[1];
@@ -648,12 +618,12 @@ class Search {
         if ($this->_keyType == 'any')
         {
             $searchQuery = str_replace(' ', "</b>' " . $LANG09[57] . " '<b>", $escquery);
-            $searchQuery = "'<b>$searchQuery</b>'";
+            $searchQuery = "<b>'$searchQuery'</b>";
         }
         else if ($this->_keyType == 'all')
         {
             $searchQuery = str_replace(' ', "</b>' " . $LANG09[56] . " '<b>", $escquery);
-            $searchQuery = "'<b>$searchQuery</b>'";
+            $searchQuery = "<b>'$searchQuery'</b>";
         }
         else
         {
@@ -733,7 +703,9 @@ class Search {
                 }
                 if (isset($this->_append_query[$row[LF_SOURCE_NAME]]) &&
                         $this->_append_query[$row[LF_SOURCE_NAME]]) {
-                    $row['url'] .= (strpos($row['url'],'?') ? '&amp;' : '?') . 'query=' . urlencode($this->_query);
+                    if (! empty($this->_query)) {
+                        $row['url'] .= (strpos($row['url'],'?') ? '&amp;' : '?') . 'query=' . urlencode($this->_query);
+                    }
                 }
             }
 
@@ -916,27 +888,31 @@ class Search {
     }
 
     /**
-    * Converts the MySQL CONCAT function to the MSSQL equivalent
+    * Converts the MySQL CONCAT function to the MS SQL / Postgres equivalents
     *
     * @access private
-    * @param string $sql The SQL to convert
-    * @return string MSSQL friendly SQL
+    * @param  string $sql The SQL to convert
+    * @return string      MS SQL or PostgreSQL friendly SQL
     *
     */
-    function _convertsql( $sql )
+    function _convertsql($sql)
     {
         global $_DB_dbms;
-        if ($_DB_dbms == 'mssql')
-        {
-            if (is_string( $sql ))
-            {
+
+        if ($_DB_dbms == 'mssql') {
+            if (is_string($sql)) {
                 $sql = preg_replace("/CONCAT\(([^\)]+)\)/ie", "preg_replace('/,?(\'[^\']+\'|[^,]+),/i', '\\\\1 + ', '\\1')", $sql);
-            }
-            else if (is_array( $sql ))
-            {
+            } elseif (is_array($sql)) {
                 $sql['mssql'] = preg_replace("/CONCAT\(([^\)]+)\)/ie", "preg_replace('/,?(\'[^\']+\'|[^,]+),/i', '\\\\1 + ', '\\1')", $sql['mssql']);
             }
+        } elseif ($_DB_dbms == 'pgsql') {
+            if (is_string($sql)) {
+                $sql = preg_replace("/CONCAT\(([^\)]+)\)/ie", "preg_replace('/,?(\'[^\']+\'|[^,]+),/i', '\\\\1 || ', '\\1')", $sql);
+            } elseif (is_array($sql)) {
+                $sql['pgsql'] = preg_replace("/CONCAT\(([^\)]+)\)/ie", "preg_replace('/,?(\'[^\']+\'|[^,]+),/i', '\\\\1 || ', '\\1')", $sql['pgsql']);
+            }
         }
+
         return $sql;
     }
 
@@ -945,7 +921,7 @@ class Search {
     *
     * @param   string  $haystack  string to search in
     * @param   string  $needle    string to search for
-    * @return  mixed              first pos of $needle in $haystack, or false
+    * @return  mixed              first pos of $needle in $haystack, or false 
     *
     */
     function _stripos($haystack, $needle)

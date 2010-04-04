@@ -71,7 +71,7 @@ $LANG_SX00 = array (
     'logcleared' => '- Spam-X Log File Cleared',
     'plugin' => 'Plugin',
     'access_denied' => 'Access Denied',
-    'access_denied_msg' => 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
+    'access_denied_msg' => 'Only Root Users have Access to this Page.  Your username and IP have been recorded.',
     'admin' => 'Plugin Administration',
     'install_header' => 'Install/Uninstall Plugin',
     'installed' => 'The Plugin is Installed',
@@ -146,7 +146,6 @@ $LANG_configsections['spamx'] = array(
 $LANG_confignames['spamx'] = array(
     'action' => 'Spam-X Actions',
     'notification_email' => 'Notification Email',
-    'admin_override' => "Don't Filter Admin Posts",
     'logging' => 'Enable Logging',
     'timeout' => 'Timeout'
 );

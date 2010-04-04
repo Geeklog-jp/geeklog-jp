@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | topic.php                                                                 |
 // |                                                                           |
 // | Geeklog topic administration page.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -77,7 +77,7 @@ if (!SEC_hasRights('topic.edit')) {
 */
 function edittopic ($tid = '')
 {
-    global $_CONF, $_GROUPS, $_TABLES, $_USER, $LANG27, $LANG_ACCESS,
+    global $_CONF, $_GROUPS, $_TABLES, $_USER, $LANG04, $LANG27, $LANG_ACCESS,
            $LANG_ADMIN, $MESSAGE;
 
     $retval = '';
@@ -188,10 +188,21 @@ function edittopic ($tid = '')
     }
     $topic_templates->set_var('lang_topicimage', $LANG27[4]);
     $topic_templates->set_var('lang_uploadimage', $LANG27[27]);
-    $topic_templates->set_var('icon_dimensions', $_CONF['max_topicicon_width'].' x '.$_CONF['max_topicicon_height']);
     $topic_templates->set_var('lang_maxsize', $LANG27[28]);
+    $topic_templates->set_var('icon_dimensions',
+        $_CONF['max_topicicon_width'] . ' x ' . $_CONF['max_topicicon_height']);
     $topic_templates->set_var('max_url_length', 255);
     $topic_templates->set_var('image_url', $A['imageurl']);
+
+    if (empty($_CONF['image_lib'])) {
+        $scaling = $LANG04[162];
+    } else {
+        $scaling = $LANG04[161];
+    }
+    $topic_templates->set_var('icon_max_dimensions',
+        sprintf($LANG04[160], $_CONF['max_topicicon_width'],
+                              $_CONF['max_topicicon_height'],
+                              $_CONF['max_topicicon_size'], $scaling));
 
     $topic_templates->set_var('lang_metadescription',
                               $LANG_ADMIN['meta_description']);
@@ -202,6 +213,11 @@ function edittopic ($tid = '')
     }
     if (! empty($A['meta_keywords'])) {
         $topic_templates->set_var('meta_keywords', $A['meta_keywords']);
+    }
+    if ($_CONF['meta_tags'] > 0) {
+        $topic_templates->set_var('hide_meta', '');
+    } else {
+        $topic_templates->set_var('hide_meta', ' style="display:none;"');
     }
 
     $topic_templates->set_var ('lang_defaulttopic', $LANG27[22]);
@@ -242,6 +258,64 @@ function edittopic ($tid = '')
     $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
 
     return $retval;
+}
+
+/**
+* Change a topic's ID in various places
+*
+* @param    string  $tid        new Topic ID
+* @parem    string  $old_tid    current Topic ID
+* @return   void
+*
+*/
+function changetopicid($tid, $old_tid)
+{
+    global $_TABLES;
+
+    DB_change($_TABLES['blocks'], 'tid', $tid, 'tid', $old_tid);
+    DB_change($_TABLES['stories'], 'tid', $tid, 'tid', $old_tid);
+    DB_change($_TABLES['storysubmission'], 'tid', $tid, 'tid', $old_tid);
+    DB_change($_TABLES['syndication'], 'header_tid', $tid,
+                                       'header_tid', $old_tid);
+
+    $result = DB_query("SELECT uid,tids,etids FROM {$_TABLES['userindex']} WHERE tids LIKE '%{$old_tid}%' OR etids LIKE '%{$old_tid}%'");
+    $num_users = DB_numRows($result);
+    for ($i = 0; $i < $num_users; $i++) {
+        $changed = false;
+        list($uid, $tids, $etids) = DB_fetchArray($result);
+        // check list of excluded topics
+        $t = explode(' ', $tids);
+        if (count($t) > 0) {
+            $found = array_search($old_tid, $t);
+            if ($found !== false) {
+                $t[$found] = $tid;
+                $tids = implode(' ', $t);
+                $changed = true;
+            }
+        }
+
+        // check topics for the Daily Digest
+        if (! empty($etids) && ($etids != '-')) {
+            $e = explode(' ', $etids);
+            if (count($e) > 0) {
+                $found = array_search($old_tid, $e);
+                if ($found !== false) {
+                    $e[$found] = $tid;
+                    $etids = implode(' ', $e);
+                    $changed = true;
+                }
+            }
+        }
+
+        if ($changed) {
+            // etids can be both NULL and "", so special handling required
+            if ($etids === null) {
+                DB_change($_TABLES['userindex'], 'tids', $tids, 'uid', $uid);
+            } else {
+                DB_query("UPDATE {$_TABLES['userindex']} SET tids = '{$tids}', etids = '{$etids}' WHERE uid = $uid");
+            }
+        }
+    }
 }
 
 /**
@@ -324,9 +398,25 @@ function savetopic($tid,$topic,$imageurl,$meta_description,$meta_keywords,$sortn
                 DB_query ("UPDATE {$_TABLES['topics']} SET archive_flag = 0 WHERE archive_flag = 1");
             }
         }
+	
+        if (isset($_POST['old_tid'])) {
+            $old_tid = COM_applyFilter($_POST['old_tid']);
+            if (! empty($old_tid)) {
+                $old_tid = COM_sanitizeID($old_tid);
+                changetopicid($tid, $old_tid);
+
+                $old_tid = addslashes($old_tid);
+                DB_delete($_TABLES['topics'], 'tid', $old_tid);
+            }
+        }
 
         DB_save($_TABLES['topics'],'tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, is_default, archive_flag, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon',"'$tid', '$topic', '$imageurl', '$meta_description', '$meta_keywords','$sortnum','$limitnews',$is_default,'$is_archive',$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon");
 
+        if ($old_tid != $tid) {
+            PLG_itemSaved($tid, 'topic', $old_tid);
+        } else {
+            PLG_itemSaved($tid, 'topic');
+        }
         // update feed(s) and Older Stories block
         COM_rdfUpToDateCheck('article', $tid);
         COM_olderStuff();
@@ -609,6 +699,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
 } elseif (($mode == $LANG_ADMIN['save']) && !empty($LANG_ADMIN['save']) && SEC_checkToken()) {
+
     if (empty ($_FILES['newicon']['name'])){
         $imageurl = COM_applyFilter ($_POST['imageurl']);
     } else {
@@ -623,17 +714,20 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     if (isset($_POST['is_archive'])) {
         $is_archive = $_POST['is_archive'];
     }
+    $sortnum = 0;
+    if (isset($_POST['sortnum'])) {
+        $sortnum = COM_applyFilter($_POST['sortnum'], true);
+    }
     $display .= savetopic(COM_applyFilter($_POST['tid']), $_POST['topic'],
                           $imageurl, $_POST['meta_description'],
-                          $_POST['meta_keywords'],
-                          COM_applyFilter($_POST['sortnum'], true),
+                          $_POST['meta_keywords'], $sortnum,
                           COM_applyFilter($_POST['limitnews'], true),
                           COM_applyFilter($_POST['owner_id'], true),
                           COM_applyFilter($_POST['group_id'], true),
                           $_POST['perm_owner'], $_POST['perm_group'],
                           $_POST['perm_members'], $_POST['perm_anon'],
                           $is_default, $is_archive);
-} else if ($mode == 'edit') {
+} elseif ($mode == 'edit') {
     $display .= COM_siteHeader('menu', $LANG27[1]);
     $tid = '';
     if (isset($_GET['tid'])) {
