@@ -22,39 +22,30 @@
 <h3>New Features and Improvements</h3>
 
 <ul>
-<li>Geeklog now supports <strong>PostgreSQL</strong> databases. This feature
-    was implemented by Stan Palatnik during the 2009 Google Summer of Code.</li>
-<li>When the security token (CSRF protection) expires, the user will now be
-    asked to <a href="http://wiki.geeklog.net/index.php/Re-Authentication_for_expired_Tokens">authenticate again</a>. On successful re-authentication, the
-    operation will be repeated and no changes will be lost.</li>
-<li>The options to skip spam checks and HTML filtering are now permissions and
-    no longer restricted to the Root group.</li>
-<li>Groups can now be marked as a default group. New users will automatically
-    be added to all default groups.</li>
-<li>Comments in plugins are now properly listed in the What's New block and
-    in a user's profile (through a new Plugin API function - requires changes
-    in plugins).</li>
-<li>Pages that require authentication now display a login form.</li>
-<li>When the Advanced Editor is enabled for the site, users can now enable or
-    disable it for themselves in their settings under My Account.</li>
-<li>There is now an option to create copies of existing stories (like the
-    options to copy existing static pages and calendar entries).</li>
-<li>A new <code>[user:]</code> autotag is available to easily create links to
-    a user's profile.</li>
+<li>Geeklog は、新たに <strong>PostgreSQL</strong> データベースをサポートします. この機能は
+    during the 2009年のGoogle Summer of Codeで、Stan Palatnik により開発されました。</li>
+<li>セキュリティートークン (CSRF 保護) が期限切れになったとき, ユーザは
+    <a href="http://wiki.geeklog.net/index.php/Re-Authentication_for_expired_Tokens">再認証</a>できます。
+    再認証で成功すれば, 編集内容を失うことなく操作を継続できます。</li>
+<li>Rootユーザにだけ選択が許可されていたHTML フィルターのスキップは、アクセス権として独立しました。</li>
+<li>デフォルトグループが追加されました。新規ユーザは、デフォルトグループに最初から属します。</li>
+<li>新着ブロックにのみ表示されていたプラグインのコメントが、ユーザのプロファイルにも表示されるようになりました。(新しいPlugin API 関数 - プラグインの変更が必要).</li>
+<li>認証が必要なページの表示には、ログインフォームが表示されます。</li>
+<li>アドバンスとエディタが有効なサイトでは、ユーザがマウアカウントの設定で有効にするか無効にするか選べるようになりました。</li>
+<li>記事コピーオプションが追加されました。 (静的ページプラグインやカレンダープラグインのように).</li>
+<li>新しく 自動タグ <code>[user:]</code> が提供されました。ユーザプロファイルへのリンクができます。</li>
 </ul>
 
-<h3>Other changes</h3>
+<h3>その他の変更</h3>
 
 <ul>
-<li>The minimum requirements for Geeklog are now <strong>PHP 4.4.0</strong>
-    and <strong>MySQL 4.0.18</strong>.</li>
-<li>Ships with <a href="http://www.fckeditor.net/">FCKeditor</a> 2.6.6</li>
-<li>Please also see the list of <a href="theme.html#changes">theme changes</a>.</li>
+<li>GeeklogのPHPとMySQLのシステム条件は、 <strong>PHP 4.4.0</strong>
+    と <strong>MySQL 4.0.18</strong>に引き上げられました。</li>
+<li><a href="http://www.fckeditor.net/">FCKeditor</a> 2.6.6 にアップグレードして同梱しました。</li>
+<li><a href="theme.html#changes">theme changes</a>も参照してください。</li>
 </ul>
 
-<p>This release also includes a number of patches and improvements made by
-students applying for participation in the Google Summer of Code 2010. Thank
-you!</p>
+<p>このリリースもまたGoogle Summer of Code 2010の学生たちのたくさんのパッチと開発を含んでいます。ありがとうございます！</p>
 
 
 <h2><a name="changes161">Geeklog 1.6.1</a></h2>
@@ -764,7 +755,7 @@ you!</p>
 <p>寄稿者: Gene Wood、 Blaine Lang、 Tom Willet、及び Roger Websterが本リリースに寄稿いたしました。</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net">Geeklogドキュメント作成プロジェクト(The Geeklog Documentation Project)</a><br>
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト</a>、<a href="http://wiki.geeklog.jp/">Geeklogドキュメント日本語版作成プロジェクト</a><br>
     本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 

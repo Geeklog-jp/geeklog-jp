@@ -65,8 +65,8 @@ $LANG_POLLS = array(
     'pollclosed' => 'このアンケートは投票を終了しました。',
     'pollhidden' => 'あなたは既に投票済みです。このアンケートの結果は投票終了後に公開されます。',
     'start_poll' => '投稿する',
-    'no_new_polls' => 'No new polls',
-    'deny_msg' => 'Access to this poll is denied.  Either the poll has been moved/removed or you do not have sufficient permissions.'
+    'no_new_polls' => 'No new polls(翻訳候補:新しいアンケートはありません)',
+    'deny_msg' => 'Access to this poll is denied.  Either the poll has been moved/removed or you do not have sufficient permissions.(翻訳候補:このアンケートへのアクセスはできません。（このアンケートは移動したか削除されているか、あるいはアクセス権がありません。）)'
 );
 
 ###############################################################################
@@ -140,9 +140,9 @@ $LANG_confignames['polls'] = array(
     'delete_polls' => '所有者の削除と共に削除する',
     'aftersave' => 'アンケート保存後の画面遷移',
     'default_permissions' => 'パーミッション',
-    'newpollsinterval' => 'New Polls Interval',
-    'hidenewpolls' => 'New Polls',
-    'title_trim_length' => 'Title Trim Length',
+    'newpollsinterval' => 'New Polls Interval(翻訳候補:アンケート投稿の間隔)',
+    'hidenewpolls' => 'New Polls(翻訳候補:新着アンケート)',
+    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトルトリミング長)',
     'meta_tags' => 'メタタグを有効にする'
 );
 
