@@ -229,7 +229,7 @@ $LANG03 = array(
     41 => 'こんにちは %s,',
     42 => '通知解除',
     43 => '返信の通知を解除する',
-    44 => 'Your Name'
+    44 => 'Your Name(翻訳候補:ユーザ名)'
 );
 
 ###############################################################################
@@ -393,9 +393,9 @@ $LANG04 = array(
     160 => '(最大. %d X %d ピクセル, %d バイト; %s)',
     161 => 'リサイズ',
     162 => 'リサイズなし',
-    163 => 'Re-Authentication Failed',
-    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
-    165 => 'Use Advanced Editor'
+    163 => 'Re-Authentication Failed(翻訳候補:再認証エラーです。)',
+    164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.(翻訳候補:再認証回数を超えました。)',
+    165 => 'Use Advanced Editor(翻訳候補:アドバンストエディタを使う)'
 );
 
 ###############################################################################
@@ -543,8 +543,8 @@ $LANG09 = array(
     68 => 'ソート',
     69 => 'タイトルのみ',
     70 => 'ありません ...',
-    71 => 'asc',
-    72 => 'desc'
+    71 => 'asc(翻訳候補:asc)',
+    72 => 'desc(翻訳候補:desc)'
 );
 
 ###############################################################################
@@ -727,7 +727,7 @@ $LANG21 = array(
     47 => '',
     48 => 'ブロックID',
     49 => '(半角英数字とハイフン)',
-    50 => 'The Block Name can not be empty',
+    50 => 'The Block Name can not be empty(翻訳候補:ブロック名は必須入力です)',
     51 => 'http://を含む',
     52 => '空欄のままにしておくと、このブロックに対するヘルプのアイコンは表示されません',
     53 => '有効',
@@ -972,9 +972,9 @@ $LANG28 = array(
     85 => 'パスワードを紛失した場合には、以下のリンクをクリックしてください: %s',
     86 => '含む',
     87 => 'リマインダー',
-    88 => 'Default Group',
-    89 => 'Check to make this a default group for new users',
-    90 => 'Apply "Default Group" change to existing user accounts'
+    88 => 'Default Group(翻訳候補:デフォルトグループ)',
+    89 => 'Check to make this a default group for new users(翻訳候補:新規登録ユーザのデフォルトグループをチェック)',
+    90 => 'Apply "Default Group" change to existing user accounts(翻訳候補:登録済みユーザアカウントにデフォルトグループを追加する)'
 );
 
 ###############################################################################
@@ -1598,7 +1598,7 @@ $LANG_ADMIN = array(
     'create_new_adv' => '新規作成(アドバンスト)',
     'enabled' => '有効',
     'title' => 'タイトル',
-    'page_title' => 'Page Title',
+    'page_title' => 'Page Title(翻訳候補:ページタイトル)',
     'type' => 'タイプ',
     'topic' => '話題',
     'help_url' => 'ヘルプURL',
@@ -1618,9 +1618,9 @@ $LANG_ADMIN = array(
     'meta_keywords' => 'キーワードのメタタグ',
     'na' => 'N/A',
     'token_expiry' => '%s までに編集してください。この時刻を過ぎると、このページに埋め込まれたセキュリティートークンは期限切れとなり、編集内容は失われます。',
-    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
-    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
-    'authenticate' => 'Authenticate'
+    'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.(翻訳候補:この操作のセキュリティトークンは期限切れになりました。続けるには再度認証してください。)',
+    'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.(翻訳候補:この操作のセキュリティトークンは期限切れになりました。続けるには下に表示されている認証を行なってください。そうすることによって編集は失われることはありません。',
+    'authenticate' => 'Authenticate(翻訳候補:認証する)'
 );
 
 # Localisation of the texts for the various drop-down menus that are actually
@@ -1865,7 +1865,7 @@ $LANG_confignames['Core'] = array(
     'max_photo_height' => '高さの最大値',
     'max_photo_size' => 'ファイルサイズの最大値',
     'use_gravatar' => 'Gravatarを使用する',
-    'gravatar_rating' => 'Gravatar評価を許可',
+    'gravatar_rating' => 'Gravatar評価',
     'force_photo_width' => '幅を固定する',
     'default_photo' => '写真のデフォルト',
     'commentspeedlimit' => '投稿間隔制限',
@@ -1913,7 +1913,7 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => '表示件数の選択オプションを表示する',
     'search_separator' => 'グループのセパレータ',
     'search_def_keytype' => '検索条件のデフォルト',
-    'search_def_sort' => 'Default Sort Order'
+    'search_def_sort' => 'Default Sort Order(翻訳候補:ソート順のデフォルト)'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1996,10 +1996,10 @@ $LANG_configselects['Core'] = array(
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
     23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみデフォルトを使用する)' => 2),
-    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
-    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
-    26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
+    24 => array('Contribute(翻訳候補:)' => 'contribute', 'Home' => 'home', 'Advanced Search(翻訳候補:詳しい検索)' => 'search', 'Directory(翻訳候補:ディレクトリ)' => 'directory', 'My Account(翻訳候補:マイアカウント)' => 'prefs', 'Plugin Entries(翻訳候補:プラグインエントリ)' => 'plugins', 'Custom Entries(翻訳候補:カスタムエントリ)' => 'custom', 'Site Statistics(翻訳候補:サイトステータス)' => 'stats'),
+    25 => array('New Stories(翻訳候補:新着記事)' => 'story', 'New Comments(翻訳候補:新着コメント)' => 'comment', 'New Trackbacks(翻訳候補:新着トラックバックス)' => 'trackback', 'New Pingbacks' => 'pingback(翻訳候補:新着ピングバック)', 'New Users(翻訳候補:新着ユーザ)' => 'user'),
+    26 => array('G (General Audiences(翻訳候補:一般ユーザ))' => 'G', 'PG (Parental Guidance)(翻訳候補:？)' => 'PG', 'R (Restricted)(翻訳候補:制限つき)' => 'R', 'X (Explicit)(翻訳候補:明確な)' => 'X'),
+    27 => array('Hits (asc)(翻訳候補:閲覧数 (asc))' => 'hits|asc', 'Hits (desc)(翻訳候補:閲覧数 (desc))' => 'hits|desc', 'Date (asc)(翻訳候補:日付 (desc))' => 'date|asc', 'Date (desc)(翻訳候補:日付 (desc))' => 'date|desc', 'Title (asc)(翻訳候補:タイトル (asc))' => 'title|asc', 'Title (desc)(翻訳候補:タイトル (desc))' => 'title|desc', 'Author (asc)(翻訳候補:所有者 (asc))' => 'uid|asc', 'Author (desc)(翻訳候補:所有者 (desc))' => 'uid|desc')
 );
 
 ?>
