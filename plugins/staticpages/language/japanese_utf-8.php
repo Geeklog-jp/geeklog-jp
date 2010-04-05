@@ -45,7 +45,7 @@ $LANG_STATIC = array(
     'writtenby' => '所有者',
     'date' => '最終更新日',
     'title' => 'タイトル',
-    'page_title' => 'Page Title',
+    'page_title' => 'Page Title(翻訳候補:ページタイトル)',
     'content' => '内容',
     'hits' => '閲覧数',
     'staticpagelist' => '静的ページ管理',
@@ -116,16 +116,16 @@ $LANG_STATIC = array(
     'submit' => '登録',
     'no_new_pages' => '-',
     'pages' => 'ページ',
-    'comments' => 'Comments',
-    'draft' => 'Draft',
-    'draft_yes' => 'Yes',
-    'draft_no' => 'No'
+    'comments' => 'Comments(翻訳候補:コメント)',
+    'draft' => 'Draft(翻訳候補:ドラフト)',
+    'draft_yes' => 'Yes(翻訳候補:はい)',
+    'draft_no' => 'No(翻訳候補:いいえ)'
 );
 
 $PLG_staticpages_MESSAGE15 = 'コメントは投稿されました。管理者の承認をお待ちください。';
 $PLG_staticpages_MESSAGE19 = '静的ページを保存しました。';
 $PLG_staticpages_MESSAGE20 = '静的ページを削除しました。';
-$PLG_staticpages_MESSAGE21 = 'This page does not exist yet. To create the page, please fill in the form below. If you are here by mistake, click the Cancel button.';
+$PLG_staticpages_MESSAGE21 = 'This page does not exist yet. To create the page, please fill in the form below. If you are here by mistake, click the Cancel button.(翻訳候補:このページはありません。ページを作成するには、下のフォームにすべてを入力してください。ミスオペレーションならキャンセルボタンをクリックして戻ってください。)';
 
 // Messages for the plugin upgrade
 $PLG_staticpages_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
@@ -185,7 +185,7 @@ $LANG_configselects['staticpages'] = array(
     5 => array('Hide' => 'hide', 'Show - Use Modified Date' => 'modified', 'Show - Use Created Date' => 'created'),
     9 => array('編集した静的ページを表示する' => 'item', '静的ページ管理を表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
-    17 => array('Comments Enabled' => 0, 'Comments Disabled' => -1)
+    17 => array('Comments Enabled(翻訳候補:コメント有効)' => 0, 'Comments Disabled(翻訳候補:コメント無効)' => -1)
 );
 
 ?>
