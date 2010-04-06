@@ -142,7 +142,7 @@ $LANG_confignames['polls'] = array(
     'default_permissions' => 'パーミッション',
     'newpollsinterval' => 'New Polls Interval(翻訳候補:アンケート投稿の間隔)',
     'hidenewpolls' => 'New Polls(翻訳候補:新着アンケート)',
-    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトルトリミング長)',
+    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトルトリミング文字数)',
     'meta_tags' => 'メタタグを有効にする'
 );
 
@@ -161,7 +161,7 @@ $LANG_configselects['polls'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => true, 'いいえ' => false),
     2 => array('登録順' => 'submitorder', '得票順' => 'voteorder'),
-    5 => array('Hide' => 'hide', 'Show - Use Modified Date' => 'modified', 'Show - Use Created Date' => 'created'),
+    5 => array('Hide(翻訳候補:表示しない)' => 'hide', 'Show - Use Modified Date(翻訳候補:編集日付によって表示する)' => 'modified', 'Show - Use Created Date(翻訳候補:作成日付によって表示する)' => 'created'),
     9 => array('作成したアンケートを表示する' => 'item', 'アンケート管理を表示する' => 'list', 'アンケート一覧を表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
