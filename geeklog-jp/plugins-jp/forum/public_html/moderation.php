@@ -134,11 +134,11 @@ if (forum_modPermission($forum,$_USER['uid'])) {
             if ($top == 'yes') {
 //                $link = "{$_CONF['site_url']}/forum/index.php?forum=$forum";
 //                $display .= forum_statusMessage($LANG_GF02['msg55'],$link,$LANG_GF02['msg55'],true,$forum);
-                $display = COM_refresh($_CONF['site_url'] . "/forum/index.php?msg=3&amp;forum=$forum");
+                $display = COM_refresh($_CONF['site_url'] . "/forum/index.php?msg=3&forum=$forum");
             } else {
 //                $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$msgpid";
 //                $display .= forum_statusMessage($LANG_GF02['msg55'],$link,$LANG_GF02['msg55'],true,$forum);
-                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=5&amp;showtopic=$msgpid");
+                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=5&showtopic=$msgpid");
             }
 //            $display .= gf_siteFooter();
             echo $display;
@@ -155,7 +155,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
             DB_query("INSERT INTO {$_TABLES['gf_banned_ip']} (host_ip) VALUES ('$hostip')");
 //            $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$fortopicid";
 //            $display .= forum_statusMessage($LANG_GF02['msg56'],$link,$LANG_GF02['msg56']);
-            $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=6&amp;showtopic=$fortopicid");
+            $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=6&showtopic=$fortopicid");
 //            $display .= gf_siteFooter();
             echo $display;
             exit();
@@ -226,7 +226,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
                 }
 //                $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$moveid";
 //                $display .= forum_statusMessage(sprintf($LANG_GF02['msg183'],$movetoforum),$link,$LANG_GF02['msg183']);
-                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=7&amp;showtopic=$moveid");
+                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=7&showtopic=$moveid");
 
             } else {  // Move complete topic
                 $moveResult = DB_query("SELECT id FROM {$_TABLES['gf_topic']} WHERE pid=$moveid");
@@ -252,7 +252,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
                 DB_query("DELETE FROM {$_TABLES['gf_log']} WHERE topic='$moveid'");
 //                $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$moveid";
 //                $display .= forum_statusMessage($LANG_GF02['msg163'],$link,$LANG_GF02['msg163']);
-                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=8&amp;showtopic=$moveid");
+                $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=8&showtopic=$moveid");
             }
 //            $display .= gf_siteFooter();
             echo $display;

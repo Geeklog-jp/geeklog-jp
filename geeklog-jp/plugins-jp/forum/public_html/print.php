@@ -88,7 +88,7 @@ if ($id == 0 OR DB_count($_TABLES['gf_topic'],"id","$id") == 0) {
 //    $display .= COM_siteHeader();
 //    $display .= forum_statusMessage($LANG_GF02['msg166'], $_CONF['site_url'] . "/forum/index.php?forum=$forum",$LANG_GF02['msg166']);
 //    $display .= COM_siteFooter();
-    $display = COM_refresh($_CONF['site_url'] . "/forum/index.php?msg=2&amp;forum=$forum");
+    $display = COM_refresh($_CONF['site_url'] . "/forum/index.php?msg=2&forum=$forum");
     COM_output($display);
     exit;
 }
