@@ -487,7 +487,7 @@ if ($op == 'subscribe') {
         // Delete all individual topic notification records
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id > '0' " );
 //        $display .= forum_statusMessage($LANG_GF02['msg134'],$_CONF['site_url'] .'/forum/index.php?forum=' .$forum,$LANG_GF02['msg135']);
-        $display = COM_refresh($_CONF['site_url'] .'/forum/index.php?msg=1&amp;forum=' .$forum);
+        $display = COM_refresh($_CONF['site_url'] .'/forum/index.php?msg=1&forum=' .$forum);
         COM_output($display);
         exit();
     } else {
