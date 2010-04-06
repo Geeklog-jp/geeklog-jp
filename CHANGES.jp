@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-06  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: 携帯から投稿した直後にエラーが発生する問題を修正しまし
+	  た。
+
 2010-04-05  Takahiro Kambe  <tacahi>
 
 	* geeklog 1.7.0beta1をマージしました。
