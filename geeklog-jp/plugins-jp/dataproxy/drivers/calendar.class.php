@@ -183,7 +183,10 @@ class Dataproxy_calendar extends DataproxyDriver
 		
 		$entries = array();
 
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['events']} "
 			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '$this->startdate' AND '$this->enddate') ";
