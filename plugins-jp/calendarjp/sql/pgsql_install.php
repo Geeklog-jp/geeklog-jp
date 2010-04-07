@@ -4,7 +4,7 @@
 // +---------------------------------------------------------------------------+
 // | Calendarjp Plugin for Geeklog                                             |
 // +---------------------------------------------------------------------------+
-// | mysql_install.php                                                         |
+// | psgql_install.php                                                         |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2008-2010 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
@@ -40,29 +40,28 @@ CREATE TABLE {$_TABLES['eventsjp']} (
   datestart date default NULL,
   dateend date default NULL,
   url varchar(255) default NULL,
-  hits mediumint(8) unsigned NOT NULL default '0',
-  owner_id mediumint(8) unsigned NOT NULL default '1',
-  group_id mediumint(8) unsigned NOT NULL default '1',
-  perm_owner tinyint(1) unsigned NOT NULL default '3',
-  perm_group tinyint(1) unsigned NOT NULL default '3',
-  perm_members tinyint(1) unsigned NOT NULL default '2',
-  perm_anon tinyint(1) unsigned NOT NULL default '2',
+  hits int  NOT NULL default '0',
+  owner_id int NOT NULL default '1',
+  group_id int NOT NULL default '1',
+  perm_owner int NOT NULL default '3',
+  perm_group int NOT NULL default '3',
+  perm_members int NOT NULL default '2',
+  perm_anon int NOT NULL default '2',
   address1 varchar(40) default NULL,
   address2 varchar(40) default NULL,
   city varchar(60) default NULL,
   state varchar(40) default NULL,
-  zipcode varchar(8) default NULL,
-  allday tinyint(1) NOT NULL default '0',
+  zipcode varchar(5) default NULL,
+  allday int NOT NULL default '0',
   event_type varchar(40) NOT NULL default '',
   location varchar(128) default NULL,
   timestart time default NULL,
   timeend time default NULL,
-  INDEX events_eid(eid),
-  INDEX events_event_type(event_type),
-  INDEX events_datestart(datestart),
-  INDEX events_dateend(dateend),
-  PRIMARY KEY  (eid)
-) ENGINE=MyISAM
+  PRIMARY KEY  (eid));
+  CREATE INDEX events_eid ON {$_TABLES['eventsjp']}(eid);
+  CREATE INDEX events_event_type ON {$_TABLES['eventsjp']}(event_type);
+  CREATE INDEX events_datestart ON {$_TABLES['eventsjp']}(datestart);
+  CREATE INDEX events_dateend ON {$_TABLES['eventsjp']}(dateend);
 ";
 
 $_SQL[] = "
@@ -74,8 +73,8 @@ CREATE TABLE {$_TABLES['eventsubmissionjp']} (
   datestart date default NULL,
   dateend date default NULL,
   url varchar(255) default NULL,
-  allday tinyint(1) NOT NULL default '0',
-  zipcode varchar(8) default NULL,
+  allday int NOT NULL default '0',
+  zipcode varchar(5) default NULL,
   state varchar(40) default NULL,
   city varchar(60) default NULL,
   address2 varchar(40) default NULL,
@@ -83,9 +82,9 @@ CREATE TABLE {$_TABLES['eventsubmissionjp']} (
   event_type varchar(40) NOT NULL default '',
   timestart time default NULL,
   timeend time default NULL,
-  owner_id mediumint(8) unsigned NOT NULL default '1',
+  owner_id int NOT NULL default '1',
   PRIMARY KEY  (eid)
-) ENGINE=MyISAM
+)
 ";
 
 $_SQL[] = "
@@ -99,27 +98,27 @@ CREATE TABLE {$_TABLES['personal_eventsjp']} (
   address2 varchar(40) default NULL,
   city varchar(60) default NULL,
   state varchar(40) default NULL,
-  zipcode varchar(8) default NULL,
-  allday tinyint(1) NOT NULL default '0',
+  zipcode varchar(5) default NULL,
+  allday int NOT NULL default '0',
   url varchar(255) default NULL,
   description text,
   postmode varchar(10) NOT NULL default 'plaintext',
-  owner_id mediumint(8) unsigned NOT NULL default '1',
-  group_id mediumint(8) unsigned NOT NULL default '1',
-  perm_owner tinyint(1) unsigned NOT NULL default '3',
-  perm_group tinyint(1) unsigned NOT NULL default '3',
-  perm_members tinyint(1) unsigned NOT NULL default '2',
-  perm_anon tinyint(1) unsigned NOT NULL default '2',
-  uid mediumint(8) NOT NULL default '0',
+  owner_id int  NOT NULL default '1',
+  group_id int NOT NULL default '1',
+  perm_owner int NOT NULL default '3',
+  perm_group int NOT NULL default '3',
+  perm_members int NOT NULL default '2',
+  perm_anon int  NOT NULL default '2',
+  uid int NOT NULL default '0',
   location varchar(128) default NULL,
   timestart time default NULL,
   timeend time default NULL,
   PRIMARY KEY  (eid,uid)
-) ENGINE=MyISAM
+)
 ";
 
-//$_SQL[] = "INSERT INTO {$_TABLES['eventsubmissionjp']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend, owner_id) VALUES ('2008050110130162','Installed the Calendarjp plugin','Today, you successfully installed the Calendarjp plugin.','Your webserver',CURDATE(),CURDATE(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,1)";
+//$_SQL[] = "INSERT INTO {$_TABLES['eventsubmissionjp']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend) VALUES ('2008050110130162','Installed the Calendarjp plugin','Today, you successfully installed the Calendarjp plugin.','Your webserver',CURDATE(),CURDATE(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL)";
 
-$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'eventsjp_block','phpblock','Events','all',100,'',1,'phpblock_calendarjp',{$_USER['uid']},#group#,3,3)";
+$_SQL[] = "INSERT INTO {$_TABLES['blocks']} (bid,is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES ((SELECT NEXTVAL('{$_TABLES['blocks']}_bid_seq')),1,'eventsjp_block','phpblock','Events','all',100,'',1,'phpblock_calendarjp',{$_USER['uid']},#group#,3,3)";
 
 ?>
