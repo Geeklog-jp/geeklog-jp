@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/polls.class.php                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2010 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -85,7 +85,13 @@ class Dataproxy_polls extends DataproxyDriver
 				$retval['title']     = $A['topic'];
 				$retval['uri']       = $_CONF['site_url']
 									 . '/polls/index.php?pid=' . urlencode($id);
-				$retval['date']      = strtotime($A['date']);
+				
+				if ($this->_isGL170) {
+					$retval['date'] = strtotime($A['modified']);
+				} else {
+					$retval['date'] = strtotime($A['date']);
+				}
+				
 				$retval['image_uri'] = false;
 				$retval['raw_data']  = $A;
 			}
@@ -135,8 +141,14 @@ class Dataproxy_polls extends DataproxyDriver
 		$entries = array();
 		
 		if (version_compare(VERSION, '1.5.0') >= 0) {
-			$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
-				 . "FROM {$_TABLES['polltopics']} ";
+			if ($this->_isGL170) {
+				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(modified) AS day "
+					 . "FROM {$_TABLES['polltopics']} ";
+			} else {
+				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
+					 . "FROM {$_TABLES['polltopics']} ";
+			}
+			
 			if ($this->uid > 0) {
 				$sql .= COM_getPermSQL('WHERE', $this->uid);
 			}
@@ -198,12 +210,23 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql_date = "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		
 		if (version_compare(VERSION, '1.5.0') >= 0) {
-			$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
-				 . "FROM {$_TABLES['polltopics']} "
-				 . "WHERE (1 = 1) " . $sql_date;
+			if ($this->_isGL170) {
+				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(modified) AS day "
+					 . "FROM {$_TABLES['polltopics']} "
+					 . "WHERE (1 = 1) "
+					 . "AND (UNIX_TIMESTAMP(modified) BETWEEN '$this->startdate' AND '$this->enddate') ";
+			} else {
+				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
+					 . "FROM {$_TABLES['polltopics']} "
+					 . "WHERE (1 = 1) " . $sql_date;
+			}
 			if ($this->uid > 0) {
 				$sql .= COM_getPermSQL('AND', $this->uid);
 			}

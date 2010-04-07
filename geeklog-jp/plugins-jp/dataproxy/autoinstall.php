@@ -8,9 +8,10 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009 by the following authors:                              |
+// | Copyright (C) 2009-2010 by the following authors:                         |
 // |                                                                           |
 // | Authors: Hiroron           - hiroron AT hiroron DOT com                   |
+// |          mystral-kk        - geeklog AT mystral-kk DOT net                |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -35,7 +36,7 @@
 * @package DataProxy
 */
 
-require_once 'config.php';
+require_once dirname(__FILE__) . '/config.php';
 
 /**
 * Plugin autoinstall function
