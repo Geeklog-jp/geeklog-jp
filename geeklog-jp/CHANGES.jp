@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-07  mystral-kk <mystral-kk>
+
+	* DataproxyプラグインとSitemapプラグインをGeeklog-1.7.0b1に対応させまし
+	  た。
+
 2010-04-07  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: Geeklog 1.7.0b1のcalendarプラグインの変更を
