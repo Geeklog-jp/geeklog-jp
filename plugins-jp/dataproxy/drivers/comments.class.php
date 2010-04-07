@@ -169,10 +169,14 @@ class Dataproxy_comments extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (!empty($category) && !in_array($category, $this->getAllDriverNames())) {
+		if (!empty($category) AND !in_array($category, $this->getAllDriverNames())) {
 			return $entries;
 		}
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT cid, title, UNIX_TIMESTAMP(date) AS day "
 			 . "FROM {$_TABLES['comments']} "
 			 . "WHERE (1 = 1) ";
