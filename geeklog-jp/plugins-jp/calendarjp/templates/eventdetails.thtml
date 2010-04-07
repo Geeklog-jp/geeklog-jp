@@ -11,7 +11,7 @@
     </tr>
     <tr valign="top">
         <td align="right"><b>{lang_where}:</b></td>
-        <td>
+        <td class="location">
             {event_zip} {event_state_name_only}{event_city}{brCityetc}
             {event_address1}{br1}
             {event_address2}{br2}
@@ -20,7 +20,7 @@
     </tr>
     <tr valign="top">
         <td align="right"><b>{lang_description}:</b></td>
-        <td>{event_description}</td>
+        <td class="description">{event_description}</td>
     </tr>
     <tr><td colspan="2">{addremove_event} {edit_icon}</td></tr>
 </table><br{xhtml}>

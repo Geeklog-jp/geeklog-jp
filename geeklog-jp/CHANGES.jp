@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-07  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: Geeklog 1.7.0b1のcalendarプラグインの変更を
+	  マージしました。
+
 2010-04-06  Tetsuko Komma  <ivy>
 
 	* geeklog 1.7.0beta1マージ分の日本語ドキュメントの修正を追加しました。

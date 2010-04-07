@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Calendarjp |
 // | plugin's PHP files.                                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
+// | Copyright (C) 2008-2010 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
@@ -78,13 +78,13 @@ $_TABLES['personal_eventsjp']     = $_DB_table_prefix . 'personal_eventsjp';
 * NOTE: this MUST return the url/value pairs in the following format
 * $<arrayname>[<label>] = <url>
 *
-* @return   mixed   menu entry, or boolean false if disabled / hidden
 */
 function plugin_getmenuitems_calendarjp()
 {
-    global $_CONF, $_CAJP_CONF, $LANG_CALJP_1;
+    global $_CONF, $_USER, $_CAJP_CONF, $LANG_CALJP_1;
 
-    if (($_CAJP_CONF['hidecalendarmenu'] == 1) || (COM_isAnonUser() &&
+    $anon = (empty ($_USER['uid']) || ($_USER['uid'] <= 1)) ? true : false;
+    if (($_CAJP_CONF['hidecalendarmenu'] == 1) || ($anon &&
             ($_CONF['loginrequired'] || $_CAJP_CONF['calendarloginrequired']))) {
         return false;
     }
@@ -129,22 +129,30 @@ function phpblock_calendarjp( $help='', $title='' )
             $title = DB_getItem( $_TABLES['blocks'], 'title',
                                  "name = 'eventsjp_block'" );
         }
-
         $eventSql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
         . "FROM {$_TABLES['eventsjp']} ";
         if($_DB_dbms == 'mssql') {
             $eventSql .= "WHERE dateend >= DATEADD(hh, 24, NOW()) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
-        } else {
+        } else if($_DB_dbms =='pgsql')
+        {
+            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL '1 day') AND (NOW() - INTERVAL '$range days') < datestart ";   
+        } 
+        else {
             $eventSql .= "WHERE dateend >= (NOW() - INTERVAL 24 HOUR) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
         }
         $eventSql .= 'ORDER BY datestart,timestart';
 
-        if(( $_CAJP_CONF['personalcalendars'] == 1 ) && !empty( $_USER['uid'] )) {
+        if (($_CAJP_CONF['personalcalendars'] == 1) && !COM_isAnonUser()) {
             $personaleventsql = 'SELECT eid,title,url,datestart,dateend,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon '
             . "FROM {$_TABLES['personal_eventsjp']} ";
             if($_DB_dbms == 'mssql') {
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= DATEADD(hh, 24, getUTCDate())  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
-            } else {
+            }
+            else if($_DB_dbms=='pgsql')
+            {
+                $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL '1 day')  AND (NOW() - INTERVAL '$range days') < datestart ";
+            }
+             else {
                 $personaleventsql .= "WHERE uid = {$_USER['uid']} AND dateend >= (NOW() - INTERVAL 24 HOUR)  AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
             }
             $personaleventsql .= 'ORDER BY datestart, dateend';
@@ -159,7 +167,7 @@ function phpblock_calendarjp( $help='', $title='' )
         $oldDate1 = 'no_day';  // Invalid Date!
         $oldDate2 = 'last_d';  // Invalid Date!
 
-        if( $_CAJP_CONF['personalcalendars'] == 1 AND !empty( $_USER['uid'] )) {
+        if (($_CAJP_CONF['personalcalendars'] == 1) AND !COM_isAnonUser()) {
             $iterations = 2;
         } else {
             $iterations = 1;
@@ -343,6 +351,9 @@ function plugin_ismoderator_calendarjp()
 
 /**
 * Returns SQL & Language texts to moderation.php
+*
+* @return   mixed   Plugin object or void if not allowed
+*
 */
 function plugin_itemlist_calendarjp()
 {
@@ -398,7 +409,7 @@ function plugin_moderationvalues_calendarjp()
 */
 function plugin_moderationapprove_calendarjp ($id)
 {
-    global $_CAJP_CONF, $_GROUPS, $_TABLES, $_USER;
+    global $_CAJP_CONF, $_GROUPS, $_TABLES;
 
     // The eventsubmission table only keeps track of the submitter's uid,
     // but not of grous and permissions. So set those to sensible defaults.
@@ -668,7 +679,7 @@ function plugin_savesubmission_calendarjp($A)
                      'uid,eid,title,event_type,url,datestart,timestart,dateend,timeend,allday,location,address1,address2,city,state,zipcode,description',
                      "{$_USER['uid']},'{$A['eid']}','{$A['title']}','{$A['event_type']}','{$A['url']}','{$A['datestart']}','{$A['timestart']}','{$A['dateend']}','{$A['timeend']}',{$A['allday']},'{$A['location']}','{$A['address1']}','{$A['address2']}','{$A['city']}','{$A['state']}','{$A['zipcode']}','{$A['description']}'");
             $retval = COM_refresh ($_CONF['site_url']
-                                   . '/calendarjp/index.php?mode=personal&amp;msg=17');
+                                   . '/calendarjp/index.php?mode=personal&msg=17');
         }
 
     } else { // personal calendars are disabled
@@ -699,7 +710,7 @@ function plugin_getheadercode_calendarjp()
 */
 function plugin_submit_calendarjp($mode = 'master')
 {
-    global $_CONF, $_USER, $_CAJP_CONF, $LANG_CALJP_1;
+    global $_CONF, $_CAJP_CONF, $LANG_CALJP_1, $LANG12;
 
     if (isset($_POST['calendar_type'])) {
         $mode = $_POST['calendar_type'];
@@ -758,6 +769,10 @@ function plugin_submit_calendarjp($mode = 'master')
     $retval .= COM_startBlock ($LANG_CALJP_1[26], 'submitevent.html');
     $eventform = new Template ($_CONF['path'] . 'plugins/calendarjp/templates/');
     $eventform->set_file ('eventform', 'submitevent' . ($ja ? '_ja' : '') . '.thtml');
+    $eventform->set_var ('xhtml', XHTML);
+    $eventform->set_var ('site_url', $_CONF['site_url']);
+    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
+    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     if ($mode != 'personal') {
         $eventform->set_var ('explanation', $LANG_CALJP_1[27]);
         $eventform->set_var ('submit_url', '/submit.php');
@@ -770,9 +785,6 @@ function plugin_submit_calendarjp($mode = 'master')
     } else {
         $eventform->set_var ('hour_mode', 12);
     }
-    $eventform->set_var ('site_url', $_CONF['site_url']);
-    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     $eventform->set_var ('lang_title', $LANG_CALJP_1[28]);
 
     $eventform->set_var('lang_eventtype', $LANG_CALJP_1[37]);
@@ -875,7 +887,8 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('lang_location', $LANG_CALJP_1[39]);
     $eventform->set_var('lang_description', $LANG_CALJP_1[5]);
     $eventform->set_var('lang_htmnotallowed', $LANG_CALJP_1[44]);
-    $eventform->set_var('lang_submit', $LANG_CALJP_1[45]);
+    PLG_templateSetVars('calendarjp', $eventform);
+    $eventform->set_var('lang_submit', $LANG12[8]);
     $eventform->set_var('mode', $mode);
     if ($mode == 'personal') {
         $token = SEC_createToken();
@@ -885,7 +898,6 @@ function plugin_submit_calendarjp($mode = 'master')
     } else {
         $eventform->set_var('hidden_fields', '');
     }
-    $eventform->set_var('xhtml', XHTML);
     $eventform->parse('theform', 'eventform');
     $retval .= $eventform->finish($eventform->get_var('theform'));
     $retval .= COM_endBlock();
@@ -953,12 +965,17 @@ function CALENDARJP_listOld()
     $retval = '';
 
     $header_arr = array(      # display 'text' and use table field 'field'
-        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true),
-        array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'username', 'sort' => true),
-        array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false),
-        array('text' => $LANG_CALJP_ADMIN[14], 'field' => 'datestart', 'sort' => true),
-        array('text' => $LANG_CALJP_ADMIN[15], 'field' => 'dateend', 'sort' => true)
+        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true)
     );
+
+    if ($_CONF['show_fullname'] == 1) {
+        $header_arr[] = array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'fullname', 'sort' => true);
+    } else {
+        $header_arr[] = array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'username', 'sort' => true);
+    }
+    $header_arr[] = array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false);
+    $header_arr[] = array('text' => $LANG_CALJP_ADMIN[14], 'field' => 'datestart', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_CALJP_ADMIN[15], 'field' => 'dateend', 'sort' => true);
 
     $defsort_arr = array('field' => 'datestart', 'direction' => 'desc');
 
@@ -973,10 +990,10 @@ function CALENDARJP_listOld()
 
     $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/admin');
     $cal_templates->set_file (array ('form' => 'batchdelete.thtml'));
-    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var ('site_url', $_CONF['site_url']);
-    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
     $cal_templates->set_var('xhtml', XHTML);
+    $cal_templates->set_var ('site_url', $_CONF['site_url']);
+    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
+    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
     $cal_templates->set_var ('usr_time', $usr_time);
     $cal_templates->set_var ('lang_text_start', $LANG_CALJP_ADMIN[28]);
     $cal_templates->set_var ('lang_text_end', $LANG_CALJP_ADMIN[29]);
@@ -1074,12 +1091,16 @@ function CALENDARJP_listevents()
     $header_arr = array(      # display 'text' and use table field 'field'
         array('text' => $LANG_ADMIN['edit'], 'field' => 'edit', 'sort' => false),
         array('text' => $LANG_ADMIN['copy'], 'field' => 'copy', 'sort' => false),
-        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true),
-        array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'username', 'sort' => true),
-        array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false),
-        array('text' => $LANG_CALJP_ADMIN[14], 'field' => 'datestart', 'sort' => true),
-        array('text' => $LANG_CALJP_ADMIN[15], 'field' => 'dateend', 'sort' => true)
+        array('text' => $LANG_ADMIN['title'], 'field' => 'title', 'sort' => true)
     );
+    if ($_CONF['show_fullname'] == 1) {
+        $header_arr[] = array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'fullname', 'sort' => true);
+    } else {
+        $header_arr[] = array('text' => $LANG_CALJP_ADMIN[13], 'field' => 'username', 'sort' => true);
+    }
+    $header_arr[] = array('text' => $LANG_ACCESS['access'], 'field' => 'access', 'sort' => false);
+    $header_arr[] = array('text' => $LANG_CALJP_ADMIN[14], 'field' => 'datestart', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_CALJP_ADMIN[15], 'field' => 'dateend', 'sort' => true);
 
     $defsort_arr = array('field' => 'datestart', 'direction' => 'desc');
 
@@ -1803,7 +1824,7 @@ function plugin_templatesetvars_calendarjp ($templatename, &$template)
 {
     global $LANG_CALJP_1;
 
-    if ($templatename == 'header') {
+    if (($templatename == 'header') || ($templatename == 'footer')) {
         $template->set_var ('button_calendar', $LANG_CALJP_1[16]);
     }
 }
@@ -1818,44 +1839,49 @@ function plugin_getListField_calendarjp($fieldname, $fieldvalue, $A, $icon_arr)
                             $A['perm_group'],$A['perm_members'],$A['perm_anon']);
 
     switch($fieldname) {
-        case "delete":
-            $retval = "<input type=\"checkbox\" name=\"delitem[{$A['eid']}]\" checked=\"checked\"" . XHTML . ">";
-            break;
-        case "edit":
-            if ($access == 3) {
-                $retval = COM_createLink(
-                    $icon_arr['edit'],
-                    "{$_CONF['site_admin_url']}/plugins/calendarjp/index.php"
-                    . "?mode=edit&amp;eid={$A['eid']}");
-            }
-            break;
-        case "copy":
-            if ($access == 3) {
-                $retval = COM_createLink(
-                    $icon_arr['copy'],
-                    "{$_CONF['site_admin_url']}/plugins/calendarjp/index.php"
-                    . "?mode=clone&amp;eid={$A['eid']}");
-            }
-            break;
-        case 'access':
-            if ($access == 3) {
-                $retval = $LANG_ACCESS['edit'];
-            } else {
-                $retval = $LANG_ACCESS['readonly'];
-            }
-            break;
-        case 'title':
-            $retval = stripslashes ($A['title']);
-            $retval = COM_createLink( $retval,
-                "{$_CONF['site_url']}/calendarjp/event.php?eid={$A['eid']}"
-            );
-            break;
-        case 'username':
-            $retval = COM_getDisplayName ($A['owner_id'], $A['username'], $A['fullname']);
-            break;
-        default:
-            $retval = $fieldvalue;
-            break;
+    case 'delete':
+        $retval = "<input type=\"checkbox\" name=\"delitem[{$A['eid']}]\" checked=\"checked\"" . XHTML . ">";
+        break;
+
+    case 'edit':
+        if ($access == 3) {
+            $retval = COM_createLink(
+                $icon_arr['edit'],
+                "{$_CONF['site_admin_url']}/plugins/calendarjp/index.php"
+                . "?mode=edit&amp;eid={$A['eid']}");
+        }
+        break;
+    case 'copy':
+        if ($access == 3) {
+            $retval = COM_createLink(
+                $icon_arr['copy'],
+                "{$_CONF['site_admin_url']}/plugins/calendarjp/index.php"
+                . "?mode=clone&amp;eid={$A['eid']}");
+        }
+        break;
+
+    case 'access':
+        if ($access == 3) {
+            $retval = $LANG_ACCESS['edit'];
+        } else {
+            $retval = $LANG_ACCESS['readonly'];
+        }
+        break;
+
+    case 'title':
+        $retval = COM_createLink(stripslashes($A['title']),
+                    "{$_CONF['site_url']}/calendarjp/event.php?eid={$A['eid']}");
+        break;
+
+    case 'username':
+    case 'fullname':
+        $retval = COM_getDisplayName ($A['owner_id'], $A['username'],
+                                      $A['fullname']);
+        break;
+
+    default:
+        $retval = $fieldvalue;
+        break;
     }
     return $retval;
 }
@@ -1923,9 +1949,10 @@ function plugin_getiteminfo_calendarjp($eid, $what, $uid = 0, $options = array()
             $fields[] = 'title';
             break;
         case 'url':
-            // needed for $eid == '*', but also in case we're only requesting
-            // the URL (so that $fields isn't emtpy)
-            $fields[] = 'eid';
+            if ($eid == '*') {
+                // in this case, we need the eid to build the URL
+                $fields[] = 'eid';
+            }
             break;
         default:
             // nothing to do

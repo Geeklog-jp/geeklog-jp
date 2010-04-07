@@ -39,13 +39,13 @@
     }
 
     function changeHTMLTextAreaSize(element, option) {
-        var size = 0;
-        var size = document.getElementById(element + '___Frame').height;
+        var currentSize = parseInt(document.getElementById(element + '___Frame').style.height);
         if (option == 'larger') {
-            document.getElementById(element + '___Frame').height = +(size) + 50;
+            var newsize = currentSize + 50;
         } else if (option == 'smaller') {
-            document.getElementById(element + '___Frame').height = +(size) - 50;
+            var newsize = currentSize - 50;
         }
+        document.getElementById(element + '___Frame').style.height = newsize + 'px';
     }
 
     function changeTextAreaSize(element, option) {
