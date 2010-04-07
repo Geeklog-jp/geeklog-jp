@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
+// | Copyright (C) 2008-2010 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
@@ -140,6 +140,10 @@ function plugin_compatible_with_this_version_calendarjp($pi_name)
     }
 
     if (!function_exists('SEC_getTokenExpiryNotice')) {
+        return false;
+    }
+
+    if (!function_exists('SEC_loginRequiredForm')) {
         return false;
     }
 

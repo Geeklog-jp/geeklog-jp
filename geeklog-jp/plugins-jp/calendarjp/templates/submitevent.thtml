@@ -110,6 +110,7 @@
             <td><textarea name="description" style="width:98%" cols="50" rows="10"></textarea><br{xhtml}>
             {lang_htmnotallowed}</td>
         </tr>
+        {captcha}
         <tr>
             <td colspan="2">
                 <input type="submit" value="{lang_submit}"{xhtml}>
