@@ -15,53 +15,46 @@
 
 <h2>Apr 4, 2010 (1.7.0b1)</h2>
 
-<p>Geeklog 1.7.0 now supports PostgreSQL, implemented by Stan Palatnik during the
-2009 Google Summer of Code.</p>
+<p>Geeklog 1.7.0 からは、2009 Google Summer of CodeのStan Palatnikさんの成果により、PostgreSQLをサポートします。</p>
 
 <ul>
-  <li>Fixed paths for image upload in FCKeditor (bug #0000931) and disabled Flash
-  upload [Dirk]</li>
-  <li>Updated FCKeditor to version 2.6.6 [Dirk]</li>
-  <li>Raised minimum required PHP version to PHP 4.4.0 [Dirk]</li>
-  <li>Fixed an old bug that would create a new topic when you tried to change the
-  topic ID [Stan, Dirk]</li>
-  <li>Introduced an optional page title for stories (feature request #0001096,
+  <li>FCKeditorのファイルアップロードパスのバグ (bug #0000931) を修正し、Flashのアップロードをしないようにしました。 [Dirk]</li>
+  <li>FCKeditor を version 2.6.6 にしました。[Dirk]</li>
+  <li>PHPのミニマムバージョンをPHP 4.4.0にしました。[Dirk]</li>
+  <li>話題のリネームで新規作成される古くからあったバグを修正しました。 [Stan, Dirk]</li>
+  <li>オプショナルな紹介である記事のページタイトルを追加しました。(feature request #0001096,
   patch provided by Vlad Voicu)</li>
-  <li>A new right called htmlfilter.skip allows user groups to skip any html   
-  filtering on posts (feature request #0000952) [Tom]</li>
-  <li>Allow empty database passwords only for local installs (bug #0000923, patch
-  provided by Chetan)</li>
-  <li>New Plugin API PLG_getWhatsNewComment for adding comments from plugins to the 
-  Whats New Block and the User Profile page (feature request #0000835) [Tom]</li>
-  <li>Truncated stories in Feeds now will have any open html tags closed. 
-  (bug #0000749) [Tom]  </li>
-  <li>Introduced a [user:] autotag that links to a user's profile (feature request
+  <li>投稿する際のHTMLフィルターをスキップする権限 htmlfilter.skip を追加しました。
+  (feature request #0000952) [Tom]</li>
+  <li>ローカルインストールにだけパスワード空白でインストールを許可していたバグを修正しました。
+  (bug #0000923, patch provided by Chetan)</li>
+  <li>新着ブロックとユーザープロファイルページでコメントを表示するための、
+  新着コメントプラグインAPI PLG_getWhatsNewCommentを追加追加しました。(feature request #0000835) [Tom]</li>
+  <li>フィードのhtmlタグが閉じていなかったバグを修正しました。(bug #0000749) [Tom]  </li>
+  <li>ユーザプロファイルページへのリンクを行う自動タグ [user:] を追加しました。(feature request
   #0001081, patch provided by Akeda Bagus)</li>
-  <li>The "Users" entry in the Admins block now displays the number of active users
-  only, i.e. it only counts users that logged in at least once [Dirk]</li>
-  <li>Fixed display of list of allowed HTML tags and available autotags in
-  advanced story editor mode (bug #0001020, patch provided by Chetan)</li>
-  <li>Fixed sort by date in search results (bug #0001002) [Sami]</li>
-  <li>Since we can now re-authenticate expired security tokens, we don't need to
-  display the token expiry notice any longer. Exception: Users who logged in
-  through OpenID can't re-authenticate and will still get the message [Dirk]</li>
-  <li>Block Names can no longer be empty [Dirk]</li>
-  <li>When you had more than 50 blocks per side, disabling a block on one page of
-  the block list would also disable all blocks on all the other pages of the
-  list (reported by cesar)
-  On closer inspection, the same effect could also be triggered when using the
-  list's search or dropdown to only display a certain amount of entries. The
-  same problems also existed in the lists for Feeds, Plugins, and Weblog
-  Directory Services. All fixed now [Dirk]</li>
-  <li>Fixed links to comment pages (bug #0001061) [Tom]</li>
-  <li>Improved comment readability by adding a paragraph tag around "Plain Old Text"
-  comments and some padding in threaded mode (bug #0000833) [Dirk]</li>
-  <li>Hide the "Logout" link when editing a comment or comment submission
+  <li>ユーザブロックではアクティブユーザのみを表示。つまり、少なくとも１回は
+  ログインしたユーザのみカウントするように修正しました。 [Dirk]</li>
+  <li>アドバンストエディタFCKeditorで、許可されたhtmlタグと自動タグの表示における
+  バグを修正しました。 (bug #0001020, patch provided by Chetan)</li>
+  <li>日付による検索結果表示のソートのバグを修正しました。(bug #0001002) [Sami]</li>
+  <li>期限切れのセキュリティトークンの再認証ができるようになったので、セキュティ・
+  トークンの期限を表示する必要がなくなりました。例外: OpenID によるログインユーザは
+  再認証できませんので、そのメッセージは表示されます。[Dirk]</li>
+  <li>ブロックIDは必須入力項目になりました。[Dirk]</li>
+  <li>ブロック管理画面において、片側に50ブロック以上あったとき、すべてのブロックを
+  表示できないバグを修正しました。(reported by cesar)
+  同じように、ユーザリストや記事リスト、フィードのリスト、プラグインリスト、
+  Weblogディレクトリ検索結果の表示で問題がありましたが、すべて修正されました。[Dirk]</li>
+  <li>コメントページへのリンクのバグを修正しました。(bug #0001061) [Tom]</li>
+  <li>paragraph tag を追加して "Plain Old Text"周辺のスレッドモードでのコメントの表示を修正しました。
+  (bug #0000833) [Dirk]</li>
+  <li>コメントやコメント投稿ページで"Logout" リンクを隠しました。
   (bug #0000893) [Dirk]</li>
-  <li>CR and LF are now removed from the submitted password when a user logs in
+  <li>ログイン時のパスワード入力でCR と LF を削除しました。
   (for bug #0000799) [Dirk]</li>
-  <li>Changed the label for the $_CONF['disable_autolinks'] config option to read
-  "Disable Autotags" and updated the documentation (bug #0000912) [Dirk]</li>
+  <li>コンフィギュレーションラベルの$_CONF['disable_autolinks'] は、
+  "Disable Autotags" に変更し、ドキュメントも修正しました。(bug #0000912) [Dirk]</li>
   <li>Allow Spam-X to skip filtering of submitted content from certain user groups
   (feature request #0001018) [Tom]</li>
   <li>Changed the 'gravatar_rating' config option to a dropdown since it only
