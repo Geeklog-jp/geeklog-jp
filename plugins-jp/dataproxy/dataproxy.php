@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/dataproxy.php                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2010 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -53,6 +53,7 @@ class DataproxyDriver
 	var $parent;
 	var $startdate;
 	var $enddate;
+	var $_isGL170 = FALSE;
 	
 	/**
 	* Constructor
@@ -69,6 +70,12 @@ class DataproxyDriver
 		$this->_setUid($uid);
 		$this->_setEncoding($encoding);
 		$this->_setOptions($options);
+		
+		$gl_version = preg_replace("/[^0-9.]/", '', VERSION);
+		
+		if (version_compare($gl_version, '1.7.0') >= 0) {
+			$this->_isGL170 = TRUE;
+		}
 	}
 	
 	function getDriverName()

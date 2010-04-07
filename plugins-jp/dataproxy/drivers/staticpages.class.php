@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/staticpages.class.php                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2010 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'staticpages.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'staticpages.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -76,7 +76,13 @@ class Dataproxy_staticpages extends DataproxyDriver
 				$_CONF['site_url'] . '/staticpages/index.php?page='
 				. rawurlencode($id)
 			);
-			$retval['date']      = strtotime($A['sp_date']);
+			
+			if ($this->_isGL170) {
+				$retval['date'] = strtotime($A['modified']);
+			} else {
+				$retval['date'] = strtotime($A['sp_date']);
+			}
+			
 			$retval['image_uri'] = false;
 			$retval['raw_data']  = $A;
 		}
@@ -103,9 +109,16 @@ class Dataproxy_staticpages extends DataproxyDriver
 		
 		$entries = array();
 		
-		$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
-			 . "FROM {$_TABLES['staticpage']} "
-			 . "WHERE (1 = 1) ";
+		if ($this->_isGL170) {
+			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(modified) AS day "
+				 . "FROM {$_TABLES['staticpage']} "
+				 . "WHERE (1 = 1) ";
+		} else {
+			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
+				 . "FROM {$_TABLES['staticpage']} "
+				 . "WHERE (1 = 1) ";
+		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
@@ -116,6 +129,11 @@ class Dataproxy_staticpages extends DataproxyDriver
 			$crit = 'id';
 		}
 		$crit = 'sp_' . $crit;
+		
+		if ($this->_isGL170 AND ($crit === 'sp_date')) {
+			$crit = 'modified';
+		}
+		
 		$sql .= " ORDER BY " . $crit;
 		
 		$result = DB_query($sql);
@@ -158,10 +176,20 @@ class Dataproxy_staticpages extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
-		$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
-			 . "FROM {$_TABLES['staticpage']} "
-			 . "WHERE (UNIX_TIMESTAMP(sp_date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
+		if ($this->_isGL170) {
+			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(modified) AS day "
+				 . "FROM {$_TABLES['staticpage']} "
+				 . "WHERE (UNIX_TIMESTAMP(modified) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		} else {
+			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
+				 . "FROM {$_TABLES['staticpage']} "
+				 . "WHERE (UNIX_TIMESTAMP(sp_date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
@@ -172,6 +200,11 @@ class Dataproxy_staticpages extends DataproxyDriver
 			$crit = 'id';
 		}
 		$crit = 'sp_' . $crit;
+		
+		if ($this->_isGL170 AND ($crit === 'sp_date')) {
+			$crit = 'modified';
+		}
+		
 		$sql .= " ORDER BY " . $crit;
 		
 		$result = DB_query($sql);

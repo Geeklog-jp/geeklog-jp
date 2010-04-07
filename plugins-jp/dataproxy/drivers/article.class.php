@@ -220,7 +220,10 @@ class Dataproxy_article extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT sid, title, UNIX_TIMESTAMP(date) AS day "
 			 . "FROM {$_TABLES['stories']} "
 			 . "WHERE (draft_flag = 0) AND (date <= NOW()) "
