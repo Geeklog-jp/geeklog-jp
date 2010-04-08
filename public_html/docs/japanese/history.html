@@ -99,8 +99,7 @@
   <li>コンフィギュレーションの'パーミッションクッキータイムアウト(default_perm_cookie_timeout)'を
   マイアカウントの"認証の保存期間(Remember me for)"と同様にドロップダウン形式にしました。[Dirk]</li>
   <li>MySQLのミニマムバージョンを MySQL 4.0.18 に引き上げました。[Dirk]</li>
-  <li>Fixed a non-feature where canceling out of the story editor would select that
-  story's topic in the admin's list of stories [Dirk]</li>
+  <li>記事管理画面の記事リストで、話題選択のバグを修正しました。(訳注:?)[Dirk]</li>
   <li>プラグインのアンインストールでグローバル変数定義のバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1048">#0001048</a>)</li>
   <li>記事コピー機能を追加しました。
@@ -114,10 +113,10 @@
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1041">#0001041</a>, patch provided by Ben)</li>
   <li>コンフィグレーションの'menu_elements'と'notification'のオプションのナンバリングのバグを修正しました。
   [Dirk]</li>
-  <li>Fixed delete option for dynamically added config options: Back in 1.5.1, we
-  renamed our JavaScript remove() function to gl_cfg_remove() but forgot to
-  update the dynamically created function calls 
-  (cf. bug <a href="http://project.geeklog.net/tracking/view.php?id=681">#0000681</a>) [Dirk]
+  <li>Geeklog 1.5.1から使用している、コンフィギュレーションの削除 [X] のJavaScript 関数名でremove()を、
+  他のJavaScriptと干渉する可能性があったので、gl_cfg_remove()を開発して用意していたものの、
+  gl_cfg_remove()を呼び忘れてremove()を呼んでいたバグを修正しました。 
+  (cf. バグ <a href="http://project.geeklog.net/tracking/view.php?id=681">#0000681</a>) [Dirk]
 </ul>
 
 <h3>Calendar Plugin</h3>
@@ -196,7 +195,7 @@
   <li>静的ページ編集画面にコメントの数を表示するようにしました。[Dirk]</li>
   <li>ユーザ権限が無い場合に、間違った"アクセス拒否(access denied)"メッセージが表示されていたバグを
   修正しました。
-  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a> (訳注:？)) [Dirk]</li>
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a> (訳注:?)) [Dirk]</li>
   <li>コメントバーのリフレッシュボタンが効かないバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a>) [Dirk]</li>
   <li>メタタグがサポートされていない場合、静的ページ編集画面にメタタグのフォームを
