@@ -18,172 +18,200 @@
 <p>Geeklog 1.7.0 からは、2009 Google Summer of CodeのStan Palatnikさんの成果により、PostgreSQLをサポートします。</p>
 
 <ul>
-  <li>FCKeditorのファイルアップロードパスのバグ (bug #0000931) を修正し、Flashのアップロードをしないようにしました。 [Dirk]</li>
+  <li>FCKeditorのファイルアップロードパスのバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=931">#0000931</a>) を修正し、Flashのアップロードをしないようにしました。[Dirk]</li>
   <li>FCKeditor を version 2.6.6 にしました。[Dirk]</li>
   <li>PHPのミニマムバージョンをPHP 4.4.0にしました。[Dirk]</li>
-  <li>話題のリネームで新規作成される古くからあったバグを修正しました。 [Stan, Dirk]</li>
-  <li>オプショナルな紹介である記事のページタイトルを追加しました。(feature request #0001096,
+  <li>話題のリネームで新規作成される古くからあったバグを修正しました。[Stan, Dirk]</li>
+  <li>オプショナルな紹介である記事のページタイトルを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1096">#0001096</a>,
   patch provided by Vlad Voicu)</li>
   <li>投稿する際のHTMLフィルターをスキップする権限 htmlfilter.skip を追加しました。
-  (feature request #0000952) [Tom]</li>
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=952">#0000952</a>) [Tom]</li>
   <li>ローカルインストールにだけパスワード空白でインストールを許可していたバグを修正しました。
-  (bug #0000923, patch provided by Chetan)</li>
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=923">#0000923</a>, patch provided by Chetan)</li>
   <li>新着ブロックとユーザープロファイルページでコメントを表示するための、
-  新着コメントプラグインAPI PLG_getWhatsNewCommentを追加追加しました。(feature request #0000835) [Tom]</li>
-  <li>フィードのhtmlタグが閉じていなかったバグを修正しました。(bug #0000749) [Tom]  </li>
-  <li>ユーザプロファイルページへのリンクを行う自動タグ [user:] を追加しました。(feature request
-  #0001081, patch provided by Akeda Bagus)</li>
+  新着コメントプラグインAPI PLG_getWhatsNewCommentを追加追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=835">#0000835</a>) [Tom]</li>
+  <li>フィードのhtmlタグが閉じていなかったバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=749">#0000749</a>) [Tom]  </li>
+  <li>ユーザプロファイルページへのリンクを行う自動タグ [user:] を追加しました。
+  (feature request
+  <a href="http://project.geeklog.net/tracking/view.php?id=1081">#0001081</a>, patch provided by Akeda Bagus)</li>
   <li>ユーザブロックではアクティブユーザのみを表示。つまり、少なくとも１回は
-  ログインしたユーザのみカウントするように修正しました。 [Dirk]</li>
+  ログインしたユーザのみカウントするように修正しました。[Dirk]</li>
   <li>アドバンストエディタFCKeditorで、許可されたhtmlタグと自動タグの表示における
-  バグを修正しました。 (bug #0001020, patch provided by Chetan)</li>
-  <li>日付による検索結果表示のソートのバグを修正しました。(bug #0001002) [Sami]</li>
+  バグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1020">#0001020</a>, patch provided by Chetan)</li>
+  <li>日付による検索結果表示のソートのバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1002">#0001002</a>) [Sami]</li>
   <li>期限切れのセキュリティトークンの再認証ができるようになったので、セキュティ・
   トークンの期限を表示する必要がなくなりました。例外: OpenID によるログインユーザは
   再認証できませんので、そのメッセージは表示されます。[Dirk]</li>
   <li>ブロックIDは必須入力項目になりました。[Dirk]</li>
   <li>ブロック管理画面において、片側に50ブロック以上あったとき、すべてのブロックを
-  表示できないバグを修正しました。(reported by cesar)
+  表示できないバグを修正しました。
+  (reported by cesar)
   同じように、ユーザリストや記事リスト、フィードのリスト、プラグインリスト、
   Weblogディレクトリ検索結果の表示で問題がありましたが、すべて修正されました。[Dirk]</li>
-  <li>コメントページへのリンクのバグを修正しました。(bug #0001061) [Tom]</li>
-  <li>paragraph tag を追加して "Plain Old Text"周辺のスレッドモードでのコメントの表示を修正しました。
-  (bug #0000833) [Dirk]</li>
+  <li>コメントページへのリンクのバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1061">#0001061</a>) [Tom]</li>
+  <li>段落タグを追加して "Plain Old Text"周辺のスレッドモードでのコメントの表示を修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=833">#0000833</a>) [Dirk]</li>
   <li>コメントやコメント投稿ページで"Logout" リンクを隠しました。
-  (bug #0000893) [Dirk]</li>
-  <li>ログイン時のパスワード入力でCR と LF を削除しました。
-  (for bug #0000799) [Dirk]</li>
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=893">#0000893</a>) [Dirk]</li>
+  <li>ログイン時のパスワード入力で CR と LF を削除しました。
+  (for bug <a href="http://project.geeklog.net/tracking/view.php?id=799">#0000799</a>) [Dirk]</li>
   <li>コンフィギュレーションラベルの$_CONF['disable_autolinks'] は、
-  "Disable Autotags" に変更し、ドキュメントも修正しました。(bug #0000912) [Dirk]</li>
-  <li>Allow Spam-X to skip filtering of submitted content from certain user groups
-  (feature request #0001018) [Tom]</li>
-  <li>Changed the 'gravatar_rating' config option to a dropdown since it only
-  supports four options anyway [Dirk]</li>
-  <li>For anonymous comment submissions, use "Your Name" instead of "Username" in
-  the comment submission form (feature request #0001039) [Dirk]</li>
-  <li>CUSTOM_group_change() was being called with wrong parameters (bug #0001051)
+  "自動タグを無効にする(Disable Autotags)" に変更し、ドキュメントも修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=912">#0000912</a>) [Dirk]</li>
+  <li>Spam-X が、特定グループの投稿だけはフィルタリングをスキップするよう修正しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1018">#0001018</a>) [Tom]</li>
+  <li>'gravatar_rating'のコンフィグレーションのオプションをドロップダウンに変更しました。[Dirk]</li>
+  <li>ゲストユーザのコメント投稿で、なまえを、"ユーザ名(Username)"から"あなたの名前(Your Name)"に
+  変更しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1039">#0001039</a>) [Dirk]</li>
+  <li>CUSTOM_group_change()のパラメータの間違いを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1051">#0001051</a>)
   [Blaine]</li>
-  <li>Added clickjacking protection for the printer-friendly version of articles
+  <li>記事のプリンタフレンドリーバージョンに対して、クリックジャッキングプロテクションを追加しました。
   [Dirk]</li>
-  <li>When a login is required to view some part of the site, we now display a
-  login form. This replaces the simple "Login required" message [Dirk]</li>
-  <li>Hide "New user" option from "Login required" form when new user registration
-  is disabled (bug #0000933) [Dirk]</li>
-  <li>Show the block name in the list of blocks (feature request #0000819) [Dirk]</li>
-  <li>Added an option (under My Account > Layout & Language) for users to select
-  whether they want to use the Advanced Editor or not. The option is on by
-  default but only available when Advanced Editor has been enabled in the
-  Configuration (feature request #0000984) [Dirk]</li>
-  <li>Added support for textarea input fields in the Configuration (feature request
-  #0000905) [Dirk]</li>
-  <li>Blocks could not contain words in curly braces as they were mistaken for
-  template variables (bug #0001057) [Dirk]</li>
-  <li>Allow groups to be marked as a Default Group. New users will automatically be
-  added to all default groups (feature request #0000798) [Dirk]</li>
-  <li>Make sure all onclick events in the Configuration return false (bug #0001054)</li>
-  <li>Moved hard-coded sort direction indicator (asc/desc) for search results to
-  the language files [Dirk]</li>
-  <li>Changed the 'default_perm_cookie_timeout' config option to a dropdown so that
-  it's consistent with the "Remember me for" dropdown in My Account [Dirk]</li>
-  <li>Raised minimum required MySQL version to MySQL 4.0.18 [Dirk]</li>
+  <li>ページ閲覧でログインが要求されたとき、ログイン要求メッセージの表示のみだったのを、
+  ログインフォームを表示するようにしました。[Dirk]</li>
+  <li>ログイン要求フォームのとき、新規登録へのリンクを隠しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=933">#0000933</a>) [Dirk]</li>
+  <li>管理者専用メニューのブロックリストにブロックIDを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=819">#0000819</a>) [Dirk]</li>
+  <li>マイアカウントのレイアウト・言語のページで、アドバンストエディターを
+  使うかどうかのオプションを追加しました。 このオプションは、コンフィギュレーションで、
+  アドバンスとエディタを使うというモードがオンでなければ表示されません。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=984">#0000984</a>) [Dirk]</li>
+  <li>コンフィギュレーションの、テキストエリア入力サポートを追加しました。
+  (feature request
+  <a href="http://project.geeklog.net/tracking/view.php?id=905">#0000905</a>) [Dirk]</li>
+  <li>ブロック内で括弧{}に囲まれた単語を使用できないバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1057">#0001057</a>) [Dirk]</li>
+  <li>新規ユーザ登録時に最初から登録されるグループをつくることができるようにしました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=798">#0000798</a>) [Dirk]</li>
+  <li>コンフィギュレーションへのリターンをfalseにしました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1054">#0001054</a>)</li>
+  <li>ハードコードされていた検索結果の(asc/desc)を言語ファイルにしました。[Dirk]</li>
+  <li>コンフィギュレーションの'パーミッションクッキータイムアウト(default_perm_cookie_timeout)'を
+  マイアカウントの"認証の保存期間(Remember me for)"と同様にドロップダウン形式にしました。[Dirk]</li>
+  <li>MySQLのミニマムバージョンを MySQL 4.0.18 に引き上げました。[Dirk]</li>
   <li>Fixed a non-feature where canceling out of the story editor would select that
   story's topic in the admin's list of stories [Dirk]</li>
-  <li>Fixed problem uninstalling plugins - missing globals (bug #0001048)</li>
-  <li>Added an option to create a copy of a story (feature request #0000811) [Dirk]</li>
-  <li>Prepare database for storing IPv6 addresses (feature request #0000971) [Dirk]</li>
-  <li>Implemented re-authentication when trying to submit a form with an expired
-  security token. This will allow the user to save changes even when the token
-  has expired [Dirk]</li>
-  <li>Hide meta tag entry fields from the Story and Topic editors when meta tag
-  support is disabled [Dirk]</li>
-  <li>Fixed topic selection for the Daily Digest (bug #0001041, patch provided by
-  Ben)</li>
-  <li>Changed the 'menu_elements' and 'notification' config options to dropdowns
-  since there's only a fixed number of keywords that these two options recognize
+  <li>プラグインのアンインストールでグローバル変数定義のバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1048">#0001048</a>)</li>
+  <li>記事コピー機能を追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=811">#0000811</a>) [Dirk]</li>
+  <li>データベースをIPv6対応にしました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=971">#0000971</a>) [Dirk]</li>
+  <li>セキュリティートークンが切れたとき、再認証できるようにしました。[Dirk]</li>
+  <li>記事、話題編集画面でメタタグがサポートされていないときにはメタタグ入力フォームを隠すよう、
+  修正しました。[Dirk]</li>
+  <li>デイリーダイジェストの話題選択のバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1041">#0001041</a>, patch provided by Ben)</li>
+  <li>コンフィグレーションの'menu_elements'と'notification'のオプションのナンバリングのバグを修正しました。
   [Dirk]</li>
   <li>Fixed delete option for dynamically added config options: Back in 1.5.1, we
   renamed our JavaScript remove() function to gl_cfg_remove() but forgot to
-  update the dynamically created function calls (cf. bug #0000681) [Dirk]
+  update the dynamically created function calls 
+  (cf. bug <a href="http://project.geeklog.net/tracking/view.php?id=681">#0000681</a>) [Dirk]
 </ul>
 
 <h3>Calendar Plugin</h3>
 <ul>
-  <li>Added support for a CAPTCHA in the submission form (bug #0001091, patch
+  <li>投稿フォームに、CAPTCHAのサポートを追加しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1091">#0001091</a>, patch
   provided by tuxcanfly)</li>
-  <li>Fixed an old bug in the event submission form: The text of the "Submit" button
-  must match the text $LANG12[8] to be recognized. Changed the form to always
-  use that string instead of the one from the Calendar plugin's language file
+  <li>古くからあったイベント投稿エラー: "投稿(Submit)"ボタンのテキストが
+  コア言語ファイルの $LANG12[8] と同じでなければ動かないというバグ。
+  カレンダープラグインの言語ファイルを利用できるようにしました。
   (originally reported by kokaku in 2006(!) and again by Tereso Ramos in 2010).
 </ul>
 
 <h3>Links Plugin</h3>
 <ul>
-  <li>A link to an invalid Link Category could lead to an endless loop for users
-  with Links Admin permissions (bug #0001090; reported and patch provided by
+  <li>無効なカテゴリへのリンクで、永久ループになるバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1090">#0001090</a>; reported and patch provided by
   Akeda Bagus)</li>
-  <li>Allow autotags in the Links and Link Category description (feature request
-  #0001079, patch provided by Akeda Bagus)</li>
-  <li>Added support for a CAPTCHA in the submission form (bug #0001091, patch
-  provided by tuxcanfly)</li>
-  <li>Added a link to "New category" from the Links editor [Dirk]</li>
-  <li>Fixed localization of "Root" category (bug #0001047) [Dirk]
+  <li>リンクとリンクカテゴリの説明の欄に、自動タグを使えるようにしました。
+  (feature request
+  <a href="http://project.geeklog.net/tracking/view.php?id=1079">#0001079</a>, patch provided by Akeda Bagus)</li>
+  <li>投稿フォームにCAPTCHAのサポートを追加しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1091">#0001091</a>, patch provided by tuxcanfly)</li>
+  <li>リンク編集画面に"カテゴリの作成(New category)"へのリンクを追加しました。[Dirk]</li>
+  <li>"Root"カテゴリの表示で言語ファイルを参照しないバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1047">#0001047</a>) [Dirk]
 </ul>
 
 <h3>Polls Plugin</h3>
 <ul>
-  <li>Added What's New Block Support for Polls and Poll comments 
-  (feature request #0000835) [Tom]</li>
-  <li>Poll Topics now have a created and a modified date (bug #0000761) [Tom]</li>
-  <li>Fixed display of the edit icon in the Poll block - didn't check for polls.edit
-  permissions (but wouldn't let you edit the poll) [Dirk]</li>
-  <li>Fixed wrong "access denied" message when attempting to view comments on a poll
-  that the user is not allowed to view (bug #0001044) [Dirk]</li>
-  <li>Fixed comment bar Refresh button (bug #0001044) [Dirk]</li>
-  <li>Hide meta tag entry fields from Polls editor when meta tag support is
-  disabled [Dirk]
+  <li>新着ブロックに，アンケートとコメントを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=835">#0000835</a>) [Tom]</li>
+  <li>アンケートの話題は作成日時と編集日時を持つようにしました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=761">#0000761</a>) [Tom]</li>
+  <li>アンケートブロックに編集アイコンを表示する機能をFixしました。polls.edit権が無い場合も表示していました。
+  (ただし、権限が無ければ編集はできませんでした) [Dirk]</li>
+  <li>ユーザに許可されていないコメント表示の際に、間違った"アクセス拒否"メッセージが
+  表示されるバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1044">#0001044</a>) [Dirk]</li>
+  <li>コメントバーのリフレッシュボタンが効かないバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1044">#0001044</a>) [Dirk]</li>
+  <li>メタタグがサポートされていない場合、アンケート編集画面にメタタグのフォームを
+  表示しないようにしました。[Dirk]
 </ul>
 
 <h3>Spam-X Plugin</h3>
 <ul>
-  <li>Fixed "Edit IP of URL Blacklist" module (bug #0001102, reported and patch
+  <li>"Edit IP of URL Blacklist"モジュールのバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1102">#0001102</a>, reported and patch
   provided by Abhishek Shrivastava)</li>
-  <li>A new right called spamx.skip allows SPAM-X to skip filtering of submitted 
-  content from certain user groups (bug #0001018) [Tom] </li>
-  <li>Make sure the Notification Email config option can be disabled [Dirk]</li>
-  <li>List $_CONF['site_url'] as a non-editable entry in the SLV whitelist to
-  indicate that the site's URL is whitelisted automatically [Dirk]
+  <li>SPAM-Xをスキップできるspamx.skip権を追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1018">#0001018</a>) [Tom] </li>
+  <li>コンフィギュレーションオプションのメール通知を無効にするオプションが有効になるよう
+  修正しました。[Dirk]</li>
+  <li>SLV whitelistにサイトのURL $_CONF['site_url'] を編集できないデフォルトのホワイトリストとして
+  自動的に登録するように変更しました。[Dirk]
 </ul>
 
 <h3>Static Pages Plugin 1.6.2</h3>
 <ul>
-  <li>Introduced an optional page title for static pages (feature request #0001096,
+  <li>ページタイトルをあらたに追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1096">#0001096</a>,
   patch provided by Vlad Voicu)</li>
-  <li>Fixed SQL error in the search when multi-language support was enabled (bug
-  #0001099) [Dirk]</li>
-  <li>Added What's New Block Support for Static Page comments
-  (feature request #0000835) [Tom]</li>
-  <li>Added modified date column. What's New Block Support for Static Page now 
-  allows you to use created or modified date [Tom]</li>
-  <li>Added clickjacking protection for the printer-friendly version [Dirk]</li>
-  <li>Fixed SQL compatibility with MS SQL (bug #0001050)</li>
-  <li>Added a draft flag (feature request #0000884) [Dirk]</li>
-  <li>Removed the sp_uid field since it's simply a duplicate of owner_id [Dirk]</li>
-  <li>Display number of comments in Static Page editor [Dirk]</li>
-  <li>Fixed wrong "access denied" message when attempting to view comments on a page
-  that the user is not allowed to view (bug #0001043) [Dirk]</li>
-  <li>Fixed comment bar Refresh button (bug #0001043) [Dirk]</li>
-  <li>Hide meta tag entry fields from Static Page editor when meta tag support is
-  disabled [Dirk]</li>
-  <li>Avoid a pair of empty brackets on the printer-friendly version for Static
-  Pages which have comments disabled [Dirk]</li>
-  <li>Added a config option to define the default sort order for the admin's list
-  of Static Pages (feature request #0000812) [Dirk]</li>
-  <li>Made the initial size of the Static Pages edit area (when using FCKeditor)
-  larger (feature request #0001037) [Dirk]</li>
-  <li>If a page does not exist and the user has staticpages.edit rights, send them
-  to the Static Page Editor (feature request #0000975) [Dirk]</li>
-  <li>Added a Comment Default config option (feature request #0000966) [Dirk]</li>
-  <li>Added support for query highlighting [Dirk]
+  <li>多言語サポートが有効なとき、SQLエラーが発生していたバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1099">#0001099</a>) [Dirk]</li>
+  <li>静的ページのコメントの新着ブロック表示を追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=835">#0000835</a>) [Tom]</li>
+  <li>編集日時のフィールドを追加しました。新着ブロックには、編集日か新規作成日か、
+  選べるようにしました。[Tom]</li>
+  <li>印刷用ページのためのクリックジャッキングプロテクションを追加しました。[Dirk]</li>
+  <li>MS SQLとSQLコンパチブルになるようバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1050">#0001050</a>)</li>
+  <li>ドラフトフラグを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=884">#0000884</a>) [Dirk]</li>
+  <li>owner_idがコピーされているだけで無駄なフィールドだったsp_uidフィールドを削除しました。[Dirk]</li>
+  <li>静的ページ編集画面にコメントの数を表示するようにしました。[Dirk]</li>
+  <li>ユーザ権限が無い場合に、間違った"アクセス拒否(access denied)"メッセージが表示されていたバグを
+  修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a> (訳注:？)) [Dirk]</li>
+  <li>コメントバーのリフレッシュボタンが効かないバグを修正しました。
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a>) [Dirk]</li>
+  <li>メタタグがサポートされていない場合、静的ページ編集画面にメタタグのフォームを
+  表示しないようにしました。[Dirk]</li>
+  <li>コメント停止中の静的ページの印刷用ページから空のカッコのペア？？？[Dirk]</li>
+  <li>静的ページ管理画面のリスト表示におけるソートのデフォルトを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=812">#0000812</a>) [Dirk]</li>
+  <li>FCKeditor利用時の場合の静的ページ編集エリアの初期サイズを大きくしました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1037">#0001037</a>) [Dirk]</li>
+  <li>存在しないページを表示したとき、ユーザにstaticpages.edit権があれば、そのIDの
+  静的ページ編集画面へ遷移するようにしました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=975">#0000975</a>) [Dirk]</li>
+  <li>コンフィギュレーションに、コメントのオプションを追加しました。
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=966">#0000966</a>) [Dirk]</li>
+  <li>クエリハイライトのサポートを追加しました。[Dirk]
 </ul>
 
 
