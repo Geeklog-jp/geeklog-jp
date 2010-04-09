@@ -7,6 +7,8 @@
 ==============================================================================*/
 
 
+/* Professional互換スタイルシート */
+@import url("css/compatible.css");
 
 /* 基本スタイルシート */
 @import url("css/default.css");  /* デフォルトスタイル */
@@ -32,8 +34,5 @@
 
 /* プラグインスタイルシート */
 @import url("css/plugin.css");  /* インポート用スタイルシート(プラグイン) */
-
-/* Professional互換スタイルシート */
-@import url("css/compatible.css");
 
 @import url("custom.css");  /* カスタムテーマスタイルシート */

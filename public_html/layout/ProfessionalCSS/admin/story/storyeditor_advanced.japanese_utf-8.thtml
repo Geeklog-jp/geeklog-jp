@@ -33,14 +33,17 @@
       <dt><label for="admin-storyeditor_advanced-title">{lang_title}</label></dt>
       <dd><input type="text" size="48" maxlength="255" value="{story_title}" name="title" id="admin-storyeditor_advanced-title" class="text"{xhtml}></dd>
 
+      <dt><label for="admin-storyeditor-page_title">{lang_page_title}</label></dt>
+      <dd><input type="text" size="48" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="text"{xhtml}></dd>
+
       <dt><label for="admin-storyeditor_advanced-sid">{lang_sid}</label></dt>
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor_advanced-sid" class="text"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2">{meta_description}</textarea></dd>
+      <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
+      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2">{meta_description}</textarea></dd>
 
-      <dt><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2">{meta_keywords}</textarea></dd>
+      <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
+      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2">{meta_keywords}</textarea></dd>
 
       <dt><label for="admin-storyeditor_advanced-tid">{lang_topic}</label></dt>
       <dd>

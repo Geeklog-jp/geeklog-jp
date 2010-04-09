@@ -9,12 +9,13 @@
 
     <dl>
       <dt class="username">{lang_username}</dt>
-      <dd class="username">{cid}{username}
+      <dd class="username">{cid}
          <input type="hidden" name="sid" value="{sid}"{xhtml}>
          <input type="hidden" name="pid" value="{pid}"{xhtml}>
          <input type="hidden" name="type" value="{type}"{xhtml}>
          <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-         <a href="{action_url}" rel="nofollow" class="logoutorcreateaccount">{lang_logoutorcreateaccount}</a>
+         <input type="hidden" name="uid" value="{uid}"{xhtml}>{xhtml}>{username}
+         <span{hidewhenediting}><a href="{action_url}" rel="nofollow" class="logoutorcreateaccount">{lang_logoutorcreateaccount}</a></span>
       </dd>
       <dt class="title"><label for="commentform-title">{lang_title}</label></dt>
       <dd class="title"><input type="text" size="32" value="{title}" maxlength="96" name="title" id="commentform-title" class="text"{xhtml}></dd>
@@ -49,10 +50,6 @@
     <ul class="submit">
       <li><input type="submit" name="mode" value="{lang_preview}" class="submit"{xhtml}></li>
       <li>
-        <input type="hidden" value="{sid}" name="sid"{xhtml}>
-        <input type="hidden" value="{pid}" name="pid"{xhtml}>
-        <input type="hidden" value="{type}" name="type"{xhtml}>
-        <input type="hidden" value="{uid}" name="uid"{xhtml}>
         {save_option} {notification}
       </li>
     </ul>
