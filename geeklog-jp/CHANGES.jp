@@ -1,5 +1,12 @@
 $Id$
 
+2010-04-09  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSSの1.7.0b1対応を行いました。
+	* commentform_advanced.thtmlに{cid}変数が抜けていたバグを修正しました。
+	* compatible.cssにスタイルprofessionalのstyle.cssを大幅に追加しました。
+	* style.cssで、compatible.cssの優先順位を下げました。
+
 2010-04-09  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: Ver 1.0.6RC1に更新しました
