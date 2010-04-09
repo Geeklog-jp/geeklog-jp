@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-09  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: Ver 1.0.6RC1に更新しました
+	  Pollsプラグイン2.1.2　polltopicsの項目名変更に対応
+
 2010-04-07  mystral-kk <mystral-kk>
 
 	* DataproxyプラグインとSitemapプラグインをGeeklog-1.7.0b1に対応させまし
