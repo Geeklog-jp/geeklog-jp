@@ -142,7 +142,7 @@ $LANG_confignames['polls'] = array(
     'default_permissions' => 'パーミッション',
     'newpollsinterval' => 'New Polls Interval(翻訳候補:アンケート投稿の間隔)',
     'hidenewpolls' => 'New Polls(翻訳候補:新着アンケート)',
-    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトルトリミング文字数)',
+    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトル最大長)',
     'meta_tags' => 'メタタグを有効にする'
 );
 

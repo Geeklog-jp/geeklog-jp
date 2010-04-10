@@ -1996,9 +1996,9 @@ $LANG_configselects['Core'] = array(
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
     23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみデフォルトを使用する)' => 2),
-    24 => array('Contribute(翻訳候補:)' => 'contribute', 'Home' => 'home', 'Advanced Search(翻訳候補:詳しい検索)' => 'search', 'Directory(翻訳候補:ディレクトリ)' => 'directory', 'My Account(翻訳候補:マイアカウント)' => 'prefs', 'Plugin Entries(翻訳候補:プラグインエントリ)' => 'plugins', 'Custom Entries(翻訳候補:カスタムエントリ)' => 'custom', 'Site Statistics(翻訳候補:サイトステータス)' => 'stats'),
+    24 => array('Contribute(翻訳候補:投稿する)' => 'contribute', 'Home' => 'home', 'Advanced Search(翻訳候補:詳しい検索)' => 'search', 'Directory(翻訳候補:ディレクトリ)' => 'directory', 'My Account(翻訳候補:マイアカウント)' => 'prefs', 'Plugin Entries(翻訳候補:プラグインエントリ)' => 'plugins', 'Custom Entries(翻訳候補:カスタムエントリ)' => 'custom', 'Site Statistics(翻訳候補:サイトステータス)' => 'stats'),
     25 => array('New Stories(翻訳候補:新着記事)' => 'story', 'New Comments(翻訳候補:新着コメント)' => 'comment', 'New Trackbacks(翻訳候補:新着トラックバックス)' => 'trackback', 'New Pingbacks' => 'pingback(翻訳候補:新着ピングバック)', 'New Users(翻訳候補:新着ユーザ)' => 'user'),
-    26 => array('G (General Audiences(翻訳候補:一般ユーザ))' => 'G', 'PG (Parental Guidance)(翻訳候補:？)' => 'PG', 'R (Restricted)(翻訳候補:制限つき)' => 'R', 'X (Explicit)(翻訳候補:明確な)' => 'X'),
+    26 => array('G (General Audiences(翻訳候補:一般向け))' => 'G', 'PG (Parental Guidance)(翻訳候補:保護者の指導が望ましい)' => 'PG', 'R (Restricted)(翻訳候補:保護者同伴制限付き)' => 'R', 'X (Explicit)(翻訳候補:17歳未満利用禁止)' => 'X'),
     27 => array('Hits (asc)(翻訳候補:閲覧数 (asc))' => 'hits|asc', 'Hits (desc)(翻訳候補:閲覧数 (desc))' => 'hits|desc', 'Date (asc)(翻訳候補:日付 (desc))' => 'date|asc', 'Date (desc)(翻訳候補:日付 (desc))' => 'date|desc', 'Title (asc)(翻訳候補:タイトル (asc))' => 'title|asc', 'Title (desc)(翻訳候補:タイトル (desc))' => 'title|desc', 'Author (asc)(翻訳候補:所有者 (asc))' => 'uid|asc', 'Author (desc)(翻訳候補:所有者 (desc))' => 'uid|desc')
 );
 
