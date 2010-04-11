@@ -8,25 +8,57 @@
             より適正に近づけます。
 ==============================================================================*/
 
+/* CLASSES ********************************************************************/
 
-/* Forms **********************************************************************/
-.form-description {
-  font-weight: bold;
-  float: left;
-  width: 100px;
-  text-align: right;
-  padding-right: 5px;
-  display: block;
+/* Admin lists ****************************************************************/
+.admin-menu-icon {
+  float:left;
+  padding:5px;
 }
-
-.form-field {
-  padding-bottom: 5px;
-  margin-left: 105px;
+.admin-menu {
+  /* the box around the menu */
+  padding:5px;
+  border:1px solid #EEEEEE;
 }
-
-.checkboxes-list span {
-  /* space between the text and the checkbox */
+.admin-menu-text {
+  /* the text below the links */
+  padding:5px;
+}
+.admin-menu-item {
+  /* a single link in the menu */
+  padding: 0px 5px 0px 5px;
+}
+.admin-list-smalltable {
+  text-align:left;
+  border-spacing:1px;
+}
+.admin-list-table {
+  width:100%;
+  text-align:left;
+  border-spacing:1px;
+}
+.admin-list-table form {
+  margin:0px;
+}
+.admin-list-search {
+  text-align:center;
+  margin-top:5px;
+  margin-bottom:5px;
+}
+.admin-list-field {
+  text-align:left;
   padding-left:5px;
+  padding-right:5px;
+}
+.admin-list-headerfield {
+  text-align:left;
+  padding:3px 5px;
+}
+/* Menus in blocks ************************************************************/
+.blocklist ul {
+  list-style:none;
+  padding:0px;
+  margin:0px;
 }
 
 /* general alignment classes **************************************************/
@@ -51,9 +83,24 @@
   padding: 5px;
 }
 .clearboth {
+  clear:both;
+}
+/* clear floats by applying the clearfix class to float-encasing block !*******/
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
   clear: both;
+  visibility: hidden;
+}
+.clearfix {
+  display: inline-block;
 }
 
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
 /* general formatting classes *************************************************/
 .b {
   font-weight:bold;
@@ -78,46 +125,259 @@
   text-decoration: line-through;
 }
 
-/* Admin lists ****************************************************************/
-.admin-menu-icon {
-  float: left;
-  padding: 5px;
+/* Comments *******************************************************************/
+.commentbar-line1 {
+  background:transparent;
+  color:#000000;
+  padding:3px 3px;
+  text-align:center;
 }
-.admin-menu { /* the box around the menu */
-  padding: 5px;
-  border: 1px solid #EEEEEE;
+.commentbar-line2 {
+  background:#E7E7E7;
+  text-align:center;
+  padding-left:3px;
+  padding-right:3px;
 }
-.admin-menu-text { /* the text below the links */
-  padding: 5px;
+.commentbar-line3 {
+  background:#FFFFFF;
+  border-bottom:1px solid #FFFFFF;
+  border-top:1px solid #E7E7E7;
+  color:#000000;
+  padding:3px 3px;
+  text-align:center;
 }
-.admin-menu-item { /* a single link in the menu */
-  padding: 0px 5px 0px 5px;
+.commenttitle {
+  background:#F7F7F7;
+  border-bottom:1px solid #E7E7E7;
+  border-left:1px solid #E7E7E7;
+  border-right:1px solid #E7E7E7;
+  border-top:1px solid #E7E7E7;
+  font-weight:bold;
+  font-size:smaller;
+  padding:3px 0px 3px 10px;
 }
-.admin-list-table {
-  width: 100%;
-  text-align: left;
-  border-spacing: 1px;
+.comment-edit {
+  font-style: italic;
+  padding-top:1ex;
 }
-.admin-list-table form {
-  margin: 0px;
-}
-.admin-list-search {
-  text-align: left;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.admin-list-field {
-  text-align: left;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-.admin-list-headerfield {
-  text-align: left;
-  padding-left: 5px;
-  padding-right: 5px;
-/*  font-size: larger;*/
+.comment-sig {
+  color:#666666;
+  padding-top:1ex;
 }
 
+/******************************************************************************/
+.edit-perm-down {
+  text-align:center;
+}
+.edit-perm-up {
+  text-align:center;
+  padding-right:10px;
+  padding-left:10px;
+}
+.fieldhelp {
+  font-size:0.8em;
+  color:#666666;
+  padding-left:0.8em;
+  padding-right:0.8em;
+}
+
+/* Forms **********************************************************************/
+.form-description {
+  font-weight:bold;
+  float:left;
+  width:100px;
+  text-align:right;
+  padding-right:5px;
+  display:block;
+}
+.form-field {
+  padding-bottom:5px;
+  margin-left:105px;
+}
+.checkboxes-list {
+  /* this is used for example by COM_checkList */
+  list-style:none;
+  padding:0px;
+  margin:0px;
+}
+.checkboxes-list span {
+  /* space between the text and the checkbox */
+  padding-left:5px;
+}
+.checkboxes-list .gldefault {
+  /* default blocks in the user settings block list */
+  font-weight:bold;
+}
+.missing-field {
+  /* reserved for future use */
+}
+.required-field {
+  /* reserved for future use */
+}
+
+/******************************************************************************/
+.highlight {
+  color:#000000;
+  background-color:yellow;
+  text-decoration:none;
+}
+.inputTable td {
+  padding:4px;
+  vertical-align:top;
+}
+.inputTable label {
+  font-weight:bold;
+  float:right;
+  white-space:nowrap;
+}
+.moderation-cc {
+  width:100%;
+}
+.moderation-cc-row {
+  clear:both;
+  height:80px;
+  width:100%;
+}
+.moderation-cc-item {
+  float:left;
+  text-align:center;
+}
+.nowrap {
+  white-space:nowrap;
+}
+.pagenav {
+  text-align:center;
+}
+.row_center td {
+  text-align:center;
+}
+.searchauth {
+  background:transparent;
+  color:#000000;
+  text-align:left;
+}
+.searchdate {
+  background:transparent;
+  color:#000000;
+  text-align:right;
+}
+.searchform-box {
+  background:#E7E7E7;
+  text-align:right;
+  border-bottom:1px solid #CCCCCC;
+  height:52px;
+  padding:0px 4px 0px 1px;
+  margin:0px;
+}
+.searchform-elements {
+  display:inline;
+  position:relative;
+  top:6px;
+}
+.searchform-elements input {
+  font-size:0.9em;
+}
+.searchhits {
+  background:transparent;
+  color:#000000;
+  text-align:right;
+}
+.searchresult-byline {
+  color:green;
+}
+.site-slogan {
+  color:#ffffff;
+  background:transparent;
+}
+.sysmessage img {
+  border:none;
+  float:left;
+  padding-bottom:3px;
+  padding-right:5px;
+}
+/* Stats **********************************************************************/
+.stats-list-count {
+  text-align:right;
+  padding-left:5px;
+  padding-right:5px;
+}
+.stats-header-title {
+  text-align:left;
+  width:90%;
+  padding-left:5px;
+  padding-right:5px;
+}
+.stats-header-count {
+  text-align:left;
+  width:10%;
+  padding-left:5px;
+  padding-right:5px;
+}
+/* Story **********************************************************************/
+.story {
+  /* the frame around all elements of one story */
+  background:transparent;
+  color:#000000;
+}
+.story h1 {
+  /* the title of a story */
+  background:transparent;
+  color:#000000;
+  font-weight:bold;
+  padding-left:1px;
+}
+.story-body {
+  /* this is the actual content of the story */
+  padding:3px;
+}
+.story-featured {
+  /* the frame around all elements of a featured story */
+  background:transparent;
+  color:#000000;
+}
+.story-featured h1 {
+  /* the title of a featured story */
+  background:transparent;
+  color:#000000;
+  font-weight:bold;
+  font-size:1.4em;
+  padding-left:1px;
+}
+.story-icons {
+  /* print & mail icons in a storybox */
+  float:right;
+  padding-top:10px;
+}
+.story-icons a {
+  margin-left:5px;
+}
+.story-container {
+  /* frame around all stories & centerblocks*/
+  padding-right:9px;
+  width:100%;
+  vertical-align:top;
+}
+.story-footer {
+  /* the bottom of the story with edit-links etc */
+  padding:3px;
+  text-align:center;
+  clear:both;
+}
+.story-footer p {
+  padding:0px;
+  margin:0px;
+}
+.story-information {
+  /* the author, views and date of a story */
+  padding:3px;
+  font-size:0.85em;
+  background:transparent;
+  color:#000000;
+}
+.story-information p {
+  padding:0px;
+  margin:0px;
+}
 /******************************************************************************/
 #token-expirynotice {
   padding:1em;
@@ -242,20 +502,6 @@
 .pluginSolidOutline {
   background: #CCCCCC;
   text-align: left;
-}
-
-.pluginSolidOutline td.pluginRow1 div {
-  overflow: auto;
-  padding: 1px 0;
-}
-
-.pluginSolidOutline td.pluginRow1 div div {
-  overflow: visible;
-  padding: 0;
-}
-
-.pluginSolidOutline td.pluginCol {
-  padding: 2px;
 }
 
 .pluginSolidFill {
@@ -385,8 +631,45 @@ a.pluginButton:hover {
   color: blue;
   text-align: center;
   padding-top: 2px;
-  background: url(navbar/images/button_over.gif) repeat-x 50% 50%;
+  background: transparent url(navbar/images/button_over.gif) repeat-x 50% 50%;
   display: block;
   height: 19px;
   text-decoration: none;
 }
+
+/* Common CSS for on-hover tooltip feature */
+a.tooltip {
+  position: relative; /* this is the key */
+  z-index:10;
+  color:#000;
+  text-decoration:none;
+}
+a.tooltip:hover  {
+  z-index:100;
+  text-decoration:none;
+}
+a.tooltip span {
+  display: none;
+}
+a.tooltip:hover span {
+  /* the span will display just on :hover state */
+  z-index:100;
+  color:#033666;
+  font-style:normal;
+  font-size:.8em;
+  line-height: 125%;
+  display:block;
+  position:absolute;
+  border:1px solid #C8DAF7;
+  background-color:#E5EFFF;
+  padding:4px;
+  text-align: left;
+  text-decoration:none;
+  left:-20px;
+  top:10px;
+  min-width:150px;
+}
+/* End of common CSS for on-hover info feature */
+
+/* End of Common Plugin CSS */
+

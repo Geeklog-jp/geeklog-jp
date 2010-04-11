@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.4.1 for Geeklog1.6.1
+  バージョン: 2.4.2 for Geeklog1.7.0
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.01のズーム200%、 Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome3.0.195.33のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４」で確認)
+(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.01のズーム200%、 Firefox3.6.3の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome3.0.195.33のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -367,6 +367,18 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   * 更新
   + 追加
   - 削除
+
+■Ver.2.4.2(2010-4-11)
+　・Geeklog 1.7.0に合わせて、ファイルを追加・修正しました。
+  ・サイズを２倍にしたアイコン画像の調整をし、使用されていない(使用不可)2つのアイコン画像を削除しました。
+    (*/images/addchild.gif,*/images/addchild.png,*/images/bararrowdown.gif,*/images/bararrowdown.png,*/images/bararrowup.gif,
+     */images/bararrowup.png,*/images/button_help.gif,*/images/button_help.png,*/images/collapse.gif,*/images/collapse.png,
+     */images/copy.gif,*/images/copy.png,*/images/deleteitem.gif,*/images/deleteitem.png,*/images/edit.gif,*/images/edit.png,
+     */images/expand.gif,*/images/expand.png,*/images/external.gif,*/images/external.png,*/images/feed.gif,*/images/feed.png,
+     */images/icon_info.gif,*/images/icon_info.png,*/images/list.gif,*/images/list.png,*/images/mail.gif,*/images/mail.png,
+     */images/person.gif,*/images/person.png,*/images/print.gif,*/images/print.png,*/images/sendping.gif,*/images/sendping.png,
+     */images/smallcamera.gif,*/images/smallcamera.png,*/images/sysmessage.gif,*/images/sysmessage.png,-/images/block-left.gif
+     -/images/block-right.gif)
 
 ■Ver.2.4.1(2009-11-22)
   ・Internet Explorer6で記事にblockquote要素とpre要素がある場合に横スクロールバーが出ていたので、スタイルを修正しました。(*/css/default.css)
