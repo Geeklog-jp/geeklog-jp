@@ -2,6 +2,10 @@ $Id$
 
 2009-04-11  Masuko Koeda  <milk851>
 
+	* テーマWAIproCSSのの1.7.0b1対応作業でミスがあったので修正しました。
+
+2009-04-11  Masuko Koeda  <milk851>
+
 	* テーマWAIproCSSのの1.7.0b1対応を行いました。（Issue #145）
 	* WAIproCSSのバージョンを2.4.2に上げ、READMEに更新履歴を追記しました。
 	* テーマProfessionalCSSの/css/compatible.cssファイルは、
