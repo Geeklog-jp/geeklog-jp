@@ -4,10 +4,10 @@
 <table id="admin-permissions">
   <thead>
     <tr>
-      <th colspan="2">{owner}</th>
-      <th colspan="2">{group}</th>
-      <th>{members}</th>
-      <th>{anonymous}</th>
+      <th colspan="2">{lang_owner}</th>
+      <th colspan="2">{lang_owner}</th>
+      <th>{lang_owner}</th>
+      <th>{lang_owner}</th>
     </tr>
   </thead>
 
