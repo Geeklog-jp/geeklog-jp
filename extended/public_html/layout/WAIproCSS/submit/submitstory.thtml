@@ -24,12 +24,6 @@
         </select>
       </dd>
 
-      <dt><label for="introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="45" rows="15" name="introtext" id="introtext">{story_introtext}</textarea></dd>
-
-      <dt><label for="bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="45" rows="15" name="bodytext" id="bodytext">{story_bodytext}</textarea></dd>
-
       <dt><label for="submitstory-postmode">{lang_postmode}</label></dt>
       <dd>
         <select name="postmode" id="submitstory-postmode">
@@ -38,6 +32,12 @@
       </dd>
       <dd class="description">{allowed_html}</dd>
     </dl>
+
+      <dt><label for="introtext">{lang_introtext}</label></dt>
+      <dd><textarea cols="45" rows="15" name="introtext" id="introtext">{story_introtext}</textarea></dd>
+
+      <dt><label for="bodytext">{lang_bodytext}</label></dt>
+      <dd><textarea cols="45" rows="15" name="bodytext" id="bodytext">{story_bodytext}</textarea></dd>
 
     {captcha}
 
