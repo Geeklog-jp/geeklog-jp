@@ -65,8 +65,8 @@ $LANG_POLLS = array(
     'pollclosed' => 'このアンケートは投票を終了しました。',
     'pollhidden' => 'あなたは既に投票済みです。このアンケートの結果は投票終了後に公開されます。',
     'start_poll' => '投稿する',
-    'no_new_polls' => 'No new polls(翻訳候補:新しいアンケートはありません)',
-    'deny_msg' => 'Access to this poll is denied.  Either the poll has been moved/removed or you do not have sufficient permissions.(翻訳候補:このアンケートへのアクセスはできません。（このアンケートは移動したか削除されているか、あるいはアクセス権がありません。）)'
+    'no_new_polls' => '新しいアンケートはありません',
+    'deny_msg' => 'このアンケートへアクセスできません。(このアンケートは移動したか削除されているか、あるいはアクセス権がありません。)'
 );
 
 ###############################################################################
@@ -140,9 +140,9 @@ $LANG_confignames['polls'] = array(
     'delete_polls' => '所有者の削除と共に削除する',
     'aftersave' => 'アンケート保存後の画面遷移',
     'default_permissions' => 'パーミッション',
-    'newpollsinterval' => 'New Polls Interval(翻訳候補:アンケート投稿の間隔)',
-    'hidenewpolls' => 'New Polls(翻訳候補:新着アンケート)',
-    'title_trim_length' => 'Title Trim Length(翻訳候補:タイトル最大長)',
+    'newpollsinterval' => 'アンケート投稿の間隔',
+    'hidenewpolls' => '新着アンケート',
+    'title_trim_length' => 'タイトル最大長',
     'meta_tags' => 'メタタグを有効にする'
 );
 
@@ -161,7 +161,7 @@ $LANG_configselects['polls'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => true, 'いいえ' => false),
     2 => array('登録順' => 'submitorder', '得票順' => 'voteorder'),
-    5 => array('Hide(翻訳候補:表示しない)' => 'hide', 'Show - Use Modified Date(翻訳候補:編集日付によって表示する)' => 'modified', 'Show - Use Created Date(翻訳候補:作成日付によって表示する)' => 'created'),
+    5 => array('表示しない' => 'hide', '編集日付によって表示する' => 'modified', '作成日付によって表示する' => 'created'),
     9 => array('作成したアンケートを表示する' => 'item', 'アンケート管理を表示する' => 'list', 'アンケート一覧を表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
