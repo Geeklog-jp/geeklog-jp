@@ -1,5 +1,13 @@
 $Id$
 
+2009-04-11  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのの1.7.0b1対応を行いました。（Issue #145）
+	* WAIproCSSのバージョンを2.4.2に上げ、READMEに更新履歴を追記しました。
+	* テーマProfessionalCSSの/css/compatible.cssファイルは、
+	  私の修正は現在反映されていないので著者に記されていた
+	  私の名前を削除しました。
+
 2010-04-11  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: 言語が英語のときに、エラーが発生する問題を修正
