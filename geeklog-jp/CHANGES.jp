@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-11  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: 言語が英語のときに、エラーが発生する問題を修正
+	  しました。（Issue #144）
+
 2010-04-09  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSSの1.7.0b1対応を行いました。
