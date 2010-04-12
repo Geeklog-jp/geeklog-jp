@@ -280,6 +280,7 @@ function CUSTOM_refresh($url)
                 $sepa = '&';
                 //$sepa = '&amp;';
             }
+            $url = str_replace('&amp;', '&', $url);
             $location_url = 'Location: ' . $url . $sepa . SID . $link;
             header( $location_url );
             exit;

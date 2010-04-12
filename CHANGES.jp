@@ -2,6 +2,12 @@ $Id$
 
 2010-04-12  Yoshinori Tahara  <dengen>
 
+	* 掲示板（forum）へ携帯から投稿した直後にエラーが発生する問題を解決する
+	  ため、custom_cellular.phpを修正しました。
+	  r2493の修正は間違いだったので、元に戻しました。
+
+2010-04-12  Yoshinori Tahara  <dengen>
+
 	* filemgmtプラグイン: Geeklog1.7.0b1でXMLSitemapがインストール済みのとき、
 	  filemgmtのインストール直後にエラーが発生する問題を修正しました。
 
