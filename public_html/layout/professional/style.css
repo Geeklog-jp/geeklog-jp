@@ -165,7 +165,7 @@ th {
   color:#000000;
   background-color:#DAE0ED;
   font-weight:bold;
-  padding:3px;
+  padding-left:3px;
   text-align:left;
 }
 p {
@@ -220,7 +220,10 @@ select {
 }
 .admin-list-headerfield {
   text-align:left;
-  padding:3px 5px;
+  padding-left:5px;
+  padding-right:5px;
+  padding-top:2px;
+  padding-bottom:2px;
 }
 /* Menus in blocks ************************************************************/
 .blocklist ul {
