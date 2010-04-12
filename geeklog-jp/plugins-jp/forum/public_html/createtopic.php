@@ -171,7 +171,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
 
 //            $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$topicparent&amp;page=$page#$editid";
 //            $display .= forum_statusMessage($LANG_GF02['msg19'],$link,$LANG_GF02['msg19']);
-            $link = $_CONF['site_url'] . "/forum/viewtopic.php?msg=1&showtopic=$topicparent&page=$page#$editid";
+            $link = $_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$topicparent&amp;page=$page#$editid";
             $display = COM_refresh($link);
             COM_output($display);
             exit;
@@ -284,7 +284,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                         DB_query("INSERT INTO {$_TABLES['gf_log']} (uid,forum,topic,time) VALUES ('$_USER[uid]','$forum','$lastid','$date')");
                     }
 //                    $display .= forum_statusMessage($LANG_GF02['msg19'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$lastid",$LANG_GF02['msg19']);
-                    $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&showtopic=$lastid");
+                    $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$lastid");
                     COM_output($display);
                     exit;
                 }
@@ -380,7 +380,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                     COM_updateSpeedlimit ('forum');
 //                    $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$id&amp;lastpost=true#$lastid";
 //                    $display .= forum_statusMessage($LANG_GF02['msg19'],$link,$LANG_GF02['msg19'],true,$forum);
-                    $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&showtopic=$id&lastpost=true#$lastid");
+                    $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$id&amp;lastpost=true#$lastid");
                     COM_output($display);
                     exit;
 
