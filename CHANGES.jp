@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-12  Yoshinori Tahara  <dengen>
+
+	* filemgmtプラグイン: Geeklog1.7.0b1でXMLSitemapがインストール済みのとき、
+	  filemgmtのインストール直後にエラーが発生する問題を修正しました。
+
 2009-04-11  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSのの1.7.0b1対応作業でミスがあったので修正しました。
