@@ -33,6 +33,11 @@ The script reads and write to this file - thus needs to be a separate file.
 
 if (file_exists('filemgmt.php')) include ('filemgmt.php');
 
+global $CONF_FM, $_FM_CONF, $_TABLES, $_FM_TABLES,
+       $filemgmtFilePermissions, $filemgmtWhatsNewPeriodDays,
+       $filemgmtWhatsNewTitleLength, $filemgmt_showWhatsNewComments,
+       $_FMDOWNLOAD, $CONF_FILEMGMT;
+
 $CONF_FM['version'] = '1.6.0.jp3';
 
 $_FM_CONF = array();
