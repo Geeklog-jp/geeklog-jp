@@ -11,7 +11,7 @@
 <!-- END text-element -->
 
 <!-- BEGIN text-area -->
-<tr><td>{display_name} {doc_link} {unset_link}</td>
+<tr><td class="alignright">{display_name} {doc_link} {unset_link}</td>
 <td>
 <textarea class="opt" name="{name}" style="width:300px" cols="3">{value}</textarea>
 {delete}
