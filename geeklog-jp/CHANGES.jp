@@ -1,5 +1,15 @@
 $Id$
 
+2010-04-13  Tetsuko Komma  <ivy>
+
+	* mystral-kkさんが開発したcustom_forcethemechange.phpを、カスタム関数に
+	  追加しました。
+	* 日本語言語ファイルの翻訳候補コメントをはずし修正を加えました。
+	* ドキュメントの修正を行いました。
+	* テーマprofessionalのstyle.cssを本家版に戻すよう一部修正しました。
+	* 拡張版のテーマprofessional内にあるstyle.cssは、forum用styleがテーマ別に
+	  不要になったため削除しました。
+
 2010-04-12  Yoshinori Tahara  <dengen>
 
 	* 掲示板（forum）へ携帯から投稿した直後にエラーが発生する問題を解決する
