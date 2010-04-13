@@ -1,5 +1,10 @@
 $Id$
 
+2010-04-13  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: フィードに日時、イベントの種類、場所、詳細を書き
+	  出すようにしました。
+
 2010-04-13  Tetsuko Komma  <ivy>
 
 	* mystral-kkさんが開発したcustom_forcethemechange.phpを、カスタム関数に
