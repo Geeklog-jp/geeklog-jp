@@ -1291,7 +1291,12 @@ function plugin_getfeedcontent_calendarjp( $feed, &$link, &$update, $feedType, $
         $eids[] = $row['eid'];
 
         $eventtitle = stripslashes( $row['title'] );
-        $eventtext = SYND_truncateSummary( $row['description'], MBYTE_strlen($row['description']));
+//        $eventtext = SYND_truncateSummary( $row['description'], MBYTE_strlen($row['description']));
+        $desc = PLG_replaceTags(stripslashes(CALENDARJP_getFeedContent($row['eid'])));
+        $eventtext = SYND_truncateSummary($desc, MBYTE_strlen($desc));
+        if ($row['postmode'] == 'plaintext' && !empty($eventtext)) {
+            $eventtext = nl2br($eventtext);
+        }
         $eventlink  = $_CONF['site_url'] . '/calendarjp/event.php?eid='
                     . $row['eid'];
 
@@ -1589,7 +1594,8 @@ function plugin_upgrade_calendarjp()
             break;
 
         case '1.1.1.1b1':
-            $current_version = '1.1.1.1b2';
+        case '1.1.1.1b2':
+            $current_version = '1.1.2';
             break;
 
         default:
@@ -2200,6 +2206,77 @@ function CALENDARJP_authAddingEvent()
         COM_output($display);
         exit;
     }
+}
+
+/**
+* Get content for a feed
+*
+* @param    string   $eid      event id
+* @return   string             content of the feed
+*/
+function CALENDARJP_getFeedContent($eid)
+{
+    global $_CONF, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1, $LANG_CALJP_2;
+
+    $T = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
+    $T->set_file('feedcontent', 'feedcontent.thtml');
+
+    $result = DB_query("SELECT * FROM {$_TABLES['eventsjp']} WHERE eid = '$eid'");
+    if (DB_numRows($result) == 0) return '';
+    $A = DB_fetchArray($result);
+
+    $T->set_var('lang_when', $LANG_CALJP_1[3]);
+    if ($A['allday'] == 0) {
+        $thedatetime = COM_getUserDateTimeFormat($A['datestart'].' '.$A['timestart']);
+        $T->set_var('event_start', $thedatetime[0]);
+
+        if ($A['datestart'] == $A['dateend']) {
+            $thedatetime[0] = strftime ($_CONF['timeonly'],
+                strtotime ($A['dateend'] . ' ' . $A['timeend']));
+        } else {
+            $thedatetime = COM_getUserDateTimeFormat($A['dateend'].' '.$A['timeend']);
+        }
+        $T->set_var('event_end', $thedatetime[0]);
+    } else if ($A['allday'] == 1 AND $A['datestart'] <> $A['dateend']) {
+        $thedatetime1 = strftime ($_CONF['shortdate'].'(%a)',
+                                 strtotime($A['datestart']));
+        $T->set_var('event_start', $thedatetime1);
+        $thedatetime2 = strftime ($_CONF['shortdate'].'(%a)',
+                                      strtotime($A['dateend']));
+        $T->set_var('event_end', $thedatetime2 . ' ' . $LANG_CALJP_2[26]);
+    } else {
+        $thedatetime = strftime ($_CONF['shortdate'].'(%a)',
+                                 strtotime($A['datestart']));
+        $T->set_var('event_start', $thedatetime);
+        $T->set_var('event_end', $LANG_CALJP_2[26]);
+    }
+
+    $T->set_var('lang_where', $LANG_CALJP_1[4]);
+    $T->set_var('event_location', stripslashes($A['location']));
+    $T->set_var('event_address1', stripslashes($A['address1']));
+    $T->set_var('event_address2', stripslashes($A['address2']));
+    $T->set_var('event_zip', $A['zipcode']);
+    $T->set_var('event_city', stripslashes ($A['city']));
+    $T->set_var('event_state_only', $A['state']);
+    if (empty($A['state']) || ($A['state'] == '--')) {
+        $T->set_var('event_state_name_only', '');
+    } else {
+        $T->set_var('event_state_name_only', $A['state']);
+    }
+    $T->set_var('lang_description', $LANG_CALJP_1[5]);
+    $description = stripslashes($A['description']);
+    if (empty($A['postmode']) || ($A['postmode'] == 'plaintext')) {
+        $description = nl2br($description);
+    }
+    $description = PLG_replaceTags($description);
+    $T->set_var('event_description', $description);
+    $T->set_var('lang_event_type', $LANG_CALJP_1[37]);
+    $T->set_var('event_type', $A['event_type']);
+    $T->parse('output', 'feedcontent');
+    $retval = $T->finish($T->get_var('output'));
+    $retval = preg_replace("@<dd>\s*</dd>@i", '', $retval);
+
+    return $retval;
 }
 
 ?>
