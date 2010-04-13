@@ -579,11 +579,26 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
 /**
   * 日本語拡張版提供　PHPブロック関数およびカスタム関数
   */
+
+/* 静的ページコンテンツの内容を返す */
 require_once( 'custom/custom_getstaticpage.php' );
+
+/* テーマ変更時にデフォルトテーマをセットしているユーザのテーマも強制的に変更する */
+require_once( 'custom/custom_forcethemechange.php' );
+
+/* 新着記事リストを表示する */
 require_once( 'custom/phpblock_lastarticles.php' );
+
+/* ログインユーザの権限を表示する */
 require_once( 'custom/phpblock_showrights.php' );
+
+/* ブロック等にメニューとして、話題と記事すべてを展開して表示する */
 require_once( 'custom/phpblock_sitemapmenu.php' );
+
+/* サイトのテーマを変更する */
 require_once( 'custom/phpblock_themetester.php' );
+
+/* アクセス数を表示する */
 require_once( 'custom/phpblock_stats.php' );
 
 ?>
