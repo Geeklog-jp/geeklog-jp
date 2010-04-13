@@ -543,8 +543,8 @@ $LANG09 = array(
     68 => 'ソート',
     69 => 'タイトルのみ',
     70 => 'ありません ...',
-    71 => 'asc',
-    72 => 'desc'
+    71 => '昇順',
+    72 => '降順'
 );
 
 ###############################################################################
@@ -1999,7 +1999,7 @@ $LANG_configselects['Core'] = array(
     24 => array('投稿する' => 'contribute', 'Home' => 'home', '詳しい検索' => 'search', 'ディレクトリ' => 'directory', 'マイアカウント' => 'prefs', 'プラグインエントリ' => 'plugins', 'カスタムエントリ' => 'custom', 'サイトステータス' => 'stats'),
     25 => array('新着記事' => 'story', '新着コメント' => 'comment', '新着トラックバックス' => 'trackback', '新着ピングバック' => 'pingback', '新着ユーザ' => 'user'),
     26 => array('G (一般向け)' => 'G', 'PG (保護者の指導が望ましい)' => 'PG', 'R (保護者同伴制限付き' => 'R', 'X (17歳未満利用禁止)' => 'X'),
-    27 => array('閲覧数 (asc)' => 'hits|asc', '閲覧数 (desc)' => 'hits|desc', '日付 (asc)' => 'date|asc', '日付 (desc)' => 'date|desc', 'タイトル (asc)' => 'title|asc', 'タイトル (desc)' => 'title|desc', '所有者 (asc)' => 'uid|asc', '所有者 (desc)' => 'uid|desc')
+    27 => array('閲覧数 (昇順)' => 'hits|asc', '閲覧数 (降順)' => 'hits|desc', '日付 (昇順)' => 'date|asc', '日付 (降順)' => 'date|desc', 'タイトル (昇順)' => 'title|asc', 'タイトル (降順)' => 'title|desc', '所有者 (昇順)' => 'uid|asc', '所有者 (降順)' => 'uid|desc')
 );
 
 ?>
