@@ -70,11 +70,15 @@ table#admin-permissions {
 
 table#admin-permissions th {
   padding: 4px;
+  border: 1px solid #ffffff;
+  background: #dae0ed;
   text-align: left;
 }
 
 table#admin-permissions td {
   padding: 4px;
+  border: 1px solid #ffffff;
+  background: #f7f7f7;
   font-weight: bold;
   text-align: center;
 }
