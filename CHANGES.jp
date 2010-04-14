@@ -1,9 +1,21 @@
 $Id$
 
+2009-04-14  Masuko Koeda  <milk851>
+	* テーマWAIproCSSのREADMEの更新履歴に追記しました。
+
 2010-04-13  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: フィードに日時、イベントの種類、場所、詳細を書き
 	  出すようにしました。
+
+2009-04-13  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSで追加したスタイルの中で背景色と文字色の
+	  コントラスト比がWCAG2.0 レベルAAの基準を満たしてい箇所があったので
+	  文字色を変更しました。
+	* テーマ　ProfessionalCSS と WAIproCSS のパーミッション部分が
+	  わかりやすい様にProfessionalのスタイルと同じように
+	  背景色とセル間の区切り線のスタイルを追加しました。
 
 2010-04-13  Tetsuko Komma  <ivy>
 
@@ -28,11 +40,11 @@ $Id$
 
 2009-04-11  Masuko Koeda  <milk851>
 
-	* テーマWAIproCSSのの1.7.0b1対応作業でミスがあったので修正しました。
+	* テーマWAIproCSSの1.7.0b1対応作業でミスがあったので修正しました。
 
 2009-04-11  Masuko Koeda  <milk851>
 
-	* テーマWAIproCSSのの1.7.0b1対応を行いました。（Issue #145）
+	* テーマWAIproCSSの1.7.0b1対応を行いました。（Issue #145）
 	* WAIproCSSのバージョンを2.4.2に上げ、READMEに更新履歴を追記しました。
 	* テーマProfessionalCSSの/css/compatible.cssファイルは、
 	  私の修正は現在反映されていないので著者に記されていた

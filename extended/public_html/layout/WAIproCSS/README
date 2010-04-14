@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.01のズーム200%、 Firefox3.6.3の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome3.0.195.33のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４」で確認)
+(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.51のズーム200%、 Firefox3.6.3の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome4.1.249.1045のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.5.5の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -368,8 +368,11 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4.2(2010-4-11)
+■Ver.2.4.2(2010-4-13)
 　・Geeklog 1.7.0に合わせて、ファイルを追加・修正しました。
+  ・パーミッション部分がわかりやすい様にProfessionalのスタイルと同じように背景色とセル間の区切り線のスタイルを追加しました。(*/css/admin/common.css)
+  ・commentform_advanced.thtmlに{cid}変数が抜けていたバグを修正しました。(*/comment/commentform_advanced.thtml)
+  ・compatible.cssにスタイルを大幅に追加し、style.cssで、compatible.cssを最初に呼んで、優先順位を下げました。(*/css/compatible.css,*/style.css)
   ・サイズを２倍にしたアイコン画像の調整をし、使用されていない(使用不可)2つのアイコン画像を削除しました。
     (*/images/addchild.gif,*/images/addchild.png,*/images/bararrowdown.gif,*/images/bararrowdown.png,*/images/bararrowup.gif,
      */images/bararrowup.png,*/images/button_help.gif,*/images/button_help.png,*/images/collapse.gif,*/images/collapse.png,
