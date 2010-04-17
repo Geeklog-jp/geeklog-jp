@@ -38,8 +38,8 @@
 <ul>
   <li>FCKeditorのファイルアップロードパスのバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=931">#0000931</a>) を修正し、Flashのアップロードをしないようにしました。[Dirk]</li>
-  <li>FCKeditor を version 2.6.6 にしました。[Dirk]</li>
-  <li>PHPのミニマムバージョンをPHP 4.4.0にしました。[Dirk]</li>
+  <li>FCKeditorをversion 2.6.6 にしました。[Dirk]</li>
+  <li>動作環境におけるPHPのバージョンをPHP 4.4.0以上に引き上げました。[Dirk]</li>
   <li>話題のリネームで新規作成される古くからあったバグを修正しました。[Stan, Dirk]</li>
   <li>オプショナルな紹介である記事のページタイトルを追加しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1096">#0001096</a>,
@@ -116,7 +116,7 @@
   <li>ハードコードされていた検索結果の(asc/desc)を言語ファイルにしました。[Dirk]</li>
   <li>コンフィギュレーションの'パーミッションクッキータイムアウト(default_perm_cookie_timeout)'を
   マイアカウントの"認証の保存期間(Remember me for)"と同様にドロップダウン形式にしました。[Dirk]</li>
-  <li>MySQLのミニマムバージョンを MySQL 4.0.18 に引き上げました。[Dirk]</li>
+  <li>動作環境におけるMySQLのバージョンをMySQL 4.0.18以上に引き上げました。[Dirk]</li>
   <li>記事編集をキャンセルすると、記事管理画面の記事リストで編集時に選択していた話題でセレクトされる
   バグを修正しました。[Dirk]</li>
   <li>プラグインのアンインストールでグローバル変数定義のバグを修正しました。
@@ -617,7 +617,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>自動的に削除する記事で、その記事のトラックバックを削除してませんでした。 [Dirk]</li>
   <li>パーミッション管理エディターで、テンプレート変数名の一貫性が取れるように保証しました。 [Dirk]</li>
   <li>新しいパーミッション'group.assign'を追加してました。これは、ユーザーをグループに所属させるために必要となります。(ユーザー管理でなく)グループ管理の一部のパーミッションではデフォルトとしています。(機能要求 <a href="http://project.geeklog.net/tracking/view.php?id=190">#0000190</a>) [Dirk]</li>
-  <li>PHPの必要とするバージョンをPHP 4.3.0に上げて、PHP 4.1.0への互換性のためのすべての回避策を削除しました。 [Dirk]</li>
+  <li>動作環境におけるPHPのバージョンをPHP 4.3.0以上に引き上げて、PHP 4.1.0への互換性のためのすべての回避策を削除しました。 [Dirk]</li>
   <li>データベースのバックアップファイル名のマスク設定(訳者注: ファイル名の付け方を定義)を追加しました。 [Dirk]</li>
   <li>$_CONF['pagetitle'] ハックを削除しました。代わりに、<code>COM_siteHeader('menu', $pagetitle)</code>を使用してください。 [Dirk]</li>
   <li>正規リンクを記事に追加しました。 [Dirk]</li>
