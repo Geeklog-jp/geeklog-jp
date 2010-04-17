@@ -1,6 +1,6 @@
 NEWS
 
-							2010年4月5日
+							2010年4月18日
 							Geeklog Japanese
 
 1. 概要
@@ -18,7 +18,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
 
 
-2. Geeklog 1.6.1-jp-1.1の内容
+2. Geeklog 1.7.0b1-jp-1.0beta1の内容
 
   * 独自プラグイン
 
@@ -27,9 +27,9 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
     o 通常版と拡張版に同梱
 
-	calendarjp バージョン 1.1.1.1b2
+	calendarjp バージョン 1.1.2
 		Calendarプラグインを日本人ユーザー向けにローカライズ
-	japanize バージョン 1.0.5RC2
+	japanize バージョン 1.0.6RC1
 		Geeklogを日本人流に構成
 
     o 拡張版に同梱
@@ -44,7 +44,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	custommenu バージョン 0.4.3 (*)
 		メインメニュー(ヘッダーメニュー)を管理画面で設定
 
-	dataproxy バージョン 1.1.6
+	dataproxy バージョン 1.1.7
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供
 
