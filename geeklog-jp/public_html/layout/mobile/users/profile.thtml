@@ -45,7 +45,7 @@
   </dl>
 
   <ul id="profile-all_postings_by">
-    <li><a href="{site_url}/search.php?query=&amp;datestart=&amp;dateend=&amp;topic=0&amp;type=all&amp;author={user_id}&amp;mode=search">{lang_all_postings_by}</a></li>
+    <li><a href="{site_url}/search.php?type=all&amp;author={user_id}&amp;mode=search">{lang_all_postings_by}</a></li>
   </ul>
 {end_block}
 
