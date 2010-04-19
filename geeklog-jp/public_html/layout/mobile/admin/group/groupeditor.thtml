@@ -22,6 +22,25 @@
       <dt>{lang_admingroup}</dt>
       <dd><input type="checkbox" name="chk_grpadmin" value="1" {chk_adminuse}{xhtml}>{lang_admingrp_msg}</dd>
     </dl>
+
+    <dl {hide_adminoption}>
+      <dt>{lang_admingroup}</dt>
+      <dd><input type="checkbox" name="chk_grpadmin" value="1" {chk_adminuse}{xhtml}>
+          <span class="fieldhelp">{lang_admingrp_msg}</span>
+    </dl>
+
+    <dl {hide_defaultoption}>
+      <dt>{lang_defaultgroup}</dt>
+      <dd><input type="checkbox" name="chk_grpdefault" value="1" {chk_defaultuse}{xhtml}>
+          <span class="fieldhelp">{lang_defaultgrp_msg}</span>
+    </dl>
+
+    <dl id="applydefault_row"  {hide_defaultoption}>
+      <dt></dt>
+      <dd><input type="checkbox" name="chk_applydefault" value="1"{xhtml}>
+          <span class="fieldhelp">{lang_applydefault_msg}</span>
+    </dl>
+
   </fieldset>
 
   <fieldset class="securitygroups">
