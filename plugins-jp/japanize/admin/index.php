@@ -6,7 +6,9 @@
 // +---------------------------------------------------------------------------+
 // $Id: index.php
 // public_html/admin/plugins/japanize/index.php
-// 20090902 tsuchi AT geeklog DOT jp
+// 20100421 tsuchi AT geeklog DOT jp
+// 20100421 一括更新から（６）(6)サンプルアンケートをはずす
+// 20100421POLLSが有効のときのみ(6)サンプルアンケート　ボタン表示 (fncEdit)
 
 define ('THIS_SCRIPT', 'index.php');
 define ('THIS_PLUGIN', 'japanize');
@@ -48,6 +50,7 @@ function fncEdit ()
     global $_CONF;
     global $LANG04,$LANG_ADMIN;
     global $_TABLES;
+    global $_PLUGINS;
 
     $retval = '';
     $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
@@ -60,6 +63,13 @@ function fncEdit ()
 
     $this_script=$_CONF['site_admin_url']."/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
     $T->set_var ( 'this_script', $this_script );
+
+
+    if  (in_array("polls", $_PLUGINS)) {
+        $T->set_var ( 'type6', "submit" );
+    }else{
+        $T->set_var ( 'type6', "hidden" );
+    }
 
     $T->set_var ('lang_submit', $LANG04[9]);
     $T->set_var ('lang_cancel',$LANG_ADMIN['cancel']);
@@ -113,9 +123,11 @@ if (substr($mode,0,3)=="cmd") {
 
 }elseif (substr($mode,0,3)=="ALL") {
     for ($no = 1; $no <= 8; $no++) {
-        fncCmdExec($no);
-        $var = 'PLG_japanize_MESSAGE'. $no;
-        $display .=$$var."<br>";
+        if ($no<>6){
+            fncCmdExec($no);
+            $var = 'PLG_japanize_MESSAGE'. $no;
+            $display .=$$var."<br>";
+        }
     }
     $display .= COM_siteFooter ();
 }else{// 初期表示、一覧表示
