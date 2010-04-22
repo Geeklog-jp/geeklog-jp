@@ -2,7 +2,8 @@
 
 <div id="plugin-japanize">
 
-<form method="POST" action="{this_script}?mode=ALL"><p><input type="submit" value="日本語化一括実行" name="ALL"></p>
+<form method="POST" action="{this_script}?mode=ALL"><p><input type="submit" value="日本語化一括実行" name="ALL">
+(6)サンプルアンケート 以外のすべての日本語化を実行します。</p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 </form>
 
@@ -114,7 +115,7 @@
 <legend>(6)サンプルアンケート</legend>
 <p>日本語サンプルアンケート追加します</p>
 <blockquote>
-<form method="POST" action="{this_script}?mode=cmd6"><p><input type="submit" value="日本語化実行" name="cmd6"></p>
+<form method="POST" action="{this_script}?mode=cmd6"><p><input type="{type6}" value="日本語化実行" name="cmd6"></p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
 </form>
 </blockquote>
