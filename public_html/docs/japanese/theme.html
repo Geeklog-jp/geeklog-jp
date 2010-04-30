@@ -50,7 +50,7 @@
 
 <h3><a name="how-themes-work">テーマはどのように機能するか</a></h3>
 
-<p>テーマを用いて表示するとき、Geeklogはサイトのヘッダになる <tt>header.thtml</tt> から始め、次に左ブロック(<code>{left_blocks}</code> テンプレート変数と <tt>leftblocks.thtml</tt> テンプレートファイルを探しましょう)を処理します。サイトの中央部分は記事で構成されますが、普通の記事の場合は <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> テンプレートファイル、注目記事の場合は <tt>featuredstorytext.thtml</tt> と <tt>featuredstorybodytext.thtml</tt> テンプレートファイルが使用されます。最後に、<tt>footer.thtml</tt> テンプレートファイルを使用して、右ブロック（<code>{right_blocks}</code> テンプレート変数と <tt>right_blocks.thtml</tt> テンプレートファイルを探しましょう）とサイトのフッタを表示します。ブロック自体は <tt>blockheader.thtml</tt> と <tt>blockfooter.thtml</tt> テンプレートファイルで構成されています。
+<p>テーマを用いて表示するとき、Geeklogはサイトのヘッダになる <tt>header.thtml</tt> から始め、次に左ブロック(<code>{left_blocks}</code> テンプレート変数と <tt>leftblocks.thtml</tt> テンプレートファイルを探しましょう)を処理します。サイトの中央部分は記事で構成されますが、普通の記事の場合は <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> テンプレートファイル、注目記事の場合は <tt>featuredstorytext.thtml</tt> と <tt>featuredstorybodytext.thtml</tt> テンプレートファイルが使用されます。最後に、<tt>footer.thtml</tt> テンプレートファイルを使用して、右ブロック（<code>{right_blocks}</code> テンプレート変数と <tt>right_blocks.thtml</tt> テンプレートファイルを探しましょう）とサイトのフッタを表示します。ブロック自体は <tt>blockheader.thtml</tt> と <tt>blockfooter.thtml</tt> テンプレートファイルで構成されています。</p>
 
 <p>この説明はGeeklogのメインページと記事がどのように作成されるかを述べただけです。Geeklogで見かける様々なエディタやリストだけでなく、カレンダプラグインなど、Geeklogのあらゆる部分を構成するために様々なテンプレートが存在しています。</p>
 
@@ -63,9 +63,9 @@ $user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'c
 
 <h3><a name="testing">テーマのテストと追加情報</a></h3>
 
-<p>自分のテーマを編集し終わったら、次はテストです。 <tt>http://自分のサイトのURL/usersettings.php?mode=preferences</tt> へ行き、テーマのドロップダウンリストから作成したばかりのテーマを選択します（テーマ名はテーマを収めているディレクトリ名と同じです）。
+<p>自分のテーマを編集し終わったら、次はテストです。 <tt>http://自分のサイトのURL/usersettings.php?mode=preferences</tt> へ行き、テーマのドロップダウンリストから作成したばかりのテーマを選択します（テーマ名はテーマを収めているディレクトリ名と同じです）。</p>
 
-<p>最後に、テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるでしょう。
+<p>最後に、テーマの <tt>images</tt> ディレクトリ内のロゴや他の画像ファイルを入れ替える必要もあるでしょう。</p>
 
 <p>テンプレートシステムとしては、GeeklogではPHPLibのテンプレートクラス(<a href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>)を使用しています。彼らが作成したドキュメントを読み、できれば、<tt>/非公開領域/system/classes/template.class.php</tt> を覗いて、どのように実装されているか調べてみるのもよいでしょう。この知識があっても、あるテンプレートファイルがどのテンプレートファイルとセットで使われているかはっきりと分からないかもしれません（たとえば、 <tt>storytext.thtml</tt> と <tt>storybodytext.thtml</tt> がセットになって、<strong>1つの</strong>記事の完全なフォーマットができあがります）。疑問があるなら、<a href="http://lists.geeklog.net/listinfo/geeklog-users">http://lists.geeklog.net/listinfo/geeklog-users</a>メーリングリストに登録するか、IRC（irc.freenode.net の #geeklog チャネル）で尋ねるとよいでしょう。</p>
 
@@ -645,7 +645,7 @@ develop their own themes.</p>
     {event_state_name_only} (abbreviated and full state name without the comma),
     {event_edit} (link to edit the event, if allowed for the current user),
     {edit_icon} (same, but with the edit icon instead of a text link),
-    {lang_event_type} and {event_type} for the event type
+    {lang_event_type} and {event_type} for the event type</li>
 <li>The topic image is now available through the {topic_image} variable in
     <tt>topicoption.thtml</tt> and <tt>topicoption_off.thtml</tt></li>
 <li>Several class names have been introduced so that the various lists that
