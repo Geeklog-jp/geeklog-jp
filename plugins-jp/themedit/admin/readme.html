@@ -76,10 +76,10 @@ Nov 4, 2009
 	<li><a href="#license">License</a></li>
 </ul>
 
-<a name="description"></a><h3>Description</h3>
+<a id="description"></a><h3>Description</h3>
 <p>The Theme Editor is an online theme editor which allows you to edit template files (*.thtml) and cascading style sheet file (*.css).  With this plugin, you can edit Geeklog themes on the Web, without uploading theme files.</p>
 
-<a name="version"></a><h3>Version History</h3>
+<a id="version"></a><h3>Version History</h3>
 <table border="1">
 	<tr>
 		<th>Date</th><th>Version</th><th>Description</th>
@@ -92,7 +92,6 @@ Nov 4, 2009
 	</tr>
 	<tr>
 		<td>Sep 14, 2008</td><td>1.1.2</td><td><span class="fix">[Fix]</span> Upgraded to work well with PHP-4.x by not using htmlentities() and html_entity_decode() functions.</td>
-	</tr>
 	</tr>
 	<tr>
 		<td>Aug 18, 2008</td><td>1.1.1</td><td><span class="fix">[Fix]</span> Upgraded to properly work with DokuWiki plugin.</td>
@@ -117,13 +116,13 @@ Nov 4, 2009
 	</tr>
 </table>
 
-<a name="version"></a><h3>Thanks!</h3>
+<a id="thanks"></a><h3>Thanks!</h3>
 <ul>
 	<li>Geeklog.jp members for useful suggestions</li>
 	<li>Geeklog Core Team for developing and maintaining Geeklog, the Ultimate CMS</li>
 </ul>
 
-<a name="#install"></a><h3>Install instruction for the Geeklog Theme Editor plugin</h3>
+<a id="install"></a><h3>Install instruction for the Geeklog Theme Editor plugin</h3>
 
 <p>In the following descriptions</p>
 <ul>
@@ -144,7 +143,7 @@ Nov 4, 2009
 </ol>
 <p>NOTE: The Theme Editor plugin uses JavaScript a lot.  For better functionality, it is strongly recommended that you enable JavaScript.</p>
 
-<a name="#uninstall"></a><h3>Uninstall instruction for the Geeklog Theme Editor plugin</h3>
+<a id="uninstall"></a><h3>Uninstall instruction for the Geeklog Theme Editor plugin</h3>
 
 <ol>
 	<li>Run the install.php page in your <span class="admin">&lt;admin&gt;</span>/plugins/themedit directory.  This will remove all the data from your database.</li>
@@ -152,7 +151,7 @@ Nov 4, 2009
 	<li><strong>[***** EXTRA STEP FOR THEME EDITOR PLUGIN *****]</strong>  Restore the permissions of the directories and files you changed during the installation.  For example, change the permissions of the directories to 755 and those of the files to 644.</li>
 </ol>
 
-<a name="config"></a><h3>Configuring the plugin</h3>
+<a id="config"></a><h3>Configuring the plugin</h3>
 <p>In the plugin's config.php, you can modify these values:</p>
 <table border="1">
 	<tr>
@@ -221,10 +220,10 @@ Nov 4, 2009
 	</tr>
 </table>
 
-<a name="upgrade"></a><h3>Upgrading The Plugin</h3>
+<a id="upgrade"></a><h3>Upgrading The Plugin</h3>
 <p>First, after you download and unpack a new archive, upload all the files to the Web server.  Then, log in as admin and go to the Plugin Editor.  Click the edit icon and click "upgrade" button.</p>
 
-<a name="usage"></a><h3>Usage</h3>
+<a id="usage"></a><h3>Usage</h3>
 <p>The Theme Editor plugin is so simple that you can use it almost intuitively.</p>
 <ol>
 	<li>Choose a theme you want to edit at a dropdown menu.<br><strong>NOTE</strong>: theme names you can choose from are defined as the <tt>$_THM_CONF['allowed_themes']</tt> array in <tt>config.php</tt>.  Please edit it as you like.</li>
@@ -237,7 +236,7 @@ Nov 4, 2009
 	<li>When you hit the "<strong>Image</strong>" button, a simple image browser will be displayed.  Supported file types are 'jpg', 'jpeg', 'png', and 'gif'.  In the screen, you can choose a theme and a directory from dropdown lists.  When you want to upload an image file to the current directory, hit the 'Browse...' button and select an image file to upload and then hit the 'Upload' button.  If you want to delete an image file(s), check all the files you'd like to and hit the 'Delete' button.  <strong>The deleting process will be carried out WITHOUT CONFIRMATION, so be very careful!</strong>  There is no undoing it.</li>
 </ol>
 
-<a name="license"></a><h3>License</h3>
+<a id="license"></a><h3>License</h3>
 <p>The Theme Editor plugin is licensed under the GPL.</p>
 
 <div id="copyright">Copyright &copy; 2006-2008 mystral-kk</div>
