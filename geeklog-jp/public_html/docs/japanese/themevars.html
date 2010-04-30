@@ -73,10 +73,10 @@
     <td>iso-8859-1</td>
     <td>現在の言語ファイルの文字セットです。</td></tr>
 <tr><td><code>lang_id</code></td>
-    <td><tt>en-GB</tt>
+    <td><tt>en-GB</tt></td>
     <td>サイトで使用されている言語を表すIDです。理想を言えば、これはISOの国/言語コードで、たとえば、イギリス英語なら en-GB となるべきでしょう。多言語サポートが有効になっている場合、この変数の値は<code>$_CONF['languages']</code>配列で使用されている言語ショートカット(ID)の値になります。それ以外の場合は、<code>$_CONF['locale']</code>から導き出されますが、ある程度の推測が含まれます。後者の場合、サイトのOSがUnix系でなければ（有効なISOコードではないので）、結果として、Germanのような値になることもあります。</td></tr>
 <tr><td><code>lang_attribute</code></td>
-    <td><tt>lang="en-GB"</tt>
+    <td><tt>lang="en-GB"</tt></td>
     <td>サイトないし現在のページの言語を示すため、HTMLヘッダ内で <pre>&lt;html {lang_attribute}&gt;</pre> のような形で使用される<a href="http://www.w3.org/TR/html4/struct/dirlang.html#adef-lang">HTML言語属性(HTML lang attribute)</a>とその値です。サイトの言語IDが<a href="http://www.w3.org/TR/html4/struct/dirlang.html#langcodes">有効な言語コード</a>でないように思える場合（上述の <code>{lang_id}</code> 変数の説明をご覧ください。）、この変数は<strong>空</strong>、つまり、セットされないことに注意してください。</td></tr>
 <tr><td><code>feed_url</code></td>
     <td><tt>&lt;link rel="alternate" type="application/rss+xml" hreflang="en-gb" href="http://www.example.com/backend/geeklog.rss" title="RSS Feed: Geeklog"&gt;</tt></td>
