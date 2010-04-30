@@ -201,15 +201,15 @@ function CUSTOM_menuEntries ()
     $myentries = array ();
 
     // Sample link #1: Link to Gallery
-    $myentries[] = array ('url'   => $_CONF['site_url'] . '/gallery/',
-                          'label' => 'Gallery');
+    $myentries[] = array ('url'   =&gt; $_CONF['site_url'] . '/gallery/',
+                          'label' =&gt; 'Gallery');
 
     // Sample link #2: Link to the Personal Calendar - only visible for
     // logged-in users
-    if (!empty ($_USER['uid']) &amp;&amp; ($_USER['uid'] > 1)) {
-        $myentries[] = array ('url'   => $_CONF['site_url']
+    if (!empty ($_USER['uid']) &amp;&amp; ($_USER['uid'] &gt; 1)) {
+        $myentries[] = array ('url'   =&gt; $_CONF['site_url']
                                          . '/calendar/index.php?mode=personal',
-                              'label' => 'My Calendar');
+                              'label' =&gt; 'My Calendar');
     }
 
     return $myentries;
@@ -452,7 +452,7 @@ about_ja     無効</code></pre>
   <p>多階層メニューを試すには、次の操作を行って下さい。</p>
   <ul>
     <li>/bonus/lib-common.php.sampleの657行～666行のように、lib-common.phpを修正する必要があります。</li>
-    <li>コンフィギュレーション -> カスタムメニュー -> メニューレンダラ を「階層メニュー対応」に設定します。</li>
+    <li>コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定します。</li>
     <li>/bonus/layout/テーマ名 のファイル群を、テーマディレクトリにコピーします。(professional と ProfessionalCSS のみ対応)<br />
 この操作で、各テーマの menuitem.thtml, menuitem_last.thtml, style.css, custom.css を上書きしますので、事前のバックアップをお忘れなく。</li>
     <li>「メニューアイテムの編集」で「親アイテムID」を使って階層を設定します。</li>
