@@ -646,7 +646,7 @@ static pages when URL rewriting was enabled, that were introduced in
 <p>This release provides security enhancements and better spam protection
 originally developed for Geeklog 1.3.12. It also addresses a few bugs where
 the bugfix could be integrated with a reasonable amount of work (other bugfixes
-will have to wait for the 1.3.12 release).</p>
+will have to wait for the 1.3.12 release).
 
 <h3>Security and Spam protection</h3>
 <ul>
@@ -1127,7 +1127,7 @@ variety of (mostly minor) bugfixes. None of those fixes are security-related.</p
     versions.</li>
 <li>Fixed a problem with the What's Related block on stories that contain
     images.</li>
-<li>Skip user "Anonymous" when sending out the Daily Digest.</li>
+<li>Skip user "Anonymous" when sending out the Daily Digest.
 <li>Prevent admin from changing a user's email address to one that's already
     used by another user.</li>
 <li>Update RSS feed and Older Stories block when deleting a story.</li>
@@ -1148,27 +1148,27 @@ href="staticpages.html">Static Pages documentation</a> for details.</p>
 <ul>
   <li>The search function has been rewritten. You can now search for the
     exact phrase, all the words, or any of the words from a query. Search
-    words are also highlighted in stories.</li>
+    words are also highlighted in stories.
   <li>New Privacy options: Users can decide whether they want to receive
     email from other users and/or admins and whether they want to show up in
-    the Who's Online block.</li>
+    the Who's Online block.
   <li>You can now get a list of all users who are in a certain group (from the
-    Admin's group editor).</li>
+    Admin's group editor).
   <li>When scaling is configured for images in stories, you can now keep the
     unscaled image (has to be enabled in config.php first). In that case, the
     scaled-down image in the story will serve as a thumbnail and link to the
-    unscaled image.</li>
+    unscaled image.
   <li>You can now make one topic the default topic. The topic selection in the
     story submission form will then default to that topic. However, when
     browsing by topic (index.php?topic=Geeklog etc.) new story submissions will
-    default to the current topic.</li>
+    default to the current topic.
   <li>You can give your users the ability to change their username and delete
-    their account. Both features have to be enabled in config.php.</li>
+    their account. Both features have to be enabled in config.php.
   <li>Extended Plugin API: Plugins can now display content in Geeklog's
     center area, add their own information to the user profile, and add
-    information to the site's header (<code>&lt;head&gt;</code> section).</li>
+    information to the site's header (<code>&lt;head&gt;</code> section).
   <li>There's a new API for custom registration forms (see
-    <tt>lib-custom.php</tt> for sample code).</li>
+    <tt>lib-custom.php</tt> for sample code).
   <li>There have been quite a few theme changes in order to move most larger
     portions of hard-coded HTML to template files and to give theme designers
     more control over the layout. Please consult the <a
@@ -1182,19 +1182,19 @@ href="staticpages.html">Static Pages documentation</a> for details.</p>
     your old password and sending you a new one, you will now receive an
     email with a unique link in it. If you follow this link, you can enter a
     new password directly. Otherwise, you can simply ignore the email and your
-    old password will remain valid.</li>
+    old password will remain valid.
   <li>Topic access was not always checked properly. If Story Admins report
     getting access denied messages after upgrading to 1.3.8, check your topic
-    permissions carefully.</li>
+    permissions carefully.
   <li>The poll editor let you enter one answer too many (i.e. when the max.
     number of answers was set to 10 you could actually enter 11). Please check
     your existing polls or you may lose the last answer if you exceeded the
     max. number of answers in a poll (adjust $_CONF['maxanswers'] accordingly,
-    if necessary).</li>
+    if necessary).
   <li>Geeklog should install and run again on old versions of MySQL
     (specifically, 3.22.xx). Please note that some of these old versions aren't
     even supported by MySQL AB any more and MySQL installs older than 3.23.54
-    are having security issues.</li>
+    are having security issues.
 </ul>
 
 
@@ -1303,7 +1303,7 @@ All users are strongly recommended to upgrade to this version.</p>
 <li>Fixed possible causes for endless loops with the redirect in index.php: No redirect will be done if $HTTP_SERVER_VARS['HTTP_HOST'] is not set. Also, the comparison of the configured and actual server name is not case-sensitive any more.</li>
 <li>Fixed image resizing when using ImageMagick.</li>
 <li>The new user notification email (introduced in Geeklog 1.3.7) was always
- sent out, even if 'user' was not listed in $_CONF['notification'].</li>
+ sent out, even if 'user' was not listed in $_CONF['notification'].
 <li>The Admin menu will now be displayed for users who have Admin access to plugins only, but not to one of the core Admin features.</li>
 <li>The default for the daily digest is now back to "off", i.e. new users will not receive it automatically. To enable the daily digest for new users again, set $_CONF['emailstoriesperdefault'] = 1 in config.php.</li>
 </ul>
