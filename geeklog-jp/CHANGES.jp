@@ -1,10 +1,14 @@
 $Id$
 
+2010-05-02  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.7.0rc1をマージしました。
+
 2010-04-21  Kazuko Tsuchitani <Tsuchi>
 
-	* japanizeプラグイン: Ver 1.0.6RC2に更新しました
-	  日本語化一括から(6)サンプルアンケートをはずす。
-	  POLLSが有効のときのみ(6)サンプルアンケート　ボタン表示。
+	* japanizeプラグイン: Ver 1.0.6RC2に更新しました。
+		- 日本語化一括から(6)サンプルアンケートをはずす。
+		- POLLSが有効のときのみ(6)サンプルアンケート　ボタン表示。
 
 2010-04-18  Takahiro Kambe  <tacahi>
 
