@@ -753,9 +753,9 @@ function plugin_getwhatsnewcomment_story($numreturn = 0, $uid = 0)
     
     $stwhere = '';
     if( !COM_isAnonUser() ) {
-        $stwhere .= "({$_TABLES['stories']}.owner_id IS NOT NULL AND {$_TABLES['stories']}.perm_owner IS NOT NULL) OR ";
+        $stwhere .= "(({$_TABLES['stories']}.owner_id IS NOT NULL AND {$_TABLES['stories']}.perm_owner IS NOT NULL) OR ";
         $stwhere .= "({$_TABLES['stories']}.group_id IS NOT NULL AND {$_TABLES['stories']}.perm_group IS NOT NULL) OR ";
-        $stwhere .= "({$_TABLES['stories']}.perm_members IS NOT NULL)";
+        $stwhere .= "({$_TABLES['stories']}.perm_members IS NOT NULL))";
     } else {
         $stwhere .= "({$_TABLES['stories']}.perm_anon IS NOT NULL)";
     }
@@ -768,7 +768,7 @@ function plugin_getwhatsnewcomment_story($numreturn = 0, $uid = 0)
         $sql['mysql'] = "SELECT DISTINCT COUNT(*) AS dups, type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid, max({$_TABLES['comments']}.date) AS lastdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$_TABLES['comments']}.date >= (DATE_SUB(NOW(), INTERVAL {$_CONF['newcommentsinterval']} SECOND))) AND ((({$stwhere}))) GROUP BY {$_TABLES['comments']}.sid,type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid ORDER BY 5 DESC LIMIT 15";
         $sql['pgsql'] = "SELECT DISTINCT COUNT(*) AS dups, type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid, max({$_TABLES['comments']}.date) AS lastdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$_TABLES['comments']}.date >= (NOW()+ INTERVAL '{$_CONF['newcommentsinterval']} SECOND')) AND ((({$stwhere}))) GROUP BY {$_TABLES['comments']}.sid,type, {$_TABLES['stories']}.title, {$_TABLES['stories']}.title, {$_TABLES['stories']}.sid ORDER BY 5 DESC LIMIT 15";
     } else {
-        $sql = "SELECT {$_TABLES['stories']}.sid,{$_TABLES['stories']}.title, cid, UNIX_TIMESTAMP({$_TABLES['comments']}.date) AS unixdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$stwhere}) ORDER BY unixdate DESC LIMIT $numreturn";
+        $sql = "SELECT {$_TABLES['stories']}.sid, {$_TABLES['comments']}.title, cid, UNIX_TIMESTAMP({$_TABLES['comments']}.date) AS unixdate FROM {$_TABLES['comments']} LEFT JOIN {$_TABLES['stories']} ON (({$_TABLES['stories']}.sid = {$_TABLES['comments']}.sid)" . COM_getPermSQL( 'AND', 0, 2, $_TABLES['stories'] ) . " AND ({$_TABLES['stories']}.draft_flag = 0) AND ({$_TABLES['stories']}.commentcode >= 0)" . $topicsql . COM_getLangSQL( 'sid', 'AND', $_TABLES['stories'] ) . ") WHERE ({$stwhere}) ORDER BY unixdate DESC LIMIT $numreturn";
     }
     $result = DB_query($sql);
     $nrows = DB_numRows($result);
@@ -1151,6 +1151,10 @@ function service_submit_story($args, &$output, &$svc_msg)
     }
 
     require_once $_CONF['path_system'] . 'lib-comment.php';
+    if (version_compare(PHP_VERSION, '5.0.0', '>=') &&
+            (! $_CONF['disable_webservices'])) {
+        require_once $_CONF['path_system'] . 'lib-webservices.php';
+    }
 
     $gl_edit = false;
     if (isset($args['gl_edit'])) {
@@ -1308,7 +1312,15 @@ function service_submit_story($args, &$output, &$svc_msg)
     $args['sid'] = COM_sanitizeID($args['sid']);
     if (!$gl_edit) {
         if (strlen($args['sid']) > STORY_MAX_ID_LENGTH) {
-            $args['sid'] = WS_makeId($args['slug'], STORY_MAX_ID_LENGTH);
+            $slug = '';
+            if (isset($args['slug'])) {
+                $slug = $args['slug'];
+            }
+            if (function_exists('WS_makeId')) {
+                $args['sid'] = WS_makeId($slug, STORY_MAX_ID_LENGTH);
+            } else {
+                $args['sid'] = COM_makeSid();
+            }
         }
     }
     $story = new Story();
