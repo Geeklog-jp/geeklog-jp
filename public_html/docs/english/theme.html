@@ -17,7 +17,7 @@ recent Geeklog versions)</small></p>
 
 <p>Creating a theme for Geeklog is easy and quite fast. If you can
 manipulate HTML files then you can create a theme! There's no need to learn
-PHP.</p>
+PHP.
 
 <h2>Creating a theme</h2>
 
@@ -66,7 +66,7 @@ and <tt>featuredstorytext.thtml</tt> and <tt>featuredstorybodytext.thtml</tt>
 (for featured stories) template files. The <tt>footer.thtml</tt> file then
 builds the right column of blocks (variable {right_blocks}, file
 <tt>right_blocks.thtml</tt>) and the site's footer. Blocks themselves consist
-of the <tt>blockheader.thtml</tt> and <tt>blockfooter.thtml</tt> files.</p>
+of the <tt>blockheader.thtml</tt> and <tt>blockfooter.thtml</tt> files.
 
 <p>The above only describes how Geeklog's main page and stories are rendered.
 More templates exist for the various editors and lists you will see in Geeklog,
@@ -81,7 +81,7 @@ a PHP file there, e.g. the <tt>users.php</tt> file when you view a user's
 profile. Open that file and search for '<kbd>.thtml</kbd>'. For the profile
 you will find these lines (in <code>function userprofile()</code>):</p>
 <pre style="margin-left:4em;"><code>$user_templates = new Template ($_CONF['path_layout'] . 'users');
-$user_templates-&gt;set_file (array ('profile'=&gt;'profile.thtml', 'row'=&gt;'commentrow.thtml', 'strow'=&gt;'storyrow.thtml'));</code></pre>
+$user_templates->set_file (array ('profile'=>'profile.thtml', 'row'=>'commentrow.thtml', 'strow'=>'storyrow.thtml'));</code></pre>
 <p>You don't need to understand PHP code to see that this uses the template
 files <tt>profile.thtml</tt>, <tt>commentrow.thtml</tt>, and
 <tt>storyrow.thtml</tt>. The first line also indicates that these are taken
@@ -95,10 +95,10 @@ used in templates files is also included.</p>
 <p>After you have edited your themes, you are now ready to test it out.
 Simply go to http://mygeeklogsite/usersettings.php?mode=preferences - in the
 theme drop-down select your newly created theme (note the name of your theme is
-the <em>same</em> name as the directory for your theme).</p>
+the <em>same</em> name as the directory for your theme).
 
 <p>Finally, you may want to update the logo and other images in your
-theme's images directory.</p>
+theme's images directory.
 
 <p>For the template system we are using PHPLib's template class (<a
 href="http://phplib.sourceforge.net/">http://phplib.sourceforge.net/</a>).
@@ -684,7 +684,7 @@ default theme (Professional) that ships with Geeklog.</p>
 
 <h3>Header-Tags</h3>
 
-<p>From now on, all headlines in blocks &amp; stories are made with header-tags. The
+<p>From now on, all headlines in blocks & stories are made with header-tags. The
 biggest title in a story is always h1, in a block always h2.</p>
 
 <h3>Story layout</h3>
@@ -776,7 +776,7 @@ entire 'admin' directory with the one from Geeklog's Professional theme.</p>
     <tt>pollvotes_bar.thtml</tt> is now colored and has two lines, a class
     for color coding each line and the <code>{answer_text}</code>. The
     <tt>polleditor.thtml</tt> has an aditional field to enter the remarks,
-    same as the <tt>pollansweroption.thtml</tt>.</li>
+    same as the <tt>pollansweroption.thtml</tt>.
 <li>A user's Account Information page has been redesigned. While there were no
     technical changes (i.e. template files from earlier versions will still
     work), some options have been rearranged and a note has been added to tell
@@ -1001,7 +1001,7 @@ develop their own themes.</p>
     {event_state_name_only} (abbreviated and full state name without the comma),
     {event_edit} (link to edit the event, if allowed for the current user),
     {edit_icon} (same, but with the edit icon instead of a text link),
-    {lang_event_type} and {event_type} for the event type</li>
+    {lang_event_type} and {event_type} for the event type
 <li>The topic image is now available through the {topic_image} variable in
     <tt>topicoption.thtml</tt> and <tt>topicoption_off.thtml</tt></li>
 <li>Several class names have been introduced so that the various lists that
