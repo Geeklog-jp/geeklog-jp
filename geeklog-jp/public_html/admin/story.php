@@ -742,7 +742,9 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
     $story_templates->set_var('story_trackbacks', $story->EditElements('trackbacks'));
     $story_templates->set_var('lang_emails', $LANG24[39]);
     $story_templates->set_var('story_emails', $story->EditElements('numemails'));
-    if ($mode != 'clone') {
+    if ($mode == 'clone') {
+        $story_templates->set_var('story_id', COM_makesid());
+    } else {
         $story_templates->set_var('story_id', $story->getSid());
         $story_templates->set_var('old_story_id', $story->EditElements('originalSid'));
     }

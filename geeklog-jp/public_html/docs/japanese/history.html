@@ -13,25 +13,54 @@
 <body>
 <h1>Geeklogの変更履歴(<a href="../history">public_html/docs/history</a>をHTML化&amp;翻訳したものです)</h1>
 
-<h2>Apr ??, 2010 (1.7.0b2)</h2>
+<h2>May 2, 2010 (1.7.0rc1)</h2>
 
 <p>Geeklog 1.7.0 からは、2009 Google Summer of CodeのStan Palatnikさんの成果により、PostgreSQLをサポートします。</p>
 
-
-<p>1.6.1rc1からの変更:</p>
+<p>Changes since 1.7.0b1</p>
 <ul>
+  <li>Fixed call to undefined function WS_makeId() when using very long story ids (bug #0001140) [Dirk]</li>
+  <li>Fixed cloning of a story (bug #0001127, patch provided by Eric Brisco)</li>
+  <li>The installation script now recommends setting permissions to 666 for files and 777 for directories that need to be writable (bug #0001126, patch provided by Eric Brisco)</li>
+  <li>Fixed dynamic renumbering of config items when an item is deleted (bug #0001074, patch provided by Eric Brisco)</li>
   <li>COM_featuredCheckで、トップページに１個だけの注目記事掲載を行なうようにしました。[Tom]</li>
   <li>プロファイルページでの最新コメント10件を表示するようにしました。[Tom]</li>
 </ul>
+<ul>
+  <li>Updated Estonian language file, provided by Artur Räpp</li>
+  <li>Updated Hebrew language files, provided by LWC</li>
+  <li>Updated Italian language files, provided by Rouslan Placella</li>
+  <li>Updated Japanese language files and documentation, provided by the Geeklog.jp group</li>
+  <li>Updated Slovak language files, provided by Miroslav Fikar</li>
+</ul>
 
-<h3>静的ページプラグイン</h3>
+<h3>Calendar Plugin</h3>
+<ul>
+  <li>Added call to PLG_itemPreSave to support the CAPTCHA plugin (feature request #0001091) [Dirk]</li>
+</ul>
 
+<h3>Links Plugin</h3>
+<ul>
+  <li>Added call to PLG_itemPreSave to support the CAPTCHA plugin (feature request #0001091) [Dirk]</li>
+  <li>Fixed wrong speedlimit warning when not all required fields are filled in when submitting a link [Dirk]</li>
+  <li>Treat the pre-populated partial link URL "http://" as if no URL was submitted and prevent it from being used in the spam check [Dirk]</li>
+</ul>
+
+<h3>Polls Plugin</h3>
+<ul>
+  <li>Fixed MS SQL upgrade (bug #0001144)</li>
+</ul>
+
+<h3>Spam-X Plugin</h3>
+<ul>
+  <li>Removed 'admin_override' entry from language files (bug #0001114)</li>
+</ul>
+
+<h3>Static Pages Plugin</h3>
 <ul>
   <li>アドバンストエディターが有効の時、静的ページ編集画面でページタイトル入力部のバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1113">#0001113)</a></li>
 </ul>
-
-
 
 <h2>Apr 4, 2010 (1.7.0b1)</h2>
 
@@ -41,15 +70,13 @@
   <li>FCKeditorをversion 2.6.6 にしました。[Dirk]</li>
   <li>動作環境におけるPHPのバージョンをPHP 4.4.0以上に引き上げました。[Dirk]</li>
   <li>話題のリネームで新規作成される古くからあったバグを修正しました。[Stan, Dirk]</li>
-  <li>オプショナルな紹介である記事のページタイトルを追加しました。
-  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1096">#0001096</a>,
-  patch provided by Vlad Voicu)</li>
+  <li>Introduced an optional page title for stories (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1096">#0001096</a>, patch provided by Vlad Voicu)</li>
   <li>投稿する際のHTMLフィルターをスキップする権限 htmlfilter.skip を追加しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=952">#0000952</a>) [Tom]</li>
   <li>ローカルインストールにだけパスワード空白でインストールを許可していたバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=923">#0000923</a>, patch provided by Chetan)</li>
   <li>新着ブロックとユーザープロファイルページでコメントを表示するための、
-  新着コメントプラグインAPI PLG_getWhatsNewCommentを追加追加しました。
+  新着コメントプラグインAPI PLG_getWhatsNewCommentを追加しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=835">#0000835</a>) [Tom]</li>
   <li>フィードのhtmlタグが閉じていなかったバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=749">#0000749</a>) [Tom]  </li>
@@ -206,7 +233,7 @@
   <li>編集日時のフィールドを追加しました。新着ブロックには、編集日か新規作成日か、
   選べるようにしました。[Tom]</li>
   <li>印刷用ページのためのクリックジャッキングプロテクションを追加しました。[Dirk]</li>
-  <li>MS SQLとSQLコンパチブルになるようバグを修正しました。
+  <li>MS SQLとSQLの互換性の問題を修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1050">#0001050</a>)</li>
   <li>ドラフトフラグを追加しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=884">#0000884</a>) [Dirk]</li>
@@ -217,9 +244,8 @@
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a> (訳注:?)) [Dirk]</li>
   <li>コメントバーのリフレッシュボタンが効かないバグを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1043">#0001043</a>) [Dirk]</li>
-  <li>メタタグがサポートされていない場合、静的ページ編集画面にメタタグのフォームを
-  表示しないようにしました。[Dirk]</li>
-  <li>コメント停止中の静的ページの印刷用ページから空のカッコのペア？？？[Dirk]</li>
+  <li>メタタグを無効にしている場合、静的ページ編集画面にメタタグのフォームを表示しないようにしました。[Dirk]</li>
+  <li>コメント停止中の静的ページで、印刷用ページの空の角括弧の組を出なくしました。[Dirk]</li>
   <li>静的ページ管理画面のリスト表示におけるソートのデフォルトを追加しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=812">#0000812</a>) [Dirk]</li>
   <li>FCKeditor利用時の場合の静的ページ編集エリアの初期サイズを大きくしました。
@@ -232,7 +258,6 @@
   <li>クエリハイライトのサポートを追加しました。[Dirk]</li>
 </ul>
 
-
 <h2>Nov 22, 2009 (1.6.1)</h2>
 
 <p>1.6.1rc1以降の変更点:</p>
@@ -243,7 +268,9 @@
   <li>インストール成功時にdb-config.phpとsiteconfig.phpのパーミッションを755に変更することを勧めていましたが、これらのファイルを実行する必要はないので644への変更を勧めるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=1036">#0001036</a>) [Dirk]</li>
 </ul>
 <ul>
-  <li>(Artur Rapp氏提供による)エストニア語の言語ファイルを更新しました。</li>
+  <li>Artur Rapp氏提供による、エストニア語の言語ファイルを更新しました。</li>
+  <li>Updated German language files, provided by Markus Wollschläger</li>
+  <li>Updated Japanese language files, provided by the Geeklog.jp group</li>
 </ul>
 
 <h3>静的ページプラグイン</h3>
