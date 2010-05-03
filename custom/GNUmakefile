@@ -4,7 +4,8 @@
 FILES=		custom_cellular.php
 
 # Additional custom functions for Geeklog Japanese extended release.
-EFILES+=	custom_getstaticpage.php phpblock_lastarticles.php
+EFILES+=	custom_getstaticpage.php custom_forcethemechange.php
+EFILES+=	phpblock_lastarticles.php
 EFILES+=	phpblock_showrights.php phpblock_sitemapmenu.php
 EFILES+=	phpblock_stats.php phpblock_themetester.php
 
