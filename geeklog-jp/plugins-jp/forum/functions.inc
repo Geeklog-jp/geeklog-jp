@@ -801,55 +801,36 @@ function plugin_upgrade_forum() {
 
     $curversion = DB_getItem($_TABLES['plugins'],'pi_version',"pi_name = 'forum'");
 
-    switch ($curversion) {
-
-        case "2.3" :
-            if (upgrade_232() == 0 )  {
+    $done = false;
+    while (! $done) {
+        switch ($curversion) {
+            case "2.3" :
+            case "2.3.2" :
+                if (upgrade_232() != 0) break 2;
                 DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.5RC1' WHERE `pi_name` = 'forum' LIMIT 1");
-                if (upgrade_25() == 0 )  {
-                    DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
-                }
-            }
-            break;
+                $curversion = "2.5RC1";
+                break;
 
-        case "2.3.2" :
-            if (upgrade_232() == 0 )  {
-                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.5RC1' WHERE `pi_name` = 'forum' LIMIT 1");
-                if (upgrade_25() == 0 )  {
-                    DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
-                }
-            }
-            break;
+            case "2.5RC1" :
+                if (upgrade_25() != 0 ) break 2;
+                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.6', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
+                $curversion = "2.6";
+                break;
 
-        case "2.5RC1" :
-            if (upgrade_25() == 0 )  {
-                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
-            }
-            break;
+            case "2.6" :
+            case "2.7" :
+            case "2.7.1" :
+            case "2.7.2" :
+            case "2.7.2.JPr5" :
+            case "2.7.2.JPr6" :
+                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.3.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
+                $curversion = "2.7.3.JPr1";
+                break;
 
-       case "2.6" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
-
-       case "2.7" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.1', `pi_gl_version` = '1.4.1' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
-
-       case "2.7.1" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
-
-       case "2.7.2" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2.JPr5', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
-
-       case "2.7.2.JPr5" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.2.JPr6', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
-
-       case "2.7.2.JPr6" :
-             DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.3.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
-             break;
+            default:
+                $done = true;
+                break;
+        }
     }
 
     /* Check if update completed and return a message number to be shown */
@@ -858,7 +839,6 @@ function plugin_upgrade_forum() {
     } else {
         return 5;
     }
-
 }
 
 /**
