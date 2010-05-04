@@ -2,6 +2,10 @@ $Id$
 
 2010-05-04  Yoshinori Tahara  <dengen>
 
+	* forumプラグイン: アップグレード用関数を改善しました。
+
+2010-05-04  Yoshinori Tahara  <dengen>
+
 	* forumプラグイン: オリジナル版のversion 2.7.3をマージしました。
 
 2010-05-03  Tetsuko Komma  <ivy>
