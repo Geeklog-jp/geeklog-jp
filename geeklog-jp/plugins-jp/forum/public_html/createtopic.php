@@ -70,6 +70,9 @@ if (isset($_REQUEST['postmode'])) {
     }
 }
 $postmode_switch = COM_applyFilter($_REQUEST['postmode_switch'],true);
+if (isset($_POST['aname'])) {
+    $_POST['aname'] = strip_tags($_POST['aname']);
+}
 
 // Display Common headers
 $display .= gf_siteHeader();
