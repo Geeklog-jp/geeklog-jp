@@ -1,6 +1,6 @@
 NEWS
 
-							2010年4月18日
+							2010年5月4日
 							Geeklog Japanese
 
 1. 概要
@@ -18,7 +18,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
 
 
-2. Geeklog 1.7.0b1-jp-1.0beta1の内容
+2. Geeklog 1.7.0rc1-jp-1.0rc1の内容
 
   * 独自プラグイン
 
@@ -29,7 +29,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 	calendarjp バージョン 1.1.2
 		Calendarプラグインを日本人ユーザー向けにローカライズ
-	japanize バージョン 1.0.6RC1
+	japanize バージョン 1.0.6RC2
 		Geeklogを日本人流に構成
 
     o 拡張版に同梱
@@ -55,7 +55,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	filemgmt バージョン 1.6.0.jp3
 		ファイル管理の機能を提供
 
-	forum バージョン 2.7.2.JPr6
+	forum バージョン 2.7.3.JPr1
 		掲示板を提供
 
 	mycaljp バージョン 2.1.2
@@ -86,6 +86,9 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		携帯端末のサポート
 
     * 拡張版に同梱
+
+	forcethemechange
+		XXX
 
 	getStaticpage
 		統計ページの内容を取得
