@@ -2,6 +2,10 @@ $Id$
 
 2010-05-04  Yoshinori Tahara  <dengen>
 
+	* forumプラグイン: r2563に伴うreadme_ja.txtの記述ミスを修正しました。
+
+2010-05-04  Yoshinori Tahara  <dengen>
+
 	* forumプラグイン: アップグレード用関数を改善しました。
 
 2010-05-04  Yoshinori Tahara  <dengen>
