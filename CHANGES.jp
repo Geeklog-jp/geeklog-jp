@@ -1,5 +1,9 @@
 $Id$
 
+2010-05-04  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: オリジナル版のversion 2.7.3をマージしました。
+
 2010-05-03  Tetsuko Komma  <ivy>
 
 	* history.htmlで、追加された英文の翻訳を行いました。
