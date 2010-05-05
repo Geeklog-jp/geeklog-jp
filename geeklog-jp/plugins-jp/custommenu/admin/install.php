@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/custommenu/install.php                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 dengen - taharaxp AT gmail DOT com                     |
+// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -47,9 +47,9 @@ require_once $base_path . 'functions.inc';
 //
 $pi_display_name = 'CustomMenu';
 $pi_name         = 'custommenu';
-$pi_version      = $_CMED_CONF['version']; // Plugin Version
-$gl_version      = '1.4.1';
-$pi_url          = 'http://www.trybase.com/~dengen/log/';
+$pi_version      = $_CMED_CONF['version'];    // Plugin Version
+$gl_version      = $_CMED_CONF['gl_version']; // GL Version
+$pi_url          = $_CMED_CONF['pi_url'];     // Plugin Homepage
 
 // Name of the Admin group
 $pi_admin = $pi_display_name . ' Admin';
@@ -370,6 +370,7 @@ function plugin_install_now()
         $c = config::get_instance();
         $c->set('menu_elements', array('custom'));
 
+        require_once $_CONF['path'] . 'plugins/custommenu/autoinstall.php';
         CMED_addPluginsMenuitems();
     }
 
