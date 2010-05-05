@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/custommenu/index.php                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 dengen - taharaxp AT gmail DOT com                     |
+// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -956,6 +956,7 @@ if ($mode == 'delete' && SEC_checkToken()) {
 } else {
 
     if  (($mode != 'cancel') && ($mode != 'move')) {
+        require_once $_CONF['path'] . 'plugins/custommenu/autoinstall.php';
         CMED_addPluginsMenuitems();
     }
     $CMED_CSRF_TOKEN = SEC_createToken();

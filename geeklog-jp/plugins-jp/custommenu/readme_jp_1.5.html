@@ -116,9 +116,9 @@
 </head>
 <body>
   <h1><a name="_top">CustomMenu Editor プラグイン</a></h1>
-  <h2>バージョン: 0.4.3</h2>
+  <h2>バージョン: 0.5.0</h2>
   <h2>作成者: Yoshinori Tahara - dengen</h2>
-  <h2>公開日:&nbsp;2009.8.4</h2>
+  <h2>公開日:&nbsp;2010.5.6</h2>
   <h2>ライセンス:&nbsp;GPL</h2>
   <h2>概要:</h2>
   <ul>
@@ -361,7 +361,7 @@ about_ja     無効</code></pre>
   <p>バージョン0.3.0よりURLの照合機能を追加しました。</p>
   <p>URLの照合機能とは、Geeklogサイトの表示中のページのURLをメニューアイテムごとに照合し、マッチしたメニューアイテムのスタイルを変化させるものです。</p>
   <p>例えば、リンクのページを開いているときに、リンクのメニューアイテムを反転させて表示させることが可能となります。</p>
-  <p>ただし、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。</p>
+  <p>ただし、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。（<span class="attention">バージョン0.5.0より、Geeklog1.6.1以降で使用する場合はシステムの一部（lib-common.php）の変更は不要になりました。</span>）</p>
   <p>一例として、リンクのメニューアイテムを反転させる方法を示します。ここでは、professionalテーマを用います。</p>
   <ul>
   <li>カスタムメニューの管理画面で「リンク」を編集します。</li>
@@ -369,7 +369,7 @@ about_ja     無効</code></pre>
 これは、「表示ページのURLに"/links/"が含まれていたときに、メニューアイテム「リンク」のスタイルを変化させる。」という意味の設定です。</li>
   <li>なお、「正規表現」を有効にすると、PHPがサポートしている正規表現で照合することができます。照合の条件が複雑な場合に使用することを想定した機能であり、使用する場面は少ないでしょう。照合にはpreg_match関数を使用しています。<br />
 正規表現の詳細については <a href="http://jp.php.net/manual/ja/regexp.reference.php">http://jp.php.net/manual/ja/regexp.reference.php</a> を参照してください。</li>
-  <li>lib-common.phpの変更は実質2行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.php.sampleの623行目および681行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。</li>
+  <li>lib-common.phpの変更は実質2行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.php.sampleの623行目および681行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。<br />（<span class="attention">バージョン0.5.0より、Geeklog1.6.1以降で使用する場合は、lib-common.phpの修正は不要です。その代わりに、コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定してください。</span>）</li>
   <li>テーマの変更は、menuitem.thtml、menuitem_last.thtml、style.css の3つのファイルを対象とします。<br />
 /bonus/layout/professonal 内のファイルを参照してください。<br />
 &lt;li&gt;タグに class="{menuitem_selected}" が追加されていることに注目してください。</li>
@@ -451,7 +451,7 @@ about_ja     無効</code></pre>
   </div>
   <p>多階層メニューを試すには、次の操作を行って下さい。</p>
   <ul>
-    <li>/bonus/lib-common.php.sampleの657行～666行のように、lib-common.phpを修正する必要があります。</li>
+    <li>/bonus/lib-common.php.sampleの657行～666行のように、lib-common.phpを修正する必要があります。（<span class="attention">バージョン0.5.0より、Geeklog1.6.1以降で使用する場合は、lib-common.phpの修正は不要になりました。</span>）</li>
     <li>コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定します。</li>
     <li>/bonus/layout/テーマ名 のファイル群を、テーマディレクトリにコピーします。(professional と ProfessionalCSS のみ対応)<br />
 この操作で、各テーマの menuitem.thtml, menuitem_last.thtml, style.css, custom.css を上書きしますので、事前のバックアップをお忘れなく。</li>
@@ -473,6 +473,13 @@ about_ja     無効</code></pre>
       <th>バージョン</th>
       <th>公開日</th>
       <th>説明</th>
+    </tr>
+    <tr>
+      <td class="center">0.5.0</td>
+      <td class="center">2010.5.6</td>
+      <td><span class="new">追加</span>&nbsp;Geeklog 1.6.0で追加された自動インストール機能に対応しました。<br />
+          <span class="new">追加</span>&nbsp;Geeklog 1.6.1で追加されたCUSTOM_renderMenuに対応しました。<br />
+      </td>
     </tr>
     <tr>
       <td class="center">0.4.3</td>
