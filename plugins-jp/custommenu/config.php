@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/config.php                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008 dengen - taharaxp AT gmail DOT com                     |
+// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -39,6 +39,10 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
     die('This file can not be used on its own.');
 }
 
+global $_CMED_CONF, $_TABLES, $_CMED_plugin_label_var;
+
+$_CMED_CONF = array();
+
 /**
  *  User Configulations for GL 1.4.1
  */
@@ -69,7 +73,17 @@ $_CMED_CONF['default_permissions'] = array(3, 2, 2, 2);
 /**
 * Plugin Version
 */
-$_CMED_CONF['version'] = '0.4.3';
+$_CMED_CONF['version'] = '0.5.0';
+
+/**
+* GL Version
+*/
+$_CMED_CONF['gl_version'] = '1.4.1';
+
+/**
+* Plugin Homepage
+*/
+$_CMED_CONF['pi_url'] = 'http://www.trybase.com/~dengen/log/';
 
 /**
 * Add to $_TABLES array the tables custommenu plugin uses

@@ -1,5 +1,11 @@
 $Id$
 
+2010-05-06  Yoshinori Tahara  <dengen>
+
+	* custommenuプラグイン: バージョン0.5.0に更新します。
+	  - Geeklog 1.6.0で追加された自動インストール機能に対応しました。
+	  - Geeklog 1.6.1で追加されたCUSTOM_renderMenuに対応しました。
+
 2010-05-04  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: r2563に伴うreadme_ja.txtの記述ミスを修正しました。
