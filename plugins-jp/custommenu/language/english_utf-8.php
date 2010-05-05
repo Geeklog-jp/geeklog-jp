@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/language/english_utf-8.php                             |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2008 dengen - taharaxp AT gmail DOT com                     |
+// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |

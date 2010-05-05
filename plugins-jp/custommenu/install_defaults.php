@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------|
 // | plugins/custommenu/install_defaults.php                                   |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2008 dengen - taharaxp AT gmail DOT com                     |
+// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -77,7 +77,7 @@ $_CMED_DEFAULT['default_permissions'] = array (3, 2, 2, 2);
  * 'standard' -> Geeklog system standard
  * 'pulldown' -> Supports a pulldown menu
  */
-$_CMED_DEFAULT['menu_render'] = 'standard';
+$_CMED_DEFAULT['menu_render'] = 'pulldown';
 
 /**
  * Prefix to add to ID
