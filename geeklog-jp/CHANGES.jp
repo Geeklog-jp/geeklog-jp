@@ -1,5 +1,10 @@
 $Id$
 
+2010-05-10  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSSのREADMEの修正、および、テンプレートファイルの
+	  タイポを修正しました。
+
 2010-05-06  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: バージョン0.5.0に更新します。
