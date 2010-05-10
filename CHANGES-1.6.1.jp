@@ -1,5 +1,9 @@
 $Id$
 
+2010-05-10  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6.1sr1での変更をマージしました。
+
 2010-04-05  Takahiro Kambe  <tacahi>
 
 	* ブランチ branches/geeklog-1.6.1-jp を、Geeklog 1.6.1ベースの
