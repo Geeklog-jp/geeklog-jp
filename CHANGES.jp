@@ -1,5 +1,9 @@
 $Id$
 
+2009-05-10  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのテンプレートファイルのタイポを修正しました。
+
 2010-05-10  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSSのREADMEの修正、および、テンプレートファイルの
@@ -46,6 +50,7 @@ $Id$
 	* geeklog-1.7.0b1-jp-1.0beta1をリリースします。
 
 2009-04-14  Masuko Koeda  <milk851>
+
 	* テーマWAIproCSSのREADMEの更新履歴に追記しました。
 
 2010-04-13  Yoshinori Tahara  <dengen>
