@@ -2,9 +2,11 @@ $Id$
 
 2010-05-10  Takahiro Kambe  <tacahi>
 
-	* Geeklog 1.6.1sr1�Ǥ��ѹ���ޡ������ޤ�����
+	* Geeklog 1.6.1sr1での変更をマージしました。
+
+	* geeklog-1.6.1sr1-jp-1.0beta1をリリースします。
 
 2010-04-05  Takahiro Kambe  <tacahi>
 
-	* �֥��� branches/geeklog-1.6.1-jp ��Geeklog 1.6.1�١�����
-	  �ݼ��Ѥ˺��������ʹߤ��ѹ��򵭽Ҥ����ܥե������������ޤ�����
+	* ブランチ branches/geeklog-1.6.1-jp を、Geeklog 1.6.1ベースの
+	  保守用に作成した以降の変更を記述する本ファイルを作成しました。
