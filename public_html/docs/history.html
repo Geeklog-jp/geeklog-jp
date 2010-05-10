@@ -13,6 +13,36 @@
 <h1>Geeklog History/Changes:</h1> 
 
 
+<h2>May 9, 2010 (1.5.2sr6)</h2>
+
+<p>This release addresses the following security issue:</p>
+
+<p>The autologin (using the long-term session cookie) is vulnerable to dictionary
+attacks. This issue was originally reported by Bookoo of the Nine Situations
+Group in one of his reports in April 2009 but apparently overlooked by the
+Geeklog Team. Thanks to geeklog.net user Jack for pointing this out.</p>
+
+
+<h2>Jul 30, 2009 (1.5.2sr5)</h2>
+
+<p>This release addresses the following security issues:</p>
+<ul>
+  <li>Gerendi Sandor Attila reported an XSS in the forms to email a user and to
+    email a story to a friend.</li>
+  <li>The "Mail Story to a Friend" function didn't check story permissions, so that
+    it was possible to email a story even if you didn't have the permissions to
+    view it on the site.</li>
+</ul>
+
+<h2>Apr 18, 2009 (1.5.2sr4)</h2>
+
+<p>This release addresses the following security issue:</p>
+
+<p>Bookoo of the Nine Situations Group posted another SQL injection exploit,
+targetting an old bug in usersettings.php. As with the previous issues, this
+allowed an attacker to extract the password hash for any account and is fixed
+with this release.</p>
+
 <h2>Apr 13, 2009 (1.5.2sr3)</h2> 
 
 <ul>
