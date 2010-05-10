@@ -13,9 +13,28 @@
 <body>
 <h1>Geeklogの変更履歴(<a href="../history">public_html/docs/history</a>をHTML化&amp;翻訳したものです)</h1>
 
-<h2>May 2, 2010 (1.7.0rc1)</h2>
+<h2>May 9, 2010 (1.7.0)</h2>
 
 <p>Geeklog 1.7.0 からは、2009 Google Summer of CodeのStan Palatnik氏の成果により、PostgreSQLをサポートします。</p>
+
+<p>Changes since 1.7.0rc1:</p>
+<ul>
+  <li>Security: The autologin (using the long-term session cookie) was vulnerable
+    to dictionary attacks. This issue was originally reported by Bookoo of the
+    Nine Situations Group in one of his reports in April 2009 but apparently
+    overlooked by the Geeklog Team. Thanks to geeklog.net user Jack for pointing
+    this out.</li>
+  <li>Fixed a typo in the install check that prevented Geeklog from detecting if it
+    was installed in a subdirectory (bug #0001148) [Dirk]</li>
+</ul>
+<ul>
+  <li>New and updated German language files, provided by Markus Wollschläger</li>
+  <li>New and updated Slovenian language files, provided by Mateja B.</li>
+</ul>
+
+<h2>May 2, 2010 (1.7.0rc1)</h2>
+
+</ul>
 
 <p>1.7.0b1からの変更</p>
 <ul>
@@ -265,6 +284,16 @@
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=966">#0000966</a>) [Dirk]</li>
   <li>クエリハイライトのサポートを追加しました。[Dirk]</li>
 </ul>
+
+<h2>May 9, 2010 (1.6.1sr1)</h2>
+
+<p>This release addresses the following security issue:</p>
+
+<p>The autologin (using the long-term session cookie) is vulnerable to dictionary
+attacks. This issue was originally reported by Bookoo of the Nine Situations
+Group in one of his reports in April 2009 but apparently overlooked by the
+Geeklog Team. Thanks to geeklog.net user Jack for pointing this out.</p>
+
 
 <h2>Nov 22, 2009 (1.6.1)</h2>
 
@@ -725,6 +754,16 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>他のプラグインや組み込み済み関数のように、"successfully saved"と"successfully deleted"といったメッセージ(訳者注: 英語の言語ファイルの場合で、日本語の言語ファイルでは若干表現が異なります。)を表示するようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=644">#0000644</a>)
     [Dirk]</li>
 </ul>
+
+<h2>May 9, 2010 (1.5.2sr6)</h2>
+
+<p>This release addresses the following security issue:</p>
+
+<p>The autologin (using the long-term session cookie) is vulnerable to dictionary
+attacks. This issue was originally reported by Bookoo of the Nine Situations
+Group in one of his reports in April 2009 but apparently overlooked by the
+Geeklog Team. Thanks to geeklog.net user Jack for pointing this out.
+</p>
 
 <h2>July 30, 2009 (1.5.2sr5)</h2>
 
