@@ -1,17 +1,17 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: コンフィギュレーションページスタイル(管理者ページ)
-  著者    : Hiromi Ikeda as Jiro & Fumito Arakawa as Phize
-  説明    : コンフィギュレーションページ(管理者ページ)のスタイルです。
-  適用先  : admin/config/configuration.thtml, admin/config/config_element.thtml,
-            admin/config/menu_element.thtml
+  Title       : Configration Style (for admin)
+  Author      : Hiromi Ikeda as Jiro & Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Configration style for admin.
+  Apply       : admin/config/configuration.thtml, admin/config/config_element.thtml,
+                admin/config/menu_element.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  設定画面
+  Setting 
 --------------------------------------*/
 form#config-editor {
   width: 99%;
@@ -31,7 +31,7 @@ form#config-editor fieldset legend {
   padding: 2px 4px;
 }
 
-/* 設定項目 */
+/* Setting Item */
 form#config-editor table.inputTable td {
   padding: 5px;
   font-size: 90%;
@@ -49,7 +49,7 @@ form#config-editor ul.submit li {
   padding: 0;
 }
 
-/* メッセージ */
+/* Message */
 div#configuration div.pluginInfo {
   overflow: auto;
   height: 120px;
@@ -62,7 +62,7 @@ div#configuration div.pluginInfo {
 
 
 /*--------------------------------------
-  レイアウト
+  Layout
 --------------------------------------*/
 form#config-editor {
   width: 99%;
@@ -70,7 +70,7 @@ form#config-editor {
   margin-left: auto;
 }
 
-/* 左メニュー */
+/* Left Menu */
 div#config_menu {
   float: left;
   width: 160px;
@@ -88,7 +88,7 @@ div#config_menu div.block-center h2 {
   font-size: 110%;
 }
 
-/* 中央部分 */
+/* Center Block */
 div#config_main {
   float: left;
   width: 620px;

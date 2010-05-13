@@ -1,25 +1,25 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 検索ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 検索オプションページ・検索結果ページのスタイルです。
-  適用先  : search/searchform.thtml, search/searchauthors.thtml,
-            search/searchresults.thtml, search/searchblock.thtml,
-			search/headingcolumn.thtml, search/resultcolumn.thtml, search/resultrow.thtml,
-            search/resultauthdatehits.thtml, search/resultrowenhanced.thtml,
-            search/resultsummary.thtml, search/resulttitle.thtml,
-            search/searchresults_heading.thtml, search/searchresults_norows.thtml,
-            search/searchresults_rows.thtml
+  Title       : Search Page Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Search option page  | Search result page style.
+  Apply       : search/searchform.thtml, search/searchauthors.thtml,
+                search/searchresults.thtml, search/searchblock.thtml,
+                search/headingcolumn.thtml, search/resultcolumn.thtml, search/resultrow.thtml,
+                search/resultauthdatehits.thtml, search/resultrowenhanced.thtml,
+                search/resultsummary.thtml, search/resulttitle.thtml,
+                search/searchresults_heading.thtml, search/searchresults_norows.thtml,
+                search/searchresults_rows.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  検索オプションフォーム
+  Search Option Form 
 --------------------------------------*/
 
-/* 入力フィールド(JavaScript無効時) */
+/* Input Field(JavaScript Disabled) */
 body.js_off form#advsearchform input.text,
 body.js_off form#advsearchform textarea {
   width: auto;
@@ -28,10 +28,10 @@ body.js_off form#advsearchform textarea {
 
 
 /*--------------------------------------
-  検索結果
+  Search Result
 --------------------------------------*/
 
-/* 検索結果の情報 */
+/* Search Result Information  */
 dl#searchresults-found {
   margin: 0 0 1em 0;
   padding: 0;
@@ -49,7 +49,7 @@ dl#searchresults-found dd {
   padding: 0;
 }
 
-/* 検索時間 */
+/* Search Time */
 dl#searchresults-found dd.search_time:before {
   content: "(";
 }
@@ -58,7 +58,7 @@ dl#searchresults-found dd.search_time:after {
   content: ")";
 }
 
-/* 検索結果 */
+/* Search Result */
 table.searchblock {
   width: 100%;
   margin: 0;
@@ -72,12 +72,12 @@ table.searchblock tr {
   background: #DAE0ED;
 }
 
-/* 奇数行 */
+/* Odd Lines */
 table.searchblock tr.resultrow1 {
   background: #D9D9D9;
 }
 
-/* 偶数行 */
+/* Even line */
 table.searchblock tr.resultrow2 {
   background: #EFEFEF;
 }

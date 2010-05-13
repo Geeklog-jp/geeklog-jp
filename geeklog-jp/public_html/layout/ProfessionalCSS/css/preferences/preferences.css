@@ -1,21 +1,21 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 設定ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 設定ページのスタイルです。
-  適用先  : preferences/displayprefs.thtml, preferences/displayblock.thtml,
-            preferences/language.thtml, preferences/theme.thtml, preferences/commentblock.thtml,
-            preferences/privacyblock.thtml, preferences/excludeblock.thtml,
-            preferences/boxesblock.thtml, preferences/digestblock.thtml,
-            preferences/profile.thtml, preferences/username.thtml, preferences/userphoto.thtml,
-            preferences/deleteaccount.thtml
+  Title       : My Account Page Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : My account page style.
+  Apply       : preferences/displayprefs.thtml, preferences/displayblock.thtml,
+                preferences/language.thtml, preferences/theme.thtml, preferences/commentblock.thtml,
+                preferences/privacyblock.thtml, preferences/excludeblock.thtml,
+                preferences/boxesblock.thtml, preferences/digestblock.thtml,
+                preferences/profile.thtml, preferences/username.thtml, preferences/userphoto.thtml,
+                preferences/deleteaccount.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  設定ページ
+  My Account Page 
 --------------------------------------*/
 
 form#profile {
@@ -35,7 +35,7 @@ form#profile fieldset legend {
   padding: 2px 4px;
 }
 
-/* チェックリスト */
+/* Check List */
 form#displayprefs p.checklist {
   margin: 0;
   padding: 0;
@@ -52,7 +52,7 @@ form#profile ul.checkboxes-list li {
   margin-right: 0.5em;
 }
 
-/* 入力フィールド */
+/* Input Field */
 form#displayprefs dl {
   margin-bottom: 0;
 }
@@ -61,13 +61,13 @@ form#displayprefs dl dd input {
   margin-right: 2px;
 }
 
-/* ユーザ写真 */
+/* User Photo */
 form#profile dl dd.userphoto-photo img {
   display: block;
   margin: 8px;
 }
 
-/* 初期値 */
+/* Default */
 form#profile span.gldefault {
   font-weight: bold;
 }

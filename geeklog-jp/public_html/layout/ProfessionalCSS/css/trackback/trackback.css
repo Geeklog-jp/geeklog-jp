@@ -1,26 +1,26 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: トラックバックスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : トラックバック・トラックバックページのスタイルです。
-  適用先  : trackback/trackback.thtml,
-            trackback/trackbackcomment.thtml, trackback/formattedcomment.thtml
+  Title       : Trackback Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Trackback  | Trackback page style.
+  Apply       : trackback/trackback.thtml,
+                trackback/trackbackcomment.thtml, trackback/formattedcomment.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  トラックバック
+  Trackback 
 --------------------------------------*/
 
-/* トラックバックブロック */
+/* Trackback Block */
 div#trackback {
   margin: 0;
   padding: 0;
 }
 
-/* タイトル */
+/* Title */
 div#trackback h3 {
   margin: 0 0 0.5em 0;
   padding: 0;
@@ -28,14 +28,14 @@ div#trackback h3 {
   font-weight: bold;
 }
 
-/* トラックバックコンテンツ */
+/* Trackback Content */
 div#trackback div.block-trackback-content {
   margin: 0;
   padding: 0;
   border-bottom: 1px solid #E7E7E7;
 }
 
-/* トラックバックURL */
+/* Trackback URL */
 div#trackback div.block-trackback-content dl {
   margin: 0 0 1em 0;
   padding: 0;
@@ -53,19 +53,19 @@ div#trackback div.block-trackback-content dl dd {
   padding: 0;
 }
 
-/* 説明 */
+/* Description */
 div#trackback p.trackback_comments_no_link {
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* 受信トラックバックブロック */
+/* Recept Trackback Block */
 div.formattedcomment {
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* 受信トラックバックの情報 */
+/* Recept Trackback Information  */
 div.formattedcomment ul.status {
   list-style-position: outside;
   list-style-type: none;
@@ -73,7 +73,7 @@ div.formattedcomment ul.status {
   padding: 0;
 }
 
-/* 受信トラックバックのタイトル */
+/* Recept Trackback Title */
 div.formattedcomment ul.status li.title {
   margin: 0 0 0.5em 0;
   padding: 4px;
@@ -81,20 +81,20 @@ div.formattedcomment ul.status li.title {
   background: #F7F7F7;
 }
 
-/* 受信トラックバックの受信日 */
+/* Recept Trackback Recept Date */
 div.formattedcomment ul.status li.trackback_date {
   margin: 0 0 0.5em 0;
   padding: 0;
 }
 
-/* 受信トラックバックの概要 */
+/* Recept Trackback Summary */
 div.formattedcomment p.trackback_excerpt_readmore {
   margin: 0 0 1em 0;
   padding: 0;
 }
 
 
-/* 削除ナビゲーション */
+/* Delete Navigation */
 div.formattedcomment ul.navi {
   list-style-position: outside;
   list-style-type: none;
@@ -102,7 +102,7 @@ div.formattedcomment ul.navi {
   padding: 0;
 }
 
-/* 削除リンク */
+/* Delete Links */
 div.formattedcomment ul.navi li.delete_option {
   display: inline;
   margin: 0;
