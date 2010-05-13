@@ -1,16 +1,16 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: ブロックエディタ(管理者ページ)スタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : ブロックエディタ(管理者ページ)のスタイルです。
-  適用先  : admin/block/blockeditor.thtml, admin/block/defaultblockeditor.thtml
+  Title       : Block Editor Style (for Admin)
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Block editor style for admin.
+  Apply       : admin/block/blockeditor.thtml, admin/block/defaultblockeditor.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  ブロックエディタ  
+  Block Editor 
 --------------------------------------*/
 
 form#admin-blockeditor fieldset {

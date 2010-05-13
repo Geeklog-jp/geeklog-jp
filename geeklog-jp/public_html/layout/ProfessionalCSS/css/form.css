@@ -1,20 +1,20 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: フォームスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : フォームのスタイルです。
-  適用先  : leftblocks.thtml, loginform.thtml,
-            custom-memberlogin.thtml, customlogin-header.thtml, customlogin-footer.thtml
+  Title       : Form Style
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Form style.
+  Apply       : leftblocks.thtml, loginform.thtml,
+                custom-memberlogin.thtml, customlogin-header.thtml, customlogin-footer.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  検索フォーム
+  Search Form
 --------------------------------------*/
 
-/* ブロック */
+/* Block */
 div#leftblocks div#block-left-search {
   margin: 0 2px 0.5em 2px;
   padding: 8px;
@@ -22,7 +22,7 @@ div#leftblocks div#block-left-search {
   background: #E7E7E7;
 }
 
-/* フォーム */
+/* Form */
 div#leftblocks div#block-left-search form#searchform {
   margin: 0;
   padding: 0;
@@ -39,16 +39,16 @@ div#leftblocks div#block-left-search form#searchform ul li {
   padding: 0;
 }
 
-/* フォームの入力フィールド */
+/* Form Input Field */
 div#leftblocks div#block-left-search form#searchform ul li input.text {
   border: 1px solid #7B9EBD;
 }
 
-/* フォームのボタン */
+/* Form Button */
 div#leftblocks div#block-left-search form#searchform ul li input.form-button {
 }
 
-/* 検索オプション */
+/* Search Option */
 div#leftblocks div#block-left-search form#searchform p {
   margin: 0;
   padding: 0;
@@ -57,10 +57,10 @@ div#leftblocks div#block-left-search form#searchform p {
 
 
 /*--------------------------------------
-  ログインフォーム
+  Login Form
 --------------------------------------*/
 
-/* フォームの項目 */
+/* Form Item */
 form#loginform dl {
   margin: 0;
   padding: 0;
@@ -76,7 +76,7 @@ form#loginform dl dd {
   padding: 0;
 }
 
-/* フォームのオプションメニュー */
+/* Form Option Menu */
 form#loginform ul.navi {
   list-style-position: outside;
   list-style-type: none;

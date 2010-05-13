@@ -184,11 +184,11 @@ JavaScriptが無効な場合は、body要素のclass属性は常に一定であ�
     +css/admin/topic.css ------------ 話題エディタスタイル(管理者ページ)
     +css/admin/trackback.css -------- トラックバックページスタイル(管理者ページ)
     +css/admin/user.css ------------- ユーザエディタスタイル(管理者ページ)
+    +css/admin/configuration.css ---- コンフィギュレーションエディタスタイル(管理者ページ)
 
   プラグインスタイルシート
   +css/plugin.css ------------------- インポート用スタイルシート(プラグイン)
     +css/plugin/sitecalendar.css ---- サイトカレンダスタイル(プラグイン)
-    +css/plugin/forum.css ----------- フォーラムスタイル(プラグイン)
     +css/plugin/japanize.css ----------- Japanizeスタイル(プラグイン)
 
   カスタムテーマスタイルシート

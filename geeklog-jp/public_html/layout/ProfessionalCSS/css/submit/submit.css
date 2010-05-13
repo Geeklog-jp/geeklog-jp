@@ -1,26 +1,26 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 投稿ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 投稿ページのスタイルです。
-  適用先  : submit/submitstory.thtml, submit/submitstory_advanced.thtml,
-            submit/submitevent.thtml, submit/submitloginrequired.thtml
+  Title       : Submit Page Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Submit page style.
+  Apply       : submit/submitstory.thtml, submit/submitstory_advanced.thtml,
+                submit/submitevent.thtml, submit/submitloginrequired.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  ログイン要求ページ
+  Login Required Page 
 --------------------------------------*/
 
-/* メッセージ */
+/* Message */
 p#submitloginrequired-message {
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* リンク */
+/* Links */
 ul#submitloginrequired-navi {
   display: inline;
   margin: 0;
@@ -52,10 +52,10 @@ ul#submitloginrequired-navi li+li:before {
 
 
 /*--------------------------------------
-  記事投稿フォーム(ノーマルエディタ)
+  Story Submit Form (Noemal Editor)
 --------------------------------------*/
 
-/* ユーザナビゲーション */
+/* User Navigation */
 form#submitstory dl dd ul.navi {
   list-style-type: none;
   display: inline;
@@ -80,10 +80,10 @@ form#submitstory dl dd ul.navi li {
 
 
 /*--------------------------------------
-  記事投稿フォーム(アドバンストエディタ)
+  Story Submit Form (Advanced Editor)
 --------------------------------------*/
 
-/* ユーザナビゲーション */
+/* User Navigation */
 form#submitstory_advanced dl dd ul.navi {
   list-style-type: none;
   display: inline;
@@ -108,5 +108,5 @@ form#submitstory_advanced dl dd ul.navi li {
 
 
 /*--------------------------------------
-  予定の編集
+  Event Submit Form
 --------------------------------------*/

@@ -1,28 +1,28 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: コメントスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : コメント・コメントページのスタイルです。
-  適用先  : comment/startcomment.thtml, comment/commentbar.thtml,
-            comment/commentform.thtml, comment/commentform_advanced.thtml,
-            comment/reportcomment.thtml, comment/comment.thtml, comment/thread.thtml
+  Title       : Comment Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Comment  | Comment page style.
+  Apply       : comment/startcomment.thtml, comment/commentbar.thtml,
+                comment/commentform.thtml, comment/commentform_advanced.thtml,
+                comment/reportcomment.thtml, comment/comment.thtml, comment/thread.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  コメントブロック
+  Comment Block
 --------------------------------------*/
 
-/* コメントブロック */
+/* Comment Block */
 div#comments {
   margin: 0;
   padding: 0;
   text-align: center;
 }
 
-/* コメントのページナビゲーション */
+/* Comment Page Navigation */
 div#comments p.pagenav {
   margin: 0;
   padding: 0;
@@ -32,10 +32,10 @@ div#comments p.pagenav {
 
 
 /*--------------------------------------
-  コメントバー
+  Comment バー
 --------------------------------------*/
 
-/* コメント情報(記事タイトル・コメント数・ユーザ名) */
+/* Comment Information (Story Title | Comment Number | Username) */
 div#comments ul.status {
   list-style-type: none;
   margin: 1em 0 0.5em 0;
@@ -52,7 +52,7 @@ div#comments ul.status li a {
   margin-left: 8px;
 }
 
-/* コメント表示セレクタフォーム */
+/* Comment Selecter Form  */
 div#comments form#commentbar-selector {
   display: inline;
 }
@@ -72,7 +72,7 @@ div#comments form#commentbar-selector ul li {
   padding: 0;
 }
 
-/* コメント追加フォーム */
+/* Comment Submit Form  */
 div#comments form#commentbar-comment {
   display: inline;
 }
@@ -81,7 +81,7 @@ div#comments form#commentbar-comment fieldset {
   display: inline;
 }
 
-/* コメントの注意書き */
+/* Comment NOTE */
 div#comments p.disclaimer {
   margin: 0.5em 0 1em 0;
   padding: 0;
@@ -90,10 +90,10 @@ div#comments p.disclaimer {
 
 
 /*--------------------------------------
-  コメント本文
+  Comment Body
 --------------------------------------*/
 
-/* 個別のコメント(ツリー) */
+/* Individual Comment (Tree) */
 div#comments ul.thread {
   list-style-position: outside;
   list-style-type: none;
@@ -102,14 +102,14 @@ div#comments ul.thread {
   text-align: left;
 }
 
-/* 個別のコメント(ツリー)のタイトル */
+/* Individual Comment (Tree) Title */
 div#comments ul.thread li.title {
   display: inline;
   margin: 0;
   padding: 0;
 }
 
-/* 個別のコメント(ツリー)の投稿者 */
+/* Individual Comment (Tree) Auther */
 div#comments ul.thread li.author {
   display: inline;
   margin: 0 0 0 8px;
@@ -120,7 +120,7 @@ div#comments ul.thread li.author:before {
   content: " - ";
 }
 
-/* 個別のコメントのレベル(入れ子・ツリー) */
+/* Individual Comment Level(Nested | Tree) */
 div#comments div.level-25,
 div#comments ul.level-25 {
   margin-left: 0;
@@ -171,14 +171,14 @@ div#comments ul.level-250 {
   margin-left: 144px;
 }
 
-/* 個別のコメント */
+/* Individual Comment  */
 div#comments div.block-comment-content {
   margin: 0;
   padding: 0;
   text-align: left;
 }
 
-/* コメント情報 */
+/* Comment Information  */
 div#comments div.block-comment-content ul.status {
   list-style-position: outside;
   list-style-type: none;
@@ -186,7 +186,7 @@ div#comments div.block-comment-content ul.status {
   padding: 0;
 }
 
-/* コメントタイトル */
+/* Comment Title */
 div#comments div.block-comment-content ul.status li.title {
   display: block;
   margin: 1em 0 0.5em 0;
@@ -195,20 +195,20 @@ div#comments div.block-comment-content ul.status li.title {
   background: #F7F7F7;
 }
 
-/* コメントの投稿者 */
+/* Comment Auther */
 div#comments div.block-comment-content ul.status li.author {
   display: block;
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* コメント本文 */
+/* Comment 本文 */
 div#comments div.block-comment-content div.comment {
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* コメントナビゲーション */
+/* Comment Navigation */
 div#comments div.block-comment-content ul.navi {
   margin: 0 0 0.5em 0;
   padding: 0;
@@ -228,7 +228,7 @@ div#comments div.block-comment-content ul.navi li {
   padding: 0;
 }
 
-/* 永久リンク */
+/* 永久Links */
 div#comments div.block-comment-content ul.navi li.permlink {
   margin: 0 2px 0 0;
 }
@@ -240,10 +240,10 @@ div#comments div.block-comment-content ul.navi li.permlink:before {
 
 
 /*--------------------------------------
-  迷惑報告フォーム
+  迷惑報告Form 
 --------------------------------------*/
 
-/* コメント */
+/* Comment  */
 form#reportcomment div.comment {
   margin: 0 0 1em 0;
   padding: 0;
@@ -253,10 +253,10 @@ form#reportcomment div.comment {
 
 
 /*--------------------------------------
-  コメント投稿フォーム(ノーマルエディタ)
+  Comment Submit Form (Normal Editor)
 --------------------------------------*/
 
-/* ユーザ名 */
+/* Username */
 form#commentform dl dt.username {
   display: inline;
 }
@@ -278,12 +278,12 @@ form#commentform dl dd.username a:after {
   content: "]";
 }
 
-/* タイトル */
+/* Title */
 form#commentform dl dt.title {
   margin-top: 0.5em;
 }
 
-/* 注意事項 */
+/* NOTE */
 form#commentform dl.importantstuff dd ul {
   list-style-type: disc;
   margin: 0;
@@ -298,10 +298,10 @@ form#commentform dl.importantstuff dd ul li {
 
 
 /*--------------------------------------
-  コメント投稿フォーム(アドバンストエディタ)
+  Comment Submit Form (Advanced Editor)
 --------------------------------------*/
 
-/* ユーザ名 */
+/* Username */
 form#commentform_advanced dl dt.username {
   display: inline;
 }
@@ -324,12 +324,12 @@ form#commentform_advanced dl dd.username a:after {
   content: "]";
 }
 
-/* タイトル */
+/* Title */
 form#commentform_advanced dl dt.title {
   margin-top: 0.5em;
 }
 
-/* 注意事項 */
+/* NOTE */
 form#commentform_advanced dl.importantstuff dd ul {
   list-style-type: disc;
   margin: 0;

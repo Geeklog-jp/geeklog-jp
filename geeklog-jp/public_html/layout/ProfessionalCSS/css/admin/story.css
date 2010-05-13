@@ -1,16 +1,16 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 記事エディタスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 記事エディタ(管理者ページ)のスタイルです。
-  適用先  : admin/story/storyeditor.thtml, admin/story/storyeditor_advanced.thtml
+  Title       : Story  Editor Style (Admin Page)
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Story  editor style for admin.
+  Apply       : admin/story/storyeditor.thtml, admin/story/storyeditor_advanced.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  共通スタイル
+  Common Style 
 --------------------------------------*/
 
 div#text_editor dl {
@@ -24,7 +24,7 @@ div#html_editor dl {
 
 
 /*--------------------------------------
-  記事エディタ(ノーマルエディタ)
+  Story  Editor(ノーマル Editor)
 --------------------------------------*/
 
 form#admin-storyeditor {
@@ -52,7 +52,7 @@ form#admin-storyeditor h3 {
 
 
 /*--------------------------------------
-  記事エディタ(アドバンストエディタ)
+  Story  Editor(アドバンスト Editor)
 --------------------------------------*/
 
 form#admin-storyeditor_advanced {
@@ -115,7 +115,7 @@ form#admin-storyeditor_advanced h3 {
   padding: 0.5em 0 0 0;
 }
 
-/* ナビゲーション */
+/* Navigation */
 form#admin-storyeditor_advanced dl dd ul.navi {
   margin: 0;
   padding: 0;

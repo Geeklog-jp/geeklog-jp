@@ -1,20 +1,20 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: プラグインページスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : プラグインページ(管理者ページ)のスタイルです。
-  適用先  : admin/plugins/editor.thtml,
-            admin/plugins/newpluginlist.thtml, admin/plugins/newlistitem.thtml
+  Title       : Plugin Page Style (Admin Page)
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Plugin page style for admin.
+  Apply       : admin/plugins/editor.thtml,
+                admin/plugins/newpluginlist.thtml, admin/plugins/newlistitem.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  プラグインページ
+  Plugin Page 
 --------------------------------------*/
 
-/* プラグインの編集 */
+/* Plugin Editor */
 form#admin-editor div#admin-instructions ul {
   margin: 1em 0 0 0;
 }

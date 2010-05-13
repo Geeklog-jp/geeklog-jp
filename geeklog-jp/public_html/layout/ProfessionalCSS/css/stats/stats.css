@@ -1,17 +1,17 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: アクセス情報ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : アクセス情報ページのスタイルです。
-  適用先  : stats/itemstatistics.thtml, stats/singlestat.thtml
-            stats/sitestatistics.thtml, stats/singlesummary.thtml
+  Title       : Access Information Page Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Access information page style.
+  Apply       : stats/itemstatistics.thtml, stats/singlestat.thtml
+                stats/sitestatistics.thtml, stats/singlesummary.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  アクセス情報ページ
+  Access Information Page 
 --------------------------------------*/
 
 table.itemstatistics {
