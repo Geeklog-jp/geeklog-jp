@@ -5,6 +5,9 @@ $Id$
 	* テーマProfessionalCSSのREADMEの修正、および、すべてのcssを英語化
 	  しました。
 
+	* 日本語ドキュメントのhistory.htmlの1.7.0の翻訳の残りと、書式統一、
+	  ウムラウトを含む名前の修正を行いました。
+
 2010-05-12  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: Geeklog 1.7.0でのcalendarプラグインの変更を
