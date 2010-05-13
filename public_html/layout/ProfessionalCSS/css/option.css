@@ -1,28 +1,28 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: オプションメニュースタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 左ブロック・右ブロックメニューのスタイルです。
-  適用先  : adminoption.thtml, adminoption_off.thtml
-            topicoption.thtml, topicoption_off.thtml
-            useroption.thtml, useroption_off.thtml
+  Title       : Option Menu Style
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Left Block and Right Block Style.
+  Apply       : adminoption.thtml, adminoption_off.thtml
+                topicoption.thtml, topicoption_off.thtml
+                useroption.thtml, useroption_off.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  管理メニュー
+  Admin Option
 --------------------------------------*/
 
-/* メニュー有効時 */
+/* Menu Enabled */
 li.adminoption {
   list-style: none outside;
   margin: 0;
   padding: 0;
 }
 
-/* メニュー有効時のメニューリンク */
+/* Menu Enabled Menu Link */
 li.adminoption a,
 li.adminoption a:link,
 li.adminoption a:visited {
@@ -33,7 +33,7 @@ li.adminoption a:focus,
 li.adminoption a:active {
 }
 
-/* メニュー無効時 */
+/* Menu Disabled */
 li.adminoption_off {
   list-style: none outside;
   margin: 0;
@@ -43,17 +43,17 @@ li.adminoption_off {
 
 
 /*--------------------------------------
-  トピックメニュー
+  Topic Menu
 --------------------------------------*/
 
-/* メニュー有効時 */
+/* Menu Enabled */
 li.topicoption {
   list-style: none outside;
   margin: 0;
   padding: 0;
 }
 
-/* メニュー有効時のメニューリンク */
+/* Menu Enabled Menu Link */
 li.topicoption a,
 li.topicoption a:link,
 li.topicoption a:visited {
@@ -64,7 +64,7 @@ li.topicoption a:focus,
 li.topicoption a:active {
 }
 
-/* メニュー無効時 */
+/* Menu Disabled */
 li.topicoption_off {
   list-style: none outside;
   margin: 0;
@@ -74,17 +74,17 @@ li.topicoption_off {
 
 
 /*--------------------------------------
-  ユーザメニュー
+  User Menu
 --------------------------------------*/
 
-/* メニュー有効時 */
+/* Menu Enabled */
 li.useroption {
   list-style: none outside;
   margin: 0;
   padding: 0;
 }
 
-/* メニュー有効時のメニューリンク */
+/* Menu Enabled Menu Link */
 li.useroption a,
 li.useroption a:link,
 li.useroption a:visited {
@@ -95,7 +95,7 @@ li.useroption a:focus,
 li.useroption a:active {
 }
 
-/* メニュー無効時 */
+/* Menu Disabled */
 li.useroption_off {
   list-style: none outside;
   margin: 0;

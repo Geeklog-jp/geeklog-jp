@@ -1,13 +1,13 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: デフォルトスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : デフォルトのスタイルです。
-            このCSSファイルは、ユーザーエージェントのデフォルトスタイルの差異を吸収するためのみに使用されます。
-            全てのスタイルのベースとなりますので、必要がない限りは変更しないようにしてください。
-            サイト全体や各部のスタイルは、「common.css」やその他のCSSファイルでスタイルを上書きして変更します。
-  適用先  : 全て
+  Title       : Default Style
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Default style.
+                This CSS is for only Adjustment of user agent default style differences.
+                Don' change these style, because these are base of all ProfessionalCSS_en style.
+                If you want to change style, add to custom.css ( or change common.css )
+  Apply       : All
 ==============================================================================*/
 
 
@@ -271,7 +271,7 @@ textarea {
 }
 
 input {
-/*  display: inline-block; */ /* <input type="hidden">に適用させない */
+/*  display: inline-block; */ /* <input type="hidden"> not apply */
 }
 
 select {
@@ -346,9 +346,9 @@ table>tr {
 th,
 td {
   vertical-align: top;
-  /* IE用(セルの幅に合わせて内容を折り返す) { */
+  /* IE(Wrap to fit the width of the cell contents) { */
   word-break: break-all;
-  /* } IE用 */
+  /* } IE */
 }
 
 th {

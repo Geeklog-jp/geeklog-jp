@@ -1,20 +1,20 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: ユーザエディタスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : ユーザエディタ(管理者ページ)のスタイルです。
-  適用先  : admin/user/edituser.thtml, admin/user/groupedit.thtml,
-            admin/user/batchdelete.thmlt, admin/user/batchdelete_options.thtml
+  Title       : User Editor Style (Admin Page)
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : User editor style for admin.
+  Apply       : admin/user/edituser.thtml, admin/user/groupedit.thtml,
+                admin/user/batchdelete.thmlt, admin/user/batchdelete_options.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  ユーザエディタ
+  User  Editor
 --------------------------------------*/
 
-/* ユーザ画像 */
+/* User Images */
 form#admin-edituser dl dd.user_photo {
   float: left;
   width: 75%;
@@ -22,7 +22,7 @@ form#admin-edituser dl dd.user_photo {
   padding: 0;
 }
 
-/* セキュリティグループ */
+/* セキュリティGroup */
 form#admin-edituser dl dd p.groupinstructions {
   margin: 0 0 0.5em 0;
 }
@@ -30,7 +30,7 @@ form#admin-edituser dl dd p.groupinstructions {
 
 
 /*--------------------------------------
-  一括削除
+  Batch Delete 
 --------------------------------------*/
 
 form#admin-batchdelete {
@@ -68,7 +68,7 @@ form#admin-batchdelete dl dt input.radio {
 
 
 /*--------------------------------------
-  リマンダー
+  Reminder
 --------------------------------------*/
 
 ul#reminder-submit {
