@@ -1,16 +1,16 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: グループエディタスタイル(管理者ページ)
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : グループエディタ(管理者ページ)のスタイルです。
-  適用先  : admin/group/groupeditor.thtml, admin/group/groupmembers.thtml
+  Title       : Group Editor Style (for admin)
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Group editor style for admin.
+  Apply       : admin/group/groupeditor.thtml, admin/group/groupmembers.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  グループエディタ  
+  Group Editor  
 --------------------------------------*/
 
 form#admin-groupeditor fieldset {
@@ -24,12 +24,12 @@ form#admin-groupeditor fieldset.rights {
   border-top: 1px solid #CCCCCC;
 }
 
-/* 説明 */
+/* Description */
 form#admin-groupeditor dl dd.description {
   margin: 0 0 0.5em 0;
 }
 
-/* 権限 */
+/* Permission */
 form#admin-groupeditor dl dd table {
   margin: 0;
   padding: 0;
@@ -49,7 +49,7 @@ form#admin-groupeditor dl dd table tr td {
 
 
 /*--------------------------------------
-  グループメンバー
+  Group Member
 --------------------------------------*/
 
 form#admin-groupmembers fieldset {

@@ -1,19 +1,19 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: 個別記事ページスタイル
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 個別記事ページのスタイルです。
-  適用先  : article/article.thtml
+  Title       : Article Page Style 
+  Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description : Article page style.
+  Apply       : article/article.thtml
 ==============================================================================*/
 
 
 
 /*--------------------------------------
-  個別記事ページ
+  Article Page 
 --------------------------------------*/
 
-/* 関連情報 */
+/* Related Information  */
 ul.list-whats-related {
   list-style-type: disc;
   margin: 0 0 0 8px;
@@ -25,7 +25,7 @@ ul.list-whats-related li {
   padding: 0;
 }
 
-/* 記事のオプション */
+/* Story Option  */
 ul.list-story-options {
   list-style-type: disc;
   margin: 0 0 0 8px;
