@@ -42,9 +42,6 @@ $CUSTOM_MOBILE_CONF['gc_maxlifetime'] = 1440; //
 $CUSTOM_MOBILE_CONF['gc_probability'] = "1"; //
 $CUSTOM_MOBILE_CONF['gc_divisor'] = "10"; //
 
-// 3gテーマ廃止のためfalseに固定
-$CUSTOM_MOBILE_CONF['use_xhtml_for_3g'] = false;
-
 $CUSTOM_MOBILE_UA = 0;
 
 define("MOBILE_3G", 16);
@@ -458,19 +455,7 @@ function _mobile_output_handler($content, $status)
         $content = str_replace('%MOBILE_SID_VALUE%', $sid_val, $content);
     }
 
-    if(CUSTOM_MOBILE_is_3g()) {
-// ---------------------------------------->>
-//        header("Content-type: application/xhtml+xml");
-// ----------------------------------------||
-        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
-            header ("Content-type: application/xhtml+xml");
-        } else {
-            header ('Content-Type: text/html; charset=' . "Shift_JIS");
-        }
-// ----------------------------------------<<
-    } else {
-        header ('Content-Type: text/html; charset=' . "Shift_JIS");
-    }
+    header ('Content-Type: text/html; charset=' . "Shift_JIS");
     return mb_convert_encoding($content, 'sjis-win', mb_detect_encoding($content));
 }
 
@@ -714,17 +699,10 @@ if(CUSTOM_MOBILE_is_cellular()) {
     ini_set('session.gc_maxlifetime', "691200");
 
     // ケータイ用のテーマを使用
-    if(CUSTOM_MOBILE_is_3g()) {
-        $_CONF['theme'] = 'mobile';
-        $_POST['usetheme'] = 'mobile';
-        $_USER['theme'] = 'mobile';
-        define('XHTML', '');
-    } else {
-        $_CONF['theme'] = 'mobile';
-        $_POST['usetheme'] = 'mobile';
-        $_USER['theme'] = 'mobile';
-        define('XHTML', '');
-    }
+    $_CONF['theme'] = 'mobile';
+    $_POST['usetheme'] = 'mobile';
+    $_USER['theme'] = 'mobile';
+    define('XHTML', '');
 
     // 各種デフォルト値を変更
     $_CONF['limitnews'] = $CUSTOM_MOBILE_CONF['max_stories'];
