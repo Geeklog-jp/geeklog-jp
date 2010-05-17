@@ -1,5 +1,9 @@
 $Id$
 
+2010-05-17  Hiroshi Sakuramoto <hirorongl>
+
+    * custom_cellular.php: 3G携帯でアクセスすると廃止になったmobile_3gテーマを利用するのをmobileテーマを利用するように修正
+
 2010-05-16  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.0-jp-1.0をリリースします。
