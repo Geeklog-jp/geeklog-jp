@@ -719,28 +719,18 @@ if(CUSTOM_MOBILE_is_cellular()) {
 
     // ケータイ用のテーマを使用
     if(CUSTOM_MOBILE_is_3g()) {
-// ---------------------------------------->>
-//        $_CONF['theme'] = 'mobile_3g';
-//        $_POST['usetheme'] = 'mobile_3g';
-//        $_USER['theme'] = 'mobile_3g';
+// 3G携帯でも3G用テーマを使わなくなったのでコメントアウト
 //        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
+//           $_CONF['theme'] = 'mobile_3g';
+//           $_POST['usetheme'] = 'mobile_3g';
+//           $_USER['theme'] = 'mobile_3g';
 //            define('XHTML', ' /');
 //        } else {
-//            define('XHTML', '');
-//        }
-// ----------------------------------------||
-        if($CUSTOM_MOBILE_CONF['use_xhtml_for_3g']) {
-           $_CONF['theme'] = 'mobile_3g';
-           $_POST['usetheme'] = 'mobile_3g';
-           $_USER['theme'] = 'mobile_3g';
-            define('XHTML', ' /');
-        } else {
             $_CONF['theme'] = 'mobile';
             $_POST['usetheme'] = 'mobile';
             $_USER['theme'] = 'mobile';
             define('XHTML', '');
-        }
-// ----------------------------------------<<
+//        }
     } else {
         $_CONF['theme'] = 'mobile';
         $_POST['usetheme'] = 'mobile';
