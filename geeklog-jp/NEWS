@@ -1,6 +1,6 @@
 NEWS
 
-							2010年5月10日
+							2010年5月17日
 							Geeklog Japanese
 
 1. 概要
@@ -18,7 +18,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
 
 
-2. Geeklog 1.7.0-jp-1.0beta1の内容
+2. Geeklog 1.7.0-jp-1.1の内容
 
   * 独自プラグイン
 
@@ -109,7 +109,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		テーマ・テスターのブロック
 
 
-3. Google CodeのIssueの情報
+3. Geeklog 1.7.0-jp-1.0からの変更
+
+	* 削除した mobile_3g を携帯用カスタム関数で参照していたのを修正しました。
+
+4. Google CodeのIssueの情報
 
    以下から、Geeklog日本語版のIssueを参照できます。
 
