@@ -1,14 +1,25 @@
 $Id$
 
+2010-05-18  Tetsuko Komma  <ivy>
+
+	* インストーラにおいて、新規インストール時、「インストール＋追加
+	  プラグインの設定」ボタンでインストーるするとエラーになるのを回避
+	  するため、暫定的にボタンを表示しないようにしました。
+
 2010-05-17  Takahiro Kambe  <tacahi>
 
 	* custom/custom_cellular.php: $CUSTOM_MOBILE_CONF['use_xhtml_for_3g']
 	  が常にfalseとして、切り分けているコードを削除しました。
 
+2010-05-17  Tetsuko Komma  <ivy>
+
+	* custom/custom_cellular.php: $CUSTOM_MOBILE_CONF['use_xhtml_for_3g']
+	  をfalse固定に変更しました。
+
 2010-05-17  Hiroshi Sakuramoto <hirorongl>
 
 	* custom_cellular.php: 3G携帯でアクセスすると廃止になったmobile_3g
-	  テーマを利用するのをmobileテーマを利用するように修正
+	  テーマを利用するのをmobileテーマを利用するように修正しました。
 
 2010-05-16  Takahiro Kambe  <tacahi>
 
@@ -111,9 +122,21 @@ $Id$
 
 	* mystral-kkさんが開発したcustom_forcethemechange.phpを、カスタム関数に
 	  追加しました。
+
+	  CUSTOM_forceThemeChange() とは：
+	  サイトのデフォルトテーマが変化した場合のコールバック関数です。
+	  サイトのテーマを変更する際に、この関数により、元のテーマを指定している
+	  ユーザのテーマもあわせて新しいテーマに変更します。
+	  この関数により、サイトのテーマを変更したものの、自身のテーマが旧テーマの
+	  ままなので、表示が切り変わらないという、一見不具合にみえる状況をこれで
+	  改善します。
+
 	* 日本語言語ファイルの翻訳候補コメントをはずし修正を加えました。
+
 	* ドキュメントの修正を行いました。
+
 	* テーマprofessionalのstyle.cssを本家版に戻すよう一部修正しました。
+
 	* 拡張版のテーマprofessional内にあるstyle.cssは、forum用styleがテーマ別に
 	  不要になったため削除しました。
 
