@@ -191,11 +191,20 @@ function INST_installEngine($install_type, $install_step)
             }
         }
 
+// 2010/5/18 Geeklog Japanese  Ivy changed 新規インストール時の、「インストール＋追加プラグインの設定」ボタンを隠す {
+/*
+        $display .='<br' . XHTML . '>
+            <input type="submit" name="submit" class="submit button big-button" value="' . $buttontext . ' &gt;&gt;"' . XHTML . '>
+
+            <input type="submit" name="install_plugins" class="submit button big-button" value="' . $buttontext . ' ' . $LANG_INSTALL[103] . ' &gt;&gt;"' . XHTML . '>
+
+            </form>' . LB;
+*/
 
         $display .='<br' . XHTML . '>
             <input type="submit" name="submit" class="submit button big-button" value="' . $buttontext . ' &gt;&gt;"' . XHTML . '>
-            <input type="submit" name="install_plugins" class="submit button big-button" value="' . $buttontext . ' ' . $LANG_INSTALL[103] . ' &gt;&gt;"' . XHTML . '>
             </form>' . LB;
+// 2010/5/18 Geeklog Japanese  Ivy changed 新規インストール時の、「インストール＋追加プラグインの設定」ボタンを隠す }
 
         break;
 
@@ -531,7 +540,7 @@ function INST_installEngine($install_type, $install_step)
 
                         INST_setVersion($siteconfig_path);
 
-                        if (! $install_plugins) {
+                       if (! $install_plugins) { 
                             // do a default install of all available plugins
 
                             /**
