@@ -191,20 +191,11 @@ function INST_installEngine($install_type, $install_step)
             }
         }
 
-// 2010/5/18 Geeklog Japanese  Ivy changed 新規インストール時の、「インストール＋追加プラグインの設定」ボタンを隠す {
-/*
+
         $display .='<br' . XHTML . '>
             <input type="submit" name="submit" class="submit button big-button" value="' . $buttontext . ' &gt;&gt;"' . XHTML . '>
-
             <input type="submit" name="install_plugins" class="submit button big-button" value="' . $buttontext . ' ' . $LANG_INSTALL[103] . ' &gt;&gt;"' . XHTML . '>
-
             </form>' . LB;
-*/
-
-        $display .='<br' . XHTML . '>
-            <input type="submit" name="submit" class="submit button big-button" value="' . $buttontext . ' &gt;&gt;"' . XHTML . '>
-            </form>' . LB;
-// 2010/5/18 Geeklog Japanese  Ivy changed 新規インストール時の、「インストール＋追加プラグインの設定」ボタンを隠す }
 
         break;
 
@@ -287,7 +278,7 @@ function INST_installEngine($install_type, $install_step)
             require_once $_CONF['path_system'] . 'lib-database.php';
 
             $req_string = 'index.php?mode=' . $install_type
-                        . '&step=3&dbconfig_path=' . $dbconfig_path
+                        . '&step=3&dbconfig_path=' . urlencode($dbconfig_path) // bug fix
                         . '&install_plugins=' . $install_plugins
                         . '&language=' . $language
                         . '&site_name=' . urlencode($site_name)
@@ -560,11 +551,11 @@ function INST_installEngine($install_type, $install_step)
                             $language = $lx_inst;
 
                             INST_defaultPluginInstall();
-                        }
 
                         require_once 'LocalizeGeeklog.php';
                         $obj = new LocalizeGeeklog('ja');
                         $obj->execute();
+                        }
 
                         // Installation is complete. Continue onto either
                         // custom plugin installation page or success page

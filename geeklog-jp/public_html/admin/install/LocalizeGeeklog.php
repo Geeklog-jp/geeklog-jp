@@ -7,7 +7,7 @@
 //       対象：Geeklog-1.5.0
 //       作者：mystral-kk - geeklog AT mystral-kk DOT net
 // ライセンス：GPL
-// バージョン：2008-08-31
+// バージョン：2010-05-20
 //     使用法：このファイルをrequire_onceしたのち、
 //               $obj = new LocalizeGeeklog;
 //               // 日本語化するとき
@@ -152,18 +152,20 @@ class LocalizeGeeklog
 		global $_TABLES;
 		
 		foreach ($this->_data as $table => $rows) {
-			foreach ($rows as $R) {
-				$sql = "UPDATE " . $_TABLES[$table] . " "
-					 . "SET " . $R['target'] . " = '"
-					 . addslashes($R[$this->_mode]) . "' "
-					 . "WHERE (" . $R['field'] . " = '" . addslashes($R['value'])
-					 . "')";
-				if (isset($R['field2']) AND isset($R['value2'])) {
-					$sql .= " AND (" . $R['field2'] . " = '"
-						 .  addslashes($R['value2']) . "')";
+			if (DB_checkTableExists($table)) {
+				foreach ($rows as $R) {
+					$sql = "UPDATE " . $_TABLES[$table] . " "
+						 . "SET " . $R['target'] . " = '"
+						 . addslashes($R[$this->_mode]) . "' "
+						 . "WHERE (" . $R['field'] . " = '" . addslashes($R['value'])
+						 . "')";
+					if (isset($R['field2']) AND isset($R['value2'])) {
+						$sql .= " AND (" . $R['field2'] . " = '"
+							 .  addslashes($R['value2']) . "')";
+					}
+					
+					DB_query($sql);
 				}
-				
-				DB_query($sql);
 			}
 		}
 	}
@@ -180,6 +182,10 @@ class LocalizeGeeklog
 	function _changeLinks()
 	{
 		global $_TABLES;
+		
+		if (!DB_checkTableExists('links')) {
+			return;
+		}
 		
 		$sqls = array();
 		
@@ -379,13 +385,14 @@ class LocalizeGeeklog
 					. "ALTER language SET DEFAULT 'en-gb'";
 			$sqls[] = "ALTER TABLE {$_TABLES['users']} "
 					. "MODIFY username VARCHAR(16)";
-			$sqls[] = "ALTER TABLE {$_TABLES['events']} "
-					. "MODIFY zipcode VARCHAR(5)";
-			$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
-					. "MODIFY zipcode VARCHAR(5)";
-			$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
-					. "MODIFY zipcode VARCHAR(5)";
-
+			if (DB_checkTableExists('events')) {
+				$sqls[] = "ALTER TABLE {$_TABLES['events']} "
+						. "MODIFY zipcode VARCHAR(5)";
+				$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
+						. "MODIFY zipcode VARCHAR(5)";
+				$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
+						. "MODIFY zipcode VARCHAR(5)";
+			}
 		} else if ($this->_mode == 'ja') {
 			// シンジケーションの言語の初期値
 			$sqls[] = "ALTER TABLE {$_TABLES['syndication']} "
@@ -393,13 +400,15 @@ class LocalizeGeeklog
 			// ユーザ名を108バイト（全角36文字くらい）に
 			$sqls[] = "ALTER TABLE {$_TABLES['users']} "
 					. "MODIFY username VARCHAR(108)";
-			// イベントの郵便番号を8桁に
-			$sqls[] = "ALTER TABLE {$_TABLES['events']} "
-					. "MODIFY zipcode VARCHAR(8)";
-			$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
-					. "MODIFY zipcode VARCHAR(8)";
-			$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
-					. "MODIFY zipcode VARCHAR(8)";
+			if (DB_checkTableExists('events')) {
+				// イベントの郵便番号を8桁に
+				$sqls[] = "ALTER TABLE {$_TABLES['events']} "
+						. "MODIFY zipcode VARCHAR(8)";
+				$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
+						. "MODIFY zipcode VARCHAR(8)";
+				$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
+						. "MODIFY zipcode VARCHAR(8)";
+			}
 		}
 		
 		foreach ($sqls as $sql) {
