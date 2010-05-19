@@ -522,6 +522,10 @@ if (INST_phpOutOfDate()) {
 
         // Done!
 
+        require_once 'LocalizeGeeklog.php';
+        $obj = new LocalizeGeeklog('ja');
+        $obj->execute();
+
         header('Location: success.php?language=' . $language);
 
         break;
