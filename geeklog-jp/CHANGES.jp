@@ -10,6 +10,10 @@ $Id$
 	* ProfessionalCSS mobile WAIproCSSテーマのadmin/group/groupeditor.thtml
 	  の管理者グループチェックボックスが多かった不具合を修正しました。
 
+	* FCKeditorのクイックアップロード機能のバグは修正されたので、
+	  画像とリンクのアップロードタブをtrueに戻しました。Flashは、本家版の
+	  まま、falseにしておきます。
+
 2010-05-20  Yoshinori Tahara  <dengen>
 
 	* インストーラにおいて、新規インストール時、「インストール＋追加
