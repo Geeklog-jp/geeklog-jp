@@ -7,6 +7,9 @@ $Id$
 	  に変更しました。1.6.0から0秒に変更されていました。
 	  他、1.5からのデフォルト変更反映など、行いました。
 
+	* ProfessionalCSS mobile WAIproCSSテーマのadmin/group/groupeditor.thtml
+	  の管理者グループチェックボックスが多かった不具合を修正しました。
+
 2010-05-20  Yoshinori Tahara  <dengen>
 
 	* インストーラにおいて、新規インストール時、「インストール＋追加
