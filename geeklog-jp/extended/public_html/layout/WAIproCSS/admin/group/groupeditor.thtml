@@ -20,11 +20,6 @@
 
     <dl {hide_adminoption}>
       <dt>{lang_admingroup}</dt>
-      <dd><input type="checkbox" name="chk_grpadmin" value="1" {chk_adminuse}{xhtml}>{lang_admingrp_msg}</dd>
-    </dl>
-
-    <dl {hide_adminoption}>
-      <dt>{lang_admingroup}</dt>
       <dd><input type="checkbox" name="chk_grpadmin" value="1" {chk_adminuse}{xhtml}>
           <span class="fieldhelp">{lang_admingrp_msg}</span>
     </dl>
