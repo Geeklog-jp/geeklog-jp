@@ -522,7 +522,7 @@
     <th style="width:50%">説明</th></tr>
 <tr>
   <td valign="top"><a name="desc_sortmethod">ソート方法(sortmethod)</a></td>
-  <td valign="top">番号順(sortnum)</td>
+  <td valign="top">アルファベット順(alpha)</td>
   <td valign="top">アルファベット順(alpha) = 話題をアルファベット順にソートするか、<br>番号順(sortnum) = 話題をソート番号順にソートするかを指定します。</td></tr>
 <tr>
   <td valign="top"><a name="desc_showstorycount">記事数を表示する(showstorycount)</a></td>
@@ -806,8 +806,8 @@
   <td valign="top">一度に表示するコメントの最大数を指定します。</td></tr>
 <tr>
   <td valign="top"><a name="desc_comment_mode">表示モード(comment_mode)</a></td>
-  <td valign="top">ツリー(threaded)</td>
-  <td valign="top">コメントの表示方法として、「一覧」(flat)、「入れ子」(nested)、「ツリー」(threaded)、「表示しない」(表示しない)のうちのどれかを指定します。</td></tr>
+  <td valign="top">入れ子(nested)</td>
+  <td valign="top">コメントの表示方法として、一覧(flat)、入れ子(nested)、ツリー(threaded)、表示しない(nocomments)のうちのどれかを指定します。</td></tr>
 <tr>
   <td valign="top"><a name="desc_comment_code">新規作成時のデフォルト(comment_code)</a></td>
   <td valign="top">はい(0)</td>
@@ -972,7 +972,7 @@
     このオプションを有効にすると、（掲示板のスレッドなどの）複数ユーザの多数の写真を表示するページでは、スピードダウンする可能性があることに注意してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_gravatar_rating">Gravatar評価を許可(gravatar_rating)</a></td>
-  <td valign="top"><i>(無効)</i></td>
+  <td valign="top"><i>無効(disabled)</i></td>
   <td valign="top">gravatar.comへ投稿されたアバターは、（米国で）映画鑑賞用に使われている評価システム
 		<ul>
 			<li>G = General Audiences：一般向け</li>
@@ -1137,8 +1137,8 @@
     <th style="width:50%">説明</th></tr>
 <tr>
   <td valign="top"><a name="desc_notification">通知(notification)</a></td>
-  <td valign="top">空リスト（登録なし）</td>
-  <td valign="top">新規の記事・コメントが投稿された場合、トラックバック・ピングバックを受信した場合、新規ユーザが登録された場合に、サイトのメールアドレスに通知メールを送信するリストを指定します。この<tt>リスト</tt>に登録できるのは、
+  <td valign="top">array()</td>
+  <td valign="top">新規の記事・コメントが投稿された場合、トラックバック・ピングバックを受信した場合、新規ユーザが登録された場合に、サイトのメールアドレス<tt>$_CONF['site_email']</tt>に通知メールを送信するリストを指定します。この<tt>リスト</tt>に登録できるのは、
 		<ul>
 			<li><tt>story</tt></li>
 			<li><tt>comment</tt></li>
@@ -1150,8 +1150,8 @@
     <strong>例:</strong> <code>story と user</code> とすると、新規記事が投稿された場合とユーザが登録された場合に通知されます。たとえば、新規コメントが投稿された場合には、通知は来ません。</td></tr>
 <tr>
   <td valign="top"><a name="desc_cron_schedule_interval">Cronスケジュール間隔(cron_schedule_interval)</a></td>
-  <td valign="top">86400（秒）</td>
-  <td valign="top">Geeklogは<a href="http://en.wikipedia.org/wiki/Cronjob">cronjob</a>、つまり、一定の間隔で行う作業を擬似的に行うことができます。実行されるPHPのコードは、プラグインか<tt>lib-custom.php</tt>中の<code>CUSTOM_runScheduledTask</code> 関数で指定します。ここで設定する値は、作業が行われる間隔を秒単位で指定します。デフォルトは 86400秒 = 24時間です。<br>
+  <td valign="top">0（秒）</td>
+  <td valign="top">Geeklogは<a href="http://en.wikipedia.org/wiki/Cronjob">cronjob</a>、つまり、一定の間隔で行う作業を擬似的に行うことができます。実行されるPHPのコードは、プラグインか<tt>lib-custom.php</tt>中の<code>CUSTOM_runScheduledTask</code> 関数で指定します。ここで設定する値は、作業が行われる間隔を秒単位で指定します。デフォルトは0秒です。 例) 86400秒 = 24時間<br>
     この作業が行われるには、予定の時刻付近で誰かがサイトを訪問する必要があることに注意してください。訪問者がほとんどいないサイトでは、作業の開始がかなり遅れる可能性があります。<br>この機能を無効にするには、0を指定します。</td></tr>
 <tr>
   <td valign="top"><a name="desc_disable_autolinks">自動タグを無効にする(disable_autolinks)</a></td>
