@@ -20,7 +20,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 2. Geeklog 1.7.0-jp-1.1の内容
 
-  * 独自プラグイン
+  1) 独自プラグイン
 
     すべてのプラグインはCSRF対策を加えています。
 
@@ -91,7 +91,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
        トールに対応してません。
 
 
-  * カスタム関数とPHPブロック関数他
+  2) カスタム関数とPHPブロック関数他
 
     o 標準版と拡張版に同梱
 
@@ -102,7 +102,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		本体のセッション関連のハックや、画像のリサイザーとブロック
 		単独表示のためのPHPの追加もあわせて行っています。
 		XHTMLはサポートしません。
-		XHTMLをサポートしたい場合は、mobile_xhtmlをお勧めします。
+		※XHTMLをサポートしたい場合は、mobile_xhtmlをお勧めします。
 
 	public_html/imageresizer.php
 		携帯サポートのための関数です。
@@ -157,12 +157,38 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		変更したテーマがデータベースに保存されるようになりました。
 
 
+  3) テーマ
+
+    o 標準版と拡張版に同梱
+
+	public_html/layout/mobile
+		携帯専用のテーマ
+		※このテーマはPC用には選べません。
+
+	public_html/layout/ProfessionalCSS
+		「Professional」のデザインを元にした、日本語サイトのための標準テーマ
+		であり、custom.cssによってのみカスタマイズできるテーマメーカー。
+		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS 2で
+		一から全てを書き直しました。
+
+
+    o 拡張版に同梱
+
+	public_html/layout/WAIproCSS
+		「ProfessionalCSS」を基本に, アクセシィビリティに配慮したテーマ。
+
+	public_html/layout/mobile/functions.php
+	public_html/layout/ProfessionalCSS/functions.php
+		掲示板のブロックレイアウトのための変数セットを追加したものに差し替える
+		ために同梱しています。
+
+
 3. Geeklog 1.7.0-jp-1.0からの変更
 
 	* 削除した mobile_3g を携帯用カスタム関数で参照していたのを修正しました。
 
 	* 「新規インストール」 - 「インストール＋追加プラグイン設定」を選んだとき、
-	  サイトが正常にインストールを完了せず、真っ白になる不具合を修正しました。
+	  サイトが正常にインストールを完了せず、画面が真っ白になる不具合を修正しました。
 
 	* アドバンストエディタのクイックアップロードは本家版でデバッグされたので、
 	  タブを有効に戻しました。
