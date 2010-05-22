@@ -5,14 +5,18 @@ NEWS
 
 1. 概要
 
-Geeklog日本語版はGeeklogを元に、以下の変更を加えたものです。
+Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡張版を提供
+しています。
 
-	* 日本語環境に特有な地域化の改良
-	* オリジナルのGeeklogに先行したバグ修正
+標準版はGeeklogを元に、オリジナルのGeeklogに対して以下の変更を加えたものです。
+
+	* ロケール等を設定する日本語化プラグインの追加
+	* 携帯サポートの追加
+	* CSSのみでレイアウトするテーマメーカー「ProfessionalCSS」の追加
 	* 有用なプラグイン、カスタム関数やブロックの同梱
+	* オリジナルのGeeklogに先行したバグ修正
 
-オリジナルのGeeklogに近い内容の標準版と、より多くのプラグイン等を追加
-した拡張版を提供しています。
+拡張版は、上記標準版に対してさらに多くのアドオンを追加して提供しています。
 
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
@@ -20,7 +24,9 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 2. Geeklog 1.7.0-jp-1.1の内容
 
-  1) 独自プラグイン
+オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
+
+  1) プラグイン
 
     すべてのプラグインはCSRF対策を加えています。
 
@@ -38,7 +44,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		機能アップさせました。
 
 
-    o 拡張版に同梱
+    o 拡張版のみに同梱
 
 	自動タグプラグイン(Autotags) バージョン 1.02jp3
 		日本語言語ファイルとタグ管理画面のテンプレートを変更しました。
@@ -112,8 +118,16 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		携帯サポートのための関数です。
 		ブロックのみを表示する機能を提供します。
 
+	public_html/lib-common.php
+		携帯の画面のリフレッシュはカスタム関数 CUSTOM_refresh()を呼ぶため、
+		COM_refresh()をハックしています。
 
-    o 拡張版に同梱
+	public_html/lib-sessions.php
+		クッキーを使えない携帯でも、ログイン処理が行えるよう、
+		ハックしています。
+
+
+    o 拡張版のみに同梱
 
 	system/custom/custom_forcethemechange.php
 		サイトのデフォルトテーマが変化した場合のコールバック関数
@@ -170,17 +184,45 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		であり、custom.cssによってのみカスタマイズできるテーマメーカー。
 		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS 2で
 		一から全てを書き直しました。
+		「Professional」をベースにテーマを開発すると、アップグレードは、
+		主にcustom.css上書きするだけで可能になります。
+		詳しくはREADMEをご覧ください。
 
 
-    o 拡張版に同梱
+    o 拡張版のみに同梱
 
 	public_html/layout/WAIproCSS
 		「ProfessionalCSS」を基本に, アクセシィビリティに配慮したテーマ。
 
 	public_html/layout/mobile/functions.php
+	public_html/layout/professional/functions.php
 	public_html/layout/ProfessionalCSS/functions.php
 		掲示板のブロックレイアウトのための変数セットを追加したものに差し替える
 		ために同梱しています。
+
+
+  4) その他
+
+	CHANGES.jp
+		2009-06-30以後の日本語版修正内容です。
+
+	CHANGES-prev.jp
+		2009-06-29以前の日本語版修正内容です。
+
+	emailgeeklogstories.en
+		オリジナルのemailgeeklogstoriesです。
+
+	emailgeeklogstories
+		emailgeeklogstoriesを日本語化したものです。
+
+	NEWS
+		本ファイルです。配布内容を紹介します。
+
+	readme.ja
+		オリジナルのreadmeを日本語化したものです。
+
+	release_jp.php
+		リリースのためのバージョン管理ファイルです。
 
 
 3. Geeklog 1.7.0-jp-1.0からの変更
