@@ -228,9 +228,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 3. Geeklog 1.7.0-jp-1.0からの変更
 
 	* 削除した mobile_3g を携帯用カスタム関数で参照していたのを修正しました。
+	  [#135]
 
 	* 「新規インストール」 - 「インストール＋追加プラグイン設定」を選んだとき、
-	  サイトが正常にインストールを完了せず、画面が真っ白になる不具合を修正しました。
+	  サイトが正常にインストールを完了せず、画面が真っ白になる不具合を修正しま
+	  した。[#151]
 
 	* アドバンストエディタのクイックアップロードは本家版でデバッグされたので、
 	  タブを有効に戻しました。
@@ -241,8 +243,12 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 4. Google CodeのIssueの情報
 
-   以下から、Geeklog日本語版のIssueを参照できます。
+   Geeklog 1.7.0-jp-1.1で修正されたIssueは以下から参照できます。
 
-    http://code.google.com/p/geeklog-jp/issues/
+   http://code.google.com/p/geeklog-jp/issues/list?can=1&q=label%3A1.7.0-jp-1.1
+
+   また、すべてのGeeklog日本語版のIssueは以下から参照できます。
+
+   http://code.google.com/p/geeklog-jp/issues/
 
 以上です。
