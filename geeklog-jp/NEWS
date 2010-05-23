@@ -1,6 +1,6 @@
 NEWS
 
-							2010年5月22日
+							2010年5月23日
 							Geeklog Japanese
 
 1. 概要
@@ -83,18 +83,19 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		トピックとその中の記事の所有者を変更する機能を提供します。
 
 	サイトマッププラグイン(Sitemap) バージョン 1.1.9 (*)
-		Geeklogサイトのサイトマップ表示とGoogle Sitemaps用XMLを作成します。
+		Geeklogサイトのサイトマップ表示とGoogle Sitemaps用XMLを作成し
+		ます。
 
 	テーマエディタプラグイン(Themedit) バージョン 1.1.4 (*)
-		テンプレートとカスケーディング・スタイルシートの編集や画像の管理
-		機能を提供します。
+		テンプレートとカスケーディング・スタイルシートの編集や画像の管
+		理機能を提供します。
 
 	GoogleMapsプラグイン(GoogleMaps) バージョン 0.9.4
 		GoogleMapsAPIによって、複数ピンとバルーン機能を持ったGoogle
 		マップを自動タグの記述によって表示する機能を提供します。
 
-    (*) Geeklog 1.6からのプラグイン管理の機能である、圧縮ファイルによる自動インス
-       トールに対応してません。
+    (*) Geeklog 1.6からのプラグイン管理の機能である、圧縮ファイルによる自動イン
+    	ストールに対応してません。
 
 
   2) カスタム関数とPHPブロック関数他
@@ -119,8 +120,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		ブロックのみを表示する機能を提供します。
 
 	public_html/lib-common.php
-		携帯の画面のリフレッシュはカスタム関数 CUSTOM_refresh()を呼ぶため、
-		COM_refresh()をハックしています。
+		携帯の画面のリフレッシュはカスタム関数 CUSTOM_refresh()を呼ぶ
+		ため、COM_refresh()をハックしています。
 
 	public_html/lib-sessions.php
 		クッキーを使えない携帯でも、ログイン処理が行えるよう、
@@ -152,8 +153,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		ブロックや静的ページPHPで活用します。
 
 	system/custom/phpblock_sitemapmenu.php
-		すべての話題と記事のリンクによるメニューを表示するPHPブロック関数
-		phpblock_sitemapmenu()
+		すべての話題と記事のリンクによるメニューを表示するPHPブロック
+		関数phpblock_sitemapmenu()
 		ブロックや静的ページPHPで活用します。
 		※現在ではあまり活用されていません。
 
@@ -180,10 +181,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		※このテーマはPC用には選べません。
 
 	public_html/layout/ProfessionalCSS
-		「Professional」のデザインを元にした、日本語サイトのための標準テーマ
-		であり、custom.cssによってのみカスタマイズできるテーマメーカー。
-		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS 2で
-		一から全てを書き直しました。
+		「Professional」のデザインを元にした、日本語サイトのための標準
+		テーマであり、custom.cssによってのみカスタマイズできるテーマメー
+		カー。
+		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS
+		2で一から全てを書き直しました。
 		「Professional」をベースにテーマを開発すると、アップグレードは、
 		主にcustom.css上書きするだけで可能になります。
 		詳しくはREADMEをご覧ください。
@@ -197,8 +199,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	public_html/layout/mobile/functions.php
 	public_html/layout/professional/functions.php
 	public_html/layout/ProfessionalCSS/functions.php
-		掲示板のブロックレイアウトのための変数セットを追加したものに差し替える
-		ために同梱しています。
+		掲示板のブロックレイアウトのための変数セットを追加したものに差
+		し替えるために同梱しています。
 
 
   4)インストーラ
@@ -206,30 +208,33 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	public_html/admin/install/precheck.php
 	public_html/admin/install/precheck.js
 	public_html/admin/install/precheck.css
-		インストール前のサーバーの日本語環境をチェックするプログラムです。
+		インストール前のサーバーの日本語環境をチェックするプログラムで
+		す。
 		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
 
 	public_html/admin/install/index.php
 	public_html/admin/install/LocalizeGeeklog.php
 		インストール時にサイトを日本語化するためのプログラム。
-		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを日本語化
-		します。
+		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを
+		日本語化します。
 
 	public_html/admin/install/disable-plugins.php
-		インストール時に、プログラムで指定しているプラグイン以外は無効化します。
-		インストールすると不具合が発生するプラグインのインストールを防ぐことが
-		できます。
+		インストール時に、プログラムで指定しているプラグイン以外は無効
+		とします。
+		インストールすると不具合が発生するプラグインのインストールを防
+		ぐことができます。
 
 
   5) 本体ハック
 
 	public_html/admin/story.php
-		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプレート
-		ファイルを呼ぶハックを追加しています。
-		日本語用言語専用テンプレートファイルとして以下をすべてのテーマで追加して
-		提供しています。
-		public_html/layout/***/admin/story/storyeditor_advanced.japanese_utf-8.thtml
-		public_html/layout/***/admin/story/storyeditor.japanese_utf-8.thtml
+		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプ
+		レートファイルを呼ぶハックを追加しています。
+		日本語用言語専用テンプレートファイルとして以下をすべてのテーマ
+		で追加して提供しています。
+		public_html/layout/ 以下の各テーマの以下のファイル:
+			admin/story/storyeditor_advanced.japanese_utf-8.thtml
+			admin/story/storyeditor.japanese_utf-8.thtml
 
 
   6) その他
@@ -261,15 +266,15 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 	* 削除した mobile_3g を携帯用カスタム関数で参照していたのを修正しました。
 	  [#135]
 
-	* 「新規インストール」 - 「インストール＋追加プラグイン設定」を選んだとき、
-	  サイトが正常にインストールを完了せず、画面が真っ白になる不具合を修正しま
-	  した。[#151]
+	* 「新規インストール」 - 「インストール＋追加プラグイン設定」を選んだと
+	  き、サイトが正常にインストールを完了せず、画面が真っ白になる不具合を修
+	  正しました。[#151]
 
 	* アドバンストエディタのクイックアップロードは本家版でデバッグされたので、
 	  タブを有効に戻しました。
 
-	* 日本語ドキュメントのコンフィギュレーションのページで、一部のデフォルトが
-	  1.5のモードのままだったのを修正しました。
+	* 日本語ドキュメントのコンフィギュレーションのページで、一部のデフォルト
+	  が1.5のモードのままだったのを修正しました。
 
 
 4. Google CodeのIssueの情報
