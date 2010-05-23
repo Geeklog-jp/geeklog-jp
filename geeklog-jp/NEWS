@@ -201,7 +201,38 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		ために同梱しています。
 
 
-  4) その他
+  4)インストーラ
+
+	public_html/admin/install/precheck.php
+	public_html/admin/install/precheck.js
+	public_html/admin/install/precheck.css
+		インストール前のサーバーの日本語環境をチェックするプログラムです。
+		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
+
+	public_html/admin/install/index.php
+	public_html/admin/install/LocalizeGeeklog.php
+		インストール時にサイトを日本語化するためのプログラム。
+		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを日本語化
+		します。
+
+	public_html/admin/install/disable-plugins.php
+		インストール時に、プログラムで指定しているプラグイン以外は無効化します。
+		インストールすると不具合が発生するプラグインのインストールを防ぐことが
+		できます。
+
+
+  5) 本体ハック
+
+	public_html/admin/story.php
+		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプレート
+		ファイルを呼ぶハックを追加しています。
+		日本語用言語専用テンプレートファイルとして以下をすべてのテーマで追加して
+		提供しています。
+		public_html/layout/***/admin/story/storyeditor_advanced.japanese_utf-8.thtml
+		public_html/layout/***/admin/story/storyeditor.japanese_utf-8.thtml
+
+
+  6) その他
 
 	CHANGES.jp
 		2009-06-30以後の日本語版修正内容です。
