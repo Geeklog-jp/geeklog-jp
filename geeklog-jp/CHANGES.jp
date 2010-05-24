@@ -1,5 +1,9 @@
 $Id$
 
+2010-05-24  Takahiro Kambe  <tacahi>
+
+	* NEWSからREADME.jpを分離しました。
+
 2010-05-24  Tetsuko Komma  <ivy>
 
 	* すべてのテーマのテンプレートファイルsubmit/submitloginrequired.thtml
