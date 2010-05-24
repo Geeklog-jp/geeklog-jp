@@ -1,5 +1,13 @@
 $Id$
 
+2010-05-24  Tetsuko Komma  <ivy>
+
+	* すべてのテーマのテンプレートファイルsubmit/submitloginrequired.thtml
+	  は不要になったので削除しました。
+
+	* 日本語ドキュメントのテーマ作成（theme.html）の1.7.0の翻訳を追加し、
+	  書式を一部揃えました。
+
 2010-05-23  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.0-jp-1.1をリリースします。
