@@ -18,8 +18,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 
 拡張版は、上記標準版に対してさらに多くのアドオンを追加して提供しています。
 
-Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
-ご覧ください。
+Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
 2. Geeklog 1.7.0-jp-1.1の内容
@@ -252,10 +251,13 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 		emailgeeklogstoriesを日本語化したものです。
 
 	NEWS
-		本ファイルです。配布内容を紹介します。
+		配布パッケージのNEWSです。
 
 	readme.ja
 		オリジナルのreadmeを日本語化したものです。
+
+	README.jp
+		本ファイル。本家版に対する日本語版の開発概要を紹介します。
 
 	release_jp.php
 		リリースのためのバージョン管理ファイルです。
