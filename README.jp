@@ -1,271 +1,271 @@
-Geeklog���ܸ���
+Geeklog日本語版
 
-							2010ǯ5��24��
+							2010年5月24日
 							Geeklog Japanese
 
-1. ����
+1. 概要
 
-Geeklog Japanese�Ǥϡ�Geeklog���ܸ�ɸ���Ǥ����Geeklog���ܸ��ĥ�Ǥ���
-���Ƥ��ޤ���
+Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡張版を提供
+しています。
 
-ɸ���Ǥ�Geeklog�򸵤ˡ����ꥸ�ʥ��Geeklog���Ф��ưʲ����ѹ���ä�����ΤǤ���
+標準版はGeeklogを元に、オリジナルのGeeklogに対して以下の変更を加えたものです。
 
-	* ���������������ꤹ�����ܸ첽�ץ饰������ɲ�
-	* ���ӥ��ݡ��Ȥ��ɲ�
-	* CSS�Τߤǥ쥤�����Ȥ���ơ��ޥ᡼������ProfessionalCSS�פ��ɲ�
-	* ͭ�Ѥʥץ饰���󡢥�������ؿ���֥��å���Ʊ��
-	* ���ꥸ�ʥ��Geeklog����Ԥ����Х�����
+	* ロケール等を設定する日本語化プラグインの追加
+	* 携帯サポートの追加
+	* CSSのみでレイアウトするテーマメーカー「ProfessionalCSS」の追加
+	* 有用なプラグイン、カスタム関数やブロックの同梱
+	* オリジナルのGeeklogに先行したバグ修正
 
-��ĥ�Ǥϡ��嵭ɸ���Ǥ��Ф��Ƥ����¿���Υ��ɥ�����ɲä����󶡤��Ƥ��ޤ���
+拡張版は、上記標準版に対してさらに多くのアドオンを追加して提供しています。
 
-Geeklog���ܸ��Ǥξܺ٤ʾ���ˤĤ��Ƥ� http://www.geeklog.jp/ ��
-��������������
-
-
-2. Geeklog 1.7.0-jp-1.1������
-
-���ꥸ�ʥ��Geeklog���Ф��ơ��ʲ��Υ������ե�������ɲá��������Ƥ��ޤ���
-
-  (1) �ץ饰����
-
-    ���٤ƤΥץ饰�����CSRF�к���ä��Ƥ��ޤ���
-
-    o ɸ���Ǥȳ�ĥ�Ǥ�Ʊ��
-
-	���ܸ첽�ץ饰����(Japanize) �С������ 1.0.6RC2
-		Geeklog�����ܸ쥵���ȤȤ��Ƴ��Ѥ��뤿��ο���������䡢
-		��ǽ�ɲä�ԤäƤ��ޤ���
-		���ܸ��ǳ�ȯ��¿���ϡ��ϥå��ǤϤʤ������Υץ饰�����
-		Ǥ���Ƥ��ޤ������ʤ餺���󥹥ȡ��뤷�ơ��¹Ԥ��Ƥ���������
-		�¹Ԥ��ʤ���硢�᡼�������ʤɤ��Զ�礬ȯ�����ޤ���
-
-	������jp�ץ饰����(Calendarjp) �С������ 1.1.2
-		Calendar�ץ饰��������ܸ쥵���ȸ����˥������饤������
-		��ǽ���åפ����ޤ�����
+Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
+ご覧ください。
 
 
-    o ��ĥ�ǤΤߤ�Ʊ��
+2. Geeklog 1.7.0-jp-1.1の内容
 
-	��ư�����ץ饰����(Autotags) �С������ 1.02jp3
-		���ܸ����ե�����ȥ����������̤Υƥ�ץ졼�Ȥ��ѹ����ޤ�����
+オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
-	CAPTCHA�ץ饰����(CAPTCHA) �С������ 4.0.2
-		��������Ѥ���ǧ�ڤ��󶡤��ޤ���
+  (1) プラグイン
 
-	���������˥塼�ץ饰����(CustomMenu) �С������ 0.5.0
-		�������Х��˥塼��������̤����ꤷ�ޤ���
-		���إ�˥塼��ѥ󤯤��ꥹ�Ȥϡ��ʥӥ��������ץ饰����
-		(navman)�򤪴��ᤷ�ޤ���
+    すべてのプラグインはCSRF対策を加えています。
 
-	DataProxy�ץ饰����(DataProxy) �С������ 1.1.7
-		Geeklog�Υ���ƥ��(��������Ū�ڡ������Ǽ�����)�����
-		���붦�̤�API���󶡤��ޤ���
+    o 標準版と拡張版に同梱
 
-	Dbman�ץ饰����(Dbman) �С������ 0.5.3 (*)
-		�ǡ����١����ΥХå����åפ�ꥹ�ȥ���¹Ԥ��ޤ���
-		����Хå����å����⡣(mysqldump���ޥ�ɤ���Ѥ��ޤ���)
+	日本語化プラグイン(Japanize) バージョン 1.0.6RC2
+		Geeklogを日本語サイトとして活用するための数々の設定や、
+		機能追加を行っています。
+		日本語版開発の多くは、ハックではなく、このプラグインに
+		任せています。かならずインストールして、実行してください。
+		実行しない場合、メール送信などで不具合が発生します。
 
-	�ե���������ץ饰����(Filemgmt) �С������ 1.6.0.jp3
-		�ե�����Υ���������ɵ�ǽ���󶡤��ޤ���
-
-	�Ǽ��ĥץ饰����(Forum) �С������ 2.7.3.JPr1
-		�Ǽ��ĵ�ǽ���󶡤��ޤ���
-
-	Mycaljp�ץ饰����(Mycaljp) �С������ 2.1.2
-		�����ȥ���������ɽ�������󶡤���PHP�֥��å��ؿ�
-		phpblock_mycaljp2() ���󶡤��ޤ���
-
-	QR�����ɥץ饰����(Nmoxqrblock) �С������ 1.1.1 (*)
-		ɽ�����Ƥ���ڡ�����URL��QR�����ɤ���������ɽ������PHP�֥��å�
-		�ؿ� phpblock_nmoxqrblock() ���󶡤��ޤ���
-
-	������ϥץ饰����(Nmoxtopicown) �С������1.0.10 (*)
-		�ȥԥå��Ȥ�����ε����ν�ͭ�Ԥ��ѹ����뵡ǽ���󶡤��ޤ���
-
-	�����ȥޥåץץ饰����(Sitemap) �С������ 1.1.9 (*)
-		Geeklog�����ȤΥ����ȥޥå�ɽ����Google Sitemaps��XML�������
-		�ޤ���
-
-	�ơ��ޥ��ǥ����ץ饰����(Themedit) �С������ 1.1.4 (*)
-		�ƥ�ץ졼�Ȥȥ��������ǥ��󥰡��������륷���Ȥ��Խ�������δ�
-		����ǽ���󶡤��ޤ���
-
-	GoogleMaps�ץ饰����(GoogleMaps) �С������ 0.9.4
-		GoogleMapsAPI�ˤ�äơ�ʣ���ԥ�ȥХ롼��ǽ����ä�Google
-		�ޥåפ�ư�����ε��Ҥˤ�ä�ɽ�����뵡ǽ���󶡤��ޤ���
-
-    (*) Geeklog 1.6����Υץ饰��������ε�ǽ�Ǥ��롢���̥ե�����ˤ�뼫ư����
-    	���ȡ�����б����Ƥޤ���
+	カレンダjpプラグイン(Calendarjp) バージョン 1.1.2
+		Calendarプラグインを日本語サイト向けにローカライズして
+		機能アップさせました。
 
 
-  (2) ��������ؿ���PHP�֥��å��ؿ�¾
+    o 拡張版のみに同梱
 
-    o ɸ���Ǥȳ�ĥ�Ǥ�Ʊ��
+	自動タグプラグイン(Autotags) バージョン 1.02jp3
+		日本語言語ファイルとタグ管理画面のテンプレートを変更しました。
+
+	CAPTCHAプラグイン(CAPTCHA) バージョン 4.0.2
+		画像を使用した認証を提供します。
+
+	カスタムメニュープラグイン(CustomMenu) バージョン 0.5.0
+		グローバルメニューを管理画面で設定します。
+		階層メニューやパンくずリストは、ナビゲーションプラグイン
+		(navman)をお勧めします。
+
+	DataProxyプラグイン(DataProxy) バージョン 1.1.7
+		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
+		する共通のAPIを提供します。
+
+	Dbmanプラグイン(Dbman) バージョン 0.5.3 (*)
+		データベースのバックアップやリストアを実行します。
+		定期バックアップ等も。(mysqldumpコマンドを使用しません。)
+
+	ファイル管理プラグイン(Filemgmt) バージョン 1.6.0.jp3
+		ファイルのダウンロード機能を提供します。
+
+	掲示板プラグイン(Forum) バージョン 2.7.3.JPr1
+		掲示板機能を提供します。
+
+	Mycaljpプラグイン(Mycaljp) バージョン 2.1.2
+		サイトカレンダーを表示する提供するPHPブロック関数
+		phpblock_mycaljp2() を提供します。
+
+	QRコードプラグイン(Nmoxqrblock) バージョン 1.1.1 (*)
+		表示しているページのURLをQRコードで生成して表示するPHPブロック
+		関数 phpblock_nmoxqrblock() を提供します。
+
+	話題譲渡プラグイン(Nmoxtopicown) バージョン1.0.10 (*)
+		トピックとその中の記事の所有者を変更する機能を提供します。
+
+	サイトマッププラグイン(Sitemap) バージョン 1.1.9 (*)
+		Geeklogサイトのサイトマップ表示とGoogle Sitemaps用XMLを作成し
+		ます。
+
+	テーマエディタプラグイン(Themedit) バージョン 1.1.4 (*)
+		テンプレートとカスケーディング・スタイルシートの編集や画像の管
+		理機能を提供します。
+
+	GoogleMapsプラグイン(GoogleMaps) バージョン 0.9.4
+		GoogleMapsAPIによって、複数ピンとバルーン機能を持ったGoogle
+		マップを自動タグの記述によって表示する機能を提供します。
+
+    (*) Geeklog 1.6からのプラグイン管理の機能である、圧縮ファイルによる自動イン
+    	ストールに対応してません。
+
+
+  (2) カスタム関数とPHPブロック関数他
+
+    o 標準版と拡張版に同梱
 
 	system/custom/custom_cellular.php
-		����ü������Υ��������򥵥ݡ��Ȥ��뤿��Υ�������ؿ����ΤǤ���
-		���Ӥ���Υ��������ξ�硢�ơ���mobile���ڤ��ؤ���ʤɡ�
-		cookie��Ȥ�ʤ��ǥ������󤵤��뤿�ᡢ���ӤΥ��ݡ��Ȥ�
-		���ΤΥ��å�����Ϣ�Υϥå��䡢�����Υꥵ�������ȥ֥��å�
-		ñ��ɽ���Τ����PHP���ɲä⤢�碌�ƹԤäƤ��ޤ���
-		XHTML�ϥ��ݡ��Ȥ��ޤ���
-		��XHTML�򥵥ݡ��Ȥ��������ϡ�mobile_xhtml�򤪴��ᤷ�ޤ���
+		携帯端末からのアクセスをサポートするためのカスタム関数本体です。
+		携帯からのアクセスの場合、テーマmobileに切り替えるなど。
+		cookieを使わないでログインさせるため、携帯のサポートは
+		本体のセッション関連のハックや、画像のリサイザーとブロック
+		単独表示のためのPHPの追加もあわせて行っています。
+		XHTMLはサポートしません。
+		※XHTMLをサポートしたい場合は、mobile_xhtmlをお勧めします。
 
 	public_html/imageresizer.php
-		���ӥ��ݡ��ȤΤ���δؿ��Ǥ���
-		������ꥵ��������ɽ�����뵡ǽ���󶡤��ޤ���
+		携帯サポートのための関数です。
+		画像をリサイズして表示する機能を提供します。
 
 	public_html/mobileblocks.php
-		���ӥ��ݡ��ȤΤ���δؿ��Ǥ���
-		�֥��å��Τߤ�ɽ�����뵡ǽ���󶡤��ޤ���
+		携帯サポートのための関数です。
+		ブロックのみを表示する機能を提供します。
 
 	public_html/lib-common.php
-		���Ӥβ��̤Υ�ե�å���ϥ�������ؿ� CUSTOM_refresh()��Ƥ�
-		���ᡢCOM_refresh()��ϥå����Ƥ��ޤ���
+		携帯の画面のリフレッシュはカスタム関数 CUSTOM_refresh()を呼ぶ
+		ため、COM_refresh()をハックしています。
 
 	public_html/lib-sessions.php
-		���å�����Ȥ��ʤ����ӤǤ⡢��������������Ԥ���褦��
-		�ϥå����Ƥ��ޤ���
+		クッキーを使えない携帯でも、ログイン処理が行えるよう、
+		ハックしています。
 
 
-    o ��ĥ�ǤΤߤ�Ʊ��
+    o 拡張版のみに同梱
 
 	system/custom/custom_forcethemechange.php
-		�����ȤΥǥե���ȥơ��ޤ��Ѳ��������Υ�����Хå��ؿ�
-		�����ȤΥơ��ޤ��ѹ������饵���ȤΥơ��ޤ����Ѥ��Ƥ���
-		�桼���Υơ��ޤ⼫ưŪ�˿��ơ��ޤ��ѹ����ޤ���
+		サイトのデフォルトテーマが変化した場合のコールバック関数
+		サイトのテーマを変更したらサイトのテーマを利用している
+		ユーザのテーマも自動的に新テーマに変更します。
 
 	system/custom/custom_getstaticpage.php
-		��Ū�ڡ�������ƥ�Ĥ����Ƥ��֤���������ؿ�
+		静的ページコンテンツの内容を返すカスタム関数
 		CUSTOM_getStaticpage()
-		��Ū�ڡ���PHP�䥢�ץꥱ����������ǳ��Ѥ��ޤ���
+		静的ページPHPやアプリケーション等で活用します。
 
 	system/custom/phpblock_lastarticles.php
-		���嵭���Υ����ȥ��󥯤�ɽ������PHP�֥��å��ؿ�
+		新着記事のタイトルリンクを表示するPHPブロック関数
 		phpblock_lastarticles() phpblock_lastarticles2()
-		�֥��å�����Ū�ڡ���PHP�ǳ��Ѥ��ޤ���
-		��ʣ���ե����ɿ���ɽ���� RSS�����ꥲ����(rssAggregator) ��
-		  ���Ѥ��Ƥ���������
+		ブロックや静的ページPHPで活用します。
+		※複数フィード新着表示は RSSアグリゲータ(rssAggregator) を
+		  活用してください。
 
 	system/custom/phpblock_showrights.php
-		���ߥ������󤷤Ƥ���桼���θ��¤�ɽ������PHP�֥��å��ؿ�
+		現在ログインしているユーザの権限を表示するPHPブロック関数
 		phpblock_showrights()
-		�֥��å�����Ū�ڡ���PHP�ǳ��Ѥ��ޤ���
+		ブロックや静的ページPHPで活用します。
 
 	system/custom/phpblock_sitemapmenu.php
-		���٤Ƥ�����ȵ����Υ�󥯤ˤ���˥塼��ɽ������PHP�֥��å�
-		�ؿ�phpblock_sitemapmenu()
-		�֥��å�����Ū�ڡ���PHP�ǳ��Ѥ��ޤ���
-		�����ߤǤϤ��ޤ���Ѥ���Ƥ��ޤ���
+		すべての話題と記事のリンクによるメニューを表示するPHPブロック
+		関数phpblock_sitemapmenu()
+		ブロックや静的ページPHPで活用します。
+		※現在ではあまり活用されていません。
 
 	system/custom/phpblock_stats.php
-		�ڡ����������������ɽ������PHP�֥��å��ؿ�
+		ページアクセス回数を表示するPHPブロック関数
 		phpblock_stats()
-		�֥��å�����Ū�ڡ���PHP�ǳ��Ѥ��ޤ���
-		�����ߤǤϤ��ޤ���Ѥ���Ƥ��ޤ���
+		ブロックや静的ページPHPで活用します。
+		※現在ではあまり活用されていません。
 
 	system/custom/phpblock_themetester.php
-		�ơ��ޤ��ѹ�����ơ��ޥ����󥸥㡼��PHP�֥��å��ؿ�
+		テーマを変更するテーマチェンジャーのPHPブロック関数
 		phpblock_themetester()
-		����ơ��ޥƥ������Ȥ��Ƴ�ȯ����ޤ����������θ塢
-		��ǽ�Ȥ��Ƥϥơ��ޥ����󥸥㡼���Ѥ�äƤ��ꡢ
-		�ѹ������ơ��ޤ��ǡ����١�������¸�����褦�ˤʤ�ޤ�����
+		当初テーマテスターとして開発されましたが、その後、
+		機能としてはテーマチェンジャーに変わっており、
+		変更したテーマがデータベースに保存されるようになりました。
 
 
-  (3) �ơ���
+  (3) テーマ
 
-    o ɸ���Ǥȳ�ĥ�Ǥ�Ʊ��
+    o 標準版と拡張版に同梱
 
 	public_html/layout/mobile
-		�������ѤΥơ���
-		�����Υơ��ޤ�PC�Ѥˤ����٤ޤ���
+		携帯専用のテーマ
+		※このテーマはPC用には選べません。
 
 	public_html/layout/ProfessionalCSS
-		��Professional�פΥǥ�����򸵤ˤ��������ܸ쥵���ȤΤ����ɸ��
-		�ơ��ޤǤ��ꡢcustom.css�ˤ�äƤΤߥ������ޥ����Ǥ���ơ��ޥ᡼
-		������
-		table���Ǥˤ��쥤�����Ȥ��ӽ�����HTML 4.01 Transitional+CSS
-		2�ǰ줫�����Ƥ��ľ���ޤ�����
-		��Professional�פ�١����˥ơ��ޤ�ȯ����ȡ����åץ��졼�ɤϡ�
-		���custom.css��񤭤�������ǲ�ǽ�ˤʤ�ޤ���
-		�ܤ�����README��������������
+		「Professional」のデザインを元にした、日本語サイトのための標準
+		テーマであり、custom.cssによってのみカスタマイズできるテーマメー
+		カー。
+		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS
+		2で一から全てを書き直しました。
+		「Professional」をベースにテーマを開発すると、アップグレードは、
+		主にcustom.css上書きするだけで可能になります。
+		詳しくはREADMEをご覧ください。
 
 
-    o ��ĥ�ǤΤߤ�Ʊ��
+    o 拡張版のみに同梱
 
 	public_html/layout/WAIproCSS
-		��ProfessionalCSS�פ���ܤ�, �����������ӥ�ƥ�����θ�����ơ��ޡ�
+		「ProfessionalCSS」を基本に, アクセシィビリティに配慮したテーマ。
 
 	public_html/layout/mobile/functions.php
 	public_html/layout/professional/functions.php
 	public_html/layout/ProfessionalCSS/functions.php
-		�Ǽ��ĤΥ֥��å��쥤�����ȤΤ�����ѿ����åȤ��ɲä�����Τ˺�
-		���ؤ��뤿���Ʊ�����Ƥ��ޤ���
+		掲示板のブロックレイアウトのための変数セットを追加したものに差
+		し替えるために同梱しています。
 
 
-  (4)���󥹥ȡ���
+  (4)インストーラ
 
 	public_html/admin/install/precheck.php
 	public_html/admin/install/precheck.js
 	public_html/admin/install/precheck.css
-		���󥹥ȡ������Υ����С������ܸ�Ķ�������å�����ץ�������
-		����
-		php.ini .htaccess siteconfig.php������ˡ�λ���ޤǹԤ��ޤ���
+		インストール前のサーバーの日本語環境をチェックするプログラムで
+		す。
+		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
 
 	public_html/admin/install/index.php
 	public_html/admin/install/LocalizeGeeklog.php
-		���󥹥ȡ�����˥����Ȥ����ܸ첽���뤿��Υץ�����ࡣ
-		����ե�����졼������ơ��֥빽¤���֥��å��Υ����ȥ�ʤɤ�
-		���ܸ첽���ޤ���
+		インストール時にサイトを日本語化するためのプログラム。
+		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを
+		日本語化します。
 
 	public_html/admin/install/disable-plugins.php
-		���󥹥ȡ�����ˡ��ץ������ǻ��ꤷ�Ƥ���ץ饰����ʳ���̵��
-		�Ȥ��ޤ���
-		���󥹥ȡ��뤹����Զ�礬ȯ������ץ饰����Υ��󥹥ȡ������
-		�����Ȥ��Ǥ��ޤ���
+		インストール時に、プログラムで指定しているプラグイン以外は無効
+		とします。
+		インストールすると不具合が発生するプラグインのインストールを防
+		ぐことができます。
 
 
-  (5) ���ν���
+  (5) 本体修正
 
 	public_html/admin/story.php
-		�����Խ����ˡ���������ǯ�����ν��֤ˤʤ�褦���������ѥƥ��
-		�졼�ȥե������Ƥ֥ϥå����ɲä��Ƥ��ޤ���
-		���ܸ��Ѹ������ѥƥ�ץ졼�ȥե�����Ȥ��ưʲ��򤹤٤ƤΥơ���
-		���ɲä����󶡤��Ƥ��ޤ���
-		public_html/layout/ �ʲ��γƥơ��ޤΰʲ��Υե�����:
+		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプ
+		レートファイルを呼ぶハックを追加しています。
+		日本語用言語専用テンプレートファイルとして以下をすべてのテーマ
+		で追加して提供しています。
+		public_html/layout/ 以下の各テーマの以下のファイル:
 			admin/story/storyeditor_advanced.japanese_utf-8.thtml
 			admin/story/storyeditor.japanese_utf-8.thtml
 
 
-  (6) ����¾
+  (6) その他
 
 	CHANGES.jp
-		2009-06-30�ʸ�����ܸ��ǽ������ƤǤ���
+		2009-06-30以後の日本語版修正内容です。
 
 	CHANGES-prev.jp
-		2009-06-29���������ܸ��ǽ������ƤǤ���
+		2009-06-29以前の日本語版修正内容です。
 
 	emailgeeklogstories.en
-		���ꥸ�ʥ��emailgeeklogstories�Ǥ���
+		オリジナルのemailgeeklogstoriesです。
 
 	emailgeeklogstories
-		emailgeeklogstories�����ܸ첽������ΤǤ���
+		emailgeeklogstoriesを日本語化したものです。
 
 	NEWS
-		�ܥե�����Ǥ����������Ƥ�Ҳ𤷤ޤ���
+		本ファイルです。配布内容を紹介します。
 
 	readme.ja
-		���ꥸ�ʥ��readme�����ܸ첽������ΤǤ���
+		オリジナルのreadmeを日本語化したものです。
 
 	release_jp.php
-		��꡼���Τ���ΥС����������ե�����Ǥ���
+		リリースのためのバージョン管理ファイルです。
 
 
-3. Geeklog���ܸ��Ǥν�������
+3. Geeklog日本語版の修正履歴
 
-   ���٤Ƥ�Geeklog���ܸ��Ǥ�Issue�ϰʲ����黲�ȤǤ��ޤ���
+   すべてのGeeklog日本語版のIssueは以下から参照できます。
 
    http://code.google.com/p/geeklog-jp/issues/
 
 
-�ʾ�Ǥ���
+以上です。
