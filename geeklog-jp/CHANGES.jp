@@ -1,5 +1,13 @@
 $Id$
 
+2010-05-26  Tetsuko Komma  <ivy>
+
+	* Googleスタイルの検索結果表示でon日時と表示されていたのを日時だけに
+	  するよう、言語ファイルを修正しました。
+
+	* インストール時、移行時のインポート中のメッセージを変更するため、
+	  インストーラの言語ファイルを修正しました。
+
 2010-05-25  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS mobile WAIproCSSにimages/update.pngを追加しました。
