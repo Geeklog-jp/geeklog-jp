@@ -152,7 +152,7 @@ $LANG_configsubgroups['polls'] = array(
 
 $LANG_fs['polls'] = array(
     'fs_main' => 'アンケートのメイン設定',
-    'fs_whatsnew' => 'What\'s New Block',
+    'fs_whatsnew' => '新着情報ブロック',
     'fs_permissions' => 'アンケートのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
