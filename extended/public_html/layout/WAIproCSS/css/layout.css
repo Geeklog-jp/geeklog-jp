@@ -127,6 +127,16 @@ div#container div#navigation ul li {
   font-weight:bold;
 }
 
+div#container div#navigation ul li a {
+  color: #ffffff;
+}
+
+div#container div#navigation ul li a:hover,
+div#container div#navigation ul li a:focus,
+div#container div#navigation ul li a:active {
+  color: #000000;
+}
+
 /* ナビゲーションメニュー(通常) */
 div#container div#navigation ul li.menuitem {
 }
