@@ -1,5 +1,13 @@
 $Id$
 
+2010-06-15  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSS WAIproCSS のcss/compatible.css で、画像ファイルの
+	  リンクエラーを修正しました。
+
+	* テーマProfessionalCSS/css/default.cssの、url(../javavscript/iepngfix.htc)を
+	  コメントアウトしていましたが、これを削除しました。
+
 2010-06-08  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSでカスタムメニュー有効時にグローバルナビの文字色が
