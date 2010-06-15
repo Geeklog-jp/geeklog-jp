@@ -1,5 +1,14 @@
 $Id$
 
+2010-06-15  Masuko Koeda  <milk851>
+
+	* テーマProfessionalCSS WAIproCSSのcss/block.cssの
+	  右ブロックのヘルプアイコンのセレクタを修正しました。
+
+	* r2672の修正を確認し、テーマWAIproCSSのcss/compatible.cssの
+	  背景画像をgifに変更し、アイコンがきちんと表示されるよう
+	  余白の修正をしました。
+
 2010-06-15  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS WAIproCSS のcss/compatible.css で、画像ファイルの

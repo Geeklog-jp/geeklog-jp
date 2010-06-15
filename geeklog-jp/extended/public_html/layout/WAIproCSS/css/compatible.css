@@ -107,17 +107,19 @@
 }
 .ext-link {
   background-color: transparent;
-  background: url(../images/external.png) center right no-repeat;
+  background: url(../images/external.gif) bottom right no-repeat;
   background-attachment: scroll;
-  padding-right: 13px;
+  padding: 6px 23px 0 0;
+  margin-right: 2px;
 }
 .ext-link-rtl {
 }
 .feed-link {
   background-color: transparent;
-  background: url(../images/feed.png) center right no-repeat;
+  background: url(../images/feed.gif) center right no-repeat;
   background-attachment: scroll;
-  padding: 2px 16px 2px 0px;
+  padding: 8px 28px 4px 0;
+  margin-right: 3px;
 }
 .feed-link-rtl {
 }
