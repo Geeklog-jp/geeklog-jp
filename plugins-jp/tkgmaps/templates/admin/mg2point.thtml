@@ -1,0 +1,11 @@
+<div id="mg2point">
+<form action="{site_admin_url}/plugins/tkgmaps/index.php" method="POST" class="basic">
+<p class="message">{lang_message}</p>
+<br{xhtml}>
+<table style="text-align:left">
+<tr><th style="text-align:right">{lang_date}:</th><td><input type="text" name="date" size="20" value="{date}"{xhtml}> {lang_helpdate}</td></tr>
+</table>
+<input type="submit" name="mode" value="{lang_submit}"{xhtml}>
+<input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+</form>
+</div>
