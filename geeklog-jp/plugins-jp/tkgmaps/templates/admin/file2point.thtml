@@ -1,0 +1,13 @@
+<div id="file2point">
+<form enctype="multipart/form-data" action="{site_admin_url}/plugins/tkgmaps/index.php" method="POST" class="basic">
+<p class="message">{lang_message}</p>
+<br{xhtml}>
+<table>
+<tr><th>{lang_file}:</th><td><input type="file" name="file" size="20" maxlength="10" value="{file}"{xhtml}></td></tr>
+<tr><th>{lang_filestyle}:</th><td>{filestyle}</td></tr>
+<tr><th>{lang_target}:</th><td>{target} &nbsp; <input type="text" name="targetid" size="20" value="{targetid}"{xhtml}></td></tr>
+</table>
+<input type="submit" name="mode" value="{lang_submit}"{xhtml}>
+<input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+</form>
+</div>
