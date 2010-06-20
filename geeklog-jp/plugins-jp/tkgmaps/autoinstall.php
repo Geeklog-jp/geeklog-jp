@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | tkgmaps Plugin v4                                                         |
+// | tkgmaps Plugin                                                            |
 // +---------------------------------------------------------------------------+
 // | autoinstall.php                                                           |
 // |                                                                           |
@@ -51,13 +51,13 @@ function plugin_autoinstall_tkgmaps($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '0.9.4',
-        'pi_gl_version'   => '1.4.1',
+        'pi_version'      => '2.0.4',
+        'pi_gl_version'   => '1.5.0',
         'pi_homepage'     => 'http://hiroron.com/'
     );
 
     $groups = array(
-        $pi_admin => 'Has full access to ' . $pi_display_name . ' features'
+        $pi_admin => 'Users in this group can administer the ' . $pi_name . ' plugin'
     );
 
     $features = array(
@@ -68,19 +68,34 @@ function plugin_autoinstall_tkgmaps($pi_name)
         $pi_name . '.admin'      => array($pi_admin)
     );
 
-    $tables = array(
-        'tkgmaps'
-    );
-
     $inst_parms = array(
         'info'      => $info,
         'groups'    => $groups,
         'features'  => $features,
-        'mappings'  => $mappings,
-        'tables'    => $tables
+        'mappings'  => $mappings
     );
 
     return $inst_parms;
+}
+
+/**
+* Load plugin configuration from database
+*
+* @param    string  $pi_name    Plugin name
+* @return   boolean             true on success, otherwise false
+* @see      plugin_initconfig_tkgmaps
+*
+*/
+function plugin_load_configuration_tkgmaps($pi_name)
+{
+    global $_CONF;
+
+    $base_path = $_CONF['path'] . 'plugins/' . $pi_name . '/';
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    require_once $base_path . 'install_defaults.php';
+
+    return plugin_initconfig_tkgmaps();
 }
 
 /**
@@ -92,14 +107,7 @@ function plugin_autoinstall_tkgmaps($pi_name)
 */
 function plugin_compatible_with_this_version_tkgmaps($pi_name)
 {
-    global $_CONF, $_DB_dbms;
-
-    // check if we support the DBMS the site is running on
-    $dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/'
-            . $_DB_dbms . '_install.php';
-    if (! file_exists($dbFile)) {
-        return false;
-    }
+    global $_CONF;
 
     if (! function_exists('SEC_getGroupDropdown')) {
         return false;
@@ -115,33 +123,6 @@ function plugin_compatible_with_this_version_tkgmaps($pi_name)
 
     if (! function_exists('COM_setLangIdAndAttribute')) {
         return false;
-    }
-
-    return true;
-}
-
-/**
-* Plugin postinstall
-*
-* We're inserting our default data here since it depends on other stuff that
-* has to happen first ...
-*
-* @return   boolean     true = proceed with install, false = an error occured
-*
-*/
-function plugin_postinstall_tkgmaps($pi_name)
-{
-    global $_TABLES;
-
-    $GM_SQL = array();
-    $GM_SQL[] = "INSERT INTO `{$_TABLES['tkgmaps']}` (`googlemapsapikey`) VALUES ('取得したkeyを入れてください');";
-
-    foreach ($GM_SQL as $sql) {
-        DB_query($sql, 1);
-        if (DB_error()) {
-            COM_error("SQL error in tkgmaps plugin postinstall, SQL: " . $sql);
-            return false;
-        }
     }
 
     return true;
