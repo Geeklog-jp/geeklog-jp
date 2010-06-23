@@ -1,5 +1,11 @@
 $Id$
 
+2010-06-23  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのcss/compatible.css で、
+	  リンクの背景画像に指定しているexternalとfeedアイコンが
+	  アクティブ・ホバー・フォーカス時に消えてしまうので、修正しました。
+
 2010-06-20  Hiroshi Sakuramoto <hirorongl>
 
 	* tkgmapsを0.9.4から2.0.4にアップしました。

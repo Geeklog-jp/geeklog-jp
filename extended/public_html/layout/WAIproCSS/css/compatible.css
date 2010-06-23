@@ -112,6 +112,13 @@
   padding: 6px 23px 0 0;
   margin-right: 2px;
 }
+
+a.ext-link:hover,
+a.ext-link:focus,
+a.ext-link:active {
+  background: #ffff40 url(../images/external.gif) bottom right no-repeat;
+}
+
 .ext-link-rtl {
 }
 .feed-link {
@@ -120,6 +127,12 @@
   background-attachment: scroll;
   padding: 8px 28px 4px 0;
   margin-right: 3px;
+}
+
+a.feed-link:hover,
+a.feed-link:focus,
+a.feed-link:active {
+  background: #ffff40 url(../images/feed.gif) center right no-repeat;
 }
 .feed-link-rtl {
 }
