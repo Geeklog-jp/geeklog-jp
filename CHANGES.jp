@@ -1,5 +1,10 @@
 $Id$
 
+2010-07-04  mystral-kk <mystral-kk>
+
+	* DbmanプラグインでTIMESTAMPフィールをクォートして保存していなかった問
+	  題(Issue #158)に対処しました。
+
 2010-06-23  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSのcss/compatible.css で、
