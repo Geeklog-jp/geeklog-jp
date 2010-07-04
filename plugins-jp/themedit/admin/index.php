@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/index.php                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -233,7 +233,7 @@ if ($op == $LANG_THM['preview']) {
 		$is_css = preg_match("/\.css$/i", $file);
 		if ($is_css) {
 			$fh = fopen($_CONF['path_html'] . 'admin/plugins/themedit/preview.css', 'wb');
-			if ($fh !== false) {
+			if ($fh !== FALSE) {
 				fwrite($fh, $contents);
 				fclose($fh);
 			}
@@ -265,7 +265,7 @@ if ($op == $LANG_THM['preview']) {
 					  . '/plugins/themedit/preview.css?dummy=' . $dummy;
 		$pos = strpos(strtolower($preview), strtolower($css_path));
 		COM_errorLog('$preview: ' . $preview . "\r\n" . '$css_path: ' . $css_path);
-		if ($pos !== false) {
+		if ($pos !== FALSE) {
 			$preview = substr($preview, 0, $pos) . $alt_css_path
 					 . substr($preview, $pos + strlen($css_path));
 		}
@@ -278,7 +278,7 @@ if ($op == $LANG_THM['preview']) {
 		);
 	}
 	$fh = fopen($_CONF['path_html'] . 'admin/plugins/themedit/preview.html', 'wb');
-	if ($fh !== false) {
+	if ($fh !== FALSE) {
 		fwrite($fh, $preview);
 		fclose($fh);
 	}
