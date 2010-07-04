@@ -2,6 +2,11 @@ $Id$
 
 2010-07-04  mystral-kk <mystral-kk>
 
+	* Themeditプラグインで一部のHTMLタグがXHTMLに対応していなかったバグ
+	  (Issue #153)を修正しました。
+
+2010-07-04  mystral-kk <mystral-kk>
+
 	* DbmanプラグインでTIMESTAMPフィールをクォートして保存していなかった問
 	  題(Issue #158)に対処しました。
 
