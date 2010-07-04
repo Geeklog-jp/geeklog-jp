@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/install.php                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -54,9 +54,9 @@ $NEWTABLE['thm_contents'] = "CREATE TABLE " . $_TABLES['thm_contents'] . "("
 						  . "thm_id INT(10) unsigned NOT NULL AUTO_INCREMENT,"
 						  . "thm_name VARCHAR(20) NOT NULL DEFAULT '',"
 						  . "thm_filename VARCHAR(100) NOT NULL DEFAULT '',"
-						  . "thm_init_contents TEXT NOT NULL,"
-						  . "thm_vars TEXT NOT NULL DEFAULT '',"
-						  . "PRIMARY KEY  (thm_id)"
+						  . "thm_init_contents LONGTEXT NOT NULL,"
+						  . "thm_vars TEXT NOT NULL,"
+						  . "PRIMARY KEY  thm_id(thm_id)"
 						  . ") TYPE=MyISAM";
 
 
@@ -90,7 +90,7 @@ if (!SEC_inGroup('Root')) {
 *
 * Note: Corresponding uninstall routine is in functions.inc
 * 
-* @return   boolean True if successful False otherwise
+* @return   boolean TRUE if successful FALSE otherwise
 */
 function plugin_install_themedit() {
     global $pi_name, $pi_version, $gl_version, $pi_url, $NEWTABLE, $DEFVALUES,
@@ -106,7 +106,7 @@ function plugin_install_themedit() {
         if (DB_error()) {
             COM_errorLog("Error Creating {$table} table", 1);
             plugin_uninstall_themedit();
-            return false;
+            return FALSE;
             exit;
         }
         COM_errorLog("Success - Created {$table} table",1);
@@ -123,7 +123,7 @@ function plugin_install_themedit() {
         . "VALUES ('{$pi_name} Admin', 'Users in this group can administer the {$pi_name} plugin')", 1);
     if (DB_error()) {
         plugin_uninstall_themedit();
-        return false;
+        return FALSE;
         exit;
     }
     COM_errorLog('...success', 1);
@@ -134,7 +134,7 @@ function plugin_install_themedit() {
     DB_query("INSERT INTO {$_TABLES['vars']} VALUES ('{$pi_name}_gid', '{$group_id}')", 1);
     if (DB_error()) {
         plugin_uninstall_themedit();
-        return false;
+        return FALSE;
         exit;
     }
     COM_errorLog('...success', 1);
@@ -148,7 +148,7 @@ function plugin_install_themedit() {
         if (DB_error()) {
             COM_errorLog("Failure adding {$feature} feature", 1);
             plugin_uninstall_themedit();
-            return false;
+            return FALSE;
             exit;
         }
         $feat_id = DB_insertId();
@@ -158,7 +158,7 @@ function plugin_install_themedit() {
         if (DB_error()) {
             COM_errorLog("Failure adding {$feature} feature to admin group", 1);
             plugin_uninstall_themedit();
-            return false;
+            return FALSE;
             exit;
         }
         COM_errorLog('Success', 1);
@@ -172,7 +172,7 @@ function plugin_install_themedit() {
     DB_query("INSERT INTO {$_TABLES['group_assignments']} VALUES ('{$group_id}', NULL, 1)");
     if (DB_error()) {
         plugin_uninstall_themedit();
-        return false;
+        return FALSE;
         exit;
     }
 	
@@ -185,7 +185,7 @@ function plugin_install_themedit() {
 
     if (DB_error()) {
         plugin_uninstall_themedit();
-        return false;
+        return FALSE;
         exit;
     }
 	
@@ -198,7 +198,7 @@ function plugin_install_themedit() {
     }
 	
     COM_errorLog("Succesfully installed the {$pi_name} Plugin!", 1);
-    return true;
+    return TRUE;
 }
 
 /**
