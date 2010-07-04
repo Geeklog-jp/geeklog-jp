@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/install_defaults.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -24,7 +24,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -57,18 +57,18 @@ $_THM_DEFAULT = array();
 //-------------------------------------
 
 /**
-* If you set $_THM_CONF['enable_all_themes'] to true, all themes will be
+* If you set $_THM_CONF['enable_all_themes'] to TRUE, all themes will be
 * accessible from the Theme Editor Plugin, regardless of the value of
 * $_THM_CONF['allowed_themes'] var.
 */
-$_THM_DEFAULT['enable_all_themes'] = false;
+$_THM_DEFAULT['enable_all_themes'] = FALSE;
 
 /**
-* If you set true to $_THM_DEFAULT['enable_all_files'], all files related to
+* If you set TRUE to $_THM_DEFAULT['enable_all_files'], all files related to
 * themes (*.thtml, *.css) will be accessible from the Theme Editor Plugin,
 * regardless of the value of $_THM_DEFAULT['allowed_files'] var
 */
-$_THM_DEFAULT['enable_all_files'] = false;
+$_THM_DEFAULT['enable_all_files'] = FALSE;
 
 /**
 * Themes to be edited with this plugin
@@ -144,9 +144,9 @@ $_THM_DEFAULT['resync_database'] = 'manual';
 //-------------------------------------
 
 /**
-* If set true, you can upload images to theme/images/* directories
+* If set TRUE, you can upload images to theme/images/* directories
 */
-$_THM_DEFAULT['allow_upload'] = true;
+$_THM_DEFAULT['allow_upload'] = TRUE;
 
 /**
 * Thumbnail sizes in pixels
@@ -169,7 +169,7 @@ $_THM_DEFAULT['upload_max_size'] = 1048576;
 /**
 * Enable CSRF protection for GL-1.5.0+
 */
-$_THM_DEFAULT['enable_csrf_protection'] = true;
+$_THM_DEFAULT['enable_csrf_protection'] = TRUE;
 
 //=========================================================
 //  END OF USER CONFIGURATION
@@ -182,7 +182,7 @@ $_THM_DEFAULT['enable_csrf_protection'] = true;
 * Initial values will be taken from $_THM_CONF if available (e.g. from an old
 * config.php), uses $_THM_CONF otherwise.
 *
-* @return   boolean     true: success; false: an error occurred
+* @return   boolean     TRUE: success; FALSE: an error occurred
 */
 function plugin_initconfig_themedit() {
     global $_THM_CONF, $_THM_DEFAULT;
@@ -194,24 +194,24 @@ function plugin_initconfig_themedit() {
     
     $c = config::get_instance();
     if (!$c->group_exists('themedit')) {
-        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, true, 'themedit');
-        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, true, 'themedit');
+        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, TRUE, 'themedit');
+        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, TRUE, 'themedit');
         
         /**
         * Main
         */
-        $c->add('enable_all_themes', $_THM_DEFAULT['enable_all_themes'], 'select', 0, 0, 0, 10, true, 'themedit');
-        $c->add('enable_all_files', $_THM_DEFAULT['enable_all_files'], 'select', 0, 0, 0, 20, true, 'themedit');
-        $c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, null, 30, true, 'themedit');
-        $c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, null, 40, true, 'themedit');
-        $c->add('resync_database', $_THM_DEFAULT['resync_database'], 'select', 0, 0, 1, 50, true, 'themedit');
-        $c->add('allow_upload', $_THM_DEFAULT['allow_upload'], 'select', 0, 0, 0, 60, true, 'themedit');
-        $c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, null, 70, true, 'themedit');
-        $c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, null, 80, true, 'themedit');
-        $c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, null, 90, true, 'themedit');
-        $c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, null, 100, true, 'themedit');
-        $c->add('enable_csrf_protection', $_THM_DEFAULT['enable_csrf_protection'], 'select', 0, 0, 0, 110, true, 'themedit');
+        $c->add('enable_all_themes', $_THM_DEFAULT['enable_all_themes'], 'select', 0, 0, 0, 10, TRUE, 'themedit');
+        $c->add('enable_all_files', $_THM_DEFAULT['enable_all_files'], 'select', 0, 0, 0, 20, TRUE, 'themedit');
+        $c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, null, 30, TRUE, 'themedit');
+        $c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, null, 40, TRUE, 'themedit');
+        $c->add('resync_database', $_THM_DEFAULT['resync_database'], 'select', 0, 0, 1, 50, TRUE, 'themedit');
+        $c->add('allow_upload', $_THM_DEFAULT['allow_upload'], 'select', 0, 0, 0, 60, TRUE, 'themedit');
+        $c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, null, 70, TRUE, 'themedit');
+        $c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, null, 80, TRUE, 'themedit');
+        $c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, null, 90, TRUE, 'themedit');
+        $c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, null, 100, TRUE, 'themedit');
+        $c->add('enable_csrf_protection', $_THM_DEFAULT['enable_csrf_protection'], 'select', 0, 0, 0, 110, TRUE, 'themedit');
     }
     
-    return true;
+    return TRUE;
 }

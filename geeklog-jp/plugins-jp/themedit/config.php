@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/config.php                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -52,7 +52,7 @@ $_THM_CONF = array();
 /**
 * Plugin info
 */
-$_THM_CONF['pi_version'] = '1.1.4';						// Plugin Version
+$_THM_CONF['pi_version'] = '1.1.5';						// Plugin Version
 $_THM_CONF['gl_version'] = '1.4.0';						// GL Version plugin for
 $_THM_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
 
@@ -65,18 +65,18 @@ $_THM_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
 //-------------------------------------
 
 /**
-* If you set $_THM_CONF['enable_all_themes'] to true, all themes will be
+* If you set $_THM_CONF['enable_all_themes'] to TRUE, all themes will be
 * accessible from the Theme Editor Plugin, regardless of the value of
 * $_THM_CONF['allowed_themes'] var.
 */
-$_THM_CONF['enable_all_themes'] = false;
+$_THM_CONF['enable_all_themes'] = FALSE;
 
 /**
-* If you set true to $_THM_CONF['enable_all_files'], all files related to
+* If you set TRUE to $_THM_CONF['enable_all_files'], all files related to
 * themes (*.thtml, *.css) will be accessible from the Theme Editor Plugin,
 * regardless of the value of $_THM_CONF['allowed_files'] var
 */
-$_THM_CONF['enable_all_files'] = false;
+$_THM_CONF['enable_all_files'] = FALSE;
 
 /**
 * Themes to be edited with this plugin
@@ -152,9 +152,9 @@ $_THM_CONF['resync_database'] = 'manual';
 //-------------------------------------
 
 /**
-* If set true, you can upload images to theme/images/* directories
+* If set TRUE, you can upload images to theme/images/* directories
 */
-$_THM_CONF['allow_upload'] = true;
+$_THM_CONF['allow_upload'] = TRUE;
 
 /**
 * Thumbnail sizes in pixels
@@ -177,7 +177,7 @@ $_THM_CONF['upload_max_size'] = 1048576;
 /**
 * Enable CSRF protection for GL-1.5.0+
 */
-$_THM_CONF['enable_csrf_protection'] = true;
+$_THM_CONF['enable_csrf_protection'] = TRUE;
 
 //=========================================================
 //  END OF USER CONFIGURATION

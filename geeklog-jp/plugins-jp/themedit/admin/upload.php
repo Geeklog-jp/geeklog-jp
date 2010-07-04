@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/upload.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2008 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -192,8 +192,8 @@ $basedir = $_CONF['path_themes'] . $theme . '/' . $selected_dir;
 $images = '';
 $num_col = 0;
 $dh = opendir($basedir);
-if ($dh !== false) {
-	while (($entry = readdir($dh)) !== false) {
+if ($dh !== FALSE) {
+	while (($entry = readdir($dh)) !== FALSE) {
 		if (is_file($basedir . '/' . $entry)) {
 			if (preg_match('/\.gif$/i', $entry)
 			 OR preg_match('/\.png$/i', $entry)
