@@ -93,7 +93,7 @@ function selectHTML_members($selected='') {
 }
 
 /* Check to see if user has checked multiple records to delete */
-if (SEC_checkToken()) {
+if ((strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') === 0) AND SEC_checkToken()) {
     if ($op == 'delchecked') {
         foreach ($_POST['chkrecid'] as $id) {
             $id = COM_applyFilter($id,true);
