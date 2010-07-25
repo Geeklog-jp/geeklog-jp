@@ -346,9 +346,6 @@ table>tr {
 th,
 td {
   vertical-align: top;
-  /* IE(Wrap to fit the width of the cell contents) { */
-  word-break: break-all;
-  /* } IE */
 }
 
 th {

@@ -1,5 +1,12 @@
 $Id$
 
+2010-07-25  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSS で、スタイルを変更しました。
+	  1. legendが非表示になる初期設定を廃止しました。
+	  2. IE専用のワード途中で折り返しさせるスタイル th,td{word-break: break-all;}
+	     を削除して、折り返しなしのデフォルトに戻しました。
+
 2010-07-05  mystral-kk <mystral-kk>
 
 	* 掲示板プラグインで、有効期間内であるにもかかわらずセキュリティトークン
