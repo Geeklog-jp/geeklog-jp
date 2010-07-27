@@ -1,5 +1,12 @@
 $Id$
 
+2010-07-27  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSS で、スタイルを変更しました。
+	  common.cssのinput,select,textareaで日本語のフォントスタイルを追加しました。
+	  コメントの英語化をコミットする際に変更しなくても良いfont-familyを変更して
+	  いました。
+
 2010-07-25  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、スタイルを変更しました。
