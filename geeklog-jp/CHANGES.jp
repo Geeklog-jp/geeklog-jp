@@ -1,5 +1,10 @@
 $Id$
 
+2010-07-30  Hiroshi Sakuramoto <hirorongl>
+
+	* テーマProfessionalCSS で、OpenID用ログインフォームが表示されないのを修正しました。
+      users/loginform.thtmlへ{openid_login}を追加しました。
+
 2010-07-27  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、スタイルを変更しました。
