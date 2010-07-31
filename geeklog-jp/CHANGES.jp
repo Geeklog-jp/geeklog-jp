@@ -1,5 +1,10 @@
 $Id$
 
+2010-07-31  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSS で、OpenID用ログインフォームが表示されないのを修正しました。
+	  users/loginform.thtmlへ{openid_login}を追加しました。
+
 2010-07-30  Hiroshi Sakuramoto <hirorongl>
 
 	* テーマProfessionalCSS で、OpenID用ログインフォームが表示されないのを修正しました。

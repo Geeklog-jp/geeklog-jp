@@ -368,8 +368,9 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-■Ver.2.4.2(2010-6-08)
+■Ver.2.4.2(2010-7-31)
 　・Geeklog 1.7.0に合わせて、ファイルを追加・修正しました。
+  ・OpenID用のフォーム出力用のテンプレート変数を追加しました。(*/users/loginform.thtml)
   ・カスタムメニュー有効時にグローバルナビの文字色が基本色になってしまうのを修正しました。(*/css/layout.css)
   ・パーミッション部分がわかりやすい様にProfessionalのスタイルと同じように背景色とセル間の区切り線のスタイルを追加しました。(*/css/admin/common.css)
   ・commentform_advanced.thtmlに{cid}変数が抜けていたバグを修正しました。(*/comment/commentform_advanced.thtml)
