@@ -1,5 +1,11 @@
 $Id$
 
+2010-08-02  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSS で、fieldset,legendのスタイルをデフォルト表示に
+	  変更したため、検索とログインのフォームで表示されるようになった
+	  fieldset,legendのスタイルを非表示に設定しました。
+
 2010-07-31  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSS で、OpenID用ログインフォームが表示されないのを修正しました。
@@ -8,7 +14,7 @@ $Id$
 2010-07-30  Hiroshi Sakuramoto <hirorongl>
 
 	* テーマProfessionalCSS で、OpenID用ログインフォームが表示されないのを修正しました。
-      users/loginform.thtmlへ{openid_login}を追加しました。
+	  users/loginform.thtmlへ{openid_login}を追加しました。
 
 2010-07-27  Tetsuko Komma  <ivy>
 
