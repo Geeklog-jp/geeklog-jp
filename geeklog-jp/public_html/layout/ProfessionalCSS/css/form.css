@@ -54,16 +54,6 @@ div#leftblocks div#block-left-search form#searchform p {
   padding: 0;
 }
 
-/* Fieldset */
-div#leftblocks div#block-left-search form#searchform fieldset {
-  margin: 0;
-  border: none;
-}
-
-div#leftblocks div#block-left-search form#searchform legend {
-  display: none;
-}
-
 
 /*--------------------------------------
   Login Form
@@ -98,12 +88,3 @@ form#loginform ul.navi li {
   padding: 0;
 }
 
-/* Fieldset */
-form#loginform fieldset {
-  margin: 0;
-  border: none;
-}
-
-form#loginform legend {
-  display: none;
-}
