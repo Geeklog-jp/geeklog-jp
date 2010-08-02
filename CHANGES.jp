@@ -1,5 +1,11 @@
 $Id$
 
+2010-08-03  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSS で、class="basic"が指定されたfieldset,legendの
+	  スタイルをすべて非表示に設定しました。検索とログインのフォームだけ
+	  非表示にする前回のコミットが不要になったので戻しました。
+
 2010-08-02  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、fieldset,legendのスタイルをデフォルト表示に
