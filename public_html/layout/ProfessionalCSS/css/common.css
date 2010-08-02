@@ -3,7 +3,7 @@
 /*==============================================================================
   Title       : Common Style
   Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
-  Description : For all layout
+  Description : For All layout
                 NOTE:
                   If Overwrite all property by using type selecter,
                   HTML format submited story style will be changed. 
@@ -74,6 +74,15 @@ fieldset legend {
   padding: 2px 4px;
 }
 
+form.basic fieldset{
+ margin: 0;
+ border: none;
+}
+
+form.basic legend {
+ display: none;
+}
+
 img {
   vertical-align: bottom;
 }
@@ -86,7 +95,8 @@ a img {
 input,
 select,
 textarea {
-  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;
+/*  font-family: arial,verdana,tahoma,helvetica,sans-serif; */
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif; 
 }
 /* } Mac */
 
