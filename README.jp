@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2010年5月24日
+							2010年8月12日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.7.0-jp-1.1の内容
+2. Geeklog 1.7.0-jp-1.2の内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -48,19 +48,19 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	自動タグプラグイン(Autotags) バージョン 1.02jp3
 		日本語言語ファイルとタグ管理画面のテンプレートを変更しました。
 
-	CAPTCHAプラグイン(CAPTCHA) バージョン 4.0.2
+	CAPTCHAプラグイン(Captcha) バージョン 4.0.2
 		画像を使用した認証を提供します。
 
-	カスタムメニュープラグイン(CustomMenu) バージョン 0.5.0
+	カスタムメニュープラグイン(Custommenu) バージョン 0.5.0
 		グローバルメニューを管理画面で設定します。
 		階層メニューやパンくずリストは、ナビゲーションプラグイン
 		(navman)をお勧めします。
 
-	DataProxyプラグイン(DataProxy) バージョン 1.1.7
+	DataProxyプラグイン(Dataproxy) バージョン 1.1.7
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供します。
 
-	Dbmanプラグイン(Dbman) バージョン 0.5.3 (*)
+	Dbmanプラグイン(Dbman) バージョン 0.5.4 (*)
 		データベースのバックアップやリストアを実行します。
 		定期バックアップ等も。(mysqldumpコマンドを使用しません。)
 
@@ -89,7 +89,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		テンプレートとカスケーディング・スタイルシートの編集や画像の管
 		理機能を提供します。
 
-	GoogleMapsプラグイン(GoogleMaps) バージョン 0.9.4
+	GoogleMapsプラグイン(Tkgmaps) バージョン 2.0.4
 		GoogleMapsAPIによって、複数ピンとバルーン機能を持ったGoogle
 		マップを自動タグの記述によって表示する機能を提供します。
 
