@@ -1,5 +1,13 @@
 $Id$
 
+2010-08-12  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSS も、テーマProfessionalCSSと同様に
+	  プラグインの事を考慮し(汎用性を高める為)fieldset legendに標準的な
+	  スタイルを追加し、タイトルが2度読みになる箇所
+	  (class="basic"が指定された箇所)のfieldset,legendのスタイルをすべて
+	  非表示に設定しました。この修正をREADMEに記載しました。
+
 2010-08-03  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、class="basic"が指定されたfieldset,legendの
