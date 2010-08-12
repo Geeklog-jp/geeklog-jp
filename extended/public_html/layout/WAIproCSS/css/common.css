@@ -73,11 +73,22 @@ ol {
 }
 
 fieldset{
+  margin: 0 0 1em 0;
+  padding: 8px;
+  border: 1px solid #CCCCCC;
+}
+
+fieldset legend {
+  display: inline;
+  padding: 2px 4px;
+}
+
+form.basic fieldset {
   margin: 0;
   border: none;
 }
 
-legend {
+form.basic legend {
   display: none;
 }
 
