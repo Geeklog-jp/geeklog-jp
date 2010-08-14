@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用ProfessionalCSSテーマ
-  バージョン: 1.2 Geeklog1.7.0対応
+  バージョン: 1.3 Geeklog1.7.0対応
   著者      : Fumito Arakawa as Phize (http://phize.net/) & Geeklog Japanese
   説明      : Geeklog用のテーマ「ProfessionalCSS」です。
 ==============================================================================*/
@@ -294,6 +294,18 @@ ProfessionalCSSテーマをベースにしたカスタマイズを行うには�
   + 追加
   - 削除
 
+
+■Ver.1.3(2010-08-14)
+　・fieldset legendに標準的なスタイルを追加し、タイトルが2度読みになる箇所(class="basic"が指定された箇所)のfieldset,legendのスタイルをすべて非表示に設定しました。
+　・OpenID用ログインフォームが表示されないのを修正しました。users/loginform.thtmlへ{openid_login}を追加しました。
+　・common.cssのinput,select,textareaで日本語のフォントスタイルを追加しました。コメントの英語化をコミットする際に変更しなくても良いfont-familyを変更していました。
+　・legendが非表示になる初期設定を廃止しました。
+　・IE専用のワード途中で折り返しさせるスタイル th,td{word-break: break-all;}を削除して、折り返しなしのデフォルトに戻しました。
+　・submit/submitloginrequired.thtmlは不要になったので削除しました。
+　・右ブロックのヘルプアイコンのセレクタを修正しました。
+　・css/compatible.css で、画像ファイルのリンクエラーを修正しました。
+　・css/default.cssの、url(../javavscript/iepngfix.htc)をコメントアウトしていましたが、これを削除しました。
+　・images/update.pngを追加しました。
 
 ■Ver.1.2(2010-05-10)
 　・Geeklog1.7.0に対応させました。
