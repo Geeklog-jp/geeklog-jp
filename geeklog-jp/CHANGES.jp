@@ -1,5 +1,9 @@
 $Id$
 
+2010-09-01  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.7.0-jp-1.2をリリースします。
+
 2010-08-15  Tetsuko Komma  <ivy>
 
 	* NEWS の書式を変更しました。
@@ -11,54 +15,58 @@ $Id$
 	* 日本語コア言語ファイルの、プラグインアップグレードボタンの表記を、
 	  更新からアップデートに変更しました。
 
-	* README.jp NEWSを編集して、Geeklog 1.7.0-jp-1.2 リリース内容にしました。
+	* README.jp NEWSを編集して、Geeklog 1.7.0-jp-1.2 リリース内容にしま
+	  した。
 
 2010-08-12  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSS も、テーマProfessionalCSSと同様に
 	  プラグインの事を考慮し(汎用性を高める為)fieldset legendに標準的な
 	  スタイルを追加し、タイトルが2度読みになる箇所
-	  (class="basic"が指定された箇所)のfieldset,legendのスタイルをすべて
+	  (class="basic"が指定された箇所)のfieldset, legendのスタイルをすべて
 	  非表示に設定しました。この修正をREADMEに記載しました。
 
 2010-08-03  Tetsuko Komma  <ivy>
 
-	* テーマProfessionalCSS で、class="basic"が指定されたfieldset,legendの
+	* テーマProfessionalCSS で、class="basic"が指定されたfieldset, legendの
 	  スタイルをすべて非表示に設定しました。検索とログインのフォームだけ
 	  非表示にする前回のコミットが不要になったので戻しました。
 
 2010-08-02  Tetsuko Komma  <ivy>
 
-	* テーマProfessionalCSS で、fieldset,legendのスタイルをデフォルト表示に
+	* テーマProfessionalCSS で、fieldset, legendのスタイルをデフォルト表示に
 	  変更したため、検索とログインのフォームで表示されるようになった
-	  fieldset,legendのスタイルを非表示に設定しました。
+	  fieldset, legendのスタイルを非表示に設定しました。
 
 2010-07-31  Masuko Koeda  <milk851>
 
-	* テーマWAIproCSS で、OpenID用ログインフォームが表示されないのを修正しました。
+	* テーマWAIproCSS で、OpenID用ログインフォームが表示されないのを修正
+	  しました。
 	  users/loginform.thtmlへ{openid_login}を追加しました。
 
 2010-07-30  Hiroshi Sakuramoto <hirorongl>
 
-	* テーマProfessionalCSS で、OpenID用ログインフォームが表示されないのを修正しました。
-	  users/loginform.thtmlへ{openid_login}を追加しました。
+	* テーマProfessionalCSS で、OpenID用ログインフォームが表示されないのを
+	  修正しました。users/loginform.thtmlへ{openid_login}を追加しました。
 
 2010-07-27  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、スタイルを変更しました。
-	  common.cssのinput,select,textareaで日本語のフォントスタイルを追加しました。
-	  コメントの英語化をコミットする際に変更しなくても良いfont-familyを変更して
-	  いました。
+	  common.cssのinput, select, textareaで日本語のフォントスタイルを追加し
+	  ました。
+	  コメントの英語化をコミットする際に変更しなくても良いfont-familyを
+	  変更していました。
 
-	* 掲示板プラグイン(forum)の言語ファイルで、Submitを、保存と翻訳されていたのを
-	  保存する、に変更しました。他、タブメニュー部で折り返されやすいので言語を
-	  短く調整しました。
+	* 掲示板プラグイン(forum)の言語ファイルで、Submitを、保存と翻訳されて
+	  いたのを保存する、に変更しました。他、タブメニュー部で折り返されや
+	  すいので言語を短く調整しました。
 
 2010-07-25  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSS で、スタイルを変更しました。
 	  1. legendが非表示になる初期設定を廃止しました。
-	  2. IE専用のワード途中で折り返しさせるスタイル th,td{word-break: break-all;}
+	  2. IE専用のワード途中で折り返しさせるスタイル
+	     th, td { word-break: break-all; }
 	     を削除して、折り返しなしのデフォルトに戻しました。
 
 2010-07-05  mystral-kk <mystral-kk>
@@ -122,7 +130,8 @@ $Id$
 
 	* 日本語ドキュメントの表現を調整しました。
 
-	* アンケートの日本語言語ファイルで、新着情報ブロックの表現を調整しました。
+	* アンケートの日本語言語ファイルで、新着情報ブロックの表現を調整しま
+	  した。
 
 2010-06-01  Tetsuko Komma  <ivy>
 
@@ -130,8 +139,8 @@ $Id$
 
 	* ドキュメント変更履歴のタイトルおよびリンクテキストを修正しました。
 
-	* 静的ページのコンフィギュレーションにおける、管理者ページのリストソート順
-	  sort_list_byの翻訳を修正しました。
+	* 静的ページのコンフィギュレーションにおける、管理者ページのリストソー
+	  ト順sort_list_byの翻訳を修正しました。
 
 2010-05-27  Tetsuko Komma  <ivy>
 
@@ -331,9 +340,9 @@ $Id$
 	  サイトのデフォルトテーマが変化した場合のコールバック関数です。
 	  サイトのテーマを変更する際に、この関数により、元のテーマを指定している
 	  ユーザのテーマもあわせて新しいテーマに変更します。
-	  この関数により、サイトのテーマを変更したものの、自身のテーマが旧テーマの
-	  ままなので、表示が切り変わらないという、一見不具合にみえる状況をこれで
-	  改善します。
+	  この関数により、サイトのテーマを変更したものの、自身のテーマが旧テー
+	  マのままなので、表示が切り変わらないという、一見不具合にみえる状況を
+	  これで改善します。
 
 	* 日本語言語ファイルの翻訳候補コメントをはずし修正を加えました。
 
@@ -341,8 +350,8 @@ $Id$
 
 	* テーマprofessionalのstyle.cssを本家版に戻すよう一部修正しました。
 
-	* 拡張版のテーマprofessional内にあるstyle.cssは、forum用styleがテーマ別に
-	  不要になったため削除しました。
+	* 拡張版のテーマprofessional内にあるstyle.cssは、forum用styleがテーマ
+	  別に不要になったため削除しました。
 
 2010-04-12  Yoshinori Tahara  <dengen>
 
@@ -352,8 +361,8 @@ $Id$
 
 2010-04-12  Yoshinori Tahara  <dengen>
 
-	* filemgmtプラグイン: Geeklog1.7.0b1でXMLSitemapがインストール済みのとき、
-	  filemgmtのインストール直後にエラーが発生する問題を修正しました。
+	* filemgmtプラグイン: Geeklog1.7.0b1でXMLSitemapがインストール済みの
+	  とき、filemgmtのインストール直後にエラーが発生する問題を修正しました。
 
 2009-04-11  Masuko Koeda  <milk851>
 
@@ -404,8 +413,8 @@ $Id$
 
 2010-04-06  Yoshinori Tahara  <dengen>
 
-	* forumプラグイン: 携帯から投稿した直後にエラーが発生する問題を修正しまし
-	  た。
+	* forumプラグイン: 携帯から投稿した直後にエラーが発生する問題を修正し
+	  ました。
 
 2010-04-05  Takahiro Kambe  <tacahi>
 
@@ -433,8 +442,8 @@ $Id$
 
 2010-02-13  Tetsuko Komma  <ivy>
 
-	* 新着ブロック内のファイル管理プラグイン(filemgmt)の表記を他のプラグインの
-	  表記に合わせて、"新着"と"以内"を削除しました。
+	* 新着ブロック内のファイル管理プラグイン(filemgmt)の表記を他のプラグ
+	  インの表記に合わせて、"新着"と"以内"を削除しました。
 
 2010-02-10  Yoshinori Tahara  <dengen>
 
@@ -444,7 +453,8 @@ $Id$
 2010-02-06  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: gf_showtopic.php内のlib-user.phpの読み込み処理を
-	  includeからrequire_onceに変更しました。（関数の重複定義の可能性を排除）
+	  includeからrequire_onceに変更しました。（関数の重複定義の可能性を
+	  排除）
 
 2010-01-23  mystral-kk <mystral-kk>
 
@@ -526,23 +536,24 @@ $Id$
 	* テーマWAIproCSSのREADMEに仕様説明文を追記しました。
 
 2009-11-29  Tetsuko Komma  <ivy>
-	* 携帯のカスタム関数custom_cellular.phpで、3G携帯の場合、テーマmobile_3gを
-	  利用するよう、モードを復活させました。
-	  さらに、Opera, Safari, Chrome場合、xhtmlの場合に文法エラーとなる不具合を
-	  回避するため、3Gテーマを利用しないように設定しました。
+	* 携帯のカスタム関数custom_cellular.phpで、3G携帯の場合、テーマ
+	  mobile_3gを利用するよう、モードを復活させました。
+	  さらに、Opera, Safari, Chrome場合、xhtmlの場合に文法エラーとなる不具
+	  合を回避するため、3Gテーマを利用しないように設定しました。
 	* 携帯テーマmobile_3gの利用されていないcssファイルをすべて削除しました。
 
 2009-11-24  Masuko Koeda  <milk851>
 
-	* テーマWAIproCSSのREADMEに音声読み上げソフト利用者の方が解りやすいように
-	  テーマ以外での変更箇所を追記しました。
+	* テーマWAIproCSSのREADMEに音声読み上げソフト利用者の方が解りやすいよ
+	  うに、テーマ以外での変更箇所を追記しました。
 
 2009-11-24  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSS:Internet Explorer6で記事にblockquote要素とpre要素が
 	  ある場合に横スクロールバーが出ていたので、スタイルを修正しました。
 
-	* 上記の修正をREADMEに記載し、確認したブラウザのバージョンを修正しました。
+	* 上記の修正をREADMEに記載し、確認したブラウザのバージョンを修正しま
+	  した。
 
 2009-11-24  Tetsuko Komma  <ivy>
 	* DataProxyプラグインを新規に自動インストールしたとき、更新を要求される
@@ -706,7 +717,7 @@ $Id$
 
 2009-11-10  Tetsuko Komma  <ivy>
 
-	* テーマ ProfessionalCSSを1,6,1に対応させました。
+	* テーマ ProfessionalCSSを1.6.1に対応させました。
 		r2277:「自分宛にコピーを送信」の重複を削除(r2247の修正)
 		r2276:話題に記事数表示を追加・ユーザ名にremoteserviceを表示追加
 
@@ -1248,17 +1259,17 @@ $Id$
 
 2009-08-24  Tetsuko Komma  <ivy>
 
-	* mobile,mobile_3g,professionalテーマ拡張版のfunctions.phpを標準版に
+	* mobile, mobile_3g, professionalテーマ拡張版のfunctions.phpを標準版に
 	  合わせました。
 
 2009-08-23  Tetsuko Komma  <ivy>
 
-	* mobile,mobile_3gテーマ　フッタのブロックおよびブロックページのメニュー
-	  タイトルをサブメニューに変更しました。
+	* mobile, mobile_3gテーマ　フッタのブロックおよびブロックページの
+	  メニュータイトルをサブメニューに変更しました。
 
 2009-08-22  Tetsuko Komma  <ivy>
 
-	* mobile,mobile_3gテーマのヘッダにPC表示時専用のテーマテスタ表示を追加
+	* mobile, mobile_3gテーマのヘッダにPC表示時専用のテーマテスタ表示を追加
 	  し、フッタにマイアカウントを追加しました。
 
 2009-08-20  Takahiro Kambe  <tacahi>
@@ -1269,7 +1280,7 @@ $Id$
 
 2009-08-20  Tetsuko Komma  <ivy>
 
-	* mobile,mobile_3gテーマのtitleを{page_title_and_site_name}に変更しまし
+	* mobile, mobile_3gテーマのtitleを{page_title_and_site_name}に変更しまし
 	  た。
 
 2009-08-16  Yoshinori Tahara  <dengen>
@@ -1286,7 +1297,7 @@ $Id$
 	* forumプラグインの表示を改善:
 	  - 言語ファイルの、通知設定関係の変更および、重複指定部分を削除しま
 	    した。
-	  - mobile,mobile_3gテーマの表示をシンプル化しました。
+	  - mobile, mobile_3gテーマの表示をシンプル化しました。
 	  - ProfessionalCSS WAIproCSSテーマを含めたすべてのテーマで、メール
 	    通知の表記を改善しました。
 	    あわせてメール通知アイコンを修正しました。
