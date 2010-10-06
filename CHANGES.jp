@@ -1,5 +1,9 @@
 $Id$
 
+2010-10-06  Hiroshi Sakuramoto <hiroron>
+
+	* filemgmtのGeeklog1.4.1からの移行不具合を修正。
+
 2010-09-01  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.0-jp-1.2をリリースします。
