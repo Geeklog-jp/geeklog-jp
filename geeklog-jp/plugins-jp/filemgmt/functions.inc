@@ -178,7 +178,7 @@ function plugin_migrate_filemgmt($old_conf)
     global $_CONF;
 
     $tables = array(
-        'filemgmt_cat'        => 'cid, imgurl',
+        'filemgmt_category'   => 'cid, imgurl',
         'filemgmt_filedetail' => 'lid, homepage',
         'filemgmt_filedesc'   => 'lid, description'
     );
