@@ -108,6 +108,26 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <li>同じコードを <tt>featuredstorytext.thtml</tt> と <tt>archivestorytext.thtml</tt> テンプレートファイルに追加すれば、注目記事にもパーマネントリンクが表示されるようになります。</li>
 </ol>
 
+
+<h2><a name="changes">Geeklog 1.7.1におけるテーマの変更点</a></h2>
+
+<h3>Admin templates</h3>
+<ul>
+<li>グループ管理画面で、<code>chk_grpdefault</code> と <code>chk_applydefault</code>
+    のチェックボックスが<tt>admin/group/groupeditor.thtml</tt>にありますが、'登録済みユーザアカウントにデフォルトグループを追加する'は、 '新規登録ユーザのデフォルトグループをチェック'のチェックなしには選択できないようにしました。 (<tt>javascript/common.js</tt>内の追加されたJavaScriptによって実行されます).</li>
+</ul>
+
+<h3>その他の変更</h3>
+<ul>
+<li>コメント投稿と編集で、キャンセルと削除のボタンを必要に応じて追加しました。(e.g. レビュー時等). 
+    <tt>comment/commentform.thtml</tt> と <tt>comment/commentform_advanced.thtml</tt>。</li>
+<li><tt>loginform_openid.thtml</tt>で、<tt>&lt;/div&gt;</tt>に変更しました。</li>
+<li>Cosmetics: <tt>block-bg-left</tt> と<tt>block-bg-right</tt> クラスから1px borderを削除しました。</li>
+<li>Cosmetics: <tt>header.thtml</tt>のメインテーブルに<tt>border="0"</tt> を追加しました。</li>
+</ul>
+
+
+
 <h2><a name="changes">Geeklog 1.7.0におけるテーマの変更点</a></h2>
 
 <h3>Admin templates</h3>
