@@ -19,6 +19,62 @@
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
 
+<h2>Oct 10, 2010 (1.7.1rc1)</h2>
+
+<ul>
+<li>If content from an Autotag produces another Autotag it will be executed (to a 
+  maximum of 5 times) [Tom]</li>
+<li>Themes can now have their own display functions for the start and end of
+  Blocks. (Feature #0001188) [Tom]</li>
+<li>Reverted a change in 1.7.0 that would send a Content-Type header when calling
+  COM_refresh since this conflicts with some plugins (e.g. the Forum) [Dirk]</li>
+<li>Fixed wrong view after posting a comment on a poll (bug #0001080, patch
+  provided by Wojtek Szkutnik)</li>
+<li>Fixed language in the dropdown for the permanent cookie in the Configuration
+  (bug #0001117, patch provided by Eric Brisco)</li>
+<li>Added cancel and delete buttons to comment edit and submission forms when
+  needed. (Feature #0000981) [Tom]</li>
+<li>Reverted parts of the changes for bug #0001057: Do _not_ escape curly braces
+  when displaying a block's content (bug #0001156). If you run into the problem
+  that words in curly braces inside blocks are interpreted as template
+  variables, simply add a space after the opening and/or the closing brace
+  [Dirk]</li>
+<li>Autotags can now be inserted directly into template files.
+  (Feature #0001181) [Tom]</li>
+<li>Plugins are able to control moderation and return a string to be displayed.
+  (Feature #0000619 patch provided by jmucchiello)</li>
+<li>Admin lists can now display a 0 in a column instead of being blank
+  (bug #0001060 patch provided by jmucchiello)</li>
+<li>Fixed "Show & Hide Boxes" option in My Account (reported by Pushkar) [Dirk]</li>
+<li>Display the topic name (instead of the topic id) in the list of draft stories
+  (bug #0001171) [Dirk]</li>
+<li>Fixed COM_formatTimeString to correctly handle intervals bigger than 4 weeks
+  (bug #0001158) [Dirk]</li>
+<li>Call PLG_templateSetVars for the Advanced Search form [Dirk]</li>
+<li>Make sure we keep the current status of the user's Advanced Editor option
+  even when Advanced Editor is disabled for the site (Thanks, Markus) [Dirk]</li>
+<li>Comment submissions for plugins were missing the type [Dirk]</li>
+<li>In the Group Editor, hide the 'Apply "Default Group" change' option until the
+  state of the "Default Group" checkbox changes (feature request #0001116,
+  patch provided by Dushyant Tiwari)</li>
+<li>Fixed handling of $LANG_DIRECTION in the install script (cf. bug #0000871)</li>
+<li>Fixed query highlighting in articles - didn't work for queries that contained
+  characters filtered by COM_applyFilter [Dirk]</li>
+</ul>
+<ul>
+<li>Updated Japanese language file, provided by the Geeklog.jp group</li>
+<li>New and updated French (France) language files, provided by Ben</li>
+<li>Updated Hebrew language file for the Links plugin, provided by LWC</li>
+</ul>
+
+<h3>Static Pages Plugin</h3>
+<ul>
+<li>Call up the Advanced Editor when enabled (bug #0001147, patch provided by
+  Samuel Leathers)</li>
+<li>A Static Page can now be marked as a template and used by other Static Pages. 
+  (Feature #0001085) [Tom]</li>
+</ul>
+
 <h2>May 9, 2010 (1.7.0)</h2>
 
 <p>Geeklog 1.7.0 からは、2009 Google Summer of CodeのStan Palatnik氏の成果により、PostgreSQLをサポートします。</p>
