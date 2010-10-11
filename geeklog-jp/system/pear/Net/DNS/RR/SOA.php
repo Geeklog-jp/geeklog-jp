@@ -65,11 +65,19 @@ class Net_DNS_RR_SOA extends Net_DNS_RR
                 $this->expire = $a['soavals4'];
                 $this->minimum = $a['soavals5'];
             }
+        } elseif (is_array($data)) {
+            $this->mname = $data['mname'];
+            $this->rname = $data['rname'];
+            $this->serial = $data['serial'];
+            $this->refresh = $data['refresh'];
+            $this->retry = $data['retry'];
+            $this->expire = $data['expire'];
+            $this->minimum = $data['minimum'];
         } else {
-            if (ereg("([^ \t]+)[ \t]+([^ \t]+)[ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]*$", $string, $regs))
+            if (ereg("([^ \t]+)[ \t]+([^ \t]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]*$", $data, $regs))
             {
-                $this->mname = ereg_replace('(.*)\.$', '\\1', $regs[1]);
-                $this->rname = ereg_replace('(.*)\.$', '\\1', $regs[2]);
+                $this->mname = preg_replace('/(.*)\.$/', '\\1', $regs[1]);
+                $this->rname = preg_replace('/(.*)\.$/', '\\1', $regs[2]);
                 $this->serial = $regs[3];
                 $this->refresh = $regs[4];
                 $this->retry = $regs[5];

@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-admin.php                                                             |
 // |                                                                           |
@@ -154,6 +154,7 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
         $admin_templates->set_var('message', $LANG_ADMIN['data_error']);
     } else {
         $admin_templates->set_var('show_message', 'display:none;');
+        $use_fieldfunction = is_callable($fieldfunction);
         for ($i = 0; $i < count($data_arr); $i++) {
             if (count($data_arr) > $min_data AND is_array($options) AND $options['chkdelete']) {
                 $admin_templates->set_var('itemtext', '<input type="checkbox" name="delitem[]" value="' . $data_arr[$i][$options['chkfield']].'"' . XHTML . '>');
@@ -162,19 +163,18 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
             }
             for ($j = 0; $j < count($header_arr); $j++) {
                 $fieldname = $header_arr[$j]['field'];
-                $fieldvalue = '';
-                if (!empty($data_arr[$i][$fieldname])) {
-                    $fieldvalue = $data_arr[$i][$fieldname];
-                }
-                if (!empty($fieldfunction)) {
-                    $fieldvalue = $fieldfunction($fieldname, $fieldvalue, $data_arr[$i], $icon_arr);
+                if (isset($data_arr[$i][$fieldname])) {
+                    $fieldvalue = strval($data_arr[$i][$fieldname]);
                 } else {
-                    $fieldvalue = $fieldvalue;
+                    $fieldvalue = '';
+                }
+                if ($use_fieldfunction) {
+                    $fieldvalue = $fieldfunction($fieldname, $fieldvalue, $data_arr[$i], $icon_arr);
                 }
                 if (!empty($header_arr[$j]['field_class'])) {
                     $admin_templates->set_var('class', $header_arr[$j]['field_class']);
                 } else {
-                      $admin_templates->set_var('class', "admin-list-field");
+                    $admin_templates->set_var('class', "admin-list-field");
                 }
                 if ($fieldvalue !== false) {
                     $admin_templates->set_var('itemtext', $fieldvalue);
@@ -482,6 +482,11 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $admin_templates->parse('search_menu', 'search', true);
     }
 
+    if (is_callable($fieldfunction)) {
+        if (!empty($extra)) $use_fieldfunction = 2;
+        else $use_fieldfunction = 1;
+    } else $use_fieldfunction = 0;
+
     # SQL
     $sql .= "$filter_str $order_sql $limit;";
     // echo $sql;
@@ -498,16 +503,17 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         }
         for ($j = 0; $j < count($header_arr); $j++) {
             $fieldname = $header_arr[$j]['field']; # get field name from headers
-            $fieldvalue = '';
-            if (!empty($A[$fieldname])) { # is there a field in data like that?
-                $fieldvalue = $A[$fieldname]; # yes, get its data
+            if (isset($A[$fieldname])) {
+                $fieldvalue = strval($A[$fieldname]); # yes, get its data
+            } else {
+                $fieldvalue = '';                
             }
-            if (!empty ($fieldfunction) && !empty ($extra)) {
-                $fieldvalue = $fieldfunction ($fieldname, $fieldvalue, $A, $icon_arr, $extra);
-            } else if (!empty ($fieldfunction)) { # do we have a fieldfunction?
-                $fieldvalue = $fieldfunction ($fieldname, $fieldvalue, $A, $icon_arr);
-            } else { # if not just take the value
-                $fieldvalue = $fieldvalue;
+            switch ($use_fieldfunction) {
+            case 2: $fieldvalue = $fieldfunction($fieldname, $fieldvalue, $A, $icon_arr, $extra);
+                    break;
+            case 1: $fieldvalue = $fieldfunction($fieldname, $fieldvalue, $A, $icon_arr);
+                    break;
+            default: break;
             }
             if ($fieldvalue !== false) { # return was there, so write line
                 $this_row = true;
@@ -1218,7 +1224,8 @@ function ADMIN_getListField_moderation($fieldname, $fieldvalue, $A, $icon_arr)
         break;
 
     default:
-        if (($fieldname == 3) && ($type == 'story')) {
+        if (($fieldname == 3) &&
+                (($type == 'story') || ($type == 'story_draft'))) {
             $retval = DB_getItem($_TABLES['topics'], 'topic',
                                   "tid = '{$A[3]}'");
         } elseif (($fieldname == 2) && ($type == 'comment')) {
