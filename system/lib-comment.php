@@ -749,8 +749,7 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 */
 function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12;
-           $LANG_ACCESS;
+    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_ADMIN, $LANG_ACCESS, $MESSAGE;
 
     $retval = '';
 
@@ -964,6 +963,24 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 $comment_template->set_var('lang_logoutorcreateaccount',
                     $LANG03[03]);
             }
+            
+            $comment_template->set_var('lang_cancel', $LANG_ADMIN['cancel']); 
+
+            if ($mode == 'editsubmission' OR $mode == 'edit' OR $mode == $LANG03[34] OR $mode == $LANG03[28]) {
+                $delbutton = '<input type="submit" value="' . $LANG_ADMIN['delete']
+                           . '" name="mode"%s' . XHTML . '>';            
+                $jsconfirm = ' onclick="return confirm(\'' . $MESSAGE[76] . '\');"';
+                $comment_template->set_var ('delete_option',
+                                          sprintf ($delbutton, $jsconfirm));            
+            }
+            if ($mode == 'editsubmission' OR $mode == $LANG03[34]) { // Preview Submission changes (for edit)
+                $comment_template->set_var('formtype', 'editsubmission');
+            } elseif ($mode == 'edit' OR $mode == $LANG03[28]) { // Preview changes (for edit)
+                $comment_template->set_var('formtype', 'edit');
+            } else {
+                $comment_template->set_var('formtype', 'new');
+            }    
+            
 
             if ($postmode == 'html') {
                 $comment_template->set_var ('show_texteditor', 'none');
@@ -1135,9 +1152,9 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             !SEC_hasRights('comment.submit')) {
         // comment into comment submission table enabled
         if (isset($name)) {
-            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,name,comment,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$name','$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,name,comment,type,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$name','$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         } else {
-            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,comment,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$comment',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,comment,type,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         }
 
         $ret = -1; // comment queued

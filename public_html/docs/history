@@ -1,5 +1,59 @@
 Geeklog History/Changes:
 
+Oct 10, 2010 (1.7.1rc1)
+------------
+
+- If content from an Autotag produces another Autotag it will be executed (to a
+  maximum of 5 times) [Tom]
+- Themes can now have their own display functions for the start and end of
+  Blocks. (Feature #0001188) [Tom]
+- Reverted a change in 1.7.0 that would send a Content-Type header when calling
+  COM_refresh since this conflicts with some plugins (e.g. the Forum) [Dirk]
+- Fixed wrong view after posting a comment on a poll (bug #0001080, patch
+  provided by Wojtek Szkutnik)
+- Fixed language in the dropdown for the permanent cookie in the Configuration
+  (bug #0001117, patch provided by Eric Brisco)
+- Added cancel and delete buttons to comment edit and submission forms when
+  needed. (Feature #0000981) [Tom]
+- Reverted parts of the changes for bug #0001057: Do _not_ escape curly braces
+  when displaying a block's content (bug #0001156). If you run into the problem
+  that words in curly braces inside blocks are interpreted as template
+  variables, simply add a space after the opening and/or the closing brace
+  [Dirk]
+- Autotags can now be inserted directly into template files.
+  (Feature #0001181) [Tom]
+- Plugins are able to control moderation and return a string to be displayed.
+  (Feature #0000619 patch provided by jmucchiello)
+- Admin lists can now display a 0 in a column instead of being blank
+  (bug #0001060 patch provided by jmucchiello)
+- Fixed "Show & Hide Boxes" option in My Account (reported by Pushkar) [Dirk]
+- Display the topic name (instead of the topic id) in the list of draft stories
+  (bug #0001171) [Dirk]
+- Fixed COM_formatTimeString to correctly handle intervals bigger than 4 weeks
+  (bug #0001158) [Dirk]
+- Call PLG_templateSetVars for the Advanced Search form [Dirk]
+- Make sure we keep the current status of the user's Advanced Editor option
+  even when Advanced Editor is disabled for the site (Thanks, Markus) [Dirk]
+- Comment submissions for plugins were missing the type [Dirk]
+- In the Group Editor, hide the 'Apply "Default Group" change' option until the
+  state of the "Default Group" checkbox changes (feature request #0001116,
+  patch provided by Dushyant Tiwari)
+- Fixed handling of $LANG_DIRECTION in the install script (cf. bug #0000871)
+- Fixed query highlighting in articles - didn't work for queries that contained
+  characters filtered by COM_applyFilter [Dirk]
+
+- Updated Japanese language file, provided by the Geeklog.jp group
+- New and updated French (France) language files, provided by Ben
+- Updated Hebrew language file for the Links plugin, provided by LWC
+
+Static Pages Plugin
+-------------------
+- Call up the Advanced Editor when enabled (bug #0001147, patch provided by
+  Samuel Leathers)
+- A Static Page can now be marked as a template and used by other Static Pages. 
+  (Feature #0001085) [Tom]  
+
+
 May 9, 2010 (1.7.0)
 -----------
 

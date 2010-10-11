@@ -306,6 +306,7 @@ class Search {
         $searchform->set_var('search_limits', $options);
 
         $searchform->set_var('lang_search', $LANG09[10]);
+        PLG_templateSetVars('search', $searchform);
         $searchform->parse('output', 'searchform');
 
         $retval .= $searchform->finish($searchform->get_var('output'));
@@ -524,7 +525,7 @@ class Search {
                     $debug_info .= ' with Callback Function.';
                     $obj->setCallback($result->getLabel(), $result->getName(), $api_callback_func, $result->getRank(), $result->getTotal());
                 }
-                else
+                else if ($result->getSQL() != '' || $result->getFTSQL()  != '')
                 {
                     if ($_CONF['search_use_fulltext'] == true && $result->getFTSQL() != '') {
                         $sql = $result->getFTSQL();

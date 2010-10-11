@@ -58,12 +58,17 @@ class Net_DNS_RR_SRV extends Net_DNS_RR
                 $this->port = $a['port'];
                 $this->target = $target;
             }
+        } elseif (is_array($data)) {
+            $this->preference = $data['preference'];
+            $this->weight = $data['weight'];
+            $this->port = $data['port'];
+            $this->target = $data['target'];
         } else {
             ereg("([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)[ \t]*$", $data, $regs);
             $this->preference = $regs[1];
             $this->weight = $regs[2];
             $this->port = $regs[3];
-            $this->target = ereg_replace('(.*)\.$', '\\1', $regs[4]);
+            $this->target = preg_replace('/(.*)\.$/', '\\1', $regs[4]);
         }
     }
 
