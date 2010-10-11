@@ -22,56 +22,42 @@
 <h2>Oct 10, 2010 (1.7.1rc1)</h2>
 
 <ul>
-<li>If content from an Autotag produces another Autotag it will be executed (to a 
-  maximum of 5 times) [Tom]</li>
-<li>Themes can now have their own display functions for the start and end of
-  Blocks. (Feature #0001188) [Tom]</li>
-<li>Reverted a change in 1.7.0 that would send a Content-Type header when calling
-  COM_refresh since this conflicts with some plugins (e.g. the Forum) [Dirk]</li>
-<li>Fixed wrong view after posting a comment on a poll (bug #0001080, patch
+<li>自動タグから自動タグを読み込む階数を制限(最大５回) [Tom]</li>
+<li>テーマ独自のstart Blocks と end Blocks (Feature #0001188) [Tom]</li>
+<li>1.7.0 で COM_refreshの際にContent-Type headerを送るようにするとコンフリクトする
+   ので元に戻しました。(例 Forum) [Dirk]</li>
+<li>アンケートプラグインでコメント投稿後のエラーを修正しました。(bug #0001080, patch
   provided by Wojtek Szkutnik)</li>
-<li>Fixed language in the dropdown for the permanent cookie in the Configuration
+<li>コンフィギュレーションの、パーマネントクッキーのドロップダウンの言語ファイルを変更しました。
   (bug #0001117, patch provided by Eric Brisco)</li>
-<li>Added cancel and delete buttons to comment edit and submission forms when
-  needed. (Feature #0000981) [Tom]</li>
-<li>Reverted parts of the changes for bug #0001057: Do _not_ escape curly braces
-  when displaying a block's content (bug #0001156). If you run into the problem
-  that words in curly braces inside blocks are interpreted as template
-  variables, simply add a space after the opening and/or the closing brace
-  [Dirk]</li>
-<li>Autotags can now be inserted directly into template files.
-  (Feature #0001181) [Tom]</li>
-<li>Plugins are able to control moderation and return a string to be displayed.
-  (Feature #0000619 patch provided by jmucchiello)</li>
-<li>Admin lists can now display a 0 in a column instead of being blank
-  (bug #0001060 patch provided by jmucchiello)</li>
-<li>Fixed "Show & Hide Boxes" option in My Account (reported by Pushkar) [Dirk]</li>
-<li>Display the topic name (instead of the topic id) in the list of draft stories
-  (bug #0001171) [Dirk]</li>
-<li>Fixed COM_formatTimeString to correctly handle intervals bigger than 4 weeks
-  (bug #0001158) [Dirk]</li>
-<li>Call PLG_templateSetVars for the Advanced Search form [Dirk]</li>
-<li>Make sure we keep the current status of the user's Advanced Editor option
-  even when Advanced Editor is disabled for the site (Thanks, Markus) [Dirk]</li>
-<li>Comment submissions for plugins were missing the type [Dirk]</li>
-<li>In the Group Editor, hide the 'Apply "Default Group" change' option until the
-  state of the "Default Group" checkbox changes (feature request #0001116,
+<li>コメント投稿と編集で、キャンセルと削除のボタンを必要に応じて追加しました。 (Feature #0000981) [Tom]</li>
+<li>バグ #0001057: ブロックコンテンツをエスケープできない (bug #0001156). ブロックの中括弧内の単語は、テンプレート変数として解釈される問題があるなら、閉じタグの前にスペースを置くことで回避します。[Dirk]</li>
+<li>自動タグをテンプレートに記述できるようにしました。(Feature #0001181) [Tom]</li>
+<li>プラグインは文字列をreturnできるようにしました。(Feature #0000619 patch provided by jmucchiello)</li>
+<li>管理者リストは、空白のかわりに、0を表示するようにしました。(bug #0001060 patch provided by jmucchiello)</li>
+<li>マイアカウントの"Show & Hide Boxes"を修正しました。(reported by Pushkar) [Dirk]</li>
+<li>ドラフト記事リストで、(話題IDではなく)話題名を表示するようにしました。(bug #0001171) [Dirk]</li>
+<li>COM_formatTimeStringで４週間以上を扱えるようにしました。(bug #0001158) [Dirk]</li>
+<li>検索フォームにもPLG_templateSetVarsを追加しました。 [Dirk]</li>
+<li>サイトのアドバンストエディタのモードを不可にした場合も、ユーザ毎のモードを残しました。 (Thanks, Markus) [Dirk]</li>
+<li>プラグインのコメント投稿モードを修正しました。 [Dirk]</li>
+<li>グループ管理画面で、'登録済みユーザアカウントにデフォルトグループを追加する'は、
+  '新規登録ユーザのデフォルトグループをチェック'のチェックなしには選択できないようにしました。 (feature request #0001116,
   patch provided by Dushyant Tiwari)</li>
-<li>Fixed handling of $LANG_DIRECTION in the install script (cf. bug #0000871)</li>
-<li>Fixed query highlighting in articles - didn't work for queries that contained
-  characters filtered by COM_applyFilter [Dirk]</li>
+<li>インストールスクリプトの$LANG_DIRECTIONを修正しました。(cf. bug #0000871)</li>
+<li>記事のハイライトクエリがCOM_applyFilterによって効かないのを修正しました。 [Dirk]</li>
 </ul>
 <ul>
-<li>Updated Japanese language file, provided by the Geeklog.jp group</li>
-<li>New and updated French (France) language files, provided by Ben</li>
-<li>Updated Hebrew language file for the Links plugin, provided by LWC</li>
+<li>日本語言語ファイルのアップグレード。提供: Geeklog Japaneseグループ</li>
+<li>フランス語の新規追加およびアップグレード。提供: Ben</li>
+<li>リンクプラグインのヘブライ語のアップグレード。提供: LWC</li>
 </ul>
 
-<h3>Static Pages Plugin</h3>
+<h3>静的ページプラグイン</h3>
 <ul>
-<li>Call up the Advanced Editor when enabled (bug #0001147, patch provided by
+<li>アドバンストエディタが有効なら静的ページ編集時にも反映させました。(bug #0001147, patch provided by
   Samuel Leathers)</li>
-<li>A Static Page can now be marked as a template and used by other Static Pages. 
+<li>静的ページのコンテンツを他の静的ページのテンプレートに設定できるようにしました。
   (Feature #0001085) [Tom]</li>
 </ul>
 
