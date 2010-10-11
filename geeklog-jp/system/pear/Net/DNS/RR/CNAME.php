@@ -50,8 +50,10 @@ class Net_DNS_RR_CNAME extends Net_DNS_RR
                 list($cname, $offset) = Net_DNS_Packet::dn_expand($data, $offset);
                 $this->cname = $cname;
             }
+        } elseif (is_array($data)) {
+            $this->cname = $data['cname'];
         } else {
-            $this->cname = ereg_replace("[ \t]+(.+)[\. \t]*$", '\\1', $data);
+            $this->cname = preg_replace("/[ \t]+(.+)[\. \t]*$/", '\\1', $data);
         }
     }
 

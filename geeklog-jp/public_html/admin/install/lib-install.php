@@ -56,7 +56,7 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.7.0');
+    define('VERSION', '1.7.1rc1');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -76,6 +76,10 @@ if (function_exists('date_default_timezone_get')) {
     date_default_timezone_set($system_timezone);
 }
 
+$language = INST_getLanguage();
+// Include the language file
+require_once 'language/' . $language . '.php'; 
+
 if (empty($LANG_DIRECTION)) {
     $LANG_DIRECTION = 'ltr';
 }
@@ -86,10 +90,6 @@ if ($LANG_DIRECTION == 'rtl') {
     $form_label_dir = 'form-label-left';
     $perms_label_dir = 'perms-label-left';
 }
-
-$language = INST_getLanguage();
-// Include the language file
-require_once 'language/' . $language . '.php'; 
 
 // Before we begin, check if an uploaded file exceeds PHP's post_max_size
 if (isset($_SERVER['CONTENT_LENGTH'])) {

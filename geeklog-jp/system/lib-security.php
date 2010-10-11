@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-security.php                                                          |
 // |                                                                           |
@@ -139,7 +139,7 @@ function SEC_getUserGroups($uid='')
         }
 
         if (count($cgroups) > 0) {
-            $glist = join(',', $cgroups);
+            $glist = implode(',', $cgroups);
             $result = DB_query("SELECT ug_main_grp_id,grp_name FROM {$_TABLES["group_assignments"]},{$_TABLES["groups"]}"
                     . " WHERE grp_id = ug_main_grp_id AND ug_grp_id IN ($glist)",1);
             $nrows = DB_numRows($result);
@@ -517,7 +517,7 @@ function SEC_getUserPermissions($grp_id='', $uid='')
         return '';
     }
 
-    $glist = join(',', $groups);
+    $glist = implode(',', $groups);
     $result = DB_query("SELECT DISTINCT ft_name FROM {$_TABLES["access"]},{$_TABLES["features"]} "
                      . "WHERE ft_id = acc_ft_id AND acc_grp_id IN ($glist)");
 
@@ -1095,11 +1095,13 @@ function SEC_createToken($ttl = 1200)
         return $last_token;
     }
     
+	$uid = isset($_USER['uid']) ? $_USER['uid'] : 1;
+    
     /* Figure out the full url to the current page */
     $pageURL = COM_getCurrentURL();
     
     /* Generate the token */
-    $token = md5($_USER['uid'].$pageURL.uniqid (rand (), 1));
+    $token = md5($uid.$pageURL.uniqid (rand (), 1));
     $pageURL = addslashes($pageURL);
     
     /* Destroy exired tokens: */
@@ -1112,13 +1114,13 @@ function SEC_createToken($ttl = 1200)
     DB_query($sql);
     
     /* Destroy tokens for this user/url combination */
-    $sql = "DELETE FROM {$_TABLES['tokens']} WHERE owner_id={$_USER['uid']} AND urlfor='$pageURL'";
+    $sql = "DELETE FROM {$_TABLES['tokens']} WHERE owner_id='{$uid}' AND urlfor='$pageURL'";
     DB_query($sql);
     
     /* Create a token for this user/url combination */
     /* NOTE: TTL mapping for PageURL not yet implemented */
     $sql = "INSERT INTO {$_TABLES['tokens']} (token, created, owner_id, urlfor, ttl) "
-           . "VALUES ('$token', NOW(), {$_USER['uid']}, '$pageURL', $ttl)";
+           . "VALUES ('$token', NOW(), $uid, '$pageURL', $ttl)";
     DB_query($sql);
            
     $last_token = $token;

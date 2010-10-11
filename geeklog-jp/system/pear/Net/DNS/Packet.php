@@ -122,6 +122,8 @@ class Net_DNS_Packet
      */
     var $additional;
 
+    var $INT32SZ = 4;
+    var $INT16SZ = 2;
     /* }}} */
     /* class constructor - Net_DNS_Packet($debug = false) {{{ */
     /*
@@ -193,9 +195,10 @@ class Net_DNS_Packet
         }
 
         $this->header = new Net_DNS_Header($data);
+        $header = $this->header;
 
         if ($this->debug) {
-            $this->header->display();
+            $header->display();
         }
 
         /*
@@ -203,15 +206,15 @@ class Net_DNS_Packet
          */
         if ($this->debug) {
             echo "\n";
-            $section = ($this->header->opcode  == 'UPDATE') ? 'ZONE' : 'QUESTION';
-            echo ";; $section SECTION (" . $this->header->qdcount . ' record' .
-                ($this->header->qdcount == 1 ? '' : 's') . ")\n";
+            $section = ($header->opcode  == 'UPDATE') ? 'ZONE' : 'QUESTION';
+            echo ";; $section SECTION (" . $header->qdcount . ' record' .
+                ($header->qdcount == 1 ? '' : 's') . ")\n";
         }
 
         $offset = 12;
 
         $this->question = array();
-        for ($ctr = 0; $ctr < $this->header->qdcount; $ctr++) {
+        for ($ctr = 0; $ctr < $header->qdcount; $ctr++) {
             list($qobj, $offset) = $this->parse_question($data, $offset);
             if (is_null($qobj)) {
                 return null;
@@ -229,15 +232,15 @@ class Net_DNS_Packet
          */
         if ($this->debug) {
             echo "\n";
-            $section = ($this->header->opcode == 'UPDATE') ? 'PREREQUISITE' :'ANSWER';
+            $section = ($header->opcode == 'UPDATE') ? 'PREREQUISITE' :'ANSWER';
             echo ";; $section SECTION (" .
-                $this->header->ancount . ' record' .
-                (($this->header->ancount == 1) ? '' : 's') .
+                $header->ancount . ' record' .
+                (($header->ancount == 1) ? '' : 's') .
                 ")\n";
         }
 
         $this->answer = array();
-        for ($ctr = 0; $ctr < $this->header->ancount; $ctr++) {
+        for ($ctr = 0; $ctr < $header->ancount; $ctr++) {
             list($rrobj, $offset) = $this->parse_rr($data, $offset);
 
             if (is_null($rrobj)) {
@@ -254,18 +257,19 @@ class Net_DNS_Packet
          */
         if ($this->debug) {
             echo "\n";
-            $section = ($this->header->opcode == 'UPDATE') ? 'UPDATE' : 'AUTHORITY';
+            $section = ($header->opcode == 'UPDATE') ? 'UPDATE' : 'AUTHORITY';
             echo ";; $section SECTION (" .
-                $this->header->nscount . ' record' .
-                (($this->header->nscount == 1) ? '' : 's') .
+                $header->nscount . ' record' .
+                (($header->nscount == 1) ? '' : 's') .
                 ")\n";
         }
 
         $this->authority = array();
-        for ($ctr = 0; $ctr < $this->header->nscount; $ctr++) {
+        for ($ctr = 0; $ctr < $header->nscount; $ctr++) {
             list($rrobj, $offset) = $this->parse_rr($data, $offset);
 
             if (is_null($rrobj)) {
+                $this->header = $header;
                 return null;
             }
             array_push($this->authority, $rrobj);
@@ -280,16 +284,17 @@ class Net_DNS_Packet
         if ($this->debug) {
             echo "\n";
             echo ';; ADDITIONAL SECTION (' .
-                $this->header->arcount . ' record' .
-                (($this->header->arcount == 1) ? '' : 's') .
+                $header->arcount . ' record' .
+                (($header->arcount == 1) ? '' : 's') .
                 ")\n";
         }
 
         $this->additional = array();
-        for ($ctr = 0; $ctr < $this->header->arcount; $ctr++) {
+        for ($ctr = 0; $ctr < $header->arcount; $ctr++) {
             list($rrobj, $offset) = $this->parse_rr($data, $offset);
 
             if (is_null($rrobj)) {
+                $this->header = $header;
                 return null;
             }
             array_push($this->additional, $rrobj);
@@ -298,6 +303,7 @@ class Net_DNS_Packet
             }
         }
 
+        $this->header = $header;
         return true;
     }
 
@@ -315,19 +321,23 @@ class Net_DNS_Packet
     {
         $data = $this->header->data();
 
-        for ($ctr = 0; $ctr < $this->header->qdcount; $ctr++) {
+        $qdcount = $this->header->qdcount;
+        $ancount = $this->header->ancount;
+        $nscount = $this->header->nscount;
+        $arcount = $this->header->arcount;
+        for ($ctr = 0; $ctr < $qdcount; $ctr++) {
             $data .= $this->question[$ctr]->data($this, strlen($data));
         }
 
-        for ($ctr = 0; $ctr < $this->header->ancount; $ctr++) {
+        for ($ctr = 0; $ctr < $ancount; $ctr++) {
             $data .= $this->answer[$ctr]->data($this, strlen($data));
         }
 
-        for ($ctr = 0; $ctr < $this->header->nscount; $ctr++) {
+        for ($ctr = 0; $ctr < $nscount; $ctr++) {
             $data .= $this->authority[$ctr]->data($this, strlen($data));
         }
 
-        for ($ctr = 0; $ctr < $this->header->arcount; $ctr++) {
+        for ($ctr = 0; $ctr < $arcount; $ctr++) {
             $data .= $this->additional[$ctr]->data($this, strlen($data));
         }
 
@@ -368,7 +378,7 @@ class Net_DNS_Packet
             $compname .= pack('Ca*', $length, $first);
             $offset += $length + 1;
         }
-        if (! count($names)) {
+        if (!count($names)) {
             $compname .= pack('C', 0);
         }
         return $compname;
@@ -395,7 +405,6 @@ class Net_DNS_Packet
     function dn_expand($packet, $offset)
     {
         $packetlen = strlen($packet);
-        $int16sz = 2;
         $name = '';
         while (1) {
             if ($packetlen < ($offset + 1)) {
@@ -403,13 +412,13 @@ class Net_DNS_Packet
             }
 
             $a = unpack("@$offset/Cchar", $packet);
-            $len = $a['char'];
+            $len = (int)$a['char'];
 
             if ($len == 0) {
                 $offset++;
                 break;
             } else if (($len & 0xc0) == 0xc0) {
-                if ($packetlen < ($offset + $int16sz)) {
+                if ($packetlen < ($offset + $this->INT16SZ)) {
                     return array(null, null);
                 }
                 $ptr = unpack("@$offset/ni", $packet);
@@ -421,7 +430,7 @@ class Net_DNS_Packet
                     return array(null, null);
                 }
                 $name .= $name2[0];
-                $offset += $int16sz;
+                $offset += $this->INT16SZ;
                 break;
             } else {
                 $offset++;
@@ -435,7 +444,7 @@ class Net_DNS_Packet
                 $offset += $len;
             }
         }
-        $name = ereg_replace('\.$', '', $name);
+        $name = preg_replace('/\.$/', '', $name);
         return array($name, $offset);
     }
 
@@ -502,14 +511,14 @@ class Net_DNS_Packet
             return array(null, null);
         }
 
-        if (strlen($data) < ($offset + 2 * 2)) {
+        if (strlen($data) < ($offset + 4)) {
             return array(null, null);
         }
 
         $q = unpack("@$offset/n2int", $data);
         $qtype = $q['int1'];
         $qclass = $q['int2'];
-        $offset += 2 * 2;
+        $offset += 4;
 
         $qtype = Net_DNS::typesbyval($qtype);
         $qclass = Net_DNS::classesbyval($qclass);

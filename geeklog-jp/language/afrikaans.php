@@ -457,7 +457,9 @@ $LANG08 = array(
     35 => 'Jammer, hierdie gebruiker verkies om nie epos te ontvang nie.',
     36 => 'Copy:',
     37 => 'Send me a copy of this email',
-    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -1534,11 +1536,13 @@ $LANG_WHATSNEW = array(
     'days' => 'dae',
     'weeks' => 'weke',
     'months' => 'maande',
+    'years' => 'years',
     'minute' => 'minuut',
     'hour' => 'uur',
     'day' => 'dag',
     'week' => 'week',
-    'month' => 'maand'
+    'month' => 'maand',
+    'year' => 'year'
 );
 
 ###############################################################################

@@ -54,10 +54,13 @@ class Net_DNS_RR_MX extends Net_DNS_RR
                 $this->preference = $a['preference'];
                 $this->exchange = $exchange;
             }
+        } elseif (is_array($data)) {
+            $this->preference = $data['preference'];
+            $this->exchange = $data['exchange'];
         } else {
             ereg("([0-9]+)[ \t]+(.+)[ \t]*$", $data, $regs);
             $this->preference = $regs[1];
-            $this->exchange = ereg_replace('(.*)\.$', '\\1', $regs[2]);
+            $this->exchange = preg_replace('/(.*)\.$/', '\\1', $regs[2]);
         }
     }
 
