@@ -1532,6 +1532,12 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
 function COM_startBlock( $title='', $helpfile='', $template='blockheader.thtml' )
 {
     global $_CONF, $LANG01, $_IMAGE_TYPE;
+    
+    // If the theme implemented this for us then call their version instead.
+    $function = $_CONF['theme'] . '_startBlock';
+    if( function_exists( $function )) {
+        return $function( $title, $helpfile, $template );
+    }
 
     $block = new Template( $_CONF['path_layout'] );
     $block->set_file( 'block', $template );
@@ -1542,17 +1548,13 @@ function COM_startBlock( $title='', $helpfile='', $template='blockheader.thtml' 
     $block->set_var( 'layout_url', $_CONF['layout_url'] );
     $block->set_var( 'block_title', stripslashes( $title ));
 
-    if( !empty( $helpfile ))
-    {
+    if( !empty( $helpfile )) {
         $helpimg = $_CONF['layout_url'] . '/images/button_help.' . $_IMAGE_TYPE;
         $help_content = '<img src="' . $helpimg. '" alt="?"' . XHTML . '>';
         $help_attr = array('class'=>'blocktitle');
-        if( !stristr( $helpfile, 'http://' ))
-        {
+        if( !stristr( $helpfile, 'http://' )) {
             $help_url = $_CONF['site_url'] . "/help/$helpfile";
-        }
-        else
-        {
+        } else {
             $help_url = $helpfile;
         }
         $help = COM_createLink($help_content, $help_url, $help_attr);
@@ -1575,6 +1577,12 @@ function COM_startBlock( $title='', $helpfile='', $template='blockheader.thtml' 
 function COM_endBlock( $template='blockfooter.thtml' )
 {
     global $_CONF;
+    
+    // If the theme implemented this for us then call their version instead.
+    $function = $_CONF['theme'] . '_endBlock';
+    if( function_exists( $function )) {
+        return $function( $template );
+    }
 
     $block = new Template( $_CONF['path_layout'] );
     $block->set_file( 'block', $template );
@@ -2835,8 +2843,6 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
 */
 function COM_refresh($url)
 {
-    header('Content-Type: text/html; charset=' . COM_getCharset());
-
     if ( function_exists( 'CUSTOM_refresh' ) ) {
         return CUSTOM_refresh( $url );
     } else {
@@ -3713,8 +3719,6 @@ function COM_formatBlock( $A, $noboxes = false )
             $blockcontent = PLG_replaceTags($blockcontent);
         }
         $blockcontent = str_replace(array('<?', '?>'), '', $blockcontent);
-        $blockcontent = str_replace(array('{', '}'), array('&#123;', '&#125;'),
-                                    $blockcontent);
 
         $retval .= COM_startBlock($A['title'], $A['help'],
                        COM_getBlockTemplate($A['name'], 'header', $position))
@@ -4457,47 +4461,41 @@ function COM_whatsNewBlock( $help = '', $title = '', $position = '' )
 * @param    string  $type           type (translated string) of new item
 * @param    int     $amount         amount of things that have been found.
 */
-function COM_formatTimeString( $time_string, $time, $type = '', $amount = 0 )
+function COM_formatTimeString($time_string, $time, $type = '', $amount = 0)
 {
     global $LANG_WHATSNEW;
 
     $retval = $time_string;
 
     // This is the amount you have to divide the previous by to get the
-    // different time intervals: hour, day, week, months
-    $time_divider = array( 60, 60, 24, 7, 30 );
+    // different time intervals: minute, hour, day, week, month, year
+    $time_divider = array(60, 60, 24, 7, 4, 12);
 
     // These are the respective strings to the numbers above. They have to match
     // the strings in $LANG_WHATSNEW (i.e. these are the keys for the array -
     // the actual text strings are taken from the language file).
-    $time_description  = array( 'minute',  'hour',  'day',  'week',  'month'  );
-    $times_description = array( 'minutes', 'hours', 'days', 'weeks', 'months' );
+    $time_description  = array('minute',  'hour',  'day',  'week',  'month',  'year');
+    $times_description = array('minutes', 'hours', 'days', 'weeks', 'months', 'years');
 
-    $time_dividers = count( $time_divider );
-    for( $s = 0; $s < $time_dividers; $s++ )
-    {
+    $time_dividers = count($time_divider);
+    for ($s = 0; $s < $time_dividers; $s++) {
         $time = $time / $time_divider[$s];
-        if( $time < $time_divider[$s + 1] )
-        {
-            if( $time == 1 )
-            {
-                if( $s == 0 )
-                {
+        if (($s + 1 >= $time_dividers) || ($time < $time_divider[$s + 1])) {
+            $time = intval($time);
+            if ($time == 1) {
+                if ($s == 0) {
                     $time_str = $time_description[$s];
-                }
-                else // go back to the previous unit, e.g. 1 day -> 24 hours
-                {
+                } else {
+                    // go back to the previous unit, e.g. 1 day -> 24 hours
                     $time_str = $times_description[$s - 1];
                     $time *= $time_divider[$s];
                 }
-            }
-            else
-            {
+            } else {
                 $time_str = $times_description[$s];
             }
-            $fields = array( '%n', '%i', '%t', '%s' );
-            $values = array( $amount, $type, $time, $LANG_WHATSNEW[$time_str] );
-            $retval = str_replace( $fields, $values, $retval );
+            $fields = array('%n', '%i', '%t', '%s');
+            $values = array($amount, $type, $time, $LANG_WHATSNEW[$time_str]);
+            $retval = str_replace($fields, $values, $retval);
             break;
         }
     }
@@ -4611,7 +4609,7 @@ function COM_showMessageFromParameter()
 /**
 * Prints Google(tm)-like paging navigation
 *
-* @param        string      $base_url       base url to use for all generated links
+* @param        string      $base_url       base url to use for all generated links. If an array, then the current parameter as the first part of the url, and the end is the last part of the url
 * @param        int         $curpage        current page we are on
 * @param        int         $num_pages      Total number of pages
 * @param        string      $page_str       page-variable name AND '='
@@ -4627,6 +4625,15 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
     global $LANG05;
 
     $retval = '';
+    $first_url = '';
+    $last_url = '';    
+    
+    if (is_array($base_url)) {
+        $first_url = current($base_url);
+        $last_url = end($base_url);
+    } else {
+        $first_url = $base_url;
+    }
 
     if( $num_pages < 2 )
     {
@@ -4635,7 +4642,7 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
 
     if( !$do_rewrite )
     {
-        $hasargs = strstr( $base_url, '?' );
+        $hasargs = strstr( $first_url, '?' );
         if( $hasargs )
         {
             $sep = '&amp;';
@@ -4653,13 +4660,13 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
 
     if( $curpage > 1 )
     {
-        $retval .= COM_createLink($LANG05[7], $base_url) . ' | ';
+        $retval .= COM_createLink($LANG05[7], $first_url . $last_url) . ' | ';
         $pg = '';
         if( ( $curpage - 1 ) > 1 )
         {
             $pg = $sep . $page_str . ( $curpage - 1 );
         }
-        $retval .= COM_createLink($LANG05[6], $base_url . $pg ) . ' | ';
+        $retval .= COM_createLink($LANG05[6], $first_url . $pg . $last_url ) . ' | ';
     }
     else
     {
@@ -4685,7 +4692,7 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
             {
                 $pg = $sep . $page_str . $pgcount;
             }
-            $retval .= COM_createLink($pgcount, $base_url . $pg) . ' ';
+            $retval .= COM_createLink($pgcount, $first_url . $pg . $last_url) . ' ';
         }
     }
 
@@ -4700,10 +4707,10 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
     }
     else
     {
-        $retval .= '| ' . COM_createLink($LANG05[5], $base_url . $sep
-                                         . $page_str . ($curpage + 1));
-        $retval .= ' | ' . COM_createLink($LANG05[8], $base_url . $sep
-                                          . $page_str . $num_pages);
+        $retval .= '| ' . COM_createLink($LANG05[5], $first_url . $sep
+                                         . $page_str . ($curpage + 1) . $last_url);
+        $retval .= ' | ' . COM_createLink($LANG05[8], $first_url . $sep
+                                          . $page_str . $num_pages . $last_url);
     }
 
     if( !empty( $retval ))

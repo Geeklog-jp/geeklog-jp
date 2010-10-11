@@ -458,7 +458,9 @@ $LANG08 = array(
     35 => '죄송합니다만, 이 사용자의 메일은 접수될 수 없습니다.',
     36 => 'Copy:',
     37 => 'Send me a copy of this email',
-    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -1535,11 +1537,13 @@ $LANG_WHATSNEW = array(
     'days' => '일',
     'weeks' => '주',
     'months' => '개월',
+    'years' => 'years',
     'minute' => '분',
     'hour' => '시간',
     'day' => '일',
     'week' => '주',
-    'month' => '개월'
+    'month' => '개월',
+    'year' => 'year'
 );
 
 ###############################################################################

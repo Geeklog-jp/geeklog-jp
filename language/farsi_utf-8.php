@@ -445,7 +445,9 @@ $LANG08 = array(
     35 => 'متاسفيم تنظيمات اين كاربر براي دريافت اي ميل تنظيم نشده',
     36 => 'Copy:',
     37 => 'Send me a copy of this email',
-    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -1522,11 +1524,13 @@ $LANG_WHATSNEW = array(
     'days' => 'days',
     'weeks' => 'weeks',
     'months' => 'months',
+    'years' => 'years',
     'minute' => 'minute',
     'hour' => 'hour',
     'day' => 'day',
     'week' => 'week',
-    'month' => 'month'
+    'month' => 'month',
+    'year' => 'year'
 );
 
 ###############################################################################

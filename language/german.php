@@ -461,7 +461,9 @@ $LANG08 = array(
     35 => 'Sorry, dieser User möchte keine E-Mails bekommen.',
     36 => 'Kopie:',
     37 => 'Ich möchte eine Kopie der E-Mail bekommen',
-    38 => "Dies ist eine Kopie der E-Mail, die Du von <{$_CONF['site_url']}> an %s geschickt hast:"
+    38 => "Dies ist eine Kopie der E-Mail, die Du von <{$_CONF['site_url']}> an %s geschickt hast:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -1538,11 +1540,13 @@ $LANG_WHATSNEW = array(
     'days' => 'Tage',
     'weeks' => 'Wochen',
     'months' => 'Monate',
+    'years' => 'Jahre',
     'minute' => 'Minute',
     'hour' => 'Stunde',
     'day' => 'Tag',
     'week' => 'Woche',
-    'month' => 'Monat'
+    'month' => 'Monat',
+    'year' => 'Jahr'
 );
 
 ###############################################################################

@@ -461,7 +461,9 @@ $LANG08 = array(
     35 => 'Вибачте, але цей користувач не бажає отримувати пошту.',
     36 => 'Copy:',
     37 => 'Send me a copy of this email',
-    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:"
+    38 => "This is a copy of the email that you sent to %s from <{$_CONF['site_url']}>:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -1538,11 +1540,13 @@ $LANG_WHATSNEW = array(
     'days' => 'днів',
     'weeks' => 'тижнів',
     'months' => 'місяців',
+    'years' => 'years',
     'minute' => 'хвилина',
     'hour' => 'година',
     'day' => 'день',
     'week' => 'тиждень',
-    'month' => 'місяць'
+    'month' => 'місяць',
+    'year' => 'year'
 );
 
 ###############################################################################

@@ -458,7 +458,9 @@ $LANG08 = array(
     35 => 'Kahjuks ei soovi see kasutaja kirju saada.',
     36 => 'Koopia:',
     37 => 'Saada mulle selle kirja koopia',
-    38 => "See on koopia kirjast, mille saatsid %s-le lehelt aadressiga <{$_CONF['site_url']}>:"
+    38 => "See on koopia kirjast, mille saatsid %s-le lehelt aadressiga <{$_CONF['site_url']}>:",
+    39 => 'Your last message was ',
+    40 => " seconds ago.  This site requires at least {$_CONF['speedlimit']} seconds between sending messages"
 );
 
 ###############################################################################
@@ -988,7 +990,7 @@ $LANG29 = array(
     18 => 'E-post',
     34 => 'Kontrolli ja otsusta',
     35 => 'Sisestatud lood',
-    36 => 'Parent or Comment', /* tõlgi */
+    36 => 'Parent or Comment',
     37 => '',
     38 => 'Sisesta',
     39 => 'Hetkel pole ülevaatamist (modereerimist) vajavaid sisestusi.',
@@ -1535,11 +1537,13 @@ $LANG_WHATSNEW = array(
     'days' => 'päeva',
     'weeks' => 'nädala',
     'months' => 'kuu',
+    'years' => 'years',
     'minute' => 'minut',
     'hour' => 'tund',
     'day' => 'päeva',
     'week' => 'nädala',
-    'month' => 'kuu'
+    'month' => 'kuu',
+    'year' => 'year'
 );
 
 ###############################################################################
