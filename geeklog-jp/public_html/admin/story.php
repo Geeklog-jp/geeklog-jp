@@ -748,7 +748,6 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         $story_templates->set_var('story_id', $story->getSid());
         $story_templates->set_var('old_story_id', $story->EditElements('originalSid'));
     }
-
     $story_templates->set_var('lang_sid', $LANG24[12]);
     $story_templates->set_var('lang_save', $LANG_ADMIN['save']);
     $story_templates->set_var('lang_preview', $LANG_ADMIN['preview']);
