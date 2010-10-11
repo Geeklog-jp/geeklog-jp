@@ -1,5 +1,11 @@
 $Id$
 
+2010-10-11  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.7.1rc1をマージしました。
+
+	* geeklog-1.7.0-jpのブランチを作成しました。
+
 2010-10-06  Hiroshi Sakuramoto <hiroron>
 
 	* filemgmtのGeeklog1.4.1からの移行不具合を修正。
