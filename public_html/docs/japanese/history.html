@@ -23,28 +23,27 @@
 
 <ul>
 <li>自動タグから自動タグを読み込む階数を制限(最大５回) [Tom]</li>
-<li>テーマ独自のstart Blocks と end Blocks (Feature #0001188) [Tom]</li>
+<li>テーマ独自のstart Blocks と end Blocks (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001188">#0001188</a>) [Tom]</li>
 <li>1.7.0 で COM_refreshの際にContent-Type headerを送るようにするとコンフリクトする
    ので元に戻しました。(例 Forum) [Dirk]</li>
-<li>アンケートプラグインでコメント投稿後のエラーを修正しました。(bug #0001080, patch
-  provided by Wojtek Szkutnik)</li>
+<li>アンケートプラグインでコメント投稿後のエラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001080">#0001080</a>, パッチ提供: Wojtek Szkutnik)</li>
 <li>コンフィギュレーションの、パーマネントクッキーのドロップダウンの言語ファイルを変更しました。
-  (bug #0001117, patch provided by Eric Brisco)</li>
-<li>コメント投稿と編集で、キャンセルと削除のボタンを必要に応じて追加しました。 (Feature #0000981) [Tom]</li>
-<li>バグ #0001057: ブロックコンテンツをエスケープできない (bug #0001156). ブロックの中括弧内の単語は、テンプレート変数として解釈される問題があるなら、閉じタグの前にスペースを置くことで回避します。[Dirk]</li>
-<li>自動タグをテンプレートに記述できるようにしました。(Feature #0001181) [Tom]</li>
-<li>プラグインは文字列をreturnできるようにしました。(Feature #0000619 patch provided by jmucchiello)</li>
-<li>管理者リストは、空白のかわりに、0を表示するようにしました。(bug #0001060 patch provided by jmucchiello)</li>
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001117">#0001117</a>, パッチ提供: Eric Brisco)</li>
+<li>コメント投稿と編集で、キャンセルと削除のボタンを必要に応じて追加しました。 (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0000981">#0000981</a>) [Tom]</li>
+<li>バグ #0001057: ブロックコンテンツをエスケープできない (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001156">#0001156</a>). ブロックの中括弧内の単語は、テンプレート変数として解釈される問題があるなら、閉じタグの前にスペースを置くことで回避します。[Dirk]</li>
+<li>自動タグをテンプレートに記述できるようにしました。(機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001181">#0001181</a>) [Tom]</li>
+<li>プラグインは文字列をreturnできるようにしました。(機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0000619">#0000619</a> パッチ提供: jmucchiello)</li>
+<li>管理者リストは、空白のかわりに、0を表示するようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001060">#0001060</a> パッチ提供: jmucchiello)</li>
 <li>マイアカウントの"Show & Hide Boxes"を修正しました。(reported by Pushkar) [Dirk]</li>
-<li>ドラフト記事リストで、(話題IDではなく)話題名を表示するようにしました。(bug #0001171) [Dirk]</li>
-<li>COM_formatTimeStringで４週間以上を扱えるようにしました。(bug #0001158) [Dirk]</li>
+<li>ドラフト記事リストで、(話題IDではなく)話題名を表示するようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001171">#0001171</a>) [Dirk]</li>
+<li>COM_formatTimeStringで４週間以上を扱えるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001158">#0001158</a>) [Dirk]</li>
 <li>検索フォームにもPLG_templateSetVarsを追加しました。 [Dirk]</li>
 <li>サイトのアドバンストエディタのモードを不可にした場合も、ユーザ毎のモードを残しました。 (Thanks, Markus) [Dirk]</li>
 <li>プラグインのコメント投稿モードを修正しました。 [Dirk]</li>
 <li>グループ管理画面で、'登録済みユーザアカウントにデフォルトグループを追加する'は、
-  '新規登録ユーザのデフォルトグループをチェック'のチェックなしには選択できないようにしました。 (feature request #0001116,
-  patch provided by Dushyant Tiwari)</li>
-<li>インストールスクリプトの$LANG_DIRECTIONを修正しました。(cf. bug #0000871)</li>
+  '新規登録ユーザのデフォルトグループをチェック'のチェックなしには選択できないようにしました。 (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001116">#0001116</a>,
+  パッチ提供: Dushyant Tiwari)</li>
+<li>インストールスクリプトの$LANG_DIRECTIONを修正しました。(cf. バグ <a href="http://project.geeklog.net/tracking/view.php?id=0000871">#0000871</a>)</li>
 <li>記事のハイライトクエリがCOM_applyFilterによって効かないのを修正しました。 [Dirk]</li>
 </ul>
 <ul>
@@ -55,10 +54,9 @@
 
 <h3>静的ページプラグイン</h3>
 <ul>
-<li>アドバンストエディタが有効なら静的ページ編集時にも反映させました。(bug #0001147, patch provided by
-  Samuel Leathers)</li>
+<li>アドバンストエディタが有効なら静的ページ編集時にも反映させました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001147">#0001147</a>, パッチ提供: Samuel Leathers)</li>
 <li>静的ページのコンテンツを他の静的ページのテンプレートに設定できるようにしました。
-  (Feature #0001085) [Tom]</li>
+  (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001085">#0001085</a>) [Tom]</li>
 </ul>
 
 <h2>May 9, 2010 (1.7.0)</h2>
@@ -68,7 +66,7 @@
 <p>1.7.0rc1からの変更:</p>
 <ul>
   <li>セキュリティ: (長い期間有効なクッキーを使用している)自動ログインは辞書攻撃に対して脆弱性がありました。この問題は、Nine SituationsグループのBookoo氏から2009年4月に受けた報告の1つでしたが、Geeklogチームはどうも見落としていたようです。これを指摘していただいた geeklog.net のユーザ Jack に感謝します。</li>
-  <li>サブディレクトリへのインストール時、インストール前の表示のバグであるタイポを修正しました。 (bug #0001148) [Dirk]</li>
+  <li>サブディレクトリへのインストール時、インストール前の表示のバグであるタイポを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001148">#0001148</a>) [Dirk]</li>
 </ul>
 <ul>
   <li>ドイツ語の言語ファイルを更新しました。提供: Markus Wollschläger</li>
