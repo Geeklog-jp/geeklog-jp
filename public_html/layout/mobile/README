@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : テーマ「mobile」
-  バージョン: 0.1 Geeklog1.6.1対応
+  バージョン: 0.4 Geeklog1.7.1対応
   著者      : Fumito Arakawa as Phize (http://phize.net/) & Geeklog Japanese
   説明      : ProfessionalCSSベース携帯用テーマ
 ==============================================================================*/
@@ -41,7 +41,7 @@ header.thtml, footer.thtml, functions.php, /preferences/* を修正しました�
   バージョン履歴
 ==============================================================================*/
 
-Geeklog1.6.1「mobile」テーマのバージョン履歴です。
+Geeklog「mobile」テーマのバージョン履歴です。
 更新・追加・削除対象となったディレクトリ・ファイルは丸括弧内に記載しています。
 ディレクトリ・ファイル名の前に記載された記号の意味は下記の通りです。
 
@@ -49,6 +49,14 @@ Geeklog1.6.1「mobile」テーマのバージョン履歴です。
   + 追加
   - 削除
 
+
+■Ver.0.4(2010-10-15)
+　・Geeklog1.7.1にアップグレードしました。(by Tetsuko Komma as Ivy)
+
+    更新ディレクトリ・ファイル
+	* admin/group/groupeditor.thtml
+	* comment/commentform.thtml
+	* comment/commentform_advanced.thtml
 
 ■Ver.0.1(2009-11-17)
 　・Geeklog1.6.1用ProfessionalCSSをベースに，最初から作り直しました。(by Tetsuko Komma as Ivy)
