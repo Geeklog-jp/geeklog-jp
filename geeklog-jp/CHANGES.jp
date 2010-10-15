@@ -1,5 +1,16 @@
 $Id$
 
+2010-10-16  Tetsuko Komma  <ivy>
+
+	* ProfessionalCSS, mobileをGeeklog 1.7.1対応のバージョン: 1.4, 0.4に
+	  それぞれ変更しました。
+
+	   admin/group/groupeditor.thtml
+	   comment/commentform.thtml
+	   comment/commentform_advanced.thtml
+
+	* README.jp NEWSを編集しました。
+
 2010-10-15  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイルで、コンフィギュレーション内画面遷移選択肢の
@@ -7,7 +18,8 @@ $Id$
 
 2010-10-12  Tetsuko Komma  <ivy>
 
-	* 日本語コア言語ファイルの翻訳を追加しました。件のコメント　を　コメント　に変更しました。
+	* 日本語コア言語ファイルの翻訳を追加しました。件のコメント　を　
+	  コメント　に変更しました。
 	* 静的ページの翻訳を追加しました。
 	* 日本語ドキュメントの翻訳を追加しました。
 
