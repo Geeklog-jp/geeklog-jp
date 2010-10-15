@@ -50,7 +50,11 @@
     <ul class="submit">
       <li><input type="submit" name="mode" value="{lang_preview}" class="submit"{xhtml}></li>
       <li>
-        {save_option} {notification}
+        <input type="hidden" name="formtype" value="{formtype}"{xhtml}>
+        {save_option} 
+        <input type="submit" value="{lang_cancel}" name="mode"{xhtml}> 
+        {delete_option} 
+        {notification}
       </li>
     </ul>
 
