@@ -59,10 +59,8 @@
   <fieldset>
     <legend>{lang_phpblockoptions}</legend>
 
-    <h3>{lang_phpblockoptions}</h3>
-
     <dl>
-      <dt><label for="admin-blockeditor-phpblockfn">{lang_blockfunction}</label></dt>
+      <dt></dt>
       <dd><input type="text" size="40" maxlength="50" value="{block_phpblockfn}" name="phpblockfn" id="admin-blockeditor-phpblockfn" class="text"{xhtml}></dd>
       <dd class="description">{lang_phpblockwarning}</dd>
     </dl>
@@ -70,8 +68,6 @@
 
   <fieldset>
     <legend>{lang_portalblockoptions}</legend>
-
-    <h3>{lang_portalblockoptions}</h3>
 
     <dl>
       <dt><label for="admin-blockeditor-rdfurl">{lang_rdfurl}</label></dt>
@@ -88,8 +84,6 @@
   <fieldset>
     <legend>{lang_normalblockoptions}</legend>
 
-    <h3>{lang_normalblockoptions}</h3>
-
     <dl>
       <dt><label for="admin-blockeditor-content">{lang_blockcontent}</label></dt>
       <dd><textarea cols="40" rows="12" name="content" id="admin-blockeditor-content">{block_content}</textarea></dd>
@@ -102,8 +96,6 @@
 
   <fieldset>
     <legend>{lang_accessrights}</legend>
-
-    <h3>{lang_accessrights}</h3>
 
     <dl>
       <dt>{lang_owner}</dt>
