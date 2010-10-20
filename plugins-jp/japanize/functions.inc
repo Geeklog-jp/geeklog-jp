@@ -6,6 +6,8 @@
 // $Id: plugins/japanize/functions.inc
 //2008/09/26 08:18 tsuchi AT geeklog DOT jp
 //2009/10/13 Ver1.0.5用
+//2010/10/20 テーマ変数　sp_id　の問題対応（Issue #160）
+//                       (plugin_templatesetvars_japanize)
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -37,7 +39,7 @@ require_once('custom/custom_mail_japanize.php');
 */
 function JAPANIZE_languageToLangId($language) {
     $retval = '';
-    
+
     $lang_mappings = array(
         'afrikaans'           => 'af',
         'bosnian'             => 'bs',
@@ -77,14 +79,14 @@ function JAPANIZE_languageToLangId($language) {
         'turkish'             => 'tr',
         'ukrainian'           => 'uk',
     );
-    
+
     if (isset($language)) {
         $lang = str_replace('_utf-8', '', $language);
         if (isset($lang_mappings[$lang])) {
             $retval = $lang_mappings[$lang];
         }
     }
-    
+
     return $retval;
 }
 
@@ -93,9 +95,9 @@ function JAPANIZE_languageToLangId($language) {
 */
 function JAPANIZE_setHtmlAttribute(&$template) {
     global  $_USER, $_CONF;
-    
+
     $langId = COM_getLanguageId();
-    
+
     if ($langId === '') {
         $langId = JAPANIZE_languageToLangId($_USER['language']);
         if ($langId === '') {
@@ -106,7 +108,7 @@ function JAPANIZE_setHtmlAttribute(&$template) {
             $langId = $l[0];
         }
     }
-    
+
     if (!empty($langId)) {
         $l = explode('-', str_replace('_', '-', $langId));
         if ((count($l) === 1) AND (strlen($langId) === 2)) {
@@ -137,7 +139,7 @@ function JAPANIZE_setHtmlAttribute(&$template) {
             $html_attribute = ' lang="' . $langId.'"';
             break;
     }
-    
+
     $template->set_var( 'html_attribute', $html_attribute);
 }
 
@@ -281,6 +283,7 @@ function plugin_getadminoption_japanize()
 //  2007.8.26 Ivy added
 //  2007/12/22 Geeklog Japanese Ivy changed
 //  2008/06/11 Geeklog Japanese Tsuchi modify custom_templatesetvars
+//  2010/10/20 update （Issue #160）
 function plugin_templatesetvars_japanize($templatename, &$template) {
     global  $LANG01, $LANG_JPN;
     global  $_USER,$_CONF;
@@ -326,7 +329,12 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
             //記事ID:topic_id
             $template->set_var( 'topic_id', $topic );
             //静的ページID:sp_id
-            $template->set_var( 'sp_id', $page );
+            $pageurl = $_SERVER["REQUEST_URI"];
+            if( strpos($pageurl, "staticpages") ){
+                $template->set_var( 'sp_id', $page );
+            }else{
+                $template->set_var( 'sp_id',"" );
+            }
             //home_id ('home','sub')
             $template->set_var( 'home_id', $home_id );
             //ログイン状態:login_status ('member','guest')
