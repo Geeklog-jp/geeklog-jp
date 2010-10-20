@@ -7,6 +7,10 @@ $Id$
 
 	  admin/topic/topiceditor.thtml
 
+	* ProfessionalCSS, mobile　グループ管理画面のレイアウトを調整しました。
+
+	  admin/group/groupeditor.thtml
+
 2010-10-20  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: Ver 1.0.6RC3に更新しました
