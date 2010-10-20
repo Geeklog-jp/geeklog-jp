@@ -3,7 +3,7 @@
 
 <form action="{site_admin_url}/group.php" method="post" id="admin-groupeditor" class="linear">
   <fieldset>
-    <legend>グループの編集</legend><!-- Geeklog Japanese -->
+    <legend>{lang_groupname}</legend>
 
     <dl>
       <dt><label for="admin-groupeditor-grp_name">{lang_groupname}</label></dt>
@@ -15,7 +15,7 @@
     </dl>
   </fieldset>
 
-  <fieldset class="admingroup">
+  <fieldset {hide_adminoption}>
     <legend>{lang_admingroup}</legend>
 
     <dl {hide_adminoption}>
@@ -24,6 +24,11 @@
           <span class="fieldhelp">{lang_admingrp_msg}</span>
       </dd>
     </dl>
+
+  </fieldset>
+
+  <fieldset {hide_defaultoption}>
+    <legend>{lang_defaultgroup}</legend>
 
     <dl {hide_defaultoption}>
       <dt>{lang_defaultgroup}</dt>
@@ -45,7 +50,7 @@
 
   </fieldset>
 
-  <fieldset class="securitygroups">
+  <fieldset>
     <legend>{lang_securitygroups}</legend>
 
     <dl>
@@ -55,7 +60,7 @@
     </dl>
   </fieldset>
 
-  <fieldset class="rights">
+  <fieldset>
     <legend>{lang_rights}</legend>  
 
     <dl>
