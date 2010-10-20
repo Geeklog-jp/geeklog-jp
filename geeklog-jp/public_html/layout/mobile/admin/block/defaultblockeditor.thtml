@@ -3,7 +3,7 @@
 
 <form action="{site_admin_url}/block.php" method="post" id="admin-blockeditor" class="compact">
   <fieldset>
-    <legend>ブロックの編集</legend><!-- Geeklog Jpanese -->
+    <legend>ブロックの編集</legend><!-- Geeklog Japanese -->
 
     <dl>
       <dt><label for="admin-blockeditor-title">{lang_blocktitle}</label></dt>
@@ -50,8 +50,6 @@
 
   <fieldset>
     <legend>{lang_accessrights}</legend>
-
-    <h3>{lang_accessrights}</h3>
 
     <dl>
       <dt>{lang_owner}</dt>
