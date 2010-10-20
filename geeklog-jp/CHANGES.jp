@@ -3,13 +3,11 @@ $Id$
 2010-10-21  Tetsuko Komma  <ivy>
 
 	* ProfessionalCSS, mobileの話題アイコンアップロードフォームの
-	  重複をそれぞれ変更しました。
+	  重複、グループ・ブロック管理画面のレイアウトをそれぞれ変更しました。
 
 	  admin/topic/topiceditor.thtml
-
-	* ProfessionalCSS, mobile　グループ管理画面のレイアウトを調整しました。
-
 	  admin/group/groupeditor.thtml
+	  admin/block/blockeditor.thtml
 
 2010-10-20  Kazuko Tsuchitani <Tsuchi>
 
