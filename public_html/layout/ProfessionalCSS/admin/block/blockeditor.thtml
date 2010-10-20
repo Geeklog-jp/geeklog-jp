@@ -54,7 +54,7 @@
         </select>
       </dd>
     </dl>
-  </fieldet>
+  </fieldset>
 
   <fieldset>
     <legend>{lang_phpblockoptions}</legend>
