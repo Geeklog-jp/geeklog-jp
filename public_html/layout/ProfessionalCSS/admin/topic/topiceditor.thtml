@@ -8,7 +8,7 @@
     <dl>
       <dt><label for="admin-topiceditor-tid">{lang_topicid}</label></dt>
       <dd><input type="text" size="20" maxlength="20" value="{topic_id}" name="tid" id="admin-topiceditor-tid" class="text"{xhtml}></dd>
-      <dd class="description"><span class="fieldhelp">{lang_donotusespaces}</span></dd>
+      <dd class="description">{lang_donotusespaces}</dd>
 
       <dt><label for="sortnum">{lang_sortorder}</label></dt>
       <dd>{sort_order}</dd>
@@ -25,7 +25,7 @@
 
       <dt><label for="admin-topiceditor-newicon">{lang_uploadimage}</label></dt>
       <dd><input type="file" name="newicon" id="admin-topiceditor-newicon"{xhtml}></dd>
-      <dd class="description"><span class="fieldhelp">{icon_max_dimensions}</span></dd>
+      <dd class="description">{icon_max_dimensions}</dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
       <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:100%" rows="2">{meta_description}</textarea></dd>
