@@ -26,11 +26,9 @@
 <!-- header.thtml { -->
 
 <!-- #container { -->
-<!-- コンテナ -->
     <div id="container">
 
       <!-- #header { -->
-      <!-- ヘッダコンテナ -->
       <div id="header">
         <h1 class="site_name"><a href="{site_url}">{site_name}<!-- <img src="{layout_url}/images/logo.gif" width="157" height="56" alt="{site_name}"{xhtml}> --></a></h1>
         <p class="site_slogan">{site_slogan}</p>
@@ -40,7 +38,6 @@
       <hr class="separator"{xhtml}>
 
       <!-- #navigation { -->
-      <!-- グローバルナビゲーションコンテナ -->
       <div id="navigation">
         <ul>
           {menu_elements}
@@ -51,15 +48,14 @@
       <hr class="separator"{xhtml}>
 
       <!-- #wrapper { -->
-      <!-- ラッパー -->
       <div id="wrapper">
 
         {left_blocks}
 
-      <!--[if !IE]> Win IE 6のバグを回避するために条件コメントを使用しています。 <![endif]-->
-      <!--[if !IE]> (複数の浮動要素を組み合わせた場合に、最後の浮動要素の内容が重複するバグ) <![endif]-->
+      <!--[if !IE]> Using conditional comments to avoid Win IE 6 bugs <![endif]-->
+      <!--[if !IE]> (When combined with multiple floating elements, floating bug duplicate last element content) <![endif]-->
       <!--[if !IE]> #centerblocks { <![endif]-->
-      <!-- 中央ブロックコンテナ -->
+      <!-- Center Block Container -->
       <div id="centerblocks">
         <p class="welcome_msg">{welcome_msg_jp}&nbsp;{datetime}</p>
 
