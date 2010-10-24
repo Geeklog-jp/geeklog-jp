@@ -35,9 +35,8 @@ function enablearchive(obj) {
 </script>
 
  <form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
-  <fieldset>
-    <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt>{lang_author}</dt>
       <dd>{story_author}</dd>
@@ -201,7 +200,7 @@ function enablearchive(obj) {
       <dt>{lang_emails}</dt>
       <dd>{story_emails}</dd>
     </dl>
-  </fieldset>
+  </div>
 
   <fieldset>
     <legend>{lang_accessrights}</legend>
