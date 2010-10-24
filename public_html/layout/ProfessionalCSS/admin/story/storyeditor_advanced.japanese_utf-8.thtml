@@ -23,9 +23,8 @@
     {navbar}
 
 <form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onSubmit='set_postcontent();' id="admin-storyeditor_advanced" class="compact">
-  <fieldset>
-    <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt>{lang_author}</dt>
       <dd>{story_author}</dd>
@@ -77,13 +76,10 @@
         </select>
       </dd>
     </dl>
-
-  </fieldset>
-
-
+  </div>
 
   <fieldset id="admin-storyeditor_advanced-editor">
-    <legend>エディタ</legend><!-- Geeklog Japanese -->
+    <legend>Editor</legend>
     <div id="text_editor" style="display: {show_texteditor};">
       <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
