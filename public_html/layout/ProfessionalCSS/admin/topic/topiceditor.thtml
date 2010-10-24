@@ -2,9 +2,8 @@
 <!-- admin/topic/topiceditor.thtml { -->
 
 <form action="{site_admin_url}/topic.php" method="post" enctype="multipart/form-data" id="admin-topiceditor" class="compact">
-  <fieldset>
-    <legend>話題の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-topiceditor-tid">{lang_topicid}</label></dt>
       <dd><input type="text" size="20" maxlength="20" value="{topic_id}" name="tid" id="admin-topiceditor-tid" class="text"{xhtml}></dd>
@@ -43,12 +42,10 @@
       <dd>{num_stories}</dd>
 
     </dl>
-  </fieldset>
+  </div>
 
   <fieldset>
     <legend>{lang_accessrights}</legend>
-
-    <h3>{lang_accessrights}</h3>
 
     <dl>
       <dt>{lang_owner}</dt>

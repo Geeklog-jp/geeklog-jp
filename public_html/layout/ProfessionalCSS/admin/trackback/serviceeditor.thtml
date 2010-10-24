@@ -2,9 +2,8 @@
 <!-- admin/trackback/serviceeditor.thtml { -->
 
 <form action="{site_admin_url}/trackback.php" method="post" id="admin-serviceeditor" class="compact">
-  <fieldset>
-    <legend>Weblogディレクトリサービスの編集</legend>  <!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-serviceeditor-service_name">{lang_name}</label></dt>
       <dd><input type="text" size="48" maxlength="80" value="{service_name}" name="service_name" id="admin-serviceeditor-service_name"{xhtml}></dd>
@@ -42,7 +41,7 @@
         {delete_option}
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <!-- } admin/trackback/serviceeditor.thtml -->

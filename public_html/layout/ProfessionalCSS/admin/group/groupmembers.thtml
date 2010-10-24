@@ -4,9 +4,8 @@
 <script type="text/JavaScript" src="{site_url}/javascript/moveusers.js"></script>
 
 <form name="groupusers" action="{phpself}?group={groupid}" method="post" id="admin-groupmembers" class="basic">
-  <fieldset>
-    <legend>グループメンバーの編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl class="sitemembers">
       <dt><label for="admin-groupmembers-fieldFrom">{LANG_sitemembers}</label></dt>
       <dd>
@@ -41,7 +40,8 @@
         <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
       </li>
     </ul>
-  </fieldset>
+  </div>
+
 </form>
 
 <!-- } admin/group/groupmembers.thtml -->

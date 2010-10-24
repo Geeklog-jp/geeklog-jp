@@ -4,8 +4,8 @@
 {start_block_editor}
 
 <form action="{site_admin_url}/plugins.php" method="post" id="admin-editor" class="compact">
-  <fieldset>
-    <legend>{pi_display_name}</legend>
+
+  <div class="admin_basic">
 
     <div id="admin-instructions">
       <img src="{pi_icon}" alt=""{xhtml}>
@@ -46,7 +46,8 @@
       <dt>{lang_enabled}</dt>
       <dd><input type="checkbox" name="enabled" {enabled_checked}{xhtml}></dd>
     </dl>
-  </fieldset>
+  </div>
+
 </form>
 
 {end_block}
