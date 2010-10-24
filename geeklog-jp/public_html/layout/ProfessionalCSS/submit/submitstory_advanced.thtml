@@ -10,9 +10,8 @@
 <script type="text/JavaScript" src="{site_url}/javascript/submitstory_fckeditor.js"></script>
 
 <form action="{site_url}/submit.php" method="post" onSubmit='set_postcontent();' id="submitstory_advanced" class="compact">
-  <fieldset>
-    <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="user_basic">
     <dl>
       <dt>{lang_username}</dt>
       <dd>{story_username}
@@ -63,7 +62,7 @@
         {save_button}
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <!-- } submit/submitstory_advanced.thtml -->

@@ -3,9 +3,8 @@
 
 {start_block_mailstory2friend}
   <form action="{site_url}/profiles.php" method="post" id="contactauthorform" class="compact">
-    <fieldset>
-      <legend>送信情報</legend><!-- Geeklog Japanese -->
 
+    <div class="user_basic">
       <dl>
         <dt><label for="contactauthorform-title">{lang_title}</label></dt>
         <dd>{story_link}</dd>
@@ -40,7 +39,7 @@
           <input type="submit" value="{lang_sendmessage}" onclick="return postconfirm();" onkeypress="return postconfirm();" class="submit"{xhtml}>
         </li>
       </ul>
-    </fieldset>
+    </div>
   </form>
 {end_block}
 
