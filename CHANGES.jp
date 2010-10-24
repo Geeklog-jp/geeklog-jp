@@ -1,5 +1,10 @@
 $Id$
 
+2010-10-24  Tetsuko Komma  <ivy>
+
+	* ProfessionalCSS, mobileの管理画面から日本語部分を削除。英語版と共通化
+	  しました。ヘッダ等html整形しました。
+
 2010-10-21  Tetsuko Komma  <ivy>
 
 	* ProfessionalCSS, mobileの話題アイコンアップロードフォームの
