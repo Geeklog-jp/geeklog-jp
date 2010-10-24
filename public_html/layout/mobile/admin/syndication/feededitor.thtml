@@ -3,9 +3,8 @@
 
 {start_feed_editor}
 <form action="{site_admin_url}/syndication.php" method="post" id="admin-feededitor" class="compact">
-  <fieldset>
-    <legend>フィードの編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-feededitor-title">{lang_feedtitle}</label></dt>
       <dd><input type="text" size="48" value="{feed_title}" name="title" id="admin-feededitor-title" class="text"{xhtml}></dd>
@@ -68,7 +67,7 @@
         {delete_option}
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 {end_block}
 
