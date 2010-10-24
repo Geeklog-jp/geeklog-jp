@@ -2,9 +2,8 @@
 <!-- submit/submitstory.thtml { -->
 
 <form action="{site_url}/submit.php" method="post" id="submitstory" class="compact">
-  <fieldset>
-    <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="user_basic">
     <dl>
       <dt>{lang_username}</dt>
       <dd>{story_username}
@@ -51,7 +50,7 @@
         {save_button}
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <!-- } submit/submitstory.thtml -->

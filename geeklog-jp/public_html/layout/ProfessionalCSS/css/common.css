@@ -116,6 +116,10 @@ iframe[width="100%"] {
   width: 99%;
 }
 
+/* Basic editor */
+.user_basic {
+  padding: 0.5em 2em;
+}
 
 
 /*--------------------------------------
