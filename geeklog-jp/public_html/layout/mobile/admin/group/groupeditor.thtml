@@ -2,9 +2,8 @@
 <!-- admin/group/groupeditor.thtml { -->
 
 <form action="{site_admin_url}/group.php" method="post" id="admin-groupeditor" class="linear">
-  <fieldset>
-    <legend>{lang_groupname}</legend>
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-groupeditor-grp_name">{lang_groupname}</label></dt>
       <dd>{groupname_static}<input type="{groupname_inputtype}" size="20" maxlength="50" value="{group_name}" name="grp_name" id="admin-groupeditor-grp_name" class="text"{xhtml}></dd>
@@ -13,10 +12,6 @@
       <dd><input type="text" size="40" maxlength="255" value="{group_description}" name="grp_descr" id="admin-groupeditor-grp_descr" class="text"{xhtml}></dd>
 
     </dl>
-  </fieldset>
-
-  <fieldset {hide_adminoption}>
-    <legend>{lang_admingroup}</legend>
 
     <dl {hide_adminoption}>
       <dt>{lang_admingroup}</dt>
@@ -24,11 +19,6 @@
           <span class="fieldhelp">{lang_admingrp_msg}</span>
       </dd>
     </dl>
-
-  </fieldset>
-
-  <fieldset {hide_defaultoption}>
-    <legend>{lang_defaultgroup}</legend>
 
     <dl {hide_defaultoption}>
       <dt>{lang_defaultgroup}</dt>
@@ -47,14 +37,12 @@
         </div>
       </dd>
     </dl>
-
-  </fieldset>
+  </div>
 
   <fieldset>
     <legend>{lang_securitygroups}</legend>
 
     <dl>
-      <dt><label>{lang_securitygroups}</label></dt>
       <dd class="description">{lang_securitygroupmsg}</dd>
       <dd>{group_options}</dd>
     </dl>
@@ -64,7 +52,6 @@
     <legend>{lang_rights}</legend>  
 
     <dl>
-      <dt><label for="features">{lang_rights}</label></dt>
       <dd class="description">{lang_rightsmsg}</dd>
       <dd><table>{rights_options}</table></dd>
     </dl>

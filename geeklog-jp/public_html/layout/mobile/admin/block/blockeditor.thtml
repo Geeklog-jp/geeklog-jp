@@ -3,9 +3,8 @@
 
 {start_block_editor}
 <form action="{site_admin_url}/block.php" method="post" id="admin-blockeditor" class="compact">
-  <fieldset>
-    <legend>ブロックの編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-blockeditor-title">{lang_blocktitle}</label></dt>
       <dd><input type="text" size="40" value="{block_title}" name="title" id="admin-blockeditor-title" class="text"{xhtml}></dd>
@@ -54,7 +53,7 @@
         </select>
       </dd>
     </dl>
-  </fieldset>
+  </div>
 
   <fieldset>
     <legend>{lang_phpblockoptions}</legend>

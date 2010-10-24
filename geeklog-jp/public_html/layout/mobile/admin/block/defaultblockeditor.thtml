@@ -2,9 +2,8 @@
 <!-- admin/block/defaultblockeditor.thtml { -->
 
 <form action="{site_admin_url}/block.php" method="post" id="admin-blockeditor" class="compact">
-  <fieldset>
-    <legend>ブロックの編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt><label for="admin-blockeditor-title">{lang_blocktitle}</label></dt>
       <dd><input type="text" name="title" value="{block_title}" size="48" id="admin-blockeditor-title" class="text"{xhtml}></dd>
@@ -46,7 +45,7 @@
       <dd>gldefault
         <input type="hidden" name="type" value="gldefault" id="admin-blockeditor-type"{xhtml}></dd>
     </dl>
-  </fieldset>
+  </div>
 
   <fieldset>
     <legend>{lang_accessrights}</legend>
