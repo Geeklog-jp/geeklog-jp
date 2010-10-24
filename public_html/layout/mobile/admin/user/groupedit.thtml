@@ -1,7 +1,6 @@
 
 <!-- admin/user/groupedit.thtml { -->
 
-<dt>{lang_securitygroups}</dt>
 <dd>
   <p class="groupinstructions">{lang_groupinstructions}</p>
   {group_options}
