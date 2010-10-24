@@ -1,9 +1,8 @@
 <!-- search/searchform.thtml { -->
 
 <form action="{site_url}/search.php" method="get" id="advsearchform" class="compact">
-  <fieldset>
-    <legend>検索条件</legend><!-- Geeklog Japanese -->
 
+  <div class="user_basic">
     <p class="message">{search_intro}</p>
 
     <dl>
@@ -56,6 +55,6 @@
         <input type="submit" value="{lang_search}" class="submit"{xhtml}>
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 <!-- } search/searchform.thtml -->
