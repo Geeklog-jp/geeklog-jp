@@ -560,7 +560,7 @@ class LocalizeGeeklog
 			// ロケール
 			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 				$c->set('locale', 'C');
-				$c->set('date', '%Y年%m月%d日(%a) %H:%M');
+				$c->set('date', '%Y年%m月%d日 %H:%M');
 				$c->set('daytime', '%b %d %H:%M');
 				$c->set('shortdate', '%x');
 				$c->set('dateonly', '%b %d');
