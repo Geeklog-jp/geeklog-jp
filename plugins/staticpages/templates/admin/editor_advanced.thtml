@@ -38,7 +38,7 @@
               </td>
           </tr>
         <tr>
-            <td align="right">{lang_mode}:</td>
+            <td align="right" style="white-space:nowrap;">{lang_mode}:</td>
             <td>
                 <select name="commentcode">
                     {comment_options}
@@ -46,11 +46,11 @@
             </td>
         </tr>
         <tr>
-            <td align="right">{lang_postmode}:</td>
+            <td align="right" style="white-space:nowrap;">{lang_postmode}:</td>
             <td><select id="sel_editmode" name="postmode" {change_editormode}>{post_options}</select></td>
         </tr>
           <tr>
-            <td align="right">{lang_id}:</td>
+            <td align="right" style="white-space:nowrap;">{lang_id}:</td>
             <td><input type="text" dir="ltr" name="sp_id" size="40" maxlength="40" value="{sp_id}"{xhtml}></td>
           </tr>
           <tr>
@@ -91,7 +91,7 @@
                 </td>
              </tr>
           <tr>
-            <td align="right">{lang_draft}:</td>
+            <td align="right" style="white-space:nowrap;">{lang_draft}:</td>
             <td><input type="checkbox" name="draft_flag" {draft_flag_checked}{xhtml}></td>
           </tr>
           <tr>
@@ -113,11 +113,11 @@
               <td colspan="2"><hr{xhtml}></td>
           </tr>
           <tr>
-              <td align="right" valign="top">{lang_template}:</td>
+              <td align="right" valign="top" style="white-space:nowrap;">{lang_template}:</td>
               <td valign="top"><input type="checkbox" name="template_flag" {template_flag_checked}{xhtml}>&nbsp;&nbsp;{lang_template_flag_msg}</td>
           </tr>
           <tr>
-              <td align="right">{lang_use_template}:</td>
+              <td align="right" style="white-space:nowrap;">{lang_use_template}:</td>
               <td>{use_template_selection}&nbsp;&nbsp;&nbsp;{lang_use_template_msg}</td>
           </tr>             
           <tr>
