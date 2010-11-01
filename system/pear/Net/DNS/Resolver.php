@@ -238,7 +238,7 @@ class Net_DNS_Resolver
      * @access public
      * @see Net_DNS_Resolver::read_config()
      */
-    static $parsedfiles = array();
+    var $parsedfiles = array();
     /**
      * sleep
      *
@@ -353,7 +353,7 @@ class Net_DNS_Resolver
             while (! feof($f)) {
                 $line = chop(fgets($f, 10240));
                 $line = preg_replace('/(.*)[;#].*/', '\\1', $line);
-                if (ereg("^[ \t]*$", $line, $regs)) {
+                if (preg_match("/^[ \t]*$/", $line, $regs)) {
                     continue;
                 }
                 preg_match("/^[ \t]*([^ \t]+)[ \t]+([^ \t]+)/", $line, $regs);
@@ -406,7 +406,7 @@ class Net_DNS_Resolver
         if (getenv('RES_OPTIONS')) {
             $env = explode(' ', getenv('RES_OPTIONS'));
             foreach ($env as $opt) {
-                list($name, $val) = split(':', $opt);
+                list($name, $val) = explode(':', $opt);
                 if ($val == '') {
                     $val = 1;
                 }
@@ -453,7 +453,7 @@ class Net_DNS_Resolver
      */
     function nextid()
     {
-        if ($GLOBALS['_Net_DNS_packet_id']++ > 65535) {
+		if (++$GLOBALS['_Net_DNS_packet_id'] > 65535) {
             $GLOBALS['_Net_DNS_packet_id']= 1;
         }
         return $GLOBALS['_Net_DNS_packet_id'];
@@ -879,7 +879,7 @@ class Net_DNS_Resolver
             if ($sock[$ctr++] = fsockopen("udp://$nameserver", $this->port)) {
                 $peerhost[$ctr-1] = $nameserver;
                 $peerport[$ctr-1] = $this->port;
-                socket_set_blocking($sock[$ctr-1], false);
+                stream_set_blocking($sock[$ctr-1], 0);
             } else {
                 $ctr--;
             }
@@ -928,7 +928,7 @@ class Net_DNS_Resolver
                 $buf = '';
                 while (! strlen($buf) && $timetoTO > (time() +
                             (double)microtime())) {
-                    socket_set_blocking($s, false);
+                    stream_set_blocking($s, 0);
                     if ($buf = fread($s, 512)) {
                         $this->answerfrom = $peerhost[$k];
                         $this->answersize = strlen($buf);
