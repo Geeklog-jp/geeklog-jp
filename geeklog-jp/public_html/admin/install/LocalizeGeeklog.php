@@ -561,9 +561,10 @@ class LocalizeGeeklog
 			if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
 				$c->set('locale', 'C');
 				$c->set('date', '%Y年%m月%d日 %H:%M');
-				$c->set('daytime', '%b %d %H:%M');
-				$c->set('shortdate', '%x');
-				$c->set('dateonly', '%b %d');
+				$c->set('daytime', '%m月%d日 %H:%M');
+				$c->set('shortdate', '%d');
+				$c->set('dateonly', '%m/%d');
+				$c->set('timeonly', '%H:%M');
 			} else {
 				if (strtoupper(substr(PHP_OS, 0, 7)) == 'FREEBSD') {
 					$c->set('locale', 'ja_JP');
@@ -574,10 +575,10 @@ class LocalizeGeeklog
 				$c->set('daytime', '%m/%d %H:%M %Z');
 				$c->set('shortdate', '%Y年%B%e日');
 				$c->set('dateonly', '%B%e日');
+				$c->set('timeonly', '%H:%M %Z');
 			}
 			
 			$c->set('rdf_language', 'ja');
-			$c->set('timeonly', '%H:%M %Z');
 			$c->set('hour_mode', 24);
 			$c->set('timezone', 'Asia/Tokyo');
 			
