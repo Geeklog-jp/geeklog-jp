@@ -2,9 +2,8 @@
 <!-- profiles/contactuserform.thtml { -->
 
 <form action="{site_url}/profiles.php" method="post" id="contactuserform" class="compact">
-  <fieldset>
-    <legend>送信情報</legend><!-- Geeklog Japanese -->
 
+  <div class="user_basic">
     <p class="message">{lang_description}</p>
 
     <dl>
@@ -35,7 +34,7 @@
         <input type="submit" value="{lang_submit}" onclick="return postconfirm();" onkeypress="return postconfirm();" class="submit"{xhtml}>
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <!-- } profiles/contactuserform.thtml-->

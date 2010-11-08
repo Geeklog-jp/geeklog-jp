@@ -11,9 +11,7 @@
 
 {start_block_postacomment}
 <form action="{site_url}/comment.php" method="post" onsubmit='set_postcontent();' id="commentform_advanced" class="linear">
-  <fieldset>
-    <legend>投稿情報</legend><!-- Geeklog Japanese -->
-
+  <div class="user_basic">
     <dl>
       <dt class="username">{lang_username}</dt>
       <dd class="username">{cid}
@@ -71,7 +69,7 @@
         {notification}
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 {end_block}
 

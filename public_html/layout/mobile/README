@@ -50,13 +50,14 @@ Geeklog「mobile」テーマのバージョン履歴です。
   - 削除
 
 
-■Ver.0.4(2010-10-15)
+■Ver.0.4(2010-11-09)
 　・Geeklog1.7.1にアップグレードしました。(by Tetsuko Komma as Ivy)
 
     更新ディレクトリ・ファイル
 	* admin/group/groupeditor.thtml
 	* comment/commentform.thtml
 	* comment/commentform_advanced.thtml
+	他
 
 ■Ver.0.1(2009-11-17)
 　・Geeklog1.6.1用ProfessionalCSSをベースに，最初から作り直しました。(by Tetsuko Komma as Ivy)
