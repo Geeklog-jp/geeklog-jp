@@ -1,5 +1,10 @@
 $Id$
 
+2010-11-09  Tetsuko Komma  <ivy>
+
+	* ProfessionalCSS, mobileを調整しました。admin/user/edituser.thtmlの
+	  文法エラーを修正しました。
+
 2010-11-02  Tetsuko Komma  <ivy>
 
 	* 日本語ドキュメントの翻訳追加と修正を行ないました。
