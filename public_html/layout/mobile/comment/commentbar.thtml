@@ -8,9 +8,8 @@
 </ul>
 
 <form action="{parent_url}" method="post" id="commentbar-selector" class="basic">
-  <fieldset>
-    <legend>表示形式</legend><!-- Geeklog Japanese -->
 
+  <div class="user_basic">
     <ul>
       <li>{order_selector}</li>
       <li>{mode_selector}</li>
@@ -20,12 +19,11 @@
         <input type="submit" value="{lang_refresh}" class="submit"{xhtml}>
       </li>
     </ul>
-  </fieldset>  
+  </div>  
 </form>
 
 <form action="{site_url}/comment.php" method="post" id="commentbar-comment" class="basic">
-  <fieldset>
-  <legend>{lang_reply}</legend>
+  <div class="user_basic">
     <ul class="submit">
       <li>
         <input type="hidden" name="sid" value="{sid}"{xhtml}>
@@ -35,7 +33,7 @@
         <input type="submit" name="reply" value="{lang_reply}" class="submit"{xhtml}>
       </li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <p class="disclaimer">{lang_disclaimer}</p>
