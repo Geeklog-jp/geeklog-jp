@@ -1,7 +1,8 @@
-<!-- plugins/japanize/templates/admin/index.thtml { -->
+<!-- plugins/japanize/templates/admin/index.thtml 20101109 { -->
 
 <div id="plugin-japanize">
-
+(2010/11/09 update)
+<p>OS:{php_os}</p>
 <form method="POST" action="{this_script}?mode=ALL"><p><input type="submit" value="日本語化一括実行" name="ALL">
 (6)サンプルアンケート 以外のすべての日本語化を実行します。</p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
@@ -46,12 +47,31 @@
 </ul>
 <p>【言語とロケール】</p>
 <ul>
-  <li>ロケール･･･ロケール ja_JP.UTF-8</li>
-  <li>ロケール･･･日付 %Y年%B%e日(%a) %H:%M %Z</li>
-  <li>ロケール･･･日時 %m/%d %H:%M %Z</li>
-  <li>ロケール･･･日付短表記 %Y年%B%e日</li>
-  <li>ロケール･･･日付けのみ %B%e日</li>
-  <li>ロケール･･･時間のみ %H:%M %Z</li>
+  <!-- WIN  -->
+  <li {win}>ロケール･･･ロケール C</li>
+  <li {win}>ロケール･･･日時 %Y年%m月%d日 %H:%M</li>
+  <li {win}>ロケール･･･日時の短縮 %m月%d日 %H:%M</li>
+  <li {win}>ロケール･･･日付 %d</li>
+  <li {win}>ロケール･･･月日 %m/%d</li>
+  <li {win}>ロケール･･･時刻 %H:%M</li>
+  <!-- FREEBSD  -->
+  <li {freebsd}>ロケール･･･ロケール ja_JP</li>
+  <li {freebsd}>ロケール･･･日時 %Y年%B%e日(%a) %H:%M %Z</li>
+  <li {freebsd}>ロケール･･･日時の短縮 %m/%d %H:%M %Z</li>
+  <li {freebsd}>ロケール･･･日付 %Y年%B%e日</li>
+  <li {freebsd}>ロケール･･･月日 %B%e日</li>
+  <li {freebsd}>ロケール･･･時刻 %H:%M %Z</li>
+  <!-- LINUX etc  -->
+  <li {linux}>ロケール･･･ロケール ja_JP.UTF-8</li>
+  <li {linux}>ロケール･･･日時 %Y年%B%e日(%a) %H:%M %Z</li>
+  <li {linux}>ロケール･･･日時の短縮 %m/%d %H:%M %Z</li>
+  <li {linux}>ロケール･･･日付 %Y年%B%e日</li>
+  <li {linux}>ロケール･･･月日 %B%e日</li>
+  <li {linux}>ロケール･･･時刻 %H:%M %Z</li>
+
+  <li>ロケール･･･時間制　24</li>
+  <li>ロケール･･･タイムゾーン　+9,JST (Asia/Tokyo)</li>
+
 </ul>
 <p>【その他】</p>
 <ul>
