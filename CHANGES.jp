@@ -1,5 +1,11 @@
 $Id$
 
+2010-11-09  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: Ver 1.0.6RC4に更新しました
+	  言語とロケール変更追加（Issue #161）
+
+
 2010-11-09  Tetsuko Komma  <ivy>
 
 	* ProfessionalCSS, mobileを調整しました。admin/user/edituser.thtmlの
@@ -62,7 +68,7 @@ $Id$
 
 2010-10-12  Tetsuko Komma  <ivy>
 
-	* 日本語コア言語ファイルの翻訳を追加しました。件のコメント　を　
+	* 日本語コア言語ファイルの翻訳を追加しました。件のコメント　を
 	  コメント　に変更しました。
 	* 静的ページの翻訳を追加しました。
 	* 日本語ドキュメントの翻訳を追加しました。
