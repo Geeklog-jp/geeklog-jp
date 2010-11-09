@@ -9,6 +9,7 @@
 // 20100421 tsuchi AT geeklog DOT jp
 // 20100421 一括更新から（６）(6)サンプルアンケートをはずす
 // 20100421POLLSが有効のときのみ(6)サンプルアンケート　ボタン表示 (fncEdit)
+// 20101109 言語とロケール変更追加
 
 define ('THIS_SCRIPT', 'index.php');
 define ('THIS_PLUGIN', 'japanize');
@@ -44,7 +45,7 @@ function fncCmdExec ($no)
 // | 機能  初期画面表示                                                        |
 // | 書式 fncEdit ()                                                           |
 // +---------------------------------------------------------------------------+
-
+// 20101109
 function fncEdit ()
 {
     global $_CONF;
@@ -60,6 +61,24 @@ function fncEdit ()
     $T->set_var('gltoken_name', CSRF_TOKEN);
     $T->set_var('gltoken', SEC_createToken());
     $T->set_var ( 'xhtml', XHTML );
+
+    $php_os=strtoupper(PHP_OS);
+    $T->set_var ( 'php_os', $php_os );
+
+    if (substr($php_os, 0, 3) == 'WIN') {
+        $T->set_var ( 'win', '' );
+        $T->set_var ( 'freebsd', 'style="display:none;"' );
+        $T->set_var ( 'linux', 'style="display:none;"' );
+    } else if (substr($php_os, 0, 7) == 'FREEBSD') {
+        $T->set_var ( 'win', 'style="display:none;"' );
+        $T->set_var ( 'freebsd', '' );
+        $T->set_var ( 'linux', 'style="display:none;"' );
+    }else{
+        $T->set_var ( 'win', 'style="display:none;"' );
+        $T->set_var ( 'freebsd', 'style="display:none;"' );
+        $T->set_var ( 'linux', '' );
+    }
+
 
     $this_script=$_CONF['site_admin_url']."/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
     $T->set_var ( 'this_script', $this_script );
