@@ -224,6 +224,7 @@ $LANG_confignames['calendarjp'] = array(
     'aftersave' => 'イベント保存後の画面遷移',
 
     'advanced_editor' => 'アドバンストエディタを使う',
+    'wikitext_editor' => 'Wikiテキストエディタを使う',
     'postmode' => "デフォルトの投稿モード",
 
     'default_permissions' => 'パーミッション'

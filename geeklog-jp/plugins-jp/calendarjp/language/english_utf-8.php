@@ -219,6 +219,7 @@ $LANG_confignames['calendarjp'] = array(
     'aftersave' => 'After Saving Event',
 
     'advanced_editor' => 'Advanced Editor?',
+    'wikitext_editor' => 'Wikitext Editor?',
     'postmode' => "Default Post Mode",
 
     'default_permissions' => 'Event Default Permissions'

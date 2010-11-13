@@ -1608,6 +1608,11 @@ function plugin_upgrade_calendarjp()
             $current_version = '1.1.2';
             break;
 
+        case '1.1.2':
+            update_ConfValues_1_1_3();
+            $current_version = '1.1.3';
+            break;
+
         default:
             $done = true;
             break;

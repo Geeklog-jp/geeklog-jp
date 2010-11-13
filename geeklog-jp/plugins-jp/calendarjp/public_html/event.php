@@ -550,6 +550,9 @@ default:
         $cal = new Calendar();
         setCalendarLanguage ($cal);
 
+        require_once $_CONF['path'] . 'plugins/calendarjp/include/gltext.class.php';
+        $gltext = new GLText();
+
         $currentmonth = '';
         for ($i = 0; $i < $nrows; $i++) {
             $A = DB_fetchArray($result);
@@ -692,11 +695,7 @@ default:
                 }
 
                 $cal_templates->set_var('lang_description', $LANG_CALJP_1[5]);
-                $description = stripslashes($A['description']);
-                if (empty($A['postmode']) || ($A['postmode'] == 'plaintext')) {
-                    $description = nl2br($description);
-                }
-                $description = PLG_replaceTags($description);
+                $description = $gltext->getDisplayText($A['description'], $A['postmode']);
                 if (!empty($query)) {
                     $description = COM_highlightQuery($description, $query);
                 }

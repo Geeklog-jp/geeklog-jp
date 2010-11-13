@@ -32,31 +32,14 @@
 // +---------------------------------------------------------------------------+
 
 /**
-* MySQL updates
+* PostgreSQL updates
 *
 * @package Calendarjp
 */
 
 $_UPDATES = array(
 
-    '1.1.0' => array(
-        "ALTER TABLE {$_TABLES['eventsubmissionjp']} ADD owner_id mediumint(8) unsigned NOT NULL default '1' AFTER timeend"
-    )
-
 );
-
-function update_ConfValues_1_1_1_1()
-{
-    global $_CONF, $_CAJP_DEFAULT;
-
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-
-    $c = config::get_instance();
-    
-    $c->add('addeventloginrequired', $_CAJP_DEFAULT['addeventloginrequired'], 'select', 0, 0, 0, 15, true, 'calendarjp');
-
-    return true;
-}
 
 function update_ConfValues_1_1_3()
 {
