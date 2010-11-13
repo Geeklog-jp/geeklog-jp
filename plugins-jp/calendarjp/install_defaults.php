@@ -100,6 +100,9 @@ $_CAJP_DEFAULT['default_permissions'] = array(3, 2, 2, 2);
 // Support Advanced Rich Text Editor
 $_CAJP_DEFAULT['advanced_editor'] = true;
 
+// Support wiki-formatted Text Editor
+$_CAJP_DEFAULT['wikitext_editor'] = false;
+
 // Default Post Mode
 $_CAJP_DEFAULT['postmode'] = 'plaintext';
 
@@ -172,13 +175,16 @@ function plugin_initconfig_calendarjp()
         $c->add('advanced_editor', $_CAJP_DEFAULT['advanced_editor'],
                 'select', 0, 0, 1, 120, true, 'calendarjp');
 
+        $c->add('wikitext_editor', $_CAJP_DEFAULT['wikitext_editor'],
+                'select', 0, 0, 1, 130, true, 'calendarjp');
+
         $c->add('postmode', $_CAJP_DEFAULT['postmode'],
-                'select', 0, 0, 5, 130, true, 'calendarjp');
+                'select', 0, 0, 5, 140, true, 'calendarjp');
 
         $c->add('fs_permissions', NULL, 'fieldset', 0, 1, NULL, 0, true,
                 'calendarjp');
         $c->add('default_permissions', $_CAJP_DEFAULT['default_permissions'],
-                '@select', 0, 1, 12, 120, true, 'calendarjp');
+                '@select', 0, 1, 12, 150, true, 'calendarjp');
 
     }
 

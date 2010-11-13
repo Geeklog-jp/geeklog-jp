@@ -1,5 +1,10 @@
 $Id$
 
+2010-11-14  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: イベントの「詳細」をWikiスタイルで編集できる
+	  ようにしました。
+
 2010-11-13  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: Geeklog 1.7.1のcalendarプラグインの変更を
