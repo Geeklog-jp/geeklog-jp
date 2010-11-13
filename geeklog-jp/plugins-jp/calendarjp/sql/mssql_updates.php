@@ -58,4 +58,17 @@ function update_ConfValues_1_1_1_1()
     return true;
 }
 
+function update_ConfValues_1_1_3()
+{
+    global $_CONF, $_CAJP_DEFAULT;
+
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+    $c = config::get_instance();
+    
+    $c->add('wikitext_editor', $_CAJP_DEFAULT['wikitext_editor'], 'select', 0, 0, 1, 125, true, 'calendarjp');
+
+    return true;
+}
+
 ?>
