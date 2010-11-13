@@ -1783,7 +1783,7 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
     $sql_e .= "CONCAT('/calendarjp/event.php?eid=',eid) AS url ";
     $sql_e .= "FROM {$_TABLES['eventsjp']} WHERE 1=1 ";
 
-    $sql_p = "SELECT eid AS id, title, description, UNIX_TIMESTAMP(datestart) AS date, owner_id AS uid, ";
+    $sql_p = "SELECT eid AS id, title, description, UNIX_TIMESTAMP(datestart) AS date, owner_id AS uid, 0 AS hits, ";
     $sql_p .= "CONCAT('/calendarjp/event.php?mode=personal&eid=',eid) AS url ";
     $sql_p .= "FROM {$_TABLES['personal_eventsjp']} WHERE (uid = $uid) ";
 
