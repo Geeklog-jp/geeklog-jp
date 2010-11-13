@@ -176,6 +176,13 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
                 $post_options .= '<option value="adveditor">'.$LANG24[86].'</option>';
             }
         }
+        if ( isset ($_CAJP_CONF['wikitext_editor']) && ($_CAJP_CONF['wikitext_editor'] == 1) ) {
+            if ($A['postmode'] == 'wikitext') {
+                $post_options .= '<option value="wikitext" selected="selected">'.$LANG24[88].'</option>';
+            } else {
+                $post_options .= '<option value="wikitext">'.$LANG24[88].'</option>';
+            }
+        }
     }
     $event_templates->set_var('post_options', $post_options);
 // ------------------------------<<
@@ -562,11 +569,13 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
     }
 
     // clean 'em up
-    if (($postmode == 'html') || ($postmode == 'adveditor')) {
+    if ($postmode == 'html' || $postmode == 'adveditor') {
         $description = COM_checkHTML(COM_checkWords($description),
                                      'calendarjp.edit');
     } else {
-        $postmode = 'plaintext';
+        if ($postmode != 'wikitext') {
+            $postmode = 'plaintext';
+        }
         $description = htmlspecialchars(COM_checkWords($description));
     }
     $description = addslashes($description);
