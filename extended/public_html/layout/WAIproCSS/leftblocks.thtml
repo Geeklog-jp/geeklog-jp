@@ -5,6 +5,8 @@
     <!-- #leftblocks { -->
     <!-- 左ブロックコンテナ -->
     <div id="leftblocks">
+<p class="skip"><a href="#rightblocks">サブメニュー1をスキップしてサブメニュー2へ</a></p>   
+<p class="skip"><a href="#footer">サブメニュー1をスキップしてフッタへ</a></p>   
       <div class="block-left" id="block-left-search">
         <h2>{button_search}</h2>
         <div class="block-left-content">

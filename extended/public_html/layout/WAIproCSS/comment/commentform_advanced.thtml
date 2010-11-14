@@ -65,8 +65,10 @@
     <ul class="submit">
       <li>{notification}</li>
       <li><input type="submit" name="mode" value="{lang_preview}" class="submit"{xhtml}></li>
-      <li>
+      <li><input type="hidden" name="formtype" value="{formtype}"{xhtml}>
 	{save_option}
+          <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
+        {delete_option}
       </li>
     </ul>
   </fieldset>

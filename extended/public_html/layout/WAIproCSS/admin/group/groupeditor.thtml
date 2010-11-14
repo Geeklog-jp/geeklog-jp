@@ -3,7 +3,7 @@
 
 <form action="{site_admin_url}/group.php" method="post" id="admin-groupeditor" class="linear">
   <fieldset>
-    <legend>グループの編集</legend><!-- Geeklog Japanese -->
+    <legend>{lang_groupname}</legend>
 
     <dl>
       <dt><label for="admin-groupeditor-grp_name">{lang_groupname}</label></dt>
@@ -15,30 +15,38 @@
     </dl>
   </fieldset>
 
-  <fieldset class="admingroup">
+  <fieldset {hide_adminoption}>
     <legend>{lang_admingroup}</legend>
 
     <dl {hide_adminoption}>
       <dt>{lang_admingroup}</dt>
       <dd><input type="checkbox" name="chk_grpadmin" value="1" {chk_adminuse}{xhtml}>
           <span class="fieldhelp">{lang_admingrp_msg}</span>
+      </dd>
     </dl>
+  </fieldset>
+
+  <fieldset {hide_defaultoption}>
+    <legend>{lang_defaultgroup}</legend>
 
     <dl {hide_defaultoption}>
       <dt>{lang_defaultgroup}</dt>
-      <dd><input type="checkbox" name="chk_grpdefault" value="1" {chk_defaultuse}{xhtml}>
+      <dd><input type="checkbox" name="chk_grpdefault" id="chk1" onclick="showHide('msg1')" value="1" {chk_defaultuse}{xhtml}>
           <span class="fieldhelp">{lang_defaultgrp_msg}</span>
+      </dd>
     </dl>
 
     <dl id="applydefault_row"  {hide_defaultoption}>
       <dt></dt>
-      <dd><input type="checkbox" name="chk_applydefault" value="1"{xhtml}>
+      <dd><div style="display:none" id="msg1">
+          <input type="checkbox" name="chk_applydefault" id="chk2" value="1"{xhtml}>
           <span class="fieldhelp">{lang_applydefault_msg}</span>
+          </div>
+      </dd>
     </dl>
-
   </fieldset>
 
-  <fieldset class="securitygroups">
+  <fieldset>
     <legend>{lang_securitygroups}</legend>
 
     <dl>
@@ -48,7 +56,7 @@
     </dl>
   </fieldset>
 
-  <fieldset class="rights">
+  <fieldset>
     <legend>{lang_rights}</legend>  
 
     <dl>
