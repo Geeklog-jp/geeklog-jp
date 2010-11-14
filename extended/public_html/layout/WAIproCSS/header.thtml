@@ -32,7 +32,6 @@
   <!-- #header { -->
   <!-- ヘッダコンテナ -->
   <div id="header">
-<p class="skip"><a name="top" id="top">ページの先頭</a></p>
 
     <h1 class="site_name"><a href="{site_url}" accesskey="t"><!-- <img src="{layout_url}/images/logo.gif" width="151" height="54" alt="{site_name}"{xhtml}> -->{site_name}</a></h1>
     <p class="site_slogan">{site_slogan}</p>
@@ -42,7 +41,7 @@
 
   <hr class="separator"{xhtml}>
   
-  <p class="skip"><a href="#article">メニューをスキップして本文へ</a></p>
+  <p class="skip"><a href="#centerblocks">メニューをスキップして本文へ</a></p>
 
   <!-- #navigation { -->
   <!-- グローバルナビゲーションコンテナ -->

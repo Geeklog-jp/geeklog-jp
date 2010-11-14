@@ -8,6 +8,7 @@
     <!--[if !IE]> #rightblocks { <![endif]-->
     <!--[if !IE]> 右ブロックコンテナ <![endif]-->
     <div id="rightblocks">
+<p class="skip"><a href="#footer">サブメニュー2をスキップしてフッタへ</a></p>   
       {geeklog_blocks}
     </div>
     <!-- } #rightblocks -->

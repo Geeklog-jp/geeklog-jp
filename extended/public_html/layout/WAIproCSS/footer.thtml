@@ -5,14 +5,11 @@
     <!--[if !IE]> Win IE 6のバグを回避するために条件コメントを使用しています。 <![endif]-->
     <!--[if !IE]> (複数の浮動要素を組み合わせた場合に、最後の浮動要素の内容が重複するバグ) <![endif]-->
     <!--[if !IE]> } #centerblocks <![endif]-->
-<p class="skip"><a href="#right">サブメニュー1をスキップしてサブメニュー2へ</a></p>   
  {left_blocks}
 
 </div>
 <!-- } carrier -->
 
-<p class="skip"><a name="right" id="right">ここからサブメニュー2</a></p>
-<p class="skip"><a href="#bottom">サブメニュー2をスキップしてフッタへ</a></p>   
     {right_blocks}
 </div>
 <!-- } #wrapper -->
@@ -21,9 +18,8 @@
 
   <!-- #footer { -->
   <!-- フッタコンテナ -->
-<p class="skip"><a name="bottom" id="bottom">ここからフッタ</a></p>
   <div id="footer">
-<p class="back"><a href="#top">ページの先頭へ戻る</a></p>
+<p class="back"><a href="#header">ページの先頭へ戻る</a></p>
     <ul>
       <li class="copyright_notice"><address>{copyright_notice}</address></li>
       <li class="powered_by">{powered_by}&nbsp;<a href="http://www.geeklog.net/">Geeklog</a>&amp;<a href="http://www.geeklog.jp/" accesskey="j">Geeklog Japanese</a></li>

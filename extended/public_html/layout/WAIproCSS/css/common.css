@@ -128,7 +128,10 @@ iframe[width="100%"] {
   width: 99%;
 }
 
-
+/* Basic editor */
+.user_basic {
+  padding: 0.5em 2em;
+}
 
 /*--------------------------------------
   スキップ要素
@@ -139,10 +142,37 @@ hr.separator {
 }
 
 p.skip {
+  display:inline;
+  line-height: 0;
+}
+
+.skip a {
+  display: inline;
   position: absolute;
   left: -9999px;
+  width: 0;
+  height: 0;
   margin: 0;
   padding: 0;
+  z-index: 200;
+}
+
+.skip a:focus,
+.skip a:hover,
+.skip a:active {
+  display: block;
+  position: absolute;
+  left: 349px;
+  width: 10em;
+  height: 2em;
+  margin: 0;
+  padding: 10px;
+  background-color: #1A1A1A;
+  line-height: 1.5;
+  text-align: center;
+  font-size: 1em;
+  z-index: 300;
+  color: #FFFFFF;
 }
 
 .speech {
