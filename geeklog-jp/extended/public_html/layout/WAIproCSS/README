@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.4.2 for Geeklog1.7.0
+  バージョン: 2.4.3 for Geeklog1.7.1
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.51のズーム200%、 Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome5.0.375.126のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４」で確認)
+(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.53のズーム200%、 Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome7.0.517.44のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -358,6 +358,11 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   * 更新
   + 追加
   - 削除
+
+■Ver.2.4.3(2010-11-14)
+　・Geeklog1.7.1に対応させました。(*/admin/group/groupeditor.thtml,*/comment/commentform.thtml,*/comment/commentform_advanced.thtml)
+  ・JIS X 8341-3:2010の7.2.4.1 ブロック・スキップに関する達成基準 (達成等級 A)を満たすよう　また　キーボードで操作されているかたにも情報が得られるようフォーカス時にスキップナビゲーションが表示されるようにしました。(*/header.thtml,*/footer.thtml,*/rightblocks.thtml,/*leftblocks.thtml,*/css/common.css)
+  ・ブロック、話題、グループ管理画面のレイアウトの変更及びスタイルを追加・修正しました。(*/admin/topic/topiceditor.thtml,*/css/admin/group.css,*/admin/block/blockeditor.thtml,*/admin/block/defaultblockeditor.thtml)
 
 ■Ver.2.4.2(2010-8-12)
 　・Geeklog 1.7.0に合わせて、ファイルを追加・修正しました。

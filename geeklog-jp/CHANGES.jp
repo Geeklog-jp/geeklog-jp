@@ -1,5 +1,32 @@
 $Id$
 
+2010-11-14  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSをGeeklog1.7.1に対応させました。
+
+	  /admin/group/groupeditor.thtml
+	  /comment/commentform.thtml
+	  /comment/commentform_advanced.thtml
+
+	* テーマWAIproCSSをJIS X 8341-3:2010の
+	  7.2.4.1 ブロック・スキップに関する達成基準 (達成等級 A)を満たすよう
+	  また　キーボードで操作されているかたにも情報が得られるよう
+	  フォーカス時にスキップナビゲーションが表示されるようにしました。
+
+	  /header.thtml
+	  /footer.thtml
+	  /rightblocks.thtml
+	  leftblocks.thtml
+	  /css/common.css
+
+	* テーマWAIproCSSのブロック、話題、グループ管理画面のレイアウトの変更
+	  及びスタイルを追加・修正しました。
+
+	  /admin/topic/topiceditor.thtml
+	  /css/admin/group.css
+	  /admin/block/blockeditor.thtml
+	  /admin/block/defaultblockeditor.thtml 
+
 2010-11-14  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: イベントの「詳細」をWikiスタイルで編集できる
