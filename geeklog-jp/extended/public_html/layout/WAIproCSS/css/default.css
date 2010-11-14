@@ -185,6 +185,7 @@ a:hover,
 a:focus,
 a:active {
   background: #ffff40;
+  color: #000000;
 }
 
 img a:hover,

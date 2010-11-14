@@ -17,13 +17,6 @@ form#admin-groupeditor fieldset {
   margin: 0 0 1em 0;
 }
 
-form#admin-groupeditor fieldset.admingroup,
-form#admin-groupeditor fieldset.securitygroups,
-form#admin-groupeditor fieldset.rights {
-  padding: 0.5em 0 0 0;
-  border-top: 1px solid #000000;
-}
-
 /* 説明 */
 form#admin-groupeditor dl dd.description {
   margin: 0 0 0.5em 0;

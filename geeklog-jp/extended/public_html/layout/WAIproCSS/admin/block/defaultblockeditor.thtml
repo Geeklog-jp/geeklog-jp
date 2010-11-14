@@ -47,8 +47,6 @@
   <fieldset>
     <legend>{lang_accessrights}</legend>
 
-    <h3>{lang_accessrights}</h3>
-
     <dl>
       <dt>{lang_owner}</dt>
       <dd>{owner_name}
