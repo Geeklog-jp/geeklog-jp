@@ -1,5 +1,10 @@
 $Id$
 
+2010-11-20  Tetsuko Komma  <ivy>
+
+	* 日本語ドキュメントの修正を行ないました。日付を日時に統一他。
+	* NEWS README.jpをGeeklog 1.7.1-jp-1.0に対応させました。
+
 2010-11-17  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSでスキップナビ用の不要な記述部分を削除しました。
