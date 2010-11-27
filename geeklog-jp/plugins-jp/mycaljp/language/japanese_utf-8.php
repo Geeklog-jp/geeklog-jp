@@ -77,7 +77,7 @@ $LANG_MYCALJP = array (
 // Localization of the Admin Configuration UI
 $LANG_configsections['mycaljp'] = array(
     'label' => 'Mycaljp',
-    'title' => 'Mycaljp Configulation'
+    'title' => 'Mycaljpの設定'
 );
 
 $LANG_confignames['mycaljp'] = array(
@@ -109,7 +109,7 @@ $LANG_configsubgroups['mycaljp'] = array(
 );
 
 $LANG_fs['mycaljp'] = array(
-    'fs_main' => 'サイトカレンダのメイン設定',
+    'fs_main' => 'Mycaljpのメイン設定',
     'fs_staticpages' => '静的ページの設定',
 );
 
