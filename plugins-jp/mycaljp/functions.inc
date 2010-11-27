@@ -52,26 +52,7 @@ if ( file_exists( $langfile ) ) {
     include_once $_CONF['path'] . 'plugins/mycaljp/language/english.php';
 }
 
-/*
-* Include mycaljp config file
-*/
-//require_once $_CONF['path'] . 'plugins/mycaljp/config.php';
-//$_MYCALJP2_CONF = array();
-
-/**
-* Check and see if we need to load the plugin configuration.
-*/
-/*
-require_once $_CONF['path_system'] . 'classes/config.class.php';
-$plg_config = config::get_instance();
-$temp = $plg_config->get_config('mycaljp');
-if (is_array($temp)) {
-    $_MYCALJP2_CONF = array_merge($_MYCALJP2_CONF, $temp);
-}
-*/
-
 $_MYCALJP2_CONF = MYCALJP_loadConfig();
-
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
@@ -86,7 +67,6 @@ $_MYCALJP2_CONF = MYCALJP_loadConfig();
 * @return   array   Array containing (plugin name, admin url, url of plugin icon)
 *
 */
-
 function plugin_cclabel_mycaljp()
 {
     global $_CONF;
@@ -99,38 +79,12 @@ function plugin_cclabel_mycaljp()
 }
 
 /**
-* Returns the administrative option for this plugin
-*
-* Adds the plugin to the Admin menu
-*
-* @return   array   Array containing (plugin name, plugin admin url, # of items in plugin or '')
-*
-*/
-/*
-function plugin_getadminoption_mycaljp()
-{
-    global $_CONF, $_TABLES;
-
-    if ( SEC_hasRights( 'mycaljp.admin' ) ) {
-        $pi_name   = ucfirst( 'mycaljp' );
-        $admin_url = $_CONF['site_admin_url'] . '/plugins/mycaljp/index.php';
-        $num_items = '';
-        return array ( $pi_name, $admin_url, $num_items );
-    }
-}
-*/
-
-/**
  * Returns the version for this plugin
  *
  * @return string VersionNo
  */
-
 function plugin_chkVersion_mycaljp()
 {
-//    global $_MYCALJP2_CONF;
-//    return $_MYCALJP2_CONF['pi_version'];
-
     global $_CONF;
 
     require_once $_CONF['path'] . 'plugins/mycaljp/autoinstall.php';
@@ -146,55 +100,14 @@ function plugin_chkVersion_mycaljp()
 * @return   boolean true (= success)
 *
 */
-/*
 function plugin_upgrade_mycaljp()
 {
-    global $_CONF, $_TABLES, $_MYCALJP2_CONF;
-
-    $result = DB_query( "SELECT pi_version FROM {$_TABLES['plugins']} WHERE (pi_name = 'mycaljp')" );
-    $A = DB_fetchArray( $result );
-    $pi_version = $A['pi_version'];     // Version info stored in database
-    
-    // Update plugin info
-    
-    $result = DB_query( "UPDATE {$_TABLES['plugins']} SET pi_version = \"{$_MYCALJP2_CONF['pi_version']}\" WHERE (pi_name = 'mycaljp')" );
-    COM_errorLog( ucfirst( "mycaljp" ) . " plugin was successfully updated to version {$_MYCALJP2_CONF['pi_version']}." );
-    
-    return true;
-}
-*/
-function plugin_upgrade_mycaljp()
-{
-    global $_CONF, $_TABLES, $_MYCALJP2_DEFAULT;
-
-    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',
-                                    "pi_name = 'mycaljp'");
-    $code_version = plugin_chkVersion_mycaljp();
-    if ($installed_version == $code_version) {
-        // nothing to do
-        return true;
-    }
+    global $_CONF;
 
     require_once $_CONF['path'] . 'plugins/mycaljp/autoinstall.php';
 
-    if (! plugin_compatible_with_this_version_mycaljp('mycaljp')) {
-        return 3002;
-    }
-
-    if (version_compare($installed_version, '2.1.0') < 0) {
-        require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
-        plugin_initconfig_mycaljp();
-    }
-
-    $inst_parms = plugin_autoinstall_mycaljp('mycaljp');
-    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
-
-    DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', "
-           . "pi_gl_version = '$pi_gl_version' WHERE pi_name = 'mycaljp'");
-
-    return true;
+    return MYCALJP_upgrade();
 }
-
 
 /**
 * Automatic uninstall function for plugins
@@ -208,129 +121,14 @@ function plugin_upgrade_mycaljp()
 * foreseen by the core code (interactions with other plugins for example)
 *
 */
-function plugin_autouninstall_mycaljp ()
+function plugin_autouninstall_mycaljp()
 {
     global $_CONF;
 
-    $out = array (
-        'tables'     => array(),
-        'groups'     => array('Mycaljp Admin'),
-        'features'   => array('mycaljp.admin'),
-        'php_blocks' => array('phpblock_mycaljp2'),
-        'vars'       => array()
-    );
+    require_once $_CONF['path'] . 'plugins/mycaljp/autoinstall.php';
 
-    $fname = $_CONF['path_data'] . 'mycaljp_conf.php';
-    if ( file_exists( $fname ) ) {
-        @unlink( $fname );
-    }
-
-    return $out;
+    return MYCALJP_autouninstall();
 }
-
-/**
-* Removes the datastructures for this plugin from the Geeklog database.
-* This routine will get called from the Plugin install program if user select De-Install or if Delete is used in the Plugin Editor.
-* The Plugin Installer will also call this routine upon and install error to remove anything it has created.
-* The Plugin installer will pass the optional parameter which will then double check that plugin has first been disabled. 
-* 
-* For this plugin, this routine will also remove the Block definition.
-* 
-* Returns True if all Plugin related data is removed without error
-*
-* @param    string   $installCheck     Default is blank but if set, check if plugin is disabled first
-* 
-* @return   boolean True if successful false otherwise
-*
-*/  
-/*
-function plugin_uninstall_mycaljp ( $installCheck = '' )
-{
-    global $_TABLES, $LANG_MYCALJP, $_CONF;
-
-    $pi_name  = 'mycaljp';
-    $pi_admin = 'Mycaljp Admin';
-
-    // $FEATURES and $TABLES have to be changed accodrding to your plugin
-    $FEATURES = array ( 'mycaljp.admin' );
-    $TABLES   = array ();
-    
-    // Check and see if plugin is still enabled - if so display warning and exit
-    if ( $installCheck != '' && DB_getItem ( $_TABLES['plugins'], 'pi_enabled', 'pi_name = "' . $pi_name . '"' ) ) {
-        COM_errorLog ( "Plugin is installed and enabled. Disable first if you want to de-install it", 1 );
-        $display .= COM_startBlock ( $LANG_MYCALJP['warning'] );
-        $display .= $LANG_MYCALJP['enabled'];
-        $display .= COM_endBlock();
-        echo $display;
-        return false;
-        exit;
-    }
-        
-    // Ok to proceed and delete plugin
-
-    // Drop mycaljp tables
-    foreach ( $TABLES as $table ) {
-        $t = $_TABLES["$table"];
-        COM_errorLog ('Dropping $table table', 1);
-        DB_query ( "DROP TABLE $t", 1 );
-        COM_errorLog ('...success', 1);
-    }
-
-    // Remove Security for this plugin
-    $grp_id = DB_getItem ($_TABLES['groups'], 'grp_id',"grp_name = '$pi_admin'");
-    if (!empty ($grp_id)) {
-        // Remove Mycaljp Admin group from all other groups
-        COM_errorLog ('Attempting to remove $pi_admin group from all groups' , 1);
-        DB_query ("DELETE FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = $grp_id");
-        COM_errorLog ('...success', 1);
-
-        // Remove the Mycaljp Admin group
-        COM_errorLog('Attempting to remove the $pi_admin Group', 1);
-        DB_query ("DELETE FROM {$_TABLES['groups']} WHERE grp_id = $grp_id");
-        COM_errorLog('...success', 1);
-    }
-
-    // Remove the block
-    DB_query( "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_mycaljp2'", 1 );
-    
-    // Remove related features
-    foreach ($FEATURES as $f) {
-        $feat_id = DB_getItem ($_TABLES['features'], 'ft_id', "ft_name = '$f'");
-        if (!empty ($feat_id)) {
-            COM_errorLog ("Attempting to remove $f rights from all groups", 1);
-            DB_query ("DELETE FROM {$_TABLES['access']} WHERE acc_ft_id = $feat_id");
-            COM_errorLog ('...success', 1);
-
-            COM_errorLog ("Attempting to remove the $f feature", 1);
-            DB_query ("DELETE FROM {$_TABLES['features']} WHERE ft_id = $feat_id");
-            COM_errorLog ('...success', 1);
-        }
-    }
-    
-    $fname = $_CONF['path_data'] . 'mycaljp_conf.php';
-    if ( file_exists( $fname ) ) {
-        @unlink( $fname );
-    }
-    
-    if (GL_VERSION_15) {
-        // Remove config table data for this plugin
-        COM_errorLog ("Attempting to remove config table records for group_name: $pi_name", 1);
-        DB_query ("DELETE FROM {$_TABLES['conf_values']} WHERE group_name = '$pi_name'");
-        COM_errorLog ('...success', 1);
-    }
-
-    // Unregister the plugin with Geeklog
-    // Always attempt to remove these entries or lib-common.php would still
-    // try and read our functions.inc file ...
-    COM_errorLog ('Attempting to unregister the $pi_name plugin from Geeklog', 1);
-    DB_query ("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = '$pi_name'");
-    COM_errorLog ('...success',1);
-
-    COM_errorLog ('Finished uninstalling the $pi_name plugin.', 1);
-    
-    return true;
-}
-*/
 
 /**
 * Callback function when configuration was changed
@@ -340,7 +138,6 @@ function plugin_uninstall_mycaljp ( $installCheck = '' )
 * @return   void
 * @see      PLG_configChange
 */
-
 function plugin_configchange_mycaljp($group, $changes = array())
 {
     global $_MYCALJP2_CONF;
@@ -356,7 +153,6 @@ function plugin_configchange_mycaljp($group, $changes = array())
     $_MYCALJP2_CONF = MYCALJP_loadConfig();
     foreach ($changes as $name) MYCALJP_checkChange($name);
 }
-
 
 /**
 * Loads config infor with config.class.php
@@ -428,10 +224,6 @@ function MYCALJP_checkChange($name)
 
 }
 
-
-
-
-
 // +-------------------------------------------------------------------------+
 // | Main Program                                                            |
 // +-------------------------------------------------------------------------+
@@ -451,8 +243,7 @@ if ($_MYCALJP2_CONF['use_theme'] && is_dir($_CONF['path_layout'] . 'mycaljp')) {
 
 // テンプレートのパスを設定する
 // slidecalendarのために残す。
-if ( ! function_exists('mycaljp_setlayoutpath') )
-{
+if ( ! function_exists('mycaljp_setlayoutpath') ) {
     function mycaljp_setlayoutpath(){}
 }
 
@@ -471,8 +262,9 @@ function MYCALJP_setLayoutPath_old() // for slidecalendar
 
 
 // もし、テンプレートパス内に config.php があればインクルードする
-@include($_MYCALJP2_CONF['path_layout'] . '/config.php');
-
+if (file_exists($_MYCALJP2_CONF['path_layout'] . '/config.php')) {
+    include($_MYCALJP2_CONF['path_layout'] . '/config.php');
+}
 
 function MYCALJP_getTemplates()
 {
@@ -481,16 +273,15 @@ function MYCALJP_getTemplates()
     $templates = array();
     $index = 0;
     $path_mycaljp = $_CONF['path_html'] . 'mycaljp/templates/';
-    $fd = opendir( $path_mycaljp );
-    while( ( $dir = @readdir( $fd ) ) == true ) {
-        if( is_dir( $path_mycaljp . $dir) && $dir <> '.' && $dir <> '..' && $dir <> 'default' && substr( $dir, 0 , 1 ) <> '.' ) {
-            clearstatcache();
+    $fd = opendir($path_mycaljp);
+    clearstatcache();
+    while (($dir = @readdir($fd)) == true) {
+        if (is_dir($path_mycaljp . $dir) && $dir <> '.' && $dir <> '..' && substr($dir, 0 , 1) <> '.') {
             $templates[$index] = $dir;
             $index++;
         }
     }
     sort($templates);
-    $templates = array_merge( array('default'), $templates );
 
     return $templates;
 }
@@ -547,7 +338,6 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $firstdaytodisplay  = $firstdayofmonth - (strftime ('%w', $firstdayofmonth) * _MYCAL_DAY_);
     $lastdaytodisplay   = $lastdayofmonth + ((6 - strftime ('%w', $lastdayofmonth)) * _MYCAL_DAY_);
     $totaldays          = ((($lastdaytodisplay - $firstdaytodisplay) / _MYCAL_DAY_) + 1);
-//  $totalweeks         = $totaldays / 7;
     $totalweeks         = 6; // 固定してみる
     
     $firststr = date("Y-m-d", $firstdaytodisplay);
@@ -652,7 +442,9 @@ function MYCALJP_showCalendar( $caltype = 1 )
     if ( $caltype == 2 ) { // for slidecalendar
         MYCALJP_setLayoutPath_old();
         // もし、テンプレートパス内に config.php があればインクルードする
-        @include($_MYCALJP2_CONF['path_layout'] . '/config.php');
+        if (file_exists($_MYCALJP2_CONF['path_layout'] . '/config.php')) {
+            include($_MYCALJP2_CONF['path_layout'] . '/config.php');
+        }
     }
     $cal = new Template( $_MYCALJP2_CONF['path_layout'] );
     $cal->set_file( array(
@@ -993,16 +785,15 @@ function is_Japanese_Holiday($timestamp)
 /**
 * Strips slashes if magic_quotes_gpc is on
 */
-function MYCALJP_stripslashes($var) {
+function MYCALJP_stripslashes($var)
+{
     if (get_magic_quotes_gpc()) {
         if (is_array($var)) {
             return array_map('MYCALJP_stripslashes', $var);
-        } else {
-            return stripslashes($var);
         }
-    } else {
-        return $var;
+        return stripslashes($var);
     }
+    return $var;
 }
 
 
@@ -1010,21 +801,15 @@ function MYCALJP_htmlspecialchars( $str )
 {
     global $_CONF, $LANG_CHARSET;
 
-    if ( isset( $LANG_CHARSET ) )
-    {
+    $encoding = 'utf-8';
+    if (isset($LANG_CHARSET)) {
         $encoding = $LANG_CHARSET;
-    }
-    else if ( isset( $_CONF['default_charset'] ) )
-    {
+    } else if (isset($_CONF['default_charset'])) {
         $encoding = $_CONF['default_charset'];
-    }
-    else 
-    {
-        $encoding = 'utf-8';
     }
     $str = str_replace('%27', "'", $str);
 
-    return htmlspecialchars( $str, ENT_QUOTES, $encoding );
+    return htmlspecialchars($str, ENT_QUOTES, $encoding);
 }
 
 
@@ -1085,6 +870,35 @@ if (!function_exists('COM_output')) {
     function COM_output($display) {
         echo $display;
     }
+}
+
+/**
+* Helper function: Provide templates dropdown
+*
+* @return   array   Array of (filename, displayname) pairs
+*
+*/
+function plugin_configmanager_select_template_mycaljp()
+{
+    $themes = array();
+
+    $themeFiles = MYCALJP_getTemplates();
+
+    foreach ($themeFiles as $theme) {
+        $words = explode('_', $theme);
+        $bwords = array();
+        foreach ($words as $th) {
+            if ((strtolower($th[0]) == $th[0]) &&
+                (strtolower($th[1]) == $th[1])) {
+                $bwords[] = ucfirst($th);
+            } else {
+                $bwords[] = $th;
+            }
+        }
+        $themes[implode(' ', $bwords)] = $theme;
+    }
+
+    return $themes;
 }
 
 ?>

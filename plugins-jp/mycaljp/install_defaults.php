@@ -74,7 +74,7 @@ $_MYCALJP2_DEFAULT['supported_contents'] = array(
     'faqman',           //Faqman
     'mediagallery',     //メディアギャラリ
     'calendarjp',       //イベントカレンダ（日本語版）
-    'download'          //ダウンロード
+    'downloads'         //ダウンロード
 );
 
 $_MYCALJP2_DEFAULT['enabled_contents'] = array(
@@ -91,7 +91,7 @@ $_MYCALJP2_DEFAULT['enabled_contents'] = array(
     'faqman'       => 1,    //Faqman
     'mediagallery' => 1,    //メディアギャラリ
     'calendarjp'   => 1,    //イベントカレンダ（日本語版）
-    'download'     => 1     //ダウンロード
+    'downloads'    => 1     //ダウンロード
 );
 
 /*
@@ -246,7 +246,7 @@ function plugin_initconfig_mycaljp()
     $c->add('enablesrblocks',     $_MYCALJP2_DEFAULT['enablesrblocks'],     'select',   0, 0, 1,    $o++, true, $n);
     $c->add('showstoriesintro',   $_MYCALJP2_DEFAULT['showstoriesintro'],   'select',   0, 0, 1,    $o++, true, $n);
     $c->add('use_theme',          $_MYCALJP2_DEFAULT['use_theme'],          'select',   0, 0, 0,    $o++, true, $n);
-    $c->add('template',           $_MYCALJP2_DEFAULT['template'],           'text',     0, 0, 0,    $o++, true, $n);
+    $c->add('template',           $_MYCALJP2_DEFAULT['template'],           'select',   0, 0, NULL, $o++, true, $n);
     $c->add('date_format',        $_MYCALJP2_DEFAULT['date_format'],        'text',     0, 0, 0,    $o++, true, $n);
     $c->add('supported_contents', $_MYCALJP2_DEFAULT['supported_contents'], '%text',    0, 0, NULL, $o++, true, $n);
     $c->add('enabled_contents',   $_MYCALJP2_DEFAULT['enabled_contents'],   '%text',    0, 0, NULL, $o++, true, $n);
@@ -256,6 +256,43 @@ function plugin_initconfig_mycaljp()
     $c->add('sp_except',          $_MYCALJP2_DEFAULT['sp_except'],          'text',     0, 1, 0,    $o++, true, $n);
 
     return true;
+}
+
+function MYCALJP_updateSortOrder()
+{
+    global $_TABLES;
+
+    $conf_vals = array(
+        'headertitleyear',
+        'headertitlemonth',
+        'titleorder',
+        'sunday',
+        'monday',
+        'tuesday',
+        'wednesday',
+        'thursday',
+        'friday',
+        'saturday',
+        'showholiday',
+        'checkjpholiday',
+        'enablesrblocks',
+        'showstoriesintro',
+        'use_theme',
+        'template',
+        'date_format',
+        'supported_contents',
+        'enabled_contents',
+        'sp_type',
+        'sp_except',
+    );
+    $o = 0;
+    foreach ($conf_vals as $val) {
+        $sql = "UPDATE {$_TABLES['conf_values']} "
+             . "SET sort_order = $o "
+             . "WHERE name = '$val' AND group_name = 'mycaljp'";
+        DB_query($sql);
+        $o++;
+    }
 }
 
 ?>

@@ -1,5 +1,12 @@
 $Id$
 
+2010-11-27  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン: バージョン2.1.3に更新しました。
+	  - コンフィギュレーションの設定項目「テンプレート名」を選択式へ変更。
+	    (Issue #148)
+	  - サポートするコンテンツの初期値からdownloadを削除、downloadsを追加。
+
 2010-11-22  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.1-jp-1.0をリリースします。
