@@ -37,7 +37,7 @@ function plugin_autoinstall_mycaljp($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.1.2',
+        'pi_version'      => '2.1.3',
         'pi_gl_version'   => '1.6.0',
         'pi_homepage'     => 'http://www.trybase.com/~dengen/log/'
     );
@@ -84,9 +84,6 @@ function plugin_postinstall_mycaljp($pi_name)
     global $_TABLES;
 
     // Add the "Site Calendar" block
-//  $inst_parms = plugin_autoinstall_mycaljp($pi_name);
-//  $pi_admin = key($inst_parms['groups']);
-//  $admin_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = '{$pi_admin}'");
     $blockadmin_id  = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Block Admin'");
 
     $result = DB_query( "SELECT COUNT(*) AS c FROM " . $_TABLES['blocks'] . " WHERE phpblockfn = 'phpblock_mycaljp2'" );
@@ -128,6 +125,87 @@ function plugin_compatible_with_this_version_mycaljp($pi_name)
     if (!function_exists('COM_showMessageText')) {
         return false;
     }
+
+    return true;
+}
+
+/**
+* Automatic uninstall function for plugins
+*
+* @return   array
+*
+* This code is automatically uninstalling the plugin.
+* It passes an array to the core code function that removes
+* tables, groups, features and php blocks from the tables.
+* Additionally, this code can perform special actions that cannot be
+* foreseen by the core code (interactions with other plugins for example)
+*
+*/
+function MYCALJP_autouninstall()
+{
+    global $_CONF;
+
+    $out = array(
+        'tables'     => array(),
+        'groups'     => array('Mycaljp Admin'),
+        'features'   => array('mycaljp.admin'),
+        'php_blocks' => array('phpblock_mycaljp2'),
+        'vars'       => array()
+    );
+
+    $fname = $_CONF['path_data'] . 'mycaljp_conf.php';
+    if (file_exists($fname)) {
+        @unlink($fname);
+    }
+
+    return $out;
+}
+
+/**
+* Upgrade the plugin
+*
+* @return   boolean true (= success)
+*
+*/
+function MYCALJP_upgrade()
+{
+    global $_CONF, $_TABLES;
+
+    $pi_name = 'mycaljp';
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name = '$pi_name'");
+    $func = "plugin_chkVersion_$pi_name";
+    $code_version = $func();
+    if ($installed_version == $code_version) return true;
+    $func = "plugin_compatible_with_this_version_$pi_name";
+    if (!$func($pi_name)) return 3002;
+
+    if (version_compare($installed_version, '2.1.0') < 0) {
+        require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+        plugin_initconfig_mycaljp();
+    }
+
+    if (version_compare($installed_version, '2.1.3') < 0) {
+        require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        $c = config::get_instance();
+        $conf_vals = $c->get_config('mycaljp');
+        $c->del('template', 'mycaljp');
+        $c->add('template', $_MYCALJP2_DEFAULT['template'], 'select', 0, 0, NULL, 0, true, 'mycaljp');
+        $c->set('template', $conf_vals['template'], 'mycaljp');
+        MYCALJP_updateSortOrder();
+    }
+
+    $func = "plugin_autoinstall_$pi_name";
+    $inst_parms = $func($pi_name);
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    // Update the version numbers
+    DB_query("UPDATE {$_TABLES['plugins']} "
+           . "SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' "
+           . "WHERE pi_name = '$pi_name'");
+
+    COM_errorLog(ucfirst($pi_name)
+        . " plugin was successfully updated to version $code_version.");
 
     return true;
 }
