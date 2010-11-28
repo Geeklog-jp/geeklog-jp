@@ -3,7 +3,8 @@ $Id$
 2010-11-28  Tetsuko Komma  <ivy>
 
 	* sitemap.xmlの生成でエラーになる環境があるため，インストーラの初期
-	  インストールプラグインの許可設定からxmlsitemapプラグインをはずしました。
+	  インストールプラグインの許可設定からxmlsitemapプラグインをはずし
+	  ました。
 	* NEWS をGeeklog 1.7.1-jp-1.1に向けて更新しました。
 
 2010-11-27  Yoshinori Tahara  <dengen>
