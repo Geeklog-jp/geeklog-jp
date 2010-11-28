@@ -1,5 +1,9 @@
 $Id$
 
+2010-11-28  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.7.1-jp-1.1rc1をリリースします。
+
 2010-11-28  Tetsuko Komma  <ivy>
 
 	* sitemap.xmlの生成でエラーになる環境があるため，インストーラの初期
