@@ -1,5 +1,10 @@
 $Id$
 
+2010-11-27  Tetsuko Komma  <ivy>
+
+	* sitemap.xmlの生成でエラーになる環境があるため，インストーラの初期
+	  インストールプラグインの許可設定からxmlsitemapプラグインをはずしました。
+
 2010-11-27  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン: バージョン2.1.3に更新しました。
