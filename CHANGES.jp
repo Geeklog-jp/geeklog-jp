@@ -1,5 +1,10 @@
 $Id$
 
+2010-12-05  Takahiro Kambe  <tacahi>
+
+	* README.jpが配布ファイルに含まれていなかったのを修正しました。
+	  (Issue #163)
+
 2010-11-28  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.1-jp-1.1rc1をリリースします。
