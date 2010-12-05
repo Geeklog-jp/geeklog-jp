@@ -1,8 +1,8 @@
 #
 
-FILES=		CHANGES.jp CHANGES-prev.jp INSTALL NEWS db-config.php \
-		emailgeeklogstories emailgeeklogstories.en readme readme.ja \
-		release_jp.php
+FILES=		CHANGES.jp CHANGES-prev.jp INSTALL NEWS README.jp \
+		db-config.php emailgeeklogstories emailgeeklogstories.en \
+		readme readme.ja release_jp.php
 DIRS=		backups data language logs plugins sql system
 
 SUBDIR=		custom plugins-jp
