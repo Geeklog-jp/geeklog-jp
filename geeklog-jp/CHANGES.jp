@@ -2,6 +2,11 @@ $Id$
 
 2010-12-28  Yoshinori Tahara  <dengen>
 
+	* calendarjpプラグイン: r2762の変更に伴うreadme_jp.htmlの更新が
+	  漏れていたので、遅ればせながら更新しました。
+
+2010-12-28  Yoshinori Tahara  <dengen>
+
 	* calendarjpプラグイン: GNUmakefileを修正し、r2762で追加したinclude
 	  ディレクトリが配布パッケージに正しく含まれるようにしました。
 
