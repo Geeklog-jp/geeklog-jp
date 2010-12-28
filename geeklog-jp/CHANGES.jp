@@ -1,5 +1,12 @@
 $Id$
 
+2010-12-29  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.7.1-jp-1.2rc1をリリースします。
+
+	* NEWS: calendarjpプラグインの修正をgeeklog-1.7.1-jp-1.2に向けた
+	  変更として記述しました。
+
 2010-12-28  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: r2762の変更に伴うreadme_jp.htmlの更新が
