@@ -1,5 +1,14 @@
 Geeklog History/Changes:
 
+Jan 2, 2011 (1.6.1sr2)
+------------
+
+This release addresses the following security issue:
+
+Aung Khant of the YGN Ethical Hacker Group reported an XSS in the admin's
+configuration panel.
+
+
 May 9, 2010 (1.6.1sr1)
 ------------
 
