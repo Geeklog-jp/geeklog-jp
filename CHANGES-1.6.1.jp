@@ -1,5 +1,12 @@
 $Id$
 
+2011-01-03  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.6.1sr2で変更されたドキュメントを、日本語のドキュメントに
+	  反映しました。
+
+	* geeklog-1.6.1sr2をマージしました。
+
 2010-05-10  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6.1sr1での変更をマージしました。
