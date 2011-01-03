@@ -1,5 +1,14 @@
 Geeklog History/Changes:
 
+Jan 2, 2011 (1.7.1sr1)
+------------
+
+This release addresses the following security issue:
+
+Aung Khant of the YGN Ethical Hacker Group reported an XSS in the admin's
+configuration panel.
+
+
 Oct 31, 2010 (1.7.1)
 ------------
 
@@ -314,6 +323,15 @@ Static Pages Plugin 1.6.2
   to the Static Page Editor (feature request #0000975) [Dirk]
 - Added a Comment Default config option (feature request #0000966) [Dirk]
 - Added support for query highlighting [Dirk]
+
+
+Jan 2, 2011 (1.6.1sr2)
+------------
+
+This release addresses the following security issue:
+
+Aung Khant of the YGN Ethical Hacker Group reported an XSS in the admin's
+configuration panel.
 
 
 May 9, 2010 (1.6.1sr1)
