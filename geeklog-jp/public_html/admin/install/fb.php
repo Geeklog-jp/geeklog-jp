@@ -1,13 +1,13 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/fb.php                                          |
 // |                                                                           |
 // | Part of Geeklog pre-installation check scripts                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009 by the following authors:                              |
+// | Copyright (C) 2009-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: mystral-kk - geeklog AT mystral-kk DOT net                       |
 // +---------------------------------------------------------------------------+
@@ -33,8 +33,8 @@
 * "db-config.php" visually.
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2009-12-13
-* @version  1.3.4
+* @date     2011-01-05
+* @version  1.4.0
 * @license  GPLv2 or later
 */
 define('DS', DIRECTORY_SEPARATOR);
@@ -148,7 +148,7 @@ if (($dh = @opendir($path)) === FALSE) {
 				$body .= '<img alt="ファイルのアイコン" src="layout/text.png" />  '
 					  .  '<span style="color: green;">'
 					  . TARGET . '</span>  [ <a href="precheck.php?mode='
-					  . $mode . '&amp;step=2&amp;path='
+					  . $mode . '&amp;step=0&amp;path='
 					  .  rawurlencode(dirname($fullpath) . DS)
 					  .  '">このファイルを使用する</a> ]<br />' . LB;
 				$result = TRUE;
