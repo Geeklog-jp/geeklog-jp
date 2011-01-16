@@ -123,3 +123,7 @@ JPr4.2  #edited by dengen
 2.7.3.JPr1  #edited by dengen
 
 ・オリジナル版のversion 2.7.3をマージ
+
+2.7.4.JPr1  #edited by dengen
+
+・オリジナル版のversion 2.7.4をマージ (BBコード機能に含まれるXSS脆弱性の解消)

@@ -1,5 +1,10 @@
 $Id$
 
+2010-05-04  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: オリジナル版のversion 2.7.4をマージしました。
+	  これによりBBコード機能に見つかったXSSの脆弱性が取り除かれます。
+
 2011-01-05  mystral-kk <mystral-kk>
 
 	* PrecheckをGeeklog-1.7.1に対応させました。
