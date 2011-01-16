@@ -1,0 +1,23 @@
+Geeklog Forum Plugin Changes for version 2.7.4
+Date: Jan 15/2011
+
+Dirk Haun
+
+
+*** Summary of changes ***
+Fixed several XSS in bbcode attributes
+Reported by: Saif El-Sherei (via Mark Evans)
+
+*** Listing of file changes ***
+
+Version 2.7.4 File Changes
+--------------------------
+
+    config.php
+    functions.inc
+    public_html/include/gf_format.php
+    public_html/viewtopic.php (not related to the XSS)
+
+Upgrade Steps:
+ - Replace the changed files
+ - Run the plugin upgrade

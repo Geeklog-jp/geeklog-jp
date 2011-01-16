@@ -797,7 +797,7 @@ function plugin_chkVersion_forum() {
 function plugin_upgrade_forum() {
     global $_TABLES,$CONF_FORUM;
 
-    include ('upgrade.inc');        // Include the upgrade functions
+    include 'upgrade.inc';        // Include the upgrade functions
 
     $curversion = DB_getItem($_TABLES['plugins'],'pi_version',"pi_name = 'forum'");
 
@@ -823,8 +823,9 @@ function plugin_upgrade_forum() {
             case "2.7.2" :
             case "2.7.2.JPr5" :
             case "2.7.2.JPr6" :
-                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.3.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
-                $curversion = "2.7.3.JPr1";
+            case "2.7.3.JPr1" :
+                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.4.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
+                $curversion = "2.7.4.JPr1";
                 break;
 
             default:
