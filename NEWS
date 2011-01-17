@@ -1,6 +1,6 @@
 NEWS
 
-							2010年5月10日
+							2011年1月17日
 							Geeklog Japanese
 
 1. 概要
@@ -18,7 +18,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 ご覧ください。
 
 
-2. Geeklog 1.6.1sr1-jp-1.0beta1の内容
+2. Geeklog 1.6.1sr2-jp-1.0の内容
 
   * 独自プラグイン
 
@@ -57,6 +57,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を
 
 	forum バージョン 2.7.2.JPr6
 		掲示板を提供
+		バージョン2.7.3と2.7.4で行われたセキュリティ修正を反映
 
 	mycaljp バージョン 2.1.2
 		サイトカレンダーを提供
