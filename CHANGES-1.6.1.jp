@@ -1,5 +1,10 @@
 $Id$
 
+2011-01-17  Takahiro Kambe  <tacahi>
+
+	* forumプラグインのVersion 2.7.3と2.7.4のセキュリティ修正をマージし
+	  ました。
+
 2011-01-03  Takahiro Kambe  <tacahi>
 
 	* trunkと合わせて翻訳を修正しました。
