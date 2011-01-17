@@ -120,9 +120,9 @@ function do_bbcode_url ($action, $attributes, $content, $params, $node_object) {
         }
     }
     if ( stristr($attributes['default'],'http') ) {
-        return '<a href="'.$attributes['default'].'">'.$content.'</a>';
+        return '<a href="'.strip_tags($attributes['default']).'">'.$content.'</a>';
     } else {
-        return '<a href="http://'.$attributes['default'].'">'.$content.'</a>';
+        return '<a href="http://'.strip_tags($attributes['default']).'">'.$content.'</a>';
     }
 }
 
@@ -160,17 +160,17 @@ function do_bbcode_img ($action, $attributes, $content, $params, $node_object) {
 
     if ($CONF_FORUM['allow_img_bbcode']) {
         if ( isset($attributes['h']) AND isset ($attributes['w']) ) {
-            $dim = 'width=' . $attributes['w'] . ' height=' . $attributes['h'];
+            $dim = 'width="' . COM_applyFilter($attributes['w'], true) . '" height="' . COM_applyFilter($attributes['h'], true) . '" ';
         } else {
             $dim = '';
         }
         if ( isset($attributes['align'] ) ) {
-            $align = ' align=' . $attributes['align'] . ' ';
+            $align = ' align="' . COM_applyFilter($attributes['align']) . '" ';
         } else {
             $align = '';
         }
 
-        return '<img src="'.htmlspecialchars($content,ENT_QUOTES, $CONF_FORUM['charset']).'" ' . $dim . $align . ' alt=""'. XHTML .'>';
+        return '<img src="'.htmlspecialchars($content,ENT_QUOTES, $CONF_FORUM['charset']).'" ' . $dim . $align . 'alt=""'. XHTML .'>';
     } else {
         return '[img]' . $content . '[/img]';
     }
@@ -180,14 +180,14 @@ function do_bbcode_size  ($action, $attributes, $content, $params, $node_object)
     if ( $action == 'validate') {
         return true;
     }
-    return '<span style="font-size: '.$attributes['default'].'px;">'.$content.'</span>';
+    return '<span style="font-size: '.COM_applyFilter($attributes['default'], true).'px;">'.$content.'</span>';
 }
 
 function do_bbcode_color  ($action, $attributes, $content, $params, $node_object) {
     if ( $action == 'validate') {
         return true;
     }
-    return '<span style="color: '.$attributes['default'].';">'.$content.'</span>';
+    return '<span style="color: '.COM_applyFilter($attributes['default']).';">'.$content.'</span>';
 }
 
 function do_bbcode_code($action, $attributes, $content, $params, $node_object) {
@@ -214,7 +214,7 @@ function do_bbcode_code($action, $attributes, $content, $params, $node_object) {
         if (!isset ($attributes['default'])) {
             $codeblock = geshi_formatted($content);
         } else {
-            $codeblock = geshi_formatted($content,strtoupper($attributes['default']));
+            $codeblock = geshi_formatted($content,strtoupper(COM_applyFilter($attributes['default'])));
         }
     } else {
         $codeblock = '<pre class="codeblock">'  . htmlspecialchars($content,ENT_QUOTES, $CONF_FORUM['charset']) . '</pre>';
