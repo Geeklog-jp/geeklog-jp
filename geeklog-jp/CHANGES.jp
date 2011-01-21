@@ -1,5 +1,10 @@
 $Id$
 
+2011-01-21  Tetsuko Komma  <ivy>
+
+	* ProfessionalCSSのcss/story.cssで，話題アイコンが右固定されていた
+	  不具合を修正しました。
+
 2011-01-20  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.7.1sr1-jp-1.0をリリースします。
