@@ -359,6 +359,9 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
+2011-01-22
+  ・話題アイコンが右固定されていた不具合を修正しました。(*/css/story.css)
+
 ■Ver.2.4.3(2010-11-14)
 　・Geeklog1.7.1に対応させました。(*/admin/group/groupeditor.thtml,*/comment/commentform.thtml,*/comment/commentform_advanced.thtml)
   ・JIS X 8341-3:2010の7.2.4.1 ブロック・スキップに関する達成基準 (達成等級 A)を満たすよう　また　キーボードで操作されているかたにも情報が得られるようフォーカス時にスキップナビゲーションが表示されるようにしました。(*/header.thtml,*/footer.thtml,*/rightblocks.thtml,/*leftblocks.thtml,*/css/common.css)

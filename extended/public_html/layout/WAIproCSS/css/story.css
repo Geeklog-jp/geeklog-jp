@@ -91,9 +91,6 @@ div#centerblocks div.storytext p.more {
 
 /* 話題画像 */
 div#centerblocks div.storytext div.story_introtext span.story_image {
-  float: right;
-  width: 4.2em;
-  height: 4.2em;
   margin: 0;
   padding: 0;
 }
@@ -214,9 +211,6 @@ div#centerblocks div.featuredstorytext div.story_introtext {
 
 /* 話題画像 */
 div#centerblocks div.featuredstorytext div.story_introtext span.story_image {
-  float: right;
-  width: 4.2em;
-  height: 4.2em;
   margin: 0;
   padding: 0;
 }
