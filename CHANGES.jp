@@ -1,5 +1,9 @@
 $Id$
 
+2011-01-29  Tetsuko Komma  <ivy>
+
+	* 日本語コア言語ファイルのユーザ一括削除部を修正しました。
+
 2011-01-22  Masuko Koeda  <milk851>
 
 	* WAIproCSSのcss/story.cssで，話題アイコンが右固定されていた
