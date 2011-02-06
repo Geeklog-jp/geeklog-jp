@@ -96,10 +96,10 @@
 <ul id="save_button" class="submit">
   <li>
 
-<!-- ƒe[ƒ}‚Æ‹LŽ–•\Ž¦”‚ðƒTƒCƒg‚ÌƒfƒtƒHƒ‹ƒg‚Ì’l‚É·‚µ‘Ö‚¦‚Ä‚­‚¾‚³‚¢ -->
+<!-- ãƒ†ãƒ¼ãƒžã¨è¨˜äº‹è¡¨ç¤ºæ•°ã‚’ã‚µã‚¤ãƒˆã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å€¤ã«å·®ã—æ›¿ãˆã¦ãã ã•ã„ -->
         <input type="hidden" name="theme" value="professional"{xhtml}>
         <input type="hidden" name="maxstories" value="10"{xhtml}>
-<!-- ‚±‚±‚Ü‚Å -->
+<!-- ã“ã“ã¾ã§ -->
 
     <input type="hidden" name="uid" value="{uid_value}"{xhtml}>
     <input type="hidden" name="mode" value="saveuser"{xhtml}>
