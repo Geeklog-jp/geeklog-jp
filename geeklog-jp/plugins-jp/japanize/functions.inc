@@ -8,6 +8,8 @@
 //2009/10/13 Ver1.0.5用
 //2010/10/20 テーマ変数　sp_id　の問題対応（Issue #160）
 //                       (plugin_templatesetvars_japanize)
+//2011/02/07 テーマ変数 （Issue #168 (#167 #160 #87)）
+//                       (plugin_templatesetvars_japanize)
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
@@ -284,6 +286,7 @@ function plugin_getadminoption_japanize()
 //  2007/12/22 Geeklog Japanese Ivy changed
 //  2008/06/11 Geeklog Japanese Tsuchi modify custom_templatesetvars
 //  2010/10/20 update （Issue #160）
+//  2011/02/07 update （Issue #168 (#167 #160 #87)）
 function plugin_templatesetvars_japanize($templatename, &$template) {
     global  $LANG01, $LANG_JPN;
     global  $_USER,$_CONF;
@@ -294,57 +297,17 @@ function plugin_templatesetvars_japanize($templatename, &$template) {
     switch ($templatename) {
         case 'header':
 
-            //Frontpageの場合は 'sub' そうでなければ  'home'
-            if( COM_isFrontpage() ){
-                $home_id='sub';
-            } else {
-                $home_id='home';
-            }
-
             //ログインしている時
             if (isset($_USER['uid']) && $_USER['uid'] > 1) {
-                $login_status='member';
-                $prof_url = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$_USER['uid']}";
                 $welcome_msg_jp = "{$LANG01[67]}";
                 $welcome_msg_jp .= ' ' . COM_getDisplayName()." ".$LANG_JPN['keisyo'];
-                $memberlogin = "<a href='{$_CONF['site_url']}/users.php?mode=logout' >{$LANG01[19]}</a> ";
             //ログインしていない時
             } else {
-                $login_status='guest';
-                $prof_url = "{$_CONF['site_url']}/";
                 $welcome_msg_jp = "";
-
-                if (file_exists($_CONF['path_layout'] . 'custom-memberlogin.thtml')) {
-                    $tmpl = new Template ($_CONF['path_layout']);
-                } else {
-                    $tmpl = new Template ($_CONF['path'] . "plugins/japanize/templates/");
-                }
-                $tmpl->set_file(array('member_login' => 'custom-memberlogin.thtml'));
-                $tmpl->set_var( 'site_url', $_CONF['site_url']);
-                $tmpl->parse ('output', 'member_login');
-                $memberlogin = $template->finish ($tmpl->get_var ('output'));
-
             }
 
-            //記事ID:topic_id
-            $template->set_var( 'topic_id', $topic );
-            //静的ページID:sp_id
-            $pageurl = $_SERVER["REQUEST_URI"];
-            if( strpos($pageurl, "staticpages") ){
-                $template->set_var( 'sp_id', $page );
-            }else{
-                $template->set_var( 'sp_id',"" );
-            }
-            //home_id ('home','sub')
-            $template->set_var( 'home_id', $home_id );
-            //ログイン状態:login_status ('member','guest')
-            $template->set_var( 'login_status', $login_status );
             //ようこそメッセージ:welcome_msg_jp
             $template->set_var( 'welcome_msg_jp', $welcome_msg_jp );
-            //プロフィールのURL:prof_url_jp
-            $template->set_var( 'prof_url_jp', $prof_url );
-            //メンバーログイン:memberlogin　(ログインHTML,ログアウトHTML)
-            $template->set_var( 'memberlogin', $memberlogin);
 
             //html_attribute 暫定処置
             JAPANIZE_setHtmlAttribute($template);
