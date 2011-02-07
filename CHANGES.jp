@@ -1,5 +1,10 @@
 $Id$
 
+2010-11-09  Kazuko Tsuchitani <Tsuchi>
+
+	* japanizeプラグイン: Ver 1.0.6RC5に更新しました
+	  テーマ変数のみなおし　（Issue #168 #167 #160 #87）
+
 2011-02-06  Tetsuko Komma  <ivy>
 
 	* テーマmobile/preference/profile.thtmlのエンコードを、utf-8
@@ -154,7 +159,7 @@ $Id$
 	  /admin/topic/topiceditor.thtml
 	  /css/admin/group.css
 	  /admin/block/blockeditor.thtml
-	  /admin/block/defaultblockeditor.thtml 
+	  /admin/block/defaultblockeditor.thtml
 
 2010-11-14  Yoshinori Tahara  <dengen>
 
