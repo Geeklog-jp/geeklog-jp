@@ -1,7 +1,8 @@
 --------------------------------------------------------------------------------
-Geeklog 日本語化（japanize)プラグイン
+Geeklog 日本語化（Japanize)プラグイン
 tsuchi AT geeklog DOT jp
 2008/09/27
+2011/02/07 update
 --------------------------------------------------------------------------------
 概要 ：Geeklog1.5 1.6 を日本人流にするプラグインです
        詳細については、管理画面をご参照ください
@@ -27,8 +28,7 @@ tsuchi AT geeklog DOT jp
   │ ├ images
   │ │ └ japanize.png
   │ ├ disabledmsg.html
-  │ ├ index.html
-  │ └ memberlogin_help.php
+  │ └ index.html
   ├ sql
   │ ├ updates
   │ │ └ mysql_1.0.2_to_1.0.3.php
@@ -44,11 +44,10 @@ tsuchi AT geeklog DOT jp
   │ ├ sql_japanize_107.php
   │ └ sql_japanize_108.php
   │ templates
-  │ ├ admin
-  │ │ ├ index.thtml
-  │ │ ├ information.thtml
-  │ │ └ settings.thtml
-  │ └custom-memberlogin.thtml
+  │ └ admin
+  │    ├ index.thtml
+  │    ├ information.thtml
+  │    └ settings.thtml
   ├ autoinstall.php
   ├ functions.inc
   ├ install_defaults.php
@@ -56,9 +55,6 @@ tsuchi AT geeklog DOT jp
   └ version.php
 
 
-注1：custom-memberlogin.thtml
-     指定されているテーマにcustom-memberlogin.thtmlがある場合は、そちらを
-     使用します
 注2：指定の言語ファイルがない場合はjapanese_utf-8.phpを使用します
 --------------------------------------------------------------------------------
 インストール方法
