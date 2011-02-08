@@ -5,21 +5,22 @@
 // $Id: sql_japanize2.php
 // もし万一エンコードの種類が  utf-8でない場合は、utf-8に変換してください。
 //2008/09/11 サイト･･･無効のURL変更
-//2010/11/09 言語とロケール変更追加 2011/02/07 訂正　Issue #161
+//2010/11/09 言語とロケール変更追加
 
 //【サイト】
 //サイト･･･無効のメッセージまたはURL
-$wk="\"{$_CONF['site_url']}/japanize/disabledmsg.html\";";
-$wklen=strlen($wk)-3;
+$wk= serialize("{$_CONF['site_url']}/japanize/disabledmsg.html");
+
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET
-    value = 's:{$wklen}:{$wk}'
+    value = '{$wk}'
     WHERE name = 'site_disabled_msg' AND group_name='Core'
     ";
 //シンジケーション･･･フィードの言語
+$wk= serialize('ja');
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET
-    value = 's:2:\"ja\";'
+    value = '{$wk}'
     WHERE name = 'rdf_language'
     ";
 //【ブロック】
@@ -43,16 +44,18 @@ $_SQL[] = "
     ";
 //【ユーザと投稿】
 //コメント･･･コメント形状 flat:一覧
+$wk= serialize('flat');
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET
-    value = 's:4:\"flat\";'
+    value = '{$wk}'
     WHERE name = 'comment_mode' AND group_name='Core'
     ";
 //【画像】
 //画像ライブラリ･･･画像ライブラリ:GDライブラリ
+$wk= serialize('gdlib');
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET
-    value = 's:5:\"gdlib\";'
+    value = '{$wk}'
     WHERE name = 'image_lib' AND group_name='Core'
     ";
 //画像ライブラリ･･･記事の画像高さの最大値:120ピクセル
@@ -64,23 +67,23 @@ $_SQL[] = "
 //【言語とロケール】
 //----------------------------------------------------------
 if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-    $w_locale='s:1:\"C";';
-    $w_date='s:21:\"%Y年%m月%d日 %H:%M\";';
-    $w_daytime='s:16:\"%m月%d日 %H:%M\";';
-    $w_shortdate='s:2:\"%d\";';
-    $w_dateonly='s:4:\"%m%d\";';
-    $w_timeonly='s:5:\"%H:%M\";';
+    $w_locale=serialize('C');
+    $w_date = serialize('%Y年%m月%d日 %H:%M');
+    $w_daytime=serialize('%m月%d日 %H:%M');
+    $w_shortdate=serialize('%d');
+    $w_dateonly=serialize('%m%d');
+    $w_timeonly=serialize('%H:%M');
 } else {
     if (strtoupper(substr(PHP_OS, 0, 7)) == 'FREEBSD') {
-        $w_locale='s:5:\"ja_JP\";';
+        $w_locale=serialize('ja_JP');
     }else{
-        $w_locale='s:11:\"ja_JP.UTF-8\";';
+        $w_locale=serialize('ja_JP.UTF-8');
     }
-    $w_date='s:25:\"%Y年%B%e日(%a) %H:%M %Z\";';
-    $w_daytime='s:14:\"%m/%d %H:%M %Z\";';
-    $w_shortdate='s:12:\"%Y年%B%e日\";';
-    $w_dateonly='s:7:\"%B%e日\";';
-    $w_timeonly='s:8:\"%H:%M %Z\";';
+    $w_date=serialize('%Y年%B%e日(%a) %H:%M %Z');
+    $w_daytime=serialize('%m/%d %H:%M %Z');
+    $w_shortdate=serialize('%Y年%B%e日');
+    $w_dateonly=serialize('%B%e日');
+    $w_timeonly=serialize('%H:%M %Z');
 }
 //ロケール･･･ロケール
 $_SQL[] = "
@@ -130,9 +133,10 @@ $_SQL[] = "
     ";
 
 //timezone タイムゾーン
+$wk= serialize('Asia/Tokyo');
 $_SQL[] = "
     UPDATE   {$_TABLES['conf_values']} SET
-    value = 's:10:\"Asia/Tokyo\";'
+    value = '{$wk}'
     where name ='timezone'  AND group_name='Core'
     ";
 

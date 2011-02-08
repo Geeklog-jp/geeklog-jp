@@ -1,5 +1,10 @@
 $Id$
 
+2011-02-08  Tetsuko Komma  <ivy>
+
+	* japanizeプラグイン: Ver 1.0.6RC4 （2010-11-09）の追加訂正
+	  言語とロケール変更 serialize関数利用（Issue #161）
+
 2012-02-07  Kazuko Tsuchitani <Tsuchi>
 
 	* japanizeプラグイン: Ver 1.0.6RC4 （2010-11-09）の追加訂正
