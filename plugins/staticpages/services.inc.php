@@ -671,19 +671,43 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                 $retval = '';
                 $mode = '';
                 
-                $xmlObject = simplexml_load_string($output['sp_content']);
+                if (PHP_VERSION >= 5) {
+                    $xmlObject = simplexml_load_string($output['sp_content']);
+                    
+                    // create array of XML data
+                    $tag = array();    
+                    foreach($xmlObject->variable as $variable) {
+                        $key = $variable["name"] . '';
+                        $value = $variable->data;
+                        $tag[$key] = $value;
+                    }    
                 
-                // create array of XML data
-                $tag = array();    
-                foreach($xmlObject->variable as $variable) {
-                    $key = $variable["name"] . '';
-                    $value = $variable->data;
-                    $tag[$key] = $value;
-                }    
-            
-                // Loop through variables to replace any autotags first
-                foreach ($tag as &$value) {
-                    $value = PLG_replaceTags($value);
+                    // Loop through variables to replace any autotags first
+                    foreach ($tag as &$value) {
+                        $value = PLG_replaceTags($value);
+                    }
+                } else {
+                    // For PHP 4
+                    $xmlObject = new DOMDocument;
+                    $xmlObject->loadXML($output['sp_content']);
+                    
+                    $tag = array();    
+                    // Loop through each <variable> tag in the dom and add it to the array 
+                    foreach($xmlObject->getElementsByTagName('variable') as $variable) {
+                        $key = $variable->getAttribute('name');
+                        if(!empty($key)) {
+                            $data = $variable->childNodes;
+                            foreach($data as $value) {
+                                if($value->nodeName == 'data') {
+                                    $tag[$key] = $value->nodeValue;
+                                }
+                            }
+                        }
+                    }                     
+                    // Loop through variables to replace any autotags first
+                    foreach ($tag as $key => $value) {
+                        $tag[$key] = PLG_replaceTags($tag[$key]);
+                    }                    
                 }
                 
                 $args = array(
