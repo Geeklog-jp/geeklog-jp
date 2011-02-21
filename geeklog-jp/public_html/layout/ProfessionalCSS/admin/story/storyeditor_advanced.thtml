@@ -78,8 +78,7 @@
     </dl>
   </div>
 
-  <fieldset id="admin-storyeditor_advanced-editor">
-    <legend>Editor</legend>
+  <div>
     <div id="text_editor" style="display: {show_texteditor};">
       <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
@@ -136,7 +135,7 @@
 
       <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
-  </fieldset>
+  </div>
 
   <div id="se_options" style="display: none;">
   <div id="se_publish" style="display: none;">

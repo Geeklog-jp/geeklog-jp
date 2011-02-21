@@ -1,16 +1,16 @@
 @charset "utf-8";
 
 /*==============================================================================
-  Title       : Style Sheet for Import
+  Title       : For Import Style Sheets
   Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
-  Description : Import CSS Files
+  Description : Import style sheets.
 ==============================================================================*/
 
 
-/* Professional Compatible Style */
+/* professional compatible */
 @import url("css/compatible.css");
 
-/* Basic Style */
+/* Basic */
 @import url("css/default.css");
 @import url("css/common.css");
 @import url("css/layout.css");
@@ -21,19 +21,19 @@
 
 @import url("css/article/article.css");
 @import url("css/comment/comment.css");
-@import url("css/navbar/navbar.css"); 
+@import url("css/navbar/navbar.css");
 @import url("css/preferences/preferences.css");
-@import url("css/search/search.css"); 
-@import url("css/stats/stats.css"); 
+@import url("css/search/search.css");
+@import url("css/stats/stats.css");
 @import url("css/submit/submit.css");
 @import url("css/trackback/trackback.css");
 @import url("css/users/users.css");
 
-/* For Admin */
+/* Admin */
 @import url("css/admin.css");
 
-/* For Plugins */
-@import url("css/plugin.css"); 
+/* Plugins */
+@import url("css/plugin.css");
 
-/* Custom Style */
-@import url("custom.css");  /* Customize Style! */
+/* Custom */
+@import url("custom.css");
