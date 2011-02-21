@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.7                                                               |
 // +---------------------------------------------------------------------------+
 // | mysql.class.php                                                           |
 // |                                                                           |
 // | mysql database class                                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Stanislav Palatnik, spalatnikk AT gmail DoT com                  |
 // +---------------------------------------------------------------------------+
@@ -43,43 +43,43 @@ class DataBase
     /**
     * @access private
     */
-    private $_host = '';
+    var $_host = '';
     /**
     * @access private
     */
-    private $_name = '';
+    var $_name = '';
     /**
     * @access private
     */
-    private $_user = '';
+    var $_user = '';
     /**
     * @access private
     */
-    private $_pass = '';
+    var $_pass = '';
     /**
     * @access private
     */
-    private $_db = '';
+    var $_db = '';
     /**
     * @access private
     */
-    private $_verbose = false;
+    var $_verbose = false;
     /**
     * @access private
     */
-    private $_display_error = false;
+    var $_display_error = false;
     /**
     * @access private
     */
-    private $_errorlog_fn = '';
+    var $_errorlog_fn = '';
     /**
     * @access private
     */
-    private $_charset = '';
+    var $_charset = '';
     /**
     * @access private
     */
-    private $_pgsql_version = 0;
+    var $_pgsql_version = 0;
 
     // PRIVATE METHODS
 
@@ -484,16 +484,14 @@ class DataBase
                     }
                     $result = $this->dbQuery($sql);
                     $row2 = pg_fetch_row($result);
-                    if($row2[0]!=0){
-                    $sql = "DELETE FROM $table WHERE $where_clause";
-                    $result = $this->dbQuery($sql);
+                    if ($row2 && is_array($row2) && !empty($row2[0])) {
+                        $sql = "DELETE FROM $table WHERE $where_clause";
+                        $result = $this->dbQuery($sql);
                     }
                     
                     $sql="INSERT INTO $table ($fields) VALUES ($values)";  
-                }
-                else
-                {
-                    COM_errorLog("There was a problem saving this DB_save call: $fields,$values"); 
+                } else {
+                    $this->_errorlog("There was a problem saving this DB_save call: $fields,$values");
                 }
             }
             else //no keys to worry about
@@ -550,7 +548,7 @@ class DataBase
                 }
             } else {
                 // error, they both have to be arrays and of the same size
-                COM_errorLog("The columns ($id) do not match the value count ($value)"); 
+                $this->_errorlog("The columns ($id) do not match the value count ($value)");
                 return false;
             }
         } else {
@@ -830,36 +828,50 @@ class DataBase
     {
         $this->_display_error = $flag;
     }
-    
-        /**
-    * Returns an database error message
+
+    /**
+    * Returns a database error message
     *
     * @param    string      $sql    SQL that may have caused the error
     * @return   string      Text for error message
+    *
     */
-    function dbError($sql='')
+    function dbError($sql = '')
     {
         $result = pg_get_result($this->_db);
-        if($this->_pgsql_version>=7.4)
-        {
-            if(pg_result_error_field($result,PGSQL_DIAG_SOURCE_LINE)) //this provides a much more detailed error report
-            {
-              $this->_errorlog('You have an error in your SQL query on line'.pg_result_error_field($result,PGSQL_DIAG_SOURCE_LINE)."<br/> SQL in question: $sql");
-             $error = 'Error:'.pg_result_error_field($result,PGSQL_DIAG_SQLSTATE).'<br/>Description:'.pg_result_error_field($result,PGSQL_DIAG_MESSAGE_DETAIL);
+        if ($this->_pgsql_version >= 7.4) {
+            // this provides a much more detailed error report
+            if (pg_result_error_field($result, PGSQL_DIAG_SOURCE_LINE)) {
+                $this->_errorlog('You have an error in your SQL query on line '
+                    . pg_result_error_field($result, PGSQL_DIAG_SOURCE_LINE)
+                    . "\nSQL in question: $sql");
+                $this->_errorlog('Error: '
+                    . pg_result_error_field($result, PGSQL_DIAG_SQLSTATE)
+                    . "\nDescription: "
+                    . pg_result_error_field($result, PGSQL_DIAG_MESSAGE_DETAIL));
+                if ($this->_display_error) {
+                    $error = "An SQL error has occurred in the following SQL: $sql";
+                } else {
+                    $error = 'An SQL error has occurred. Please see error.log for details.';
+                }
+                return $error;
             }
-            else {$error = "An SQL error has occurred in the following SQL : $sql.";}
-        }
-         else
-         {
+        } else {
             if (pg_result_error($result)) {
-                $this->_errorlog(pg_result_error($result) . ". SQL in question: $sql");        
-                if ($this->_display_error) {$error = 'Error'.pg_result_error($result);} 
-                else{$error = "An SQL error has occurred in the following SQL : $sql.";}
+                $this->_errorlog(pg_result_error($result)
+                    . ". SQL in question: $sql");        
+                if ($this->_display_error) {
+                    $error = 'Error ' . pg_result_error($result);
+                } else {
+                    $error = 'An SQL error has occurred. Please see error.log for details.';
+                }
+                return $error;
             }
-        return $error;
         }
+
+        return;
     }
-    
+
     /**
     * Checks to see if debug mode is on
     * Returns value of $_verbose
