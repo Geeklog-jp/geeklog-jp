@@ -20,23 +20,19 @@
 
 <h2>Feb 20, 2011 (1.7.2)</h2>
 
-<p>Note: This will be the last Geeklog version to work on PHP 4. We will provide
-security fixes for this version until 2012. Future versions of Geeklog will
-require PHP 5.2.0 or later. For details, please see
-http://www.geeklog.net/article.php/end-of-php4-support</p>
+<p><strong>注意:</strong> Geeklog 1.7.2はPHP 4で動作する最後のGeeklogのバージョンです。必要な場合は、このバージョンのセキュリティ修正を2012年まで提供します。新しい機能はGeeklog 1.8.0とそれ以降にだけ追加し、これらの新しいリリースは最低でもPHP 5.2.0が動作に必要です。詳細はgeeklog.netの<a href="http://www.geeklog.net/article.php/end-of-php4-support">アナウンス</a>を参照してください。</p>
 
 <ul>
-<li>PostgreSQL fixes:
+<li>PostgreSQLサポートの修正:
   <ul>
-    <li>It wasn't possible for several Geeklog instances to share a Postgres
-      database (bug #0001251) [Rouslan]</li>
-    <li>Fixed dbSave [Dirk]</li>
-    <li>Fixed error reporting [Dirk]</li>
-    <li>Fixed compatibility with PHP 4 [Dirk]</li>
+    <li>複数のGeeklogのインスタンスがPostgreデータベースを共有でない (bug #0001251) [Rouslan]</li>
+    <li>dbSaveの修正 [Dirk]</li>
+    <li>エラー報告の修正 [Dirk]</li>
+    <li>PHP 4との互換性の修正 [Dirk]</li>
   </ul>
 </li>
-<li>Fixed replacing the [imageX] tags when changing a story's id (bug #0001256) [Dirk]</li>
-<li>Fixed Static Pages plugin to work with PHP 4 (bug #0001239) [Tom]</li>
+<li>ストーリのidを変更する時に<code>[imageX]</code>タグを置き換えるように修正 (bug #0001256) [Dirk]</li>
+<li>静的ページプラグインのPHP 4の互換性の問題を修正 (bug #0001239) [Tom]</li>
 </ul>
 
 <h2>Jan 2, 2011 (1.7.1sr1)</h2>
