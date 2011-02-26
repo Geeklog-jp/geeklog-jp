@@ -478,6 +478,15 @@ default:
             DB_query ("UPDATE {$_TABLES['eventsjp']} SET hits = hits + 1 WHERE eid = '$eid'");
         }
 
+        if (($mode == 'personal') && ($_CAJP_CONF['personalcalendars'] == 1) &&
+                !COM_isAnonUser()) {
+            $event_title = DB_getItem($_TABLES['personal_eventsjp'],
+                           'title', "(eid = '$eid') AND (uid = {$_USER['uid']})");
+        } else {
+            $event_title = DB_getItem($_TABLES['eventsjp'], 'title', "eid = '$eid'");
+        }
+        $pagetitle = stripslashes($event_title) . ' - ' . $pagetitle;
+
         $display .= COM_siteHeader('menu', $pagetitle);
         if (isset($_GET['msg'])) {
             $msg = COM_applyFilter($_GET['msg'], true);
@@ -702,6 +711,7 @@ default:
                 $cal_templates->set_var ('event_description', $description);
                 $cal_templates->set_var ('lang_event_type', $LANG_CALJP_1[37]);
                 $cal_templates->set_var ('event_type', $A['event_type']);
+                $cal_templates->set_var ('event_id', $A['eid']);
 
                 if ($mode == 'personal') {
                     $editurl = $_CONF['site_url']
