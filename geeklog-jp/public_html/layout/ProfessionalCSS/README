@@ -1,207 +1,175 @@
 /*==============================================================================
-  ã‚¿ã‚¤ãƒˆãƒ«  : Geeklogç”¨ProfessionalCSSãƒ†ãƒ¼ãƒ
-  ãƒãƒ¼ã‚¸ãƒ§ãƒ³: 1.4 Geeklog1.7.1å¯¾å¿œ
-  è‘—è€…      : Fumito Arakawa as Phize (http://phize.net/) & Geeklog Japanese
-  èª¬æ˜      : Geeklogç”¨ã®ãƒ†ãƒ¼ãƒã€ŒProfessionalCSSã€ã§ã™ã€‚
+  Title       : professional_css
+  Version     : 1.6 for Geeklog1.7.2
+  Author      : Fumito Arakawa as Phize (http://phize.net/) & Geeklog Japanese
+                & Ivy (http://www.ivywe.co.jp)
+  Description : Geeklog Theme Maker by using CSS 2.0 eliminate table tags
 ==============================================================================*/
 
 
 
 /*==============================================================================
-  ç›®æ¬¡:
+  Index:
 
-    *æ¦‚è¦
-    *ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«æ–¹æ³•
-    *ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ§‹æˆ
-    *ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«: ã‚³ãƒ¡ãƒ³ãƒˆ
-    *CSS: CSSãƒ•ã‚¡ã‚¤ãƒ«æ§‹æˆãƒ»ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰é †åº
-    *CSS: ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨˜è¿°é †åº
-    *ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºæ–¹æ³•
-    *ãƒãƒ¼ã‚¸ãƒ§ãƒ³å±¥æ­´
+    *Pofile
+    *Install
+    *File and Directory
+    *Template Files: Comments
+    *CSS: CSS File Structure/Order
+    *CSS: Property Order
+    *Customize
+    *History
 ==============================================================================*/
 
 
 
 /*==============================================================================
-  æ¦‚è¦
+  Pofile
 ==============================================================================*/
 
-Geeklogç”¨ã®ãƒ†ãƒ¼ãƒã€ŒProfessionalCSSã€ã§ã™ã€‚
-Geeklogã®æ¨™æº–ãƒ†ãƒ¼ãƒã§ã‚ã‚‹ã€ŒProfessionalã€ã®ãƒ‡ã‚¶ã‚¤ãƒ³ã‚’å…ƒã«ã€
-tableè¦ç´ ã«ã‚ˆã‚‹ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’æ’é™¤ã—ã€HTML 4.01 Transitional+CSS 2ã§ä¸€ã‹ã‚‰å…¨ã¦ã‚’æ›¸ãç›´ã—ã¾ã—ãŸã€‚
+Geeklog Theme using HTML 4.01 Transitional+CSS 2.0 and eliminate table tags.
+Design is based on professional.
 
-JavaScriptãŒæœ‰åŠ¹ãªå ´åˆã¯ã€Geeklogã®ã‚«ãƒ©ãƒ æ•°ã®æ§‹æˆã«ã‚ˆã£ã¦bodyè¦ç´ ã®classå±æ€§ãŒæ›¸ãæ›ãˆã‚‰ã‚Œã¾ã™ã€‚
-ã“ã‚Œã«ã‚ˆã‚Šã€åŒä¸€ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ã¿ã§CSSã«ã‚ˆã‚‹ãƒãƒ«ãƒã‚«ãƒ©ãƒ ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’å®Ÿç¾ã§ãã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã™ã€‚
-JavaScriptãŒç„¡åŠ¹ãªå ´åˆã¯ã€bodyè¦ç´ ã®classå±æ€§ã¯å¸¸ã«ä¸€å®šã§ã‚ã‚‹ãŸã‚ã€å¸¸ã«3ã‚«ãƒ©ãƒ ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã¨ãªã‚Šã¾ã™ã€‚
+If JavaScript is enabled, body class item is changed by Geeklog layout column.
+So we can set multi column layout.
+If JavaScript is not enabled, body class item is fixed as 3 column layout.
 
-æ–°ã—ã„ãƒ†ãƒ¼ãƒã‚’åˆ¶ä½œã™ã‚‹éš›ã®ãƒ™ãƒ¼ã‚¹ãƒ†ãƒ¼ãƒã¨ã—ã¦ã‚‚ã”åˆ©ç”¨ã„ãŸã ã‘ã¾ã™ã€‚
-ãªãŠã€ã‚·ã‚¹ãƒ†ãƒ ã¨ã®æ•´åˆæ€§ã‚’ä¿ã¤ãŸã‚ã€ãƒãƒ¼ã‚¯ã‚¢ãƒƒãƒ—ã€å‘½åè¦å‰‡ç­‰ã¯Geeklogå´ã«åˆã‚ã›ã¦ã„ã‚‹éƒ¨åˆ†ãŒã‚ã‚Šã¾ã™ã€‚
+It is base theme for new design theme.
 
 
 
 /*==============================================================================
-  ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«æ–¹æ³•
+  Install
 ==============================================================================*/
 
-ã€ŒProfessionalCSSã€ãƒ†ãƒ¼ãƒã®layoutãƒ•ã‚©ãƒ«ãƒ€ã‚’Geeklogã®å…¬é–‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ã‚³ãƒ”ãƒ¼ã—ã¾ã™ã€‚
+ProfessionalCSS_en Theme upload
 
-                                   +Geeklog(å…¬é–‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª)
-  +layout            -- ã‚³ãƒ”ãƒ¼ -->   +layout
-    +ProfessionalCSS
+  +layout            -- copy -->   +layout
+    +Professional_CSS
 
 
 
 /*==============================================================================
-  ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ§‹æˆ
+  CSS: CSS File Structure/Order
 ==============================================================================*/
 
-+layout -------------------- Geeklogãƒ†ãƒ¼ãƒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-  +ProfessionalCSS --------- ã€ŒProfessionalCSSã€ãƒ†ãƒ¼ãƒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
++layout -------------------- Geeklog directory
+  +ProfessionalCSS_en --------- 'ProfessionalCSS_en' theme directory
     +admin
     +article
     +comment
     +forum
     +navbar
-    +preferences ----------- ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+    +preferences
     +profiles
     +search
     +stats
     +submit
     +trackback
     +users
-    +css ------------------- CSSãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-    | |                        ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªæ§‹é€ ã¯ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¨å¯¾å¿œã—ã¦ã„ã¾ã™ã€‚
+    +css ------------------- CSS
+    | |                        
     | |
-    | +plugin -------------- ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç”¨CSSãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-    |  |                       ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ãŒå…¥ã£ã¦ã„ã¾ã™ã€‚
-    |  +forum.css ---------- æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«
-    |                          Geeklog Japaneseãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã‚‚ã®ã‚’ä¿®æ­£ã—ã¦ä½¿ç”¨ã—ã¦ã„ã¾ã™ã€‚
+    | +plugin -------------- for Plugins
+    |  |                       
+    |  +forum.css ---------- for Forum Plugin
     |
-    +images ---------------- ç”»åƒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+    +images ---------------- Images
     | |
-    | +css ----------------- CSSãƒ•ã‚¡ã‚¤ãƒ«ç”¨ç”»åƒãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-    |                          CSSã§ä½¿ç”¨ã™ã‚‹ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ãŒå…¥ã£ã¦ã„ã¾ã™ã€‚
+    | +css ----------------- Images for ProfessionalCSS_en
     |
-    +javascript ------------ JavaScriptãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+    +javascript ------------ JavaScript
     | |
-    | +fix_html.js --------- Geeklogã®ã‚«ãƒ©ãƒ æ•°ã«å¿œã˜ã¦bodyè¦ç´ ã®classå±æ€§ã‚’æ›¸ãæ›ãˆã¾ã™ã€‚
+    | +fix_html.js --------- Geeklog body Class Attribute
     |
-    +README ---------------- ã€ŒProfessionalCSSã€ãƒ†ãƒ¼ãƒã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ(ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«)
+    +README ---------------- 'ProfessionalCSS_en' README(this file)
     |
-    +style.css ------------ CSSãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«
+    +style.css ------------ CSS import
     |
-    +custom.css ----------- ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«
+    +custom.css ----------- for Customize
     |
-    +custom.sample.css ---- ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«(ã‚µãƒ³ãƒ—ãƒ«)
+    +custom.sample.css ---- Sample for Customize
 
 
 
 /*==============================================================================
-  ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«: ã‚³ãƒ¡ãƒ³ãƒˆ
+  Template Files: Comments
 ==============================================================================*/
 
-ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(.thtml)ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¸‹è¨˜ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’æŒ¿å…¥ã—ã¦ã„ã¾ã™ã€‚
+Template files (.thtml) are added comments.
 
-  ãƒ»ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å
-    å…¨ã¦ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã¨æœ«å°¾ã«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«åã‚’æŒ¿å…¥ã—ã¦ã„ã¾ã™ã€‚
+  File Name
 
-      <!-- ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå/ãƒ•ã‚¡ã‚¤ãƒ«å.thtml { -->
-                          (å†…å®¹)
-      <!-- } ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå/ãƒ•ã‚¡ã‚¤ãƒ«å.thtml -->
+      <!-- dir/file.thtml { -->
+                 ...
+      <!-- } dir/file.thtml -->
 
-ç‰¹å®šãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®Geeklogç”¨ã«è¨˜è¿°ã•ã‚Œã¦ã„ã‚‹ç®‡æ‰€ã«ã¯ã€ä¸‹è¨˜ã®å½¢å¼ã§ã‚³ãƒ¡ãƒ³ãƒˆã‚’æŒ¿å…¥ã—ã¦ã„ã¾ã™ã€‚
+Comment's rule:
 
-ã€€ãƒ»Geeklog Japanese
-      <!-- Geeklog Japanese -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog Japanese { -->ï½<!-- } Geeklog Japanese -->
+  Template naeme
 
-ã€€ãƒ»Ver.x.x.xã‚ˆã‚Šå¤§ãã„
-      <!-- Geeklog GT x.x.x -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog GT x.x.x { -->ï½<!-- } Geeklog GT x.x.x -->
-
-ã€€ãƒ»Ver.x.x.xä»¥ä¸Š
-      <!-- Geeklog GTE x.x.x -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog GTE x.x.x { -->ï½<!-- } Geeklog GTE x.x.x -->
-
-ã€€ãƒ»Ver.x.x.x
-      <!-- Geeklog x.x.x -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog x.x.x { -->ï½<!-- } Geeklog x.x.x -->
-
-ã€€ãƒ»Ver.x.x.xä»¥ä¸‹
-      <!-- Geeklog LTE x.x.x -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog LTE x.x.x { -->ï½<!-- } Geeklog LTE x.x.x -->
-
-ã€€ãƒ»Ver.x.x.xã‚ˆã‚Šå°ã•ã„
-      <!-- Geeklog LT x.x.x -->
-              ã¾ãŸã¯ã€
-      <!-- Geeklog LT x.x.x { -->ï½<!-- } Geeklog LT x.x.x -->
-
+      <!-- dir/filename.thtml { -->
+           contents
+      <!-- } dir/filename.thtml -->
 
 
 /*==============================================================================
-  CSS: CSSãƒ•ã‚¡ã‚¤ãƒ«æ§‹æˆãƒ»ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰é †åº
+  CSS: CSS File Structure/Order
 ==============================================================================*/
 
-+style.css -------------------------- header.thtmlå†…ã®linkè¦ç´ ã«ã‚ˆã£ã¦èª­ã¿è¾¼ã¾ã‚Œã¾ã™ã€‚
-  +css/default.css ------------------ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
-                                        W3Cã«ã‚ˆã‚‹CSS 2.1 ä»•æ§˜æ›¸ Appendix Dã®æ¨å¥¨ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¹ã‚¿ã‚¤ãƒ«ã§ä¸Šæ›¸ãã—ã¾ã™(ä¸€éƒ¨ã‚’é™¤ã)ã€‚
++style.css -------------------------- called from header.thtml
+  +css/default.css ------------------ Default Style
+                                        W3C CSS 2.1 Appendix D
                                         URI: http://www.w3.org/TR/2004/CR-CSS21-20040225/sample.html
-  +css/common.css ------------------- å…±é€šã‚¹ã‚¿ã‚¤ãƒ«
-                                        ã‚µã‚¤ãƒˆå…¨ä½“ã®ã‚¹ã‚¿ã‚¤ãƒ«ã§ã™ã€‚
+  +css/common.css ------------------- Common Style
 
-  +css/layout.css ------------------- åŸºæœ¬ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
+  +css/layout.css ------------------- Base Layout Style
 
-  +css/block.css -------------------- ãƒ–ãƒ­ãƒƒã‚¯ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/option.css ------------------- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/form.css --------------------- ãƒ•ã‚©ãƒ¼ãƒ ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/story.css -------------------- è¨˜äº‹ã‚¹ã‚¿ã‚¤ãƒ«
+  +css/block.css -------------------- Block Style
+  +css/option.css ------------------- Option Menu Style
+  +css/form.css --------------------- Form Style
+  +css/story.css -------------------- Story Style
 
-  +css/article/article.css ---------- å€‹åˆ¥è¨˜äº‹ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/comment/comment.css ---------- ã‚³ãƒ¡ãƒ³ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
-  +css/navbar/navbar.css ------------ ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/preferences/preferences.css -- è¨­å®šãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/search/search.css ------------ æ¤œç´¢ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/stats/stats.css -------------- ã‚¢ã‚¯ã‚»ã‚¹æƒ…å ±ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/submit/submit.css ------------ æŠ•ç¨¿ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/trackback/trackback.css ------ ãƒˆãƒ©ãƒƒã‚¯ãƒãƒƒã‚¯ã‚¹ã‚¿ã‚¤ãƒ«
-  +css/users/users.css -------------- ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæƒ…å ±ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«
+  +css/article/article.css ---------- Article Style
+  +css/comment/comment.css ---------- Comment Style
+  +css/navbar/navbar.css ------------ Navigation Style
+  +css/preferences/preferences.css -- Preference Style
+  +css/search/search.css ------------ Search Style
+  +css/stats/stats.css -------------- Stats Style
+  +css/submit/submit.css ------------ Submit Style
+  +css/tooltips/tooltips.css -------- Tooltips Style
+  +css/trackback/trackback.css ------ Trackback Style
+  +css/users/users.css -------------- Myaccount Style
 
-  ç®¡ç†è€…ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ
-  +css/admin.css -------------------- ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/common.css ----------- å…±é€šã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/block.css ------------ ãƒ–ãƒ­ãƒƒã‚¯ã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/event.css ------------ ã‚¤ãƒ™ãƒ³ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/group.css ------------ ã‚°ãƒ«ãƒ¼ãƒ—ã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/lists.css ------------ ãƒªã‚¹ãƒˆã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/moderation.css ------- ç®¡ç†ç”»é¢ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/plugins.css ---------- ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/story.css ------------ è¨˜äº‹ã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/topic.css ------------ è©±é¡Œã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/trackback.css -------- ãƒˆãƒ©ãƒƒã‚¯ãƒãƒƒã‚¯ãƒšãƒ¼ã‚¸ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/user.css ------------- ãƒ¦ãƒ¼ã‚¶ã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-    +css/admin/configuration.css ---- ã‚³ãƒ³ãƒ•ã‚£ã‚®ãƒ¥ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³ã‚¨ãƒ‡ã‚£ã‚¿ã‚¹ã‚¿ã‚¤ãƒ«(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
+  Admin Style
+  +css/admin.css -------------------- Import Style Sheet(for admin)
+    +css/admin/common.css ----------- Common Style(for admin)
+    +css/admin/block.css ------------ Block Editor Style(for admin)
+    +css/admin/group.css ------------ Group Editor Style(for admin)
+    +css/admin/lists.css ------------ List Style(for admin)
+    +css/admin/moderation.css ------- Moderation Style(for admin)
+    +css/admin/plugins.css ---------- Plugins Editor Style(for admin)
+    +css/admin/story.css ------------ Story Editor Style(for admin)
+    +css/admin/topic.css ------------ Topic Editor Style(for admin)
+    +css/admin/trackback.css -------- Trackback Editor Style(for admin)
+    +css/admin/user.css ------------- User Editor Style(for admin)
+    +css/admin/configuration.css ---- Configuration Editor Style(for admin)
 
-  ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ
-  +css/plugin.css ------------------- ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ(ãƒ—ãƒ©ã‚°ã‚¤ãƒ³)
-    +css/plugin/sitecalendar.css ---- ã‚µã‚¤ãƒˆã‚«ãƒ¬ãƒ³ãƒ€ã‚¹ã‚¿ã‚¤ãƒ«(ãƒ—ãƒ©ã‚°ã‚¤ãƒ³)
-    +css/plugin/japanize.css ----------- Japanizeã‚¹ã‚¿ã‚¤ãƒ«(ãƒ—ãƒ©ã‚°ã‚¤ãƒ³)
+  Plugin Style
+  +css/plugin.css ------------------- Import Style
+    +css/plugin/japanize.css ---------Japanize Plugin Style
 
-  ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ
-  +custom.css ----------------------- ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ
-                                      ã‚µãƒ³ãƒ—ãƒ«ã¨ã—ã¦ã€custom.sample.cssã‚’åŒæ¢±ã—ã¦ã„ã¾ã™ã€‚
+  Custom Style
+  +custom.css ----------------------- Custom Style
+                                      custom.sample.css is added as sample.
 
 
 
 /*==============================================================================
-  CSS: ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£è¨˜è¿°é †åº
+    *CSS: Property Order
 ==============================================================================*/
 
-ä¸€éƒ¨ã®ä¾‹å¤–ã‚’é™¤ãã€CSSã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¯ä¸‹è¨˜ã®é †åºã§è¨˜è¿°ã•ã‚Œã¦ã„ã¾ã™ã€‚ 
+CSS Property Order
 
   *display
   *visibility
@@ -241,201 +209,192 @@ JavaScriptãŒç„¡åŠ¹ãªå ´åˆã¯ã€bodyè¦ç´ ã®classå±æ€§ã¯å¸¸ã«ä¸€å®šã§ã‚ã
 
 
 /*==============================================================================
-  ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºæ–¹æ³•
+  Customize
 ==============================================================================*/
 
-ProfessionalCSSãƒ†ãƒ¼ãƒã§ã¯ã€è¡¨ç¾ã«é–¢ã™ã‚‹åˆ¶å¾¡ã‚’CSSã§è¡Œã£ã¦ã„ã‚‹ãŸã‚ã€ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«æ‰‹ã‚’åŠ ãˆã‚‹ã“ã¨ãªãã€ç°¡å˜ã«ãƒ†ãƒ¼ãƒã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
-åŸºæœ¬çš„ãªãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãƒ»ãƒ‡ã‚¶ã‚¤ãƒ³ã¯ã€ä¸‹è¨˜ã®CSSãƒ•ã‚¡ã‚¤ãƒ«å†…ã§å®šç¾©ã•ã‚ŒãŸã‚¹ã‚¿ã‚¤ãƒ«ã‚’å¤‰æ›´ã™ã‚‹ã ã‘ã§ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºãŒè¡Œãˆã‚‹ã‚ˆã†ã«ãªã£ã¦ã„ã¾ã™ã€‚
+SS can design site by only CSS files 'custom.css' without change other CSS files or template files.
 
-  +css ------------- CSSãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
-    +common.css ---- å…±é€šã‚¹ã‚¿ã‚¤ãƒ«
-    +layout.css ---- åŸºæœ¬ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¹ã‚¿ã‚¤ãƒ«
-    +block.css ----- ãƒ–ãƒ­ãƒƒã‚¯ã‚¹ã‚¿ã‚¤ãƒ«
-    +option.css ---- ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚¹ã‚¿ã‚¤ãƒ«
-    +form.css ------ ãƒ•ã‚©ãƒ¼ãƒ ã‚¹ã‚¿ã‚¤ãƒ«
-    +story.css ----- è¨˜äº‹ã‚¹ã‚¿ã‚¤ãƒ«
+SAMPLE custom.css: custom.sample.css
 
-ProfessionalCSSãƒ†ãƒ¼ãƒã‚’ãƒ™ãƒ¼ã‚¹ã«ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã‚’è¡Œã†ã«ã¯ã€ä¸Šè¨˜ã‚„ã€ŒCSS: CSSãƒ•ã‚¡ã‚¤ãƒ«æ§‹æˆãƒ»ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰é †åºã€ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç›´æ¥ã€ç·¨é›†ã™ã‚‹ã»ã‹ã«ã€åˆ¥é€”ã€å°‚ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç”¨æ„ã—ã¦ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹æ–¹æ³•ãŒã‚ã‚Šã¾ã™ã€‚
-ç‰¹ã«ç†ç”±ãŒãªã„å ´åˆã«ã¯ã€ProfessionalCSSãƒ†ãƒ¼ãƒã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—ã«ã‚‚å¯¾å¿œã§ãã‚‹ã‚ˆã†ã«ã€å°‚ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«(custom.css)ã‚’åˆ©ç”¨ã™ã‚‹æ–¹æ³•ã‚’ãŠã™ã™ã‚ã„ãŸã—ã¾ã™ã€‚
-
-  ãƒ»å°‚ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«(custom.css)ã‚’åˆ©ç”¨ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚º
-    ã“ã®æ–¹æ³•ã¯ã€ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºéƒ¨åˆ†ã‚’å°‚ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«(custom.css)ã«åˆ†é›¢ã™ã‚‹ãŸã‚ã€ProfessionalCSSãƒ†ãƒ¼ãƒã«å¤‰æ›´ãŒã‚ã£ãŸå ´åˆã§ã‚‚æŸ”è»Ÿã«å¯¾å¿œã§ãã‚‹ã¨ã¨ã‚‚ã«ã€ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸãƒ†ãƒ¼ãƒã®ä¿å®ˆãƒ»ç®¡ç†æ€§ã‚‚é«˜ã¾ã‚Šã¾ã™ã€‚
-    CSSã®ç‰¹å¾´ã§ã‚ã‚‹ã‚«ã‚¹ã‚±ãƒ¼ãƒ‰ã‚’æ´»ã‹ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºæ–¹æ³•ã§ã™ã€‚
-
-      1. å„CSSãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ç®‡æ‰€ã‚’custom.csså†…ã«ã‚³ãƒ”ãƒ¼&ãƒšãƒ¼ã‚¹ãƒˆã—ã¾ã™ã€‚
-      2. ã‚»ãƒ¬ã‚¯ã‚¿ã®ã¿ã‚’æ®‹ã—ã€å®£è¨€(ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã¨å€¤)ã‚’å‰Šé™¤ã—ãŸã‚ã¨ã€ä¸Šæ›¸ãã—ãŸã„ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¨˜è¿°ã—ã¦ã„ãã¾ã™ã€‚
-
-    ã‚µãƒ³ãƒ—ãƒ«ã¨ã—ã¦ã€custom.sample.cssã‚’åŒæ¢±ã—ã¦ã„ã¾ã™ã€‚
-    æ—¢å­˜ã®custom.cssã‚’å‰Šé™¤ã—ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«åã‚’custom.sample.cssã‹ã‚‰custom.cssã¸å¤‰æ›´ã™ã‚Œã°ã€ãã®ã¾ã¾ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã®ãƒ™ãƒ¼ã‚¹ã¨ã—ã¦åˆ©ç”¨ã§ãã¾ã™ã€‚
-    ãªãŠã€custom.cssã‹ã‚‰å‘¼ã°ã‚Œã‚‹ç”»åƒã¯images/css/ã§ã¯ãªãã€images/custom/ã«ç½®ãã“ã¨ã‚’ãŠã™ã™ã‚ã—ã¾ã™ã€‚
-
-ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã«ã‚ãŸã£ã¦ã¯ã€ä¸‹è¨˜ã®æ–¹æ³•ã§ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç‰¹å®šã™ã‚‹ã“ã¨ãŒã§ãã¾ã™ã€‚
-
-  ãƒ»ãƒ–ãƒ©ã‚¦ã‚¶ç­‰ã«è¡¨ç¤ºã•ã‚ŒãŸãƒšãƒ¼ã‚¸ã‹ã‚‰ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç®‡æ‰€ã‚’çŸ¥ã‚ŠãŸã„å ´åˆ
-    ãƒ–ãƒ©ã‚¦ã‚¶ã‹ã‚‰ã€Œã‚½ãƒ¼ã‚¹ã‚’è¡¨ç¤ºã€ã«è©²å½“ã™ã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é¸æŠã—ã¦ãã ã•ã„ã€‚
-    ã‚ã‚‹ã„ã¯ã€å¯¾è±¡ã¨ãªã‚‹ç¯„å›²ã‚’ãƒ‰ãƒ©ãƒƒã‚°ã§é¸æŠã—ãŸå¾Œã€ã€Œé¸æŠç¯„å›²ã®ã‚½ãƒ¼ã‚¹ã‚’è¡¨ç¤ºã€ã«è©²å½“ã™ã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’é¸æŠã—ã¦ãã ã•ã„ã€‚
-    è¡¨ç¤ºã•ã‚ŒãŸã‚½ãƒ¼ã‚¹å†…ã«ã€ä½¿ç”¨ã•ã‚Œã¦ã„ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(.thtml)ãƒ•ã‚¡ã‚¤ãƒ«åãŒã‚³ãƒ¡ãƒ³ãƒˆã¨ã—ã¦æŒ¿å…¥ã•ã‚Œã¦ã„ã¾ã™ã€‚
-
-  ãƒ»ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«é–¢é€£ã™ã‚‹CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’çŸ¥ã‚ŠãŸã„å ´åˆ
-    CSSãƒ•ã‚¡ã‚¤ãƒ«å†…ã®å†’é ­ã«ã‚ã‚‹ã‚³ãƒ¡ãƒ³ãƒˆã®ã€Œé©ç”¨å…ˆã€ã‚’ã”è¦§ä¸‹ã•ã„ã€‚
-    ã‚¹ã‚¿ã‚¤ãƒ«ã®é©ç”¨å…ˆã¨ãªã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(.thtml)ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨˜è¿°ã—ã¦ã„ã¾ã™ã€‚
-
+If custom.sample.css copy custom.css, can use as base of theme.
+Set images in the custom.css on images/custom/ not images/css/.
 
 
 /*==============================================================================
-  ãƒãƒ¼ã‚¸ãƒ§ãƒ³å±¥æ­´
+  History
 ==============================================================================*/
 
-ã€ŒProfessionalCSSã€ãƒ†ãƒ¼ãƒã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³å±¥æ­´ã§ã™ã€‚
-æ›´æ–°ãƒ»è¿½åŠ ãƒ»å‰Šé™¤å¯¾è±¡ã¨ãªã£ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã¯ä¸¸æ‹¬å¼§å†…ã«è¨˜è¼‰ã—ã¦ã„ã¾ã™ã€‚
-ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«åã®å‰ã«è¨˜è¼‰ã•ã‚ŒãŸè¨˜å·ã®æ„å‘³ã¯ä¸‹è¨˜ã®é€šã‚Šã§ã™ã€‚
-
-  * æ›´æ–°
-  + è¿½åŠ 
-  - å‰Šé™¤
+  * XV
+  + ’Ç‰Á
+  - íœ
 
 
-â– Ver.1.4(2010-10-16)
-ã€€ãƒ»Geeklog1.7.1ã«å¯¾å¿œã•ã›ã¾ã—ãŸã€‚
+¡Ver.1.6(2011-02-27)
+@EŠeƒtƒ@ƒCƒ‹‚Ì‘®‚ğ®—‚µ‚Ü‚µ‚½B“ú–{ŒêƒRƒƒ“ƒg‚ğ‰pŒê‚É•ÏX‚µ‚Ü‚µ‚½B
 
-    æ›´æ–°ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«
+¡Ver.1.52(2011-01-15)
+@E—]•ª‚Èdiv•Â‚¶ƒ^ƒO‚ğíœ
+
+    XVƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
+	* admin/user/edituser.thtml
+
+¡Ver.1.51(2010-11-30)
+@EƒŒƒCƒAƒEƒg‚ğ•ÏX‚µ‚Ü‚µ‚½B
+
+    XVƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
+	* header.thtml 
+	* css/layout.css 
+	* css/common.css 
+
+¡Ver.1.5(2010-11-25)
+@EƒŒƒCƒAƒEƒg‚ğ•ÏX‚µ‚Ü‚µ‚½B
+
+    XVƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
+	* header.thtml 
+	* footer.thtml
+	* css/layout.css 
+
+¡Ver.1.4(2010-10-16)
+@EGeeklog1.7.1‚É‘Î‰‚³‚¹‚Ü‚µ‚½B
+
+    XVƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
 	* admin/group/groupeditor.thtml
 	* comment/commentform.thtml
 	* comment/commentform_advanced.thtml
 
-â– Ver.1.3(2010-08-14)
-ã€€ãƒ»fieldset legendã«æ¨™æº–çš„ãªã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã€ã‚¿ã‚¤ãƒˆãƒ«ãŒ2åº¦èª­ã¿ã«ãªã‚‹ç®‡æ‰€(class="basic"ãŒæŒ‡å®šã•ã‚ŒãŸç®‡æ‰€)ã®fieldset,legendã®ã‚¹ã‚¿ã‚¤ãƒ«ã‚’ã™ã¹ã¦éè¡¨ç¤ºã«è¨­å®šã—ã¾ã—ãŸã€‚
-ã€€ãƒ»OpenIDç”¨ãƒ­ã‚°ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ãŒè¡¨ç¤ºã•ã‚Œãªã„ã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚users/loginform.thtmlã¸{openid_login}ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»common.cssã®input,select,textareaã§æ—¥æœ¬èªã®ãƒ•ã‚©ãƒ³ãƒˆã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚ã‚³ãƒ¡ãƒ³ãƒˆã®è‹±èªåŒ–ã‚’ã‚³ãƒŸãƒƒãƒˆã™ã‚‹éš›ã«å¤‰æ›´ã—ãªãã¦ã‚‚è‰¯ã„font-familyã‚’å¤‰æ›´ã—ã¦ã„ã¾ã—ãŸã€‚
-ã€€ãƒ»legendãŒéè¡¨ç¤ºã«ãªã‚‹åˆæœŸè¨­å®šã‚’å»ƒæ­¢ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»IEå°‚ç”¨ã®ãƒ¯ãƒ¼ãƒ‰é€”ä¸­ã§æŠ˜ã‚Šè¿”ã—ã•ã›ã‚‹ã‚¹ã‚¿ã‚¤ãƒ« th,td{word-break: break-all;}ã‚’å‰Šé™¤ã—ã¦ã€æŠ˜ã‚Šè¿”ã—ãªã—ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã«æˆ»ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»submit/submitloginrequired.thtmlã¯ä¸è¦ã«ãªã£ãŸã®ã§å‰Šé™¤ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»å³ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ˜ãƒ«ãƒ—ã‚¢ã‚¤ã‚³ãƒ³ã®ã‚»ãƒ¬ã‚¯ã‚¿ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»css/compatible.css ã§ã€ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒªãƒ³ã‚¯ã‚¨ãƒ©ãƒ¼ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»css/default.cssã®ã€url(../javavscript/iepngfix.htc)ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ã¦ã„ã¾ã—ãŸãŒã€ã“ã‚Œã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»images/update.pngã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
+¡Ver.1.3(2010-08-14)
+@Efieldset legend‚É•W€“I‚ÈƒXƒ^ƒCƒ‹‚ğ’Ç‰Á‚µAƒ^ƒCƒgƒ‹‚ª2“x“Ç‚İ‚É‚È‚é‰ÓŠ(class="basic"‚ªw’è‚³‚ê‚½‰ÓŠ)‚Ìfieldset,legend‚ÌƒXƒ^ƒCƒ‹‚ğ‚·‚×‚Ä”ñ•\¦‚Éİ’è‚µ‚Ü‚µ‚½B
+@EOpenID—pƒƒOƒCƒ“ƒtƒH[ƒ€‚ª•\¦‚³‚ê‚È‚¢‚Ì‚ğC³‚µ‚Ü‚µ‚½Busers/loginform.thtml‚Ö{openid_login}‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+@Ecommon.css‚Ìinput,select,textarea‚Å“ú–{Œê‚ÌƒtƒHƒ“ƒgƒXƒ^ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½BƒRƒƒ“ƒg‚Ì‰pŒê‰»‚ğƒRƒ~ƒbƒg‚·‚éÛ‚É•ÏX‚µ‚È‚­‚Ä‚à—Ç‚¢font-family‚ğ•ÏX‚µ‚Ä‚¢‚Ü‚µ‚½B
+@Elegend‚ª”ñ•\¦‚É‚È‚é‰Šúİ’è‚ğ”p~‚µ‚Ü‚µ‚½B
+@EIEê—p‚Ìƒ[ƒh“r’†‚ÅÜ‚è•Ô‚µ‚³‚¹‚éƒXƒ^ƒCƒ‹ th,td{word-break: break-all;}‚ğíœ‚µ‚ÄAÜ‚è•Ô‚µ‚È‚µ‚ÌƒfƒtƒHƒ‹ƒg‚É–ß‚µ‚Ü‚µ‚½B
+@Esubmit/submitloginrequired.thtml‚Í•s—v‚É‚È‚Á‚½‚Ì‚Åíœ‚µ‚Ü‚µ‚½B
+@E‰EƒuƒƒbƒN‚Ìƒwƒ‹ƒvƒAƒCƒRƒ“‚ÌƒZƒŒƒNƒ^‚ğC³‚µ‚Ü‚µ‚½B
+@Ecss/compatible.css ‚ÅA‰æ‘œƒtƒ@ƒCƒ‹‚ÌƒŠƒ“ƒNƒGƒ‰[‚ğC³‚µ‚Ü‚µ‚½B
+@Ecss/default.css‚ÌAurl(../javavscript/iepngfix.htc)‚ğƒRƒƒ“ƒgƒAƒEƒg‚µ‚Ä‚¢‚Ü‚µ‚½‚ªA‚±‚ê‚ğíœ‚µ‚Ü‚µ‚½B
+@Eimages/update.png‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
 
-â– Ver.1.2(2010-05-10)
-ã€€ãƒ»Geeklog1.7.0ã«å¯¾å¿œã•ã›ã¾ã—ãŸã€‚
-ã€€ã€€ã€€ãƒ¡ã‚¿ã‚¿ã‚°ç„¡åŠ¹æ™‚ã®éè¡¨ç¤ºã€ãƒ—ãƒ­ãƒ•ã‚¡ã‚¤ãƒ«ã§ã‚¢ãƒ‰ãƒãƒ³ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿åˆ©ç”¨ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹è¿½åŠ ç­‰
-ã€€ãƒ»è¨˜äº‹ç·¨é›†æ™‚ã€æ—¥æœ¬èªè¨€èªãƒ•ã‚¡ã‚¤ãƒ«åˆ©ç”¨æ™‚ç”¨ã«ä»¥ä¸‹ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’è¿½åŠ 
-ã€€ã€€ã€€1)admin/story/storyeditor.japanese_utf-8.thtml
-ã€€ã€€ã€€2)admin/story/storyeditor_advanced.japanese_utf-8.thtml
+¡Ver.1.2(2010-05-10)
+@EGeeklog1.7.0‚É‘Î‰‚³‚¹‚Ü‚µ‚½B
+@@@ƒƒ^ƒ^ƒO–³Œø‚Ì”ñ•\¦Aƒvƒƒtƒ@ƒCƒ‹‚ÅƒAƒhƒoƒ“ƒXƒgƒGƒfƒBƒ^—˜—pƒ`ƒFƒbƒNƒ{ƒbƒNƒX’Ç‰Á“™
+@E‹L–•ÒWA“ú–{ŒêŒ¾Œêƒtƒ@ƒCƒ‹—˜—p—p‚ÉˆÈ‰º‚Ìƒeƒ“ƒvƒŒ[ƒg‚ğ’Ç‰Á
+@@@1)admin/story/storyeditor.japanese_utf-8.thtml
+@@@2)admin/story/storyeditor_advanced.japanese_utf-8.thtml
 
-â– Ver.1.1(2009-11-11)
-ã€€ãƒ»Geeklog1.6.1ã«å¯¾å¿œã•ã›ã¾ã—ãŸã€‚
-ã€€ã€€ã€€ãƒ¡ã‚¿ã‚¿ã‚°è¿½åŠ ã€æ—¥æœ¬èªå°‚ç”¨è¨˜äº‹ç·¨é›†ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆè¿½åŠ ã€ãƒ¡ãƒ¼ãƒ«ã«è‡ªåˆ†ã¸ã®ã‚³ãƒ”ãƒ¼è¿½åŠ ç­‰
+¡Ver.1.1(2009-11-11)
+@EGeeklog1.6.1‚É‘Î‰‚³‚¹‚Ü‚µ‚½B
+@@@ƒƒ^ƒ^ƒO’Ç‰ÁA“ú–{Œêê—p‹L–•ÒWƒeƒ“ƒvƒŒ[ƒg’Ç‰ÁAƒ[ƒ‹‚É©•ª‚Ö‚ÌƒRƒs[’Ç‰Á“™
 
-â– Ver.1.04(2009-02-26)
-ã€€ãƒ»IE6ã§ç”»é¢ãŒè¡¨ç¤ºã•ã‚Œãªããªã‚‹ãŸã‚ã€ã‚¢ãƒ«ãƒ•ã‚¡ãƒãƒ£ãƒ³ãƒãƒ«ä»˜ãPNGã®è¡¨ç¤ºã‚’ç„¡åŠ¹ã«ã—ã¾ã—ãŸã€‚(*css/default.css)
+¡Ver.1.04(2009-02-26)
+@EIE6‚Å‰æ–Ê‚ª•\¦‚³‚ê‚È‚­‚È‚é‚½‚ßAƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«PNG‚Ì•\¦‚ğ–³Œø‚É‚µ‚Ü‚µ‚½B(*css/default.css)
 
-â– Ver.1.03(2008-12-22)
-ã€€ãƒ»IE6ã§ã‚¢ãƒ«ãƒ•ã‚¡ãƒãƒ£ãƒ³ãƒãƒ«ä»˜ãã®PNGã‚’è¡¨ç¤ºã§ãã‚‹ã‚ˆã†ã«ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/default.css)
+¡Ver.1.03(2008-12-22)
+@EIE6‚ÅƒAƒ‹ƒtƒ@ƒ`ƒƒƒ“ƒlƒ‹•t‚«‚ÌPNG‚ğ•\¦‚Å‚«‚é‚æ‚¤‚ÉC³‚µ‚Ü‚µ‚½B(*css/default.css)
 
-â– Ver.1.02(2008-09-15)
-ã€€ãƒ»Japanizeãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã«å¯¾å¿œã—ã¾ã—ãŸã€‚(+css/plugin/japanize.css, *css/plugin.css)
-ã€€ãƒ»fieldsetè¦ç´ ã®ãƒœãƒ¼ãƒ€ãƒ¼è‰²ã‚’ã‚°ãƒ¬ãƒ¼ã«å¤‰æ›´ã—ã¾ã—ãŸã€‚(*css/admin/configuration.css, *css/admin/group.css, *css/admin/story.css, *css/preferences/preferences.css)
+¡Ver.1.02(2008-09-15)
+@EJapanizeƒvƒ‰ƒOƒCƒ“‚É‘Î‰‚µ‚Ü‚µ‚½B(+css/plugin/japanize.css, *css/plugin.css)
+@Efieldset—v‘f‚Ìƒ{[ƒ_[F‚ğƒOƒŒ[‚É•ÏX‚µ‚Ü‚µ‚½B(*css/admin/configuration.css, *css/admin/group.css, *css/admin/story.css, *css/preferences/preferences.css)
 
-â– Ver.1.01(2008-07-01)
-ã€€ãƒ»Geeklog 1.5ã«åˆã‚ã›ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿½åŠ ãƒ»ä¿®æ­£ãƒ»å‰Šé™¤ã—ã¾ã—ãŸã€‚
-ã€€ãƒ»æœªä½¿ç”¨ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚
+¡Ver.1.01(2008-07-01)
+@EGeeklog 1.5‚É‡‚í‚¹‚ÄAƒtƒ@ƒCƒ‹‚ğ’Ç‰ÁEC³Eíœ‚µ‚Ü‚µ‚½B
+@E–¢g—p‚ÌCSSƒtƒ@ƒCƒ‹‚ğíœ‚µ‚Ü‚µ‚½B
 
-â– Ver.1.00(2007-10-22)
-  ãƒ»è¡¨(table)ã®ã‚»ãƒ«å†…ã®ãƒ†ã‚­ã‚¹ãƒˆã®å‚ç›´ä½ç½®ã‚’ä¸­å¤®å¯„ã›ã‹ã‚‰ä¸Šä»˜ãã«ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/default.css)
-  ãƒ»CSSãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰Win IE 5.5ä»¥ä¸‹ã€Mac IEç”¨ã®è¨˜è¿°ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚(*css/common.css, *css/layout.css, *css/comment/comment.css, *css/navbar/navbar.css)
-  ãƒ»ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«ã®é››å‹ã®ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã€Œ_custom.cssã€ã‹ã‚‰ã€Œcustom.sample.cssã€ã«å¤‰æ›´ã—ã¾ã—ãŸã€‚(-_custom.css, +custom.sample.css)
-  ãƒ»ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«(custom.css)ã‚’æ¨™æº–ã§èª­ã¿è¾¼ã‚€ã‚ˆã†ã«ä¿®æ­£ã—ã¾ã—ãŸã€‚(*style.css, +custom.css)
-  ãƒ»æ–‡å­—ã‚¨ãƒ³ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ãŒShift JISã«ãªã£ã¦ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’UTF-8ã«ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/plugin.css, *css/plugin/forum.css)
-  ãƒ»JavaScriptãŒã‚°ãƒ­ãƒ¼ãƒãƒ«åå‰ç©ºé–“ã‚’æ±šæŸ“ã—ãªã„ã‚ˆã†ã«ä¿®æ­£ã—ã¾ã—ãŸã€‚(*preferences/profile.thtml)
-  ãƒ»ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã®ã‚¿ã‚°æŠœã‘ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/story/storyeditor_advanced.thtml)
-  ãƒ»ã‚¢ãƒ‰ãƒãƒ³ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ã®å…¨ç”»é¢ã‚¨ãƒ‡ã‚£ã‚¿ã«å¯¾å¿œã—ã¾ã—ãŸ(ãã‚Œã«ä¼´ã„ã€ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’å¤‰æ›´ã—ã¾ã—ãŸ)ã€‚(*header.thtml, *css/layout.css, -images/css/bg_logo.gif, +images/logo.gif, *images/css/bg_navigation.gif)
-  ãƒ»ãƒ‡ãƒãƒƒã‚°ç”¨CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚(*style.css, -css/debug.css)
-  ãƒ»CSSã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚·ãƒ§ãƒ¼ãƒˆãƒãƒ³ãƒ‰ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã«çºã‚ã¾ã—ãŸã€‚(*css/layout.css, *css/block.css, *css/common.css, *css/form.css, *css/admin/group.css, *css/admin/lists.css, *css/admin/plugins.css, *css/comment/comment.css, *css/navbar/navbar.css, *css/plugin/forum.css, *css/plugin/sitecalendar.css, *css/search/search.css, *css/trackback/trackback.css
-
-
-â– Ver.0.99.3(2007-08-13)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç®¡ç†ç”»é¢ã§ã€å…¥åŠ›ãƒ•ã‚©ãƒ¼ãƒ ãŒã¯ã¿å‡ºã™ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/admin/boards_edtcategory.thtml, *forum/layout/admin/boards_edtforum.thtml)
+¡Ver.1.00(2007-10-22)
+  E•\(table)‚ÌƒZƒ‹“à‚ÌƒeƒLƒXƒg‚Ì‚’¼ˆÊ’u‚ğ’†‰›Šñ‚¹‚©‚çã•t‚«‚ÉC³‚µ‚Ü‚µ‚½B(*css/default.css)
+  ECSSƒtƒ@ƒCƒ‹‚©‚çWin IE 5.5ˆÈ‰ºAMac IE—p‚Ì‹Lq‚ğíœ‚µ‚Ü‚µ‚½B(*css/common.css, *css/layout.css, *css/comment/comment.css, *css/navbar/navbar.css)
+  EƒJƒXƒ^ƒ}ƒCƒY—pCSSƒtƒ@ƒCƒ‹‚Ì—Œ^‚Ìƒtƒ@ƒCƒ‹–¼‚ğu_custom.cssv‚©‚çucustom.sample.cssv‚É•ÏX‚µ‚Ü‚µ‚½B(-_custom.css, +custom.sample.css)
+  EƒJƒXƒ^ƒ}ƒCƒY—pCSSƒtƒ@ƒCƒ‹(custom.css)‚ğ•W€‚Å“Ç‚İ‚Ş‚æ‚¤‚ÉC³‚µ‚Ü‚µ‚½B(*style.css, +custom.css)
+  E•¶šƒGƒ“ƒR[ƒfƒBƒ“ƒO‚ªShift JIS‚É‚È‚Á‚Ä‚¢‚½ƒtƒ@ƒCƒ‹‚ğUTF-8‚ÉC³‚µ‚Ü‚µ‚½B(*css/plugin.css, *css/plugin/forum.css)
+  EJavaScript‚ªƒOƒ[ƒoƒ‹–¼‘O‹óŠÔ‚ğ‰˜õ‚µ‚È‚¢‚æ‚¤‚ÉC³‚µ‚Ü‚µ‚½B(*preferences/profile.thtml)
+  Eƒeƒ“ƒvƒŒ[ƒg•Ï”‚Ìƒ^ƒO”²‚¯‚ğC³‚µ‚Ü‚µ‚½B(*admin/story/storyeditor_advanced.thtml)
+  EƒAƒhƒoƒ“ƒXƒgƒGƒfƒBƒ^‚Ì‘S‰æ–ÊƒGƒfƒBƒ^‚É‘Î‰‚µ‚Ü‚µ‚½(‚»‚ê‚É”º‚¢AƒŒƒCƒAƒEƒg‚ğ•ÏX‚µ‚Ü‚µ‚½)B(*header.thtml, *css/layout.css, -images/css/bg_logo.gif, +images/logo.gif, *images/css/bg_navigation.gif)
+  EƒfƒoƒbƒO—pCSSƒtƒ@ƒCƒ‹‚ğíœ‚µ‚Ü‚µ‚½B(*style.css, -css/debug.css)
+  ECSS‚ÌƒvƒƒpƒeƒB‚ğƒVƒ‡[ƒgƒnƒ“ƒhƒvƒƒpƒeƒB‚É“Z‚ß‚Ü‚µ‚½B(*css/layout.css, *css/block.css, *css/common.css, *css/form.css, *css/admin/group.css, *css/admin/lists.css, *css/admin/plugins.css, *css/comment/comment.css, *css/navbar/navbar.css, *css/plugin/forum.css, *css/plugin/sitecalendar.css, *css/search/search.css, *css/trackback/trackback.css
 
 
-â– Ver.0.99.2(2007-07-06)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã€ã‚«ãƒ†ã‚´ãƒªã®ç·¨é›†ãƒ»å‰Šé™¤ç­‰ãŒã§ããªã„ä¸å…·åˆ(ä¸æ­£ãªformã‚¿ã‚°)ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/admin/board_categories.thtml, *forum/layout/admin/board_forums.thtml, *forum/layout/admin/moderators.thtml, *userprefs/user_settings.thtml)
+¡Ver.0.99.3(2007-08-13)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌŠÇ—‰æ–Ê‚ÅA“ü—ÍƒtƒH[ƒ€‚ª‚Í‚İo‚·•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/admin/boards_edtcategory.thtml, *forum/layout/admin/boards_edtforum.thtml)
 
 
-â– Ver.0.99.1(2007-06-12)
-  ãƒ»è¨˜äº‹ãƒ»æ³¨ç›®è¨˜äº‹ã®ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ã‹ã‚‰ãƒ¯ãƒ¼ãƒ‰æ•°ã®è¡¨ç¤ºã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚(*storytext.thtml, *featuredstorytext.thtml)
-  ãƒ»æ¤œç´¢ãƒšãƒ¼ã‚¸ã®ãƒ•ã‚©ãƒ¼ãƒ ã§ã€ã€Œã‚¿ã‚¤ãƒ—ã€ã®ã‚»ãƒ¬ã‚¯ãƒˆãƒœãƒƒã‚¯ã‚¹ã«ç©ºè¡ŒãŒå«ã¾ã‚Œã¦ã—ã¾ã†ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*search/searchform.thtml)
-  ãƒ»Operaã§ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒšãƒ¼ã‚¸ã®ã‚¿ãƒ–ãŒåˆ‡ã‚Šæ›¿ã‚ã‚‰ãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*javascript/fix_html.js)
-  ãƒ»ãƒ†ãƒ¼ãƒ–ãƒ«ã®ã‚»ãƒ«ã®å†…å®¹ã‚’å¹…ã«åˆã‚ã›ã¦æŠ˜ã‚Šè¿”ã™ã‚ˆã†ã«ã—ã¾ã—ãŸ(IEã®ã¿)ã€‚(*css/default.css)
-  ãƒ»å­ã‚»ãƒ¬ã‚¯ã‚¿ãƒ»éš£æ¥å…„å¼Ÿã‚»ãƒ¬ã‚¯ã‚¿ã®çµåˆå­(>, +)ã®å‰å¾Œã®åŠè§’ã‚¹ãƒšãƒ¼ã‚¹ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚(*css/default.css, *css/plugin/sitecalendar.css, *css/submit/submit.css)
-  ãƒ»ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒšãƒ¼ã‚¸ã®å€‹äººæƒ…å ±ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã§ã€IDå±æ€§å€¤ãŒé‡è¤‡ã—ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*preferences/profile.thtml)
-  ãƒ»ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒšãƒ¼ã‚¸ã®ã‚³ãƒ¡ãƒ³ãƒˆè¡¨ç¤ºãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã§ã€labelè¦ç´ ã«ä¸é©åˆ‡ãªforå±æ€§å€¤ãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*preferences/excludeblock.thtml)
-  ãƒ»Win IE 6ä»¥ä¸‹ç”¨ã®è¦å‰‡é›†åˆã‚’ä¸€éƒ¨å‰Šé™¤ã€å®£è¨€ã®è§£é‡ˆãƒã‚°ã‚’åˆ©ç”¨ã—ãŸå¯¾ç­–æ–¹æ³•ã«å¤‰æ›´ã—ã¾ã—ãŸã€‚(*css/layout.css)
-  ãƒ»ã‚¿ã‚°ã®è¨˜è¿°ãƒŸã‚¹(ã€Œ<p />ã€)ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/topic.thtml, *forum/layout/topicfooter.thtml, *forum/layout/topicfooter_preview.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/admin/header.thtml, *forum/layout/admin/settings.thtml, *forum/layout/footer/footer.thtml, *forum/layout/reports/notifications.thtml)
+¡Ver.0.99.2(2007-07-06)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÅAƒJƒeƒSƒŠ‚Ì•ÒWEíœ“™‚ª‚Å‚«‚È‚¢•s‹ï‡(•s³‚Èformƒ^ƒO)‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/admin/board_categories.thtml, *forum/layout/admin/board_forums.thtml, *forum/layout/admin/moderators.thtml, *userprefs/user_settings.thtml)
 
 
-â– Ver.0.99(2007-05-21)
-  ãƒ»æŠ•ç¨¿ç®¡ç†ç”»é¢ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ç®¡ç†ç”»é¢ã§ã€ãƒ•ã‚©ãƒ¼ãƒ ãŒæ­£å¸¸ã«æ©Ÿèƒ½ã—ãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/lists/list.thtml)
-  ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆéƒ¨åˆ†ã§ä¸æ­£ãªHTMLãŒå‡ºåŠ›ã•ã‚Œã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*comment/comment.thtml, *css/comment/comment.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã€ãƒã‚¦ã‚¹ã‚ªãƒ¼ãƒãƒ¼æ™‚ã«ãƒªãƒ³ã‚¯ä»¥å¤–ã®å ´æ‰€ãŒåå¿œã™ã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/plugin/forum.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã«styleå±æ€§ã®è¨˜è¿°ãƒŸã‚¹ãŒã‚ã£ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/submissionform_code.thtml)
-  ãƒ»ã‚µã‚¤ãƒˆã‚«ãƒ¬ãƒ³ãƒ€ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã«ã€dengenæ°ç‰ˆã§è¿½åŠ ã•ã‚ŒãŸæ©Ÿèƒ½ã®ã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(*css/plugin/sitecalendar.css)
-  ãƒ»ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒèª¤ã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/lists/list.thtml)
-  ãƒ»CSSãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒèª¤ã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/block.css)
+¡Ver.0.99.1(2007-06-12)
+  E‹L–E’–Ú‹L–‚ÌƒiƒrƒQ[ƒVƒ‡ƒ“‚©‚çƒ[ƒh”‚Ì•\¦‚ğíœ‚µ‚Ü‚µ‚½B(*storytext.thtml, *featuredstorytext.thtml)
+  EŒŸõƒy[ƒW‚ÌƒtƒH[ƒ€‚ÅAuƒ^ƒCƒvv‚ÌƒZƒŒƒNƒgƒ{ƒbƒNƒX‚É‹ós‚ªŠÜ‚Ü‚ê‚Ä‚µ‚Ü‚¤•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*search/searchform.thtml)
+  EOpera‚Åƒ}ƒCƒAƒJƒEƒ“ƒgƒy[ƒW‚Ìƒ^ƒu‚ªØ‚è‘Ö‚í‚ç‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*javascript/fix_html.js)
+  Eƒe[ƒuƒ‹‚ÌƒZƒ‹‚Ì“à—e‚ğ•‚É‡‚í‚¹‚ÄÜ‚è•Ô‚·‚æ‚¤‚É‚µ‚Ü‚µ‚½(IE‚Ì‚İ)B(*css/default.css)
+  EqƒZƒŒƒNƒ^E—×ÚŒZ’íƒZƒŒƒNƒ^‚ÌŒ‹‡q(>, +)‚Ì‘OŒã‚Ì”¼ŠpƒXƒy[ƒX‚ğíœ‚µ‚Ü‚µ‚½B(*css/default.css, *css/plugin/sitecalendar.css, *css/submit/submit.css)
+  Eƒ}ƒCƒAƒJƒEƒ“ƒgƒy[ƒW‚ÌŒÂlî•ñƒtƒB[ƒ‹ƒh‚ÅAID‘®«’l‚ªd•¡‚µ‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*preferences/profile.thtml)
+  Eƒ}ƒCƒAƒJƒEƒ“ƒgƒy[ƒW‚ÌƒRƒƒ“ƒg•\¦ƒtƒB[ƒ‹ƒh‚ÅAlabel—v‘f‚É•s“KØ‚Èfor‘®«’l‚ªw’è‚³‚ê‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*preferences/excludeblock.thtml)
+  EWin IE 6ˆÈ‰º—p‚Ì‹K‘¥W‡‚ğˆê•”íœAéŒ¾‚Ì‰ğßƒoƒO‚ğ—˜—p‚µ‚½‘Îô•û–@‚É•ÏX‚µ‚Ü‚µ‚½B(*css/layout.css)
+  Eƒ^ƒO‚Ì‹Lqƒ~ƒX(u<p />v)‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/topic.thtml, *forum/layout/topicfooter.thtml, *forum/layout/topicfooter_preview.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/admin/header.thtml, *forum/layout/admin/settings.thtml, *forum/layout/footer/footer.thtml, *forum/layout/reports/notifications.thtml)
 
 
-â– Ver.0.98.1(2007-04-04)
-  ãƒ»è¨˜äº‹ã®æœ¬æ–‡ãŒçŸ­ã„å ´åˆã«ã€ã‚«ãƒ†ã‚´ãƒªã‚¢ã‚¤ã‚³ãƒ³ã«ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ãƒªãƒ³ã‚¯ãŒå›ã‚Šè¾¼ã‚“ã§è¡¨ç¤ºã•ã‚Œã¦ã—ã¾ã†ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/story.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’Ver.2.6 Final(RC5)ã«åˆã‚ã›ã¦ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/topic.thtml, *forum/layout/topiclisting.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/blocks/block_displayline.thtml, *forum/layout/block/centerblock_displayline.thtml, *forum/layout/links/markread.thtml, *forum/layout/links/newposts.thtml)
+¡Ver.0.99(2007-05-21)
+  E“ŠeŠÇ—‰æ–ÊEƒuƒƒbƒNŠÇ—‰æ–Ê‚ÅAƒtƒH[ƒ€‚ª³í‚É‹@”\‚µ‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*admin/lists/list.thtml)
+  EƒRƒƒ“ƒg•”•ª‚Å•s³‚ÈHTML‚ªo—Í‚³‚ê‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*comment/comment.thtml, *css/comment/comment.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÅAƒ}ƒEƒXƒI[ƒo[‚ÉƒŠƒ“ƒNˆÈŠO‚ÌêŠ‚ª”½‰‚·‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/plugin/forum.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Éstyle‘®«‚Ì‹Lqƒ~ƒX‚ª‚ ‚Á‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/submissionform_code.thtml)
+  EƒTƒCƒgƒJƒŒƒ“ƒ_ƒvƒ‰ƒOƒCƒ“‚ÉAdengen”Å‚Å’Ç‰Á‚³‚ê‚½‹@”\‚ÌƒXƒ^ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(*css/plugin/sitecalendar.css)
+  Eƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹“à‚ÌƒRƒƒ“ƒg‚ªŒë‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*admin/lists/list.thtml)
+  ECSSƒtƒ@ƒCƒ‹“à‚ÌƒRƒƒ“ƒg‚ªŒë‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*css/block.css)
 
 
-â– Ver.0.98(2007-03-26)
-  ãƒ»æ¤œç´¢ãƒ•ã‚©ãƒ¼ãƒ ã®inputè¦ç´ ã§valueå±æ€§ãŒæŠœã‘ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(leftblocks.thtml)
-  ãƒ»iframeè¦ç´ ãŒåŸå› ã§ã€ä¸­å¤®ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã“ã¨ãŒã‚ã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(css/common.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’Ver.2.6 RC4ä»¥ä¸Šã«åˆã‚ã›ã¦ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/admin/boards_edtforum.thtml, *forum/layout/admin/migratestories.thtml, *forum/layout/admin/ranksetting_option.thtml)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ã‚¿ã‚°æŠœã‘ãƒ»æ–‡æ³•ãƒŸã‚¹ãŒã‚ã£ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(forum/forum_search.thtml, forum/post_topic_navbar.thtml, forum/topic_navbar.thtml)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®iframeè¦ç´ ãŒå´©ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(javascript/fix_html.js)
+¡Ver.0.98.1(2007-04-04)
+  E‹L–‚Ì–{•¶‚ª’Z‚¢ê‡‚ÉAƒJƒeƒSƒŠƒAƒCƒRƒ“‚ÉƒiƒrƒQ[ƒVƒ‡ƒ“ƒŠƒ“ƒN‚ª‰ñ‚è‚ñ‚Å•\¦‚³‚ê‚Ä‚µ‚Ü‚¤•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/story.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Ìƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ğVer.2.6 Final(RC5)‚É‡‚í‚¹‚ÄC³‚µ‚Ü‚µ‚½B(*forum/layout/topic.thtml, *forum/layout/topiclisting.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/blocks/block_displayline.thtml, *forum/layout/block/centerblock_displayline.thtml, *forum/layout/links/markread.thtml, *forum/layout/links/newposts.thtml)
 
 
-â– Ver.0.97.1(2007-03-19)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ã€iframeè¦ç´ ã®å†…å®¹ãŒä¸­å¤®å¯„ã›ã«ãªã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/plugin/forum.css)
+¡Ver.0.98(2007-03-26)
+  EŒŸõƒtƒH[ƒ€‚Ìinput—v‘f‚Åvalue‘®«‚ª”²‚¯‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(leftblocks.thtml)
+  Eiframe—v‘f‚ªŒ´ˆö‚ÅA’†‰›ƒuƒƒbƒN‚ÉƒXƒNƒ[ƒ‹ƒo[‚ª•\¦‚³‚ê‚é‚±‚Æ‚ª‚ ‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(css/common.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Ìƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ğVer.2.6 RC4ˆÈã‚É‡‚í‚¹‚ÄC³‚µ‚Ü‚µ‚½B(*forum/layout/admin/boards_edtforum.thtml, *forum/layout/admin/migratestories.thtml, *forum/layout/admin/ranksetting_option.thtml)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Ìƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚Éƒ^ƒO”²‚¯E•¶–@ƒ~ƒX‚ª‚ ‚Á‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(forum/forum_search.thtml, forum/post_topic_navbar.thtml, forum/topic_navbar.thtml)
+  EWin IE 6ˆÈ‰º‚ÅAŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Ìiframe—v‘f‚ª•ö‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(javascript/fix_html.js)
 
 
-â– Ver.0.97(2007-03-10)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãŒä¸­å¤®ãƒ–ãƒ­ãƒƒã‚¯ã‹ã‚‰ã¯ã¿å‡ºã™ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/categorylisting.thtml, *forum/layout/post_topic_navbar.thtml, *forum/layout/submissionform_main.thtml, *forum/layout/topiclisting.thtml, *forum/layout/topic_navbar.thtml, *css/plugin/forum.css)
-  ãƒ»ç®¡ç†ç”»é¢ã®ã‚¢ã‚¤ã‚³ãƒ³ãŒè¡¨ç¤ºã•ã‚Œãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/lists/topmenu_nosearch.thtml)
-  ãƒ»ç®¡ç†ç”»é¢ã§ç”³è«‹ã®æ‰¿èªãƒ»å‰Šé™¤ãŒè¡Œãˆãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/lists/list.thtml)
-  ãƒ»ã‚¢ãƒ‰ãƒãƒ³ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ã§ãƒ¦ãƒ¼ã‚¶ã«ã‚ˆã‚‹è¨˜äº‹æŠ•ç¨¿ãŒã§ããªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*submit/submitstory_advanced.thtml)
-  ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã‚¿ã‚¤ãƒˆãƒ«ã«è¡¨ç¤ºã•ã‚Œã‚‹ãƒ˜ãƒ«ãƒ—ã‚¢ã‚¤ã‚³ãƒ³ã®ä½ç½®ã‚’èª¿æ•´ã—ã¾ã—ãŸã€‚(*css/block.css)
-  ãƒ»åŸºæœ¬ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆã«å¹…ã®è¨ˆç®—æ–¹æ³•ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã¨ã—ã¦è¿½åŠ ã—ã¾ã—ãŸã€‚(*css/layout.css)
+¡Ver.0.97.1(2007-03-19)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÅAiframe—v‘f‚Ì“à—e‚ª’†‰›Šñ‚¹‚É‚È‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/plugin/forum.css)
 
 
-â– Ver.0.96(2007-03-04)
-  ãƒ»ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºç”¨ã«ã€åŸºæœ¬çš„ãªã‚¹ã‚¿ã‚¤ãƒ«ã‚’åˆæœŸåŒ–ã™ã‚‹CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(+_custom.css)
-  ãƒ»ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã®å…¥åŠ›ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®é•·ã•(sizeå±æ€§å€¤)ã‚’çµ±ä¸€ã—ã¾ã—ãŸã€‚(*users/getpasswordform.thtml, registrationform.thtml)
+¡Ver.0.97(2007-03-10)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ª’†‰›ƒuƒƒbƒN‚©‚ç‚Í‚İo‚·•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/categorylisting.thtml, *forum/layout/post_topic_navbar.thtml, *forum/layout/submissionform_main.thtml, *forum/layout/topiclisting.thtml, *forum/layout/topic_navbar.thtml, *css/plugin/forum.css)
+  EŠÇ—‰æ–Ê‚ÌƒAƒCƒRƒ“‚ª•\¦‚³‚ê‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*admin/lists/topmenu_nosearch.thtml)
+  EŠÇ—‰æ–Ê‚Å\¿‚Ì³”FEíœ‚ªs‚¦‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*admin/lists/list.thtml)
+  EƒAƒhƒoƒ“ƒXƒgƒGƒfƒBƒ^‚Åƒ†[ƒU‚É‚æ‚é‹L–“Še‚ª‚Å‚«‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*submit/submitstory_advanced.thtml)
+  EƒuƒƒbƒNƒ^ƒCƒgƒ‹‚É•\¦‚³‚ê‚éƒwƒ‹ƒvƒAƒCƒRƒ“‚ÌˆÊ’u‚ğ’²®‚µ‚Ü‚µ‚½B(*css/block.css)
+  EŠî–{ƒŒƒCƒAƒEƒgƒXƒ^ƒCƒ‹ƒV[ƒg‚É•‚ÌŒvZ•û–@‚ğƒRƒƒ“ƒg‚Æ‚µ‚Ä’Ç‰Á‚µ‚Ü‚µ‚½B(*css/layout.css)
 
 
-â– Ver.0.95.2(2007-02-23)
-  ãƒ»ã‚¢ãƒ‰ãƒãƒ³ã‚¹ãƒˆã‚¨ãƒ‡ã‚£ã‚¿ãŒèµ·å‹•ã—ãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*advanced_editor_header.thtml)
-  ãƒ»å·¦ãƒ–ãƒ­ãƒƒã‚¯ãƒ»å³ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ˜ãƒ«ãƒ—ã‚¢ã‚¤ã‚³ãƒ³ãŒè¡¨ç¤ºã•ã‚Œãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*blockheader-left.thtml, *blockheader-right.thtml)
-  ãƒ»ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ¼ã®ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆãŒå´©ã‚Œã‚‹ã“ã¨ãŒã‚ã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/navbar/navbar.css)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€è¨˜äº‹ã®ç·¨é›†ãƒšãƒ¼ã‚¸ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ãŒè¡¨ç¤ºã•ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/admin/story.css)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆãƒšãƒ¼ã‚¸ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ãŒè¡¨ç¤ºã•ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/preferences/preferences.css)
+¡Ver.0.96(2007-03-04)
+  EƒJƒXƒ^ƒ}ƒCƒY—p‚ÉAŠî–{“I‚ÈƒXƒ^ƒCƒ‹‚ğ‰Šú‰»‚·‚éCSSƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(+_custom.css)
+  Eƒ[ƒ‹ƒAƒhƒŒƒX‚Ì“ü—ÍƒtƒB[ƒ‹ƒh‚Ì’·‚³(size‘®«’l)‚ğ“ˆê‚µ‚Ü‚µ‚½B(*users/getpasswordform.thtml, registrationform.thtml)
 
 
-â– Ver.0.95.1(2007-02-19)
-  ãƒ»ã‚«ã‚¹ã‚¿ãƒ ãƒ†ãƒ¼ãƒã®CSSãƒ•ã‚¡ã‚¤ãƒ«ç”¨ã«@importè¦å‰‡ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ãŸçŠ¶æ…‹ã§è¿½è¨˜ã—ã¾ã—ãŸã€‚(*style.css)
-  ãƒ»å¤šè¨€èªåˆ‡ã‚Šæ›¿ãˆãƒ•ã‚©ãƒ¼ãƒ ãŒå·¦å³ãƒ–ãƒ­ãƒƒã‚¯ã‹ã‚‰ã¯ã¿å‡ºã™ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸ(å±æ€§ã‚»ãƒ¬ã‚¯ã‚¿æœªå¯¾å¿œã®UAã¯ä¿®æ­£ä¸å¯èƒ½)ã€‚(*css/common.css)
-  ãƒ»Win IEã§ã€æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®å‰å¾Œã«ä¸è¦ãªæ–‡å­—åˆ—ãŒè¡¨ç¤ºã•ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/blocks/centerblock.thtml)
-  ãƒ»ä¸€éƒ¨ã®UAã§tableè¦ç´ ã®align/valignå±æ€§ãŒç„¡åŠ¹ã«ãªã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/default.css)
+¡Ver.0.95.2(2007-02-23)
+  EƒAƒhƒoƒ“ƒXƒgƒGƒfƒBƒ^‚ª‹N“®‚µ‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*advanced_editor_header.thtml)
+  E¶ƒuƒƒbƒNE‰EƒuƒƒbƒN‚Ìƒwƒ‹ƒvƒAƒCƒRƒ“‚ª•\¦‚³‚ê‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*blockheader-left.thtml, *blockheader-right.thtml)
+  EƒiƒrƒQ[ƒVƒ‡ƒ“ƒo[‚ÌƒŒƒCƒAƒEƒg‚ª•ö‚ê‚é‚±‚Æ‚ª‚ ‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/navbar/navbar.css)
+  EWin IE 6ˆÈ‰º‚ÅA‹L–‚Ì•ÒWƒy[ƒW‚ÉƒXƒNƒ[ƒ‹ƒo[‚ª•\¦‚³‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/admin/story.css)
+  EWin IE 6ˆÈ‰º‚ÅAƒ}ƒCƒAƒJƒEƒ“ƒgƒy[ƒW‚ÉƒXƒNƒ[ƒ‹ƒo[‚ª•\¦‚³‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/preferences/preferences.css)
 
 
-â– Ver.0.95(2007-02-14)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€å³ãƒ–ãƒ­ãƒƒã‚¯ã®è¦ç´ ã®ä¸€éƒ¨ãŒé‡è¤‡ã—ã¦è¡¨ç¤ºã•ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*header.thtml)
-  ãƒ»ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚¨ãƒ¼ã‚¸ã‚§ãƒ³ãƒˆã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‚ˆã†ã«å¤‰æ›´ã—ã¾ã—ãŸã€‚(*header.thtml
-  ãƒ»maxlengthå±æ€§ãŒã€Œmaxsizeã€ã«ãªã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*admin/trackback/pingbackform.thtml, *admin/trackback/serviceeditor.thtml, *admin/trackback/trackbackeditor.thtml)
-  ãƒ»ãã®ä»–ã€Geeklog 1.4.1ã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—ã«ä¼´ã£ã¦ã€ä¸‹è¨˜ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ›´æ–°ãƒ»è¿½åŠ ãƒ»å‰Šé™¤ã—ã¾ã—ãŸã€‚
+¡Ver.0.95.1(2007-02-19)
+  EƒJƒXƒ^ƒ€ƒe[ƒ}‚ÌCSSƒtƒ@ƒCƒ‹—p‚É@import‹K‘¥‚ğƒRƒƒ“ƒgƒAƒEƒg‚µ‚½ó‘Ô‚Å’Ç‹L‚µ‚Ü‚µ‚½B(*style.css)
+  E‘½Œ¾ŒêØ‚è‘Ö‚¦ƒtƒH[ƒ€‚ª¶‰EƒuƒƒbƒN‚©‚ç‚Í‚İo‚·•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½(‘®«ƒZƒŒƒNƒ^–¢‘Î‰‚ÌUA‚ÍC³•s‰Â”\)B(*css/common.css)
+  EWin IE‚ÅAŒf¦”Âƒvƒ‰ƒOƒCƒ“‚Ì‘OŒã‚É•s—v‚È•¶š—ñ‚ª•\¦‚³‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/blocks/centerblock.thtml)
+  Eˆê•”‚ÌUA‚Åtable—v‘f‚Ìalign/valign‘®«‚ª–³Œø‚É‚È‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/default.css)
 
-    *æ›´æ–°ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«
+
+¡Ver.0.95(2007-02-14)
+  EWin IE 6ˆÈ‰º‚ÅA‰EƒuƒƒbƒN‚Ì—v‘f‚Ìˆê•”‚ªd•¡‚µ‚Ä•\¦‚³‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*header.thtml)
+  Eƒ†[ƒU[ƒG[ƒWƒFƒ“ƒg‚ÌƒLƒƒƒbƒVƒ…‚ğ—LŒø‚É‚·‚é‚æ‚¤‚É•ÏX‚µ‚Ü‚µ‚½B(*header.thtml
+  Emaxlength‘®«‚ªumaxsizev‚É‚È‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*admin/trackback/pingbackform.thtml, *admin/trackback/serviceeditor.thtml, *admin/trackback/trackbackeditor.thtml)
+  E‚»‚Ì‘¼AGeeklog 1.4.1‚Ìƒo[ƒWƒ‡ƒ“ƒAƒbƒv‚É”º‚Á‚ÄA‰º‹L‚ÌƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹‚ğXVE’Ç‰ÁEíœ‚µ‚Ü‚µ‚½B
+
+    *XVƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
       *header.thml
       *style.css
       *admin/block/blockeditor.thtml
@@ -487,7 +446,7 @@ ProfessionalCSSãƒ†ãƒ¼ãƒã‚’ãƒ™ãƒ¼ã‚¹ã«ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã‚’è¡Œã†ã«ã¯ã€
       *user/profile.thtml
       *user/registrationform.thtml
 
-    +è¿½åŠ ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«
+    +’Ç‰ÁƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
       +admin/common/
       +admin/common/*.*
       +admin/user/batchdelete.thtml
@@ -504,7 +463,7 @@ ProfessionalCSSãƒ†ãƒ¼ãƒã‚’ãƒ™ãƒ¼ã‚¹ã«ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã‚’è¡Œã†ã«ã¯ã€
       +navbar/images/tabrightI.gif
       +navbar/images/tabrightJ.gif
 
-    -å‰Šé™¤ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«
+    -íœƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹
       -admin/event/
       -admin/event/*.*
       -calendar/
@@ -521,69 +480,70 @@ ProfessionalCSSãƒ†ãƒ¼ãƒã‚’ãƒ™ãƒ¼ã‚¹ã«ã—ãŸã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã‚’è¡Œã†ã«ã¯ã€
       -images/png/*.*
       -submit/submitevent.thtml
 
-    â€»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ»ãƒ•ã‚¡ã‚¤ãƒ«(forum/, forum/*.*)ã¯å…¨ã¦æœ€æ–°ç‰ˆã«å…¥ã‚Œæ›¿ãˆã¾ã—ãŸã€‚
+    ¦Œf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌƒfƒBƒŒƒNƒgƒŠEƒtƒ@ƒCƒ‹(forum/, forum/*.*)‚Í‘S‚ÄÅV”Å‚É“ü‚ê‘Ö‚¦‚Ü‚µ‚½B
 
 
-â– Ver.0.94(2006-12-19)
-  ãƒ»è¨€èªãƒ•ã‚¡ã‚¤ãƒ«ã«åˆã‚ã›ã¦ã€ã€ŒCalendarã€ã‚’è¡¨ã™å˜èªã‚’ã€Œã‚«ãƒ¬ãƒ³ãƒ€ã€ã«çµ±ä¸€ã—ã¾ã—ãŸã€‚(*calendar/calendar.thtml, *css/calendar/calendar.css)
-  ãƒ»è¨˜äº‹ã‚¿ã‚¤ãƒˆãƒ«ãŒã‚¢ã‚¤ã‚³ãƒ³ã¨é‡ãªã£ã¦ã—ã¾ã†ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/story.css)
-  ãƒ»Firefoxã§optionè¦ç´ ã®å³ç«¯ãŒé€”åˆ‡ã‚Œã¦ã—ã¾ã†ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/common.css)
-  ãƒ»ãƒ–ãƒ­ãƒƒã‚¯ã®å†…å®¹ã«ã‚ˆã£ã¦ã€ã‚«ãƒ©ãƒ è½ã¡ãŒç™ºç”Ÿã™ã‚‹ã“ã¨ãŒã‚ã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/common.css, *css/layout.css)
+¡Ver.0.94(2006-12-19)
+  EŒ¾Œêƒtƒ@ƒCƒ‹‚É‡‚í‚¹‚ÄAuCalendarv‚ğ•\‚·’PŒê‚ğuƒJƒŒƒ“ƒ_v‚É“ˆê‚µ‚Ü‚µ‚½B(*calendar/calendar.thtml, *css/calendar/calendar.css)
+  E‹L–ƒ^ƒCƒgƒ‹‚ªƒAƒCƒRƒ“‚Æd‚È‚Á‚Ä‚µ‚Ü‚¤•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/story.css)
+  EFirefox‚Åoption—v‘f‚Ì‰E’[‚ª“rØ‚ê‚Ä‚µ‚Ü‚¤•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/common.css)
+  EƒuƒƒbƒN‚Ì“à—e‚É‚æ‚Á‚ÄAƒJƒ‰ƒ€—‚¿‚ª”­¶‚·‚é‚±‚Æ‚ª‚ ‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/common.css, *css/layout.css)
 
 
-â– Ver.0.93.3(2006-12-09)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€é•·ã„ã‚³ãƒ¡ãƒ³ãƒˆãŒãã®ã¾ã¾è¡¨ç¤ºã•ã‚Œã‚‹ä¸å…·åˆãŒæ®‹ã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/comment/comment.css)
-  ãƒ»IE 6ä»¥ä¸‹ã§ã®ä¸å…·åˆã«å¯¾å‡¦ã™ã‚‹ãŸã‚ã€preè¦ç´ ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¹ã‚¿ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚(*css/common.css)
+¡Ver.0.93.3(2006-12-09)
+  EWin IE 6ˆÈ‰º‚ÅA’·‚¢ƒRƒƒ“ƒg‚ª‚»‚Ì‚Ü‚Ü•\¦‚³‚ê‚é•s‹ï‡‚ªc‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*css/comment/comment.css)
+  EIE 6ˆÈ‰º‚Å‚Ì•s‹ï‡‚É‘Îˆ‚·‚é‚½‚ßApre—v‘f‚ÌƒfƒtƒHƒ‹ƒgƒXƒ^ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B(*css/common.css)
 
 
-â– Ver.0.93.2(2006-12-08)
-  ãƒ»é•·ã„ã‚³ãƒ¡ãƒ³ãƒˆãŒãã®ã¾ã¾è¡¨ç¤ºã•ã‚Œã‚‹ãŸã‚ã«è¦‹ãˆãªããªã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/comment/comment.css)
+¡Ver.0.93.2(2006-12-08)
+  E’·‚¢ƒRƒƒ“ƒg‚ª‚»‚Ì‚Ü‚Ü•\¦‚³‚ê‚é‚½‚ß‚ÉŒ©‚¦‚È‚­‚È‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/comment/comment.css)
 
 
-â– Ver.0.93.1(2006-12-03)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç½«ç·šã«éš™é–“ãŒç©ºãä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/common.css, *css/plugin/forum.css)
+¡Ver.0.93.1(2006-12-03)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌŒrü‚ÉŒ„ŠÔ‚ª‹ó‚­•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/common.css, *css/plugin/forum.css)
 
 
-â– Ver.0.93(2006-11-21)
-ã€€ãƒ»Win IEã§ã€1ã¤ã®æ–‡æ›¸å†…ã§ã¯CSSãƒ•ã‚¡ã‚¤ãƒ«ãŒ31å€‹ã¾ã§ã—ã‹èªè­˜ã•ã‚Œãªã„ä»•æ§˜ä¸Šã®é™ç•Œã®ãŸã‚ã€æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ãŒèªè­˜ã•ã‚Œã¦ã„ãªã‹ã£ãŸä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*style.css, +css/admin.css, +css/plugin.css)
-    ã“ã‚Œã«ä¼´ã„ã€ä¸‹è¨˜ã®CSSãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
-    ç®¡ç†è€…ãƒšãƒ¼ã‚¸ãƒ»ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ç”¨ã®å„CSSãƒ•ã‚¡ã‚¤ãƒ«ã¯ã€ä¸‹è¨˜ã®CSSãƒ•ã‚¡ã‚¤ãƒ«å†…ã§ã‚¤ãƒ³ãƒãƒ¼ãƒˆã•ã‚Œã‚‹ã‚ˆã†ã«ãªã‚Šã¾ã—ãŸã€‚
-      +css/admin.css -- ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ(ç®¡ç†è€…ãƒšãƒ¼ã‚¸)
-      +css/plugin.css - ã‚¤ãƒ³ãƒãƒ¼ãƒˆç”¨ã‚¹ã‚¿ã‚¤ãƒ«ã‚·ãƒ¼ãƒˆ(ãƒ—ãƒ©ã‚°ã‚¤ãƒ³)
+¡Ver.0.93(2006-11-21)
+@EWin IE‚ÅA1‚Â‚Ì•¶‘“à‚Å‚ÍCSSƒtƒ@ƒCƒ‹‚ª31ŒÂ‚Ü‚Å‚µ‚©”F¯‚³‚ê‚È‚¢d—lã‚ÌŒÀŠE‚Ì‚½‚ßAŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌCSSƒtƒ@ƒCƒ‹‚ª”F¯‚³‚ê‚Ä‚¢‚È‚©‚Á‚½•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*style.css, +css/admin.css, +css/plugin.css)
+    ‚±‚ê‚É”º‚¢A‰º‹L‚ÌCSSƒtƒ@ƒCƒ‹‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+    ŠÇ—Òƒy[ƒWEƒvƒ‰ƒOƒCƒ“—p‚ÌŠeCSSƒtƒ@ƒCƒ‹‚ÍA‰º‹L‚ÌCSSƒtƒ@ƒCƒ‹“à‚ÅƒCƒ“ƒ|[ƒg‚³‚ê‚é‚æ‚¤‚É‚È‚è‚Ü‚µ‚½B
+      +css/admin.css -- ƒCƒ“ƒ|[ƒg—pƒXƒ^ƒCƒ‹ƒV[ƒg(ŠÇ—Òƒy[ƒW)
+      +css/plugin.css - ƒCƒ“ƒ|[ƒg—pƒXƒ^ƒCƒ‹ƒV[ƒg(ƒvƒ‰ƒOƒCƒ“)
 
-  ãƒ»Powered byè¡¨ç¤ºãŒã€ŒGeeklog Japanesã€ã«ãªã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*footer.thtml)
-  ãƒ»ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ¼ã®ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒé–“é•ã£ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*navbar/navbar.thtml)
-  ãƒ»ä¸è¦ãªCSSãƒ•ã‚¡ã‚¤ãƒ«ãŒå«ã¾ã‚Œã¦ã„ãŸã®ã‚’å‰Šé™¤ã—ã¾ã—ãŸã€‚(-css/plugin/style_forum.css)
-  ãƒ»CSSã®æ–‡æ³•ãƒŸã‚¹ã‚’ä¿®æ­£ã—ã¾ã—ãŸ(*css/default.css, *css/plugin/forum.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®CSSãƒ•ã‚¡ã‚¤ãƒ«å†…ã®ã‚³ãƒ¡ãƒ³ãƒˆãŒæ–‡å­—åŒ–ã‘ã—ã¦ã„ãŸã®ã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/plugin/forum.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®CSSã‚’ã€ä»–ã®CSSã®ã‚³ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°ã‚¹ã‚¿ã‚¤ãƒ«ã«åˆã‚ã›ã¦æ•´å½¢ã—ã¾ã—ãŸã€‚(*css/plugin/forum.css)
-  ãƒ»æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã§ãƒŠãƒ“ã‚²ãƒ¼ã‚·ãƒ§ãƒ³ãƒãƒ¼ä»¥ä¸‹ãŒå´©ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/plugin/forum.css)
-  ãƒ»Win IEã§ã€æ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ç½«ç·šãŒä¹±ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/forum_outline_header.thtml, *forum/layout/forum_outline_footer.thtml)
-  ãƒ»Win IEã§ã€HTMLã®æ–‡æ³•ãƒŸã‚¹ãŒåŸå› ã§ç™ºç”Ÿã—ã¦ã„ãŸæ²ç¤ºæ¿ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®ãƒœã‚¿ãƒ³ãŒä¹±ã‚Œã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*forum/layout/links/email.thtml, *forum/layout/links/edittopic.thtml, *forum/layout/links/pm.thtml, *forum/layout/links/profile.thtml, *forum/layout/links/quotetopic.thtml, *forum/layout/links/website.thtml)
-
-
-â– Ver.0.92(2006-11-16)
-  ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆãƒãƒ¼å†…ã®ãƒªãƒ³ã‚¯ã®ãƒãƒ¼ã‚¸ãƒ³ã‚’èª¿æ•´ã—ã¾ã—ãŸã€‚(*css/comment/comment.css)
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ã€ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæƒ…å ±ãƒšãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œãªã„ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*css/users/users.css)
-  ãƒ»ãƒ¦ãƒ¼ã‚¶ã®æ°åãŒç™»éŒ²ã•ã‚Œã¦ã„ãªã„å ´åˆã«ã€ã‚¢ã‚«ã‚¦ãƒ³ãƒˆæƒ…å ±ãƒšãƒ¼ã‚¸ã®ã€Œãƒ¦ãƒ¼ã‚¶åã€ã®å¾ŒãŒã€Œ()ã€ã®ã¿ã«ãªã‚‹ä¸å…·åˆã‚’ä¿®æ­£ã—ã¾ã—ãŸã€‚(*users/profile.thtml)
-  ãƒ»Geeklog Japaneseç”¨ã«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆå¤‰æ•°ã‚’ã€Œprof_urlã€ã‹ã‚‰{prof_url_jpã€ã¸ã€ã€Œwelcome_msgã€ã‹ã‚‰ã€Œwelcome_msg_jpã€ã¸ã¨å¤‰æ›´ã—ã¾ã—ãŸã€‚(*header.thtml)
+  EPowered by•\¦‚ªuGeeklog Japanesv‚É‚È‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*footer.thtml)
+  EƒiƒrƒQ[ƒVƒ‡ƒ“ƒo[‚Ìƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹“à‚ÌƒRƒƒ“ƒg‚ªŠÔˆá‚Á‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*navbar/navbar.thtml)
+  E•s—v‚ÈCSSƒtƒ@ƒCƒ‹‚ªŠÜ‚Ü‚ê‚Ä‚¢‚½‚Ì‚ğíœ‚µ‚Ü‚µ‚½B(-css/plugin/style_forum.css)
+  ECSS‚Ì•¶–@ƒ~ƒX‚ğC³‚µ‚Ü‚µ‚½(*css/default.css, *css/plugin/forum.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌCSSƒtƒ@ƒCƒ‹“à‚ÌƒRƒƒ“ƒg‚ª•¶š‰»‚¯‚µ‚Ä‚¢‚½‚Ì‚ğC³‚µ‚Ü‚µ‚½B(*css/plugin/forum.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌCSS‚ğA‘¼‚ÌCSS‚ÌƒR[ƒfƒBƒ“ƒOƒXƒ^ƒCƒ‹‚É‡‚í‚¹‚Ä®Œ`‚µ‚Ü‚µ‚½B(*css/plugin/forum.css)
+  EŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÅƒiƒrƒQ[ƒVƒ‡ƒ“ƒo[ˆÈ‰º‚ª•ö‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/plugin/forum.css)
+  EWin IE‚ÅAŒf¦”Âƒvƒ‰ƒOƒCƒ“‚ÌŒrü‚ª—‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/forum_outline_header.thtml, *forum/layout/forum_outline_footer.thtml)
+  EWin IE‚ÅAHTML‚Ì•¶–@ƒ~ƒX‚ªŒ´ˆö‚Å”­¶‚µ‚Ä‚¢‚½Œf¦”Âƒvƒ‰ƒOƒCƒ“‚Ìƒ{ƒ^ƒ“‚ª—‚ê‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*forum/layout/links/email.thtml, *forum/layout/links/edittopic.thtml, *forum/layout/links/pm.thtml, *forum/layout/links/profile.thtml, *forum/layout/links/quotetopic.thtml, *forum/layout/links/website.thtml)
 
 
-â– Ver.0.91(2006-10-31)
-  ãƒ»IEã®ãƒã‚°ãŒåŸå› ã§ç™ºç”Ÿã—ã¦ã„ãŸä¸‹è¨˜ã®ä¸å…·åˆã¸ã®å¯¾ç­–ã‚’è¡Œã„ã¾ã—ãŸã€‚
-      *å·¦ä¸‹ã«å³ãƒ–ãƒ­ãƒƒã‚¯ã®è¦ç´ ã®ä¸€éƒ¨ãŒé‡è¤‡ã—ã¦è¡¨ç¤ºã•ã‚Œã‚‹ã€‚(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
-      *ãƒ­ã‚°ã‚¤ãƒ³è¦æ±‚ãƒšãƒ¼ã‚¸ã§ã‚·ã‚¹ãƒ†ãƒ ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ä¸‹ã«æ ç·šãŒè¡¨ç¤ºã•ã‚Œã‚‹ã€‚(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
-      *ã‚µã‚¤ãƒˆã‚«ãƒ¬ãƒ³ãƒ€ã«ä¸€éƒ¨ã®ã‚¹ã‚¿ã‚¤ãƒ«ãŒé©ç”¨ã•ã‚Œãªã„ã€‚(*css/plugin/sitecalendar.css)
-      *ã‚«ãƒ¬ãƒ³ãƒ€ãƒ»æ¤œç´¢ãƒšãƒ¼ã‚¸ç­‰ã®æµ®å‹•è¦ç´ ã‚’å«ã‚€ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ãŒè¡¨ç¤ºã•ã‚Œãªã„ã€‚(*css/calenda/calendar.css)
-  ãƒ»sitecalendar.cssã®æ–‡å­—ã‚³ãƒ¼ãƒ‰ãŒShift-JISã ã£ãŸã®ã‚’UTF-8ã«å¤‰æ›ã—ã¾ã—ãŸã€‚(*css/plugin/sitecalendar.css)
-  ãƒ»IEã§ã®ã‚«ãƒ©ãƒ è½ã¡ã‚’æ¥µåŠ›æŠ‘ãˆã‚‹ãŸã‚ã«ã‚µã‚¤ãƒˆã‚«ãƒ¬ãƒ³ãƒ€ã®ã‚¹ã‚¿ã‚¤ãƒ«ã‚’èª¿æ•´ã—ã¾ã—ãŸã€‚(*css/plugin/sitecalendar.css)
-  ãƒ»å…¨ã¦ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…ã«index.htmlã‚’è¿½åŠ ã—ã¾ã—ãŸã€‚
-  ãƒ»ãã®ä»–ã€å¾®èª¿æ•´ã‚’è¡Œã„ã¾ã—ãŸã€‚
+¡Ver.0.92(2006-11-16)
+  EƒRƒƒ“ƒgƒo[“à‚ÌƒŠƒ“ƒN‚Ìƒ}[ƒWƒ“‚ğ’²®‚µ‚Ü‚µ‚½B(*css/comment/comment.css)
+  EWin IE 6ˆÈ‰º‚ÅAƒAƒJƒEƒ“ƒgî•ñƒy[ƒW‚ª•\¦‚³‚ê‚È‚¢•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*css/users/users.css)
+  Eƒ†[ƒU‚Ì–¼‚ª“o˜^‚³‚ê‚Ä‚¢‚È‚¢ê‡‚ÉAƒAƒJƒEƒ“ƒgî•ñƒy[ƒW‚Ìuƒ†[ƒU–¼v‚ÌŒã‚ªu()v‚Ì‚İ‚É‚È‚é•s‹ï‡‚ğC³‚µ‚Ü‚µ‚½B(*users/profile.thtml)
+  EGeeklog Japanese—p‚Éƒeƒ“ƒvƒŒ[ƒg•Ï”‚ğuprof_urlv‚©‚ç{prof_url_jpv‚ÖAuwelcome_msgv‚©‚çuwelcome_msg_jpv‚Ö‚Æ•ÏX‚µ‚Ü‚µ‚½B(*header.thtml)
 
 
-â– Ver.0.90(2006-10-30)
-  ãƒ»ãƒ™ãƒ¼ã‚¿ç‰ˆ
-  ãƒ»Win IE 6ä»¥ä¸‹ã§ä¸‹è¨˜ã®ä¸å…·åˆãŒç™ºè¦‹ã•ã‚Œã¦ã„ã¾ã™ã€‚
-      *å·¦ä¸‹ã«å³ãƒ–ãƒ­ãƒƒã‚¯ã®è¦ç´ ã®ä¸€éƒ¨ãŒé‡è¤‡ã—ã¦è¡¨ç¤ºã•ã‚Œã‚‹ã€‚
-      *ã‚µã‚¤ãƒˆã‚«ãƒ¬ãƒ³ãƒ€ã«ä¸€éƒ¨ã®ã‚¹ã‚¿ã‚¤ãƒ«ãŒé©ç”¨ã•ã‚Œãªã„ã€‚
-      *ã‚«ãƒ¬ãƒ³ãƒ€ãƒ»æ¤œç´¢ãƒšãƒ¼ã‚¸ç­‰ã®æµ®å‹•è¦ç´ ã‚’å«ã‚€ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ãŒè¡¨ç¤ºã•ã‚Œãªã„ã€‚
+¡Ver.0.91(2006-10-31)
+  EIE‚ÌƒoƒO‚ªŒ´ˆö‚Å”­¶‚µ‚Ä‚¢‚½‰º‹L‚Ì•s‹ï‡‚Ö‚Ì‘Îô‚ğs‚¢‚Ü‚µ‚½B
+      *¶‰º‚É‰EƒuƒƒbƒN‚Ì—v‘f‚Ìˆê•”‚ªd•¡‚µ‚Ä•\¦‚³‚ê‚éB(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
+      *ƒƒOƒCƒ“—v‹ƒy[ƒW‚ÅƒVƒXƒeƒ€ƒƒbƒZ[ƒW‚Ì‰º‚É˜gü‚ª•\¦‚³‚ê‚éB(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
+      *ƒTƒCƒgƒJƒŒƒ“ƒ_‚Éˆê•”‚ÌƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚È‚¢B(*css/plugin/sitecalendar.css)
+      *ƒJƒŒƒ“ƒ_EŒŸõƒy[ƒW“™‚Ì•‚“®—v‘f‚ğŠÜ‚ŞƒRƒ“ƒeƒ“ƒc‚ª•\¦‚³‚ê‚È‚¢B(*css/calenda/calendar.css)
+  Esitecalendar.css‚Ì•¶šƒR[ƒh‚ªShift-JIS‚¾‚Á‚½‚Ì‚ğUTF-8‚É•ÏŠ·‚µ‚Ü‚µ‚½B(*css/plugin/sitecalendar.css)
+  EIE‚Å‚ÌƒJƒ‰ƒ€—‚¿‚ğ‹É—Í—}‚¦‚é‚½‚ß‚ÉƒTƒCƒgƒJƒŒƒ“ƒ_‚ÌƒXƒ^ƒCƒ‹‚ğ’²®‚µ‚Ü‚µ‚½B(*css/plugin/sitecalendar.css)
+  E‘S‚Ä‚ÌƒfƒBƒŒƒNƒgƒŠ“à‚Éindex.html‚ğ’Ç‰Á‚µ‚Ü‚µ‚½B
+  E‚»‚Ì‘¼A”÷’²®‚ğs‚¢‚Ü‚µ‚½B
+
+
+¡Ver.0.90(2006-10-30)
+  Eƒx[ƒ^”Å
+  EWin IE 6ˆÈ‰º‚Å‰º‹L‚Ì•s‹ï‡‚ª”­Œ©‚³‚ê‚Ä‚¢‚Ü‚·B
+      *¶‰º‚É‰EƒuƒƒbƒN‚Ì—v‘f‚Ìˆê•”‚ªd•¡‚µ‚Ä•\¦‚³‚ê‚éB
+      *ƒTƒCƒgƒJƒŒƒ“ƒ_‚Éˆê•”‚ÌƒXƒ^ƒCƒ‹‚ª“K—p‚³‚ê‚È‚¢B
+      *ƒJƒŒƒ“ƒ_EŒŸõƒy[ƒW“™‚Ì•‚“®—v‘f‚ğŠÜ‚ŞƒRƒ“ƒeƒ“ƒc‚ª•\¦‚³‚ê‚È‚¢B
+
