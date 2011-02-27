@@ -319,7 +319,13 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
     // Load HTML templates
     $story_templates = new Template($_CONF['path_layout'] . 'admin/story');
     if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
-        $story_templates->set_file(array('editor'=>'storyeditor_advanced.thtml'));
+        $thtml = $_CONF['path_layout'] . 'admin/story/storyeditor_advanced.' . $_CONF['language'] . '.thtml';
+        if (file_exists($thtml)) {
+            $thtml = 'storyeditor_advanced.' . $_CONF['language'] . '.thtml';
+        } else {
+            $thtml = 'storyeditor_advanced.thtml';
+        }
+        $story_templates->set_file('editor', $thtml);
         $advanced_editormode = true;
         $story_templates->set_var ('change_editormode', 'onchange="change_editmode(this);"');
 
@@ -349,7 +355,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         } else {
             $thtml = 'storyeditor.thtml';
         }
-        $story_templates->set_file(array('editor' => $thtml));
+        $story_templates->set_file('editor', $thtml);
         $advanced_editormode = false;
     }
     $story_templates->set_var('xhtml', XHTML);
