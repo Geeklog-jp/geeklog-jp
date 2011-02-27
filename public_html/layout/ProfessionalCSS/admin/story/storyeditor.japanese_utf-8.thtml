@@ -4,21 +4,22 @@
 <script type="text/javascript">
 //<![CDATA[
 function enablearchive(obj) {
-    var f = obj.form;           // all elements have their parent form in "form"
-    var disable = obj.checked;  // Disable when checked
-    if (f.elements["archiveflag"].checked==true && f.elements["storycode11"].checked==false) {
-        f.elements["storycode10"].checked=true;
-    }
-    f.elements["storycode10"].disabled=!disable;
-    f.elements["storycode11"].disabled=!disable;
-    f.elements["expire_month"].disabled=!disable;
-    f.elements["expire_day"].disabled=!disable;
-    f.elements["expire_year"].disabled=!disable;
-    f.elements["expire_hour"].disabled=!disable;
-    f.elements["expire_minute"].disabled=!disable;
-    f.elements["expire_ampm"].disabled=!disable;
+  var f = obj.form;           // all elements have their parent form in "form"
+  var disable = obj.checked;  // Disable when checked
+
+  if (f.elements["archiveflag"].checked==true && f.elements["storycode11"].checked==false) {
+    f.elements["storycode10"].checked=true;
+  }
+  f.elements["storycode10"].disabled=!disable;
+  f.elements["storycode11"].disabled=!disable;
+  f.elements["expire_month"].disabled=!disable;
+  f.elements["expire_day"].disabled=!disable;
+  f.elements["expire_year"].disabled=!disable;
+  f.elements["expire_hour"].disabled=!disable;
+  f.elements["expire_minute"].disabled=!disable;
+  f.elements["expire_ampm"].disabled=!disable;
 }
-    
+
     function enablecmtclose(obj) {
     var f = obj.form;           // all elements have their parent form in "form"
     var disable = obj.checked;  // Disable when checked
@@ -29,24 +30,24 @@ function enablearchive(obj) {
     f.elements["cmt_close_hour"].disabled=!disable;
     f.elements["cmt_close_minute"].disabled=!disable;
     f.elements["cmt_close_ampm"].disabled=!disable;
-    
 }
 //]]>
 </script>
 
- <form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
+<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
 
   <div class="admin_basic">
     <dl>
       <dt>{lang_author}</dt>
       <dd>{story_author}</dd>
+
       <dt><label for="admin-storyeditor-publish_month">{lang_date}</label></dt>
       <dd>
         <select name="publish_year">
           {publish_year_options}
         </select>
         年
-        <select name="publish_month" id="admin-storyeditor-publish_month">
+        <select name="publish_month" id="admin-storyeditor_advanced-publish_month">
           {publish_month_options}
         </select>
         月
@@ -54,6 +55,7 @@ function enablearchive(obj) {
           {publish_day_options}
         </select>
         日&nbsp;&nbsp;
+
         <select name="publish_hour">
           {publish_hour_options}
         </select>
@@ -98,7 +100,7 @@ function enablearchive(obj) {
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" id="admin-storyeditor-expire_month">
+        <select name="expire_month" id="admin-storyeditor_advanced-expire_month">
           {expire_month_options}
         </select>
         月
@@ -106,6 +108,7 @@ function enablearchive(obj) {
           {expire_day_options}
         </select>
         日&nbsp;&nbsp;
+
         <select name="expire_hour">
           {expire_hour_options}
         </select>
@@ -113,7 +116,7 @@ function enablearchive(obj) {
         <select name="expire_minute">
           {expire_minute_options}
         </select>
-          {expireampm_selection}
+        {expireampm_selection}
       </dd>
 
       <dt><label for="admin-storyeditor-featured">{lang_mode}</label></dt>
@@ -137,24 +140,25 @@ function enablearchive(obj) {
            <span dir="ltr">
            <select name="cmt_close_year">
              {cmt_close_year_options}
-           </select>
-           年
-           <select name="cmt_close_month">
-             {cmt_close_month_options}
-           </select>
-           月
+            </select>
+            年
+            <select name="cmt_close_month">
+              {cmt_close_month_options}
+            </select>
+            月
            <select name="cmt_close_day">
              {cmt_close_day_options}
            </select>
            日&nbsp;&nbsp;
+
            <select name="cmt_close_hour">
-             {cmt_close_hour_options}
+               {cmt_close_hour_options}
            </select>
            :
            <select name="cmt_close_minute">
-             {cmt_close_minute_options}
+               {cmt_close_minute_options}
            </select>
-             {cmt_close_ampm_selection}
+               {cmt_close_ampm_selection}
            <input type="hidden" name="cmt_close_second" value="{cmt_close_second}"{xhtml}>
            </span>
       </dd>

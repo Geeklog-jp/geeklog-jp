@@ -193,7 +193,7 @@
         {lang_enabled}
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
            <span dir="ltr">
-               <select name="cmt_close_month">
+           <select name="cmt_close_month">
                    {cmt_close_month_options}
            </select>
            /

@@ -16,11 +16,11 @@
 </noscript>
 
 <div id="advanced_editor" style="display: none;">
-    <!-- Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it -->
-    <script type="text/javascript">
-        document.getElementById('advanced_editor').style.display=''
-    </script>
-    {navbar}
+<!-- Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it -->
+<script type="text/javascript">
+  document.getElementById('advanced_editor').style.display=''
+</script>
+{navbar}
 
 <form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onSubmit='set_postcontent();' id="admin-storyeditor_advanced" class="compact">
 
@@ -78,8 +78,7 @@
     </dl>
   </div>
 
-  <fieldset id="admin-storyeditor_advanced-editor">
-    <legend>Editor</legend>
+  <div>
     <div id="text_editor" style="display: {show_texteditor};">
       <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
@@ -136,9 +135,7 @@
 
       <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
-  </fieldset>
-
-
+  </div>
 
   <div id="se_options" style="display: none;">
   <div id="se_publish" style="display: none;">
@@ -302,6 +299,7 @@
   </fieldset>
   </div>
   </div>
+
 
   <div id="se_bottom" style="display:{show_submitoptions}">
   <ul class="submit">
