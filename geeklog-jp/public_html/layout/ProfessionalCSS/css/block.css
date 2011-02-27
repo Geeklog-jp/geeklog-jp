@@ -172,13 +172,13 @@ div#centerblocks div.block-center div.block-center-content {
 div#leftblocks div.block-left {
   margin: 0 8px 0.5em 8px;
   padding: 8px 0;
-  border-bottom: 1px solid #E7E7E7;
 }
 
 /* Block Title */
 div#leftblocks div.block-left h2 {
   margin: 0 0 0.5em 0;
-  padding: 0;
+  padding: 0 0 0.1em 0;
+  border-bottom: 1px solid #CCCCCC;
   font-size: 110%;
   font-weight: bold;
 }
@@ -204,13 +204,13 @@ div#leftblocks div.block-left div.block-left-content {
 div#rightblocks div.block-right {
   margin: 0 8px 0.5em 8px;
   padding: 8px 0;
-  border-bottom: 1px solid #CCCCCC;
 }
 
 /* Block Title */
 div#rightblocks div.block-right h2 {
   margin: 0 0 0.5em 0;
-  padding: 0;
+  padding: 0 0 0.1em 0;
+  border-bottom: 1px solid #CCCCCC;
   font-size: 110%;
   font-weight: bold;
 }
