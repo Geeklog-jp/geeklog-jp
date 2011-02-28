@@ -1,5 +1,13 @@
 $Id$
 
+2010-02-28  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSをProfessionalCSSの修正に合わせて
+	  WAIproCSSで必要な箇所のみ同じように修正しました。
+	  - 記事編集ページでforとidで関連付けられない箇所に
+	    title属性を追記しました。
+	  - 使用していない背景画像を削除しました。
+
 2011-02-28  Tetsuko Komma  <ivy>
 
 	* ProfessionalCSSの「記事の編集」フォームの日付を言語モードに
