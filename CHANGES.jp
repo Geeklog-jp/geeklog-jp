@@ -1,5 +1,11 @@
 $Id$
 
+2011-03-01  Tetsuko Komma  <ivy>
+
+	* NEWS README.jpをGeeklog 1.7.2-jp-1.0に向けて更新しました。
+
+	* 日本語ドキュメントhistory.htmlを修正しました。
+
 2011-02-28  mystral-kk <mystral-kk>
 
 	* 本家のバージョン1.7.1と同期していないファイルを同期させました。
@@ -20,7 +26,7 @@ $Id$
 2011-02-28  Yoshinori Tahara  <dengen>
 
 	* 「記事の編集」フォームの日付を言語モードに応じて切り替えるハックが
-	  アドバンストエディタモードで無効になっていたので復活させました。
+	  無効になっていたので復活させました。
 
 2011-02-27  Tetsuko Komma  <ivy>
 
@@ -28,7 +34,7 @@ $Id$
 	  しました。書式を見直し、日本語のコメントを英語に変更しました。
 
 	* 日本語コア言語ファイルの、一部フルネームだった表記を氏名に
-	  変更。ほか
+	  変更しました。ほか微調整を行いました。
 
 2011-02-26  Yoshinori Tahara  <dengen>
 
@@ -47,17 +53,17 @@ $Id$
 
 2011-02-08  Tetsuko Komma  <ivy>
 
-	* japanizeプラグイン: Ver 1.0.6RC4 （2010-11-09）の追加訂正
+	* 日本語化プラグイン(Japanize): Ver 1.0.6RC4 （2010-11-09）の追加訂正
 	  言語とロケール変更 serialize関数利用（Issue #161）
 
 2012-02-07  Kazuko Tsuchitani <Tsuchi>
 
-	* japanizeプラグイン: Ver 1.0.6RC4 （2010-11-09）の追加訂正
+	* 日本語化プラグイン(Japanize): Ver 1.0.6RC4 （2010-11-09）の追加訂正
 	  言語とロケール変更追加（Issue #161）
 
 2012-02-07  Kazuko Tsuchitani <Tsuchi>
 
-	* japanizeプラグイン: Ver 1.0.6RC5に更新しました
+	* 日本語化プラグイン(Japanize): Ver 1.0.6RC5に更新しました
 	  テーマ変数のみなおし　（Issue #168 #167 #160 #87）
 
 2011-02-06  Tetsuko Komma  <ivy>

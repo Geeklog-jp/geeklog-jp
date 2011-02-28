@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年1月16日
+							2011年3月1日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.7.1sr1-jp-1.0の内容
+2. Geeklog 1.7.2-jp-1.0の内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -31,14 +31,14 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 
     o 標準版と拡張版に同梱
 
-	日本語化プラグイン(Japanize) バージョン 1.0.6RC4
+	日本語化プラグイン(Japanize) バージョン 1.0.6RC5
 		Geeklogを日本語サイトとして活用するための数々の設定や、
 		機能追加を行っています。
 		日本語版開発の多くは、ハックではなく、このプラグインに
 		任せています。かならずインストールして、実行してください。
 		実行しない場合、メール送信などで不具合が発生します。
 
-	カレンダjpプラグイン(Calendarjp) バージョン 1.1.3
+	カレンダjpプラグイン(Calendarjp) バージョン 1.1.4
 		Calendarプラグインを日本語サイト向けにローカライズして
 		機能アップさせました。
 
@@ -70,7 +70,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	掲示板プラグイン(Forum) バージョン 2.7.4.JPr1
 		掲示板機能を提供します。
 
-	Mycaljpプラグイン(Mycaljp) バージョン 2.1.2
+	Mycaljpプラグイン(Mycaljp) バージョン 2.1.3
 		サイトカレンダーを表示する提供するPHPブロック関数
 		phpblock_mycaljp2() を提供します。
 
@@ -85,7 +85,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		Geeklogサイトのサイトマップ表示とGoogle Sitemaps用XMLを作成し
 		ます。
 
-	テーマエディタプラグイン(Themedit) バージョン 1.1.4 (*)
+	テーマエディタプラグイン(Themedit) バージョン 1.1.5 (*)
 		テンプレートとカスケーディング・スタイルシートの編集や画像の管
 		理機能を提供します。
 
