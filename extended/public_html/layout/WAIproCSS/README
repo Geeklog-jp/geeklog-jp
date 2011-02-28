@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.4.3 for Geeklog1.7.1
+  バージョン: 2.4.4 for Geeklog1.7.2
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -359,7 +359,9 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   + 追加
   - 削除
 
-2011-01-22
+■Ver.2.4.4(2011-02-28)
+　・記事編集ページでフォーム内でforとidで関連付けられない箇所にtitle属性を追記しました。(*/admin/story/storyeditor.japanese_utf-8.thtml,*/admin/story/storyeditor.thtml,*/admin/story/storyeditor_advanced.japanese_utf-8.thtml,*/admin/story/storyeditor_advanced.thtml)
+　・使用していない背景画像を削除しました。(-/images/css/bg_header.gif,-/images/css/bg_navigation.gif,-images/css/bg_wrapper_center-right.gif,-images/css/bg_wrapper_center.gif,-images/css/bg_wrapper_left-center-right.gif,-images/css/bg_wrapper_left-center.gif)
   ・話題アイコンが右固定されていた不具合を修正しました。(*/css/story.css)
 
 ■Ver.2.4.3(2010-11-14)
