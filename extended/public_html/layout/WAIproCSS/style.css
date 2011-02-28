@@ -1,16 +1,16 @@
 @charset "utf-8";
 
 /*==============================================================================
-  タイトル: インポート用スタイルシート
-  著者    : Fumito Arakawa as Phize (http://phize.net/)
-  説明    : 各CSSファイルをインポートします。
+  Title          : For Import Style Sheets
+  Author         : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
+  Description    : Import style sheets.
 ==============================================================================*/
 
 
-/* Professional互換スタイルシート */
+/* professional compatible */
 @import url("css/compatible.css");
 
-/* 基本スタイルシート */
+/* Basic */
 @import url("css/default.css");  /* デフォルトスタイル */
 @import url("css/common.css");  /* 共通スタイル */
 @import url("css/layout.css");  /* 基本レイアウトスタイル */
@@ -29,10 +29,11 @@
 @import url("css/trackback/trackback.css");  /* トラックバックスタイル */
 @import url("css/users/users.css");  /* アカウント情報ページスタイル */
 
-/* 管理者ページスタイルシート */
+/* Admin */
 @import url("css/admin.css");  /* インポート用スタイルシート(管理者ページ) */
 
-/* プラグインスタイルシート */
+/* Plugins */
 @import url("css/plugin.css");  /* インポート用スタイルシート(プラグイン) */
 
+/* Custom */
 @import url("custom.css");  /* カスタムテーマスタイルシート */
