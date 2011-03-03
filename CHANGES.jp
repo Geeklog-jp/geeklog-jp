@@ -1,13 +1,19 @@
 $Id$
 
+2011-03-04  Tetsuko Komma  <ivy>
+
+	* NEWS README.jpに、Dataproxyプラグインのアップグレードを記述しました。
+
+	* 日本語ドキュメントchanges.html,history.htmlの表現を微修正しました。
+
 2011-03-03  mystral-kk <mystral-kk>
 
-	* hiroronさんによるdataproxyプラグインの修正を、より下位互換性を考慮し
+	* hiroronさんによるDataproxyプラグインの修正を、より下位互換性を考慮し
 	  たものに修正しました。
 
 2011-03-03  Hiroshi Sakuramoto <hiroron>
 
-	* dataproxyのstaticpageをドラフトモードに対応させました。
+	* Dataproxyプラグインのstaticpageをドラフトモードに対応させました。
 
 2011-03-01  Tetsuko Komma  <ivy>
 
