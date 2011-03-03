@@ -57,7 +57,8 @@ class Dataproxy_staticpages extends DataproxyDriver
 		
 		$sql = "SELECT * "
 			 . "FROM {$_TABLES['staticpage']} "
-			 . "WHERE (sp_id = '" . addslashes($id) . "') ";
+			 . "WHERE (sp_id = '" . addslashes($id) . "') "
+			 . "AND (draft_flag = 0) ";
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
@@ -112,11 +113,11 @@ class Dataproxy_staticpages extends DataproxyDriver
 		if ($this->_isGL170) {
 			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(modified) AS day "
 				 . "FROM {$_TABLES['staticpage']} "
-				 . "WHERE (1 = 1) ";
+				 . "WHERE (draft_flag = 0) ";
 		} else {
 			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
 				 . "FROM {$_TABLES['staticpage']} "
-				 . "WHERE (1 = 1) ";
+				 . "WHERE (draft_flag = 0) ";
 		}
 		
 		if ($this->uid > 0) {
@@ -183,11 +184,11 @@ class Dataproxy_staticpages extends DataproxyDriver
 		if ($this->_isGL170) {
 			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(modified) AS day "
 				 . "FROM {$_TABLES['staticpage']} "
-				 . "WHERE (UNIX_TIMESTAMP(modified) BETWEEN '$this->startdate' AND '$this->enddate') ";
+				 . "WHERE (draft_flag = 0) AND (UNIX_TIMESTAMP(modified) BETWEEN '$this->startdate' AND '$this->enddate') ";
 		} else {
 			$sql = "SELECT sp_id, sp_title, UNIX_TIMESTAMP(sp_date) AS day "
 				 . "FROM {$_TABLES['staticpage']} "
-				 . "WHERE (UNIX_TIMESTAMP(sp_date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+				 . "WHERE (draft_flag = 0) AND (UNIX_TIMESTAMP(sp_date) BETWEEN '$this->startdate' AND '$this->enddate') ";
 		}
 		
 		if ($this->uid > 0) {
