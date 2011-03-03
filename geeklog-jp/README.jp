@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年3月1日
+							2011年3月4日
 							Geeklog Japanese
 
 1. 概要
@@ -56,7 +56,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		階層メニューやパンくずリストは、ナビゲーションプラグイン
 		(navman)をお勧めします。
 
-	DataProxyプラグイン(Dataproxy) バージョン 1.1.7
+	DataProxyプラグイン(Dataproxy) バージョン 1.1.8
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供します。
 
