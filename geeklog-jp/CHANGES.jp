@@ -1,8 +1,12 @@
 $Id$
 
+2011-03-06  Tetsuko Komma  <ivy>
+
+	* NEWS README.jpをGeeklog 1.7.2-jp-1.0に向けて更新しました。
+
 2011-03-06  Yoshinori Tahara  <dengen>
 
-	* calendarjpプラグイン: イベント表示ページで3つのテンプレート変数を
+	* Calendarjpプラグイン: イベント表示ページで3つのテンプレート変数を
 	  追加しました。(Issue #164)
 
 2011-03-06  Yoshinori Tahara  <dengen>
