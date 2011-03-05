@@ -570,6 +570,10 @@ default:
                 $cal_templates->set_var('site_url', $_CONF['site_url']);
                 $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
                 $cal_templates->set_var('layout_url', $_CONF['layout_url']);
+                $cal_templates->set_var('lang_owner', $LANG_ACCESS['owner']);
+                $ownername = COM_getDisplayName($A['owner_id']);
+                $cal_templates->set_var('owner_name', $ownername);
+                $cal_templates->set_var('owner_id', $A['owner_id']);
 
                 if (strftime('%B',strtotime($A['datestart'])) != $currentmonth) {
                     $str_month = $cal->getMonthName(strftime('%m',strtotime($A['datestart'])));
