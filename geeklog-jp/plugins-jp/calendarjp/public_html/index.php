@@ -49,7 +49,6 @@ $display = '';
 
 if (COM_isAnonUser() &&
     (($_CONF['loginrequired'] == 1) || ($_CAJP_CONF['calendarloginrequired'] == 1))) {
-    $display .= COM_siteHeader('');
     $display .= COM_siteHeader('menu', $LANG_CALJP_1[41]);
     $display .= SEC_loginRequiredForm();
     $display .= COM_siteFooter();
