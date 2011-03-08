@@ -1,5 +1,10 @@
 $Id$
 
+2011-03-09  Tetsuko Komma  <ivy>
+
+	* 掲示板プラグイン(Forum)のドイツ語言語ファイルの文字化け他、修正
+	  しました。
+
 2011-03-06  Hiroshi Sakuramoto <hiroron>
 
 	* changesドキュメントの翻訳を修正しました。
