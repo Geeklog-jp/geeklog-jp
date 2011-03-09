@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-01-05
-* @version  1.4.0
+* @date     2011-03-10
+* @version  1.4.1
 * @license  GPLv2 or later
 */
 error_reporting(E_ALL);
@@ -47,7 +47,7 @@ define('GL_VERSION', '1.7.1');
 // DO NOT CHANGE ANYTHING BELOW THIS LINE!
 //===================================================================
 
-define('PRECHECK_VERSION', '1.4.0');
+define('PRECHECK_VERSION', '1.4.1');
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
 define('THIS_SCRIPT', basename(__FILE__));
@@ -643,7 +643,10 @@ class Precheck
 	{
 		$retval = '<h2 class="heading">' . PRECHECK_str('step1') . '</h2>' . LB
 				. '<ol>' . LB;
-		$this->path = $this->guessDbConfigPath();
+		
+		if ($this->path == '') {
+			$this->path = $this->guessDbConfigPath();
+		}
 		
 		if ($this->path != '') {
 			$retval .= $this->_formatInfo('item_dbconfig_path', $this->path, 'good');
