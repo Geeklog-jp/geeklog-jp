@@ -1,5 +1,10 @@
 $Id$
 
+2011-03-10  mystral-kk <mystral-kk>
+
+	* precheck.phpで、ファイルブラウザを使用してもdb-config.phpのパスが反映
+	  されていなかったバグを修正しました。
+
 2011-03-09  Tetsuko Komma  <ivy>
 
 	* 掲示板プラグイン(Forum)のドイツ語言語ファイルの文字化け他、修正
