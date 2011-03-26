@@ -34,10 +34,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 $LANG_GF00 = array (
     'admin_only'        => 'Sorry Admins Only. If you are an Admin please login first.',
     'plugin'            => 'Plugin',
@@ -68,7 +64,8 @@ $LANG_GF00 = array (
     'uninstall'         => 'UnInstall',
     'enabled'           => '<br' . XHTML . '>Plugin is installed and enabled.<br' . XHTML . '>Disable first if you want to De-Install it.<p>',
     'warning'           => 'Forum De-Install Warning',
-    'uploaderr'         => 'File Upload Error'
+    'uploaderr'         => 'File Upload Error',
+    'autotag_desc_forum' => '[forum: id alternate title] - Displays a link to a forum topic using the text \'hear\' as the title. An alternate title may be specified but is not required.'
 );
 
 
@@ -301,7 +298,7 @@ $LANG_GF01['p_help']         = "[img]http://image_url[/img] oder [img w=100 h=20
 $LANG_GF01['w_help']         = "URL: [url]http://url[/url] or [url=http://url]URL text[/url]";
 $LANG_GF01['a_help']         = "Alle offenen BBcode-Tags schließen";
 $LANG_GF01['s_help']         = "Schriftfarbe: [color=red]text[/color]  Tipp: Du kannst auch color=#FF0000 benutzen";
-$LANG_GF01['f_help']         = "Schriftgröße: [size=x-small]small text[/size]";
+$LANG_GF01['f_help']         = "Schriftgröße: [size=7]small text[/size]";
 $LANG_GF01['h_help']         = 'Ausführliche Hilfe';
 
 

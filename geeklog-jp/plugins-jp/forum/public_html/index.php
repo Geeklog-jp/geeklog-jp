@@ -103,7 +103,6 @@ if ($_USER['uid'] > 1 && $op == 'markallread') {
 //Check if anonymous users allowed to access forum
 forum_chkUsercanAccess();
 
-//ob_start();
 // Display Common headers
 $display .= gf_siteHeader();
 
@@ -486,7 +485,6 @@ if ($op == 'subscribe') {
         DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','0','{$_USER['uid']}', now() )");
         // Delete all individual topic notification records
         DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id > '0' " );
-//        $display .= forum_statusMessage($LANG_GF02['msg134'],$_CONF['site_url'] .'/forum/index.php?forum=' .$forum,$LANG_GF02['msg135']);
         $display = COM_refresh($_CONF['site_url'] .'/forum/index.php?msg=1&amp;forum=' .$forum);
         COM_output($display);
         exit();
@@ -1007,6 +1005,7 @@ if ($forum > 0) {
         } else {
             $subject = $record['subject'];
         }
+
         if ($record['uid'] > 1) {
             $firstposterName = COM_getDisplayName($record['uid']);
         } else {
@@ -1016,8 +1015,14 @@ if ($forum > 0) {
         $topicinfo .= wordwrap(strip_tags(COM_truncate($record['comment'], $CONF_FORUM['contentinfo_numchars'], '...')), $CONF_FORUM['linkinfo_width'],"<br" . XHTML . ">\n");
         $topicinfo .= mb_ereg_replace("\r\n", "<br" . XHTML . ">", forum_mb_wordwrap($topicinfotmp, $CONF_FORUM['linkinfo_width'], "\n"));
 
+        if (function_exists(COM_Tooltip)) {
+            $topiclink = "viewtopic.php?showtopic={$record['id']}";
+            $subject = COM_Tooltip($subject, $topicinfo, $topiclink);
+        } else {
+            $topiclisting->set_var ('topicinfo', $topicinfo);
+        }
+
         $topiclisting->set_var ('folderimg', $folderimg);
-        $topiclisting->set_var ('topicinfo', $topicinfo);
         $topiclisting->set_var ('topic_id', $record['id']);
         $topiclisting->set_var ('subject', $subject);
         $topiclisting->set_var ('fullsubject', $record['subject']);
@@ -1047,9 +1052,6 @@ $display .= BaseFooter();
 
 // Display Common headers
 $display .= gf_siteFooter();
-
-//$display = ob_get_contents();
-//ob_end_clean();
 
 COM_output($display);
 ?>

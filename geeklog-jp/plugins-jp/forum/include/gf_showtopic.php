@@ -38,10 +38,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_showtopic.php') !== false) {
     die ('This file can not be used on its own.');
 }
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 if (!function_exists( 'str_ireplace' ))
 {
     require_once 'PHP/Compat.php';
