@@ -83,8 +83,6 @@ if (isset($_POST['submit']) && SEC_checkToken()) {
         showiframe='$xshowiframe'
      WHERE uid='{$_USER['uid']}'");
 
-//    $display .= forum_statusMessage($LANG_GF92['setsavemsg'],$_CONF['site_url'] .'/forum/userprefs.php',$LANG_GF92['setsavemsg']);
-//    $display .= gf_siteFooter();
     $display = COM_refresh($_CONF['site_url'] .'/forum/userprefs.php?msg=1');
     COM_output($display);
     exit;

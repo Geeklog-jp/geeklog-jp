@@ -45,10 +45,6 @@
 //@@@@@20070925 2.7用に更新 $LANG_GF01['admin'],$LANG_GF93['vieworder'] 追加
 //@@@@@20080721 2.7.1用に更新 $LANG_GF02['msg202']  追加
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 $LANG_GF00 = array (
     'admin_only'        => '管理者のみです。もしあなたが管理者なら、先にログインしてください。',
     'plugin'            => 'プラグイン',
@@ -79,7 +75,8 @@ $LANG_GF00 = array (
     'uninstall'         => 'アンインストール',
     'enabled'           => '<br' . XHTML . '>プラグインはインストールされ、有効になっています。<p>',
     'warning'           => '掲示板アンインストール警告',
-    'uploaderr'         => 'ファイルアップロードエラー'
+    'uploaderr'         => 'ファイルアップロードエラー',
+    'autotag_desc_forum' => '[forum: id alternate title] - Displays a link to a forum topic using the text \'hear\' as the title. An alternate title may be specified but is not required.'
 );
 
 
@@ -310,7 +307,7 @@ $LANG_GF01['p_help']         = "[img]http://画像のurl[/img]  または  [img 
 $LANG_GF01['w_help']         = "URLを挿入する: [url]http://url[/url] または [url=http://url]URLテキスト[/url]";
 $LANG_GF01['a_help']         = "閉じていないbbCodeのタグをすべて閉じる";
 $LANG_GF01['s_help']         = "文字色: [color=red]text[/color]  ヒント: color=#FF0000 という形式でも指定できます";
-$LANG_GF01['f_help']         = "文字サイズ: [size=x-small]小さめの文字[/size]";
+$LANG_GF01['f_help']         = "文字サイズ: [size=7]小さめの文字[/size]";
 $LANG_GF01['h_help']         = "詳細を見るにはクリックしてください";
 
 

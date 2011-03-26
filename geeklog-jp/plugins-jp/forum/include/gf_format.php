@@ -37,10 +37,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_format.php') !== false) {
     die ('This file can not be used on its own.');
 }
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 if (!class_exists('StringParser') ) {
     require_once $CONF_FORUM['path_include'] . 'bbcode/stringparser_bbcode.class.php';
 }

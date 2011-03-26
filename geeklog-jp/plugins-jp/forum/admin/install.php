@@ -36,10 +36,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 require_once '../../../lib-common.php';
 require_once $_CONF['path'] . 'plugins/forum/config.php';
 require_once $_CONF['path'] . 'plugins/forum/functions.inc';

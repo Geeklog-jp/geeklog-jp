@@ -62,10 +62,6 @@ $display .= forum_Navbar($navbarMenu,$LANG_GF06['7']);
 if (($op == 'banip') && ($ip != '')) {
     if ($_POST['sure'] == 'yes') {
         DB_query("INSERT INTO {$_TABLES['gf_banned_ip']} (host_ip) VALUES ('$ip')");
-//        $display .= forum_statusMessage($LANG_GF96['ipbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipbanned']);
-//        $display .= COM_endBlock();
-//        $display .= adminfooter();
-//        $display .= COM_siteFooter();
         $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/ips.php?msg=1');
         COM_output($display);
         exit;
@@ -112,10 +108,6 @@ if (($op == 'banip') && ($ip != '')) {
 
 if (($op == 'unban') && ($ip != '') && SEC_checkToken()) {
     DB_query ("DELETE FROM {$_TABLES['gf_banned_ip']} WHERE (host_ip='$ip')");
-//    $display .= forum_statusMessage($LANG_GF96['ipunbanned'],$_CONF['site_admin_url'] .'/plugins/forum/ips.php',$LANG_GF96['ipunbanned']);
-//    $display .= COM_endBlock();
-//    $display .= adminfooter();
-//    $display .= COM_siteFooter();
     $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/ips.php?msg=2');
     COM_output($display);
     exit;
