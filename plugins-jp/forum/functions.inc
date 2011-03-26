@@ -40,18 +40,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
-if (!defined('GL_VERSION_15')) {
-    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
-}
-
-if (!defined(CSRF_TOKEN)) {
-    define('CSRF_TOKEN', 'token');
-}
-
 if (is_dir($_CONF['path_layout'] . 'forum')) {
     $CONF_FORUM['path_layout'] = $_CONF['path_layout'];
     $CONF_FORUM['layout_url']  = $_CONF['layout_url'];
@@ -103,14 +91,21 @@ function plugin_getmenuitems_forum()
 
 
 function plugin_autotags_forum($op,$content='',$autotag='') {
-    global $_CONF;
+    global $_CONF, $LANG_GF00;
 
-    if ($op == 'tagname' ) {
+    if ($op == 'tagname') {
         return 'forum';
+    } elseif ($op == 'description') {
+        return array('forum' => $LANG_GF00['autotag_desc_forum']);
     } elseif ($op == 'parse') {
-        if ($autotag['parm2'] == '')  $autotag['parm2'] = 'here';
-        $filelink = '<a href="'.$_CONF['site_url'].'/forum/viewtopic.php?showtopic='.$autotag['parm1'].'">'.$autotag['parm2'].'</a>';
-        $content = str_replace($autotag['tagstr'],$filelink,$content);
+        $id = COM_applyFilter($autotag['parm1']);
+        if (!empty($id)) {
+            $linktext = 'here';
+            if (!empty($autotag['parm2'])) $linktext = $autotag['parm2'];
+            $url = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic=' . $id;
+            $filelink = COM_createLink($linktext, $url);
+            $content = str_replace($autotag['tagstr'], $filelink, $content);
+        }
         return $content;
     }
 }
@@ -824,8 +819,9 @@ function plugin_upgrade_forum() {
             case "2.7.2.JPr5" :
             case "2.7.2.JPr6" :
             case "2.7.3.JPr1" :
-                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.4.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
-                $curversion = "2.7.4.JPr1";
+            case "2.7.4.JPr1" :
+                DB_query("UPDATE {$_TABLES['plugins']} SET `pi_version` = '2.7.5.JPr1', `pi_gl_version` = '1.6.0' WHERE `pi_name` = 'forum' LIMIT 1");
+                $curversion = "2.7.5.JPr1";
                 break;
 
             default:
@@ -886,7 +882,6 @@ function plugin_autouninstall_forum()
                           'gf_watch','gf_moderators','gf_banned_ip', 
                           'gf_log', 'gf_userprefs','gf_userinfo'),
         /* give the full name of the group, as in the db */
-//      'groups' => array('Forum Admin'),
         'groups' => array('forum Admin'),
         /* give the full name of the feature, as in the db */
         'features' => array('forum.edit', 'forum.user'),
@@ -1513,6 +1508,7 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
             return;
         }
 
+        $f_tooltip = function_exists(COM_Tooltip);
         while ($A = DB_fetchArray ($result)) {
             $fullsubject = "{$A['subject']}\n{$LANG_GF01['POSTEDBY']}:{$A['name']}{$LANG_GF01['VIEWS']}:{$A['views']}, {$LANG_GF01['REPLIES']}:{$A['replies']}";
             if (strlen ($A['subject']) > $CONF_FORUM['cb_subject_size']) {
@@ -1556,19 +1552,27 @@ function plugin_centerblock_forum ($where = 1, $page = 1, $topic = '')
             }
 
             $cssid = ($cssid ==1) ? 2: 1;
-            $block->set_var ('lastpostinfo', $lastpostinfo);
+
+            if ($f_tooltip) {
+                $lastpostlink = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}&amp;lastpost=true#{$lastid}";
+                $block->set_var ('date', COM_Tooltip($lastdate, $lastpostinfo, $lastpostlink));
+                $topiclink = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic={$A['id']}";
+                $block->set_var ('topic_subject', COM_Tooltip($A['subject'], $topicinfo, $topiclink));
+            } else {
+                $block->set_var ('lastpostinfo', $lastpostinfo);
+                $block->set_var ('topicinfo', $topicinfo);
+                $block->set_var ('date', $lastdate);
+                $block->set_var ('topic_subject', $A['subject']);
+            }
             $block->set_var ('lastpostid', $lastid);
-            $block->set_var ('topicinfo', $topicinfo);
             $block->set_var ('cssid', $cssid);
             $block->set_var ('img_dir', $CONF_FORUM['imgset']);
             $block->set_var ('forum_id', $A['forum']);
             $block->set_var ('forum_name', $A['forum_name']);
             $block->set_var ('topic_id', $A['id']);
-            $block->set_var ('topic_subject', $A['subject']);
             $block->set_var ('fullsubject', $fullsubject);
             $block->set_var ('views', $A['views']);
             $block->set_var ('replies', $A['replies']);
-            $block->set_var ('date',$lastdate );
             $block->set_var ('lastpostby',$A['name']);
             $block->parse ('block_records', 'record',true);
         }
@@ -1891,23 +1895,4 @@ function gf_showVariables()
 
     return $retval;
 }
-
-if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
-    function SEC_checkToken() {
-        return true;
-    }
-}
-
-if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
-    function SEC_createToken() {
-        return "1";
-    }
-}
-
-if ((!function_exists('COM_output'))) {
-    function COM_output($display) {
-        echo $display;
-    }
-}
-
 ?>

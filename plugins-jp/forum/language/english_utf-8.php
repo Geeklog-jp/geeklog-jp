@@ -34,10 +34,6 @@
 // +---------------------------------------------------------------------------+
 //
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
 $LANG_GF00 = array (
     'admin_only'        => 'Sorry Admins Only. If you are an Admin please login first.',
     'plugin'            => 'Plugin',
@@ -68,7 +64,8 @@ $LANG_GF00 = array (
     'uninstall'         => 'UnInstall',
     'enabled'           => '<br' . XHTML . '>Plugin is installed and enabled.<br' . XHTML . '>Disable first if you want to De-Install it.<p>',
     'warning'           => 'Forum De-Install Warning',
-    'uploaderr'         => 'File Upload Error'
+    'uploaderr'         => 'File Upload Error',
+    'autotag_desc_forum' => '[forum: id alternate title] - Displays a link to a forum topic using the text \'hear\' as the title. An alternate title may be specified but is not required.'
 );
 
 
@@ -301,7 +298,7 @@ $LANG_GF01['p_help']         = "[img]http://image_url[/img]  or [img w=100 h=200
 $LANG_GF01['w_help']         = "Insert URL: [url]http://url[/url] or [url=http://url]URL text[/url]";
 $LANG_GF01['a_help']         = "Close all open bbCode tags";
 $LANG_GF01['s_help']         = "Font color: [color=red]text[/color]  Tip: you can also use color=#FF0000";
-$LANG_GF01['f_help']         = "Font size: [size=x-small]small text[/size]";
+$LANG_GF01['f_help']         = "Font size: [size=7]small text[/size]";
 $LANG_GF01['h_help']         = "Click to view more detailed help";
 
 
@@ -740,7 +737,7 @@ $LANG_GF93 = array (
     'forumdeleted'       => 'Forum Deleted',
     'forumedited'        => 'Forum Edited',
     'forumordered'       => 'Forum Order Edited',
-    'transfer'           => 'Transfering to board index..',
+    'transfer'           => 'Transferring to board index..',
     'vieworder'          => 'View Order',
     'back'               => 'Back',
     'addnote'            => 'Note: You can edit these values.',
@@ -803,7 +800,7 @@ $LANG_GF94 = array (
     'removesuc2'         => 'Moderator record(s) removed successfully from all forums.',
     'modexists'          => 'Moderator Exists',
     'modexistsmsg'       => 'Error: Sorry this moderator already exists.',
-    'transfer'           => 'Transfering to mod index..',
+    'transfer'           => 'Transferring to mod index..',
     'removemodnote1'     => 'Are you want to remove moderator %s from the forum %s?',
     'removemodnote2'     => 'Once deleted, they will no longer be able to moderate that forum.',
     'removemodnote3'     => 'Are you want to remove moderator %s from all forums?',

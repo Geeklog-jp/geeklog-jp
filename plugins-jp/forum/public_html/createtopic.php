@@ -172,8 +172,6 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
 
             PLG_itemSaved($editid, 'forum');
 
-//            $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$topicparent&amp;page=$page#$editid";
-//            $display .= forum_statusMessage($LANG_GF02['msg19'],$link,$LANG_GF02['msg19']);
             $link = $_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$topicparent&amp;page=$page#$editid";
             $display = COM_refresh($link);
             COM_output($display);
@@ -286,7 +284,6 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                     if ($uid != '1') {
                         DB_query("INSERT INTO {$_TABLES['gf_log']} (uid,forum,topic,time) VALUES ('$_USER[uid]','$forum','$lastid','$date')");
                     }
-//                    $display .= forum_statusMessage($LANG_GF02['msg19'], $_CONF['site_url'] . "/forum/viewtopic.php?showtopic=$lastid",$LANG_GF02['msg19']);
                     $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$lastid");
                     COM_output($display);
                     exit;
@@ -381,8 +378,6 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                         DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$nid','$uid',now() )");
                     }
                     COM_updateSpeedlimit ('forum');
-//                    $link = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$id&amp;lastpost=true#$lastid";
-//                    $display .= forum_statusMessage($LANG_GF02['msg19'],$link,$LANG_GF02['msg19'],true,$forum);
                     $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$id&amp;lastpost=true#$lastid");
                     COM_output($display);
                     exit;
@@ -591,7 +586,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     } else {
         $subject = COM_stripslashes($subject);
     }
-        
+
     $topicnavbar = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
     $topicnavbar->set_file (array ('topicnavbar'=>'post_topic_navbar.thtml'));
     $topicnavbar->set_var ('xhtml', XHTML);

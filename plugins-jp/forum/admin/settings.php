@@ -174,10 +174,6 @@ if (($_POST['savesettings'] == 'yes') && SEC_checkToken()) {
         sb_latestposts='$sb_latestposts'
     ");
 
-//    $display .= forum_statusMessage($LANG_GF92['setsave'],"{$_CONF['site_admin_url']}/plugins/forum/settings.php",$LANG_GF92['setsavemsg']);
-//    $display .= COM_endBlock();
-//    $display .= COM_siteFooter();
-//    COM_output($display);
     $display = COM_refresh($_CONF['site_admin_url'] . "/plugins/forum/settings.php?msg=1");
     COM_output($display);
     exit;
