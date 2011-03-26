@@ -1,6 +1,6 @@
 $Id$
 
-2010-05-04  Yoshinori Tahara  <dengen>
+2011-03-27  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: オリジナル版のversion 2.7.5をマージしました。
 	  これによりGeeklog1.8.0から追加されるCOM_tooltip関数を使用した機能が
