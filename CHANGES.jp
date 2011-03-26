@@ -1,5 +1,12 @@
 $Id$
 
+2010-05-04  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: オリジナル版のversion 2.7.5をマージしました。
+	  これによりGeeklog1.8.0から追加されるCOM_tooltip関数を使用した機能が
+	  追加されます。
+	  その他、不要なコードを削除しました。
+
 2011-03-10  mystral-kk <mystral-kk>
 
 	* precheck.phpで、ファイルブラウザを使用してもdb-config.phpのパスが反映

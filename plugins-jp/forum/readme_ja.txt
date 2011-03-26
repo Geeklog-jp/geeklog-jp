@@ -127,3 +127,8 @@ JPr4.2  #edited by dengen
 2.7.4.JPr1  #edited by dengen
 
 ・オリジナル版のversion 2.7.4をマージ (BBコード機能に含まれるXSS脆弱性の解消)
+
+2.7.5.JPr1  #edited by dengen
+
+・オリジナル版のversion 2.7.5をマージ (COM_tooltip関連)
+・既にGeeklog 1.6.0以降サポートとなっていたが、その場合に不要なコードを削除。
