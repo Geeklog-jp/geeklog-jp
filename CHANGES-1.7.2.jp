@@ -1,0 +1,5 @@
+2011-04-04  Takahiro Kambe  <tacahi>
+
+	* ブランチ branches/geeklog-1.7.2-jp を、Geeklog 1.7.2ベースの
+	  日本語版の保守用に作成しました。以降のブランチ変更を記述する
+	  本ファイルを作成しました。
