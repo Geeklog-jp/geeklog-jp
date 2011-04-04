@@ -1,5 +1,11 @@
 $Id$
 
+2011-04-04  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6の時点で削除されていたsystem/pear/PHPを削除しました。
+
+	* README.jpをGeeklog 1.7.2-jp-1.1に向けて更新しました。
+
 2011-03-27  Yoshinori Tahara  <dengen>
 
 	* forumプラグイン: オリジナル版のversion 2.7.5をマージしました。
