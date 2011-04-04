@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-admin.php                                                             |
 // |                                                                           |
 // | Admin-related functions needed in more than one place.                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
 // |          Mark Limburg       - mlimburg AT users DOT sourceforge DOT net   |
@@ -85,7 +85,7 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
         $form_url = $text_arr['form_url'];
     }
 
-    $admin_templates = new Template($_CONF['path_layout'] . 'admin/lists');
+    $admin_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/lists');
     $admin_templates->set_file (
         array (
             'list' => 'list.thtml',
@@ -94,10 +94,6 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
             'field' => 'field.thtml'
         )
     );
-    $admin_templates->set_var('xhtml', XHTML);
-    $admin_templates->set_var('site_url', $_CONF['site_url']);
-    $admin_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $admin_templates->set_var('layout_url', $_CONF['layout_url']);
     $admin_templates->set_var('form_url', $form_url);
     $admin_templates->set_var('lang_edit', $LANG_ADMIN['edit']);
     $admin_templates->set_var('lang_deleteall', $LANG01[124]);
@@ -110,7 +106,7 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
     }
 
     # define icon paths. Those will be transmitted to $fieldfunction.
-    $icons_type_arr = array('edit', 'copy', 'list', 'addchild');
+    $icons_type_arr = array('edit', 'copy', 'list', 'addchild', 'install', 'unavailable', 'info');
     $icon_arr = array();
     foreach ($icons_type_arr as $icon_type) {
         $icon_url = "{$_CONF['layout_url']}/images/$icon_type.$_IMAGE_TYPE";
@@ -214,12 +210,13 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
 * @param    string  $extra          additional values passed to fieldfunction
 * @param    array   $options        array of options - intially just used for the Check-All feature
 * @param    array   $form_arr       optional extra forms at top or bottom
+* @param    bool    $showsearch     whether to show the search functionality
 * @return   string                  HTML output of function
 *
 */
 function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             $query_arr, $defsort_arr, $filter = '', $extra = '',
-            $options = '', $form_arr='')
+            $options = '', $form_arr='', $showsearch = true)
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG_ACCESS, $LANG01, $_IMAGE_TYPE, $MESSAGE;
 
@@ -280,20 +277,17 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
     }
 
     # get all template fields.
-    $admin_templates = new Template($_CONF['path_layout'] . 'admin/lists');
-    $admin_templates->set_file (array (
-        'search' => 'searchmenu.thtml',
-        'list'   => ($inline_form ? 'inline.thtml' : 'list.thtml'),
-        'header' => 'header.thtml',
-        'row'    => 'listitem.thtml',
-        'field'  => 'field.thtml'
-    ));
+    $admin_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/lists');
+    $template_files = array(
+            'list'   => ($inline_form ? 'inline.thtml' : 'list.thtml'),
+            'header' => 'header.thtml',
+            'row'    => 'listitem.thtml',
+            'field'  => 'field.thtml' );
+    if ($showsearch) {
+        $template_files['search'] = 'searchmenu.thtml';
+    }
+    $admin_templates->set_file($template_files);
 
-    # insert std. values into the template
-    $admin_templates->set_var('xhtml', XHTML);
-    $admin_templates->set_var('site_url', $_CONF['site_url']);
-    $admin_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $admin_templates->set_var('layout_url', $_CONF['layout_url']);
     $admin_templates->set_var('form_url', $form_url);
     $admin_templates->set_var('lang_edit', $LANG_ADMIN['edit']);
     $admin_templates->set_var('lang_deleteall', $LANG01[124]);
@@ -316,11 +310,11 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
     }
 
     # define icon paths. Those will be transmitted to $fieldfunction.
-    $icons_type_arr = array('edit', 'copy', 'list', 'addchild');
+    $icons_type_arr = array('edit', 'copy', 'list', 'addchild', 'deleteitem', 'enabled', 'disabled', 'unavailable', 'warning', 'info');
     $icon_arr = array();
     foreach ($icons_type_arr as $icon_type) {
         $icon_url = "{$_CONF['layout_url']}/images/$icon_type.$_IMAGE_TYPE";
-        $icon_arr[$icon_type] = COM_createImage($icon_url, $LANG_ADMIN[$icon_type]);
+        $icon_arr[$icon_type] = COM_createImage($icon_url, $LANG_ADMIN[$icon_type], array('style' => 'vertical-align: middle;'));
     }
 
     $has_extras = '';
@@ -594,14 +588,10 @@ function ADMIN_createMenu($menu_arr, $text, $icon = '')
 {
     global $_CONF;
 
-    $admin_templates = new Template($_CONF['path_layout'] . 'admin/lists');
+    $admin_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/lists');
     $admin_templates->set_file (
         array ('top_menu' => 'topmenu.thtml')
     );
-    $admin_templates->set_var('xhtml', XHTML);
-    $admin_templates->set_var('site_url', $_CONF['site_url']);
-    $admin_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $admin_templates->set_var('layout_url', $_CONF['layout_url']);
 
     $menu_fields = '';
     $attr = array('class' => 'admin-menu-item');
@@ -1098,9 +1088,10 @@ function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $tok
     $retval = '';
 
     switch ($fieldname) {
-    case 'edit':
-        $retval = COM_createLink($icon_arr['edit'],
-                "{$_CONF['site_admin_url']}/plugins.php?mode=edit&amp;pi_name={$A['pi_name']}");
+    case 'info_installed':
+        $retval = COM_createLink($icon_arr['info'],
+                "{$_CONF['site_admin_url']}/plugins.php?mode=info_installed&amp;pi_name={$A['pi_name']}",
+                array('title' => $LANG32[13]));
         break;
 
     case 'pi_name':
@@ -1131,27 +1122,70 @@ function ADMIN_getListField_plugins($fieldname, $fieldvalue, $A, $icon_arr, $tok
         }
         break;
 
-    case 'enabled':
-        $not_present = false;
-        if ($A['pi_enabled'] == 1) {
-            $switch = ' checked="checked"';
+    case 'pi_dependencies':
+            if (PLG_checkDependencies($A['pi_name'])) {
+                $retval = COM_Tooltip($LANG32[51], PLG_printDependencies($A['pi_name'], $A['pi_gl_version']));
+            } else {
+                $style = "display: inline; color: #a00; border-bottom: 1px dotted #a00;";
+                $retval = COM_Tooltip("<b class='notbold' style='$style'>{$LANG32[52]}</b>", PLG_printDependencies($A['pi_name'], $A['pi_gl_version']));
+            }
+        break;
+
+    case 'pi_load':
+        $csrftok = '&amp;' . CSRF_TOKEN . '=' . $token;
+        $style   = "style='vertical-align: middle;'";
+        $upimg   = $_CONF['layout_url'] . '/images/admin/up.png';
+        $dnimg   = $_CONF['layout_url'] . '/images/admin/down.png';
+        $url     = $_CONF['site_admin_url'] . '/plugins.php?mode=change_load_order&amp;pi_name=' . $A['pi_name'] . $csrftok . '&amp;where=';
+        $retval .= COM_CreateLink( "<img $style alt='+' src='$upimg'" . XHTML . ">", $url . 'up' , array('title' => $LANG32[44]));
+        $retval .= '&nbsp;' . $A['pi_load'] . '&nbsp;';
+        $retval .= COM_CreateLink( "<img $style alt='-' src='$dnimg'" . XHTML . ">", $url . 'dn' , array('title' => $LANG32[45]));
+        break;
+
+    case 'pi_enabled':
+        if (!PLG_checkDependencies($A['pi_name'])) {
+            $retval = str_replace('<img ', '<img title="' . $LANG32[64] . '" ', $icon_arr['warning']);
         } else {
-            $switch = '';
-            if (! file_exists($_CONF['path'] . 'plugins/' . $A['pi_name']
-                              . '/functions.inc')) {
-                $not_present = true;
+            $not_present = false;
+            if ($A['pi_enabled'] == 1) {
+                $switch = 'enabled';
+                $title  = $LANG32[49];
+            } else {
+                $switch = 'disabled';
+                $title  = $LANG32[48];
+                if (!file_exists($_CONF['path'] . 'plugins/' . $A['pi_name'] . '/functions.inc')) {
+                    $not_present = true;
+                }
+            }
+            if ($not_present) {
+                $retval = str_replace('<img ', '<img title="' . $LANG32[64] . '" ', $icon_arr['unavailable']);
+            } else {
+                $sorting = '';
+                $csrftoken = '&amp;' . CSRF_TOKEN . '=' . $token;
+                if (!empty($_GET['order']) && !empty($_GET['direction'])) { // Remember how the list was sorted
+                    $ord = trim($_GET['order']);
+                    $dir = trim($_GET['direction']);
+                    $old = trim($_GET['prevorder']);
+                    $sorting = "&amp;order=$ord&amp;direction=$dir&amp;prevorder=$old";
+                }
+                $retval = COM_createLink($icon_arr[$switch], $_CONF['site_admin_url'] .
+                            '/plugins.php?mode=toggle&amp;pi_name=' . $A['pi_name'] . $csrftoken . $sorting,
+                            array('title' => $title));
             }
         }
-        if ($not_present) {
-            $retval = '<input type="checkbox" disabled="disabled"'
-                    . XHTML . '>';
-        } else {
-            $retval = '<input type="checkbox" name="enabledplugins[]" '
-                        . 'onclick="submit()" value="' . $A['pi_name'] . '"'
-                        . $switch . XHTML . '>'
-                    . '<input type="hidden" name="visibleplugins[]" value="'
-                        . $A['pi_name'] . '"' . XHTML . '>';
-        }
+        break;
+
+    case 'delete':
+        $csrftoken = '&amp;' . CSRF_TOKEN . '=' . $token;
+        $id = 'uninstall_' . $A['pi_name']; // used by JavaScript
+        $message = sprintf($LANG32[47], "\'" . plugin_get_pluginname($A['pi_name']) . "\'"); // used by JavaScript
+        $url = $_CONF['site_admin_url'] . '/plugins.php?mode=delete&amp;pi_name=' . $A['pi_name'] . $csrftoken;
+        $link_args = array('title' => $LANG32[46],
+                          'onclick' => "confirm_action('$message', '$url&amp;confirmed=1')",
+                          'id' => $id);
+        $retval .= COM_CreateLink($icon_arr['deleteitem'], $url, $link_args);
+        // If javascript is available, we will be using it to get a confirmation from the user. So we need to hide the default link.
+        $retval .= '<script type="text/javascript">document.getElementById("' . $id . '").href = "javascript:void(0);";</script>';
         break;
 
     default:
@@ -1352,6 +1386,52 @@ function ADMIN_getListField_usergroups($fieldname, $fieldvalue, $A, $icon_arr, $
         }
     }
 
+    return $retval;
+}
+
+/**
+ * used to display the entries for the list of uninstalled plugins, in admin/plugins.php
+ *
+ */
+function ADMIN_getListField_newplugins($fieldname, $fieldvalue, $A, $icon_arr, $selected = '')
+{
+    global $_CONF, $LANG32;
+
+    $retval = false;
+    switch($fieldname) {
+    case 'info_uninstalled':
+        $retval  = COM_createLink($icon_arr['info'],
+            "{$_CONF['site_admin_url']}/plugins.php?mode=info_uninstalled&amp;pi_name={$A['pi_name']}",
+            array('title' => $LANG32[13]));
+        break;
+
+    case 'pi_version':
+        $params = PLG_getParams($A['pi_name']);
+        $retval = $params['info']['pi_version'];
+        break;
+
+    case 'pi_dependencies':
+        if (PLG_checkDependencies($A['pi_name'])) {
+            $retval = COM_Tooltip($LANG32[51], PLG_printDependencies($A['pi_name'], $A['pi_gl_version']));
+        } else {
+            $style = "display: inline; color: #a00; border-bottom: 1px dotted #a00;";
+            $retval = COM_Tooltip("<b class='notbold' style='$style'>{$LANG32[52]}</b>", PLG_printDependencies($A['pi_name'], $A['pi_gl_version']));
+        }
+        break;
+
+    case 'install_link':
+        if (PLG_checkDependencies($A['pi_name'])) {
+            $retval = COM_createLink($icon_arr['install'], $A['install_link'],
+            array('title' => $LANG32[62]));
+        } else {
+            $retval = str_replace('<img ', '<img title="' . $LANG32[63] . '" ', $icon_arr['unavailable']);
+        }
+        break;
+
+    default:
+        $retval = $fieldvalue;
+        break;
+    }
     return $retval;
 }
 

@@ -216,13 +216,9 @@ function links_edit_category($cid, $pid)
                               COM_getBlockTemplate('_admin_block', 'header'));
     $retval .= SEC_getTokenExpiryNotice($token);
 
-    $T = new Template($_CONF['path'] . 'plugins/links/templates/admin');
+    $T = COM_newTemplate($_CONF['path'] . 'plugins/links/templates/admin');
     $T->set_file(array('page' => 'categoryeditor.thtml'));
 
-    $T->set_var('xhtml', XHTML);
-    $T->set_var('site_url', $_CONF['site_url']);
-    $T->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $T->set_var('layout_url', $_CONF['layout_url']);
     $T->set_var('lang_pagetitle', $LANG_LINKS_ADMIN[28]);
     $T->set_var('lang_link_list', $LANG_LINKS_ADMIN[53]);
     $T->set_var('lang_new_link', $LANG_LINKS_ADMIN[51]);
@@ -328,6 +324,8 @@ function links_save_category($cid, $old_cid, $pid, $category, $description, $tid
         list($perm_owner,$perm_group,$perm_members,$perm_anon) = SEC_getPermissionValues($perm_owner,$perm_group,$perm_members,$perm_anon);
     }
 
+    // Remove any autotags the user doesn't have permission to use
+    $description = PLG_replaceTags($description, '', true);
     // clean 'em up
     $description = addslashes(COM_checkHTML(COM_checkWords($description),
                               'links.edit'));

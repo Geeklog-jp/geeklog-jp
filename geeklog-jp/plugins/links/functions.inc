@@ -182,10 +182,37 @@ function plugin_getwhatsnew_links()
 */
 function plugin_autotags_links($op, $content = '', $autotag = '')
 {
-    global $_CONF, $_TABLES, $LANG_DIRECTION;
+    global $_CONF, $_TABLES, $LANG_DIRECTION, $LANG_LINKS, $_LI_CONF, $_GROUPS;
 
     if ($op == 'tagname' ) {
         return 'link';
+    } elseif ($op == 'permission' || $op == 'nopermission') {
+        if ($op == 'permission') {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+        $tagnames = array();
+
+        if (isset($_GROUPS['Links Admin'])) {
+            $group_id = $_GROUPS['Links Admin'];
+        } else {
+            $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Links Admin'");
+        }
+        $owner_id = SEC_getDefaultRootUser();
+
+        if (COM_getPermTag($owner_id, $group_id, $_LI_CONF['autotag_permissions_link'][0], $_LI_CONF['autotag_permissions_link'][1], $_LI_CONF['autotag_permissions_link'][2], $_LI_CONF['autotag_permissions_link'][3]) == $flag) {
+            $tagnames[] = 'link';
+        }
+        
+        if (count($tagnames) > 0) {
+            return $tagnames;
+        }
+    } elseif ($op == 'description') {
+        return array (
+            'link' => $LANG_LINKS['autotag_desc_link']
+            );
     } else if ($op == 'parse') {
         $lid = COM_applyFilter($autotag['parm1']);
         if (! empty($lid)) {
@@ -641,7 +668,7 @@ function plugin_feedupdatecheck_links ($feed, $topic, $update_data, $limit, $upd
 */
 function plugin_upgrade_links()
 {
-    global $_CONF, $_TABLES, $_LI_CONF;
+    global $_CONF, $_TABLES, $_LI_CONF, $_DB_dbms;
 
     $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version',         
                                     "pi_name = 'links'");
@@ -659,19 +686,53 @@ function plugin_upgrade_links()
 
     $inst_parms = plugin_autoinstall_links('links');
     $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+    
+    require_once $_CONF['path'] . 'plugins/links/sql/'
+                                . $_DB_dbms . '_updates.php';
+                                
+    require_once $_CONF['path'] . 'plugins/links/install_updates.php';                                
 
-    if (! isset($_LI_CONF['new_window'])) {
-        $c = config::get_instance();
-        $c->add('new_window',false,'select',0,0,1,55,TRUE,'links');
-    }
+    $current_version = $installed_version;
+    $done = false;
+    while (! $done) {
+        switch ($current_version) {
+        case '2.0.1': // Last version of old install (Geeklog 1.5.2)
+            if (! isset($_LI_CONF['new_window'])) {
+                $c = config::get_instance();
+                $c->add('new_window',false,'select',0,0,1,55,TRUE,'links');
+            }
+        
+            if (! isset($_LI_CONF['category_permissions'])) {
+                $c = config::get_instance();
+                $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
+                $c->add('category_permissions', array (3, 2, 2, 2),
+                        '@select', 0, 3, 12, 150, true, 'links');
+            }            
+            
+            $current_version = '2.1.0';
+            break;    
+        case '2.1.0':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }            
 
-    if (! isset($_LI_CONF['category_permissions'])) {
-        $c = config::get_instance();
-        $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
-        $c->add('category_permissions', array (3, 2, 2, 2),
-                '@select', 0, 3, 12, 150, true, 'links');
-    }
+            links_update_ConfValues_2_1_0();
+            
+            links_update_ConfigSecurity_2_1_0();
+            
+            $current_version = '2.1.1';
+            break;            
 
+        default:
+            $done = true;
+        }
+    }    
+    
+    
+    
     DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' WHERE pi_name = 'links'");
 
     return true;
@@ -888,12 +949,8 @@ function plugin_submit_links()
 
     $retval = COM_startBlock ($LANG_LINKS_SUBMIT[1], 'submitlink.html');
 
-    $linkform = new Template($_CONF['path'] . 'plugins/links/templates');
+    $linkform = COM_newTemplate($_CONF['path'] . 'plugins/links/templates');
     $linkform->set_file('linkform', 'submitlink.thtml');
-    $linkform->set_var('xhtml', XHTML);
-    $linkform->set_var('site_url', $_CONF['site_url']);
-    $linkform->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $linkform->set_var('layout_url', $_CONF['layout_url']);
     $linkform->set_var('lang_title', $LANG12[10]);
     $linkform->set_var('lang_link', $LANG_LINKS_SUBMIT[2]);
     $linkform->set_var('lang_category', $LANG_LINKS_SUBMIT[3]);
@@ -904,6 +961,8 @@ function plugin_submit_links()
     $linkform->set_var('link_category_options', links_select_box(2, $category));
     $linkform->set_var('lang_description', $LANG12[15]);
     $linkform->set_var('lang_htmlnotallowed', $LANG12[35]);
+    $allowed = COM_allowedHTML('links.edit', false, 2);
+    $linkform->set_var('lang_allowed_html', $allowed);    
     PLG_templateSetVars('links', $linkform);
     $linkform->set_var('lang_submit', $LANG12[8]);
     $linkform->set_var('max_url_length', 255);
@@ -975,6 +1034,8 @@ function plugin_save_submit_links($A)
     }
 
     $A['cid'] = addslashes($A['cid']);
+    // Remove any autotags the user doesn't have permission to use
+    $A['description'] = PLG_replaceTags($A['description'], '', true);
     $A['description'] = addslashes(htmlspecialchars(COM_checkWords($A['description'])));
     $A['title'] = addslashes(strip_tags(COM_checkWords($A['title'])));
     $A['url'] = addslashes(COM_sanitizeUrl($A['url']));
@@ -1048,7 +1109,7 @@ function LINKS_sendNotification ($table, $A)
     if ($table == $_TABLES['linksubmission']) {
         $mailbody .= "$LANG_LINKS[10] <{$_CONF['site_admin_url']}/moderation.php>\n\n";
     } else {
-        $mailbody .= "$LANG_LINKS[114] <{$_CONF['site_url']}/links/index.php?category=" . urlencode ($A['category']) . ">\n\n";
+        $mailbody .= "$LANG_LINKS[114] <{$_CONF['site_url']}/links/index.php?category=" . rawurlencode ($A['category']) . ">\n\n";
     }
     $mailsubject = $_CONF['site_name'] . ' ' . $LANG_LINKS_SUBMIT[11];
 
@@ -1113,7 +1174,7 @@ function plugin_getListField_links($fieldname, $fieldvalue, $A, $icon_arr)
                 }
                 $cat = COM_createLink($A['category'],
                         "{$_CONF['site_url']}/links/index.php?category="
-                        . urlencode($A['cid']));
+                        . rawurlencode($A['cid']));
                 $retval = "<span style=\"padding-left:{$indent}px;\">$cat</span>";
                 break;
                 break;
@@ -1139,7 +1200,7 @@ function plugin_getListField_categories($fieldname, $fieldvalue, $A, $icon_arr)
                 if ($access == 3) {
                     $retval = COM_createLink(
                         $icon_arr['edit'],
-                        "{$_CONF['site_admin_url']}/plugins/links/category.php?mode=edit&amp;cid=" . urlencode($A['cid'])
+                        "{$_CONF['site_admin_url']}/plugins/links/category.php?mode=edit&amp;cid=" . rawurlencode($A['cid'])
                     );
                 }
                 break;
@@ -1154,14 +1215,14 @@ function plugin_getListField_categories($fieldname, $fieldvalue, $A, $icon_arr)
                 $indent = ($A['indent'] - 1) * 20;
                 $cat = COM_createLink($A['category'],
                         "{$_CONF['site_url']}/links/index.php?category="
-                        . urlencode($A['cid']));
+                        . rawurlencode($A['cid']));
                 $retval = "<span style=\"padding-left:{$indent}px;\">$cat</span>";
                 break;
             case 'addchild';
                 if ($access == 3) {
                     $retval = COM_createLink(
                         $icon_arr['addchild'],
-                        "{$_CONF['site_admin_url']}/plugins/links/category.php?mode=edit&amp;pid=" . urlencode($A['cid'])
+                        "{$_CONF['site_admin_url']}/plugins/links/category.php?mode=edit&amp;pid=" . rawurlencode($A['cid'])
                     );
                 }
                 break;
@@ -1256,7 +1317,14 @@ function plugin_autouninstall_links ()
         /* give the full name of the group, as in the db */
         'groups' => array('Links Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('links.edit', 'links.moderate', 'links.submit'),
+        'features' => array('links.edit', 
+                            'links.moderate', 
+                            'links.submit', 
+                            'config.links.tab_public', 
+                            'config.links.tab_admin', 
+                            'config.links.tab_permissions', 
+                            'config.links.tab_cpermissions', 
+                            'config.links.tab_autotag_permissions'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_topic_categories', 'phpblock_topic_links'),
         /* give all vars with their name */
@@ -1355,7 +1423,7 @@ function links_breadcrumbs($root, $cid)
             if ($cid != $c) {
                 $content = stripslashes($A['category']);
                 $url = $_CONF['site_url'] . '/links/index.php?category='
-                                          . urlencode($A['cid']);
+                                          . rawurlencode($A['cid']);
                 $breadcrumb = COM_createLink($content, $url) . $separator
                             . $breadcrumb;
             } else {
@@ -1439,7 +1507,7 @@ function phpblock_topic_categories()
                 $A = DB_fetchArray($result);
                 $content = stripslashes($A['category']);
                 $url = $_CONF['site_url'] . '/links/index.php?category='
-                                          . urlencode($A['cid']);
+                                          . rawurlencode($A['cid']);
                 $retval .= COM_createLink($content, $url) . '<br' . XHTML . '>';
             }
         }

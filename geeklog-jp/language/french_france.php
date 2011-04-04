@@ -3,7 +3,7 @@
 ###############################################################################
 # french_france.php
 #
-# This is a french language version for GeekLog!
+# This is a french language version for Geeklog!
 # Updated by ::Ben http::geeklog.fr 2010 05 10 
 #
 # Copyright (C) 2000 Jason Whittenburg
@@ -171,7 +171,12 @@ $LANG01 = array(
     127 => 'Permalink',
     128 => 'Login avec OpenID:',
     129 => 'Configuration',
-    130 => 'Webservices'
+    130 => 'Webservices',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -387,7 +392,8 @@ $LANG04 = array(
     162 => 'ne sera pas réduite',
     163 => 'La réauthentification a échouée',
     164 => 'Vous avez dépassé le nombre maximum de réauthentification. Désolé, l\'opération a été annulée et votre modifications ont été perdues.',
-    165 => 'Utiliser l\éditeur avancé'
+    165 => 'Utiliser l\éditeur avancé',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -836,7 +842,8 @@ $LANG24 = array(
     88 => 'Format Wiki-style',
     89 => 'Meta Description',
     90 => 'Meta Keywords',
-    91 => 'Vous pouvez toujours utiliser le "Preview" pour prolonger le délai de péremption.'
+    91 => 'Vous pouvez toujours utiliser le "Preview" pour prolonger le délai de péremption.',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -968,7 +975,8 @@ $LANG28 = array(
     87 => 'Rappels',
     88 => 'Groupe par défaut',
     89 => 'Cochez pour que les nouveaux membres fassent partie de ce groupe par défaut',
-    90 => 'Cochez pour placer aussi tous les anciens membres dans ce groupe'
+    90 => 'Cochez pour placer aussi tous les anciens membres dans ce groupe',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1078,6 +1086,33 @@ $LANG32 = array(
     40 => 'Vous pouvez uploader une archive d\'un plugin (.tar.gz, .tgz, .zip) directement ici :',
     41 => 'Upload',
     42 => 'Cliquer pour mettre à jour',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'Une erreur inconue s\'est produite',
     100 => 'Ok.',
     101 => 'Le fichier uploadé excéde la valeur upload_max_filesize du php.ini.',
@@ -1251,6 +1286,12 @@ $MESSAGE = array(
     99 => 'Le plugin existe déjà.',
     100 => 'Le fichier du plugin que vous avez uploadé n\'ést pas une archive compressée au format GZip ou Zip.',
     101 => 'Il n\'y a pas de catégorie à laquelle vous puissiez accéder. Vous avez besoin au moins d\'une catégorie pour pouvoir soumettre un article.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'Tous les champs nécessaires n\'ont pas passés la validation',
     401 => 'Saisir votre nom complet'
 );
@@ -1593,14 +1634,18 @@ $LANG_ADMIN = array(
     'create_new' => 'Ajouter',
     'create_new_adv' => 'Nouveau (Avencé)',
     'enabled' => 'Activer',
+    'disabled' => 'Disabled',
     'title' => 'Titre',
     'page_title' => 'Titre de la page',
     'type' => 'Type',
     'topic' => 'Sujet',
+    'info' => 'Info',
     'help_url' => 'URL d\'aide',
     'save' => 'Sauvegarder',
     'cancel' => 'Annuler',
+    'install' => 'Install',
     'delete' => 'Effacer',
+    'deleteitem' => 'Delete',
     'delete_sel' => 'Delete selected',
     'copy' => 'Copier',
     'no_results' => '- Aucune entrée -',
@@ -1613,6 +1658,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'Vous avez jusque %s pour saisir vos informations. Passé ce délais et pour des raisons de sécurité, vous perdrez votre saisie.',
     'token_expired' => 'Le délais de sécurité pour cette opératiton à expiré. Merci de vous identifier à nouveau pour continuer.',
     'reauth_msg' => 'Le délais de sécurité pour cette opératiton à expiré. Si vous souhaitez poursuivre l\'opération, merci de vous identifier à nouveau ci-dessous. Cela permettra de conserver vos dernières modifications.',
@@ -1690,7 +1737,10 @@ $LANG_CONFIG = array(
     'changes_made' => 'Les changements suivants ont été effectués',
     'title' => 'Panneau de Configuration',
     'disable' => 'Cliquer pour mettre hors de service',
-    'enable' => 'Mettre en service'
+    'enable' => 'Mettre en service',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1706,6 +1756,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'Email No-Reply',
     'site_name' => 'Nom du site',
     'site_slogan' => 'Slogan du site (optionnel)',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'Microsummary',
     'path_log' => 'Logs',
     'path_language' => 'Langages',
@@ -1734,6 +1785,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'Montrer le nom du service',
     'custom_registration' => 'Permettre l\'enregistrement personnalisé',
     'user_login_method' => 'Autoriser la connexion',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Actions Spam-X',
     'sort_admin' => 'Tri des liens',
     'language' => 'Langage',
@@ -1793,6 +1853,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'Cacher le lien Accueil',
     'whosonline_threshold' => 'Intervalle pour le calcul du nombre de visiteurs en ligne',
     'whosonline_anonymous' => 'Cacher le nom des membres aux visiteurs anonymes',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'Activer le résumé quotidien',
     'emailstorieslength' => 'Longueur des articles',
     'emailstoriesperdefault' => 'Activer le résumé quotidien par défault à tous les nouveaux membres',
@@ -1888,6 +1949,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'Liste des termes censurés',
     'ip_lookup' => 'Recherche IP',
     'url_rewrite' => 'Activer la réécriture des URL',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'Meta Tags',
     'meta_description' => 'Meta Description par défaut',
     'meta_keywords' => 'Meta Keywords par défaut',
@@ -1909,7 +1971,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'Montrer les limites',
     'search_separator' => 'Séparateur des groupes',
     'search_def_keytype' => 'Méthode de recherche par défaut',
-    'search_def_sort' => 'Ordre de recherche par défaut'
+    'search_def_sort' => 'Ordre de recherche par défaut',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1964,7 +2028,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => 'Story Default Permission',
     'fs_perm_topic' => 'Topic Default Permission',
     'fs_perm_block' => 'Block Default Permission',
-    'fs_webservices' => 'Webservices'
+    'fs_webservices' => 'Webservices',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1995,7 +2102,55 @@ $LANG_configselects['Core'] = array(
     24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
     25 => array('Nouveaux articles' => 'story', 'Nouveaux commentaires' => 'comment', 'Nouveaux Trackbacks' => 'trackback', 'Nouveaux Pingbacks' => 'pingback', 'Nouveaux membres' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Titre (asc)' => 'title|asc', 'Titre (desc)' => 'title|desc', 'Auteur (asc)' => 'uid|asc', 'Auteur (desc)' => 'uid|desc')
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Titre (asc)' => 'title|asc', 'Titre (desc)' => 'title|desc', 'Auteur (asc)' => 'uid|asc', 'Auteur (desc)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

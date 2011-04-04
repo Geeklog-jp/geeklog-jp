@@ -179,7 +179,12 @@ $LANG01 = array(
     127 => 'パーマリンク',
     128 => 'OpenIDログイン:',
     129 => 'コンフィギュレーション',
-    130 => 'Webサービス'
+    130 => 'Webサービス',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -395,7 +400,8 @@ $LANG04 = array(
     162 => 'リサイズなし',
     163 => '再認証エラー',
     164 => '再認証回数を超えました。残念ながら操作はアボートされ、今回の編集作業は失われました。',
-    165 => 'アドバンストエディタを使う'
+    165 => 'アドバンストエディタを使う',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -844,7 +850,8 @@ $LANG24 = array(
     88 => 'Wikiスタイル',
     89 => '説明文のメタタグ',
     90 => 'キーワードのメタタグ',
-    91 => '「プレビュー」ボタンをクリックすれば、いつでも有効期限を延長できます。'
+    91 => '「プレビュー」ボタンをクリックすれば、いつでも有効期限を延長できます。',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -976,7 +983,8 @@ $LANG28 = array(
     87 => 'リマインダー',
     88 => 'デフォルトグループ',
     89 => '新規登録ユーザのデフォルトグループをチェック',
-    90 => '登録済みユーザアカウントにデフォルトグループを追加する'
+    90 => '登録済みユーザアカウントにデフォルトグループを追加する',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1086,6 +1094,33 @@ $LANG32 = array(
     40 => 'プラグインの圧縮ファイル (.tar.gz, .tgz, .zip) を直接ここにアップロードできます:',
     41 => 'アップロード',
     42 => 'アップデート',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => '不明なエラーが発生しました。',
     100 => 'Ok.',
     101 => 'アップロードファイルのサイズは、php.ini 内の upload_max_filesize の値を超えています。',
@@ -1259,6 +1294,12 @@ $MESSAGE = array(
     99 => 'プラグインはすでに存在します。',
     100 => 'あなたがアップロードしたファイルは GZip または Zip 形式のアーカイブではありませんでした。',
     101 => '(あなたがアクセスできる)話題はありません。記事を投稿するためには、少なくとも１つの話題が必要です。',
+    110 => '認証用URLが取得できません。',
+    111 => '認証でエラーが発生しました。',
+    112 => '認証がキャンセルされました。',
+    113 => 'あなたのアカウントがTwitter経由で作成されました。 {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => '検証に合格していない必須フィールドがあります。',
     401 => '氏名を入力してください。'
 );
@@ -1601,14 +1642,18 @@ $LANG_ADMIN = array(
     'create_new' => '新規作成',
     'create_new_adv' => '新規作成(アドバンスト)',
     'enabled' => '有効',
+    'disabled' => 'Disabled',
     'title' => 'タイトル',
     'page_title' => 'ページタイトル',
     'type' => 'タイプ',
     'topic' => '話題',
+    'info' => 'Info',
     'help_url' => 'ヘルプURL',
     'save' => '保存',
     'cancel' => 'キャンセル',
+    'install' => 'Install',
     'delete' => '削除',
+    'deleteitem' => 'Delete',
     'delete_sel' => '削除選択',
     'copy' => 'コピー',
     'no_results' => '- 見つかりませんでした -',
@@ -1621,6 +1666,8 @@ $LANG_ADMIN = array(
     'meta_description' => '説明文のメタタグ',
     'meta_keywords' => 'キーワードのメタタグ',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => '%s までに編集してください。この時刻を過ぎると、このページに埋め込まれたセキュリティートークンは期限切れとなり、編集内容は失われます。',
     'token_expired' => 'この操作のセキュリティトークンは期限切れになりました。続けるには再度認証してください。',
     'reauth_msg' => 'この操作のセキュリティトークンは期限切れになりました。続けるには下に表示されている認証を行なってください。そうすることによって今回の編集作業が失われることはありません。',
@@ -1698,7 +1745,10 @@ $LANG_CONFIG = array(
     'changes_made' => '変更が完了しました',
     'title' => 'コンフィギュレーション管理',
     'disable' => 'クリックしてこのオプションを無効にする',
-    'enable' => '有効にする'
+    'enable' => '有効にする',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1714,6 +1764,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'No-Replyメールアドレス',
     'site_name' => 'サイト名',
     'site_slogan' => 'スローガン',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'マイクロサマリ接頭子',
     'path_log' => 'ログ',
     'path_language' => '言語',
@@ -1742,6 +1793,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'サービス名を表示する',
     'custom_registration' => 'カスタム登録を有効にする',
     'user_login_method' => 'ログイン方法',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Spam-X',
     'sort_admin' => 'リンクをソートする',
     'language' => '言語',
@@ -1801,6 +1861,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'Homeへのリンクを表示しない',
     'whosonline_threshold' => 'セッションのしきい値',
     'whosonline_anonymous' => 'ゲストユーザには表示しない',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'デイリーダイジェストを送信する',
     'emailstorieslength' => '記事の長さ',
     'emailstoriesperdefault' => 'ユーザ登録で有効をデフォルトにする',
@@ -1896,6 +1957,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'バッドワード',
     'ip_lookup' => 'IP検索',
     'url_rewrite' => 'URLリライト',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'メタタグ',
     'meta_description' => 'サイトの説明文のメタタグ',
     'meta_keywords' => 'キーワードのメタタグ',
@@ -1917,7 +1979,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => '表示件数の選択オプションを表示する',
     'search_separator' => 'グループのセパレータ',
     'search_def_keytype' => '検索条件のデフォルト',
-    'search_def_sort' => 'ソート順のデフォルト'
+    'search_def_sort' => 'ソート順のデフォルト',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1972,7 +2036,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => '記事のパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_perm_topic' => '話題のパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_perm_block' => 'ブロックのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_webservices' => 'Webサービス'
+    'fs_webservices' => 'Webサービス',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -2003,7 +2110,55 @@ $LANG_configselects['Core'] = array(
     24 => array('投稿する' => 'contribute', 'Home' => 'home', '詳しい検索' => 'search', 'ディレクトリ' => 'directory', 'マイアカウント' => 'prefs', 'プラグインエントリ' => 'plugins', 'カスタムエントリ' => 'custom', 'サイトステータス' => 'stats'),
     25 => array('新着記事' => 'story', '新着コメント' => 'comment', '新着トラックバック' => 'trackback', '新着ピングバック' => 'pingback', '新着ユーザ' => 'user'),
     26 => array('G (一般向け)' => 'G', 'PG (保護者の指導が望ましい)' => 'PG', 'R (保護者同伴制限付き' => 'R', 'X (17歳未満利用禁止)' => 'X'),
-    27 => array('閲覧数 (昇順)' => 'hits|asc', '閲覧数 (降順)' => 'hits|desc', '日付 (昇順)' => 'date|asc', '日付 (降順)' => 'date|desc', 'タイトル (昇順)' => 'title|asc', 'タイトル (降順)' => 'title|desc', '所有者 (昇順)' => 'uid|asc', '所有者 (降順)' => 'uid|desc')
+    27 => array('閲覧数 (昇順)' => 'hits|asc', '閲覧数 (降順)' => 'hits|desc', '日付 (昇順)' => 'date|asc', '日付 (降順)' => 'date|desc', 'タイトル (昇順)' => 'title|asc', 'タイトル (降順)' => 'title|desc', '所有者 (昇順)' => 'uid|asc', '所有者 (降順)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

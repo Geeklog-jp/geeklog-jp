@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | listfactory.class.php                                                     |
 // |                                                                           |
@@ -10,7 +10,7 @@
 // | from arrays or SQL statements. It will also supports the sorting and      |
 // | paging of results.                                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2008-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Sami Barakat     - sami AT sbarakat DOT co DOT uk                |
 // +---------------------------------------------------------------------------+
@@ -131,18 +131,18 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'listfactory.class.php') !== false)
 class ListFactory {
 
     // PRIVATE VARIABLES
-    var $_fields = array();
-    var $_sources_arr = array();
-    var $_total_rank = 0;
-    var $_sort_arr = array();
-    var $_def_sort_arr = array();
-    var $_page = 1;
-    var $_per_page = 0;
-    var $_page_limits = array();
-    var $_function = '';
-    var $_preset_rows = array();
-    var $_page_url = '';
-    var $_style = 'table';
+    private $_fields = array();
+    private $_sources_arr = array();
+    private $_total_rank = 0;
+    private $_sort_arr = array();
+    private $_def_sort_arr = array();
+    private $_page = 1;
+    private $_per_page = 0;
+    private $_page_limits = array();
+    private $_function = '';
+    private $_preset_rows = array();
+    private $_page_url = '';
+    private $_style = 'table';
 
     /**
     * Constructor
@@ -582,7 +582,7 @@ class ListFactory {
         global $_CONF, $_IMAGE_TYPE, $LANG_ADMIN, $LANG09;
 
         // get all template fields.
-        $list_templates = new Template($_CONF['path_layout'] . 'lists/' . $this->_style);
+        $list_templates = COM_newTemplate($_CONF['path_layout'] . 'lists/' . $this->_style);
         $list_templates->set_file (array (
             'list' => 'list.thtml',
             'limit' => 'page_limit.thtml',
@@ -590,12 +590,6 @@ class ListFactory {
             'row' => 'item_row.thtml',
             'field' => 'item_field.thtml'
         ));
-
-        // insert std. values into the template
-        $list_templates->set_var('xhtml', XHTML);
-        $list_templates->set_var('site_url', $_CONF['site_url']);
-        $list_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $list_templates->set_var('layout_url', $_CONF['layout_url']);
 
         if (count($rows_arr) == 0)
         {

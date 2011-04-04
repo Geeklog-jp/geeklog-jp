@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | search.class.php                                                          |
 // |                                                                           |
 // | Geeklog search class.                                                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT geeklog DOT net                       |
 // |          Dirk Haun        - dirk AT haun-online DOT de                    |
@@ -49,20 +49,20 @@ require_once $_CONF['path_system'] . 'classes/listfactory.class.php';
 class Search {
 
     // PRIVATE VARIABLES
-    var $_query = '';
-    var $_topic = '';
-    var $_dateStart = null;
-    var $_dateEnd = null;
-    var $_author = '';
-    var $_type = '';
-    var $_keyType = '';
-    var $_names = array();
-    var $_url_rewrite = array();
-    var $_append_query = array();
-    var $_searchURL = '';
-    var $_wordlength;
-    var $_verbose = false; // verbose logging
-    var $_titlesOnly = false;
+    private $_query = '';
+    private $_topic = '';
+    private $_dateStart = null;
+    private $_dateEnd = null;
+    private $_author = '';
+    private $_type = '';
+    private $_keyType = '';
+    private $_names = array();
+    private $_url_rewrite = array();
+    private $_append_query = array();
+    private $_searchURL = '';
+    private $_wordlength;
+    private $_verbose = false; // verbose logging
+    private $_titlesOnly = false;
 
     /**
     * Constructor
@@ -186,13 +186,9 @@ class Search {
         }
 
         $retval .= COM_startBlock($LANG09[1],'advancedsearch.html');
-        $searchform = new Template($_CONF['path_layout'].'search');
+        $searchform = COM_newTemplate($_CONF['path_layout'].'search');
         $searchform->set_file (array ('searchform' => 'searchform.thtml',
                                       'authors'    => 'searchauthors.thtml'));
-        $searchform->set_var('xhtml', XHTML);
-        $searchform->set_var('site_url', $_CONF['site_url']);
-        $searchform->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $searchform->set_var('layout_url', $_CONF['layout_url']);
         $searchform->set_var('search_intro', $LANG09[19]);
         $searchform->set_var('lang_keywords', $LANG09[2]);
         $searchform->set_var('lang_date', $LANG09[20]);
@@ -759,7 +755,7 @@ class Search {
         }
 
         $rt = '';
-        $pos = $this->_stripos($text, $keyword);
+        $pos = stripos($text, $keyword);
         if ($pos !== false)
         {
             $pos_space = strpos($text, ' ', $pos);
@@ -836,13 +832,13 @@ class Search {
         $num_keywords = count($keywords);
 
         foreach ($haystack as $key => $value) {
-            if ($this->_stripos($value, $keywords[0]) !== false) {
+            if (stripos($value, $keywords[0]) !== false) {
                 if ($num_keywords == 1) {
                     return $key;
                 } else {
                     $matched_all = true;
                     for ($i = 1; $i < $num_keywords; $i++) {
-                        if ($this->_stripos($haystack[$key + $i], $keywords[$i]) === false) {
+                        if (stripos($haystack[$key + $i], $keywords[$i]) === false) {
                             $matched_all = false;
                             break;
                         }
@@ -915,25 +911,6 @@ class Search {
         }
 
         return $sql;
-    }
-
-    /**
-    * Helper function: Simulate stripos on PHP 4
-    *
-    * @param   string  $haystack  string to search in
-    * @param   string  $needle    string to search for
-    * @return  mixed              first pos of $needle in $haystack, or false 
-    *
-    */
-    function _stripos($haystack, $needle)
-    {
-        if (function_exists('stripos')) {
-            return stripos($haystack, $needle);
-        } elseif (empty($needle)) {
-            return false;
-        } else {
-            return strpos(strtolower($haystack), strtolower($needle));
-        }
     }
 }
 

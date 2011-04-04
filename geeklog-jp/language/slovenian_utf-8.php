@@ -5,7 +5,7 @@
 # language file for geeklog version 1.7 by Mateja B.
 # gape@gape.org ; za pripombe, predloge ipd. piši na e-naslov
 #
-# This is the slovenian language page for GeekLog!
+# This is the slovenian language page for Geeklog!
 # Special thanks to Mischa Polivanov for his work on this project
 #
 # Copyright (C) 2000 Jason Whittenburg
@@ -173,7 +173,12 @@ $LANG01 = array(
     127 => 'Permalink',
     128 => 'Prijavi se z OpenID:',
     129 => 'Nastavitve',
-    130 => 'Spletne storitve'
+    130 => 'Spletne storitve',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -389,7 +394,8 @@ $LANG04 = array(
     162 => 'ne bo pomanjšana',
     163 => 'Ponovno preverjanje pristnosti je spodletelo',
     164 => 'Preseženo je bilo število dovoljenih poskusov preverjanja pristnosti. Postopek je bil prekinjen in zadnje spremembe so žal izgubljene.',
-    165 => 'Uporabi Napredni urejevalnik'
+    165 => 'Uporabi Napredni urejevalnik',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -838,7 +844,8 @@ $LANG24 = array(
     88 => 'Oblika v slogu Wiki',
     89 => 'Meta Description',
     90 => 'Meta Keywords',
-    91 => 'Za podaljšanje trajanja seje klikni "Predogled".'
+    91 => 'Za podaljšanje trajanja seje klikni "Predogled".',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -970,7 +977,8 @@ $LANG28 = array(
     87 => 'Opomniki',
     88 => 'Prednastavljena skupina',
     89 => 'Potrdi, da to postane prednastavljena skupina za nove uporabnike',
-    90 => 'Vnesi spremembe "Prednastavljene skupine" obstojeèim uporabniškim raèunom'
+    90 => 'Vnesi spremembe "Prednastavljene skupine" obstojeèim uporabniškim raèunom',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1080,6 +1088,33 @@ $LANG32 = array(
     40 => 'Arhiv vtiènika (.tar.gz, .tgz, .zip) lahko naložiš neposredno tukaj:',
     41 => 'Naloži',
     42 => 'Klikni za posodobitev',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'Prišlo je do neznane napake',
     100 => 'V redu.',
     101 => 'Naložena datoteka presega navodilo upload_max_filesize v php.ini.',
@@ -1253,6 +1288,12 @@ $MESSAGE = array(
     99 => 'Vtiènik že obstaja.',
     100 => 'Naložena vtièniška datoteka ni bila stisnjena kot arhiv GZip ali Zip.',
     101 => 'Ni rubrik (do katerih imaš dostop). Za oddajo èlanka potrebuješ vsaj eno rubriko.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'Vsa zahtevana polja niso bila veljavno izpolnjena.',
     401 => 'Prosim, vnesi polno ime'
 );
@@ -1595,14 +1636,18 @@ $LANG_ADMIN = array(
     'create_new' => 'Ustvari',
     'create_new_adv' => 'Ustvari (napredno)',
     'enabled' => 'Omogoèeno',
+    'disabled' => 'Disabled',
     'title' => 'Naslov',
     'page_title' => 'Page Title',
     'type' => 'Tip',
     'topic' => 'Rubrika',
+    'info' => 'Info',
     'help_url' => 'URL dokumenta za pomoè',
     'save' => 'Shrani',
     'cancel' => 'Preklièi',
+    'install' => 'Install',
     'delete' => 'Izbriši',
+    'deleteitem' => 'Delete',
     'delete_sel' => 'Izbriši izbrano',
     'copy' => 'Kopiraj',
     'no_results' => '- Ni najdenih vnosov -',
@@ -1615,6 +1660,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'Spremembe lahko narediš do %s. Po tem èasu bo varnostni žeton (token), vstavljen v to stran, potekel in spremembe bodo izgubljene.',
     'token_expired' => 'Varnostni žeton (token) za ta postopek je potekel. Za nadaljevanje prosim ponovno preveri pristnost (avtentifikacija).',
     'reauth_msg' => 'Varnostni žeton (token) za ta postopek je potekel. Èe hoèeš nadaljevati, prosim ponovno preveri pristnost (avtentificiraj)spodaj. To bo zagotovilo, da narejene spremembe ne bodo izgubljene.',
@@ -1692,7 +1739,10 @@ $LANG_CONFIG = array(
     'changes_made' => 'Spremembe so bile uspešno izvedene nad',
     'title' => 'Upravljavec nastavitev',
     'disable' => 'Klikni, da to izbiro onemogoèiš',
-    'enable' => 'Omogoèi'
+    'enable' => 'Omogoèi',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1708,6 +1758,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'No-Reply E-Mail',
     'site_name' => 'Ime strani',
     'site_slogan' => 'Slogan',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'Mikropovzetek',
     'path_log' => 'Dnevnik (log)',
     'path_language' => 'Jezik',
@@ -1736,6 +1787,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'Prikaži ime servisa',
     'custom_registration' => 'Omogoèi registracijo po meri',
     'user_login_method' => 'Naèin prijave uporabnika',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Spam-X dejanja',
     'sort_admin' => 'Uredi povezave',
     'language' => 'Jezik',
@@ -1795,6 +1855,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'Skrij povezavo na zaèetno stran?',
     'whosonline_threshold' => 'Najveè sej (Session Threshold?)',
     'whosonline_anonymous' => 'Skrij imena pred gosti?',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'Daily Digest omogoèen?',
     'emailstorieslength' => 'Dolžina èlankov',
     'emailstoriesperdefault' => 'Omogoèi za nove uporabnike?',
@@ -1890,6 +1951,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'seznam cenzur',
     'ip_lookup' => 'IP poizvedba (lookup)',
     'url_rewrite' => 'Omogoèi URL prepisovanje (Rewrite)',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'Meta Tags',
     'meta_description' => 'Default Meta Description',
     'meta_keywords' => 'Default Meta Keywords',
@@ -1911,7 +1973,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'Prikaži omejitve strani?',
     'search_separator' => 'Loèevalnik skupin',
     'search_def_keytype' => 'Prednastavljena metoda iskanja',
-    'search_def_sort' => 'Prednastavljen vrstni red sortiranja'
+    'search_def_sort' => 'Prednastavljen vrstni red sortiranja',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1966,7 +2030,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => 'Prednastavljena dovoljenja èlanka',
     'fs_perm_topic' => 'Prednastavljena dovoljenja rubrike',
     'fs_perm_block' => 'Prednastavljena dovoljenja bloka',
-    'fs_webservices' => 'Webservices'
+    'fs_webservices' => 'Webservices',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1997,7 +2104,55 @@ $LANG_configselects['Core'] = array(
     24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
     25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>
