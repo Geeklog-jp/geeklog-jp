@@ -1,4 +1,14 @@
+$Id$
+
+2011-04-05  Takahiro Kambe  <tacahi>
+
+	* NEWSをGeeklog 1.7.2-jp-1.1に向けて更新しました。
+
 2011-04-04  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.6の時点で削除されていたsystem/pear/PHPを削除しました。
+
+	* README.jpをGeeklog 1.7.2-jp-1.1に向けて更新しました。
 
 	* ブランチ branches/geeklog-1.7.2-jp を、Geeklog 1.7.2ベースの
 	  日本語版の保守用に作成しました。以降のブランチ変更を記述する
