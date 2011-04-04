@@ -88,12 +88,8 @@ function CALENDAR_editEvent ($mode, $A, $msg = '')
         $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     }
 
-    $event_templates = new Template($_CONF['path'] . 'plugins/calendar/templates/admin');
+    $event_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendar/templates/admin');
     $event_templates->set_file('editor','eventeditor.thtml');
-    $event_templates->set_var( 'xhtml', XHTML );
-    $event_templates->set_var('site_url', $_CONF['site_url']);
-    $event_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $event_templates->set_var('layout_url',$_CONF['layout_url']);
     $event_templates->set_var('lang_allowed_html',
                               COM_allowedHTML('calendar.edit'));
     $event_templates->set_var('lang_postmode', $LANG_CAL_ADMIN[3]);
@@ -474,6 +470,9 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
             $dateend = $datestart;
         }
     }
+    
+    // Remove any autotags the user doesn't have permission to use
+    $description = PLG_replaceTags($description, '', true);    
 
     // clean 'em up
     if ($postmode == 'html') {

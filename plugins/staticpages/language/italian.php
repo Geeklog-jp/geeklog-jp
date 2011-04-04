@@ -2,7 +2,7 @@
 
 ###############################################################################
 # italian.php
-# This is the Italian language page for the Geeklog Static Page Plug-in!
+# This is the Italian language page for the Geeklog Static Pages Plug-in!
 #
 # Copyright (C) 2001 Tony Bibbs tony@tonybibbs.com
 # Copyright (C) 2005 magomarcelo magomarcelo@gmail.com magomarcelo.blogspot.com
@@ -80,7 +80,7 @@ $LANG_STATIC = array(
     'id' => 'ID',
     'duplicate_id' => 'L\'ID che hai selezionato per questa pagina statica &egrave; gi&agrave; in uso. Prego seleziona un\'altro ID.',
     'instructions' => 'Per modificare o eliminare una pagina statica, clicca sul numero della pagina sotto. Per visualizzare una pagina statica, clicca sul titolo della pagina che desideri vedere. Per creare una nuova pagina statica clicca su [ Nuova Pagina ] sopra. Clicca su [C] per creare una copia di una pagina esistente.',
-    'centerblock' => 'BloccoCentrale: ',
+    'centerblock' => 'Blocco Centrale: ',
     'centerblock_msg' => 'Quando selezionato, questa Pagina Statica sar&agrave; visualizzata come un blocco centrale nella pagina index.',
     'topic' => 'Argomento: ',
     'position' => 'Posizione: ',
@@ -90,7 +90,7 @@ $LANG_STATIC = array(
     'position_feat' => 'Dopo Articolo Evidenziato',
     'position_bottom' => 'Fine Pagina',
     'position_entire' => 'Pagina Intera',
-    'head_centerblock' => 'BloccoCentrale',
+    'head_centerblock' => 'Blocco Centrale',
     'centerblock_no' => 'No',
     'centerblock_top' => 'Capo Pag.',
     'centerblock_feat' => 'Art. Evidenz.',
@@ -120,16 +120,18 @@ $LANG_STATIC = array(
     'use_template_msg' => 'If this Static Page is not a template, you can assign it to use a template. If a selection is made then remember that the content of this page must follow the proper XML format.',
     'draft' => 'Bozza',
     'draft_yes' => 'Si',
-    'draft_no' => 'No'
+    'draft_no' => 'No',
+    'autotag_desc_staticpage' => '[staticpage: id alternate title] - Displays a link to a static page using the static page title as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_staticpage_content' => '[staticpage_content: id alternate title] - Displays the contents of a staticpage.'
 );
 
 $PLG_staticpages_MESSAGE15 = 'Il suo commento &egrave; stato ricevuto e sar&agrave; pubblicato appena approvato da un moderatore.';
 $PLG_staticpages_MESSAGE19 = 'La sua pagina &egrave; stata salvata.';
 $PLG_staticpages_MESSAGE20 = 'La pagina &egrave; stata eliminata.';
-$PLG_staticpages_MESSAGE21 = 'Questa pagina non esiste. Compila la scheda sottostante per creare la pagina. Premi \'annulla\' se sei capitato su questa pagina a causa di un errore.';
+$PLG_staticpages_MESSAGE21 = 'Questa pagina non esiste. Compila la scheda sottostante per creare la pagina. Premi "annulla" se sei capitato su questa pagina a causa di un errore.';
 
 // Messages for the plugin upgrade
-$PLG_staticpages_MESSAGE3001 = 'L\'aggiornamento di plugin non &egrave; supportato.';
+$PLG_staticpages_MESSAGE3001 = 'L\'aggiornamento di Estensioni non é supportato.';
 $PLG_staticpages_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
@@ -140,7 +142,7 @@ $LANG_configsections['staticpages'] = array(
 
 $LANG_confignames['staticpages'] = array(
     'allow_php' => 'Permettere PHP?',
-    'sort_by' => 'Ordina i Centerblock secondo',
+    'sort_by' => 'Ordina il block centrale secondo',
     'sort_menu_by' => 'Ordina gli Elementi del Menu secondo',
     'sort_list_by' => 'Ordina la Lista Ammin secondo',
     'delete_pages' => 'Delete Pages with Owner?',
@@ -150,6 +152,8 @@ $LANG_confignames['staticpages'] = array(
     'filter_html' => 'Filtrare HTML?',
     'censor' => 'Censurare il Contenuto?',
     'default_permissions' => 'Autorizzazioni predefinite per pagine',
+    'autotag_permissions_staticpage' => '[staticpage: ] Permissions',
+    'autotag_permissions_staticpage_content' => '[staticpage_content: ] Permissions',
     'aftersave' => 'Dopo Aver Salvato la Pagina',
     'atom_max_items' => 'Max. Pages in Webservices Feed',
     'meta_tags' => 'Abilita Meta Tags',
@@ -158,10 +162,10 @@ $LANG_confignames['staticpages'] = array(
     'newstaticpagesinterval' => 'Intervallo per Nuove Pagine Statiche',
     'hidenewstaticpages' => 'Nascondi Nuove Pagine Statiche',
     'title_trim_length' => 'Massima Lunghezza del Titolo',
-    'includecenterblocks' => 'Include Center Block Static Pages',
+    'includecenterblocks' => 'Includi Le Pagine Statiche nel Blocco Centrale',
     'includephp' => 'Includi Pagine Statiche con PHP',
     'includesearch' => 'Mostra Pagine Statiche Nei Risultati Di Ricerca',
-    'includesearchcenterblocks' => 'Include Center Block Static Pages',
+    'includesearchcenterblocks' => 'Includi Le Pagine Statiche dal Blocco Centrale',
     'includesearchphp' => 'Mostra Pagine Statiche con PHP'
 );
 
@@ -169,11 +173,20 @@ $LANG_configsubgroups['staticpages'] = array(
     'sg_main' => 'Impostazioni Principali'
 );
 
+$LANG_tab['staticpages'] = array(
+    'tab_main' => 'Static Pages Main Settings',
+    'tab_whatsnew' => 'What\'s New Block',
+    'tab_search' => 'Search Results',
+    'tab_permissions' => 'Default Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['staticpages'] = array(
     'fs_main' => 'Impostazioni Principali per Pagine Statiche',
     'fs_whatsnew' => 'Blocco Per Novit&agrave;',
     'fs_search' => 'Risultati di Ricerca',
-    'fs_permissions' => 'Autorizzazioni predefinite'
+    'fs_permissions' => 'Autorizzazioni predefinite',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
@@ -186,6 +199,7 @@ $LANG_configselects['staticpages'] = array(
     5 => array('Nascondi' => 'hide', 'Mostra - Usa Data dell\'ultima modifica' => 'modified', 'Mostra - Usa Data  creazione' => 'created'),
     9 => array('Mostra Pagina' => 'item', 'Mostra Lista' => 'list', 'Mostra Home' => 'home', 'Mostra Ammin' => 'admin'),
     12 => array('Nessun Accesso' => 0, 'Solo Lettura' => 2, 'Lettura e Scrittura' => 3),
+    13 => array('No access' => 0, 'Use' => 2),
     17 => array('Commenti Abilitati' => 0, 'Commenti Disabilitati' => -1)
 );
 

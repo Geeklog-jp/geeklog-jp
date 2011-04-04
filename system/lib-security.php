@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-security.php                                                          |
 // |                                                                           |
@@ -272,6 +272,21 @@ function SEC_isModerator()
 }
 
 /**
+* Checks to see if current user has access to a configuration
+* 
+* @return   boolean     returns if user has any config. rights
+*/
+function SEC_hasConfigAcess() {
+    global $_CONF_FT;
+    
+    if (SEC_hasRights($_CONF_FT, 'OR')) {
+        return true;
+    }
+    
+    return false;
+}
+
+/**
 * Checks to see if current user has access to a topic
 *
 * Checks to see if current user has access to a topic
@@ -359,7 +374,7 @@ function SEC_hasRights($features,$operator='AND')
 {
     global $_USER, $_RIGHTS, $_SEC_VERBOSE;
 
-    if (strstr($features,',')) {
+    if (is_string($features) && strstr($features,',')) {
         $features = explode(',',$features);
     }
 
@@ -428,13 +443,9 @@ function SEC_getPermissionsHTML($perm_owner, $perm_group, $perm_members, $perm_a
 
     $retval = '';
 
-    $perm_templates = new Template($_CONF['path_layout'] . 'admin/common');
+    $perm_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/common');
     $perm_templates->set_file(array('editor' => 'edit_permissions.thtml'));
 
-    $perm_templates->set_var('xhtml', XHTML);
-    $perm_templates->set_var('site_url', $_CONF['site_url']);
-    $perm_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $perm_templates->set_var('layout_url', $_CONF['layout_url']);
     $perm_templates->set_var('lang_owner', $LANG_ACCESS['owner']);
     $perm_templates->set_var('owner', $LANG_ACCESS['owner']);
     $perm_templates->set_var('lang_group', $LANG_ACCESS['group']);
@@ -1478,15 +1489,7 @@ function SEC_setCookie($name, $value, $expire = 0, $path = null, $domain = null,
         $secure = $_CONF['cookiesecure'];
     }
 
-    // the httponly parameter is only available as of PHP 5.2.0
-    if (version_compare(PHP_VERSION, '5.2.0', '>=')) {
-        $retval = setcookie($name, $value, $expire, $path, $domain, $secure,
-                            true);
-    } else {
-        // fake it for older PHP versions; kudos to Matt Mecham
-        $retval = setcookie($name, $value, $expire, $path,
-                            $domain . '; httponly', $secure);
-    }
+    $retval = setcookie($name, $value, $expire, $path, $domain, $secure, true);
 
     return $retval;
 }
@@ -1605,6 +1608,7 @@ function SEC_loginForm($use_config = array())
         'hidden_fields'     => '',
 
         // options to locally override some specific $_CONF options
+        'no_oauth_login'    => false, // $_CONF['user_login_method']['oauth']
         'no_3rdparty_login' => false, // $_CONF['user_login_method']['3rdparty']
         'no_openid_login'   => false, // $_CONF['user_login_method']['openid']
         'no_newreg_link'    => false, // $_CONF['disable_new_user_registration']
@@ -1617,13 +1621,9 @@ function SEC_loginForm($use_config = array())
     );
 
     $config = array_merge($default_config, $use_config);
-
-    $loginform = new Template($_CONF['path_layout'] . 'users');
+    
+    $loginform = COM_newTemplate($_CONF['path_layout'] . 'users');
     $loginform->set_file('login', 'loginform.thtml');
-    $loginform->set_var('xhtml', XHTML);
-    $loginform->set_var('site_url', $_CONF['site_url']);
-    $loginform->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $loginform->set_var('layout_url', $_CONF['layout_url']);
 
     $loginform->set_var('start_block_loginagain',
                         COM_startBlock($config['title']));
@@ -1708,6 +1708,30 @@ function SEC_loginForm($use_config = array())
         $loginform->set_var('openid_login', '');
     }
 
+    // OAuth remote authentification.
+    if (!$config['no_oauth_login'] && $_CONF['user_login_method']['oauth'] && 
+            ($_CONF['usersubmission'] == 0) &&
+            !$_CONF['disable_new_user_registration']) {
+        $modules = SEC_collectRemoteOAuthModules();
+        if (count($modules) == 0) {
+            $loginform->set_var('oauth_login', '');
+        } else {
+            $html_oauth = '';
+            foreach ($modules as $service) {
+                $loginform->set_file('oauth_login', '../loginform_oauth.thtml');
+                $loginform->set_var('oauth_service', $service);
+                // for sign in image
+                $loginform->set_var('oauth_sign_in_image', $_CONF['site_url'] . '/images/login-with-' . $service . '.png');
+                $loginform->set_var('oauth_sign_in_image_style', '');
+                $loginform->parse('output', 'oauth_login');
+                $html_oauth .= $loginform->finish($loginform->get_var('output'));
+            }
+            $loginform->set_var('oauth_login', $html_oauth);
+        }
+    } else {
+        $loginform->set_var('oauth_login', '');
+    }
+
     if (! $config['no_plugin_vars']) {
         PLG_templateSetVars('loginform', $loginform);
     }
@@ -1716,6 +1740,79 @@ function SEC_loginForm($use_config = array())
     $retval .= $loginform->finish($loginform->get_var('output'));
 
     return $retval;
+}
+
+/**
+* Return available modules for Remote OAuth
+*
+* @return   array   Names of available remote OAuth modules
+*
+*/
+function SEC_collectRemoteOAuthModules()
+{
+    global $_CONF;
+
+    $modules = array();
+    
+    // Check for OpenSSL PHP extension which is required
+    if (extension_loaded('openssl')) {
+        $modulespath = $_CONF['path_system'] . 'classes/oauth/';
+        if (is_dir($modulespath)) {
+            $folder = opendir($modulespath);
+            while (($filename = @readdir($folder)) !== false) {
+                $pos = strpos($filename, '.auth.class.php');
+                if ($pos && (substr($filename, strlen($filename) - 4) == '.php')) {
+                    $mod = substr($filename, 0, $pos);
+                    $def_thtml = $_CONF['path_layout'] . 'loginform_oauth.thtml';
+                    $thtml = $_CONF['path_layout'] . 'loginform_' . $mod . '.thtml';
+                    if (file_exists($def_thtml) || file_exists($thtml)) {
+                        // Check to see if there is a config value to enable or disable login method
+                        if (isset($_CONF[$mod . '_login'])) {
+                            if ($_CONF[$mod . '_login']) {
+                                // Now check if a Consumer Key and Secret exist and are set
+                                if (isset($_CONF[$mod . '_consumer_key'])) {
+                                    if ($_CONF[$mod . '_consumer_key'] != '') {
+                                        if (isset($_CONF[$mod . '_consumer_secret'])) {
+                                            if ($_CONF[$mod . '_consumer_secret'] != '') {
+                                                $modules[] = $mod;
+                                            }
+                                        }                                
+                                    }
+                                }                                
+                            }
+                        } else {
+                            $modules[] = $mod;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    return $modules;
+}
+
+/**
+* Returns the default Root user id
+*
+* @return   int   The id of the default Root user
+*
+*/
+function SEC_getDefaultRootUser()
+{
+    global $_TABLES;
+     
+    $rootgrp = DB_getItem ($_TABLES['groups'], 'grp_id',
+                           "grp_name = 'Root'");
+    
+    $sql = "SELECT u.uid FROM {$_TABLES['users']} u,{$_TABLES['group_assignments']} ga  
+            WHERE u.uid > 1 AND u.uid = ga.ug_uid AND (ga.ug_main_grp_id = $rootgrp)
+            GROUP BY u.uid ORDER BY u.uid ASC LIMIT 1";
+    
+    $result = DB_query ($sql);
+    $A = DB_fetchArray ($result);      
+    
+    return $A['uid'];
 }
 
 ?>

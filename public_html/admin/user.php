@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | user.php                                                                  |
 // |                                                                           |
 // | Geeklog user administration page.                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -136,13 +136,10 @@ function edituser($uid = '', $msg = '')
                               COM_getBlockTemplate('_admin_block', 'header'));
     $retval .= SEC_getTokenExpiryNotice($token);
 
-    $user_templates = new Template($_CONF['path_layout'] . 'admin/user');
-    $user_templates->set_file (array ('form' => 'edituser.thtml',
+    $user_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/user');
+    $user_templates->set_file (array ('form'      => 'edituser.thtml',
+                                      'password'  => 'password.thtml',        
                                       'groupedit' => 'groupedit.thtml'));
-    $user_templates->set_var('xhtml', XHTML);
-    $user_templates->set_var('site_url', $_CONF['site_url']);
-    $user_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $user_templates->set_var('layout_url', $_CONF['layout_url']);
     $user_templates->set_var('lang_save', $LANG_ADMIN['save']);
     if (!empty($uid) && ($A['uid'] != $_USER['uid']) && SEC_hasRights('user.delete')) {
         $delbutton = '<input type="submit" value="' . $LANG_ADMIN['delete']
@@ -178,8 +175,7 @@ function edituser($uid = '', $msg = '')
     }
 
     $remoteservice = '';
-    if ($_CONF['show_servicename'] && ($_CONF['user_login_method']['3rdparty']
-            || $_CONF['user_login_method']['openid'])) {
+    if ($_CONF['show_servicename']) {
         if (! empty($A['remoteservice'])) {
             $remoteservice = '@' . $A['remoteservice'];
         }
@@ -210,8 +206,15 @@ function edituser($uid = '', $msg = '')
     } else {
         $user_templates->set_var ('user_fullname', '');
     }
-    $user_templates->set_var('lang_password', $LANG28[5]);
-    $user_templates->set_var('lang_password_conf', $LANG28[39]);
+    
+    if (empty($A['remoteservice'])) {
+        $user_templates->set_var('lang_password', $LANG28[5]);
+        $user_templates->set_var('lang_password_conf', $LANG28[39]);
+        $user_templates->parse ('password_option', 'password', true);
+    } else {
+        $user_templates->set_var ('password_option', '');
+    }
+    
     $user_templates->set_var('lang_emailaddress', $LANG28[7]);
     if (isset ($A['email'])) {
         $user_templates->set_var('user_email', htmlspecialchars($A['email']));
@@ -466,6 +469,12 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         COM_errorLog("**** entering saveusers****", 1);
         COM_errorLog("group size at beginning = " . count($groups), 1);
     }
+    
+    // If remote service then assume blank password
+    if ($A['remoteservice'] != '') {
+        $passwd = '';
+        $passwd_conf = '';
+    }
 
     if ($passwd != $passwd_conf) { // passwords don't match
         return edituser($uid, 67);
@@ -548,7 +557,9 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         if (empty ($uid) || !empty ($passwd)) {
             $passwd = SEC_encryptPassword($passwd);
         } else {
-            $passwd = DB_getItem ($_TABLES['users'], 'passwd', "uid = $uid");
+            if ($A['remoteservice'] != '') {
+                $passwd = DB_getItem ($_TABLES['users'], 'passwd', "uid = $uid");
+            }
         }
 
         if (empty ($uid)) {
@@ -754,14 +765,10 @@ function batchdelete()
         array('sel' => 'recent', 'desc' => $LANG28[74], 'txt1' => $LANG28[75], 'txt2' => $LANG28[76])
     );
 
-    $user_templates = new Template($_CONF['path_layout'] . 'admin/user');
+    $user_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/user');
     $user_templates->set_file (array ('form' => 'batchdelete.thtml',
                                       'options' => 'batchdelete_options.thtml',
                                       'reminder' => 'reminder.thtml'));
-    $user_templates->set_var ( 'xhtml', XHTML );
-    $user_templates->set_var ('site_url', $_CONF['site_url']);
-    $user_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $user_templates->set_var ('layout_url', $_CONF['layout_url']);
     $user_templates->set_var ('usr_type', $usr_type);
     $user_templates->set_var ('usr_time', $usr_time);
     $user_templates->set_var ('lang_instruction', $LANG28[56]);
@@ -966,12 +973,8 @@ function batchreminders()
             $lastlogin = DB_getItem ($_TABLES['userinfo'], 'lastlogin', "uid = '$userid'");
             $lasttime = COM_getUserDateTimeFormat ($lastlogin);
             if (file_exists ($_CONF['path_data'] . 'reminder_email.txt')) {
-                $template = new Template ($_CONF['path_data']);
+                $template = COM_newTemplate($_CONF['path_data']);
                 $template->set_file (array ('mail' => 'reminder_email.txt'));
-                $template->set_var ('xhtml', XHTML);
-                $template->set_var ('site_url', $_CONF['site_url']);
-                $template->set_var ('site_admin_url', $_CONF['site_admin_url']);
-                $template->set_var ('layout_url', $_CONF['layout_url']);
                 $template->set_var ('site_name', $_CONF['site_name']);
                 $template->set_var ('site_slogan', $_CONF['site_slogan']);
                 $template->set_var ('lang_username', $LANG04[2]);

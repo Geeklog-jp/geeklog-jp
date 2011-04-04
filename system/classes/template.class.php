@@ -1,52 +1,47 @@
 <?php
-/*
- * Session Management for PHP3
- *
- * (C) Copyright 1999-2000 NetUSE GmbH
- *                    Kristian Koehntopp
- *
- * $Id: template.class.php,v 1.9 2008/06/26 00:26:43 blaine Exp $
- *
- */
 
-/*
- * Change log since version 7.2c
- *
- * Bug fixes to version 7.2c compiled by Richard Archer <rha@juggernaut.com.au>:
- * (credits given to first person to post a diff to phplib mailing list)
- *
- * Normalised all comments and whitespace (rha)
- * replaced "$handle" with "$varname" and "$h" with "$v" throughout (from phplib-devel)
- * added braces around all one-line if statements in: get_undefined, loadfile and halt (rha)
- * set_var was missing two sets of braces (rha)
- * added a couple of "return true" statements (rha)
- * set_unknowns had "keep" as default instead of "remove" (from phplib-devel)
- * set_file failed to check for empty strings if passed an array of filenames (phplib-devel)
- * remove @ from call to preg_replace in subst -- report errors if there are any (NickM)
- * set_block unnecessarily required a newline in the template file (Marc Tardif)
- * pparse now calls this->finish to replace undefined vars (Layne Weathers)
- * get_var now checks for unset varnames (NickM & rha)
- * get_var when passed an array used the array key instead of the value (rha)
- * get_vars now uses a call to get_var rather than this->varvals to prevent undefined var warning (rha)
- * in finish, the replacement string referenced an unset variable (rha)
- * loadfile would try to load a file if the varval had been set to "" (rha)
- * in get_undefined, only match non-whitespace in variable tags as in finish (Layne Weathers & rha)
- * more elegant fix to the problem of subst stripping '$n', '\n' and '\\' strings (rha)
- *
- *
- * Changes in functionality which go beyond bug fixes:
- *
- * changed debug handling so set, get and internals can be tracked separately (rha)
- * added debug statements throughout to track most function calls (rha)
- * debug output contained raw HTML -- is now escaped with htmlentities (rha)
- * Alter regex in set_block to remove more whitespace around BEGIN/END tags to improve HTML layout (rha)
- * Add "append" option to set_var, works just like append in parse (dale at linuxwebpro.com, rha)
- * Altered parse so that append is honored if passed an array (Brian)
- * Converted comments and documentation to phpdoc style (rha)
- * Added clear_var to set the value of variables to "" (rha)
- * Added unset_var to usset variables (rha)
- *
- */
+/* Reminder: always indent with 4 spaces (no tabs). */
+// +---------------------------------------------------------------------------+
+// | Geeklog 1.8                                                               |
+// +---------------------------------------------------------------------------+
+// | template.class.php                                                        |
+// |                                                                           |
+// | Template library.                                                         |
+// +---------------------------------------------------------------------------+
+// | (C) Copyright 1999-2000 NetUSE GmbH, Kristian Koehntopp                   |
+// |                                                                           |
+// | Originally written as part of PHPLIB, <http://sf.net/projects/phplib/>,   |
+// | with contributions from Richard Archer, Marc Tardif, Layne Weathers,      |
+// | NickM, Brian, and others. See the PHPLIB site for a complete list.        |
+// |                                                                           |
+// | Since this library found its way into the Geeklog code base, it has been  |
+// | modified for the requirements of Geeklog and may no longer be compatible  |
+// | with the PHPLIB version.                                                  |
+// |                                                                           |
+// | (C) Copyright 2001-2010 of this version by the following authors:         |
+// |                                                                           |
+// | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
+// |          Dirk Haun          - dirk AT haun-online DOT de                  |
+// |          Oliver Spiesshofer - oliver AT spiesshofer DOT com               |
+// |          Blaine Lang        - blaine AT portalparts DOT com               |
+// |          Kenji ITO          - geeklog AT mystral-kk DOT net               |
+// |          dengen             - taharaxp AT gmail DOT com                   |
+// |          Tom Homer          - websitemaster AT cogeco DOT net             |
+// |          Joe Mucchiello     - joe AT throwingdice DOT com                 |
+// +---------------------------------------------------------------------------+
+// |                                                                           |
+// | This library is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU Library General Public               |
+// | License as published by the Free Software Foundation; either              |
+// | version 2 of the License, or (at your option) any later version.          |
+// |                                                                           |
+// | This library is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU          |
+// | Library General Public License for more details:                          |
+// | http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html                    |
+// |                                                                           |
+// +---------------------------------------------------------------------------+
 
 /**
  * The template class allows you to keep your HTML code in some external files
@@ -58,7 +53,19 @@
  *
  */
 
-class Template
+interface ITemplate {
+  function set_file($varname, $filename = '');
+  function set_block($parent, $varname, $name = '');
+  function set_var($varname, $value = '', $append = false);
+  function clear_var($varname);
+  function unset_var($varname);
+  function get_var($varname);
+  function parse($target, $varname, $append = false);
+  function finish($str);
+}
+ 
+ 
+class Template implements ITemplate
 {
  /**
   * Serialization helper, the name of this class.
@@ -146,13 +153,13 @@ class Template
   var $last_error     = '';
  
   /**
-  * The name of a function is retained in this variable and is used to do any pre processing work. Defaults to checking for Autotags
+  * The name of a function is retained in this variable and is used to do any pre processing work.
   *
   * @var       string
   * @access    public
   * @see       _preprocess
   */
-  var $preprocess_fn     = 'PLG_replaceTags';
+  var $preprocess_fn     = '';
    
   /**
   * The name of a function is retained in this variable and is used to do any post processing work.
@@ -627,8 +634,6 @@ function _postprocess($str)
         }
       }
     }
-    
-    $str = $this->_preprocess($str);
 
     if ($this->debug & 4) {
       echo "<p><b>parse:</b> completed</p>\n";
@@ -930,6 +935,9 @@ function _postprocess($str)
     if ($this->debug & 4) {
       printf("<b>loadfile:</b> loaded $filename into $varname<br" . XHTML . ">\n");
     }
+    
+    $str = $this->_preprocess($str);
+    
     $this->set_var($varname, $str);
 
     return true;
@@ -987,6 +995,37 @@ function _postprocess($str)
     }
   }
 
+}
+
+
+class MultiRootTemplate extends Template {
+  
+  function Template($root = Array(), $unknowns = 'remove') {
+    if ($this->debug & 4) {
+      echo "<p><b>Template:</b> root = $root, unknowns = $unknowns</p>\n";
+    }
+    $this->set_root($root);
+    $this->set_unknowns($unknowns);
+  }
+
+  function set_root($A) {
+    $this->root = Array();
+	foreach ($A as $r) {
+	  if (path_exists($r)) {
+	    $this->root[] = $r;
+	  }
+	}
+  }
+  
+  function filename($name) {
+	if (file_exists($name)) return $name;
+	foreach ($this->root as $root) {
+	  $filename = $root . $name;
+	  if (file_exists($filename)) return $name;
+	}
+	$this->halt('file not found: ' . $name);
+  }
+  
 }
 
 ?>

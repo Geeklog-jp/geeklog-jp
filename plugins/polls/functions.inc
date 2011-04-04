@@ -400,7 +400,11 @@ function plugin_autouninstall_polls ()
         /* give the full name of the group, as in the db */
         'groups' => array('Polls Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('polls.edit'),
+        'features' => array('polls.edit', 
+                            'config.polls.tab_whatsnew',
+                            'config.polls.tab_main',
+                            'config.polls.tab_permissions',
+                            'config.polls.tab_autotag_permissions'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_polls'),
         /* give all vars with their name */
@@ -458,7 +462,7 @@ function POLLS_pollVote($pid, $showall = true, $displaytype = 0, $order = '', $m
            $_IMAGE_TYPE;
 
     $retval = '';
-
+    
     $result = DB_query("SELECT topic,voters,commentcode,is_open,hideresults,owner_id "
         . ",group_id,perm_owner,perm_group,perm_anon,perm_members "
         . "FROM {$_TABLES['polltopics']} WHERE pid='$pid'" . COM_getPermSql('AND'));
@@ -480,16 +484,12 @@ function POLLS_pollVote($pid, $showall = true, $displaytype = 0, $order = '', $m
             $nquestions = DB_numRows($questions );
 
             if ($nquestions > 0) {
-                $poll = new Template($_CONF['path']
+                $poll = COM_newTemplate($_CONF['path']
                                      . 'plugins/polls/templates/');
                 $poll->set_file(array('panswer'    => 'pollanswer.thtml',
                                       'block'      => 'pollblock.thtml',
                                       'pquestions' => 'pollquestions.thtml',
                                       'comments'   => 'pollcomments.thtml'));
-                $poll->set_var('xhtml', XHTML);
-                $poll->set_var('site_url', $_CONF['site_url']);
-                $poll->set_var('site_admin_url', $_CONF['site_admin_url']);
-                $poll->set_var('layout_url', $_CONF['layout_url']);
                 $poll->set_var('poll_id', $pid );
                 $poll->set_var('poll_topic', $P['topic'] );
                 $poll->set_var('num_votes', COM_numberFormat($P['voters']));
@@ -500,7 +500,7 @@ function POLLS_pollVote($pid, $showall = true, $displaytype = 0, $order = '', $m
                 } else {
                     $poll->set_var('lang_vote', $LANG_POLLS['start_poll']);
                 }
-                $poll->set_var('lang_votes', $LANG_POLLS['votes']);
+                $poll->set_var('lang_voters', $LANG_POLLS['voters']);
 
                 $results = '';
                 if (($P['is_open'] == 0) || ($P['hideresults'] == 0) ||
@@ -635,7 +635,7 @@ function POLLS_showPoll($size, $pid = '', $showall = false, $displaytype = 0)
     global $_CONF, $_TABLES, $_PO_CONF, $LANG_POLLS;
 
     $retval = '';
-
+    
     DB_query("DELETE FROM {$_TABLES['pollvoters']} WHERE date < UNIX_TIMESTAMP() - {$_PO_CONF['polladdresstime']}");
 
     if (!empty($pid)) {
@@ -760,6 +760,7 @@ function POLLS_pollResults($pid, $scale=400, $order='', $mode='', $page = 1, $di
            $_PO_CONF, $LANG01, $LANG_POLLS, $_COM_VERBOSE, $LANG25;
 
     $retval = '';
+    
     $topic_sql = "SELECT topic,voters,is_open,hideresults,commentcode,owner_id,group_id,"
         . "perm_owner,perm_group,perm_members,perm_anon "
         . "FROM {$_TABLES['polltopics']} WHERE pid='$pid'";
@@ -803,20 +804,16 @@ function POLLS_pollResults($pid, $scale=400, $order='', $mode='', $page = 1, $di
         }
 
         if ($nquestions > 0){
-            $poll = new Template($_CONF['path'] . 'plugins/polls/templates/' );
+            $poll = COM_newTemplate($_CONF['path'] . 'plugins/polls/templates/' );
             $poll->set_file(array('result' => 'pollresult.thtml',
                 'question' => 'pollquestion.thtml',
                 'comments' => 'pollcomments.thtml',
                 'votes_bar' => 'pollvotes_bar.thtml',
                 'votes_num' => 'pollvotes_num.thtml' ));
-            $poll->set_var('xhtml', XHTML);
-            $poll->set_var('site_url', $_CONF['site_url']);
-            $poll->set_var('site_admin_url', $_CONF['site_admin_url']);
-            $poll->set_var('layout_url', $_CONF['layout_url']);
             $poll->set_var('poll_topic', $P['topic']);
             $poll->set_var('poll_id', $pid);
             $poll->set_var('num_votes', COM_numberFormat($P['voters']));
-            $poll->set_var('lang_votes', $LANG_POLLS['votes']);
+            $poll->set_var('lang_voters', $LANG_POLLS['voters']);
             $access = SEC_hasAccess($P['owner_id'], $P['group_id'],
                             $P['perm_owner'], $P['perm_group'],
                             $P['perm_members'], $P['perm_anon']);
@@ -1114,14 +1111,14 @@ function plugin_templatesetvars_polls ($templatename, &$template)
 
 function plugin_getheadercode_polls()
 {
-    global $_CONF;
-
-    $str = null;
-    $str = LB . '<link rel="stylesheet" type="text/css" href="'
-        . $_CONF['site_url'] . '/polls/style.css"' . XHTML . '>';
-
-    return $str;
+    global $_SCRIPTS;
+    
+    // You normally only set the css file when needed but with the possibility of
+    // the poll block or autotag being displayed after COM_SiteHeader being called
+    // we need to set it just in case
+    $_SCRIPTS->setCSSFile('polls', '/polls/style.css');
 }
+
 
 /**
 * Update the Polls plugin
@@ -1152,6 +1149,8 @@ function plugin_upgrade_polls()
 
     require_once $_CONF['path'] . 'plugins/polls/sql/'
                                 . $_DB_dbms . '_updates.php';
+                                
+    require_once $_CONF['path'] . 'plugins/polls/install_updates.php';                                
 
     $current_version = $installed_version;
     $done = false;
@@ -1190,6 +1189,21 @@ function plugin_upgrade_polls()
             
             $current_version = '2.1.2';
             break;
+            
+        case '2.1.2':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            polls_update_ConfValues_2_1_2();
+            
+            polls_update_ConfigSecurity_2_1_2();
+            
+            $current_version = '2.1.3';
+            break;            
 
         default:
             $done = true;
@@ -1432,10 +1446,45 @@ function plugin_getcommenturlid_polls()
 */
 function plugin_autotags_polls($op, $content = '', $autotag = '')
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_PO_CONF, $_TABLES, $LANG_POLLS, $_GROUPS;
 
-    if ($op == 'tagname' ) {
+    if ($op == 'tagname') {
         return array('poll_vote', 'poll_result', 'poll');
+    } elseif ($op == 'permission' || $op == 'nopermission') {
+        if ($op == 'permission') {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+        $tagnames = array();
+
+        if (isset($_GROUPS['Polls Admin'])) {
+            $group_id = $_GROUPS['Polls Admin'];
+        } else {
+            $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Polls Admin'");
+        }
+        $owner_id = SEC_getDefaultRootUser();     
+
+        if (COM_getPermTag($owner_id, $group_id, $_PO_CONF['autotag_permissions_poll_vote'][0], $_PO_CONF['autotag_permissions_poll_vote'][1], $_PO_CONF['autotag_permissions_poll_vote'][2], $_PO_CONF['autotag_permissions_poll_vote'][3]) == $flag) {
+            $tagnames[] = 'poll_vote';
+        }
+        if (COM_getPermTag($owner_id, $group_id, $_PO_CONF['autotag_permissions_poll_result'][0], $_PO_CONF['autotag_permissions_poll_result'][1], $_PO_CONF['autotag_permissions_poll_result'][2], $_PO_CONF['autotag_permissions_poll_result'][3]) == $flag) {
+            $tagnames[] = 'poll_result';
+        }
+        if (COM_getPermTag($owner_id, $group_id, $_PO_CONF['autotag_permissions_poll'][0], $_PO_CONF['autotag_permissions_poll'][1], $_PO_CONF['autotag_permissions_poll'][2], $_PO_CONF['autotag_permissions_poll'][3]) == $flag) {
+            $tagnames[] = 'poll';
+        }
+        
+        if (count($tagnames) > 0) {
+            return $tagnames;
+        }
+    } elseif ($op == 'description') {
+        return array (
+            'poll' => $LANG_POLLS['autotag_desc_poll'],
+            'poll_vote' => $LANG_POLLS['autotag_desc_poll_vote'],
+            'poll_result' => $LANG_POLLS['autotag_desc_poll_result']
+            );
     } elseif ($op == 'parse') {
         $pid = COM_applyFilter($autotag['parm1']);
         $showall = false;

@@ -52,6 +52,7 @@ $LANG_LINKS = array(
     124 => 'Go',
     125 => 'Categories',
     126 => 'You are here:',
+    'autotag_desc_link' => '[link: id alternate title] - Displays a link to a Link from the Links Plugin using the Link Title as the title. An alternate title may be specified but is not required.',
     'root' => 'Root'
 );
 
@@ -133,7 +134,7 @@ $LANG_LINKS_ADMIN = array(
     9 => '설명',
     10 => '제목，URL，설명이 필요합니다',
     11 => '링크의 관리',
-    12 => '링크를 수정，삭제 할 경우에는 각 링크의 「편집」아이콘을 클릭 하시기 바랍니다。신규작성은 위의「신규」를 클릭하시기 바랍니다。',
+    12 => 'To modify or delete a link, click on that link\'s edit icon below.  To create a new link or a new category, click on "New link" or "New category" above. To edit multiple categories, click on "List categories" above.',
     14 => '카테고리',
     16 => '접속에 실패했습니다',
     17 => "권한이 없는 링크에 접속하려고 하셨기 때문에 로그에 기록 되었습니다.<aref=\"{$_CONF['site_admin_url']}/plugins/links/index.php\"> 링크의 관리화면으로 돌아가시기</a>바랍니다。",
@@ -240,18 +241,28 @@ $LANG_confignames['links'] = array(
     'new_window' => 'Open external links in new window?',
     'root' => 'ID of Root Category',
     'default_permissions' => 'Link Default Permissions',
-    'category_permissions' => 'Category Default Permissions'
+    'category_permissions' => 'Category Default Permissions',
+    'autotag_permissions_link' => '[link: ] Permissions'
 );
 
 $LANG_configsubgroups['links'] = array(
     'sg_main' => 'Main Settings'
 );
 
+$LANG_tab['links'] = array(
+    'tab_public' => 'Public Links List Settings',
+    'tab_admin' => 'Links Admin Settings',
+    'tab_permissions' => 'Link Permissions',
+    'tab_cpermissions' => 'Category Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['links'] = array(
     'fs_public' => 'Public Links List Settings',
     'fs_admin' => 'Links Admin Settings',
     'fs_permissions' => 'Default Permissions',
-    'fs_cpermissions' => 'Category Permissions'
+    'fs_cpermissions' => 'Category Permissions',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -259,7 +270,8 @@ $LANG_configselects['links'] = array(
     0 => array('True' => 1, 'False' => 0),
     1 => array('True' => true, 'False' => false),
     9 => array('Forward to Linked Site' => 'item', 'Display Admin List' => 'list', 'Display Public List' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

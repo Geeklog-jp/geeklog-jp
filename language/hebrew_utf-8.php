@@ -172,7 +172,12 @@ $LANG01 = array(
     127 => 'קישור קבוע',
     128 => 'הזדהו בעזרת OpenID:',
     129 => 'כיוון הגדרות',
-    130 => 'שירותי רשת'
+    130 => 'שירותי רשת',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -388,7 +393,8 @@ $LANG04 = array(
     162 => 'לא יותאם',
     163 => 'האימות מחדש נכשל',
     164 => 'עברתם על מספר הפעמים המותר לאימות מחדש. הפעולה בוטלה ושינוייכם האחרונים נאבדו, מצטערים.',
-    165 => 'שימוש בעורך מתקדם'
+    165 => 'שימוש בעורך מתקדם',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -837,7 +843,8 @@ $LANG24 = array(
     88 => 'פורמט בנוסח וויקי',
     89 => 'Meta Description',
     90 => 'Meta Keywords',
-    91 => 'הנכם יכולים תמיד ללחוץ על "תצוגה מקדימה" כדי להאריך את תוקף התפוגה.'
+    91 => 'הנכם יכולים תמיד ללחוץ על "תצוגה מקדימה" כדי להאריך את תוקף התפוגה.',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -969,7 +976,8 @@ $LANG28 = array(
     87 => 'תזכורות',
     88 => 'קבוצת ברירת מחדל',
     89 => 'אפשרו לקבוצה זו להיות קבוצת ברירת מחדל למשתמשים חדשים',
-    90 => 'הוסיפו את השינוי של "קבוצת ברירת מחדל" לחשבונות משתמשים קיימים'
+    90 => 'הוסיפו את השינוי של "קבוצת ברירת מחדל" לחשבונות משתמשים קיימים',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1079,6 +1087,33 @@ $LANG32 = array(
     40 => 'הנכם יכולים להעלות ארכיון plugin (tar.gz, tgz, zip) ישירות לכאן:',
     41 => 'העלאה',
     42 => 'ליחצו כדי לעדכן',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'התרחשה שגיאה לא ידועה',
     100 => 'אישור.',
     101 => 'הקובץ שהועלה עובר את הוראת upload_max_filesize directive ב-php.ini.',
@@ -1252,6 +1287,12 @@ $MESSAGE = array(
     99 => 'ה-plugin כבר קיים.',
     100 => 'הקובץ -plugin שהעלתם לא היה ארכיון מכווץ GZip או Zip.',
     101 => 'אין נושאים (שיש לכם גישה אליהם). הנכם צריכים לפחות נושא אחד כדי שתוכלו להגיש מאמרים.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'לא כל השדות הנדרשים עברו וידוא',
     401 => 'אנא הכניסו שם מלא'
 );
@@ -1594,14 +1635,18 @@ $LANG_ADMIN = array(
     'create_new' => 'צרו חדש',
     'create_new_adv' => 'צרו חדש (מתקדם)',
     'enabled' => 'מאופשר',
+    'disabled' => 'Disabled',
     'title' => 'כותרת',
     'page_title' => 'כותרת עמוד',
     'type' => 'סוג',
     'topic' => 'נושא',
+    'info' => 'Info',
     'help_url' => 'כתובת קובץ עזרה',
     'save' => 'שמירה',
     'cancel' => 'ביטול',
+    'install' => 'Install',
     'delete' => 'מחיקה',
+    'deleteitem' => 'Delete',
     'delete_sel' => 'מיחקו את המסומנים',
     'copy' => 'העתקה',
     'no_results' => '- לא נמצאו נתונים -',
@@ -1614,6 +1659,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'לא זמין',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'יש לכם עד %s לערוך שינויים. אחרי זמן זה, כרטיס הביטחון שמוטמע בעמוד זה יאבד את תוקפו ואתם תאבדו את השינויים שלכם.',
     'token_expired' => 'כרטיס הביטחון לפעולה זו פג. נא אמתו מחדש כדי להמשיך.',
     'reauth_msg' => 'כרטיס הביטחון לפעולה זו פג. אם ברצונכם להמשיך בפעולה זו, נא אמתו מחדש להלן. כך יובטח ששינויים שהרגע ביצעתם לא יאבדו.',
@@ -1691,7 +1738,10 @@ $LANG_CONFIG = array(
     'changes_made' => 'השינויים בוצעו בהצלחה אצל',
     'title' => 'ניהול ההגדרות',
     'disable' => 'ליחצו כדי לנטרל אפשרות זו',
-    'enable' => 'הפעלה'
+    'enable' => 'הפעלה',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1707,6 +1757,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'כתובת ה-No-Reply',
     'site_name' => 'שם האתר',
     'site_slogan' => 'סלוגן',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'מיקרו-סיכום',
     'path_log' => 'לוג',
     'path_language' => 'שפה',
@@ -1735,6 +1786,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'הציגו שם שירות',
     'custom_registration' => 'איפשור הרשמה מותאמת אישית',
     'user_login_method' => 'שיטת הזדהות במערכת',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'פעולות Spam-X',
     'sort_admin' => 'מיון קישורים',
     'language' => 'שפה',
@@ -1794,6 +1854,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'החבאת קישור הבית?',
     'whosonline_threshold' => 'סף זמני',
     'whosonline_anonymous' => 'החבאת שמות מפני אורחים?',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'איפשור Daily Digest?',
     'emailstorieslength' => 'אורך המאמרים',
     'emailstoriesperdefault' => 'איפשור עבור משתמשים חדשים?',
@@ -1889,6 +1950,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'רשימת צנזורה',
     'ip_lookup' => 'בדיקת IP',
     'url_rewrite' => 'איפשור URL Rewrite',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'תגיות Meta',
     'meta_description' => 'ברירת המחדל של Meta Description',
     'meta_keywords' => 'ברירת המחדל של Meta Keywords',
@@ -1910,7 +1972,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'הצגת תחומי עמוד?',
     'search_separator' => 'מפריד קבוצות',
     'search_def_keytype' => 'שיטת חיפוש ברירת המחדל',
-    'search_def_sort' => 'ברירת המחדל של סדר מיון'
+    'search_def_sort' => 'ברירת המחדל של סדר מיון',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1965,7 +2029,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => 'הרשאות ברירת המחדל של מאמרים',
     'fs_perm_topic' => 'הרשאות ברירת המחדל של נושאים',
     'fs_perm_block' => 'הרשאות ברירת המחדל של קוביות מידע',
-    'fs_webservices' => 'שירותי רשת'
+    'fs_webservices' => 'שירותי רשת',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1996,7 +2103,55 @@ $LANG_configselects['Core'] = array(
     24 => array('הגשות' => 'contribute', 'דף הבית' => 'home', 'חיפוש מתקדם' => 'search', 'ספרייה' => 'directory', 'החשבון שלי' => 'prefs', 'פריטי plugins' => 'plugins', 'פריטים מותאמים אישית' => 'custom', 'סטטיסטיקת אתר' => 'stats'),
     25 => array('מאמרים חדשים' => 'story', 'תגובות חדשות' => 'comment', 'הפניות חדשות' => 'trackback', 'פינגים חוזרים חדשים' => 'pingback', 'משתמשים חדשים' => 'user'),
     26 => array('G (קהל כללי)' => 'G', 'PG (ליווי הורים)' => 'PG', 'R (מוגבל)' => 'R', 'X (בוטה)' => 'X'),
-    27 => array('כניסות (סדר עולה)' => 'hits|asc', 'כניסות (סדר יורד)' => 'hits|desc', 'תאריך (סדר עולה)' => 'date|asc', 'תאריך (סדר יורד)' => 'date|desc', 'כותרת (סדר עולה)' => 'title|asc', 'כותרת (סדר יורד)' => 'title|desc', 'יוצר (סדר עולה)' => 'uid|asc', 'יוצר (סדר יורד)' => 'uid|desc')
+    27 => array('כניסות (סדר עולה)' => 'hits|asc', 'כניסות (סדר יורד)' => 'hits|desc', 'תאריך (סדר עולה)' => 'date|asc', 'תאריך (סדר יורד)' => 'date|desc', 'כותרת (סדר עולה)' => 'title|asc', 'כותרת (סדר יורד)' => 'title|desc', 'יוצר (סדר עולה)' => 'uid|asc', 'יוצר (סדר יורד)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

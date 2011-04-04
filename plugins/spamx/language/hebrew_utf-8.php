@@ -140,7 +140,7 @@ $LANG_configsections['spamx'] = array(
 );
 
 $LANG_confignames['spamx'] = array(
-    'action' => 'פעולות Spam-X',
+    'spamx_action' => 'Spam-X Actions',
     'notification_email' => 'התרעה בהודעת אימייל',
     'logging' => 'איפשור לוג',
     'timeout' => 'פקיעת זמן מוקצב'
@@ -148,6 +148,10 @@ $LANG_confignames['spamx'] = array(
 
 $LANG_configsubgroups['spamx'] = array(
     'sg_main' => 'הגדרות ראשיות'
+);
+
+$LANG_tab['spamx'] = array(
+    'tab_main' => 'Spam-X Main Settings'
 );
 
 $LANG_fs['spamx'] = array(

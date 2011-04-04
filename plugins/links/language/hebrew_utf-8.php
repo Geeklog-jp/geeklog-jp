@@ -51,6 +51,7 @@ $LANG_LINKS = array(
     124 => 'עיברו',
     125 => 'קטגוריות',
     126 => 'אתם כאן:',
+    'autotag_desc_link' => '[link: id alternate title] - Displays a link to a Link from the Links Plugin using the Link Title as the title. An alternate title may be specified but is not required.',
     'root' => 'ראשי'
 );
 
@@ -131,7 +132,7 @@ $LANG_LINKS_ADMIN = array(
     9 => 'תיאור הקישור',
     10 => 'הנכם צריכים לציין כותרת לקישור, כתובת ותיאור.',
     11 => 'ניהול קישורים',
-    12 => 'כדי לשנות או למחוק קישור, ליחצו על אייקון העריכה שלו שלהלן.  כדי ליצור קישור או קטגוריה חדשים, ליחצו על "קישור חדש" או "קטגוריה חדשה" שלעיל. כדי לערוך מספר קטגוריות, ליחצו על "עריכת קטגוריות" שלעיל.',
+    12 => 'To modify or delete a link, click on that link\'s edit icon below.  To create a new link or a new category, click on "New link" or "New category" above. To edit multiple categories, click on "List categories" above.',
     14 => 'קטגורית קישור',
     16 => 'הגישה לא אושרה',
     17 => "הנכם מנסים לגשת לקישור שאין לכם גישה אליו.  נסיון זה נרשם ביומן. אנא <a href=\"{$_CONF['site_admin_url']}/plugins/links/index.php\">חיזרו למסך ניהול הקישורים</a>.",
@@ -238,18 +239,28 @@ $LANG_confignames['links'] = array(
     'new_window' => 'האם לפתוח קישורים חיצוניים בחלון חדש?',
     'root' => 'קוד הזיהוי של הקטגוריה הראשית',
     'default_permissions' => 'הרשאות ברירת המחדל של קישורים',
-    'category_permissions' => 'הרשאות ברירת המחדל של קטגוריות'
+    'category_permissions' => 'הרשאות ברירת המחדל של קטגוריות',
+    'autotag_permissions_link' => '[link: ] Permissions'
 );
 
 $LANG_configsubgroups['links'] = array(
     'sg_main' => 'הגדרות ראשיות'
 );
 
+$LANG_tab['links'] = array(
+    'tab_public' => 'Public Links List Settings',
+    'tab_admin' => 'Links Admin Settings',
+    'tab_permissions' => 'Link Permissions',
+    'tab_cpermissions' => 'Category Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['links'] = array(
     'fs_public' => 'הגדרות רשימת קישורים פומביים',
     'fs_admin' => 'הגדרות ניהול קישורים',
     'fs_permissions' => 'הרשאות קישורים',
-    'fs_cpermissions' => 'הרשאות קטגוריות'
+    'fs_cpermissions' => 'הרשאות קטגוריות',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -257,7 +268,8 @@ $LANG_configselects['links'] = array(
     0 => array('כן' => 1, 'לא' => 0),
     1 => array('כן' => true, 'לא' => false),
     9 => array('הפנייה לעמוד המקושר' => 'item', 'הצגת רשימת הניהול' => 'list', 'הצגת הרשימה הציבורית' => 'plugin', 'הצגת דף הבית' => 'home', 'הצגת דף הניהול' => 'admin'),
-    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3)
+    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

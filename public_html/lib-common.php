@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-common.php                                                            |
 // |                                                                           |
 // | Geeklog common library.                                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -72,16 +72,12 @@ $_REQUEST = array_merge($_GET, $_POST);
 *
 */ 
 if (function_exists('set_error_handler')) {
-    if (PHP_VERSION >= 5) {
-        /* Tell the error handler to use the default error reporting options.
-         * You may like to change this to use it in more/less cases, if so,
-         * just use the syntax used in the call to error_reporting() above.
-         */
-        $defaultErrorHandler = set_error_handler('COM_handleError',
-                                                 error_reporting());
-    } else {
-        $defaultErrorHandler = set_error_handler('COM_handleError');
-    }
+    /* Tell the error handler to use the default error reporting options.
+     * You may like to change this to use it in more/less cases, if so,
+     * just use the syntax used in the call to error_reporting() above.
+     */
+    $defaultErrorHandler = set_error_handler('COM_handleError',
+                                             error_reporting());
 }
 
 /**
@@ -103,6 +99,9 @@ $config->load_baseconfig();
 $config->initConfig();
 
 $_CONF = $config->get_config('Core');
+
+// Get features that has ft_name like 'config%'
+$_CONF_FT = $config->_get_config_features();
 
 // Before we do anything else, check to ensure site is enabled
 
@@ -246,6 +245,7 @@ if (COM_isAnonUser()) {
     $_USER['advanced_editor'] = $_CONF['advanced_editor'];
 }
 
+
 /**
 * Ulf Harnhammar's kses class
 *
@@ -297,6 +297,16 @@ else if( $_CONF['allow_user_themes'] == 1 )
         }
     }
 }
+
+
+/**
+* Include the Scripts class
+*
+* This provides the ability to set css and javascript.
+*/
+
+require_once( $_CONF['path_system'] . 'classes/scripts.class.php' );
+$_SCRIPTS = new scripts();
 
 /**
 * Include theme functions file which may/may not do anything
@@ -836,10 +846,10 @@ function COM_renderMenu( &$header, $plugin_menu )
 * @see function COM_siteFooter
 *
 */
-function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
+function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '')
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $LANG_BUTTONS, $LANG_DIRECTION,
-           $_IMAGE_TYPE, $topic, $_COM_VERBOSE;
+           $_IMAGE_TYPE, $topic, $_COM_VERBOSE, $_SCRIPTS;
 
     // If the theme implemented this for us then call their version instead.
 
@@ -882,7 +892,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
         header('X-FRAME-OPTIONS: ' . $_CONF['frame_options']);
     }
 
-    $header = new Template( $_CONF['path_layout'] );
+    $header = COM_newTemplate($_CONF['path_layout']);
     $header->set_file( array(
         'header'        => 'header.thtml',
         'menuitem'      => 'menuitem.thtml',
@@ -891,8 +901,11 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
         'leftblocks'    => 'leftblocks.thtml',
         'rightblocks'   => 'rightblocks.thtml'
         ));
+    
+    $header->postprocess_fn = 'PLG_replaceTags';
+    
     $header->set_var('doctype', $doctype);
-    $header->set_var('xhtml', XHTML);
+    
     if (XHTML == '') {
         $header->set_var('xmlns', '');
     } else {
@@ -1047,9 +1060,6 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
 
     $header->set_var( 'background_image', $_CONF['layout_url']
                                           . '/images/bg.' . $_IMAGE_TYPE );
-    $header->set_var( 'site_url', $_CONF['site_url'] );
-    $header->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $header->set_var( 'layout_url', $_CONF['layout_url'] );
     $header->set_var( 'site_mail', "mailto:{$_CONF['site_mail']}" );
     $header->set_var( 'site_name', $_CONF['site_name'] );
     $header->set_var( 'site_slogan', $_CONF['site_slogan'] );
@@ -1068,7 +1078,6 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
     $header->set_var( 'datetime', $curtime[0] );
     $header->set_var( 'site_logo', $_CONF['layout_url']
                                    . '/images/logo.' . $_IMAGE_TYPE );
-    $header->set_var( 'css_url', $_CONF['layout_url'] . '/style.css' );
     $header->set_var( 'theme', $_CONF['theme'] );
 
     $header->set_var('charset', COM_getCharset());
@@ -1210,14 +1219,6 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
         }
     }
 
-    if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
-        $header->set_file('editor', 'advanced_editor_header.thtml');
-        $header->parse('advanced_editor', 'editor');
-
-    } else {
-         $header->set_var('advanced_editor', '');
-    }
-
     // Call any plugin that may want to include extra Meta tags
     // or Javascript functions
     $headercode .= PLG_getHeaderCode();
@@ -1282,6 +1283,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
         }
     }
     
+    $headercode = $_SCRIPTS->getHeader() . $headercode;
     $header->set_var( 'plg_headercode', $headercode );
 
     // The following lines allow users to embed PHP in their templates.  This
@@ -1324,7 +1326,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '' )
 */
 function COM_siteFooter( $rightblock = -1, $custom = '' )
 {
-    global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS;
+    global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_SCRIPTS;
 
     // If the theme implemented this for us then call their version instead.
 
@@ -1338,7 +1340,7 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
     COM_hit();
 
     // Set template directory
-    $footer = new Template( $_CONF['path_layout'] );
+    $footer = COM_newTemplate($_CONF['path_layout']);
 
     // Set template file
     $footer->set_file( array(
@@ -1346,12 +1348,12 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
             'rightblocks' => 'rightblocks.thtml',
             'leftblocks'  => 'leftblocks.thtml'
             ));
+    
+    // Needed to set for pre (instead of post) since JavaScript could contain 
+    // autotag labels (like in configuration search) 
+    $footer->preprocess_fn = 'PLG_replaceTags';
 
     // Do variable assignments
-    $footer->set_var( 'xhtml', XHTML );
-    $footer->set_var( 'site_url', $_CONF['site_url']);
-    $footer->set_var( 'site_admin_url', $_CONF['site_admin_url']);
-    $footer->set_var( 'layout_url',$_CONF['layout_url']);
     $footer->set_var( 'site_mail', "mailto:{$_CONF['site_mail']}" );
     $footer->set_var( 'site_name', $_CONF['site_name'] );
     $footer->set_var( 'site_slogan', $_CONF['site_slogan'] );
@@ -1362,12 +1364,16 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
 
     $year = date( 'Y' );
     $copyrightyear = $year;
-    if( !empty( $_CONF['copyrightyear'] ))
-    {
+    if(!empty($_CONF['copyrightyear'])) {
         $copyrightyear = $_CONF['copyrightyear'];
     }
+    if(!empty($_CONF['owner_name'])) {
+        $copyrightname = $_CONF['owner_name'];
+    } else {
+        $copyrightname = $_CONF['site_name'];
+    }
     $footer->set_var( 'copyright_notice', '&nbsp;' . $LANG01[93] . ' &copy; '
-            . $copyrightyear . ' ' . $_CONF['site_name'] . '<br' . XHTML . '>&nbsp;'
+            . $copyrightyear . ' ' . $copyrightname . '<br' . XHTML . '>&nbsp;'
             . $LANG01[94] );
     $footer->set_var( 'copyright_msg', $LANG01[93] . ' &copy; '
             . $copyrightyear . ' ' . $_CONF['site_name'] );
@@ -1502,6 +1508,14 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
     // Call to plugins to set template variables in the footer
     PLG_templateSetVars( 'footer', $footer );
 
+    // Retrieve any JavaScript libraries, variables and functions
+    $footercode = $_SCRIPTS->getFooter();
+    
+    // Call any plugin that may want to include extra JavaScript functions
+    $footercode .= PLG_getFooterCode();
+    
+    $footer->set_var('plg_footercode', $footercode);
+
     // Actually parse the template and make variable substitutions
     $footer->parse( 'index_footer', 'footer' );
 
@@ -1539,13 +1553,11 @@ function COM_startBlock( $title='', $helpfile='', $template='blockheader.thtml' 
         return $function( $title, $helpfile, $template );
     }
 
-    $block = new Template( $_CONF['path_layout'] );
+    $block = COM_newTemplate($_CONF['path_layout']);
     $block->set_file( 'block', $template );
+    
+    $block->postprocess_fn = 'PLG_replaceTags';
 
-    $block->set_var( 'xhtml', XHTML );
-    $block->set_var( 'site_url', $_CONF['site_url'] );
-    $block->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $block->set_var( 'layout_url', $_CONF['layout_url'] );
     $block->set_var( 'block_title', stripslashes( $title ));
 
     if( !empty( $helpfile )) {
@@ -1584,13 +1596,11 @@ function COM_endBlock( $template='blockfooter.thtml' )
         return $function( $template );
     }
 
-    $block = new Template( $_CONF['path_layout'] );
+    $block = COM_newTemplate($_CONF['path_layout']);
     $block->set_file( 'block', $template );
+    
+    $block->postprocess_fn = 'PLG_replaceTags';
 
-    $block->set_var( 'xhtml', XHTML );
-    $block->set_var( 'site_url', $_CONF['site_url'] );
-    $block->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $block->set_var( 'layout_url', $_CONF['layout_url'] );
     $block->parse( 'endHTML', 'block' );
 
     return $block->finish( $block->get_var( 'endHTML' ));
@@ -2020,6 +2030,10 @@ function COM_errorLog( $logentry, $actionid = '' )
                 (($actionid == 2) || empty($actionid))) {
             $actionid = 1;
         }
+        if ((($actionid == 2) || empty($actionid)) &&
+                !class_exists('Template')) {
+            $actionid = 1;
+        }
         if (!isset($_CONF['path_log']) && ($actionid != 2)) {
             $actionid = 3;
         }
@@ -2161,7 +2175,7 @@ function COM_showTopics($topic = '')
     $result = DB_query($sql);
 
     $retval = '';
-    $sections = new Template($_CONF['path_layout']);
+    $sections = COM_newTemplate($_CONF['path_layout']);
     if (isset($_BLOCK_TEMPLATE['topicoption'])) {
         $templates = explode(',', $_BLOCK_TEMPLATE['topicoption']);
         $sections->set_file(array('option'  => $templates[0],
@@ -2171,10 +2185,6 @@ function COM_showTopics($topic = '')
                                   'inactive' => 'topicoption_off.thtml'));
     }
 
-    $sections->set_var('xhtml', XHTML);
-    $sections->set_var('site_url', $_CONF['site_url']);
-    $sections->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $sections->set_var('layout_url', $_CONF['layout_url']);
     $sections->set_var('block_name', str_replace('_', '-', 'section_block'));
 
     if ($_CONF['hide_home_link'] == 0) {
@@ -2302,7 +2312,7 @@ function COM_userMenu( $help='', $title='', $position='' )
 
     if( !COM_isAnonUser() )
     {
-        $usermenu = new Template( $_CONF['path_layout'] );
+        $usermenu = COM_newTemplate($_CONF['path_layout']);
         if( isset( $_BLOCK_TEMPLATE['useroption'] ))
         {
             $templates = explode( ',', $_BLOCK_TEMPLATE['useroption'] );
@@ -2314,10 +2324,6 @@ function COM_userMenu( $help='', $title='', $position='' )
            $usermenu->set_file( array( 'option' => 'useroption.thtml',
                                        'current' => 'useroption_off.thtml' ));
         }
-        $usermenu->set_var( 'xhtml', XHTML );
-        $usermenu->set_var( 'site_url', $_CONF['site_url'] );
-        $usermenu->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-        $usermenu->set_var( 'layout_url', $_CONF['layout_url'] );
         $usermenu->set_var( 'block_name', str_replace( '_', '-', 'user_block' ));
 
         if( empty( $title ))
@@ -2388,12 +2394,8 @@ function COM_userMenu( $help='', $title='', $position='' )
     {
         $retval .= COM_startBlock( $LANG01[47], $help,
                            COM_getBlockTemplate( 'user_block', 'header', $position ));
-        $login = new Template( $_CONF['path_layout'] );
+        $login = COM_newTemplate($_CONF['path_layout']);
         $login->set_file( 'form', 'loginform.thtml' );
-        $login->set_var( 'xhtml', XHTML );
-        $login->set_var( 'site_url', $_CONF['site_url'] );
-        $login->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-        $login->set_var( 'layout_url', $_CONF['layout_url'] );
         $login->set_var( 'lang_username', $LANG01[21] );
         $login->set_var( 'lang_password', $LANG01[57] );
         $login->set_var( 'lang_forgetpassword', $LANG01[119] );
@@ -2452,6 +2454,28 @@ function COM_userMenu( $help='', $title='', $position='' )
             $login->set_var('openid_login', '');
         }
 
+        // OAuth remote authentification.
+        if ($_CONF['user_login_method']['oauth'] && ($_CONF['usersubmission'] == 0) && !$_CONF['disable_new_user_registration']) {
+            $modules = SEC_collectRemoteOAuthModules();
+            if (count($modules) == 0) {
+                $login->set_var('oauth_login', '');
+            } else {
+                $html_oauth = '';
+                foreach ($modules as $service) {
+                    $login->set_file('oauth_login', 'loginform_oauth.thtml');
+                    $login->set_var('oauth_service', $service);
+                    // for sign in image
+                    $login->set_var('oauth_sign_in_image', $_CONF['site_url'] . '/images/login-with-' . $service . '.png');
+                    $login->set_var('oauth_sign_in_image_style', '');
+                    $login->parse('output', 'oauth_login');
+                    $html_oauth .= $login->finish($login->get_var('output'));
+                }
+                $login->set_var('oauth_login', $html_oauth);
+            }
+        } else {
+            $login->set_var('oauth_login', '');
+        }
+
         PLG_templateSetVars('loginblock', $login);
         $retval .= $login->finish($login->parse('output', 'form'));
         $retval .= COM_endBlock( COM_getBlockTemplate('user_block', 'footer', $position));
@@ -2474,7 +2498,7 @@ function COM_userMenu( $help='', $title='', $position='' )
 */
 function COM_adminMenu( $help = '', $title = '', $position = '' )
 {
-    global $_TABLES, $_CONF, $LANG01, $LANG_ADMIN, $_BLOCK_TEMPLATE,
+    global $_TABLES, $_CONF, $_CONF_FT, $LANG01, $LANG_ADMIN, $_BLOCK_TEMPLATE,
            $_DB_dbms, $config;
 
     $retval = '';
@@ -2486,12 +2510,12 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
     $plugin_options = PLG_getAdminOptions();
     $num_plugins = count( $plugin_options );
 
-    if( SEC_isModerator() OR SEC_hasRights( 'story.edit,block.edit,topic.edit,user.edit,plugin.edit,user.mail,syndication.edit', 'OR' ) OR ( $num_plugins > 0 ))
+    if( SEC_isModerator() OR SEC_hasRights( 'story.edit,block.edit,topic.edit,user.edit,plugin.edit,user.mail,syndication.edit', 'OR' ) OR ( $num_plugins > 0 ) OR SEC_hasConfigAcess())        
     {
         // what's our current URL?
         $thisUrl = COM_getCurrentURL();
 
-        $adminmenu = new Template( $_CONF['path_layout'] );
+        $adminmenu = COM_newTemplate($_CONF['path_layout']);
         if( isset( $_BLOCK_TEMPLATE['adminoption'] ))
         {
             $templates = explode( ',', $_BLOCK_TEMPLATE['adminoption'] );
@@ -2503,10 +2527,6 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
             $adminmenu->set_file( array( 'option' => 'adminoption.thtml',
                                          'current' => 'adminoption_off.thtml' ));
         }
-        $adminmenu->set_var( 'xhtml', XHTML );
-        $adminmenu->set_var( 'site_url', $_CONF['site_url'] );
-        $adminmenu->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-        $adminmenu->set_var( 'layout_url', $_CONF['layout_url'] );
         $adminmenu->set_var( 'block_name', str_replace( '_', '-', 'admin_block' ));
 
         if( empty( $title ))
@@ -2577,7 +2597,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
             }
         }
 
-        if (SEC_inGroup('Root')) {
+        if (SEC_hasConfigAcess()) {
             $url = $_CONF['site_admin_url'] . '/configuration.php';
             $adminmenu->set_var('option_url', $url);
             $adminmenu->set_var('option_label', $LANG01[129]);
@@ -2914,6 +2934,8 @@ function COM_checkWords( $Message )
         }
     }
 
+    
+    
     return $EditedMessage;
 }
 
@@ -3879,8 +3901,9 @@ function COM_rdfImport($bid, $rdfurl, $maxheadlines = 0)
 * You can modify this by changing $_CONF['user_html'] in the configuration
 * (for admins, see also $_CONF['admin_html']).
 *
-* @param    string  $permissions    comma-separated list of rights which identify the current user as an "Admin"
-* @param    boolean $list_only      true = return only the list of HTML tags
+* @param    string  $permissions        comma-separated list of rights which identify the current user as an "Admin"
+* @param    boolean $list_only          true = return only the list of HTML tags
+* @param    boolean $filter_html_flag   0 = returns allowed all html tags, 1 = returns allowed HTML tags only, 2 = returns No HTML Tags Allowed (this is used by plugins if they have a config that overrides Geeklogs filter html settings or do not have a post mode)
 * @return   string                  HTML <div>/<span> enclosed string
 * @see      function COM_checkHTML
 * @todo     Bugs: The list always includes the [code], [raw], and [page_break]
@@ -3888,23 +3911,29 @@ function COM_rdfImport($bid, $rdfurl, $maxheadlines = 0)
 *           are not actually available (e.g. in comments on stories).
 *
 */
-function COM_allowedHTML($permissions = 'story.edit', $list_only = false)
+function COM_allowedHTML($permissions = 'story.edit', $list_only = false, $filter_html_flag = 1)
 {
-    global $_CONF, $LANG01;
+    global $_CONF, $_PLUGINS, $LANG01;
 
     $retval = '';
     $has_skiphtmlfilterPermissions = SEC_hasRights ('htmlfilter.skip');
 
-    if ($has_skiphtmlfilterPermissions || (isset($_CONF['skip_html_filter_for_root']) &&
+    if (($has_skiphtmlfilterPermissions || (isset($_CONF['skip_html_filter_for_root']) &&
              ($_CONF['skip_html_filter_for_root'] == 1) &&
-            SEC_inGroup('Root'))) {
+            SEC_inGroup('Root'))) || ($filter_html_flag == 0)) {
 
         if (!$list_only) {
             $retval .= '<span class="warningsmall">' . $LANG01[123]
                     . ',</span> ';
         }
         $retval .= '<div dir="ltr" class="warningsmall">';
+    } elseif ($filter_html_flag == 2) {
 
+        if (!$list_only) {
+            $retval .= '<span class="warningsmall">' . $LANG01[131]
+                    . ',</span> ';
+        }
+        $retval .= '<div dir="ltr" class="warningsmall">';
     } else {
 
         if (! $list_only) {
@@ -3942,10 +3971,26 @@ function COM_allowedHTML($permissions = 'story.edit', $list_only = false)
         }
     }
 
-    // list autotags
-    $autotags = array_keys(PLG_collectTags());
-    $retval .= '[' . implode(':], [', $autotags) . ':]';
+    // List autotags user has permission to use (with descriptions)
+    $autotags = array_keys(PLG_collectTags('permission'));
+    $description = array_flip(PLG_collectTags('description'));
+    $done_once = false;
+    $comma = '';
+    foreach ($autotags as $tag) {
+        if ($done_once) { 
+            $comma = ', ';
+        }
+        if (! empty($description[$tag])) {
+           $retval .= $comma . COM_Tooltip('[' . $tag . ':]', $description[$tag], '', $LANG01[132],'information');
+        } else {
+            $retval .= $comma . '[' . $tag . ':]';
+        }
+        $done_once = true;
+    }
     $retval .= '</div>';
+
+    return $retval;
+    
 
     return $retval;
 }
@@ -4862,11 +4907,17 @@ function phpblock_whosonline()
             $url = $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid'];
             $retval .= COM_createLink($username, $url);
 
-            if( !empty( $A['photo'] ) AND $_CONF['allow_user_photo'] == 1)
-            {
-                $usrimg = '<img src="' . $_CONF['layout_url']
-                        . '/images/smallcamera.' . $_IMAGE_TYPE
-                        . '" alt=""' . XHTML . '>';
+            if( !empty( $A['photo'] ) AND $_CONF['allow_user_photo'] == 1) {
+                if ($_CONF['whosonline_photo'] == true) {
+                    $usrimg = '<img src="' . $_CONF['site_url']
+                            . '/images/userphotos/' . $A['photo']
+                            . '" alt="" height="30" width="30"' . XHTML . '>';
+                } else {
+                    $usrimg = '<img src="' . $_CONF['layout_url']
+                            . '/images/smallcamera.' . $_IMAGE_TYPE
+                            . '" alt=""' . XHTML . '>';
+                }
+                        
                 $retval .= '&nbsp;' . COM_createLink($usrimg, $url);
             }
             $retval .= '<br' . XHTML . '>';
@@ -5207,13 +5258,9 @@ function COM_makeList($listofitems, $classname = '')
 {
     global $_CONF;
 
-    $list = new Template($_CONF['path_layout']);
+    $list = COM_newTemplate($_CONF['path_layout']);
     $list->set_file(array('list'     => 'list.thtml',
                           'listitem' => 'listitem.thtml'));
-    $list->set_var( 'xhtml', XHTML );
-    $list->set_var('site_url', $_CONF['site_url']);
-    $list->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $list->set_var('layout_url', $_CONF['layout_url']);
 
     if (empty($classname)) {
         $list->set_var('list_class',      '');
@@ -5445,6 +5492,80 @@ function COM_getRate( $occurrences, $timespan )
     }
 
     return $singular;
+}
+
+/**
+* Check for Tag usuage permissions.
+*
+* This function takes the usuage access info of the autotag passed to it
+* and let's us know if the user has access to use the autotag.
+*
+* @param        int     $owner_id       ID of the owner of object
+* @param        int     $group_id       ID of group object belongs to
+* @param        int     $perm_owner     Permissions the owner has
+* @param        int     $perm_group     Permissions the gorup has
+* @param        int     $perm_members   Permissions logged in members have
+* @param        int     $perm_anon      Permissions anonymous users have
+* @param        int     $uid            User ID to get information for. If empty current user.
+* @return       int 	returns true if user has access
+*
+*/
+function COM_getPermTag($owner_id, $group_id, $perm_owner, $perm_group, $perm_members, $perm_anon, $u_id = 0)
+{
+    global $_USER, $_GROUPS;
+
+    $retval = false;
+    $access = 2;
+    
+    if ($u_id <= 0) {
+        if (COM_isAnonUser()) {
+            $uid = 1;
+        } else {
+            $uid = $_USER['uid'];
+        }
+    } else {
+        $uid = $u_id;
+    }
+
+    $UserGroups = array();
+    if ((empty($_USER['uid']) && ($uid == 1)) || ($uid == $_USER['uid'])) {
+        if (empty($_GROUPS)) {
+            $_GROUPS = SEC_getUserGroups($uid);
+        }
+        $UserGroups = $_GROUPS;
+    } else {
+        $UserGroups = SEC_getUserGroups($uid);
+    }
+
+    if (empty($UserGroups)) {
+        // this shouldn't really happen, but if it does, handle user
+        // like an anonymous user
+        $uid = 1;
+    }
+
+    if (SEC_inGroup('Root', $uid)) {
+        return true;
+    } else {
+        if ($uid > 1) {
+            if (($owner_id == $uid) && ($perm_owner >= $access)) {
+                return true;
+            }
+    
+            if ((in_array($group_id, $UserGroups)) && ($perm_group >= $access)) { 
+                return true;
+            }            
+                 
+            if ($perm_members >= $access) { 
+                return true;
+            }
+        } else {
+            if ($perm_anon >= $access) {
+                return true;
+            }
+        }
+    }
+
+    return $retval;
 }
 
 /**
@@ -5869,30 +5990,35 @@ function COM_undoClickableLinks( $text )
 * @return   string          the text with highlighted search words
 *
 */
-function COM_highlightQuery( $text, $query, $class = 'highlight' )
+function COM_highlightQuery($text, $query, $class = 'highlight')
 {
-    // escape PCRE special characters
-    $query = preg_quote($query, '/');
+    if (!empty($text) && !empty($query)) {
 
-    $mywords = explode(' ', $query);
-    foreach ($mywords as $searchword)
-    {
-        if (!empty($searchword))
-        {
-            $before = "/(?!(?:[^<]+>|[^>]+<\/a>))\b";
-            $after = "\b/i";
-            if ($searchword <> utf8_encode($searchword)) {
-                 if (@preg_match('/^\pL$/u', urldecode('%C3%B1'))) { // Unicode property support
-                      $before = "/(?<!\p{L})";
-                      $after = "(?!\p{L})/u";
-                 } else {
-                      $before = "/";
-                      $after = "/u";
-                 }
+        // escape PCRE special characters
+        $query = preg_quote($query, '/');
+
+        $mywords = explode(' ', $query);
+        foreach ($mywords as $searchword) {
+            if (!empty($searchword)) {
+                $before = "/(?!(?:[^<]+>|[^>]+<\/a>))\b";
+                $after = "\b/i";
+                if ($searchword <> utf8_encode($searchword)) {
+                    if (@preg_match('/^\pL$/u', urldecode('%C3%B1'))) {
+                        // Unicode property support
+                        $before = "/(?<!\p{L})";
+                        $after = "(?!\p{L})/u";
+                     } else {
+                        $before = "/";
+                        $after = "/u";
+                     }
+                }
+                $text = preg_replace($before . $searchword . $after,
+                                     "<span class=\"$class\">\\0</span>",
+                                     '<!-- x -->' . $text . '<!-- x -->');
             }
-            $text = preg_replace($before . $searchword . $after, "<span class=\"$class\">\\0</span>", '<!-- x -->' . $text . '<!-- x -->' );
         }
     }
+
     return $text;
 }
 
@@ -6087,19 +6213,15 @@ function COM_onFrontpage()
     $onFrontpage = false;
 
     // on a Zeus webserver, prefer PATH_INFO over SCRIPT_NAME
-    if( empty( $_SERVER['PATH_INFO'] ))
-    {
+    if (empty($_SERVER['PATH_INFO'])) {
         $scriptName = $_SERVER['SCRIPT_NAME'];
-    }
-    else
-    {
+    } else {
         $scriptName = $_SERVER['PATH_INFO'];
     }
 
-    preg_match( '/\/\/[^\/]*(.*)/', $_CONF['site_url'], $pathonly );
-    if(( $scriptName == $pathonly[1] . '/index.php' ) &&
-            empty( $topic ) && ( $page == 1 ) && !$newstories )
-    {
+    preg_match('/\/\/[^\/]*(.*)/', $_CONF['site_url'], $pathonly);
+    if (($scriptName == $pathonly[1] . '/index.php') &&
+            empty($topic) && (empty($page) || ($page == 1)) && !$newstories) {
         $onFrontpage = true;
     }
 
@@ -6621,6 +6743,49 @@ function COM_getLanguageName()
 }
 
 /**
+* Returns an text/image that will display a tooltip
+*
+* This tooltip is based on an example from http://downloads.sixrevisions.com/css-tooltips/index.html
+*
+* @param    string  $hoverover  Text or image to display for the user to hover their mouse cursor over.
+* @param    string  $text       Text for the actual tooltip. Can include HTML.
+* @param    string  $link       Link for the tooltip. If passed, then the hoverover text becomes a link.
+* @param    string  $title      Text for the tooltip title (if there is one). Can include HTML.
+* @param    string  $template   Specify a different template to use (classic, critical, help, information, warning). 
+* @param    string  $class      Specify a different tooltip class to use.
+* @return   string              HTML tooltip
+*
+*/
+function COM_Tooltip($hoverover = '', $text = '', $link = '', $title = '', $template = 'classic', $class = 'tooltip') 
+{
+    global $_CONF, $_IMAGE_TYPE;
+    
+    if ($hoverover == '') {
+        $hoverover = '<img alt="?" id="tooltip-icon" src="' . $_CONF['layout_url'] . '/tooltips/images/tooltip.' . $_IMAGE_TYPE . '"' . XHTML . '>';   
+    }
+    
+    $tooltip = COM_newTemplate($_CONF['path_layout'] .'tooltips/');
+    $tooltip->set_file(array('tooltip'    => $template . '.thtml'));    
+    
+    $tooltip->set_var('class', $class);
+    $tooltip->set_var('hoverover', $hoverover);
+    $tooltip->set_var('text', $text);
+    $tooltip->set_var('title', $title);
+    if ($link == '') {
+        $link = '#';
+        $cursor = 'help';
+    } else {
+        $cursor = 'pointer';
+    }
+    $tooltip->set_var('link', $link);
+    $tooltip->set_var('cursor', $cursor);
+    
+    $retval =  $tooltip->finish($tooltip->parse('output', 'tooltip'));
+    return $retval;
+}
+
+
+/**
 * Truncate a string that contains HTML tags. Will close all HTML tags as needed.
 *
 * Truncates a string to a max. length and optionally adds a filler string,
@@ -6767,11 +6932,6 @@ function COM_handleError($errno, $errstr, $errfile='', $errline=0, $errcontext='
 
     // Handle @ operator
     if (error_reporting() == 0) {
-        return;
-    }
-
-    // If in PHP4, then respect error_reporting
-    if ((PHP_VERSION < 5) && (($errno & error_reporting()) == 0)) {
         return;
     }
 
@@ -7127,6 +7287,99 @@ function COM_getTextContent($text)
     return trim($text);
 }
 
+
+/**
+* Common function used to convert a Geeklog version number into
+* a version number that can be parsed by PHP's "version_compare()"
+*
+* @param    string  $version        Geeklog version number
+* @return   string                  Generic version number that can be correctly handled by PHP
+*
+*/
+function COM_versionConvert($version)
+{
+    $version = strtolower($version);
+    // Check if it's a bugfix release first
+    $dash = strpos($version, '-');
+    if ($dash !== false) {
+        // Sometimes the bugfix part is not placed in the version number
+        // according to the documentation and this needs to be accounted for
+        $rearrange = true; // Assume incorrect formatting
+        $b  = strpos($version, 'b');
+        $rc = strpos($version, 'rc');
+        $sr = strpos($version, 'sr');
+        if ($b && $b<$dash) {
+            $pos = $b;
+        } else if ($rc && $rc<$dash) {
+            $pos = $rc;
+        } else if ($sr && $sr<$dash) {
+            $pos = $sr;
+        } else {
+            // Version is correctly formatted
+            $rearrange = false;
+        }
+        // Rearrange the version number, if needed
+        if ($rearrange) {
+            $ver = substr($version, 0, $pos);
+            $cod = substr($version, $pos, $dash-$pos);
+            $bug = substr($version, $dash+1);
+            $version = $ver . '.' . $bug . $cod;
+        } else { // This bugfix release version is correctly formatted
+            // So there is an extra number in the version
+            $version = str_replace('-', '.', $version);
+        }
+        $bugfix = '';
+    } else {
+        // Not a bugfix release, so we add a zero to compensate for the extra number
+        $bugfix = '.0';
+    }
+    // We change the non-numerical part in the "versions" that were passed into the function
+    // beta                      -> 1
+    // rc                        -> 2
+    // hg                        -> ignore
+    // stable (e.g: no letters)  -> 3
+    // sr                        -> 4
+    if (strpos($version, 'b') !== false) {
+        $version = str_replace('b', $bugfix . '.1.', $version);
+    } else if (strpos($version, 'rc') !== false) {
+        $version = str_replace('rc', $bugfix . '.2.', $version);
+    } else if (strpos($version, 'sr') !== false) {
+        $version = str_replace('sr', $bugfix . '.4.', $version);
+    } else { // must be a stable version then...
+        // we always ignore the 'hg' bit
+        $version = str_replace('hg', '', $version);
+        $version .= $bugfix . '.3.0';
+    }
+    return $version;
+}
+
+/**
+* Common function used to compare two Geeklog version numbers
+*
+* @param    string  $version1       First version number to be compared
+* @param    string  $version2       Second version number to be sompared
+* @param    string  $operator       optional string to define how the two versions are to be compared
+*                                   valid operators are: <, lt, <=, le, >, gt, >=, ge, ==, =, eq, !=, <>, ne
+* @return   mixed                   By default, returns -1 if the first version is lower than the second,
+*                                   0 if they are equal, and 1 if the second is lower.
+*                                   When using the optional operator argument, the function will return TRUE
+*                                   if the relationship is the one specified by the operator, FALSE otherwise. 
+*/
+function COM_versionCompare($version1, $version2, $operator = '')
+{
+    // Convert Geeklog version numbers to a ones that can be parsed
+    // by PHP's "version_compare"
+    $version1 = COM_versionConvert($version1);
+    $version2 = COM_versionConvert($version2);
+    // All that there should be left at this point is numbers and dots,
+    // so PHP's built-in function can now take over.
+    if (empty($operator)) {
+        return version_compare($version1, $version2);
+    } else {
+        return version_compare($version1, $version2, $operator);
+    }
+}
+
 /**
 * Check if Geeklog has been installed yet
 *
@@ -7186,6 +7439,33 @@ function COM_checkInstalled()
         header('Content-Type: text/html; charset=' . $_CONF['default_charset']);
         die($display);
     }
+}
+
+/**
+* Provide support for drop-in replacable template engines
+*
+* @param    string  $root    Path to template root
+* @param    array   $options List of options to pass to constructor
+* @return   object           An ITemplate derved object
+*/
+function COM_newTemplate($root, $options = Array())
+{
+    global $_CONF;
+
+    if (function_exists('OVERRIDE_newTemplate')) {
+        if (is_string($options)) $options = Array('unknowns', $options);
+        $T = OVERRIDE_newTemplate($root, $options);
+    } else $T = null;
+    if (!is_object($T)) {
+        if (is_array($options) && array_key_exists('unknowns', $options)) $options = $options['unknowns'];
+        else $options = 'remove';
+        $T = new Template($root, $options);
+    }
+    $T->set_var('xhtml', XHTML);
+    $T->set_var('site_url', $_CONF['site_url']);
+    $T->set_var('site_admin_url', $_CONF['site_admin_url']);
+    $T->set_var('layout_url', $_CONF['layout_url']);
+    return $T;
 }
 
 /**

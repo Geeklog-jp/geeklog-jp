@@ -53,6 +53,7 @@ $LANG_LINKS = array(
     124 => 'OK',
     125 => 'Kategorije',
     126 => 'Podroèje:',
+    'autotag_desc_link' => '[link: id alternate title] - Displays a link to a Link from the Links Plugin using the Link Title as the title. An alternate title may be specified but is not required.',
     'root' => 'Vse'
 );
 
@@ -133,7 +134,7 @@ $LANG_LINKS_ADMIN = array(
     9 => 'Opis povezav',
     10 => 'Doloèiti moraš naslov povezave, URL in opis.',
     11 => 'Upravljalnik povezav',
-    12 => 'Za spreminjanje ali izbris povezave klikni na njeno ikono za urejanje spodaj. Za ustvarjenje nove povezave klikni na "Ustvari novo" zgoraj.',
+    12 => 'To modify or delete a link, click on that link\'s edit icon below.  To create a new link or a new category, click on "New link" or "New category" above. To edit multiple categories, click on "List categories" above.',
     14 => 'kategorija povezave',
     16 => 'Dostop zavrnjen',
     17 => "Poskušaš dostopiti do povezave, za katero nimaš pravic. Ta poskus je bil zabeležen. Prosim, <a href=\"{$_CONF['site_admin_url']}/plugins/links/index.php\">pojdi nazaj na zaslon za upravljanje povezav</a>.",
@@ -240,18 +241,28 @@ $LANG_confignames['links'] = array(
     'new_window' => 'Odpri zunanje povezave v drugem oknu?',
     'root' => 'ID korenske kategorije',
     'default_permissions' => 'Prednastavljene pravice povezave',
-    'category_permissions' => 'Prednastavljene pravice kategorije'
+    'category_permissions' => 'Prednastavljene pravice kategorije',
+    'autotag_permissions_link' => '[link: ] Permissions'
 );
 
 $LANG_configsubgroups['links'] = array(
     'sg_main' => 'Glavne nastavitve'
 );
 
+$LANG_tab['links'] = array(
+    'tab_public' => 'Public Links List Settings',
+    'tab_admin' => 'Links Admin Settings',
+    'tab_permissions' => 'Link Permissions',
+    'tab_cpermissions' => 'Category Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['links'] = array(
     'fs_public' => 'Nastavitve seznama javnih povezav',
     'fs_admin' => 'Skrbnikove nastavitve povezav',
     'fs_permissions' => 'Prednastavljene pravice',
-    'fs_cpermissions' => 'Pravice kategorije'
+    'fs_cpermissions' => 'Pravice kategorije',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -259,7 +270,8 @@ $LANG_configselects['links'] = array(
     0 => array('Da' => 1, 'Ne' => 0),
     1 => array('Da' => 'velja', 'Ne' => 'ne velja'),
     9 => array('Naprej na povezano stran' => 'item', 'Prikaži skrbnikov seznam' => 'list', 'Prikaži javni seznam' => 'plugin', 'Prikaži vstopno stran' => 'home', 'Prikaži skrbnikovo stran' => 'admin'),
-    12 => array('Ni dostopa' => 0, 'Samo za branje' => 2, 'Branje-pisanje' => 3)
+    12 => array('Ni dostopa' => 0, 'Samo za branje' => 2, 'Branje-pisanje' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

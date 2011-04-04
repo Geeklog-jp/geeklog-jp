@@ -124,7 +124,9 @@ $LANG_STATIC = array(
     'use_template_msg' => 'この静的ページがテンプレートでなければ、テンプレートを選んで利用できます。利用する場合は、このページのコンテンツをXML形式で記述しなければならないので注意してください。',
     'draft' => 'ドラフト',
     'draft_yes' => '○',
-    'draft_no' => '-'
+    'draft_no' => '-',
+    'autotag_desc_staticpage' => '[staticpage: id alternate title] - Displays a link to a static page using the static page title as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_staticpage_content' => '[staticpage_content: id alternate title] - Displays the contents of a staticpage.'
 );
 
 $PLG_staticpages_MESSAGE15 = 'コメントは投稿されました。管理者の承認をお待ちください。';
@@ -154,6 +156,8 @@ $LANG_confignames['staticpages'] = array(
     'filter_html' => 'HTMLフィルターを適用する',
     'censor' => '内容を検閲する',
     'default_permissions' => 'パーミッション',
+    'autotag_permissions_staticpage' => '[staticpage: ] Permissions',
+    'autotag_permissions_staticpage_content' => '[staticpage_content: ] Permissions',
     'aftersave' => 'ページ保存後の画面遷移',
     'atom_max_items' => 'フィードに書き出す最大ページ数',
     'meta_tags' => 'メタタグを有効にする',
@@ -173,11 +177,20 @@ $LANG_configsubgroups['staticpages'] = array(
     'sg_main' => 'メイン'
 );
 
+$LANG_tab['staticpages'] = array(
+    'tab_main' => 'Static Pages Main Settings',
+    'tab_whatsnew' => 'What\'s New Block',
+    'tab_search' => 'Search Results',
+    'tab_permissions' => 'Default Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['staticpages'] = array(
     'fs_main' => '静的ページのメイン設定',
     'fs_whatsnew' => '新着情報ブロック',
     'fs_search' => '検索結果',
-    'fs_permissions' => '静的ページのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => '静的ページのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
@@ -190,6 +203,7 @@ $LANG_configselects['staticpages'] = array(
     5 => array('表示しない' => 'hide', '編集日付によって表示する' => 'modified', '作成日付によって表示する' => 'created'),
     9 => array('ページを表示する' => 'item', 'リストを表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
+    13 => array('No access' => 0, 'Use' => 2),
     17 => array('コメント有効' => 0, 'コメント無効' => -1)
 );
 

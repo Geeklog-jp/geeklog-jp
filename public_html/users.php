@@ -165,12 +165,8 @@ function newpasswordform ($uid, $requestid)
 {
     global $_CONF, $_TABLES, $LANG04;
 
-    $pwform = new Template ($_CONF['path_layout'] . 'users');
+    $pwform = COM_newTemplate($_CONF['path_layout'] . 'users');
     $pwform->set_file (array ('newpw' => 'newpassword.thtml'));
-    $pwform->set_var ('xhtml', XHTML);
-    $pwform->set_var ('site_url', $_CONF['site_url']);
-    $pwform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $pwform->set_var ('layout_url', $_CONF['layout_url']);
 
     $pwform->set_var ('user_id', $uid);
     $pwform->set_var ('user_name', DB_getItem ($_TABLES['users'], 'username',
@@ -361,12 +357,8 @@ function newuserform ($msg = '')
                 . $msg
                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     }
-    $user_templates = new Template($_CONF['path_layout'] . 'users');
+    $user_templates = COM_newTemplate($_CONF['path_layout'] . 'users');
     $user_templates->set_file('regform', 'registrationform.thtml');
-    $user_templates->set_var('xhtml', XHTML);
-    $user_templates->set_var('site_url', $_CONF['site_url']);
-    $user_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $user_templates->set_var('layout_url', $_CONF['layout_url']);
     $user_templates->set_var('start_block', COM_startBlock($LANG04[22]));
     $user_templates->set_var('lang_instructions', $LANG04[23]);
     $user_templates->set_var('lang_username', $LANG04[2]);
@@ -414,12 +406,8 @@ function getpasswordform()
 
     $retval = '';
 
-    $user_templates = new Template($_CONF['path_layout'] . 'users');
+    $user_templates = COM_newTemplate($_CONF['path_layout'] . 'users');
     $user_templates->set_file('form', 'getpasswordform.thtml');
-    $user_templates->set_var('xhtml', XHTML);
-    $user_templates->set_var('site_url', $_CONF['site_url']);
-    $user_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $user_templates->set_var('layout_url', $_CONF['layout_url']);
     $user_templates->set_var('start_block_forgetpassword', COM_startBlock($LANG04[25]));
     $user_templates->set_var('lang_instructions', $LANG04[26]);
     $user_templates->set_var('lang_username', $LANG04[2]);
@@ -894,6 +882,65 @@ default:
             echo COM_refresh($_CONF['site_url'] . '/users.php?msg=91');
             exit;
         }
+
+    } elseif ($_CONF['user_login_method']['oauth'] &&
+            ($_CONF['usersubmission'] == 0) &&
+            !$_CONF['disable_new_user_registration'] &&
+            isset($_GET['oauth_login'])) {
+        // Here we go with the handling of OAuth authentification.
+
+        $active_service = false;
+        $modules = SEC_collectRemoteOAuthModules();
+        $active_service = (count($modules) == 0) ? false : in_array($_GET['oauth_login'], $modules);
+        if (!$active_service) {
+            $status = -1;
+        } else {
+            $query = array_merge($_GET, $_POST);
+            $service = $query['oauth_login'];
+            $callback_url = $_CONF['site_url'] . '/users.php?oauth_login=' . $service;
+
+            COM_clearSpeedlimit($_CONF['login_speedlimit'], $service);
+            if (COM_checkSpeedlimit($service, $_CONF['login_attempts']) > 0) {
+                displayLoginErrorAndAbort(82, $LANG12[26], $LANG04[112]);
+            }
+
+            require_once $_CONF['path_system'] . 'classes/oauthhelper.class.php';
+
+            $consumer = new OAuthConsumer($service);
+            $callback_query_string = $consumer->getCallback_query_string();
+            $cancel_query_string = $consumer->getCancel_query_string();
+
+            if (!isset($query[$callback_query_string]) && (empty($cancel_query_string) || !isset($query[$cancel_query_string]))) {
+                $url = $consumer->find_identity_info($callback_url, $query);
+                if (empty($url)) {
+                    COM_updateSpeedlimit('login');
+                    COM_updateSpeedlimit($service);
+                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=110');
+                    exit;
+                } else {
+                    header('Location: ' . $url);
+                    exit;
+                }
+            } elseif (isset($query[$callback_query_string])) {
+                $oauth_userinfo = $consumer->sreq_userinfo_response($query);
+                if (empty($oauth_userinfo)) {
+                    COM_updateSpeedlimit('login');
+                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=111');
+                    exit;
+                } else {
+                    $consumer->doAction($oauth_userinfo);
+                }
+            } elseif (!empty($cancel_query_string) && isset($query[$cancel_query_string])) {
+                    COM_updateSpeedlimit('login');
+                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=112');
+                    exit;
+            } else {
+                COM_updateSpeedlimit('login');
+                echo COM_refresh($_CONF['site_url'] . '/users.php?msg=91');
+                exit;
+            }
+        }
+
     } else {
         $status = -1;
     }
