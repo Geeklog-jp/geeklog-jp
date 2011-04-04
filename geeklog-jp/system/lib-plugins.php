@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-plugins.php                                                           |
 // |                                                                           |
 // | This file implements plugin support in Geeklog.                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Blaine Lang      - blaine AT portalparts DOT com                 |
@@ -63,7 +63,8 @@ $PLG_bufferCenterAPI = array();
 $PLG_buffered = false;
 
 // buffer enabled plugins
-$result = DB_query("SELECT pi_name FROM {$_TABLES['plugins']} WHERE pi_enabled = 1");
+$result = DB_query("SELECT pi_name FROM {$_TABLES['plugins']} WHERE pi_enabled = 1 ORDER BY pi_load ASC");
+
 /**
 * @global array List of all active plugins
 */
@@ -545,15 +546,15 @@ function PLG_displayComment($type, $id, $cid, $title, $order, $format, $page, $v
 */
 function PLG_commentPreSave($uid, &$title, &$comment, $sid, $pid, $type, &$postmode)
 {
-	global $_PLUGINS;
+    global $_PLUGINS;
 
     foreach ($_PLUGINS as $pi_name) {
         $function = 'plugin_commentPreSave_' . $pi_name;
         if (function_exists($function)) {
             $someError = $function($uid, $title, $comment, $sid, $pid, $type, $postmode);
             if ($someError) {
-            	// Plugin doesn't want to save the comment
-            	return $someError;
+                // Plugin doesn't want to save the comment
+                return $someError;
             }
         }
     }
@@ -1497,6 +1498,35 @@ function PLG_getHeaderCode()
 }
 
 /**
+* This function is called from COM_siteFooter and will return additional footer
+* information. This can be used for JavaScript functions required for the plugin
+*
+* @return   string      returns a concatenated string of all plugins extra footer code
+* @since    Geeklog 1.8.0
+*
+*/
+function PLG_getFooterCode()
+{
+    global $_PLUGINS;
+
+    $footercode = '';
+
+    foreach ($_PLUGINS as $pi_name) {
+        $function = 'plugin_getfootercode_' . $pi_name;
+        if (function_exists($function)) {
+            $footercode .= $function();
+        }
+    }
+
+    $function = 'CUSTOM_getfootercode';
+    if (function_exists($function)) {
+        $footercode .= $function();
+    }
+
+    return $footercode;
+}
+
+/**
 * Get a list of all currently supported autolink tags.
 *
 * Returns an associative array where $A['tag-name'] = 'plugin-name'
@@ -1506,7 +1536,7 @@ function PLG_getHeaderCode()
 * @internal not to be used by plugins
 *
 */
-function PLG_collectTags()
+function PLG_collectTags($type = 'tagname')
 {
     global $_CONF, $_PLUGINS;
 
@@ -1515,24 +1545,44 @@ function PLG_collectTags()
         return array();
     }
 
-    // Determine which Core Modules and Plugins support AutoLinks
-    //                        'tag'   => 'module'
-    $autolinkModules = array(
-        'story' => 'geeklog', 'user' => 'geeklog'
-    );
+    // ensure that we're picking up the Core autotags
 
-    foreach ($_PLUGINS as $pi_name) {
+    require_once $_CONF['path_system'] . 'lib-story.php';
+    require_once $_CONF['path_system'] . 'lib-user.php';
+
+    $all_plugins = array_merge($_PLUGINS, array('story', 'user'));
+    
+    $autolinkModules = array();
+
+    foreach ($all_plugins as $pi_name) {
         $function = 'plugin_autotags_' . $pi_name;
         if (function_exists($function)) {
-            $autotag = $function ('tagname');
-            if (is_array($autotag)) {
-                foreach ($autotag as $tag) {
-                    $autolinkModules[$tag] = $pi_name;
+            $autotag = $function($type);
+            if ($type == 'tagname' || $type == 'permission' || $type == 'nopermission') {
+                if ($type == 'permission') {
+                    // Compare permission info if both blank then no permission info found so rerun for tagname (backwards compatible)
+                    if (($function('permission') == '') && ($function('nopermission') == '')) {
+                        $autotag = $function('tagname');
+                    }
                 }
-            } else {
-                $autolinkModules[$autotag] = $pi_name;
+                if (is_array($autotag)) {
+                    foreach ($autotag as $tag) {
+                        $autolinkModules[$tag] = $pi_name;
+                    }
+                } elseif ($autotag != '') { // If is now possible that a autotag function exists but will not return anything due to permissions
+                    $autolinkModules[$autotag] = $pi_name;
+                }
+            } else {       
+                if (is_array($autotag)) {
+                    foreach ($autotag as $key => $tag) {
+                        $autolinkModules[$tag] = $key;
+                    }
+                } else {
+                    $autolinkModules[$autotag] = '';
+                }
             }
         }
+    
     }
 
     return $autolinkModules;
@@ -1546,9 +1596,10 @@ function PLG_collectTags()
 *
 * @param   string   $content   Content that should be parsed for autolinks
 * @param   string   $plugin    Optional if you only want to parse using a specific plugin
+* @param   string   $remove    Optional if you want to remove the autotag from the content
 *
 */
-function PLG_replaceTags($content, $plugin = '')
+function PLG_replaceTags($content, $plugin = '', $remove = false)
 {
     global $_CONF, $_TABLES, $LANG32;
 
@@ -1557,7 +1608,14 @@ function PLG_replaceTags($content, $plugin = '')
         return $content;
     }
 
-    $autolinkModules = PLG_collectTags();
+    if ($remove) {
+        $autolinkModules = PLG_collectTags('nopermission');
+        if (!is_array($autolinkModules)) { // a permission check may not return any data so no point parsing content
+            return $content;
+        }
+    } else {
+        $autolinkModules = PLG_collectTags();
+    }
 
     for ($i = 1; $i <= 5; $i++) {
         // For each supported module, scan the content looking for any AutoLink tags
@@ -1565,7 +1623,7 @@ function PLG_replaceTags($content, $plugin = '')
         $contentlen = MBYTE_strlen($content);
         $content_lower = MBYTE_strtolower($content);
         foreach ($autolinkModules as $moduletag => $module) {
-            $autotag_prefix = '['. $moduletag . ':';
+            $autotag_prefix = '[' . $moduletag . ':';
             $offset = 0;
             $prev_offset = 0;
             while ($offset < $contentlen) {
@@ -1624,46 +1682,14 @@ function PLG_replaceTags($content, $plugin = '')
         // If we have found 1 or more AutoLink tag
         if (count($tags) > 0) {       // Found the [tag] - Now process them all
             foreach ($tags as $autotag) {
-                $function = 'plugin_autotags_' . $autotag['module'];
-                if (($autotag['module'] == 'geeklog') AND
-                        (empty($plugin) OR ($plugin == 'geeklog'))) {
-                    $url = '';
-                    $linktext = $autotag['parm2'];
-                    if ($autotag['tag'] == 'story') {
-                        $autotag['parm1'] = COM_applyFilter($autotag['parm1']);
-                        if (! empty($autotag['parm1'])) {
-                            $url = COM_buildUrl($_CONF['site_url']
-                                 . '/article.php?story=' . $autotag['parm1']);
-                            if (empty($linktext)) {
-                                $linktext = stripslashes(DB_getItem($_TABLES['stories'], 'title', "sid = '{$autotag['parm1']}'"));
-                            }
-                        }
+                if ($remove) {
+                    $content = str_replace($autotag['tagstr'], '', $content);
+                } else {
+                    $function = 'plugin_autotags_' . $autotag['module'];
+                    if (function_exists($function) AND
+                            (empty($plugin) OR ($plugin == $autotag['module']))) {
+                        $content = $function('parse', $content, $autotag);
                     }
-    
-                    if ($autotag['tag'] == 'user') {
-                        $autotag['parm1'] = COM_applyFilter($autotag['parm1']);
-                        if (! empty($autotag['parm1'])) {
-                            $uname = addslashes($autotag['parm1']);
-                            $sql = "SELECT uid, fullname FROM {$_TABLES['users']} WHERE username = '$uname'";
-                            $result = DB_query($sql);
-                            if (DB_numRows($result) == 1) {
-                                $A = DB_fetchArray($result);
-                                $url = $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $A['uid'];
-                                if (empty($linktext)) {
-                                    $linktext = COM_getDisplayName($A['uid'], $autotag['parm1'], $A['fullname']);
-                                }
-                            }
-                        }
-                    }
-    
-                    if (!empty($url)) {
-                        $filelink = COM_createLink($linktext, $url);
-                        $content = str_replace($autotag['tagstr'], $filelink,
-                                               $content);
-                    }
-                } elseif (function_exists($function) AND
-                        (empty($plugin) OR ($plugin == $autotag['module']))) {
-                    $content = $function('parse', $content, $autotag);
                 }
             }
         } else {
@@ -2467,25 +2493,25 @@ function PLG_getIcon($type)
         }
     }
 
-    // lastly, search for the icon (assuming it's a GIF)
+    // lastly, search for the icon
     if (empty($retval)) {
-        $icon = $_CONF['site_url'] . '/' . $type . '/images/' . $type . '.gif';
-        $fh = @fopen ($icon, 'r');
-        if ($fh === false) {
-            $icon = $_CONF['site_admin_url'] . '/plugins/' . $type . '/images/'
-                  . $type . '.gif';
-            $fh = @fopen ($icon, 'r');
-            if ($fh === false) {
-                // give up and use a generic icon
-                $retval = $_CONF['site_url'] . '/images/icons/plugins.gif';
-            } else {
-                $retval = $icon;
-                fclose ($fh);
+        // create a list of possible icon locations
+        $icons = array('/' . $type . '/images/' . $type . '.gif',
+                       '/' . $type . '/images/' . $type . '.png',
+                       '/admin/plugins/' . $type . '/images/' . $type . '.gif',  // Hardcoding 'admin' here is not ideal, but we
+                       '/admin/plugins/' . $type . '/images/' . $type . '.png'); // don't have a $_CONF['path_site_admin'] variable.
+        // see if any of these files exists and is readable
+        foreach ($icons as $key => $value) {
+            if (is_readable($_CONF['path_html'] . $value)) { // search for the path (e.g.: '/home/user/example.com/foo')
+                $retval = $_CONF['site_url'] . $value; // but return the URL (e.g.: 'http://example.com/foo')
+                break;
             }
-        } else {
-            $retval = $icon;
-            fclose ($fh);
         }
+    }
+
+    // Still nothing? Give up and use a generic icon
+    if (empty($retval)) {
+        $retval = $_CONF['layout_url'] . '/images/icons/plugins.png';
     }
 
     return $retval;
@@ -2723,6 +2749,380 @@ function PLG_pluginStateChange($type, $status)
     if (function_exists($function)) {
         $function($type, $status);
     }
+}
+
+/**
+*  Disables all plugins with unresolved dependencies
+*  and resolves the load order for all enabled plugins.
+*
+* @return   bool    True or False, depending on whether it was
+*                   necessary to alter the load order of a plugin
+* @since            Geeklog 1.8.0
+*/
+function PLG_resolveDependencies()
+{
+    global $_PLUGINS, $_TABLES;
+    $retval = '';
+    $flag = true; // false means that all dependencies are resolved
+    while ($flag) { // loop until ALL dependencies are satisfied
+        $flag = false; // set this if any plugin has been disabled during the loop
+        foreach ($_PLUGINS as $key => $pi_name) {
+            if (!PLG_checkDependencies($pi_name)) { // plugin has unresolved dependencies
+                // disable plugin;
+                $flag = true; // disabling a plugin can break the dependencies of a plugin that has already been checked, remember to loop again
+                PLG_enableStateChange($pi_name, false);
+                DB_change($_TABLES['plugins'], 'pi_enabled', 0,
+                                               'pi_name', $pi_name);
+                PLG_pluginStateChange($pi_name, 'disabled');
+                unset($_PLUGINS[$key]);
+            }
+        }
+    }
+    // automatically resolve load order for enabled plugins
+    $index = 2000; // how far through the load order to push back plugins
+    $maxqueries = 50; // just in case...
+    $globalflag = false; // remember if we change the load order of any plugin
+    $flag = true; // set true if we need another pass in the while loop
+    while ($flag && $maxqueries) { // Now check if the load order is correct
+        $flag = false;
+        // get the load orders of all enabled plugins
+        $q = DB_query("SELECT pi_name, pi_load FROM {$_TABLES['plugins']} WHERE pi_enabled='1'");
+        $plo = array(); // Plugins Load Order
+        while ($a = DB_fetchArray($q)) {
+            $plo[] = $a;
+        }
+        $params = array();
+        foreach ($plo as $key => $value) { // for each available plugin
+            $maxqueries--;
+            $params = PLG_getParams($value['pi_name']); // get dependencies
+            if (isset($params['requires']) && is_array($params['requires'])) { // if any
+                foreach ($params['requires'] as $rkey => $rvalue) { // process each dependency
+                    if (isset($rvalue['plugin'])) {
+                        // get the load order of the required plugin
+                        foreach ($plo as $new_key => $new_value) {
+                            if ($new_value['pi_name'] == $rvalue['plugin']) {
+                                $dep_load = $new_value['pi_load'];
+                                break;
+                            }
+                        }
+                        if ( $dep_load > $value['pi_load'] ) { // incorrect load order
+                            // move down the order
+                            DB_query("UPDATE {$_TABLES['plugins']} SET pi_load = '{$index}' WHERE pi_name = '{$value['pi_name']}'");
+                            $index++;
+                            $flag = true;
+                            $globalflag = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    reorderplugins();
+    if ($globalflag == false) {
+        return true; // no change
+    } else {
+        return false; // something changed
+    }
+}
+
+/**
+* Returns a string with HTML that contains the dependency information of a plugin.
+*
+* @param    $pi_name         string     The short name of the plugin
+* @param    $pi_gl_version   string     Specify a minimum version of Geeklog to require.
+*                                       (Optional and only for use with plugins that have the old-style install.)
+* @return                    string     An string that contains HTML code.
+* @since    Geeklog 1.8.0
+* 
+*/
+function PLG_printDependencies($pi_name, $pi_gl_version='')
+{
+    global $LANG32, $_DB_dbms;
+
+    $retval = '';
+    $params = PLG_getParams($pi_name);
+
+    $dbAvailable  = array(); // cache the databases that are supported by the plugin
+    $dbSupported = false; // True if we support the database that the plugin is requiring
+
+    if (isset($params['requires']) && count($params['requires']) > 0) { // new autoinstall type
+        foreach ($params['requires'] as $key => $value) { // check every requirement that is imposed by the plugin
+            $name = '';
+            if (isset($value['plugin'])) {
+                $name = $value['plugin'];
+            } elseif (isset($value['core'])) {
+                $name = 'geeklog';
+            }
+            $op = '>='; // set the default
+            if (isset($value['operator'])) { // optional operator included
+                $op = $value['operator']; // override default
+            }
+            $ver = '0.0.0'; // set the default version
+            if (isset($value['version'])) { // the plugin is requiring a particular version
+                $ver = $value['version']; // override the default
+            }
+            if (!empty($name)) { // check for a plugin or a core requirement
+                $op = '>='; // set the default
+                $retval .= "<b class=\"notbold\" style=\"display: block; padding: 2px; margin: 0;\">$name $op $ver ";
+                $status = PLG_checkAvailable($name, $ver, $op);
+                if (!$status) {
+                    $retval .= "<b class='status_red'>{$LANG32[54]}</b>";
+                } else if ($status == 'wrong_version') {
+                    $retval .= "<b class='status_red'>{$LANG32[56]}</b>";
+                } else if ($status == 'disabled') {
+                    $retval .= "<b class='status_orange'>{$LANG32[53]}</b>";
+                } else if ($status == 'uninstalled') {
+                    $retval .= "<b class='status_orange'>{$LANG32[55]}</b>";
+                } else if ($status == 'ok') {
+                    $retval .= "<b class='status_green'>{$LANG32[51]}</b>";
+                }
+                $retval .= "</b>";
+            } else if (isset($value['db'])){ // check for a database requirement
+                $dbAvailable[] = array($value['db'], $op, $ver); // cache the database types
+                if ($_DB_dbms == $value['db']) { // this db requirement matches the database that the site is run on
+                    $name = $value['db'];
+                    $retval .= "<b class=\"notbold\" style=\"display: block; padding: 2px; margin: 0;\">$name $op $ver ";
+                    if (PLG_checkAvailableDb($name, $pi_name, $ver, $op)) {
+                        $dbSupported = true; // the reuirement for the database is fullfilled
+                        $retval .= "<b class='status_green'>{$LANG32[51]}</b>";
+                    } else { // unsupported version
+                        $retval .= "<b class='status_red'>{$LANG32[54]}</b>";
+                    }
+                    $retval .= "</b>";
+                }
+            }
+        }
+        if (count($dbAvailable) > 0 && !$dbSupported) {
+            // the plugin requires a database, but this requirement is not fullfilled
+            foreach ($dbAvailable as $key => $value) { // print every database that would satisfy this requirement
+                $retval .= "<b class=\"notbold\" style=\"display: block; padding: 2px; margin: 0;\">{$value[0]} {$value[1]} {$value[2]} ";
+                $retval .= "<b class='status_red'>{$LANG32[54]}</b>";
+                $retval .= "</b>";
+            }
+        }
+    } else if (!empty($pi_gl_version)) { // old plugin install
+        $retval .= "geeklog >= $pi_gl_version ";
+        if (PLG_checkAvailable('geeklog', $pi_gl_version)) {
+            $retval .= "<b class='status_green'>{$LANG32[51]}</b>";
+        } else {
+            $retval .= "<b class='status_red'>{$LANG32[54]}</b>";
+        } 
+    } else { // we're not too sure right now....
+        $retval .= "<b class='status_black'>{$LANG32[57]}</b>";
+    }
+    return $retval;
+}
+
+/**
+* Given a plugin name see if ALL of it's dependencies are satisfied
+*
+* @param    $pi_name         string     The short name of the plugin
+* @return                    bool       True or False, depending on whether all of the
+*                                       dependencies are satisfied for plugin $pi_name
+* @since    Geeklog 1.8.0
+* 
+*/
+function PLG_checkDependencies($pi_name)
+{
+    global $_TABLES, $_DB_dbms;
+
+    $retval = true;
+    $params = PLG_getParams($pi_name);
+
+    $dbSupported = false; // True if we support the database that the plugin is requiring
+    $dbRequired  = false; // True if the plugin needs a database
+
+    if (isset($params['requires']) && count($params['requires']) > 0) { // plugin exists and uses new installer
+        foreach ($params['requires'] as $key => $value) { // check for requirements
+            $name = '';
+            if (isset($value['plugin'])) {
+                $name = $value['plugin'];
+            } elseif (isset($value['core'])) {
+                $name = $value['core'];
+            }
+            $op = '>='; // set the default
+            if (!empty($value['operator'])) { // optional operator included
+                $op = $value['operator']; // override default
+            }
+            $ver = '0.0.0'; // set the default version
+            if (isset($value['version'])) { // the plugin is requiring a particular version
+                $ver = $value['version']; // override the default
+            }
+            if (!empty($name)) { // check for a plugin or a core requirement
+                if (PLG_checkAvailable($name, $ver, $op) != 'ok') {
+                    return false;
+                }
+            } elseif (isset($value['db'])) { // check for db requirements
+                $dbRequired = true; // there is at least one database requirement
+                if ($_DB_dbms == $value['db'] && PLG_checkAvailableDb($value['db'], $pi_name, $ver, $op)) {
+                    $dbSupported = true;
+                }
+            }
+        }
+        if ($dbRequired && !$dbSupported) {
+            // the plugin requires a database, but this requirement is not fullfilled
+            return false;
+        }
+    } else { // maybe it's a plugin with a legacy installer
+        $q = DB_query("SELECT * FROM {$_TABLES['plugins']} WHERE pi_name = '{$pi_name}'");
+        if (DB_numRows($q)) {
+            $A = DB_fetchArray($q);
+            $status = PLG_checkAvailable('geeklog', $A['pi_gl_version']);
+            if ($status != 'ok') {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+/**
+* Returns the status of a plugin or false if unavailable
+*
+* @param    $pi_name         string     The short name of the plugin to look for
+* @param    $version         string     A version to ask for, the default operator is '>='
+* @param    $operator        string     Optional operator to override the default
+*                                       See COM_versionCompare() for all valid operators
+* @return                    mixed      false is returned if the plugin is unavailable
+*                                       other possible values are: 'ok', 'disabled', 'uninstalled', 'wrong_version'
+* @since    Geeklog 1.8.0
+* 
+*/
+function PLG_checkAvailable($pi_name, $version, $operator='>=')
+{
+    global $_PLUGINS, $_TABLES, $_CONF;
+    // not really a plugin
+    if ($pi_name == 'geeklog') {
+        if (COM_VersionCompare(VERSION, $version, $operator)) { // use default operator
+            return 'ok';
+        } else {
+            return false;
+        }
+    }
+    // real plugins
+    $A = array();
+    $q = DB_query("SELECT pi_version FROM {$_TABLES['plugins']} WHERE pi_name = '{$pi_name}'");
+    $A = DB_fetchArray($q); // access database
+    if (DB_numRows($q)) {
+        // an enabled plugin
+        if (in_array($pi_name, $_PLUGINS)){
+            if (COM_VersionCompare($A['pi_version'], $version, $operator)) {
+                return 'ok';
+            } else {
+                return 'wrong_version';
+            }
+        }
+        // a disabled plugin
+        if (COM_VersionCompare($A['pi_version'], $version, $operator)) {
+            return 'disabled';
+        }
+    }
+    // an uninstalled plugin
+    $file1 = $_CONF['path'] . 'plugins/' . $pi_name . '/autoinstall.php';
+    $file2 = $_CONF['path'] . 'plugins/' . $pi_name . '/config.php';
+    if (file_exists($file1) || file_exists($file2)) {
+        return 'uninstalled';
+    }
+    // 'unavailable'
+    return false;
+}
+
+/**
+* Returns true if the database server version matches the criteria and the required
+* file is available in the plugin, false otherwise.
+*
+* @param    $db              string     The name of the dbms to check for
+* @param    $pi_name         string     The short name of the plugin for which to check support
+* @param    $version         string     A version to ask for, the default operator is '>='
+* @param    $operator        string     Optional operator to override the default
+*                                       See COM_versionCompare() for all valid operators
+* @return                    bool       
+*
+* @since    Geeklog 1.8.0
+* 
+*/
+function PLG_checkAvailableDb($db, $pi_name, $version, $operator='>=')
+{
+    global $_CONF;
+
+    // check if the plugin supports the dbms
+    $dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/' . strtolower($db) . '_install.php';
+
+    // if both requirements are satisfied, return true
+    if (file_exists($dbFile) && COM_versionCompare(DB_getVersion(), $version, $operator)) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+* Get list of install parameters for a plugin (including dependencies)
+* For plugins with new install this works like a charm. For the older plugins, not so much.
+*
+* @param    $pi_name         string     The short name of the plugin
+* @return                    array      An array containing the installation parameters of a plugin
+*
+* @since    Geeklog 1.8.0
+* 
+*/
+function PLG_getParams($pi_name)
+{
+    global $_CONF, $LANG_ADMIN, $_DB_table_prefix;
+    $retval = array();
+    $file = $_CONF['path'] . 'plugins/' . COM_sanitizeFilename($pi_name) . '/autoinstall.php';
+    if (file_exists($file)) {
+        // new install system
+        include_once $file;
+        $function =    'plugin_autoinstall_' . $pi_name;
+        if (function_exists($function)) {
+            $retval = $function($pi_name);
+        }
+    } else {
+        // old install system
+        $file = $_CONF['path'] . 'plugins/' . COM_sanitizeFilename($pi_name) . '/config.php';
+        if (file_exists($file)) {
+            // find out what variables are included by $file
+            $ar1 = get_defined_vars();
+            include_once $file;
+            $ar2 = get_defined_vars();
+            $ar3 = array();
+            foreach ($ar2 as $key => $value) {
+                if (empty($ar1[$key]) && $key != '_TABLES' && $key != 'ar1' && $key != 'retval') {
+                    $ar3[] = $ar2[$key];
+                }
+            }
+            // some of these included variables could be pi_version and pi_gl_version
+            foreach ($ar3 as $key => $value) {
+                if (is_array($value)) {
+                    foreach ($value as $rkey => $rvalue) {
+                        switch ($rkey) {
+                            case 'version':
+                                $retval['info']['pi_version'] = $rvalue;
+                                break;
+                            case 'gl_version':
+                                $retval['info']['pi_gl_version'] = $rvalue;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // If we have a geeklog version requirement...
+    if (!empty($retval['info']['pi_gl_version'])) {
+        // treat it like a requirement for a plugin and use the "new-style" dependency array
+        $retval['requires'][] = array('core' => 'geeklog', 'version' => $retval['info']['pi_gl_version']);
+    } else {
+        // We need to initialise this index of the array, so we place a string in it.
+        $retval['info']['pi_gl_version'] = $LANG_ADMIN['na'];
+    }
+    // If we don't know the plugin version
+    if (empty($retval['info']['pi_version'])) {
+        // We need to initialise this index of the array, so we place a string in it.
+        $retval['info']['pi_version'] = $LANG_ADMIN['na'];
+    }
+    return $retval;
 }
 
 ?>

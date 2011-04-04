@@ -192,12 +192,25 @@ function CUSTOM_templateSetVars($templatename, &$template)
     - See notes below in the custom function about the template changes
 */
 
-/* Create any new records in additional tables you may have added  */
-/* Update any fields in the core GL tables for this user as needed */
-/* Called when user is first created */
-function CUSTOM_userCreate ($uid,$bulkimport=false)
+/**
+* Called when user is first created
+* Create any new records in additional tables you may have added
+* Update any fields in the core GL tables for this user as needed
+*
+* @param    int     $uid        user id - record already exists at this point
+* @param    boolean $bulkimport true during Batch User Import (admin/user.php)
+* @return   boolean             true on success, otherwise false
+*
+*/
+function CUSTOM_userCreate($uid, $bulkimport = false)
 {
     global $_CONF, $_TABLES;
+
+    if ($bulkimport) {
+        // the sample code in this function is written for the normal signup
+        // process; the $_POST variables are not set during bulk import
+        return true;
+    }
 
     // Ensure all data is prepared correctly before inserts, quotes may need to
     // be escaped with addslashes()
@@ -334,11 +347,8 @@ function CUSTOM_userForm ($msg = '')
     $submitbutton = '<input type="submit" value="Register Now!"' . XHTML . '>';
     $message = "<blockquote style=\"padding-top:10px;\"><b>Please complete the application below. Once you have completed the application, click the Register Now! button and the application will be processed immediately.</b></blockquote>";
 
-    $user_templates = new Template ($_CONF['path_layout'] . 'custom');
+    $user_templates = COM_newTemplate($_CONF['path_layout'] . 'custom');
     $user_templates->set_file('memberdetail', 'memberdetail.thtml');
-    $user_templates->set_var( 'xhtml', XHTML );
-    $user_templates->set_var('site_url', $_CONF['site_url']);
-    $user_templates->set_var('layout_url', $_CONF['layout_url']);
     $user_templates->set_var('post_url', $post_url);
     $user_templates->set_var('startblock', COM_startBlock("Custom Registration Example"));
     $user_templates->set_var('message', $message);

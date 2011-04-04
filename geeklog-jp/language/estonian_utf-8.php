@@ -171,7 +171,12 @@ $LANG01 = array(
     127 => 'Püsilink',
     128 => 'Logi sisse OpenID abiga:',
     129 => 'Seadistus',
-    130 => 'Veebiteenused'
+    130 => 'Veebiteenused',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -387,7 +392,8 @@ $LANG04 = array(
     162 => 'Ei vähendata',
     163 => 'Taasautoriseerimine ebaõnnestus',
     164 => 'Ületasid lubatud taasautoriseerimiste arvu. Tegevus on katkestatud ja viimati tehtud muutused läksid kahjuks kaduma.',
-    165 => 'Kasuta keerukamat toimetajat'
+    165 => 'Kasuta keerukamat toimetajat',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -836,7 +842,8 @@ $LANG24 = array(
     88 => 'Wiki-laadne formaat',
     89 => 'Meta kirjeldus',
     90 => 'Meta märksõnad',
-    91 => 'Sa võid alati klõpsata "Eelvaade", et aegumisaega pikendada.'
+    91 => 'Sa võid alati klõpsata "Eelvaade", et aegumisaega pikendada.',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -968,7 +975,8 @@ $LANG28 = array(
     87 => 'Meeldetuletused',
     88 => 'Vaikegrupp',
     89 => 'Märgi, et teha sellest uute kasutajate jaoks vaikegrupp',
-    90 => 'Rakenda muutunud "Vaikegrupp" olemasolevatele kasutajakontodele'
+    90 => 'Rakenda muutunud "Vaikegrupp" olemasolevatele kasutajakontodele',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1078,6 +1086,33 @@ $LANG32 = array(
     40 => 'Sa võid otse siin laadida plugina arhiivi (.tar.gz, .tgz, .zip):',
     41 => 'Lae ülesse',
     42 => 'Kliki uuendamiseks',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'Oli tundmatu viga',
     100 => 'OK.',
     101 => 'Ülesse laetud faili suurus ületab php.ini failis oleva upload_max_filesize direktiivi.',
@@ -1251,6 +1286,12 @@ $MESSAGE = array(
     99 => 'Plugin on juba olemas.',
     100 => 'Laetud plugina fail pole GZip või Zip formaadis tihendatud arhiiv.',
     101 => 'Pole ühtegi rubriiki, millele sul oleks ligipääsu. Sul peab olema vähemalt üks rubriik, et saaksid lugusid sisestada.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'Kõik väljad ei läbinud kontrolli',
     401 => 'Palun sisesta täisnimi'
 );
@@ -1593,14 +1634,18 @@ $LANG_ADMIN = array(
     'create_new' => 'Tee uus',
     'create_new_adv' => 'Tee uus (lisa)',
     'enabled' => 'Kasutuses',
+    'disabled' => 'Disabled',
     'title' => 'Tiitel',
     'page_title' => 'Lehe tiitel',
     'type' => 'Tüüp',
     'topic' => 'Rubriik',
+    'info' => 'Info',
     'help_url' => 'Abifaili URL',
     'save' => 'Salvesta',
     'cancel' => 'Tühista',
+    'install' => 'Install',
     'delete' => 'Kustuta',
+    'deleteitem' => 'Delete',
     'delete_sel' => 'Kustuta valitud',
     'copy' => 'Koopia',
     'no_results' => '- Ei leidnud midagi -',
@@ -1613,6 +1658,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta kirjeldus',
     'meta_keywords' => 'Meta märksõnad',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'Sul on aega kuni %s, et teha muutusi. Pärast seda aegub lehele lisatud turvalisuskood ja tehtud muutused lähevad kaotsi.',
     'token_expired' => 'Selle tegevuse turvakood on aegunud. Jätkamiseks palun autoriseeri ennast uuesti.',
     'reauth_msg' => 'Selle tegevuse turvakood on aegunud. Kui sa soovid selle tegevusega jätkata, siis autoriseeri allpool ennast uuesti. See tagab, et sinu poolt tehtud muutused ei läheks kaotsi.',
@@ -1690,7 +1737,10 @@ $LANG_CONFIG = array(
     'changes_made' => 'Muudatused tehti edukalt',
     'title' => 'Seadistuste haldaja',
     'disable' => 'Klõpsa antud valiku keelamiseks',
-    'enable' => 'Luba'
+    'enable' => 'Luba',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1706,6 +1756,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'mitte-vastatav E-post',
     'site_name' => 'Lehe Nimi',
     'site_slogan' => 'Deviis',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'Mikrokokkuvõtte',
     'path_log' => 'Logi',
     'path_language' => 'Keel',
@@ -1734,6 +1785,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'Näita teenusenime',
     'custom_registration' => 'Luba kohandatud registreerimine',
     'user_login_method' => 'Kasutaja sisselogimise meetod',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Spam-X tegevused',
     'sort_admin' => 'Sordi lingid',
     'language' => 'Keel',
@@ -1793,6 +1853,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'Avalehe link peidetud?',
     'whosonline_threshold' => 'Sessiooni pikkus',
     'whosonline_anonymous' => 'Anonüümsed ei näe nimesid?',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'Päevased kokkuvõtted lubatud?',
     'emailstorieslength' => 'Lugude pikkus',
     'emailstoriesperdefault' => 'Lubatud uute kasutajate jaoks?',
@@ -1888,6 +1949,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'Tsenseerimisloetelu',
     'ip_lookup' => 'IP otsing',
     'url_rewrite' => 'Luba URL-i ülekirjutamine',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'Meta Tags',
     'meta_description' => 'vaikimisi Meta kirjeldus',
     'meta_keywords' => 'Vaikimisi Meta märksõnad',
@@ -1909,7 +1971,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'Näita lehe limiiti?',
     'search_separator' => 'Grupi eraldaja',
     'search_def_keytype' => 'Vaikimisi otsimisviis',
-    'search_def_sort' => 'vaikimisi sorteerimisjärjestus'
+    'search_def_sort' => 'vaikimisi sorteerimisjärjestus',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1964,7 +2028,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => 'Loo vaikimisi õigused',
     'fs_perm_topic' => 'Rubriigi vaikimisi õigused',
     'fs_perm_block' => 'Ploki vaikimisi õigused',
-    'fs_webservices' => 'Veebiteenused'
+    'fs_webservices' => 'Veebiteenused',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1995,7 +2102,55 @@ $LANG_configselects['Core'] = array(
     24 => array('Avlda' => 'contribute', 'Avaleht' => 'home', 'Täpsem otsing' => 'search', 'Artiklid' => 'directory', 'Minu konto' => 'prefs', 'Pluginate kanded' => 'plugins', 'Kohandatud kanded' => 'custom', 'Lehe statistika' => 'stats'),
     25 => array('Uued lood' => 'story', 'Uued kommentaarid' => 'comment', 'Uued Trackbackid' => 'trackback', 'Uued Pingbackid' => 'pingback', 'Uued kasutajad' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Klikke (ksv.)' => 'hits|asc', 'Klikke (kahan.)' => 'hits|desc', 'Aeg (ksv.)' => 'date|asc', 'Aeg (kahan.)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
+    27 => array('Klikke (ksv.)' => 'hits|asc', 'Klikke (kahan.)' => 'hits|desc', 'Aeg (ksv.)' => 'date|asc', 'Aeg (kahan.)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

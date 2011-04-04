@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-install.php                                                           |
 // |                                                                           |
 // | Additional functions for install script.                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 by the following authors:                         |
+// | Copyright (C) 2008-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Matt West - matt.danger.west AT gmail DOT com                    |
 // |          Dirk Haun - dirk AT haun-online DOT de                           |
@@ -56,13 +56,13 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.7.2');
+    define('VERSION', '1.8.0');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
 }
 if (!defined('SUPPORTED_PHP_VER')) {
-    define('SUPPORTED_PHP_VER', '4.4.0');
+    define('SUPPORTED_PHP_VER', '5.2.0');
 }
 if (!defined('SUPPORTED_MYSQL_VER')) {
     define('SUPPORTED_MYSQL_VER', '4.0.18');
@@ -70,11 +70,9 @@ if (!defined('SUPPORTED_MYSQL_VER')) {
 
 $_REQUEST = array_merge($_GET, $_POST);
 
-if (function_exists('date_default_timezone_get')) {
-    // this is not ideal but will stop PHP 5.3.0ff from complaining ...
-    $system_timezone = @date_default_timezone_get();
-    date_default_timezone_set($system_timezone);
-}
+// this is not ideal but will stop PHP 5.3.0ff from complaining ...
+$system_timezone = @date_default_timezone_get();
+date_default_timezone_set($system_timezone);
 
 $language = INST_getLanguage();
 // Include the language file

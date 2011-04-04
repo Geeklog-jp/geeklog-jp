@@ -4,7 +4,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['access']} (
   acc_ft_id smallint NOT NULL default '0',
   acc_grp_id smallint NOT NULL default '0',
-  PRIMARY KEY  (acc_ft_id,acc_grp_id)
+  PRIMARY KEY (acc_ft_id,acc_grp_id)
 )
 ";
 
@@ -25,24 +25,24 @@ CREATE TABLE {$_TABLES['blocks']} (
   type varchar(20) NOT NULL default 'normal',
   title varchar(48) default NULL,
   tid varchar(20) NOT NULL default 'All',
-  blockorder smallint  NOT NULL default '1',
+  blockorder smallint NOT NULL default '1',
   content text,
-  allow_autotags smallint  NOT NULL DEFAULT '0',
+  allow_autotags smallint NOT NULL DEFAULT '0',
   rdfurl varchar(255) default NULL,
   rdfupdated timestamp  default NULL,
   rdf_last_modified varchar(40) default NULL,
   rdf_etag varchar(40) default NULL,
-  rdflimit smallint  NOT NULL default '0',
+  rdflimit smallint NOT NULL default '0',
   onleft smallint NOT NULL default '1',
   phpblockfn varchar(128) default '',
   help varchar(255) default '',
-  owner_id smallint  NOT NULL default '1',
-  group_id smallint  NOT NULL default '1',
-  perm_owner smallint  NOT NULL default '3',
-  perm_group smallint  NOT NULL default '3',
-  perm_members smallint  NOT NULL default '2',
-  perm_anon smallint  NOT NULL default '2',
-  PRIMARY KEY  (bid)
+  owner_id smallint NOT NULL default '1',
+  group_id smallint NOT NULL default '1',
+  perm_owner smallint NOT NULL default '3',
+  perm_group smallint NOT NULL default '3',
+  perm_members smallint NOT NULL default '2',
+  perm_anon smallint NOT NULL default '2',
+  PRIMARY KEY (bid)
 );
   CREATE INDEX {$_TABLES['blocks']}_bid ON {$_TABLES['blocks']}(bid);
   CREATE INDEX {$_TABLES['blocks']}_is_enabled ON {$_TABLES['blocks']}(is_enabled);
@@ -56,7 +56,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['commentcodes']} (
   code smallint NOT NULL default '0',
   name varchar(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 ) 
 ";
 
@@ -73,7 +73,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['commentmodes']} (
   mode varchar(10) NOT NULL default '',
   name varchar(32) default NULL,
-  PRIMARY KEY  (mode)
+  PRIMARY KEY (mode)
 )
 ";
 
@@ -83,7 +83,7 @@ CREATE TABLE {$_TABLES['commentnotifications']} (
   uid smallint NOT NULL,
   deletehash varchar(32) NOT NULL,
   mid int default NULL,
-  PRIMARY KEY  (deletehash)
+  PRIMARY KEY (deletehash)
 )
 ";
 
@@ -100,11 +100,11 @@ CREATE TABLE {$_TABLES['comments']} (
   pid int NOT NULL default '0',
   lft smallint NOT NULL default '0',
   rht smallint NOT NULL default '0',
-  indent smallint  NOT NULL default '0',
+  indent smallint NOT NULL default '0',
   name varchar(32) default NULL,
   uid smallint NOT NULL default '1',
   ipaddress varchar(39) NOT NULL default '',
-  PRIMARY KEY  (cid)
+  PRIMARY KEY (cid)
 );
   CREATE INDEX {$_TABLES['comments']}_sid ON {$_TABLES['comments']}(sid);
   CREATE INDEX {$_TABLES['comments']}_uid ON {$_TABLES['comments']}(uid);
@@ -125,7 +125,7 @@ CREATE TABLE {$_TABLES['commentsubmissions']} (
   name varchar(32) default NULL,
   pid int NOT NULL default '0',
   ipaddress varchar(39) NOT NULL,
-  PRIMARY KEY  (cid)
+  PRIMARY KEY (cid)
 )
 ";
 
@@ -139,6 +139,7 @@ CREATE TABLE {$_TABLES['conf_values']} (
   subgroup int default NULL,
   selectionArray int default NULL,
   sort_order int default NULL,
+  tab int default NULL,
   fieldset int default NULL
 )
 ";
@@ -147,7 +148,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['cookiecodes']} (
   cc_value int NOT NULL default '0',
   cc_descr varchar(20) NOT NULL default '',
-  PRIMARY KEY  (cc_value)
+  PRIMARY KEY (cc_value)
 )
 ";
 
@@ -156,7 +157,7 @@ CREATE TABLE {$_TABLES['dateformats']} (
   dfid smallint NOT NULL default '0',
   format varchar(32) default NULL,
   description varchar(64) default NULL,
-  PRIMARY KEY  (dfid)
+  PRIMARY KEY (dfid)
 )
 ";
 
@@ -164,17 +165,18 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['featurecodes']} (
   code smallint NOT NULL default '0',
   name varchar(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['features']} (
   ft_id SERIAL ,
-  ft_name varchar(20) NOT NULL default '',
+  ft_name varchar(50) NOT NULL default '',
   ft_descr varchar(255) NOT NULL default '',
   ft_gl_core smallint NOT NULL default '0',
-  PRIMARY KEY  (ft_id));
+  PRIMARY KEY (ft_id)
+);
   CREATE INDEX {$_TABLES['features']}_ft_name ON {$_TABLES['features']}(ft_name);
 ";
 
@@ -182,7 +184,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['frontpagecodes']} (
   code smallint NOT NULL default '0',
   name varchar(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -201,18 +203,18 @@ CREATE TABLE {$_TABLES['groups']} (
   grp_id SERIAL,
   grp_name varchar(50) NOT NULL default '',
   grp_descr varchar(255) NOT NULL default '',
-  grp_gl_core smallint  NOT NULL default '0',
-  grp_default smallint  NOT NULL default '0',
-  PRIMARY KEY  (grp_id)
+  grp_gl_core smallint NOT NULL default '0',
+  grp_default smallint NOT NULL default '0',
+  PRIMARY KEY (grp_id)
 );
-CREATE UNIQUE INDEX {$_TABLES['groups']}_grp_name ON {$_TABLES['groups']}(grp_name);
+  CREATE UNIQUE INDEX {$_TABLES['groups']}_grp_name ON {$_TABLES['groups']}(grp_name);
 ";
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['maillist']} (
   code SERIAL, 
   name char(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -223,8 +225,9 @@ CREATE TABLE {$_TABLES['pingservice']} (
   ping_url varchar(255) default NULL,
   site_url varchar(255) default NULL,
   method varchar(80) default NULL,
-  is_enabled smallint  NOT NULL DEFAULT '1',
-  PRIMARY KEY (pid));
+  is_enabled smallint NOT NULL DEFAULT '1',
+  PRIMARY KEY (pid)
+);
   CREATE INDEX {$_TABLES['pingservice']}_is_enabled ON {$_TABLES['pingservice']}(is_enabled);
 ";
 
@@ -233,9 +236,10 @@ CREATE TABLE {$_TABLES['plugins']} (
   pi_name varchar(30) NOT NULL default '',
   pi_version varchar(20) NOT NULL default '',
   pi_gl_version varchar(20) NOT NULL default '',
-  pi_enabled smallint  NOT NULL default '1',
+  pi_enabled smallint NOT NULL default '1',
   pi_homepage varchar(128) NOT NULL default '',
-  PRIMARY KEY  (pi_name)
+  pi_load smallint NOT NULL default '10000',
+  PRIMARY KEY (pi_name)
   );
   CREATE INDEX {$_TABLES['plugins']}_enabled ON {$_TABLES['plugins']}(pi_enabled);
 ";
@@ -244,7 +248,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['postmodes']} (
   code char(10) NOT NULL default '',
   name char(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -255,7 +259,7 @@ CREATE TABLE {$_TABLES['sessions']} (
   remote_ip varchar(39) NOT NULL default '',
   uid smallint NOT NULL default '1',
   md5_sess_id varchar(128) default NULL,
-  PRIMARY KEY  (sess_id)
+  PRIMARY KEY (sess_id)
 );
   CREATE INDEX {$_TABLES['sessions']}_start_time ON {$_TABLES['sessions']} (start_time);
   CREATE INDEX {$_TABLES['sessions']}_remote_ip ON {$_TABLES['sessions']}(remote_ip);
@@ -265,7 +269,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['sortcodes']} (
   code char(4) NOT NULL default '0',
   name char(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -275,16 +279,17 @@ CREATE TABLE {$_TABLES['speedlimit']} (
   ipaddress varchar(39) NOT NULL default '',
   date int default NULL,
   type varchar(30) NOT NULL default 'submit',
-  PRIMARY KEY (id));
-  CREATE UNIQUE INDEX {$_TABLES['speedlimit']}_type_ipaddress on {$_TABLES['speedlimit']}(type,ipaddress);
-  CREATE UNIQUE INDEX {$_TABLES['speedlimit']}_date on {$_TABLES['speedlimit']}(date);
+  PRIMARY KEY (id)
+);
+  CREATE UNIQUE INDEX {$_TABLES['speedlimit']}_type_ipaddress ON {$_TABLES['speedlimit']}(type,ipaddress);
+  CREATE UNIQUE INDEX {$_TABLES['speedlimit']}_date ON {$_TABLES['speedlimit']}(date);
 ";
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['statuscodes']} (
   code int NOT NULL default '0',
   name char(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -322,17 +327,17 @@ CREATE TABLE {$_TABLES['stories']} (
   perm_group smallint NOT NULL default '3',
   perm_members smallint NOT NULL default '2',
   perm_anon smallint NOT NULL default '2',
-  PRIMARY KEY  (sid)
+  PRIMARY KEY (sid)
 );
-CREATE INDEX {$_TABLES['stories']}_sid ON {$_TABLES['stories']}(sid);
-CREATE INDEX {$_TABLES['stories']}_tid ON {$_TABLES['stories']}(tid);
-CREATE INDEX {$_TABLES['stories']}_uid ON {$_TABLES['stories']}(uid);
-CREATE INDEX {$_TABLES['stories']}_featured ON {$_TABLES['stories']}(featured);
-CREATE INDEX {$_TABLES['stories']}_hits ON {$_TABLES['stories']}(hits);
-CREATE INDEX {$_TABLES['stories']}_statuscode ON {$_TABLES['stories']}(statuscode);
-CREATE INDEX {$_TABLES['stories']}_expire ON {$_TABLES['stories']}(expire);
-CREATE INDEX {$_TABLES['stories']}_date ON {$_TABLES['stories']}(date);
-CREATE INDEX {$_TABLES['stories']}_frontpage ON {$_TABLES['stories']}(frontpage);
+  CREATE INDEX {$_TABLES['stories']}_sid ON {$_TABLES['stories']}(sid);
+  CREATE INDEX {$_TABLES['stories']}_tid ON {$_TABLES['stories']}(tid);
+  CREATE INDEX {$_TABLES['stories']}_uid ON {$_TABLES['stories']}(uid);
+  CREATE INDEX {$_TABLES['stories']}_featured ON {$_TABLES['stories']}(featured);
+  CREATE INDEX {$_TABLES['stories']}_hits ON {$_TABLES['stories']}(hits);
+  CREATE INDEX {$_TABLES['stories']}_statuscode ON {$_TABLES['stories']}(statuscode);
+  CREATE INDEX {$_TABLES['stories']}_expire ON {$_TABLES['stories']}(expire);
+  CREATE INDEX {$_TABLES['stories']}_date ON {$_TABLES['stories']}(date);
+  CREATE INDEX {$_TABLES['stories']}_frontpage ON {$_TABLES['stories']}(frontpage);
 ";
 
 $_SQL[] = "
@@ -345,7 +350,7 @@ CREATE TABLE {$_TABLES['storysubmission']} (
   bodytext text,
   date timestamp default NULL,
   postmode varchar(10) NOT NULL default 'html',
-  PRIMARY KEY  (sid)
+  PRIMARY KEY (sid)
 )
 ";
 
@@ -369,10 +374,10 @@ CREATE TABLE {$_TABLES['syndication']} (
   update_info text,
   PRIMARY KEY (fid)
 );
-CREATE INDEX {$_TABLES['syndication']}_type on {$_TABLES['syndication']}(type);
-CREATE INDEX {$_TABLES['syndication']}_topic ON {$_TABLES['syndication']}(topic);
-CREATE INDEX {$_TABLES['syndication']}_is_enabled ON {$_TABLES['syndication']}(is_enabled);
-CREATE INDEX {$_TABLES['syndication']}_updated ON {$_TABLES['syndication']}(updated);
+  CREATE INDEX {$_TABLES['syndication']}_type ON {$_TABLES['syndication']}(type);
+  CREATE INDEX {$_TABLES['syndication']}_topic ON {$_TABLES['syndication']}(topic);
+  CREATE INDEX {$_TABLES['syndication']}_is_enabled ON {$_TABLES['syndication']}(is_enabled);
+  CREATE INDEX {$_TABLES['syndication']}_updated ON {$_TABLES['syndication']}(updated);
 ";
 
 $_SQL[] = "
@@ -395,7 +400,7 @@ CREATE TABLE {$_TABLES['topics']} (
   meta_keywords TEXT NULL,
   sortnum smallint default NULL,
   limitnews smallint default NULL,
-  is_default smallint  NOT NULL DEFAULT '0',
+  is_default smallint NOT NULL DEFAULT '0',
   archive_flag smallint NOT NULL DEFAULT '0',
   owner_id smallint NOT NULL default '1',
   group_id smallint NOT NULL default '1',
@@ -403,7 +408,7 @@ CREATE TABLE {$_TABLES['topics']} (
   perm_group smallint NOT NULL default '3',
   perm_members smallint NOT NULL default '2',
   perm_anon smallint NOT NULL default '2',
-  PRIMARY KEY  (tid)
+  PRIMARY KEY (tid)
 )
 ";
 
@@ -420,7 +425,6 @@ CREATE TABLE {$_TABLES['trackback']} (
   ipaddress varchar(39) NOT NULL default '',
   PRIMARY KEY (cid)
 );
-
   CREATE INDEX {$_TABLES['trackback']}_sid ON {$_TABLES['trackback']}(sid);
   CREATE INDEX {$_TABLES['trackback']}_url ON {$_TABLES['trackback']}(url);
   CREATE INDEX {$_TABLES['trackback']}_type ON {$_TABLES['trackback']}(type);
@@ -431,7 +435,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['trackbackcodes']} (
   code smallint NOT NULL default '0',
   name varchar(32) default NULL,
-  PRIMARY KEY  (code)
+  PRIMARY KEY (code)
 )
 ";
 
@@ -441,7 +445,7 @@ CREATE TABLE {$_TABLES['usercomment']} (
   commentmode varchar(10) NOT NULL default 'nested',
   commentorder varchar(4) NOT NULL default 'ASC',
   commentlimit smallint NOT NULL default '100',
-  PRIMARY KEY  (uid)
+  PRIMARY KEY (uid)
 )
 ";
 
@@ -454,11 +458,11 @@ CREATE TABLE {$_TABLES['userindex']} (
   boxes varchar(255) NOT NULL default '0',
   noboxes smallint NOT NULL default '0',
   maxstories smallint default NULL,
-  PRIMARY KEY  (uid)
+  PRIMARY KEY (uid)
 );
-CREATE INDEX {$_TABLES['userindex']}_uid ON {$_TABLES['userindex']}(uid);
-CREATE INDEX {$_TABLES['userindex']}_noboxes ON {$_TABLES['userindex']}(noboxes);
-CREATE INDEX {$_TABLES['userindex']}_maxstories ON {$_TABLES['userindex']}(maxstories);
+  CREATE INDEX {$_TABLES['userindex']}_uid ON {$_TABLES['userindex']}(uid);
+  CREATE INDEX {$_TABLES['userindex']}_noboxes ON {$_TABLES['userindex']}(noboxes);
+  CREATE INDEX {$_TABLES['userindex']}_maxstories ON {$_TABLES['userindex']}(maxstories);
 ";
 
 $_SQL[] = "
@@ -472,7 +476,7 @@ CREATE TABLE {$_TABLES['userinfo']} (
   totalcomments smallint NOT NULL default '0',
   lastgranted smallint NOT NULL default '0',
   lastlogin VARCHAR(10) NOT NULL default '0',
-  PRIMARY KEY  (uid)
+  PRIMARY KEY (uid)
 )
 ";
 
@@ -488,7 +492,7 @@ CREATE TABLE {$_TABLES['userprefs']} (
   emailfromadmin smallint NOT NULL default '1',
   emailfromuser smallint NOT NULL default '1',
   showonline smallint NOT NULL default '1',
-  PRIMARY KEY  (uid)
+  PRIMARY KEY (uid)
 )
 ";
 
@@ -509,9 +513,9 @@ CREATE TABLE {$_TABLES['users']} (
   theme varchar(64) default NULL,
   language varchar(64) default NULL,
   pwrequestid varchar(16) default NULL,
-  status smallint  NOT NULL default '1',
+  status smallint NOT NULL default '1',
   num_reminders smallint NOT NULL default 0,
-  PRIMARY KEY  (uid)
+  PRIMARY KEY (uid)
 );
   CREATE INDEX {$_TABLES['users']}_LOGIN ON {$_TABLES['users']}(uid,passwd,username);
   CREATE INDEX {$_TABLES['users']}_username ON {$_TABLES['users']}(username);
@@ -525,7 +529,7 @@ $_SQL[] = "
 CREATE TABLE {$_TABLES['vars']} (
   name varchar(20) NOT NULL default '',
   value text default NULL,
-  PRIMARY KEY  (name)
+  PRIMARY KEY (name)
 )
 ";
 
@@ -569,6 +573,45 @@ $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (18,
 $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (19,11) ";
 $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (20,14) ";
 $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (21,15) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (23,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (24,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (25,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (26,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (27,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (28,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (29,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (30,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (31,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (32,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (33,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (34,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (35,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (36,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (37,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (38,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (39,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (40,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (41,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (42,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (43,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (44,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (45,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (46,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (47,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (48,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (49,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (50,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (51,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (52,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (53,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (54,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (55,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (56,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (57,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (58,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (59,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (60,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (61,16) ";
 
 $_DATA[] = "INSERT INTO {$_TABLES['blocks']} (bid, is_enabled, name, type, title, tid, blockorder, content, rdfurl, rdfupdated, onleft, phpblockfn, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ((SELECT NEXTVAL('{$_TABLES['blocks']}_bid_seq')),1,'user_block','gldefault','User Functions','all',20,'','','epoch',1,'',4,2,3,3,2,2) ";
 $_DATA[] = "INSERT INTO {$_TABLES['blocks']} (bid, is_enabled, name, type, title, tid, blockorder, content, rdfurl, rdfupdated, onleft, phpblockfn, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ((SELECT NEXTVAL('{$_TABLES['blocks']}_bid_seq')),1,'admin_block','gldefault','Admins Only','all',20,'','','epoch',1,'',4,2,3,3,2,2) ";
@@ -641,6 +684,45 @@ $_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_
 $_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'comment.moderate', 'Ability to moderate comments', 1)";
 $_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'comment.submit', 'Comments are automatically published', 1)";
 $_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'htmlfilter.skip', 'Skip filtering posts for HTML', 1)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_site', 'Access to configure site', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_mail', 'Access to configure mail', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_syndication', 'Access to configure syndication', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_paths', 'Access to configure paths', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_pear', 'Access to configure PEAR', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_mysql', 'Access to configure MySQL', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_search', 'Access to configure search', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_story', 'Access to configure story', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_trackback', 'Access to configure trackback', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_pingback', 'Access to configure pingback', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_theme', 'Access to configure theme', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_theme_advanced', 'Access to configure theme advanced settings', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_admin_block', 'Access to configure admin block', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_topics_block', 'Access to configure topics block', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_whosonline_block', 'Access to configure who''s online block', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_whatsnew_block', 'Access to configure what''s new block', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_users', 'Access to configure users', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_spamx', 'Access to configure Spam-x', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_login', 'Access to configure login settings', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_user_submission', 'Access to configure user submission', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_submission', 'Access to configure submission settings', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_comments', 'Access to configure comments', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_imagelib', 'Access to configure image library', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_upload', 'Access to configure upload', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_articleimg', 'Access to configure images in article', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_topicicon', 'Access to configure topic icons', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_userphoto', 'Access to configure photos', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_gravatar', 'Access to configure gravatar', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_language', 'Access to configure language', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_locale', 'Access to configure locale', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_cookies', 'Access to configure cookies', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_misc', 'Access to configure miscellaneous settings', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_debug', 'Access to configure debug', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_daily_digest', 'Access to configure daily digest', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_htmlfilter', 'Access to configure HTML filtering', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_censoring', 'Access to configure censoring', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_iplookup', 'Access to configure IP lookup', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_permissions', 'Access to configure default permissions for story, topic, block and autotags', 0)";
+$_DATA[] = "INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES ((SELECT nextval('{$_TABLES['features']}_ft_id_seq')), 'config.Core.tab_webservices', 'Access to configure webservices', 0)";
 
 $_DATA[] = "INSERT INTO {$_TABLES['frontpagecodes']} (code, name) VALUES (0,'Show Only in Topic') ";
 $_DATA[] = "INSERT INTO {$_TABLES['frontpagecodes']} (code, name) VALUES (1,'Show on Front Page') ";
@@ -676,6 +758,7 @@ $_DATA[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid,
 $_DATA[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (8,NULL,1) ";
 $_DATA[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (14,NULL,1) ";
 $_DATA[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (15,NULL,1) ";
+$_DATA[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (16,NULL,1) ";
 
 // Traditionally, grp_id 1 = Root, 2 = All Users, 13 = Logged-In Users
 $_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES ((SELECT nextval('{$_TABLES['groups']}_grp_id_seq')),'Root','Has full access to the site',1) ";
@@ -693,6 +776,7 @@ $_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_g
 $_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES ((SELECT nextval('{$_TABLES['groups']}_grp_id_seq')),'Logged-in Users','All registered members',1) ";
 $_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES ((SELECT nextval('{$_TABLES['groups']}_grp_id_seq')), 'Comment Admin', 'Can moderate comments', 1)";
 $_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES ((SELECT nextval('{$_TABLES['groups']}_grp_id_seq')), 'Comment Submitters', 'Can submit comments', 0);";
+$_DATA[] = "INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES ((SELECT nextval('{$_TABLES['groups']}_grp_id_seq')), 'Configuration Admin', 'Has full access to configuration', 1);";
 
 $_DATA[] = "INSERT INTO {$_TABLES['maillist']} (code, name) VALUES ((SELECT nextval('{$_TABLES['maillist']}_code_seq')),'Don\'t Email') ";
 $_DATA[] = "INSERT INTO {$_TABLES['maillist']} (code, name) VALUES ((SELECT nextval('{$_TABLES['maillist']}_code_seq')),'Email Headlines Each Night') ";
@@ -715,8 +799,8 @@ $_DATA[] = "INSERT INTO {$_TABLES['storysubmission']} (sid, uid, tid, title, int
 
 $_DATA[] = "INSERT INTO {$_TABLES['syndication']} (type, topic, header_tid, format, limits, content_length, title, description, filename, charset, language, is_enabled, updated, update_info) VALUES ('article', '::all', 'all', 'RSS-2.0', 10, 1, 'Geeklog Site', 'Another Nifty Geeklog Site', 'geeklog.rss', 'iso-8859-1', 'en-gb', 1, 'epoch', NULL)";
 
-$_DATA[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('General','General News','/images/topics/topic_news.gif','A topic that contains general news related posts.','News, Post, Information',1,10,6,2,3,2,2,2)";
-$_DATA[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('Geeklog','Geeklog','/images/topics/topic_gl.gif','A topic that contains posts about Geeklog.','Geeklog, Posts, Information',2,10,6,2,3,2,2,2)";
+$_DATA[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('General','General News','/images/topics/topic_news.png','A topic that contains general news related posts.','News, Post, Information',1,10,6,2,3,2,2,2)";
+$_DATA[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('Geeklog','Geeklog','/images/topics/topic_gl.png','A topic that contains posts about Geeklog.','Geeklog, Posts, Information',2,10,6,2,3,2,2,2)";
 
 $_DATA[] = "INSERT INTO {$_TABLES['usercomment']} (uid, commentmode, commentorder, commentlimit) VALUES (1,'nested','ASC',100) ";
 $_DATA[] = "INSERT INTO {$_TABLES['usercomment']} (uid, commentmode, commentorder, commentlimit) VALUES (2,'nested','ASC',100) ";

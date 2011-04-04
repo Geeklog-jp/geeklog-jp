@@ -69,12 +69,8 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
     $nrows = DB_count( $_TABLES['comments'], array( 'sid', 'type' ),
                        array( $sid, $type ));
 
-    $commentbar = new Template( $_CONF['path_layout'] . 'comment' );
+    $commentbar = COM_newTemplate($_CONF['path_layout'] . 'comment');
     $commentbar->set_file( array( 'commentbar' => 'commentbar.thtml' ));
-    $commentbar->set_var( 'xhtml', XHTML );
-    $commentbar->set_var( 'site_url', $_CONF['site_url'] );
-    $commentbar->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $commentbar->set_var( 'layout_url', $_CONF['layout_url'] );
 
     $commentbar->set_var( 'lang_comments', $LANG01[3] );
     $commentbar->set_var( 'lang_refresh', $LANG01[39] );
@@ -221,15 +217,11 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
     $indent = 0;  // begin with 0 indent
     $retval = ''; // initialize return value
 
-    $template = new Template( $_CONF['path_layout'] . 'comment' );
+    $template = COM_newTemplate($_CONF['path_layout'] . 'comment');
     $template->set_file( array( 'comment' => 'comment.thtml',
                                'thread'  => 'thread.thtml'  ));
 
     // generic template variables
-    $template->set_var( 'xhtml', XHTML );
-    $template->set_var( 'site_url', $_CONF['site_url'] );
-    $template->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $template->set_var( 'layout_url', $_CONF['layout_url'] );
     $template->set_var( 'lang_authoredby', $LANG01[42] );
     $template->set_var( 'lang_on', $LANG01[36] );
     $template->set_var( 'lang_permlink', $LANG01[120] );
@@ -515,9 +507,9 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         $A['comment'] = str_replace( '$', '&#36;',  $A['comment'] );
         $A['comment'] = str_replace( '{', '&#123;', $A['comment'] );
         $A['comment'] = str_replace( '}', '&#125;', $A['comment'] );
-
+        
         // Replace any plugin autolink tags
-        $A['comment'] = PLG_replaceTags( $A['comment'] );
+        $A['comment'] = PLG_replaceTags( $A['comment'] );        
 
         // create a reply to link
         $reply_link = '';
@@ -615,12 +607,8 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 
     $start = $limit * ( $page - 1 );
 
-    $template = new Template( $_CONF['path_layout'] . 'comment' );
+    $template = COM_newTemplate($_CONF['path_layout'] . 'comment');
     $template->set_file( array( 'commentarea' => 'startcomment.thtml' ));
-    $template->set_var( 'xhtml', XHTML );
-    $template->set_var( 'site_url', $_CONF['site_url'] );
-    $template->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $template->set_var( 'layout_url', $_CONF['layout_url'] );
     $template->set_var( 'commentbar',
             CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode ));
     $template->set_var( 'sid', $sid );
@@ -749,7 +737,8 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 */
 function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_ADMIN, $LANG_ACCESS, $MESSAGE;
+    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_ADMIN, $LANG_ACCESS
+    , $MESSAGE, $_SCRIPTS;
 
     $retval = '';
 
@@ -798,7 +787,7 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 $postmode = 'html';
             } elseif (empty($postmode)) {
                 $postmode = $_CONF['postmode'];
-            }
+            }                                                                                       
 
             // Note:
             // $comment / $newcomment is what goes into the preview / is
@@ -812,6 +801,9 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             $commenttext = str_replace('$','&#36;',$commenttext);
             $commenttext = str_replace('{','&#123;',$commenttext);
             $commenttext = str_replace('}','&#125;',$commenttext);
+            
+            // Remove any autotags the user doesn't have permission to use
+            $commenttext = PLG_replaceTags($commenttext, '', true);
 
             $title = COM_checkWords (strip_tags (COM_stripslashes ($title)));
             // $title = str_replace('$','&#36;',$title); done in CMT_getComment
@@ -829,12 +821,8 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 
             // Preview mode:
             if (($mode == $LANG03[14] || $mode == $LANG03[28] || $mode == $LANG03[34]) && !empty($title) && !empty($comment) ) {
-                $start = new Template($_CONF['path_layout'] . 'comment');
+                $start = COM_newTemplate($_CONF['path_layout'] . 'comment');
                 $start->set_file(array('comment' => 'startcomment.thtml'));
-                $start->set_var('xhtml', XHTML);
-                $start->set_var('site_url', $_CONF['site_url']);
-                $start->set_var('site_admin_url', $_CONF['site_admin_url']);
-                $start->set_var('layout_url', $_CONF['layout_url']);
                 $start->set_var('hide_if_preview', 'style="display:none"');
 
                 // Clean up all the vars
@@ -881,16 +869,18 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 $mode = 'error';
             }
 
-            $comment_template = new Template($_CONF['path_layout'] . 'comment');
+            $comment_template = COM_newTemplate($_CONF['path_layout'] . 'comment');
             if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
                 $comment_template->set_file('form', 'commentform_advanced.thtml');
+                
+                // Add JavaScript
+                $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
+                $_SCRIPTS->setJavaScript($js, true);
+                $_SCRIPTS->setJavaScriptFile('submitcomment_fckeditor', '/javascript/submitcomment_fckeditor.js');
+                
             } else {
                 $comment_template->set_file('form', 'commentform.thtml');
             }
-            $comment_template->set_var('xhtml', XHTML);
-            $comment_template->set_var('site_url', $_CONF['site_url']);
-            $comment_template->set_var('site_admin_url', $_CONF['site_admin_url']);
-            $comment_template->set_var('layout_url', $_CONF['layout_url']);
             $comment_template->set_var('start_block_postacomment', COM_startBlock($LANG03[1]));
             if ($_CONF['show_fullname'] == 1) {
                 $comment_template->set_var('lang_username', $LANG_ACCESS['name']);
@@ -1070,6 +1060,8 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
  * @return   int         -1 == queued, 0 == comment saved, > 0 indicates error
  *
  */
+// FIXME: This function relies on $cid being NULL without being initialized in 
+//        the case of a comment submission. This is not ideal.
 function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
 {
     global $_CONF, $_TABLES, $_USER, $LANG03;
@@ -1112,11 +1104,8 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
     $result = PLG_checkforSpam ($spamcheck, $_CONF['spamx']);
     // Now check the result and display message if spam action was taken
     if ($result > 0) {
-        // update speed limit nonetheless
-        COM_updateSpeedlimit ('comment');
-
-        // then tell them to get lost ...
-        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden');
+        COM_updateSpeedlimit ('comment');                                // update speed limit nonetheless
+        COM_displayMessageAndAbort ($result, 'spamx', 403, 'Forbidden'); // then tell them to get lost ...
     }
 
     // Let plugins have a chance to decide what to do before saving the comment, return errors.
@@ -1147,22 +1136,24 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
     if (empty($title) || empty($comment)) {
         COM_errorLog("CMT_saveComment: $uid from {$_SERVER['REMOTE_ADDR']} tried "
                    . 'to submit a comment with invalid $title and/or $comment.');
-        $ret = 5;
-    } elseif (($_CONF['commentsubmission'] == 1) &&
-            !SEC_hasRights('comment.submit')) {
+        return $ret = 5;
+    } 
+    
+    if (($_CONF['commentsubmission'] == 1) && !SEC_hasRights('comment.submit')) {
         // comment into comment submission table enabled
         if (isset($name)) {
-            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,name,comment,type,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$name','$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,name,comment,type,date,title,pid,ipaddress) "
+                   . "VALUES ('$sid',$uid,'$name','$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         } else {
-            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,comment,type,date,title,pid,ipaddress) VALUES ('$sid',$uid,'$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
+            DB_query("INSERT INTO {$_TABLES['commentsubmissions']} (sid,uid,comment,type,date,title,pid,ipaddress) "
+                   . "VALUES ('$sid',$uid,'$comment','$type',NOW(),'$title',$pid,'{$_SERVER['REMOTE_ADDR']}')");
         }
 
         $ret = -1; // comment queued
     } elseif ($pid > 0) {
         DB_lockTable ($_TABLES['comments']);
 
-        $result = DB_query("SELECT rht, indent FROM {$_TABLES['comments']} WHERE cid = $pid "
-                         . "AND sid = '$sid'");
+        $result = DB_query("SELECT rht, indent FROM {$_TABLES['comments']} WHERE cid = $pid AND sid = '$sid'");
         list($rht, $indent) = DB_fetchArray($result);
         if ( !DB_error() ) {
             $rht2=$rht+1;
@@ -1178,19 +1169,32 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
                 DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress',
              "'$sid',$uid,'$comment',now(),'$title',$pid,$rht,$rht2,$indent,'$type','{$_SERVER['REMOTE_ADDR']}'");
             }
-            
+
+            $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
+            // notify parent of new comment
+            // NOTE: This could be modified to send notifications to all parents in the comment tree
+            //       with only a modification to the below SELECT statement
+            if ($_CONF['allow_reply_notifications'] == 1) {
+                $result = DB_query("SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = $pid");
+                $A = DB_fetchArray($result);
+                if ($A !== false) {
+                    CMT_sendReplyNotification($A);
+                }
+            }
         } else { //replying to non-existent comment or comment in wrong article
             COM_errorLog("CMT_saveComment: $uid from {$_SERVER['REMOTE_ADDR']} tried "
                        . 'to reply to a non-existent comment or the pid/sid did not match');
             $ret = 4; // Cannot return here, tables locked!
         }
+        DB_unlockTable($_TABLES['comments']);
     } else {
+        DB_lockTable ($_TABLES['comments']);
         $rht = DB_getItem($_TABLES['comments'], 'MAX(rht)', "sid = '$sid'");
         if ( DB_error() ) {
             $rht = 0;
         }
-        $rht2=$rht+1;
-        $rht3=$rht+2;
+        $rht2=$rht+1;  // value of new comment's "lft"
+        $rht3=$rht+2;  // value of new comment's "rht"
         if (isset($name)) {
             DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress,name',
                 "'$sid',$uid,'$comment',now(),'$title',$pid,$rht2,$rht3,0,'$type','{$_SERVER['REMOTE_ADDR']}','$name'");
@@ -1198,19 +1202,8 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             DB_save ($_TABLES['comments'], 'sid,uid,comment,date,title,pid,lft,rht,indent,type,ipaddress',
                 "'$sid',$uid,'$comment',now(),'$title',$pid,$rht2,$rht3,0,'$type','{$_SERVER['REMOTE_ADDR']}'");
         }
-        
-    }
-
-    $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
-    DB_unlockTable($_TABLES['comments']);
-
-    // notify of new comment 
-    if ($_CONF['allow_reply_notifications'] == 1 && $pid > 0 && $ret == 0) {
-        $result = DB_query("SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = $pid");
-        $A = DB_fetchArray($result);
-        if ($A !== false) {
-            CMT_sendReplyNotification($A);
-        }
+        $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
+        DB_unlockTable($_TABLES['comments']);
     }
 
     // save user notification information
@@ -1232,11 +1225,9 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             $cid = 0; // comment went into the submission queue
         }
         if (($uid == 1) && isset($username)) {
-            CMT_sendNotification($title, $comment, $uid, $username,
-                                 $_SERVER['REMOTE_ADDR'], $type, $cid);
+            CMT_sendNotification($title, $comment, $uid, $username, $_SERVER['REMOTE_ADDR'], $type, $cid);
         } else {
-            CMT_sendNotification($title, $comment, $uid, '',
-                                 $_SERVER['REMOTE_ADDR'], $type, $cid);
+            CMT_sendNotification($title, $comment, $uid, '', $_SERVER['REMOTE_ADDR'], $type, $cid);
         }
     }
     
@@ -1409,12 +1400,8 @@ function CMT_reportAbusiveComment ($cid, $type)
         return $retval;
     }
 
-    $start = new Template($_CONF['path_layout'] . 'comment');
+    $start = COM_newTemplate($_CONF['path_layout'] . 'comment');
     $start->set_file(array('report' => 'reportcomment.thtml'));
-    $start->set_var('xhtml', XHTML);
-    $start->set_var('site_url', $_CONF['site_url']);
-    $start->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $start->set_var('layout_url', $_CONF['layout_url']);
     $start->set_var('lang_report_this', $LANG03[25]);
     $start->set_var('lang_send_report', $LANG03[10]);
     $start->set_var('cid', $cid);
@@ -1620,6 +1607,9 @@ function CMT_handleEditSubmit($mode = null)
 function CMT_prepareText($comment, $postmode, $type, $edit = false, $cid = null)
 {
     global $_USER, $_TABLES, $LANG03, $_CONF; 
+
+    // Remove any autotags the user doesn't have permission to use
+    $comment = PLG_replaceTags($comment, '', true);    
     
     if ($postmode == 'html') {
         $html_perm = ($type == 'article') ? 'story.edit' : "$type.edit";

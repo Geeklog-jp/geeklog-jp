@@ -148,7 +148,7 @@ function links_list($message)
         }
     }
 
-    $linklist = new Template ($_CONF['path'] . 'plugins/links/templates/');
+    $linklist = COM_newTemplate($_CONF['path'] . 'plugins/links/templates/');
     $linklist->set_file (array ('linklist' => 'links.thtml',
                                 'catlinks' => 'categorylinks.thtml',
                                 'link'     => 'linkdetails.thtml',
@@ -158,10 +158,6 @@ function links_list($message)
                                 'actcol'   => 'categoryactivecol.thtml',
                                 'pagenav'  => 'pagenavigation.thtml',
                                 'catdrop'  => 'categorydropdown.thtml'));
-    $linklist->set_var('xhtml', XHTML);
-    $linklist->set_var('site_url', $_CONF['site_url']);
-    $linklist->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $linklist->set_var('layout_url', $_CONF['layout_url']);
     $linklist->set_var('blockheader', COM_startBlock($LANG_LINKS[114]));
 
     if ($_LI_CONF['linkcols'] > 0) {
@@ -216,7 +212,7 @@ function links_list($message)
                     $linklist->set_var ('category_description', '');
                 }
                 $linklist->set_var ('category_link', $_CONF['site_url'] .
-                    '/links/index.php?category=' . urlencode ($C['cid']));
+                    '/links/index.php?category=' . rawurlencode ($C['cid']));
                 $linklist->set_var ('category_count', $display_count);
                 $linklist->set_var ('width', floor (100 / $_LI_CONF['linkcols']));
                 if (!empty($cid) && ($cid == $C['cid'])) {
@@ -247,7 +243,7 @@ function links_list($message)
 
     $linklist->set_var('cid', $cid);
     $linklist->set_var('cid_plain', $cid);
-    $linklist->set_var('cid_encoded', urlencode($cid));
+    $linklist->set_var('cid_encoded', rawurlencode($cid));
     $linklist->set_var('lang_addalink', $LANG_LINKS[116]);
 
     // Build SQL for links
@@ -329,7 +325,7 @@ function links_list($message)
         }
         if ($pages > 0) {
             if (($_LI_CONF['linkcols'] > 0) && !empty($currentcid)) {
-                $catlink = '?category=' . urlencode($currentcid);
+                $catlink = '?category=' . rawurlencode($currentcid);
             } else {
                 $catlink = '';
             }
@@ -367,9 +363,9 @@ function prepare_link_item($A, &$template)
 
     $template->set_var('link_url', $url);
     $template->set_var('link_actual_url', $actualUrl);
-    $template->set_var('link_actual_url_encoded', urlencode($actualUrl));
+    $template->set_var('link_actual_url_encoded', rawurlencode($actualUrl));
     $template->set_var('link_name', $title);
-    $template->set_var('link_name_encoded', urlencode($title));
+    $template->set_var('link_name_encoded', rawurlencode($title));
     $template->set_var('link_hits', COM_numberFormat($A['hits']));
     $template->set_var('link_description',
                        PLG_replaceTags( nl2br(stripslashes($A['description'])) ));

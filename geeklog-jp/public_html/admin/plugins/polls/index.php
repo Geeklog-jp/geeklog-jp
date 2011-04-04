@@ -229,10 +229,6 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
         exit;
     }
 
-    if (empty ($voters)) {
-        $voters = 0;
-    }
-
     if ($_POLL_VERBOSE) {
         COM_errorLog('owner permissions: ' . $perm_owner, 1);
         COM_errorLog('group permissions: ' . $perm_group, 1);
@@ -260,7 +256,6 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     $meta_keywords = addslashes($meta_keywords);
 
     $k = 0; // set up a counter to make sure we do assign a straight line of question id's
-    $v = 0; // re-count votes sine they might have been changed
     // first dimension of array are the questions
     $num_questions = count($Q);
     for ($i = 0; $i < $num_questions; $i++) {
@@ -283,14 +278,17 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
                     $sql = "INSERT INTO {$_TABLES['pollanswers']} (pid, qid, aid, answer, votes, remark) VALUES "
                         . "('$pid', '$k', " . ($j+1) . ", '{$A[$i][$j]}', {$V[$i][$j]}, '{$R[$i][$j]}');";
                     DB_query($sql);
-                    $v = $v + $V[$i][$j];
                 }
             }
             $k++;
         }
     }
+    
+    // determine the number of voters
+    $numvoters = DB_count($_TABLES['pollvoters'], 'pid', $pid);
+    
     // save topics after the questions so we can include question count into table
-    $sql = "'$pid','$topic','$meta_description','$meta_keywords',$v, $k, '$created_date', '" . date ('Y-m-d H:i:s');
+    $sql = "'$pid','$topic','$meta_description','$meta_keywords',$numvoters, $k, '$created_date', '" . date ('Y-m-d H:i:s');
 
     if ($mainpage == 'on') {
         $sql .= "',1";
@@ -348,7 +346,7 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
 function editpoll ($pid = '')
 {
     global $_CONF, $_PO_CONF, $_GROUPS, $_TABLES, $_USER, $LANG25, $LANG_ACCESS,
-           $LANG_ADMIN, $MESSAGE, $LANG_POLLS;
+           $LANG_ADMIN, $MESSAGE, $LANG_POLLS, $_SCRIPTS;
 
     $retval = '';
 
@@ -390,15 +388,11 @@ function editpoll ($pid = '')
     );
     $retval .= SEC_getTokenExpiryNotice($token);
 
-    $poll_templates = new Template ($_CONF['path']
+    $poll_templates = COM_newTemplate($_CONF['path']
                                     . 'plugins/polls/templates/admin/');
     $poll_templates->set_file (array ('editor' => 'polleditor.thtml',
                                       'question' => 'pollquestions.thtml',
                                       'answer' => 'pollansweroption.thtml'));
-    $poll_templates->set_var ( 'xhtml', XHTML );
-    $poll_templates->set_var ('site_url', $_CONF['site_url']);
-    $poll_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $poll_templates->set_var ('layout_url', $_CONF['layout_url']);
 
     if (!empty ($pid) AND ($access == 3) AND !empty ($T['owner_id'])) {
         $delbutton = '<input type="submit" value="' . $LANG_ADMIN['delete']
@@ -428,6 +422,8 @@ function editpoll ($pid = '')
         $T['commentcode'] = $_CONF['comment_code'];
         $access = 3;
     }
+    
+    $_SCRIPTS->setJavaScriptFile('polls_editor', '/polls/polls_editor.js');
 
     $poll_templates->set_var('lang_pollid', $LANG25[6]);
     $poll_templates->set_var('poll_id', $T['pid']);

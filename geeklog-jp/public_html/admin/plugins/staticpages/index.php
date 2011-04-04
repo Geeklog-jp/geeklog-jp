@@ -68,7 +68,7 @@ function staticpageeditor_form($A, $error = false)
 {
     global $_CONF, $_TABLES, $_USER, $_GROUPS, $_SP_CONF, $mode, $sp_id,
            $LANG21, $LANG_STATIC, $LANG_ACCESS, $LANG_ADMIN, $LANG24,
-           $LANG_postmodes, $MESSAGE, $_IMAGE_TYPE;
+           $LANG_postmodes, $MESSAGE, $_IMAGE_TYPE, $_SCRIPTS;
 
     $template_path = staticpages_templatePath('admin');
     if (!empty($sp_id) && $mode=='edit') {
@@ -91,9 +91,14 @@ function staticpageeditor_form($A, $error = false)
     }
     $retval = '';
 
-    $sp_template = new Template($template_path);
+    $sp_template = COM_newTemplate($template_path);
     if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
         $sp_template->set_file('form', 'editor_advanced.thtml');
+        
+        $js = '// Setup editor path for FCKeditor JS Functions
+            geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
+        $_SCRIPTS->setJavaScript($js, true);        
+        $_SCRIPTS->setJavaScriptFile('staticpages_fckeditor', '/javascript/staticpages_fckeditor.js');
 
         $sp_template->set_var('lang_expandhelp', $LANG24[67]);
         $sp_template->set_var('lang_reducehelp', $LANG24[68]);
@@ -127,11 +132,6 @@ function staticpageeditor_form($A, $error = false)
     } else {
         $sp_template->set_file('form', 'editor.thtml');
     }
-
-    $sp_template->set_var('xhtml', XHTML);
-    $sp_template->set_var('site_url', $_CONF['site_url']);
-    $sp_template->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $sp_template->set_var('layout_url', $_CONF['layout_url']);
 
     $sp_template->set_var('lang_mode', $LANG24[3]);
     $sp_template->set_var('comment_options',
@@ -440,21 +440,10 @@ function staticpageeditor_form($A, $error = false)
                                $content);
     }
     $sp_template->set_var('sp_content', $content);
-    if ($_SP_CONF['filter_html'] == 1) {
-        $allowed = COM_allowedHTML('staticpages.edit');
-        $sp_template->set_var('lang_allowedhtml', $allowed);
-        $sp_template->set_var('lang_allowed_html', $allowed);
-    } else {
-        $sp_template->set_var('lang_allowedhtml',
-                              $LANG_STATIC['all_html_allowed']);
-        $allowed = '<span class="warningsmall">'
-                 . $LANG_STATIC['all_html_allowed'] . ',</span>' . LB
-                 . '<div dir="ltr" class="warningsmall">';
-        $autotags = array_keys(PLG_collectTags());
-        $allowed .= '[' . implode(':], [', $autotags) . ':]';
-        $allowed .= '</div>';
-        $sp_template->set_var('lang_allowed_html', $allowed);
-    }
+
+    $allowed = COM_allowedHTML('staticpages.edit', false, $_SP_CONF['filter_html']);
+    $sp_template->set_var('lang_allowedhtml', $allowed);
+    $sp_template->set_var('lang_allowed_html', $allowed);
     $sp_template->set_var('lang_hits', $LANG_STATIC['hits']);
     if (empty($A['sp_hits'])) {
         $sp_template->set_var('sp_hits', '0');

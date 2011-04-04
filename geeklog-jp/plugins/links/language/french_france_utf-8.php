@@ -52,6 +52,7 @@ $LANG_LINKS = array(
     124 => 'Go',
     125 => 'Catégories',
     126 => 'Vous êtes ici :',
+    'autotag_desc_link' => '[link: id alternate title] - Displays a link to a Link from the Links Plugin using the Link Title as the title. An alternate title may be specified but is not required.',
     'root' => 'Accueil'
 );
 
@@ -132,7 +133,7 @@ $LANG_LINKS_ADMIN = array(
     9 => 'Description',
     10 => 'Vous devez saisir un titre, une URL et une description.',
     11 => 'Manager des liens',
-    12 => 'Pour modifier ou effacer un lien, cliquez sur l\'icone du lien ci-dessous.  Pour créer un nouveau lien ou une nouvelle catégorie, cliquez sur "Nouveau lien" ou "Nouvelle catégorie" ci-dessus. Pour éditer des catégories multiples, cliquez sur "editez des catégories" ci-dessous.',
+    12 => 'To modify or delete a link, click on that link\'s edit icon below.  To create a new link or a new category, click on "New link" or "New category" above. To edit multiple categories, click on "List categories" above.',
     14 => 'Catégories',
     16 => 'Accès refusé',
     17 => "Vous essayez d'accéder à un lien sur lequel vous n'avez pas de droit. Cette tentative est enregistrée. Merci de <a href=\"{$_CONF['site_admin_url']}/plugins/links/index.php\">retourner à l'interface d'administration</a>.",
@@ -239,18 +240,28 @@ $LANG_confignames['links'] = array(
     'new_window' => 'Ouvrir les liens externes dans une nouvelle fenêtre?',
     'root' => 'ID de la catégorie Root',
     'default_permissions' => 'Permissions par défaut des liens',
-    'category_permissions' => 'Permissions par défaut des catégories'
+    'category_permissions' => 'Permissions par défaut des catégories',
+    'autotag_permissions_link' => '[link: ] Permissions'
 );
 
 $LANG_configsubgroups['links'] = array(
     'sg_main' => 'Paramètres principaux'
 );
 
+$LANG_tab['links'] = array(
+    'tab_public' => 'Public Links List Settings',
+    'tab_admin' => 'Links Admin Settings',
+    'tab_permissions' => 'Link Permissions',
+    'tab_cpermissions' => 'Category Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['links'] = array(
     'fs_public' => 'Paramètres de la liste publique des liens',
     'fs_admin' => 'Paramètres administrateur des liens',
     'fs_permissions' => 'Permissions des liens',
-    'fs_cpermissions' => 'Permissions des catégories'
+    'fs_cpermissions' => 'Permissions des catégories',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -258,7 +269,8 @@ $LANG_configselects['links'] = array(
     0 => array('Oui' => 1, 'Non' => 0),
     1 => array('Oui' => true, 'Non' => false),
     9 => array('Afficher le lien' => 'item', 'Afficher la liste administrateur' => 'list', 'Afficher la liste publique' => 'plugin', 'Afficher page d\'accueil' => 'home', 'Afficher l\'interface Admin' => 'admin'),
-    12 => array('Pas d\'accès' => 0, 'Lecture seule' => 2, 'Lecture-Ecriture' => 3)
+    12 => array('Pas d\'accès' => 0, 'Lecture seule' => 2, 'Lecture-Ecriture' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>
