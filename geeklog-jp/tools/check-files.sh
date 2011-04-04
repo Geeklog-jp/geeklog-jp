@@ -1,7 +1,7 @@
 #!/bin/sh
 # $Id$
 #
-# Copyright (C) 2008
+# Copyright (C) 2008-2011
 # Takahiro Kambe.  All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@
 #
 # 以下のサフィックスのファイルはテキストではないものとしてチェックしません。
 #
-binaries="bat bmp dat data gd2 gif jpg jpeg pdf png ttf"
+binaries="bat bmp dat data gd2 gif ico jpg jpeg pdf png ttf"
 
 unset LANG
 
