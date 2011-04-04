@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年3月6日
+							2011年4月4日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.7.2-jp-1.0の内容
+2. Geeklog 1.7.2-jp-1.1の内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -67,7 +67,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	ファイル管理プラグイン(Filemgmt) バージョン 1.6.0.jp3
 		ファイルのダウンロード機能を提供します。
 
-	掲示板プラグイン(Forum) バージョン 2.7.4.JPr1
+	掲示板プラグイン(Forum) バージョン 2.7.5.JPr1
 		掲示板機能を提供します。
 
 	Mycaljpプラグイン(Mycaljp) バージョン 2.1.3
