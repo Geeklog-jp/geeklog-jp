@@ -18,6 +18,126 @@
 
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
+<h2>Apr 3, 2011 (1.8.0b1)</h2>
+
+<p>This release includes the results from the 2010 Google Summer of Code project
+to improve the Configuration (input validation, searching), implemented by
+Akeda Bagus.</p>
+
+<ul>
+  <li>Added a COM_newTemplate function to allow overriding template
+    instantiation (feature request #0001220, patch provided by Joe
+    Mucchiello)</li>
+  <li>Fixed the "Mail user" form to not lose all filled-in values when an error
+    occured (bug #0001270) [Rouslan]</li>
+  <li>Clean up images directory and added new icons (bug #0001276) [Tom,
+    Rouslan]</li>
+  <li>Added support for OAuth remote authentication, provided by Hiroshi
+    Sakuramoto, and added re-syncing of remote user data (feature
+    request #0001191) [Tom]</li>
+  <li>Updated bigdump.php (as used in the install script's Migrate option)
+    to the latest version (feature request #0001143) [Rouslan]</li>
+  <li>Removed dependency on JavaScript from some admin pages (feature request
+    #0001243) [Rouslan]</li>
+  <li>Added support to check version dependencies with plugins and Geeklog, and
+    plugins with other plugins (feature request #0001154) [Rouslan]</li>
+  <li>Check database requirements before installing a plugin (feature request
+    #0001288) [Rouslan]</li>
+  <li>Using fopen() to locate a plugin's icon may not provide the expected
+    result (bug #0001265) [Rouslan]</li>
+  <li>A story's bodytext doesn't need to be evaluated when displaying the site's
+    index page (patch #0001204, provided by LWC)</li>
+  <li>The status of the "Send me a copy of this email" option was lost when the
+    form wasn't filled out correctly (bug #0001240, patch provided by Rouslan
+    Placella)</li>
+  <li>Database backup files > 2GB prevented displaying the list of db backup
+    files on some 32 bit systems. Added some workarounds (bug #0001257)
+    [Dirk]</li>
+  <li>Fixed replacing the [imageX] tags when changing a story's id
+    (bug #0001256) [Dirk]</li>
+  <li>Fixed logging of SQL errors during the startup phase [Dirk]</li>
+  <li>The load order of plugins is now configurable (feature request #0001247,
+    patch provided by Rouslan Placella)</li>
+  <li>The list of plugins is now sortable by status (patch #0001249, provided by
+    Rouslan Placella)</li>
+  <li>Added a PLG_getFooterCode function and corresponding {plg_footercode}
+    variable in footer.thtml. This will allow plugins to add code to a site's
+    footer, e.g. to load JavaScript code as late as possible (based on patch
+    #0000906, provided by hiroron) [Dirk]</li>
+  <li>COM_onFrontpage didn't work correctly when called from a theme's
+    functions.php (bug #0001254, patch provided by mystral-kk)</li>
+  <li>Introduced COM_versionCompare() to compare Geeklog version numbers, since
+    they can't be compared using the PHP version_compare() function (feature
+    request #0000866, patch provided by Rouslan Placella)</li>
+  <li>When importing RSS feeds, accept a non-permanent guid as a link if
+    there is no dedicated link element, as long as the guid looks like a
+    URL [Dirk]</li>
+  <li>Added a noindex robots meta tag to printable story pages so they aren't
+    indexed by search engines [Tom]</li>
+  <li>Autotags in Templates may not always display (bug #0001246) [Tom]
+  <li>Handle $bulkimport flag in the CUSTOM_userCreate() sample code in
+    lib-custom.php (bug #0001208) [Dirk]<br />
+    If you are using your own CUSTOM_userCreate(), please check that you handle
+    this flag (set to true when doing a Batch User Import) correctly!</li>
+  <li>Set minimum required PHP version to PHP 5.2.0 and removed all code that
+    ensured compatibility with PHP 4 (feature request #0001217) [Dirk]</li>
+  <li>Minor optimization and code cleanup in CMT_saveComment (bug #0000939)
+    [Vinny]</li>
+  <li>Added a proper copyright header and license text (LGPLv2) to the template
+    class (feature request #0001128) [Dirk]</li>
+  <li>Fixed check for availability of PECL::ZipArchive in the unpacker class
+    (bug #0001209) [Dirk]</li>
+  <li>Added in Autotag usage permissions and descriptions. Allowed HTML now 
+    displays autotag descriptions as tooltips (feature request #0001042)
+    [Tom]</li>
+  <li>Added in COM_Tooltip function for displaying tooltips [Tom]</li>
+  <li>Moved handling of the [story:] and [user:] autotags to lib-story.php and
+    lib-user.php, respectively (preparations for feature request #0001115)
+    [Dirk]</li>
+</ul>
+
+<h3>Calendar Plugin</h3>
+<ul>
+  <li>Fixed a minor display issue in the batchdelete.thtml (patch #0001244,
+    provided by Rouslan Placella)</li>
+</ul>
+
+<h3>Links Plugin</h3>
+
+<ul>
+<li>Fixed encoding of link categories in URLs (bug #0001173) [Tom]<br />
+  Note: This fix changes the URLs of categories with spaces in their names
+  from using a '+' sign to using '%20'.</li>
+<li>Fixed text above the list of links, which was referring to a menu entry that
+  no longer exists (bug #0001216)</li>
+</ul>
+
+<h3>Polls Plugin</h3>
+
+<ul>
+  <li>Updated the default poll (feature request #0001277) [Rouslan]
+  <li>Fixed voters do not get counted correctly when updating a poll with
+    multiple questions. (patch #0001056, provided by Erisco)</li>
+</ul>
+
+<h3>Static Pages Plugin</h3>
+
+<ul>
+  <li>Removed unwanted piece of HTML on "empty" static pages (bug #0001192)
+    [Rouslan]</li>
+  <li>Added a noindex robots meta tag to printable pages so they aren't
+    indexed by search engines [Tom]</li>
+</ul>
+
+<h3>XMLSitemap Plugin</h3>
+
+<ul>
+  <li>Removed an unused xmlsitemap.edit permission that existed in some installs
+    (left by all fresh installs with Geeklog version 1.6.0 through to 1.7.0)
+    [Dirk]</li>
+</ul>
+
+
 <h2>Feb 20, 2011 (1.7.2)</h2>
 
 <p><strong>注意:</strong> Geeklog 1.7.2はPHP 4で動作する最後のGeeklogのバージョンです。必要な場合は、このバージョンのセキュリティ修正を2012年まで提供します。新しい機能はPHP 5.2.0以上を要求するGeeklog 1.8.0以降のバージョンのみに追加します。詳細はgeeklog.netの<a href="http://www.geeklog.net/article.php/end-of-php4-support">アナウンス</a>を参照してください。</p>
