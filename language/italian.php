@@ -2,12 +2,12 @@
 
 ###############################################################################
 # italian.php
-# Traduzione italiana per GeekLog!
+# Traduzione italiana per Geeklog!
 # Special thanks to Mischa Polivanov for his work on this project
 #
 # Copyright (C) 2002 quess65 webmaster@dynamikteam.net
 # Copyright (C) 2005 magomarcelo magomarcelo@gmail.com magomarcelo.blogspot.com
-# Copyright (C) 2010 Roccivic rouslan@placella.com
+# Copyright (C) 2011 Rouslan Placella rouslan {at} placella {dot} com
 #
 # Questo programma è free software; puoi ridistribuire e/o
 # modificarlo sotto i termini della GNU General Public License
@@ -149,7 +149,7 @@ $LANG01 = array(
     104 => 'da',
     105 => 'Invio E-mail',
     106 => 'Visualizzazioni:',
-    107 => 'Test Versione GeekLog',
+    107 => 'Test Versione Geeklog',
     108 => 'Svuota Cache',
     109 => 'Segnala abuso',
     110 => 'Segnala questo inserimento all\'ammin. del sito',
@@ -172,7 +172,12 @@ $LANG01 = array(
     127 => 'Collegamento permanente',
     128 => 'Accedi con OpenID:',
     129 => 'Configurazione',
-    130 => 'Servizi Web'
+    130 => 'Servizi Web',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -254,7 +259,7 @@ $LANG04 = array(
     23 => "<div align=\"justify\">La creazione di un Account Utente dá la possibilitá di partecipare alla costruzione di {$_CONF['site_name']} e ti permette di inviare commenti e articoli realizzati da te. Senza un Account sarai in grado di inserire solo come Anonimo. Prego nota che il tuo indirizzo e-mail non sará <b><i>mai</i></b> pubblicamente visualizzata su questo sito.</div>",
     24 => 'La tua password sará inviata all\'indirizzo da te inserito.',
     25 => 'Hai dimenticato la tua password?',
-    26 => 'Inserisci il tuo nome utente <em>o</em> l\'indirizzo e-mail usato per registrarti e fai clic su "Invia Password via E-mail". Le istruzioni su come impostare una nuova password ti saranno inviate all\'indirizzo con il quale ti sei registrato.',
+    26 => 'Inserisci il tuo nome utente <em>o</em> l\'indirizzo e-mail usato per registrarti e fai clic su \'Invia Password via E-mail\'. Le istruzioni su come impostare una nuova password ti saranno inviate all\'indirizzo con il quale ti sei registrato.',
     27 => 'Registrati Ora!',
     28 => 'Invia Password via E-mail',
     29 => 'uscito da',
@@ -388,7 +393,8 @@ $LANG04 = array(
     162 => 'non sará ridimensionato',
     163 => 'Re-Autenticazione Fallita',
     164 => 'Hai superato il numero di tentativi consentiti per la re-autenticazione. Quest\'azione é stata annullata e le tue recenti modifiche sono state perse.',
-    165 => 'Usa l\'Editor Avanzato'
+    165 => 'Usa l\'Editor Avanzato',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -427,7 +433,7 @@ $LANG08 = array(
     3 => 'Prego assicurati di usare un indirizzo e-mail valido nel campo Rispondi a:.',
     4 => 'Prego compila i campi Tuo Nome, Rispondi a:,Soggetto e Messaggio',
     5 => 'Errore: Nessun Utente.',
-    6 => 'C\'é stato un errore.',
+    6 => 'Si é verificato un errore.',
     7 => 'Profilo Utente per',
     8 => 'Nome Utente',
     9 => 'URL Utente',
@@ -438,7 +444,7 @@ $LANG08 = array(
     14 => 'Messaggio:',
     15 => 'L\'HTML non sará tradotto.',
     16 => 'Invia Messaggio',
-    17 => 'Spedisci l\'Articolo a un amico',
+    17 => 'Invia l\'Articolo a un amico',
     18 => 'A Nome',
     19 => 'A Indirizzo E-mail',
     20 => 'Da Nome',
@@ -588,7 +594,7 @@ $LANG11 = array(
     3 => 'Articolo in Formato Stampabile',
     4 => 'Opzioni',
     5 => '',
-    6 => 'Sottoscrivi a \'%s\''
+    6 => 'Sottoscrivi a "%s"'
 );
 
 ###############################################################################
@@ -710,7 +716,7 @@ $LANG21 = array(
     35 => 'Devi inserire il titolo e il contenuto del blocco Normale',
     36 => 'Devi inserire il contenuto per il layout blocco',
     37 => 'Errato nome della funzione Blocco PHP',
-    38 => 'La funzione per il Blocco PHP deve avere il prefisso \'phpblock_\' (es. phpblock_getweather).  Il prefisso \'phpblock_\' é richiesto per ragioni di sicurezza in particolare per prevenire le esecuzioni di codice arbitrario.',
+    38 => 'La funzione per il Blocco PHP deve avere il prefisso "phpblock_" (es. phpblock_getweather).  Il prefisso "phpblock_" é richiesto per ragioni di sicurezza in particolare per prevenire le esecuzioni di codice arbitrario.',
     39 => 'Lato',
     40 => 'Sinistro',
     41 => 'Destro',
@@ -736,7 +742,7 @@ $LANG21 = array(
     61 => 'Nessun titolo',
     62 => 'Limito per Articoli',
     63 => 'Titolo del blocco non consentito',
-    64 => 'Il tuo titolo non puo essera vuoto ed HTML non &egrave consentito!',
+    64 => 'Il tuo titolo non puo essera vuoto ed HTML non é consentito!',
     65 => 'Ordina',
     66 => 'Autotag',
     67 => 'Seleziona per consentire "autotag"',
@@ -769,7 +775,7 @@ $LANG24 = array(
     20 => 'Ping',
     21 => 'Invia Ping',
     22 => 'Lista Articoli',
-    23 => 'Per modificare o eliminare un articolo, fai clic sul numero dell\'articolo. <br' . XHTML . '>Per visualizzare un articolo, fai clic sul titolo dell\'articolo desiderato. <br' . XHTML . '>Per creare un nuovo articolo fai clic su [ Nuovo Articolo ] sopra.',
+    23 => 'Per modificare o eliminare un articolo, fai clic sul numero dell\'articolo. <br\' . XHTML . \'>Per visualizzare un articolo, fai clic sul titolo dell\'articolo desiderato. <br' . XHTML . '>Per creare un nuovo articolo fai clic su [ Nuovo Articolo ] sopra.',
     24 => 'L\'ID da te scelto per questo articolo é giá in uso. Prego scegli un altro ID.',
     25 => 'Si é verificato un errore durante il salvataggio dell\'articolo',
     26 => 'Anteprima Articolo',
@@ -837,7 +843,8 @@ $LANG24 = array(
     88 => 'Formato dello stile Wiki',
     89 => 'Meta Description',
     90 => 'Meta Keywords',
-    91 => 'É possibile estendere il tempo scadenza.'
+    91 => 'É possibile estendere il tempo scadenza.',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -852,7 +859,7 @@ $LANG27 = array(
     6 => 'Eliminando un argomento eliminerai anche gli articoli e i blocchi ad esso associati',
     7 => 'Prego compila i campi ID Argomento e Nome Argomento',
     8 => 'Manager Argomenti',
-    9 => 'Per modificare o eliminare un argomento, fai clic sull\'argomento selezionato. <br' . XHTML . '>Per creare un nuovo argomento fai clic su [ Nuovo ] in alto. <br' . XHTML . '>Dovresti trovare il tuoi permessi di accesso per ogni argomento elencati fra parentesi. L\'Asterisco (*) indica l\'argomento di default.',
+    9 => 'Per modificare o eliminare un argomento, fai clic sull\'argomento selezionato. <br' . XHTML . '>Per creare un nuovo argomento fai clic su [ Nuovo ] in alto. <br\' . XHTML . \'>Dovresti trovare il tuoi permessi di accesso per ogni argomento elencati fra parentesi. L\'Asterisco (*) indica l\'argomento di default.',
     10 => 'Ordinamento',
     11 => 'Articoli/Pagina',
     12 => 'Accesso negato',
@@ -931,7 +938,7 @@ $LANG28 = array(
     49 => 'Gruppo Amministratori',
     50 => 'Seleziona per nascondere questo gruppo di Ammistratori.',
     51 => 'Giorni Online',
-    52 => '<br' . XHTML . '>Nota: "Giorni Online" é il numero di giorni trascorsi tra la registrazione dell\'utente e l\'ultimo login.',
+    52 => '<br' . XHTML . '>Nota: \'Giorni Online\' é il numero di giorni trascorsi tra la registrazione dell\'utente e l\'ultimo login.',
     53 => 'registrato',
     54 => 'Batch Delete',
     55 => 'Questo funziona solo se hai <code>$_CONF[\'lastlogin\'] = true;</code> nel tuo file "config.php"',
@@ -969,7 +976,8 @@ $LANG28 = array(
     87 => 'Promemoria',
     88 => 'Gruppo Predefinito',
     89 => 'Seleziona per rendere questo il gruppo predefinito per i nuovi utenti',
-    90 => 'Applica il cambiamento al "Gruppo Predefinito" agli account degli utenti esistenti'
+    90 => 'Applica il cambiamento al "Gruppo Predefinito" agli account degli utenti esistenti',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1079,6 +1087,33 @@ $LANG32 = array(
     40 => 'Puoi caricare una plug-in compressa (.tar.gz, .tgz, .zip) direttamente qui:',
     41 => 'Carica',
     42 => 'Clicca per aggiornare',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'Si é verificato un errore sconosiuto',
     100 => 'Ok.',
     101 => 'Il file caricato eccede la direttiva upload_max_filesize in php.ini.',
@@ -1140,7 +1175,7 @@ $LANG33 = array(
     48 => 'Modifica',
     49 => 'Logo del Flusso',
     50 => "Relativo all'indirizzo del sito ({$_CONF['site_url']})",
-    51 => 'Il nome del file selezionato é giá utilizzato da un altra \'feed\'. Scegli un altro nome.',
+    51 => 'Il nome del file selezionato é giá utilizzato da un altra "feed". Scegli un altro nome.',
     52 => 'Errore: il nome del file é giá utilizzato',
     53 => 'Tutti gli articoli di copertina',
     54 => 'Seleziona il tipo di flusso da creare.',
@@ -1165,7 +1200,7 @@ $MESSAGE = array(
     12 => 'Il blocco é stato eliminato correttamente.',
     13 => 'Il tuo argomento é stato registrato correttamente.',
     14 => 'L\'argomento e tutte gli articoli e blocchi associati sono stati eliminati correttamente.',
-    15 => 'Your comment has been submitted for review and will be published when approved by a moderator.',
+    15 => 'Il tuo commento é stato salvato e verrá pubblicato appena approvato da un moderatore.',
     16 => 'You have been unsubscribed. You will no longer be notified of new replies.',
     17 => '',
     18 => '',
@@ -1208,9 +1243,9 @@ $MESSAGE = array(
     55 => 'Una e-mail ti é stata inviata e dovrebbe arrivare a breve. Prego segui le istruzioni contentute nel messaggio per impostare una nuova password per il tup account.',
     56 => 'L\'indirizzo e-mail da te fornito é giá in uso per un altro account.',
     57 => 'Il tuo account é stato eliminato.',
-    58 => 'Il tuo feed &egrave stato registrato correttamente.',
-    59 => 'Il feed &egrave stato eliminato correttamente.',
-    60 => 'Il plug-in &egrave stato aggiornato correttamente',
+    58 => 'Il tuo feed é stato registrato correttamente.',
+    59 => 'Il feed é stato eliminato correttamente.',
+    60 => 'Il plug-in é stato aggiornato correttamente',
     61 => 'Plug-in %s: Segnaposto messaggio sconosciuto',
     62 => 'Tutti i commenti di trackback sono stati disabilitati.',
     63 => 'Si é verificato un errore durante l\'eliminazione di un commento di trackback.',
@@ -1252,6 +1287,12 @@ $MESSAGE = array(
     99 => 'La plug-in giá esiste.',
     100 => 'Il file della plug-in caricata non era un archivio compresso del tipo Zip o GZip.',
     101 => 'Nessun argomento disponibile (ai quali hai accesso). Hai bisogno di almeno un argomento per inviare gli articoli.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'Non tutti i campi sono stati validati con successo.',
     401 => 'Inserisci il tuo nome completo'
 );
@@ -1283,7 +1324,7 @@ $LANG_ACCESS = array(
     'yes' => 'Si',
     'no' => 'No',
     'corerightsdescr' => "Questo Gruppo di {$_CONF['site_name']} é il gruppo principale. Per definizione i permessi di questo gruppo non possono essere modificati.  Sotto c'é la lista in sola lettura dei permessi a cui questo gruppo ha accesso.",
-    'groupmsg' => 'Il modello di sicurezza per i Gruppi in questo sito é di tipo gerarchico.  Aggiungendo questo gruppo a uno qualsiasi dei gruppi elencati sotto fa sí che il gruppo prenda gli stessi permessi del gruppo superiore.  Dove possibile siete incoraggiati a usare i gruppi sottostanti per dare i permessi al gruppo.  Se avete necessitá di dare dei permessi personalizzati al gruppo potete selezionare i permessi fra le varie funzioni del sito nella sezione chiamata \'Permessi\'.  Per aggiungere questo gruppo a uno dei gruppi sottostanti seleziona la spunta nella caselle del gruppo(i) che desideri modificare.',
+    'groupmsg' => 'Il modello di sicurezza per i Gruppi in questo sito é di tipo gerarchico.  Aggiungendo questo gruppo a uno qualsiasi dei gruppi elencati sotto fa sí che il gruppo prenda gli stessi permessi del gruppo superiore.  Dove possibile siete incoraggiati a usare i gruppi sottostanti per dare i permessi al gruppo.  Se avete necessitá di dare dei permessi personalizzati al gruppo potete selezionare i permessi fra le varie funzioni del sito nella sezione chiamata "Permessi".  Per aggiungere questo gruppo a uno dei gruppi sottostanti seleziona la spunta nella caselle del gruppo(i) che desideri modificare.',
     'coregroupmsg' => "Questo gruppo é il gruppo principale di {$_CONF['site_name']} .  Normalmente i gruppi che sono sottostanti a questo gruppo non posono essere modificati.  Sotto puoi trovare una lista in sola lettura dei gruppi associati a questo gruppo.",
     'rightsdescr' => 'Alcuni permessi di accesso ai gruppi possono essere settati direttamente al gruppo o a un gruppo differente facente parte del gruppo.  Quelli che vedi sotto non selezionati sono i permessi che sono stati impostati a questo gruppo in quanto facente parte di altri gruppi e quindi ereditati.  I permessi selezionabili sono i permessi che posono essere dati direttamente a questo gruppo.',
     'lock' => 'Bloccato',
@@ -1313,7 +1354,7 @@ $LANG_ACCESS = array(
     'groupmembers' => 'Membri del Gruppo',
     'canteditgroup' => 'Per modificare questo gruppo, devi esserne membro. Prego contatta l\'amministratore del sistema se pensi si tratti di un errore.',
     'cantlistgroup' => 'Per vedere i membri di questo gruppo, deve esserne membro tu stesso. Prego contatta l\'amministratore del sistema se pensi si tratti di un errore.',
-    'editgroupmsg' => 'Per modificare i membri del gruppo clicca su nome/nomi ed utilizza i pulsanti "aggiungi" o "rimuovi". Se l\'utente é fá parte di un gruppo, il suo nome verrá visualizato solo sul lato destro. Quando hai aompletatto - premi il pulsante "<b>Salva</b>" per aggiornare il gruppo e ritornare alla pagina amministrativa dei gruppi principale.',
+    'editgroupmsg' => 'Per modificare i membri del gruppo clicca su nome/nomi ed utilizza i pulsanti \'aggiungi\' o \'rimuovi\'. Se l\'utente é fá parte di un gruppo, il suo nome verrá visualizato solo sul lato destro. Quando hai aompletatto - premi il pulsante \'<b>Salva</b>\' per aggiornare il gruppo e ritornare alla pagina amministrativa dei gruppi principale.',
     'listgroupmsg' => 'Elenco di tutti i membri del gruppo corrente: <b>%s</b>',
     'search' => 'Cerca',
     'submit' => 'Invia',
@@ -1405,9 +1446,9 @@ $LANG_TRB = array(
     'from' => 'da',
     'tracked_on' => 'Trackback effettuato',
     'read_more' => '[ leggi ]',
-    'intro_text' => 'Qui puoi vedere cosa gli altri dicono di \'%s\':',
+    'intro_text' => 'Qui puoi vedere cosa gli altri dicono di "%s":',
     'no_comments' => 'Nessun commento di trackback.',
-    'this_trackback_url' => 'L\'indirizzo di Trackback per quest\'inserimento:',
+    'this_trackback_url' => 'L\'indirizzo di Trackback per questo inserimento:',
     'num_comments' => '%d commenti di trackback',
     'send_trackback' => 'Invia Ping',
     'preview' => 'Anteprima',
@@ -1461,7 +1502,7 @@ $LANG_TRB = array(
     'error_ping_url' => 'Inserisci l\'indirizzo di ping.',
     'no_services' => 'Nessun servizio di weblog impostato.',
     'services_headline' => 'Servizi di Weblog',
-    'service_explain' => 'Clicca sull\'icona di modifica di un servizio di weblog per modificarlo o eliminarlo. Clicca su "Nuovo" per aggiungere un nuovo servizio di weblog.',
+    'service_explain' => 'Clicca sull\'icona di modifica di un servizio di weblog per modificarlo o eliminarlo. Clicca su \'Nuovo\' per aggiungere un nuovo servizio di weblog.',
     'service' => 'Servizio',
     'ping_method' => 'Metodo di Ping',
     'service_website' => 'Sito Internet',
@@ -1513,7 +1554,7 @@ $LANG_SECTEST = array(
     'reachable' => '%s é accessibile dal Web.',
     'not_reachable' => 'Ottimo! %s non é accessibile dal Web.',
     'not_sure' => 'Il risultato %s é stato ricevuto mentre %s veniva esaminato. Scusa, ma non so cosa significa ...',
-    'remove_inst' => 'C\'é bisogno che rimuovi la cartella di installazione %s nonappena il tuo sito funziona senza errori.',
+    'remove_inst' => 'É necessario rimuovere la cartella di installazione %s nonappena il tuo sito funziona senza errori.',
     'remove_inst2' => 'Se viene lascita, utenti con cattive intenzioni potranno avere la possibilitá di rovinare la tua installazione, prendere il controllo del sito o accedere ad importanti informazioni.',
     'inst_removed' => 'Ottimo! Hai giá rimosso la cartella di installazione.',
     'fix_password' => 'Non hai ancora cambiato la <strong>password predefinita</strong> "password" su %s account del tipo Root.',
@@ -1594,14 +1635,18 @@ $LANG_ADMIN = array(
     'create_new' => 'Nuovo',
     'create_new_adv' => 'Nuovo (Avanzato)',
     'enabled' => 'Abilitato',
+    'disabled' => 'Disabled',
     'title' => 'Titolo',
     'page_title' => 'Titolo della Pagina',
     'type' => 'Tipo',
     'topic' => 'Argomento',
+    'info' => 'Info',
     'help_url' => 'Indirizzo per il File della Guida',
     'save' => 'Salva',
     'cancel' => 'Annulla',
+    'install' => 'Install',
     'delete' => 'Elimina',
+    'deleteitem' => 'Delete',
     'delete_sel' => 'Elimina la selezione',
     'copy' => 'Copia',
     'no_results' => '- Non é stato trovato alcun risultato -',
@@ -1614,6 +1659,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'Puoi modificare fino a %s. Dopo di che il codice di sicurezza impresso in questa pagina scadrá e tutte le modifiche verrano perse.',
     'token_expired' => 'Il codice di sicurezza per questa azione é scaduto. Si prega di autenticarsi di nuovo per procedere.',
     'reauth_msg' => 'Il codice di sicurezza per questa azione é scaduto. Se vuoi proseguire con quest\'azione, ti devi autenticare di nuovo. Questo permetterá di salvare le tue recenti modifiche.',
@@ -1691,7 +1738,10 @@ $LANG_CONFIG = array(
     'changes_made' => 'I cambiamenti sono stati applicati con successo a',
     'title' => 'Gestione della Configurazione',
     'disable' => 'Clicca per disabilitare quest\'opzione',
-    'enable' => 'Abilita'
+    'enable' => 'Abilita',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1707,6 +1757,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => 'E-Mail di No-Reply',
     'site_name' => 'Nome del sito',
     'site_slogan' => 'Slogan',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => 'Microsummary',
     'path_log' => 'Percorso per Log',
     'path_language' => 'Lingua',
@@ -1735,6 +1786,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => 'Mostra il nome del Servizio',
     'custom_registration' => 'Permetti Registrazione Personalizzata',
     'user_login_method' => 'Metodo di Accesso per Utenti',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Azioni Spam-X',
     'sort_admin' => 'Ordina Collegamenti',
     'language' => 'Lingua',
@@ -1794,6 +1854,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => 'Mostra il Collegamento per Home?',
     'whosonline_threshold' => 'Scadenza della Sessione',
     'whosonline_anonymous' => 'Nascondere Nomi dagli Utenti Anonimi?',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => 'Attivare Daily Digest?',
     'emailstorieslength' => 'Lunghezza degli Articoli',
     'emailstoriesperdefault' => 'Abilitare per Nuovi Utenti?',
@@ -1889,6 +1950,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => 'Lista di Parole Censurate',
     'ip_lookup' => 'Risoluzione IP',
     'url_rewrite' => 'Abilitare il Riscrivemento di Percorsi (URL Rewrite)',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'Meta Tag',
     'meta_description' => 'Meta Description Predefinito',
     'meta_keywords' => 'Meta Keywords Predefinito',
@@ -1910,7 +1972,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'Mostrare Limiti delle Pagine?',
     'search_separator' => 'Separatore di Gruppi',
     'search_def_keytype' => 'Metodo di Ricerca Predefinito',
-    'search_def_sort' => 'Ordine Predefinito'
+    'search_def_sort' => 'Ordine Predefinito',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1952,7 +2016,7 @@ $LANG_fs['Core'] = array(
     'fs_story' => 'Articolo',
     'fs_theme_advanced' => 'Impostazioni Avanzate',
     'fs_syndication' => 'Pubblicazione',
-    'fs_imagelib' => 'Libreria d\'Immagini',
+    'fs_imagelib' => 'Libreria delle Immagini',
     'fs_upload' => 'Carica',
     'fs_articleimg' => 'Immagini negli Articoli',
     'fs_topicicon' => 'Icone nell\'Argomento',
@@ -1965,7 +2029,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => 'Permessi Predefiniti per Articoli',
     'fs_perm_topic' => 'Permessi Predefiniti per Argomenti',
     'fs_perm_block' => 'Permessi Predefiniti per Blocco',
-    'fs_webservices' => 'Servizi Web'
+    'fs_webservices' => 'Servizi Web',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1994,9 +2101,57 @@ $LANG_configselects['Core'] = array(
     22 => array('Elevata' => 'DENY', 'Stessa Origine' => 'SAMEORIGIN', '(disabilitata)' => ''),
     23 => array('Disabilitati' => 0, 'Abilitati' => 1, 'Abilitati (Predefiniti solo per la homepage)' => 2),
     24 => array('Contribuisci' => 'contribute', 'Home' => 'home', 'Ricerca Avanzata' => 'search', 'Directory' => 'directory', 'Il Mio Account' => 'prefs', 'Inserimenti di Plug-in' => 'plugins', 'Inserimenti personalizzati' => 'custom', 'Statistiche del Sito' => 'stats'),
-    25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
+    25 => array('Nuove Storie' => 'story', 'Nuovi Commenti' => 'comment', 'Nuovi Trackback' => 'trackback', 'Nuovi Pingback' => 'pingback', 'Nuovi Utenti' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Visite (asc)' => 'hits|asc', 'Visite (desc)' => 'hits|desc', 'Data (asc)' => 'date|asc', 'Data (desc)' => 'date|desc', 'Titolo (asc)' => 'title|asc', 'Titolo (desc)' => 'title|desc', 'Autore (asc)' => 'uid|asc', 'Autore (desc)' => 'uid|desc')
+    27 => array('Visite (asc)' => 'hits|asc', 'Visite (desc)' => 'hits|desc', 'Data (asc)' => 'date|asc', 'Data (desc)' => 'date|desc', 'Titolo (asc)' => 'title|asc', 'Titolo (desc)' => 'title|desc', 'Autore (asc)' => 'uid|asc', 'Autore (desc)' => 'uid|desc'),
+    28 => array('Nessun Accesso' => 0, 'Utilizzo' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

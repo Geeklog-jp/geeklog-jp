@@ -6,7 +6,7 @@
 # Last Modified: 2008-05-23
 # Version: 1.5
 #
-# This is the Chinese Simplified (UTF-8) language set for GeekLog 1.5
+# This is the Chinese Simplified (UTF-8) language set for Geeklog 1.5
 #
 # Copyright (C) 2003 Samuel Maung Stone
 # sam AT stonemicro DOT com
@@ -173,7 +173,12 @@ $LANG01 = array(
     127 => 'Permalink',
     128 => '用OpenID 登入:',
     129 => '设定',
-    130 => '网络服务'
+    130 => '网络服务',
+    131 => 'No HTML is allowed',
+    132 => 'Information',
+    133 => 'Critical',
+    134 => 'Help',
+    135 => 'Warning'
 );
 
 ###############################################################################
@@ -389,7 +394,8 @@ $LANG04 = array(
     162 => 'will not be scaled',
     163 => 'Re-Authentication Failed',
     164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
-    165 => 'Use Advanced Editor'
+    165 => 'Use Advanced Editor',
+    166 => 'Re-synch Remote Account'
 );
 
 ###############################################################################
@@ -838,7 +844,8 @@ $LANG24 = array(
     88 => 'Wiki 式的格式',
     89 => 'Meta Description',
     90 => 'Meta Keywords',
-    91 => 'You can always hit "Preview" to extend the expiry time.'
+    91 => 'You can always hit "Preview" to extend the expiry time.',
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -970,7 +977,8 @@ $LANG28 = array(
     87 => 'Reminders',
     88 => 'Default Group',
     89 => 'Check to make this a default group for new users',
-    90 => 'Apply "Default Group" change to existing user accounts'
+    90 => 'Apply "Default Group" change to existing user accounts',
+    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.'
 );
 
 ###############################################################################
@@ -1080,6 +1088,33 @@ $LANG32 = array(
     40 => 'You can upload a plugin archive (.tar.gz, .tgz, .zip) directly here:',
     41 => 'Upload',
     42 => 'Click to update',
+    43 => 'Load Order',
+    44 => 'Move plugin up the load order',
+    45 => 'Move plugin down the load order',
+    46 => 'Click to Delete this Plugin',
+    47 => 'Really Delete %s Plugin?',
+    48 => 'Click to Enable this Plugin',
+    49 => 'Click to Disable this Plugin',
+    50 => 'Dependencies',
+    51 => 'OK',
+    52 => 'Unresolved',
+    53 => 'Disabled',
+    54 => 'Unavailable',
+    55 => 'Uninstalled',
+    56 => 'Wrong Version',
+    57 => 'Unknown',
+    58 => 'The load order of one or more plugins has been altered in order to resolve dependencies',
+    59 => 'Info',
+    60 => 'Close',
+    61 => 'Status',
+    62 => 'Click to Install this Plugin',
+    63 => 'This Plugin Cannot be Installed',
+    64 => 'This Plugin Cannot be Enabled',
+    65 => 'The plugin upload function has been disabled due to the following errors:',
+    66 => 'File uploads are disabled in your PHP configuration.',
+    67 => 'The directory "%s" is not writable.',
+    68 => 'You do not have the required permissions to install plugins.',
+    69 => 'You do not have the required permissions to upload plugins.',
     99 => 'An unknown error occured',
     100 => 'Ok.',
     101 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini.',
@@ -1253,6 +1288,12 @@ $MESSAGE = array(
     99 => 'The plugin already exists.',
     100 => 'The plugin file you uploaded was not a GZip or Zip compressed archive.',
     101 => 'There are no topics (that you have access to). You need at least one topic to be able to submit stories.',
+    110 => 'Can not get URL for authentication.',
+    111 => 'Authentication error.',
+    112 => 'Certification has been canceled.',
+    113 => 'Your account has been created successfully. {site_url}',
+    114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
+    115 => 'Remote service has been disabled.',
     400 => 'Not all required fields have been passed validation',
     401 => 'Please enter Fullname'
 );
@@ -1595,14 +1636,18 @@ $LANG_ADMIN = array(
     'create_new' => '建新',
     'create_new_adv' => '建新 (Adv.)',
     'enabled' => '启动',
+    'disabled' => 'Disabled',
     'title' => '标题',
     'page_title' => 'Page Title',
     'type' => '类型',
     'topic' => '题目',
+    'info' => 'Info',
     'help_url' => '帮助文 URL',
     'save' => '存续',
     'cancel' => '取消',
+    'install' => 'Install',
     'delete' => '删除',
+    'deleteitem' => 'Delete',
     'delete_sel' => '删除所选的',
     'copy' => '复制',
     'no_results' => '- 找不到任何登录 -',
@@ -1615,6 +1660,8 @@ $LANG_ADMIN = array(
     'meta_description' => 'Meta Description',
     'meta_keywords' => 'Meta Keywords',
     'na' => 'N/A',
+    'unavailable' => 'N/A',
+    'warning' => '!!!',
     'token_expiry' => 'You have until %s to make changes. After that time, the security token embedded into this page will expire and you will lose your changes.',
     'token_expired' => 'The security token for this operation has expired. Please authenticate again to continue.',
     'reauth_msg' => 'The security token for this operation has expired. If you want to continue with this operation, then please authenticate again below. This will ensure that the changes you just made will not be lost.',
@@ -1692,7 +1739,10 @@ $LANG_CONFIG = array(
     'changes_made' => '更改已成功地安置于',
     'title' => '设定管理',
     'disable' => 'Click to disable this option',
-    'enable' => 'Enable'
+    'enable' => 'Enable',
+    'default_tab_name' => 'Main',
+    'search_configuration_label' => 'Search Configuration',
+    'error_validation_occurs' => 'There are invalid configuration values. Please correct these fields (just click the config variable to point you to the error field)'
 );
 
 $LANG_configsections['Core'] = array(
@@ -1708,6 +1758,7 @@ $LANG_confignames['Core'] = array(
     'noreply_mail' => '无可回信的电邮',
     'site_name' => '网站名称',
     'site_slogan' => '标语',
+    'owner_name' => 'Owner Name',
     'microsummary_short' => '细微摘要',
     'path_log' => '记录',
     'path_language' => '语言',
@@ -1736,6 +1787,15 @@ $LANG_confignames['Core'] = array(
     'show_servicename' => '显现服务名',
     'custom_registration' => '激活自定登记',
     'user_login_method' => '用户登入方式',
+    'facebook_login' => 'Enable OAuth Login Method Facebook',
+    'facebook_consumer_key' => 'Facebook OAuth Application ID',
+    'facebook_consumer_secret' => 'Facebook OAuth Application Secret',
+    'linkedin_login' => 'Enable OAuth Login Method LinkedIn',
+    'linkedin_consumer_key' => 'LinkedIn OAuth API Key',
+    'linkedin_consumer_secret' => 'LinkedIn OAuth Secret Key',
+    'twitter_login' => 'Enable OAuth Login Method Twitter',
+    'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
+    'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
     'spamx' => 'Spam-X 作用',
     'sort_admin' => '排列联结',
     'language' => '语言',
@@ -1795,6 +1855,7 @@ $LANG_confignames['Core'] = array(
     'hide_home_link' => '隐藏主页联结?',
     'whosonline_threshold' => '运用时间极限',
     'whosonline_anonymous' => '对客人隐藏用户名?',
+    'whosonline_photo' => 'Display Thumbnail Photo?',
     'emailstories' => '激活每日择要?',
     'emailstorieslength' => '文章长度',
     'emailstoriesperdefault' => '激活给新用户?',
@@ -1890,6 +1951,7 @@ $LANG_confignames['Core'] = array(
     'censorlist' => '检查列',
     'ip_lookup' => 'IP 搜寻',
     'url_rewrite' => '激活 URL Rewrite',
+    'cdn_hosted' => 'Use CDN-hosted copy of jQuery',
     'meta_tags' => 'Meta Tags',
     'meta_description' => 'Default Meta Description',
     'meta_keywords' => 'Default Meta Keywords',
@@ -1911,7 +1973,9 @@ $LANG_confignames['Core'] = array(
     'search_show_limit' => 'Show Page Limits?',
     'search_separator' => 'Group Separator',
     'search_def_keytype' => 'Default Search Method',
-    'search_def_sort' => 'Default Sort Order'
+    'search_def_sort' => 'Default Sort Order',
+    'autotag_permissions_story' => '[story: ] Permissions',
+    'autotag_permissions_user' => '[user: ] Permissions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -1966,7 +2030,50 @@ $LANG_fs['Core'] = array(
     'fs_perm_story' => '文章默认许可设定',
     'fs_perm_topic' => '主题默认许可设定',
     'fs_perm_block' => '组件默认许可设定',
-    'fs_webservices' => 'Webservices'
+    'fs_webservices' => 'Webservices',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
+$LANG_tab['Core'] = array(
+    'tab_site' => 'Site',
+    'tab_paths' => 'Paths',
+    'tab_theme' => 'Theme',
+    'tab_mail' => 'Mail',
+    'tab_pear' => 'Pear',
+    'tab_mysql' => 'MySQL',
+    'tab_users' => 'Users',
+    'tab_misc' => 'Miscellaneous',
+    'tab_spamx' => 'Spam-X',
+    'tab_admin_block' => 'Admin Block',
+    'tab_locale' => 'Locale',
+    'tab_language' => 'Language',
+    'tab_debug' => 'Debug',
+    'tab_cookies' => 'Cookies',
+    'tab_login' => 'Login Settings',
+    'tab_search' => 'Search',
+    'tab_user_submission' => 'User Submission',
+    'tab_submission' => 'Submission Settings',
+    'tab_topics_block' => 'Topics Block',
+    'tab_whosonline_block' => 'Who\'s Online Block',
+    'tab_daily_digest' => 'Daily Digest',
+    'tab_whatsnew_block' => 'What\'s New Block',
+    'tab_trackback' => 'Trackback',
+    'tab_pingback' => 'Pingback',
+    'tab_story' => 'Story',
+    'tab_theme_advanced' => 'Advanced Settings',
+    'tab_syndication' => 'Syndication',
+    'tab_imagelib' => 'Image Library',
+    'tab_upload' => 'Upload',
+    'tab_articleimg' => 'Images in Articles',
+    'tab_topicicon' => 'Topic Icons',
+    'tab_userphoto' => 'Photos',
+    'tab_gravatar' => 'Gravatar',
+    'tab_comments' => 'Comments',
+    'tab_htmlfilter' => 'HTML Filtering',
+    'tab_censoring' => 'Censoring',
+    'tab_iplookup' => 'IP Lookup',
+    'tab_permissions' => 'Permissions',
+    'tab_webservices' => 'Webservices'
 );
 
 $LANG_configselects['Core'] = array(
@@ -1997,7 +2104,55 @@ $LANG_configselects['Core'] = array(
     24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
     25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
-    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc')
+    27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
+    28 => array('No access' => 0, 'Use' => 2)
 );
+
+###############################################################################
+# Localization of validation error messages
+
+$LANG_VALIDATION = array(
+    'default' => 'This field contains an invalid value',
+    'notEmpty' => 'This field cannot be empty',
+    'alphaNumeric' => 'This field must be in alpha numeric',
+    0 => 'between',
+    1 => 'This field must be in specified range',
+    'blank' => 'This field must be blank',
+    'comparison' => 'This field does not match the comparison operation',
+    'date' => 'This field must be in date format',
+    'year' => 'This field must be in year format such as 2010',
+    'time' => 'This field must be in time format',
+    'datetime' => 'This field must be in datetime format',
+    'boolean' => 'This field must be in boolean',
+    'decimal' => 'This field must be in decimal',
+    'email' => 'This field must contains valid email address',
+    'equalTo' => 'This field does not equal',
+    'extension' => 'This field only accept allowable file extension',
+    'ip' => 'This field must be in valid IP format',
+    'minLength' => 'This field is too short',
+    'maxLength' => 'This field is too long',
+    'numeric' => 'This field must be a numeric',
+    'phone' => 'This field must contains valid phone number',
+    'range' => 'This field must be in specified range',
+    'url' => 'This field must contains valid URL',
+    'inList' => 'This field must contain specified list',
+    'mail_settings_backend' => 'This field must be one of \'smtp\', \'sendmail\', or \'mail\'',
+    'mail_settings_sendmail_path' => 'This field must contains valid path to sendmail binary',
+    'mail_settings_host' => 'This field must contain valid hostname',
+    'mail_settings_port' => 'This field must be between 0 - 65535',
+    'rdf_limit' => 'This field must in numeric or hour such as 24h',
+    'path' => 'Path does not exist',
+    'file' => 'File does not exist',
+    'search_limits' => 'This field must be numeric separated with a comma',
+    'num_search_results' => 'This field must be numeric and from \'search_limits\' above',
+    'theme' => 'Theme directory does not exist',
+    'path_themes' => 'Theme path must be in absolute path and make sure the last character contains directory separator',
+    'path_to_mogrify' => 'You must set image library to imagemagick and fill this field with complete path to the mogrify executable',
+    'path_to_netpbm' => 'You must set image library to netpbm and fill this field with directory where the binaries from the Netpbm package are kept',
+    'language' => 'Language file does not exist',
+    'timezone' => 'Invalid timezone',
+    'single_char' => 'This field must be a single character'
+);
+
 
 ?>

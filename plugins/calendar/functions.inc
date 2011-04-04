@@ -381,7 +381,7 @@ function plugin_moderationapprove_calendar($id)
     global $_CA_CONF, $_GROUPS, $_TABLES;
 
     // The eventsubmission table only keeps track of the submitter's uid,
-    // but not of grous and permissions. So set those to sensible defaults.
+    // but not of groups and permissions. So set those to sensible defaults.
 
     if (isset($_GROUPS['Calendar Admin'])) {
         $group_id = $_GROUPS['Calendar Admin'];
@@ -520,7 +520,9 @@ function plugin_savesubmission_calendar($A)
         return $retval;
     }
 
-    $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
+    // Remove any autotags the user doesn't have permission to use
+    $A['description'] = PLG_replaceTags($A['description'], '', true);
+     $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
     $A['address1'] = addslashes (strip_tags (COM_checkWords ($A['address1'])));
     $A['address2'] = addslashes (strip_tags (COM_checkWords ($A['address2'])));
     $A['city'] = addslashes (strip_tags (COM_checkWords ($A['city'])));
@@ -670,17 +672,12 @@ function plugin_savesubmission_calendar($A)
 
 function plugin_getheadercode_calendar()
 {
-    global $_CONF;
-
-    $str = null;
+    global $_SCRIPTS;
 
     // use the CSS only if we are on the plugin's pages
     if (substr_count ($_SERVER['PHP_SELF'], '/calendar/') > 0) {
-        $str = '<link rel="stylesheet" type="text/css" href="'
-             . $_CONF['site_url'] . '/calendar/style.css"' . XHTML . '>';
+        $_SCRIPTS->setCSSFile('calendar', '/calendar/style.css', false);
     }
-
-    return $str;
 }
 
 /**
@@ -741,12 +738,8 @@ function plugin_submit_calendar($mode = 'master')
     $retval = '';
 
     $retval .= COM_startBlock ($LANG_CAL_1[26], 'submitevent.html');
-    $eventform = new Template ($_CONF['path'] . 'plugins/calendar/templates/');
+    $eventform = COM_newTemplate($_CONF['path'] . 'plugins/calendar/templates/');
     $eventform->set_file ('eventform', 'submitevent.thtml');
-    $eventform->set_var ('xhtml', XHTML);
-    $eventform->set_var ('site_url', $_CONF['site_url']);
-    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     if ($mode != 'personal') {
         $eventform->set_var ('explanation', $LANG_CAL_1[27]);
         $eventform->set_var ('submit_url', '/submit.php');
@@ -827,7 +820,8 @@ function plugin_submit_calendar($mode = 'master')
     $eventform->set_var('lang_zipcode',$LANG_CAL_1[36]);
     $eventform->set_var('lang_location', $LANG_CAL_1[39]);
     $eventform->set_var('lang_description', $LANG_CAL_1[5]);
-    $eventform->set_var('lang_htmnotallowed', $LANG_CAL_1[44]);
+    $allowed = COM_allowedHTML('links.edit', false, 2);
+    $eventform->set_var('lang_allowed_html', $allowed);       
     PLG_templateSetVars('calendar', $eventform);
     $eventform->set_var('lang_submit', $LANG12[8]);
     $eventform->set_var('mode', $mode);
@@ -928,12 +922,8 @@ function CALENDAR_listOld()
             'text' => $LANG_ADMIN['admin_home'])
     );
 
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendar/templates/admin');
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendar/templates/admin');
     $cal_templates->set_file(array('form' => 'batchdelete.thtml'));
-    $cal_templates->set_var('xhtml', XHTML);
-    $cal_templates->set_var('site_url', $_CONF['site_url']);
-    $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
     $cal_templates->set_var('usr_time', $usr_time);
     $cal_templates->set_var('lang_text_start', $LANG_CAL_ADMIN[28]);
     $cal_templates->set_var('lang_text_end', $LANG_CAL_ADMIN[29]);
@@ -1149,10 +1139,37 @@ function plugin_submissioncount_calendar()
 */
 function plugin_autotags_calendar ($op, $content = '', $autotag = '')
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_TABLES, $LANG_CAL_1, $_CA_CONF, $_GROUPS;
 
     if ($op == 'tagname' ) {
         return 'event';
+    } elseif ($op == 'permission' || $op == 'nopermission') {
+        if ($op == 'permission') {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+        $tagnames = array();
+
+        if (isset($_GROUPS['Calendar Admin'])) {
+            $group_id = $_GROUPS['Calendar Admin'];
+        } else {
+            $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Calendar Admin'");
+        }
+        $owner_id = SEC_getDefaultRootUser();
+
+        if (COM_getPermTag($owner_id, $group_id, $_CA_CONF['autotag_permissions_event'][0], $_CA_CONF['autotag_permissions_event'][1], $_CA_CONF['autotag_permissions_event'][2], $_CA_CONF['autotag_permissions_event'][3]) == $flag) {
+            $tagnames[] = 'event';
+        }
+
+        if (count($tagnames) > 0) {
+            return $tagnames;
+        }
+    } elseif ($op == 'description') {
+        return array (
+            'event' => $LANG_CAL_1['autotag_desc_event']
+            );        
     } else if ($op == 'parse') {
         $eid = COM_applyFilter($autotag['parm1']);
         if (! empty($eid)) {
@@ -1503,6 +1520,8 @@ function plugin_upgrade_calendar()
 
     require_once $_CONF['path'] . 'plugins/calendar/sql/'
                                 . $_DB_dbms . '_updates.php';
+                                
+    require_once $_CONF['path'] . 'plugins/calendar/install_updates.php';                                   
 
     $current_version = $installed_version;
     $done = false;
@@ -1522,6 +1541,21 @@ function plugin_upgrade_calendar()
 
             $current_version = '1.1.1';
             break;
+
+        case '1.1.1':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+            
+            calendar_update_ConfValues_1_1_1();
+            
+            calendar_update_ConfigSecurity_1_1_1();
+
+            $current_version = '1.1.2';
+            break;            
 
         default:
             $done = true;
@@ -1597,7 +1631,12 @@ function plugin_autouninstall_calendar ()
         /* give the full name of the group, as in the db */
         'groups' => array('Calendar Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('calendar.edit', 'calendar.moderate', 'calendar.submit'),
+        'features' => array('calendar.edit', 
+                            'calendar.moderate', 
+                            'calendar.submit',
+                            'config.calendar.tab_main',
+                            'config.calendar.tab_permissions',
+                            'config.calendar.tab_autotag_permissions'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_calendar'),
         /* give all vars with their name */

@@ -188,6 +188,8 @@ function plugin_upgrade_spamx()
     
     require_once $_CONF['path'] . 'plugins/spamx/sql/'
                                 . $_DB_dbms . '_updates.php';
+                                
+    require_once $_CONF['path'] . 'plugins/spamx/install_updates.php';  
 
     $current_version = $installed_version;
     $done = false;
@@ -221,6 +223,21 @@ function plugin_upgrade_spamx()
             }
 
             $current_version = '1.2.1';
+            break;
+            
+        case '1.2.1':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }            
+
+            spamx_update_ConfValues_1_2_1();  
+            
+            spamx_update_ConfigSecurity_1_2_1();
+            
+            $current_version = '1.2.2';
             break;
 
         default:
@@ -329,7 +346,7 @@ function plugin_spamaction_spamx ($comment, $action)
     $spamx_path = $_CONF['path'] . 'plugins/spamx/';
 
     if (($action == -1) || ($action == '')) {
-        $action = $_SPX_CONF['action'];
+        $action = $_SPX_CONF['spamx_action'];
     }
 
     // Set up Spamx_Action array
@@ -420,7 +437,10 @@ function plugin_autouninstall_spamx ()
         /* give the full name of the group, as in the db */
         'groups' => array('spamx Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('spamx.admin', 'spamx.view', 'spamx.skip'),
+        'features' => array('spamx.admin', 
+                            'spamx.view', 
+                            'spamx.skip', 
+                            'config.spamx.tab_main'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array(),
         /* give all vars with their name */

@@ -1019,37 +1019,84 @@ a.pluginButton:hover {
 
 /* Common CSS for on-hover tooltip feature */
 a.tooltip {
-  position: relative; /* this is the key */
-  z-index:10;
-  color:#000;
-  text-decoration:none;
-}
-a.tooltip:hover  {
-  z-index:100;
-  text-decoration:none;
+    border-bottom: 1px dotted #000000; color: #000000; outline: none;
+    text-decoration: none;
+    position: relative;
 }
 a.tooltip span {
-  display: none;
+    margin-left: -999em;
+    position: absolute;
 }
 a.tooltip:hover span {
-  /* the span will display just on :hover state */
-  z-index:100;
-  color:#033666;
-  font-style:normal;
-  font-size:.8em;
-  line-height: 125%;
-  display:block;
-  position:absolute;
-  border:1px solid #C8DAF7;
-  background-color:#E5EFFF;
-  padding:4px;
-  text-align: left;
-  text-decoration:none;
-  left:-20px;
-  top:10px;
-  min-width:150px;
+    border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px; 
+    box-shadow: 2px 2px 8px #666; -webkit-box-shadow: 2px 2px 8px #666; -moz-box-shadow: 2px 2px 8px #666;
+    font-family: Calibri, Tahoma, Geneva, sans, sans-serif;
+    position: absolute; left: 2.2em; top: 2.2em; z-index: 99;
+    margin-left: 0; width: 250px;
 }
+a.tooltip:hover img.icon {
+    border: 0; margin: -15px 0 0 -51px;
+    float: left; position: absolute;
+}
+a.tooltip img#tooltip-icon { 
+    border: 0;
+}
+a.tooltip:hover em {
+    font-family: Candara, Tahoma, Geneva, sans, sans-serif; font-size: 1.2em; font-weight: bold;
+    display: block; padding: 0.2em 0 0.6em 0.4em;
+}
+span.classic     { padding: 0.8em 1em; }
+span.custom      { padding: 0.5em 0.8em 0.8em 2em; }
+* html a:hover   { background: transparent; }
+span.classic     { background: #EEEEEC; border: 2px solid #555753; }
+span.critical    { background: #F5F0F0; border: 2px solid #A40000; }
+span.help        { background: #EDF0F2; border: 2px solid #204A87; }
+span.info        { background: #EDF0F2; border: 2px solid #204A87; }
+span.warning     { background: #FCF7EF; border: 2px solid #CE5C00; font-weight: normal; color: black; }
+
+span.critical em { color: #A40000; }
+span.help     em { color: #204A87; }
+span.info     em { color: #204A87; }
+span.warning  em { color: #CE5C00; }
+
 /* End of common CSS for on-hover info feature */
+
+#admin-editor dt#title {
+  display:     block;
+  font-size:   13px;
+  font-weight: bold;
+  position:    relative;
+  top:         10px;
+}
+
+#admin-editor input#close {
+  width: 150px;
+}
+
+/* Used by lib-plugin.php to display dependencies */
+b.notbold { /* hack for HTML compliance inside tooltips */
+  font-weight: normal;
+}
+
+b.status_red {
+  display:     inline;
+  color:       #a40000;
+}
+
+b.status_orange {
+  display:     inline;
+  color:       #b25000;
+}
+
+b.status_green {
+  display:     inline;
+  color:       #3d7805;
+}
+
+b.status_black {
+  display:     inline;
+  color:       black;
+}
 
 /* End of Common Plugin CSS */
 

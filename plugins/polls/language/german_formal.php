@@ -39,6 +39,7 @@ $LANG_POLLS = array(
     'results' => 'Ergebnisse',
     'pollresults' => 'Umfrage-Ergebnisse',
     'votes' => 'Stimmen',
+    'voters' => 'voters',
     'vote' => 'Abstimmen',
     'pastpolls' => 'Ältere Umfragen',
     'savedvotetitle' => 'Stimme gespeichert',
@@ -60,6 +61,9 @@ $LANG_POLLS = array(
     'pollhidden' => 'Sie haben schon abgestimmt. Die Ergebnisse dieser Umfrage werden veröffentlicht, sobald sie abgeschlossen ist.',
     'start_poll' => 'Zur Umfrage',
     'no_new_polls' => 'Keine neuen Umfragen',
+    'autotag_desc_poll' => '[poll: id alternate title] - Displays a link to a poll using the Poll Topic as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_poll_vote' => '[poll_vote: id class:poll-autotag showall:1] - Displays a poll for voting. Class and showall not required. Class specifies the css class and Showall if set to 1, shows all questions',
+    'autotag_desc_poll_result' => '[poll_result: id class:poll-autotag] - Displays the poll results. Class not required. Class specifies the css class.',
     'deny_msg' => 'Zugang zu dieser Umfrage nicht gestattet.  Entweder wurde diese Umfrage entfernt oder es fehlen die nötigen Zugriffsrechte.'
 );
 
@@ -134,6 +138,9 @@ $LANG_confignames['polls'] = array(
     'delete_polls' => 'Umfragen mit User löschen?',
     'aftersave' => 'Nach speichern der Umfrage',
     'default_permissions' => 'Grundeinstellungen Umfragen',
+    'autotag_permissions_poll' => '[poll: ] Permissions',
+    'autotag_permissions_poll_vote' => '[poll_vote: ] Permissions',
+    'autotag_permissions_poll_result' => '[poll_result: ] Permissions',
     'newpollsinterval' => 'Zeitabstand neue Umfragen',
     'hidenewpolls' => 'Neue Umfragen',
     'title_trim_length' => 'Titel abschneiden nach',
@@ -144,10 +151,18 @@ $LANG_configsubgroups['polls'] = array(
     'sg_main' => 'Hauptbereich'
 );
 
+$LANG_tab['polls'] = array(
+    'tab_main' => 'General Polls Settings',
+    'tab_whatsnew' => 'What\'s New Block',
+    'tab_permissions' => 'Default Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['polls'] = array(
     'fs_main' => 'Allgemeine Umfrageeinstellungen',
     'fs_whatsnew' => 'What\'s New Block',
-    'fs_permissions' => 'Grundeinstellungen Rechte'
+    'fs_permissions' => 'Grundeinstellungen Rechte',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -157,7 +172,8 @@ $LANG_configselects['polls'] = array(
     2 => array('Wie eingereicht' => 'submitorder', 'Nach Abstimmung' => 'voteorder'),
     5 => array('Verbergen' => 'hide', 'Anzeigen - Modifiziertes Datum benutzen' => 'modified', 'Anzeigen - Datum der Erstellung benutzen' => 'created'),
     9 => array('Zur Umfrage weiterleiten' => 'item', 'Admin Liste anzeigen' => 'list', 'Öffentliche Liste anzeigen' => 'plugin', 'Startseite' => 'home', 'Schaltzentrale' => 'admin'),
-    12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3)
+    12 => array('Kein Zugang' => 0, 'Nur lesen' => 2, 'Lesen-Schreiben' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

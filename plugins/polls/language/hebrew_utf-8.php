@@ -39,6 +39,7 @@ $LANG_POLLS = array(
     'results' => 'תוצאות',
     'pollresults' => 'תוצאות סקרים',
     'votes' => 'הצבעות',
+    'voters' => 'voters',
     'vote' => 'הצבעה',
     'pastpolls' => 'סקרי עבר',
     'savedvotetitle' => 'ההצבעה נשמרה',
@@ -60,6 +61,9 @@ $LANG_POLLS = array(
     'pollhidden' => 'כבר הצבעתם. תוצאות הסקר יוצגו כאשר ההצבעה תיסגר.',
     'start_poll' => 'התחילו את הסקר',
     'no_new_polls' => 'אין סקרים חדשים',
+    'autotag_desc_poll' => '[poll: id alternate title] - Displays a link to a poll using the Poll Topic as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_poll_vote' => '[poll_vote: id class:poll-autotag showall:1] - Displays a poll for voting. Class and showall not required. Class specifies the css class and Showall if set to 1, shows all questions',
+    'autotag_desc_poll_result' => '[poll_result: id class:poll-autotag] - Displays the poll results. Class not required. Class specifies the css class.',
     'deny_msg' => 'הגישה לסקר זה לא מאושרת. הסקר הוזז/נמחק או שאין ברשותכם הרשאות מתאימות.'
 );
 
@@ -134,6 +138,9 @@ $LANG_confignames['polls'] = array(
     'delete_polls' => 'מחיקת הסקרים עם יוצריהם?',
     'aftersave' => 'לאחר שמירת סקר',
     'default_permissions' => 'הרשאות ברירת המחדל של סקר',
+    'autotag_permissions_poll' => '[poll: ] Permissions',
+    'autotag_permissions_poll_vote' => '[poll_vote: ] Permissions',
+    'autotag_permissions_poll_result' => '[poll_result: ] Permissions',
     'newpollsinterval' => 'תוקף סקרים חדשים',
     'hidenewpolls' => 'סקרים חדשים',
     'title_trim_length' => 'אורך כותרות מקוצרות',
@@ -144,10 +151,18 @@ $LANG_configsubgroups['polls'] = array(
     'sg_main' => 'הגדרות ראשיות'
 );
 
+$LANG_tab['polls'] = array(
+    'tab_main' => 'General Polls Settings',
+    'tab_whatsnew' => 'What\'s New Block',
+    'tab_permissions' => 'Default Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+
 $LANG_fs['polls'] = array(
     'fs_main' => 'הגדרות סקר כלליות',
     'fs_whatsnew' => 'קוביית המידע מה חדש',
-    'fs_permissions' => 'הרשאות ברירת המחדל'
+    'fs_permissions' => 'הרשאות ברירת המחדל',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -157,7 +172,8 @@ $LANG_configselects['polls'] = array(
     2 => array('לפי סדר שליחה' => 'submitorder', 'לפי הצבעות' => 'voteorder'),
     5 => array('החבאה' => 'hide', 'הצגה - שימוש בתאריך העדכון' => 'modified', 'הצגה - שימוש בתאריך היצירה' => 'created'),
     9 => array('הפניה לסקר' => 'item', 'הצגת רשימת הניהול' => 'list', 'הצגת רשימה ציבורית' => 'plugin', 'הצגת דף הבית' => 'home', 'הצגת דף הניהול' => 'admin'),
-    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3)
+    12 => array('אין גישה' => 0, 'קריאה בלבד' => 2, 'קריאה וכתיבה' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

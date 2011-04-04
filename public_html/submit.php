@@ -121,7 +121,7 @@ function submitstory($topic = '')
         $story->initSubmission($topic);
     }
 
-    $storyform = new Template($_CONF['path_layout'] . 'submit');
+    $storyform = COM_newTemplate($_CONF['path_layout'] . 'submit');
     if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
         $storyform->set_file('storyform','submitstory_advanced.thtml');
         $storyform->set_var ('change_editormode', 'onchange="change_editmode(this);"');
@@ -144,10 +144,6 @@ function submitstory($topic = '')
             $storyform->set_var ('show_htmleditor', 'none');
         }
     }
-    $storyform->set_var ('xhtml', XHTML);
-    $storyform->set_var ('site_url', $_CONF['site_url']);
-    $storyform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $storyform->set_var ('layout_url', $_CONF['layout_url']);
     $storyform->set_var ('lang_username', $LANG12[27]);
 
     if (! COM_isAnonUser()) {

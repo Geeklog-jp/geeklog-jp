@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-story.php                                                             |
 // |                                                                           |
 // | Story-related functions needed in more than one place.                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -80,17 +80,22 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
         $storytpl = 'storytext.thtml';
     }
 
-    $introtext = $story->displayElements('introtext');
-    $bodytext = $story->displayElements('bodytext');
+    $introtext = COM_undoSpecialChars($story->displayElements('introtext'));
+    $bodytext = COM_undoSpecialChars($story->displayElements('bodytext'));
+    $readmore = empty($bodytext)?0:1;
+    $numwords = COM_numberFormat(count(explode(' ', COM_getTextContent($bodytext))));
+    if (COM_onFrontpage()) {
+        $bodytext = '';
+    }
 
     if( !empty( $query ))
     {
-        $introtext = COM_highlightQuery( $introtext, $query );
-        $bodytext  = COM_highlightQuery( $bodytext, $query );
+        $introtext = COM_highlightQuery($introtext, $query );
+        $bodytext  = COM_highlightQuery($bodytext, $query );
     }
 
 
-    $article = new Template( $_CONF['path_layout'] );
+    $article = COM_newTemplate($_CONF['path_layout']);
     $article->set_file( array(
             'article'          => $storytpl,
             'bodytext'         => 'storybodytext.thtml',
@@ -100,10 +105,6 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             'archivebodytext'  => 'archivestorybodytext.thtml'
             ));
 
-    $article->set_var( 'xhtml', XHTML );
-    $article->set_var( 'site_url', $_CONF['site_url'] );
-    $article->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-    $article->set_var( 'layout_url', $_CONF['layout_url'] );
     $article->set_var( 'site_name', $_CONF['site_name'] );
     $article->set_var( 'story_date', $story->DisplayElements('date') );
     $article->set_var( 'story_date_short', $story->DisplayElements('shortdate') );
@@ -321,11 +322,10 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
         $article->set_var( 'story_text_no_br', $introtext );
         $article->set_var( 'story_introtext_only', $introtext );
 
-        if( !empty( $bodytext ))
+        if($readmore)
         {
             $article->set_var( 'lang_readmore', $LANG01[2] );
             $article->set_var( 'lang_readmore_words', $LANG01[62] );
-            $numwords = COM_numberFormat(count(explode(' ', COM_getTextContent($bodytext))));
             $article->set_var( 'readmore_words', $numwords );
 
             $article->set_var( 'readmore_link',
@@ -355,7 +355,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
 
             if( $story->DisplayElements('comments') > 0 )
             {
-                $result = DB_query( "SELECT UNIX_TIMESTAMP(date) AS day,username,fullname,{$_TABLES['comments']}.uid as cuid FROM {$_TABLES['comments']},{$_TABLES['users']} WHERE {$_TABLES['users']}.uid = {$_TABLES['comments']}.uid AND sid = '".$story->getsid()."' ORDER BY date desc LIMIT 1" );
+                $result = DB_query( "SELECT UNIX_TIMESTAMP(date) AS day,username,fullname,{$_TABLES['comments']}.uid as cuid FROM {$_TABLES['comments']},{$_TABLES['users']} WHERE {$_TABLES['users']}.uid = {$_TABLES['comments']}.uid AND sid = '".$story->getSid()."' ORDER BY date DESC LIMIT 1" );
                 $C = DB_fetchArray( $result );
 
                 $recent_post_anchortag = '<span class="storybyline">'
@@ -373,7 +373,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             {
                 $article->set_var( 'comments_with_count', $comments_with_count);
                 $recent_post_anchortag = COM_createLink($LANG01[60],
-                    $_CONF['site_url'] . '/comment.php?sid=' . $story->getsid()
+                    $_CONF['site_url'] . '/comment.php?sid=' . $story->getSid()
                         . '&amp;pid=0&amp;type=article');
             }
             if( $story->DisplayElements( 'commentcode' ) == 0 )
@@ -1124,6 +1124,71 @@ function plugin_moderationapprove_story_draft($sid)
     COM_olderStuff();
 }
 
+/**
+* Implements the [story:] autotag.
+*
+* @param    string  $op         operation to perform
+* @param    string  $content    item (e.g. story text), including the autotag
+* @param    array   $autotag    parameters used in the autotag
+* @param    mixed               tag names (for $op='tagname') or formatted content
+*
+*/
+function plugin_autotags_story($op, $content = '', $autotag = '')
+{
+    global $_CONF, $_TABLES, $LANG24, $_GROUPS;
+
+    if ($op == 'tagname' ) {
+        return 'story';
+    } elseif ($op == 'permission' || $op == 'nopermission') {
+        if ($op == 'permission') {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+        $tagnames = array();
+
+        if (isset($_GROUPS['Story Admin'])) {
+            $group_id = $_GROUPS['Story Admin'];
+        } else {
+            $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Story Admin'");
+        }
+        $owner_id = SEC_getDefaultRootUser();
+
+        if (COM_getPermTag($owner_id, $group_id, $_CONF['autotag_permissions_story'][0], $_CONF['autotag_permissions_story'][1], $_CONF['autotag_permissions_story'][2], $_CONF['autotag_permissions_story'][3]) == $flag) {
+            $tagnames[] = 'story';
+        }
+        
+        if (count($tagnames) > 0) {
+            return $tagnames;
+        }
+    } elseif ($op == 'description') {
+        return array (
+            'story' => $LANG24['autotag_desc_story']
+            );        
+    } else {
+        $sid = COM_applyFilter($autotag['parm1']);
+        if (! empty($sid)) {
+            $result = DB_query("SELECT COUNT(*) AS count FROM {$_TABLES['stories']} WHERE sid = '$sid'" . COM_getPermSql('AND'));
+            $A = DB_fetchArray($result);
+            if ($A['count'] > 0) {
+
+                $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                    . $sid);
+                $linktext = $autotag['parm2'];
+                if (empty($linktext)) {
+                    $linktext = stripslashes(DB_getItem($_TABLES['stories'],
+                                                'title', "sid = '$sid'"));
+                }
+                $link = COM_createLink($linktext, $url);
+                $content = str_replace($autotag['tagstr'], $link, $content);
+            }
+        }
+
+        return $content;
+    }
+}
+
 
 /*
  * START SERVICES SECTION
@@ -1151,8 +1216,7 @@ function service_submit_story($args, &$output, &$svc_msg)
     }
 
     require_once $_CONF['path_system'] . 'lib-comment.php';
-    if (version_compare(PHP_VERSION, '5.0.0', '>=') &&
-            (! $_CONF['disable_webservices'])) {
+    if (! $_CONF['disable_webservices']) {
         require_once $_CONF['path_system'] . 'lib-webservices.php';
     }
 

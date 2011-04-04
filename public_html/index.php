@@ -133,27 +133,6 @@ if (!$newstories && !$displayall) {
     }
 }
 
-if ($topic)
-{
-    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
-            . '/index.php?display=microsummary&amp;topic=' . urlencode($topic)
-            . '" title="Microsummary"' . XHTML . '>';
-
-    // Meta Tags
-    if ($_CONF['meta_tags'] > 0) {
-        $result = DB_query ("SELECT meta_description, meta_keywords FROM {$_TABLES['topics']} WHERE tid = '{$topic}'");
-        $A = DB_fetchArray ($result);
-
-        $meta_description = stripslashes($A['meta_description']);
-        $meta_keywords = stripslashes($A['meta_keywords']);
-        $header .= COM_createMetaTags($meta_description, $meta_keywords);
-    }
-} else {
-    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
-            . '/index.php?display=microsummary" title="Microsummary"' . XHTML
-            . '>';
-}
-$display .= COM_siteHeader('menu', '', $header);
 if (isset ($_GET['msg'])) {
     $plugin = '';
     if (isset ($_GET['plugin'])) {
@@ -200,12 +179,8 @@ if (!empty ($displayBlock)) {
     // Check if theme has added the template which allows the centerblock
     // to span the top over the rightblocks
     if (file_exists($_CONF['path_layout'] . 'topcenterblock-span.thtml')) {
-            $topspan = new Template($_CONF['path_layout']);
+            $topspan = COM_newTemplate($_CONF['path_layout']);
             $topspan->set_file (array ('topspan'=>'topcenterblock-span.thtml'));
-            $topspan->set_var( 'xhtml', XHTML );
-            $topspan->set_var( 'site_url', $_CONF['site_url'] );
-            $topspan->set_var( 'site_admin_url', $_CONF['site_admin_url'] );
-            $topspan->set_var( 'layout_url', $_CONF['layout_url'] );
             $topspan->parse ('output', 'topspan');
             $display .= $topspan->finish ($topspan->get_var('output'));
             $GLOBALS['centerspan'] = true;
@@ -410,6 +385,28 @@ if ( $A = DB_fetchArray( $result ) ) {
 
     $display .= PLG_showCenterblock (3, $page, $topic); // bottom blocks
 }
+
+if ($topic)
+{
+    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
+            . '/index.php?display=microsummary&amp;topic=' . urlencode($topic)
+            . '" title="Microsummary"' . XHTML . '>';
+
+    // Meta Tags
+    if ($_CONF['meta_tags'] > 0) {
+        $result = DB_query ("SELECT meta_description, meta_keywords FROM {$_TABLES['topics']} WHERE tid = '{$topic}'");
+        $A = DB_fetchArray ($result);
+
+        $meta_description = stripslashes($A['meta_description']);
+        $meta_keywords = stripslashes($A['meta_keywords']);
+        $header .= COM_createMetaTags($meta_description, $meta_keywords);
+    }
+} else {
+    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
+            . '/index.php?display=microsummary" title="Microsummary"' . XHTML
+            . '>';
+}
+$display = COM_siteHeader('menu', '', $header) . $display;
 
 $display .= COM_siteFooter (true); // The true value enables right hand blocks.
 
