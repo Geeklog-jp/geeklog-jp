@@ -74,6 +74,10 @@
   <td valign="top">Geeklogのサイトを一時的に閉鎖するときに表示するメッセージを指定します。メッセージが"http:"で始まる場合、サイトの訪問者はそのURLへリダイレクトされます。<br>
     <strong>注:</strong>実際にサイトを閉鎖するかどうかを決める設定は、<tt>siteconfig.php</tt>ファイルの中にあります。</td></tr>
 <tr>
+  <td valign="top"><a name="desc_owner_name">owner_name</a></td>
+  <td valign="top"></td>
+  <td valign="top">The name of the owner of the site. This is used in the copyright notice if set, else the site name is used.</td></tr>     
+<tr>
   <td valign="top"><a name="desc_copyrightyear">Copyrightの年数設定(copyrightyear)</a></td>
   <td valign="top"><i>(無効)</i></td>
   <td valign="top">サイトのフッタに表示するcopyrightの年を設定します。設定しない場合、現在の年が使われます。</td></tr>
@@ -82,6 +86,11 @@
   <td valign="top">いいえ(false)</td>
   <td valign="top">はい(true)でURLリライトを行い、いいえ(false)で行わないようになります。<br>
     下記の<a href="#url-rewrite">URLリライト</a>のセクションを参照してください。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_cdn_hosted">cdn_hosted</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Enable (true) or disable (false) Google CDN-hosted source for jQuery 
+   and jQuery UI.</td></tr>    
 <tr>
   <td valign="top"><a name="desc_meta_tags">メタタグ(meta_tags)</a></td>
   <td valign="top">無効にする</td>
@@ -552,6 +561,10 @@
   <td valign="top"><a name="desc_whosonline_anonymous">ゲストユーザには表示しない(whosonline_anonymous)</a></td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、ゲストユーザに見えるのはオンライン中の登録メンバーの数だけで、名前は表示されません。ログインしたユーザだけがオンライン中の他のユーザの名前を見ることができます。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_whosonline_photo">whosonline_photo</a></td>
+  <td valign="top">0</td>
+  <td valign="top">If enabled (i.e. set to 1), and a photo exists for the user, a thumbnail of that photo will be displayed. Else, a photo icon will be displayed.</td></tr>
 </table>
 
 <h3><a name="blocks_what">ブロック: 新着情報ブロック</a></h3>
@@ -644,19 +657,79 @@
   <td valign="top"><code>いいえ(false)</code></td>
   <td valign="top">はい(<code>true</code>)にすると、新規ユーザ登録の際、管理者が用意した独自のフォームが表示されます。フォームの具体例は、Geeklogに同梱されている<tt>lib-custom.php</tt>を参照してください。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_login_method_standard">ユーザログイン方法[standard]</a></td>
+  <td valign="top"><a name="desc_user_login_method_standard">ユーザログイン方法[standard]</a></td>
   <td valign="top"><code>はい(true)</code></td>
   <td valign="top">通常のログイン方法、つまり、サイトのデータベースにしか登録されてないユーザアカウントでログインを許可するかどうかを指定します。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_login_method_openid">ユーザログイン方法[openid]</a></td>
+  <td valign="top"><a name="desc_user_login_method_openid">ユーザログイン方法[openid]</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
   <td valign="top"><a href="http://openid.net/">OpenID</a>を使用したログインを許可するかどうかを指定します。<code>はい(true)</code>にすると、通常のログイン入力欄の下に特別なOpenIDログイン用の入力欄が表示されます。<br>
     <strong>注:</strong> 現在サポートされているのは、OpenID 1.1だけです。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_login_method_3rdparty">ログイン方法[3rdparty]</a></td>
+  <td valign="top"><a name="desc_user_login_method_3rdparty">ログイン方法[3rdparty]</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
   <td valign="top">はい(true)にすると、外部サービスに既にアカウントを持っているユーザがそのアカウント使ってGeeklogにログインできるようになります。現在サポートされているのは、LDAPとLiveJournalです。<br>
     特定のサービスを使ってログインできるようにするには、そのサービス用の認証クラスが<tt>system/classes/authentication</tt>に必要です。したがって、LDAPを用いたログインは許可するがLiveJournalを用いたログインは禁止したいという場合、単に不要なサービスの認証クラスを削除するだけでよいのです。詳細は、<a href="http://www.geeklog.net/article.php/remote-authentication">Geeklogにおけるリモート認証(Remote Authentication in Geeklog)</a>を参照してください。</td></tr>
+<tr>
+  <td valign="top"><a name="desc_user_login_method_oauth">oauth</a></td>
+  <td valign="top"><code>false</code></td>
+  <td valign="top">Whether to allow logins using <a href="http://oauth.net/">OAuth</a>. This will display a special OAuth login below the normal login field.<br>
+    <strong>Note:</strong> Currently only OAuth 1.0 is support. Current login methods supported: Facebook, Twitter and LinkedIn.<br>Please note that to enable login for a 
+    specific method, you need an  authorization class in <tt>system/classes/oauth</tt>. If you only want to allow Facebook but not Twitter users (or vice versa), simply
+    remove the class file for the unwanted service(s). You must also update the class file(s) with the application key ($consumer_key) and application secret 
+    ($consumer_secret) values. The PHP extenstion OpenSSL is required to be loaded.<br>
+    See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_facebook_login">facebook_login</a></td>
+  <td valign="top"><code>false</code></td>
+  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
+    an account with Facebook to log into Geeklog with said account using OAuth. You must set the Facebook application ID and secret.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_facebook_consumer_key">facebook_consumer_key</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use Facebook OAuth login method. Visit this <a href="http://developers.facebook.com/setup/">Facebook Developers page</a> 
+  to create an Applicaiton to recieve your key and secret.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_facebook_consumer_secret">facebook_consumer_secret</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use Facebook OAuth login method. Visit this <a href="http://developers.facebook.com/setup/">Facebook Developers page</a> 
+  to create an Applicaiton to recieve your key and secret.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_linkedin_login">linkedin_login</a></td>
+  <td valign="top"><code>false</code></td>
+  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
+    an account with LinkedIn to log into Geeklog with said account using OAuth. You must set the LinkedIn API and secret key.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_linkedin_consumer_key">linkedin_consumer_key</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use LinkedIn OAuth login method. Visit this <a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
+  to create an Applicaiton to recieve your API and secret key.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_linkedin_consumer_secret">linkedin_consumer_secret</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use LinkedIn OAuth login method. Visit this <a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
+  to create an Applicaiton to recieve your API and secret key.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_twitter_login">twitter_login</a></td>
+  <td valign="top"><code>false</code></td>
+  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
+    an account with Twitter to log into Geeklog with said account using OAuth. You must set the Twitter consumer key and secret.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_twitter_consumer_key">twitter_consumer_key</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use Twitter OAuth login method. Visit this <a href="https://twitter.com/apps">Twitter Application page</a> 
+  to create an Applicaiton to recieve your consumer key and secret.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_twitter_consumer_secret">twitter_consumer_secret</a></td>
+  <td valign="top"><code>''</code></td>
+  <td valign="top">Required to use Twitter OAuth login method. Visit this <a href="https://twitter.com/apps">Twitter Application page</a> 
+  to create an Applicaiton to recieve your consumer key and secret.<br>
+  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
 <tr>
   <td valign="top"><a name="desc_aftersave_user">ユーザ保存後の画面遷移(aftersave_user)</a></td>
   <td valign="top"><code>作成した項目を表示する(item)</code></td>
