@@ -76,7 +76,7 @@
 <tr>
   <td valign="top"><a name="desc_owner_name">owner_name</a></td>
   <td valign="top"></td>
-  <td valign="top">The name of the owner of the site. This is used in the copyright notice if set, else the site name is used.</td></tr>     
+  <td valign="top">このサイトの管理者のなまえを入力します。これはcopyright noticeがセットされた場合に表示されます。, 他、サイト名が使用されます。</td></tr>
 <tr>
   <td valign="top"><a name="desc_copyrightyear">Copyrightの年数設定(copyrightyear)</a></td>
   <td valign="top"><i>(無効)</i></td>
@@ -547,7 +547,7 @@
   <td valign="top">はい(1)にすると、セクションブロックに"Home"（トップページ）へのリンクが表示されなくなります。</td></tr>
 </table>
 
-<h3><a name="blocks_who">ブロック: オンラインメンバーブロック</a></h3>
+<h3><a name="blocks_who">ブロック: オンラインユーザブロック</a></h3>
 
 <table>
 <tr><th style="width:25%">項目(変数)</th>
@@ -556,15 +556,15 @@
 <tr>
   <td valign="top"><a name="desc_whosonline_threshold">セッションのしきい値(whosonline_threshold)</a></td>
   <td valign="top">300（秒）</td>
-  <td valign="top">オンラインメンバーブロックに表示された後、ユーザがどれくらいの間操作をしないとオンラインメンバーブロックに表示されなくなるかを決める秒数を指定します。</td></tr>
+  <td valign="top">オンラインユーザブロックに表示された後、ユーザがどれくらいの間操作をしないとオンラインユーザブロックに表示されなくなるかを決める秒数を指定します。</td></tr>
 <tr>
   <td valign="top"><a name="desc_whosonline_anonymous">ゲストユーザには表示しない(whosonline_anonymous)</a></td>
   <td valign="top">いいえ(0)</td>
   <td valign="top">はい(1)にすると、ゲストユーザに見えるのはオンライン中の登録メンバーの数だけで、名前は表示されません。ログインしたユーザだけがオンライン中の他のユーザの名前を見ることができます。</td></tr>
 <tr>
   <td valign="top"><a name="desc_whosonline_photo">whosonline_photo</a></td>
-  <td valign="top">0</td>
-  <td valign="top">If enabled (i.e. set to 1), and a photo exists for the user, a thumbnail of that photo will be displayed. Else, a photo icon will be displayed.</td></tr>
+  <td valign="top">いいえ(0)</td>
+  <td valign="top">有効にすると(すなわち1に変更), ユーザの写真があれば, 写真のサムネイルが表示され，なければ替わりに写真アイコンが表示されます。</td></tr>
 </table>
 
 <h3><a name="blocks_what">ブロック: 新着情報ブロック</a></h3>
@@ -672,64 +672,59 @@
     特定のサービスを使ってログインできるようにするには、そのサービス用の認証クラスが<tt>system/classes/authentication</tt>に必要です。したがって、LDAPを用いたログインは許可するがLiveJournalを用いたログインは禁止したいという場合、単に不要なサービスの認証クラスを削除するだけでよいのです。詳細は、<a href="http://www.geeklog.net/article.php/remote-authentication">Geeklogにおけるリモート認証(Remote Authentication in Geeklog)</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_user_login_method_oauth">oauth</a></td>
-  <td valign="top"><code>false</code></td>
-  <td valign="top">Whether to allow logins using <a href="http://oauth.net/">OAuth</a>. This will display a special OAuth login below the normal login field.<br>
-    <strong>Note:</strong> Currently only OAuth 1.0 is support. Current login methods supported: Facebook, Twitter and LinkedIn.<br>Please note that to enable login for a 
-    specific method, you need an  authorization class in <tt>system/classes/oauth</tt>. If you only want to allow Facebook but not Twitter users (or vice versa), simply
-    remove the class file for the unwanted service(s). You must also update the class file(s) with the application key ($consumer_key) and application secret 
-    ($consumer_secret) values. The PHP extenstion OpenSSL is required to be loaded.<br>
-    See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top"><code>いいえ(false)</code></td>
+  <td valign="top"><a href="http://oauth.net/">OAuth</a>によるログインを許可するかどうかを設定します。許可すると、通常のログインフォームの下にOAuthログインが表示されます。<br>
+    <strong>Note:</strong>現在はOAuth 1.0のみをサポートしています。現在可能なサポート: Facebook, TwitterそしてLinkedInの３つです。<br>ログインを有効にするには、
+    OAuthの設定には<tt>system/classes/oauth</tt>のauthorization classが必要です。あなたがもしFacebookのみで、Twitterだけにしたければ(逆もまた同様), 単に
+    欲しくないサービスのファイルを削除するだけです。あなたはさらにapplication key ($consumer_key) とapplication secret 
+    ($consumer_secret) の値をセットする必要があります。The PHP extenstion OpenSSL がロードされている必要があります。<br>
+    より詳しい情報は<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_facebook_login">facebook_login</a></td>
-  <td valign="top"><code>false</code></td>
-  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
-    an account with Facebook to log into Geeklog with said account using OAuth. You must set the Facebook application ID and secret.</td></tr>
+  <td valign="top"><code>いいえ(false)</code></td>
+  <td valign="top">(<tt>はい(true)</tt>のとき、)FacebookのアカウントでGeeklogにOAuthでログインすることを伝えてログインさせます。管理者はFacebookのapplication IDとsecretを取得して設定しなければなりません。</td></tr>
 <tr>
   <td valign="top"><a name="desc_facebook_consumer_key">facebook_consumer_key</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use Facebook OAuth login method. Visit this <a href="http://developers.facebook.com/setup/">Facebook Developers page</a> 
-  to create an Applicaiton to recieve your key and secret.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">Facebook OAuth ログイン利用時には入力してください。Applicaiton作成およびApplication IDとApplication Secretの取得は、<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_facebook_consumer_secret">facebook_consumer_secret</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use Facebook OAuth login method. Visit this <a href="http://developers.facebook.com/setup/">Facebook Developers page</a> 
-  to create an Applicaiton to recieve your key and secret.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">Facebook OAuth ログイン利用時には入力してください。Applicaiton作成およびApplication IDとApplication Secretの取得は、<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_linkedin_login">linkedin_login</a></td>
-  <td valign="top"><code>false</code></td>
-  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
-    an account with LinkedIn to log into Geeklog with said account using OAuth. You must set the LinkedIn API and secret key.</td></tr>
+  <td valign="top"><code>いいえ(false)</code></td>
+  <td valign="top">(<tt>はい(true)</tt>のとき、)LinkedInのアカウントでGeeklogにOAuthでログインすることを伝えてログインさせます。管理者はLinkedInのIDとsecretを取得して設定しなければなりません。</td></tr>
 <tr>
   <td valign="top"><a name="desc_linkedin_consumer_key">linkedin_consumer_key</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use LinkedIn OAuth login method. Visit this <a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
-  to create an Applicaiton to recieve your API and secret key.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。Applicaiton作成およびAPI KeyとSecret Keyの取得は、<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
+  のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_linkedin_consumer_secret">linkedin_consumer_secret</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use LinkedIn OAuth login method. Visit this <a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
-  to create an Applicaiton to recieve your API and secret key.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。Applicaiton作成およびAPI KeyとSecret Keyの取得は、<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
+  のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_twitter_login">twitter_login</a></td>
-  <td valign="top"><code>false</code></td>
-  <td valign="top">Allow (when set to <tt>true</tt>) users who already have
-    an account with Twitter to log into Geeklog with said account using OAuth. You must set the Twitter consumer key and secret.</td></tr>
+  <td valign="top"><code>いいえ(false)</code></td>
+  <td valign="top">(<tt>はい(true)</tt>のとき、)TwitterのアカウントでGeeklogにOAuthでログインすることを伝えてログインさせます。管理者はTwitterのconsumer keyとsecretを取得して設定しなければなりません。</td></tr>
 <tr>
   <td valign="top"><a name="desc_twitter_consumer_key">twitter_consumer_key</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use Twitter OAuth login method. Visit this <a href="https://twitter.com/apps">Twitter Application page</a> 
-  to create an Applicaiton to recieve your consumer key and secret.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">Twitter OAuth ログイン利用時には入力してください。Applicaiton作成およびConsumer KeyとConsumer Secretの取得は、<a href="https://twitter.com/apps">Twitter Application page</a> 
+  のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_twitter_consumer_secret">twitter_consumer_secret</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Required to use Twitter OAuth login method. Visit this <a href="https://twitter.com/apps">Twitter Application page</a> 
-  to create an Applicaiton to recieve your consumer key and secret.<br>
-  See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
+  <td valign="top">Twitter OAuth ログイン利用時には入力してください。Applicaiton作成およびConsumer KeyとConsumer Secretの取得は、<a href="https://twitter.com/apps">Twitter Application page</a> 
+  のApplicaitonを参照してください。<br>
+  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_aftersave_user">ユーザ保存後の画面遷移(aftersave_user)</a></td>
   <td valign="top"><code>作成した項目を表示する(item)</code></td>
