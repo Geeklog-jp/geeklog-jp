@@ -54,13 +54,13 @@ $LANG_configsubgroups['xmlsitemap'] = array(
 );
 
 $LANG_tab['xmlsitemap'] = array(
-    'tab_main' => 'XMLSitemap Main Settings',
-    'tab_pri' => 'Priority',
-    'tab_freq' => 'Update frequency'
+    'tab_main' => 'XMLSitemapのメイン設定',
+    'tab_pri' => '優先度',
+    'tab_freq' => '更新頻度'
 );
 
 $LANG_fs['xmlsitemap'] = array(
-    'fs_main' => 'XMLSitemapの主要設定',
+    'fs_main' => 'XMLSitemapのメイン設定',
     'fs_pri' => '優先度（既定値 = 0.5、0.0 = 最低、1.0 = 最高）',
     'fs_freq' => '更新頻度'
 );
