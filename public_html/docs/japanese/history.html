@@ -20,119 +20,112 @@
 
 <h2>Apr 3, 2011 (1.8.0b1)</h2>
 
-<p>This release includes the results from the 2010 Google Summer of Code project
-to improve the Configuration (input validation, searching), implemented by
-Akeda Bagus.</p>
+<p>このリリースは2010 Google Summer of Codeプロジェクトの成果であるAkeda Bagusさんの
+コンフィギュレーションを含んでいます(入力値の整合チェックと検索)。</p>
 
 <ul>
-  <li>Added a COM_newTemplate function to allow overriding template
-    instantiation (feature request #0001220, patch provided by Joe
+  <li>新しいCOM_newTemplate関数は，テンプレートのオーバーライドを許可します。
+    (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001220">#0001220</a>, パッチ提供: Joe
     Mucchiello)</li>
-  <li>Fixed the "Mail user" form to not lose all filled-in values when an error
-    occured (bug #0001270) [Rouslan]</li>
-  <li>Clean up images directory and added new icons (bug #0001276) [Tom,
+  <li>"ユーザにメールを送る"フォームは失敗したときもフォームの入力値を
+失なわないようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001270">#0001270</a>) [Rouslan]</li>
+  <li>画像ディレクトリをクリーンアップしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001276">#0001276</a>) [Tom,
     Rouslan]</li>
-  <li>Added support for OAuth remote authentication, provided by Hiroshi
-    Sakuramoto, and added re-syncing of remote user data (feature
-    request #0001191) [Tom]</li>
-  <li>Updated bigdump.php (as used in the install script's Migrate option)
-    to the latest version (feature request #0001143) [Rouslan]</li>
-  <li>Removed dependency on JavaScript from some admin pages (feature request
-    #0001243) [Rouslan]</li>
-  <li>Added support to check version dependencies with plugins and Geeklog, and
-    plugins with other plugins (feature request #0001154) [Rouslan]</li>
-  <li>Check database requirements before installing a plugin (feature request
-    #0001288) [Rouslan]</li>
-  <li>Using fopen() to locate a plugin's icon may not provide the expected
-    result (bug #0001265) [Rouslan]</li>
-  <li>A story's bodytext doesn't need to be evaluated when displaying the site's
-    index page (patch #0001204, provided by LWC)</li>
-  <li>The status of the "Send me a copy of this email" option was lost when the
-    form wasn't filled out correctly (bug #0001240, patch provided by Rouslan
+  <li>OAuthリモート認証とユーザ情報の同期（開発:Hiroshi Sakuramoto）を追加しました。
+   (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001191">#0001191</a>) [Tom]</li>
+  <li>bigdump.phpをアップデートしました。最終バージョンの移行スクリプトで利用されます。
+   (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001143">#0001143</a>) [Rouslan]</li>
+  <li>管理者ページのJavaScript依存を削除しました。(要望 
+    <a href="http://project.geeklog.net/tracking/view.php?id=0001243">#0001243</a>) [Rouslan]</li>
+  <li>プラグインインストールで，Geeklogのバージョンへの適合チェックと他のプラグインへの
+     依存チェックを追加しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001154">#0001154</a>) [Rouslan]</li>
+  <li>プラグインのインストール前に，データベースの要求をチェックするようにしました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001288">
+    #0001288</a>) [Rouslan]</li>
+  <li>プラグインのアイコンが見つかるかどうかfopen()を使うようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001265">#0001265</a>) [Rouslan]</li>
+  <li>サイトのindexページを表示する際に記事の本文をチェックしなくてもよいようにしました
+    。(パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001204">#0001204</a>, 提供: LWC)</li>
+  <li>メールを送信する際にフォームが正しく入力されていないとき，"自分宛にコピーを送信"
+    オプションが外れるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001240">#0001240</a>, パッチ提供: Rouslan
     Placella)</li>
-  <li>Database backup files > 2GB prevented displaying the list of db backup
-    files on some 32 bit systems. Added some workarounds (bug #0001257)
+  <li>幾つかの32ビットシステムで、データベースバックアップファイルリストの合計が
+    2GBを越えている場合に表示されなくなる問題を修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001257">#0001257</a>)
     [Dirk]</li>
-  <li>Fixed replacing the [imageX] tags when changing a story's id
-    (bug #0001256) [Dirk]</li>
-  <li>Fixed logging of SQL errors during the startup phase [Dirk]</li>
-  <li>The load order of plugins is now configurable (feature request #0001247,
-    patch provided by Rouslan Placella)</li>
-  <li>The list of plugins is now sortable by status (patch #0001249, provided by
+  <li>記事のIDが変わったとき，[imageX]を併せて変更するよう修正しました。
+    (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001256">#0001256</a>) [Dirk]</li>
+  <li>スタートアップ時にSQLエラーの記録を行うようにしました。[Dirk]</li>
+  <li>プラグインのロード順をコンフィギュレーションで設定できるようにしました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001247">#0001247</a>,
+    パッチ提供: Rouslan Placella)</li>
+  <li>プラグインリストがステータスでソートできるようにしました。(パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001249">#0001249</a>, 提供:
     Rouslan Placella)</li>
-  <li>Added a PLG_getFooterCode function and corresponding {plg_footercode}
-    variable in footer.thtml. This will allow plugins to add code to a site's
-    footer, e.g. to load JavaScript code as late as possible (based on patch
-    #0000906, provided by hiroron) [Dirk]</li>
-  <li>COM_onFrontpage didn't work correctly when called from a theme's
-    functions.php (bug #0001254, patch provided by mystral-kk)</li>
-  <li>Introduced COM_versionCompare() to compare Geeklog version numbers, since
-    they can't be compared using the PHP version_compare() function (feature
-    request #0000866, patch provided by Rouslan Placella)</li>
-  <li>When importing RSS feeds, accept a non-permanent guid as a link if
-    there is no dedicated link element, as long as the guid looks like a
-    URL [Dirk]</li>
-  <li>Added a noindex robots meta tag to printable story pages so they aren't
-    indexed by search engines [Tom]</li>
-  <li>Autotags in Templates may not always display (bug #0001246) [Tom]
-  <li>Handle $bulkimport flag in the CUSTOM_userCreate() sample code in
-    lib-custom.php (bug #0001208) [Dirk]<br />
-    If you are using your own CUSTOM_userCreate(), please check that you handle
-    this flag (set to true when doing a Batch User Import) correctly!</li>
-  <li>Set minimum required PHP version to PHP 5.2.0 and removed all code that
-    ensured compatibility with PHP 4 (feature request #0001217) [Dirk]</li>
-  <li>Minor optimization and code cleanup in CMT_saveComment (bug #0000939)
+  <li>PLG_getFooterCode関数が追加され、footerにテーマ変数{plg_footercode}が
+    使用できるようになりました。これで、たとえばJavaScriptコードなどをできる
+    だけ遅く読み込むことができるようになります。 (based on patch
+    <a href="http://project.geeklog.net/tracking/view.php?id=0000906">#0000906</a>, 提供: hiroron) [Dirk]</li>
+  <li>COM_onFrontpageがテーマのfunctions.phpで動かないバグを修正しました。
+     (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001254">#0001254</a>, パッチ提供: mystral-kk)</li>
+  <li>Geeklogのバージョン番号を比較するCOM_versionCompare()を導入しました。
+    PHP version_compare() 関数ではこれができなかったため。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0000866">#0000866</a>, パッチ提供: Rouslan Placella)</li>
+  <li>インポートするRSSフィードにリンク要素が含まれていない場合に、非永久的な
+    GUIDを受け入れるようにしました。ただし、そのGUIDがURLに見える場合に限ります。[Dirk]</li>
+  <li>印刷用ページにnoindexロボットメタタグを追加してサーチエンジンに
+    インデックスされないようにしました。[Tom]</li>
+  <li>テンプレートに書き込まれた自動タグが動作しない場合があるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001246">#0001246</a>) [Tom]
+  <li>lib-custom.phpのCUSTOM_userCreate()サンプルコードに$bulkimportフラグを
+    使うようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001208">#0001208</a>) [Dirk]<br />
+    CUSTOM_userCreate()を自分でカスタマイズしている場合、このフラグを正しく
+    使っているか（バッチユーザーインポートの際にtrueに設定する）を確認してください！</li>
+  <li>サポートするPHPのバージョンをPHP5.2.0以上に設定し、PHP4互換のコードを
+    すべて削除しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001217">#0001217</a>) [Dirk]</li>
+  <li>CMT_saveCommentを最適化しコードをクリーンアップしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0000939">#0000939</a>)
     [Vinny]</li>
-  <li>Added a proper copyright header and license text (LGPLv2) to the template
-    class (feature request #0001128) [Dirk]</li>
-  <li>Fixed check for availability of PECL::ZipArchive in the unpacker class
-    (bug #0001209) [Dirk]</li>
-  <li>Added in Autotag usage permissions and descriptions. Allowed HTML now 
-    displays autotag descriptions as tooltips (feature request #0001042)
+  <li>template classに，正しいpcopyright headerとlicenseテキスト(LGPLv2)を
+    セットしました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001128">#0001128</a>) [Dirk]</li>
+  <li>unpacker classのPECL::ZipArchiveが使えるかのチェックのバグを修正しました。
+    (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001209">#0001209</a>) [Dirk]</li>
+  <li>自動タグにパーミッションとディスクリプションを追加しました。
+    HTMLで自動タグのディスクリプションをtooltipとして表示できるようにしました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001042">#0001042</a>)
     [Tom]</li>
-  <li>Added in COM_Tooltip function for displaying tooltips [Tom]</li>
-  <li>Moved handling of the [story:] and [user:] autotags to lib-story.php and
-    lib-user.php, respectively (preparations for feature request #0001115)
-    [Dirk]</li>
+  <li>tooltip表示のためのCOM_Tooltip関数を追加しました。[Tom]</li>
+  <li>[story:]をlib-story.php、[user:]をlib-user.phpに移動しました。
+    (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001115">#0001115</a>への準備)    [Dirk]</li>
 </ul>
 
 <h3>Calendar Plugin</h3>
 <ul>
-  <li>Fixed a minor display issue in the batchdelete.thtml (patch #0001244,
-    provided by Rouslan Placella)</li>
+  <li>batchdelete.thtmlの表示上の小さな問題を修正しました(パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001244">#0001244</a>,
+    提供: Rouslan Placella)</li>
 </ul>
 
 <h3>Links Plugin</h3>
 
 <ul>
-<li>Fixed encoding of link categories in URLs (bug #0001173) [Tom]<br />
-  Note: This fix changes the URLs of categories with spaces in their names
-  from using a '+' sign to using '%20'.</li>
-<li>Fixed text above the list of links, which was referring to a menu entry that
-  no longer exists (bug #0001216)</li>
+<li>リンクカテゴリのURLを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001173">#0001173</a>) [Tom]<br />
+    注意: 名前にスペースを含んだURLを'%20'から'+'に置き換えていたのを修正しました。</li>
+<li>リンクの上部のリンクリストを修正。既に使っていないメニューエントリーを
+    参照していました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001216">#0001216</a>)</li>
 </ul>
 
 <h3>Polls Plugin</h3>
 
 <ul>
-  <li>Updated the default poll (feature request #0001277) [Rouslan]
-  <li>Fixed voters do not get counted correctly when updating a poll with
-    multiple questions. (patch #0001056, provided by Erisco)</li>
+  <li>デフォルトのアンケートを変更しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001277">#0001277</a>) [Rouslan]
+  <li>投票者の数が正しくカウントされていない問題を修正。複数の質問を
+    アップデートする際にこの問題が発生していました。(パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001056">#0001056</a>, 提供: Erisco)</li>
 </ul>
 
 <h3>Static Pages Plugin</h3>
 
 <ul>
-  <li>Removed unwanted piece of HTML on "empty" static pages (bug #0001192)
+  <li>全画面モードの静的ページに余分なhtmlを表示させないようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001192">#0001192</a>)
     [Rouslan]</li>
-  <li>Added a noindex robots meta tag to printable pages so they aren't
-    indexed by search engines [Tom]</li>
+  <li>印刷用ページにnoindexロボットメタタグを追加してサーチエンジンに
+    インデックスされないようにしました。[Tom]</li>
 </ul>
 
 <h3>XMLSitemap Plugin</h3>
 
 <ul>
-  <li>Removed an unused xmlsitemap.edit permission that existed in some installs
+  <li>使われていないxmlsitemap.editパーミッションをインストールスクリプトから削除しました。
     (left by all fresh installs with Geeklog version 1.6.0 through to 1.7.0)
     [Dirk]</li>
 </ul>
