@@ -57,7 +57,7 @@ $LANG_LINKS = array(
     124 => '表示',
     125 => 'カテゴリ',
     126 => '現在の位置:',
-    'autotag_desc_link' => '[link: id alternate title] - Displays a link to a Link from the Links Plugin using the Link Title as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_link' => '[link: id alternate title] - リンク先タイトルでリンク先へのリンクを表示。アンカーテキストの指定は任意。',
     'root' => 'トップ'
 );
 
@@ -246,7 +246,7 @@ $LANG_confignames['links'] = array(
     'root' => 'トップカテゴリのID',
     'default_permissions' => 'パーミッション',
     'category_permissions' => 'パーミッション',
-    'autotag_permissions_link' => '[link: ] Permissions'
+    'autotag_permissions_link' => '[link: ] パーミッション'
 );
 
 $LANG_configsubgroups['links'] = array(
@@ -254,19 +254,19 @@ $LANG_configsubgroups['links'] = array(
 );
 
 $LANG_tab['links'] = array(
-    'tab_public' => 'Public Links List Settings',
-    'tab_admin' => 'Links Admin Settings',
-    'tab_permissions' => 'Link Permissions',
-    'tab_cpermissions' => 'Category Permissions',
-    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+    'tab_public' => 'リンクのメイン設定',
+    'tab_admin' => '管理',
+    'tab_permissions' => 'パーミッション',
+    'tab_cpermissions' => 'カテゴリのパーミッション',
+    'tab_autotag_permissions' => '自動タグのパーミッション'
 );
 
 $LANG_fs['links'] = array(
-    'fs_public' => 'リンクの表示',
+    'fs_public' => 'リンクのメイン設定',
     'fs_admin' => 'リンクの管理',
     'fs_permissions' => 'リンクのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_cpermissions' => 'カテゴリのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+    'fs_autotag_permissions' => '自動タグのパーミッション'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -275,7 +275,7 @@ $LANG_configselects['links'] = array(
     1 => array('はい' => true, 'いいえ' => false),
     9 => array('ページを表示する' => 'item', 'リストを表示する' => 'list', 'プラグイントップを表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
-    13 => array('No access' => 0, 'Use' => 2)
+    13 => array('アクセス不可' => 0, '利用する' => 2)
 );
 
 ?>
