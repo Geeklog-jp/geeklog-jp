@@ -1,6 +1,6 @@
 <?php
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== FALSE) {
     die('This file can not be used on its own!');
 }
 
@@ -34,9 +34,9 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== fal
 *                作するようになります。
 *
 *              2. 上記1.の変更を行えない場合は、下記設定の
-*                THEMETESTER_IGNORE_GLFUSION を true にして、glfusion系統のテー
-*                マを選択できないようにしてください。デフォルトでは false にな
-*                っています。
+*                THEMETESTER_IGNORE_GLFUSION を TRUE にして、glfusion系統のテー
+*                マを選択できないようにしてください。初期値は FALSE になってい
+*                ます。
 *
 *          3. テーマテスター全体は、<div id="themetester">と</div>で囲まれていま
 *            す。
@@ -47,6 +47,10 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== fal
 //=====================================
 
 /**
+* 2011-04-10
+*
+*   1. [Fix] THEMETESTER_escape($str) caused an error.
+*
 * 2008-09-20
 *
 *   1. [Fix] Modified to prevent errors with PHP-4.x when html_entity_decode()
@@ -91,9 +95,10 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== fal
 //  設定
 //=====================================
 
-// glfusion（旧gllabs）系統のテーマを選択可能にするには、true を false に変えて
-// ください
-define('THEMETESTER_IGNORE_GLFUSION', false);
+// glfusion（旧gllabs）系統のテーマ('chameleon'や'nouveau')を選択可能にするには、
+//  TRUE を FALSE に変えてください。
+define('THEMETESTER_IGNORE_GLFUSION', FALSE);
+# define('THEMETESTER_IGNORE_GLFUSION', TRUE);
 
 //=====================================
 //  Functions
@@ -103,22 +108,21 @@ define('THEMETESTER_IGNORE_GLFUSION', false);
 * Returns a string in HTML to be safely displayed
 */
 function THEMETESTER_escape($str) {
-	global $_CONF, $LANG_CHARSET;
-	
-	if (isset($LANG_CHARSET)) {
-		$encoding = $LANG_CHARSET;
-	} else if (isset($_CONF['default_charset'])) {
-		$encoding = $_CONF['default_charset'];
-	} else {
-		$encoding = 'utf-8';
+	static $charset = NULL;
+
+	if ($charset === NULL) {
+		$charset = COM_getCharset();
 	}
-	
-	$str = str_replace(
-		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
-		array(   '<',    '>',     '&',      '"',      "'"),
-		$str
-	);
-	return htmlspecialchars($str, ENT_QUOTES, $encoding);
+
+	if (version_compare(PHP_VERSION, '5.2.3') >= 0) {
+		return htmlspecialchars($str, ENT_QUOTES, $charset, FALSE);
+	} else {
+		return str_replace(
+			array('&amp;&amp;', '&amp;&lt;', '&amp;&gt;', '&amp;&quot;', '&amp;&#039;'),
+			array('&amp;', '&lt:', '&gt;', '&quot;', '&#039;'),
+			htmlspecialchars($str, ENT_QUOTES, $charset)
+		);
+	}
 }
 
 /**
@@ -129,54 +133,54 @@ function THEMETESTER_escape($str) {
 *       too strict.
 */
 function THEMETESTER_cleanUrl($url) {
-	
+
 	/**
 	* Decodes HTML entities
 	*/
-	
+
 	// %dd --> chr(0xdd)
 	$url = preg_replace('/%([\dA-F]{2})/ie', "chr(hexdec('\\1'))", $url);
-	
+
 	// \xdd --> chr(0xdd)
 	$url = preg_replace('/\\\\x([\dA-F]{2})/ie', "chr(hexdec('\\1'))", $url);
-	
+
 	// \udddd --> chr(0xdddd)
 	$url = preg_replace('/\\\\u([\dA-F]{4})/ie', "chr(hexdec('\\1'))", $url);
-	
+
 	// &[lL][tT](;) --> &
 	$search  = array('/&lt;?/i', '/&gt;?/i', '/&quot;?/i', '/&raquo;?/i');
 	$replace = array('<', '>', '"', "'");
 	$url = preg_replace($search, $replace, $url);
-	
+
 	// &#\d{1,7}(;) --> d
 	$url = preg_replace('/&#(\d{1,7});?/e', "chr('\\1')", $url);
-	
+
 	// &#x[0-9a-fA-F]{1,7}(;) --> d
 	$url = preg_replace('/&#x([\dA-F]{1,7});?/ie', "chr(hexdec('\\1'))", $url);
-	
+
 	/**
 	* Starts cleaning
 	*/
-	
+
 	// Removes control codes
 	$url = preg_replace('/[\x00-\x20\x7F\xAD]/', '', $url);
-	
+
 	// '+' --> ' '
 	$url = str_replace('+', ' ', $url);
 
 	// Removes 'JavaScript:'
 	$url = preg_replace('/J\s*A\s*V\s*A\s*S\s*C\s*R\s*I\s*P\s*T\s*/i', '', $url);
-	
+
 	// Maybe, the three functions are not necessary to sanitize URLs
 	// Removes '<script>'
 	$url = preg_replace('/<SCRIPT[^>]*>/i', '', $url);
-	
+
 	// Removes '</script>'
 	$url = preg_replace('/<\/SCRIPT>/i', '', $url);
 
 	// Removes 'document.write'
 	$url = preg_replace('/DOCUMENT\.WRITE/i', '', $url);
-	
+
 	return $url;
 }
 
@@ -187,27 +191,27 @@ function THEMETESTER_cleanUrl($url) {
 */
 function THEMETESTER_isMobile() {
 	$ua = $_SERVER['HTTP_USER_AGENT'];
-	
-	if (preg_match("/^(DoCoMo\/1|DoCoMo\/2)\.0/i", $ua)) {
+
+	if (preg_match("/^DoCoMo\/[12]\.0/i", $ua)) {
 		// DoCoMo
-		return true;
+		return TRUE;
 	} else if (preg_match("/^(Softbank|J\-PHONE|Vodafone|MOT\-[CV]|Vemulator)/i", $ua)) {
 		// SoftBank
-		return true;
+		return TRUE;
 	} else if (preg_match("/(UP\.Browser|KDDI\-)/i", $ua)) {
 		// AU
-		return true;
+		return TRUE;
 	} else if (preg_match("/(DDIPOCKET|WILLCOM)/i", $ua)) {
 		// Wilcom
-		return true;
+		return TRUE;
 	} else if (preg_match("/Windows *CE/i", $ua)
 		 OR preg_match("/jigbrowserweb/i", $ua)
 		 OR preg_match("/NetFront/i", $ua)
 		 OR preg_match("/(Y!J-SRD\/1.0|Y!J-MBS\/1.0)/i", $ua)) {
 		// Other UAs judged to be a mobile phone
-		return true;
+		return TRUE;
 	} else {
-		return false;
+		return FALSE;
 	}
 }
 
@@ -216,36 +220,37 @@ function THEMETESTER_isMobile() {
 */
 function THEMETESTER_getThemes() {
 	global $_PLUGINS;
-	
+
 	// Themes created by glfusion (was: gllabs)
 	$gllabs_themes = array(
 		'chameleon', 'nouveau',
 	);
-	
+
 	$retval = array();
 	$themes = COM_getThemes();
-	
+
 	foreach ($themes as $theme) {
-		if (THEMETESTER_IGNORE_GLFUSION != false) {
+		if (defined('THEMETESTER_IGNORE_GLFUSION')
+		 AND (THEMETESTER_IGNORE_GLFUSION != FALSE)) {
 			if (in_array($theme, $gllabs_themes)) {
 				continue;
 			}
 		} else {
-			if ($theme == 'chameleon' AND !in_array($theme, $_PLUGINS)) {
+			if (($theme === 'chameleon') AND !in_array($theme, $_PLUGINS)) {
 				continue;
 			}
 		}
-		
+
 		/**
-		* Doesn't include mobile themes
+		* Don't include mobile themes
 		*/
 		if (preg_match("/mobile/i", $theme)) {
 			continue;
 		}
-		
+
 		$retval[] = $theme;
 	}
-	
+
 	return $retval;
 }
 
@@ -254,7 +259,7 @@ function THEMETESTER_getThemes() {
 */
 function phpblock_themetester() {
 	global $_CONF, $_PLUGINS, $_TABLES, $_USER;
-	
+
 	$retval = '';
 
 	if (!defined('XHTML')) {
@@ -263,27 +268,27 @@ function phpblock_themetester() {
 	if (!defined('LB')) {
 		define('LB', "\n");
 	}
-	
+
  	// Users are not allowed to change the theme or the user is accessing with
 	// a mobile phone
 	if (($_CONF['allow_user_themes'] == 0)
-	 OR (THEMETESTER_isMobile() === true)) {
+	 OR (THEMETESTER_isMobile() === TRUE)) {
 		return $retval;
 	}
-	
+
 	$installed_themes = THEMETESTER_getThemes();
-	
+
 	if (count($installed_themes) <= 1) {
 		// No choice
 		return $retval;
 	}
-	
+
 	if (isset($_POST['themetester_theme'])) {
 		$theme = COM_applyFilter($_POST['themetester_theme']);
 	} else {
 		$theme = '';
 	}
-	
+
 	// Gets the current theme
 	if (isset($_USER['uid']) AND ($_USER['uid'] > 1)) {	// Logged-in user
 		$current_theme = DB_getItem(
@@ -299,7 +304,7 @@ function phpblock_themetester() {
 	if ($current_theme == '') {
 		$current_theme = $_CONF['theme'];
 	}
-	
+
 	// Gets the current URL and XSS-clean it
 	$url = COM_getCurrentURL();
 	$url = THEMETESTER_cleanUrl($url);
@@ -307,7 +312,7 @@ function phpblock_themetester() {
 		$url = $_CONF['site_url'];
 	}
 	$url = THEMETESTER_escape($url);
-	
+
 	// The theme was changed
 	if (!empty($theme) AND ($theme != $current_theme)
 	 AND in_array($theme, $installed_themes)) {
@@ -318,7 +323,7 @@ function phpblock_themetester() {
 				 . "WHERE (uid = '" . addslashes($_USER['uid']) . "')";
 			DB_query($sql);
 		}
-		
+
 		// If possible, we save the new theme into cookie and refresh
 		if (!headers_sent()) {
 			setcookie (
@@ -329,13 +334,13 @@ function phpblock_themetester() {
 				$_CONF['cookiedomain'],
 				$_CONF['cookiesecure']
 			);
-			
+
 			// Redirects to the current page
 			header('Location: ' . $url);
 			exit;	// In reality, this is unnecessary
 		}
 	}
-	
+
 	// Displays a form in which users change the theme
 	$retval .= '<div id="themetester">' . LB
 			.  '  <form action="' . $url . '" method="post">' . LB
@@ -346,7 +351,7 @@ function phpblock_themetester() {
 		if ($theme == $current_theme) {
 			$retval .= ' selected="selected"';
 		}
-		
+
 		$retval .= '>' . THEMETESTER_escape($theme) . '</option>' . LB;
 	}
 
@@ -356,6 +361,6 @@ function phpblock_themetester() {
 			.  '    </noscript>' . LB
 			.  '  </form>' . LB
 			.  '</div>' . LB;
-	
+
 	return $retval;
 }
