@@ -1,6 +1,6 @@
 /*==============================================================================
-  Title       : professional_css
-  Version     : 1.6 for Geeklog1.7.2
+  Title       : ProfessionalCSS_en
+  Version     : 1.51 for Geeklog1.7.1
   Author      : Fumito Arakawa as Phize (http://phize.net/) & Geeklog Japanese
                 & Ivy (http://www.ivywe.co.jp)
   Description : Geeklog Theme Maker by using CSS 2.0 eliminate table tags
@@ -104,14 +104,6 @@ Template files (.thtml) are added comments.
                  ...
       <!-- } dir/file.thtml -->
 
-Comment's rule:
-
-  Template naeme
-
-      <!-- dir/filename.thtml { -->
-           contents
-      <!-- } dir/filename.thtml -->
-
 
 /*==============================================================================
   CSS: CSS File Structure/Order
@@ -212,7 +204,7 @@ CSS Property Order
   Customize
 ==============================================================================*/
 
-SS can design site by only CSS files 'custom.css' without change other CSS files or template files.
+ProfessionalCSS can design site by only CSS files 'custom.css' without change other CSS files or template files.
 
 SAMPLE custom.css: custom.sample.css
 
@@ -220,330 +212,53 @@ If custom.sample.css copy custom.css, can use as base of theme.
 Set images in the custom.css on images/custom/ not images/css/.
 
 
+
 /*==============================================================================
   History
 ==============================================================================*/
 
-  * 更新
-  + 追加
-  - 削除
-
-
-■Ver.1.6(2011-02-27)
-　・各ファイルの書式を整理しました。日本語コメントを英語に変更しました。
-
-■Ver.1.52(2011-01-15)
-　・余分なdiv閉じタグを削除
-
-    更新ディレクトリ・ファイル
-	* admin/user/edituser.thtml
-
-■Ver.1.51(2010-11-30)
-　・レイアウトを変更しました。
-
-    更新ディレクトリ・ファイル
-	* header.thtml 
-	* css/layout.css 
-	* css/common.css 
-
-■Ver.1.5(2010-11-25)
-　・レイアウトを変更しました。
-
-    更新ディレクトリ・ファイル
-	* header.thtml 
-	* footer.thtml
-	* css/layout.css 
-
-■Ver.1.4(2010-10-16)
-　・Geeklog1.7.1に対応させました。
-
-    更新ディレクトリ・ファイル
-	* admin/group/groupeditor.thtml
-	* comment/commentform.thtml
-	* comment/commentform_advanced.thtml
-
-■Ver.1.3(2010-08-14)
-　・fieldset legendに標準的なスタイルを追加し、タイトルが2度読みになる箇所(class="basic"が指定された箇所)のfieldset,legendのスタイルをすべて非表示に設定しました。
-　・OpenID用ログインフォームが表示されないのを修正しました。users/loginform.thtmlへ{openid_login}を追加しました。
-　・common.cssのinput,select,textareaで日本語のフォントスタイルを追加しました。コメントの英語化をコミットする際に変更しなくても良いfont-familyを変更していました。
-　・legendが非表示になる初期設定を廃止しました。
-　・IE専用のワード途中で折り返しさせるスタイル th,td{word-break: break-all;}を削除して、折り返しなしのデフォルトに戻しました。
-　・submit/submitloginrequired.thtmlは不要になったので削除しました。
-　・右ブロックのヘルプアイコンのセレクタを修正しました。
-　・css/compatible.css で、画像ファイルのリンクエラーを修正しました。
-　・css/default.cssの、url(../javavscript/iepngfix.htc)をコメントアウトしていましたが、これを削除しました。
-　・images/update.pngを追加しました。
-
-■Ver.1.2(2010-05-10)
-　・Geeklog1.7.0に対応させました。
-　　　メタタグ無効時の非表示、プロファイルでアドバンストエディタ利用チェックボックス追加等
-　・記事編集時、日本語言語ファイル利用時用に以下のテンプレートを追加
-　　　1)admin/story/storyeditor.japanese_utf-8.thtml
-　　　2)admin/story/storyeditor_advanced.japanese_utf-8.thtml
-
-■Ver.1.1(2009-11-11)
-　・Geeklog1.6.1に対応させました。
-　　　メタタグ追加、日本語専用記事編集テンプレート追加、メールに自分へのコピー追加等
-
-■Ver.1.04(2009-02-26)
-　・IE6で画面が表示されなくなるため、アルファチャンネル付きPNGの表示を無効にしました。(*css/default.css)
-
-■Ver.1.03(2008-12-22)
-　・IE6でアルファチャンネル付きのPNGを表示できるように修正しました。(*css/default.css)
-
-■Ver.1.02(2008-09-15)
-　・Japanizeプラグインに対応しました。(+css/plugin/japanize.css, *css/plugin.css)
-　・fieldset要素のボーダー色をグレーに変更しました。(*css/admin/configuration.css, *css/admin/group.css, *css/admin/story.css, *css/preferences/preferences.css)
-
-■Ver.1.01(2008-07-01)
-　・Geeklog 1.5に合わせて、ファイルを追加・修正・削除しました。
-　・未使用のCSSファイルを削除しました。
-
-■Ver.1.00(2007-10-22)
-  ・表(table)のセル内のテキストの垂直位置を中央寄せから上付きに修正しました。(*css/default.css)
-  ・CSSファイルからWin IE 5.5以下、Mac IE用の記述を削除しました。(*css/common.css, *css/layout.css, *css/comment/comment.css, *css/navbar/navbar.css)
-  ・カスタマイズ用CSSファイルの雛型のファイル名を「_custom.css」から「custom.sample.css」に変更しました。(-_custom.css, +custom.sample.css)
-  ・カスタマイズ用CSSファイル(custom.css)を標準で読み込むように修正しました。(*style.css, +custom.css)
-  ・文字エンコーディングがShift JISになっていたファイルをUTF-8に修正しました。(*css/plugin.css, *css/plugin/forum.css)
-  ・JavaScriptがグローバル名前空間を汚染しないように修正しました。(*preferences/profile.thtml)
-  ・テンプレート変数のタグ抜けを修正しました。(*admin/story/storyeditor_advanced.thtml)
-  ・アドバンストエディタの全画面エディタに対応しました(それに伴い、レイアウトを変更しました)。(*header.thtml, *css/layout.css, -images/css/bg_logo.gif, +images/logo.gif, *images/css/bg_navigation.gif)
-  ・デバッグ用CSSファイルを削除しました。(*style.css, -css/debug.css)
-  ・CSSのプロパティをショートハンドプロパティに纏めました。(*css/layout.css, *css/block.css, *css/common.css, *css/form.css, *css/admin/group.css, *css/admin/lists.css, *css/admin/plugins.css, *css/comment/comment.css, *css/navbar/navbar.css, *css/plugin/forum.css, *css/plugin/sitecalendar.css, *css/search/search.css, *css/trackback/trackback.css
-
-
-■Ver.0.99.3(2007-08-13)
-  ・掲示板プラグインの管理画面で、入力フォームがはみ出す不具合を修正しました。(*forum/layout/admin/boards_edtcategory.thtml, *forum/layout/admin/boards_edtforum.thtml)
-
-
-■Ver.0.99.2(2007-07-06)
-  ・掲示板プラグインで、カテゴリの編集・削除等ができない不具合(不正なformタグ)を修正しました。(*forum/layout/admin/board_categories.thtml, *forum/layout/admin/board_forums.thtml, *forum/layout/admin/moderators.thtml, *userprefs/user_settings.thtml)
-
-
-■Ver.0.99.1(2007-06-12)
-  ・記事・注目記事のナビゲーションからワード数の表示を削除しました。(*storytext.thtml, *featuredstorytext.thtml)
-  ・検索ページのフォームで、「タイプ」のセレクトボックスに空行が含まれてしまう不具合を修正しました。(*search/searchform.thtml)
-  ・Operaでマイアカウントページのタブが切り替わらない不具合を修正しました。(*javascript/fix_html.js)
-  ・テーブルのセルの内容を幅に合わせて折り返すようにしました(IEのみ)。(*css/default.css)
-  ・子セレクタ・隣接兄弟セレクタの結合子(>, +)の前後の半角スペースを削除しました。(*css/default.css, *css/plugin/sitecalendar.css, *css/submit/submit.css)
-  ・マイアカウントページの個人情報フィールドで、ID属性値が重複していたのを修正しました。(*preferences/profile.thtml)
-  ・マイアカウントページのコメント表示フィールドで、label要素に不適切なfor属性値が指定されていたのを修正しました。(*preferences/excludeblock.thtml)
-  ・Win IE 6以下用の規則集合を一部削除、宣言の解釈バグを利用した対策方法に変更しました。(*css/layout.css)
-  ・タグの記述ミス(「<p />」)を修正しました。(*forum/layout/topic.thtml, *forum/layout/topicfooter.thtml, *forum/layout/topicfooter_preview.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/admin/header.thtml, *forum/layout/admin/settings.thtml, *forum/layout/footer/footer.thtml, *forum/layout/reports/notifications.thtml)
-
-
-■Ver.0.99(2007-05-21)
-  ・投稿管理画面・ブロック管理画面で、フォームが正常に機能しない不具合を修正しました。(*admin/lists/list.thtml)
-  ・コメント部分で不正なHTMLが出力されていたのを修正しました。(*comment/comment.thtml, *css/comment/comment.css)
-  ・掲示板プラグインで、マウスオーバー時にリンク以外の場所が反応する不具合を修正しました。(*css/plugin/forum.css)
-  ・掲示板プラグインにstyle属性の記述ミスがあったのを修正しました。(*forum/layout/submissionform_code.thtml)
-  ・サイトカレンダプラグインに、dengen氏版で追加された機能のスタイルを追加しました。(*css/plugin/sitecalendar.css)
-  ・テンプレートファイル内のコメントが誤っていたのを修正しました。(*admin/lists/list.thtml)
-  ・CSSファイル内のコメントが誤っていたのを修正しました。(*css/block.css)
-
-
-■Ver.0.98.1(2007-04-04)
-  ・記事の本文が短い場合に、カテゴリアイコンにナビゲーションリンクが回り込んで表示されてしまう不具合を修正しました。(*css/story.css)
-  ・掲示板プラグインのテンプレートファイルをVer.2.6 Final(RC5)に合わせて修正しました。(*forum/layout/topic.thtml, *forum/layout/topiclisting.thtml, *forum/layout/admin/board_categories.thtml, *forum/layout/blocks/block_displayline.thtml, *forum/layout/block/centerblock_displayline.thtml, *forum/layout/links/markread.thtml, *forum/layout/links/newposts.thtml)
-
-
-■Ver.0.98(2007-03-26)
-  ・検索フォームのinput要素でvalue属性が抜けていたのを修正しました。(leftblocks.thtml)
-  ・iframe要素が原因で、中央ブロックにスクロールバーが表示されることがある不具合を修正しました。(css/common.css)
-  ・掲示板プラグインのテンプレートファイルをVer.2.6 RC4以上に合わせて修正しました。(*forum/layout/admin/boards_edtforum.thtml, *forum/layout/admin/migratestories.thtml, *forum/layout/admin/ranksetting_option.thtml)
-  ・掲示板プラグインのテンプレートファイルにタグ抜け・文法ミスがあったのを修正しました。(forum/forum_search.thtml, forum/post_topic_navbar.thtml, forum/topic_navbar.thtml)
-  ・Win IE 6以下で、掲示板プラグインのiframe要素が崩れる不具合を修正しました。(javascript/fix_html.js)
-
-
-■Ver.0.97.1(2007-03-19)
-  ・掲示板プラグインで、iframe要素の内容が中央寄せになる不具合を修正しました。(*css/plugin/forum.css)
-
-
-■Ver.0.97(2007-03-10)
-  ・掲示板プラグインが中央ブロックからはみ出す不具合を修正しました。(*forum/layout/categorylisting.thtml, *forum/layout/post_topic_navbar.thtml, *forum/layout/submissionform_main.thtml, *forum/layout/topiclisting.thtml, *forum/layout/topic_navbar.thtml, *css/plugin/forum.css)
-  ・管理画面のアイコンが表示されない不具合を修正しました。(*admin/lists/topmenu_nosearch.thtml)
-  ・管理画面で申請の承認・削除が行えない不具合を修正しました。(*admin/lists/list.thtml)
-  ・アドバンストエディタでユーザによる記事投稿ができない不具合を修正しました。(*submit/submitstory_advanced.thtml)
-  ・ブロックタイトルに表示されるヘルプアイコンの位置を調整しました。(*css/block.css)
-  ・基本レイアウトスタイルシートに幅の計算方法をコメントとして追加しました。(*css/layout.css)
-
-
-■Ver.0.96(2007-03-04)
-  ・カスタマイズ用に、基本的なスタイルを初期化するCSSファイルを追加しました。(+_custom.css)
-  ・メールアドレスの入力フィールドの長さ(size属性値)を統一しました。(*users/getpasswordform.thtml, registrationform.thtml)
-
-
-■Ver.0.95.2(2007-02-23)
-  ・アドバンストエディタが起動しない不具合を修正しました。(*advanced_editor_header.thtml)
-  ・左ブロック・右ブロックのヘルプアイコンが表示されない不具合を修正しました。(*blockheader-left.thtml, *blockheader-right.thtml)
-  ・ナビゲーションバーのレイアウトが崩れることがある不具合を修正しました。(*css/navbar/navbar.css)
-  ・Win IE 6以下で、記事の編集ページにスクロールバーが表示される不具合を修正しました。(*css/admin/story.css)
-  ・Win IE 6以下で、マイアカウントページにスクロールバーが表示される不具合を修正しました。(*css/preferences/preferences.css)
-
-
-■Ver.0.95.1(2007-02-19)
-  ・カスタムテーマのCSSファイル用に@import規則をコメントアウトした状態で追記しました。(*style.css)
-  ・多言語切り替えフォームが左右ブロックからはみ出す不具合を修正しました(属性セレクタ未対応のUAは修正不可能)。(*css/common.css)
-  ・Win IEで、掲示板プラグインの前後に不要な文字列が表示される不具合を修正しました。(*forum/layout/blocks/centerblock.thtml)
-  ・一部のUAでtable要素のalign/valign属性が無効になる不具合を修正しました。(*css/default.css)
-
-
-■Ver.0.95(2007-02-14)
-  ・Win IE 6以下で、右ブロックの要素の一部が重複して表示される不具合を修正しました。(*header.thtml)
-  ・ユーザーエージェントのキャッシュを有効にするように変更しました。(*header.thtml
-  ・maxlength属性が「maxsize」になっていたのを修正しました。(*admin/trackback/pingbackform.thtml, *admin/trackback/serviceeditor.thtml, *admin/trackback/trackbackeditor.thtml)
-  ・その他、Geeklog 1.4.1のバージョンアップに伴って、下記のディレクトリ・ファイルを更新・追加・削除しました。
-
-    *更新ディレクトリ・ファイル
-      *header.thml
-      *style.css
-      *admin/block/blockeditor.thtml
-      *admin/block/defaultblockeditor.thtml
-      *admin/group/groupeditor.thtml
-      *admin/group/groupmembers.thtml
-      *admin/lists/field.thtml
-      *admin/lists/header.thtml
-      *admin/lists/list.thtml
-      *admin/lists/topmenu.thtml
-      *admin/story/storyeditor.thtml
-      *admin/story/storyeditor_advanced.thtml
-      *admin/trackback/pingbackform.thtml
-      *admin/trackback/serviceeditor.thtml
-      *admin/trackback/trackbackeditor.thtml
-      *admin/user/edituser.thtml
-      *comment/commentbar.thtml
-      *comment/commentform.thtml
-      *comment/commentform_advanced.thtml
-      *css/common.css
-      *css/layout.css
-      *css/admin.css
-      *css/preferences/preferences.css
-      *css/plugin/forum.css
-      *css/admin/common.css
-      *css/admin/group.css
-      *css/admin/lists.css
-      *css/admin/story.css
-      *css/admin/user.css
-      *navbar/menuitem.thtml
-      *preferences/boxesblock.thtml
-      *preferences/commentblock.thtml
-      *preferences/deleteaccount.thtml
-      *preferences/digestblock.thtml
-      *preferences/displayblock.thtml
-      *preferences/displayprefs.thtml
-      *preferences/excludeblock.thtml
-      *preferences/privacyblock.thtml
-      *preferences/profile.thtml
-      *preferences/theme.thtml
-      *preferences/userphoto.thtml
-      *profiles/contactauthorform.thtml
-      *profiles/contactuserform.thtml
-      *stats/sitestatics.thtml
-      *submit/submitloginrequired.thtml
-      *submit/submitstory.thtml
-      *submit/submitstoryadvanced.thtml
-      *user/loginform.thtml
-      *user/profile.thtml
-      *user/registrationform.thtml
-
-    +追加ディレクトリ・ファイル
-      +admin/common/
-      +admin/common/*.*
-      +admin/user/batchdelete.thtml
-      +admin/user/batchdelete_options.thtml
-      +css/navbar/
-      +css/navbar/*.*
-      +images/collapse.png
-      +images/expand.png
-      +images/icon_info.png
-      +navbar/breadcrumb_link.thtml
-      +navbar/breadcrumbs.thtml
-      +navbar/images/tableftI.gif
-      +navbar/images/tableftJ.gif
-      +navbar/images/tabrightI.gif
-      +navbar/images/tabrightJ.gif
-
-    -削除ディレクトリ・ファイル
-      -admin/event/
-      -admin/event/*.*
-      -calendar/
-      -calendar/*.*
-      -css/calendar/
-      -css/calendar/*.*
-      -css/admin/event.css
-      -images/collapse.gif
-      -images/expand.gif
-      -images/logo-bg.png
-      -images/buttons/
-      -images/buttons/*.*
-      -images/png/
-      -images/png/*.*
-      -submit/submitevent.thtml
-
-    ※掲示板プラグインのディレクトリ・ファイル(forum/, forum/*.*)は全て最新版に入れ替えました。
-
-
-■Ver.0.94(2006-12-19)
-  ・言語ファイルに合わせて、「Calendar」を表す単語を「カレンダ」に統一しました。(*calendar/calendar.thtml, *css/calendar/calendar.css)
-  ・記事タイトルがアイコンと重なってしまう不具合を修正しました。(*css/story.css)
-  ・Firefoxでoption要素の右端が途切れてしまう不具合を修正しました。(*css/common.css)
-  ・ブロックの内容によって、カラム落ちが発生することがある不具合を修正しました。(*css/common.css, *css/layout.css)
-
-
-■Ver.0.93.3(2006-12-09)
-  ・Win IE 6以下で、長いコメントがそのまま表示される不具合が残っていたのを修正しました。(*css/comment/comment.css)
-  ・IE 6以下での不具合に対処するため、pre要素のデフォルトスタイルを追加しました。(*css/common.css)
-
-
-■Ver.0.93.2(2006-12-08)
-  ・長いコメントがそのまま表示されるために見えなくなる不具合を修正しました。(*css/comment/comment.css)
-
-
-■Ver.0.93.1(2006-12-03)
-  ・掲示板プラグインの罫線に隙間が空く不具合を修正しました。(*css/common.css, *css/plugin/forum.css)
-
-
-■Ver.0.93(2006-11-21)
-　・Win IEで、1つの文書内ではCSSファイルが31個までしか認識されない仕様上の限界のため、掲示板プラグインのCSSファイルが認識されていなかった不具合を修正しました。(*style.css, +css/admin.css, +css/plugin.css)
-    これに伴い、下記のCSSファイルを追加しました。
-    管理者ページ・プラグイン用の各CSSファイルは、下記のCSSファイル内でインポートされるようになりました。
-      +css/admin.css -- インポート用スタイルシート(管理者ページ)
-      +css/plugin.css - インポート用スタイルシート(プラグイン)
-
-  ・Powered by表示が「Geeklog Japanes」になっていたのを修正しました。(*footer.thtml)
-  ・ナビゲーションバーのテンプレートファイル内のコメントが間違っていたのを修正しました。(*navbar/navbar.thtml)
-  ・不要なCSSファイルが含まれていたのを削除しました。(-css/plugin/style_forum.css)
-  ・CSSの文法ミスを修正しました(*css/default.css, *css/plugin/forum.css)
-  ・掲示板プラグインのCSSファイル内のコメントが文字化けしていたのを修正しました。(*css/plugin/forum.css)
-  ・掲示板プラグインのCSSを、他のCSSのコーディングスタイルに合わせて整形しました。(*css/plugin/forum.css)
-  ・掲示板プラグインでナビゲーションバー以下が崩れる不具合を修正しました。(*css/plugin/forum.css)
-  ・Win IEで、掲示板プラグインの罫線が乱れる不具合を修正しました。(*forum/layout/forum_outline_header.thtml, *forum/layout/forum_outline_footer.thtml)
-  ・Win IEで、HTMLの文法ミスが原因で発生していた掲示板プラグインのボタンが乱れる不具合を修正しました。(*forum/layout/links/email.thtml, *forum/layout/links/edittopic.thtml, *forum/layout/links/pm.thtml, *forum/layout/links/profile.thtml, *forum/layout/links/quotetopic.thtml, *forum/layout/links/website.thtml)
-
-
-■Ver.0.92(2006-11-16)
-  ・コメントバー内のリンクのマージンを調整しました。(*css/comment/comment.css)
-  ・Win IE 6以下で、アカウント情報ページが表示されない不具合を修正しました。(*css/users/users.css)
-  ・ユーザの氏名が登録されていない場合に、アカウント情報ページの「ユーザ名」の後が「()」のみになる不具合を修正しました。(*users/profile.thtml)
-  ・Geeklog Japanese用にテンプレート変数を「prof_url」から{prof_url_jp」へ、「welcome_msg」から「welcome_msg_jp」へと変更しました。(*header.thtml)
-
-
-■Ver.0.91(2006-10-31)
-  ・IEのバグが原因で発生していた下記の不具合への対策を行いました。
-      *左下に右ブロックの要素の一部が重複して表示される。(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
-      *ログイン要求ページでシステムメッセージの下に枠線が表示される。(*footer.thtml, *leftblocks.thtml, *rightblocks.thtml)
-      *サイトカレンダに一部のスタイルが適用されない。(*css/plugin/sitecalendar.css)
-      *カレンダ・検索ページ等の浮動要素を含むコンテンツが表示されない。(*css/calenda/calendar.css)
-  ・sitecalendar.cssの文字コードがShift-JISだったのをUTF-8に変換しました。(*css/plugin/sitecalendar.css)
-  ・IEでのカラム落ちを極力抑えるためにサイトカレンダのスタイルを調整しました。(*css/plugin/sitecalendar.css)
-  ・全てのディレクトリ内にindex.htmlを追加しました。
-  ・その他、微調整を行いました。
-
-
-■Ver.0.90(2006-10-30)
-  ・ベータ版
-  ・Win IE 6以下で下記の不具合が発見されています。
-      *左下に右ブロックの要素の一部が重複して表示される。
-      *サイトカレンダに一部のスタイルが適用されない。
-      *カレンダ・検索ページ等の浮動要素を含むコンテンツが表示されない。
-
+Ver.1.51(2010-11-30)
+changed: 
+ header.thtml 
+ css/layout.css 
+ css/common.css 
+
+Ver.1.5(2010-11-25)
+changed: 
+ css/layout.css 
+ header.thtml 
+ footer.thtml
+
+Ver.1.01(2010-10-25)
+changed: 
+ field legend tag
+
+Ver.1.0(2010-10-24)
+changed: 
+ admin/*
+
+Ver.0.2(2010-10-16)
+changed: 
+ admin/group/groupeditor.thtml
+ comment/commentform.thtml
+ comment/commentform_advanced.thtml
+
+Ver.0.1.4(2010-08-02)
+changed: 
+ css/form.css
+
+Ver.0.1.3(2010-07-25)
+changed: 
+ css/common.css
+ css/default.css
+
+Ver.0.1.2(2010-06-15)
+changed: 
+ css/compatible.css 
+ css/default.css changed.
+
+Ver.0.1.1(2010-05-26)
+file added: images/upload.png
+admin/group/groupeditor.thtml changed.
+
+Ver.0.1(2010-05-10) release for Geeklog 1.7.0
