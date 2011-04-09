@@ -17,11 +17,11 @@
             Block Width:
               *  Container Width = 100%
               *  Site Width[W] = 960px
-              *  Left   Block Width[L]         = 270px
-              *  Right  Block Width[R]         = 150px
-              *  Center Block Width(3 Column ) = [W] - [L] - [R] = 540px = 520px + left padding 10px + right padding 10px
-              *  Center Block Width(2 Column ) = [W] - [L] = 690px = 680px + left padding 10px
-              *  Center Block Width(2 Column ) = [W] - [R] = 810px = 800px + right padding 10px
+              *  Left   Block Width[L]         = 180px
+              *  Right  Block Width[R]         = 180px
+              *  Center Block Width(3 Column ) = [W] - [L] - [R] = 600px = 580px + left padding 10px + right padding 10px
+              *  Center Block Width(2 Column ) = [W] - [L] = 780px = 770px + left padding 10px
+              *  Center Block Width(2 Column ) = [W] - [R] = 780px = 770px + right padding 10px
               *  Center Block Width(1 Column ) = [W] = 960px
 
   Apply       : storytext.thtml, storybodytext.thtml
@@ -147,7 +147,7 @@ div#container div#navigation ul li.last-child a:active {
 --------------------------------------*/
 
 div#container div#wrapper {
-  overflow: hidden;  /* Adjust floating element */
+  overflow: visible;  /* Adjust floating element */
   width: 960px;  /*  Site Width[W] */
   margin: 0 auto;
   padding: 0 0 2em 0;
@@ -199,15 +199,15 @@ body.js_off div#container div#wrapper {
 div#container div#wrapper div#leftblocks {
   overflow: auto;
   float: left;
-  width: 270px;  /*  Left Block Width[L] */
-  margin: 0 690px 0 0;  /*  Right Margin =  Site All Width[W] -  Left Block Width[L] */
+  width: 180px;  /*  Left Block Width[L] */
+  margin: 0 780px 0 0;  /*  Right Margin =  Site All Width[W] -  Left Block Width[L] */
   padding: 0;
 }
 
 /* JavaScript Disenabled  Left Block Container */
 body.js_off div#container div#wrapper div#leftblocks {
   float: left;
-  margin: 0 -270px 0 0;  /*  Right Margin = -( Left Block Width[L]) */
+  margin: 0 -180px 0 0;  /*  Right Margin = -( Left Block Width[L]) */
 }
 
 
@@ -218,30 +218,30 @@ body.js_off div#container div#wrapper div#leftblocks {
 --------------------------------------*/
 
 div#container div#wrapper div#centerblocks {
-  overflow: auto;
+  overflow: visible;
 }
 
 /* JavaScript Enabled* 3 Column ( Left Block*  Center Block*  Right Block)  Center Block Container */
 body.left-center-right div#container div#wrapper div#centerblocks {
   float: left;
-  width: 520px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Block Width[R] -  Right Padding -  Left Padding */
-  margin: 0 0 0 -690px;  /*  Left Margin = -( Site All Width[W] -  Left Block Width[L]) */
+  width: 580px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Block Width[R] -  Right Padding -  Left Padding */
+  margin: 0 0 0 -780px;  /*  Left Margin = -( Site All Width[W] -  Left Block Width[L]) */
   padding: 0 10px;
 }
 
 /* JavaScript Enabled* 2 Column ( Left Block*  Center Block)  Center Block Container */
 body.left-center div#container div#wrapper div#centerblocks {
   float: left;
-  width: 680px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Padding -  Left Padding */
-  margin: 0 0 0 -690px;  /*  Left Margin = -( Site All Width[W] -  Left Block Width[L]) */
+  width: 770px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Padding -  Left Padding */
+  margin: 0 0 0 -780px;  /*  Left Margin = -( Site All Width[W] -  Left Block Width[L]) */
   padding: 0 0 0 10px;
 }
 
 /* JavaScript Enabled* 2 Column ( Center Block*  Right Block)  Center Block Container */
 body.center-right div#container div#wrapper div#centerblocks {
   float: left;
-  width: 800px;  /*  Site All Width[W] -  Right Block Width[R] -  Right Padding -  Left Padding */
-  margin: 0 150px 0 0;  /*  Right Margin =  Right Block Width[R] */
+  width: 770px;  /*  Site All Width[W] -  Right Block Width[R] -  Right Padding -  Left Padding */
+  margin: 0 180px 0 0;  /*  Right Margin =  Right Block Width[R] */
   padding: 0 10px 0 0;
 }
 
@@ -256,8 +256,8 @@ body.center div#container div#wrapper div#centerblocks {
 body.js_off div#container div#wrapper div#centerblocks {
   display: inline;  /* Win IE 6(Float Left Right Margin is too wide) */
   float: left;
-  width: 520px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Block Width[R] -  Right Padding -  Left Padding */
-  margin: 0 0 0 270px;  /*  Left Margin =  Left Block Width[L] */
+  width: 580px;  /*  Center Block Width =  Site All Width[W] -  Left Block Width[L] -  Right Block Width[R] -  Right Padding -  Left Padding */
+  margin: 0 0 0 180px;  /*  Left Margin =  Left Block Width[L] */
   padding: 0 10px;
 }
 
@@ -271,8 +271,8 @@ body.js_off div#container div#wrapper div#centerblocks {
 div#container div#wrapper div#rightblocks {
   overflow: auto;
   float: left;
-  width: 150px;  /*  Right Block Width[R] */
-  margin: 0 0 0 -150px;  /*  Left Margin = -( Right Block Width[R]) */
+  width: 180px;  /*  Right Block Width[R] */
+  margin: 0 0 0 -180px;  /*  Left Margin = -( Right Block Width[R]) */
 }
 
 /* JavaScript Disenabled  Right Block Container */
