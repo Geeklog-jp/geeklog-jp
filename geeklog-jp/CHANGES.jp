@@ -1,5 +1,10 @@
 $Id$
 
+2011-04-10  mystral-kk <mystral-kk>
+
+	* テーマテスターのhtmlspecialchars関数がエラーになっていたバグを修正
+	  しました。
+
 2011-04-09  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSSを本家professional_cssに差し替え日本語化を
