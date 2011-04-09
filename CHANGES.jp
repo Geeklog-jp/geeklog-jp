@@ -1,5 +1,10 @@
 $Id$
 
+2011-04-09  Tetsuko Komma  <ivy>
+
+	* テーマProfessionalCSSを本家professional_cssに差し替え日本語化を
+	  行い，tooltipsのスタイルインポート漏れの不具合を対応しました。
+
 2011-04-05  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイル翻訳（コアおよびプラグイン），ドキュメント翻訳を
