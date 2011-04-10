@@ -1,5 +1,9 @@
 $Id$
 
+2011-04-10  Tetsuko Komma  <ivy>
+
+	* インストーラの日本語言語ファイルを修正しました。
+
 2011-04-10  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: コンフィギュレーションのバリデーションのルール
