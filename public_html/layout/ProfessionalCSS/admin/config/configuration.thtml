@@ -8,10 +8,10 @@
 </form>
 <table>
     <tr>
-        <td class="block-featured-left" style="vertical-align:top;">
+        <td class="block-featured-left">
             <div class="block-bg-left"> {config_menu} </div>
         </td>
-        <td style="vertical-align:top; width: 100%">
+        <td id="admin-block-center-content">
         
             <div class="saved_message pluginInfo{error_validation_class}" style="display:{show_changeblock}">
                 {lang_changes_made}
