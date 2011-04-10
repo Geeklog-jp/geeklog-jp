@@ -93,6 +93,7 @@ $LANG_CALJP_1 = array(
     49 => 'このサイトにはイベントがないか、誰もイベントをクリックしていないかどちらかのようです。',
     50 => 'イベント',
     51 => '削除',
+    'autotag_desc_event' => '[event: id alternate title] - イベントタイトルでイベントへのリンクを表示。アンカーテキストの指定は任意。',
     'tail_year'   => '年',
     'tail_month'  => '月',
     'tail_day'    => '日',
@@ -225,18 +226,26 @@ $LANG_confignames['calendarjp'] = array(
 
     'advanced_editor' => 'アドバンストエディタを使う',
     'wikitext_editor' => 'Wikiテキストエディタを使う',
-    'postmode' => "デフォルトの投稿モード",
+    'postmode' => 'デフォルトの投稿モード',
 
-    'default_permissions' => 'パーミッション'
+    'default_permissions' => 'パーミッション',
+    'autotag_permissions_event' => '[event: ] パーミッション'
 );
 
 $LANG_configsubgroups['calendarjp'] = array(
     'sg_main' => 'メイン'
 );
 
+$LANG_tab['calendarjp'] = array(
+    'tab_main' => 'カレンダjpのメイン設定',
+    'tab_permissions' => 'パーミッションのデフォルト',
+    'tab_autotag_permissions' => '自動タグのパーミッション'
+);
+
 $LANG_fs['calendarjp'] = array(
     'fs_main' => 'カレンダjpのメイン設定',
-    'fs_permissions' => 'カレンダjpのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => 'カレンダjpのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
+    'fs_autotag_permissions' => '自動タグのパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
@@ -246,7 +255,8 @@ $LANG_configselects['calendarjp'] = array(
     5 => array_flip($LANG_postmodes),
     6 => array('12' => 12, '24' => 24),
     9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
-    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
+    12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
+    13 => array('アクセス不可' => 0, '利用する' => 2)
 );
 
 ?>

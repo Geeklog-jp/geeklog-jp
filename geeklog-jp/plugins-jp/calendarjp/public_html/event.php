@@ -65,12 +65,8 @@ function adduserevent ($eid)
         $retval .= COM_startBlock (sprintf ($LANG_CALJP_1[11],
                                             COM_getDisplayName()));
         $A = DB_fetchArray($result);
-        $cal_template = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
+        $cal_template = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/');
         $cal_template->set_file(array('addevent' => 'addevent.thtml'));
-        $cal_template->set_var('xhtml', XHTML);
-        $cal_template->set_var('site_url', $_CONF['site_url']);
-        $cal_template->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $cal_template->set_var('layout_url', $_CONF['layout_url']);
         $cal_template->set_var('intro_msg', $LANG_CALJP_1[8]);
         $cal_template->set_var('lang_event', $LANG_CALJP_1[12]);
 
@@ -182,12 +178,8 @@ function editpersonalevent ($A)
     global $_CONF, $_CAJP_CONF, $LANG_CALJP_1;
 
     $ja = ($_CONF['language'] == 'japanese_utf-8');
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/');
     $cal_templates->set_file('form','editpersonalevent' . ($ja ? '_ja' : '') . '.thtml');
-    $cal_templates->set_var( 'xhtml', XHTML );
-    $cal_templates->set_var('site_url', $_CONF['site_url']);
-    $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
 
     $cal_templates->set_var ('lang_title', $LANG_CALJP_1[28]);
     $title = stripslashes ($A['title']);
@@ -527,14 +519,13 @@ default:
                  . "ORDER BY datestart ASC,timestart ASC,title";
     }
     $ja = ($_CONF['language'] == 'japanese_utf-8');
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/');
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/');
     $cal_templates->set_file (array (
             'events'    => 'events' . ($ja ? '_ja' : '') . '.thtml',
             'details'   => 'eventdetails.thtml',
             'addremove' => 'addremoveevent.thtml'
             ));
 
-    $cal_templates->set_var ( 'xhtml', XHTML );
     $cal_templates->set_var ('lang_addevent', $LANG_CALJP_1[6]);
     $cal_templates->set_var ('lang_backtocalendar', $LANG_CALJP_1[15]);
     if ($mode == 'personal') {
@@ -549,9 +540,6 @@ default:
         $cal_templates->set_var('lang_month','');
         $cal_templates->set_var('event_year','');
         $cal_templates->set_var('event_details','');
-        $cal_templates->set_var('site_url', $_CONF['site_url']);
-        $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-        $cal_templates->set_var('layout_url', $_CONF['layout_url']);
         $cal_templates->parse('output','events');
         $display .= $cal_templates->finish($cal_templates->get_var('output'));
         $display .= $LANG_CALJP_1[2];
@@ -567,9 +555,6 @@ default:
             $A = DB_fetchArray($result);
             if (SEC_hasAccess($A['owner_id'],$A['group_id'],$A['perm_owner'],
                               $A['perm_group'],$A['perm_members'],$A['perm_anon']) > 0) {
-                $cal_templates->set_var('site_url', $_CONF['site_url']);
-                $cal_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-                $cal_templates->set_var('layout_url', $_CONF['layout_url']);
                 $cal_templates->set_var('lang_owner', $LANG_ACCESS['owner']);
                 $ownername = COM_getDisplayName($A['owner_id']);
                 $cal_templates->set_var('owner_name', $ownername);

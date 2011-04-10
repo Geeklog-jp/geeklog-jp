@@ -108,7 +108,7 @@
         <tr>
             <td align="right" valign="top">{lang_description}:</td>
             <td><textarea name="description" style="width:98%" cols="50" rows="10"></textarea><br{xhtml}>
-            {lang_htmnotallowed}</td>
+            {lang_allowed_html}</td>
         </tr>
         {captcha}
         <tr>

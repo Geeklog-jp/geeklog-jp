@@ -41,34 +41,44 @@ $_UPDATES = array(
 
     '1.1.0' => array(
         "ALTER TABLE {$_TABLES['eventsubmissionjp']} ADD [owner_id] [numeric](8, 0) NULL AFTER timeend"
-    )
+    ),
 
+    '1.1.4' => array(
+        // Set new Tab column to whatever fieldset is
+        "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'calendarjp'",   
+        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_main', 'Access to configure general calendar settings', 0)",
+        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_permissions', 'Access to configure event default permissions', 0)",
+        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_autotag_permissions', 'Access to configure event autotag usage permissions', 0)"        
+    )    
+    
 );
 
-function update_ConfValues_1_1_1_1()
+/**
+ * Add is new security rights for the Group "Calendarjp Admin"
+ *
+ */
+function calendarjp_update_ConfigSecurity_1_1_4()
 {
-    global $_CONF, $_CAJP_DEFAULT;
-
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-
-    $c = config::get_instance();
+    global $_TABLES;
     
-    $c->add('addeventloginrequired', $_CAJP_DEFAULT['addeventloginrequired'], 'select', 0, 0, 0, 15, true, 'calendarjp');
+    // Add in security rights for Calendarjp Admin
+    $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                            "grp_name = 'Calendarjp Admin'");
 
-    return true;
-}
+    if ($group_id > 0) {
+        $ft_names[] = 'config.calendarjp.tab_main';
+        $ft_names[] = 'config.calendarjp.tab_permissions';
+        $ft_names[] = 'config.calendarjp.tab_autotag_permissions';
+        
+        foreach ($ft_names as $name) {
+            $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '$name'");         
+            if ($ft_id > 0) {
+                $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
+                DB_query($sql);
+            }
+        }        
+    }    
 
-function update_ConfValues_1_1_3()
-{
-    global $_CONF, $_CAJP_DEFAULT;
-
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-
-    $c = config::get_instance();
-    
-    $c->add('wikitext_editor', $_CAJP_DEFAULT['wikitext_editor'], 'select', 0, 0, 1, 125, true, 'calendarjp');
-
-    return true;
 }
 
 ?>
