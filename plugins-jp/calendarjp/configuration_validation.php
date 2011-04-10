@@ -40,6 +40,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'configuration_validation.php') !==
 
 // General Calendarjp Settings
 $_CONF_VALIDATE['calendarjp']['calendarloginrequired'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['calendarjp']['addeventloginrequired'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['calendarjp']['hidecalendarmenu'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['calendarjp']['personalcalendars'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['calendarjp']['eventsubmission'] = array('rule' => 'boolean');
@@ -53,6 +54,11 @@ $_CONF_VALIDATE['calendarjp']['notification'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['calendarjp']['delete_event'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['calendarjp']['aftersave'] = array(
     'rule' => array('inList', array('item', 'list', 'plugin', 'home', 'admin'), true)
+);
+$_CONF_VALIDATE['calendarjp']['advanced_editor'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['calendarjp']['wikitext_editor'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['calendarjp']['postmode'] = array(
+    'rule' => array('inList', array('plaintext', 'html'), true)
 );
 
 // Default Permissions
