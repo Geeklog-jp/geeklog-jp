@@ -49,8 +49,8 @@ function plugin_autoinstall_calendarjp($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.1.4',
-        'pi_gl_version'   => '1.6.1',
+        'pi_version'      => '1.1.5',
+        'pi_gl_version'   => '1.8.0',
         'pi_homepage'     => 'http://www.geeklog.jp/'
     );
 
@@ -60,15 +60,21 @@ function plugin_autoinstall_calendarjp($pi_name)
     );
 
     $features = array(
-        $pi_name . '.moderate'  => 'Ability to moderate pending events',
-        $pi_name . '.edit'      => 'Access to event editor',
-        $pi_name . '.submit'    => 'May skip the event submission queue'
+        $pi_name . '.moderate'                              => 'Ability to moderate pending events',
+        $pi_name . '.edit'                                  => 'Access to event editor',
+        $pi_name . '.submit'                                => 'May skip the event submission queue',
+        'config.' . $pi_name . '.tab_main'                  => 'Access to configure general calendar settings',
+        'config.' . $pi_name . '.tab_permissions'           => 'Access to configure event default permissions',
+        'config.' . $pi_name . '.tab_autotag_permissions'   => 'Access to configure event autotag usage permissions'
     );
 
     $mappings = array(
-        $pi_name . '.moderate'  => array($pi_admin),
-        $pi_name . '.edit'      => array($pi_admin),
-        $pi_name . '.submit'    => array($pi_admin)
+        $pi_name . '.moderate'                              => array($pi_admin),
+        $pi_name . '.edit'                                  => array($pi_admin),
+        $pi_name . '.submit'                                => array($pi_admin),
+        'config.' . $pi_name . '.tab_main'                  => array($pi_admin),
+        'config.' . $pi_name . '.tab_permissions'           => array($pi_admin),
+        'config.' . $pi_name . '.tab_autotag_permissions'   => array($pi_admin)
     );
 
     $tables = array(

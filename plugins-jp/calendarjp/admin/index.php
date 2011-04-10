@@ -91,16 +91,12 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
 
     $ja = ($_CONF['language'] == 'japanese_utf-8');
 
-    $event_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/admin');
+    $event_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/admin');
     if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1 ) ) {
         $event_templates->set_file('editor','eventeditor_advanced' . ($ja ? '_ja' : '') . '.thtml');
     } else {
         $event_templates->set_file('editor','eventeditor' . ($ja ? '_ja' : '') . '.thtml');
     }
-    $event_templates->set_var( 'xhtml', XHTML );
-    $event_templates->set_var('site_url', $_CONF['site_url']);
-    $event_templates->set_var('site_admin_url', $_CONF['site_admin_url']);
-    $event_templates->set_var('layout_url',$_CONF['layout_url']);
     $event_templates->set_var('lang_allowed_html',
                               COM_allowedHTML('calendarjp.edit'));
     $event_templates->set_var('lang_postmode', $LANG_CALJP_ADMIN[3]);
@@ -567,6 +563,9 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
             $dateend = $datestart;
         }
     }
+    
+    // Remove any autotags the user doesn't have permission to use
+    $description = PLG_replaceTags($description, '', true);    
 
     // clean 'em up
     if ($postmode == 'html' || $postmode == 'adveditor') {
