@@ -2,6 +2,11 @@ $Id$
 
 2011-04-10  Yoshinori Tahara  <dengen>
 
+	* calendarjpプラグイン: コンフィギュレーションのバリデーションのルール
+	  を追加しました。
+
+2011-04-10  Yoshinori Tahara  <dengen>
+
 	* calendarjpプラグイン: バージョン1.1.5に更新しました。
 	  - Geeklog 1.8.0のcalendarプラグインの変更をマージしました。
 
