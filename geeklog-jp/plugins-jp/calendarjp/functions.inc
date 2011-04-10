@@ -412,7 +412,7 @@ function plugin_moderationapprove_calendarjp ($id)
     global $_CAJP_CONF, $_GROUPS, $_TABLES;
 
     // The eventsubmission table only keeps track of the submitter's uid,
-    // but not of grous and permissions. So set those to sensible defaults.
+    // but not of groups and permissions. So set those to sensible defaults.
 
     if (isset($_GROUPS['Calendarjp Admin'])) {
         $group_id = $_GROUPS['Calendarjp Admin'];
@@ -551,7 +551,9 @@ function plugin_savesubmission_calendarjp($A)
         return $retval;
     }
 
-    $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
+    // Remove any autotags the user doesn't have permission to use
+    $A['description'] = PLG_replaceTags($A['description'], '', true);
+     $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
     $A['address1'] = addslashes (strip_tags (COM_checkWords ($A['address1'])));
     $A['address2'] = addslashes (strip_tags (COM_checkWords ($A['address2'])));
     $A['city'] = addslashes (strip_tags (COM_checkWords ($A['city'])));
@@ -701,17 +703,12 @@ function plugin_savesubmission_calendarjp($A)
 
 function plugin_getheadercode_calendarjp()
 {
-    global $_CONF;
-
-    $str = null;
+    global $_SCRIPTS;
 
     // use the CSS only if we are on the plugin's pages
     if (substr_count ($_SERVER['PHP_SELF'], '/calendarjp/') > 0) {
-        $str = '<link rel="stylesheet" type="text/css" href="'
-             . $_CONF['site_url'] . '/calendarjp/style.css"' . XHTML . '>';
+        $_SCRIPTS->setCSSFile('calendarjp', '/calendarjp/style.css', false);
     }
-
-    return $str;
 }
 
 /**
@@ -777,12 +774,8 @@ function plugin_submit_calendarjp($mode = 'master')
 
     $ja = ($_CONF['language'] == 'japanese_utf-8');
     $retval .= COM_startBlock ($LANG_CALJP_1[26], 'submitevent.html');
-    $eventform = new Template ($_CONF['path'] . 'plugins/calendarjp/templates/');
+    $eventform = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/');
     $eventform->set_file ('eventform', 'submitevent' . ($ja ? '_ja' : '') . '.thtml');
-    $eventform->set_var ('xhtml', XHTML);
-    $eventform->set_var ('site_url', $_CONF['site_url']);
-    $eventform->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $eventform->set_var ('layout_url', $_CONF['layout_url']);
     if ($mode != 'personal') {
         $eventform->set_var ('explanation', $LANG_CALJP_1[27]);
         $eventform->set_var ('submit_url', '/submit.php');
@@ -896,7 +889,8 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('lang_zipcode',$LANG_CALJP_1[36]);
     $eventform->set_var('lang_location', $LANG_CALJP_1[39]);
     $eventform->set_var('lang_description', $LANG_CALJP_1[5]);
-    $eventform->set_var('lang_htmnotallowed', $LANG_CALJP_1[44]);
+    $allowed = COM_allowedHTML('calendarjp.edit', false, 2);
+    $eventform->set_var('lang_allowed_html', $allowed);       
     PLG_templateSetVars('calendarjp', $eventform);
     $eventform->set_var('lang_submit', $LANG12[8]);
     $eventform->set_var('mode', $mode);
@@ -998,18 +992,14 @@ function CALENDARJP_listOld()
             'text' => $LANG_ADMIN['admin_home'])
     );
 
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/admin');
-    $cal_templates->set_file (array ('form' => 'batchdelete.thtml'));
-    $cal_templates->set_var('xhtml', XHTML);
-    $cal_templates->set_var ('site_url', $_CONF['site_url']);
-    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var('layout_url', $_CONF['layout_url']);
-    $cal_templates->set_var ('usr_time', $usr_time);
-    $cal_templates->set_var ('lang_text_start', $LANG_CALJP_ADMIN[28]);
-    $cal_templates->set_var ('lang_text_end', $LANG_CALJP_ADMIN[29]);
-    $cal_templates->set_var ('lang_updatelist', $LANG_CALJP_ADMIN[30]);
-    $cal_templates->set_var ('lang_delete_sel', $LANG_ADMIN['delete_sel']);
-    $cal_templates->set_var ('lang_delconfirm', $LANG_CALJP_ADMIN[31]);
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/admin');
+    $cal_templates->set_file(array ('form' => 'batchdelete.thtml'));
+    $cal_templates->set_var('usr_time', $usr_time);
+    $cal_templates->set_var('lang_text_start', $LANG_CALJP_ADMIN[28]);
+    $cal_templates->set_var('lang_text_end', $LANG_CALJP_ADMIN[29]);
+    $cal_templates->set_var('lang_updatelist', $LANG_CALJP_ADMIN[30]);
+    $cal_templates->set_var('lang_delete_sel', $LANG_ADMIN['delete_sel']);
+    $cal_templates->set_var('lang_delconfirm', $LANG_CALJP_ADMIN[31]);
     $cal_templates->parse('form', 'form');
     $desc = $cal_templates->finish($cal_templates->get_var('form'));
 
@@ -1219,10 +1209,37 @@ function plugin_submissioncount_calendarjp()
 */
 function plugin_autotags_calendarjp ($op, $content = '', $autotag = '')
 {
-    global $_CONF, $_TABLES;
+    global $_CONF, $_TABLES, $LANG_CALJP_1, $_CAJP_CONF, $_GROUPS;
 
     if ($op == 'tagname' ) {
         return 'event';
+    } elseif ($op == 'permission' || $op == 'nopermission') {
+        if ($op == 'permission') {
+            $flag = true;
+        } else {
+            $flag = false;
+        }
+        $tagnames = array();
+
+        if (isset($_GROUPS['Calendarjp Admin'])) {
+            $group_id = $_GROUPS['Calendarjp Admin'];
+        } else {
+            $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                                   "grp_name = 'Calendarjp Admin'");
+        }
+        $owner_id = SEC_getDefaultRootUser();
+
+        if (COM_getPermTag($owner_id, $group_id, $_CAJP_CONF['autotag_permissions_event'][0], $_CAJP_CONF['autotag_permissions_event'][1], $_CAJP_CONF['autotag_permissions_event'][2], $_CAJP_CONF['autotag_permissions_event'][3]) == $flag) {
+            $tagnames[] = 'event';
+        }
+
+        if (count($tagnames) > 0) {
+            return $tagnames;
+        }
+    } elseif ($op == 'description') {
+        return array (
+            'event' => $LANG_CALJP_1['autotag_desc_event']
+            );        
     } else if ($op == 'parse') {
         $eid = COM_applyFilter($autotag['parm1']);
         if (! empty($eid)) {
@@ -1578,6 +1595,8 @@ function plugin_upgrade_calendarjp()
 
     require_once $_CONF['path'] . 'plugins/calendarjp/sql/'
                                 . $_DB_dbms . '_updates.php';
+                                
+    require_once $_CONF['path'] . 'plugins/calendarjp/install_updates.php';                                   
 
     $current_version = $installed_version;
     $done = false;
@@ -1599,7 +1618,7 @@ function plugin_upgrade_calendarjp()
             break;
 
         case '1.1.1':
-            update_ConfValues_1_1_1_1();
+            calendarjp_update_ConfValues_1_1_1();
             $current_version = '1.1.1.1b1';
             break;
 
@@ -1609,13 +1628,28 @@ function plugin_upgrade_calendarjp()
             break;
 
         case '1.1.2':
-            update_ConfValues_1_1_3();
+            calendarjp_update_ConfValues_1_1_2();
             $current_version = '1.1.3';
             break;
 
         case '1.1.3':
             $current_version = '1.1.4';
             break;
+
+        case '1.1.4':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+            
+            calendarjp_update_ConfValues_1_1_4();
+            
+            calendarjp_update_ConfigSecurity_1_1_4();
+
+            $current_version = '1.1.5';
+            break;            
 
         default:
             $done = true;
@@ -1691,7 +1725,12 @@ function plugin_autouninstall_calendarjp ()
         /* give the full name of the group, as in the db */
         'groups' => array('Calendarjp Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('calendarjp.edit', 'calendarjp.moderate', 'calendarjp.submit'),
+        'features' => array('calendarjp.edit', 
+                            'calendarjp.moderate', 
+                            'calendarjp.submit',
+                            'config.calendarjp.tab_main',
+                            'config.calendarjp.tab_permissions',
+                            'config.calendarjp.tab_autotag_permissions'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_calendarjp'),
         /* give all vars with their name */

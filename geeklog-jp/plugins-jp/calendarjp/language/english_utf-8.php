@@ -88,6 +88,7 @@ $LANG_CALJP_1 = array(
     49 => 'It appears that there are no events on this site or no one has ever clicked on one.',
     50 => 'Events',
     51 => 'Delete',
+    'autotag_desc_event' => '[event: id alternate title] - Displays a link to an Event Link from the Calendar using the Event Title as the title. An alternate title may be specified but is not required.',
     'tail_year'  => '',
     'tail_month' => '/',
     'tail_day'   => '/',
@@ -222,16 +223,24 @@ $LANG_confignames['calendarjp'] = array(
     'wikitext_editor' => 'Wikitext Editor?',
     'postmode' => "Default Post Mode",
 
-    'default_permissions' => 'Event Default Permissions'
+    'default_permissions' => 'Event Default Permissions',
+    'autotag_permissions_event' => '[event: ] Permissions'    
 );
 
 $LANG_configsubgroups['calendarjp'] = array(
     'sg_main' => 'Main Settings'
 );
 
+$LANG_tab['calendarjp'] = array(
+    'tab_main' => 'General Calendarjp Settings',
+    'tab_permissions' => 'Default Permissions',
+    'tab_autotag_permissions' => 'Autotag Usage Permissions'
+);
+ 
 $LANG_fs['calendarjp'] = array(
     'fs_main' => 'General Calendarjp Settings',
-    'fs_permissions' => 'Default Permissions'
+    'fs_permissions' => 'Default Permissions',
+    'fs_autotag_permissions' => 'Autotag Usage Permissions'      
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
@@ -241,7 +250,8 @@ $LANG_configselects['calendarjp'] = array(
     5 => array_flip($LANG_postmodes),
     6 => array('12' => '12', '24' => '24'),
     9 => array('Forward to Event' => 'item', 'Display Admin List' => 'list', 'Display Calendar' => 'plugin', 'Display Home' => 'home', 'Display Admin' => 'admin'),
-    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3)
+    12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3),
+    13 => array('No access' => 0, 'Use' => 2)
 );
 
 ?>

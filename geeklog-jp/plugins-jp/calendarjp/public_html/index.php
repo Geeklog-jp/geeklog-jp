@@ -505,15 +505,11 @@ $ja = ($_CONF['language'] == 'japanese_utf-8');
 
 switch ($view) {
 case 'day':
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates/dayview');
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/dayview');
     $cal_templates->set_file(array('column'=>'column.thtml',
                                    'event'=>'singleevent.thtml',
                                    'dayview'=>'dayview.thtml',
                                    'quickadd'=>'quickaddform' . ($ja ? '_ja' : '') . '.thtml'));
-    $cal_templates->set_var ( 'xhtml', XHTML );
-    $cal_templates->set_var ('site_url', $_CONF['site_url']);
-    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var ('layout_url', $_CONF['layout_url']);
     $cal_templates->set_var('mode', $mode);
     $cal_templates->set_var('lang_day', $LANG_CALJP_2[39]);
     $cal_templates->set_var('lang_week', $LANG_CALJP_2[40]);
@@ -616,7 +612,6 @@ case 'day':
         $numevents = $hourcols[$i];
         if ($numevents > 0) {
             // $colsleft = $maxcols;
-            $cal_templates->set_var ('layout_url', $_CONF['path'] . 'plugins/calendarjp/templates/');
             for ($j = 1; $j <= $numevents; $j++) {
                 $A = current ($thedata);
                 $cal_templates->set_var ('event_time',
@@ -675,14 +670,10 @@ case 'day':
     break;
 
 case 'week':
-    $cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates');
+    $cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates');
     $cal_templates->set_file(array('week'=>'weekview/weekview.thtml',
                                    'events'=>'weekview/events.thtml',
                                    'quickadd'=>'dayview/quickaddform' . ($ja ? '_ja' : '') . '.thtml'));
-    $cal_templates->set_var ( 'xhtml', XHTML );
-    $cal_templates->set_var ('site_url', $_CONF['site_url']);
-    $cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-    $cal_templates->set_var ('layout_url', $_CONF['layout_url']);
     $cal_templates->set_var('mode', $mode);
     $cal_templates->set_var('lang_week', $LANG_CALJP_2[27]);
     if ($mode == 'personal') {
@@ -908,7 +899,7 @@ case 'savepersonal':
 default: // month view
 // Load templates
 
-$cal_templates = new Template($_CONF['path'] . 'plugins/calendarjp/templates');
+$cal_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates');
 $cal_templates->set_file (array (
         'calendar'    => 'calendar' . ($ja ? '_ja' : '') . '.thtml',
         'week'        => 'calendarweek.thtml',
@@ -919,10 +910,6 @@ $cal_templates->set_file (array (
         'addevent'    => 'addeventoption.thtml'
         ));
 
-$cal_templates->set_var ('xhtml', XHTML);
-$cal_templates->set_var ('site_url', $_CONF['site_url']);
-$cal_templates->set_var ('site_admin_url', $_CONF['site_admin_url']);
-$cal_templates->set_var ('layout_url', $_CONF['layout_url']);
 $cal_templates->set_var ('mode', $mode);
 if ($mode == 'personal') {
     $cal_templates->set_var ('start_block', COM_startBlock ($LANG_CALJP_2[12]));
