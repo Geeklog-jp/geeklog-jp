@@ -74,7 +74,7 @@
   <td valign="top">Geeklogのサイトを一時的に閉鎖するときに表示するメッセージを指定します。メッセージが"http:"で始まる場合、サイトの訪問者はそのURLへリダイレクトされます。<br>
     <strong>注:</strong>実際にサイトを閉鎖するかどうかを決める設定は、<tt>siteconfig.php</tt>ファイルの中にあります。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_owner_name">owner_name</a></td>
+  <td valign="top"><a name="desc_owner_name">管理者名(owner_name)</a></td>
   <td valign="top"></td>
   <td valign="top">このサイトの管理者のなまえを入力します。これはcopyright noticeがセットされた場合に表示されます。, 他、サイト名が使用されます。</td></tr>
 <tr>
@@ -87,10 +87,10 @@
   <td valign="top">はい(true)でURLリライトを行い、いいえ(false)で行わないようになります。<br>
     下記の<a href="#url-rewrite">URLリライト</a>のセクションを参照してください。</td></tr>
 <tr>
-  <td valign="top"><a name="desc_cdn_hosted">cdn_hosted</a></td>
-  <td valign="top">false</td>
-  <td valign="top">Enable (true) or disable (false) Google CDN-hosted source for jQuery 
-   and jQuery UI.</td></tr>    
+  <td valign="top"><a name="desc_cdn_hosted">CDNのjQueryを使う(cdn_hosted)</a></td>
+  <td valign="top">いいえ(false)</td>
+  <td valign="top">はい(true)でグーグルのCDNのjQueryとjQuery UIのソース利用を有効に、いいえ(false)で無効に設定します。
+   </td></tr>    
 <tr>
   <td valign="top"><a name="desc_meta_tags">メタタグ(meta_tags)</a></td>
   <td valign="top">無効にする</td>
@@ -564,7 +564,7 @@
 <tr>
   <td valign="top"><a name="desc_whosonline_photo">whosonline_photo</a></td>
   <td valign="top">いいえ(0)</td>
-  <td valign="top">有効にすると(すなわち1に変更), ユーザの写真があれば, 写真のサムネイルが表示され，なければ替わりに写真アイコンが表示されます。</td></tr>
+  <td valign="top">有効(1)にするとユーザの写真があれば写真のサムネイルが表示され、なければ写真アイコンが表示されます。</td></tr>
 </table>
 
 <h3><a name="blocks_what">ブロック: 新着情報ブロック</a></h3>
