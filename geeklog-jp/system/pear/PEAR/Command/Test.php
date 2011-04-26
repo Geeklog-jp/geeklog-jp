@@ -11,7 +11,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: Test.php 279072 2009-04-20 19:57:41Z cellog $
+ * @version    CVS: $Id: Test.php 307683 2011-01-23 21:56:12Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -31,7 +31,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.1
+ * @version    Release: 1.9.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */

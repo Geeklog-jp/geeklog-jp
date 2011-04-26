@@ -3981,7 +3981,7 @@ function COM_allowedHTML($permissions = 'story.edit', $list_only = false, $filte
             $comma = ', ';
         }
         if (! empty($description[$tag])) {
-           $retval .= $comma . COM_Tooltip('[' . $tag . ':]', $description[$tag], '', $LANG01[132],'information');
+           $retval .= $comma . COM_getTooltip('[' . $tag . ':]', $description[$tag], '', $LANG01[132],'information');
         } else {
             $retval .= $comma . '[' . $tag . ':]';
         }
@@ -6743,6 +6743,46 @@ function COM_getLanguageName()
 }
 
 /**
+* Returns text that will display if JavaScript is not enabled in the browser
+*
+* @param    boolean $warning            If true displays default JavaScript recommended warning message
+*                                       If false displays default JavaScript Required message
+* @param    string  $noscript_message   Used instead of default message
+* @param    string  $link_message       Secondary message that may contain a link
+* @return   string                      noscript html tag with message(s)
+*
+*/
+function COM_getNoScript($warning = true, $noscript_message = '', $link_message = '')
+{
+    global $_CONF, $LANG01;
+    
+    $noscript = COM_newTemplate($_CONF['path_layout']);
+    $noscript->set_file(array('noscript' => 'noscript.thtml'));    
+    
+    if ($warning) {
+        if (empty($noscript_message)) {
+            $noscript_message =  $LANG01[136];
+        }
+    } else {
+        if (empty($noscript_message)) {
+            $noscript_message =  $LANG01[137];
+        }
+    }
+    $noscript->set_var('lang_nojavascript', $noscript_message);
+    
+    if (!empty($link_message)) {
+        $noscript->set_var('hide_link', '');
+        $noscript->set_var('no_javascript_return_link', $link_message);
+    } else {
+        $noscript->set_var('hide_link', ' style="display:none;"');
+        $noscript->set_var('no_javascript_return_link', '');
+    }
+    
+    $retval =  $noscript->finish($noscript->parse('output', 'noscript'));
+    return $retval;    
+}
+
+/**
 * Returns an text/image that will display a tooltip
 *
 * This tooltip is based on an example from http://downloads.sixrevisions.com/css-tooltips/index.html
@@ -6756,12 +6796,18 @@ function COM_getLanguageName()
 * @return   string              HTML tooltip
 *
 */
-function COM_Tooltip($hoverover = '', $text = '', $link = '', $title = '', $template = 'classic', $class = 'tooltip') 
+function COM_getTooltip($hoverover = '', $text = '', $link = '', $title = '', $template = 'classic', $class = 'gl-tooltip') 
 {
-    global $_CONF, $_IMAGE_TYPE;
+    global $_CONF, $_IMAGE_TYPE, $_SCRIPTS;
     
+    if (! defined('TOOLTIPS_FIXED')) {
+        define('TOOLTIPS_FIXED', true);
+        $_SCRIPTS->setJavaScriptLibrary('jquery');
+        $_SCRIPTS->setJavaScriptFile('fix_tooltips', '/javascript/fix_tooltips.js');
+    }
+
     if ($hoverover == '') {
-        $hoverover = '<img alt="?" id="tooltip-icon" src="' . $_CONF['layout_url'] . '/tooltips/images/tooltip.' . $_IMAGE_TYPE . '"' . XHTML . '>';   
+        $hoverover = '<img alt="?" id="gl-tooltip-icon" src="' . $_CONF['layout_url'] . '/tooltips/images/tooltip.' . $_IMAGE_TYPE . '"' . XHTML . '>';   
     }
     
     $tooltip = COM_newTemplate($_CONF['path_layout'] .'tooltips/');
