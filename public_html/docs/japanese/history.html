@@ -18,6 +18,33 @@
 
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
+<h2>Apr 25, 2011 (1.8.0b2)</h2>
+
+<p>このリリースは2010 Google Summer of Codeプロジェクトの成果であるAkeda Bagusさんの
+コンフィギュレーションを含んでいます(入力値の整合チェックと検索)。</p>
+
+<p>Changes since 1.8.0b1:</p>
+<ul>
+<li>Fixed post mode being switched when plain text comment was previewed or edited (bug #0001324) [Tom]</li>
+<li>Sanitize OAuth user data (bug #0001322) [Dirk]</li>
+<li>Fixed HTML errors in Configuration (bug #0001318, patch provided by dengen) [Tom, Rouslan]</li>
+<li>Added nowrap style to some admin templates for consistency (feature request #0001321) [Tom]</li>
+<li>Fixed check for wrong edit permission in the Calendar plugin (bug #0001317, patch provided by dengen)</li>
+<li>Added missing jQuery widgets and effects (bug #0001312) [Tom]</li>
+<li>Fixed missing / in the setJavaScriptFile method (bug #0001315) [Tom]</li>
+<li>Display a warning when JavaScript is required but disabled, e.g. in the comment form with advanced editor enabled (bug #0001282) [Tom]</li>
+<li>Make sure tooltips are always fully visible (bug #0001304) [Rouslan]</li>
+<li>Added missing images/right_arrow.png for the OpenID login form (bug #0001311) [Rouslan]</li>
+<li>Don't load style.css if the theme doesn't use it (bug #0001309) [Rouslan]</li>
+<li>Fixed nesting of forms in profile.thtml (bug #0001296) [Tom]</li>
+<li>Fixed plugin install issue with plugins that did not support tabs (bug #0001305) [Tom]</li>
+<li>Fixed validation of Configuration list entries with numerical values (bug #0001298) [Tom]</li>
+<li>Fixed use of mb_strlen() instead of MBYTE_strlen() in the validator class (bug #0001299, patch provided by mystral-kk)</li>
+</ul>
+<ul>
+<li>Updated Japanese language files and documentation, provided by the Geeklog.jp group</li>
+</ul>
+
 <h2>Apr 3, 2011 (1.8.0b1)</h2>
 
 <p>このリリースは2010 Google Summer of Codeプロジェクトの成果であるAkeda Bagusさんの
