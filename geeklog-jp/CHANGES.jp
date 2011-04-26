@@ -1,8 +1,12 @@
 $Id$
 
+2011-04-26  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.8.0b2をマージしました。
+
 2011-04-15  Tetsuko Komma  <ivy>
 
-	* 日本語言語ファイル翻訳（コアおよびプラグイン），ドキュメント翻訳の
+	* 日本語言語ファイル翻訳（コアおよびプラグイン）、ドキュメント翻訳の
 	  修正を行いました。
 
 2011-04-10  Tetsuko Komma  <ivy>
@@ -27,11 +31,11 @@ $Id$
 2011-04-09  Tetsuko Komma  <ivy>
 
 	* テーマProfessionalCSSを本家professional_cssに差し替え日本語化を
-	  行い，tooltipsのスタイルインポート漏れの不具合を対応しました。
+	  行い、tooltipsのスタイルインポート漏れの不具合を対応しました。
 
 2011-04-05  Tetsuko Komma  <ivy>
 
-	* 日本語言語ファイル翻訳（コアおよびプラグイン），ドキュメント翻訳を
+	* 日本語言語ファイル翻訳（コアおよびプラグイン）、ドキュメント翻訳を
 	  行いました。
 
 2011-04-05  Takahiro Kambe  <tacahi>
@@ -183,12 +187,12 @@ $Id$
 
 2011-01-22  Masuko Koeda  <milk851>
 
-	* WAIproCSSのcss/story.cssで，話題アイコンが右固定されていた
+	* WAIproCSSのcss/story.cssで、話題アイコンが右固定されていた
 	  不具合を修正しました。
 
 2011-01-21  Tetsuko Komma  <ivy>
 
-	* ProfessionalCSSのcss/story.cssで，話題アイコンが右固定されていた
+	* ProfessionalCSSのcss/story.cssで、話題アイコンが右固定されていた
 	  不具合を修正しました。
 
 2011-01-20  Takahiro Kambe  <tacahi>
@@ -263,7 +267,7 @@ $Id$
 
 2010-11-28  Tetsuko Komma  <ivy>
 
-	* sitemap.xmlの生成でエラーになる環境があるため，インストーラの初期
+	* sitemap.xmlの生成でエラーになる環境があるため、インストーラの初期
 	  インストールプラグインの許可設定からxmlsitemapプラグインをはずし
 	  ました。
 	* NEWS をGeeklog 1.7.1-jp-1.1に向けて更新しました。
