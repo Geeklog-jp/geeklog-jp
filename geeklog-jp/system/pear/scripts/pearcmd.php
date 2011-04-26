@@ -12,7 +12,7 @@
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: pearcmd.php 296932 2010-03-27 15:13:06Z dufuz $
+ * @version    CVS: $Id: pearcmd.php 308720 2011-02-27 13:56:15Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  */
 
@@ -343,6 +343,10 @@ function usage($error = null, $helpsubject = null)
     }
     fputs($stdout, "$put\n");
     fclose($stdout);
+
+    if ($error === null) {
+        exit(0);
+    }
     exit(1);
 }
 

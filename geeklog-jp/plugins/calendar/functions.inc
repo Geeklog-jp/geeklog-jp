@@ -820,7 +820,7 @@ function plugin_submit_calendar($mode = 'master')
     $eventform->set_var('lang_zipcode',$LANG_CAL_1[36]);
     $eventform->set_var('lang_location', $LANG_CAL_1[39]);
     $eventform->set_var('lang_description', $LANG_CAL_1[5]);
-    $allowed = COM_allowedHTML('links.edit', false, 2);
+    $allowed = COM_allowedHTML('calendar.edit', false, 2);
     $eventform->set_var('lang_allowed_html', $allowed);       
     PLG_templateSetVars('calendar', $eventform);
     $eventform->set_var('lang_submit', $LANG12[8]);
@@ -2057,6 +2057,20 @@ function plugin_getdocumentationurl_calendar($file)
     }
 
     return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*
+*/
+function plugin_getconfigtooltip_calendar($id)
+{   
+    // Use config tooltip hack where tooltip is read from the config documentation
+    return;
 }
 
 ?>

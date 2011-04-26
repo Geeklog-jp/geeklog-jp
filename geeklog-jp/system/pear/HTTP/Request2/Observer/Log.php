@@ -38,7 +38,7 @@
  * @author   David Jean Louis <izi@php.net>
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id: Log.php 308322 2011-02-14 13:58:03Z avb $
+ * @version  SVN: $Id: Log.php 308680 2011-02-25 17:40:17Z avb $
  * @link     http://pear.php.net/package/HTTP_Request2
  */
 
@@ -87,7 +87,7 @@ require_once 'HTTP/Request2/Exception.php';
  * @author   David Jean Louis <izi@php.net>
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  Release: 0.6.0
+ * @version  Release: 2.0.0beta3
  * @link     http://pear.php.net/package/HTTP_Request2
  */
 class HTTP_Request2_Observer_Log implements SplObserver
@@ -109,7 +109,7 @@ class HTTP_Request2_Observer_Log implements SplObserver
     public $events = array(
         'connect',
         'sentHeaders',
-        'sentBodyPart',
+        'sentBody',
         'receivedHeaders',
         'receivedBody',
         'disconnect',
@@ -167,7 +167,7 @@ class HTTP_Request2_Observer_Log implements SplObserver
                 $this->log('> ' . $header);
             }
             break;
-        case 'sentBodyPart':
+        case 'sentBody':
             $this->log('> ' . $event['data'] . ' byte(s) sent');
             break;
         case 'receivedHeaders':
