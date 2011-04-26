@@ -737,8 +737,8 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 */
 function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03, $LANG12, $LANG_ADMIN, $LANG_ACCESS
-    , $MESSAGE, $_SCRIPTS;
+    global $_CONF, $_TABLES, $_USER, $LANG01, $LANG03, $LANG12, $LANG_ADMIN
+    , $LANG_ACCESS, $MESSAGE, $_SCRIPTS;
 
     $retval = '';
 
@@ -783,7 +783,7 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         } else {
 
-            if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
+            if (empty($postmode) && $_CONF['advanced_editor'] && $_USER['advanced_editor']) {
                 $postmode = 'html';
             } elseif (empty($postmode)) {
                 $postmode = $_CONF['postmode'];
@@ -873,11 +873,19 @@ function CMT_commentForm($title,$comment,$sid,$pid='0',$type,$mode,$postmode)
             if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
                 $comment_template->set_file('form', 'commentform_advanced.thtml');
                 
+                if (COM_isAnonUser()) {
+                    $link_message = "";
+                } else {
+                    $link_message = $LANG01[138];    
+                } 
+                $comment_template->set_var('noscript', COM_getNoScript(false, '', $link_message));
+                
                 // Add JavaScript
                 $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
+                // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
+                $js .= 'document.getElementById("advanced_editor").style.display="";';                 
                 $_SCRIPTS->setJavaScript($js, true);
                 $_SCRIPTS->setJavaScriptFile('submitcomment_fckeditor', '/javascript/submitcomment_fckeditor.js');
-                
             } else {
                 $comment_template->set_file('form', 'commentform.thtml');
             }

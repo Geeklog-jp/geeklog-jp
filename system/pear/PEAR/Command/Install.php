@@ -10,7 +10,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: Install.php 287477 2009-08-19 14:19:43Z dufuz $
+ * @version    CVS: $Id: Install.php 308687 2011-02-25 23:14:27Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -30,7 +30,7 @@ require_once 'PEAR/Command/Common.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.1
+ * @version    Release: 1.9.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -730,7 +730,8 @@ Run post-installation scripts in package <package>, if any exist.
             if ($param->getPackageType() == 'extsrc' ||
                   $param->getPackageType() == 'extbin' ||
                   $param->getPackageType() == 'zendextsrc' ||
-                  $param->getPackageType() == 'zendextbin') {
+                  $param->getPackageType() == 'zendextbin'
+            ) {
                 $pkg = &$param->getPackageFile();
                 if ($instbin = $pkg->getInstalledBinary()) {
                     $instpkg = &$instreg->getPackage($instbin, $pkg->getChannel());
@@ -741,7 +742,8 @@ Run post-installation scripts in package <package>, if any exist.
                 foreach ($instpkg->getFilelist() as $name => $atts) {
                     $pinfo = pathinfo($atts['installed_as']);
                     if (!isset($pinfo['extension']) ||
-                          in_array($pinfo['extension'], array('c', 'h'))) {
+                          in_array($pinfo['extension'], array('c', 'h'))
+                    ) {
                         continue; // make sure we don't match php_blah.h
                     }
 

@@ -10,7 +10,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: RunTest.php 297621 2010-04-07 15:09:33Z sebastian $
+ * @version    CVS: $Id: RunTest.php 308689 2011-02-25 23:20:24Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.3.3
  */
@@ -38,7 +38,7 @@ putenv("PHP_PEAR_RUNTESTS=1");
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.1
+ * @version    Release: 1.9.2
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.3.3
  */
@@ -282,7 +282,7 @@ class PEAR_RunTest
         if (empty($this->_options['cgi'])) {
             // try to see if php-cgi is in the path
             $res = $this->system_with_timeout('php-cgi -v');
-            if (false !== $res && !(is_array($res) && $res === array(127, ''))) {
+            if (false !== $res && !(is_array($res) && in_array($res[0], array(-1, 127)))) {
                 $this->_options['cgi'] = 'php-cgi';
             }
         }
@@ -385,7 +385,7 @@ class PEAR_RunTest
             $text .= "\n" . 'xdebug_stop_code_coverage();' .
                 "\n" . '} // end coverage_shutdown()' .
                 "\n" . 'register_shutdown_function("coverage_shutdown");';
-            $text .= "\n" . 'xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);' . "\n?>";
+            $text .= "\n" . 'xdebug_start_code_coverage(XDEBUG_CC_UNUSED | XDEBUG_CC_DEAD_CODE);' . "\n";
 
             // Workaround for http://pear.php.net/bugs/bug.php?id=17292
             $lines     = explode("\n", $section_text['FILE']);
@@ -399,14 +399,14 @@ class PEAR_RunTest
                     unset($lines[$i]);
                 }
 
-                if (substr($lines[$i], 0, 9) == 'namespace') {
+                if (isset($lines[$i]) && substr($lines[$i], 0, 9) == 'namespace') {
                     $namespace = $lines[$i] . "\n";
                     unset($lines[$i]);
                     break;
                 }
             }
 
-            $this->save_text($temp_file, "<?php\n" . $namespace . join("\n", $lines));
+            $this->save_text($temp_file, "<?php\n" . $namespace . "\n" . $text  . "\n" . implode("\n", $lines));
         } else {
             $this->save_text($temp_file, $section_text['FILE']);
         }

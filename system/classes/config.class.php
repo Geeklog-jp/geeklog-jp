@@ -200,11 +200,13 @@ class config {
         $result = DB_query($sql);
         $tabs = array();
         $curr_group_name = '';
+        $curr_subgroup = '';
         while ($row = DB_fetchArray($result)) {
             // For backwards compatibility, add in a tab for plugins that support the old config
-            if ($row['type'] != 'tab' && $row['tab'] == '' && $row['group_name'] != $curr_group_name) {
+            if ($row['type'] != 'tab' && $row['tab'] == '' && ($row['group_name'] != $curr_group_name || $row['subgroup'] != $curr_subgroup)) {
                 $curr_group_name = $row['group_name'];
-                $tab_name = 'tab_default';
+                $curr_subgroup = $row['subgroup'];
+                $tab_name = 'tab_default_' . $curr_subgroup;
                 $tab_id = 0;
                 $this->conf_type['tab'][$row[2]][$tab_name] = "config.{$row[2]}.{$tab_name}";
                 $this->conf_type['tree'][$row[2]][$row[4]][$tab_name] = "config.{$row[2]}.{$tab_name}";
@@ -687,6 +689,7 @@ class config {
                   . "type = 'subgroup' AND group_name = '$group' "
                   . "ORDER BY subgroup";
         $retval = array();
+        
         $res = DB_query($q_string);
         while ($row = DB_fetchArray($res)) {
             // check if current user has access to current subgroup
@@ -744,7 +747,7 @@ class config {
     function get_ui($grp, $sg='0', $change_result=null)
     {
         global $_CONF, $LANG_CONFIG, $LANG_configsubgroups, $LANG_tab, $LANG_fs,
-            $_SCRIPTS;
+            $_SCRIPTS, $LANG01;
 
         if(!array_key_exists($grp, $LANG_configsubgroups)) {
             $LANG_configsubgroups[$grp] = array();
@@ -775,6 +778,12 @@ class config {
         $t->set_file(array('main' => 'configuration.thtml',
                            'menugroup' => 'menu_element.thtml'));
 
+        $link_message = $LANG01[139];   
+        $t->set_var('noscript', COM_getNoScript(false, '', $link_message));
+        // Hide the Configuration as Javascript is currently required. If JS is enabled then the JS below will un-hide it
+        $js = 'document.getElementById("geeklog_config_editor").style.display="";';                 
+        $_SCRIPTS->setJavaScript($js, true);        
+        
         $t->set_var('gltoken_name', CSRF_TOKEN);
         $t->set_var('gltoken', SEC_createToken());
         
@@ -1109,6 +1118,7 @@ class config {
         $t->set_var('lang_add_element', $LANG_CONFIG['add_element']);
 
         $t->set_var('name', $name);
+        $t->set_var('id_name', str_replace(array('[', ']'), array('_', ''), $name));
         $t->set_var('display_name', $display_name);
         
         // check tmp values
@@ -1156,12 +1166,7 @@ class config {
                 $on = $name;
             }
             if (! is_numeric($on)) {
-                $descUrl = $this->_get_ConfigHelp($group, $o);
-                if (! empty($descUrl)) {
-                    $t->set_var('doc_url', $descUrl);
-                    $t->set_var('doc_link',
-                            '(<a href="' . $descUrl . '" target="help" class="tooltip">?</a>)');
-                }
+                $this->_set_ConfigHelp($t, $group, $o);
             }
         }
         if ($type == "unset") {
@@ -1749,25 +1754,27 @@ class config {
     }
 
     /**
-    * Helper function: Get the URL to the help section for a config option
+    * Helper function: Set the URL to the help section for a config option
     *
+    * @param    string  $t          Template
     * @param    string  $group      'Core' or plugin name
     * @param    string  $option     name of the config option
-    * @return   string              full URL to help or empty string
     *
     */
-    function _get_ConfigHelp($group, $option)
+    function _set_ConfigHelp(&$t, $group, $option)
     {
         static $docUrl;
 
-        if (! isset($docUrl)) {
+        if (!isset($docUrl)) {
             $docUrl = array();
         }
 
         $retval = '';
 
-        if (! isset($docUrl[$group])) {
+        $configtext = PLG_getConfigTooltip($group, $option);
+        if (empty($configtext)) {
             if ($group == 'Core') {
+                $configtext = NULL;
                 if (!empty($GLOBALS['_CONF']['site_url']) &&
                         !empty($GLOBALS['_CONF']['path_html'])) {
                     $baseUrl = $GLOBALS['_CONF']['site_url'];
@@ -1782,19 +1789,33 @@ class config {
                     $url = 'http://www.geeklog.net/docs/english/config.html';
                 }
                 $docUrl['Core'] = $url;
-            } else { // plugin
+            } else { // plugin            
                 $docUrl[$group] = PLG_getDocumentationUrl($group, 'config');
             }
-        }
-        $retval = $docUrl[$group];
+            $descUrl = $docUrl[$group];
 
-        if (! empty($retval)) {
-            if (strpos($retval, '#') === false) {
-                $retval .= '#desc_' . $option;
-            }
+            if (!empty($descUrl)) {
+                if (strpos($descUrl, '#') === false) {
+                    $descUrl .= '#desc_' . $option;
+                }
+                
+                $t->set_var('doc_url', $descUrl);
+                
+                // Does hack need to be used?
+                if (gettype($configtext) == "NULL") {
+                    $t->set_var('doc_link',
+                            '(<a href="' . $descUrl . '" target="help" class="tooltip">?</a>)');                    
+                } else {
+                    $t->set_var('doc_link',
+                            '(<a href="' . $descUrl . '" target="help">?</a>)');
+                }
+            }              
+        } else {
+            $t->set_var('doc_url', '');
+            $retval = "(" . COM_getTooltip("?", $configtext, '', $option,'information') . ")";
+            $t->set_var('doc_link', $retval);            
         }
 
-        return $retval;
     }
     
     /**

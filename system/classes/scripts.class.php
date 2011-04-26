@@ -122,14 +122,15 @@ class scripts {
                      
         
         // Find available jQuery library files
-        $version_jQuery = '1.5.1';
+        $version_jQuery = '1.5.2';
         $this->jquery_cdn_file = 'https://ajax.googleapis.com/ajax/libs/jquery/' . $version_jQuery .'/jquery.min.js';
         $name = 'jquery';
         $this->library_files[$name]['file'] = 'javascript/jquery.min.js';
         $this->library_files[$name]['load'] = false;
 
         // jQuery UI
-        $version_jQuery_ui = '1.8.10';
+        // When upgrading jQuery UI include the redmond theme
+        $version_jQuery_ui = '1.8.11';
         $this->jquery_ui_cdn_file = 'https://ajax.googleapis.com/ajax/libs/jqueryui/' . $version_jQuery_ui .'/jquery-ui.min.js';
         
         // Set jQuery UI CSS
@@ -270,7 +271,7 @@ class scripts {
     * Set JavaScript file to load
     *
     * @param    $name       name of JavaScript file
-    * @param    $file       location of file relative to public_html directory. Do not include '/' at beginning
+    * @param    $file       location of file relative to public_html directory. Include '/' at beginning
     * @param    $footer     set to true to include script in footer, else script placed in header
     * @param    $constant   Future use. Set to true if file is planned to be loaded all the time (Caching/Compression)
     * @access   public
@@ -279,13 +280,21 @@ class scripts {
     */     
     public function setJavaScriptFile($name, $file, $footer = true, $constant = false) {
         
+        global $_CONF;
+
+        // If header code make sure header not already set
+        if ($this->header_set && !$footer) {
+            return false;
+        }
+
         // Make sure valid name
         if (in_array(strtolower($name), $this->restricted_names, true)) {
             return false;
         }
-        
-        // If header code make sure header not already set
-        if ($this->header_set && !$footer) {
+
+        // Make sure file exists and is readable. We don't want any 403 or 404, right?
+        $path = substr($_CONF['path_html'], 0, -1) . $file;
+        if (! is_file($path) || ! is_readable($path)) {
             return false;
         }
         
@@ -304,14 +313,16 @@ class scripts {
     * This function is used to include any CSS needed by the JavaScript Libraries
     *
     * @param    $name       name of CSS file
-    * @param    $file       location of file relative to public_html directory. Do not include '/' at beginning
+    * @param    $file       location of file relative to public_html directory. Include '/' at beginning
     * @param    $load       set to true to load script right away. Should only be loaded when related script is loaded
     * @access   private
     * @return   boolean 
     *
     */      
     private function setCSSFilePrivate($name, $file, $load = true) {
-        
+
+        global $_CONF;
+
         // If header code make sure header not already set
         if ($this->header_set) {
             return false;
@@ -321,6 +332,12 @@ class scripts {
         if (in_array(strtolower($name), $this->restricted_names, true)) {
             return false;
         }        
+
+        // Make sure file exists and is readable. We don't want any 403 or 404, right?
+        $path = substr($_CONF['path_html'], 0, -1) . $file;
+        if (! is_file($path) || ! is_readable($path)) {
+            return false;
+        }
         
         $this->css_files[$name]['file'] = $file;
         $this->css_files[$name]['constant'] = false;
@@ -333,7 +350,7 @@ class scripts {
     * Set CSS file to load
     *
     * @param    $name       name of CSS file
-    * @param    $file       location of file relative to public_html directory. Do not include '/' at beginning
+    * @param    $file       location of file relative to public_html directory. Include '/' at beginning
     * @param    $constant   Future use. Set to true if file is planned to be loaded all the time (Caching/Compression)
     * @access   public
     * @return   boolean 
@@ -341,6 +358,8 @@ class scripts {
     */      
     public function setCSSFile($name, $file, $constant = true) {
         
+        global $_CONF;
+
         // If header code make sure header not already set
         if ($this->header_set) {
             return false;
@@ -351,6 +370,12 @@ class scripts {
             return false;
         }        
         
+        // Make sure file exists and is readable. We don't want any 403 or 404, right?
+        $path = substr($_CONF['path_html'], 0, -1) . $file;
+        if (! is_file($path) || ! is_readable($path)) {
+            return false;
+        }
+
         $this->css_files[$name]['file'] = $file;
         $this->css_files[$name]['constant'] = $constant;
         $this->css_files[$name]['load'] = true;
