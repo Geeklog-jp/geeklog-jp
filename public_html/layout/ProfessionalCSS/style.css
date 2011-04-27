@@ -26,7 +26,6 @@
 @import url("css/search/search.css");
 @import url("css/stats/stats.css");
 @import url("css/submit/submit.css");
-@import url("css/tooltips/tooltips.css");
 @import url("css/trackback/trackback.css");
 @import url("css/users/users.css");
 
@@ -35,6 +34,9 @@
 
 /* Plugins */
 @import url("css/plugin.css");
+
+/* Tooltips */
+@import url("css/tooltips/tooltips.css");
 
 /* Custom */
 @import url("custom.css");
