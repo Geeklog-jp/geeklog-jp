@@ -71,10 +71,6 @@ form#config-editor {
 }
 
 /* Left Menu */
-div.block-bg-left {
-  width: 200px;
-}
-
 div#config_menu {
   float: left;
   width: 160px;
@@ -93,10 +89,6 @@ div#config_menu div.block-center h2 {
 }
 
 /* Center Block */
-#admin-block-center-content form {
-  width: 754px;
-}
-
 div#config_main {
   float: left;
   width: 620px;
