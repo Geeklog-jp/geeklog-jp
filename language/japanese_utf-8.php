@@ -185,10 +185,10 @@ $LANG01 = array(
     133 => '重要',
     134 => 'ヘルプ',
     135 => '警告',
-    136 => 'Warning: Javascript recommended for enhanced functionality',
-    137 => 'Warning: Javascript required to enable functionality',
-    138 => "Click <a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">here</a> to disable the advanced editor and use the default editor which does not require JavaScript",
-    139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage"
+    136 => '警告: 強化機能のためにJavascriptを推薦します',
+    137 => '警告: Javascriptが機能を有効にするのに必要です',
+    138 => "JavaScriptを使わないようアドバンストエディタを無効にしてノーマルエディタを有効にするには<a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">こちら</a>をクリックしてください。",
+    139 => "ホームページへは<a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">こちら</a>をクリック"
 );
 
 ###############################################################################
@@ -330,7 +330,7 @@ $LANG04 = array(
     83 => '投稿状況',
     84 => '投稿記事の総数:',
     85 => 'コメントの総数:',
-    86 => 'ユーザのすべての投稿を検索',
+    86 => 'すべての投稿を検索する:',
     87 => 'あなたのログイン名',
     88 => "%s さん、こんにちは。\n\n{$_CONF['site_name']}よりお知らせです。\n\n以下のページよりパスワード再設定の手続きを行い、そのパスワードで\n今後はログインするようにしてください。\n\nなお、このメールに覚えがない場合、他の方がメールアドレスを間違えて\n入力された可能性があります。パスワードを変更されることはございません\nのでご安心ください。\n\n",
     89 => "パスワードを変えたくない場合はこのメッセージを無視してください。(パスワードは変わりません。) \n\n",
