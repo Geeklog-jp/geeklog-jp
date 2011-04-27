@@ -23,26 +23,26 @@
 <p>このリリースは2010 Google Summer of Codeプロジェクトの成果であるAkeda Bagusさんの
 コンフィギュレーションを含んでいます(入力値の整合チェックと検索)。</p>
 
-<p>Changes since 1.8.0b1:</p>
+<p>1.8.0b1からの変更:</p>
 <ul>
-<li>Fixed post mode being switched when plain text comment was previewed or edited (bug #0001324) [Tom]</li>
-<li>Sanitize OAuth user data (bug #0001322) [Dirk]</li>
-<li>Fixed HTML errors in Configuration (bug #0001318, patch provided by dengen) [Tom, Rouslan]</li>
-<li>Added nowrap style to some admin templates for consistency (feature request #0001321) [Tom]</li>
-<li>Fixed check for wrong edit permission in the Calendar plugin (bug #0001317, patch provided by dengen)</li>
-<li>Added missing jQuery widgets and effects (bug #0001312) [Tom]</li>
-<li>Fixed missing / in the setJavaScriptFile method (bug #0001315) [Tom]</li>
-<li>Display a warning when JavaScript is required but disabled, e.g. in the comment form with advanced editor enabled (bug #0001282) [Tom]</li>
-<li>Make sure tooltips are always fully visible (bug #0001304) [Rouslan]</li>
-<li>Added missing images/right_arrow.png for the OpenID login form (bug #0001311) [Rouslan]</li>
-<li>Don't load style.css if the theme doesn't use it (bug #0001309) [Rouslan]</li>
-<li>Fixed nesting of forms in profile.thtml (bug #0001296) [Tom]</li>
-<li>Fixed plugin install issue with plugins that did not support tabs (bug #0001305) [Tom]</li>
-<li>Fixed validation of Configuration list entries with numerical values (bug #0001298) [Tom]</li>
-<li>Fixed use of mb_strlen() instead of MBYTE_strlen() in the validator class (bug #0001299, patch provided by mystral-kk)</li>
+<li>プレーンテキストのコメントがプレビューまたは編集されたときに投稿モードが変更されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001324">#0001324</a>) [Tom]</li>
+<li>OAuthユーザデータのサニタイズエラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001322">#0001322</a>) [Dirk]</li>
+<li>コンフィギュレーションのHTMLエラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001318">#0001318</a>, パッチ提供: dengen) [Tom, Rouslan]</li>
+<li>プラグインの管理画面のタイトルセルにnowrapを追加しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001321">#0001321</a>) [Tom]</li>
+<li>カレンダープラグインの編集のパーミッションチェックのエラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001312">#0001317, パッチ提供: dengen)</li>
+<li>jQueryウィジェットと効果のミスを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001312">#0001312</a>) [Tom]</li>
+<li>setJavaScriptFile の/抜けの修正を行いました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001315">#0001315</a>) [Tom]</li>
+<li>アドバンストエディタを有効にしたときなど、JavaScript が無効であれば警告のコメントを表示するようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001282">#0001282</a>) [Tom]</li>
+<li>ツールチップが常にすべて表示されるように変更しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001304">#0001304</a>) [Rouslan]</li>
+<li>OpenIDログイン時のimages/right_arrow.png　の画像抜けを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001311">#0001311</a>) [Rouslan]</li>
+<li>テーマがstyle.cssを使わない場合にはstyle.cssをロードしないようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001309">#0001309</a>) [Rouslan]</li>
+<li>プロファイルのプレビューのフォームがネストされる不具合を修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001296">#0001296</a>) [Tom]</li>
+<li>タブをサポートしていないプラグインインストールの不具合を対応しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001305">#0001305</a>) [Tom]</li>
+<li>コンフィギュレーションのリストの入力データチェックで、数値が設定できないバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001298">#0001298</a>) [Tom]</li>
+<li>コンフィギュレーションの入力文字数チェックで、MBYTE_strlen()ではなくmb_strlen() を使うよう、修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001299">#0001299</a>, パッチ提供: mystral-kk)</li>
 </ul>
 <ul>
-<li>Updated Japanese language files and documentation, provided by the Geeklog.jp group</li>
+<li>日本語言語ファイルのアップグレード。提供: Geeklog Japaneseグループ</li>
 </ul>
 
 <h2>Apr 3, 2011 (1.8.0b1)</h2>
@@ -416,8 +416,7 @@
 <h3>カレンダープラグイン</h3>
 <ul>
   <li>投稿フォームに、CAPTCHAのサポートを追加しました。
-  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1091">#0001091</a>, patch
-  provided by tuxcanfly)</li>
+  (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1091">#0001091</a>, パッチ提供: tuxcanfly)</li>
   <li>古くからあったイベント投稿エラー: "投稿(Submit)"ボタンのテキストが
   コア言語ファイルの $LANG12[8] と同じでなければ動かないというバグ。
   カレンダープラグインの言語ファイルを利用できるようにしました。
