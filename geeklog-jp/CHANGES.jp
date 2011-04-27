@@ -1,5 +1,12 @@
 $Id$
 
+2011-04-27  Tetsuko Komma  <ivy>
+
+	* 日本語言語ファイル翻訳（コア）、ドキュメント翻訳と修正を行いました。
+	* ProfessionalCSSをprofessional_cssを元に修正しました。
+	* ProfessionalCSSのjavascript/fix_html.jsをAugeさんの修正ファイルに
+	  差し替えました。
+
 2011-04-26  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.8.0b2をマージしました。
