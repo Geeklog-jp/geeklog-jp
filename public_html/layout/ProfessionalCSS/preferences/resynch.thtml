@@ -1,5 +1,5 @@
 
-<!-- /preferences/resynch.thtml { -->
+<!-- preferences/resynch.thtml { -->
 
     <tr>
         <td><label for="resynch">{lang_resynch}:</label></td>
@@ -9,4 +9,4 @@
       <dd><input type="checkbox" {resynch_checked} name="resynch" id="profile-resynch" class="text"{xhtml}></dd>
       <dd class="description">{lang_resynch_text}</dd>    
 
-<!-- /preferences/resynch.thtml { -->
+<!-- preferences/resynch.thtml { -->
