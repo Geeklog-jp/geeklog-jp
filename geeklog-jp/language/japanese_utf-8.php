@@ -1751,7 +1751,7 @@ $LANG_CONFIG = array(
     'disable' => 'クリックしてこのオプションを無効にする',
     'enable' => '有効にする',
     'default_tab_name' => 'メイン',
-    'search_configuration_label' => '検索のコンフィギュレーション',
+    'search_configuration_label' => 'コンフィギュレーションの検索',
     'error_validation_occurs' => '入力値を修正してください。'
 );
 
