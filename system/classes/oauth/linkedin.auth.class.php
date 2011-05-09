@@ -50,7 +50,7 @@ class linkedinConsumer extends OAuthConsumerBaseClass {
 
     protected function _getCreateUserInfo($info) {
         $users = array(
-            'loginname'      => $info->id,
+            'loginname'      => $info->{'first-name'} . ' ' . $info->{'last-name'},
             'email'          => '',
             'passwd'         => '',
             'passwd2'        => '',
