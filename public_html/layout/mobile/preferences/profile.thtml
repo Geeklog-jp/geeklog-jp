@@ -1,7 +1,11 @@
 
 <!-- preferences/profile.thtml { -->
 
-<form action="{site_url}/usersettings.php" method="post" {enctype} id="profile" class="linear">
+{noscript}
+
+<div id="pe_navbar" style="display:none">
+{navbar}
+</div>
 
 <div id="pe_preview" class="jsenabled_hide" style="display:none;">
   <fieldset>
@@ -9,6 +13,8 @@
     {preview}
   </fieldset>
 </div>
+
+<form action="{site_url}/usersettings.php" method="post" {enctype} id="profile" class="linear">
 
 <div id="pe_namepass" class="jsenabled_show">
   <fieldset>
@@ -32,13 +38,9 @@
     </dl>
 
     <dl>
-      <dt><label for="profile-passwd">{lang_password}</label></dt>
-      <dd><input type="password" size="32" maxlength="32" value="{password_value}" name="passwd" id="profile-passwd" class="text"{xhtml}></dd>
-      <dd class="description">{lang_password_text}</dd>
-
-      <dt><label for="profile-passwd_conf">{lang_password_conf}</label></dt>
-      <dd><input type="password" size="32" maxlength="32" value="{password_value}" name="passwd_conf" id="profile-passwd_conf" class="text"{xhtml}></dd>
-      <dd class="description">{lang_password_text_conf}</dd>
+      {password_option}
+      
+      {resynch_option}      
 
       <dt><label for="cooktime">{lang_cooktime}</label></dt>
       <dd>{cooktime_selector}</dd>
@@ -50,9 +52,7 @@
       <dt><label for="profile-email_conf">{lang_email_conf}</label></dt>
       <dd><input type="text" size="60" maxlength="96" value="{email_value}" name="email_conf" id="profile-email_conf" class="text"{xhtml}></dd>
 
-      <dt><label for="profile-old_passwd">{lang_old_password}</label></dt>
-      <dd><input type="password" size="32" maxlength="32" value="" name="old_passwd" id="profile-old_passwd" class="text"{xhtml}></dd>
-      <dd class="description">{lang_old_password_text}</dd>
+      {current_password_option}
 
       {delete_account_option}
     </dl>
@@ -86,7 +86,7 @@
       <dd><textarea cols="45" rows="6" name="about" id="profile-about">{about_value}</textarea></dd>
 
       <dt><label for="profile-pgpkey">{lang_pgpkey}{lang_pgpkey_text}</label></dt>
-      <dd><textarea cols="45" rows="6" name="pgpkey" id="profile-pgpkey">{pgpkey_value}</textarea></dd> 
+      <dd><textarea cols="45" rows="6" name="pgpkey" id="profile-pgpkey">{pgpkey_value}</textarea></dd>
     </dl>
   </fieldset>
 </div>
@@ -95,12 +95,6 @@
 
 <ul id="save_button" class="submit">
   <li>
-
-<!-- テーマと記事表示数をサイトのデフォルトの値に差し替えてください -->
-        <input type="hidden" name="theme" value="professional"{xhtml}>
-        <input type="hidden" name="maxstories" value="10"{xhtml}>
-<!-- ここまで -->
-
     <input type="hidden" name="uid" value="{uid_value}"{xhtml}>
     <input type="hidden" name="mode" value="saveuser"{xhtml}>
     <input type="hidden" name="username" value="{username_value}"{xhtml}>
