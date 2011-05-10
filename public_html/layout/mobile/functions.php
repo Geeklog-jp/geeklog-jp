@@ -1,32 +1,38 @@
 <?php
 
-if (strpos ($_SERVER['PHP_SELF'], 'functions.php') !== false) {
-    die ('This file can not be used on its own!');
+// this file can't be used on its own
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
+    die('This file can not be used on its own!');
 }
 
 $_IMAGE_TYPE = 'png';
 
-if (!defined ('XHTML')) {
-    define('XHTML',''); // change this to ' /' for XHTML
-}
+$_SCRIPTS->setJavaScriptFile('theme.confirm', '/layout/' . $_CONF['theme'] . '/javascript/confirm.js');
+$_SCRIPTS->setJavaScriptFile('theme.fix_html', '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js');
 
-$result = DB_query ("SELECT onleft,name FROM {$_TABLES['blocks']} WHERE is_enabled = 1");
-$nrows = DB_numRows ($result);
-for ($i = 0; $i < $nrows; $i++) {
-    $A = DB_fetchArray ($result);
-        if ($A['onleft'] == 1) {
-            $_BLOCK_TEMPLATE[$A['name']] = 'blockheader-left.thtml,blockfooter-left.thtml';
-        } else {
-            $_BLOCK_TEMPLATE[$A['name']] = 'blockheader-right.thtml,blockfooter-right.thtml';
-    }
-}
+/*
+ * For left/right block support there is no longer any need for the theme to
+ * put code into functions.php to set specific templates for the left/right
+ * versions of blocks. Instead, Geeklog will automagically look for
+ * blocktemplate-left.thtml and blocktemplate-right.thtml if given
+ * blocktemplate.thtml from $_BLOCK_TEMPLATE. So, if you want different left
+ * and right templates from admin_block, just create blockheader-list-left.thtml
+ * etc.
+ */
 
 $_BLOCK_TEMPLATE['_msg_block'] = 'blockheader-message.thtml,blockfooter-message.thtml';
-
-$_BLOCK_TEMPLATE['customlogin'] = 'customlogin-header.thtml,customlogin-footer.thtml';
+$_BLOCK_TEMPLATE['configmanager_block'] = 'blockheader-config.thtml,blockfooter-config.thtml';
+$_BLOCK_TEMPLATE['configmanager_subblock'] = 'blockheader-config.thtml,blockfooter-config.thtml';
 $_BLOCK_TEMPLATE['whats_related_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
 
+// Define the blocks that are a list of links styled as an unordered list - using class="blocklist"
+$_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+$_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+
+if (!COM_isAnonUser()) {
+    $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+}
 function mobile_siteFooter( $rightblock = -1, $custom = '' )
 {
     global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
@@ -202,16 +208,16 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     $footer->set_var( 'execution_textandtime', $exectext );
 
     /*
-     * ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+     * ƒƒjƒ…[
      */
 	$akey = 1;
 	
-    // ãƒ›ãƒ¼ãƒ 
+    // ƒz[ƒ€
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
                       '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
 	$akey ++;
 	
-    // ãƒ­ã‚°ã‚¤ãƒ³/ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
+    // ƒƒOƒCƒ“/ƒƒOƒAƒEƒg
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
@@ -223,43 +229,43 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     }
 	$akey ++;
 	
-    // è¨˜äº‹æŠ•ç¨¿
+    // ‹L–“Še
     $footer->set_var( 'mn_submit', '<a href="' . $_CONF['site_url'] .
                       '/submit.php?type=story" accesskey="' . $akey . '">' . $LANG01['71'] . '</a>' );
 	$akey ++;
 	
-    // æ²ç¤ºæ¿
+    // Œf¦”Â
 	$temp = DB_query("SELECT 1 AS cnt FROM {$_TABLES['plugins']} WHERE (pi_name = 'forum') AND (pi_enabled = '1')");
 	if (DB_numRows($temp) == 1) {
 	    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
-    	                  '/forum/index.php" accesskey="' . $akey . '">' . "æ²ç¤ºæ¿</a>" );
+    	                  '/forum/index.php" accesskey="' . $akey . '">' . "Œf¦”Â</a>" );
 		$akey ++;
 	}
 	
-    // è¨˜äº‹ä¸€è¦§
+    // ‹L–ˆê——
     $footer->set_var( 'mn_directory', '<a href="' . $_CONF['site_url'] .
                       '/directory.php" accesskey="' . $akey . '">' . $LANG01['117'] . '</a>' );
 	$akey ++;
 	
-    // æ¤œç´¢
+    // ŒŸõ
     $footer->set_var( 'mn_search', '<a href="' . $_CONF['site_url'] .
                       '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
 	$akey ++;
 	
-    // ãƒ–ãƒ­ãƒƒã‚¯
+    // ƒuƒƒbƒN
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="' . $akey . '">ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">ƒTƒuƒƒjƒ…[</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-    // ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ
+    // ƒ}ƒCƒAƒJƒEƒ“ƒg
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
     } else {
-    // æ–°è¦ç™»éŒ²
+    // V‹K“o˜^
         	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/users.php?mode=new" accesskey="' . $akey . '">ä¼šå“¡ç™»éŒ²</a>' );
+                      '/users.php?mode=new" accesskey="' . $akey . '">‰ïˆõ“o˜^</a>' );
 	$akey ++;
     }
 

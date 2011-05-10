@@ -1,3 +1,4 @@
+
 <!-- loginform.thtml { -->
 
 <form action="{site_url}/users.php" method="post" id="loginform" class="basic">
@@ -25,5 +26,6 @@
   </fieldset>
 </form>
 {openid_login}
+{oauth_login}
 
 <!-- } loginform.thtml -->
