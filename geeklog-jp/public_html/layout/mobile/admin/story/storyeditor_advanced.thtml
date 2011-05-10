@@ -1,25 +1,9 @@
 
 <!-- admin/story/storyeditor_advanced.thtml { -->
 
-<!-- Hide the Advanced Editor as Javascript is required. If JS is not enabled then the message below in the <nonscript> tags will be displayed -->
-
-<script type="text/javascript">
-  // Setup editor path for FCKeditor JS Functions
-  geeklogEditorBasePath = "{site_url}/fckeditor/";
-</script>
-<script type="text/javascript" src="{site_url}/javascript/advanced_editor.js"></script>
-<script type="text/javascript" src="{site_url}/javascript/storyeditor_fckeditor.js"></script>
-<noscript>
-  <p class="pluginAlert">
-    {lang_nojavascript}{no_javascript_return_link}
-  </p>
-</noscript>
+{noscript}
 
 <div id="advanced_editor" style="display: none;">
-<!-- Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it -->
-<script type="text/javascript">
-  document.getElementById('advanced_editor').style.display=''
-</script>
 {navbar}
 
 <form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onSubmit='set_postcontent();' id="admin-storyeditor_advanced" class="compact">
@@ -101,6 +85,7 @@
           <textarea cols="45" rows="14" name="bodytext" id="bodytext">{story_bodytext}</textarea>
         </dd>
       </dl>
+      <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
 
     <div id="html_editor" style="display: {show_htmleditor};">
@@ -190,8 +175,9 @@
       </dd>
       <dt><label for="admin-storyeditor-featured">{lang_cmt_disable}</label></dt>
       <dd>
-        {lang_enabled}
+        {lang_enabled}&nbsp;
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
+        &nbsp;
            <span dir="ltr">
                <select name="cmt_close_month">
                    {cmt_close_month_options}
@@ -241,15 +227,18 @@
     <legend>{lang_archivetitle}</legend>
 
     <dl>
-      <dt><label for="admin-storyeditor_advanced-archiveflag">{lang_archivetitle}({lang_option})</label></dt>
+      <dt><label for="admin-storyeditor_advanced-archiveflag">{lang_archivetitle}</label></dt>
       <dd>
-        <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor_advanced-archiveflag"{xhtml}>{lang_enabled}
+        {lang_enabled}&nbsp;
+        <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor_advanced-archiveflag"{xhtml}>
         <input type="radio" name="statuscode" id="storycode10" value="10" {is_checked3}{xhtml}>{lang_optionarchive}
-        <input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>{lang_optiondelete}
+        &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>
+        &nbsp;{lang_optiondelete}
       </dd>
 
-      <dt><label for="admin-storyeditor_advanced-expire_month">{lang_archivetitle}({lang_date})</label></dt>
+      <dt><label for="admin-storyeditor_advanced-expire_month"></label></dt>
       <dd>
+        {lang_date}&nbsp;
         <select name="expire_month" id="admin-storyeditor_advanced-expire_month">
           {expire_month_options}
         </select>
@@ -326,29 +315,5 @@
 <div id="preview" style="display: {show_preview};">
   {preview_content}
 </div>
-
-<script type="text/javascript">
-<!-- This code will only be executed by a browser that suppports Javascript -->
-var jstest = {showarchivedisabled};
-var jstest2 = {showcmtclosedisabled};
-if (jstest) {
-  document.frmstory.expire_month.disabled=true;
-  document.frmstory.expire_day.disabled=true;
-  document.frmstory.expire_year.disabled=true;
-  document.frmstory.expire_hour.disabled=true;
-  document.frmstory.expire_minute.disabled=true;
-  document.frmstory.expire_ampm.disabled=true;
-  document.frmstory.storycode10.disabled=true;
-  document.frmstory.storycode11.disabled=true;
-}
-if (jstest2) {
-    document.frmstory.cmt_close_month.disabled=true;
-    document.frmstory.cmt_close_day.disabled=true;
-    document.frmstory.cmt_close_year.disabled=true;
-    document.frmstory.cmt_close_hour.disabled=true;
-    document.frmstory.cmt_close_minute.disabled=true;
-    document.frmstory.cmt_close_ampm.disabled=true;
-}
-</script>
 
 <!-- } admin/story/storyeditor_advanced.thtml -->

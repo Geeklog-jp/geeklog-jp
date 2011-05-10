@@ -19,12 +19,10 @@
     <dt><label for="displayprefs-noboxes">{lang_noboxes}</label></dt>
     <dd><input type="checkbox" {noboxes_checked} name="noboxes" id="displayprefs-noboxes" class="text"{xhtml}>{lang_noboxes_text}</dd>
 
-<!--
-記事最大数は携帯表示の際には無効になるためコメントアウトします。
     <dt><label for="displayprefs-maxstories">{lang_maxstories}</label></dt>
     <dd><input type="text" size="3" maxlength="3" value="{maxstories_value}" name="maxstories" id="displayprefs-maxstories" class="text"{xhtml}></dd>
-    <dd class="description">{lang_maxstories_text}</dd>
--->
+
+    {advanced_editor_option}
 
     <dt><label for="tzid">{lang_timezone}</label></dt>
     <dd>{timezone_selector}</dd>
