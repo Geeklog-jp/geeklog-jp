@@ -10,8 +10,7 @@
     <dt>{lang_membersince}</dt>
     <dd>{user_regdate}</dd>
 
-    <dt>{lang_email}</dt>
-    <dd><a href="{site_url}/profiles.php?uid={user_id}">{lang_sendemail}</a></dd>
+    {email_option}
 
     <dt>{lang_homepage}</dt>
     <dd><a href="{user_homepage}">{user_homepage}</a></dd>
