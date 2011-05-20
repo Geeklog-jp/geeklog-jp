@@ -38,7 +38,7 @@ div#container {
   position: relative;
   width: 70.2em;  /* サイト全体の幅[W] */
   min-width: 37.5em; 
-  margin: 20px auto 0;
+  margin: 0 auto;
   padding: 0;
   border: 0.1em solid #555555;
   font-size: 1em; 
@@ -68,6 +68,7 @@ div#container div#header h1.site_name {
 
 div#container div#header h1.site_name a {
   text-decoration: none;
+  color: #000000;
 }
 
 div#container div#header h1.site_name a:hover {
@@ -105,13 +106,26 @@ div#container div#header p.welcome_msg a:active {
 --------------------------------------*/
 
 div#container div#navigation {
-  height: 2em;
-  padding: 0.49em;
+  overflow: hidden;
+  padding: 0.99em 0.49em 0.49em 0.49em;
   background: #666666;
   border-top: 0.1em solid #555555;
   border-bottom: 0.1em solid #555555;
   text-align: left;
 }
+
+/* Win IE 7用 { \*/
+*+html div#container div#navigation {
+  padding-bottom: 1em;
+}
+/* } Win IE 7用 */
+
+/* Win IE 6用 { \*/
+* html div#container div#navigation {
+  padding-bottom: 1em;
+  zoom: 1;
+}
+/* } Win IE 6用 */
 
 /* ナビゲーションメニューリスト */
 div#container div#navigation ul {
@@ -122,18 +136,32 @@ div#container div#navigation ul {
 
 div#container div#navigation ul li {
   float: left;
-  margin: 0 0 0 1.5em;
+  margin: 0.5em 0 1em 1.5em;
   padding: 0;
   font-weight:bold;
 }
 
+/* Win IE 7用 { \*/
+*+html div#container div#navigation ul li {
+  margin: 0.5em 0 1em 1.8em;
+}
+/* } Win IE 7用 */
+
+/* Win IE 6用 { \*/
+* html div#container div#navigation ul li {
+  margin: 0.5em 0 1em 1.8em;
+}
+/* } Win IE 6用 */
+
 div#container div#navigation ul li a {
+  padding: 10px;
   color: #ffffff;
 }
 
 div#container div#navigation ul li a:hover,
 div#container div#navigation ul li a:focus,
 div#container div#navigation ul li a:active {
+  background: #ffff40;
   color: #000000;
 }
 
@@ -389,69 +417,86 @@ div#container div#footer {
   text-align: center;
 }
 
-/* IE6以下用 */
+/* Win IE 6用 { \*/
 * html div#container div#footer {
 margin-top: -0.5em;
 }
+/* } Win IE 6用 */
 
 /* フッタリンク */
 div#container div#footer a,
 div#container div#footer a:link,
-div#container div#footer a:visited {
+div#container div#footer a:visited,
+div#footer a,
+div#footer a:link,
+div#footer a:visited {
   color: #000000;
 }
 
 div#container div#footer a:hover,
 div#container div#footer a:focus,
-div#container div#footer a:active {
+div#container div#footer a:active
+div#footer a:hover,
+div#footer a:focus,
+div#footer a:active {
   color: #000099;
 }
 
 /* フッタリスト */
-div#container div#footer ul {
+div#container div#footer ul,
+div#footer ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-div#container div#footer ul li {
+div#container div#footer ul li,
+div#footer ul li {
   margin: 0;
   padding: 0;
 }
 
 /* ページの先頭へ戻る */
-div#container div#footer p.back {
+div#container div#footer p.back,
+div#footer p.back {
   float: right;
   margin-right: 2em;
   text-align: right;
 }
 
-div#container div#footer p.back a {
+div#container div#footer p.back a,
+div#footer p.back a {
   display: block;
   width: 10.38em;
   background: url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
 }
 
-div#container div#footer p.back a:hover {
+div#container div#footer p.back a:hover,
+div#footer p.back a:hover {
   background: #ffff40 url(../images/css/icon_pagetop.gif) no-repeat 0 2px;
 }
 
 /* コピーライト表示 */
-div#container div#footer ul {
+div#container div#footer ul,
+div#footer ul {
   clear: both;
 }
 
-div#container div#footer ul li.copyright_notice {
+div#container div#footer ul li.copyright_notice,
+div#footer ul li.copyright_notice {
 }
 
-div#container div#footer ul li.copyright_notice address {
+div#container div#footer ul li.copyright_notice address,
+div#footer ul li.copyright_notice address {
   font-style: normal;
 }
 
 /* パワードバイ表示 */
-div#container div#footer ul li.powered_by {
+div#container div#footer ul li.powered_by,
+div#footer ul li.powered_by {
 }
 
 /* ページ作成時間 */
-div#container div#footer ul li.execution_textandtime {
+div#container div#footer ul li.execution_textandtime,
+div#footer ul li.execution_textandtime {
 }

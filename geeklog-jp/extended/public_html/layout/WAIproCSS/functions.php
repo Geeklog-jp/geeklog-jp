@@ -2,10 +2,12 @@
 
 // this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
-    die ('This file can not be used on its own!');
+    die('This file can not be used on its own!');
 }
 
 $_IMAGE_TYPE = 'gif';
+$_SCRIPTS->setJavaScriptFile('theme.confirm', '/layout/' . $_CONF['theme'] . '/javascript/confirm.js');
+$_SCRIPTS->setJavaScriptFile('theme.fix_html', '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js');
 
 /*
  * For left/right block support there is no longer any need for the theme to
@@ -16,6 +18,7 @@ $_IMAGE_TYPE = 'gif';
  * and right templates from admin_block, just create blockheader-list-left.thtml
  * etc.
  */
+
 
 $_CONF['left_blocks_in_footer'] = 1;
 
@@ -31,21 +34,6 @@ $_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.tht
 
 if (!COM_isAnonUser()) {
     $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
-} 
-
-/********************* FORUM PLUGIN v2.7+ Setup for block layout to use ********************
-* Fourm Plugin for Geeklog v1.4.1 available at http://www.portalparts.com
-* Set the following for which Geeklog block columns you want to show along with the forum.
-* Options are: 'leftblocks', 'rightblocks', 'allblocks', 'noblocks'
-* For example, set to noblocks to not show any blocks (and have the forum span the entire page.)
-***************************************************************************************/
-$CONF_FORUM['showblocks'] = 'leftblocks';
-
-/********************* FORUM PLUGIN v2.7+  Setup for user menu style to use ****************
-* Show the usermenu as a block menu or as a top navbar
-* Note: Need to show leftblocks or rightblocks if usermenu option set to blockmenu
-* Options are 'blockmenu' or 'navbar' or 'none'
-***************************************************************************************/
-$CONF_FORUM['usermenu'] = 'navbar';
+}
 
 ?>

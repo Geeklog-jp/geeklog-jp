@@ -22,7 +22,7 @@
       <dd><input type="text" dir="ltr" size="48" maxlength="{max_url_length}" value="{image_url}" name="imageurl" id="admin-topiceditor-imageurl" class="text"{xhtml}></dd>
 
       <dt><label for="admin-topiceditor-newicon">{lang_uploadimage}<br{xhtml}>{icon_max_dimensions}</label></dt>
-      <dd><input type="file" name="newicon" id="admin-topiceditor-newicon"{xhtml}><br{xhtml}><input type="file" name="newicon"{xhtml}></dd>
+      <dd><input type="file" name="newicon" id="admin-topiceditor-newicon"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
       <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:100%" rows="2">{meta_description}</textarea></dd>

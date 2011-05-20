@@ -7,9 +7,11 @@
   <fieldset>
     <legend>{pi_display_name}</legend>
 
-      <img src="{pi_icon}" alt="" class="plugin"{xhtml}>
 
     <dl>
+      <dt id="title">{title}</dt>
+      <dd><img src="{pi_icon}" alt=""{xhtml}></dd>
+
       <dt>{lang_pluginname}</dt>
       <dd>{pi_display_name}</dd>
 
@@ -22,30 +24,19 @@
       <dt>{lang_plugincodeversion}</dt>
       <dd>{pi_codeversion}</dd>
 
-      <dt>{lang_geeklogversion}</dt>
-      <dd>{pi_gl_version}</dd>
+      <dt>{lang_dependencies}</dt>
+      <dd>{pi_dependencies}</dd>
+
+      <dt>{lang_load}</dt>
+      <dd>{pi_load}</dd>
 
       <dt>{lang_enabled}</dt>
-      <dd><input type="checkbox" name="enabled" {enabled_checked}{xhtml}></dd>
+      <dd>{pi_enabled}</dd>
+
+      <dt></dt>
+      <dd><input id="close" type="submit" value="{back}" {xhtml}></dd>
     </dl>
 
-    <div id="admin-instructions">
-      <ul class="submit">
-        <li><input type="submit" value="{lang_save}" name="mode" class="submit"{xhtml}></li>
-        <li><input type="submit" value="{lang_cancel}" name="mode" class="submit"{xhtml}></li>
-        <li>{delete_option}</li>
-        <li>
-          <input type="hidden" name="pi_name" value="{pi_name}"{xhtml}>
-          <input type="hidden" name="confirmed" value="{confirmed}"{xhtml}>
-          <input type="hidden" name="pi_homepage" value="{pi_homepage}"{xhtml}>
-          <input type="hidden" name="pi_version" value="{pi_version}"{xhtml}>
-          <input type="hidden" name="pi_codeversion" value="{pi_codeversion}"{xhtml}>
-          <input type="hidden" name="pi_gl_version" value="{pi_gl_version}"{xhtml}>
-          <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-          {update_option}
-        </li>
-      </ul>
-    </div>
 
   </fieldset>
 </form>

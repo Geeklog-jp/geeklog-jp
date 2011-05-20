@@ -143,6 +143,7 @@ div#preview div.storytext {
 /* 使用できるHTMLタグ */
 div.warningsmall {
   margin-bottom: 0.5em;
+  width: 30em;
 }
 
 /* 公開オプション */

@@ -23,7 +23,9 @@ form#admin-groupeditor dl dd.description {
 }
 
 /* 権限 */
-form#admin-groupeditor dl dd table {
+form#admin-groupeditor dl.authority dd table {
+  table-layout: fixed;
+  width: 100%;
   margin: 0;
   padding: 0;
   border-collapse: collapse;
@@ -37,9 +39,12 @@ form#admin-groupeditor dl dd table tr {
 form#admin-groupeditor dl dd table tr td {
   margin: 0;
   padding: 2px;
+  word-wrap: break-word;
 }
 
-
+form#admin-groupeditor dl dd table tr td span {
+  word-wrap: break-word;
+}
 
 /*--------------------------------------
   グループメンバー

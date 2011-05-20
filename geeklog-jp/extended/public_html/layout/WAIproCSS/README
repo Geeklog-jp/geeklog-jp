@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.4.4 for Geeklog1.7.2
+  バージョン: 2.5.0 for Geeklog1.8.0
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -64,7 +64,7 @@ CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブ�
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera10.53のズーム200%、 Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４、Safari4.0のテスキトのみ拡大×３及び拡大×４、Google Chrome7.0.517.44のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４」で確認)
+(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera11.10のズーム200%、 Firefox4.0.1の文字サイズだけ変更拡大×３及び拡大×４、Safari5.0.5のテスキトのみ拡大×３及び拡大×４、Google Chrome11.0.696.68のText Zoom拡大×４」「Windows Vista Internet Explorer7、8の文字サイズ最大及び拡大レベル200%」「Mac OSX バージョン10.4.11 Safari4.0.3のテキストのみ拡大×４及び拡大×４、Firefox3.6.8の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
 
 配色は、コントラストや色差、明度差に配慮しています。
@@ -358,6 +358,13 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   * 更新
   + 追加
   - 削除
+
+■Ver.2.5.0(2011-05-20)
+　・Geeklog 1.8.0に合わせて、ファイルを追加・修正・削除しました。
+　・ヘッダー上部とフッター下部に設定していた余白を削除しました。。(*/css/layout.css,*/css/common.css)
+　・記事のブロックに設定している下線色を変更しました。(*/css/story.css)
+　・左右ブロック内に上線を追加し余白を調整しました。(*/css/block.css,*/css/form.css,*/css/layout.css)
+　・グローバルナビゲーションが2行になっもレイアウトが崩れないようにしました。。(*/css/layout.css)
 
 ■Ver.2.4.4(2011-02-28)
 　・記事編集ページでフォーム内でforとidで関連付けられない箇所にtitle属性を追記しました。(*/admin/story/storyeditor.japanese_utf-8.thtml,*/admin/story/storyeditor.thtml,*/admin/story/storyeditor_advanced.japanese_utf-8.thtml,*/admin/story/storyeditor_advanced.thtml)
