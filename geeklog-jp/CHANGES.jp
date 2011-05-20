@@ -1,5 +1,13 @@
 $Id$
 
+2011-05-21  Tetsuko Komma  <ivy>
+
+	* 日本語コア言語ファイルのコンフィギュレーション部を
+	  一部修正しました。
+
+	* 日本語拡張版ProfessionalCSSのfunctions.phpを
+	  Geeklog 1.8.0に対応させました。
+
 2011-05-20  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSをテーマProfessionalCSSを元に
