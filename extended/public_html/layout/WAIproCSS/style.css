@@ -35,5 +35,8 @@
 /* Plugins */
 @import url("css/plugin.css");  /* インポート用スタイルシート(プラグイン) */
 
+/* Tooltips */
+@import url("css/tooltips/tooltips.css");
+
 /* Custom */
 @import url("custom.css");  /* カスタムテーマスタイルシート */
