@@ -19,7 +19,7 @@
 div#centerblocks div.storytext {
   margin: 0 0 2em 0;
   padding: 1em 1em 0;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 /* 記事タイトル */
@@ -139,7 +139,7 @@ div#centerblocks div.storytext ul.feedback li {
 div#centerblocks div.featuredstorytext {
   margin: 0 0 2em 0;
   padding: 1em 1em 0;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 /* 記事タイトル */
@@ -259,7 +259,7 @@ div#centerblocks div.featuredstorytext ul.feedback li {
 div#centerblocks div.archivestorytext {
   margin: 0 0 2em 0;
   padding: 1em 1em 0;
-  border-bottom: 1px solid #af9b83;
+  border-bottom: 1px solid #aaaaaa;
 }
 
 /* 記事タイトル */
