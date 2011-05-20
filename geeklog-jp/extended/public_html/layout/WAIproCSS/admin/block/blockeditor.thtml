@@ -84,8 +84,8 @@
     <dl>
       <dt><label for="admin-blockeditor-content">{lang_blockcontent}</label></dt>
       <dd><textarea cols="40" rows="12" name="content" id="admin-blockeditor-content">{block_content}</textarea></dd>
-      <dt>{lang_autotags}&nbsp;({lang_use_autotags})</dt>
-      <dd><input type="checkbox" name="allow_autotags" {allow_autotags}{xhtml}></dd>
+      <dt><label for="admin-use-autotags">{lang_autotags}&nbsp;({lang_use_autotags})</label></dt>
+      <dd><input type="checkbox" name="allow_autotags"id="admin-use-autotags" {allow_autotags}{xhtml}></dd>
     </dl>
 
     <p class="description">{lang_allowed_html}</p>

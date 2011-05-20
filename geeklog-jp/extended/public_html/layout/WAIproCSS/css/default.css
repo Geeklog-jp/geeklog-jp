@@ -120,7 +120,7 @@ blockquote {
   display: block;
   margin: 1.12em 0 1.12em 20px;
   padding: 0 8px;
-  border: 6px dotted #D8D8D8;
+  border: 3px dotted #D8D8D8;
 }
 
 q:before {

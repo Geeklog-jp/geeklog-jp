@@ -166,8 +166,9 @@ div#centerblocks div.poll-questions {
 /* ブロック */
 div#leftblocks div.block-left,
 div#leftblocks div.block-center {
-  margin: 0 0.5em 0.5em;
-  padding: 0.5em;
+  margin: 0 0.5em;
+  padding: 1em 0.5em 0.5em;
+  border-top: 1px solid #ffffff;
   border-bottom: 1px solid #999999;
 }
 
@@ -198,8 +199,9 @@ div#leftblocks div.block-left div.block-left-content {
 
 /* ブロック */
 div#rightblocks div.block-right {
-  margin: 0 0.5em 0.5em;
-  padding: 0.5em;
+  margin: 0 0.5em;
+  padding: 1em 0.5em 0.5em;
+  border-top: 1px solid #ffffff;
   border-bottom: 1px solid #999999;
 }
 

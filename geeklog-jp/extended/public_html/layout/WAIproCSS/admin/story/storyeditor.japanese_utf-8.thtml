@@ -48,7 +48,7 @@ function enablearchive(obj) {
           {publish_year_options}
         </select>
         年
-        <select name="publish_month" id="admin-storyeditor-publish_month" title="月">
+        <select name="publish_month" id="admin-storyeditor_advanced-publish_month" title="月">
           {publish_month_options}
         </select>
         月
@@ -100,7 +100,7 @@ function enablearchive(obj) {
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" id="admin-storyeditor-expire_month">
+        <select name="expire_month" id="admin-storyeditor_advanced-expire_month" title="月">
           {expire_month_options}
         </select>
         月

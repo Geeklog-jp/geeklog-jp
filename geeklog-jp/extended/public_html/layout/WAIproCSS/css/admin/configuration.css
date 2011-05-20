@@ -64,33 +64,25 @@ div#configuration div.pluginInfo {
 /*--------------------------------------
   レイアウト
 --------------------------------------*/
-form#config-editor {
-  width: 99%;
-  margin-right: auto;
-  margin-left: auto;
-}
 
-/* 左メニュー */
-div#config_menu {
+/* Left Menu */
+div.block-bg-left {
   float: left;
   margin-left: -6px;
   padding: 0;
 }
 
-div#config_menu div.block-center {
+div.block-bg-left div.block-center {
   float: left;
   width: 20em;
   margin-right: 8px;
   margin-left: 8px;
 }
 
-div#config_menu div.block-center h2 {
+div.block-bg-left div.block-center h2 {
   font-size: 110%;
 }
 
-/* 中央部分 */
-div#config_main {
-  float: left;
-  width: 53em;
-  padding: 0 0 0 8px;
+#search-configuration-container {
+  clear: both;
 }

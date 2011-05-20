@@ -32,6 +32,7 @@
 </div>  
 <!-- } #container -->
 
+    {plg_footercode}
 
 <!-- 状況に応じて、HTMLのbody要素にclass属性値を指定するJavaScript
      引数は左から、左ブロックコンテナ・中央ブロックコンテナ・右ブロックコンテナのid属性値 -->
@@ -40,8 +41,6 @@
   FixHTML('leftblocks', 'centerblocks', 'rightblocks');
 -->
 </script>
-
-{googleanalytics}
 
 <!-- } footer.thtml -->
 
