@@ -1,5 +1,9 @@
 $Id$
 
+2011-05-21  mystral-kk <mystral-kk>
+
+	* テーマテスターでtouch, touch2テーマを選択しないように修正しました。
+
 2011-05-21  Tetsuko Komma  <ivy>
 
 	* 日本語拡張版のlib-custom.phpの1.8.0rc1マージ漏れ
