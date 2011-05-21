@@ -890,7 +890,7 @@ function plugin_submit_calendarjp($mode = 'master')
     $eventform->set_var('lang_location', $LANG_CALJP_1[39]);
     $eventform->set_var('lang_description', $LANG_CALJP_1[5]);
     $allowed = COM_allowedHTML('calendarjp.edit', false, 2);
-    $eventform->set_var('lang_allowed_html', $allowed);       
+    $eventform->set_var('lang_allowed_html', $allowed);
     PLG_templateSetVars('calendarjp', $eventform);
     $eventform->set_var('lang_submit', $LANG12[8]);
     $eventform->set_var('mode', $mode);
@@ -2133,11 +2133,11 @@ function plugin_getdocumentationurl_calendarjp($file)
             $retval = $docurl;
         } else {
             $doclang = COM_getLanguageName();
-            $docs = 'docs/' . $doclang . '/calendar.html'; // Need Support *******************************************
+            $docs = 'calendarjp/docs/' . $doclang . '/calendarjp.html';
             if (file_exists($_CONF['path_html'] . $docs)) {
                 $retval = $_CONF['site_url'] . '/' . $docs;
             } else {
-                $retval = $_CONF['site_url'] . '/docs/english/calendar.html'; // Need Support *******************************************
+                $retval = $_CONF['site_url'] . '/calendarjp/docs/english/calendarjp.html';
             }
             $docurl = $retval;
         }
@@ -2149,6 +2149,20 @@ function plugin_getdocumentationurl_calendarjp($file)
     }
 
     return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*
+*/
+function plugin_getconfigtooltip_calendarjp($id)
+{   
+    // Use config tooltip hack where tooltip is read from the config documentation
+    return;
 }
 
 /**
@@ -2241,25 +2255,12 @@ function CALENDARJP_getAmPmFormSelection( $name, $selected = '' )
 */
 function CALENDARJP_authAddingEvent()
 {
-    global $_USER, $_CONF, $_CAJP_CONF, $LANG_LOGIN;
+    global $_CONF, $_CAJP_CONF;
 
-    if (empty ($_USER['username']) &&
+    if (COM_isAnonUser() &&
         (($_CONF['loginrequired'] == 1) || ($_CAJP_CONF['addeventloginrequired'] == 1))) {
-        $display .= COM_siteHeader('');
-        $display .= COM_startBlock ($LANG_LOGIN[1], '',
-                                    COM_getBlockTemplate ('_msg_block', 'header'));
-        $login = new Template($_CONF['path_layout'] . 'submit');
-        $login->set_file (array ('login'=>'submitloginrequired.thtml'));
-        $login->set_var ( 'xhtml', XHTML );
-        $login->set_var ('login_message', $LANG_LOGIN[2]);
-        $login->set_var ('site_url', $_CONF['site_url']);
-        $login->set_var ('site_admin_url', $_CONF['site_admin_url']);
-        $login->set_var ('layout_url', $_CONF['layout_url']);
-        $login->set_var ('lang_login', $LANG_LOGIN[3]);
-        $login->set_var ('lang_newuser', $LANG_LOGIN[4]);
-        $login->parse ('output', 'login');
-        $display .= $login->finish ($login->get_var('output'));
-        $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_siteHeader('menu', $LANG_CALJP_1[41]);
+        $display .= SEC_loginRequiredForm();
         $display .= COM_siteFooter();
         COM_output($display);
         exit;
