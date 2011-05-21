@@ -92,7 +92,8 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     $ja = ($_CONF['language'] == 'japanese_utf-8');
 
     $event_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendarjp/templates/admin');
-    if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1 ) ) {
+    $advanced_editor = ($_CONF['advanced_editor'] && $_USER['advanced_editor'] && $_CAJP_CONF['advanced_editor']);
+    if ($advanced_editor) {
         $event_templates->set_file('editor','eventeditor_advanced' . ($ja ? '_ja' : '') . '.thtml');
     } else {
         $event_templates->set_file('editor','eventeditor' . ($ja ? '_ja' : '') . '.thtml');
@@ -110,7 +111,7 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
     $event_templates->set_var ('toolbar5', $LANG24[75]);
     $event_templates->set_var ('change_editormode', 'onchange="change_editmode(this);"');
 
-    if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1) ) {
+    if ($advanced_editor) {
         if ($A['postmode'] == 'adveditor') {
             $event_templates->set_var ('show_texteditor', 'none');
             $event_templates->set_var ('show_htmleditor', '');
@@ -165,14 +166,14 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
         }
         $post_options = COM_optionList($_TABLES['postmodes'],'code,name',$A['postmode']);
 
-        if ( isset ($_CAJP_CONF['advanced_editor']) && ($_CAJP_CONF['advanced_editor'] == 1) ) {
+        if ($advanced_editor) {
             if ($A['postmode'] == 'adveditor') {
                 $post_options .= '<option value="adveditor" selected="selected">'.$LANG24[86].'</option>';
             } else {
                 $post_options .= '<option value="adveditor">'.$LANG24[86].'</option>';
             }
         }
-        if ( isset ($_CAJP_CONF['wikitext_editor']) && ($_CAJP_CONF['wikitext_editor'] == 1) ) {
+        if ($_CAJP_CONF['wikitext_editor']) {
             if ($A['postmode'] == 'wikitext') {
                 $post_options .= '<option value="wikitext" selected="selected">'.$LANG24[88].'</option>';
             } else {

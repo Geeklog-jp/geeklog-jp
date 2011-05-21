@@ -254,7 +254,7 @@ $LANG_configselects['calendarjp'] = array(
     1 => array('はい' => true, 'いいえ' => false),
     5 => array_flip($LANG_postmodes),
     6 => array('12' => 12, '24' => 24),
-    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
+    9 => array('作成したイベントを表示する' => 'item', 'カレンダ管理を表示する' => 'list', 'カレンダを表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
     13 => array('アクセス不可' => 0, '利用する' => 2)
 );
