@@ -1,5 +1,10 @@
 $Id$
 
+2011-05-22  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: Geeklog 1.8.0rc1のcalendarプラグインの変更を
+	  マージしました。
+
 2011-05-21  mystral-kk <mystral-kk>
 
 	* テーマテスターでtouch, touch2テーマを選択しないように修正しました。
