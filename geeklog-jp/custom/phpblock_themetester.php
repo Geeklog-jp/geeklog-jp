@@ -47,6 +47,11 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'phpblock_themetester.php') !== FAL
 //=====================================
 
 /**
+* 2011-05-21
+*
+*   1. [Fix] Modified to prevent users from selecting the "touch" and "touch2"
+*     themes.
+*
 * 2011-04-10
 *
 *   1. [Fix] THEMETESTER_escape($str) caused an error.
@@ -244,7 +249,7 @@ function THEMETESTER_getThemes() {
 		/**
 		* Don't include mobile themes
 		*/
-		if (preg_match("/mobile/i", $theme)) {
+		if (preg_match("/(mobile|touch2?)/i", $theme)) {
 			continue;
 		}
 
