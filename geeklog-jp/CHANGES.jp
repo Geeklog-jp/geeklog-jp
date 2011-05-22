@@ -2,6 +2,12 @@ $Id$
 
 2011-05-22  Yoshinori Tahara  <dengen>
 
+	* custommenuプラグイン: バージョン0.6.0に更新します。
+	  - Geeklog 1.8.0で強化されたコンフィギュレーションUIに対応しました。
+	  - 動作に必要なGeeklogのバージョンを 1.8.0以降に変更しました。
+
+2011-05-22  Yoshinori Tahara  <dengen>
+
 	* calendarjpプラグイン: Geeklog 1.8.0rc1のcalendarプラグインの変更を
 	  マージしました。
 
