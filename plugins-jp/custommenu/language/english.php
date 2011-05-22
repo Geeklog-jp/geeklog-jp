@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/language/english.php                                   |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -171,6 +171,11 @@ $LANG_confignames['custommenu'] = array(
 
 $LANG_configsubgroups['custommenu'] = array(
     'sg_main' => 'Main Settings'
+);
+
+$LANG_tab['custommenu'] = array(
+    'tab_main' => 'General CustomMenu Settings',
+    'tab_permissions' => 'CustomMenu Default Permissions'
 );
 
 $LANG_fs['custommenu'] = array(

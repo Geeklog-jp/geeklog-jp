@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/functions.inc                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -39,14 +39,6 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die('This file can not be used on its own.');
 }
 
-if (!defined('XHTML')) {
-    define('XHTML', '');
-}
-
-if (!defined('GL_VERSION_15')) {
-    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
-}
-
 /**
 * Include language file
 */
@@ -62,20 +54,18 @@ if (file_exists($langfile)) {
 $_CMED_CONF = array();
 
 /**
-* Include custommenu config file
+* Add to $_TABLES array the tables custommenu plugin uses
 */
-require_once $plugin_path . 'config.php';
+$_TABLES['menuitems'] = $_DB_table_prefix . 'menuitems';
 
 /**
 * Check and see if we need to load the plugin configuration
 */
-if (GL_VERSION_15) {
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-    $plg_config = config::get_instance();
-    $temp = $plg_config->get_config('custommenu');
-    if (is_array($temp)) {
-        $_CMED_CONF = array_merge($_CMED_CONF, $temp);
-    }
+require_once $_CONF['path_system'] . 'classes/config.class.php';
+$plg_config = config::get_instance();
+$temp = $plg_config->get_config('custommenu');
+if (is_array($temp)) {
+    $_CMED_CONF = array_merge($_CMED_CONF, $temp);
 }
 
 // テンプレートパスおよびCSSのURLを設定する
@@ -230,63 +220,13 @@ function plugin_migrate_custommenu($old_conf)
 * foreseen by the core code (interactions with other plugins for example)
 *
 */
-/*
 function plugin_autouninstall_custommenu()
-{
-    $out = array(
-        // give the name of the tables, without $_TABLES[]
-        'tables' => array('menuitems'),
-
-        // give the full name of the group, as in the db
-        'groups' => array('CustomMenu Admin'),
-
-        // give the full name of the feature, as in the db
-        'features' => array('custommenu.admin'),
-    );
-    return $out;
-}
-*/
-
-/**
-* Removes the datastructures for this plugin from the Geeklog database.
-* This routine will get called from the Plugin install program if user select De-Install or if Delete is used in the Plugin Editor.
-* The Plugin Installer will also call this routine upon and install error to remove anything it has created.
-* The Plugin installer will pass the optional parameter which will then double check that plugin has first been disabled. 
-* 
-* For this plugin, this routine will also remove the Block definition.
-* 
-* Returns True if all Plugin related data is removed without error
-*
-* @param    string   $installCheck     Default is blank but if set, check if plugin is disabled first
-* 
-* @return   boolean True if successful false otherwise
-*
-*/
-function plugin_uninstall_custommenu ( $installCheck = '' )
 {
     global $_CONF;
 
     require_once $_CONF['path'] . 'plugins/custommenu/autoinstall.php';
 
-    return CMED_uninstall($installCheck);
-}
-
-if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
-    function SEC_checkToken() {
-        return true;
-    }
-}
-
-if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
-    function SEC_createToken() {
-        return "1";
-    }
-}
-
-if ((!function_exists('COM_output'))) {
-    function COM_output($display) {
-        echo $display;
-    }
+    return CMED_autouninstall();
 }
 
 function plugin_getListField_custommenu($fieldname, $fieldvalue, $A, $icon_arr)
@@ -315,6 +255,59 @@ function plugin_getListField_custommenu($fieldname, $fieldvalue, $A, $icon_arr)
     }
 
     return $retval;
+}
+
+
+/**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_custommenu($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'custommenu/docs/' . $doclang . '/custommenu.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/custommenu/docs/english/custommenu.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
+    }
+
+    return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*
+*/
+function plugin_getconfigtooltip_custommenu($id)
+{   
+    // Use config tooltip hack where tooltip is read from the config documentation
+    return;
 }
 
 function CMED_replaceLabel($label)
@@ -529,7 +522,6 @@ if (!function_exists('CUSTOM_menuEntries')) {
             $menuCounter++;
         }
     }
-
 }
 
 
