@@ -116,9 +116,9 @@
 </head>
 <body>
   <h1><a name="_top">CustomMenu Editor プラグイン</a></h1>
-  <h2>バージョン: 0.5.0</h2>
+  <h2>バージョン: 0.6.0</h2>
   <h2>作成者: Yoshinori Tahara - dengen</h2>
-  <h2>公開日:&nbsp;2010.5.6</h2>
+  <h2>公開日:&nbsp;2011.5.22</h2>
   <h2>ライセンス:&nbsp;GPL</h2>
   <h2>概要:</h2>
   <ul>
@@ -135,7 +135,7 @@
   </ul>
   <h2>条件:</h2>
   <ul>
-    <li>このプラグインは，Geeklog 1.4.1 および 1.5.0 以降用です。それ以外のバージョンでは動作確認を行っていません。</li>
+    <li>このプラグインは，<span class="attention">Geeklog 1.8.0 以降用です。</span>それ以外のバージョンでは動作確認を行っていません。</li>
   </ul>
   <h2>この説明のセクション:</h2>
 
@@ -181,31 +181,47 @@
     <li>admin ディレクトリの内容を，Step 2 で作成した <span class="admin">&lt;admin&gt;</span>/plugins/custommenu/ ディレクトリにコピーします。</li>
     <li>public_html ディレクトリの内容を，Step 2 で作成した <span class="public">&lt;public_html&gt;</span>/custommenu/ ディレクトリにコピーします。</li>
   </ul>
-  <h4>Step 4 - Geeklog 本体の config.php の編集</h4>
+  <h4>Step 4 - コンフィギュレーションの確認</h4>
   <ul>
-    <li>(参考) Geeklogのメニューエントリーには、'home', 'contribute', 'search', 'stats', 'directory', 'prefs', 'plugins', 'custom'の８種類があります。</li>
-    <li>(参考) このうち、'custom' はカスタムメニューエントリーの集合であり、CUSTOM_menuEntries 関数が返すエントリー群を束ねたものです。</li>
-    <li>このセクションでは、メニューエントリーを 'custom' だけ有効にし、その他の７種類のエントリーを無効にしてしまいます。</li>
-    <li>あなたがコンフィギュレーションエディタプラグインを使用している場合は、これを使ってメニューエントリーを「カスタム」だけ残し、その他のチェックボックスをオフにしてください。</li>
-    <li>あなたがコンフィギュレーションエディタプラグインを使用していない場合は、&lt;geeklog_dir&gt;/config.phpをテキストエディタで開き、変数 $_CONF['menu_elements'] を次のように変更して下さい。</li>
+    <li>管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」 に「<span class="attention"><strong>カスタムエントリ</strong></span>」だけがあることを確認してください。（この設定はCustomMenu Editor プラグインがインストール時に自動で行った結果です。）</li>
+    <li>(参考) Geeklogのメニューエントリーには、'Home', '投稿する', '詳しい検索', 'サイトステータス', 'ディレクトリ', 'マイアカウント', 'プラグインエントリ', 'カスタムエントリ'の８種類があります。</li>
+    <li>(参考) このうち、'カスタムエントリ' はカスタムメニューエントリーの集合であり、CUSTOM_menuEntries 関数が返すエントリー群を束ねたものです。</li>
   </ul>
-  <pre><code>&#36;_CONF['menu_elements'] = array(
-    <strong>'custom'</strong>
-);</code></pre>
   <h4>Step 5 - lib-custom.php の編集</h4>
   <ul>
-    <li>(参考) Geeklog 日本語版では、&lt;geeklog_dir&gt;/system/lib-custom.php からカスタムメニューエントリーを司る custom_menuentries.php をインクルードしています。</li>
-    <li>(参考) さらに custom_menuentries.php にはカスタムメニューエントリーを定義する CUSTOM_menuEntries 関数が含まれています。</li>
-    <li>本プラグインでは、独自にCUSTOM_menuEntries 関数を定義していますので、lib-custom.php のインクルード指令を無効にしてやります。</li>
-    <li>&lt;geeklog_dir&gt;/system/lib-custom.php をテキストエディタで開き、次のようにコメントアウトしてください。（既にコメントアウトされている場合は変更不要です）</li>
+    <li>(参考) &lt;geeklog_dir&gt;/system/lib-custom.php にはカスタムメニューエントリーを定義する CUSTOM_menuEntries 関数が含まれています。</li>
+    <li>本プラグインでは、独自にCUSTOM_menuEntries 関数を定義していますので、lib-custom.phpの中の CUSTOM_menuEntries 関数を無効する必要があります。</li>
+    <li>&lt;geeklog_dir&gt;/system/lib-custom.php をテキストエディタで開き、520行目付近の CUSTOM_menuEntries 関数を次のようにコメントアウトしてください。（既にコメントアウトされている場合は変更不要です）</li>
   </ul>
-  <pre><code>//require_once( 'custom/custom_menuentries.php' );</code></pre>
+  <pre><code>/*
+function CUSTOM_menuEntries ()
+{
+    global $_CONF, $_USER;
+
+    $myentries = array ();
+
+    // Sample link #1: Link to Gallery
+    $myentries[] = array ('url'   =&gt; $_CONF['site_url'] . '/gallery/',
+                          'label' =&gt; 'Gallery');
+
+    // Sample link #2: Link to the Personal Calendar - only visible for
+    // logged-in users
+    if (!empty ($_USER['uid']) &amp;&amp; ($_USER['uid'] &gt; 1)) {
+        $myentries[] = array ('url'   =&gt; $_CONF['site_url']
+                                         . '/calendar/index.php?mode=personal',
+                              'label' =&gt; 'My Calendar');
+    }
+
+    return $myentries;
+}
+*/
+</code></pre>
   <h4>Step 6 - プラグインエディタでインストールの実行</h4>
   <ul>
     <li>Root ユーザとしてログインし，プラグインエディタから custommenu のインストールを実行します。</li>
     <li>失敗した場合には，エラーログ（ error.log ）を調べます。</li>
     <li>これで，CustomMenu Editor プラグインはインストールされました。</li>
-    <li>投稿管理メニューまたはサイドバーのメニューから、「カスタムメニュー」をクリックすると、カスタムメニューリストが表示されるでしょう。</li>
+    <li>投稿管理メニューまたはサイドバーのメニューから、「カスタムメニュー」をクリックすると、メニューアイテムリストが表示されるでしょう。</li>
   </ul>
   <h4>Step 7 - テンプレートの配置（表示レイアウトの最適化）</h4>
 
@@ -228,24 +244,13 @@
     プラグインが使用していたテーブルは破棄され，その中に記録されていたデータも削除されます。</li>
   </ul>
 
-  <h4>Step 2 - Geeklog 本体の config.php を元にもどす</h4>
+  <h4>Step 2 - コンフィギュレーションの設定を元にもどす</h4>
 
   <ul>
-
-  <li>&lt;geeklog_dir&gt;/config.phpをテキストエディタで開き、変数 $_CONF['menu_elements'] を元にもどしてください。ちなみにGeeklog日本語版の初期値は次のようになっています。</li>
+    <li>１）の Step 4 で行った修正を元に戻します。</li>
+    <li>CustomMenu Editor プラグインはアンインストール時にメニュー項目をGeeklogの初期値に戻します。管理画面で「コンフィギュレーション：Geeklog」の「Geeklogの設定：テーマ」を選択し、「テーマ」フィールドの「メニュー項目」を必要に応じて設定してください。</li>
+    <li>(参考) Geeklogのメニュー項目の初期値は、順に'投稿する', '詳しい検索', 'サイトステータス', 'ディレクトリ', 'プラグインエントリ' です。</li>
   </ul>
-  <pre><code>&#36;_CONF['menu_elements'] = array(
-    'home',         // ホーム へのリンク
-    'contribute',   // 記事の新規作成へのリンク
-    'calendar',     // カレンダ表示へのリンク
-    'search',       // 検索オプションへのリンク
-    'stats',        // ステータス情報
-    'directory',    // 記事の一覧
-    'prefs',        // アカウント情報
-    'plugins'       // プラグイン {plg_menu_elements} 変数と同じ．
-    // 'custom'     // CUSTOM_menuEntries 関数の返す文字列を表示．
-    //（詳細はlib-custom.php参照）
-);</code></pre>
 
   <h4>Step 3 - lib-custom.php を元にもどす</h4>
   <ul>
@@ -257,6 +262,7 @@
     ，&lt;admin&gt;/plugins/custommenu/ ）を削除します。</li>
   </ul>
   <p class="goto"><a href="#_top">Goto Top</a></p>
+
 
   <h3><a name="_menuitemmode">３） メニューアイテムのモードについて</a></h3>
   <p>本プラグインではメニューアイテムを3種類のモードで使い分けることが可能です。各モードの説明を次に示します。</p>
@@ -314,10 +320,14 @@
 
   <p class="goto"><a href="#_top">Goto Top</a></p>
 
+
+
+
+
+
+
   <h3><a name="_multilanguage">４） 多言語切り替え機能について</a></h3>
-  <p>バージョン0.2.3より多言語切り替え機能への対応を強化しました。</p>
-  <p>バージョン0.2.2以前のバージョンでは、多言語切り替えのために「可変モード」を用意していましたが、メニューアイテムの表示を切り替えることはできるものの、リンク先まで切り替えることはできませんでした。（そこまでやるにはPHPモードを活用する必要がありました。）</p>
-  <p>バージョン0.2.3からはGeeklog1.5.1から追加された「ブロックの多言語切り替え機能」と同様の機能をサポートします。</p>
+  <p>Geeklog1.5.1から追加された「ブロックの多言語切り替え機能」と同様の機能をサポートします。</p>
   <p>「ブロックの多言語切り替え機能」の詳細については以下のWikiを参照してください。</p>
   <ul>
   <li><a href="http://wiki.geeklog.jp/index.php/Multi-Language_Support#.E3.83.96.E3.83.AD.E3.83.83.E3.82.AF">http://wiki.geeklog.jp/index.php/Multi-Language_Support#.E3.83.96.E3.83.AD.E3.83.83.E3.82.AF</a></li>
@@ -346,20 +356,18 @@ about_ja     無効</code></pre>
   <p class="goto"><a href="#_top">Goto Top</a></p>
 
   <h3><a name="_urlmatching">５） URLの照合機能について</a></h3>
-  <p>バージョン0.3.0よりURLの照合機能を追加しました。</p>
   <p>URLの照合機能とは、Geeklogサイトの表示中のページのURLをメニューアイテムごとに照合し、マッチしたメニューアイテムのスタイルを変化させるものです。</p>
   <p>例えば、リンクのページを開いているときに、リンクのメニューアイテムを反転させて表示させることが可能となります。</p>
-  <p>ただし、別途、システムの一部（lib-common.php）とテーマの一部を変更する必要があります。</p>
   <p>一例として、リンクのメニューアイテムを反転させる方法を示します。ここでは、professionalテーマを用います。</p>
   <ul>
+  <li><span class="attention">コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定してください。</span></li>
   <li>カスタムメニューの管理画面で「リンク」を編集します。</li>
   <li>項目「URL照合文字列」へ"/links/"を入力し、更新ボタンをクリックします。カスタムメニューエディタでの作業はこれだけです。<br />
 これは、「表示ページのURLに"/links/"が含まれていたときに、メニューアイテム「リンク」のスタイルを変化させる。」という意味の設定です。</li>
   <li>なお、「正規表現」を有効にすると、PHPがサポートしている正規表現で照合することができます。照合の条件が複雑な場合に使用することを想定した機能であり、使用する場面は少ないでしょう。照合にはpreg_match関数を使用しています。<br />
 正規表現の詳細については <a href="http://jp.php.net/manual/ja/regexp.reference.php">http://jp.php.net/manual/ja/regexp.reference.php</a> を参照してください。</li>
-  <li>lib-common.phpの変更は実質2行追加するだけの簡単なものであり、副作用もありません。同梱の/bonus/lib-common.php.sampleの623行目および681行目を参考にしてください。Geeklog1.5.1用ですので該当バージョンをお使いの方はそのまま使用されてもよいでしょう。</li>
   <li>テーマの変更は、menuitem.thtml、menuitem_last.thtml、style.css の3つのファイルを対象とします。<br />
-/bonus/layout/professonal 内のファイルを参照してください。<br />
+/bonus/layout/professional 内のファイルを参照してください。<br />
 &lt;li&gt;タグに class="{menuitem_selected}" が追加されていることに注目してください。</li>
   <li>style.cssは1031行目から1033行目の3行を加えるだけです。(サンプルなので単純に背景色を変えただけ)</li>
   <li>これで完了です。メニューアイテム「リンク」をクリックして効果を確認してみてください。<br />
@@ -368,8 +376,8 @@ about_ja     無効</code></pre>
   <p class="goto"><a href="#_top">Goto Top</a></p>
 
   <h3><a name="_originalmenulender">６） 多階層メニューに対応した独自メニューレンダラについて</a></h3>
-  <p>バージョン0.4.0より多階層メニューや画像を使ったメニューに対応した独自メニューレンダラを搭載しました。</p>
-  <p>比較的大規模なサイトに多くみられるプルダウンメニューなどを実装可能なHTMLを出力できるようになりました。</p>
+  <p>CustomMenu Editor プラグインは多階層メニューや画像を使ったメニューに対応した独自メニューレンダラを搭載しています。</p>
+  <p>比較的大規模なサイトに多くみられるプルダウンメニューなどを実装可能なHTMLを出力できます。</p>
   <p>Geeklog標準のメニューレンダラが出力するヘッダーメニュー部のHTMLは次のようなものです。</p>
   <pre><code>&lt;div class="header-navigation-container"&gt;
   &lt;ul&gt;
@@ -382,7 +390,7 @@ about_ja     無効</code></pre>
     &lt;li class="menuitem last"&gt;&lt;a href="indexx.php"&gt;textx&lt;/a&gt;&lt;/li&gt;
   &lt;/ul&gt;
 &lt;/div&gt;</code></pre>
-  <p>これに対して、今回搭載した独自メニューレンダラでは、次のような入れ子構造のHTMLを出力することができます。</p>
+  <p>これに対して、独自メニューレンダラでは、次のような入れ子構造のHTMLを出力することができます。</p>
   <pre><code>&lt;div class="header-navigation-container"&gt;
   &lt;ul&gt;
     &lt;li id="menu_id1" class="menuitem"&gt;&lt;a href="index1.php"&gt;text1&lt;/a&gt;&lt;/li&gt;
@@ -439,8 +447,7 @@ about_ja     無効</code></pre>
   </div>
   <p>多階層メニューを試すには、次の操作を行って下さい。</p>
   <ul>
-    <li>/bonus/lib-common.php.sampleの657行～666行のように、lib-common.phpを修正する必要があります。</li>
-    <li>コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定します。</li>
+    <li><span class="attention">コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定します。</span></li>
     <li>/bonus/layout/テーマ名 のファイル群を、テーマディレクトリにコピーします。(professional と ProfessionalCSS のみ対応)<br />
 この操作で、各テーマの menuitem.thtml, menuitem_last.thtml, style.css, custom.css を上書きしますので、事前のバックアップをお忘れなく。</li>
     <li>「メニューアイテムの編集」で「親アイテムID」を使って階層を設定します。</li>
@@ -454,12 +461,20 @@ about_ja     無効</code></pre>
   <p>本作品で、削除および矢印アイコンとして使用している delete.png, arrow-dn.png, arrow-up.pngは Joseph North さんの著作物です。<br />ライセンスは次のリンクをご覧ください。</p>
   <p>Sweetie Icon Set<br />----------------<br />Author:  Joseph North<br />Email:   sublick@gmail.com<br />License: <a href="http://creativecommons.org/licenses/by-sa/2.0/jp/">Creative Commons Attribution-ShareAlike 2.0</a><br /> Year:    2005</p>
   <p class="goto"><a href="#_top">Goto Top</a></p>
+
   <h3><a name="_history">８） 改訂履歴</a></h3>
   <table>
     <tr>
       <th>バージョン</th>
       <th>公開日</th>
       <th>説明</th>
+    </tr>
+    <tr>
+      <td class="center">0.6.0</td>
+      <td class="center">2011.5.22</td>
+      <td><span class="new">追加</span>&nbsp;Geeklog 1.8.0で強化されたコンフィギュレーションUIに対応しました。<br />
+          <span class="new">追加</span>&nbsp;動作に必要なGeeklogのバージョンを 1.8.0以降に変更しました。<br />
+      </td>
     </tr>
     <tr>
       <td class="center">0.5.0</td>

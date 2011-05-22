@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/sql/mysql_install.php                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -61,6 +61,6 @@ CREATE TABLE {$_TABLES['menuitems']} (
   perm_members tinyint(1) unsigned NOT NULL default '2',
   perm_anon tinyint(1) unsigned NOT NULL default '2',
   PRIMARY KEY (mid)
-) TYPE=MyISAM
+) ENGINE=MyISAM
 ";
 ?>

@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/language/japanese_utf-8.php                            |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -173,17 +173,22 @@ $LANG_configsubgroups['custommenu'] = array(
     'sg_main' => 'メイン'
 );
 
+$LANG_tab['custommenu'] = array(
+    'tab_main' => 'カスタムメニューのメイン設定',
+    'tab_permissions' => 'メニューアイテムのパーミッション'
+);
+
 $LANG_fs['custommenu'] = array(
     'fs_main' => 'カスタムメニューのメイン設定',
     'fs_public' => 'カスタムメニューの表示',
-    'fs_permissions' => 'メニューアイテムのデフォルトパーミッション（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
+    'fs_permissions' => 'メニューアイテムのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['custommenu'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => TRUE, 'いいえ' => FALSE),
-    9 => array('カスタムメニュー管理を表示する' => 'list', 'Homeを表示する' => 'home', '管理画面TOPを表示する' => 'admin'),
+    9 => array('カスタムメニュー管理を表示する' => 'list', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     10 => array('Geeklogシステム標準' => 'standard', '階層メニュー対応' => 'pulldown'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3)
 );
