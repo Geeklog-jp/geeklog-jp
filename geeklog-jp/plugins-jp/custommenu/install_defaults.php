@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------|
 // | plugins/custommenu/install_defaults.php                                   |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -53,9 +53,7 @@ global $_CMED_DEFAULT;
 $_CMED_DEFAULT = array();
 
 /** What to show after a data has been saved? Possible choices:
- * 'item'   -> forward to the target of the item
  * 'list'   -> display the admin-list of custommenu
- * 'plugin' -> display the public homepage of the custommenu plugin
  * 'home'   -> display the site homepage
  * 'admin'  -> display the site admin homepage
  */
@@ -96,7 +94,7 @@ $_CMED_DEFAULT['prefix_id'] = 'cmitem-';
 */
 function plugin_initconfig_custommenu()
 {
-    global $_CMED_CONF, $_CMED_DEFAULT;
+    global $_CONF, $_CMED_CONF, $_CMED_DEFAULT;
 
     if (is_array($_CMED_CONF) && (count($_CMED_CONF) > 1)) {
         $_CMED_DEFAULT = array_merge($_CMED_DEFAULT, $_CMED_CONF);
@@ -104,18 +102,19 @@ function plugin_initconfig_custommenu()
 
     $c = config::get_instance();
     if (!$c->group_exists('custommenu')) {
-        $c->add('sg_main',             NULL,                                  'subgroup', 0, 0, NULL, 0,  true, 'custommenu');
+        $c->add('sg_main',             NULL,                                  'subgroup', 0, 0, NULL, 0,  true, 'custommenu', 0);
         // ----------------------------------
-        $c->add('fs_main',             NULL,                                  'fieldset', 0, 0, NULL, 0,  true, 'custommenu');
-        $c->add('aftersave',           $_CMED_DEFAULT['aftersave'],           'select',   0, 0, 9,    10, true, 'custommenu');
-        $c->add('menu_render',         $_CMED_DEFAULT['menu_render'],         'select',   0, 0, 10,   20, true, 'custommenu');
-        $c->add('prefix_id',           $_CMED_DEFAULT['prefix_id'],           'text',     0, 0, 0,    30, true, 'custommenu');
+        $c->add('tab_main',            NULL,                                  'tab',      0, 0, NULL, 0,  true, 'custommenu', 0);
+        $c->add('fs_main',             NULL,                                  'fieldset', 0, 0, NULL, 0,  true, 'custommenu', 0);
+        $c->add('aftersave',           $_CMED_DEFAULT['aftersave'],           'select',   0, 0, 9,    10, true, 'custommenu', 0);
+        $c->add('menu_render',         $_CMED_DEFAULT['menu_render'],         'select',   0, 0, 10,   20, true, 'custommenu', 0);
+        $c->add('prefix_id',           $_CMED_DEFAULT['prefix_id'],           'text',     0, 0, 0,    30, true, 'custommenu', 0);
         // ----------------------------------
-        $c->add('fs_permissions',      NULL,                                  'fieldset', 0, 2, NULL, 0,  true, 'custommenu');
-        $c->add('default_permissions', $_CMED_DEFAULT['default_permissions'], '@select',  0, 2, 12,   40, true, 'custommenu');
+        $c->add('tab_permissions',     NULL,                                  'tab',      0, 2, NULL, 0,  true, 'custommenu', 1);
+        $c->add('fs_permissions',      NULL,                                  'fieldset', 0, 2, NULL, 0,  true, 'custommenu', 1);
+        $c->add('default_permissions', $_CMED_DEFAULT['default_permissions'], '@select',  0, 2, 12,   40, true, 'custommenu', 1);
     }
 
     return true;
 }
-
 ?>

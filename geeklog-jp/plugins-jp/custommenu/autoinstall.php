@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/autoinstall.php                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,16 +35,25 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-require_once 'config.php';
-
-if (!defined('GL_VERSION_15')) {
-    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
-}
+$_CMED_plugin_label_var = array(
+    'calendar'     => "LANG_CAL_1[16]",
+    'calendarjp'   => "LANG_CALJP_1[16]",
+    'links'        => "LANG_LINKS[114]",
+    'polls'        => "LANG_POLLS['polls']",
+    'forum'        => "LANG_GF00['pluginlabel']",
+    'filemgmt'     => "LANG_FILEMGMT['downloads']",
+    'downloads'    => "LANG_DLM['downloads']",
+    'mediagallery' => "_MG_CONF['menulabel']",
+    'sitemap'      => "LANG_SMAP['menu_label']",
+    'autotags'     => "LANG_AUTO['main_menulabel']",
+    'tag'          => "LANG_TAG['admin_label']",
+    'faqman'       => "LANG_FAQ['headerlabel']",
+    'vthemes'      => "LANG_VT00['menulabel']",
+    'dokuwiki'     => "LANG_DW00['menulabel']",
+);
 
 function plugin_autoinstall_custommenu($pi_name)
 {
-    global $_CMED_CONF;
-
     $pi_name         = 'custommenu';
     $pi_display_name = 'CustomMenu';
     $pi_admin        = $pi_display_name . ' Admin';
@@ -52,9 +61,9 @@ function plugin_autoinstall_custommenu($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => $_CMED_CONF['version'],
-        'pi_gl_version'   => $_CMED_CONF['gl_version'],
-        'pi_homepage'     => $_CMED_CONF['pi_url']
+        'pi_version'      => '0.6.0',
+        'pi_gl_version'   => '1.8.0',
+        'pi_homepage'     => 'http://www.trybase.com/~dengen/log/'
     );
 
     $groups = array(
@@ -62,11 +71,15 @@ function plugin_autoinstall_custommenu($pi_name)
     );
 
     $features = array(
-        $pi_name . '.admin'  => 'CustomMenu Admin'
+        $pi_name . '.admin'  => 'CustomMenu Admin',
+        'config.' . $pi_name . '.tab_main'        => 'Access to configure general custommenu settings',
+        'config.' . $pi_name . '.tab_permissions' => 'Access to configure custommenu default permissions',
     );
 
     $mappings = array(
-        $pi_name . '.admin'  => array($pi_admin)
+        $pi_name . '.admin'  => array($pi_admin),
+        'config.' . $pi_name . '.tab_main'        => array($pi_admin),
+        'config.' . $pi_name . '.tab_permissions' => array($pi_admin),
     );
 
     $tables = array(
@@ -98,15 +111,11 @@ function plugin_load_configuration_custommenu($pi_name)
 
 function plugin_postinstall_custommenu($pi_name)
 {
-    global $_CONF, $_TABLES, $LANG01;
+    global $_CONF, $_TABLES, $pi_admin, $LANG01;
 
-    $pi_admin = 'CustomMenu Admin';
-
-    if (GL_VERSION_15) {
-        require_once $_CONF['path_system'] . 'classes/config.class.php';
-        $plg_config = config::get_instance();
-        $_PLG_CONF = $plg_config->get_config('custommenu');
-    }
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $plg_config = config::get_instance();
+    $_PLG_CONF = $plg_config->get_config('custommenu');
 
     $admin_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = '{$pi_admin}'");
     $blockadmin_id  = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Block Admin'");
@@ -141,30 +150,135 @@ function plugin_postinstall_custommenu($pi_name)
         }
     }
 
-    if (GL_VERSION_15) {
-        // Set menu elements
-        require_once $_CONF['path_system'] . 'classes/config.class.php';
-        $c = config::get_instance();
-        $c->set('menu_elements', array('custom'));
-
-        CMED_addPluginsMenuitems();
-    }
+    // Set menu elements
+    $c = config::get_instance();
+    $c->set('menu_elements', array('custom'));
+    CMED_addPluginsMenuitems();
 
     return true;
 }
 
 function plugin_compatible_with_this_version_custommenu($pi_name)
 {
-    if (function_exists('COM_printUpcomingEvents')) {
-        // if this function exists, then someone's trying to install the
-        // plugin on Geeklog 1.4.0 or older - sorry, but that won't work
-        return false;
-    }   
+    return (version_compare(VERSION, '1.7.99') > 0); // means Geeklog 1.8.0 or later (also includes beta version and rc version)
+}
 
-    if (!function_exists('MBYTE_strpos')) {
-        // the plugin requires the multi-byte functions
-        return false; 
-    }   
+/**
+* Automatic uninstall function for plugins
+*
+* @return   array
+*
+* This code is automatically uninstalling the plugin.
+* It passes an array to the core code function that removes
+* tables, groups, features and php blocks from the tables.
+* Additionally, this code can perform special actions that cannot be
+* foreseen by the core code (interactions with other plugins for example)
+*
+*/
+function CMED_autouninstall()
+{
+    global $_CONF, $_TABLES;
+
+    // Restore menu elements
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+    $c = config::get_instance();
+    $sql = "SELECT subgroup,tab FROM {$_TABLES['conf_values']} "
+         . "WHERE name = 'menu_elements' AND group_name = 'Core'";
+    $result = DB_query($sql);
+    $A = DB_fetchArray($result);
+    $result = $c->restore_param('menu_elements', 'Core', $A['subgroup'], $A['tab']);
+
+    if ($result == true) {
+        $out = array(
+            // give the name of the tables, without $_TABLES[]
+            'tables' => array('menuitems'),
+
+            // give the full name of the group, as in the db
+            'groups' => array('CustomMenu Admin'),
+
+            // give the full name of the feature, as in the db
+            'features' => array('custommenu.admin',
+                                'config.custommenu.tab_main',
+                                'config.custommenu.tab_permissions'),
+        );
+        return $out;
+    }
+}
+
+/**
+* Upgrade the custommenu plugin
+*
+* @return   int     Number of message to display (true = generic success msg)
+*
+*/
+function CMED_upgrade()
+{
+    global $_CONF, $_TABLES, $_CMED_CONF;
+
+    $pi_name = 'custommenu';
+    $installed_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name = '$pi_name'");
+    $code_version = plugin_chkVersion_custommenu();
+    if ($installed_version == $code_version) return true;
+    if (!plugin_compatible_with_this_version_custommenu($pi_name)) return 3002;
+
+    $inst_parms = plugin_autoinstall_custommenu($pi_name);
+    $pi_gl_version = $inst_parms['info']['pi_gl_version'];
+
+    require_once $_CONF['path'] . 'plugins/custommenu/install_updates.php';
+
+    if (version_compare($installed_version, '0.2.0') < 0) {
+        plugin_initconfig_custommenu();
+    }
+
+    if (version_compare($installed_version, '0.3.0') < 0) {
+        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
+             . "ADD COLUMN pattern varchar(255) default NULL,"
+             . "ADD COLUMN is_preg tinyint(1) NOT NULL default '0'";
+        DB_query($sql);
+    }
+
+    if (version_compare($installed_version, '0.4.0') < 0) {
+        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
+             . "ADD COLUMN pmid varchar(40) NOT NULL default '',"
+             . "ADD COLUMN class_name varchar(48) default NULL";
+        DB_query($sql);
+    }
+
+    if (version_compare($installed_version, '0.4.1') < 0) {
+        require_once $_CONF['path'] . 'plugins/custommenu/install_defaults.php';
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        $c = config::get_instance();
+        $n = DB_count($_TABLES['conf_values'], "name", 'menu_render');
+        if ($n == 0) {
+            $c->add('menu_render', $_CMED_DEFAULT['menu_render'], 'select', 0, 0, 10, 20, true, 'custommenu');
+        }
+        $n = DB_count($_TABLES['conf_values'], "name", 'prefix_id');
+        if ($n == 0) {
+            $c->add('prefix_id', $_CMED_DEFAULT['prefix_id'], 'text', 0, 0, 0, 30, true, 'custommenu');
+        }
+        DB_query("UPDATE {$_TABLES['conf_values']} SET sort_order = 40 WHERE name = 'default_permissions'");
+    }
+
+    if (version_compare($installed_version, '0.5.0') < 0) {
+        // Set new Tab column to whatever fieldset is
+        $_SQL = array();
+        $_SQL[] = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'custommenu'";
+        $_SQL[] = "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.custommenu.tab_main', 'Access to configure general custommenu settings', 0)";
+        $_SQL[] = "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.custommenu.tab_permissions', 'Access to configure custommenu default permissions', 0)";
+        foreach ($_SQL as $sql) {
+            DB_query($sql);
+        }
+        custommenu_update_ConfValues_0_5_0();
+        custommenu_update_ConfigSecurity_0_5_0();
+    }
+
+    // Update the version numbers
+    DB_query("UPDATE {$_TABLES['plugins']} "
+           . "SET pi_version = '$code_version', pi_gl_version = '$pi_gl_version' "
+           . "WHERE pi_name = '$pi_name'");
+
+    COM_errorLog(ucfirst($pi_name)
+        . " plugin was successfully updated to version $code_version.");
 
     return true;
 }
@@ -209,166 +323,5 @@ function CMED_addPluginsMenuitems()
             return false;
         }
     }
-}
-
-/**
-* Upgrade the custommenu plugin
-*
-* @return   int     Number of message to display (true = generic success msg)
-*
-*/
-function CMED_upgrade()
-{
-    global $_CONF, $_TABLES, $_CMED_CONF;
-
-    // the plugin needs these function so complain when they don't exist
-    if (!function_exists('COM_truncate') || !function_exists('MBYTE_strpos')) {
-        return 3002;
-    }
-
-    $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
-
-    if ((version_compare($pi_version, '0.2.0') < 0) && (GL_VERSION_15)) {
-        require_once $_CONF['path'] . 'plugins/custommenu/install_defaults.php';
-        plugin_initconfig_custommenu();
-    }
-
-    if (version_compare($pi_version, '0.3.0') < 0) {
-        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
-             . "ADD COLUMN pattern varchar(255) default NULL,"
-             . "ADD COLUMN is_preg tinyint(1) NOT NULL default '0'";
-        DB_query($sql);
-    }
-
-    if (version_compare($pi_version, '0.4.0') < 0) {
-        $sql = "ALTER TABLE {$_TABLES['menuitems']} "
-             . "ADD COLUMN pmid varchar(40) NOT NULL default '',"
-             . "ADD COLUMN class_name varchar(48) default NULL";
-        DB_query($sql);
-    }
-
-    if (version_compare($pi_version, '0.4.1') < 0) {
-        require_once $_CONF['path'] . 'plugins/custommenu/install_defaults.php';
-        require_once $_CONF['path_system'] . 'classes/config.class.php';
-        $c = config::get_instance();
-        $n = DB_count($_TABLES['conf_values'], "name", 'menu_render');
-        if ($n == 0) {
-            $c->add('menu_render', $_CMED_DEFAULT['menu_render'], 'select', 0, 0, 10, 20, true, 'custommenu');
-        }
-        $n = DB_count($_TABLES['conf_values'], "name", 'prefix_id');
-        if ($n == 0) {
-            $c->add('prefix_id', $_CMED_DEFAULT['prefix_id'], 'text', 0, 0, 0, 30, true, 'custommenu');
-        }
-        DB_query("UPDATE {$_TABLES['conf_values']} SET sort_order = 40 WHERE name = 'default_permissions'");
-    }
-
-    // Update the version numbers
-    DB_query("UPDATE {$_TABLES['plugins']} "
-           . "SET pi_version = '{$_CMED_CONF['version']}', pi_gl_version = '1.4.1' "
-           . "WHERE pi_name = 'custommenu'");
-
-    return true;
-}
-
-/**
-* Removes the datastructures for this plugin from the Geeklog database.
-* This routine will get called from the Plugin install program if user select De-Install or if Delete is used in the Plugin Editor.
-* The Plugin Installer will also call this routine upon and install error to remove anything it has created.
-* The Plugin installer will pass the optional parameter which will then double check that plugin has first been disabled. 
-* 
-* For this plugin, this routine will also remove the Block definition.
-* 
-* Returns True if all Plugin related data is removed without error
-*
-* @param    string   $installCheck     Default is blank but if set, check if plugin is disabled first
-* 
-* @return   boolean True if successful false otherwise
-*
-*/
-function CMED_uninstall ( $installCheck = '' )
-{
-    global $_CONF, $_TABLES, $LANG_CMED;
-
-    $pi_name  = 'custommenu';
-    $pi_admin = 'CustomMenu Admin';
-
-    // $FEATURES and $TABLES have to be changed accodrding to your plugin
-    $FEATURES = array ('custommenu.admin');
-    $TABLES   = array ('menuitems');
-    
-    // Check and see if plugin is still enabled - if so display warning and exit
-    if ( $installCheck != '' && DB_getItem ( $_TABLES['plugins'], 'pi_enabled', 'pi_name = "' . $pi_name . '"' ) ) {
-        COM_errorLog ( "Plugin is installed and enabled. Disable first if you want to de-install it", 1 );
-        $display .= COM_startBlock ( $LANG_CMED['warning'] );
-        $display .= $LANG_CMED['enabled'];
-        $display .= COM_endBlock ();
-        echo $display;
-        return false;
-        exit;
-    }
-        
-    // Ok to proceed and delete plugin
-
-    // Drop CustomMenu tables
-    foreach ( $TABLES as $table ) {
-        $t = $_TABLES["$table"];
-        COM_errorLog ('Dropping $table table', 1);
-        DB_query ( "DROP TABLE $t", 1 );
-        COM_errorLog ('...success', 1);
-    }
-    foreach ( $TABLES as $table ) {
-        unset($_TABLES["$table"]);
-    }
-
-    // Remove Security for this plugin
-    $grp_id = DB_getItem ($_TABLES['groups'], 'grp_id',"grp_name = '$pi_admin'");
-    if (!empty ($grp_id)) {
-        // Remove CustomMenu Admin group from all other groups
-        COM_errorLog ('Attempting to remove $pi_admin group from all groups' , 1);
-        DB_query ("DELETE FROM {$_TABLES['group_assignments']} WHERE ug_main_grp_id = $grp_id");
-        COM_errorLog ('...success', 1);
-
-        // Remove the CustomMenu Admin group
-        COM_errorLog('Attempting to remove the $pi_admin Group', 1);
-        DB_query ("DELETE FROM {$_TABLES['groups']} WHERE grp_id = $grp_id");
-        COM_errorLog('...success', 1);
-    }
-    
-    // Remove related features
-    foreach ($FEATURES as $f) {
-        $feat_id = DB_getItem ($_TABLES['features'], 'ft_id', "ft_name = '$f'");
-        if (!empty ($feat_id)) {
-            COM_errorLog ("Attempting to remove $f rights from all groups", 1);
-            DB_query ("DELETE FROM {$_TABLES['access']} WHERE acc_ft_id = $feat_id");
-            COM_errorLog ('...success', 1);
-
-            COM_errorLog ("Attempting to remove the $f feature", 1);
-            DB_query ("DELETE FROM {$_TABLES['features']} WHERE ft_id = $feat_id");
-            COM_errorLog ('...success', 1);
-        }
-    }
-
-    if (GL_VERSION_15) {
-        // Remove config table data for this plugin
-        COM_errorLog ("Attempting to remove config table records for group_name: $pi_name", 1);
-        DB_query ("DELETE FROM {$_TABLES['conf_values']} WHERE group_name = '$pi_name'");
-        COM_errorLog ('...success', 1);
-    }
-
-    // Unregister the plugin with Geeklog
-    // Always attempt to remove these entries or lib-common.php would still
-    // try and read our functions.inc file ...
-    COM_errorLog ('Attempting to unregister the $pi_name plugin from Geeklog', 1);
-    DB_query ("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = '$pi_name'");
-    COM_errorLog ('...success',1);
-
-    // Restore menu elements
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-    $c = config::get_instance();
-    $c->restore_param('menu_elements', 'Core');
-
-    COM_errorLog ('Finished uninstalling the $pi_name plugin.', 1);
-
-    return true;
 }
 ?>

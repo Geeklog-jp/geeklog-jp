@@ -4,9 +4,9 @@
 // +---------------------------------------------------------------------------+
 // | CustomMenu Editor Plugin for Geeklog                                      |
 // +---------------------------------------------------------------------------+
-// | plugins/custommenu/config.php                                             |
+// | plugins/custommenu/configuration_validation.php                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,75 +35,30 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
-    die('This file can not be used on its own.');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'configuration_validation.php') !== false) {
+    die('This file can not be used on its own!');
 }
 
-global $_CMED_CONF, $_TABLES, $_CMED_plugin_label_var;
-
-$_CMED_CONF = array();
-
-/**
- *  User Configulations for GL 1.4.1
- */
-
-/** What to show after a data has been saved? Possible choices:
- * 'list'   -> display the admin-list of custommenu
- * 'home'   -> display the site homepage
- * 'admin'  -> display the site admin homepage
- */
-$_CMED_CONF['aftersave'] = 'list';
-
-/**
- * Define default permissions for new custommenu created from the Admin panel.
- * Permissions are perm_owner, perm_group, perm_members, perm_anon (in that
- * order). Possible values:
- * - 3 = read + write permissions (perm_owner and perm_group only)
- * - 2 = read-only
- * - 0 = neither read nor write permissions
- * (a value of 1, ie. write-only, does not make sense and is not allowed)
- */
-$_CMED_CONF['default_permissions'] = array(3, 2, 2, 2);
-
-
-// +---------------------------------------------------------------------------+
-// | Do not change anything below this line.                                   |
-// +---------------------------------------------------------------------------+
-
-/**
-* Plugin Version
-*/
-$_CMED_CONF['version'] = '0.5.0';
-
-/**
-* GL Version
-*/
-$_CMED_CONF['gl_version'] = '1.4.1';
-
-/**
-* Plugin Homepage
-*/
-$_CMED_CONF['pi_url'] = 'http://www.trybase.com/~dengen/log/';
-
-/**
-* Add to $_TABLES array the tables custommenu plugin uses
-*/
-$_TABLES['menuitems'] = $_DB_table_prefix . 'menuitems';
-
-
-$_CMED_plugin_label_var = array(
-    'calendar'     => "LANG_CAL_1[16]",
-    'calendarjp'   => "LANG_CALJP_1[16]",
-    'links'        => "LANG_LINKS[114]",
-    'polls'        => "LANG_POLLS['polls']",
-    'forum'        => "LANG_GF00['pluginlabel']",
-    'filemgmt'     => "LANG_FILEMGMT['downloads']",
-    'mediagallery' => "_MG_CONF['menulabel']",
-    'sitemap'      => "LANG_SMAP['menu_label']",
-    'autotags'     => "LANG_AUTO['main_menulabel']",
-    'tag'          => "LANG_TAG['admin_label']",
-    'faqman'       => "LANG_FAQ['headerlabel']",
-    'vthemes'      => "LANG_VT00['menulabel']",
+// General CustomMenu Settings
+$_CONF_VALIDATE['custommenu']['aftersave']   = array(
+    'rule' => array('inList', array('list', 'home', 'admin'), true)
 );
+$_CONF_VALIDATE['custommenu']['menu_render'] = array(
+    'rule' => array('inList', array('standard', 'pulldown'), true)
+);
+$_CONF_VALIDATE['custommenu']['prefix_id']   = array('rule' => 'string');
 
+// CustomMenu Default Permissions
+$_CONF_VALIDATE['custommenu']['default_permissions[0]'] = array(
+    'rule' => array('inList', array(0, 2, 3), true)
+);
+$_CONF_VALIDATE['custommenu']['default_permissions[1]'] = array(
+    'rule' => array('inList', array(0, 2, 3), true)
+);
+$_CONF_VALIDATE['custommenu']['default_permissions[2]'] = array(
+    'rule' => array('inList', array(0, 2, 3), true)
+);
+$_CONF_VALIDATE['custommenu']['default_permissions[3]'] = array(
+    'rule' => array('inList', array(0, 2, 3), true)
+);
 ?>
