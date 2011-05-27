@@ -27,4 +27,8 @@ div .php { max-height:400px; overflow:auto; height:auto; width:auto; min-height:
 div .html { height:300px; overflow:auto; width:auto; min-height:100px; }
 div .css { height:300px; overflow:auto; width:auto; min-height:100px; }
 
+input.helpline {
+  width: 98%;
+}
+
 /* END of Forum Plugin CSS */
