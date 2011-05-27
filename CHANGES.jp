@@ -1,5 +1,11 @@
 $Id$
 
+2011-05-27  Tetsuko Komma  <ivy>
+
+	* forumプラグインの、ProfessionalCSSベースのテーマを利用した場合に、
+	  テキストのズーム指定により入力フォームが大きくなって、投稿ボタンが
+	  隠れるケースがある不具合を対策しました。
+
 2011-05-22  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: バージョン0.6.0に更新します。
