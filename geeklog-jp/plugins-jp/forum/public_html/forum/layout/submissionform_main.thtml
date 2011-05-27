@@ -4,7 +4,7 @@
             <tr>
                 <td class="pluginCellSubTitle">&nbsp;{LANG_SUBJECT}:</td>
                 <td class="pluginCellText pluginCellFill">
-                    <input type="text" name="subject" value="{subject}" id="input1" tabindex="5" size="80"{xhtml}>
+                    <input type="text" name="subject" value="{subject}" id="input1" style="width:98%" tabindex="5" size="80"{xhtml}>
                 </td>
             </tr>
             <tr>
