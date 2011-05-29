@@ -1,5 +1,10 @@
 $Id$
 
+2011-05-30  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: カレンダの週表示で日付の「月」が欠落する場合が
+	  ある問題を修正しました。
+
 2011-05-27  Tetsuko Komma  <ivy>
 
 	* forumプラグインの、ProfessionalCSSベースのテーマを利用した場合に、
