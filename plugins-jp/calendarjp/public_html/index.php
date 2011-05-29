@@ -726,7 +726,7 @@ case 'week':
             $eday = getPrettyDateNum(strftime ('%d', $time_day7));
             $end_mname = getPrettyDateNum(strftime ('%m', $time_day7));
             $end_ynum = strftime ('%Y', $time_day7);
-            $date_range = $start_mname . ' ' . getPrettyDateNum(strftime ('%d', $time_day1)) . '日';
+            $date_range = $start_mname . '月 ' . getPrettyDateNum(strftime ('%d', $time_day1)) . '日';
         } else {
             $start_mname = getPrettyDateNum(strftime ('%m', mktime (0, 0, 0, $month, $day, $year)));
             $time_day6 = mktime (0, 0, 0, $month, $day + 6, $year);
