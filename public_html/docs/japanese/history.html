@@ -23,21 +23,21 @@
 <p>このリリースは2010 Google Summer of Codeプロジェクトの成果であるAkeda Bagusさんの
 コンフィギュレーションを含んでいます(入力値の整合チェックと検索)。</p>
 
-<p>Changes since 1.8.0rc1:</p>
+<p>1.8.0rc1からの変更:</p>
 <ul>
-<li>Fixed translation errors in the German, Serbian, and Slovenian language files that affected the input validation for the Configuration [Dirk]</li>
-<li>Fixed updating the bundled plugins when upgrading from a Geeklog version older than 1.5.0 (bug #0001354) [Dirk]</li>
-<li>Fixed incomplete / corrupted siteconfig.php file after an update (bug #0001353) [Dirk]</li>
-<li>Suppress a warning in the XMLSitemap plugin when using an unsupported character set [Dirk]</li>
-<li>Fixed plugin update using a cached version of the plugin's old functions.inc (bug #0001345) [Dirk]</li>
-<li>Fixed plugin update option not reacting for some users (bug #0001344, patch provided by dengen)</li>
-<li>Fixed a wrong table lock that triggered an SQL error when sending a comment notification email (cf. bug #0000939) [Vinny]</li>
-<li>Static Pages plugin function plugin_getiteminfo_staticpages did not always return correct data (bug #0001342) [Tom]</li>
-<li>Fixed Calendar week view date range display on Windows (bug #0001340) [Tom]</li>
-<li>Tweaked font size in Calendar (feature request #0001329) [Tom]</li>
+<li>German, Serbian, Slovenian 言語ファイルのコンフィギュレーション関係を修正しました。[Dirk]</li>
+<li>パッケージ同梱プラグイがGeeklog 1.5.0より古い場合のバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001354">#0001354</a>) [Dirk]</li>
+<li>アップデート後にsiteconfig.phpが不完全か壊れてしまうバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001353">#0001353</a>) [Dirk]</li>
+<li>XMLSitemapプラグインが、サポートしていない言語での利用の場合にワーニングを出力するのを抑制しました。 [Dirk]</li>
+<li>プラグインの古いfunctions.incのキャッシュバージョンのアップデートのバグを修正した。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001345">#0001345</a>) [Dirk]</li>
+<li>プラグインアップデートがユーザによってはできないバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001344">#0001344</a>, パッチ提供: dengen)</li>
+<li>コメント通知メール送信時にSQLエラーの引き金となった間違ったテーブルロックを修正しました。(参照: バグ <a href="http://project.geeklog.net/tracking/view.php?id=0000939">#0000939</a>) [Vinny]</li>
+<li>静的ページプラグインの関数plugin_getiteminfo_staticpagesが常に正しいリターンを返していなかったバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001342">#0001342</a>) [Tom]</li>
+<li>Windowsで、Calendarプラグインの週ページのレンジ表示のバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001340">#0001340</a>) [Tom]</li>
+<li>カレンダーのフォントサイズを修正しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001329">#0001329</a>) [Tom]</li>
 </ul>
 <ul>
-<li>Updated Japanese language file, provided by the Geeklog.jp group</li>
+<li>日本語言語ファイルのアップグレード。提供: Geeklog Japaneseグループ</li>
 </ul>
 
 <h2>May 8, 2011 (1.8.0rc1)</h2>
