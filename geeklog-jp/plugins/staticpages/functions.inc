@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Static     |
 // | Pages' PHP files.                                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -1236,13 +1236,47 @@ function plugin_upgrade_staticpages()
 
     require_once $_CONF['path'] . 'plugins/staticpages/sql/'
                                 . $_DB_dbms . '_updates.php';
-                                
+
     require_once $_CONF['path'] . 'plugins/staticpages/install_updates.php';   
 
     $current_version = $installed_version;
     $done = false;
+    $current_config = false;
     while (! $done) {
         switch ($current_version) {
+        case '1.4.3':
+            require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+            $plugin_path = $_CONF['path'] . 'plugins/staticpages/';
+            require_once $plugin_path . 'install_defaults.php';
+
+            if (file_exists($plugin_path . 'config.php')) {
+                global $_DB_table_prefix, $_SP_CONF;
+
+                require_once $plugin_path . 'config.php';
+            }
+
+            if (!plugin_initconfig_staticpages()) {
+                echo 'There was an error upgrading the Static Pages plugin';
+                return false;
+            }
+
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+            $current_config = true;
+
+            $current_version = '1.5.0';
+            break;
+
+        case '1.5.0':
+            // no db changes
+            $current_version = '1.5.1';
+            break;
+
         case '1.5.1':
             // no db changes
             $current_version = '1.6.0';
@@ -1256,7 +1290,9 @@ function plugin_upgrade_staticpages()
                 }
             }
 
-            SP_update_ConfValues_1_6_0();
+            if (! $current_config) {
+                SP_update_ConfValues_1_6_0();
+            }
 
             $current_version = '1.6.1';
             break;
@@ -1269,11 +1305,13 @@ function plugin_upgrade_staticpages()
                 }
             }
 
-            SP_update_ConfValues_1_6_1();
+            if (! $current_config) {
+                SP_update_ConfValues_1_6_1();
+            }
 
             $current_version = '1.6.2';
             break;
-            
+
         case '1.6.2':
             if (isset($_UPDATES[$current_version])) {
                 $_SQL = $_UPDATES[$current_version];
@@ -1284,6 +1322,7 @@ function plugin_upgrade_staticpages()
 
             $current_version = '1.6.3';
             break;
+
         case '1.6.3':
             if (isset($_UPDATES[$current_version])) {
                 $_SQL = $_UPDATES[$current_version];
@@ -1291,10 +1330,12 @@ function plugin_upgrade_staticpages()
                     DB_query($sql);
                 }
             }
-            
-            SP_update_ConfValues_1_6_3();
-            
-            sp_update_ConfigSecurity_1_6_3();
+
+            if (! $current_config) {
+                SP_update_ConfValues_1_6_3();
+
+                SP_update_ConfigSecurity_1_6_3();
+            }
 
             $current_version = '1.6.4';
             break;           
@@ -1765,9 +1806,18 @@ function plugin_getiteminfo_staticpages($sp_id, $what, $uid = 0, $options = arra
                 break;
             case 'description':
             case 'excerpt':
-                $props[$p] = SP_render_content(stripslashes($A['sp_content']),
-                                                            $A['sp_php']);
-                break;
+                $retval = '';
+                $mode = '';
+                $args = array(
+                            'sp_id' => $sp_id,
+                            'mode'  => $mode
+                             );
+                $svc_msg = array();
+            
+                if (PLG_invokeService('staticpages', 'get', $args, $retval, $svc_msg) == PLG_RET_OK) {     
+                    $props[$p] = SP_render_content(stripslashes($retval['sp_content']), $retval['sp_php']);
+                }
+                break;                
             case 'id':
                 $props['id'] = $A['sp_id'];
                 break;

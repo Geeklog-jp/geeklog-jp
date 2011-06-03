@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Calendar   |
 // | plugin's PHP files.                                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -1520,14 +1520,50 @@ function plugin_upgrade_calendar()
 
     require_once $_CONF['path'] . 'plugins/calendar/sql/'
                                 . $_DB_dbms . '_updates.php';
-                                
-    require_once $_CONF['path'] . 'plugins/calendar/install_updates.php';                                   
+
+    require_once $_CONF['path'] . 'plugins/calendar/install_updates.php';
 
     $current_version = $installed_version;
     $done = false;
+    $current_config = false;
     while (! $done) {
         switch ($current_version) {
+        case '1.0.0':
+            require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+            $plugin_path = $_CONF['path'] . 'plugins/calendar/';
+            require_once $plugin_path . 'install_defaults.php';
+
+            if (file_exists($plugin_path . 'config.php')) {
+                global $_DB_table_prefix, $_CA_CONF;
+
+                require_once $plugin_path . 'config.php';
+            }
+
+            if (!plugin_initconfig_calendar()) {
+                echo 'There was an error upgrading the Calendar plugin';
+                return false;
+            }
+
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+            calendar_update_move_states();
+            $current_config = true;
+
+            $current_version = '1.0.2';
+            break;
+
+        case '1.0.2':
+            // no db changes
+            $current_version = '1.0.3';
+            break;
+
         case '1.0.3':
+            // no db changes
             $current_version = '1.1.0';
             break;
 
@@ -1549,13 +1585,15 @@ function plugin_upgrade_calendar()
                     DB_query($sql);
                 }
             }
-            
-            calendar_update_ConfValues_1_1_1();
-            
-            calendar_update_ConfigSecurity_1_1_1();
+
+            if (! $current_config) {
+                calendar_update_ConfValues_1_1_1();
+
+                calendar_update_ConfigSecurity_1_1_1();
+            }
 
             $current_version = '1.1.2';
-            break;            
+            break;
 
         default:
             $done = true;
