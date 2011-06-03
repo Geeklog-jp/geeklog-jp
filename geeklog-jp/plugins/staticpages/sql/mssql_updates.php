@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | Upgrade SQL                                                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2010 by the following authors:                         |
+// | Copyright (C) 2009-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tom Homer        - websitemaster AT cogeco DOT net               |
 // +---------------------------------------------------------------------------+
@@ -33,6 +33,12 @@
 */
 
 $_UPDATES = array(
+
+    '1.4.3' => array(
+        "ALTER TABLE {$_TABLES['staticpage']} ADD [commentcode] TINYINT NOT NULL default '0'",
+        // disable comments on all existing static pages
+        "UPDATE {$_TABLES['staticpage']} SET commentcode = -1"
+    ),
 
     '1.6.0' => array(
         "ALTER TABLE {$_TABLES['staticpage']} ADD meta_description [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL AFTER commentcode, ADD meta_keywords [meta_keywords] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL AFTER meta_description"
@@ -69,7 +75,7 @@ $_UPDATES = array(
  * Add is new security rights for the Group "Static Page Admin"
  *
  */
-function sp_update_ConfigSecurity_1_6_3()
+function SP_update_ConfigSecurity_1_6_3()
 {
     global $_TABLES;
     
