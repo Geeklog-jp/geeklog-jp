@@ -4,7 +4,7 @@
  * File: functions.inc
  * This is the functions.inc for the Geeklog Spam-X plugin
  *
- * Copyright (C) 2004-2010 by the following authors:
+ * Copyright (C) 2004-2011 by the following authors:
  * Authors      Tom Willett     tomw AT pigstye DOT net
  *              Dirk Haun       dirk AT haun-online DOT de
  *
@@ -185,16 +185,43 @@ function plugin_upgrade_spamx()
 
     $inst_parms = plugin_autoinstall_spamx('spamx');
     $pi_gl_version = $inst_parms['info']['pi_gl_version'];
-    
+
     require_once $_CONF['path'] . 'plugins/spamx/sql/'
                                 . $_DB_dbms . '_updates.php';
-                                
-    require_once $_CONF['path'] . 'plugins/spamx/install_updates.php';  
+
+    require_once $_CONF['path'] . 'plugins/spamx/install_updates.php';
 
     $current_version = $installed_version;
     $done = false;
+    $current_config = false;
     while (! $done) {
         switch ($current_version) {
+        case '1.1.0':
+            require_once $_CONF['path_system'] . 'classes/config.class.php';
+
+            $plugin_path = $_CONF['path'] . 'plugins/spamx/';
+            require_once $plugin_path . 'install_defaults.php';
+
+            if (file_exists($plugin_path . 'config.php')) {
+                global $_DB_table_prefix, $_SPX_CONF;
+
+                require_once $plugin_path . 'config.php';
+            }
+
+            if (!plugin_initconfig_spamx()) {
+                echo 'There was an error upgrading the Spam-X plugin';
+                return false;
+            }
+            $current_config = true;
+
+            $current_version = '1.1.1';
+            break;
+
+        case '1.1.1':
+            // no db changes
+            $current_version = '1.1.2';
+            break;
+
         case '1.1.2':
             // no db changes
             $current_version = '1.2.0';
@@ -224,7 +251,7 @@ function plugin_upgrade_spamx()
 
             $current_version = '1.2.1';
             break;
-            
+
         case '1.2.1':
             if (isset($_UPDATES[$current_version])) {
                 $_SQL = $_UPDATES[$current_version];
@@ -233,10 +260,12 @@ function plugin_upgrade_spamx()
                 }
             }            
 
-            spamx_update_ConfValues_1_2_1();  
-            
-            spamx_update_ConfigSecurity_1_2_1();
-            
+            if (! $current_config) {
+                spamx_update_ConfValues_1_2_1();  
+
+                spamx_update_ConfigSecurity_1_2_1();
+            }
+
             $current_version = '1.2.2';
             break;
 
