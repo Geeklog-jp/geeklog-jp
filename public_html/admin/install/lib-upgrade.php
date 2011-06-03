@@ -407,42 +407,7 @@ function INST_doDatabaseUpgrades($current_gl_version)
             $config->set('rdf_file', $html_path . 'backend/geeklog.rss');
             $config->set('path_pear', $_CONF['path_system'] . 'pear/');
 
-
-            if (INST_pluginExists('calendar')) {
-                $check = upgrade_CalendarPlugin();
-                if (!$check) {
-                    echo "Error updating the calendar";
-                    return false;
-                }
-            }
-            if (INST_pluginExists('polls')) {
-                $check = upgrade_PollsPlugin();
-                if (!$check) {
-                    echo "Error updating the polls";
-                    return false;
-                }
-            }
-            if (INST_pluginExists('staticpages')) {
-                $check = upgrade_StaticpagesPlugin();
-                if (!$check) {
-                    echo "Error updating the staticpages";
-                    return false;
-                }
-            }
-            if (INST_pluginExists('links')) {
-                $check = upgrade_LinksPlugin();
-                if (!$check) {
-                    echo "Error updating the links";
-                    return false;
-                }
-            }
-            if (INST_pluginExists('spamx')) {
-                $check = upgrade_SpamXPlugin();
-                if (!$check) {
-                    echo "Error updating the spamx";
-                    return false;
-                }
-            }
+            // core plugin updates are done in the plugins themselves
 
             $current_gl_version = '1.5.0';
             $_SQL = '';
@@ -457,9 +422,7 @@ function INST_doDatabaseUpgrades($current_gl_version)
             break;
 
         case '1.5.1':
-            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_1.5.1_to_1.5.2.php';
-            INST_updateDB($_SQL);
-
+            // there were no core database changes in 1.5.2
             $current_gl_version = '1.5.2';
             $_SQL = '';
             break;
@@ -664,6 +627,7 @@ function INST_setDefaultCharset($siteconfig_path, $charset)
 {
     $result = true;
 
+    clearstatcache();
     $siteconfig_file = fopen($siteconfig_path, 'rb');
     $siteconfig_data = fread($siteconfig_file, filesize($siteconfig_path));
     fclose($siteconfig_file);

@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | configuration.php                                                         |
 // |                                                                           |
 // | Loads the administration UI and sends input to config.class               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2010 by the following authors:                         |
+// | Copyright (C) 2007-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Aaron Blankstein  - kantai AT gmail DOT com                      |
 // |          Akeda Bagus       - admin AT gedex DOT web DOT id                |
