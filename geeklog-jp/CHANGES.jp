@@ -1,5 +1,9 @@
 $Id$
 
+2011-06-03  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.8.0rc2をマージしました。
+
 2011-05-30  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: カレンダの週表示で日付の「月」が欠落する場合が
