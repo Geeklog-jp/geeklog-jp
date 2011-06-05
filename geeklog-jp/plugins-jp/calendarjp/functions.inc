@@ -10,7 +10,7 @@
 // | API method and 2) implements all the common code needed by the Calendarjp |
 // | plugin's PHP files.                                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 by dengen - taharaxp AT gmail DOT com             |
+// | Copyright (C) 2008-2011 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
@@ -1595,14 +1595,19 @@ function plugin_upgrade_calendarjp()
 
     require_once $_CONF['path'] . 'plugins/calendarjp/sql/'
                                 . $_DB_dbms . '_updates.php';
-                                
-    require_once $_CONF['path'] . 'plugins/calendarjp/install_updates.php';                                   
+
+    require_once $_CONF['path'] . 'plugins/calendarjp/install_updates.php';
 
     $current_version = $installed_version;
     $done = false;
     while (! $done) {
         switch ($current_version) {
         case '1.0.3':
+        case '1.0.4':
+        case '1.0.5':
+        case '1.0.6':
+        case '1.0.7':
+        case '1.0.8':
             $current_version = '1.1.0';
             break;
 
