@@ -1,5 +1,10 @@
 $Id$
 
+2011-06-05  mystral-kk <mystral-kk>
+
+	* テーマエディタプラグインで編集できるテーマの初期値をprofessionalのみ
+	  に変更しました。
+
 2011-06-05  Tetsuko Komma  <ivy>
 
 	* テーマの名前を、ProfessionalCSSから、本家版にあわせてprofessional_cssに変更しました。
