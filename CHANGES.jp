@@ -1,5 +1,9 @@
 $Id$
 
+2011-06-05  Takahiro Kambe  <tacahi>
+
+	* 拡張版のプラグイン: nmoxqrblockとtkgmapsを除きました。
+
 2011-06-05  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: バージョン1.0.4～1.0.8からのアップグレードが
