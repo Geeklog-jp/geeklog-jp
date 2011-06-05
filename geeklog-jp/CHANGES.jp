@@ -1,5 +1,10 @@
 $Id$
 
+2011-06-05  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: バージョン1.0.4～1.0.8からのアップグレードが
+	  できない問題を修正しました。
+
 2011-06-05  mystral-kk <mystral-kk>
 
 	* テーマエディタプラグインで編集できるテーマの初期値をprofessionalのみ
@@ -7,7 +12,8 @@ $Id$
 
 2011-06-05  Tetsuko Komma  <ivy>
 
-	* テーマの名前を、ProfessionalCSSから、本家版にあわせてprofessional_cssに変更しました。
+	* テーマの名前を、ProfessionalCSSから、本家版にあわせてprofessional_css
+	  に変更しました。
 	* NEWSに、Geeklog 1.7.2-jp-1.0からの変更を追記しました。
 	* README.jpを、1.8.0-jp配布内容に差し替えました。
 
