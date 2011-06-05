@@ -1,5 +1,15 @@
 $Id$
 
+2011-06-05  Tetsuko Komma  <ivy>
+
+	* テーマの名前を、ProfessionalCSSから、本家版にあわせてprofessional_cssに変更しました。
+	* NEWSに、Geeklog 1.7.2-jp-1.0からの変更を追記しました。
+	* README.jpを、1.8.0-jp配布内容に差し替えました。
+
+2011-06-04  Tetsuko Komma  <ivy>
+
+	* history.htmlの1.8.0 rc2部分を翻訳しました。
+
 2011-06-03  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.8.0rc2をマージしました。
