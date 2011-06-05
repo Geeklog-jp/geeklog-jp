@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/config.php                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -83,7 +83,7 @@ $_THM_CONF['enable_all_files'] = FALSE;
 * @NOTE: theme names are case-sensitive
 */
 $_THM_CONF['allowed_themes'] = array(
-	'professional', 'ProfessionalCSS', 'WAIproCSS', 'mobile', 'mobile_3g',
+	'professional',
 );
 
 /**
