@@ -3,6 +3,8 @@ $Id$
 2011-06-08  Tetsuko Komma  <ivy>
 
 	* テーマprofessional_cssのjquery_uiでfont-familyの指定を削除しました。
+	* テーマprofessional_cssのコンフィギュレーションのレイアウトを修正
+	  しました。
 
 2011-06-05  Takahiro Kambe  <tacahi>
 
