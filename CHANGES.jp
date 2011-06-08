@@ -1,5 +1,11 @@
 $Id$
 
+2011-06-08  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのjquery_uiでfont-familyの指定を削除しました。
+	* テーマWAIproCSSのコメントのネスティングレイアウトを修正
+	  しました。
+
 2011-06-08  Tetsuko Komma  <ivy>
 
 	* テーマprofessional_cssのjquery_uiでfont-familyの指定を削除しました。
