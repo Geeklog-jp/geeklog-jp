@@ -1,7 +1,7 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Precheck for Geeklog 1.7                                                  |
+// | Precheck for Geeklog 1.8                                                  |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/precheck.lang.php                               |
 // |                                                                           |
@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-01-05
-* @version  1.4.0
+* @date     2011-06-13
+* @version  1.4.2
 * @license  GPLv2 or later
 */
 
