@@ -1,5 +1,9 @@
 $Id$
 
+2011-06-13  mystral-kk <mystral-kk>
+
+	* PrecheckをGeeklog-1.8.0に対応させました。
+
 2011-06-11  Tetsuko Komma  <ivy>
 
 	* 言語ファイルの、自動タグフォーマットエラーの表示を変更しました。
