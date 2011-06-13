@@ -1,5 +1,9 @@
 $Id$
 
+2011-06-13  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.8.0をマージしました。
+
 2011-06-13  mystral-kk <mystral-kk>
 
 	* PrecheckをGeeklog-1.8.0に対応させました。
