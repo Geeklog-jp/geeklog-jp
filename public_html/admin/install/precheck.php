@@ -1,7 +1,7 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Precheck for Geeklog 1.7                                                  |
+// | Precheck for Geeklog 1.8                                                  |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/precheck.php                                    |
 // |                                                                           |
@@ -33,21 +33,21 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-03-10
-* @version  1.4.1
+* @date     2011-06-13
+* @version  1.4.2
 * @license  GPLv2 or later
 */
 error_reporting(E_ALL);
 
 require_once './precheck.lang.php';
 
-define('GL_VERSION', '1.7.1');
+define('GL_VERSION', '1.8.0');
 
 //===================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE!
 //===================================================================
 
-define('PRECHECK_VERSION', '1.4.1');
+define('PRECHECK_VERSION', '1.4.2');
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
 define('THIS_SCRIPT', basename(__FILE__));
