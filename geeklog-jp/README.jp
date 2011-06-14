@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年6月3日
+							2011年6月15日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.7.2-jp-1.1の内容
+2. Geeklog 1.8.0-jpの内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -172,13 +172,13 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		携帯専用のテーマ
 		※このテーマはPC用には選べません。
 
-	public_html/layout/ProfessionalCSS
-		「Professional」のデザインを元にした、日本語サイトのための標準
+	public_html/layout/professional_css
+		「professional」のデザインを元にした、日本語サイトのための標準
 		テーマであり、custom.cssによってのみカスタマイズできるテーマメー
 		カー。
 		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS
 		2で一から全てを書き直しました。
-		「Professional」をベースにテーマを開発すると、アップグレードは、
+		「professional_css」をベースにテーマを開発すると、アップグレードは、
 		主にcustom.css上書きするだけで可能になります。
 		詳しくはREADMEをご覧ください。
 
@@ -190,7 +190,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 
 	public_html/layout/mobile/functions.php
 	public_html/layout/professional/functions.php
-	public_html/layout/ProfessionalCSS/functions.php
+	public_html/layout/professional_css/functions.php
 		掲示板のブロックレイアウトのための変数セットを追加したものに差
 		し替えるために同梱しています。
 
