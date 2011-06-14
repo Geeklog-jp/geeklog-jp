@@ -3,6 +3,9 @@ $Id$
 2011-06-14  Tetsuko Komma  <ivy>
 
 	* 日本語ドキュメントファイルの、history.htmlの翻訳を行いました。
+	* カレンダプラグイン、カレンダjpプラグインのテンプレートの
+	  formのURLを修正しました。
+	  http://project.geeklog.net/tracking/view.php?id=1360
 
 2011-06-13  Takahiro Kambe  <tacahi>
 
