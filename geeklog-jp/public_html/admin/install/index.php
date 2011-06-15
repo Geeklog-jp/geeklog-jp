@@ -552,9 +552,9 @@ function INST_installEngine($install_type, $install_step)
 
                             INST_defaultPluginInstall();
 
-                        require_once 'LocalizeGeeklog.php';
-                        $obj = new LocalizeGeeklog('ja');
-                        $obj->execute();
+                        	require_once 'LocalizeGeeklog.php';
+                        	$obj = new LocalizeGeeklog('ja');
+                        	$obj->execute();
                         }
 
                         // Installation is complete. Continue onto either
