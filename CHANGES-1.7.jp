@@ -1,3 +1,5 @@
+$Id$
+
 2011-04-04  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.6の時点で削除されていたsystem/pear/PHPを削除しました。
