@@ -1,5 +1,9 @@
 $Id$
 
+2011-06-15  mystral-kk <mystral-kk>
+
+	* admin/install/LocalizeGeeklogクラスをGeeklog-1.8.0に対応させました。
+
 2011-06-15  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSのjquery_uiで背景色と文字色のコントラスト比が
