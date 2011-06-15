@@ -1,5 +1,10 @@
 $Id$
 
+2011-06-15  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSのjquery_uiで背景色と文字色のコントラスト比が
+	  WCAG2.0レベルAAをクリアするよう文字色を変更しました。
+
 2011-06-14  Tetsuko Komma  <ivy>
 
 	* 日本語ドキュメントファイルの、history.htmlの翻訳を行いました。
