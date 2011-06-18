@@ -2,6 +2,10 @@ $Id$
 
 2011-06-18  mystral-kk <mystral-kk>
 
+	* PHPのバージョン番号、MySQLのバージョン番号の説明をGeeklog-1.8.0用に変更しました。
+
+2011-06-18  mystral-kk <mystral-kk>
+
 	* 本家から公開された自動タグ(autotags)プラグインv1.1.0をマージしました。
 
 2011-06-15  Takahiro Kambe  <tacahi>
