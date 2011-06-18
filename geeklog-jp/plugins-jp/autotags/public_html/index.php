@@ -40,91 +40,29 @@
 require_once ('../lib-common.php');
 
 /*
- *  The following functions are located inside if (!function_exists)
- *  statements for the benefit of plugin writers who wish to support
- *  this plugin. If the other plugin includes the proper function
- *  it will override the function listed here. Likewise, a site
- *  admin who wants to handle these values differently can create 
- *  these functions in the lib-custom.php and that version of the
- *  function will take precedence over the version below.
- */
-
-if (!function_exists('plugin_autotag_description_geeklog'))
-{
-    function plugin_autotag_description_geeklog($tag)
-    {
-        global $LANG_AUTO;
-        if ($tag == 'story' && isset($LANG_AUTO['descr_story']))
-            return $LANG_AUTO['descr_story'];
-        elseif ($tag == 'event' && isset($LANG_AUTO['descr_event']))
-            return $LANG_AUTO['descr_event'];
-    }
-}
-
-if (!function_exists('plugin_autotag_description_calendar'))
-{
-    function plugin_autotag_description_calendar($tag)
-    {
-        global $LANG_AUTO;
-        if ($tag == 'calendar' && isset($LANG_AUTO['descr_calendar']))
-            return $LANG_AUTO['descr_calendar'];
-    }
-}
-
-if (!function_exists('plugin_autotag_description_links'))
-{
-    function plugin_autotag_description_links($tag)
-    {
-        global $LANG_AUTO;
-        if ($tag == 'link' && isset($LANG_AUTO['descr_link']))
-            return $LANG_AUTO['descr_link'];
-    }
-}
-
-if (!function_exists('plugin_autotag_description_staticpages'))
-{
-    function plugin_autotag_description_staticpages($tag)
-    {
-        global $LANG_AUTO;
-        if ($tag == 'staticpage' && isset($LANG_AUTO['descr_staticpage']))
-            return $LANG_AUTO['descr_staticpage'];
-    }
-}
-
-/*
  *  Generates a list of all active autotags with description.
  */
 function list_all_tags()
 {
-    global $_CONF, $_AUTOTAGS;
+    global $_CONF;
     
-    $A = PLG_collectTags();
-    ksort($A);
-    
+    $autotags = PLG_collectTags('permission');
+    $plugins_tags = PLG_collectTags();
+    ksort($autotags);
+    $autotags = array_keys($autotags);
+    $description = array_flip(PLG_collectTags('description'));
+
     $display = '<TABLE WIDTH="90%"><TR><TD ALIGN="LEFT"><b>AutoTag</b></TD><TD ALIGN="LEFT"><b>Description</b></TD></TR>'."\n";
-    foreach ($A as $tag => $module)
-    {
-        if (isset($_AUTOTAGS[$tag]))
-        {
-            $display .= "<TR><TD>$tag</TD><TD>{$_AUTOTAGS[$tag]['description']}</TD></TR>\n";
+    foreach ($autotags as $tag) {
+        if ($description[$tag] != '') {
+            $descr = $description[$tag];
+        } else { // Permissions and Description not supported
+            $descr = "Part of the " . $plugins_tags[$tag] . " plugin";
         }
-        else 
-        {
-            $descr = '';
-            $function = 'plugin_autotag_description_' . $module;
-            if (function_exists($function))
-                $descr = $function($tag);
-            if (empty($descr))
-            {
-                if ($module == 'geeklog')
-                    $descr = "Builtin autotag";
-                else
-                    $descr = "Part of the $module plugin";
-            }
-            $display .= "<TR><TD>$tag</TD><TD>$descr</TD></TR>\n";
-        }
+        $display .= "<TR><TD>$tag</TD><TD>$descr</TD></TR>\n";
     }
-    return $display;
+    $display .= '</TABLE>';
+    return $display;    
 }
 
 $mode = '';
