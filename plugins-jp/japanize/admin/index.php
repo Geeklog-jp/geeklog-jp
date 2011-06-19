@@ -31,6 +31,8 @@ function fncCmdExec ($no)
     global $_TABLES,$_CONF;
     $_SQL =array();
     //require_once ("sql/sql_japanize_{$no}.php");
+	$no = (int) $no;
+	
     require_once ($_CONF['path']."plugins/japanize/sql/sql_japanize_{$no}.php");
 
     for ($i = 1; $i <= count($_SQL); $i++) {

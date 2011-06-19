@@ -8,27 +8,15 @@
 // 最終更新日　2007/05/21 tsuchi AT geeklog DOT jp
 
 // (01) en-gb →ja data (syndication)
-$_SQL[] = "
-    ALTER TABLE {$_TABLES['syndication']} MODIFY 
-    language varchar(20) NOT NULL default 'ja'
-    ";
+$_SQL[] = "ALTER TABLE {$_TABLES['syndication']} "
+		. "MODIFY language VARCHAR(20) NOT NULL DEFAULT 'ja' ";
 
-$_SQL[] = "
-    UPDATE   {$_TABLES['syndication']} SET 
-    language = 'ja'
-    ";
+$_SQL[] = "UPDATE {$_TABLES['syndication']} "
+		. "SET language = 'ja' ";
 
-$_SQL[] = "
-    UPDATE   {$_TABLES['syndication']} SET 
-    charset = 'UTF-8'
-    ";
+$_SQL[] = "UPDATE {$_TABLES['syndication']} "
+		. "SET charset = 'UTF-8' ";
 
 // (06) username varchar(36) → carchar(108) gl_users
-$_SQL[] = "
-    ALTER TABLE {$_TABLES['users']} MODIFY username varchar(108) NOT NULL default ''
-    ";
-
-
-
-
-?>
+$_SQL[] = "ALTER TABLE {$_TABLES['users']} "
+		. "MODIFY username VARCHAR(108) NOT NULL DEFAULT '' ";
