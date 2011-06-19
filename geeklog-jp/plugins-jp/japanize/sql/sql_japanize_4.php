@@ -8,12 +8,6 @@
 // 最終更新日　2007/05/21 tsuchi AT geeklog DOT jp
 
 // (05) Anonymous → ゲストユーザ (users)
-$_SQL[] = "
-    UPDATE {$_TABLES['users']} 
-    SET `username` = 'ゲストユーザ',
-    `fullname` = 'ゲストユーザ' 
-    WHERE `uid` =1 
-    ";
-
-
-?>
+$_SQL[] = "UPDATE {$_TABLES['users']} "
+		. "SET `username` = 'ゲストユーザー', `fullname` = 'ゲストユーザー' "
+		. "WHERE (`uid` = 1) ";
