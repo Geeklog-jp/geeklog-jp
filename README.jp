@@ -12,7 +12,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 
 	* ロケール等を設定する日本語化プラグインの追加
 	* 携帯サポートの追加
-	* CSSのみでレイアウトするテーマメーカー「ProfessionalCSS」の追加
+	* CSSのみでレイアウトするテーマメーカー「professional_css」の追加
 	* 有用なプラグイン、カスタム関数やブロックの同梱
 	* オリジナルのGeeklogに先行したバグ修正
 
@@ -232,10 +232,19 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
   (6) その他
 
 	CHANGES.jp
-		2009-06-30以後の日本語版修正内容です。
+		現行リリース(Geeklog 1.8)に関する修正内容です。
 
-	CHANGES-prev.jp
-		2009-06-29以前の日本語版修正内容です。
+	CHANGES-1.7.jp
+		Geeklog 1.7に関する修正内容です。(保守用のブランチ
+		作成の前までです。)
+
+	CHANGES-1.6.jp
+		Geeklog 1.6に関する修正内容です。(保守用のブランチ
+		作成の前までです。)
+
+	CHANGES-1.5.jp
+		Geeklog 1.5に関する修正内容です。(保守用のブランチ
+		作成の前までです。)
 
 	emailgeeklogstories.en
 		オリジナルのemailgeeklogstoriesです。
