@@ -1,8 +1,14 @@
 $Id$
 
+2011-06-19  Takahiro Kambe  <tacahi>
+
+	* NEWS, README.jp: 現行の状態に合わせた修正と、一部文面の改善を試み
+	  ました。
+
 2011-06-18  mystral-kk <mystral-kk>
 
-	* PHPのバージョン番号、MySQLのバージョン番号の説明をGeeklog-1.8.0用に変更しました。
+	* PHPのバージョン番号、MySQLのバージョン番号の説明をGeeklog-1.8.0用に
+	  変更しました。
 
 2011-06-18  mystral-kk <mystral-kk>
 
