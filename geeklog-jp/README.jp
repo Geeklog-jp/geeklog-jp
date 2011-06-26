@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年6月19日
+							2011年6月26日
 							Geeklog Japanese
 
 1. 概要
@@ -178,8 +178,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		カー。
 		table要素によるレイアウトを排除し、HTML 4.01 Transitional+CSS
 		2で一から全てを書き直しました。
-		「professional_css」をベースにテーマを開発すると、アップグレードは、
-		主にcustom.css上書きするだけで可能になります。
+		「professional_css」をベースにテーマを開発すると、アップグレー
+		ドは、主にcustom.css上書きするだけで可能になります。
 		詳しくはREADMEをご覧ください。
 
 
@@ -228,6 +228,9 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 			admin/story/storyeditor_advanced.japanese_utf-8.thtml
 			admin/story/storyeditor.japanese_utf-8.thtml
 
+	calendarプラグイン
+		オリジナル版では郵便番号が5文字となっていたのを8文字に変更し
+		ています。
 
   (6) その他
 
@@ -259,7 +262,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		オリジナルのreadmeを日本語化したものです。
 
 	README.jp
-		本ファイル。本家版に対する日本語版の開発概要を紹介します。
+		本ファイルで、オリジナル版に対する日本語版の開発概要を紹介
+		しています。
 
 	release_jp.php
 		リリースのためのバージョン管理ファイルです。
