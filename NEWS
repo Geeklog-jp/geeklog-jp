@@ -13,8 +13,18 @@ Geeklog 1.8.0						2011年6月26日
 
     - テーマ名を、ProfessionalCSSを本家の開発リポジトリにあわせて、
       professional_cssに名前を変更しました。
-      引き続きテーマメーカーとして、このテーマをベースにして、
-      あたらしくテーマを作成してください。
+      professional_cssを利用すると、custom.cssの開発だけで新たにテーマを
+      作成することができます。新たに作成されたテーマは、ディレクトリ名を
+      変更して、テーマ名をprofessional_cssからオリジナルのテーマ名に変更
+      してください。
+      場合により、functions.phpやheader.thtml footer.thtmlをカスタマイズ
+      します。
+      custom.cssやcustom.cssから呼ばれるimages/custom/以下の画像などを
+      Geeklogのバージョンに対応したprofessional_cssに上書きすることで
+      簡単にバージョン対応させることができます。
+      以上の機能をもつことから、テーマprofessional_cssはテーマメーカと
+      云えます。
+      今後もprofessional_cssをテーマメーカとしてご利用ください。
 
     - 日本語拡張版に同梱するプラグインを見直しました。
 
