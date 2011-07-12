@@ -151,7 +151,6 @@ function CUSTOM_loginErrorHandler($msg='') {
 * @return   void
 * @see      PLG_templateSetVars
 *
-*/
 function CUSTOM_templateSetVars($templatename, &$template)
 {
     // define a {hello_world} variable available in header.thtml and
@@ -169,7 +168,7 @@ function CUSTOM_templateSetVars($templatename, &$template)
         break;
     }
 }
-
+*/
 
 /*  Sample Custom Member Functions to create and update Custom Membership registration and profile
 
@@ -590,6 +589,9 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
 /**
   * 日本語拡張版提供　PHPブロック関数およびカスタム関数
   */
+
+/* テーマ変数をセットする */
+require_once( 'custom/custom_templatesetvars.php' );
 
 /* 静的ページコンテンツの内容を返す */
 require_once( 'custom/custom_getstaticpage.php' );

@@ -1,5 +1,11 @@
 $Id$
 
+
+2011-07-12  Tetsuko Komma  <ivy>
+
+	* CUSTOM_templateSetVarsに、1.7.2から日本語プラグイン(Japanize)から
+	  削除されたテーマ変数を復活させました。 Issue #180
+
 2011-07-09  mystral-kk <mystral-kk>
 
 	* 言語ファイルの文言を一部変更しました。
