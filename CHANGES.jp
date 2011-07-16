@@ -1,5 +1,8 @@
 $Id$
 
+2011-07-16  mystral-kk <mystral-kk>
+
+	* LocalizeGeeklogクラスでglobalの宣言漏れを修正しました。
 
 2011-07-12  Tetsuko Komma  <ivy>
 
