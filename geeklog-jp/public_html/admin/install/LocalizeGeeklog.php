@@ -684,7 +684,7 @@ class LocalizeGeeklog
 	*/
 	protected function _changeTheme()
 	{
-		global $_CONF;
+		global $_CONF, $_TABLES;
 		
 		if (defined('VERSION')
 		 AND (version_compare(VERSION, '1.8.0') >= 0)
