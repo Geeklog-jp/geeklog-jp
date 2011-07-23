@@ -1,9 +1,9 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Sitemap Plugin for Geeklog - The Ultimate Weblog                          |
 // +---------------------------------------------------------------------------+
-// | geeklog/plugins/sitemap/config.php                                        |
+// | public_html/admin/plugins/sitemap/sql-1.1.9_1.2.0.php                     |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
@@ -31,24 +31,30 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
-    die('This file can not be used on its own.');
+require_once $_CONF['path'] . 'plugins/sitemap/config.php';
+
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'sql-1.1.9_1.2.0.php') !== FALSE) {
+	die('This file cannot be used on its own.');
 }
 
-global $_DB_table_prefix, $_TABLES;
+// Default data
+$DATA_119_TO_120 = array(
+	// Whether to include data source into sitemap
+	array('sitemap_downloads', 'true'),
+	array('gsmap_downloads', 'true'),
+	array('freq_downloads', 'daily'),
+	array('priority_downloads', '0.5'),
+	array('order_downloads', 14),
+);
 
-// set Plugin Table Prefix the Same as Geeklogs
+// Default data
+$VALUES_119_TO_120 = array();
 
-$_SMAP_table_prefix = $_DB_table_prefix;
-
-// Add to $_TABLES array the tables your plugin uses
-
-$_TABLES['smap_config'] = $_SMAP_table_prefix . 'smap_config';
-
-$_SMAP_CONF = array();
-
-// Plugin info
-
-$_SMAP_CONF['pi_version'] = '1.2.0';					// Plugin Version
-$_SMAP_CONF['gl_version'] = '1.4.0';					// GL Version plugin for
-$_SMAP_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
+// Builds SQL's into $DEFVALUES[]
+foreach ($DATA_119_TO_120 as $data) {
+	list($name, $value) = $data;
+	$name  = addslashes($name);
+	$value = addslashes($value);
+	$VALUES_119_TO_120['smap_config'][] = "INSERT INTO {$_TABLES['smap_config']} "
+		. "VALUES ('" . $name . "', '" . $value . "')";
+}

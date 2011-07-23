@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/sitemap/index.php                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -42,6 +42,7 @@ SITEMAP_loadConfig();
 
 // Checks if user has right to access this page
 $uid = 1;
+
 if (isset($_USER['uid'])) {
 	$uid = $_USER['uid'];
 } else {
@@ -49,9 +50,9 @@ if (isset($_USER['uid'])) {
 	$_USER['theme'] = $_CONF['theme'];
 }
 
-if ($_SMAP_CONF['anon_access'] === false AND $uid == 1) {
+if (($_SMAP_CONF['anon_access'] === FALSE) AND ($uid == 1)) {
     // Anonymous user is not allwed to access this page
-	COM_refresh($_CONF['site_url'] . '/index.php');
+	echo COM_refresh($_CONF['site_url'] . '/index.php');
 	exit;
 }
 
@@ -73,27 +74,31 @@ function SITEMAP_getSelectForm($selected = 'all') {
 	if ($selected == 'all') {
 		$retval .= ' selected="selected"';
 	}
+	
 	$retval .= '>' . SITEMAP_str('all') . '</option>' . LB;
 	
 	$disp_orders = array();
+	
 	foreach ($dataproxy->getAllDriverNames() as $driver) {
 		$order = $_SMAP_CONF['order_' . $driver];
 		$disp_orders[$order] = $driver;
 	}
 	
-	$num_drivers = count($disp_orders);
-	
-	for ($i = 1; $i <= $num_drivers; $i ++) {
-		$driver_name = $disp_orders[$i];
-		if (!isset($disp_orders[$i])
-				OR ($_SMAP_CONF['sitemap_' . $driver_name] === false)) {
-			continue;
+	if (count($disp_orders) > 0) {
+		foreach ($disp_orders as $driver_name) {
+			if (empty($driver_name)
+			 OR ($_SMAP_CONF['sitemap_' . $driver_name] === FALSE)) {
+				continue;
+			}
+			
+			$retval .= '    <option value="' . $driver_name . '"';
+			
+			if ($selected === $driver_name) {
+				$retval .= ' selected="selected"';
+			}
+			
+			$retval .= '>' . SITEMAP_str($driver_name) . '</option>' . LB;
 		}
-		$retval .= '    <option value="' . $driver_name . '"';
-		if ($selected == $driver_name) {
-			$retval .= ' selected="selected"';
-		}
-		$retval .= '>' . SITEMAP_str($driver_name) . '</option>' . LB;
 	}
 	
 	$retval .= '  </select>' . LB
@@ -124,10 +129,11 @@ function SITEMAP_buildItems(&$driver, $pid) {
 	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	$items = $driver->getItems($pid);
 	$num_items = count($items);
+	
 	if ($num_items > 0) {
 		foreach ($items as $item) {
 			// Static pages
-			if ($driver->getDriverName() == 'staticpages') {
+			if ($driver->getDriverName() === 'staticpages') {
 				if (SITEMAP_isExcepted($item['id'], $sp_excepts)) {
 					$num_items --;
 					continue;
@@ -145,11 +151,12 @@ function SITEMAP_buildItems(&$driver, $pid) {
 			$link = '<a href="' . $item['uri'] . '">'
 				  . $driver->escape($item['title']) . '</a>';
 			$T->set_var('item', $link);
-			if (($item['date'] !== false) AND ($item['date'] != '')) {
+			
+			if (($item['date'] !== FALSE) AND ($item['date'] != '')) {
 				$date = date($_SMAP_CONF['date_format'], $item['date']);
 				$T->set_var('date', $date);
 			}
-			$T->parse('items', 't_item', true);
+			$T->parse('items', 't_item', TRUE);
 		}
 		
 		$T->parse('item_list', 't_item_list');
@@ -200,6 +207,7 @@ function SITEMAP_buildCategory(&$driver, $cat) {
 	list($num_items, $items) = SITEMAP_buildItems($driver, $cat['id']);
 	$num_total_items += $num_items;
 	$T->set_var('num_items', $num_items);
+	
 	if (!empty($items)) {
 		$T->set_var(
 			'items',
@@ -232,6 +240,7 @@ function SITEMAP_buildCategory(&$driver, $cat) {
 $_GET  = SITEMAP_stripslashes($_GET);
 $_POST = SITEMAP_stripslashes($_POST);
 $selected = 'all';
+
 if (isset($_POST['type'])) {
 	$selected = COM_applyFilter($_POST['type']);
 }
@@ -243,12 +252,14 @@ if (isset($_POST['type'])) {
 
 // Decides templates to be used
 $theme = $_CONF['theme'];
-if (isset( $_USER['theme'] )
- AND in_array($_USER['theme'], COM_getThemes())) {
+
+if (isset( $_USER['theme'] ) AND in_array($_USER['theme'], COM_getThemes())) {
 	$theme = $_USER['theme'];
 }
+
 $template = $_CONF['path_themes'] . $theme . '/sitemap';
 clearstatcache();
+
 if (!is_file($template . '/index.thtml')) {
 	$template = $_CONF['path'] . 'plugins/sitemap/templates';
 }
@@ -270,8 +281,8 @@ $T->set_var('xhtml', XHTML);
 
 // $dataproxy is a global object in this script and functions.inc
 $dataproxy =& new Dataproxy($uid);
-
 $disp_orders = array();
+
 foreach ($dataproxy->getAllDriverNames() as $driver) {
 	$order = $_SMAP_CONF['order_' . $driver];
 	$disp_orders[$order] = $driver;
@@ -279,24 +290,27 @@ foreach ($dataproxy->getAllDriverNames() as $driver) {
 ksort($disp_orders);
 
 foreach ($disp_orders as $disp_order => $driver_name) {
-	if (($_SMAP_CONF['sitemap_' . $driver_name] === false)
-	 OR (($selected != 'all') AND ($selected != $driver_name))) {
+	if (($_SMAP_CONF['sitemap_' . $driver_name] === FALSE)
+	 OR (($selected !== 'all') AND ($selected !== $driver_name))) {
 		continue;
 	}
 	
 	$num_items = 0;
 	$driver = $dataproxy->$driver_name;
 	$entry  = $driver->getEntryPoint();
-	if ($entry === false) {
+	
+	if ($entry === FALSE) {
 		$entry = SITEMAP_str($driver_name);
 	} else {
 		$entry = '<a href="' . $entry . '">' . SITEMAP_str($driver_name)
 			   . '</a>';
 	}
+	
 	$T->set_var('lang_data_source', $entry);
 	
 	$categories = $driver->getChildCategories(false);
-	if (count($categories) == 0) {
+	
+	if (count($categories) === 0) {
 		list($num_items, $items) = SITEMAP_buildItems($driver, false);
 		$T->set_var('category_list', $items);
 	} else {
