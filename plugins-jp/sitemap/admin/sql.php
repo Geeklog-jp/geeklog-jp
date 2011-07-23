@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/sitemap/sql.php                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -136,3 +136,7 @@ $DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $DATA_101_TO_
 // Appends data for sitemap-1.1.6
 require_once 'sql-1.1.5_1.1.6.php';
 $DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $VALUES_115_TO_116['smap_config']);
+
+// Appends data for sitemap-1.2.0
+require_once 'sql-1.1.9_1.2.0.php';
+$DEFVALUES['smap_config'] = array_merge($DEFVALUES['smap_config'], $VALUES_119_TO_120['smap_config']);

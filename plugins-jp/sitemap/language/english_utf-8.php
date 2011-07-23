@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | private/plugins/sitemap/language/english_utf-8.php                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -62,7 +62,7 @@ $LANG_SMAP = array (
 	'faqman'            => 'FAQ',
 	'mediagallery'      => 'Media Gallery',
 	'calendarjp'        => 'CalendarJP',
-	'download'          => 'Download',
+	'downloads'         => 'Downloads',
 	'sitemap_setting'   => 'Sitemap configuration',
 	'sitemap_setting_misc' => 'Display settings',
 	'order'             => 'Display Order',
