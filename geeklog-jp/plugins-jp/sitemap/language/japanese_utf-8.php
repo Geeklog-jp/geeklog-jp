@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/sitemap/language/japanese_utf-8.php                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -62,7 +62,7 @@ $LANG_SMAP = array(
 	'faqman'            => 'FAQ',
 	'mediagallery'      => 'メディアギャラリ',
 	'calendarjp'        => 'カレンダjp',
-	'download'          => 'ダウンロード',
+	'downloads'         => 'ダウンロード',
 	'sitemap_setting'   => 'サイトマップの設定',
 	'sitemap_setting_misc' => 'サイトマップの表示設定',
 	'order'             => '表示順',

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/sitemap/functions.inc                                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -162,6 +162,7 @@ function plugin_upgrade_sitemap() {
 					DB_query($sql, 1);
 				}
 			}
+			
 			break;
 		
 		case '1.0.1':
@@ -177,6 +178,7 @@ function plugin_upgrade_sitemap() {
 			foreach ($DATA_101_TO_114 as $sql) {
 				DB_query($sql, 1);
 			}
+			
 			break;
 		
 		case '1.1.4':
@@ -186,6 +188,7 @@ function plugin_upgrade_sitemap() {
 			foreach ($DATA_114_TO_115 as $sql) {
 				DB_query($sql, 1);
 			}
+			
 			break;
 
 		case '1.1.5':
@@ -206,6 +209,19 @@ function plugin_upgrade_sitemap() {
 			// Nothing done from 1.1.6 -> 1.1.7
 			// Nothing done from 1.1.7 -> 1.1.8
 			// Nothing done from 1.1.8 -> 1.1.9
+			break;
+		
+		case '1.1.9':
+			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.1.9_1.2.0.php';
+			COM_errorLog("Sitemap: inserting default data into $table table", 1);
+			
+			foreach ($VALUES_119_TO_120 as $table => $sqls) {
+				COM_errorLog("Sitemap: inserting default data into $table table", 1);
+				foreach ($sqls as $sql) {
+					DB_query($sql, 1);
+				}
+			}
+			
 			break;
 		
 		default:
