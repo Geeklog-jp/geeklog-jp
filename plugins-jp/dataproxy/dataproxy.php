@@ -448,7 +448,7 @@ class Dataproxy
 			'article', 'comments', 'trackback',
 			'staticpages', 'calendar', 'links', 'polls',
 			'dokuwiki', 'forum', 'filemgmt', 'faqman', 'mediagallery',
-			'calendarjp', 'download',
+			'calendarjp', 'downloads',
 		);
 	
 	/**
@@ -467,7 +467,7 @@ class Dataproxy
 	var $faqman;
 	var $mediagallery;
 	var $calendarjp;
-	var $download;
+	var $downloads;
 	
 	/**
 	* References to the loaded drivers (the same as the above, but in an array
