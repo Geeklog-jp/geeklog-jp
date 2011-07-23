@@ -2,6 +2,10 @@ $Id$
 
 2011-07-23  mystral-kk <mystral-kk>
 
+	* Sitemapプラグインで、新たにDownloadsプラグインをサポートしました。
+
+2011-07-23  mystral-kk <mystral-kk>
+
 	* Dataproxyプラグインで、新たにDownloadsプラグインをサポートしました。
 
 2011-07-16  mystral-kk <mystral-kk>
