@@ -43,16 +43,16 @@ function CUSTOM_templateSetVars($templatename, &$template)
     case 'header':
         $template->set_var('hello_world', 'Hello, world!');
 
-        //˜b‘èID:topic_id
+        //è©±é¡ŒID:topic_id
         $template->set_var( 'topic_id', $topic );
 
-        //Ã“Iƒy[ƒWID:sp_id
+        //é™çš„ãƒšãƒ¼ã‚¸ID:sp_id
         $pageurl = COM_getCurrentURL();
         if( strpos($pageurl, "staticpages") ){
             $template->set_var( 'sp_id', $page );
         }
 
-        //HOMEó‘Ô:home_id ('home','sub')
+        //HOMEçŠ¶æ…‹:home_id ('home','sub')
         if( COM_isFrontpage() ){
             $home_id='sub';
         } else {
@@ -60,7 +60,7 @@ function CUSTOM_templateSetVars($templatename, &$template)
         }
         $template->set_var( 'home_id', $home_id );
 
-        //ƒƒOƒCƒ“‚µ‚Ä‚¢‚éŽž
+        //ãƒ­ã‚°ã‚¤ãƒ³ã—ã¦ã„ã‚‹æ™‚
         if (COM_isAnonUser()){
                 $login_status='guest';
                 $prof_url_jp = "{$_CONF['site_url']}/";
@@ -69,9 +69,9 @@ function CUSTOM_templateSetVars($templatename, &$template)
                 $prof_url_jp = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$_USER['uid']}";
         }
 
-        //ƒƒOƒCƒ“ó‘Ô:login_status ('member','guest')
+        //ãƒ­ã‚°ã‚¤ãƒ³çŠ¶æ…‹:login_status ('member','guest')
         $template->set_var( 'login_status', $login_status );
-        //ƒvƒƒtƒB[ƒ‹‚ÌURL:prof_url_jp
+        //ãƒ—ãƒ­ãƒ•ã‚£ãƒ¼ãƒ«ã®URL:prof_url_jp
         $template->set_var( 'prof_url_jp', $prof_url_jp );
 
         break;
