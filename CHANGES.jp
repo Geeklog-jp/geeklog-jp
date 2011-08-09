@@ -1,5 +1,9 @@
 $Id$
 
+2011-08-10  Tetsuko Komma  <ivy>
+
+	* custom_templatesetvars.phpのエンコードをShift-JISからUTF-8に変更しました。
+
 2011-08-09  mystral-kk <mystral-kk>
 
 	* Issue #181に対処する試みとして、custom/custom_useragent.phpを作成しま
