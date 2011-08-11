@@ -1,5 +1,9 @@
 $Id$
 
+2011-08-11  mystral-kk <mystral-kk>
+
+	* ライセンス上の問題があるcustom/custom_useragent.phpを削除しましました。
+
 2011-08-10  Tetsuko Komma  <ivy>
 
 	* custom_templatesetvars.phpのエンコードをShift-JISからUTF-8に変更しました。
