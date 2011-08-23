@@ -1,5 +1,10 @@
 $Id$
 
+2011-08-23  Yoshinori Tahara  <dengen>
+
+	* 記事投稿や編集に関わる日本語版独自のテンプレートが古く、JavaScriptの
+	  シンタックスエラーが発生する問題を修正しました。
+
 2011-08-11  mystral-kk <mystral-kk>
 
 	* ライセンス上の問題があるcustom/custom_useragent.phpを削除しましました。
