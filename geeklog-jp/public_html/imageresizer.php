@@ -1,162 +1,380 @@
 <?php
-/**
- * 画像縮小プロキシスクリプト
- * 
- * imageresizer.php?image=imagename&size=size&quality=quality
- * imagename: イメージのurl
- * size: リサイズ後のサイズ
- * quality: jpegのクオリティ
- * site_url: サイトのurl
- *
- * sizeで指定された大きさより縦横いずれかが大きければsizeにあわせて縮小する。
- * アスペクト比は保存される。
- * 縦横どちらもsizeより小さければJpegへの変換だけを行う。
- * イメージが相対urlの場合、site_urlを追加する。
- */
 
+/**
+* 画像縮小プロキシスクリプト
+* 
+* imageresizer.php?image=[imagename]&size=[size]&quality=[quality]
+* [imagename]: 画像のURL
+* [size]: リサイズ後のサイズ(単位: pixel)
+* [quality]: jpegのクオリティ(0-100: 0 = lowest, 100 = highest)
+*
+* sizeで指定された大きさより縦横いずれかが大きければ、sizeにあわせて縮小する。
+* アスペクト比は保存される。
+* 縦横どちらもsizeより小さければ、jpegへの変換だけを行う。
+*/
 require_once dirname(__FILE__) . '/lib-common.php';
+require_once 'HTTP/Request.php';
 
-while (@ob_end_clean()) {
-}
+# define('RESIZER_DEBUG', TRUE);
+define('SCRIPT_NAME', basename(__FILE__));
+define('RESIZER_CACHE_DIRECTORY', $_CONF['path_data']);
+define('RESIZER_DEFAULT_IMAGE_SIZE', 160);		// 画像サイズの既定値(単位: pixel)
+define('RESIZER_DEFAULT_IMAGE_QUALITY', 50);	// 画像クオリティの既定値
 
-define('RESIZER', basename(__FILE__));
+//===================================================================
+// Functions
+//===================================================================
 
 /**
- * 画像の縮小用パラメータ
- */
-$size = 160;
-$quality = 50;
-
-if (isset ($_GET['image'])) {
-	$image = $_GET['image'];
-} else {
-	COM_errorLog(RESIZER . ': No image file specified.');
-	exit(1);
+* Logs a message for debugging
+*
+* @param   string  $var
+* @return  (void)
+*/
+function RESIZER_debug($var) {
+	if (defined('RESIZER_DEBUG')) {
+		COM_errorLog(__FUNCTION__ . ': ' . $var);
+	}
 }
 
-if (isset ($_GET['size'])) {
-	$size = COM_applyFilter($_GET['size'], TRUE);
+/**
+* Returns an HTTP request header
+*
+* @param   string  $key
+* @return  string
+*/
+function RESIZER_getHeader($key) {
+	$retval = '';
+
+	if (is_callable('getallheaders')) {
+		foreach (getallheaders() as $k => $v) {
+			if (strcasecmp($key, $k) === 0) {
+				$retval = $v;
+				break;
+			}
+		}
+	}
+
+	return $retval;
 }
 
-if (isset ($_GET['quality'])) {
-	$quality = COM_applyFilter($_GET['quality'], TRUE);
+function RESIZER_getContentType($image_uri) {
+	$retval = '';
+
+	$req = new HTTP_Request($image_uri);
+	$req->setMethod(HTTP_REQUEST_METHOD_HEAD);
+
+	if (!PEAR::isError($req->sendRequest())) {
+		$code = (int) $req->getResponseCode();
+
+		 if (($code === 200) OR ($code === 304)) {
+			$retval = RESIZER_getHeader('Content-Type');
+		}
+	}
+
+	return $retval;
 }
 
-# if (isset ($_GET['site_url'])) {
-# 	$site_url = $_GET['site_url'];
-#  }
+/**
+* Checks if an imgae file is a local one
+*
+* @param   string  $image_uri
+* @return  boolean TRUE = local, FALSE = remote
+*/
+function RESIZER_isLocal($image_uri) {
+	global $_CONF;
 
-$site_url  = $_CONF['site_url'];
-$path_html = $_CONF['path_html'];
+	$retval = FALSE;
 
-$is_remote = FALSE;
-$org_image = $image;
+	if (stripos($image_uri, $_CONF['site_url']) === 0) {
+		$path = RESIZER_uriToPath($image_uri);
+		clearstatcache();
+		$retval = file_exists($image_uri);
+	}
 
-// 相対URLの場合、site_urlを追加する
-if (!preg_match("!^https*?:\/\/!", $image)) {
-	$image = $site_url . $image;
-} 
+	return $retval;
+}
 
-// 自サイトの場合は、URI --> パス変換
-if (strcasecmp($site_url, substr($image, 0, strlen($site_url))) === 0) {
-	$image = realpath($path_html . str_replace($site_url . '/' ,'', $image));
-} else {
-	// 他サイトかつ、allow_url_fopen = FALSEの場合は、PEARのHTTP_Requestクラス
-	// でローカルにファイルを取得する
-	if (!@ini_get('allow_url_fopen')) {
-		require_once 'HTTP/Request.php';
-		
-		$req =& new HTTP_Request($image);
-		
+/**
+* Converts an URI to an absolute path
+*
+* @param   string  $image_uri
+* @return  string
+*/
+function RESIZER_uriToPath($image_uri) {
+	global $_CONF;
+
+	return $_CONF['path_html'] . str_replace($_CONF['site_url'] . '/', '', $image_uri);
+}
+
+/**
+* Checks if an image has been updated since the last access
+*
+* @param   string  $image_uri
+* @param   int     $last_access  UNIX timestamp
+* @return  boolean TRUE = updated, FALSE = otherwise
+*/
+function RESIZER_isUpdated($image_uri, $last_access) {
+	if (RESIZER_isLocal($image_uri)) {
+		$retval = (filemtime(RESIZER_uriToPath($image_uri)) > $last_access);
+	} else {
+		$req = new HTTP_Request($image_uri);
 		$req->setMethod(HTTP_REQUEST_METHOD_GET);
-		if (!PEAR::isError($req->sendRequest())) {
+		$req->addHeader(
+			'If-Modified-Since',
+			gmdate('D, d M Y H:i:s ', $last_access) . 'GMT'
+		);
+
+		if (!PEAR::isError($req->sendRequest()) AND ($req->getResponseCode() == 304)) {
+			$retval = FALSE;
+		} else {
+			$retval = TRUE;
+		}
+	}
+
+	RESIZER_debug($retval ? 'Cache is stale' : 'Cache is fresh');
+	return $retval;
+}
+
+/**
+* Returns the content of an image file
+*
+* @param   string  $image_uri
+* @return  string
+*/
+function RESIZER_getFile($image_uri) {
+	if (RESIZER_isLocal($image_uri)) {
+		$retval = file_get_contents(RESIZER_uriToPath($image_uri));
+		RESIZER_debug('Got a local file from "' . $image_uri . '"');
+	} else {
+		$req = new HTTP_Request($image_uri);
+		$req->setMethod(HTTP_REQUEST_METHOD_GET);
+		$result = $req->sendRequest();
+
+		if (!PEAR::isError($result)) {
 			$code = (int) $req->getResponseCode();
-			if (($code === 200) OR ($code === 304)) {
-				$result = $req->getResponseBody();
-				$image = tempnam($_CONF['path_data'], 'img');
-				if ($image === FALSE) {
-					COM_errorLog(RESIZER . ': Cannot create a temporary file in data directory.');
-					exit(1);
-				}
-				
-				$fp = @fopen($image, 'wb');
-				if ($fp !== FALSE) {
-					fwrite($fp, $result);
-					fclose($fp);
-					$is_remote = TRUE;
-				} else {
-					COM_errorLog(RESIZER . ': Cannot open a temporary file in data directory.');
-					exit(1);
-				}
+
+			if ($code === 200) {
+				$retval = $req->getResponseBody();
+				RESIZER_debug('Got a remote file from "' . $image_uri . '"');
 			} else {
-				COM_errorLog(RESIZER . ': Cannot get a remote image.  Error ' . $code);
-				exit(1);
+				throw new Exception(__FUNCTION__ . ': Cannot get image file from "' . $image_uri . '"  HTTP response code = ' . $code);
 			}
 		} else {
-			COM_errorLog(RESIZER . ': Cannot get a remote image.  Error ' . $req->getResponseCode());
-			exit(1);
+			throw new Exception(__FUNCTION__ . ': Cannot get image file from "' . $image_uri . '"');
 		}
 	}
+
+	return $retval;
 }
 
-// 元イメージのサイズを取得
-list($s_width, $s_height) = getimagesize($image);
+//===================================================================
+// Main
+//===================================================================
 
-// 画像ファイル名の後にクエリストリングがついている場合を考慮して、パターンに
-// (\?.*)? を追加。
-if (preg_match('/\.jpe?g(\?.*)?$/i', $org_image)) {
-	$src_img = imagecreatefromjpeg($image);
-} else if (preg_match('/\.gif(\?.*)?$/i', $org_image)) {
-	$src_img = imagecreatefromgif($image);
-} else if (preg_match('/\.png(\?.*)?$/i', $org_image)) {
-	$src_img = imagecreatefrompng($image);
-} else {
-	COM_errorLog(RESIZER . ': Image format is not supported.');
-	exit(1);
-}
+RESIZER_debug('***** Start *****');
 
-if ($is_remote) {
-	@unlink($image);
-}
+// lib-common.php内の出力バッファリングを無効にする
+while (@ob_end_clean()) { }
 
-if (!$src_img) {
-	COM_errorLog(RESIZER . ': Cannot read image.');
-	exit(1);
-} else if (!is_resource($src_img)) {
-	COM_errorLog(RESIZER . ': This is not image resource.');
-	exit(1);
-}
+/**
+* 画像の縮小用パラメータ（既定値）
+*/
+$size    = RESIZER_DEFAULT_IMAGE_SIZE;
+$quality = RESIZER_DEFAULT_IMAGE_QUALITY;
 
-// 画像の縮小(GDを使用)
-if ($s_width > $size || $s_height > $size) {
-	if ($s_width > $s_height) {
-		$height = intval(($s_height / $s_width) * $size);
-		$width = $size;
-	} else {
-		$width = intval(($s_width / $s_height) * $size);
-		$height = $size;
+// ファイルタイプ
+$type = '';
+
+try {
+	/**
+	* パラメータ取得
+	*/
+	if (!isset($_GET['image'])) {
+		throw new Exception(SCRIPT_NAME . ': No image file specified.');
 	}
-	$dst_img = imagecreatetruecolor($width, $height);
 
-	if (is_resource($dst_img)) {
-		imagefill($dst_img, 0, 0, imagecolorallocate($dst_img, 255, 255, 255));
-		if (!@imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $width, $height, 
-								$s_width, $s_height)) {
-			COM_errorLog(RESIZER . ': Cannot copy image.');
-			exit(1);
+	$image_uri = COM_applyFilter($_GET['image']);
+
+	// 相対URLを絶対URLに変換する
+	if (!preg_match("@^https?://@i", $image_uri)) {
+		if (stripos($image_uri, 'dokuwiki/lib/exe') === FALSE) {
+			$image_uri = $_CONF['site_url'] . $image_uri;
+		} else {
+			// DokuWikiは特別扱い
+			if (stripos($image_uri, 'indexer.php') !== FALSE) {
+				// 画像ファイルではなく、アクセス解析用のビーコンなので無視する
+				header('HTTP/1.0 404 Not Found');
+				exit(1);
+			}
+
+			preg_match('@^(https?://[^/]+)@i', $_CONF['site_url'], $match);
+			$image_uri = $match[1] . $image_uri;
+
+			if (stripos($image_uri, 'fetch.php') !== FALSE) {
+				$image_uri .= '&media=' . urlencode(COM_applyFilter($_GET['media']));
+			}
 		}
-	} else {
-		COM_errorLog(RESIZER . ': Cannot create image.');
-		exit(1);
 	}
-	
-    mb_http_output('pass');
+
+	RESIZER_debug('image = ' . $image_uri);
+
+	if (isset($_GET['size'])) {
+		$size = (int) COM_applyFilter($_GET['size'], TRUE);
+
+		if (($size < 1) OR ($size > 1024)) {
+			$size = RESIZER_DEFAULT_IMAGE_SIZE;
+		}
+
+		RESIZER_debug('size = ' . $size);
+	}
+
+	if (isset($_GET['quality'])) {
+		$quality = (int) COM_applyFilter($_GET['quality'], TRUE);
+
+		if (($quality < 0) OR ($quality > 100)) {
+			$quality = RESIZER_DEFAULT_IMAGE_QUALITY;
+		}
+
+		RESIZER_debug('quality = ' . $quality);
+	}
+
+	// 画像ファイル名の後にクエリストリングがついている場合を考慮して、パターン
+	// に(\?.*)? を追加する
+	if (preg_match('/\.png(\?.*)?$/i', $image_uri)) {
+		$type = 'png';
+	} else if (preg_match('/\.jpe?g(\?.*)?$/i', $image_uri)) {
+		$type = 'jpg';
+	} else if (preg_match('/\.gif(\?.*)?$/i', $image_uri)) {
+		$type = 'gif';
+	} else {
+		// スクリプトで画像を出力しているものはヘッダーのContent-Typeから判断す
+		// る
+		$content_type = RESIZER_getContentType($image_uri);
+
+		if (stripos($content_type, 'image/png') !== FALSE) {
+			$type = 'png';
+		} else if (stripos($content_type, 'image/jpeg') !== FALSE) {
+			$type = 'jpg';
+		} else if (stripos($content_type, 'image/gif') !== FALSE) {
+			$type = 'gif';
+		} else {
+			throw new Exception(SCRIPT_NAME . ': Unknown image format.  The URL in question: ' . $image_uri);
+		}
+	}
+
+	RESIZER_debug('type = ' . $type);
+
+	// 画像取得用の一時ファイルは常に作成する
+	$temp_filename  = tempnam(RESIZER_CACHE_DIRECTORY, 'img');
+	$thumb_filename = RESIZER_CACHE_DIRECTORY . 'thm_' . md5($image_uri) . '.' . $type;
+	RESIZER_debug('thumb_filename = ' . $thumb_filename);
+	clearstatcache();
+
+	if (!file_exists($thumb_filename)
+	 OR RESIZER_isUpdated($image_uri, filemtime($thumb_filename))) {
+		if ($temp_filename === FALSE) {
+			$msg = SCRIPT_NAME . ': Cannot create a temporary file in "'
+				 . RESIZER_CACHE_DIRECTORY . '"';
+			COM_errorLog($msg);
+			throw new Exception($msg);
+		}
+
+		// 取得した画像を一時ファイルに保存する
+		if (file_put_contents($temp_filename, RESIZER_getFile($image_uri)) === FALSE) {
+			$msg = SCRIPT_NAME . ': Cannot save a work file into "'
+				 . RESIZER_CACHE_DIRECTORY . '"';
+			COM_errorLog($msg);
+			throw new Exception($msg);
+		}
+
+		// 元イメージのサイズを取得する
+		list($s_width, $s_height) = getimagesize($temp_filename);
+
+		switch ($type) {
+			case 'jpg':
+				$src_img = @imagecreatefromjpeg($temp_filename);
+				break;
+
+			case 'gif':
+				$src_img = @imagecreatefromgif($temp_filename);
+				break;
+
+			case 'png':
+				$src_img = @imagecreatefrompng($temp_filename);
+				break;
+		}
+
+		if ($src_img === FALSE) {
+			$msg = SCRIPT_NAME . ': Cannot read an image file "'
+				 . $temp_filename . '"';
+			COM_errorLog($msg);
+			throw new Exception($msg);
+		}
+
+		// GDを使用して、画像を縮小する
+		if (($s_width > $size) OR ($s_height > $size)) {
+			if ($s_width > $s_height) {
+				$height = intval($size * ($s_height / $s_width));
+				$width  = $size;
+			} else {
+				$width  = intval($size * ($s_width / $s_height));
+				$height = $size;
+			}
+
+			$dst_img = imagecreatetruecolor($width, $height);
+
+			if ($dst_img === FALSE) {
+				$msg = SCRIPT_NAME . ': Cannot create image.';
+				COM_errorLog($msg);
+				throw new Exception($msg);
+			}
+
+			imagefill($dst_img, 0, 0, imagecolorallocate($dst_img, 255, 255, 255));
+
+			if (imagecopyresampled($dst_img, $src_img, 0, 0, 0, 0, $width, $height, $s_width, $s_height) === FALSE) {
+				$msg = SCRIPT_NAME . ': Cannot copy image.';
+				COM_errorLog($msg);
+				throw new Exception($msg);
+			}
+
+			// 縮小した画像をローカルに保存する
+			imagejpeg($dst_img, $thumb_filename, $quality);
+			imagedestroy($dst_img);
+		} else {
+			// 縮小した画像をローカルに保存する
+			imagejpeg($src_img, $thumb_filename, $quality);
+		}
+
+		imagedestroy($src_img);
+	}
+
+	// ローカルに保存した画像を出力する
+	mb_http_output('pass');
 	header('Content-Type: image/jpeg');
-	imagejpeg($dst_img, NULL, $quality);
-	imagedestroy($dst_img);
-} else {
-    mb_http_output('pass');
-	header('Content-Type: image/jpeg');
-	imagejpeg($src_img, NULL, $quality);
-	imagedestroy($src_img);
+	readfile($thumb_filename);
+
+	@unlink($temp_filename);
+} catch (Exception $e) {
+	// エラー発生。エラーメッセージをログに残すには、18行目の行頭の#を消して、
+	// define('RESIZER_DEBUG', TRUE);
+	// とする。
+
+	RESIZER_debug($e->getMessage());
+	$broken_image = $_CONF['path_html'] . 'layout/mobile/images/icons/broken.jpg';
+	clearstatcache();
+
+	// "公開領域/layout/mobile/images/icons/broken.jpg"がある場合は、代わりに出
+	// 力する。
+	if (file_exists($broken_image)) {
+		mb_http_output('pass');
+		header('Content-Type: image/jpeg');
+		readfile($broken_image);
+	} else {
+		header('HTTP/1.0 404 Not Found');
+	}
+
+	@unlink($temp_filename);
 }
+
+RESIZER_debug('***** End *****');
