@@ -1,5 +1,9 @@
 $Id$
 
+2011-09-02  mystral-kk <mystral-kk>
+
+	* public_html/imageresizer.phpをDokuWikiに対応させました。
+
 2011-08-23  Yoshinori Tahara  <dengen>
 
 	* 記事投稿や編集に関わる日本語版独自のテンプレートが古く、JavaScriptの
