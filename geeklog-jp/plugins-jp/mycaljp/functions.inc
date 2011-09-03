@@ -155,6 +155,58 @@ function plugin_configchange_mycaljp($group, $changes = array())
 }
 
 /**
+* Provide URL of a documentation file
+*
+* @param    string  $file   documentation file being requested, e.g. 'config'
+* @return   mixed           URL or false when not available
+*
+*/
+function plugin_getdocumentationurl_mycaljp($file)
+{
+    global $_CONF;
+
+    static $docurl;
+
+    switch ($file) {
+    case 'index':
+    case 'config':
+        if (isset($docurl)) {
+            $retval = $docurl;
+        } else {
+            $doclang = COM_getLanguageName();
+            $docs = 'mycaljp/docs/' . $doclang . '/mycaljp.html';
+            if (file_exists($_CONF['path_html'] . $docs)) {
+                $retval = $_CONF['site_url'] . '/' . $docs;
+            } else {
+                $retval = $_CONF['site_url'] . '/mycaljp/docs/english/mycaljp.html';
+            }
+            $docurl = $retval;
+        }
+        break;
+
+    default:
+        $retval = false;
+        break;
+    }
+
+    return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*
+*/
+function plugin_getconfigtooltip_mycaljp($id)
+{   
+    // Use config tooltip hack where tooltip is read from the config documentation
+    return;
+}
+
+/**
 * Loads config infor with config.class.php
 *
 * @return   mixed   Mycaljp config array or FALSE

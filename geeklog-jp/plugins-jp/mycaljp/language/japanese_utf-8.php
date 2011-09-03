@@ -108,8 +108,13 @@ $LANG_configsubgroups['mycaljp'] = array(
     'sg_main' => 'メイン'
 );
 
+$LANG_tab['mycaljp'] = array(
+    'tab_main'        => 'Mycaljpのメイン設定',
+    'tab_staticpages' => '静的ページの設定',
+);
+
 $LANG_fs['mycaljp'] = array(
-    'fs_main' => 'Mycaljpのメイン設定',
+    'fs_main'        => 'Mycaljpのメイン設定',
     'fs_staticpages' => '静的ページの設定',
 );
 
