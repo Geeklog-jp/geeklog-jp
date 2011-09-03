@@ -1,5 +1,10 @@
 $Id$
 
+2011-09-03  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン: Geeklog1.8からの新コンフィギュレーションUIに対応
+	  しました。
+
 2011-09-02  mystral-kk <mystral-kk>
 
 	* public_html/imageresizer.phpをDokuWikiに対応させました。
