@@ -226,7 +226,7 @@ function plugin_initconfig_mycaljp()
 
     $c = config::get_instance();
     $n = 'mycaljp';
-    $o = 0;
+    $o = 1;
     if ($c->group_exists($n)) return true;
     $c->add('sg_main',            NULL,                                     'subgroup', 0, 0, NULL, 0,    true, $n);
     // ----------------------------------
@@ -254,6 +254,10 @@ function plugin_initconfig_mycaljp()
     $c->add('fs_staticpages',     NULL,                                     'fieldset', 0, 1, NULL, 0,    true, $n);
     $c->add('sp_type',            $_MYCALJP2_DEFAULT['sp_type'],            'select',   0, 1, 14,   $o++, true, $n);
     $c->add('sp_except',          $_MYCALJP2_DEFAULT['sp_except'],          'text',     0, 1, 0,    $o++, true, $n);
+
+    if (function_exists('COM_versionCompare')) {
+        MYCALJP_update_ConfValues_addTabs();
+    }
 
     return true;
 }
@@ -285,7 +289,7 @@ function MYCALJP_updateSortOrder()
         'sp_type',
         'sp_except',
     );
-    $o = 0;
+    $o = 1;
     foreach ($conf_vals as $val) {
         $sql = "UPDATE {$_TABLES['conf_values']} "
              . "SET sort_order = $o "
@@ -293,6 +297,20 @@ function MYCALJP_updateSortOrder()
         DB_query($sql);
         $o++;
     }
+}
+
+function MYCALJP_update_ConfValues_addTabs()
+{
+    global $_TABLES;
+
+    // Add in all the Tabs for the configuration UI
+    $c = config::get_instance();
+    $c->add('tab_main',        NULL, 'tab', 0, 0, NULL, 0, true, 'mycaljp', 0);
+    $c->add('tab_staticpages', NULL, 'tab', 0, 1, NULL, 0, true, 'mycaljp', 1);
+
+    DB_query("UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'mycaljp'");
+
+    return true;
 }
 
 ?>
