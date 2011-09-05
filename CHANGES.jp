@@ -1,5 +1,10 @@
 $Id$
 
+2011-09-05  Tetsuko Komma  <ivy>
+
+	* 日本語言語ファイルで誤解の多かった 氏名を表示する から 
+	  ユーザ名の代わりに氏名を表示する に変更しました。
+
 2011-09-03  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン: Geeklog1.8からの新コンフィギュレーションUIに対応
