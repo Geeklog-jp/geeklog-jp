@@ -86,10 +86,7 @@ function edituser($uid = '', $msg = '')
     $retval = '';
 
     if (!empty ($msg)) {
-        $retval .= COM_startBlock ($LANG28[22], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $MESSAGE[$msg]
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($MESSAGE[$msg], $LANG28[22]);
     }
 
     if (!empty ($msg) && !empty ($uid) && ($uid > 1)) {
@@ -111,11 +108,9 @@ function edituser($uid = '', $msg = '')
         if (SEC_inGroup('Root',$uid) AND !SEC_inGroup('Root')) {
             // the current admin user isn't Root but is trying to change
             // a root account.  Deny them and log it.
-            $retval .= COM_startBlock ($LANG28[1], '',
-                               COM_getBlockTemplate ('_msg_block', 'header'));
-            $retval .= $LANG_ACCESS['editrootmsg'];
+            $retval .= COM_showMessageText($LANG_ACCESS['editrootmsg'],
+                                           $LANG28[1]);
             COM_accessLog("User {$_USER['username']} tried to edit a Root account with insufficient privileges.");
-            $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
             return $retval;
         }
         $curtime = COM_getUserDateTimeFormat($A['regdate']);
@@ -124,10 +119,27 @@ function edituser($uid = '', $msg = '')
     } else {
         $A['uid'] = '';
         $uid = '';
-        $curtime =  COM_getUserDateTimeFormat();
+        $curtime = COM_getUserDateTimeFormat();
         $lastlogin = '';
         $lasttime = '';
         $A['status'] = USER_ACCOUNT_ACTIVE;
+    }
+
+    // POST data can override, in case there was an error while editing a user
+    if (isset($_POST['username'])) {
+        $A['username'] = strip_tags($_POST['username']);
+    }
+    if (isset($_POST['fullname'])) {
+        $A['fullname'] = strip_tags($_POST['fullname']);
+    }
+    if (isset($_POST['email'])) {
+        $A['email'] = strip_tags($_POST['email']);
+    }
+    if (isset($_POST['homepage'])) {
+        $A['homepage'] = strip_tags($_POST['homepage']);
+    }
+    if (isset($_POST['userstatus'])) {
+        $A['status'] = COM_applyFilter($_POST['userstatus'], true);
     }
 
     $token = SEC_createToken();
@@ -306,6 +318,13 @@ function edituser($uid = '', $msg = '')
                 $selected .= ' ' . $def_grp;
             }
         }
+
+        // in case of an error we may have previously selected a different
+        // mix of groups already - reconstruct those from the POST data
+        if (isset($_POST['groups']) && (count($_POST['groups']) > 0)) {
+            $selected = implode(' ', $_POST['groups']);
+        }
+
         $thisUsersGroups = SEC_getUserGroups();
         $remoteGroup = DB_getItem($_TABLES['groups'], 'grp_id',
                                   "grp_name = 'Remote Users'");
@@ -470,8 +489,9 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         COM_errorLog("group size at beginning = " . count($groups), 1);
     }
     
+    $service = DB_getItem($_TABLES['users'], 'remoteservice', "uid = $uid");
     // If remote service then assume blank password
-    if ($A['remoteservice'] != '') {
+    if (! empty($service)) {
         $passwd = '';
         $passwd_conf = '';
     }
@@ -487,8 +507,6 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         if (empty($uid)) {
             $nameAndEmailOkay = false; // new users need an email address
         } else {
-            $service = DB_getItem($_TABLES['users'], 'remoteservice',
-                                  "uid = $uid");
             if (empty($service)) {
                 $nameAndEmailOkay = false; // not a remote user - needs email
             }
@@ -506,9 +524,8 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
             $ucount = DB_getItem ($_TABLES['users'], 'COUNT(*)',
                                   "username = '$uname'");
         } else {
-            $uservice = DB_getItem ($_TABLES['users'], 'remoteservice', "uid = $uid");
-            if ($uservice != '') {
-                $uservice = addslashes($uservice);
+            if (! empty($service)) {
+                $uservice = addslashes($service);
                 $ucount = DB_getItem ($_TABLES['users'], 'COUNT(*)',
                             "username = '$uname' AND uid <> $uid AND remoteservice = '$uservice'");
             } else {
@@ -557,8 +574,8 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         if (empty ($uid) || !empty ($passwd)) {
             $passwd = SEC_encryptPassword($passwd);
         } else {
-            if ($A['remoteservice'] != '') {
-                $passwd = DB_getItem ($_TABLES['users'], 'passwd', "uid = $uid");
+            if (empty($service)) {
+                $passwd = DB_getItem($_TABLES['users'], 'passwd', "uid = $uid");
             }
         }
 
@@ -698,7 +715,8 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
     } else {
         $retval = COM_siteHeader('menu', $LANG28[1]);
         $retval .= COM_showMessageText($LANG28[10]);
-        if (DB_count($_TABLES['users'], 'uid', $uid) > 0) {
+        if (!empty($uid) && ($uid > 1) &&
+                DB_count($_TABLES['users'], 'uid', $uid) > 0) {
             $retval .= edituser($uid);
         } else {
             $retval .= edituser();
@@ -1064,11 +1082,9 @@ function importusers()
         }
     } else {
         // A problem occurred, print debug information
-        $retval = COM_siteHeader ('menu', $LANG28[22]);
-        $retval .= COM_startBlock ($LANG28[24], '',
-                COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $upload->printErrors(false);
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval = COM_siteHeader('menu', $LANG28[22])
+                . COM_showMessageText($upload->printErrors(false), $LANG28[24])
+                . COM_siteFooter();
 
         return $retval;
     }
@@ -1239,17 +1255,7 @@ if (isset ($_GET['direction'])) {
     $direction =  COM_applyFilter ($_GET['direction']);
 }
 
-if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
-        ($_POST['passwd'] != $_POST['passwd_conf'])) {
-    // entered passwords were different
-    $uid = COM_applyFilter ($_POST['uid'], true);
-    if ($uid > 1) {
-        $display .= COM_refresh ($_CONF['site_admin_url']
-                                 . '/user.php?mode=edit&amp;msg=67&amp;uid=' . $uid);
-    } else {
-        $display .= COM_refresh ($_CONF['site_admin_url'] . '/user.php?msg=67');
-    }
-} elseif (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) { // delete
+if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) { // delete
     $uid = COM_applyFilter($_POST['uid'], true);
     if ($uid <= 1) {
         COM_errorLog('Attempted to delete user uid=' . $uid);
@@ -1277,10 +1283,18 @@ if (isset ($_POST['passwd']) && isset ($_POST['passwd_conf']) &&
         echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
         exit;
     } else {
+        $passwd = '';
+        if (isset($_POST['passwd'])) {
+            $passwd = $_POST['passwd'];
+        }
+        $passwd_conf = '';
+        if (isset($_POST['passwd_conf'])) {
+            $passwd_conf = $_POST['passwd_conf'];
+        }
         $display = saveusers($uid, $_POST['username'], $_POST['fullname'],
-                    $_POST['passwd'], $_POST['passwd_conf'], $_POST['email'],
-                    $_POST['regdate'], $_POST['homepage'], $_POST['groups'],
-                    $delphoto, $_POST['userstatus'], $_POST['oldstatus']);
+                    $passwd, $passwd_conf, $_POST['email'], $_POST['regdate'],
+                    $_POST['homepage'], $_POST['groups'], $delphoto,
+                    $_POST['userstatus'], $_POST['oldstatus']);
         if (!empty($display)) {
             $tmp = COM_siteHeader('menu', $LANG28[22]);
             $tmp .= $display;

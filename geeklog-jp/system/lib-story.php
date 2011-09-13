@@ -80,8 +80,8 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
         $storytpl = 'storytext.thtml';
     }
 
-    $introtext = COM_undoSpecialChars($story->displayElements('introtext'));
-    $bodytext = COM_undoSpecialChars($story->displayElements('bodytext'));
+    $introtext = $story->displayElements('introtext');
+    $bodytext = $story->displayElements('bodytext');
     $readmore = empty($bodytext)?0:1;
     $numwords = COM_numberFormat(count(explode(' ', COM_getTextContent($bodytext))));
     if (COM_onFrontpage()) {
@@ -138,7 +138,8 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                         . '/users.php?mode=profile&amp;uid='
                         . $story->DisplayElements('uid');
             $article->set_var('start_contributedby_anchortag',
-                    '<a class="storybyline" href="' . $profileUrl . '">');
+                    '<a class="storybyline" href="' . $profileUrl
+                    . '" rel="author">');
             $article->set_var('end_contributedby_anchortag', '</a>');
             $article->set_var('contributedby_url', $profileUrl);
         }
@@ -490,8 +491,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     $article->set_var( 'article_url', $articleUrl );
     $article->set_var( 'recent_post_anchortag', $recent_post_anchortag );
 
-    if( $story->checkAccess() == 3 AND SEC_hasrights( 'story.edit' ) AND ( $index != 'p' ))
-    {
+    if (($index != 'p') AND SEC_hasRights('story.edit') AND
+            ($story->checkAccess() == 3) AND
+            (SEC_hasTopicAccess($story->DisplayElements('tid')) == 3)) {
         $article->set_var( 'edit_link',
             COM_createLink($LANG01[4], $_CONF['site_admin_url']
                 . '/story.php?mode=edit&amp;sid=' . $story->getSid())
@@ -1558,15 +1560,16 @@ function service_submit_story($args, &$output, &$svc_msg)
         if ($_CONF['maximagesperarticle'] > 0) {
             $errors = $story->insertImages();
             if (count($errors) > 0) {
-                $output = COM_siteHeader ('menu', $LANG24[54]);
-                $output .= COM_startBlock ($LANG24[54], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-                $output .= $LANG24[55] . '<p>';
-                for ($i = 1; $i <= count($errors); $i++) {
-                    $output .= current($errors) . '<br' . XHTML . '>';
-                    next($errors);
+                $output = COM_siteHeader('menu', $LANG24[54]);
+                $output .= COM_startBlock($LANG24[54], '',
+                                COM_getBlockTemplate('_msg_block', 'header'));
+                $output .= $LANG24[55] . LB . '<ul>' . LB;
+                foreach ($errors as $err) {
+                    $output .= '<li>' . $err . '</li>' . LB;
                 }
-                $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+                $output .= '</ul>' . LB;
+                $output .= COM_endBlock(COM_getBlockTemplate('_msg_block',
+                                                             'footer'));
                 $output .= storyeditor($sid);
                 $output .= COM_siteFooter();
                 echo $output;

@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | topic.php                                                                 |
 // |                                                                           |
 // | Geeklog topic administration page.                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -96,10 +96,7 @@ function edittopic ($tid = '')
         $A = DB_fetchArray($result);
         $access = SEC_hasAccess($A['owner_id'],$A['group_id'],$A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']);
         if ($access == 0 OR $access == 2) {
-            $retval .= COM_startBlock ($LANG27[12], '',
-                               COM_getBlockTemplate ('_msg_block', 'header'));
-            $retval .= $LANG27[13];
-            $retval .= COM_endBlock(COM_getBlockTemplate ('_msg_block', 'footer'));
+            $retval .= COM_showMessageText($LANG27[13], $LANG27[12]);
             COM_accessLog("User {$_USER['username']} tried to illegally create or edit topic $tid.");
             return $retval;
         }
@@ -613,13 +610,9 @@ function handleIconUpload($tid)
                                          'image/png'   => '.png'
                                  )      );
     if (!$upload->setPath ($_CONF['path_images'] . 'topics')) {
-        $display = COM_siteHeader ('menu', $LANG27[29]);
-        $display .= COM_startBlock ($LANG27[29], '',
-                COM_getBlockTemplate ('_msg_block', 'header'));
-        $display .= $upload->printErrors (false);
-        $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
-                                                        'footer'));
-        $display .= COM_siteFooter ();
+        $display = COM_siteHeader('menu', $LANG27[29])
+                 . COM_showMessageText($upload->printErrors(false), $LANG27[29])
+                 . COM_siteFooter();
         COM_output($display);
         exit; // don't return
     }
@@ -654,17 +647,33 @@ function handleIconUpload($tid)
         $upload->uploadFiles ();
 
         if ($upload->areErrors ()) {
-            $display = COM_siteHeader ('menu', $LANG27[29]);
-            $display .= COM_startBlock ($LANG27[29], '',
-                    COM_getBlockTemplate ('_msg_block', 'header'));
-            $display .= $upload->printErrors (false);
-            $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
-                                                            'footer'));
-            $display .= COM_siteFooter ();
+            $display = COM_siteHeader('menu', $LANG27[29])
+                     . COM_showMessageText($upload->printErrors(false),
+                                           $LANG27[29])
+                     . COM_siteFooter();
             COM_output($display);
             exit; // don't return
         }
-        $filename = '/images/topics/' . $filename;
+        if (strpos($_CONF['path_images'], $_CONF['path_html']) === 0) {
+            $filename = substr($_CONF['path_images'],
+                               strlen($_CONF['path_html']) - 1)
+                      . 'topics/' . $filename;
+        } else {
+            /**
+            * Not really used when the 'path_images' is outside of the webroot.
+            * Let's at least extract the name of the images directory then.
+            */
+            $images = 'images';
+            $parts = explode('/', $_CONF['path_images']);
+            if (count($parts) > 1) {
+                $cnt = count($parts);
+                // e.g. from /path/to/myimages/ would extract "myimages"
+                if (empty($parts[$cnt - 1]) && !empty($parts[$cnt - 2])) {
+                    $images = $parts[$cnt - 2];
+                }
+                $filename = '/' . $images . '/topics/' . $filename;
+            }
+        }
     }
 
     return $filename;

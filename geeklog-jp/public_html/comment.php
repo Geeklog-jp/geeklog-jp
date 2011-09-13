@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | comment.php                                                               |
 // |                                                                           |
 // | Let user comment on a story or plugin.                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
@@ -105,52 +105,53 @@ function handleCancel()
  */
 function handleSubmit()
 {
-    global $_CONF, $_TABLES, $_USER, $LANG03;
+    global $_CONF, $_TABLES, $LANG03;
 
     $display = '';
 
-    $type = COM_applyFilter ($_POST['type']);
-    $sid = COM_applyFilter ($_POST['sid']);
-    switch ( $type ) {
-        case 'article':
-            $commentcode = DB_getItem ($_TABLES['stories'], 'commentcode',
-                                       "sid = '$sid'" . COM_getPermSQL('AND')
-                                       . " AND (draft_flag = 0) AND (date <= NOW()) "
-                                       . COM_getTopicSQL('AND'));
-            if (!isset($commentcode) || ($commentcode != 0)) {
-                return COM_refresh($_CONF['site_url'] . '/index.php');
-            }
+    $type = COM_applyFilter($_POST['type']);
+    $sid = COM_applyFilter($_POST['sid']);
+    $pid = COM_applyFilter($_POST['pid'], true);
+    $postmode = COM_applyFilter($_POST['postmode']);
+    $title = strip_tags(COM_stripslashes($_POST['title']));
 
-            $ret = CMT_saveComment ( strip_tags ($_POST['title']), 
-                $_POST['comment'], $sid, COM_applyFilter ($_POST['pid'], true), 
-                'article', COM_applyFilter ($_POST['postmode']));
+    if ($type == 'article') {
 
-            if ($ret == -1) {
-                $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
-                                    . $sid);
-                $url .= (strpos($url, '?') ? '&' : '?') . 'msg=15';
-                $display = COM_refresh($url);
-            } elseif ( $ret > 0 ) { // failure //FIXME: some failures should not return to comment form
-                $display .= COM_siteHeader ('menu', $LANG03[1])
-                         . CMT_commentForm ($_POST['title'], $_POST['comment'],
-                           $sid, COM_applyFilter($_POST['pid']), $type,
-                           $LANG03[14], COM_applyFilter($_POST['postmode']))
-                         . COM_siteFooter();
-            } else { // success
-                $comments = DB_count ($_TABLES['comments'], 'sid', $sid);
-                DB_change ($_TABLES['stories'], 'comments', $comments, 'sid', $sid);
-                COM_olderStuff (); // update comment count in Older Stories block
-                $display = COM_refresh (COM_buildUrl ($_CONF['site_url']
-                    . "/article.php?story=$sid"));
-            }
-            break;
-        default: // assume plugin
-            if ( !($display = PLG_commentSave($type, strip_tags ($_POST['title']), 
-                                $_POST['comment'], $sid, COM_applyFilter ($_POST['pid'], true),
-                                COM_applyFilter ($_POST['postmode']))) ) {
-                $display = COM_refresh ($_CONF['site_url'] . '/index.php');
-            }
-            break;
+        $commentcode = DB_getItem($_TABLES['stories'], 'commentcode',
+                    "(sid = '$sid') AND (draft_flag = 0) AND (date <= NOW())"
+                    . COM_getPermSQL('AND') . COM_getTopicSQL('AND'));
+        if (!isset($commentcode) || ($commentcode != 0)) {
+            return COM_refresh($_CONF['site_url'] . '/index.php');
+        }
+
+        $ret = CMT_saveComment($title, $_POST['comment'], $sid, $pid,
+                               'article', $postmode);
+        if ($ret == -1) {
+            $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                                   . $sid);
+            $url .= (strpos($url, '?') ? '&' : '?') . 'msg=15';
+            $display = COM_refresh($url);
+        } elseif ($ret > 0) { // failure
+            // FIXME: some failures should not return to comment form
+            $display .= COM_siteHeader('menu', $LANG03[1])
+                     . CMT_commentForm($title, $_POST['comment'], $sid, $pid,
+                                       $type, $LANG03[14], $postmode)
+                     . COM_siteFooter();
+        } else { // success
+            $comments = DB_count($_TABLES['comments'], 'sid', $sid);
+            DB_change($_TABLES['stories'], 'comments', $comments, 'sid', $sid);
+            COM_olderStuff(); // update comment count in Older Stories block
+            $display = COM_refresh(COM_buildUrl($_CONF['site_url']
+                                   . "/article.php?story=$sid"));
+        }
+
+    } else { // assume plugin
+
+        if (!($display = PLG_commentSave($type, $title, $_POST['comment'],
+                                         $sid, $pid, $postmode))) {
+            $display = COM_refresh($_CONF['site_url'] . '/index.php');
+        }
+
     }
 
     return $display;
@@ -477,6 +478,7 @@ case 'unsubscribe':
     }
     $display = COM_refresh($_CONF['site_url'] . '/index.php');
     break;
+
 case $LANG_ADMIN['cancel']:
     if ($formtype == 'editsubmission') {
         $display = COM_refresh ( $_CONF['site_admin_url'] . '/moderation.php');        
@@ -484,6 +486,7 @@ case $LANG_ADMIN['cancel']:
         $display .= handleCancel();  // moved to function for readibility
     }
     break;
+
 default:  // New Comment
     $abort = false;
     $sid = '';
@@ -515,6 +518,15 @@ default:  // New Comment
     }
     if (!$abort) {
         if (!empty($sid) && !empty($type)) {
+            $pid = 0;
+            if (isset($_REQUEST['pid'])) {
+                $pid = COM_applyFilter($_REQUEST['pid'], true);
+            }
+            if (($pid > 0) && empty($title)) {
+                $atype = addslashes($type);
+                $title = DB_getItem($_TABLES['comments'], 'title',
+                                    "(cid = $pid) AND (type = '$atype')");
+            }
             if (empty($title)) {
                 if ($type == 'article') {
                     $title = $dbTitle;
@@ -530,10 +542,6 @@ default:  // New Comment
             }
             $noindex = '<meta name="robots" content="noindex"' . XHTML . '>'
                      . LB;
-            $pid = 0;
-            if (isset($_REQUEST['pid'])) {
-                $pid = COM_applyFilter($_REQUEST['pid'], true);
-            }
             $display .= COM_siteHeader('menu', $LANG03[1], $noindex)
                      . CMT_commentForm($title, '', $sid, $pid, $type, $mode,
                                        $postmode)

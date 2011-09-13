@@ -122,7 +122,7 @@ class scripts {
                      
         
         // Find available jQuery library files
-        $version_jQuery = '1.5.2';
+        $version_jQuery = '1.6.3';
         $this->jquery_cdn_file = 'https://ajax.googleapis.com/ajax/libs/jquery/' . $version_jQuery .'/jquery.min.js';
         $name = 'jquery';
         $this->library_files[$name]['file'] = 'javascript/jquery.min.js';
@@ -400,7 +400,7 @@ class scripts {
 
         // Set CSS Files
         foreach ($this->css_files as $file) {
-            if ($file['load']) {
+            if ($file['load'] && isset($file['file'])) {
                 $headercode .= '<link rel="stylesheet" type="text/css" href="' . $_CONF['site_url'] . $file['file'] . '" ' . XHTML . '>' . LB;
             }
         }  
