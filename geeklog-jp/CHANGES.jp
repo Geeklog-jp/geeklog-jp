@@ -1,9 +1,13 @@
 $Id$
 
+2011-09-14  Takahiro Kambe  <tacahi>
+
+	* Geeklog 1.8.1r1をマージしました。
+
 2011-09-05  Tetsuko Komma  <ivy>
 
-	* 日本語言語ファイルで誤解の多かった 氏名を表示する から 
-	  ユーザ名の代わりに氏名を表示する に変更しました。
+	* 日本語言語ファイルで誤解の多かった「氏名を表示する」から
+	  「ユーザ名の代わりに氏名を表示する」に変更しました。
 
 2011-09-03  Yoshinori Tahara  <dengen>
 
@@ -21,11 +25,13 @@ $Id$
 
 2011-08-11  mystral-kk <mystral-kk>
 
-	* ライセンス上の問題があるcustom/custom_useragent.phpを削除しましました。
+	* ライセンス上の問題があるcustom/custom_useragent.phpを削除しましまし
+	  た。
 
 2011-08-10  Tetsuko Komma  <ivy>
 
-	* custom_templatesetvars.phpのエンコードをShift-JISからUTF-8に変更しました。
+	* custom_templatesetvars.phpのエンコードをShift-JISからUTF-8に変更しま
+	  した。
 
 2011-08-09  mystral-kk <mystral-kk>
 
