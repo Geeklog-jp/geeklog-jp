@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-custom.php                                                            |
 // |                                                                           |
@@ -20,7 +20,7 @@
 // | not include lib-common.php in this file.                                  |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Blaine Lang      - blaine AT portalparts DOT com                 |
@@ -59,13 +59,6 @@ $_CST_VERBOSE = false;
  */
 require_once('custom/custom_cellular.php');
 
-/**
-* 日本語メール対応
-*
-* GL-1.4.1以降でUTF-8に変更されたメールの文字セットをISO-2022-JP(JIS)
-* に戻します。
-*/
-//require_once('custom/custom_mail_jp.php');
 
 /**
 * Sample PHP Block function
@@ -73,6 +66,7 @@ require_once('custom/custom_cellular.php');
 * this is a sample function used by a PHP block.  This will show the rights that
 * a user has in the "What you have access to" block.
 *
+*/
 function phpblock_showrights()
 {
     global $_RIGHTS, $_CST_VERBOSE;
@@ -95,7 +89,7 @@ function phpblock_showrights()
 
     return $retval;
 }
-*/
+
 
 /**
 * Include any code in this function that will be called by the internal CRON API
@@ -169,6 +163,7 @@ function CUSTOM_templateSetVars($templatename, &$template)
     }
 }
 */
+
 
 /*  Sample Custom Member Functions to create and update Custom Membership registration and profile
 
@@ -249,7 +244,7 @@ function CUSTOM_userDelete($uid)
  * This function can now return any extra fields that need to be shown.
  * Output is then replaced in {customfields} -- This variable needs to be added
  * to your templates
- * Template: path_layout/users/profile/profile.thtml
+ * Template: path_layout/users/profile.thtml
  */
 function CUSTOM_userDisplay($uid)
 {

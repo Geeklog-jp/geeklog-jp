@@ -1,5 +1,10 @@
 $Id$
 
+2011-09-19  Tetsuko Komma  <ivy>
+
+	* 拡張版のlib-custom.phpをマージしました。
+	* 標準・拡張版lib-custom.phpの不要なコメントを削除しました。
+
 2011-09-14  Takahiro Kambe  <tacahi>
 
 	* Geeklog 1.8.1r1をマージしました。
