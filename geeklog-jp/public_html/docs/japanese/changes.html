@@ -28,19 +28,14 @@
 <h3>バグ修正</h3>
 
 <ul>
-<li>Fixed information leakage:
+<li>情報の漏洩を修正:
 <ul>
-    <li>The "<a href="config.html#desc_rootdebug">rootdebug</a>" option,
-        when enabled, also dumped the OAuth consumer key and secret. You now
-        have to additionally set the rootdebug option to "force" to make them
-        show up in the variable dump.</li>
-    <li>The MS SQL driver was displaying detailed SQL error messages by
-        default.</li>
+    <li>"<a href="config.html#desc_rootdebug">rootdebug</a>"オプションを有効にしているときに、OAuthのコンシューマ・キーとコンシューマー・シークレットも書き出されていました。これからは、変数の書き出しにこれらを含めて表示したい場合はrootdebugのオプションに追加で"force"を設定しなければなりません。</li>
+    <li>MS SQLのドライバは初期状態で詳細なSQLエラーメッセージを表示していました。</li>
 </ul></li>
 <li>Geeklog 1.8.0では<code>[code]</code>と
     <code>[raw]</code> タグがコンテンツを適切に回避できなかった不具合を修正しました。</li>
-<li>Fixed some problems with adding and removing elements to/from arrays in
-    the Configuration.</li>
+<li>コンフィギュレーションで配列に要素の追加と削除で起きていた、いくつかの問題を修正しました。</li>
 <li>管理者がユーザ管理画面で、エラー発生時も変更内容を失わないようにしました。</li>
 <li>記事のプレビューで、画像が表示されない不具合を修正しました(記事編集時)。</li>
 <li>プラグインは、<code>plugin_getFooter()</code>関数に<code>$_SCRIPTS</code>が使えるようになりました。</li>
