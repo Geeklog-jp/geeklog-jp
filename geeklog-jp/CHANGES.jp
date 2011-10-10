@@ -9,6 +9,7 @@ $Id$
 2011-09-19  Tetsuko Komma  <ivy>
 
 	* 拡張版のlib-custom.phpをマージしました。
+
 	* 標準・拡張版lib-custom.phpの不要なコメントを削除しました。
 
 2011-09-14  Takahiro Kambe  <tacahi>
@@ -125,9 +126,10 @@ $Id$
 2011-06-14  Tetsuko Komma  <ivy>
 
 	* 日本語ドキュメントファイルの、history.htmlの翻訳を行いました。
-	* カレンダプラグイン、カレンダjpプラグインのテンプレートの
-	  formのURLを修正しました。
-	  http://project.geeklog.net/tracking/view.php?id=1360
+
+	* カレンダプラグイン、カレンダjpプラグインのテンプレートのformのURLを
+	  修正しました: http://project.geeklog.net/tracking/view.php?id=1360
+
 	* README.jp NEWSを修正しました。
 
 2011-06-13  Takahiro Kambe  <tacahi>
@@ -145,20 +147,24 @@ $Id$
 2011-06-09  Tetsuko Komma  <ivy>
 
 	* テーマmobileのjquery_uiでfont-familyの指定を削除しました。
+
 	* テーマmobileのコンフィギュレーションのレイアウトを修正
 	  しました。
 
 2011-06-08  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSのjquery_uiでfont-familyの指定を削除しました。
+
 	* テーマWAIproCSSのコメントのネスティングレイアウトを修正
 	  しました。
 
 2011-06-08  Tetsuko Komma  <ivy>
 
 	* テーマprofessional_cssのjquery_uiでfont-familyの指定を削除しました。
+
 	* テーマprofessional_cssのコンフィギュレーションのレイアウトを修正
 	  しました。
+
 	* テーマprofessional_cssのコメントのネスティングレイアウトを修正
 	  しました。
 
@@ -182,7 +188,9 @@ $Id$
 
 	* テーマの名前を、ProfessionalCSSから、本家版にあわせてprofessional_css
 	  に変更しました。
+
 	* NEWSに、Geeklog 1.7.2-jp-1.0からの変更を追記しました。
+
 	* README.jpを、1.8.0-jp配布内容に差し替えました。
 
 2011-06-04  Tetsuko Komma  <ivy>
@@ -254,7 +262,9 @@ $Id$
 2011-04-27  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイル翻訳（コア）、ドキュメント翻訳と修正を行いました。
+
 	* ProfessionalCSSをprofessional_cssを元に修正しました。
+
 	* ProfessionalCSSのjavascript/fix_html.jsをAugeさんの修正ファイルに
 	  差し替えました。
 
