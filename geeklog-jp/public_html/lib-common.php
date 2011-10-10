@@ -2913,12 +2913,12 @@ function COM_checkWords( $Message )
             switch( $_CONF['censormode'])
             {
                 case 1: # Exact match
-                    $RegExPrefix = '(\s*)';
-                    $RegExSuffix = '(\W*)';
+                    $RegExPrefix = '(\s)';
+                    $RegExSuffix = '(\W)';
                     break;
 
                 case 2: # Word beginning
-                    $RegExPrefix = '(\s*)';
+                    $RegExPrefix = '(\s)';
                     $RegExSuffix = '(\w*)';
                     break;
 
@@ -7107,7 +7107,7 @@ function COM_rootDebugClean($array, $blank=false)
     $blankField = false;
     while(list($key, $value) = each($array)) {
         $lkey = strtolower($key);
-        if((strpos($lkey, 'pass') !== false) || (strpos($lkey, 'cookie') !== false)) {
+        if((strpos($lkey, 'pass') !== false) || (strpos($lkey, 'cookie') !== false) || (strpos($lkey, '_consumer_key') !== false) || (strpos($lkey, '_consumer_secret') !== false)) {
             $blankField = true;
         } else {
             $blankField = $blank;
