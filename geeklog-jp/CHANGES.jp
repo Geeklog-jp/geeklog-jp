@@ -1,5 +1,9 @@
 $Id$
 
+2011-10-10  Tetsuko Komma  <ivy>
+
+	* 拡張版　lib-custom.php のphpblock_showrights 二重定義を解消しました。
+
 2011-10-10  Takahiro Kambe  <tacahi>
 
 	* Geeklgo 1.8.1のドキュメントの変更部分を翻訳してみました。

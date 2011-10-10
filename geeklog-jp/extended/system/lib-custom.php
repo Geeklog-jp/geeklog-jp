@@ -66,7 +66,6 @@ require_once('custom/custom_cellular.php');
 * this is a sample function used by a PHP block.  This will show the rights that
 * a user has in the "What you have access to" block.
 *
-*/
 function phpblock_showrights()
 {
     global $_RIGHTS, $_CST_VERBOSE;
@@ -89,7 +88,7 @@ function phpblock_showrights()
 
     return $retval;
 }
-
+*/
 
 /**
 * Include any code in this function that will be called by the internal CRON API
