@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年6月26日
+							2011年10月 日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.8.0-jpの内容
+2. Geeklog 1.8.1-jpの内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -67,10 +67,10 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	ファイル管理プラグイン(Filemgmt) バージョン 1.6.0.jp3
 		ファイルのダウンロード機能を提供します。
 
-	掲示板プラグイン(Forum) バージョン 2.7.5.JPr1
+	掲示板プラグイン(Forum) バージョン 2.8.0
 		掲示板機能を提供します。
 
-	Mycaljpプラグイン(Mycaljp) バージョン 2.1.3
+	Mycaljpプラグイン(Mycaljp) バージョン 2.1.4
 		サイトカレンダーを表示する提供するPHPブロック関数
 		phpblock_mycaljp2() を提供します。
 
@@ -162,6 +162,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		当初テーマテスターとして開発されましたが、その後、
 		機能としてはテーマチェンジャーに変わっており、
 		変更したテーマがデータベースに保存されるようになりました。
+
+	system/custom/custom_templatesetvars.php
+		テンプレートのテーマ変数を追加します。
+		日本語プラグインで提供していたtopic_id,sp_id,home_id,login_status,
+		prof_url_jpを、このカスタム関数で提供するよう変更しました。
 
 
   (3) テーマ
