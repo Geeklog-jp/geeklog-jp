@@ -55,7 +55,7 @@
         <div id="text_editor" style="margin-top:10px; padding-left:10px; border:1px solid #ECE9D8;display:{show_texteditor};">
             {lang_introtext}:
             <img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" alt="" onclick="changeTextAreaSize('introtext','larger');"{xhtml}>
-            <img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" alt="" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}>
+            <img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" alt="" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}><br{xhtml}>
             <textarea id="introtext"  style="width:90%; padding:5px 10px 5px 10px;" name="introtext" cols="45" rows="14">{story_introtext}</textarea><br{xhtml}>
             {lang_bodytext}:
             <img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" alt="" onclick="changeTextAreaSize('bodytext','larger');"{xhtml}>
