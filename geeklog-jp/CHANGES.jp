@@ -1,5 +1,13 @@
 $Id$
 
+2011-10-12  Tetsuko Komma  <ivy>
+
+	* NEWS readme.ja README.jp を修正しました。
+
+2011-10-12  Tetsuko Komma  <ivy>
+
+	* テーマprofessionalの記事編集テンプレートを修正しました。
+
 2011-10-10  Tetsuko Komma  <ivy>
 
 	* 拡張版　lib-custom.php のphpblock_showrights 二重定義を解消しました。
