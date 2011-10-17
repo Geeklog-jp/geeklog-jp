@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
-// | Notify.php                                                                |
+// | notify.php                                                                |
 // | View users curent monitored topics                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,9 +31,7 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 require_once '../lib-common.php'; // Path to your lib-common.php
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
@@ -42,9 +42,14 @@ if (!in_array('forum', $_PLUGINS)) {
 }
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
-$id = COM_applyFilter($_REQUEST['id'],true);
-$forum = COM_applyFilter($_REQUEST['forum'],true);
-$topic = COM_applyFilter($_REQUEST['topic'],true);
+$forum      = isset($_REQUEST['forum'])  ? COM_applyFilter($_REQUEST['forum'],true) : '';
+$id         = isset($_REQUEST['id'])     ? COM_applyFilter($_REQUEST['id'],true)    : '';
+$msg        = isset($_GET['msg'])        ? COM_applyFilter($_GET['msg'], true)      : '';
+$notifytype = isset($_REQUEST['filter']) ? COM_applyFilter($_REQUEST['filter'])     : '';
+$op         = isset($_REQUEST['op'])     ? COM_applyFilter($_REQUEST['op'])         : '';
+$page       = isset($_GET['page'])       ? COM_applyFilter($_GET['page'],true)      : '';
+$show       = isset($_GET['show'])       ? COM_applyFilter($_GET['show'],true)      : '';
+$topic      = isset($_REQUEST['topic'])  ? COM_applyFilter($_REQUEST['topic'],true) : '';
 
 //Check is anonymous users can access - and need to be signed in
 forum_chkUsercanAccess(true);
@@ -57,20 +62,16 @@ $display .= gf_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
-$msg = '';
-if (isset ($_GET['msg'])) {
-    $msg = COM_applyFilter($_GET['msg'], true);
-}
 if ($msg==1) {
     $display .= COM_showMessageText($LANG_GF02['msg146']);
 }
 
 // NOTIFY CODE -> SAVE
 if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
-    $sql = "SELECT * FROM {$_TABLES['gf_watch']} WHERE ((topic_id='$id') AND (uid='{$_USER['uid']}') OR ";
-    $sql .= "((forum_id='$forum') AND (topic_id='0') and (uid='{$_USER['uid']}')))";
+    $sql = "SELECT * FROM {$_TABLES['forum_watch']} WHERE ((topic_id='$id') AND (uid='{$_USER['uid']}') OR ";
+    $sql .= "((forum_id='$forum') AND (topic_id='0') AND (uid='{$_USER['uid']}')))";
     $notifyquery = DB_query("$sql");
-    $pid = DB_getItem($_TABLES['gf_topic'],pid,"id='$id'");
+    $pid = DB_getItem($_TABLES['forum_topic'],'pid',"id='$id'");
     if ($pid == 0) {
         $pid = $id;
     }
@@ -78,42 +79,41 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
         $A = DB_fetchArray($notifyquery);
         if ($A['topic_id'] == 0) {     // User has subscribed to complete forum
            // Check and see if user has a non-subscribe record for this topic id
-            $query = DB_query("SELECT id FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id < '0' " );
+            $query = DB_query("SELECT id FROM {$_TABLES['forum_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' AND topic_id < '0' " );
             if (DB_numRows($query) > 0) {
                 list($watchrec) = DB_fetchArray($query);
-                DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE id=$watchrec");
+                DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE id=$watchrec");
             }  else {
-                DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
+                DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
             }
             $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=2&amp;showtopic=$id");
         } else {
             $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=3&amp;showtopic=$id");
         }
     } else {
-        DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
+        DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$pid','{$_USER['uid']}',now() )");
         $nid = -$id;
-        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id = '$nid'");          
+        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' AND topic_id = '$nid'");          
         $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=2&amp;showtopic=$id");
     }
     COM_output($display);
     exit();
 
 } elseif (($_REQUEST['submit'] == 'delete') AND ($id != 0))  {
-    DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
-    $notifytype = COM_applyFilter($_GET['filter']);    
+    DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE (id='$id')");
     $display = COM_refresh($_CONF['site_url'] . "/forum/notify.php?msg=1&amp;filter=$notifytype");
     COM_output($display);
     exit();
 
 } elseif (($_REQUEST['submit'] == 'delete2') AND ($id != ''))  {
     // Check and see if subscribed to complete forum and if so - unsubscribe to just this topic
-    if (DB_getItem($_TABLES['gf_watch'], 'topic_id', "id='$id'") == 0 ) {
+    if (DB_getItem($_TABLES['forum_watch'], 'topic_id', "id='$id'") == 0 ) {
         $ntopic = -$topic;  // Negative Value
-        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id = '$topic'");
-        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' and topic_id = '$ntopic'");
-        DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$ntopic','{$_USER['uid']}',now() )");
+        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' AND topic_id = '$topic'");
+        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='{$_USER['uid']}' AND forum_id='$forum' AND topic_id = '$ntopic'");
+        DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$ntopic','{$_USER['uid']}',now() )");
     } else {
-        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE (id='$id')");
+        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE (id='$id')");
     }
     $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=4&amp;showtopic=$topic");
     COM_output($display);
@@ -121,12 +121,6 @@ if (($_REQUEST['submit'] == 'save') && ($id != 0)) {
 }
 
 // NOTIFY MAIN
-
-$notifytype = COM_applyFilter($_REQUEST['filter']);
-$op = COM_applyFilter($_REQUEST['op']);
-$show = COM_applyFilter($_GET['show'],true);
-$page = COM_applyFilter($_GET['page'],true);
-
 // Page Navigation Logic
 if ($show == 0) {
     $show = $CONF_FORUM['show_messages_perpage'];
@@ -137,11 +131,11 @@ if ($page == 0) {
 }
 
 /* Check to see if user has checked multiple records to delete */
-if ($op == 'delchecked') {
+if ($op == 'delchecked' && isset($_POST['chkrecid'])) {
     foreach ($_POST['chkrecid'] as $id) {
         $id = COM_applyFilter($id);
-        if (DB_getItem($_TABLES['gf_watch'],'uid',"id='$id'") == $_USER['uid']) {
-            DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE ID='$id'");
+        if (DB_getItem($_TABLES['forum_watch'],'uid',"id='$id'") == $_USER['uid']) {
+            DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE id='$id'");
         }
     }
 }
@@ -189,7 +183,7 @@ if ($CONF_FORUM['usermenu'] == 'navbar') {
     $report->set_var('navmenu','');
 }
 
-$sql = "SELECT id,forum_id,topic_id,date_added FROM {$_TABLES['gf_watch']} WHERE (uid='{$_USER['uid']}')";
+$sql = "SELECT id,forum_id,topic_id,date_added FROM {$_TABLES['forum_watch']} WHERE (uid='{$_USER['uid']}')";
 if ($forum > 0 ) {
     $sql .= " AND forum_id='$forum'";   
 }
@@ -213,7 +207,7 @@ $notifications = DB_query($sql);
 
 $i = 0;
 while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchArray($notifications)) {
-    $forum_name = DB_getItem($_TABLES['gf_forums'],"forum_name","forum_id='$forum_id'");
+    $forum_name = DB_getItem($_TABLES['forum_forums'],"forum_name","forum_id='$forum_id'");
     $is_forum = '';
     if ($topic_id == '0') {
         $subject = '';
@@ -226,7 +220,7 @@ while (list($notify_recid,$forum_id,$topic_id,$date_added) = DB_fetchArray($noti
         } else {
             $neg_subscription = false;
         }
-        $result = DB_query("SELECT subject,name,replies,views,uid,id FROM {$_TABLES['gf_topic']} WHERE id = '$topic_id'");
+        $result = DB_query("SELECT subject,name,replies,views,uid,id FROM {$_TABLES['forum_topic']} WHERE id = '$topic_id'");
         $A = DB_fetchArray($result);
         if ($A['subject'] == '') {
             $subject = $LANG_GF01['MISSINGSUBJECT'];

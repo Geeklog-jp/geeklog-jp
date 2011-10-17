@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
 // | memberlist.php                                                            |
 // | Display a formatted listing of users                                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,9 +31,7 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 require_once '../lib-common.php'; // Path to your lib-common.php
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
@@ -42,15 +42,15 @@ if (!in_array('forum', $_PLUGINS)) {
 }
 
 // Use filter to remove all possible hostile SQL injections - only expecting numeric data
-$show        = COM_applyFilter($_GET['show'],true);
-$page        = COM_applyFilter($_GET['page'],true);
-$prevorder   = COM_applyFilter($_GET['prevorder'],true);
-$order       = COM_applyFilter($_GET['order'],true);
-$sort        = COM_applyFilter($_GET['sort'],true);
-$direction   = COM_applyFilter($_GET['direction']);
-$showuser    = COM_applyFilter($_GET['showuser'],true);
-$op          = COM_applyFilter($_GET['op']);
-$chkactivity = COM_applyFilter($_REQUEST['chkactivity'],true);
+$chkactivity = isset($_REQUEST['chkactivity']) ? COM_applyFilter($_REQUEST['chkactivity'],true) : '';
+$direction   = isset($_GET['direction'])       ? COM_applyFilter($_GET['direction'])            : '';
+$op          = isset($_GET['op'])              ? COM_applyFilter($_GET['op'])                   : '';
+$order       = isset($_GET['order'])           ? COM_applyFilter($_GET['order'],true)           : '';
+$page        = isset($_GET['page'])            ? COM_applyFilter($_GET['page'],true)            : '';
+$prevorder   = isset($_GET['prevorder'])       ? COM_applyFilter($_GET['prevorder'],true)       : '';
+$show        = isset($_GET['show'])            ? COM_applyFilter($_GET['show'],true)            : '';
+$showuser    = isset($_GET['showuser'])        ? COM_applyFilter($_GET['showuser'],true)        : '';
+$sort        = isset($_GET['sort'])            ? COM_applyFilter($_GET['sort'],true)            : '';
 
 //Check is anonymous users can access
 forum_chkUsercanAccess();
@@ -83,10 +83,10 @@ if ($op == "last10posts") {
 
     $report->set_var ('LANG_TITLE', $LANG_GF02['msg86'] . DB_getItem($_TABLES['users'],"username", "uid=$showuser"));
     $report->set_var ('spacerwidth', '50%');
-    $report->set_var ('returnlink', "href=\"{$_CONF['site_url']}/forum/memberslist.php\">");
+    $report->set_var ('returnlink', "href=\"{$_CONF['site_url']}/forum/memberslist.php\"");
     $report->set_var ('LANG_return', $LANG_GF02['msg169']);
     $report->parse ('link1','return1');
-    $report->set_var ('returnlink', "href=\"{$_CONF['site_url']}/forum/index.php\">");
+    $report->set_var ('returnlink', "href=\"{$_CONF['site_url']}/forum/index.php\"");
     $report->set_var ('LANG_return', $LANG_GF02['msg175']);
     $report->parse ('link2','return2');
     $report->parse ('header_outline','outline_header');
@@ -109,8 +109,8 @@ if ($op == "last10posts") {
     }
     $grouplist = implode(',',$groups);
 
-    $sql = "SELECT a.date,a.subject,a.comment,a.replies,a.views,a.id,a.forum FROM {$_TABLES['gf_topic']} a ";
-    $sql .= "LEFT JOIN {$_TABLES['gf_forums']} b ON a.forum=b.forum_id ";
+    $sql = "SELECT a.date,a.subject,a.comment,a.replies,a.views,a.id,a.forum FROM {$_TABLES['forum_topic']} a ";
+    $sql .= "LEFT JOIN {$_TABLES['forum_forums']} b ON a.forum=b.forum_id ";
     $sql .= "WHERE (a.uid = $showuser) AND b.grp_id IN ($grouplist) ";
     $sql .= "ORDER BY a.date DESC LIMIT {$CONF_FORUM['show_last_post_count']}";
     $result = DB_query($sql);
@@ -130,7 +130,7 @@ if ($op == "last10posts") {
         }
     }
     $link = "<p><a href=\"{$_CONF['site_url']}/forum/memberlist.php?order=$order&amp;prevorder=$prevorder";
-    $link .= "&amp;direction=$direction&amp;page=$page\">{$LANG_GF02['msg169']}</a><p />";
+    $link .= "&amp;direction=$direction&amp;page=$page\">{$LANG_GF02['msg169']}</a></p>";
     $report->set_var ('bottomlink', $link);
     $report->parse ('output', 'report');
     $display .= $report->finish($report->get_var('output'));
@@ -191,9 +191,9 @@ if ($op == "last10posts") {
     }
 
     if ($chkactivity) {
-        $memberlistsql = DB_query("SELECT user.uid FROM {$_TABLES['users']} user, {$_TABLES['gf_topic']} topic WHERE user.uid <> 1 AND user.uid=topic.uid GROUP by uid");
+        $memberlistsql = DB_query("SELECT user.uid FROM {$_TABLES['users']} user, {$_TABLES['forum_topic']} topic WHERE user.uid <> 1 AND user.uid=topic.uid GROUP BY uid");
     } else {
-        $memberlistsql = DB_query("SELECT uid FROM {$_TABLES['users']} ");
+        $memberlistsql = DB_query("SELECT user.uid FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs WHERE user.uid > 1 AND user.uid=userprefs.uid");
     }
 
     $membercount = DB_numRows($memberlistsql);
@@ -203,12 +203,12 @@ if ($op == "last10posts") {
     $base_url .= "&amp;direction={$prevdirection}&amp;chkactivity=$chkactivity";
 
     if ($chkactivity) {
-        $sql = "SELECT user.uid,user.uid,user.username,user.regdate,user.email,user.homepage, count(*) as posts, userprefs.emailfromuser ";
-        $sql .= " FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs, {$_TABLES['gf_topic']} topic WHERE";
+        $sql = "SELECT user.uid,user.uid,user.username,user.regdate,user.email,user.homepage, COUNT(*) AS posts, userprefs.emailfromuser ";
+        $sql .= " FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs, {$_TABLES['forum_topic']} topic WHERE";
         $sql .= " user.uid <> 1 AND user.uid=topic.uid AND user.uid=userprefs.uid ";
-        $sql .= "GROUP by uid ORDER BY $orderby $direction LIMIT $offset,$show ";
+        $sql .= "GROUP BY uid ORDER BY $orderby $direction LIMIT $offset,$show ";
     } else {
-        // Option to order by posts - only valid if option for 'forum activity' cheeked
+        // Option to order by posts - only valid if option for 'forum activity' checked
         $orderby = ($orderby == 'posts') ? 'username' : $orderby;
         $sql = "SELECT user.uid,user.uid,user.username,user.regdate,user.email,user.homepage, userprefs.emailfromuser ";
         $sql .= " FROM {$_TABLES['users']} user, {$_TABLES['userprefs']} userprefs WHERE user.uid > 1 ";
@@ -248,13 +248,12 @@ if ($op == "last10posts") {
     $csscode = 1;
 
     while ($siteMembers = DB_fetchArray($query)) {
-        $siteMembers['posts'] = DB_count($_TABLES['gf_topic'],'uid',$siteMembers['uid']);
+        $siteMembers['posts'] = DB_count($_TABLES['forum_topic'],'uid',$siteMembers['uid']);
         if ($siteMembers['posts'] > 0) {
             $reportlinkURL = $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$siteMembers['uid'];
             $reportlinkURL .= '&amp;prevorder='.$order.'&amp;direction='.$direction.'&amp;page='.$page;
-            $report->set_var ('image', gf_getImage('latestposts'));
             $report->set_var ('link_url', $reportlinkURL);
-            $report->set_var ('LANG_title',sprintf($LANG_GF02['msg86'],$CONF_FORUM['show_last_post_count']));
+            $report->set_var ('link_text', $LANG_GF09['lastpost']);
             $report->parse('lastposts_link','link');
         } else {
             $report->set_var ('lastposts_link', '');
@@ -262,9 +261,8 @@ if ($op == "last10posts") {
 
         if ($siteMembers['emailfromuser'] == '1') {
             $emaillinkURL = "{$_CONF['site_url']}/profiles.php?uid={$siteMembers['uid']}";
-            $report->set_var ('image', gf_getImage('email'));
             $report->set_var ('link_url', $emaillinkURL);
-            $report->set_var ('LANG_title',$LANG_GF01['EmailLink']);
+            $report->set_var ('link_text', $LANG_GF09['email']);
             $report->parse('email_link','link');
         } else {
             $report->set_var ('email_link', '');
@@ -272,9 +270,8 @@ if ($op == "last10posts") {
         if ($CONF_FORUM['use_pm_plugin']) {
             $pmplugin_link = forumPLG_getPMlink($siteMembers['username']);
             if ($pmplugin_link != '') {
-                $report->set_var ('image', gf_getImage('pm'));
                 $report->set_var ('link_url', $pmplugin_link);
-                $report->set_var ('LANG_title',$LANG_GF01['PMLink']);
+                $report->set_var ('link_text', $LANG_GF09['pm']);
                 $report->parse('pm_link','link');
             } else {
                 $report->set_var ('pm_link', '');
@@ -283,13 +280,12 @@ if ($op == "last10posts") {
             $report->set_var ('pm_link', '');
         }
         if ($siteMembers['homepage'] != '') {
-            $homepage = $siteMembers['homepage'];
-            if (!eregi("http",$homepage)) {
+            $homepage = trim($siteMembers['homepage']);
+            if (strtolower(substr($homepage, 0, 4)) != 'http') {
                 $homepage = 'http://' .$homepage;
             }
-            $report->set_var ('image', gf_getImage('home'));
             $report->set_var ('link_url', $homepage);
-            $report->set_var ('LANG_title',$LANG_GF01['WebsiteLink']);
+            $report->set_var ('link_text', $LANG_GF09['home']);
             $report->parse('website_link','link');
         } else {
             $report->set_var ('website_link', '');

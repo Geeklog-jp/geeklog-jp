@@ -2,8 +2,8 @@
 <!-- start ips_unban.thtml -->
 <form action="{phpself}" method="post">
 <div>
-    <input type="hidden" name="mode" value="{mode}"{xhtml}>
-    <input type="hidden" name="sure" value="{sure}"{xhtml}>
+    <input type="hidden" name="op" value="banip"{xhtml}>
+    <input type="hidden" name="sure" value="yes"{xhtml}>
     <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
     <input type="hidden" name="ip" value="{ip}"{xhtml}>
     {msg1}

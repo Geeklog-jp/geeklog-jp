@@ -1,26 +1,45 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
+/* Reminder: always indent with 4 spaces (no tabs). */
+// +---------------------------------------------------------------------------+
+// | Geeklog Forums Plugin 2.8.0                                               |
+// +---------------------------------------------------------------------------+
+// | autoinstall.php                                                           |
+// | SQL Commands for New Install of the Geelog Forum                          |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// +---------------------------------------------------------------------------+
 
-# SQL Commands for New Install of the Geelog Forum Project Version 2.5
-# Last updated Oct 01 /2005
-# Blaine Lang  blaine@portalparts.com
-
-#
-# Table structure for table `forum_categories`
-#
+// Table structure for table `forum_categories`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_categories']} (
   cat_order smallint(4) NOT NULL default '0',
   cat_name varchar(255) NOT NULL default '',
   cat_dscp text NOT NULL,
   id int(2) NOT NULL auto_increment,
   PRIMARY KEY  (id)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_forums`
-#
-
-
+// Table structure for table `forum_forums`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_forums']} (
   forum_order int(4) NOT NULL default '0',
   forum_name varchar(255) NOT NULL default '0',
@@ -37,13 +56,9 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_forums']} (
   PRIMARY KEY  (forum_id),
   KEY forum_cat (forum_cat),
   KEY forum_id (forum_id)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_topic`
-#
-
+// Table structure for table `forum_topic`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_topic']} (
   id mediumint(8) NOT NULL auto_increment,
   forum int(3) NOT NULL default '0',
@@ -71,13 +86,9 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_topic']} (
   KEY `idxtopicpid` (`pid`),
   KEY `idxdate` (`date`),
   KEY `idxlastdate` (`lastupdated`)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_log`
-#
-
+// Table structure for table `forum_log`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_log']} (
   uid mediumint(8) NOT NULL default '0',
   forum mediumint(3) NOT NULL default '0',
@@ -86,13 +97,9 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_log']} (
   KEY uid_forum (uid,forum),
   KEY uid_topic (uid,topic),
   KEY forum (forum)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_moderators`
-#
-
+// Table structure for table `forum_moderators`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_moderators']} (
   mod_id int(11) NOT NULL auto_increment,
   mod_uid mediumint(8) NOT NULL default '0', 
@@ -105,73 +112,9 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_moderators']} (
   mod_move tinyint(1) NOT NULL default '0',
   mod_stick tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (mod_id)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_settings`
-#
-
-
-$_SQL[] = "CREATE TABLE {$_TABLES['forum_settings']} (
-  slogan varchar(255) NOT NULL default '',
-  registrationrequired tinyint(1) unsigned NOT NULL default '0',
-  registerpost tinyint(1) unsigned NOT NULL default '0',
-  allowhtml tinyint(1) unsigned NOT NULL default '1',
-  glfilter tinyint(1) unsigned NOT NULL default '0',
-  use_geshi_formatting tinyint(1) NOT NULL default '1', 
-  censor tinyint(1) unsigned NOT NULL default '1',
-  showmood tinyint(1) unsigned NOT NULL default '1',
-  allowsmilies tinyint(1) unsigned NOT NULL default '1',
-  allowavatar tinyint(1) unsigned NOT NULL default '1',
-  allow_notify tinyint(1) unsigned NOT NULL default '1',
-  post_htmlmode tinyint(1) NOT NULL default '1',
-  allow_userdatefmt tinyint(1) NOT NULL default '0',
-  showiframe tinyint(1) unsigned NOT NULL default '1',
-  autorefresh tinyint(1) NOT NULL default '1', 
-  refresh_delay tinyint(1) NOT NULL default '0', 
-  xtrausersettings tinyint(1) unsigned NOT NULL default '0',
-  viewtopicnumchars int(4) NOT NULL default '20',
-  topicsperpage int(4) NOT NULL default '10',
-  postsperpage int(4) NOT NULL default '10',
-  messagesperpage int(4) NOT NULL default '0', 
-  searchesperpage int(4) NOT NULL default '0', 
-  popular int(4) NOT NULL default '0',  
-  speedlimit int(1) NOT NULL default '60', 
-  edit_timewindow int(11) NOT NULL default '3600', 
-  use_spamxfilter tinyint(1) NOT NULL default '0', 
-  use_smiliesplugin tinyint(1) NOT NULL default '0',
-  use_pmplugin tinyint(1) NOT NULL default '0', 
-  imgset varchar(30) NOT NULL default '',
-  cb_enable tinyint(1) NOT NULL default '0',
-  cb_homepage tinyint(1) NOT NULL default '0',
-  cb_where tinyint(1) NOT NULL default '0',
-  cb_subjectsize tinyint(1) NOT NULL default '0', 
-  cb_numposts tinyint(1) NOT NULL default '0',  
-  sb_subjectsize tinyint(1) NOT NULL default '0', 
-  sb_numposts tinyint(1) NOT NULL default '0', 
-  sb_latestposts tinyint(1) NOT NULL default '0', 
-  min_comment_len tinyint(1) NOT NULL default '0', 
-  min_name_len tinyint(1) NOT NULL default '0', 
-  min_subject_len tinyint(1) NOT NULL default '0', 
-  html_newline tinyint(1) NOT NULL default '0', 
-  level1 int(5) NOT NULL default '1',
-  level2 int(5) NOT NULL default '15',
-  level3 int(5) NOT NULL default '35',
-  level4 int(5) NOT NULL default '70',
-  level5 int(5) NOT NULL default '120',
-  level1name varchar(40) NOT NULL default 'Newbie',
-  level2name varchar(40) NOT NULL default 'Junior',
-  level3name varchar(40) NOT NULL default 'Chatty',
-  level4name varchar(40) NOT NULL default 'Regular Member',
-  level5name varchar(40) NOT NULL default 'Active Member'
-) TYPE=MyISAM;";
-# --------------------------------------------------------
-
-#
-# Table structure for table `forum_userprefs`
-#
-
+// Table structure for table `forum_userprefs`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_userprefs']} (
   uid mediumint(8) NOT NULL default '0',
   topicsperpage int(3) NOT NULL default '5',
@@ -186,13 +129,9 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_userprefs']} (
   showiframe tinyint(1) NOT NULL default '1',
   notify_once tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (uid)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_watch`
-#
-
+// Table structure for table `forum_watch`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_watch']} (
   id mediumint(8) NOT NULL auto_increment,
   forum_id mediumint(8) NOT NULL default '0',
@@ -203,30 +142,17 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_watch']} (
   KEY uid (uid),
   KEY forum_id (forum_id),
   KEY topic_id (topic_id)
-) TYPE=MyISAM;";
-# --------------------------------------------------------
+) ENGINE=MyISAM;";
 
-#
-# Table structure for table `forum_banned_ip`
-#
+// Table structure for table `forum_banned_ip`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_banned_ip']} (
   host_ip varchar(255) default NULL,
   KEY index1 (host_ip)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM;";
 
-
-# --------------------------------------------------------
-
-#
-# Table structure for table `forum_userinfo`
-#
-# Creation: Jul 19, 2003 at 01:23 PM
-# Last update: Jul 19, 2003 at 01:53 PM
-#
-
+// Table structure for table `forum_userinfo`
 $_SQL[] = "CREATE TABLE {$_TABLES['forum_userinfo']} (
   `uid` mediumint(8) NOT NULL default '0',
-  `location` varchar(128) NOT NULL default '',
   `aim` varchar(128) NOT NULL default '',
   `icq` varchar(128) NOT NULL default '',
   `yim` varchar(128) NOT NULL default '',
@@ -234,8 +160,6 @@ $_SQL[] = "CREATE TABLE {$_TABLES['forum_userinfo']} (
   `interests` varchar(255) NOT NULL default '',
   `occupation` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`uid`)
-) TYPE=MyISAM COMMENT='Forum Extra User Profile Information';";
-
-    
+) ENGINE=MyISAM COMMENT='Forum Extra User Profile Information';";
 
 ?>

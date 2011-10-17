@@ -1,20 +1,22 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
 // | print.php                                                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -28,9 +30,7 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 require_once '../lib-common.php'; // Path to your lib-common.php
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
@@ -45,7 +45,7 @@ function gf_FormatForPrint( $str, $postmode='html' ) {
     global $CONF_FORUM;
 
     // Handle Pre ver 2.5 quoting and New Line Formatting - consider adding this to a migrate function
-    if ($CONF_FORUM['pre2.5_mode']) {
+    if ($CONF_FORUM['pre2.5_mode'] && isset($showtopic['comment'])) {
         if ( stristr($showtopic['comment'],'[code') == false ) {
             $showtopic['comment'] = str_replace('<pre>','[code]',$showtopic['comment']);
             $showtopic['comment'] = str_replace('</pre>','[/code]',$showtopic['comment']);
@@ -68,7 +68,7 @@ function gf_FormatForPrint( $str, $postmode='html' ) {
 }
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
-$id = COM_applyFilter($_REQUEST['id'],true);
+$id = isset($_REQUEST['id']) ? COM_applyFilter($_REQUEST['id'],true) : '';
 
 $display = '';
 
@@ -84,14 +84,14 @@ if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
 }
 
 //Check is anonymous users can access
-if ($id == 0 OR DB_count($_TABLES['gf_topic'],"id","$id") == 0) {
+if ($id == 0 OR DB_count($_TABLES['forum_topic'],"id","$id") == 0) {
     $display = COM_refresh($_CONF['site_url'] . "/forum/index.php?msg=2&amp;forum=$forum");
     COM_output($display);
     exit;
 }
 
-$forum = DB_getItem($_TABLES['gf_topic'],"forum","id='{$id}'");
-$query = DB_query("SELECT grp_name from {$_TABLES['groups']} groups, {$_TABLES['gf_forums']} forum WHERE forum.forum_id='{$forum}' AND forum.grp_id=groups.grp_id");
+$forum = DB_getItem($_TABLES['forum_topic'],"forum","id='{$id}'");
+$query = DB_query("SELECT grp_name FROM {$_TABLES['groups']} groups, {$_TABLES['forum_forums']} forum WHERE forum.forum_id='$forum' AND forum.grp_id=groups.grp_id");
 list ($groupname) = DB_fetchArray($query);
 if (!SEC_inGroup($groupname) AND $grp_id != 2) {
     $display .= COM_siteHeader();
@@ -101,7 +101,7 @@ if (!SEC_inGroup($groupname) AND $grp_id != 2) {
     exit;
 }
 
-$result = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE (id='$id')");
+$result = DB_query("SELECT * FROM {$_TABLES['forum_topic']} WHERE (id='$id')");
 $A = DB_fetchArray($result);
 
 $A["name"] = COM_getDisplayName($A["uid"]);
@@ -119,10 +119,11 @@ $display .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3
 <head>
     <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">
     <meta http-equiv=\"Content-Style-Type\" content=\"text/css\">
+    <meta name=\"robots\" content=\"NOINDEX\">
     <title>{$_CONF['site_name']} - {$LANG_GF02['msg147']} [{$A['id']}]</title>
     <style type=\"text/css\">
     <!--
-    body { font-size:small; }
+    body { font-size:small; font-family: sans, sans-serif, freesans, verdana, arial; }
     table { font-size:small; }
     h1 { font-size:x-large; }
     h2 { font-size:medium; }
@@ -139,7 +140,7 @@ $display .= "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3
     </div>
     <div>{$A['comment']}</div>";
 
-$result2 = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE (pid='$id')");
+$result2 = DB_query("SELECT * FROM {$_TABLES['forum_topic']} WHERE (pid='$id')");
 while ($B = DB_fetchArray($result2)) {
     $date = strftime($CONF_FORUM['default_Datetime_format'], $B['date']);
     $B["name"] = COM_getDisplayName($B["uid"]);

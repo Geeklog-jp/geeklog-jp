@@ -12,10 +12,10 @@
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="pluginCellTitle alignleft">
     <tr>
-        <td class="pluginBreadCrumbs alignleft" style="padding-left:5px; white-space:nowrap;">{pagenavigation}</td>
-        <td class="alignright pluginBreadCrumbs" style="width:90%; white-space:nowrap;">{subscribe_link}</td>
-        <td class="pluginBreadCrumbs" style="white-space:nowrap;">&nbsp;</td>
-        <td class="pluginBreadCrumbs" style="padding-right:5px; white-space:nowrap;">{print_link}</td>
+        <td class="pluginCellText alignleft" style="padding-left:5px; white-space:nowrap;">{pagenavigation}</td>
+        <td class="alignright pluginCellText" style="width:90%; white-space:nowrap;">{subscribe_link}</td>
+        <td class="pluginCellText" style="white-space:nowrap;">&nbsp;</td>
+        <td class="pluginCellText" style="padding-right:5px; white-space:nowrap;">{print_link}</td>
         {prevtopic_link} {nexttopic_link} 
     </tr>
 </table>

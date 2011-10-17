@@ -1,3 +1,6 @@
 <!-- start newtopic.thtml -->
-<a href="{newtopiclink}">{newtopiclinkimg}</a>   
+  <a class="postbutton" href="{newtopiclink}">
+    <img alt="" src="{newtopiclinkimg}"{xhtml}>
+    {newtopiclinktext}
+  </a>
 <!-- end newtopic.thtml -->

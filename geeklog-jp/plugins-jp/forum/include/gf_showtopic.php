@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
 // | gf_showtopic.php                                                          |
 // | Main functions to show - format topics in the forum                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,9 +31,7 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 // this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'gf_showtopic.php') !== false) {
@@ -46,8 +46,40 @@ if (!function_exists( 'str_ireplace' ))
 
 require_once $_CONF['path'] . 'system/lib-user.php';
 
-function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
-    global $CONF_FORUM,$_CONF,$_TABLES,$_USER,$LANG_GF01,$LANG_GF02;
+/**
+* Creates an HTML string with the pictures that display a given rank
+*/
+function showrank($rank, $rankname)
+{
+    global $LANG_GF01, $CONF_FORUM;
+
+    $i = '';
+    $retval = '';
+    $starimage = "<img src=\"%s\" alt=\"%s\" title=\"$rankname\"" . XHTML . ">";
+    if ($rank <= 5) {
+        $on  = sprintf($starimage, gf_getImage('rank_on','ranks'), '+');
+        $off = sprintf($starimage, gf_getImage('rank_off','ranks'), '-');
+        for ($i=1; $i<=$rank; $i++) {
+            $retval .= $on;
+        }
+        for ($i=$rank+1; $i<=5; $i++) {
+            $retval .= $off;
+        }
+    } else {
+        if ($rank == 6) {
+            $i = sprintf($starimage, gf_getImage('rank_mod','ranks'), 'M');
+        } else if ($rank == 7) {
+            $i = sprintf($starimage, gf_getImage('rank_admin','ranks'), 'A');
+        }
+        $retval = $i . $i . $i . $i. $i;
+    }
+
+    return $retval;
+}
+
+function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
+{
+    global $CONF_FORUM, $_CONF, $_TABLES, $_USER, $LANG_GF01, $LANG_GF02, $LANG_GF09;
     global $fromblock,$highlight;
     global $oldPost;
 
@@ -91,35 +123,32 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $userlink = "<a href=\"{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$showtopic['uid']}\" ";
         $userlink .= "class=\"authorname {$onetwo}\"><b>{$username}</b></a>";
         $uservalid = true;
-        $postcount = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE uid='{$showtopic['uid']}'");
+        $postcount = DB_query("SELECT * FROM {$_TABLES['forum_topic']} WHERE uid='{$showtopic['uid']}'");
         $posts = DB_numRows($postcount);
         // STARS CODE
-        $starimage = "<img src=\"%s\" alt=\"{$LANG_GF01['FORUM']} %s\" title=\"{$LANG_GF01['FORUM']} %s\"" . XHTML . ">";
-        if ($posts < $CONF_FORUM['level2']) {
-            $user_level = sprintf($starimage, gf_getImage('rank1','ranks'), $CONF_FORUM['level1name'],$CONF_FORUM['level1name']);
-            $user_levelname = $CONF_FORUM['level1name'];
-        } elseif (($posts >= $CONF_FORUM['level2']) && ($posts < $CONF_FORUM['level3'])){
-            $user_level = sprintf($starimage,gf_getImage('rank2','ranks'),$CONF_FORUM['level2name'],$CONF_FORUM['level2name']);
-            $user_levelname = $CONF_FORUM['level2name'];
-        } elseif (($posts >= $CONF_FORUM['level3']) && ($posts < $CONF_FORUM['level4'])){
-            $user_level = sprintf($starimage,gf_getImage('rank3','ranks'),$CONF_FORUM['level3name'],$CONF_FORUM['level3name']);
-            $user_levelname = $CONF_FORUM['level3name'];
-        } elseif (($posts >= $CONF_FORUM['level4']) && ($posts < $CONF_FORUM['level5'])){
-            $user_level = sprintf($starimage,gf_getImage('rank4','ranks'),$CONF_FORUM['level4name'],$CONF_FORUM['level4name']);
-            $user_levelname = $CONF_FORUM['level4name'];
-        } elseif (($posts > $CONF_FORUM['level5'])){
-            $user_level = sprintf($starimage,gf_getImage('rank5','ranks'),$CONF_FORUM['level5name'],$CONF_FORUM['level5name']);
-            $user_levelname = $CONF_FORUM['level5name'];
-        }
-
-        if (forum_modPermission($showtopic['forum'],$showtopic['uid'])) {
-            $user_level = sprintf($starimage,gf_getImage('rank_mod','ranks'),$LANG_GF01['moderator'],$LANG_GF01['moderator']);
-            $user_levelname=$LANG_GF01['moderator'];
-        }
-
         if (SEC_inGroup(1,$showtopic['uid'])) {
-            $user_level = sprintf($starimage,gf_getImage('rank_admin','ranks'),$LANG_GF01['admin'],$LANG_GF01['admin']);
+            $user_level = showrank(7, $LANG_GF01['admin']);
             $user_levelname=$LANG_GF01['admin'];
+        } else if (forum_modPermission($showtopic['forum'],$showtopic['uid'])) {
+            $user_level = showrank(6, $LANG_GF01['moderator']);
+            $user_levelname=$LANG_GF01['moderator'];
+        } else {
+            if ($posts < $CONF_FORUM['level2']) {
+                $user_level = showrank(1, $CONF_FORUM['level1name']);
+                $user_levelname = $CONF_FORUM['level1name'];
+            } elseif (($posts >= $CONF_FORUM['level2']) && ($posts < $CONF_FORUM['level3'])){
+                $user_level = showrank(2, $CONF_FORUM['level2name']);
+                $user_levelname = $CONF_FORUM['level2name'];
+            } elseif (($posts >= $CONF_FORUM['level3']) && ($posts < $CONF_FORUM['level4'])){
+                $user_level = showrank(3, $CONF_FORUM['level3name']);
+                $user_levelname = $CONF_FORUM['level3name'];
+            } elseif (($posts >= $CONF_FORUM['level4']) && ($posts < $CONF_FORUM['level5'])){
+                $user_level = showrank(4, $CONF_FORUM['level4name']);
+                $user_levelname = $CONF_FORUM['level4name'];
+            } elseif (($posts > $CONF_FORUM['level5'])){
+                $user_level = showrank(5, $CONF_FORUM['level5name']);
+                $user_levelname = $CONF_FORUM['level5name'];
+            }
         }
 
         if ($userarray['photo'] != "") {
@@ -135,7 +164,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
 
         if ($userarray['sig'] != '') {
-            $sig = '<hr width="95%" size="1" style="color=:black; text-align:left; margin-left:0; margin-bottom:5;padding:0" noshade' . XHTML . '>';
+            $sig = '<hr size="1" style="width: 95%; color:black; text-align:left; margin-left:0; margin-bottom:0.5em; padding:0;" noshade' . XHTML . '>';
             $sig .= '<b>' .$userarray['sig']. '</b>';
             $min_height = $min_height + 30;
         }
@@ -144,11 +173,11 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     } else {
         $uservalid = false;
         $userlink = '<b>' .$showtopic['name']. '</b>';
-        $userlink = '<font size="-2">' .$LANG_GF01['ANON']. '</font>' .urldecode($showtopic['name']);
+        $userlink = '<span style="font-size: 0.8em;">' .$LANG_GF01['ANON']. '</span>' .urldecode($showtopic['name']);
     }
 
     if ($CONF_FORUM['show_moods'] &&  $showtopic['mood'] != "") {
-        $moodimage = '<img style="virtical-align:middle;" src="'.gf_getImage($showtopic['mood'],'moods') .'" title="'.$showtopic['mood'].'" alt="'.$showtopic['mood'].'"' . XHTML . '><br'. XHTML . '>';
+        $moodimage = '<img style="vertical-align:middle;" src="'.gf_getImage($showtopic['mood'],'moods') .'" title="'.$showtopic['mood'].'" alt="'.$showtopic['mood'].'"' . XHTML . '><br'. XHTML . '>';
         $min_height = $min_height + 30;
     }
 
@@ -207,17 +236,17 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
         if ($editAllowed) {
             $editlink = "{$_CONF['site_url']}/forum/createtopic.php?method=edit&amp;forum={$showtopic['forum']}&amp;id={$showtopic['id']}&amp;editid={$showtopic['id']}&amp;page=$page";
-            $editlinkimg = '<img src="'.gf_getImage('edit_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EDITICON'].'" title="'.$LANG_GF01['EDITICON'].'"' . XHTML . '>';
+            $editlinktext = $LANG_GF09['edit'];
             $topictemplate->set_var ('editlink', $editlink);
-            $topictemplate->set_var ('editlinkimg', $editlinkimg);
+            $topictemplate->set_var ('editlinktext', $editlinktext);
             $topictemplate->set_var ('LANG_edit', $LANG_GF01['EDITICON']);
             $topictemplate->parse ('edittopic_link', 'edit');
         }
     }
 
     if ($highlight != '') {
-        $showtopic['subject'] = str_replace("$highlight","<font class=\"highlight\">$highlight</font>", $showtopic['subject']);
-        $showtopic['comment'] = str_replace("$highlight","<font class=\"highlight\">$highlight</font>", $showtopic['comment']);
+        $showtopic['subject'] = str_replace("$highlight","<span class=\"highlight\">$highlight</span>", $showtopic['subject']);
+        $showtopic['comment'] = str_replace("$highlight","<span class=\"highlight\">$highlight</span>", $showtopic['comment']);
     }
 
     if ($showtopic['pid'] == 0) {
@@ -230,7 +259,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         }
     } else {
         $replytopicid = $showtopic['pid'];
-        $is_lockedtopic = DB_getItem($_TABLES['gf_topic'],'locked', "id={$showtopic['pid']}");
+        $is_lockedtopic = DB_getItem($_TABLES['forum_topic'],'locked', "id={$showtopic['pid']}");
         $topictemplate->set_var ('read_msg','');
     }
 
@@ -244,12 +273,12 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
 
     if ($mode != 'preview') {
         if ($is_lockedtopic == 0) {
-            $is_readonly = DB_getItem($_TABLES['gf_forums'],'is_readonly','forum_id=' . $showtopic['forum']);
+            $is_readonly = DB_getItem($_TABLES['forum_forums'],'is_readonly','forum_id=' . $showtopic['forum']);
             if ($is_readonly == 0 OR forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_edit')) {
                 $quotelink = "{$_CONF['site_url']}/forum/createtopic.php?method=postreply&amp;forum={$showtopic['forum']}&amp;id=$replytopicid&amp;quoteid={$showtopic['id']}";
-                $quotelinkimg = '<img src="'.gf_getImage('quote_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['QUOTEICON'].'" title="'.$LANG_GF01['QUOTEICON'].'"' . XHTML . '>';
+                $quotelinktext = '<img style="margin: 0 0.5em 0.1em 0;" src="'.gf_getImage('quotes').'" alt=""' . XHTML . '>&nbsp;' . $LANG_GF09['quote'];
                 $topictemplate->set_var ('quotelink', $quotelink);
-                $topictemplate->set_var ('quotelinkimg', $quotelinkimg);
+                $topictemplate->set_var ('quotelinktext', $quotelinktext);
                 $topictemplate->set_var ('LANG_quote', $LANG_GF01['QUOTEICON']);
                 $topictemplate->parse ('quotetopic_link', 'quote');
             }
@@ -262,9 +291,9 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
         $mod_functions = forum_getmodFunctions($showtopic);
         if ($showtopic['uid'] > 1 && $uservalid) {
             $profile_link = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$showtopic['uid']}";
-            $profile_linkimg = '<img src="'.gf_getImage('profile_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['ProfileLink'].'" title="'.$LANG_GF01['ProfileLink'].'"' . XHTML . '>';
+            $profile_linktext = $LANG_GF09['profile'];
             $topictemplate->set_var ('profilelink', $profile_link);
-            $topictemplate->set_var ('profilelinkimg', $profile_linkimg);
+            $topictemplate->set_var ('profilelinktext', $profile_linktext);
             $topictemplate->set_var ('LANG_profile',$LANG_GF01['ProfileLink']);
             $topictemplate->parse ('profile_link', 'profile');
             if ($CONF_FORUM['use_pm_plugin']) {
@@ -272,9 +301,9 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
                 $pmplugin_link = forumPLG_getPMlink($pmusernmame);
                 if ($pmplugin_link != '') {
                     $pm_link = $pmplugin_link;
-                    $pm_linkimg = '<img src="'.gf_getImage('pm_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['PMLink'].'" title="'.$LANG_GF01['PMLink'].'"' . XHTML . '>';
+                    $pm_linktext = $LANG_GF09['pm'];
                     $topictemplate->set_var ('pmlink', $pm_link);
-                    $topictemplate->set_var ('pmlinkimg', $pm_linkimg);
+                    $topictemplate->set_var ('pmlinktext', $pm_linktext);
                     $topictemplate->set_var ('LANG_pm', $LANG_GF01['PMLink']);
                     $topictemplate->parse ('pm_link', 'pm');
                 }
@@ -283,20 +312,20 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
 
         if ($userarray['email'] != '' && $showtopic["uid"] > 1) {
             $email_link = "{$_CONF['site_url']}/profiles.php?uid={$showtopic['uid']}";
-            $email_linkimg = '<img src="'.gf_getImage('email_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['EmailLink'].'" title="'.$LANG_GF01['EmailLink'].'"' . XHTML . '>';
+            $email_linktext = $LANG_GF09['email'];
             $topictemplate->set_var ('emaillink', $email_link);
-            $topictemplate->set_var ('emaillinkimg', $email_linkimg);
+            $topictemplate->set_var ('emaillinktext', $email_linktext);
             $topictemplate->set_var ('LANG_email', $LANG_GF01['EmailLink']);
             $topictemplate->parse ('email_link', 'email');
         }
         if ($userarray['homepage'] != '') {
-            $homepage = $userarray['homepage'];
-            if (!eregi("http",$homepage)) {
+            $homepage = trim($userarray['homepage']);
+            if (strtolower(substr($homepage, 0, 4)) != 'http') {
                 $homepage = 'http://' .$homepage;
             }
-            $homepageimg = '<img src="'.gf_getImage('website_button').'" style="border:none; virtical-align:middle;" alt="'.$LANG_GF01['WebsiteLink'].'" title="'.$LANG_GF01['WebsiteLink'].'"' . XHTML . '>';
+            $homepagetext = $LANG_GF09['website'];
             $topictemplate->set_var ('websitelink', $homepage);
-            $topictemplate->set_var ('websitelinkimg', $homepageimg);
+            $topictemplate->set_var ('websitelinktext', $homepagetext);
             $topictemplate->set_var ('LANG_website', $LANG_GF01['WebsiteLink']);
             $topictemplate->parse ('website_link', 'website');
         }
@@ -358,7 +387,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1) {
     $topictemplate->set_var ('forumid', $showtopic['forum']);
     $topictemplate->set_var ('topic_id', $showtopic['id']);
     $topictemplate->set_var ('back_link', $backlink);
-	$topictemplate->set_var ('member_badge',forumPLG_getMemberBadge($showtopic['uid']));
+    $topictemplate->set_var ('member_badge',forumPLG_getMemberBadge($showtopic['uid']));
     $topictemplate->parse ('output', 'topictemplate');
     $retval .= $topictemplate->finish ($topictemplate->get_var('output'));
 

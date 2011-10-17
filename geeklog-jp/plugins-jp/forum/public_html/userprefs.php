@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
 // | userprefs.php                                                             |
 // | User definable settings                                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,9 +31,7 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 require_once '../lib-common.php'; // Path to your lib-common.php
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
@@ -48,29 +48,26 @@ $display = '';
 
 // Display Common headers
 $display .= gf_siteHeader();
-$msg = '';
-if (isset($_GET['msg'])) {
-    $msg = COM_applyFilter($_GET['msg'], true);
-}
+$msg = isset($_GET['msg']) ? COM_applyFilter($_GET['msg'], true) : '';
 if ($msg==1) {
     $display .= COM_showMessageText($LANG_GF92['setsavemsg']);
 }
 
 // SAVE SETTINGS
 if (isset($_POST['submit']) && SEC_checkToken()) {
-    $xtopicsperpage   = COM_applyFilter($_POST['xtopicsperpage'],true);
-    $xpostsperpage    = COM_applyFilter($_POST['xpostsperpage'],true);
-    $xpopularlimit    = COM_applyFilter($_POST['xpopularlimit'],true);
-    $xmessagesperpage = COM_applyFilter($_POST['xmessagesperpage'],true);
-    $xsearchlines     = COM_applyFilter($_POST['xsearchlines'],true);
-    $xmembersperpage  = COM_applyFilter($_POST['xmembersperpage'],true);
-    $xemailnotify     = COM_applyFilter($_POST['xemailnotify'],true);
-    $xviewanonposts   = COM_applyFilter($_POST['xviewanonposts'],true);
-    $xalwaysnotify    = COM_applyFilter($_POST['xalwaysnotify'],true);
-    $xnotifyonce      = COM_applyFilter($_POST['xnotifyonce'],true);
-    $xshowiframe      = COM_applyFilter($_POST['xshowiframe'],true);
+    $xalwaysnotify    = isset($_POST['xalwaysnotify'])    ? COM_applyFilter($_POST['xalwaysnotify'],true)    : '';
+    $xemailnotify     = isset($_POST['xemailnotify'])     ? COM_applyFilter($_POST['xemailnotify'],true)     : '';
+    $xmembersperpage  = isset($_POST['xmembersperpage'])  ? COM_applyFilter($_POST['xmembersperpage'],true)  : '';
+    $xmessagesperpage = isset($_POST['xmessagesperpage']) ? COM_applyFilter($_POST['xmessagesperpage'],true) : '';
+    $xnotifyonce      = isset($_POST['xnotifyonce'])      ? COM_applyFilter($_POST['xnotifyonce'],true)      : '';
+    $xpopularlimit    = isset($_POST['xpopularlimit'])    ? COM_applyFilter($_POST['xpopularlimit'],true)    : '';
+    $xpostsperpage    = isset($_POST['xpostsperpage'])    ? COM_applyFilter($_POST['xpostsperpage'],true)    : '';
+    $xsearchlines     = isset($_POST['xsearchlines'])     ? COM_applyFilter($_POST['xsearchlines'],true)     : '';
+    $xshowiframe      = isset($_POST['xshowiframe'])      ? COM_applyFilter($_POST['xshowiframe'],true)      : '';
+    $xtopicsperpage   = isset($_POST['xtopicsperpage'])   ? COM_applyFilter($_POST['xtopicsperpage'],true)   : '';
+    $xviewanonposts   = isset($_POST['xviewanonposts'])   ? COM_applyFilter($_POST['xviewanonposts'],true)   : '';
 
-    DB_query("UPDATE {$_TABLES['gf_userprefs']} SET
+    DB_query("UPDATE {$_TABLES['forum_userprefs']} SET
         topicsperpage='$xtopicsperpage',
         postsperpage='$xpostsperpage',
         popularlimit='$xpopularlimit',
@@ -92,13 +89,13 @@ if (isset($_POST['submit']) && SEC_checkToken()) {
 // SETTINGS MAIN
 if (!isset($_POST['$submit'])) {
     // Get user specific settings from database
-    $result = DB_query("SELECT * FROM {$_TABLES['gf_userprefs']} WHERE uid='{$_USER['uid']}'");
+    $result = DB_query("SELECT * FROM {$_TABLES['forum_userprefs']} WHERE uid='{$_USER['uid']}'");
     $nrows = DB_numRows($result);
 
     if ($nrows == 0) {
         // Insert a new blank record. Defaults are set in SQL Defintion for table.
-        DB_query("INSERT INTO {$_TABLES['gf_userprefs']} (uid) VALUES ('{$_USER['uid']}')");
-        $result = DB_query("SELECT * FROM {$_TABLES['gf_userprefs']} WHERE uid='{$_USER['uid']}'");
+        DB_query("INSERT INTO {$_TABLES['forum_userprefs']} (uid) VALUES ('{$_USER['uid']}')");
+        $result = DB_query("SELECT * FROM {$_TABLES['forum_userprefs']} WHERE uid='{$_USER['uid']}'");
     }
 
     $A = DB_fetchArray($result);
