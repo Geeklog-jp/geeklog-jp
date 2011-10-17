@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
-// | Boards.php                                                                |
+// | boards.php                                                                |
 // | Forum Plugin admin - Main program to setup Forums                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,18 +31,58 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 include_once 'gf_functions.php';
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
-$mode     = COM_applyFilter($_REQUEST['mode']);
-$type     = COM_applyFilter($_REQUEST['type']);
-$confirm  = COM_applyFilter($_POST['confirm'],true);
-$id       = COM_applyFilter($_POST['id'],true);
-$catorder = COM_applyFilter($_POST['catorder'],true);
+$catorder = isset($_REQUEST['catorder']) ? COM_applyFilter($_POST['catorder'],true) : '';
+$confirm  = isset($_REQUEST['confirm'])  ? COM_applyFilter($_POST['confirm'],true)  : '';
+$id       = isset($_REQUEST['id'])       ? COM_applyFilter($_POST['id'],true)       : '';
+$mode     = isset($_REQUEST['mode'])     ? COM_applyFilter($_REQUEST['mode'])       : '';
+$msg      = isset($_GET['msg'])          ? COM_applyFilter($_GET['msg'], true)      : '';
+$type     = isset($_REQUEST['type'])     ? COM_applyFilter($_REQUEST['type'])       : '';
+
+/* Function to create a new forum
+*
+* @param        string     $name        Forum name
+* @param        string     $category    Category id to add the forum
+* @param        string     $dscp        Optional Category Description
+* @param        string     $order       Optional Display order
+* @param        string     $order       Optional Group ID if a private group - Default Group 'All Users'
+* @param        string     $order       Optional Readonly flag
+* @param        string     $order       Optional Hidden flag
+* @param        string     $order       Optional Don't show in newposts and centerblock
+* @return       string                  Returns the Forum ID for the new forum if successful
+*/
+function forum_addForum($name,$category,$dscp="",$order="",$grp_id=2,$is_readonly=0,$is_hidden=0,$no_newposts=0) {
+    global $_TABLES, $_USER;
+
+    DB_query("INSERT INTO {$_TABLES['forum_forums']} (forum_order,forum_name,forum_dscp,forum_cat,grp_id,is_readonly,is_hidden,no_newposts)
+        VALUES ('$order','$name','$dscp','$category','$grp_id','$is_readonly','$is_hidden','$no_newposts')");
+
+    $query = DB_query("SELECT MAX(forum_id) FROM {$_TABLES['forum_forums']} ");
+    list ($forumid) = DB_fetchArray($query);
+    $modquery = DB_query("SELECT * FROM {$_TABLES['forum_moderators']} WHERE mod_uid='{$_USER['uid']}' AND mod_forum='$forumid'");
+    if (DB_numrows($modquery) < 1){
+        DB_query("INSERT INTO {$_TABLES['forum_moderators']} (mod_uid,mod_username,mod_forum,mod_delete,mod_ban,mod_edit,mod_move,mod_stick) VALUES ('{$_USER['uid']}','{$_USER[username]}', '$forumid','1','1','1','1','1')");
+    }
+    return $forumid;
+}
+
+/* Function to delete a forum
+*
+* @param        string     $id        Forum id to delete
+* @return       boolean               Returns true
+*/
+function forum_deleteForum($id) {
+    global $_TABLES;
+    DB_query("DELETE FROM {$_TABLES['forum_forums']} WHERE forum_id='$id'");
+    DB_query("DELETE FROM {$_TABLES['forum_topic']} WHERE forum='$id'");
+    DB_query("DELETE FROM {$_TABLES['forum_moderators']} WHERE mod_forum='$id'");
+    DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE forum_id ='$id'");
+    return true;
+}
 
 $display = '';
 $display .= COM_siteHeader();
@@ -48,10 +90,6 @@ $display .= COM_siteHeader();
 // Debug Code to show variables
 $display .= gf_showVariables();
 
-$msg = '';
-if (isset($_GET['msg'])) {
-    $msg = COM_applyFilter($_GET['msg'], true);
-}
 if ($msg==1) {
     $display .= COM_showMessageText($LANG_GF93['catadded']);
 }
@@ -78,8 +116,9 @@ if ($msg==8) {
 }
 
 $display .= COM_startBlock($LANG_GF93['gfboard']);
-$display .= forum_Navbar($navbarMenu,$LANG_GF06['3']);
 
+$navbar->set_selected($LANG_GF06['3']);
+$display .= $navbar->generate();
 
 // CATEGORY Maintenance Section
 if ($type == "category") {
@@ -88,7 +127,7 @@ if ($type == "category") {
         if (($confirm == 1) && SEC_checkToken()) {
             $name = gf_preparefordb($_POST['name'],'text');
             $dscp = gf_preparefordb($_POST['dscp'],'text');
-            DB_query("INSERT INTO {$_TABLES['gf_categories']} (cat_order,cat_name,cat_dscp) VALUES ('$catorder','$name','$dscp')");
+            DB_query("INSERT INTO {$_TABLES['forum_categories']} (cat_order,cat_name,cat_dscp) VALUES ('$catorder','$name','$dscp')");
             $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=1');
             COM_output($display);
             exit();
@@ -119,13 +158,13 @@ if ($type == "category") {
 
     } elseif ($mode == $LANG_GF01['DELETE']) {
         if (($confirm == 1) && SEC_checkToken()) {
-            DB_query("DELETE FROM {$_TABLES['gf_categories']} WHERE id='$id'");
-            DB_query("DELETE FROM {$_TABLES['gf_forums']} WHERE forum_cat='$id'");
+            DB_query("DELETE FROM {$_TABLES['forum_categories']} WHERE id='$id'");
+            DB_query("DELETE FROM {$_TABLES['forum_forums']} WHERE forum_cat='$id'");
             $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=2');
             COM_output($display);
             exit();
         } else {
-            $catname = DB_getItem($_TABLES['gf_categories'], "cat_name","id=$id");
+            $catname = DB_getItem($_TABLES['forum_categories'], "cat_name","id=$id");
             $boards_delcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_delcategory->set_file (array ('boards_delcategory'=>'boards_delete.thtml'));
             $boards_delcategory->set_var ('xhtml', XHTML);
@@ -150,13 +189,13 @@ if ($type == "category") {
     } elseif (($mode == 'save') && SEC_checkToken()) {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
-        DB_query("UPDATE {$_TABLES['gf_categories']} SET cat_order='$catorder',cat_name='$name',cat_dscp='$dscp' WHERE id='$id'");
+        DB_query("UPDATE {$_TABLES['forum_categories']} SET cat_order='$catorder',cat_name='$name',cat_dscp='$dscp' WHERE id='$id'");
         $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=3');
         COM_output($display);
         exit();
 
     } elseif ($mode == $LANG_GF01['EDIT']) {
-        $esql = DB_query("SELECT * FROM {$_TABLES['gf_categories']} WHERE (id='$id')");
+        $esql = DB_query("SELECT * FROM {$_TABLES['forum_categories']} WHERE (id='$id')");
         $E = DB_fetchArray($esql);
         $boards_edtcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $boards_edtcategory->set_file (array ('boards_edtcategory'=>'boards_edtcategory.thtml'));
@@ -186,7 +225,7 @@ if ($type == "category") {
 
     } elseif ($mode == $LANG_GF01['RESYNCCAT'])  {
         // Resync each forum in this category
-        $query = DB_query("SELECT forum_id FROM {$_TABLES['gf_forums']} WHERE forum_cat='$id'");
+        $query = DB_query("SELECT forum_id FROM {$_TABLES['forum_forums']} WHERE forum_cat='$id'");
         while (list($forum_id) = DB_fetchArray($query)) {
             gf_resyncforum($forum_id);
         }
@@ -200,14 +239,14 @@ if ($type == "forum") {
     if ($mode == 'add') {
 
         if (($confirm == 1) && SEC_checkToken()) {
-            $category = COM_applyFilter($_POST['category'],true);
-            $order = COM_applyFilter($_POST['order'],true);
-            $name = gf_preparefordb($_POST['name'],'text');
-            $dscp = gf_preparefordb($_POST['dscp'],'text');
-            $is_readonly = COM_applyFilter($_POST['is_readonly'],true);
-            $is_hidden = COM_applyFilter($_POST['is_hidden'],true);
-            $no_newposts = COM_applyFilter($_POST['no_newposts'],true);
-            $privgroup = COM_applyFilter($_POST['privgroup'],true);
+            $category    = isset($_POST['category'])    ? COM_applyFilter($_POST['category'],true)    : 0;
+            $dscp        = isset($_POST['dscp'])        ? gf_preparefordb($_POST['dscp'],'text')      : '';
+            $is_hidden   = isset($_POST['is_hidden'])   ? COM_applyFilter($_POST['is_hidden'],true)   : 0;
+            $is_readonly = isset($_POST['is_readonly']) ? COM_applyFilter($_POST['is_readonly'],true) : 0;
+            $name        = isset($_POST['name'])        ? gf_preparefordb($_POST['name'],'text')      : '';
+            $no_newposts = isset($_POST['no_newposts']) ? COM_applyFilter($_POST['no_newposts'],true) : 0;
+            $order       = isset($_POST['order'])       ? COM_applyFilter($_POST['order'],true)       : 0;
+            $privgroup   = isset($_POST['privgroup'])   ? COM_applyFilter($_POST['privgroup'],true)   : 0;
             if ($privgroup == 0) $privgroup = 2;
             if (forum_addForum($name,$category,$dscp,$order,$privgroup,$is_readonly,$is_hidden,$no_newposts) > 0 ) {
                 $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=4');
@@ -231,8 +270,8 @@ if ($type == "forum") {
                 }
             }
 
-            $category_id = COM_applyFilter($_GET['category'],true);
-            $catname = DB_getItem($_TABLES['gf_categories'], "cat_name","id=$category_id");
+            $category_id = isset($_GET['category']) ? COM_applyFilter($_GET['category'],true) : '';
+            $catname = DB_getItem($_TABLES['forum_categories'], "cat_name","id=$category_id");
             $boards_addforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_addforum->set_file (array ('boards_addforum'=>'boards_edtforum.thtml'));
             $boards_addforum->set_var ('xhtml', XHTML);
@@ -298,7 +337,7 @@ if ($type == "forum") {
 
     } elseif (($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') && SEC_checkToken()) {
         $order = COM_applyFilter($_POST['order'],true);
-        DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_order='$order' WHERE forum_id='$id'");
+        DB_query("UPDATE {$_TABLES['forum_forums']} SET forum_order='$order' WHERE forum_id='$id'");
         $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=7');
         COM_output($display);
         exit();
@@ -306,12 +345,12 @@ if ($type == "forum") {
     } elseif (($mode == 'save') && SEC_checkToken()) {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
-        $privgroup = COM_applyFilter($_POST['privgroup'],true);
-        $is_readonly = COM_applyFilter($_POST['is_readonly'],true);
-        $is_hidden = COM_applyFilter($_POST['is_hidden'],true);
-        $no_newposts = COM_applyFilter($_POST['no_newposts'],true);
+        $is_hidden   = isset($_POST['is_hidden'])   ? COM_applyFilter($_POST['is_hidden'],true)   : '';
+        $is_readonly = isset($_POST['is_readonly']) ? COM_applyFilter($_POST['is_readonly'],true) : '';
+        $no_newposts = isset($_POST['no_newposts']) ? COM_applyFilter($_POST['no_newposts'],true) : '';
+        $privgroup   = isset($_POST['privgroup'])   ? COM_applyFilter($_POST['privgroup'],true)   : '';
         if ($privgroup == 0) $privgroup = 2;
-        DB_query("UPDATE {$_TABLES['gf_forums']} SET forum_name='$name',forum_dscp='$dscp', grp_id=$privgroup,
+        DB_query("UPDATE {$_TABLES['forum_forums']} SET forum_name='$name',forum_dscp='$dscp', grp_id=$privgroup,
                 is_hidden='$is_hidden', is_readonly='$is_readonly', no_newposts='$no_newposts' WHERE forum_id='$id'");
         $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=8');
         COM_output($display);
@@ -322,7 +361,7 @@ if ($type == "forum") {
 
     } elseif ($mode == $LANG_GF01['EDIT']) {
         $sql  = "SELECT forum_name,forum_cat,forum_dscp,grp_id,forum_order,is_hidden,is_readonly,no_newposts ";
-        $sql .= "FROM {$_TABLES['gf_forums']} WHERE (forum_id='$id')";
+        $sql .= "FROM {$_TABLES['forum_forums']} WHERE (forum_id='$id')";
         $resForum  = DB_query($sql);
         list ($forum_name, $forum_category,$forum_dscp,$privgroup, $forum_order,$is_hidden,$is_readonly,$no_newposts) = DB_fetchArray($resForum);
         $resGroups = DB_query("SELECT DISTINCT grp_id,grp_name FROM {$_TABLES['groups']}");
@@ -407,14 +446,14 @@ $boards->set_var ('delete', $LANG_GF01['DELETE']);
 $boards->set_var ('submit', $LANG_GF01['SUBMIT']);
 
 /* Display each Forum Category */
-$asql = DB_query("SELECT * FROM {$_TABLES['gf_categories']} ORDER BY cat_order");
+$asql = DB_query("SELECT * FROM {$_TABLES['forum_categories']} ORDER BY cat_order");
 while ($A = DB_FetchArray($asql)) {
     $boards->set_var ('catid', $A['id']);
     $boards->set_var ('catname', $A['cat_name']);
     $boards->set_var ('order', $A['cat_order']);
 
     /* Display each forum within this category */
-    $bsql = DB_query("SELECT * FROM {$_TABLES['gf_forums']} WHERE forum_cat={$A['id']} ORDER BY forum_order");
+    $bsql = DB_query("SELECT * FROM {$_TABLES['forum_forums']} WHERE forum_cat={$A['id']} ORDER BY forum_order");
     $bnrows = DB_numRows($bsql);
 
     for ($j = 1; $j <= $bnrows; $j++) {

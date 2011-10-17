@@ -4,8 +4,10 @@
         <td style="padding-left:6px; padding-right:6px;">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                         <tr>
-                                <td style="width:8px" class="aligncenter"><img alt="" src="{imgset}/icon_minipost.gif"{xhtml}></td>
-                                <td style="white-space:nowrap;">&nbsp;{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{locked_icon}</td>
+                                <td style="width:8px; white-space:nowrap;" class="aligncenter">
+                                    <img alt="" style="vertical-align: middle;" src="{imgset}/icon_minipost.gif"{xhtml}>
+                                    &nbsp;{posted_date}{preview_topic_subject}&nbsp;{read_msg}&nbsp;{locked_icon}
+                                </td>
                                 <td class="alignright">
                                     <div style="vertical-align:top; padding-top:2px;" class="alignright">
                                         {mod_functions}

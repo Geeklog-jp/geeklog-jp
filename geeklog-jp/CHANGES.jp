@@ -1,5 +1,11 @@
 $Id$
 
+
+2011-10-18  Tetsuko Komma  <ivy>
+
+	* forum 2.8.0 アップグレードにともない不要になったファイルを削除しました。
+	* forum 2.8.0 をアップグレードしました。
+
 2011-10-12  Tetsuko Komma  <ivy>
 
 	* NEWS readme.ja README.jp を修正しました。

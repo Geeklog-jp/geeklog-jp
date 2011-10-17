@@ -2,8 +2,10 @@
 <form action="{printlink}" method="post" style="margin:0;"><div>
     <input type="submit" name="btnsubmit" value="{LANG_print}">
 </div></form>
-<!--   Alternative layout to use Images -->
+<!--   Alternative layout -->
 <!--
-<a href="{printlink}">{printlinkimg}</a>  
+<div style="margin: 0; float: right;">
+    <a class="profilebutton" href="{printlink}">{printlinktext}</a>  
+</div>
 -->
 <!-- end print.thtml -->

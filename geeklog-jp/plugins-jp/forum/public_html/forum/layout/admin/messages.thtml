@@ -18,7 +18,7 @@
 </table>
 <table width="100%" border="0" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
     <tr>
-        <td class="pluginCellTitle" style="width:1%; white-space:nowrap;"><img src="{imgset}/trash.gif" title="{LANG_deleteall}" alt="" style="border:none;" onclick=' if(confirm("{LANG_DELALLCONFIRM}")) {document.frm_messages.op.value="delchecked"; document.frm_messages.submit();}'{xhtml}></td>
+        <td class="pluginCellTitle" style="width:1%; white-space:nowrap;"><img src="{imgset}/trash.png" title="{LANG_deleteall}" alt="" style="border:none;" onclick=' if(confirm("{LANG_DELALLCONFIRM}")) {document.frm_messages.op.value="delchecked"; document.frm_messages.submit();}'{xhtml}></td>
         <td class="pluginCellTitle" style="width:20%; white-space:nowrap;">{LANG_Author}</td>
         <td class="pluginCellTitle" style="width:39%; white-space:nowrap;">{LANG_Subject}</td>
         <td class="pluginCellTitle aligncenter" style="width:10%; white-space:nowrap;">{LANG_Views}</td>

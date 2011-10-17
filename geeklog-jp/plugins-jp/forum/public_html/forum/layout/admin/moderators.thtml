@@ -36,7 +36,7 @@
             <td colspan="2">
                 <table border="0" width="100%" cellspacing="1" cellpadding="3" class="pluginSolidOutline">
                     <tr>
-                        <td class="pluginCellTitle" style="width:1%; white-space:nowrap;"><img src="{imgset}/trash.gif" title="{LANG_deleteall}" onclick=' if(confirm("{LANG_DELCONFIRM}")) {document.modform.operation.value="delchecked"; document.modform.submit();}' alt=""{xhtml}></td>
+                        <td class="pluginCellTitle" style="width:1%; white-space:nowrap;"><img src="{imgset}/trash.png" title="{LANG_deleteall}" onclick=' if(confirm("{LANG_DELCONFIRM}")) {document.modform.operation.value="delchecked"; document.modform.submit();}' alt=""{xhtml}></td>
                         <td class="pluginCellTitle alignleft" style="width:10%; white-space:nowrap;">{LANG_HEADING2}</td>
                         <td class="pluginCellTitle alignleft" style="width:35%; white-space:nowrap;">{LANG_FORUM}</td>
                         <td class="pluginCellTitle aligncenter" style="width:1%; white-space:nowrap;">{LANG_DELETE}</td>

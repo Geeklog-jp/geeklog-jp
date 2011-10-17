@@ -1,21 +1,23 @@
 <?php
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.6 for Geeklog - The Ultimate Weblog               |
-// | Release date: Oct 30,2006                                                 |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
-// | Createtopic.php                                                           |
+// | createtopic.php                                                           |
 // | Main program to create topics and posts in the forum                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs       - tony@tonybibbs.com                     |
-// +---------------------------------------------------------------------------+
-// | Plugin Authors                                                            |
-// | Blaine Lang,                  blaine@portalparts.com, www.portalparts.com |
-// | Version 1.0 co-developer:     Matthew DeWyer, matt@mycws.com              |
-// | Prototype & Concept :         Mr.GxBlock, www.gxblock.com                 |
-// +---------------------------------------------------------------------------+
+// | Copyright (C) 2011 by the following authors:                              |
+// |    Geeklog Community Members   geeklog-forum AT googlegroups DOT com      |
 // |                                                                           |
+// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
+// |    Tony Bibbs       tony AT tonybibbs DOT com                             |
+// |                                                                           |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
+// +---------------------------------------------------------------------------+
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -29,12 +31,9 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
 require_once '../lib-common.php'; // Path to your lib-common.php
-require_once $CONF_FORUM['path_include'] . 'include_html.php';
 require_once $CONF_FORUM['path_include'] . 'gf_showtopic.php';
 require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
@@ -44,19 +43,54 @@ if (!in_array('forum', $_PLUGINS)) {
 }
 
 //Check is anonymous users can post
-forum_chkUsercanPost();
+if ($CONF_FORUM['registered_to_post'] && $_USER['uid'] < 2) {
+    $url = $_CONF['site_url']. '/users.php?mode=new';
+    $display = COM_siteHeader();
+    $display .= COM_startBlock($LANG_GF00['access_denied']);
+    $display .= '<br' . XHTML . '>' .$LANG_GF01['loginreqpost']. '<p>';
+    $display .= '<meta http-equiv="refresh" content="3; URL=' .$url. '">';
+    $display .= COM_endBlock();
+    $display .= COM_siteFooter();
+    COM_output($display);
+    exit;
+}
+
+// Check if IP of user has been banned
+$ip = getenv("REMOTE_ADDR");
+$sqlresult = DB_query ("SELECT * FROM {$_TABLES['forum_banned_ip']} WHERE host_ip like '$ip'");
+$numRows = DB_numRows($sqlresult);
+if ($numRows > 0) {
+    $display = COM_siteHeader();
+    $display .= COM_startBlock($LANG_GF00['access_denied']);
+    $display .= $LANG_GF02['msg14'];
+    $display .= sprintf($LANG_GF02['msg15'], $_CONF['site_mail']);
+    $display .= COM_endBlock();
+    $display .= COM_siteFooter();
+    COM_output($display);
+    exit();
+}
 
 $display = '';
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
-$id        = COM_applyFilter($_REQUEST['id'],true);
-$showtopic = COM_applyFilter($_REQUEST['showtopic'],true);
-$editpid   = COM_applyFilter($_POST['editpid'],true);
-$forum     = COM_applyFilter($_REQUEST['forum'],true);
-$method    = COM_applyFilter($_REQUEST['method']);
-$page      = COM_applyFilter($_REQUEST['page'],true);
-$notify    = COM_applyFilter($_POST['notify']);
-$preview   = COM_applyFilter($_REQUEST['preview']);
+$aname       = isset($_POST['aname'])              ? strip_tags($_POST['aname'])                        : '';
+$editid      = isset($_POST['editid'])             ? COM_applyFilter($_POST['editid'],true)             : '';
+$editpid     = isset($_POST['editpid'])            ? COM_applyFilter($_POST['editpid'],true)            : '';
+$editpost    = isset($_POST['editpost'])           ? COM_applyFilter($_POST['editpost'])                : '';
+$forum       = isset($_REQUEST['forum'])           ? COM_applyFilter($_REQUEST['forum'],true)           : '';
+$id          = isset($_REQUEST['id'])              ? COM_applyFilter($_REQUEST['id'],true)              : '';
+$method      = isset($_REQUEST['method'])          ? COM_applyFilter($_REQUEST['method'])               : '';
+$mode_switch = isset($_REQUEST['postmode_switch']) ? COM_applyFilter($_REQUEST['postmode_switch'],true) : '';
+$mood        = isset($_POST['mood'])               ? COM_applyFilter($_POST['mood'])                    : '';
+$notify      = isset($_POST['notify'])             ? COM_applyFilter($_POST['notify'])                  : '';
+$page        = isset($_REQUEST['page'])            ? COM_applyFilter($_REQUEST['page'],true)            : '';
+$preview     = isset($_REQUEST['preview'])         ? COM_applyFilter($_REQUEST['preview'])              : '';
+$quoteid     = isset($_REQUEST['quoteid'])         ? COM_applyFilter($_REQUEST['quoteid'],true)         : '';
+$showtopic   = isset($_REQUEST['showtopic'])       ? COM_applyFilter($_REQUEST['showtopic'],true)       : '';
+$silentedit  = isset($_POST['silentedit'])         ? COM_applyFilter($_POST['silentedit'],true)         : '';
+$subject     = isset($_POST['subject'])            ? COM_applyFilter($_POST['subject'])                 : '';
+$submit      = isset($_POST['submit'])             ? COM_applyFilter($_POST['submit'])                  : '';
+
 if ($preview == $LANG_GF01['PREVIEW']) {
     $preview = 'Preview';
 }
@@ -68,10 +102,6 @@ if (isset($_REQUEST['postmode'])) {
     } else {
         $postmode = 'html';
     }
-}
-$postmode_switch = COM_applyFilter($_REQUEST['postmode_switch'],true);
-if (isset($_POST['aname'])) {
-    $_POST['aname'] = strip_tags($_POST['aname']);
 }
 
 // Display Common headers
@@ -89,9 +119,7 @@ if (empty($_USER['uid']) OR $_USER['uid'] == 1 ) {
 }
 
 // ADD EDITED TOPIC
-if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') && SEC_checkToken()) {
-    $editid = COM_applyFilter($_POST['editid'],true);
-    $forum = COM_applyFilter($_POST['forum'],true);
+if (($submit == $LANG_GF01['SUBMIT']) && ($editpost == 'yes') && SEC_checkToken()) {
     $date = time();
 
     $editAllowed = false;
@@ -99,7 +127,7 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
         $editAllowed = true;
     } else {
         if ($CONF_FORUM['allowed_editwindow'] > 0) {
-            $t1 = DB_getItem($_TABLES['gf_topic'],'date',"id='$id'");
+            $t1 = DB_getItem($_TABLES['forum_topic'],'date',"id='$id'");
             $t2 = $CONF_FORUM['allowed_editwindow'];
             $time = time();
             if ((time() - $t2) < $t1) {
@@ -131,10 +159,9 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
                 }
             }
 
-            $postmode = gf_chkpostmode($postmode,$postmode_switch);
+            $postmode = gf_chkpostmode($postmode,$mode_switch);
             $subject  = gf_preparefordb(strip_tags($_POST['subject']),'text');
             $comment  = gf_preparefordb($_POST['comment'],$postmode);
-            $mood = COM_applyFilter($_POST['mood']);
 
             // If user has moderator edit rights only
             $locked = 0;
@@ -143,29 +170,29 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
                 if ($_POST['locked_switch'] == 1)  $locked = 1;
                 if ($_POST['sticky_switch'] == 1)  $sticky = 1;
             }
-            $sql = "UPDATE {$_TABLES['gf_topic']} SET subject='$subject',comment='$comment',postmode='$postmode', ";
+            $sql = "UPDATE {$_TABLES['forum_topic']} SET subject='$subject',comment='$comment',postmode='$postmode', ";
             $sql .= "mood='$mood', sticky='$sticky', locked='$locked' WHERE (id='$editid')";
             DB_query($sql);
             PLG_itemSaved($editid, 'forum');
 
-            $topicparent = DB_getItem($_TABLES['gf_topic'],"pid","id='$editid'");
+            $topicparent = DB_getItem($_TABLES['forum_topic'],"pid","id='$editid'");
             if ($topicparent == 0) {
                 $topicparent = $editid;
             }
 
             //NOTIFY - Checkbox variable in form set to "on" when checked and they have not already subscribed to forum
-            $notifyRecID = DB_getItem($_TABLES['gf_watch'],'id', "forum_id='$forum' AND topic_id='$topicparent' AND uid='$uid'");
+            $notifyRecID = DB_getItem($_TABLES['forum_watch'],'id', "forum_id='$forum' AND topic_id='$topicparent' AND uid='$uid'");
             if ($notify == 'on' AND $notifyRecID < 1) {
-                DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$topicparent','$_USER[uid]',now() )");
+                DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$topicparent','{$_USER['uid']}',now() )");
             } elseif ($notify == '' AND $notifyRecID > 1) {
-                DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE id=$notifyRecID");
+                DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE id=$notifyRecID");
             }
 
             // if user has un-checked the Silent option then they want to have user alerted of the edit and update the topic timestamp
-            if ($_POST['silentedit'] != 1) {
-                DB_query("UPDATE {$_TABLES['gf_topic']} SET lastupdated = $date WHERE id=$topicparent");
+            if ($silentedit != 1) {
+                DB_query("UPDATE {$_TABLES['forum_topic']} SET lastupdated = $date WHERE id=$topicparent");
                 //Remove any lastviewed records in the log so that the new updated topic indicator will appear
-                DB_query("DELETE FROM {$_TABLES['gf_log']} WHERE topic='$topicparent' and time > 0");
+                DB_query("DELETE FROM {$_TABLES['forum_log']} WHERE topic='$topicparent' and time > 0");
                 // Check for any users subscribed notifications
                 gf_chknotifications($forum,$editid,$uid);
             }
@@ -188,14 +215,14 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && ($_POST['editpost'] == 'yes') 
 }
 
 // ADD TOPIC
-if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1))) {
+if (($submit == $LANG_GF01['SUBMIT']) && (($uid == 1) || SEC_checkToken())) {
     $msg = '';
     $date = time();
     $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
 
     if ($method == 'newtopic') {
-        if ($_POST['aname'] != '') {
-            $name = gf_preparefordb($_POST['aname'],'text');
+        if ($aname != '') {
+            $name = gf_preparefordb($aname,'text');
         } else {
             $name = gf_preparefordb($_POST['name'],'text');
         }
@@ -236,14 +263,13 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                             exit;
                         }
                     }
-                    $postmode = gf_chkpostmode($postmode,$postmode_switch);
+                    $postmode = gf_chkpostmode($postmode,$mode_switch);
                     $subject = gf_preparefordb(strip_tags($_POST['subject']),'text');
 
                     if ( strlen ( $subject ) > 100 ) {
                         $subject = COM_truncate($subject, 99, '...');
                     }
                     $comment = gf_preparefordb($_POST['comment'],$postmode);
-                    $mood = COM_applyFilter($_POST['mood']);
                     $locked = 0;
                     $sticky = 0;
                     if ($_POST['modedit'] == 1) {
@@ -252,37 +278,37 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                     }
 
                     $fields = "forum,name,date,lastupdated,subject,comment,postmode,ip,mood,uid,pid,sticky,locked";
-                    $sql  = "INSERT INTO {$_TABLES['gf_topic']} ($fields) ";
+                    $sql  = "INSERT INTO {$_TABLES['forum_topic']} ($fields) ";
                     $sql .= "VALUES ('$forum','$name','$date',$date,'$subject','$comment', ";
                     $sql .= "'$postmode','$REMOTE_ADDR','$mood','$uid','0','$sticky','$locked')";
                     DB_query($sql);
 
                     // Find the id of the last inserted topic
-                    list ($lastid) = DB_fetchArray(DB_query("SELECT max(id) FROM {$_TABLES['gf_topic']} "));
+                    list ($lastid) = DB_fetchArray(DB_query("SELECT max(id) FROM {$_TABLES['forum_topic']} "));
 
                     PLG_itemSaved($lastid, 'forum');
 
                     // Update forums record
-                    DB_query("UPDATE {$_TABLES['gf_forums']} SET post_count=post_count+1, topic_count=topic_count+1, last_post_rec=$lastid WHERE forum_id=$forum");
+                    DB_query("UPDATE {$_TABLES['forum_forums']} SET post_count=post_count+1, topic_count=topic_count+1, last_post_rec=$lastid WHERE forum_id=$forum");
 
                     // Check for any users subscribed notifications - would only be for users subscribed to the forum
                     gf_chknotifications($forum,$lastid,$uid,"forum");
                     //NOTIFY - Checkbox variable in form set to "on" when checked and they have not already subscribed to forum
-                    $currentNotifyRecID = DB_getItem($_TABLES['gf_watch'],'id', "forum_id='$forum' AND topic_id=0 AND uid='$uid'");
+                    $currentNotifyRecID = DB_getItem($_TABLES['forum_watch'],'id', "forum_id='$forum' AND topic_id=0 AND uid='$uid'");
                     if ($notify == 'on' AND $currentNotifyRecID < 1) {
-                        DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$lastid','$_USER[uid]',now() )");
+                        DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$lastid','{$_USER['uid']}',now() )");
                     } elseif ($notify == '' AND $currentNotifyRecID > 1) { // Subscribed to forum - but does not want to be notified about this topic
                         $nlastid = -$lastid;  // Negative Value
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$lastid'");
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$nlastid'");
-                        DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$nlastid','$uid',now() )");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$lastid'");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$nlastid'");
+                        DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$nlastid','$uid',now() )");
                     }
 
                     COM_updateSpeedlimit ('forum');
 
                     // Insert a new log record for all logged in users that posted so it does not appear as new
                     if ($uid != '1') {
-                        DB_query("INSERT INTO {$_TABLES['gf_log']} (uid,forum,topic,time) VALUES ('$_USER[uid]','$forum','$lastid','$date')");
+                        DB_query("INSERT INTO {$_TABLES['forum_log']} (uid,forum,topic,time) VALUES ('{$_USER['uid']}','$forum','$lastid','$date')");
                     }
                     $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$lastid");
                     COM_output($display);
@@ -308,8 +334,8 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
         }
         if ( $msg == '' ) {
             //Add Reply
-            if ($_POST['aname'] != '') {
-                $name = gf_preparefordb($_POST['aname'],'text');
+            if ($aname != '') {
+                $name = gf_preparefordb($aname,'text');
             } else {
                 $name = gf_preparefordb($_POST['name'],'text');
             }
@@ -336,46 +362,45 @@ if (($_POST['submit'] == $LANG_GF01['SUBMIT']) && (SEC_checkToken() || ($uid==1)
                         }
                     }
 
-                    DB_query("DELETE FROM {$_TABLES['gf_log']} WHERE topic='$id' and time > 0");
+                    DB_query("DELETE FROM {$_TABLES['forum_log']} WHERE topic='$id' and time > 0");
 
                     // Check for any users subscribed notifications
                     gf_chknotifications($forum,$id,$uid);
-                    $postmode = gf_chkpostmode($postmode,$postmode_switch);
+                    $postmode = gf_chkpostmode($postmode,$mode_switch);
                     $subject = gf_preparefordb($_POST['subject'],'text');
                     $comment = gf_preparefordb($_POST['comment'],$postmode);
-                    $mood = COM_applyFilter($_POST['mood']);
 
                     $fields = "name,date,subject,comment,postmode,ip,mood,uid,pid,forum";
-                    $sql  = "INSERT INTO {$_TABLES['gf_topic']} ($fields) ";
+                    $sql  = "INSERT INTO {$_TABLES['forum_topic']} ($fields) ";
                     $sql .= "VALUES  ('$name','$date','$subject','$comment',";
                     $sql .= "'$postmode','$REMOTE_ADDR','$mood','$uid','$id','$forum')";
                     DB_query($sql);
 
                     // Find the id of the last inserted topic
-                    list ($lastid) = DB_fetchArray(DB_query("SELECT max(id) FROM {$_TABLES['gf_topic']} "));
+                    list ($lastid) = DB_fetchArray(DB_query("SELECT max(id) FROM {$_TABLES['forum_topic']} "));
 
                     PLG_itemSaved($lastid, 'forum');
 
-                    DB_query("UPDATE {$_TABLES['gf_topic']} SET replies=replies + 1, lastupdated = $date,last_reply_rec=$lastid WHERE id=$id");
-                    DB_query("UPDATE {$_TABLES['gf_forums']} SET post_count=post_count+1, last_post_rec=$lastid WHERE forum_id=$forum");
+                    DB_query("UPDATE {$_TABLES['forum_topic']} SET replies=replies + 1, lastupdated = $date,last_reply_rec=$lastid WHERE id=$id");
+                    DB_query("UPDATE {$_TABLES['forum_forums']} SET post_count=post_count+1, last_post_rec=$lastid WHERE forum_id=$forum");
 
                     //NOTIFY - Checkbox variable in form set to "on" when checked and they don't already have subscribed to forum or topic
                     $nid = -$id;  // Negative Topic ID Value
-                    $currentForumNotifyRecID = DB_getItem($_TABLES['gf_watch'],'id', "forum_id='$forum' AND topic_id=0 AND uid='$uid'");
-                    $currentTopicNotifyRecID = DB_getItem($_TABLES['gf_watch'],'id', "forum_id='$forum' AND topic_id=$id AND uid='$uid'");
-                    $currentTopicUnNotifyRecID = DB_getItem($_TABLES['gf_watch'],'id', "forum_id='$forum' AND topic_id=$nid AND uid='$uid'");
+                    $currentForumNotifyRecID = DB_getItem($_TABLES['forum_watch'],'id', "forum_id='$forum' AND topic_id=0 AND uid='$uid'");
+                    $currentTopicNotifyRecID = DB_getItem($_TABLES['forum_watch'],'id', "forum_id='$forum' AND topic_id=$id AND uid='$uid'");
+                    $currentTopicUnNotifyRecID = DB_getItem($_TABLES['forum_watch'],'id', "forum_id='$forum' AND topic_id=$nid AND uid='$uid'");
                     if ($notify == 'on' AND $currentForumNotifyRecID < 1) {
-                        $sql = "INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) ";
+                        $sql = "INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) ";
                         $sql .= "VALUES ('$forum','$id','$_USER[uid]',now() )";
                         DB_query($sql);
                     } elseif ($notify == 'on' AND $currentTopicUnNotifyRecID > 1) { // Had un-subcribed to topic and now wants to subscribe
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE id=$currentTopicUnNotifyRecID");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE id=$currentTopicUnNotifyRecID");
                     } elseif ($notify == '' AND $currentTopicNotifyRecID > 1) { // Subscribed to topic - but does not want to be notified anymore
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$id'");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$id'");
                     } elseif ($notify == '' AND $currentForumNotifyRecID > 1) { // Subscribed to forum - but does not want to be notified about this topic
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$id'");
-                        DB_query("DELETE FROM {$_TABLES['gf_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$nid'");
-                        DB_query("INSERT INTO {$_TABLES['gf_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$nid','$uid',now() )");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$id'");
+                        DB_query("DELETE FROM {$_TABLES['forum_watch']} WHERE uid='$uid' AND forum_id='$forum' and topic_id = '$nid'");
+                        DB_query("INSERT INTO {$_TABLES['forum_watch']} (forum_id,topic_id,uid,date_added) VALUES ('$forum','$nid','$uid',now() )");
                     }
                     COM_updateSpeedlimit ('forum');
                     $display = COM_refresh($_CONF['site_url'] . "/forum/viewtopic.php?msg=1&amp;showtopic=$id&amp;lastpost=true#$lastid");
@@ -403,15 +428,21 @@ $comment = COM_stripslashes( $_POST['comment'] );
 
 if ($id > 0) {
     $sql  = "SELECT a.forum,a.pid,a.comment,a.date,a.locked,a.subject,a.mood,a.sticky,a.uid,a.name,a.postmode,b.forum_cat,b.forum_name,b.is_readonly,c.cat_name ";
-    $sql .= "FROM {$_TABLES['gf_topic']} a ";
-    $sql .= "LEFT JOIN {$_TABLES['gf_forums']} b ON b.forum_id=a.forum ";
-    $sql .= "LEFT JOIN {$_TABLES['gf_categories']} c on c.id=b.forum_cat ";
+    $sql .= "FROM {$_TABLES['forum_topic']} a ";
+    $sql .= "LEFT JOIN {$_TABLES['forum_forums']} b ON b.forum_id=a.forum ";
+    $sql .= "LEFT JOIN {$_TABLES['forum_categories']} c ON c.id=b.forum_cat ";
     $sql .= "WHERE a.id=$id";
     $edittopic = DB_fetchArray(DB_query($sql),false);
 } else {
+    if (empty($forum)) {
+        $display .= alertMessage('', $LANG_GF02['msg171']);
+        $display .= COM_siteFooter();
+        COM_output($display);
+        exit;
+    }
     $sql  = "SELECT a.forum_name,a.is_readonly,b.cat_name ";
-    $sql .= "FROM {$_TABLES['gf_forums']} a ";
-    $sql .= "LEFT JOIN {$_TABLES['gf_categories']} b on b.id=a.forum_cat ";
+    $sql .= "FROM {$_TABLES['forum_forums']} a ";
+    $sql .= "LEFT JOIN {$_TABLES['forum_categories']} b ON b.id=a.forum_cat ";
     $sql .= "WHERE a.forum_id=$forum";
     $newtopic = DB_fetchArray(DB_query($sql),false);
 }
@@ -443,7 +474,7 @@ if ($method == 'edit') {
         $fields2 = array( 'topic_id','forum_id','uid' );
         $values2 = array( 0,$edittopic['forum'],$edittopic['uid']);
         // Check if there are any notification records for the topic or the forum - topic_id = 0
-        if ((DB_count($_TABLES['gf_watch'],$fields1,$values1) > 0) OR (DB_count($_TABLES['gf_watch'],$fields2,$values2) > 0)) {
+        if ((DB_count($_TABLES['forum_watch'],$fields1,$values1) > 0) OR (DB_count($_TABLES['forum_watch'],$fields2,$values2) > 0)) {
             $notify_val= 'checked="checked"';
         }
     } else {
@@ -453,25 +484,24 @@ if ($method == 'edit') {
 }
 
 // PREVIEW TOPIC
-if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
+if ($preview == 'Preview') {
     $previewitem = array();
     if ($method == 'edit') {
         $previewitem['uid']  = $edittopic['uid'];
         $previewitem['name'] = $edittopic['name'];
     } else {
         if ($uid > 1) {
-            $previewitem['name'] = stripslashes($_POST['aname']);
+            $previewitem['name'] = stripslashes($aname);
             $previewitem['uid'] = $_USER['uid'];
         } else {
-            $previewitem['name'] = stripslashes(urldecode($_POST['aname']));
+            $previewitem['name'] = stripslashes(urldecode($aname));
             $previewitem['uid'] = 1;
         }
     }
     $previewitem['date'] = time();
-    $subject = $_POST['subject'];
     $previewitem['subject'] = gf_checkHTML($subject);
-    $previewitem['postmode'] = gf_chkpostmode($postmode,$postmode_switch);
-    $previewitem['mood'] = $_POST['mood'];
+    $previewitem['postmode'] = gf_chkpostmode($postmode,$mode_switch);
+    $previewitem['mood'] = $mood;
 
     $previewitem['comment'] = trim($comment);
 
@@ -508,6 +538,7 @@ if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
     $display .= '<br' . XHTML . '>';
 
     // If Moderator and editing the parent topic - see if form has skicky or locked checkbox on
+    isset($editmoderator) or $editmoderator = '';
     if ($editmoderator AND $editpid == 0) {
         if ($method == 'edit') {
             if ($_POST['locked_switch'] == 1 ) {
@@ -521,7 +552,7 @@ if ($_REQUEST['preview'] == $LANG_GF01['PREVIEW']) {
 }
 
 // NEW TOPIC OR REPLY
-if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($preview == "Preview")) {
+if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($preview == 'Preview')) {
     if ( $preview == 'Preview' ) {
         $edittopic['subject'] = COM_stripslashes($_POST['subject']);
     }
@@ -652,10 +683,9 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         if ( $preview != 'Preview' ) {
             $subject = $LANG_GF01['RE'] . $subject;
         }
-        $quoteid = COM_applyFilter($_REQUEST['quoteid'],true);
         $edittopic['mood'] = '';
         if ($quoteid > 0) {
-            $quotesql = DB_query("SELECT * FROM {$_TABLES['gf_topic']} WHERE id='$quoteid'");
+            $quotesql = DB_query("SELECT * FROM {$_TABLES['forum_topic']} WHERE id='$quoteid'");
             $quotearray = DB_fetchArray($quotesql);
             $quotearray['comment'] = stripslashes($quotearray['comment']);
             if ($CONF_FORUM['pre2.5_mode'] == true ) {
@@ -721,7 +751,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         $submissionformtop->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $submissionformtop->set_var ('post_message', $postmessage);
         $submissionformtop->set_var ('LANG_NAME', $LANG_GF02['msg33']);
-        $submissionformtop->set_var ('name', stripcslashes($_POST['aname']));
+        $submissionformtop->set_var ('name', stripcslashes($aname));
         $submissionformtop->parse ('output', 'submissionformtop');
         $display .= $submissionformtop->finish($submissionformtop->get_var('output'));
 
@@ -752,16 +782,17 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     }
 
     if ($CONF_FORUM['show_moods']) {
-        if ($_POST['mood'] != '') {
-            $edittopic['mood'] = $_POST['mood'];
-        }
-        if ($edittopic['mood'] == '') {
+        $moodoptions = '';
+        if ($mood != '') {
+            $edittopic['mood'] = $mood;
+        } else {
+            $edittopic['mood'] = '';
             $moodoptions = '<option value="" selected="selected">' . $LANG_GF01['NOMOOD'] . "</option>\n";
         }
         if ($dir = @opendir("{$CONF_FORUM['imgset_path']}/moods")) {
             while (($file = readdir($dir)) !== false) {
-                if ((strlen($file) > 3) && eregi('gif',$file)) {
-                    $file = str_replace(array('.gif','.jpg'), array('',''), $file);
+                if ((strlen($file) > 3) && substr(strtolower(trim($file)), -4, 4) == '.gif') {
+                    $file = str_replace('.gif', '', $file);
                     if ($file == $edittopic['mood']) {
                         $moodoptions .= '<option value="' . $file . '" selected="selected">' . $file . "</option>\n";
                     } else {
@@ -800,10 +831,10 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     }
 
     // Now check if you need to show the HTML attribute editing buttons and BB code display field
-    $chkpostmode = gf_chkpostmode($postmode,$postmode_switch);
+    $chkpostmode = gf_chkpostmode($postmode,$mode_switch);
     if ($chkpostmode != $postmode) {
         $postmode = $chkpostmode;
-        $postmode_switch = 0;
+        $mode_switch = 0;
     }
     $submissionform_code = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
     $submissionform_code->set_file (array ('submissionform_code'=>'submissionform_code.thtml'));
@@ -860,29 +891,27 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         } else {
             $notifyTopicid = $id;
         }
-        if ($CONF_FORUM['mysql4+']) {
-            $sql  = "(SELECT id FROM {$_TABLES['gf_watch']} WHERE ((topic_id='$notifyTopicid' AND uid='$uid')) ) UNION ALL ";
-            $sql .= "(SELECT id FROM {$_TABLES['gf_watch']} WHERE ((forum_id='{$edittopic['forum']}') AND (topic_id='0') and (uid='$uid')) ) ";
-            $notifyquery = DB_query($sql);
-        } else {
-            $sql = "SELECT id FROM {$_TABLES['gf_watch']} WHERE ((topic_id='$notifyTopicid' AND uid='$uid') ";
-            $sql .= "OR ((forum_id='{$edittopic['forum']}') AND (topic_id='0') and (uid='$uid')))";
-            $notifyquery = DB_query($sql);
-        }
 
-        if (DB_getItem($_TABLES['gf_userprefs'],'alwaysnotify', "uid='$uid'") == 1 OR DB_numRows($notifyquery) > 0) {
+        $sql  = "(SELECT id FROM {$_TABLES['forum_watch']} WHERE ((topic_id='$notifyTopicid' AND uid='$uid')) ) UNION ALL "
+              . "(SELECT id FROM {$_TABLES['forum_watch']} WHERE ((forum_id='{$edittopic['forum']}') AND (topic_id='0') AND (uid='$uid')) ) ";
+        $notifyquery = DB_query($sql);
+
+        if (DB_getItem($_TABLES['forum_userprefs'],'alwaysnotify', "uid='$uid'") == 1 OR DB_numRows($notifyquery) > 0) {
             $notify = 'on';
             // check and see if user has un-subscribed to this topic
             $nid = -$notifyTopicid;
-            if ($notifyTopicid > 0 AND DB_getItem($_TABLES['gf_watch'],'id', "forum_id='{$edittopic['forum']}' AND topic_id=$nid AND uid='$uid'") > 1) {
+            if ($notifyTopicid > 0 AND DB_getItem($_TABLES['forum_watch'],'id', "forum_id='{$edittopic['forum']}' AND topic_id=$nid AND uid='$uid'") > 1) {
                 $notigy = '';
             }
         } else {
             $notify = '';
         }
     }
+    $locked_prompt = '';
+    $sticky_prompt = '';
+    $notify_prompt = '';
     if ($editmoderator) {
-        if ($notify == 'on' OR $_POST['notify'] == 'on') {
+        if ($notify == 'on' || (isset($_POST['notify']) && $_POST['notify'] == 'on')) {
             $notify_val = 'checked="checked"';
         } else {
             $notify_val = '';
@@ -892,11 +921,17 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         // check that this is the parent topic - only able to make it skicky or locked
         if ($editpid == 0) {
             if (!isset($locked_val) and !isset($sticky_val) AND $method == 'edit') {
-                if ( (!isset($_POST['locked_switch']) AND $edittopic['locked'] == 1) OR $_POST['locked_switch'] == 1 ) {
+
+
+                if ((!isset($_POST['locked_switch']) AND $edittopic['locked'] == 1) OR (isset($_POST['locked_switch']) && $_POST['locked_switch'] == 1 )) {
                     $locked_val = 'checked="checked"';
-                }
-                if ( (!isset($_POST['sticky_switch']) AND $edittopic['sticky'] == 1) OR $_POST['sticky_switch'] == 1 ) {
+                    $sticky_val = '';
+                } else if ((!isset($_POST['sticky_switch']) AND $edittopic['sticky'] == 1) OR (isset($_POST['sticky_switch']) && $_POST['sticky_switch'] == 1 )) {
+                    $locked_val = '';
                     $sticky_val = 'checked="checked"';
+                } else {
+                    $locked_val = '';
+                    $sticky_val = '';
                 }
             }
             $locked_prompt = $LANG_GF02['msg109']. '<br' . XHTML . '><input type="checkbox" name="locked_switch" ' .$locked_val. ' value="1"' . XHTML . '>';
@@ -910,10 +945,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
                 $notify_val = '';
             }
             $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' .$notify_val. XHTML . '>';
-            $locked_prompt = '';
         } else {
             $notify_prompt = '';
-            $locked_prompt = '';
         }
     }
 
@@ -934,7 +967,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
             $comment = str_replace( '</pre>', '[/code]', $comment );
         }
         $edit_prompt = $LANG_GF02['msg190'] . '<br' . XHTML . '><input type="checkbox" name="silentedit" ';
-        if ($_POST['silentedit'] == 1 OR ( !isset($_POST['modedit']) AND $CONF_FORUM['silent_edit_default'])) {
+        if ($silentedit == 1 OR ( !isset($_POST['modedit']) AND $CONF_FORUM['silent_edit_default'])) {
              $edit_prompt .= 'checked="checked" ';
         }
         $edit_prompt .= 'value="1"' . XHTML . '>';
@@ -970,7 +1003,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
 
     if ($method == 'edit') {
         if ($CONF_FORUM['allow_smilies']) {
-            if (function_exists(msg_restoreEmoticons) AND $CONF_FORUM['use_smilies_plugin']) {
+            if (function_exists('msg_restoreEmoticons') AND $CONF_FORUM['use_smilies_plugin']) {
                 $comment = msg_restoreEmoticons($comment);
             } else {
                 $comment = forum_xchsmilies($comment,true);
@@ -994,7 +1027,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
 
     //Topic Review
-    if (($method != 'newtopic' && $_POST['editpost'] != 'yes') && ($method == 'postreply' || $preview == 'Preview')) {
+    if (($method != 'newtopic' && $editpost != 'yes') && ($method == 'postreply' || $preview == 'Preview')) {
         if ($CONF_FORUM['show_topicreview']) {
             $display .= "<iframe src=\"{$_CONF['site_url']}/forum/viewtopic.php?mode=preview&amp;showtopic=$id&amp;onlytopic=1&amp;lastpost=true\" height=\"300\" width=\"100%\"></iframe>";
         }
@@ -1018,12 +1051,12 @@ COM_output($display);
 function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
     global $_TABLES,$LANG_GF01,$LANG_GF02,$_CONF,$CONF_FORUM;
 
-    $pid = DB_getItem($_TABLES['gf_topic'],pid,"id='$topicid'");
+    $pid = DB_getItem($_TABLES['forum_topic'],'pid',"id='$topicid'");
     if ($pid == 0) {
         $pid = $topicid;
     }
 
-    $sql = "SELECT * FROM {$_TABLES['gf_watch']} WHERE ((topic_id='$pid') OR ((forum_id='$forumid') AND (topic_id='0') )) GROUP BY uid";
+    $sql = "SELECT * FROM {$_TABLES['forum_watch']} WHERE ((topic_id='$pid') OR ((forum_id='$forumid') AND (topic_id='0') )) GROUP BY uid";
     $sqlresult = DB_query($sql);
     $postername = COM_getDisplayName($userid);
     $nrows = DB_numRows($sqlresult);
@@ -1034,13 +1067,13 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
         if ($N['uid'] > 1 AND $N['uid'] != $userid AND $CONF_FORUM['allow_notification'] == '1' ) {
 
             // if the topic_id is 0 for this record - user has subscribed to complete forum. Check if they have opted out of this forum topic.
-            if (DB_count($_TABLES['gf_watch'],array('uid','forum_id','topic_id'),array($N['uid'],$forumid,-$topicid)) == 0) {
+            if (DB_count($_TABLES['forum_watch'],array('uid','forum_id','topic_id'),array($N['uid'],$forumid,-$topicid)) == 0) {
 
                 // Check if user does not want to receive multiple notifications for same topic and already has been notified
-                $userNotifyOnceOption = DB_getItem($_TABLES['gf_userprefs'],'notify_once',"uid='{$N['uid']}'");
+                $userNotifyOnceOption = DB_getItem($_TABLES['forum_userprefs'],'notify_once',"uid='{$N['uid']}'");
                 // Retrieve the log record for this user if it exists then check if user has viewed this topic yet
                 // The logtime value may be 0 which indicates the user has not yet viewed the topic
-                $lsql = DB_query("SELECT time FROM {$_TABLES['gf_log']} WHERE uid='{$N['uid']}' AND forum='$forumid' AND topic='$topicid'");
+                $lsql = DB_query("SELECT time FROM {$_TABLES['forum_log']} WHERE uid='{$N['uid']}' AND forum='$forumid' AND topic='$topicid'");
                 if (DB_numRows($lsql) == 1) {
                     $nologRecord = false;
                     list ($logtime) = DB_fetchArray($lsql);
@@ -1050,7 +1083,7 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
                 }
 
                 if  ($userNotifyOnceOption == 0 OR ($userNotifyOnceOption == 1 AND ($nologRecord OR $logtime != 0)) ) {
-                    $topicrec = DB_query("SELECT subject,name,forum FROM {$_TABLES['gf_topic']} WHERE id='$pid'");
+                    $topicrec = DB_query("SELECT subject,name,forum FROM {$_TABLES['forum_topic']} WHERE id='$pid'");
                     $A = DB_fetchArray($topicrec);
                     $userrec = DB_query("SELECT username,email,status FROM {$_TABLES['users']} WHERE uid='{$N['uid']}'");
                     $B = DB_fetchArray($userrec);
@@ -1058,7 +1091,7 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
                         $subjectline = "{$_CONF['site_name']} {$LANG_GF02['msg22']}";
                         $message  = "{$LANG_GF01['HELLO']} {$B['username']},\n\n";
                         if ($type=='forum') {
-                            $forum_name = DB_getItem($_TABLES['gf_forums'],forum_name, "forum_id='$forumid'");
+                            $forum_name = DB_getItem($_TABLES['forum_forums'],forum_name, "forum_id='$forumid'");
                             $message .= sprintf($LANG_GF02['msg23b'],$A['subject'],$A['name'],$forum_name, $_CONF['site_name'],$_CONF['site_url'],$pid);
                         } else {
                             $message .= sprintf($LANG_GF02['msg23a'],$A['subject'],$postername, $A['name'],$_CONF['site_name']);
@@ -1070,7 +1103,7 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
                         // Check and see if Site admin has enabled email notifications
                         if ($CONF_FORUM['allow_notification']) {
                             if ($nologRecord and $userNotifyOnceOption == 1 ) {
-                                DB_query("INSERT INTO {$_TABLES['gf_log']} (uid,forum,topic,time) VALUES ('{$N['uid']}', '$forumid', '$topicid','0') ");
+                                DB_query("INSERT INTO {$_TABLES['forum_log']} (uid,forum,topic,time) VALUES ('{$N['uid']}', '$forumid', '$topicid','0') ");
                             }
                             COM_mail($B['email'],$subjectline,$message);
                         }

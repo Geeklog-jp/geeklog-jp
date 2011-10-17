@@ -1,28 +1,20 @@
 <?php
-
+/* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.0 for Geeklog - The Ultimate Weblog               |
-// | Official release date: Feb 7,2003                                         |
+// | Geeklog Forums Plugin 2.8.0                                               |
 // +---------------------------------------------------------------------------+
 // | autoinstall.php                                                           |
-// |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2008 by the following authors:                              |
+// |    Dirk Haun         dirk AT haun-online DOT de                           |
 // |                                                                           |
-// | Authors: Dirk Haun         - dirk AT haun-online DOT de                   |
+// | Forum Plugin Authors                                                      |
+// |    Mr.GxBlock                                        www.gxblock.com      |
+// |    Matthew DeWyer   matt AT mycws DOT com            www.cweb.ws          |
+// |    Blaine Lang      geeklog AT langfamily DOT ca     www.langfamily.ca    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000,2001,2002,2003 by the following authors:               |
-// | Geeklog Author: Tony Bibbs   - tony@tonybibbs.com                         |
-// +---------------------------------------------------------------------------+
-// | FORUM Plugin Authors                                                      |
-// | Developed by Blaine and Matthew                                           |
-// | Blaine Lang,    contact: blaine@portalparts.com   www.portalparts.com     |
-// | Matthew DeWyer, contact: matt@mycws.com           www.cweb.ws             |
-// | Prototype & Concept :  Mr.GxBlock of www.gxblock.com                      |
-// +---------------------------------------------------------------------------+
-// |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
 // | modify it under the terms of the GNU General Public License               |
 // | as published by the Free Software Foundation; either version 2            |
@@ -36,7 +28,6 @@
 // | You should have received a copy of the GNU General Public License         |
 // | along with this program; if not, write to the Free Software Foundation,   |
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
 
 /**
@@ -62,9 +53,9 @@ function plugin_autoinstall_forum($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.7.5.JPr1',
+        'pi_version'      => '2.8.0',
         'pi_gl_version'   => '1.6.0',
-        'pi_homepage'     => 'http://www.geeklog.jp/'
+        'pi_homepage'     => 'http://code.google.com/p/geeklog/'
     );
 
     $groups = array(
@@ -95,12 +86,20 @@ function plugin_autoinstall_forum($pi_name)
         'forum_userinfo',
     );
 
+    $requires = array(
+        array(
+               'db' => 'mysql',
+               'version' => '4.1'
+             )
+    );    
+
     $inst_parms = array(
         'info'      => $info,
         'groups'    => $groups,
         'features'  => $features,
         'mappings'  => $mappings,
-        'tables'    => $tables
+        'tables'    => $tables,
+        'requires'  => $requires
     );
 
     return $inst_parms;
@@ -114,7 +113,6 @@ function plugin_autoinstall_forum($pi_name)
 * @see      plugin_initconfig_forum
 *
 */
-/*
 function plugin_load_configuration_forum($pi_name)
 {
     global $_CONF;
@@ -126,7 +124,6 @@ function plugin_load_configuration_forum($pi_name)
 
     return plugin_initconfig_forum();
 }
-*/
 
 /**
 * Plugin postinstall
@@ -155,7 +152,6 @@ function plugin_postinstall_forum($pi_name)
                                 "grp_name = 'Block Admin'");
 
     $GF_SQL = array();
-    $GF_SQL[] = "INSERT INTO {$_TABLES['forum_settings']} VALUES ('', 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 5, 0, 40, 10, 10, 20, 20, 20, 60, 60, 1, 0, 0, '', 1, 0, 1, 40, 5, 20, 5, 0, 5, 2, 2, 0, 1, 15, 35, 70, 120, 'Newbie', 'Junior', 'Chatty', 'Regular Member', 'Active Member');";
 
     $GF_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled,name,type,title,tid,blockorder,onleft,phpblockfn,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon) "
      . " VALUES ('1','Forum News','phpblock','Forumposts','all',0,0,'phpblock_forum_newposts',2,2,3,3,2,2)";
@@ -167,7 +163,7 @@ function plugin_postinstall_forum($pi_name)
         $sql = str_replace('#group#', $admin_group_id, $sql);
         DB_query($sql, 1);
         if (DB_error()) {
-            COM_error("SQL error in Forum plugin postinstall, SQL: " . $sql);
+            COM_errorLog("SQL error in Forum plugin postinstall, SQL: " . $sql);
             return false;
         }
     }

@@ -1,1 +1,1 @@
-<a href="{link_url}"><img src="{image}" title="{LANG_title}" alt="{LANG_title}"{xhtml}></a>
+<a class="profilebutton" href="{link_url}">{link_text}</a>
