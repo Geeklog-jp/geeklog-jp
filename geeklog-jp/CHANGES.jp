@@ -1,5 +1,10 @@
 $Id$
 
+2011-10-21  Yoshinori Tahara  <dengen>
+
+	* forum 2.8.0 へのアップグレードに伴う追加漏れのファイルを追加し、
+	  削除漏れの不要ファイルを削除しました。
+
 2011-10-19  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.8.1-jp-1.1rc1をリリースします。
