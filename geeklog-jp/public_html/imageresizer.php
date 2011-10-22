@@ -3,10 +3,11 @@
 /**
 * 画像縮小プロキシスクリプト
 * 
-* imageresizer.php?image=[imagename]&size=[size]&quality=[quality]
+* imageresizer.php?image=[imagename]&size=[size]&quality=[quality]&type=[type]
 * [imagename]: 画像のURL
 * [size]: リサイズ後のサイズ(単位: pixel)
 * [quality]: jpegのクオリティ(0-100: 0 = lowest, 100 = highest)
+* [type]: 出力画像の形式('png' or 'gif' or 'jpeg')
 *
 * sizeで指定された大きさより縦横いずれかが大きければ、sizeにあわせて縮小する。
 * アスペクト比は保存される。
@@ -20,6 +21,7 @@ define('SCRIPT_NAME', basename(__FILE__));
 define('RESIZER_CACHE_DIRECTORY', $_CONF['path_data']);
 define('RESIZER_DEFAULT_IMAGE_SIZE', 160);		// 画像サイズの既定値(単位: pixel)
 define('RESIZER_DEFAULT_IMAGE_QUALITY', 50);	// 画像クオリティの既定値
+define('RESIZER_DEFAULT_PNG_IMAGE_QUALITY', 9);	// PNGの圧縮レベルの既定値
 
 //===================================================================
 // Functions
@@ -180,11 +182,15 @@ while (@ob_end_clean()) { }
 /**
 * 画像の縮小用パラメータ（既定値）
 */
-$size    = RESIZER_DEFAULT_IMAGE_SIZE;
-$quality = RESIZER_DEFAULT_IMAGE_QUALITY;
+$size        = RESIZER_DEFAULT_IMAGE_SIZE;
+$quality     = RESIZER_DEFAULT_IMAGE_QUALITY;
+$quality_png = RESIZER_DEFAULT_PNG_IMAGE_QUALITY;
 
 // ファイルタイプ
 $type = '';
+
+// 出力ファイルタイプ
+$out_type = 'jpeg';
 
 try {
 	/**
@@ -237,6 +243,16 @@ try {
 		}
 
 		RESIZER_debug('quality = ' . $quality);
+	}
+
+	if (isset($_GET['type'])) {
+		$temp_str = strtolower(COM_applyFilter($_GET['type']));
+
+		if (($temp_str == 'png') OR ($temp_str == 'gif')) {
+			$out_type = $temp_str;
+		}
+
+		RESIZER_debug('out_type = ' . $out_type);
 	}
 
 	// 画像ファイル名の後にクエリストリングがついている場合を考慮して、パターン
@@ -339,11 +355,36 @@ try {
 			}
 
 			// 縮小した画像をローカルに保存する
-			imagejpeg($dst_img, $thumb_filename, $quality);
+			switch ($out_type) {
+				case 'png':
+					imagepng($dst_img, $thumb_filename, $quality_png);
+					break;
+
+				case 'gif':
+					imagegif($dst_img, $thumb_filename);
+					break;
+
+				default:
+					imagejpeg($dst_img, $thumb_filename, $quality);
+					break;
+			}
+
 			imagedestroy($dst_img);
 		} else {
 			// 縮小した画像をローカルに保存する
-			imagejpeg($src_img, $thumb_filename, $quality);
+			switch ($out_type) {
+				case 'png':
+					imagepng($src_img, $thumb_filename, $quality_png);
+					break;
+
+				case 'gif':
+					imagegif($src_img, $thumb_filename);
+					break;
+
+				default:
+					imagejpeg($src_img, $thumb_filename, $quality);
+					break;
+			}
 		}
 
 		imagedestroy($src_img);
@@ -351,7 +392,7 @@ try {
 
 	// ローカルに保存した画像を出力する
 	mb_http_output('pass');
-	header('Content-Type: image/jpeg');
+	header('Content-Type: image/' . $out_type);
 	readfile($thumb_filename);
 
 	@unlink($temp_filename);

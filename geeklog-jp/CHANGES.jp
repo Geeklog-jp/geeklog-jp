@@ -1,5 +1,10 @@
 $Id$
 
+2011-10-23  Yoshinori Tahara  <dengen>
+
+	* public_html/imageresizer.phpの機能を拡張し、出力画像形式を指定できる
+	  ようにしました。
+
 2011-10-22  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.8.1-jp-1.1rc2をリリースします。
