@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'download.class.php') !== FALSE) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'downloads.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -83,7 +83,7 @@ class Dataproxy_downloads extends DataproxyDriver
 			$sql .= COM_getPermSQL('AND', $this->uid);
 		}
 		
-		$sql .= "ORDER BY cid";
+		$sql .= "ORDER BY corder";
 		$result = DB_query($sql);
 		
 		if (DB_error()) {
@@ -210,8 +210,9 @@ class Dataproxy_downloads extends DataproxyDriver
 			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
-			$entry['uri']       = $_CONF['site_url'] . '/downloads/index.php?id='
-								. $entry['id'];
+			$entry['uri']       = COM_buildUrl(
+				$_CONF['site_url'] . '/downloads/index.php?id=' . $entry['id']
+			);
 			$entry['date']      = (int) $A['date'];
 			$entry['image_uri'] = $A['logourl'];
 			$entries[] = $entry;
@@ -272,8 +273,9 @@ class Dataproxy_downloads extends DataproxyDriver
 			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
-			$entry['uri']       = $_CONF['site_url'] . '/downloads/index.php?id='
-								. $entry['id'];
+			$entry['uri']       = COM_buildUrl(
+				$_CONF['site_url'] . '/downloads/index.php?id=' . $entry['id']
+			);
 			$entry['date']      = (int) $A['date'];
 			$entry['image_uri'] = $A['logourl'];
 			$entries[] = $entry;
