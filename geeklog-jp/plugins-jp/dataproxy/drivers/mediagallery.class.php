@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/mediagallery.class.php                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -159,6 +159,10 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			$A = DB_fetchArray($result, false);
 			$A = array_map('stripslashes', $A);
 			
+			if (empty($A['media_title'])) {
+				$A['media_title'] = $id;
+			}
+			
 			$retval['id']        = $id;
 			$retval['title']     = $A['media_title'];
 			$retval['uri']       = $_MG_CONF['site_url'] . '/media.php?s='
@@ -213,13 +217,17 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		$sql = "SELECT media_id, media_title, media_time "
 			 . "FROM {$_TABLES['mg_media']} "
 			 . "WHERE (media_id IN (" . implode(',', $media_ids) . "))";
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
 		while (($A = DB_fetchArray($result, false)) !== false) {
+			if (empty($A['media_title'])) {
+				$A['media_title'] = $A['media_id'];
+			}
+			
 			$entry = array();
 			$entry['id']        = stripslashes($A['media_id']);
 			$entry['title']     = stripslashes($A['media_title']);
@@ -251,14 +259,17 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
 			return $entries;
 		}
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
 		
 		$sql = "SELECT media_id "
 			 . "FROM {$_TABLES['mg_media_albums']} "
 			 . "WHERE (album_id ='" . addslashes($category) . "') "
 			 . "ORDER BY media_order";
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
@@ -277,13 +288,17 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			 . "FROM {$_TABLES['mg_media']} "
 			 . "WHERE (media_id IN (" . implode(',', $media_ids) . "))"
 			 . "AND (media_time BETWEEN '$this->startdate' AND '$this->enddate') ";
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
 		while (($A = DB_fetchArray($result, false)) !== false) {
+			if (empty($A['media_title'])) {
+				$A['media_title'] = $A['media_id'];
+			}
+			
 			$entry = array();
 			$entry['id']        = stripslashes($A['media_id']);
 			$entry['title']     = stripslashes($A['media_title']);
