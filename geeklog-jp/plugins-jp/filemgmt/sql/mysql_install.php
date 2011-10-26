@@ -25,7 +25,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_cat']} (
  `grp_access` mediumint(8) NOT NULL default '0',
   PRIMARY KEY  (cid),
   KEY pid (pid)
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 #
 # Table structure for filemgmt file details - main table
@@ -52,7 +52,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_filedetail']} (
   KEY cid (cid),
   KEY status (status),
   KEY title (title(40))
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 #
 # Table structure for filemgmt description details
@@ -62,7 +62,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_filedesc']} (
   lid int(11) unsigned NOT NULL default '0',
   description text NOT NULL,
   KEY lid (lid)
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 #
 # Table structure for table to hold reported broken links
@@ -76,7 +76,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_brokenlinks']} (
   KEY lid (lid),
   KEY sender (sender),
   KEY ip (ip)
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 
 #
@@ -94,7 +94,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_votedata']} (
   KEY ratinguser (ratinguser),
   KEY ratinghostname (ratinghostname),
   KEY lid (lid)
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 
 #
@@ -108,7 +108,7 @@ $_SQL[] = "CREATE TABLE {$_FM_TABLES['filemgmt_history']} (
   date datetime NOT NULL default '0000-00-00 00:00:00',
   KEY lid (lid),
   KEY uid (uid)
-) TYPE=MyISAM";
+) ENGINE=MyISAM";
 
 //@@@@@add20080115---->
 $_SQL[] = "INSERT INTO {$_FM_TABLES['filemgmt_cat']} (

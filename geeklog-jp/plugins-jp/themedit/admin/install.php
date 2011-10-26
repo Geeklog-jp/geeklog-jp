@@ -57,7 +57,7 @@ $NEWTABLE['thm_contents'] = "CREATE TABLE " . $_TABLES['thm_contents'] . "("
 						  . "thm_init_contents LONGTEXT NOT NULL,"
 						  . "thm_vars TEXT NOT NULL,"
 						  . "PRIMARY KEY  thm_id(thm_id)"
-						  . ") TYPE=MyISAM";
+						  . ") ENGINE=MyISAM";
 
 
 //
