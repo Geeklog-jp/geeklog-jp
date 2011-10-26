@@ -2,6 +2,10 @@ $Id$
 
 2011-10-26  mystral-kk <mystral-kk>
 
+	* MySQL-5.5以降で"SHOW TABLE TYPES"がエラーを起こす問題に対応しました。
+
+2011-10-26  mystral-kk <mystral-kk>
+
 	* MySQL-5.5以降でテーブル定義に含まれる"TYPE=MyIsam"オプションがエラー
 	  を起こす問題に対応しました（Geeklog本体及び同梱プラグイン）。
 
