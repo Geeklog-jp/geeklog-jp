@@ -2,8 +2,13 @@ $Id$
 
 2011-10-26  mystral-kk <mystral-kk>
 
-	* MySQL-5.5以降でテーブル定義の"TYPE=MyIsam"オプションがエラーを起こす
-	  問題に対応しました（Geeklog.jpで追加したプラグインのみ）。
+	* MySQL-5.5以降でテーブル定義に含まれる"TYPE=MyIsam"オプションがエラー
+	  を起こす問題に対応しました（Geeklog本体及び同梱プラグイン）。
+
+2011-10-26  mystral-kk <mystral-kk>
+
+	* MySQL-5.5以降でテーブル定義に含まれる"TYPE=MyIsam"オプションがエラー
+	  を起こす問題に対応しました（Geeklog.jpで追加したプラグインのみ）。
 
 2011-10-25  Takahiro Kambe  <tacahi>
 
