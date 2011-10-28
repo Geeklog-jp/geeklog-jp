@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/dataproxy.php                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2010 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'dataproxy.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'dataproxy.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -41,19 +41,14 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'dataproxy.php') !== false) {
 */
 class DataproxyDriver
 {
-
-	/**
-	* @access private
-	*
-	*/
-	var $driver_name;
-	var $uid;
-	var $encoding;
-	var $options;
-	var $parent;
-	var $startdate;
-	var $enddate;
-	var $_isGL170 = FALSE;
+	public $driver_name;
+	public $uid;
+	public $encoding;
+	public $options;
+	public $parent;
+	public $startdate;
+	public $enddate;
+	public $_isGL170 = FALSE;
 	
 	/**
 	* Constructor
@@ -63,8 +58,7 @@ class DataproxyDriver
 	* @param $encoding  string             encoding of the content
 	* @param $options   array
 	*/
-	function DataproxyDriver(&$parent, $uid = 1, $encoding = 'utf-8',
-			$options = array())
+	public function __construct(&$parent, $uid = 1, $encoding = 'utf-8', $options = array())
 	{
 		$this->parent = $parent;
 		$this->_setUid($uid);
@@ -78,52 +72,52 @@ class DataproxyDriver
 		}
 	}
 	
-	function getDriverName()
+	public function getDriverName()
 	{
 		return $this->driver_name;
 	}
 	
-	function _setUid($uid)
+	public function _setUid($uid)
 	{
 		$this->uid = $uid;
 	}
 	
-	function _setEncoding($encoding)
+	public function _setEncoding($encoding)
 	{
 		$this->encoding = $encoding;
 	}
 	
-	function _setOptions($options)
+	public function _setOptions($options)
 	{
 		$this->options = $options;
 	}
 	
-	function getAllDriverNames()
+	public function getAllDriverNames()
 	{
 		return $this->parent->getAllDriverNames();
 	}
 	
-	function getAllSupportedDriverNames()
+	public function getAllSupportedDriverNames()
 	{
 		return $this->parent->getAllSupportedDriverNames();
 	}
 	
-	function setDateStart($startdate)
+	public function setDateStart($startdate)
 	{
 		$this->startdate = $startdate;
 	}
 	
-	function getDateStart()
+	public function getDateStart()
 	{
 		return $this->startdate;
 	}
 	
-	function setDateEnd($enddate)
+	public function setDateEnd($enddate)
 	{
 		$this->enddate = $enddate;
 	}
 	
-	function getDateEnd()
+	public function getDateEnd()
 	{
 		return $this->enddate;
 	}
@@ -133,11 +127,11 @@ class DataproxyDriver
 	*
 	* @note MUST BE OVERRIDDEN IN CHILD CLASSES WHEN THERE IS AN ENTRY POINT
 	*
-	* @return mixed uri(string) / false(no entrance)
+	* @return mixed uri(string) / FALSE(no entrance)
 	*/
-	function getEntryPoint()
+	public function getEntryPoint()
 	{
-		return false;
+		return FALSE;
 	}
 	
 	/**
@@ -145,9 +139,9 @@ class DataproxyDriver
 	*
 	* @note MUST BE OVERRIDDEN IN CHILD CLASSES
 	*
-	* @param $pid       int/string/boolean: id of the parent category.  False
+	* @param $pid       int/string/boolean: id of the parent category.  FALSE
 	*                   means the top category (with no parent)
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* @return array(
 	*   'id'        => $id (string),
 	*   'pid'       => $pid (string: id of its parent)
@@ -157,15 +151,15 @@ class DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		return array();
 	}
 	
 	/**
-	* @param $pid       int/string/boolean: id of the parent category.  False
+	* @param $pid       int/string/boolean: id of the parent category.  FALSE
 	*                   means the top category (with no parent)
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* @return array(
 	*   'id'        => $id (string),
 	*   'pid'       => $pid (string: id of its parent)
@@ -175,7 +169,7 @@ class DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function _getChildCategoriesRecursive($pid = false, $all_langs = false)
+	public function _getChildCategoriesRecursive($pid = FALSE, $all_langs = FALSE)
 	{
 		$retval = array();
 		
@@ -191,7 +185,7 @@ class DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* @return array(
 	*   'id'        => $id (string),
 	*   'pid'       => $pid (string: id of its parent)
@@ -201,15 +195,15 @@ class DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getAllCategories($all_langs = false)
+	public function getAllCategories($all_langs = FALSE)
 	{
-		return $this->_getChildCategoriesRecursive(false, $all_langs);
+		return $this->_getChildCategoriesRecursive(FALSE, $all_langs);
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	*/
-	function getAllCategoriesAsLinks($all_langs = false)
+	public function getAllCategoriesAsLinks($all_langs = FALSE)
 	{
 		$retval = array();
 		
@@ -217,7 +211,7 @@ class DataproxyDriver
 		if (is_array($entries) AND count($entries) > 0) {
 			foreach ($entries as $entry) {
 				$link = '';
-				if ($entry['date'] !== false) {
+				if ($entry['date'] !== FALSE) {
 					$link .= date($this->date_format, $entry['date']);
 				}
 				$link .= '<a href="' . $entry['uri'] . '">'
@@ -234,7 +228,7 @@ class DataproxyDriver
 	*
 	* @note MUST BE OVERRIDDEN IN CHILD CLASSES
 	*
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* @return array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -244,7 +238,7 @@ class DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	*)
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 		return array();
 	}
@@ -254,7 +248,7 @@ class DataproxyDriver
 	*
 	* @note MUST BE OVERRIDDEN IN CHILD CLASSES
 	*
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	*
 	* @return array of (
 	*   'id'        => $id (string),
@@ -264,7 +258,7 @@ class DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*)
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 		return array();
 	}
@@ -274,7 +268,7 @@ class DataproxyDriver
 	*
 	* @note MUST BE OVERRIDDEN IN CHILD CLASSES
 	*
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	*
 	* @return array of (
 	*   'id'        => $id (string),
@@ -284,22 +278,23 @@ class DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*)
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 		return array();
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	*/
-	function getItemsAsLinks($category = '', $all_langs = false)
+	public function getItemsAsLinks($category = '', $all_langs = FALSE)
 	{
 		$retval  = array();
 		$entries = $this->getItems($category, $all_langs);
+		
 		if (is_array($entries) AND count($entries) > 0) {
 			foreach ($entries as $entry) {
 				$link = '';
-				if ($entry['date'] !== false) {
+				if ($entry['date'] !== FALSE) {
 					$link .= date($this->options['date_format'], $entry['date']);
 				}
 				$link .= '<a href="' . $entry['uri'] . '">'
@@ -312,12 +307,13 @@ class DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	*/
-	function getAllItems($all_langs = false)
+	public function getAllItems($all_langs = FALSE)
 	{
-		$retval = $this->getItems(false, $all_langs);
+		$retval = $this->getItems(FALSE, $all_langs);
 		$cats   = $this->getAllCategories($all_langs);
+		
 		if (is_array($cats) AND count($cats > 0)) {
 			foreach ($cats as $cat) {
 				$retval = array_merge($retval, $this->getItems($cat['id'], $all_langs));
@@ -333,7 +329,7 @@ class DataproxyDriver
 	* @param  $str string: a string to escape
 	* @return      string: an escaped string
 	*/
-	function escape($str)
+	public function escape($str)
 	{
 		$str = str_replace(
 			array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
@@ -346,7 +342,7 @@ class DataproxyDriver
 	/**
 	* Converts a string into UTF-8 if necessary
 	*/
-	function toUtf8($str)
+	public function toUtf8($str)
 	{
 		if (strcasecmp($this->encoding, 'utf-8') != 0) {
 			if (function_exists('mb_convert_encoding')) {
@@ -371,7 +367,7 @@ class DataproxyDriver
 	*       '</script>', or 'document.write' in a given URL.  This might be
 	*       a bit too strict.
 	*/
-	function cleanUrl($url)
+	public function cleanUrl($url)
 	{
 		/**
 		* Decodes HTML entities
@@ -432,19 +428,18 @@ class DataproxyDriver
 */
 class Dataproxy
 {
-	var $uid;
-	var $encoding;
-	var $options;
-	var $startdate;
-	var $enddate;
+	public $uid;
+	public $encoding;
+	public $options;
+	public $startdate;
+	public $enddate;
 	
 	/**
 	* Dataproxy drivers are loaded in the following order
 	*
 	* @caution NEW DRIVERS must be added to the following list
-	*
 	*/
-	var $supported_drivers = array(
+	public $supported_drivers = array(
 			'article', 'comments', 'trackback',
 			'staticpages', 'calendar', 'links', 'polls',
 			'dokuwiki', 'forum', 'filemgmt', 'faqman', 'mediagallery',
@@ -454,26 +449,26 @@ class Dataproxy
 	/**
 	* References to each loaded driver
 	*/
-	var $article;
-	var $comments;
-	var $trackback;
-	var $staticpages;
-	var $calendar;
-	var $links;
-	var $polls;
-	var $dokuwiki;
-	var $forum;
-	var $filemgmt;
-	var $faqman;
-	var $mediagallery;
-	var $calendarjp;
-	var $downloads;
+	public $article;
+	public $comments;
+	public $trackback;
+	public $staticpages;
+	public $calendar;
+	public $links;
+	public $polls;
+	public $dokuwiki;
+	public $forum;
+	public $filemgmt;
+	public $faqman;
+	public $mediagallery;
+	public $calendarjp;
+	public $downloads;
 	
 	/**
 	* References to the loaded drivers (the same as the above, but in an array
 	* e.g.  $drivers['article'] = the reference to the article object
 	*/
-	var $drivers = array();
+	public $drivers = array();
 	
 	/**
 	* Constructor
@@ -482,13 +477,14 @@ class Dataproxy
 	* @param $encoding  string  encoding of the content
 	* @param $options   array
 	*/
-	function Dataproxy($uid = 1, $encoding = '', $options = array())
+	public function Dataproxy($uid = 1, $encoding = '', $options = array())
 	{
 		global $_CONF, $_PLUGINS, $LANG_CHARSET, $_DPXY_CONF;
 		
 		if (count($options) == 0) {
 			$options = $_DPXY_CONF;
 		}
+		
 		if (empty($encoding)) {
 			if (isset($LANG_CHARSET)) {
 				$encoding = $LANG_CHARSET;
@@ -525,7 +521,7 @@ class Dataproxy
 		}
 	}
 	
-	function setUid($uid)
+	public function setUid($uid)
 	{
 		$this->uid = $uid;
 		
@@ -536,12 +532,12 @@ class Dataproxy
 		}
 	}
 	
-	function getUid()
+	public function getUid()
 	{
 		return $this->uid;
 	}
 	
-	function setEncoding($encoding)
+	public function setEncoding($encoding)
 	{
 		$this->encoding = $encoding;
 		
@@ -552,12 +548,12 @@ class Dataproxy
 		}
 	}
 	
-	function getEncoding()
+	public function getEncoding()
 	{
 		return $this->encoding;
 	}
 	
-	function setOptions($options)
+	public function setOptions($options)
 	{
 		$this->options = $options;
 		
@@ -568,18 +564,19 @@ class Dataproxy
 		}
 	}
 	
-	function getOptions()
+	public function getOptions()
 	{
 		return $this->options;
 	}
 	
-	function setDateStart($datestart = '')
+	public function setDateStart($datestart = '')
 	{
 		if (!empty($datestart)) {
 			$delim = substr($datestart, 4, 1);
+			
 			if (!empty($delim)) {
 				$DS = explode($delim, $datestart);
-				$this->startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
+				$this->startdate = mktime(0, 0, 0, $DS[1], $DS[2], $DS[0]);
 			}
 		}
 		
@@ -590,18 +587,19 @@ class Dataproxy
 		}
 	}
 	
-	function getDateStart()
+	public function getDateStart()
 	{
 		return $this->startdate;
 	}
 	
-	function setDateEnd($dateend = '')
+	public function setDateEnd($dateend = '')
 	{
 		if (!empty($dateend)) {
 			$delim = substr($dateend, 4, 1);
+			
 			if (!empty($delim)) {
 				$DE = explode($delim, $dateend);
-				$this->enddate = mktime(23,59,59,$DE[1],$DE[2],$DE[0]);
+				$this->enddate = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
 			}
 		}
 		
@@ -612,7 +610,7 @@ class Dataproxy
 		}
 	}
 	
-	function getDateEnd()
+	public function getDateEnd()
 	{
 		return $this->enddate;
 	}
@@ -631,7 +629,7 @@ class Dataproxy
 	/**
 	* Returns an array of all loaded driver names
 	*/
-	function getAllDriverNames()
+	public function getAllDriverNames()
 	{
 		return array_keys($this->drivers);
 	}
@@ -639,7 +637,7 @@ class Dataproxy
 	/**
 	* Returns an array of all supported driver names
 	*/
-	function getAllSupportedDriverNames()
+	public function getAllSupportedDriverNames()
 	{
 		return $this->supported_drivers;
 	}
@@ -650,7 +648,7 @@ class Dataproxy
 	* @param  $str string: a string to escape
 	* @return      string: an escaped string
 	*/
-	function escape($str)
+	public function escape($str)
 	{
 		$str = str_replace(
 			array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),

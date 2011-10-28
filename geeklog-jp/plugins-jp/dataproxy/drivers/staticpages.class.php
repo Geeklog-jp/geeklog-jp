@@ -37,8 +37,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'staticpages.class.php') !== FALSE)
 
 class Dataproxy_staticpages extends DataproxyDriver
 {
-	var $driver_name = 'staticpages';
-	var $_isSP162 = FALSE;	// Whether Staticpages-1.6.2 or later
+	public $driver_name = 'staticpages';
+	public $_isSP162 = FALSE;	// Whether Staticpages-1.6.2 or later
 	
 	/**
 	* Constructor
@@ -48,12 +48,12 @@ class Dataproxy_staticpages extends DataproxyDriver
 	* @param $encoding  string             encoding of the content
 	* @param $options   array
 	*/
-	function Dataproxy_staticpages(&$parent, $uid = 1, $encoding = 'utf-8',
+	public function __construct(&$parent, $uid = 1, $encoding = 'utf-8',
 			$options = array())
 	{
 		global $_TABLES;
 		
-		parent::DataproxyDriver($parent, $uid, $encoding, $options);
+		parent::__construct($parent, $uid, $encoding, $options);
 		
 		$pi_version = DB_getItem(
 			$_TABLES['plugins'], 'pi_version', "pi_name = 'staticpages'"
@@ -71,7 +71,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -88,13 +88,15 @@ class Dataproxy_staticpages extends DataproxyDriver
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -110,7 +112,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 				$retval['date'] = strtotime($A['sp_date']);
 			}
 			
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -130,7 +132,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_SP_CONF;
 		
@@ -159,6 +161,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 		} else {
 			$crit = 'id';
 		}
+		
 		$crit = 'sp_' . $crit;
 		
 		if ($this->_isGL170 AND ($crit === 'sp_date')) {
@@ -166,13 +169,13 @@ class Dataproxy_staticpages extends DataproxyDriver
 		}
 		
 		$sql .= " ORDER BY " . $crit;
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']        = stripslashes($A['sp_id']);
 			$entry['title']     = stripslashes($A['sp_title']);
@@ -181,7 +184,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 				. rawurlencode($entry['id'])
 			);
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		
@@ -201,7 +204,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_SP_CONF;
 		
@@ -234,6 +237,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 		} else {
 			$crit = 'id';
 		}
+		
 		$crit = 'sp_' . $crit;
 		
 		if ($this->_isGL170 AND ($crit === 'sp_date')) {
@@ -241,13 +245,13 @@ class Dataproxy_staticpages extends DataproxyDriver
 		}
 		
 		$sql .= " ORDER BY " . $crit;
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']        = stripslashes($A['sp_id']);
 			$entry['title']     = stripslashes($A['sp_title']);
@@ -256,7 +260,7 @@ class Dataproxy_staticpages extends DataproxyDriver
 				. rawurlencode($entry['id'])
 			);
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/links.class.php                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'links.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'links.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -47,12 +47,12 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'links.class.php') !== false) {
 
 class Dataproxy_links extends DataproxyDriver
 {
-	var $driver_name = 'links';
+	public $driver_name = 'links';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint()
+	public function getEntryPoint()
 	{
 		global $_CONF;
 		
@@ -60,7 +60,7 @@ class Dataproxy_links extends DataproxyDriver
 	}
 	
 	/**
-	* @param $pid int/string/boolean id of the parent category.  False means
+	* @param $pid int/string/boolean id of the parent category.  FALSE means
 	*        the top category (with no parent)
 	* @return array(
 	*   'id'        => $id (string),
@@ -71,37 +71,41 @@ class Dataproxy_links extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		if (version_compare(VERSION, '1.5.0') < 0) {
 			$entries = array();
-			if ($pid !== false) {
+			
+			if ($pid !== FALSE) {
 				return $entries;
 			}
 			
 			$sql = "SELECT DISTINCT category "
 				 . "FROM {$_TABLES['links']} ";
+			
 			if ($this->uid > 0) {
 				$sql .= COM_getPermSQL('WHERE', $this->uid);
 			}
+			
 			$sql .= " ORDER BY category";
 			$result = DB_query($sql);
+			
 			if (DB_error()) {
 				return $entries;
 			}
 			
-			while (($A = DB_fetchArray($result, false)) !== false) {
+			while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 				$entry = array();
 				
 				$entry['id']        = stripslashes($A['category']);
-				$entry['pid']       = false;
+				$entry['pid']       = FALSE;
 				$entry['title']     = $entry['id'];
 				$entry['uri']       = $_CONF['site_url'] .  '/links/index.php?category='
 									. urlencode($this->toUtf8($entry['id']));
-				$entry['date']      = false;
-				$entry['image_uri'] = false;
+				$entry['date']      = FALSE;
+				$entry['image_uri'] = FALSE;
 				$entries[] = $entry;
 			}
 			
@@ -110,20 +114,24 @@ class Dataproxy_links extends DataproxyDriver
 			$entries = array();
 			$sql = "SELECT * "
 				 . "FROM {$_TABLES['linkcategories']} ";
-			if ($pid === false) {
+			
+			if ($pid === FALSE) {
 				$pid = 'site';
 			}
+			
 			$sql .= "WHERE (pid = '" . addslashes($pid) . "') ";
 			
 			if ($this->uid > 0) {
 				$sql .= COM_getPermSQL('AND', $this->uid);
 			}
+			
 			$result = DB_query($sql);
+			
 			if (DB_error()) {
 				return $entries;
 			}
 			
-			while (($A = DB_fetchArray($result, false)) !== false) {
+			while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 				$entry = array();
 				$A = array_map('stripslashes', $A);
 				
@@ -133,7 +141,7 @@ class Dataproxy_links extends DataproxyDriver
 				$entry['uri']       = $_CONF['site_url'] . '/links/index.php?category='
 									. urlencode($this->toUtf8($entry['id']));
 				$entry['date']      = strtotime($A['modified']);
-				$entry['image_uri'] = false;
+				$entry['image_uri'] = FALSE;
 				$entry['raw_data']  = $A;
 				$entries[] = $entry;
 			}
@@ -151,7 +159,7 @@ class Dataproxy_links extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -160,16 +168,19 @@ class Dataproxy_links extends DataproxyDriver
 		$sql = "SELECT * "
 			 . "FROM {$_TABLES['links']} "
 			 . "WHERE (lid ='" . addslashes($id) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid);
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -179,7 +190,7 @@ class Dataproxy_links extends DataproxyDriver
 					. urlencode($this->toUtf8($entry['id']))
 			);	// GL uses urlencode()
 			$retval['date']      = strtotime($A['date']);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -195,7 +206,7 @@ class Dataproxy_links extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -214,13 +225,15 @@ class Dataproxy_links extends DataproxyDriver
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid);
 		}
+		
 		$sql .= "ORDER BY date_u DESC";
-		$result  = DB_query($sql);
+		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$A = array_map('stripslashes', $A);
 			
@@ -232,7 +245,7 @@ class Dataproxy_links extends DataproxyDriver
 			);
 									// GL uses urlencode()
 			$entry['date']      = $A['date_u'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		
@@ -248,13 +261,16 @@ class Dataproxy_links extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT lid, title, UNIX_TIMESTAMP(date) AS date_u "
 			 . "FROM {$_TABLES['links']} "
 			 . "WHERE (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') ";
@@ -265,16 +281,19 @@ class Dataproxy_links extends DataproxyDriver
 				$sql .= "AND (cid = '" . addslashes($category) . "') ";
 			}
 		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid);
 		}
+		
 		$sql .= "ORDER BY date_u DESC";
-		$result  = DB_query($sql);
+		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$A = array_map('stripslashes', $A);
 			
@@ -286,7 +305,7 @@ class Dataproxy_links extends DataproxyDriver
 			);
 									// GL uses urlencode()
 			$entry['date']      = $A['date_u'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

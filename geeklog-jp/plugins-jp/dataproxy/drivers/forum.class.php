@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/forum.class.php                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,55 +31,58 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'forum.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'forum.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_forum extends DataproxyDriver {
-	var $driver_name = 'forum';
+	public $driver_name = 'forum';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint()
+	public function getEntryPoint()
 	{
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/forum/index.php';
 	}
 	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if ($pid !== false) {
+		if ($pid !== FALSE) {
 			return $entries;
 		}
 		
 		$sql = "SELECT forum_id, forum_name FROM {$_TABLES['gf_forums']} "
 			 . "WHERE (is_hidden = '0') ";
+		
 		if ($this->uid > 0) {
 			$current_groups = SEC_getUserGroups( $this->uid );
 			$sql .= "AND (grp_id IN (" . implode(',', $current_groups) . ")) ";
 		}
+		
 		$sql .= "ORDER BY forum_order";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = (int) $A['forum_id'];
-			$entry['pid']       = false;
+			$entry['pid']       = FALSE;
 			$entry['title']     = stripslashes($A['forum_name']);
 			$entry['uri']       = $_CONF['site_url'] . '/forum/index.php?forum='
 								. $entry['id'];
-			$entry['date']      = false;
-			$entry['image_uri'] = false;
+			$entry['date']      = FALSE;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -97,7 +100,7 @@ class Dataproxy_forum extends DataproxyDriver {
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -107,12 +110,13 @@ class Dataproxy_forum extends DataproxyDriver {
 			 . "FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (id = '" . addslashes($id) . "')";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -120,7 +124,7 @@ class Dataproxy_forum extends DataproxyDriver {
 			$retval['uri']       = $_CONF['site_url']
 				. '/forum/viewtopic.php?showtopic=' . $id;
 			$retval['date']      = (int) $A['date'];
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -136,7 +140,7 @@ class Dataproxy_forum extends DataproxyDriver {
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($forum_id, $all_langs = false)
+	public function getItems($forum_id, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -146,11 +150,12 @@ class Dataproxy_forum extends DataproxyDriver {
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['id'];
@@ -158,7 +163,7 @@ class Dataproxy_forum extends DataproxyDriver {
 			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -175,23 +180,27 @@ class Dataproxy_forum extends DataproxyDriver {
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($forum_id = '', $all_langs = false)
+	public function getItemsByDate($forum_id = '', $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
 			 . "AND (date BETWEEN '$this->startdate' AND '$this->enddate') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['id'];
@@ -199,7 +208,7 @@ class Dataproxy_forum extends DataproxyDriver {
 			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}

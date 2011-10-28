@@ -85,8 +85,6 @@
 	
 	<h2>3. Dataproxyプラグインの利用法</h2>
 	<p>Dataproxyプラグインがインストールされ，有効になっていれば，次の1行を記述するだけでDataproxyプラグインが提供するAPIを利用できます。</p>
-	<div class="code">$dataproxy =&amp; new Dataproxy($uid);</div>
-	<p>PHP5の場合は，次のコードを推奨します。</p>
 	<div class="code">$dataproxy = new Dataproxy($uid);</div>
 	<p>$uidはデータを取得するユーザのID($_USER['uid'])です。デフォルト値は1（ゲストユーザの扱い）です。全データを取得する必要がある場合は，0を指定します。</p>
 	
@@ -208,38 +206,38 @@
 	<h2>6. Dataproxyプラグイン利用のコーディング例</h2>
 	<p>例1. 記事のメタデータを全て（カレントユーザの言語のみ）取り出す</p>
 	<div class="code">
-		$dataproxy =&amp; new Dataproxy;<br>
+		$dataproxy = new Dataproxy;<br>
 		$item_metadata = $dataproxy-&gt;article-&gt;getAllItems();
 	</div>
 	
 	<p>例1. 記事のメタデータを全て（すべての言語）取り出す。</p>
 	<div class="code">
-		$dataproxy =&amp; new Dataproxy;<br>
+		$dataproxy = new Dataproxy;<br>
 		$item_metadata = $dataproxy-&gt;article-&gt;getAllItems(true);
 	</div>
 	
 	<p>例2. 静的ページのメタデータを全て取り出す</p>
 	<div class="code">
-		$dataproxy =&amp; new Dataproxy;<br>
+		$dataproxy = new Dataproxy;<br>
 		$item_metadata = $dataproxy-&gt;staticpages-&gt;getAllItems();
 	</div>
 	
 	<p>例3. 'foo'カテゴリの記事のメタデータを全て取り出す</p>
 	<div class="code">
-		$dataproxy =&amp; new Dataproxy;<br>
+		$dataproxy = new Dataproxy;<br>
 		$item_metadata = $dataproxy-&gt;article-&gt;getItems('foo');
 	</div>
 	
 	<p>例4. 記事IDが'bar'の記事のデータを取り出す</p>
 	<div class="code">
-		$dataproxy =&amp; new Dataproxy;<br>
+		$dataproxy = new Dataproxy;<br>
 		$item = $dataproxy-&gt;article-&gt;getItem('bar');
 	</div>
 	
 	<p>例5. 全データソースのアイテムのメタデータを全て取り出す</p>
 	<div class="code">
-		$items = array ();<br>
-		$dataproxy =&amp; new Dataproxy;<br>
+		$items = array();<br>
+		$dataproxy = new Dataproxy;<br>
 		$drivers = $dataproxy-&gt;getAllDriverNames();<br>
 		<br>
 		foreach ($drivers as $driver) {<br>

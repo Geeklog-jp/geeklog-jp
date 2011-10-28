@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2010 by the following authors:                         |
+// | Copyright (C) 2009-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Hiroron           - hiroron AT hiroron DOT com                   |
 // |          mystral-kk        - geeklog AT mystral-kk DOT net                |
@@ -43,10 +43,8 @@ require_once dirname(__FILE__) . '/config.php';
 *
 * @param    string  $pi_name    Plugin name
 * @return   array               Plugin information
-*
 */
-function plugin_autoinstall_dataproxy($pi_name)
-{
+function plugin_autoinstall_dataproxy($pi_name) {
 	global $_DPXY_CONF;
 	
     $pi_name         = 'dataproxy';
@@ -92,37 +90,35 @@ function plugin_autoinstall_dataproxy($pi_name)
 * Check if the plugin is compatible with this Geeklog version
 *
 * @param    string  $pi_name    Plugin name
-* @return   boolean             true: plugin compatible; false: not compatible
-*
+* @return   boolean             TRUE: plugin compatible; FALSE: not compatible
 */
-function plugin_compatible_with_this_version_dataproxy($pi_name)
-{
+function plugin_compatible_with_this_version_dataproxy($pi_name) {
     global $_CONF, $_DB_dbms;
 
     // check if we support the DBMS the site is running on
 //    $dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/'
 //            . $_DB_dbms . '_install.php';
 //    if (! file_exists($dbFile)) {
-//        return false;
+//        return FALSE;
 //    }
 
     if (! function_exists('SEC_getGroupDropdown')) {
-        return false;
+        return FALSE;
     }
 
     if (! function_exists('SEC_createToken')) {
-        return false;
+        return FALSE;
     }
 
     if (! function_exists('COM_showMessageText')) {
-        return false;
+        return FALSE;
     }
 
     if (! function_exists('COM_setLangIdAndAttribute')) {
-        return false;
+        return FALSE;
     }
 
-    return true;
+    return TRUE;
 }
 
 /**
@@ -131,19 +127,18 @@ function plugin_compatible_with_this_version_dataproxy($pi_name)
 * We're inserting our default data here since it depends on other stuff that
 * has to happen first ...
 *
-* @return   boolean     true = proceed with install, false = an error occured
-*
+* @return   boolean     TRUE = proceed with install, FALSE = an error occured
 */
-function plugin_postinstall_dataproxy($pi_name)
-{
+function plugin_postinstall_dataproxy($pi_name) {
     global $_TABLES;
 
     $inst_parms = plugin_autoinstall_dataproxy($pi_name);
     $pi_name = $inst_parms['info']['pi_name'];
     $pi_admin = key($inst_parms['groups']);
 
-    $admin_group_id = DB_getItem($_TABLES['groups'], 'grp_id',
-                                 "grp_name = '{$pi_admin}'");
+    $admin_group_id = DB_getItem(
+		$_TABLES['groups'], 'grp_id', "grp_name = '{$pi_admin}'"
+	);
 
     $DP_SQL = array();
     $DP_SQL[] = "CREATE TABLE {$_TABLES['dpxy_notify']} ("
@@ -158,11 +153,12 @@ function plugin_postinstall_dataproxy($pi_name)
     foreach ($DP_SQL as $sql) {
         $sql = str_replace('#group#', $admin_group_id, $sql);
         DB_query($sql, 1);
+		
         if (DB_error()) {
-            COM_error("SQL error in DataProxy plugin postinstall, SQL: " . $sql);
-            return false;
+            COM_errorLog("SQL error in DataProxy plugin postinstall, SQL: " . $sql);
+            return FALSE;
         }
     }
 
-    return true;
+    return TRUE;
 }

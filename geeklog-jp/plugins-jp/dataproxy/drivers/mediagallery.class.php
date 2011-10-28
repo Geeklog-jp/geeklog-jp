@@ -31,18 +31,18 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'mediagallery.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'mediagallery.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_mediagallery extends DataproxyDriver
 {
-	var $driver_name = 'mediagallery';
+	public $driver_name = 'mediagallery';
 	
-	function isLoginRequired() {
+	public function isLoginRequired() {
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
-		static $retval = null;
+		static $retval = NULL;
 		
 		if (is_null($retval)) {
 			$sql = "SELECT config_value "
@@ -50,10 +50,11 @@ class Dataproxy_mediagallery extends DataproxyDriver
 				 . "WHERE (config_name = 'loginrequired')";
 			
 			$result = DB_query($sql);
+			
 			if (DB_error()) {
-				$retval = true;	// just to be on the safe side
+				$retval = TRUE;	// just to be on the safe side
 			} else {
-				$A = DB_fetchArray($result, false);
+				$A = DB_fetchArray($result, FALSE);
 				$retval = ((int) $A['config_value'] != 0);
 			}
 		}
@@ -64,7 +65,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint()
+	public function getEntryPoint()
 	{
 		global $_CONF, $_MG_CONF;
 		
@@ -72,7 +73,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	}
 	
 	/**
-	* @param $pid int/string/boolean id of the parent category.  False means
+	* @param $pid int/string/boolean id of the parent category.  FALSE means
 	*        the top category (with no parent)
 	* @return array(
 	*   'id'        => $id (string),
@@ -83,17 +84,17 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/	
-	function getChildCategories($pid = false)
+	public function getChildCategories($pid = FALSE)
 	{
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
+		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
 			return $entries;
 		}
 		
-		if ($pid === false) {
+		if ($pid === FALSE) {
 			$pid = 0;
 		}
 		
@@ -105,13 +106,15 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			$sql .= COM_getPermSQL('AND ', $this->uid)
 				 .  " AND (hidden = '0') ";
 		}
+		
 		$sql .= " ORDER BY album_order";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result)) !== false) {
+		while (($A = DB_fetchArray($result)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['album_id'];
@@ -120,7 +123,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			$entry['uri']       = $_MG_CONF['site_url'] . '/album.php?aid='
 								. $entry['id'];
 			$entry['date']      = $A['last_update'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		
@@ -137,13 +140,13 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_MG_CONF;
 		
 		$retval = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
+		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
 			return $retval;
 		}
 
@@ -151,12 +154,13 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			 . "FROM {$_TABLES['mg_media']} "
 			 . "WHERE (media_id ='" . addslashes($id) . "') ";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			if (empty($A['media_title'])) {
@@ -184,13 +188,13 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
+		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
 			return $entries;
 		}
 		
@@ -198,19 +202,19 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			 . "FROM {$_TABLES['mg_media_albums']} "
 			 . "WHERE (album_id ='" . addslashes($category) . "') "
 			 . "ORDER BY media_order";
-		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
 		$media_ids = array();
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$media_ids[] = "'" . $A['media_id'] . "'";
 		}
 		
-		if (count($media_ids) == 0) {
+		if (count($media_ids) === 0) {
 			return $entries;
 		}
 		
@@ -223,7 +227,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			if (empty($A['media_title'])) {
 				$A['media_title'] = $A['media_id'];
 			}
@@ -234,7 +238,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			$entry['uri']       = $_MG_CONF['site_url'] . '/media.php?s='
 								. urlencode($entry['id']);
 			$entry['date']      = $A['media_time'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		
@@ -250,13 +254,13 @@ class Dataproxy_mediagallery extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === true)) {
+		if (($this->uid == 1) AND ($this->isLoginRequired() == TRUE)) {
 			return $entries;
 		}
 		
@@ -276,11 +280,11 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		$media_ids = array();
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$media_ids[] = "'" . $A['media_id'] . "'";
 		}
 		
-		if (count($media_ids) == 0) {
+		if (count($media_ids) === 0) {
 			return $entries;
 		}
 		
@@ -294,7 +298,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			if (empty($A['media_title'])) {
 				$A['media_title'] = $A['media_id'];
 			}
@@ -305,7 +309,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 			$entry['uri']       = $_MG_CONF['site_url'] . '/media.php?s='
 								. urlencode($entry['id']);
 			$entry['date']      = $A['media_time'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

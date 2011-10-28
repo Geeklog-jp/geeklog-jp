@@ -31,21 +31,22 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
-    die('This file can not be used on its own.');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
+	die('This file can not be used on its own.');
 }
 
-//define( 'DATAPROXY_DEBUG', true );
+//define( 'DATAPROXY_DEBUG', TRUE );
 
 /**
 * Language file Include
 */
 $langfile = $_CONF['path'] . 'plugins/dataproxy/language/' . $_CONF['language'] . '.php';
 clearstatcache();
+
 if (file_exists($langfile)) {
-    include_once $langfile;
+	include_once $langfile;
 } else {
-    include_once $_CONF['path'] . 'plugins/dataproxy/language/english.php';
+	include_once $_CONF['path'] . 'plugins/dataproxy/language/english.php';
 }
 
 /**
@@ -64,16 +65,16 @@ require_once $_CONF['path'] . 'plugins/dataproxy/dataproxy.php';
 * @return    array   Associative array of menu items to be added to menu
 */
 function plugin_getmenuitems_dataproxy() {
-    return array();
+	return array();
 }
 
 /**
 * Check to see if this Plugin uses comments
 *
-* @return   boolean true or false
+* @return   boolean TRUE or FALSE
 */
 function plugin_commentsupport_dataproxy() {
-    return false;
+	return FALSE;
 }
 
 /**
@@ -86,7 +87,7 @@ function plugin_commentsupport_dataproxy() {
 */
 function plugin_showstats_dataproxy($showsitestats) {
 	$retval = '';
-    return $retval;
+	return $retval;
 }
 
 /**
@@ -94,17 +95,16 @@ function plugin_showstats_dataproxy($showsitestats) {
 * moderation.php
 *
 * @return   array   Array containing (plugin name, admin url, url of plugin icon)
-*
 */
 function plugin_cclabel_dataproxy() {
-    global $_CONF;
+	global $_CONF;
 	
 	$pi_name   = DPXY_str('menu_label');
 //	$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
 	$admin_url = '';
 	$icon_url  = $_CONF['site_admin_url'] . '/plugins/dataproxy/images/dataproxy.gif';
 	
-    return array($pi_name, $admin_url, $icon_url);
+	return array($pi_name, $admin_url, $icon_url);
 }
 
 /**
@@ -152,14 +152,14 @@ function plugin_getuseroption_dataproxy() {
 /**
 * Upgrade the plugin
 *
-* @return   boolean true (= success)
+* @return   boolean TRUE (= success)
 *
 */
 function plugin_upgrade_dataproxy() {
 	global $_CONF, $_TABLES, $_DPXY_CONF;
 
 	$result = DB_query("SELECT pi_version FROM {$_TABLES['plugins']} WHERE (pi_name = 'dataproxy')");
-	$A = DB_fetchArray($result, false);
+	$A = DB_fetchArray($result, FALSE);
 	$pi_version = $A['pi_version'];		// Version info stored in database
 	
 	// Do upgrading
@@ -178,68 +178,29 @@ function plugin_upgrade_dataproxy() {
 	$result = DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = \"{$_DPXY_CONF['pi_version']}\" WHERE (pi_name = 'dataproxy')");
 	COM_errorLog(ucfirst("dataproxy") . " plugin was successfully updated to version {$_DPXY_CONF['pi_version']}.");
 	
-	return true;
+	return TRUE;
 }
 
 /**
-* Removes the datastructures for this plugin from the Geeklog database.
+* Automatic uninstall function for plugins
 *
-* @param    string   $installCheck   Default is blank but if set, check if
-*                                    plugin is disabled first
-* @return   boolean True if successful false otherwise
-*
+* @return   array
 */
-function plugin_uninstall_dataproxy($installCheck = '') {
-    global $_TABLES, $LANG_DPXY;
+function plugin_autouninstall_dataproxy() {
+	$out = array (
+		/* give the name of the tables, without $_TABLES[] */
+		'tables'     => array('dpxy_notify'),
+		/* give the full name of the group, as in the db */
+		'groups'     => array('DataProxy Admin'),
+		/* give the full name of the feature, as in the db */
+		'features'   => array('dataproxy.admin'),
+		/* give the full name of the block, including 'phpblock_', etc */
+		'php_blocks' => array(),
+		/* give all vars with their name */
+		'vars'       => array('dataproxy_gid'),
+	);
 
-    // $FEATURES and $TABLES have to be changed accodrding to your plugin
-    $pi_name  = 'dataproxy';
-    $FEATURES = array('dataproxy.admin');
-    $TABLES   = array('dpxy_notify');
-    
-    // Check and see if plugin is still enabled - if so display warning and exit
-    if (($installCheck != '')
-	 AND DB_getItem($_TABLES['plugins'], 'pi_enabled', 'pi_name = "' . $pi_name . '"')) {
-	    COM_errorLog("Plugin is installed and enabled.  Disable first if you want to de-install it", 1);
-		$display .= COM_startBlock(DPXY_str('warning'))
-				 .  DPXY_str('enabled')
-				 . COM_endBlock();
-		echo $display;
-		return false;
-	}
-    
-	// Ok to proceed and delete plugin
-	
-    // Unregister the plugin with Geeklog
-    COM_errorLog('Attempting to unregister the dataproxy plugin from Geeklog', 1);
-    DB_query("DELETE FROM {$_TABLES['plugins']} WHERE (pi_name = 'dataproxy')", 1);
-	
-    // Drop dataproxy tables
-    foreach ($TABLES as $table) {
-        $t = $_TABLES[$table];
-        COM_errorLog("Removing Table {$t}", 1);
-        DB_query("DROP TABLE {$t}", 1);
-    }
-	
-    // Remove Security for this plugin
-    $grp_id = DB_getItem($_TABLES['vars'], 'value', "name = '{$pi_name}_gid'");
-    
-    COM_errorLog("Removing {$pi_name} Admin Group", 1);
-    DB_query("DELETE FROM {$_TABLES['groups']} WHERE (grp_id = '{$grp_id}')", 1);
-    DB_query("DELETE FROM {$_TABLES['vars']} WHERE (name = '{$pi_name}_gid')");
-    COM_errorLog("Removing root users from admin of {$pi_name}");
-    DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE (ug_main_grp_id = '{$grp_id}')", 1);
-    
-    // Remove all the associated features -- access rights
-    foreach ($FEATURES as $feature) {
-        COM_errorLog("Removing {$feature} feature and rights to it", 1);
-        $feat_id = DB_getItem($_TABLES['features'], 'ft_id', "(ft_name = '{$feature}')");
-        DB_query("DELETE FROM {$_TABLES['access']} WHERE (acc_ft_id = '{$feat_id}')", 1);
-        DB_query("DELETE FROM {$_TABLES['features']} WHERE (ft_id = '{$feat_id}')", 1);
-    }
-        
-    COM_errorLog('...success', 1);
-    return true;
+	return $out;
 }
 
 /**
@@ -248,9 +209,9 @@ function plugin_uninstall_dataproxy($installCheck = '') {
 function DPXY_encoding() {
 	global $_CONF, $LANG_CHARSET;
 	
-	static $encoding = null;
+	static $encoding = NULL;
 	
-	if ($encoding === null) {
+	if ($encoding === NULL) {
 		if (isset($LANG_CHARSET)) {
 			$encoding = $LANG_CHARSET;
 		} else if (isset($_CONF['default_charset'])) {
@@ -278,7 +239,7 @@ function DPXY_esc($str) {
 /**
 * Returns a lang var, escaped if necessary
 */
-function DPXY_str($index, $noesc = false) {
+function DPXY_str($index, $noesc = FALSE) {
 	global $LANG_DPXY;
 	
 	if (isset($LANG_DPXY[$index])) {
@@ -306,12 +267,11 @@ function plugin_itemsaved_dataproxy($id, $type) {
 		COM_errorLog("plugin_itemsaved_dataproxy('{$id}', '{$type}')");
 	}
 	
-	return false;
+	return FALSE;
 }
 
 /**
 * The interval between runs is determined by $_CONF['cron_schedule_interval']
-*
 */
 function plugin_runScheduledTask_dataproxy() {
 	if (defined('DATAPROXY_DEBUG')) {

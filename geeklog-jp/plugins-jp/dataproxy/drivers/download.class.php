@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/download.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,18 +31,18 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'download.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'download.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_download extends DataproxyDriver
 {
-	var $driver_name = 'download';
+	public $driver_name = 'download';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/download/index.php';
@@ -60,28 +60,31 @@ class Dataproxy_download extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if ($pid === false) {
+		if ($pid === FALSE) {
 			$pid = 0;
 		}
 		
 		$sql = "SELECT * FROM {$_TABLES['download_category']} "
 			 . "WHERE (pid = '" . addslashes($pid) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid);
 		}
+		
 		$sql .= "ORDER BY cid";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = (int) $A['cid'];
@@ -89,7 +92,7 @@ class Dataproxy_download extends DataproxyDriver
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/download/index.php?cid='
 								. $entry['id'];
-			$entry['date']      = false;
+			$entry['date']      = FALSE;
 			$entry['image_uri'] = $A['imgurl'];
 			
 			$entries[] = $entry;
@@ -108,7 +111,7 @@ class Dataproxy_download extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -121,16 +124,19 @@ class Dataproxy_download extends DataproxyDriver
 			 . "WHERE (lid = '" . addslashes($id) . "') "
 			 . "AND (is_released = 1) "
 			 . "AND (date <= UNIX_TIMESTAMP(NOW())) ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -140,7 +146,7 @@ class Dataproxy_download extends DataproxyDriver
 			$retval['date']      = (int) $A['date'];
 			$retval['image_uri'] = $A['logourl'];
 			if (empty($retval['image_uri'])) {
-				$retval['image_uri'] = false;
+				$retval['image_uri'] = FALSE;
 			}
 			$retval['raw_data']  = $A;
 		}
@@ -157,7 +163,7 @@ class Dataproxy_download extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($cid, $all_langs = false)
+	public function getItems($cid, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -170,15 +176,18 @@ class Dataproxy_download extends DataproxyDriver
 			 . "WHERE (f.cid = '" . addslashes($cid) . "') "
 			 . "AND (is_released = 1) "
 			 . "AND (date <= UNIX_TIMESTAMP(NOW())) ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['lid'];
@@ -202,13 +211,16 @@ class Dataproxy_download extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($cid = '', $all_langs = false)
+	function getItemsByDate($cid = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT lid, f.title, logourl, date "
 			 . "FROM {$_TABLES['download_filedetail']} AS f "
 			 . "LEFT JOIN {$_TABLES['download_category']} AS c "
@@ -216,18 +228,22 @@ class Dataproxy_download extends DataproxyDriver
 			 . "WHERE (is_released = 1) "
 			 . "AND (date <= UNIX_TIMESTAMP(NOW())) "
 			 . "AND (date BETWEEN '$this->startdate' AND '$this->enddate') ";
+		
 		if (!empty($cid)) {
 			$sql .= "AND (f.cid = '" . addslashes($cid) . "') ";
 		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['lid'];
