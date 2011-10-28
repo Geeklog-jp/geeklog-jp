@@ -26,7 +26,7 @@
 // +---------------------------------------------------------------------------+
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== FALSE) {
-    die('This file can not be used on its own.');
+	die('This file can not be used on its own.');
 }
 
 /**
@@ -152,38 +152,38 @@ $_DBMAN_DEFAULT['restore_blob'] = FALSE;
 * @return   boolean     TRUE: success; FALSE: an error occurred
 */
 function plugin_initconfig_dbman() {
-    global $_DBMAN_CONF, $_DBMAN_DEFAULT;
-    
-    if (isset($_DBMAN_CONF) AND is_array($_DBMAN_CONF)
-     AND (count($_DBMAN_CONF) >= 1)) {
-        $_DBMAN_DEFAULT = array_merge($_DBMAN_DEFAULT, $_DBMAN_CONF);
-    }
-    
-    $c = config::get_instance();
-    if (!$c->group_exists('dbman')) {
-        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, TRUE, 'dbman');
-        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, TRUE, 'dbman');
-        $c->add('fs_backup', NULL, 'fieldset', 0, 1, NULL, 0, TRUE, 'dbman');
-        
-        /**
-        * Main
-        */
-        $c->add('add_drop_table', $_DBMAN_DEFAULT['add_drop_table'], 'select', 0, 0, 0, 10, TRUE, 'dbman');
-        $c->add('chunk_size', $_DBMAN_DEFAULT['chunk_size'], 'text', 0, 0, NULL, 20, TRUE, 'dbman');
-        $c->add('backup_except', $_DBMAN_DEFAULT['backup_except'], '%text', 0, 0, NULL, 30, TRUE, 'dbman');
-        $c->add('allow_restore', $_DBMAN_DEFAULT['allow_restore'], 'select', 0, 0, 0, 40, TRUE, 'dbman');
-//		$c->add('backup_blob', $_DBMAN_DEFAULT['backup_blob'], 'select', 0, 0, 0, 50, TRUE, 'dbman');
-//		$c->add('restore_blob', $_DBMAN_DEFAULT['restore_blob'], 'select', 0, 0, 0, 60, TRUE, 'dbman');
-        $c->add('cron_backup', $_DBMAN_DEFAULT['cron_backup'], 'select', 0, 0, 0, 70, TRUE, 'dbman');
-        $c->add('max_backup', $_DBMAN_DEFAULT['max_backup'], 'text', 0, 0, NULL, 80, TRUE, 'dbman');
-        
-        /**
-        * Backup Defaults
-        */
-        $c->add('compress_data', $_DBMAN_DEFAULT['compress_data'], 'select', 0, 1, 0, 100, TRUE, 'dbman');
-        $c->add('compression_level', $_DBMAN_DEFAULT['compression_level'], 'select', 0, 1, 1, 110, TRUE, 'dbman');
-        $c->add('download_as_file', $_DBMAN_DEFAULT['download_as_file'], 'select', 0, 1, 0, 120, TRUE, 'dbman');
-    }
-    
-    return TRUE;
+	global $_DBMAN_CONF, $_DBMAN_DEFAULT;
+	
+	if (isset($_DBMAN_CONF) AND is_array($_DBMAN_CONF)
+	 AND (count($_DBMAN_CONF) >= 1)) {
+		$_DBMAN_DEFAULT = array_merge($_DBMAN_DEFAULT, $_DBMAN_CONF);
+	}
+	
+	$me = 'dbman';
+	$c = config::get_instance();
+	
+	if (!$c->group_exists($me)) {
+		$c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, TRUE, $me);
+		$c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, TRUE, $me);
+		$c->add('fs_backup', NULL, 'fieldset', 0, 1, NULL, 0, TRUE, $me);
+		
+		/**
+		* Main
+		*/
+		$c->add('add_drop_table', $_DBMAN_DEFAULT['add_drop_table'], 'select', 0, 0, 0, 10, TRUE, $me);
+		$c->add('chunk_size', $_DBMAN_DEFAULT['chunk_size'], 'text', 0, 0, NULL, 20, TRUE, $me);
+		$c->add('backup_except', $_DBMAN_DEFAULT['backup_except'], '%text', 0, 0, NULL, 30, TRUE, $me);
+		$c->add('allow_restore', $_DBMAN_DEFAULT['allow_restore'], 'select', 0, 0, 0, 40, TRUE, $me);
+		$c->add('cron_backup', $_DBMAN_DEFAULT['cron_backup'], 'select', 0, 0, 0, 70, TRUE, $me);
+		$c->add('max_backup', $_DBMAN_DEFAULT['max_backup'], 'text', 0, 0, NULL, 80, TRUE, $me);
+		
+		/**
+		* Backup Defaults
+		*/
+		$c->add('compress_data', $_DBMAN_DEFAULT['compress_data'], 'select', 0, 1, 0, 100, TRUE, $me);
+		$c->add('compression_level', $_DBMAN_DEFAULT['compression_level'], 'select', 0, 1, 1, 110, TRUE, $me);
+		$c->add('download_as_file', $_DBMAN_DEFAULT['download_as_file'], 'select', 0, 1, 0, 120, TRUE, $me);
+	}
+	
+	return TRUE;
 }
