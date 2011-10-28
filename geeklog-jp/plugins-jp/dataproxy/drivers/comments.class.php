@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/comments.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,20 +31,20 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'comment.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'comment.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_comments extends DataproxyDriver
 {
-	var $driver_name = 'comments';
+	public $driver_name = 'comments';
 	
-	function getChildCategories($pid = false, $all_langs = false) {
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE) {
 		global $_CONF, $_TABLES, $LANG_SMAP;
 		
 		$entries = array();
 		
-		if ($pid !== false) {
+		if ($pid !== FALSE) {
 			return $entries;
 		}
 		
@@ -52,19 +52,20 @@ class Dataproxy_comments extends DataproxyDriver
 		$sql = "SELECT DISTINCT type FROM {$_TABLES['comments']} "
 			 . "ORDER BY type";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			if (in_array(stripslashes($A['type']), $supported_drivers)) {
 				$entry = array();
 				$entry['id']        = stripslashes($A['type']);
-				$entry['pid']       = false;
+				$entry['pid']       = FALSE;
 				$entry['title']     = $entry['id'];
-				$entry['uri']       = false;
-				$entry['date']      = false;
-				$entry['image_uri'] = false;
+				$entry['uri']       = FALSE;
+				$entry['date']      = FALSE;
+				$entry['image_uri'] = FALSE;
 				
 				$entries[] = $entry;
 			}
@@ -83,7 +84,7 @@ class Dataproxy_comments extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false) {
+	public function getItemById($id, $all_langs = FALSE) {
 		global $_CONF, $_TABLES;
 		
 		$retval = array();
@@ -92,19 +93,20 @@ class Dataproxy_comments extends DataproxyDriver
 			 . "FROM {$_TABLES['comments']} "
 			 . "WHERE (cid = '" . addslashes($id) . "') ";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			$retval['id']        = $id;
 			$retval['title']     = $A['title'];
 			$retval['uri']       = $_CONF['site_url']
 				. '/comment.php?mode=view&amp;cid=' . $id;
 			$retval['date']      = strtotime($A['date']);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -112,7 +114,7 @@ class Dataproxy_comments extends DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* Returns an array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -121,10 +123,11 @@ class Dataproxy_comments extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false) {
+	public function getItems($category, $all_langs = FALSE) {
 	    global $_CONF, $_TABLES;
 		
 		$entries = array();
+		
 		if (!in_array($category, $this->getAllDriverNames())) {
 			return $entries;
 		}
@@ -134,11 +137,12 @@ class Dataproxy_comments extends DataproxyDriver
 			 . "WHERE (type = '" . addslashes($category) . "') "
 			 . "ORDER BY day DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['cid'];
@@ -146,7 +150,7 @@ class Dataproxy_comments extends DataproxyDriver
 			$entry['uri']       = $_CONF['site_url'] . '/comment.php?mode=view&amp;cid='
 								. $entry['id'];
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -155,7 +159,7 @@ class Dataproxy_comments extends DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* Returns an array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -164,7 +168,7 @@ class Dataproxy_comments extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false) {
+	public function getItemsByDate($category = '', $all_langs = FALSE) {
 	    global $_CONF, $_TABLES;
 		
 		$entries = array();
@@ -180,24 +184,27 @@ class Dataproxy_comments extends DataproxyDriver
 		$sql = "SELECT cid, title, UNIX_TIMESTAMP(date) AS day "
 			 . "FROM {$_TABLES['comments']} "
 			 . "WHERE (1 = 1) ";
+		
 		if (!empty($category)) {
 			$sql .= "AND (type = '" . addslashes($category) . "') ";
 		}
-		$sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') "
+		
+		$sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '{$this->startdate}' AND '{$this->enddate}') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']        = $A['cid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/comment.php?mode=view&amp;cid='
 								. $entry['id'];
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}

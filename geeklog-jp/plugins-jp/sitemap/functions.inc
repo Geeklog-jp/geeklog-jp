@@ -224,6 +224,10 @@ function plugin_upgrade_sitemap() {
 			
 			break;
 		
+		case '1.2.0':
+			// Nothing done from 1.2.0 -> 1.2.1
+			break;
+			
 		default:
 			COM_errorLog('Sitemap: upgrade procedure for version ' . $pi_version . ' is not implemented in plugin_upgrade_sitemap().');
 			break;
@@ -507,7 +511,7 @@ function SITEMAP_createGoogleSitemap() {
 			 . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . LB;
 	
 	// Collects items
-	$dataproxy  =& new Dataproxy(1);
+	$dataproxy  = new Dataproxy(1);
 	$drivers    = $dataproxy->getAllDriverNames();
 	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	

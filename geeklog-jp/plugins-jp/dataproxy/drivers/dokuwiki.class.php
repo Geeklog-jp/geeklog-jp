@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/dokuwiki.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,18 +31,18 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'dokuwiki.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'dokuwiki.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_dokuwiki extends DataproxyDriver
 {
-	var $driver_name = 'dokuwiki';
+	public $driver_name = 'dokuwiki';
 	
 	/**
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/dokuwiki/doku.php';
@@ -59,13 +59,13 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_DW_CONF;
 		
 		$retval = array();
-		
 		$base_path = $_CONF['path_html'] . substr($_DW_CONF['public_dir'], 1);
+		
 		if (!file_exists($base_path)) {
 			COM_errorLog("Dataproxy: can't find DokuWiki directory.");
 			return $retval;
@@ -73,12 +73,14 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		
 		require_once $base_path . 'conf/dokuwiki.php';
 		$data_path = realpath($base_path . $conf['savedir'] . '/pages');
-		if ($data_path === false) {
+		
+		if ($data_path === FALSE) {
 			COM_errorLog("Dataproxy: can't find DokuWiki's data directory.");
 			return $retval;
 		}
 		
 		$full_path = $data_path . DIRECTORY_SEPARATOR . urlencode($id) . '.txt';
+		
 		if (is_file($full_path)) {
 			$retval['id']        = $id;
 			$retval['title']     = $id;
@@ -86,7 +88,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 								 . 'doku.php?id=' . urlencode($id);
 			clearstatcache();
 			$retval['date']      = filemtime($full_path);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = @file_get_contents($full_path);
 		}
 		
@@ -102,41 +104,45 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_DW_CONF;
 		
 		// Collect all Dokuwiki entries since Dokuwiki does no access control.
 		$base_path = $_CONF['path_html'] . substr($_DW_CONF['public_dir'], 1);
 		clearstatcache();
+		
 		if (!file_exists($base_path)) {
 			COM_errorLog("Dataproxy: can't find DokuWiki's directory.");
-			return false;
+			return FALSE;
 		}
 		
 		require_once $base_path . 'conf/dokuwiki.php';
 		$data_path = realpath($base_path . $conf['savedir'] . '/pages');
-		if ($data_path === false) {
+		
+		if ($data_path === FALSE) {
 			COM_errorLog("Dataproxy: can't find DokuWiki's data directory.");
 			return $retval;
 		}
 		
 		$dh = @opendir($data_path);
-		if ($dh === false) {
+		
+		if ($dh === FALSE) {
 			return $retval;
 		}
 		
 		$entries = array();
 		
-		while (($entry_name = readdir($dh)) !== false) {
+		while (($entry_name = readdir($dh)) !== FALSE) {
 			$full_path = $data_path . DIRECTORY_SEPARATOR . $entry_name;
 			clearstatcache();
+			
 			if (is_file($full_path)
 			 AND preg_match("/^(.*)(\.txt)$/i", $entry_name, $match)) {
 				$entry = array();
-				
 				$entry['id']    = $match[1];
 				$entry['title'] = urldecode($entry['id']);
+				
 				switch ($conf['userewrite']) {
 					case 1: // URL rewrite - .htaccess
 						COM_errorLog('Dataproxy: dokuwiki URL rewrite rule is not defined.  File: ' . __FILE__ . ' line: ' . __LINE__);
@@ -158,7 +164,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 				
 				clearstatcache();
 				$entry['date']      = filemtime($full_path);
-				$entry['image_uri'] = false;
+				$entry['image_uri'] = FALSE;
 				
 				$entries[] = $entry;
 			}
@@ -178,7 +184,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_DW_CONF;
 		
@@ -187,6 +193,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		// Collect all Dokuwiki entries since Dokuwiki does no access control.
 		$base_path = $_CONF['path_html'] . substr($_DW_CONF['public_dir'], 1);
 		clearstatcache();
+		
 		if (!file_exists($base_path)) {
 			COM_errorLog("Dataproxy: can't find DokuWiki's directory.");
 			return entries;
@@ -194,29 +201,37 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		
 		require_once $base_path . 'conf/dokuwiki.php';
 		$data_path = realpath($base_path . $conf['savedir'] . '/pages');
-		if ($data_path === false) {
+		
+		if ($data_path === FALSE) {
 			COM_errorLog("Dataproxy: can't find DokuWiki's data directory.");
 			return $entries;
 		}
 		
 		$dh = @opendir($data_path);
-		if ($dh === false) {
+		
+		if ($dh === FALSE) {
 			return $entries;
 		}
 		
 		if (empty($this->startdate) || empty($this->enddate)) return $entries;
 		
-		while (($entry_name = readdir($dh)) !== false) {
+		while (($entry_name = readdir($dh)) !== FALSE) {
 			$full_path = $data_path . DIRECTORY_SEPARATOR . $entry_name;
 			$file_time = filemtime($full_path);
-			if (($file_time < $this->startdate) || ($file_time > $this->enddate)) continue;
+			
+			if (($file_time < $this->startdate) OR ($file_time > $this->enddate)) {
+				continue;
+			}
+			
 			clearstatcache();
+			
 			if (is_file($full_path)
 			 AND preg_match("/^(.*)(\.txt)$/i", $entry_name, $match)) {
 				$entry = array();
 				
 				$entry['id']    = $match[1];
 				$entry['title'] = urldecode($entry['id']);
+				
 				switch ($conf['userewrite']) {
 					case 1: // URL rewrite - .htaccess
 						COM_errorLog('Dataproxy: dokuwiki URL rewrite rule is not defined.  File: ' . __FILE__ . ' line: ' . __LINE__);
@@ -238,7 +253,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 				
 				clearstatcache();
 				$entry['date']      = $file_time;
-				$entry['image_uri'] = false;
+				$entry['image_uri'] = FALSE;
 				
 				$entries[] = $entry;
 			}

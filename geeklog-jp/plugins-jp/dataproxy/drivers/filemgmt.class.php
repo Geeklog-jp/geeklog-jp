@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/filemgmt.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,18 +31,18 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'filemgmt.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'filemgmt.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_filemgmt extends DataproxyDriver
 {
-	var $driver_name = 'filemgmt';
+	public $driver_name = 'filemgmt';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/filemgmt/index.php';
@@ -60,29 +60,32 @@ class Dataproxy_filemgmt extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_FM_TABLES;
 		
 		$entries = array();
 		
-		if ($pid === false) {
+		if ($pid === FALSE) {
 			$pid = 0;
 		}
 		
 		$sql = "SELECT * FROM {$_FM_TABLES['filemgmt_cat']} "
 			 . "WHERE (pid = '" . addslashes($pid) . "') ";
+		
 		if ($this->uid > 0) {
 			$current_groups = SEC_getUserGroups($this->uid);
 			$sql .= "AND (grp_access IN (" . implode(',', $current_groups) . ")) ";
 		}
+		
 		$sql .= "ORDER BY cid";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = (int) $A['cid'];
@@ -90,7 +93,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/filemgmt/viewcat.php?cid='
 								. $entry['id'];
-			$entry['date']      = false;
+			$entry['date']      = FALSE;
 			$entry['image_uri'] = $A['imgurl'];
 			
 			$entries[] = $entry;
@@ -109,7 +112,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_FM_TABLES;
 		
@@ -120,17 +123,20 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			 . "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} AS c "
 			 . "ON f.cid = c.cid "
 			 . "WHERE (f.lid = '" . addslashes($id) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= "AND (c.grp_access IN ("
 				 . implode(',', SEC_getUserGroups($this->uid)) . "))";
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -140,7 +146,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			$retval['date']      = (int) $A['date'];
 			$retval['image_uri'] = $A['logourl'];
 			if (empty($retval['image_uri'])) {
-				$retval['image_uri'] = false;
+				$retval['image_uri'] = FALSE;
 			}
 			$retval['raw_data']  = $A;
 		}
@@ -157,7 +163,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($cid, $all_langs = false)
+	public function getItems($cid, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_FM_TABLES;
 		
@@ -168,16 +174,19 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			 . "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} AS c "
 			 . "ON f.cid = c.cid "
 			 . "WHERE (f.cid = '" . addslashes($cid) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= "AND (c.grp_access IN ("
 				 .  implode(',', SEC_getUserGroups($this->uid)) . "))";
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['lid'];
@@ -185,7 +194,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			$entry['uri']       = $_CONF['site_url'] . '/filemgmt/index.php?id='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		
@@ -201,31 +210,38 @@ class Dataproxy_filemgmt extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($cid = '', $all_langs = false)
+	public function getItemsByDate($cid = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES, $_FM_TABLES;
 		
 		$entries = array();
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT lid, f.title, logourl, date "
 			 . "FROM {$_FM_TABLES['filemgmt_filedetail']} AS f "
 			 . "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} AS c "
 			 . "ON f.cid = c.cid "
 			 . "WHERE (date BETWEEN '$this->startdate' AND '$this->enddate') ";
+		
 		if (!empty($cid)) {
 			$sql .= "AND (f.cid = '" . addslashes($cid) . "') ";
 		}
+		
 		if ($this->uid > 0) {
 			$sql .= "AND (c.grp_access IN ("
 				 .  implode(',', SEC_getUserGroups($this->uid)) . "))";
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['lid'];
@@ -233,7 +249,7 @@ class Dataproxy_filemgmt extends DataproxyDriver
 			$entry['uri']       = $_CONF['site_url'] . '/filemgmt/index.php?id='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

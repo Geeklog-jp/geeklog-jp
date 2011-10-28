@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/calendarjp.class.php                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -37,18 +37,18 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'calendarjp.class.php') !== false) 
 
 class Dataproxy_calendarjp extends DataproxyDriver
 {
-	var $driver_name = 'calendarjp';
+	public $driver_name = 'calendarjp';
 	
 	/**
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/calendarjp/index.php';
 	}
 	
-	function getChildCategories($pid, $all_langs = false)
+	public function getChildCategories($pid, $all_langs = false)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -61,6 +61,7 @@ class Dataproxy_calendarjp extends DataproxyDriver
 		$sql = "SELECT DISTINCT event_type FROM {$_TABLES['eventsjp']} "
 			 . "ORDER BY event_type";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
@@ -91,7 +92,7 @@ class Dataproxy_calendarjp extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = false)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -99,10 +100,13 @@ class Dataproxy_calendarjp extends DataproxyDriver
 		$sql = "SELECT * "
 			 . "FROM {$_TABLES['eventsjp']} "
 			 . "WHERE (eid = '" . addslashes($id) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
@@ -132,21 +136,22 @@ class Dataproxy_calendarjp extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category = '', $all_langs = false)
+	public function getItems($category = '', $all_langs = false)
 	{
 	    global $_CONF, $_TABLES;
 		
 		$entries = array();
-
 		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['eventsjp']} "
 			 . "WHERE (event_type = '" . addslashes($category) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
-
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
@@ -177,7 +182,7 @@ class Dataproxy_calendarjp extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($event_type = '', $all_langs = false)
+	public function getItemsByDate($event_type = '', $all_langs = false)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -187,18 +192,22 @@ class Dataproxy_calendarjp extends DataproxyDriver
 			return $entries;
 		}
 		
-		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
+		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, "
+			 . "  UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['eventsjp']} "
-			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '$this->startdate' AND '$this->enddate') ";
+			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '{$this->startdate}' AND '{$this->enddate}') ";
+		
 		if (!empty($event_type)) {
 			$sql .= "AND (event_type = '" . addslashes($event_type) . "') ";
 		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
-
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}

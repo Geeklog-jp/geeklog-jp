@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/faqman.class.php                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,51 +31,52 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'faqman.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'faqman.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_faqman extends DataproxyDriver
 {
-	var $driver_name = 'faqman';
+	public $driver_name = 'faqman';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint()
+	public function getEntryPoint()
 	{
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/faqman/index.php';
 	}
 	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if ($pid !== false) {
+		if ($pid !== FALSE) {
 			return $entries;
 		}
 		
 		$sql = "SELECT catID, name FROM {$_TABLES['faq_categories']} "
 			 . "ORDER BY catID";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['catID'];
-			$entry['pid']       = false;
+			$entry['pid']       = FALSE;
 			$entry['title']     = stripslashes($A['name']);
 			$entry['uri']       = $_CONF['site_url'] . '/faqman/index.php?op=cat&amp;c='
 								. $entry['id'];
-			$entry['date']      = false;
-			$entry['image_uri'] = false;
+			$entry['date']      = FALSE;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -93,7 +94,7 @@ class Dataproxy_faqman extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -103,19 +104,20 @@ class Dataproxy_faqman extends DataproxyDriver
 			 . "FROM {$_TABLES['faq_topics']} "
 			 . "WHERE (topicID = '" . addslashes($id) . "') ";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			$retval['id']        = $id;
 			$retval['title']     = $A['question'];
 			$retval['uri']       = $_CONF['site_url']
 				. '/faqman/index.php?op=view&amp;t=' . $id;
-			$retval['date']      = false;
-			$retval['image_uri'] = false;
+			$retval['date']      = FALSE;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -131,7 +133,7 @@ class Dataproxy_faqman extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($cid, $all_langs = false)
+	public function getItems($cid, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -142,19 +144,20 @@ class Dataproxy_faqman extends DataproxyDriver
 			 . "WHERE (catID = '" . addslashes($cid) . "') "
 			 . "ORDER BY topicID";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = stripslashes($A['topicID']);
 			$entry['title']     = stripslashes($A['question']);
 			$entry['uri']       = $_CONF['site_url'] . '/faqman/index.php?op=view&amp;t='
 								. $entry['id'];
-			$entry['date']      = false;
-			$entry['image_uri'] = false;
+			$entry['date']      = FALSE;
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

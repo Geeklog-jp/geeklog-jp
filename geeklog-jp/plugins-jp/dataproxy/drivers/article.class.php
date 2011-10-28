@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/article.class.php                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,7 +31,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'article.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'article.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
@@ -39,33 +39,35 @@ class Dataproxy_article extends DataproxyDriver
 {
 	var $driver_name = 'article';
 	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$retval = array();
-		if ($pid !== false) {
+		
+		if ($pid !== FALSE) {
 			return $retval;
 		}
 		
-		$where = false;
-		
+		$where = FALSE;
 		$sql = "SELECT tid, topic, imageurl FROM {$_TABLES['topics']} ";
+		
 		if ($this->uid > 1) {
 			$tids = DB_getItem(
 				$_TABLES['userindex'], 'tids', "uid = '" . $this->uid . "'"
 			);
+			
 			if (!empty($tids)) {
-				$sql .= ($where === true) ? ' AND' : ' WHERE';
+				$sql .= ($where === TRUE) ? ' AND' : ' WHERE';
 				$sql .= "(tid NOT IN ('"
 					 . str_replace(' ', "','", addslashes($tids)) . "'))";
-				$where = true;
+				$where = TRUE;
 			}
 		}
 		
 		// Adds permission check.  When uid is 0, then it means access as Root
 		if ($this->uid > 0) {
-			if ($where === true) {
+			if ($where === TRUE) {
 				$sql .= COM_getPermSQL('AND', $this->uid);
 			} else {
 				$sql .= COM_getPermSQL('WHERE', $this->uid);
@@ -74,9 +76,10 @@ class Dataproxy_article extends DataproxyDriver
 
 		// Adds lang id.  When uid is 0, then it means access as Root
 		if (($this->uid > 0) AND function_exists('COM_getLangSQL')
-		 AND $all_langs === false) {
-			$where = (strpos($sql, 'WHERE') !== false) ? true : false;
-			if ($where === true) {
+		 AND $all_langs === FALSE) {
+			$where = (strpos($sql, 'WHERE') !== FALSE) ? TRUE : FALSE;
+			
+			if ($where === TRUE) {
 				$sql .= COM_getLangSQL('tid', 'AND');
 			} else {
 				$sql .= COM_getLangSQL('tid', 'WHERE');
@@ -88,17 +91,19 @@ class Dataproxy_article extends DataproxyDriver
 		} else {
 			$sql .= ' ORDER BY sortnum';
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']        = stripslashes($A['tid']);
 			$entry['title']     = stripslashes($A['topic']);
 			$entry['uri']       = $_CONF['site_url'] . '/index.php?topic=' . $entry['id'];
-			$entry['date']      = false;
+			$entry['date']      = FALSE;
 			$entry['image_uri'] = stripslashes($A['imageurl']);
 			$retval[] = $entry;
 		}
@@ -107,7 +112,7 @@ class Dataproxy_article extends DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* Returns array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -117,7 +122,7 @@ class Dataproxy_article extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -127,20 +132,24 @@ class Dataproxy_article extends DataproxyDriver
 			 . "FROM {$_TABLES['stories']} "
 			 . "WHERE (sid ='" . addslashes($id) . "') "
 			 . "AND (draft_flag = 0) AND (date <= NOW()) ";
+		
 		if ($this->uid > 0) {
-			$sql .= COM_getTopicSql('AND', $this->uid);
-			$sql .= COM_getPermSql('AND', $this->uid);
-			if (function_exists('COM_getLangSQL') AND ($all_langs === false)) {
+			$sql .= COM_getTopicSql('AND', $this->uid)
+				 .  COM_getPermSql('AND', $this->uid);
+			
+			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');
 			}
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
@@ -149,7 +158,7 @@ class Dataproxy_article extends DataproxyDriver
 				$_CONF['site_url'] . '/article.php?story=' . $id
 			);
 			$retval['date']      = strtotime($A['date']);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -165,31 +174,33 @@ class Dataproxy_article extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($tid, $all_langs = false)
+	public function getItems($tid, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$retval = array();
-		
 		$sql = "SELECT sid, title, UNIX_TIMESTAMP(date) AS day "
 			 . "FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW()) "
 			 . "AND (tid = '" . addslashes($tid) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getTopicSql('AND', $this->uid)
 			     .  COM_getPermSql('AND', $this->uid);
-			if (function_exists('COM_getLangSQL') AND ($all_langs === false)) {
+			
+			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');
 			}
 		}
 		$sql .= " ORDER BY date DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		$entries = array();
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']       = stripslashes($A['sid']);
 			$entry['title']    = stripslashes($A['title']);
@@ -198,7 +209,7 @@ class Dataproxy_article extends DataproxyDriver
 				 . stripslashes($A['sid'])
 			);
 			$entry['date']     = $A['day'];
-			$entry['imageurl'] = false;
+			$entry['imageurl'] = FALSE;
 			$retval[] = $entry;
 		}
 		
@@ -214,7 +225,7 @@ class Dataproxy_article extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($tid = '', $all_langs = false)
+	public function getItemsByDate($tid = '', $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -231,19 +242,23 @@ class Dataproxy_article extends DataproxyDriver
 		if (!empty($tid)) {
 			$sql .= "AND (tid = '" . addslashes($tid) . "') ";
 		}
+		
 		if ($this->uid > 0) {
-			$sql .= COM_getTopicSql('AND', $this->uid);
-			$sql .= COM_getPermSql('AND', $this->uid);
-			if (function_exists('COM_getLangSQL') AND ($all_langs === false)) {
+			$sql .= COM_getTopicSql('AND', $this->uid)
+				 .  COM_getPermSql('AND', $this->uid);
+			
+			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');
 			}
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			$entry['id']       = stripslashes($A['sid']);
 			$entry['title']    = stripslashes($A['title']);
@@ -252,7 +267,7 @@ class Dataproxy_article extends DataproxyDriver
 				 . stripslashes($A['sid'])
 			);
 			$entry['date']     = $A['day'];
-			$entry['imageurl'] = false;
+			$entry['imageurl'] = FALSE;
 			$entries[] = $entry;
 		}
 		

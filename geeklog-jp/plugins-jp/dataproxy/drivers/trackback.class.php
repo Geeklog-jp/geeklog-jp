@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/trackback.class.php                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,21 +31,21 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'trackback.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'trackback.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_trackback extends DataproxyDriver
 {
-	var $driver_name = 'trackback';
+	public $driver_name = 'trackback';
 	
-	function getChildCategories($pid = false, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $LANG_SMAP;
 		
 		$entries = array();
 		
-		if ($pid !== false) {
+		if ($pid !== FALSE) {
 			return $entries;
 		}
 		
@@ -53,19 +53,20 @@ class Dataproxy_trackback extends DataproxyDriver
 		$sql = "SELECT DISTINCT type FROM {$_TABLES['trackback']} "
 			 . "ORDER BY type";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			if (in_array(stripslashes($A['type']), $supported_drivers)) {
 				$entry = array();
 				$entry['id']        = stripslashes($A['type']);
-				$entry['pid']       = false;
+				$entry['pid']       = FALSE;
 				$entry['title']     = $entry['id'];
-				$entry['uri']       = false;
-				$entry['date']      = false;
-				$entry['image_uri'] = false;
+				$entry['uri']       = FALSE;
+				$entry['date']      = FALSE;
+				$entry['image_uri'] = FALSE;
 				
 				$entries[] = $entry;
 			}
@@ -84,7 +85,7 @@ class Dataproxy_trackback extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -94,19 +95,20 @@ class Dataproxy_trackback extends DataproxyDriver
 			 . "FROM {$_TABLES['trackback']} "
 			 . "WHERE (cid = '" . addslashes($id) . "') ";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result) == 1) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			
 			$retval['id']        = $id;
 			$retval['title']     = $A['title'];
 			$retval['uri']       = $A['url'];	// maybe needs cleaning
 			$retval['date']      = strtotime($A['date']);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -122,7 +124,7 @@ class Dataproxy_trackback extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category, $all_langs = false)
+	public function getItems($category, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -137,18 +139,19 @@ class Dataproxy_trackback extends DataproxyDriver
 			 . "WHERE (type = '" . addslashes($category) . "') "
 			 . "ORDER BY day DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['cid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $this->cleanUrl($A['url']);
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -165,7 +168,7 @@ class Dataproxy_trackback extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($category = '', $all_langs = false)
+	public function getItemsByDate($category = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -174,25 +177,30 @@ class Dataproxy_trackback extends DataproxyDriver
 		if (!in_array($category, $this->getAllDriverNames())) {
 			return $entries;
 		}
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		
+		if (empty($this->startdate) OR empty($this->enddate)) {
+			return $entries;
+		}
+		
 		$sql = "SELECT cid, title, url, UNIX_TIMESTAMP(date) AS day "
 			 . "FROM {$_TABLES['trackback']} "
 			 . "WHERE (type = '" . addslashes($category) . "') "
 			 . "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['cid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $this->cleanUrl($A['url']);
 			$entry['date']      = $A['day'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}

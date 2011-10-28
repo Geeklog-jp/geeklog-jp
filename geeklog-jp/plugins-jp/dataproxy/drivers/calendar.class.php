@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/calendar.class..php                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,49 +31,50 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'calendar.class.php') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'calendar.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
 class Dataproxy_calendar extends DataproxyDriver
 {
-	var $driver_name = 'calendar';
+	public $driver_name = 'calendar';
 	
 	/**
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/calendar/index.php';
 	}
 	
-	function getChildCategories($pid, $all_langs = false)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
 		$entries = array();
 		
-		if ($pid !== false) {
+		if ($pid !== FALSE) {
 			return $entries;
 		}
 		
 		$sql = "SELECT DISTINCT event_type FROM {$_TABLES['events']} "
 			 . "ORDER BY event_type";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 
 			$entry['id']        = stripslashes($A['event_type']);
-			$entry['pid']       = false;
+			$entry['pid']       = FALSE;
 			$entry['title']     = $entry['id'];
-			$entry['uri']       = false;
-			$entry['date']      = false;
-			$entry['image_uri'] = false;
+			$entry['uri']       = FALSE;
+			$entry['date']      = FALSE;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -91,7 +92,7 @@ class Dataproxy_calendar extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = false)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -99,23 +100,26 @@ class Dataproxy_calendar extends DataproxyDriver
 		$sql = "SELECT * "
 			 . "FROM {$_TABLES['events']} "
 			 . "WHERE (eid = '" . addslashes($id) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $retval;
 		}
 		
 		if (DB_numRows($result == 1)) {
-			$A = DB_fetchArray($result, false);
+			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
 			$retval['id']        = $id;
 			$retval['title']     = $A['title'];
 			$retval['uri']       = $_CONF['site_url']
 				. '/calendar/event.php?eid=' . $id;
 			$retval['date']      = strtotime($A['datestart']) + strtotime($A['timestart']);
-			$retval['image_uri'] = false;
+			$retval['image_uri'] = FALSE;
 			$retval['raw_data']  = $A;
 		}
 		
@@ -123,7 +127,7 @@ class Dataproxy_calendar extends DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* Returns an array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -132,26 +136,27 @@ class Dataproxy_calendar extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($category = '', $all_langs = false)
+	public function getItems($category = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
 		$entries = array();
-
 		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['events']} "
 			 . "WHERE (event_type = '" . addslashes($category) . "') ";
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
-
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['eid'];
@@ -159,7 +164,7 @@ class Dataproxy_calendar extends DataproxyDriver
 			$entry['uri']       = $_CONF['site_url'] . '/calendar/event.php?eid='
 								. $entry['id'];
 			$entry['date']      = (int) $A['day1'] + (int) $A['day2'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}
@@ -168,7 +173,7 @@ class Dataproxy_calendar extends DataproxyDriver
 	}
 	
 	/**
-	* @param $all_langs boolean: true = all languages, true = current language
+	* @param $all_langs boolean: TRUE = all languages, TRUE = current language
 	* Returns an array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -177,7 +182,7 @@ class Dataproxy_calendar extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($event_type = '', $all_langs = false)
+	public function getItemsByDate($event_type = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -187,23 +192,27 @@ class Dataproxy_calendar extends DataproxyDriver
 			return $entries;
 		}
 		
-		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, UNIX_TIMESTAMP(timestart) AS day2 "
+		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, "
+			 . "  UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['events']} "
 			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '$this->startdate' AND '$this->enddate') ";
+		
 		if (!empty($event_type)) {
 			$sql .= "AND (event_type = '" . addslashes($event_type) . "') ";
 		}
+		
 		if ($this->uid > 0) {
 			$sql .= COM_getPermSql('AND', $this->uid);
 		}
+		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
-
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
 			
 			$entry['id']        = $A['eid'];
@@ -211,7 +220,7 @@ class Dataproxy_calendar extends DataproxyDriver
 			$entry['uri']       = $_CONF['site_url'] . '/calendar/event.php?eid='
 								. $entry['id'];
 			$entry['date']      = (int) $A['day1'] + (int) $A['day2'];
-			$entry['image_uri'] = false;
+			$entry['image_uri'] = FALSE;
 			
 			$entries[] = $entry;
 		}

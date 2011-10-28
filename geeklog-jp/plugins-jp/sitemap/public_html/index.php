@@ -71,7 +71,8 @@ function SITEMAP_getSelectForm($selected = 'all') {
 	$retval = '<form method="post" action="' . $this_script .  '">' . LB
 			. '  <select name="type" onchange="this.form.submit()">' . LB
 			. '    <option value="all"';
-	if ($selected == 'all') {
+	
+	if ($selected === 'all') {
 		$retval .= ' selected="selected"';
 	}
 	
@@ -141,6 +142,7 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				
 				$temp = $driver->getItemById($item['id']);
 				$raw  = $temp['raw_data'];
+				
 				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
 				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					$num_items --;
@@ -156,6 +158,7 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				$date = date($_SMAP_CONF['date_format'], $item['date']);
 				$T->set_var('date', $date);
 			}
+			
 			$T->parse('items', 't_item', TRUE);
 		}
 		
@@ -245,11 +248,6 @@ if (isset($_POST['type'])) {
 	$selected = COM_applyFilter($_POST['type']);
 }
 
-# // Sets default time zone
-# if (version_compare(PHP_VERSION, '5.1.0') >= 0) {
-# 	date_default_timezone_set('Asia/Tokyo');
-# }
-
 // Decides templates to be used
 $theme = $_CONF['theme'];
 
@@ -280,13 +278,14 @@ $T->set_var('xhtml', XHTML);
 // Collects data sources
 
 // $dataproxy is a global object in this script and functions.inc
-$dataproxy =& new Dataproxy($uid);
+$dataproxy = new Dataproxy($uid);
 $disp_orders = array();
 
 foreach ($dataproxy->getAllDriverNames() as $driver) {
 	$order = $_SMAP_CONF['order_' . $driver];
 	$disp_orders[$order] = $driver;
 }
+
 ksort($disp_orders);
 
 foreach ($disp_orders as $disp_order => $driver_name) {
@@ -337,5 +336,4 @@ $T->parse('output', 't_index');
 $display = COM_siteHeader()
 		 . $T->finish($T->get_var('output'))
 		 . COM_siteFooter();
-
-echo $display;
+COM_output($display);

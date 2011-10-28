@@ -37,12 +37,12 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'downloads.class.php') !== FALSE) {
 
 class Dataproxy_downloads extends DataproxyDriver
 {
-	var $driver_name = 'downloads';
+	public $driver_name = 'downloads';
 	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
-	function getEntryPoint() {
+	public function getEntryPoint() {
 		global $_CONF;
 		
 		return $_CONF['site_url'] . '/downloads/index.php';
@@ -60,7 +60,7 @@ class Dataproxy_downloads extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/
-	function getChildCategories($pid = FALSE, $all_langs = FALSE)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES;
 		
@@ -117,7 +117,7 @@ class Dataproxy_downloads extends DataproxyDriver
 	*   'raw_data'  => raw data of the item (stripslashed)
 	* )
 	*/
-	function getItemById($id, $all_langs = FALSE)
+	public function getItemById($id, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -175,7 +175,7 @@ class Dataproxy_downloads extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItems($cid, $all_langs = FALSE)
+	public function getItems($cid, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
@@ -230,7 +230,7 @@ class Dataproxy_downloads extends DataproxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	function getItemsByDate($cid = '', $all_langs = FALSE)
+	public function getItemsByDate($cid = '', $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
