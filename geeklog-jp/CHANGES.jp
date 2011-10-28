@@ -2,6 +2,11 @@ $Id$
 
 2011-10-29  mystral-kk <mystral-kk>
 
+	* Dbmanプラグインをアンインストール後にコンフィギュレーションパネルへ行
+	  くとエラーになっていたバグを修正しました。
+
+2011-10-29  mystral-kk <mystral-kk>
+
 	* Issue #182（Sitemapプラグインで'Deprecated'の警告メッセージが表示され
 	  る）に対応しました。
 
