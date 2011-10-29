@@ -2,6 +2,10 @@ $Id$
 
 2011-10-29  mystral-kk <mystral-kk>
 
+	* DbmanプラグインをGeeklog-1.8.0に対応させました。
+
+2011-10-29  mystral-kk <mystral-kk>
+
 	* Japanizeプラグインでゲストユーザーの場合、警告が発生していたバグを修
 	  正しました。
 
