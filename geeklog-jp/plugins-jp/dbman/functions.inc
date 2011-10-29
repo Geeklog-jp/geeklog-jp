@@ -44,6 +44,7 @@ if (!defined('XHTML')) {
 
 $langfile = $_CONF['path'] . 'plugins/dbman/language/' . $_CONF['language'] . '.php';
 clearstatcache();
+
 if (file_exists($langfile)) {
 	require_once $langfile;
 } else {
@@ -51,12 +52,9 @@ if (file_exists($langfile)) {
 }
 
 require_once $_CONF['path'] . 'plugins/dbman/config.php';
+DBMAN_loadConfig();
 
 define('DBMAN_BASE_URL', $_CONF['site_admin_url'] . '/plugins/dbman');
-
-if (version_compare(VERSION, '1.5') >= 0) {	// for GL-1.5 +
-	define('DBMAN_GL15', TRUE);
-}
 
 /**
 * Include DB-specific functions
@@ -74,6 +72,7 @@ if (strcasecmp($_DB_dbms, 'mysql') == 0) {
 class DBMAN_timer
 {
 	private $_last_time;		// Last time when this timer was reset
+	private $_interval = 25;	// in seconds
 	
 	public function __construct()
 	{
@@ -84,7 +83,7 @@ class DBMAN_timer
 	{
 		$current_time = time();
 		
-		if ($current_time > $this->_last_time + 25) {
+		if ($current_time > $this->_last_time + $this->_interval) {
 			header('X-dbmanPing: Pong');	// Borrowed from PHPMyAdmin/export.php
 			$this->_last_time = $current_time;
 		}
@@ -98,6 +97,10 @@ class DBMAN_timer
 // ============================================================================
 //		MAIN
 // ============================================================================
+
+function plugin_geticon_dbman() {
+	return DBMAN_BASE_URL . '/images/dbman.png';
+}
 
 /**
 * Geeklog is checking to see if this plugin supports comments, tell it no.
@@ -117,7 +120,7 @@ function plugin_cclabel_dbman() {
 		return array(
 			'Dbman',
 			DBMAN_BASE_URL . '/index.php',
-			DBMAN_BASE_URL . '/images/dbman.png'
+			plugin_geticon_dbman()
 		);
 	}
 }
@@ -138,7 +141,7 @@ function plugin_getadminoption_dbman() {
 */
 function plugin_getheadercode_dbman() {
 	return '<script type="text/javascript" src="' . DBMAN_BASE_URL
-		 . '/dbman.js' . '"></script>' . LB;
+		 . '/js/dbman.js' . '"></script>' . LB;
 }
 
 /**
@@ -147,9 +150,7 @@ function plugin_getheadercode_dbman() {
 function plugin_upgrade_dbman() {
 	global $_CONF, $_TABLES, $_DBMAN_CONF;
 	
-	$result = DB_query("SELECT pi_version FROM {$_TABLES['plugins']} WHERE (pi_name = 'dbman')");
-	$A = DB_fetchArray($result);
-	$pi_version = $A['pi_version'];
+	$pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name = 'dbman'");
 	
 	/**
 	* If the version of Dbman plugin is lower than 0.5 AND Geeklog version is
@@ -174,78 +175,25 @@ function plugin_upgrade_dbman() {
 }
 
 /**
-* Removes the datastructures for this plugin from the Geeklog database.
+* Automatic uninstall function for plugins
 *
-* @param  string  $installCheck  Default is blank but if set, check if plugin
-* is disabled first
-* 
-* @return   boolean TRUE if successful FALSE otherwise
+* @return   array
 */
-function plugin_uninstall_dbman($installCheck = '') {
-	global $_CONF, $_TABLES;
-	
-	$pi_name = 'dbman';
-	$NEW_FEATURES = array('dbman.edit');
-	$display = '';
-	
-	/**
-	* Check and see if plugin is still enabled - if so display warning and exit
-	*/
-	if (($installCheck != '')
-	 AND DB_getItem($_TABLES['plugins'], 'pi_enabled', 'pi_name = "' .$pi_name . '"')) {
-		COM_errorLog("Plugin is installed and enabled.  Disable first if you want to de-install it", 1);
-			$display .= COM_startBlock(DBMAN_str('warning'))
-					 .  DBMAN_str('enabled')
-					 .  COM_endBlock()
-					 .  COM_siteFooter();
-			echo $display;
-			return FALSE;
-		}
-		
-	/**
-	* Ok to proceed and delete plugin
-	*/
-	
-	/**
-	* Unregister the plugin with Geeklog
-	*/
-	COM_errorLog('Attempting to unregister the Dbman plugin from Geeklog', 1);
-	DB_query("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = '{$pi_name}'", 1);
-	
-	/**
-	* Remove all the associated features -- access rights
-	*/
-	foreach ($NEW_FEATURES as $feature) {
-		COM_errorLog("Removing '{$feature}' feature and rights to it", 1);
-		$feat_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '{$feature}'");
-		DB_query("DELETE FROM {$_TABLES['access']} WHERE (acc_ft_id = '{$feat_id}')", 1);
-		DB_query("DELETE FROM {$_TABLES['features']} WHERE (ft_id = '{$feat_id}')", 1);
-	}
-	
-	/**
-	* Get group_id, if any
-	*/
-	$rst = DB_query("SELECT value FROM {$_TABLES['vars']} WHERE (name = '{$pi_name}_gid')", 1);
-	if ($rst !== FALSE) {
-		$ar = DB_fetchArray($rst);
-		$group_id = $ar[0];
-		DB_query("DELETE FROM {$_TABLES['vars']} WHERE (name = '{$pi_name}_gid')", 1);
-		DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE (ug_main_grp_id = '{$group_id}') AND (ug_grp_id = 1)", 1);
-		DB_query("DELETE FROM {$_TABLES['groups']} WHERE (grp_id = '{$group_id}')", 1);
-	}
-	
-	/**
-	* Delete config info
-	*/
-	if (defined('DBMAN_GL15')) {
-        DB_delete($_TABLES['conf_values'], 'group_name', 'dbman');
-	}
-	
-	/**
-	* Finish
-	*/
-	COM_errorLog('Succesfully uninstalled the Dbman Plugin!', 1);
-	return TRUE;
+function plugin_autouninstall_dbman() {
+	$out = array (
+		/* give the name of the tables, without $_TABLES[] */
+		'tables'     => array(),
+		/* give the full name of the group, as in the db */
+		'groups'     => array('Dbman Admin'),
+		/* give the full name of the feature, as in the db */
+		'features'   => array('dbman.edit'),
+		/* give the full name of the block, including 'phpblock_', etc */
+		'php_blocks' => array(),
+		/* give all vars with their name */
+		'vars'       => array(''),
+	);
+
+	return $out;
 }
 
 /**
@@ -254,7 +202,40 @@ function plugin_uninstall_dbman($installCheck = '') {
 function plugin_chkVersion_dbman() {
 	global $_DBMAN_CONF;
 	
-	return $_DBMAN_CONF['version'];
+	return $_DBMAN_CONF['pi_version'];
+}
+
+/**
+* Returns the URL to a given document
+*/
+function plugin_getdocumentationurl_dbman($file) {
+	global $_CONF;
+	
+	$lang = str_replace('_utf-8', '', COM_getLanguage());
+	$path = $_CONF['path_html'] . 'admin/plugins/dbman/docs/' . $lang . '/'
+		  . $file . '.html';
+	clearstatcache();
+	
+	if (!file_exists($path)) {
+		$lang = 'english';
+	}
+	
+	$retval = $_CONF['site_admin_url'] . '/plugins/dbman/docs/' . $lang . '/'
+		    . $file . '.html';
+	
+	return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*/
+function plugin_getconfigtooltip_dbman($id) {
+	// Use config tooltip hack where tooltip is read from the config documentation
+	return NULL;
 }
 
 /**
@@ -265,6 +246,24 @@ function plugin_runScheduledTask_dbman() {
 	
 	if ($_DBMAN_CONF['cron_backup']) {
 		DBMAN_backup($_DBMAN_CONF['add_drop_table'], FALSE, $_DBMAN_CONF['compress_data'], FALSE);
+	}
+}
+
+/**
+* Loads config infor with config.class.php
+*/
+function DBMAN_loadConfig() {
+	global $_CONF, $_DBMAN_CONF;
+	
+	require_once $_CONF['path_system'] . 'classes/config.class.php';
+	
+	$config = config::get_instance();
+	if ($config->group_exists('dbman')) {
+		$temp = $config->get_config('dbman');
+		
+		if (is_array($temp) AND (count($temp) > 0)) {
+			$_DBMAN_CONF = array_merge($_DBMAN_CONF, $temp);
+		}
 	}
 }
 
@@ -300,8 +299,8 @@ function DBMAN_isCreated($filename) {
 	
 	clearstatcache();
 	$retval = file_exists($filename);
+	
 	if ($retval) {
-		clearstatcache();
 		$retval = (@filesize($filename) > 0);
 	}
 	
@@ -319,6 +318,7 @@ function DBMAN_checkNumFile() {
 	}
 	
 	$files = DBMAN_listBackupFiles();
+	
 	if (count($files) > $_DBMAN_CONF['max_backup']) {
 		$old_files = array_slice($files, $_DBMAN_CONF['max_backup']);
 		
@@ -368,11 +368,12 @@ function DBMAN_listBackupFiles() {
 	
 	$backups = array();
 	$fd = @opendir($_CONF['backup_path']);
+	
 	if ($fd === FALSE) {
 		return $backups;
 	}
 	
-	while ((FALSE !== ($file = @readdir($fd)))) {
+	while (($file = @readdir($fd)) !== FALSE) {
 		if (preg_match('/\.sql$/i', $file) OR preg_match('/\.sql\.gz$/i', $file)) {
 			$backups[] = $file;
 		}
@@ -417,12 +418,11 @@ function DBMAN_backupOptions($add_drop_table, $compress_data, $download_as_file)
 	return $retval;
 }
 
-/*
- * Show restore options
- *
- * @return (string) restore options in HTML format
- */
-
+/**
+* Show restore options
+*
+* @return (string) restore options in HTML format
+*/
 function DBMAN_restoreSelectFile() {
 	global $_CONF, $_DBMAN_CONF;
 	
@@ -476,28 +476,29 @@ function DBMAN_restoreOption($filename) {
 	
 	$text = DBMAN_str('menu_restore') . '<br' . XHTML . '>' . LB
 		  . sprintf($LANG_DBMAN['db_explanation_restore_option'], $filename);
+	
 	if (defined('XHTML')) {
 		$text = str_replace('<br>', '<br' . XHTML . '>', $text);
 	}
+	
 	$retval = DBMAN_createMenu('', $text, FALSE)
 			. DBMAN_form();
-	
 	$tables    = dbman_getTableNameFromBackup($_CONF['backup_path'] . $filename);
 	$num_table = count($tables);
 	
 	$link_to_table = '<br' . XHTML . '>' . '<input type="button" value="'
 				   . DBMAN_str('check_all') . '"'
-				   . ' onClick="checkTable(' . $num_table . ', TRUE)"' . XHTML
+				   . ' onClick="dbman.checkTable(' . $num_table . ', true)"' . XHTML
 				   . '><br' . XHTML . '>' . '<input type="button" value="'
 				   . DBMAN_str('uncheck_all') . '"'
-				   . ' onClick="checkTable(' . $num_table . ', FALSE)"' . XHTML
+				   . ' onClick="dbman.checkTable(' . $num_table . ', false)"' . XHTML
 				   . '>';
 	$link_to_data  = '<br' . XHTML . '>' . '<input type="button" value="'
 				   . DBMAN_str('check_all') . '"'
-				   . ' onClick="checkData(' . $num_table . ', TRUE)"' . XHTML
+				   . ' onClick="dbman.checkData(' . $num_table . ', true)"' . XHTML
 				   . '><br' . XHTML . '>' . '<input type="button" value="'
 				   . DBMAN_str('uncheck_all') . '"'
-				   . ' onClick="checkData(' . $num_table . ', FALSE)"' . XHTML
+				   . ' onClick="dbman.checkData(' . $num_table . ', false)"' . XHTML
 				   . '>';
 	$header_arr = array(
 		DBMAN_str('restore_header1'),
@@ -529,9 +530,7 @@ function DBMAN_restoreOption($filename) {
 	$retval .= DBMAN_list($header_arr, $data_arr)
 			.  '<br' . XHTML . '>' . LB;
 	
-/**
-* other options
-*/
+	// other options
 	$retval .= '<input name="cmd" type="hidden" value="restore"' . XHTML . '>' . LB
 			.  '<input name="filename" type="hidden" value="' . $filename . '"'
 			.  XHTML . '>' . LB
@@ -543,18 +542,18 @@ function DBMAN_restoreOption($filename) {
 	return $retval;
 }
 
-/*
- * List backup files ('databasename_db_backup_YYYY_MM_DD_hh:mm:ss.sql[.gz]')
- * in the /backups directory.
- *
- * @return (string) a list of backup files in HTML format
- */
-
+/**
+* List backup files ('databasename_db_backup_YYYY_MM_DD_hh:mm:ss.sql[.gz]')
+* in the /backups directory.
+*
+* @return (string) a list of backup files in HTML format
+*/
 function DBMAN_listBackups() {
 	global $_CONF, $_TABLES;
 	
 	$retval = '';
 	$text   = DBMAN_str('db_explanation_list');
+	
 	if (!is_writable($_CONF['backup_path'])) {
 		$text .= '<br' . XHTML . '>' . LB . '<span style="font-weight: bold;">'
 			  .  DBMAN_str('not_writable') . '</span>' . LB;
@@ -566,7 +565,8 @@ function DBMAN_listBackups() {
 	$backups = DBMAN_listBackupFiles();
 	$header_arr = array(DBMAN_str('backup_file'), DBMAN_str('size'));
 	$data_arr = array();
-	if (count($backups) == 0) {
+	
+	if (count($backups) === 0) {
 		$data_arr[] = array(DBMAN_str('no_backup_file'), '-');
 	} else {
 		foreach ($backups as $backup) {
@@ -582,6 +582,7 @@ function DBMAN_listBackups() {
 	}
 	
 	$retval .= DBMAN_list($header_arr, $data_arr);
+	
 	if (count($backups) > 0) {
 		$retval .= '<br' . XHTML . '>' . LB
 				.  '<input name="cmd" type="hidden" value="delete"' .  XHTML . '>' . LB
@@ -594,23 +595,21 @@ function DBMAN_listBackups() {
 	return $retval;
 }
 
-/*
- * Create a backup file ('geeklog_db_backup_YYYY_MM_DD_hh:mm:ss.sql[.gz]')
- * in the /backups directory.
- *
- * @parameters:
- *   $add_drop_table (boolean)  : if TRUE, adds "DROP TABLE IF EXISTS ..." before
- *                                  "CREATE TABLE ..."
- *   $compress_data (boolean)   : if TRUE, tries to compress SQL statements in the
- *                                  '.gz' format.  In case of failure, this function
- *                                  tries to backup DB again without compression
- *   $download_as_file (boolean): if TRUE, tries to download the resulting SQL file
- *
- * @return (int) 0 = success, 1 = success(file downloaded), 2 = failure
- */
-
+/**
+* Create a backup file ('geeklog_db_backup_YYYY_MM_DD_hh:mm:ss.sql[.gz]')
+* in the /backups directory.
+*
+* @parameters:
+*   $add_drop_table (boolean)  : if TRUE, adds "DROP TABLE IF EXISTS ..." before
+*                                  "CREATE TABLE ..."
+*   $compress_data (boolean)   : if TRUE, tries to compress SQL statements in the
+*                                  '.gz' format.  In case of failure, this function
+*                                  tries to backup DB again without compression
+*   $download_as_file (boolean): if TRUE, tries to download the resulting SQL file
+*
+* @return (int) 0 = success, 1 = success(file downloaded), 2 = failure
+*/
 function DBMAN_backup($add_drop_table = FALSE, $compress_data = FALSE, $download_as_file = FALSE) {
-	
 	global $_CONF, $_DB_host, $_DB_name, $_DB_dbms, $_TABLES, $_DBMAN_CONF,
 		   $dbman_string_types, $dbman_blob_types;
 		
@@ -649,6 +648,7 @@ EOD1;
 		
 		for ($i = 0; $i < $num_lines; $i ++) {
 			$line = $lines[$i];
+			
 			// PHP 4.x.x doesn't support stripos
 			if (!preg_match('/FOREIGN KEY/i', $line)
 			 AND !preg_match('/CONSTRAINT/i', $line)) {
@@ -663,13 +663,15 @@ EOD1;
 			} else {
 				//  Foreign key/Constraint found
 				$line = rtrim($line);
+				
 				//  If this line ends with a ',', delete it
 				if (substr($line, -1) == ',') {
 					$line = substr($line, 0, strlen($line) - 1);
-				} else {  // This line is the last row of the definition.  So delete the ','
-									// at the end of the previous line.
+				} else {	// This line is the last row of the definition.  So
+							// delete the ',' at the end of the previous line.
 					$new_lines[$i - 1] = substr($new_lines[$i - 1], 0, strlen($new_lines[$i - 1]) - 1);
 				}
+				
 				$foreign_keys[] = 'ALTER TABLE ' . dbman_quoteItem($table['name'])
 								. LB . '  ADD ' . $line . ';';
 			}
@@ -687,9 +689,12 @@ EOD1;
 		$sql .= '--' . LB
 			 .  '-- Table structure for table ' . dbman_quoteItem($table['name']) . LB
 			 .  '--' . LB . LB;
+		
 		if ($add_drop_table) {
-			$sql .= 'DROP TABLE IF EXISTS ' . dbman_quoteItem($table['name']) . ';' . LB . LB;
+			$sql .= 'DROP TABLE IF EXISTS ' . dbman_quoteItem($table['name'])
+				 .  ';' . LB . LB;
 		}
+		
 		$sql .= $tables[$table['name']]['def'] . LB . LB
 			 .  '--' . LB
 			 .  '-- Dumping data for table ' . dbman_quoteItem($table['name']) . LB
@@ -708,6 +713,7 @@ EOD1;
 		for ($offset = 0; $offset < $num_rows; $offset += $_DBMAN_CONF['chunk_size']) {
 			//	Build an SQL to pump out data
 			$rst = DB_query("SELECT * FROM {$table['name']} LIMIT {$offset}, {$_DBMAN_CONF['chunk_size']};");
+			
 			if ($rst !== FALSE) {
 				//  Prefetch $table['is_to_be_quoted'], $table['is_blob']
 				$is_to_be_quoted = $table['is_to_be_quoted'];
@@ -750,6 +756,7 @@ EOD1;
 	
 	//	Save data into a file in the 'backups' dir
 	clearstatcache();
+	
 	if (!is_writable($_CONF['backup_path'])) {
 		COM_errorLog("Dbman: the '/backups' directory is not writable.  Please chmod it to 775 or 777.");
 		return 2;
@@ -759,6 +766,7 @@ EOD1;
 	$curdatetime = date("Y_m_d_H_i_s");
 	$backupfile  = "{$_CONF['backup_path']}{$_DB_name}_db_backup_{$curdatetime}.sql";
 	clearstatcache();
+	
 	if (file_exists($backupfile) AND !is_writable($backupfile)) {
 		COM_errorLog("Dbman: Couldn't create a backup file.");
 		return 2;
@@ -768,15 +776,18 @@ EOD1;
 	if ($compress_data AND function_exists('gzopen')) {
 		$backupfile .= '.gz';
 		$fh = @gzopen($backupfile, 'wb' . $_DBMAN_CONF['compression_level']);
+		
 		if ($fh === FALSE) {
 			COM_errorLog("Dbman: Couldn't open a backup-file for writing.", 1);
 		} else {
 			$rst = gzwrite($fh, $sql);
+			
 			if ($rst === FALSE) {
 				COM_errorLog("Dbman: Couldn't write data into a backup-file.", 1);
 				@gzclose($fh);
 			} else {
 				$isSuccess = @gzclose($fh);
+				
 				if ($isSuccess) {
 					$isSuccess = DBMAN_isCreated($backupfile);
 					if ($isSuccess) {
@@ -788,22 +799,27 @@ EOD1;
 			}
 		}
 	}
+	
 	$timer->update();
 	
 	//  If $compress_data is FALSE, or when there is a failure to compress, save 
 	//  backup files without compression
 	if (!$isSuccess) {
 		$fh = @fopen($backupfile, 'wb');
+		
 		if ($fh === FALSE) {
 			COM_errorLog("Dbman: Couldn't open a backup-file for writing.", 1);
 		} else {
 			$rst = fwrite($fh, $sql);
+			
 			if ($rst === FALSE) {
 				COM_errorLog("Dbman: Couldn't write data into a backup-file.", 1);
 			} else {
 				$isSuccess = @fclose($fh);
+				
 				if ($isSuccess) {
 					$isSuccess = DBMAN_isCreated($backupfile);
+					
 					if ($isSuccess) {
 						COM_errorLog("Dbman: Backup completed successfully.", 1);
 						@chmod($backupfile, 0644);
@@ -823,7 +839,8 @@ EOD1;
 	
 	if ($download_as_file) {
 		$info = pathinfo($backupfile);
-		if (isset($info['extension']) AND $info['extension'] == 'gz') {
+		
+		if (isset($info['extension']) AND ($info['extension'] === 'gz')) {
 			header('Content-type: application/x-gzip');
 		} else {
 			header('Content-type: text/x-sql');
@@ -857,10 +874,11 @@ EOD1;
 function DBMAN_restore($filename, $structures_arr, $data_arr) {
 	global $_CONF, $_DBMAN_CONF;
 	
-	if ($_DBMAN_CONF['allow_restore'] == FALSE) {
+	if ($_DBMAN_CONF['allow_restore'] === FALSE) {
 		header('Location: ' . DBMAN_BASE_URL . '/index.php');
 		exit;
 	}
+	
 	$filename = $_CONF['backup_path'] . $filename;
 	$num_structure = count($structures_arr);
 	$num_data      = count($data_arr);
@@ -877,6 +895,7 @@ function DBMAN_restore($filename, $structures_arr, $data_arr) {
 		$drop_sql = 'DROP TABLE ' . dbman_quoteItem($table);
 		echo $drop_sql . '<br' . XHTML . '>';
 		DB_query($drop_sql, 1);
+		
 		if (DB_error()) {
 			$msg = "Dbman: couldn't drop table {$table}.";
 			COM_errorLog($msg);
@@ -886,6 +905,7 @@ function DBMAN_restore($filename, $structures_arr, $data_arr) {
 		// Then, recreate tables
 		$create_sql = dbman_extractTableDefFromBackup($table, $filename);
 		DB_query($create_sql, 1);
+		
 		if (DB_error()) {
 			$msg = "Dbman: couldn't re-create table {$table}.";
 			COM_errorLog($msg);
@@ -906,6 +926,7 @@ function DBMAN_restore($filename, $structures_arr, $data_arr) {
 	$data = file_get_contents($filename);
 	$data = str_replace(array("\r\n", "\r"), LF, trim($data));
 	$data = explode(LB, $data);
+	
 	for ($i = 0; $i < $num_data; $i ++) {
 		$table   = $data_arr[$i];
 		$msg = "Dbman: started restoring data into {$table}.";
@@ -920,6 +941,7 @@ function DBMAN_restore($filename, $structures_arr, $data_arr) {
 				$d = $data[$j];
 				$d = str_replace("INSERT INTO", "REPLACE", $d);	//  MySQL-specific SQL
 				DB_query($d, 1);
+				
 				if (DB_error()) {
 					$msg = "Dbman: couldn't insert data into table {$table}.  SQL in question is {$d}.";
 					COM_errorLog($msg);
@@ -935,6 +957,7 @@ function DBMAN_restore($filename, $structures_arr, $data_arr) {
 		$msg = "Dbman: finished restoring data into table {$table}.";
 		COM_errorLog($msg);
 		echo '<br' . XHTML . '>' . $msg . '<br' . XHTML . '>' . LB;
+		
 		if ($num_error == 0) {
 			$num_data_success ++;
 		}
@@ -966,8 +989,10 @@ function DBMAN_delete($filename) {
 	
 	$filename = $_CONF['backup_path'] . $filename;
 	clearstatcache();
+	
 	if (file_exists($filename)) {
 		$result = @unlink($filename);
+		
 		if ($result === FALSE) {
 			COM_errorLog('Dbman: Error!  Cannot delete "' . $filename . '".');
 		}
@@ -1002,18 +1027,21 @@ function DBMAN_execSQL() {
 	$result = '';
 	$has_error = FALSE;
 	$retval = DBMAN_createMenu('', DBMAN_str('lbl_exec_sql'));
+	
 	if (isset($_POST['SQL'])) {
 		$SQL = trim($_POST['SQL']);
 		$SQL = str_replace(array("\r\n", "\n\r", "\r", "\n"), ' ', $SQL);
 		$retval .= '<br' . XHTML . '>' . DBMAN_str('sql_executed')
 				.  '<br' . XHTML . '><p style="color: black; background-color: white; padding: 5px; border: solid 1px black;">' . DBMAN_highliteSQL(DBMAN_esc($SQL))
 				. '</p>' .  DBMAN_str('sql_result') . '<br' . XHTML . '>';
+		
 		if (!preg_match('/^(SELECT|DELETE|UPDATE|INSERT)/i', $SQL)) {
 			$has_error = TRUE;
 			$result = DBMAN_str('sql_error_siud');
 		} else {
 			DB_displayError(TRUE);
 			$r = DB_query($SQL, 1);	//	Ignore errors
+			
 			if ($r === FALSE) {
 				$has_error = TRUE;
 				$result = DBMAN_esc(DB_error());
@@ -1040,16 +1068,21 @@ function DBMAN_execSQL() {
 						} else {
 							$result .= '<tr bgcolor="#6699cc">';
 						}
+						
 						$even = !$even;
+						
 						foreach ($row_names as $row_name) {
 							$result .= '<td>';
+							
 							if ($A[$row_name] == '') {
 								$result .= '&nbsp;';
 							} else {
 								$result .= DBMAN_esc($A[$row_name]);
 							}
+							
 							$result .= '</td>' . LB;
 						}
+						
 						$result .= '</tr>' . LB;
 					}
 
@@ -1058,6 +1091,7 @@ function DBMAN_execSQL() {
 					$result = "<p>Succeeded.</p>" . LB;
 				}
 			}
+			
 			DB_displayError(FALSE);
 		}
 	}
@@ -1122,6 +1156,7 @@ function DBMAN_createMenu($current_menu = 'list', $text = '', $noesc = TRUE) {
 	if ($_DBMAN_CONF['allow_restore'] == FALSE) {
 		unset($DBMAN_MENU['restore']);
 	}
+	
 	$admin_templates = new Template($_CONF['path'] . 'plugins/dbman/templates');
 	$admin_templates->set_file (
 		array ('top_menu' => 'topmenu.thtml')
@@ -1141,13 +1176,15 @@ function DBMAN_createMenu($current_menu = 'list', $text = '', $noesc = TRUE) {
 		}
 	}
 	
-	$admin_templates->set_var('icon', DBMAN_BASE_URL . '/images/dbman.png');
+	$admin_templates->set_var('icon', plugin_geticon_dbman());
 	$admin_templates->set_var('menu_fields', implode(' | ', $menu_fields));
+	
 	if ($noesc) {
 		$admin_templates->set_var('lang_instructions', DBMAN_esc($text));
 	} else {
 		$admin_templates->set_var('lang_instructions', $text);
 	}
+	
 	$admin_templates->set_var('xhtml', XHTML);
 	$admin_templates->parse('top_menu', 'top_menu');
 	$retval = $admin_templates->finish($admin_templates->get_var('top_menu'));
@@ -1188,6 +1225,7 @@ function DBMAN_form() {
 function DBMAN_checkbox($name, $id, $value, $label, $checked = TRUE) {
 	$retval = '<input type="checkbox" id="' . $id . '" name="' . $name
 			. '" value="' . $value . '"';
+	
 	if ($checked) {
 		$retval .= ' checked="checked"';
 	}
@@ -1199,6 +1237,7 @@ function DBMAN_checkbox($name, $id, $value, $label, $checked = TRUE) {
 function DBMAN_radio($name, $id, $value, $label, $checked = TRUE) {
 	$retval = '<input type="radio" id="' . $id . '" name="' . $name
 			. '" value="' . $value . '"';
+	
 	if ($checked) {
 		$retval .= ' checked="checked"';
 	}
@@ -1208,12 +1247,8 @@ function DBMAN_radio($name, $id, $value, $label, $checked = TRUE) {
 }
 
 function DBMAN_getToken() {
-	if (defined('DBMAN_GL15')) {
-		$retval = '<input type="hidden" name="' . CSRF_TOKEN . '" value="'
-				. SEC_createToken() . '"' . XHTML . '>' . LB;
-	} else {
-		$retval = '';
-	}
+	$retval = '<input type="hidden" name="' . CSRF_TOKEN . '" value="'
+			. SEC_createToken() . '"' . XHTML . '>' . LB;
 	
 	return $retval;
 }
@@ -1221,12 +1256,10 @@ function DBMAN_getToken() {
 function DBMAN_checkToken() {
 	global $_USER;
 	
-	if (defined('DBMAN_GL15')) {
-		if (!SEC_checkToken()) {
-			COM_errorLog("User {$_USER['username']} failed CSRF checks.");
-			header('Location: ' . DBMAN_BASE_URL . '/index.php?msg=1');
-			exit;
-		}
+	if (!SEC_checkToken()) {
+		COM_errorLog("User {$_USER['username']} failed CSRF checks.");
+		header('Location: ' . DBMAN_BASE_URL . '/index.php?msg=1');
+		exit;
 	}
 	
 	return;
