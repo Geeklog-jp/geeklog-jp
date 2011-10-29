@@ -93,7 +93,7 @@ if (isset ($_REQUEST['msg'])) {
 
 $display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['2']);
 
-if($_POST['savesettings'] == 'yes'){
+if(isset($_POST['savesettings']) AND ($_POST['savesettings'] == 'yes')){
 
     if (!SEC_checkToken()){
         COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks.");
