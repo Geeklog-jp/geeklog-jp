@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年10月25日
+							2011年10月30日
 							Geeklog Japanese
 
 1. 概要
@@ -56,11 +56,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		階層メニューやパンくずリストは、ナビゲーションプラグイン
 		(navman)をお勧めします。
 
-	DataProxyプラグイン(Dataproxy) バージョン 1.2.0
+	DataProxyプラグイン(Dataproxy) バージョン 1.2.1
 		Geeklogのコンテンツ(記事、静的ページ、掲示板等)を取得
 		する共通のAPIを提供します。
 
-	Dbmanプラグイン(Dbman) バージョン 0.5.4 (*)
+	Dbmanプラグイン(Dbman) バージョン 0.6.0 (*)
 		データベースのバックアップやリストアを実行します。
 		定期バックアップ等も。(mysqldumpコマンドを使用しません。)
 
