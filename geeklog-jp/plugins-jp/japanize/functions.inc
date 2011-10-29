@@ -101,7 +101,7 @@ function JAPANIZE_setHtmlAttribute(&$template) {
     $langId = COM_getLanguageId();
 
     if ($langId === '') {
-        $langId = JAPANIZE_languageToLangId($_USER['language']);
+        $langId = JAPANIZE_languageToLangId(@$_USER['language']);
         if ($langId === '') {
             // try to derive the language id from the locale
             $l = explode('.', $_CONF['locale']); // get rid of character set
