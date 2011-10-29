@@ -43,6 +43,8 @@
 */
 function plugin_autoinstall_japanize($pi_name)
 {
+	global $_JPN_CONF;
+	
     $pi_name         = 'japanize';
     $pi_display_name = 'Japanize';
     $pi_admin        = $pi_display_name . ' Admin';

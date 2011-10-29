@@ -33,7 +33,7 @@ $T->set_var( 'VERSION', "Geeklog".VERSION);
 
 if (file_exists($_CONF['path'] .'release_jp.php')) {
     require_once ($_CONF['path'] .'release_jp.php');
-    $T->set_var( 'release_jp', "日本語版".$release_jp);
+    $T->set_var( 'release_jp', "日本語版".@$release_jp);
     $T->set_var( 'release_no', $release_no);
     $T->set_var( 'release_date', "リリース日".$release_date);
 }else{
