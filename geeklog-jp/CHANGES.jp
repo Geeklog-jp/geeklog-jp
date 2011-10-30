@@ -1,5 +1,10 @@
 $Id$
 
+2011-10-30  Tetsuko Komma  <ivy>
+
+	* Dbmanプラグインがアップグレードし、圧縮ファイルによる自動インストールにも
+	  対応したことなどをNEWS、README.jpに記述しました。
+
 2011-10-29  mystral-kk <mystral-kk>
 
 	* DbmanプラグインをGeeklog-1.8.0に対応させました。
