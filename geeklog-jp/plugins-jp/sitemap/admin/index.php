@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/sitemap/index.php                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2009 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -41,6 +41,13 @@ if (!SEC_hasRights('sitemap.admin')) {
 			 . COM_startBlock(SITEMAP_str('access_denied'))
 			 . SITEMAP_str('access_denied_msg')
 			 . COM_endBlock()
+			 . COM_siteFooter();
+    echo $display;
+    exit;
+} else if (!in_array('dataproxy', $_PLUGINS)) {
+    COM_errorLog(SITEMAP_str('dataproxy_unavailable'));
+    $display = COM_siteHeader()
+			 . SITEMAP_str('dataproxy_unavailable')
 			 . COM_siteFooter();
     echo $display;
     exit;
@@ -146,10 +153,8 @@ function SITEMAP_changeOrder($driver, $op) {
 if (!defined('XHTML')) {
 	define('XHTML', '');
 }
-define('THIS_SCRIPT', $_CONF['site_admin_url'] . '/plugins/sitemap/index.php');
 
-// Loads Sitemap plugin configuration first of all
-SITEMAP_loadConfig();
+define('THIS_SCRIPT', $_CONF['site_admin_url'] . '/plugins/sitemap/index.php');
 
 // Loads Dataproxy plugin
 if (isset($_USER['uid']) AND ($_USER['uid'] >= 1)) {

@@ -49,15 +49,15 @@ $_SMAP_CONF = array();
 
 // Plugin info
 
-$_SMAP_CONF['pi_version'] = '1.2.1';					// Plugin Version
+$_SMAP_CONF['pi_version'] = '1.2.2';					// Plugin Version
 $_SMAP_CONF['gl_version'] = '1.6.0';					// GL Version plugin for
 $_SMAP_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
 $_SMAP_CONF['GROUPS']     = array(
 		'Sitemap Admin' => 'Users in this group can administer the Sitemap plugin',
 );
 $_SMAP_CONF['FEATURES']   = array(
-		'sitemap.edit' => 'Access to Sitemap editor',
+		'sitemap.admin' => 'Access to Sitemap editor',
 );
 $_SMAP_CONF['MAPPINGS']   = array(
-		'sitemap.edit' => array('Sitemap Admin'),
+		'sitemap.admin' => array('Sitemap Admin'),
 );

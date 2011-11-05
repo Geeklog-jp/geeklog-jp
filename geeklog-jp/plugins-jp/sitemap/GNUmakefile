@@ -2,8 +2,8 @@
 
 PLUGIN=		sitemap
 
-FILES=		INSTALL INSTALL_ja config.php functions.inc
-DIRS=		language templates
+FILES=		INSTALL autoinstall.php config.php functions.inc
+DIRS=		language sql templates
 
 include ../../GNUmakefile.plugins
 include ../../GNUmakefile.common
