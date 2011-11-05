@@ -104,4 +104,7 @@ $LANG_SMAP = array(
 	'sp_type1'          => 'センターブロックに表示されるページのみ',
 	'sp_type2'          => 'センターブロックに表示されないページのみ',
 	'sp_except'         => '除外するページID（正規表現可。半角スペースで区切る）',
+	
+	// Since version 1.2.2
+	'dataproxy_unavailable'	=> 'エラーが発生しました。DataProxyプラグインがインストールされていないか、無効になっています。',
 );

@@ -37,9 +37,6 @@ if (!defined('XHTML')) {
 	define('XHTML', '');
 }
 
-// Loads config
-SITEMAP_loadConfig();
-
 // Checks if user has right to access this page
 $uid = 1;
 
@@ -52,7 +49,11 @@ if (isset($_USER['uid'])) {
 
 if (($_SMAP_CONF['anon_access'] === FALSE) AND ($uid == 1)) {
     // Anonymous user is not allwed to access this page
-	echo COM_refresh($_CONF['site_url'] . '/index.php');
+	echo COM_refresh($_CONF['site_url']);
+	exit;
+} else if (!in_array('dataproxy', $_PLUGINS)) {
+    COM_errorLog(SITEMAP_str('dataproxy_unavailable'));
+	echo COM_refresh($_CONF['site_url']);
 	exit;
 }
 
@@ -72,12 +73,11 @@ function SITEMAP_getSelectForm($selected = 'all') {
 			. '  <select name="type" onchange="this.form.submit()">' . LB
 			. '    <option value="all"';
 	
-	if ($selected === 'all') {
+	if ($selected == 'all') {
 		$retval .= ' selected="selected"';
 	}
 	
 	$retval .= '>' . SITEMAP_str('all') . '</option>' . LB;
-	
 	$disp_orders = array();
 	
 	foreach ($dataproxy->getAllDriverNames() as $driver) {
@@ -142,7 +142,6 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				
 				$temp = $driver->getItemById($item['id']);
 				$raw  = $temp['raw_data'];
-				
 				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
 				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					$num_items --;
@@ -158,7 +157,6 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				$date = date($_SMAP_CONF['date_format'], $item['date']);
 				$T->set_var('date', $date);
 			}
-			
 			$T->parse('items', 't_item', TRUE);
 		}
 		
@@ -336,4 +334,4 @@ $T->parse('output', 't_index');
 $display = COM_siteHeader()
 		 . $T->finish($T->get_var('output'))
 		 . COM_siteFooter();
-COM_output($display);
+echo $display;

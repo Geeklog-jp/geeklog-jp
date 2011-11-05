@@ -31,25 +31,25 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-/**
-* Language file Include
-*/
+// Language file Include
 $langfile = $_CONF['path'] . 'plugins/sitemap/language/' . $_CONF['language'] . '.php';
 clearstatcache();
+
 if (file_exists($langfile)) {
     include_once $langfile;
 } else {
     include_once $_CONF['path'] . 'plugins/sitemap/language/english.php';
 }
 
-/**
-* Include sitemap config file
-*/
+// Includes sitemap config file
 require_once $_CONF['path'] . 'plugins/sitemap/config.php';
+
+// Loads config
+SITEMAP_loadConfig();
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementations                                        |
@@ -58,31 +58,27 @@ require_once $_CONF['path'] . 'plugins/sitemap/config.php';
 /**
 * Returns the items for this plugin that should appear on the main menu
 *
-* NOTE: this MUST return the url/value pairs in the following format
-* $<arrayname>[<label>] = <url>
-*
-* Universal Plugin:  Uncomment and fill in variables;
-* 
 * @return    array   Associative array of menu items to be added to menu
-*
 */
-
 function plugin_getmenuitems_sitemap() {
-	global $_CONF;
+	global $_CONF, $_PLUGINS;
 	
     $menuitems = array();
-	$menuitems[SITEMAP_str('menu_label')] = $_CONF['site_url'] . '/sitemap/index.php';
+	
+	if (in_array('dataproxy', $_PLUGINS)) {
+		$menuitems[SITEMAP_str('menu_label')] = $_CONF['site_url'] . '/sitemap/index.php';
+	}
+	
     return $menuitems;
 }
 
 /**
 * Check to see if this Plugin uses comments
 *
-* @return   boolean true or false
+* @return   boolean TRUE or FALSE
 */
-
 function plugin_commentsupport_sitemap() {
-    return false;
+    return FALSE;
 }
 
 /**
@@ -114,6 +110,7 @@ function plugin_getadminoption_sitemap() {
 		$pi_name   = SITEMAP_str('menu_label');
 		$admin_url = $_CONF['site_admin_url'] . '/plugins/sitemap/index.php';
 		$num_items = '';
+		
 		return array($pi_name, $admin_url, $num_items);
 	}
 }
@@ -130,174 +127,129 @@ function plugin_chkVersion_sitemap() {
 }
 
 /**
-* Returns the user option for this plugin
+* Upgrades the plugin
 *
-* @return   array   Array containing (plugin name, plugin user url, 0)
-*/
-function plugin_getuseroption_sitemap() {
-}
-
-/**
-* Upgrade the plugin
-*
-* Universal Plugin:  modify/uncomment use it
-*
-* @return   boolean true (= success)
+* @return   boolean TRUE (= success)
 */
 function plugin_upgrade_sitemap() {
-	global $_CONF, $_TABLES, $_SMAP_CONF, $VALUES_1_0_TO_1_0_1;
-
-	$result = DB_query("SELECT pi_version FROM {$_TABLES['plugins']} WHERE (pi_name = 'sitemap')");
-	$A = DB_fetchArray($result, false);
-	$pi_version = $A['pi_version'];		// Version info stored in database
+	global $_CONF, $_TABLES, $_SMAP_CONF;
 	
-	// Do upgrading
+	// Gets version info stored in database
+	$pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name = 'sitemap'");
 	
-	switch ($pi_version) {
-		case '1.0':
-			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.0_1.0.1.php';
-			foreach ($VALUES_100_TO_101 as $table => $sqls) {
-				COM_errorLog("Sitemap: inserting default data into $table table", 1);
-				foreach ($sqls as $sql) {
-					DB_query($sql, 1);
-				}
-			}
-			
-			break;
+	// Does upgrading
+	while ($pi_version !== $_SMAP_CONF['pi_version']) {
+		switch ($pi_version) {
+			case '1.0':
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_article', 1)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_comments', 2)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_trackback', 3)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_staticpages', 4)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_calendar', 5)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_links', 6)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_polls', 7)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_dokuwiki', 8)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_forum', 9)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_filemgmt', 10)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_faqman', 11)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_mediagallery', 12)");
+				
+				$pi_version = '1.0.1';
+				break;
 		
-		case '1.0.1':
-		case '1.0.2':
-		case '1.0.3':
-		case '1.1.0':
-		case '1.1.1':
-		case '1.1.2':
-		case '1.1.3':	// This version doesn't exist
-			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.0.1_1.1.4.php';
-			COM_errorLog("Sitemap: inserting default data into table", 1);
+			case '1.0.1':
+			case '1.0.2':
+			case '1.0.3':
+			case '1.1.0':
+			case '1.1.1':
+			case '1.1.2':
+			case '1.1.3':	// This version doesn't exist
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES ('sp_type', 2)");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES ('sp_except', 'formmail')");
 			
-			foreach ($DATA_101_TO_114 as $sql) {
-				DB_query($sql, 1);
-			}
-			
-			break;
+				$pi_version = '1.1.4';
+				break;
 		
-		case '1.1.4':
-			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.1.4_1.1.5.php';
-			COM_errorLog("Sitemap: altering table structure", 1);
+			case '1.1.4':
+				DB_query("ALTER TABLE {$_TABLES['smap_config']} CHANGE value value VARCHAR(255) NULL DEFAULT NULL");
 			
-			foreach ($DATA_114_TO_115 as $sql) {
-				DB_query($sql, 1);
-			}
-			
-			break;
+				$pi_version = '1.1.5';
+				break;
 
-		case '1.1.5':
-			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.1.5_1.1.6.php';
-			COM_errorLog("Sitemap: inserting default data into $table table", 1);
+			case '1.1.5':
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('sitemap_calendarjp', 'true')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('gsmap_calendarjp', 'true')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('freq_calendarjp', 'daily')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('priority_calendarjp', '0.5')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_calendarjp', 13)");
 			
-			foreach ($VALUES_115_TO_116 as $table => $sqls) {
-				COM_errorLog("Sitemap: inserting default data into $table table", 1);
-				foreach ($sqls as $sql) {
-					DB_query($sql, 1);
-				}
-			}
-			break;
+				$pi_version = '1.1.6';
+				break;
 		
-		case '1.1.6':
-		case '1.1.7':
-		case '1.1.8':
-			// Nothing done from 1.1.6 -> 1.1.7
-			// Nothing done from 1.1.7 -> 1.1.8
-			// Nothing done from 1.1.8 -> 1.1.9
-			break;
+			case '1.1.6':
+			case '1.1.7':
+			case '1.1.8':
+				// Nothing done from 1.1.6 -> 1.1.7
+				// Nothing done from 1.1.7 -> 1.1.8
+				// Nothing done from 1.1.8 -> 1.1.9
+			
+				$pi_version = '1.1.9';
+				break;
 		
-		case '1.1.9':
-			require_once $_CONF['path_html'] . 'admin/plugins/sitemap/sql-1.1.9_1.2.0.php';
-			COM_errorLog("Sitemap: inserting default data into $table table", 1);
+			case '1.1.9':
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('sitemap_downloads', 'true')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('gsmap_downloads', 'true')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('freq_downloads', 'daily')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('priority_downloads', '0.5')");
+				DB_query("INSERT INTO {$_TABLES['smap_config']} VALUES('order_downloads', 14)");
 			
-			foreach ($VALUES_119_TO_120 as $table => $sqls) {
-				COM_errorLog("Sitemap: inserting default data into $table table", 1);
-				foreach ($sqls as $sql) {
-					DB_query($sql, 1);
-				}
-			}
-			
-			break;
+				$pi_version = '1.2.0';
+				break;
 		
-		case '1.2.0':
-			// Nothing done from 1.2.0 -> 1.2.1
-			break;
+			case '1.2.0':
+			case '1.2.1':
+				DB_query("UPDATE {$_TABLES['features']} SET ft_descr = 'Sitemap Admin' WHERE (ft_name = 'sitemap.admin')");
+				DB_query("UPDATE {$_TABLES['groups']} SET grp_name = 'Sitemap Admin' WHERE (grp_name = 'sitemap Admin')");
+				$pi_version = '1.2.2';
+				break;
 			
-		default:
-			COM_errorLog('Sitemap: upgrade procedure for version ' . $pi_version . ' is not implemented in plugin_upgrade_sitemap().');
-			break;
+			default:
+				COM_errorLog('Sitemap: upgrade procedure for version ' . $pi_version . ' is not implemented in plugin_upgrade_sitemap().');
+				break;
+		}
 	}
 	
 	// Update plugin info
 	
-	$result = DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = \"{$_SMAP_CONF['pi_version']}\" WHERE (pi_name = 'sitemap')");
-	COM_errorLog(ucfirst("sitemap") . " plugin was successfully updated to version {$_SMAP_CONF['pi_version']}.");
+	$sql = "UPDATE {$_TABLES['plugins']} "
+		 . "SET pi_version = '" . addslashes($_SMAP_CONF['pi_version']) . "' "
+		 . "WHERE (pi_name = 'sitemap')";
+	$result = DB_query($sql);
+	COM_errorLog("Sitemap plugin was successfully updated to version {$_SMAP_CONF['pi_version']}.");
 	
-	return true;
+	return TRUE;
 }
 
 /**
-* Removes the datastructures for this plugin from the Geeklog database.
+* Automatic uninstall function for plugins
 *
-* @param    string   $installCheck     Default is blank but if set, check if
-*                                      plugin is disabled first
-* @return   boolean True if successful false otherwise
+* @return   array
 */
-function plugin_uninstall_sitemap($installCheck = '') {
-    global $_TABLES;
+function plugin_autouninstall_sitemap() {
+	$out = array (
+		/* give the name of the tables, without $_TABLES[] */
+		'tables'     => array('smap_config'),
+		/* give the full name of the group, as in the db */
+		'groups'     => array('Sitemap Admin'),
+		/* give the full name of the feature, as in the db */
+		'features'   => array('sitemap.admin'),
+		/* give the full name of the block, including 'phpblock_', etc */
+		'php_blocks' => array(),
+		/* give all vars with their name */
+		'vars'       => array(),
+	);
 
-    // $FEATURES and $TABLES have to be changed accodrding to your plugin
-    $pi_name  = 'sitemap';
-    $FEATURES = array('sitemap.admin');
-    $TABLES   = array('smap_config');
-    
-    // Check and see if plugin is still enabled - if so display warning and exit
-    if ($installCheck != '' AND DB_getItem($_TABLES['plugins'], 'pi_enabled', 'pi_name = "' . $pi_name . '"')) {
-	    COM_errorLog("Plugin is installed and enabled. Disable first if you want to de-install it", 1);
-		$display .= COM_startBlock(SITEMAP_str('warning'))
-				 .  SITEMAP_str('enabled')
-				 .  COM_endBlock();
-		echo $display;
-		return false;
-	}
-    	
-	// Ok to proceed and delete plugin
-
-    // Unregister the plugin with Geeklog
-    COM_errorLog('Attempting to unregister the sitemap plugin from Geeklog', 1);
-    DB_query("DELETE FROM {$_TABLES['plugins']} WHERE (pi_name = 'sitemap')", 1);
-
-    // Drop sitemap tables
-    foreach ($TABLES as $table) {
-        $t = $_TABLES[$table];
-        COM_errorLog("Removing Table {$t}", 1);
-        DB_query("DROP TABLE {$t}", 1);
-    }
-
-    // Remove Security for this plugin
-    $grp_id = DB_getItem($_TABLES['vars'], 'value', "name = '{$pi_name}_gid'");
-    
-    COM_errorLog("Removing {$pi_name} Admin Group", 1);
-    DB_query("DELETE FROM {$_TABLES['groups']} WHERE (grp_id = '{$grp_id}')", 1);
-    DB_query("DELETE FROM {$_TABLES['vars']} WHERE (name = '{$pi_name}_gid')");
-    COM_errorLog("Removing root users from admin of {$pi_name}");
-    DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE (ug_main_grp_id = '{$grp_id}')", 1);
-    
-    // Remove all the associated features -- access rights
-    foreach ($FEATURES as $feature) {
-        COM_errorLog("Removing {$feature} feature and rights to it", 1);
-        $feat_id = DB_getItem($_TABLES['features'], 'ft_id', "(ft_name = '$feature')");
-        DB_query("DELETE FROM {$_TABLES['access']} WHERE (acc_ft_id = '{$feat_id}')", 1);
-        DB_query("DELETE FROM {$_TABLES['features']} WHERE (ft_id = '{$feat_id}')", 1);
-    }
-        
-    COM_errorLog('...success', 1);
-    return true;
+	return $out;
 }
 
 /**
@@ -308,22 +260,24 @@ function SITEMAP_loadConfig() {
 	
 	$sql = "SELECT * FROM {$_TABLES['smap_config']}";
 	$result = DB_query($sql);
+	
 	if (DB_error()) {
-		COM_errorLog('SITEMAP_loadConfig: cannot load config.');
+		COM_errorLog(__FUNCTION__ . ': cannot load config.');
 		exit;
 	}
 	
-	while (($A = DB_fetchArray($result)) !== false) {
+	while (($A = DB_fetchArray($result)) !== FALSE) {
 		list($name, $value) = $A;
-		if ($value == 'true') {
-			$value = true;
-		} else if ($value == 'false') {
-			$value = false;
+		
+		if ($value === 'true') {
+			$value = TRUE;
+		} else if ($value === 'false') {
+			$value = FALSE;
 		}
 		
-		if ($name == 'date_format') {
+		if ($name === 'date_format') {
 			$value = substr($value, 1, -1);
-		} else if (substr($name, 0, 6) == 'order_') {
+		} else if (substr($name, 0, 6) === 'order_') {
 			$value = (int) $value;
 		}
 		
@@ -337,27 +291,34 @@ function SITEMAP_loadConfig() {
 function SITEMAP_saveConfig() {
 	global $_TABLES, $_SMAP_CONF;
 	
+	$excepts = array(
+		'pi_version', 'gl_version', 'pi_url', 'GROUPS', 'FEATURES', 'MAPPINGS',
+	);
+	
 	foreach ($_SMAP_CONF as $name => $value) {
-		if ($value === true) {
-			$value = 'true';
-		} else if ($value === false) {
-			$value = 'false';
-		}
+		if (!in_array($name, $excepts)) {
+			if ($value === TRUE) {
+				$value = 'true';
+			} else if ($value === FALSE) {
+				$value = 'false';
+			}
 		
-		// To prevent MySQL from trimming trailing spaces
-		if ($name == 'date_format') {
-			$value = '[' . $value . ']';
-		}
+			// To prevent MySQL from trimming trailing spaces
+			if ($name == 'date_format') {
+				$value = '[' . $value . ']';
+			}
 		
-		$name  = addslashes($name);
-		$value = addslashes($value);
+			$name  = addslashes($name);
+			$value = addslashes($value);
 		
-		$sql = "UPDATE {$_TABLES['smap_config']} "
-			 . "SET value = '{$value}' "
-			 . "WHERE (name = '{$name}')";
-		$result = DB_query($sql);
-		if (DB_error()) {
-			COM_errorLog('SITEMAP_saveConfig: cannot save config.');
+			$sql = "UPDATE {$_TABLES['smap_config']} "
+				 . "SET value = '{$value}' "
+				 . "WHERE (name = '{$name}')";
+			$result = DB_query($sql);
+		
+			if (DB_error()) {
+				COM_errorLog(__FUNCTION__ . ': cannot save config.');
+			}
 		}
 	}
 }
@@ -368,16 +329,10 @@ function SITEMAP_saveConfig() {
 function SITEMAP_getEncodingt() {
 	global $_CONF, $LANG_CHARSET;
 	
-	static $encoding = null;
+	static $encoding = NULL;
 	
-	if ($encoding === null) {
-		if (isset($LANG_CHARSET)) {
-			$encoding = $LANG_CHARSET;
-		} else if (isset($_CONF['default_charset'])) {
-			$encoding = $_CONF['default_charset'];
-		} else {
-			$encoding = 'iso-8859-1';
-		}
+	if ($encoding === NULL) {
+		$encoding = COM_getCharset();
 	}
 	
 	return $encoding;
@@ -392,10 +347,11 @@ function SITEMAP_escape($str) {
 		array(   '<',    '>',     '&',      '"',      "'"),
 		$str
 	);
+	
 	return htmlspecialchars($str, ENT_QUOTES, SITEMAP_getEncodingt());
 }
 
-function SITEMAP_str($index, $noesc = false) {
+function SITEMAP_str($index, $noesc = FALSE) {
 	global $LANG_SMAP;
 	
 	if (isset($LANG_SMAP[$index])) {
@@ -405,7 +361,7 @@ function SITEMAP_str($index, $noesc = false) {
 			return SITEMAP_escape($LANG_SMAP[$index]);
 		}
 	} else {
-		COM_errorLog('SITEMAP_str: undefined index "' . $index . '".');
+		COM_errorLog(__FUNCTION__ . ': undefined index "' . $index . '".');
 		return '(undefined)';
 	}
 }
@@ -433,6 +389,7 @@ function SITEMAP_convertDate($timestamp) {
 	
 	$retval = date('Y-m-d', $timestamp) . 'T'
 			. date('H:i:s', $timestamp) . $_SMAP_CONF['time_zone'];
+	
 	return $retval;
 }
 
@@ -442,7 +399,7 @@ function SITEMAP_convertDate($timestamp) {
 function SITEMAP_write($filename, $sitemap) {
 	global $_CONF, $_SMAP_CONF;
 	
-	$retval = false;
+	$retval = FALSE;
 	
 	/**
 	* for Google Mobile Sitemap
@@ -462,30 +419,34 @@ function SITEMAP_write($filename, $sitemap) {
 	
 	$path = $_CONF['path_html'] . basename($filename);
 	clearstatcache();
+	
 	if (!file_exists($path)) {
 		$fh = @fopen($path, 'wb');
-		if ($fh === false) {
+		
+		if ($fh === FALSE) {
 			COM_errorLog('Sitemap: cannot create Google sitemap file.  Please create the file "' . $path . '" manually.');
-			return false;
+			return FALSE;
 		}
 	} else {
 		$fh = @fopen($path, 'r+b');
-		if ($fh === false) {
+		
+		if ($fh === FALSE) {
 			COM_errorLog('Sitemap: Google sitemap file is NOT writable: ' . $path);
-			return false;
+			return FALSE;
 		}
 	}
 	
-	if (flock($fh, LOCK_EX) === true) {
+	if (flock($fh, LOCK_EX) === TRUE) {
 		ftruncate($fh, 0);
 		rewind($fh);
 		$result = @fwrite($fh, $sitemap);
-		if (($result === false) OR ($result != strlen($sitemap))) {
+		
+		if (($result === FALSE) OR ($result != strlen($sitemap))) {
 			COM_errorLog('Sitemap: cannot write into Google sitemap file fully: ' . $path);
 		}
 		
 		@flock($fh, LOCK_UN);
-		$retval = true;
+		$retval = TRUE;
 	} else {
 		COM_errorLog('Sitemap: cannot write-lock Google sitemap file: ' . $path);
 	}
@@ -501,10 +462,7 @@ function SITEMAP_write($filename, $sitemap) {
 function SITEMAP_createGoogleSitemap() {
 	global $_CONF, $_SMAP_CONF;
 	
-	$retval = false;
-	
-	// Loads config
-	SITEMAP_loadConfig();
+	$retval = FALSE;
 	
 	// Header
 	$sitemap = '<?xml version="1.0" encoding="UTF-8"?>' . LB
@@ -516,24 +474,26 @@ function SITEMAP_createGoogleSitemap() {
 	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	
 	foreach ($drivers as $driver) {
-		if (($driver == 'trackback') OR ($driver == 'comments')
-		 OR ($_SMAP_CONF['gsmap_' . $driver] === false)) {
+		if (($driver === 'trackback') OR ($driver === 'comments')
+		 OR ($_SMAP_CONF['gsmap_' . $driver] === FALSE)) {
 			continue;
 		}
 		
-		$items = $dataproxy->$driver->getAllItems(true);
-		if (count($items) == 0) {
+		$items = $dataproxy->$driver->getAllItems(TRUE);
+		
+		if (count($items) === 0) {
 			continue;
 		}
 		
 		foreach ($items as $item) {
-			if ($driver == 'staticpages') {
+			if ($driver === 'staticpages') {
 				if (SITEMAP_isExcepted($item['id'], $sp_excepts)) {
 					continue;
 				}
 				
 				$temp = $dataproxy->$driver->getItemById($item['id']);
 				$raw  = $temp['raw_data'];
+				
 				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
 				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					continue;
@@ -543,7 +503,7 @@ function SITEMAP_createGoogleSitemap() {
 			$sitemap .= '  <url>' . LB
 					 .  '    <loc>' . $item['uri'] . '</loc>' . LB;
 			
-			if ($item['date'] !== false) {
+			if ($item['date'] !== FALSE) {
 				$sitemap .= '    <lastmod>' . SITEMAP_convertDate( $item['date'] ) . '</lastmod>' . LB;
 			} else {
 				$sitemap .= '    <lastmod>' . SITEMAP_convertDate(time()) . '</lastmod>' . LB;
@@ -552,6 +512,7 @@ function SITEMAP_createGoogleSitemap() {
 			$sitemap .= '    <changefreq>' . $_SMAP_CONF['freq_' . $driver]
 					 . '</changefreq>' . LB;
 			$priority = (float) $_SMAP_CONF['priority_' . $driver];
+			
 			if (($priority != 0.5) AND ($priority >= 0.0) AND ($priority <= 1.0)) {
 				$sitemap .= '    <priority>' . $priority . '</priority>' . LB;
 			}
@@ -585,6 +546,7 @@ function SITEMAP_isExcepted($id, $sp_excepts) {
 			if ($except[0] != '/') {
 				$except = '/' . $except . '/';
 			}
+			
 			if (preg_match($except , $id)) {
 				return TRUE;
 			}

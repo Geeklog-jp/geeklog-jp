@@ -3,16 +3,11 @@
 // +---------------------------------------------------------------------------+
 // | Sitemap Plugin for Geeklog - The Ultimate Weblog                          |
 // +---------------------------------------------------------------------------+
-// | public_html/admin/plugins/sitemap/sql-1.0_1.0.1.php                       |
+// | geeklog/plugins/sitemap/autoinstall.php                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2011 mystral-kk - geeklog AT mystral-kk DOT net             |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
-// | Copyright (C) 2002 by the following authors:                              |
-// | Tom Willett                 -    twillett@users.sourceforge.net           |
-// | Blaine Lang                 -    langmail@sympatico.ca                    |
-// | The Universal Plugin is based on prior work by:                           |
-// | Tony Bibbs                  -    tony@tonybibbs.com                       |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -31,36 +26,65 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-require_once $_CONF['path'] . 'plugins/sitemap/config.php';
-
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'sql-1.0_1.0.1.php') !== FALSE) {
-	die('This file cannot be used on its own.');
+if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
+	die('This file can not be used on its own!');
 }
 
-// Default data
-$DATA_100_TO_101 = array(
-	// Whether to include data source into sitemap
-	array('order_article',       1),
-	array('order_comments',      2),
-	array('order_trackback',     3),
-	array('order_staticpages',   4),
-	array('order_calendar',      5),
-	array('order_links',         6),
-	array('order_polls',         7),
-	array('order_dokuwiki',      8),
-	array('order_forum',         9),
-	array('order_filemgmt',     10),
-	array('order_faqman',       11),
-	array('order_mediagallery', 12),
-);
+/**
+* Plugin autoinstall function
+*
+* @param    string  $pi_name    Plugin name
+* @return   array               Plugin information
+*/
+function plugin_autoinstall_sitemap($pi_name) {
+	global $_SMAP_CONF;
+	
+	require_once dirname(__FILE__) . '/config.php';
+	
+	$pi_name         = 'sitemap';
+	$pi_display_name = 'Sitemap';
+	$pi_admin        = $pi_display_name . ' Admin';
+	
+	$info = array(
+		'pi_name'         => $pi_name,
+		'pi_display_name' => $pi_display_name,
+		'pi_version'      => $_SMAP_CONF['pi_version'],
+		'pi_gl_version'   => $_SMAP_CONF['gl_version'],
+		'pi_homepage'     => $_SMAP_CONF['pi_url'],
+	);
+	
+	$groups   = $_SMAP_CONF['GROUPS'];
+	$features = $_SMAP_CONF['FEATURES'];
+	$mappings = $_SMAP_CONF['MAPPINGS'];
+	$tables   = array('smap_config');
+	
+	$inst_parms = array(
+		'info'      => $info,
+		'groups'    => $groups,
+		'features'  => $features,
+		'mappings'  => $mappings,
+		'tables'    => $tables,
+	);
+	
+	return $inst_parms;
+}
 
-$VALUES_100_TO_101 = array();
-
-// Builds SQL's into $DEFVALUES[]
-foreach ($DATA_100_TO_101 as $data) {
-	list($name, $value) = $data;
-	$name  = addslashes($name);
-	$value = addslashes($value);
-	$VALUES_100_TO_101['smap_config'][] = "INSERT INTO {$_TABLES['smap_config']} "
-		. "VALUES ('" . $name . "', '" . $value . "')";
+/**
+* Checks if the plugin is compatible with this Geeklog version
+*
+* @param    string  $pi_name    Plugin name
+* @return   boolean             true: plugin compatible; false: not compatible
+*/
+function plugin_compatible_with_this_version_sitemap($pi_name) {
+	global $_CONF, $_DB_dbms;
+	
+	// Checks if we support the DBMS the site is running on
+	$dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/'
+			. $_DB_dbms . '_install.php';
+	
+	if (!file_exists($dbFile)) {
+		return FALSE;
+	}
+	
+	return TRUE;
 }
