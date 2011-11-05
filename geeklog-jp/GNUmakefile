@@ -42,7 +42,7 @@ release: pre-release update-release-jp install
 update-release-jp: release_jp.php
 
 release_jp.php: GNUmakefile.common
-	@$(SED) -e '/release_no =/s/".*"/"$(GL_JPVERSION)"/' release_jp.php \
+	@$(SED) -e "/release_no =/s/'.*'/'$(GL_JPVERSION)'/" release_jp.php \
 		> release_jp.php.tmp; \
 	if ${CMP} -s release_jp.php release_jp.php.tmp; then \
 		${RM} release_jp.php.tmp; \
