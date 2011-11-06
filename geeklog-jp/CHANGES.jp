@@ -1,5 +1,10 @@
 $Id$
 
+2011-11-07  Yoshinori Tahara  <dengen>
+
+	* GZip形式の圧縮ファイル(.tar.gz, .tgz)をアップロードしてプラグインを
+	  インストールできない場合がある問題を修正しました。
+
 2011-11-06  mystral-kk <mystral-kk>
 	* テーマエディタプラグイン(themedit)をGeeklog-1.6以降の自動インストール
 	  に対応させました。
