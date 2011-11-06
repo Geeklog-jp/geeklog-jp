@@ -1,12 +1,10 @@
 <?php
 // +---------------------------------------------------------------------------+
-// | nmoxtopicown Geeklog Plugin 1.0                                           |
+// | nmoxtopicown Geeklog Plugin                                               |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007 by nmox                                                |
-// |                                                                           |
+// | Copyright (C) 2007-2011 by nmox                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -20,123 +18,165 @@
 // | GNU General Public License for more details.                              |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
-require_once("../../../lib-common.php");
+require_once '../../../lib-common.php';
 
-class nmoxtopicown{
-	function listup(){
-		global $_TABLES,$LANG_NMOXTOPICOWN;
-		$html="
-		<div class='block-center'>
-		<h2>".$LANG_NMOXTOPICOWN["nmoxtopicown"]."</h2>
-		";
-		//更新完了メッセージ
-		if(isset($_GET["msg"]) and !empty($_GET["msg"])){
-			$html.="<div>".$LANG_NMOXTOPICOWN["done"]."</div>";
+class Nmoxtopicown
+{
+	var $_charset;
+	
+	function Nmoxtopicown()
+	{
+		global $_CONF, $LANG_CHARSET;
+
+		if (empty($LANG_CHARSET)) {
+			$charset = $_CONF['default_charset'];
+			
+			if (empty($charset)) {
+				$charset = 'iso-8859-1';
+			}
+		} else {
+			$charset = $LANG_CHARSET;
 		}
 		
-		$html.="
-		<form action='index.php' method='post'>
-		<table style='padding-bottom:32px'>
-		";
-		$n=1;
-		$users=array();
-		$rsu=DB_query("select * from ".$_TABLES["users"]);
-		while($rcu=DB_fetchArray($rsu)){
-			$users[$n]=array("uid"=>$rcu["uid"],"username"=>$rcu["username"]);
-			$n++;
-		}
-		$n=1;
-		$rs=DB_query("select * from ".$_TABLES["topics"]);
-		while($rc=DB_fetchArray($rs)){
-			$html.="
-			<tr>
-			<td>".$rc["topic"]."
-			<input type='hidden' name='id".$n."' value='".$rc["tid"]."'".XHTML."></td>
-			<td><select name='n".$n."'>
-			";
-			foreach($users as $user){
-				$html.="<option value='".$user["uid"]."'".($user["uid"]==$rc["owner_id"]?" selected":"").">".$user["username"]."</option>";
-			}
-			$html.="</select></td>
-			<td><input type='checkbox' name='touser".$n."' value='1'".XHTML.">".$LANG_NMOXTOPICOWN["change_writer"]."
-			</td>
-			</tr>
-			";
-			$n++;
-		}
-		$html.="
-		</table>
-		<div>
-			<input type='hidden' name='mode' value='dbset'".XHTML.">
-			<input type='hidden' name='".CSRF_TOKEN."' value='".SEC_createToken()."'".XHTML.">
-			<input type='submit' value='".$LANG_NMOXTOPICOWN["ok"]."'".XHTML.">
-		</div>
-		</form>
-		".$LANG_NMOXTOPICOWN["message_caution"]."
-		</div>
-		";
-		return $html;
+		$this->_charset = $charset;
 	}
-	function dbset(){
+	
+	function esc($str)
+	{
+		return htmlspecialchars($str, ENT_QUOTES, $this->_charset);
+	}
+	
+	function str($index)
+	{
+		global $LANG_NMOXTOPICOWN;
+		
+		if (isset($LANG_NMOXTOPICOWN[$index])) {
+			return $this->esc($LANG_NMOXTOPICOWN[$index]);
+		} else {
+			return '?';
+		}
+	}
+	
+	function listup()
+	{
+		global $_CONF, $_TABLES, $LANG_NMOXTOPICOWN;
+		
+		// Stores user info
+		$users = array();
+		$result = DB_query("SELECT uid, username FROM " . $_TABLES['users']);
+		
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
+			$users[] = array('uid' => $A['uid'], 'username' => $A['username']);
+		}
+		
+		$T = new Template($_CONF['path'] . 'plugins/nmoxtopicown/templates');
+		$T->set_file('admin', 'admin.thtml');
+		$T->set_file('item', 'item.thtml');
+		$T->set_var('xhtml', XHTML);
+		$T->set_var('this_script', $_CONF['site_admin_url'] . '/plugins/nmoxtopicown/index.php');
+		$T->set_var('lang_title', $this->str('nmoxtopicown'));
+		$T->set_var('lang_ok', $this->str('ok'));
+		$T->set_var('lang_caution', $this->str('message_caution'));
+		$T->set_var('lang_change_writer', $this->str('change_writer'));
+
+		if (version_compare(VERSION, '1.5.0') >= 0) {
+			$T->set_var('token_name', CSRF_TOKEN);
+			$T->set_var('token_value', SEC_createToken());
+		}
+
+		if (isset($_GET['msg']) AND !empty($_GET['msg'])) {
+			$T->set_var('done', '<div>' . $this->str('done') . '</div>');
+		}
+		
+		$n = 1;
+		$result = DB_query("SELECT topic, tid, owner_id FROM " . $_TABLES['topics']);
+		
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
+			$T->set_var('topic', $this->esc($A['topic']));
+			$T->set_var('n', $n);
+			$T->set_var('tid', $A['tid']);
+			
+			$options = '';
+			
+			foreach ($users as $user) {
+				$options .= '<option value="' . $user['uid'] . '"'
+						 .  ($user['uid'] == $A['owner_id'] ? ' selected="selected"' : '')
+						 .  '>' . $this->esc($user['username']) . '</option>';
+			}
+			
+			$T->set_var('options', $options);
+			$T->parse('output', 'item');
+			$T->set_var('items', $T->get_var('output'), TRUE);
+			$n ++;
+		}
+		
+		$T->parse('output', 'admin');
+		
+		return $T->finish($T->get_var('output'));
+	}
+	
+	function dbset()
+	{
 		global $_TABLES;
-		for($n=1;$n<1000;$n++){
-			if(isset($_POST["n".$n])){
-				$rs=DB_query("update ".$_TABLES["topics"]." set owner_id='".$_POST["n".$n]."' where tid='".$_POST["id".$n]."'");
-				$rs=DB_query("update ".$_TABLES["stories"]." set owner_id='".$_POST["n".$n]."' where tid='".$_POST["id".$n]."'");
-				if($_POST["touser".$n]==1){
-					$rs=DB_query("update ".$_TABLES["stories"]." set uid='".$_POST["n".$n]."' where tid='".$_POST["id".$n]."'");
+		
+		for ($n = 1; $n < 1000; $n ++) {
+			$name = 'n' . $n;
+			
+			if (isset($_POST[$name])){
+				$sql1 = "UPDATE {$_TABLES['topics']} "
+					  . "  SET owner_id = '" . $_POST[$name] ."' "
+					  . "  WHERE (tid ='" . $_POST['id' . $n] ."') ";
+				$sql2 = "UPDATE {$_TABLES['stories']} "
+					  . "  SET owner_id = '" . $_POST['n' . $n] . "' "
+					  . "  WHERE (tid='" . $_POST['id' . $n] . "') ";
+				DB_query($sql1);
+				DB_query($sql2);
+				
+				if (isset($_POST['touser' . $n]) AND ($_POST['touser' . $n] == 1)) {
+					$sql3 = "UPDATE {$_TABLES['stories']} "
+						  . "  SET uid = '" . $_POST[$name] ."' "
+						  . "  WHERE (tid='" . $_POST['id' . $n] ."') ";
+					DB_query($sql3);
 				}
-			}else{
+			} else {
 				break;
 			}
 		}
-		header("location:index.php?msg=done");
 	}
 }
 
-//CSRF対策
-if (version_compare(VERSION, '1.5.0') < 0) {
-	if (!function_exists('SEC_checkToken')) {
-		function SEC_checkToken() {
-			return true;
-		}
-		function SEC_createToken(){
-			return true;
-		}
-	}
-}
-
-//管理権限をチェックしてNGなら退出
-if(!SEC_hasRights('nmoxtopicown.edit')) {
-	COM_errorLog("Someone has tried to illegally access the nmoxtopicown page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR",1);
-	$display=COM_siteHeader(1);
-	$display.="<div style='margin:50px;'>You can not access this page.</div>";
-	$display.=COM_siteFooter(1);
+// Checks if the current user is allowed to administer this page
+if (!SEC_hasRights('nmoxtopicown.edit')) {
+	COM_errorLog("Someone has tried to illegally access the nmoxtopicown page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
+	$display = COM_siteHeader()
+			 . '<div style="margin: 50px;">' . $LANG_NMOXTOPICOWN['access_denied'] . '</div>'
+			 . COM_siteFooter();
 	echo $display;
 	exit;
 }
 
-$cl=new nmoxtopicown;
-if(isset($_POST["mode"])){
-	$mode=$_POST["mode"];
-}else{
-	$mode="";
-}
-switch($mode){
-	case "dbset":
-		if(SEC_checkToken()===false){
-			exit("あなたのアクセスは攻撃の可能性があるとみなされました。");
-		}
-		$html=$cl->dbset();
-		break;
-	default:
-		$html=$cl->listup();
+$cl = new Nmoxtopicown();
+
+if (isset($_POST['mode'])) {
+	$mode = COM_applyFilter($_POST['mode']);
+} else {
+	$mode = '';
 }
 
-$display=COM_siteHeader(1);
-$display.=$html;
-$display.=COM_siteFooter(1);
+if ($mode === 'dbset') {
+	if ((version_compare(VERSION, '1.5.0') >= 0) AND !SEC_checkToken()) {
+		exit($LANG_NMOXTOPICOWN['invalid_token']);
+	} else {
+		$html = $cl->dbset();
+		header('Location: ' . $_CONF['site_admin_url'] . '/plugins/nmoxtopicown/index.php?msg=done');
+		exit;
+	}
+} else {
+	$html = $cl->listup();
+}
+
+$display = COM_siteHeader()
+		 . $html
+		 . COM_siteFooter();
 echo $display;
-?>
