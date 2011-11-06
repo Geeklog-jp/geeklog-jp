@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/functions.inc                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,43 +35,35 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-/**
-* Language file Include
-*/
+// Language file Include
 $langfile = $_CONF['path'] . 'plugins/themedit/language/' . $_CONF['language'] . '.php';
-
 clearstatcache();
+
 if (file_exists($langfile)) {
 	include_once $langfile;
 } else {
 	include_once $_CONF['path'] . 'plugins/themedit/language/english.php';
 }
 
-/*
-* Include themedit config file
-*/
+// Includes themedit config file
 require_once $_CONF['path'] . 'plugins/themedit/config.php';
 
-/**
-* Define useful constants
-*/
+THM_loadConfig();
+
+// Defines useful constants
 if (!defined('LB')) {
 	define('LB', "\n");
 }
+
 if (!defined('XHTML')) {
 	define('XHTML', '');
 }
-define('THEMEDIT_BASE_URL', $_CONF['site_admin_url'] . '/plugins/themedit');
-if (version_compare(VERSION, '1.5') >= 0) {	// for GL-1.5 +
-    define('THEMEDIT_GL15', TRUE);
-}
 
-/**
-* Enables all files if $_THM_CONF['enable_all_files'] is TRUE
-*/
+define('THEMEDIT_BASE_URL', $_CONF['site_admin_url'] . '/plugins/themedit');
+
+// Enables all files if $_THM_CONF['enable_all_files'] is TRUE
 if (isset($_THM_CONF['enable_all_files'])
  AND $_THM_CONF['enable_all_files'] == TRUE) {
-	unset($_THM_CONF['allowed_files']);
 	$_THM_CONF['allowed_files'] = array();
 	$_THM_CONF['allowed_files'] = THM_getAllThemeFiles(
 		$_CONF['path_themes'] . 'professional', TRUE
@@ -82,6 +74,10 @@ if (isset($_THM_CONF['enable_all_files'])
 // | Geeklog Plugin API Implementations                                        |
 // +---------------------------------------------------------------------------+
 
+function plugin_geticon_themedit() {
+	return THEMEDIT_BASE_URL . '/images/themedit.gif';
+}
+
 /**
 * Checks to see if this Plugin uses comments
 */
@@ -90,7 +86,39 @@ function plugin_commentsupport_themedit() {
 }
 
 /**
-* Returs ccpanel options
+* Returns the URL to a given document
+*/
+function plugin_getdocumentationurl_themedit($file) {
+	global $_CONF;
+	
+	$lang = str_replace('_utf-8', '', COM_getLanguage());
+	$path = $_CONF['path_html'] . 'admin/plugins/themedit/docs/' . $lang . '/'
+		  . $file . '.html';
+	clearstatcache();
+	
+	if (!file_exists($path)) {
+		$lang = 'english';
+	}
+	
+	$retval = THEMEDIT_BASE_URL . '/docs/' . $lang . '/' . $file . '.html';
+	
+	return $retval;
+}
+
+/**
+* Provides text for a Configuration tooltip
+*
+* @param    string  $id     Id of config value
+* @return   mixed           Text to use regular tooltip, NULL to use config 
+*                           tooltip hack, or empty string when not available
+*/
+function plugin_getconfigtooltip_themedit($id) {
+	// Use config tooltip hack where tooltip is read from the config documentation
+	return NULL;
+}
+
+/**
+* Returns ccpanel options
 */
 function plugin_cclabel_themedit() {
 	global $_CONF, $LANG_THM;
@@ -98,7 +126,7 @@ function plugin_cclabel_themedit() {
 	if (SEC_hasRights('themedit.admin')) {
 		$pi_name   = THM_str('cc_label');
 		$admin_url = THEMEDIT_BASE_URL . '/index.php';
-		$icon_url  = THEMEDIT_BASE_URL . '/images/themedit.gif';
+		$icon_url  = plugin_geticon_themedit();
 		return array($pi_name, $admin_url, $icon_url);
 	}
 }
@@ -127,7 +155,7 @@ function plugin_chkVersion_themedit() {
 }
 
 /**
-* Upgrade the plugin
+* Upgrades the plugin
 */
 function plugin_upgrade_themedit() {
 	global $_CONF, $_TABLES, $_THM_CONF;
@@ -135,10 +163,6 @@ function plugin_upgrade_themedit() {
 	$pi_version = DB_getItem(
 		$_TABLES['plugins'], 'pi_version', "(pi_name = 'themedit')"
 	);
-	
-	/**
-	* Do upgrading
-	*/
 	
     /**
     * If the version of Themedit plugin is lower than 1.0.5 AND Geeklog version
@@ -150,12 +174,25 @@ function plugin_upgrade_themedit() {
         plugin_initconfig_themedit();
     }
 	
-	/**
-	* Update plugin info
-	*/
+    if (version_compare($pi_version, '1.2.0') < 0) {
+		$sql1 = "UPDATE {$_TABLES['features']} "
+			  . "  SET ft_descr = 'Theme Editor Admin' "
+			  . "  WHERE (ft_descr = 'themedit Admin') ";
+		$sql2 = "UPDATE {$_TABLES['groups']} "
+			  . "  SET grp_name = 'Theme Editor Admin' "
+			  . "  WHERE (grp_name = 'themedit Admin') ";
+		$sql3 = "DELETE FROM {$_TABLES['conf_values']} "
+			  . "  WHERE (name = 'enable_csrf_protection') "
+			  . "    AND (group_name = 'themedit') ";
+		DB_query($sql1);
+		DB_query($sql2);
+		DB_query($sql3);
+	}
+	
+	// Updates plugin info
 	$sql = "UPDATE {$_TABLES['plugins']} "
-		 . "SET pi_version = '". $_THM_CONF['pi_version'] . "' "
-		 . "WHERE (pi_name = 'themedit')";
+		 . "  SET pi_version = '". $_THM_CONF['pi_version'] . "' "
+		 . "  WHERE (pi_name = 'themedit')";
 	$result = DB_query($sql);
 	COM_errorLog("Themedit plugin was successfully updated to version {$_THM_CONF['pi_version']}.");
 	
@@ -171,110 +208,43 @@ function plugin_getheadercode_themedit() {
 	$header = '<meta http-equiv="Content-Script-Type" content="text/javascript"'
 			. XHTML . '>' . LB
 			. '<script type="text/javascript" src="' . THEMEDIT_BASE_URL
-			. '/selection.js' . '"></script>' . LB;
+			. '/js/selection.js' . '"></script>' . LB;
 	return $header;
 }
 
 /**
-* Removes the datastructures for this plugin from the Geeklog database.
+* Automatic uninstall function for plugins
 *
-* @param    string   $installCheck   Default is blank but if set, check if
-*                                    plugin is disabled first
-* @return   boolean TRUE if successful FALSE otherwise
+* @return   array
 */
-function plugin_uninstall_themedit($installCheck = '') {
-	global $_CONF, $_TABLES, $LANG_THM;
-	
-	$pi_name  = 'themedit';
-	$FEATURES = array('themedit.admin');
-	$TABLES   = array('thm_contents');
-	
-	/**
-	* Check and see if plugin is still enabled - if so display warning and exit
-	*/
-	if (($installCheck != '')
-	 AND DB_getItem($_TABLES['plugins'],'pi_enabled', 'pi_name = "' .$pi_name. '"')) {
-		COM_errorLog('Plugin is installed and enabled.  Disable first if you want to de-install it', 1);
-		$display .= COM_startBlock(THM_str('warning'))
-				 .  THM_str('enabled')
-				 .  COM_endBlock();
-		echo $display;
-		return FALSE;
-	}
-	
-	/**
-	* Unregister the plugin with Geeklog
-	*/
-	COM_errorLog('Attempting to unregister the themedit plugin from Geeklog', 1);
-	DB_query("DELETE FROM {$_TABLES['plugins']} WHERE (pi_name = 'themedit')", 1);
-	
-	/**
-	* Drop themedit tables
-	*/
-	foreach($TABLES as $table) {
-		$t = $_TABLES["$table"];
-		COM_errorLog("Removing Table {$t}", 1);
-		DB_query("DROP TABLE {$t}", 1);
-	}
-	
-	/**
-	* Remove Security for this plugin
-	*/
-	$grp_id = DB_getItem($_TABLES['vars'], 'value', "name = '{$pi_name}_gid'");
-	
-	COM_errorLog("Removing {$pi_name} Admin Group", 1);
-	DB_query("DELETE FROM {$_TABLES['groups']} WHERE (grp_id = '{$grp_id}')", 1);
-	DB_query("DELETE FROM {$_TABLES['vars']} WHERE (name = '{$pi_name}_gid')");
-	COM_errorLog("Removing root users from admin of {$pi_name}");
-	DB_query("DELETE FROM {$_TABLES['group_assignments']} WHERE (ug_main_grp_id = '{$grp_id}')", 1);
-	
-	/**
-	* Remove all the associated features -- access rights
-	*/
-	foreach ($FEATURES as $feature) {
-		COM_errorLog("Removing {$feature} feature and rights to it", 1);
-		$feat_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '{$feature}'");
-		DB_query("DELETE FROM {$_TABLES['access']} WHERE (acc_ft_id = '{$feat_id}')", 1);
-		DB_query("DELETE FROM {$_TABLES['features']} WHERE (ft_id = '{$feat_id}')", 1);
-	}
-	
-    /**
-    * Delete config info
-    */
-    if (defined('THEMEDIT_GL15')) {
-        require_once $_CONF['path_system'] . 'classes/config.class.php';
-        
-        $themedit_config = config::get_instance();
-        if ($themedit_config->group_exists('themedit')) {
-            $param_names = array(
-				'sg_main', 'fs_main', 'enable_all_themes', 'enable_all_files',
-				'allowed_themes', 'allowed_files', 'resync_database',
-				'allow_upload', 'image_width', 'image_height', 'image_max_col',
-				'upload_max_size', 'enable_csrf_protection',
-            );
-            
-            foreach ($param_names as $param_name) {
-                $themedit_config->del($param_name, 'themedit');
-            }
-        }
-    }
-	
-	COM_errorLog('...success', 1);
-	return TRUE;
+function plugin_autouninstall_themedit() {
+	$out = array (
+		/* give the name of the tables, without $_TABLES[] */
+		'tables'     => array('thm_contents'),
+		/* give the full name of the group, as in the db */
+		'groups'     => array('Theme Editor Admin'),
+		/* give the full name of the feature, as in the db */
+		'features'   => array('themedit.admin'),
+		/* give the full name of the block, including 'phpblock_', etc */
+		'php_blocks' => array(),
+		/* give all vars with their name */
+		'vars'       => array(''),
+	);
+
+	return $out;
 }
 
 /**
 * Escapes a string for output
 */
 function THM_esc($str) {
-	global $LANG_CHARSET;
+	static $charset = NULL;
 	
-	$str = str_replace(
-		array('&lt;', '&gt;', '&amp;', '&quot;', '&#039;'),
-		array(   '<',    '>',     '&',      '"',      "'"),
-		$str
-	);
-	return htmlspecialchars($str, ENT_QUOTES, $LANG_CHARSET);
+	if ($charset === NULL) {
+		$charset = COM_getCharset();
+	}
+	
+	return htmlspecialchars($str, ENT_QUOTES, $charset);
 }
 
 function THM_str($index) {
@@ -283,13 +253,14 @@ function THM_str($index) {
 	if (isset($LANG_THM[$index])) {
 		return THM_esc($LANG_THM[$index]);
 	} else {
-		COM_errorLog('Themedit: Debug::undefined index: ' . $index);
+		COM_errorLog(__FUNCTION__ . ': undefined index: ' . $index);
 		return '(undefined)';
 	}
 }
 
 /**
 * Return template vars stored in DB
+*
 * @return: array of string: names of template vars
 */
 function THM_getTemplateVars($theme, $filename) {
@@ -299,11 +270,14 @@ function THM_getTemplateVars($theme, $filename) {
 	
 	$theme    = addslashes($theme);
 	$filename = addslashes($filename);
-	$sql = "SELECT thm_vars FROM {$_TABLES['thm_contents']} "
+	$sql = "SELECT thm_vars "
+		 . "FROM {$_TABLES['thm_contents']} "
 		 . "WHERE (thm_name = '{$theme}') AND (thm_filename = '{$filename}')";
 	$result = DB_query($sql);
+	
 	if (!DB_error()) {
 		$A = DB_fetchArray($result);
+		
 		if (!empty($A['thm_vars'])) {
 			$retval = explode(',', $A['thm_vars']);
 		}
@@ -313,7 +287,8 @@ function THM_getTemplateVars($theme, $filename) {
 }
 
 /**
-* Return template vars
+* Returns template vars
+*
 * @param   $text  string    the contents of a template
 * @return  array of string  names of template vars
 */
@@ -321,6 +296,7 @@ function THM_scanTemplateVars($text) {
 	$retval = array();
 	
 	$result = preg_match_all('/\{([^}].*?)\}/', $text, $match);
+	
 	if ($result >= 1) {
 		$retval = array_unique($match[1]);
 		sort($retval);
@@ -330,7 +306,8 @@ function THM_scanTemplateVars($text) {
 }
 
 /**
-* Return the current contents of a given file stored on Web server
+* Returns the current contents of a given file stored on Web server
+*
 * @param  $theme     string  theme name
 *         $filename  string  file name
 * @return            string  the current contents of a given file
@@ -341,6 +318,7 @@ function THM_getContents($theme, $filename) {
 	$retval = '';
 	$path = $_CONF['path_themes'] . $theme . '/' . $filename;
 	clearstatcache();
+	
 	if (file_exists($path)) {
 		$contents = @file_get_contents($path);
 		if ($contents === FALSE) {
@@ -356,7 +334,7 @@ function THM_getContents($theme, $filename) {
 }
 
 /**
-* Return the initial contents of a given file stored in DB
+* Returns the initial contents of a given file stored in DB
 *
 * @param  $theme     string  theme name
 *         $filename  string  file name
@@ -373,6 +351,7 @@ function THM_getInitalContents($theme, $filename) {
 		 . "FROM {$_TABLES['thm_contents']} "
 		 . "WHERE (thm_name = '{$theme}') AND (thm_filename = '{$filename}')";
 	$result = DB_query($sql);
+	
 	if (!DB_error()) {
 		$A = DB_fetchArray($result);
 		$contents = $A['thm_init_contents'];
@@ -382,7 +361,7 @@ function THM_getInitalContents($theme, $filename) {
 }
 
 /**
-* Return allowed theme names, considering $_THM_CONF['allowed_themes']
+* Returns allowed theme names, considering $_THM_CONF['allowed_themes']
 *
 * @return   array of string  theme names
 */
@@ -391,6 +370,7 @@ function THM_getAllowedThemes() {
 	
 	$retval = array();
 	$themes = COM_getThemes(TRUE);
+	
 	if ($_THM_CONF['enable_all_themes']) {
 		$retval = $themes;
 	} else {
@@ -405,7 +385,7 @@ function THM_getAllowedThemes() {
 }
 
 /**
-* Import the designated file and scan template vars in case of a template file
+* Imports the designated file and scan template vars in case of a template file
 * and save the contents into database
 *
 * @return  boolean  TRUE = success, FALSE = otherwise
@@ -414,11 +394,13 @@ function THM_importFile($theme, $filename) {
 	global $_TABLES;
 	
 	$contents = THM_getContents($theme, $filename);
+	
 	if (preg_match("/\.thtml$/i", $filename)) {
 		$vars = implode(',', THM_scanTemplateVars($contents));
 	} else {
 		$vars = '';
 	}
+	
 	$theme    = addslashes($theme);
 	$filename = addslashes($filename);
 	$contents = addslashes($contents);
@@ -427,11 +409,12 @@ function THM_importFile($theme, $filename) {
 		 . "(thm_name, thm_filename, thm_init_contents, thm_vars) "
 		 . "VALUES ('{$theme}', '{$filename}', '{$contents}', '{$vars}')";
 	$result = DB_query($sql);
+	
 	return !($result === FALSE);
 }
 
 /**
-* Initialize themedit database -- populate the table with default file contents
+* Initializes themedit database -- populate the table with default file contents
 */
 function THM_initDatabase() {
 	global $_CONF, $_TABLES, $_THM_CONF;
@@ -446,7 +429,7 @@ function THM_initDatabase() {
 }
 
 /**
-* Save the file on the web
+* Saves the file on the server
 *
 * @return  boolean  TRUE = success, FALSE = fail
 */
@@ -455,12 +438,14 @@ function THM_saveFile($theme, $filename, $contents) {
 	
 	$path = $_CONF['path_themes'] . $theme . '/' . $filename;
 	$fh = @fopen($path, 'wb');
+	
 	if ($fh === FALSE) {
 		return FALSE;
 	}
 	
 	$result1 = fwrite($fh, $contents);
 	$result2 = fclose($fh);
+	
 	if (($result1 === FALSE) OR ($result1 != strlen($contents))
 	 OR ($result2 === FALSE)) {
 		return FALSE;
@@ -470,10 +455,11 @@ function THM_saveFile($theme, $filename, $contents) {
 }
 
 /**
-* Initialize the contnets on the web with the data stored in DB
+* Initializes the contnets on the web with the data stored in DB
 */
 function THM_initFile($theme, $filename) {
 	$contents = THM_getInitalContents($theme, $filename);
+	
 	return THM_saveFile($theme, $filename, $contents);
 }
 
@@ -514,10 +500,12 @@ function THM_isAddedOrRemoved() {
 		$sql = "SELECT thm_filename FROM {$_TABLES['thm_contents']} "
 			 . "WHERE (thm_name = '{$theme}')";
 		$result = DB_query($sql);
+		
 		if (DB_error()) {
 			exit;
 		} else {
 			$db_files = array();
+			
 			while (($A = DB_fetchArray($result)) !== FALSE) {
 				$db_files[] = $A['thm_filename'];
 			}
@@ -526,6 +514,7 @@ function THM_isAddedOrRemoved() {
 		foreach ($_THM_CONF['allowed_files'] as $filename) {
 			$path = $_CONF['path_themes'] . $theme . '/' . $filename;
 			clearstatcache();
+			
 			if (file_exists($path)) {
 				// file exists, but not in DB
 				if (!in_array($filename, $db_files)) {
@@ -544,7 +533,7 @@ function THM_isAddedOrRemoved() {
 }
 
 /**
-* Update all files and/or database according to $_THM_CONF['allowed_themes']
+* Updates all files and/or database according to $_THM_CONF['allowed_themes']
 * and $_THM_CONF['allowed_files']
 */
 function THM_updateAll() {
@@ -552,9 +541,7 @@ function THM_updateAll() {
 
 	$diff = THM_isAddedOrRemoved();
 	
-	/**
-	* Add new files into database
-	*/
+	// Adds new files into database
 	foreach ($diff['added'] as $added) {
 		$theme = $added['theme'];
 		$file  = $added['file'];
@@ -584,10 +571,13 @@ function THM_updateAll() {
 function THM_getPreview() {
 	global $_CONF, $_TABLES;
 	
+	$old_level = error_reporting(0);
 	ob_start();
 	require_once $_CONF['path_html'] . 'index.php';
 	$retval = ob_get_contents();
 	ob_end_clean();
+	error_reporting($old_level);
+	
 	return $retval;
 }
 
@@ -597,9 +587,7 @@ function THM_getPreview() {
 function THM_getDirTree($theme, $selected_dir = '/images') {
 	global $_CONF, $_USER, $_TABLES;
 	
-	/**
-	* Checks for '..' in case of the directory-traversal attack
-	*/
+	// Checks for '..' in case of the directory-traversal attack
 	if (strpos($selected_dir, '..') !== FALSE) {
 		COM_errorLog("Themedit: someone tried directory-traversal attack on THM_getDirTree(): User ID = {$_USER['uid']}");
 		return '';
@@ -608,10 +596,9 @@ function THM_getDirTree($theme, $selected_dir = '/images') {
 	$retval   = '<ul>' . LB;
 	$cgi_path = THEMEDIT_BASE_URL . '/upload.php';
 	
-	/**
-	* images/
-	*/
+	// images/
 	$retval .= '<li>';
+	
 	if ($selected_dir == '/images') {
 		$retval .= "<strong>{$theme}/images</strong>";
 	} else {
@@ -621,17 +608,17 @@ function THM_getDirTree($theme, $selected_dir = '/images') {
 						'path'  => '/images',
 						'theme' => $theme
 					)
-				);
+		);
 		$retval .= '<a href="' . $url . '">' . THM_esc($theme) . '/images<a>';
 	}
-	$retval .= '<br' . XHTML . '>' . LB;
-	$retval .= '<ul>' . LB;
 	
-	/**
-	* images/admin/
-	*/
+	$retval .= '<br' . XHTML . '>' . LB
+			.  '<ul>' . LB;
+	
+	// images/admin/
 	$retval .= '<li>' . LB;
-	if ($selected_dir == '/images/admin') {
+	
+	if ($selected_dir === '/images/admin') {
 		$retval .= '<strong>/admin</strong>';
 	} else {
 		$url = THM_buildURL(
@@ -640,16 +627,16 @@ function THM_getDirTree($theme, $selected_dir = '/images') {
 						'path'  => '/images/admin',
 						'theme' => $theme
 					)
-				);
+		);
 		$retval .= '<a href="' . $url . '">/admin</a>';
 	}
+	
 	$retval .= '</li>' . LB;
 	
-	/**
-	* images/buttons/
-	*/
+	// images/buttons/
 	$retval .= '<li>' . LB;
-	if ($selected_dir == '/images/buttons') {
+	
+	if ($selected_dir === '/images/buttons') {
 		$retval .= '<strong>/buttons</strong>';
 	} else {
 		$url = THM_buildURL(
@@ -658,16 +645,16 @@ function THM_getDirTree($theme, $selected_dir = '/images') {
 						'path'  => '/images/buttons',
 						'theme' => $theme
 					)
-				);
+		);
 		$retval .= '<a href="' . $url . '">/buttons</a>';
 	}
+	
 	$retval .= '</li>' . LB;
 
-	/**
-	* images/icons/
-	*/
+	// images/icons/
 	$retval .= '<li>' . LB;
-	if ($selected_dir == '/images/icons') {
+	
+	if ($selected_dir === '/images/icons') {
 		$retval .= '<strong>/icons</strong>';
 	} else {
 		$url = THM_buildURL(
@@ -676,14 +663,15 @@ function THM_getDirTree($theme, $selected_dir = '/images') {
 						'path'  => '/images/icons',
 						'theme' => $theme
 					)
-				);
+		);
 		$retval .= '<a href="' . $url . '">/icons</a>';
 	}
-	$retval .= '</li>' . LB;
 	
-	$retval .= '</ul>' . LB;
-	$retval .= '</li>' . LB;
-	$retval .= '</ul>' . LB;
+	$retval .= '</li>' . LB
+			.  '</ul>' . LB
+			.  '</li>' . LB
+			.  '</ul>' . LB;
+	
 	return $retval;
 }
 
@@ -699,9 +687,11 @@ function THM_getAllThemeFiles($path, $top_level = FALSE) {
 	$retval = array();
 	
 	$dh = @opendir($path);
+	
 	if ($dh !== FALSE) {
 		while (($entry = readdir($dh)) !== FALSE) {
 			$this_path = $path . '/' . $entry;
+			
 			if (is_dir($this_path)) {
 				if (($entry != '.') AND ($entry != '..')) {
 					$retval = array_merge($retval, THM_getAllThemeFiles($this_path, FALSE));
@@ -713,14 +703,14 @@ function THM_getAllThemeFiles($path, $top_level = FALSE) {
 			}
 		}
 	}
+	
 	closedir($dh);
 	
 	if ($top_level) {
 		for ($i = 0; $i < count($retval); $i ++) {
 			$retval[$i] = substr(
-							$retval[$i],
-							strlen($_CONF['path_themes'] . 'professional/')
-						);
+				$retval[$i], strlen($_CONF['path_themes'] . 'professional/')
+			);
 		}
 	}
 	
@@ -752,7 +742,6 @@ function THM_buildURL($url, $params = array()) {
 *
 * @param    string  $text  instructions to be displayed
 * @return   string         HTML output of function
-*
 */
 function THM_createMenu($current_menu = 'list', $text = '', $noesc = TRUE) {
     global $_CONF, $_THM_CONF;
@@ -775,6 +764,7 @@ function THM_createMenu($current_menu = 'list', $text = '', $noesc = TRUE) {
     if ($_THM_CONF['allow_restore'] == FALSE) {
         unset($THM_MENU['restore']);
     }
+	
     $admin_templates = new Template($_CONF['path'] . 'plugins/themedit/templates');
     $admin_templates->set_file (
         array ('top_menu' => 'topmenu.thtml')
@@ -796,11 +786,13 @@ function THM_createMenu($current_menu = 'list', $text = '', $noesc = TRUE) {
     
     $admin_templates->set_var('icon', THEMEDIT_BASE_URL . '/images/themedit.gif');
     $admin_templates->set_var('menu_fields', implode(' | ', $menu_fields));
+	
     if ($noesc) {
         $admin_templates->set_var('lang_instructions', THM_esc($text));
     } else {
         $admin_templates->set_var('lang_instructions', $text);
     }
+	
     $admin_templates->set_var('xhtml', XHTML);
     $admin_templates->parse('top_menu', 'top_menu');
     $retval = $admin_templates->finish($admin_templates->get_var('top_menu'));
@@ -827,10 +819,11 @@ function THM_list($header_arr, $data_arr) {
         }
         
         $retval .= '</tr>' . LB;
-        $class = ($class == 'pluginRow1' ? 'pluginRow2' : 'pluginRow1');
+        $class = ($class === 'pluginRow1' ? 'pluginRow2' : 'pluginRow1');
     }
     
     $retval .= '</table>' . LB;
+	
     return $retval;
 }
 
@@ -841,7 +834,8 @@ function THM_form() {
 function THM_checkbox($name, $id, $value, $label, $checked = TRUE) {
     $retval = '<input type="checkbox" id="' . $id . '" name="' . $name
             . '" value="' . $value . '"';
-    if ($checked) {
+    
+	if ($checked) {
         $retval .= ' checked="checked"';
     }
     
@@ -858,4 +852,23 @@ function THM_radio($name, $id, $value, $label, $checked = TRUE) {
     
     $retval .= XHTML . '><label for="' . $id . '">' . THM_esc($label) . '</label>';
     return $retval;
+}
+
+/**
+* Loads config info with config.class.php
+*/
+function THM_loadConfig() {
+	global $_CONF, $_THM_CONF;
+	
+	require_once $_CONF['path_system'] . 'classes/config.class.php';
+	
+	$config = config::get_instance();
+	
+	if ($config->group_exists('themedit')) {
+		$temp = $config->get_config('themedit');
+		
+		if (is_array($temp) AND (count($temp) > 0)) {
+			$_THM_CONF = array_merge($_THM_CONF, $temp);
+		}
+	}
 }

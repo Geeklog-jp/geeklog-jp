@@ -25,7 +25,7 @@
 // +---------------------------------------------------------------------------+
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== FALSE) {
-    die('This file can not be used on its own.');
+	die('This file can not be used on its own.');
 }
 
 /**
@@ -47,10 +47,6 @@ global $_DB_table_prefix, $_THM_DEFAULT;
 * @global array $_THM_DEFAULT
 */
 $_THM_DEFAULT = array();
-
-//=========================================================
-//  USER CONFIGURATION
-//=========================================================
 
 //-------------------------------------
 //  Theme names and file names
@@ -167,15 +163,6 @@ $_THM_DEFAULT['image_max_col'] = 6;
 $_THM_DEFAULT['upload_max_size'] = 1048576;
 
 /**
-* Enable CSRF protection for GL-1.5.0+
-*/
-$_THM_DEFAULT['enable_csrf_protection'] = TRUE;
-
-//=========================================================
-//  END OF USER CONFIGURATION
-//=========================================================
-
-/**
 * Initialize Dbman plugin configuration
 *
 * Creates the database entries for the configuation if they don't already exist.
@@ -185,33 +172,27 @@ $_THM_DEFAULT['enable_csrf_protection'] = TRUE;
 * @return   boolean     TRUE: success; FALSE: an error occurred
 */
 function plugin_initconfig_themedit() {
-    global $_THM_CONF, $_THM_DEFAULT;
-    
-    if (isset($_THM_CONF) AND is_array($_THM_CONF)
-     AND (count($_THM_CONF) >= 1)) {
-        $_THM_DEFAULT = array_merge($_THM_DEFAULT, $_THM_CONF);
-    }
-    
-    $c = config::get_instance();
-    if (!$c->group_exists('themedit')) {
-        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, TRUE, 'themedit');
-        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, TRUE, 'themedit');
-        
-        /**
-        * Main
-        */
-        $c->add('enable_all_themes', $_THM_DEFAULT['enable_all_themes'], 'select', 0, 0, 0, 10, TRUE, 'themedit');
-        $c->add('enable_all_files', $_THM_DEFAULT['enable_all_files'], 'select', 0, 0, 0, 20, TRUE, 'themedit');
-        $c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, null, 30, TRUE, 'themedit');
-        $c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, null, 40, TRUE, 'themedit');
-        $c->add('resync_database', $_THM_DEFAULT['resync_database'], 'select', 0, 0, 1, 50, TRUE, 'themedit');
-        $c->add('allow_upload', $_THM_DEFAULT['allow_upload'], 'select', 0, 0, 0, 60, TRUE, 'themedit');
-        $c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, null, 70, TRUE, 'themedit');
-        $c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, null, 80, TRUE, 'themedit');
-        $c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, null, 90, TRUE, 'themedit');
-        $c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, null, 100, TRUE, 'themedit');
-        $c->add('enable_csrf_protection', $_THM_DEFAULT['enable_csrf_protection'], 'select', 0, 0, 0, 110, TRUE, 'themedit');
-    }
-    
-    return TRUE;
+	global $_THM_CONF, $_THM_DEFAULT;
+	
+	$me = 'themedit';
+	$c = config::get_instance();
+	
+	if (!$c->group_exists($me)) {
+		$c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, TRUE, $me);
+		$c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, TRUE, $me);
+		
+		// Main
+		$c->add('enable_all_themes', $_THM_DEFAULT['enable_all_themes'], 'select', 0, 0, 0, 10, TRUE, $me);
+		$c->add('enable_all_files', $_THM_DEFAULT['enable_all_files'], 'select', 0, 0, 0, 20, TRUE, $me);
+		$c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, null, 30, TRUE, $me);
+		$c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, null, 40, TRUE, $me);
+		$c->add('resync_database', $_THM_DEFAULT['resync_database'], 'select', 0, 0, 1, 50, TRUE, $me);
+		$c->add('allow_upload', $_THM_DEFAULT['allow_upload'], 'select', 0, 0, 0, 60, TRUE, $me);
+		$c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, null, 70, TRUE, $me);
+		$c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, null, 80, TRUE, $me);
+		$c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, null, 90, TRUE, $me);
+		$c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, null, 100, TRUE, $me);
+	}
+	
+	return TRUE;
 }

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/upload.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -48,27 +48,29 @@ if (!SEC_hasRights('themedit.admin')) {
     exit;
 }
 
-/**
-* Retrives vars
-*/
-if (get_magic_quotes_gpc() == 1) {
+// Retrives vars
+if (get_magic_quotes_gpc()) {
 	$_GET    = array_map('stripslashes', $_GET);
 	$_POST   = array_map('stripslashes', $_POST);
 	$_COOKIE = array_map('stripslashes', $_COOKIE);
 }
 
 $theme = '';
+
 if (isset($_GET['thm_theme'])) {
 	$theme = COM_applyFilter($_GET['thm_theme']);
 } else if (isset($_POST['thm_theme'])) {
 	$theme = COM_applyFilter($_POST['thm_theme']);
 }
+
 $all_themes = THM_getAllowedThemes();
+
 if (!in_array($theme, $all_themes)) {
 	$theme = $all_themes[0];
 }
 
 $selected_dir = 'images/';
+
 if (isset($_POST['thm_dir'])) {
 	$selected_dir = $_POST['thm_dir'];
 }
@@ -91,9 +93,7 @@ $T->set_var('temp_lang_script_disabled', THM_str('script_disabled'));
 $T->set_var('thm_theme', $theme);
 $T->set_var('thm_dir', $selected_dir);
 
-/**
-* Sets theme names
-*/
+// Sets theme names
 $theme_names = THM_getAllowedThemes();
 $themes4html = '';
 
@@ -103,11 +103,11 @@ foreach ($theme_names as $theme_name) {
 	} else {
 		$themes4html .= "<option value='{$theme_name}'>";
 	}
+	
 	$themes4html .= THM_esc($theme_name) . '</option>' . LB;
 }
 
 $T->set_var('temp_themes', $themes4html);
-
 $T->set_var('temp_lang_dir', THM_str('dir'));
 $allowed_dirs = array(
 	'images/', 'images/admin/', 'images/buttons/', 'images/icons/',
@@ -121,6 +121,7 @@ foreach ($allowed_dirs as $allowed_dir) {
 	} else {
 		$temp_dirs .= '<option>';
 	}
+	
 	$temp_dirs .= $allowed_dir . '</option>' . LB;
 }
 
@@ -132,13 +133,13 @@ $T->set_var('temp_lang_delete', THM_str('delete'));
 $T->set_var('max_upload_size', THM_str('upload_max_size'));
 
 // Processes uploaded files if any
-
 if (isset($_POST['submit']) AND ($_POST['submit'] == $LANG_THM['upload'])
  AND isset($_FILES['thmfile']) AND ($_FILES['thmfile']['size'] > 0)) {
 	$u_name = $_FILES['thmfile']['name'];
 	$u_size = $_FILES['thmfile']['size'];
 	$u_tmp  = $_FILES['thmfile']['tmp_name'];
 	$path_parts = pathinfo( $u_name );
+	
 	if ($u_size > $_THM_CONF['upload_max_size']) {
 		$T->set_var('temp_sys_message', "<span style='color: red; font-weight: bold;'>{$LANG_THM['file_too_large']}</a>");
 	} else if (!in_array(strtolower($path_parts['extension']), array('jpg', 'jpeg', 'gif', 'png'))) {
@@ -146,6 +147,7 @@ if (isset($_POST['submit']) AND ($_POST['submit'] == $LANG_THM['upload'])
 	} else if (is_uploaded_file($u_tmp)) {
 		$dest = $_CONF['path_themes'] . $theme . '/' . $selected_dir
 			  . basename($u_name);
+		
 		if (@move_uploaded_file($u_tmp, $dest)) {
 			$T->set_var('temp_sys_message', "<span style='color: #339933; font-weight: bold;'>{$LANG_THM['upload_success']}</p>");
 		} else {
@@ -157,13 +159,13 @@ if (isset($_POST['submit']) AND ($_POST['submit'] == $LANG_THM['upload'])
 }
 
 // Deletes checked files if any
-
 if (isset($_POST['thm_delete']) AND ($_POST['thm_delete'] == $LANG_THM['delete'])
  AND isset($_POST['ch'])) {
 	$success = $fail = 0;
 	
 	foreach ($_POST['ch'] as $checked_file) {
 		$entry = $_CONF['path_themes'] . $theme . '/' . $selected_dir . $checked_file;
+		
 		if (@unlink($entry)) {
 			$success ++;
 		} else {
@@ -172,12 +174,15 @@ if (isset($_POST['thm_delete']) AND ($_POST['thm_delete'] == $LANG_THM['delete']
 	}
 	
 	$delete_msg = '';
+	
 	if ($success) {
 		$delete_msg = '<span style="color: #339933; font-weight: bold;">' . sprintf($LANG_THM['delete_success'], $success) . '</span>';
+		
 		if ($fail) {
 			$delete_msg .= '&nbsp;&nbsp;';
 		}
 	}
+	
 	if ($fail) {
 		$delete_msg = '<span style="color: red; font-weight: bold;">' . sprintf($LANG_THM['delete_fail'], $fail) . '</span>';
 	}
@@ -185,20 +190,16 @@ if (isset($_POST['thm_delete']) AND ($_POST['thm_delete'] == $LANG_THM['delete']
 	$T->set_var('temp_sys_message', $delete_msg);
 }
 
-/**
-* Displays images
-*/
+// Displays images
 $basedir = $_CONF['path_themes'] . $theme . '/' . $selected_dir;
-$images = '';
+$images  = '';
 $num_col = 0;
-$dh = opendir($basedir);
+$dh = @opendir($basedir);
+
 if ($dh !== FALSE) {
 	while (($entry = readdir($dh)) !== FALSE) {
 		if (is_file($basedir . '/' . $entry)) {
-			if (preg_match('/\.gif$/i', $entry)
-			 OR preg_match('/\.png$/i', $entry)
-			 OR preg_match('/\.jpg$/i', $entry)
-			 OR preg_match('/\.jpeg$/i', $entry)) {
+			if (preg_match('/\.(gif|png|jpg|jpeg)$/i', $entry)) {
 				if ($num_col == 0) {
 					$images .= '<tr>' . LB;
 				}
@@ -218,6 +219,7 @@ if ($dh !== FALSE) {
 						$height = $_THM_CONF['image_height'];
 					}
 				}
+				
 				$T->set_var('temp_img_width', $width);
 				$T->set_var('temp_img_height', $height);
 				$path = $basedir . '/' . $entry;
@@ -225,6 +227,7 @@ if ($dh !== FALSE) {
 				$T->parse('output', 'cell');
 				$images .= '<td>' . $T->finish($T->get_var('output')) . '</td>' . LB;
 				$num_col ++;
+				
 				if ($num_col >= $_THM_CONF['image_max_col']) {
 					$num_col = 0;
 					$images .= '</tr>' . LB;
