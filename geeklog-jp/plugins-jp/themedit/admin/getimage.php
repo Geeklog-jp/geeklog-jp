@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/getimage.php                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -51,9 +51,7 @@ if (!SEC_hasRights('themedit.admin')) {
 $path = $_GET['path'];
 $info = pathinfo($path);
 
-/**
-* Creates an image
-*/
+// Creates an image
 switch (strtolower($info['extension'])) {
 	case 'jpg':
 	case 'jpeg':
@@ -77,19 +75,17 @@ switch (strtolower($info['extension'])) {
 		break;
 }
 
-/**
-* Displays the image
-*/
+// Displays the image
 if ($im === FALSE) {
 	COM_errorLog("themedit: invalid path or GD unsupported: {$path}");
 } else {
 	header("Content-Type: image/{$type}");
 	
-	if ($type == 'jpeg') {
+	if ($type === 'jpeg') {
 		imagejpeg($im);
-	} else if ($type == 'png') {
+	} else if ($type === 'png') {
 		imagepng($im);
-	} else if ($type == 'gif') {
+	} else if ($type === 'gif') {
 		imagegif($im);
 	}
 	

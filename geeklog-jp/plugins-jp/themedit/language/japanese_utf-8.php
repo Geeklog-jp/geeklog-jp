@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------|
 // | geeklog/plugins/themedit/language/japanese_utf-8.php                      |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -255,7 +255,7 @@ $LANG_confignames['themedit'] = array(
 	'image_height'           => 'サムネール画像の高さ（単位：ピクセル）',
 	'image_max_col'          => 'サムネール画像の列数',
 	'upload_max_size'        => 'アップローできるファイルサイズの上限（単位：バイト）',
-	'enable_csrf_protection' => 'CSRF対策を行う',
+//	'enable_csrf_protection' => 'CSRF対策を行う',
 );
 
 $LANG_configsubgroups['themedit'] = array(
@@ -263,7 +263,7 @@ $LANG_configsubgroups['themedit'] = array(
 );
 
 $LANG_fs['themedit'] = array(
-    'fs_main'   => 'テーマエディタのメイン設定',
+    'fs_main'   => 'テーマエディタの主要設定',
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
@@ -272,5 +272,4 @@ $LANG_configselects['themedit'] = array(
 	1 => array(
 			'手動で同期' => 'manual', '自動で同期' => 'auto', '同期しない' => 'ignore'
 		),
-	
 );

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/index.php                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -61,21 +61,18 @@ $vars        = array();
 $op          = '';
 $contents    = '';
 
-/**
-* Undoes magic_quotes if necessary
-*/
+// Undoes magic_quotes if necessary
 if (get_magic_quotes_gpc()) {
 	$_GET    = array_map('stripslashes', $_GET);
 	$_POST   = array_map('stripslashes', $_POST);
 	$_COOKIE = array_map('stripslashes', $_COOKIE);
 }
 
-/**
-* Checks if themes and/or files are added and/or deleted
-*/
+// Checks if themes and/or files are added and/or deleted
 switch (strtolower($_THM_CONF['resync_database'])) {
 	case 'auto':
 		$diff = THM_isAddedOrRemoved();
+		
 		if ((count($diff['added']) > 0) OR (count($diff['removed']) > 0)) {
 			THM_updateAll();
 		}
@@ -83,10 +80,12 @@ switch (strtolower($_THM_CONF['resync_database'])) {
 	
 	case 'manual':
 		$diff = THM_isAddedOrRemoved();
+		
 		if ((count($diff['added']) > 0) OR (count($diff['removed']) > 0)) {
 			$link = $_CONF['site_admin_url'] . '/plugins/themedit/index.php?op=updateall';
 			$sys_message .= str_replace('%s', $link, $LANG_THM['file_changed']);
 		}
+		
 		break;
 	
 	case 'ignore':
@@ -94,62 +93,57 @@ switch (strtolower($_THM_CONF['resync_database'])) {
 		break;
 }
 
-/**
-* Retrieve $_GET/$_POST vars
-*/
+// Retrieve request vars
 $theme_names = THM_getAllowedThemes();
-$theme = $theme_names[0];
+$theme = @$theme_names[0];
 
-/**
-* Theme name
-*/
+// Theme name
 if (isset($_POST['thm_theme'])) {
 	$req_theme = COM_applyFilter($_POST['thm_theme']);
 } else if (isset($_GET['thm_theme'])) {
 	$req_theme = COM_applyFilter($_GET['thm_theme']);
+} else {
+	$req_theme = '';
 }
+
 if (in_array($req_theme, $theme_names)) {
 	$theme = $req_theme;
 } else {
 	COM_errorLog('Themedit: Unknown theme name posted: ' . $req_theme);
 }
 
-/**
-* File name
-*/
+// File name
 if (isset($_POST['thm_file'])) {
 	$req_file = COM_applyFilter($_POST['thm_file']);
 } else if (isset($_GET['thm_file'])) {
 	$req_file = COM_applyFilter($_GET['thm_file']);
+} else {
+	$req_file = '';
 }
+
 if (in_array($req_file, $_THM_CONF['allowed_files'])) {
 	$file = $req_file;
 } else {
 	COM_errorLog('Themedit: Unknown file name posted: ' . $req_file);
 }
 
-/**
-* Operation
-*/
+// Operation
 if (isset($_POST['thm_op'])) {
 	$op = COM_applyFilter($_POST['thm_op']);
 } else if (isset($_GET['op'])) {
 	$op = COM_applyFilter($_GET['op']);
 }
+
 if (($op == '') AND ($file != '')) {
 	$op = 'load';
 }
 
-/**
-* Content being edited
-*/
+// Content being edited
 if (isset($_POST['theme_contents'])) {
 	$contents = $_POST['theme_contents'];
 }
 
-/**
-* Checks if $file is writable
-*/
+// Checks if $file is writable
 if (!empty($file)) {
 	if (!THM_isWritable($theme, $file)) {
 		$sys_message .= THM_str('not_writable');
@@ -157,32 +151,29 @@ if (!empty($file)) {
 	}
 }
 
-/**
-* Operation
-*/
+// Operation
 switch ($op) {
 	case $LANG_THM['save']:
-		/**
-		* Checks CSRF token
-		*/
-		if (defined('THEMEDIT_GL15') AND $_THM_CONF['enable_csrf_protection']
-		  AND !SEC_checkToken()) {
+		if (!SEC_checkToken()) {
 		    COM_errorLog("Themedit: Someone might have tried CSRF attack.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
 			COM_refresh($_CONF['site_url']);
 			exit;
 		}
+		
 		$result = THM_saveFile($theme, $file, $contents);
 		$sys_message = ($result) ? THM_str('save_success') : THM_str('save_fail');
 		break;
 	
 	case $LANG_THM['init']:
 		$result = THM_initFile($theme, $file);
+		
 		if ($result) {
 			$contents = THM_getContents($theme, $file);
 			$sys_message = THM_str('init_success');
 		} else {
 			$sys_message = THM_str('init_fail');
 		}
+		
 		break;
 	
 	case 'updateall':
@@ -198,16 +189,11 @@ switch ($op) {
 		break;
 }
 
-/**
-* Display
-*/
-$display = COM_siteHeader();
+// Display
 $T = new Template($_CONF['path'] . 'plugins/themedit/templates');
 $T->set_file('admin', 'admin.thtml');
 
-/**
-* To prevent template engine from removing template vars loaded in <textarea>
-*/
+// Prevents template engine from removing template vars loaded in <textarea>
 $T->set_unknowns('keep');
 
 $T->set_var('xhtml', XHTML);
@@ -222,7 +208,7 @@ $code4preview = <<<EOD1
 </script>
 EOD1;
 
-if ($op == $LANG_THM['preview']) {
+if ($op === $LANG_THM['preview']) {
 	/**
 	* If a file is being edited, first swap its contents with that of the
 	* corresponding file saved on the Web, then create a preview, and finally
@@ -231,8 +217,10 @@ if ($op == $LANG_THM['preview']) {
 	if (!empty($file)) {
 		$path_parts = pathinfo($file);
 		$is_css = preg_match("/\.css$/i", $file);
+		
 		if ($is_css) {
 			$fh = fopen($_CONF['path_html'] . 'admin/plugins/themedit/preview.css', 'wb');
+			
 			if ($fh !== FALSE) {
 				fwrite($fh, $contents);
 				fclose($fh);
@@ -256,15 +244,14 @@ if ($op == $LANG_THM['preview']) {
 	);
 	list(, $dummy) = explode(' ', microtime());
 	
-	/**
-	* Makes sure your browser reads a CSS file afresh, not from cache
-	*/
+	// Makes sure your browser reads a CSS file afresh, not from cache
 	if ($is_css) {
 		$css_path = $_CONF['site_url'] . '/layout/' . $theme . '/' . $file;
 		$alt_css_path = $_CONF['site_admin_url']
 					  . '/plugins/themedit/preview.css?dummy=' . $dummy;
 		$pos = strpos(strtolower($preview), strtolower($css_path));
 		COM_errorLog('$preview: ' . $preview . "\r\n" . '$css_path: ' . $css_path);
+		
 		if ($pos !== FALSE) {
 			$preview = substr($preview, 0, $pos) . $alt_css_path
 					 . substr($preview, $pos + strlen($css_path));
@@ -277,11 +264,14 @@ if ($op == $LANG_THM['preview']) {
 			$preview
 		);
 	}
+	
 	$fh = fopen($_CONF['path_html'] . 'admin/plugins/themedit/preview.html', 'wb');
+	
 	if ($fh !== FALSE) {
 		fwrite($fh, $preview);
 		fclose($fh);
 	}
+	
 	$T->set_var('temp_preview_code', $code4preview);
 } else {
 	$T->set_var('temp_preview_code', '');
@@ -295,6 +285,7 @@ if (empty($sys_message)) {
 		'<p style="border: solid 2px red; padding: 5px;">' . $sys_message . '</p>'
 	);
 }
+
 $T->set_var(
 	'temp_lang_script_disabled',
 	'<p style="color: red; font-weight: bold;">' . THM_str('script_disabled') . '</p>'
@@ -303,29 +294,28 @@ $T->set_var('temp_lang_select', THM_str('select'));
 $T->set_var('temp_lang_theme_edited', THM_str('theme_edited'));
 $T->set_var('temp_lang_file_edited', THM_str('file_edited'));
 
-/**
-* Set theme name drop down list
-*/
+// Sets theme name drop down list
 $themes4html = '';
+
 foreach ($theme_names as $theme_name) {
 	if ($theme_name == $theme) {
 		$themes4html .= "<option value='{$theme_name}' selected='selected'>";
 	} else {
 		$themes4html .= "<option value='{$theme_name}'>";
 	}
+	
 	$themes4html .= THM_esc($theme_name) . '</option>' . LB;
 }
 
 $T->set_var('temp_themes', $themes4html);
 
-/**
-* Set template/css name drop down list
-*/
+// Sets template/css name drop down list
 if ($file == '') {
 	$files4html = '<option selected="selected">';
 } else {
 	$files4html = '<option>';
 }
+
 $files4html .= '-</option>' . LB;
 
 foreach ($_THM_CONF['allowed_files'] as $allowed_file) {
@@ -334,36 +324,37 @@ foreach ($_THM_CONF['allowed_files'] as $allowed_file) {
 	} else {
 		$files4html .= "<option value='{$allowed_file}'>";
 	}
+	
 	if (isset($LANG_THM[$allowed_file])) {
 		$text = THM_str($allowed_file);
 	} else {
 		$text = $allowed_file;
 	}
+	
 	$files4html .= THM_esc($text) . '</option>' . LB;
 }
 
 $T->set_var('temp_files', $files4html);
 
-/**
-* Load template vars & file contents
-*/
+// Loads template vars & file contents
 if (!empty($file)) {
 	$vars = THM_getTemplateVars($theme, $file);
 }
-if ($op == 'load') {
+
+if ($op === 'load') {
 	$contents = THM_getContents($theme, $file);
 }
+
 $contents4html = THM_esc($contents);
 
-/**
-* In case of a template file, show a list of template vars available
-*/
+// In case of a template file, show a list of template vars available
 $vars4html = '';
+
 if (count($vars) > 0) {
-	$vars4html .= '<table style="border: solid 1px #7F9DB9; padding: 5px; width: 100%">';
-	$vars4html .= '<caption style="text-align: center; color: white; background-color: #7F9DB9;">';
-	$vars4html .= THM_str('vars_available') . '</caption>';
-	$vars4html .= '<tr>' . LB;
+	$vars4html .= '<table style="border: solid 1px #7F9DB9; padding: 5px; width: 100%">'
+			   .  '<caption style="text-align: center; color: white; background-color: #7F9DB9;">'
+			   .  THM_str('vars_available') . '</caption>'
+			   .  '<tr>' . LB;
 	
 	for ($i = 0, $j = 0; $i < count($vars); $i ++) {
 		$vars4html .= '<td width="150"><button type="button" title="'
@@ -372,13 +363,14 @@ if (count($vars) > 0) {
 				   .  ' style="color: white; background-color: #333366;">'
 				   .  $vars[$i] . '</button></td>';
 		$j ++;
-		if ($j % 4 == 0) {
+		
+		if ($j % 4 === 0) {
 			$vars4html .= '</tr>' . LB . '<tr>';
 		}
 	}
 	
-	$vars4html .= '</tr>' . LB;
-	$vars4html .= '</table>' . LB;
+	$vars4html .= '</tr>' . LB
+			   .  '</table>' . LB;
 }
 
 $T->set_var('temp_vars', $vars4html);
@@ -387,21 +379,14 @@ $T->set_var('temp_lang_preview', THM_str('preview'));
 $T->set_var('temp_lang_save', THM_str('save'));
 $T->set_var('temp_lang_image', THM_str('image'));
 $T->set_var('temp_lang_init', THM_str('init'));
-
-/**
-* For GL-1.5.0+
-*/
-if (defined('THEMEDIT_GL15') AND $_THM_CONF['enable_csrf_protection']) {
-	/**
-	* Sets CSRF token
-	*/
-	$T->set_var('temp_token_name', CSRF_TOKEN);
-	$ttl = DB_getItem($_TABLES['users'], 'cookietimeout', "(uid='" . addslashes($_USER['uid']) . "')");
-	$T->set_var('temp_token_value', SEC_createToken($ttl));
-}
-
+$T->set_var('temp_token_name', CSRF_TOKEN);
+$ttl = DB_getItem(
+	$_TABLES['users'], 'cookietimeout', "(uid='" . addslashes($_USER['uid']) . "')"
+);
+$T->set_var('temp_token_value', SEC_createToken($ttl));
 $T->parse('output','admin');
-$display .= $T->finish($T->get_var('output'));
-$display .= COM_siteFooter();
 
+$display = COM_siteHeader()
+		 . $T->finish($T->get_var('output'))
+		 . COM_siteFooter();
 echo $display;

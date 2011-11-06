@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------|
 // | geeklog/plugins/themedit/language/english.php                             |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2006-2010 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -255,7 +255,7 @@ $LANG_confignames['themedit'] = array(
 	'image_height'           => 'Height of thumbnail images in pixels',
 	'image_max_col'          => 'Num of columns of thumbnail images',
 	'upload_max_size'        => 'Maximum size of files to be uploaded in bytes',
-	'enable_csrf_protection' => 'Enable CSRF protection',
+//	'enable_csrf_protection' => 'Enable CSRF protection',
 );
 
 $LANG_configsubgroups['themedit'] = array(
@@ -268,9 +268,8 @@ $LANG_fs['themedit'] = array(
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
 $LANG_configselects['themedit'] = array(
-    0 => array('Yes' => true, 'No' => false),
+    0 => array('Yes' => TRUE, 'No' => FALSE),
 	1 => array(
 			'Resync manually' => 'manual', 'Resync Automatically' => 'auto', 'Do not resync' => 'ignore'
 		),
-	
 );

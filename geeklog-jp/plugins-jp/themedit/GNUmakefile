@@ -2,8 +2,8 @@
 
 PLUGIN=		themedit
 
-FILES=		INSTALL INSTALL_ja config.php functions.inc install_defaults.php
-DIRS=		language templates
+FILES=		INSTALL autoinstall.php config.php functions.inc install_defaults.php
+DIRS=		language sql templates
 
 include ../../GNUmakefile.plugins
 include ../../GNUmakefile.common
