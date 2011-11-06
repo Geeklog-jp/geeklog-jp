@@ -1,6 +1,10 @@
 $Id$
 
 2011-11-06  mystral-kk <mystral-kk>
+	* テーマエディタプラグイン(themedit)をGeeklog-1.6以降の自動インストール
+	  に対応させました。
+
+2011-11-06  mystral-kk <mystral-kk>
 	* 話題譲渡プラグイン(nmoxtopicown)をGeekog-1.6以降の自動インストールに
 	  対応させました。
 
