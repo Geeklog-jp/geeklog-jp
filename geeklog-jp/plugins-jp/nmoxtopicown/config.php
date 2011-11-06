@@ -1,12 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | nmoxtopicown Geeklog Plugin 1.0                                           |
 // +---------------------------------------------------------------------------+
 // | config.php                                                                |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2007 by nmox                                                |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -20,14 +19,22 @@
 // | GNU General Public License for more details.                              |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
-$_NMOXTOPICOWN['version'] = '1.0.10';
+if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
+	die('This file can not be used on its own!');
+}
 
-$_NMOXTOPICOWN['hidenmoxtopicownmenu']=0;
+$_NMOXTOPICOWN = array();
 
-$_NMOXTOPICOWN['nmoxtopicown'] = $LANG_NMOXTOPICOWN['nmoxtopicown'];
-
-$_TABLES['nmoxtopicown']  = $_DB_table_prefix . 'nmoxtopicown';
-
-?>
+$_NMOXTOPICOWN['pi_version'] = '1.0.11';
+$_NMOXTOPICOWN['gl_version'] = '1.4.1';
+$_NMOXTOPICOWN['pi_url']     = 'http://nmox.com/';
+$_NMOXTOPICOWN['GROUPS']     = array(
+		'nmoxtopicown Admin' => 'Users in this group can administer the nmoxtopicown plugin',
+);
+$_NMOXTOPICOWN['FEATURES']   = array(
+		'nmoxtopicown.edit' => 'Access to nmoxtopicown editor',
+);
+$_NMOXTOPICOWN['MAPPINGS']   = array(
+		'nmoxtopicown.edit' => array('nmoxtopicown Admin'),
+);

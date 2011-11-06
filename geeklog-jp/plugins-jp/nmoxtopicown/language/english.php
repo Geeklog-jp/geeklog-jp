@@ -1,13 +1,11 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | nmoxtopicown Geeklog Plugin 1.0                                           |
+// | nmoxtopicown Geeklog Plugin                                               |
 // +---------------------------------------------------------------------------+
 // | english.php                                                               |
-// |                                                                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007 by nmox                                                |
-// |                                                                           |
+// | Copyright (C) 2007-2011 by nmox                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -21,38 +19,23 @@
 // | GNU General Public License for more details.                              |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// +---------------------------------------------------------------------------+
-// | Array Format:                                                             |
-// | $LANGXX[YY]:	$LANG - variable name                                      |
-// |	  	XX - file id number                                                |
-// |		YY - phrase id number                                              |
-// +---------------------------------------------------------------------------+
 
-/**
-* Generic Install language
-* 
-* Be sure and change the name of this array to match your plugin
-* e.g. $LANG_ST00
-*
-*/
-
-$LANG_NMOXTOPICOWN= array (
-'nmoxtopicown'			=> 'NmoxTopicOwn',
-'plugin'				=> 'nmoxtopicown',
-'access_denied'			=> 'Access Denied',
-'access_denied_msg'		=> 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
-'install_header'		=> 'Install/Uninstall Plugin',
-'installed'				=> 'The Plugin is Installed',
-'uninstalled'			=> 'The Plugin is Not Installed',
-'install_success'		=> 'Installation Successful',
-'install_failed'		=> 'Installation Failed -- See your error log to find out why.',
-'uninstall_msg'			=> 'Plugin Successfully Uninstalled',
-'install'				=> 'Install',
-'uninstall'				=> 'UnInstall',
-'ok'					=> 'OK',
-'message_caution'		=> '* You will change owner of topic with included all stories.',
-'change_writer'			=> 'Change writer all stories in this topic.',
-'done'					=> 'Done'
+$LANG_NMOXTOPICOWN = array(
+	'nmoxtopicown'			=> 'NmoxTopicOwn',
+	'plugin'				=> 'nmoxtopicown',
+	'access_denied'			=> 'Access Denied',
+	'access_denied_msg'		=> 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
+	'install_header'		=> 'Install/Uninstall Plugin',
+	'installed'				=> 'The Plugin is Installed',
+	'uninstalled'			=> 'The Plugin is Not Installed',
+	'install_success'		=> 'Installation Successful',
+	'install_failed'		=> 'Installation Failed -- See your error log to find out why.',
+	'uninstall_msg'			=> 'Plugin Successfully Uninstalled',
+	'install'				=> 'Install',
+	'uninstall'				=> 'UnInstall',
+	'ok'					=> 'Submit',
+	'message_caution'		=> '* You will change the owner of the topic with **ALL** stories belonging to the topic.',
+	'change_writer'			=> 'Change all writers in stories in this topic.',
+	'done'					=> 'Done',
+	'invalid_token'			=> 'Secure token expired.  Possible CSRF attack?',
 );
-?>
