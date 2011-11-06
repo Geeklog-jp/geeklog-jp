@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-06  mystral-kk <mystral-kk>
+	* 話題譲渡プラグイン(nmoxtopicown)をGeekog-1.6以降の自動インストールに
+	  対応させました。
+
 2011-11-05  mystral-kk <mystral-kk>
 	* サイトマッププラグインを自動インストールに対応させました。また、
 	  DataProxyプラグインがインストールされていない、ないし無効になっている
