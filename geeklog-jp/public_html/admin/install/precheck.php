@@ -34,23 +34,26 @@
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
 * @date     2011-06-13
-* @version  1.4.2
+* @version  1.4.3
 * @license  GPLv2 or later
 */
+if (version_compare(PHP_VERSION, '5.0.0') < 0) {
+	die('This script requires PHP-5.0.0 or later.');
+}
+
 error_reporting(E_ALL);
 
-require_once './precheck.lang.php';
-
-define('GL_VERSION', '1.8.0');
+define('GL_VERSION', '1.8.1');
 
 //===================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE!
 //===================================================================
 
-define('PRECHECK_VERSION', '1.4.2');
+define('PRECHECK_VERSION', '1.4.3');
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
 define('THIS_SCRIPT', basename(__FILE__));
+define('PRECHECK_ROOT', dirname(__FILE__) . '/');
 define('OS_WIN', strcasecmp(substr(PHP_OS, 0, 3), 'WIN') === 0);
 define('LANG', 'ja');
 
@@ -70,52 +73,15 @@ if (version_compare($gl_version, '1.5.0') < 0) {
 
 if (version_compare($gl_version, '1.7.0') < 0) {
 	define('MIN_MYSQL_VERSION', '3.23.2');
-} else {
+} else if (version_compare($gl_version, '1.8.1') < 0) {
 	define('MIN_MYSQL_VERSION', '4.0.18');
+} else {
+	define('MIN_MYSQL_VERSION', '4.1.3');
 }
+
+require_once PRECHECK_ROOT . 'precheck.lang.php';
 
 $_CONF = array();
-
-/**
-* For older PHP version
-*/
-if (!is_callable('file_get_contents')) {
-	function file_get_contents($path) {
-		$retval = '';
-		
-		if (($fp = fopen($fp, 'rb')) !== FALSE) {
-			while (!feof($fp)) {
-				$retval .= fread($fp, 8192);
-			}
-			
-			fclose($fp);
-		} else {
-			$retval = FALSE;
-		}
-		
-		return $retval;
-	}
-}
-
-if (!is_callable('file_put_contents')) {
-	function file_put_contents($filename, $data) {
-		$retval = FALSE;
-		
-		if (($fh = @fopen($filename, 'r+b')) !== FALSE) {
-			if (flock($fh, LOCK_EX)) {
-				if (ftruncate($fh, 0)) {
-					if (rewind($fh)) {
-						$retval = fwrite($fh, $data);
-					}
-				}
-			}
-			
-			@fclose($fh);
-		}
-		
-		return $retval;
-	}
-}
 
 function PRECHECK_str($name) {
 	global $LANG_PRECHECK;
@@ -125,28 +91,26 @@ function PRECHECK_str($name) {
 
 class Precheck
 {
-	var $path_html;
-	var $path;
-	var $mode;
-	var $step;
-	var $fatal_error;
-	var $warning;
-	var $error;
-	var $_vars;
+	public $path_html;
+	public $path;
+	public $mode;
+	public $step;
+	public $fatal_error;
+	public $warning;
+	public $error;
+	public $_publics;
 	
 	/**
 	* Constructor
-	*
-	* @access  public
 	*/
-	function Precheck()
+	public function __construct()
 	{
 		$this->fatal_error = 0;
 		$this->error       = 0;
 		$this->warning     = 0;
 		
 		$this->_vars     = array();
-		$this->path_html = realpath(dirname(__FILE__) . DS . '..' . DS . '..' . DS);
+		$this->path_html = dirname(__FILE__) . DS . '..' . DS . '..' . DS;
 	}
 	
 	/**
@@ -156,7 +120,7 @@ class Precheck
 	* @param   str  string
 	* @return       string
 	*/
-	function esc($str)
+	public function esc($str)
 	{
 		return htmlspecialchars($str, ENT_QUOTES, 'utf-8');
 	}
@@ -164,7 +128,7 @@ class Precheck
 	/**
 	* Sets a template var
 	*/
-	function setVar($name, $value)
+	public function setVar($name, $value)
 	{
 		$this->_vars[$name] = $value;
 	}
@@ -172,9 +136,9 @@ class Precheck
 	/**
 	* Parses the template file
 	*/
-	function parse()
+	public function parse()
 	{
-		$template = file_get_contents('./precheck.thtml');
+		$template = file_get_contents(PRECHECK_ROOT . 'precheck.thtml');
 		
 		foreach ($this->_vars as $key => $value) {
 			$template = str_replace('{' . $key . '}', $value, $template);
@@ -189,27 +153,27 @@ class Precheck
 	/**
 	* Returns error info and warning info neatly
 	*
-	* @access  public
-	* @param   msg  string
-	* @return       string
+	* @param   msg     string
+	* @return          string
 	*/
-	function displayErrorAndWarning($msg)
+	public function displayErrorAndWarning($msg)
 	{
 		$retval = '<span class="';
 		
-		if (($this->error == 0) AND ($this->warning == 0)) {
+		if (($this->error === 0) AND ($this->warning === 0)) {
 			$retval .= 'good">' . PRECHECK_str('ok') . '</span>';
 		} else {
-			$retval .= ($this->error > 0) ? 'bad' : 'none'
+			$retval .= ($this->error > 0 ? 'bad' : 'none')
 					.  '">' . $this->error . PRECHECK_str('num_error')
-					.  '</span>' . PRECHECK_str('and') . '<span class="'
-					.  (($this->warning > 0) ? 'warning' : 'none') . '">'
+					.  '</span>&nbsp;<span class="'
+					.  ($this->warning > 0 ? 'warning' : 'none') . '">'
 					.  $this->warning . PRECHECK_str('num_warning') . '</span>';
 		}
 		
 		if ($msg != '') {
 			$retval .= '<br />';
-		if (($this->error == 0) AND ($this->warning == 0)) {
+			
+			if (($this->error === 0) AND ($this->warning === 0)) {
 				$retval .= '<p class="good">' . $msg . '</p>';
 			} else {
 				$retval .= $msg;
@@ -222,35 +186,33 @@ class Precheck
 	/**
 	* Guesses the path to db-config.php
 	*
-	* @access  public
 	* @return          mixed - string = path, FALSE = didn't find path
 	*/
-	function guessDbConfigPath()
+	public function guessDbConfigPath()
 	{
 		global $_CONF;
 		
-		// Checks if siteconfig.php exists and it is valid
+		// Checks if "siteconfig.php" exists and it is valid
 		clearstatcache();
-		$siteconfig = @realpath(dirname(__FILE__) . '/../../siteconfig.php');
+		$siteconfig = PRECHECK_ROOT . '../../siteconfig.php';
 		
 		if (file_exists($siteconfig)) {
 			require_once $siteconfig;
 			
 			if (isset($_CONF['path'])
-			 AND ($_CONF['path'] != '/path/to/Geeklog/')
+			 AND ($_CONF['path'] !== '/path/to/Geeklog/')
 			 AND file_exists($_CONF['path'] . 'db-config.php')) {
 				return $_CONF['path'];
 			}
 		}
 		
-		// Check the parent directory of path_html
-		$path = @realpath(dirname(__FILE__) . '/../../../');
-		clearstatcache();
+		// Checks the parent directory of path_html
+		$path = PRECHECK_ROOT . '../../../';
 		
 		return file_exists($path . 'db-config.php') ? $path : FALSE;
 	}
 	
-	function _return_bytes($val)
+	protected function _return_bytes($val)
 	{
 		$val = trim($val);
 		$last = strtolower($val[strlen($val) - 1]);
@@ -273,10 +235,9 @@ class Precheck
 	/**
 	* Check the default setting of PHP
 	*
-	* @access  public
 	* @return       string
 	*/
-	function menuCheckPHPSettings()
+	public function menuCheckPHPSettings()
 	{
 		$this->error   = 0;
 		$this->warning = 0;
@@ -392,82 +353,82 @@ class Precheck
 	/**
 	* Check write permissions of paths
 	*
-	* @access  public
 	* @return       string
 	*/
-	function menuCheckWritable()
+	public function menuCheckWritable()
 	{
+		global $gl_version;
+		
 		$this->error   = 0;
 		$this->warning = 0;
 		
 		$msgs = array();
 		$path = $this->path;
 		$path_html = $this->path_html;
-		
 		$s_error   = '<span class="bad">' . PRECHECK_str('error')
 				   . '</span>&nbsp;';
+		clearstatcache();
 		
 		// path_html/siteconfig.php
-		clearstatcache();
 		if (!is_writable($path_html . DS . 'siteconfig.php')) {
 			$msgs[] = $s_error . PRECHECK_str('e_siteconfig_php');
 			$this->error ++;
 		}
 		
 		// path/db-config.php
-		clearstatcache();
 		if (!is_writable($path . 'db-config.php')) {
 			$msgs[] = $s_error . PRECHECK_str('e_db_config_php');
 			$this->error ++;
 		}
 		
 		// path/data
-		clearstatcache();
 		if (!is_writable($path . 'data' . DS)) {
 			$msgs[] = $s_error . PRECHECK_str('e_data');
 			$this->error ++;
 		}
 		
 		// path/backups
-		clearstatcache();
 		if (!is_writable($path . 'backups' . DS)) {
 			$msgs[] = $s_error . PRECHECK_str('e_backups');
 			$this->error ++;
 		}
 		
 		// path/logs/error.log
-		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'error.log')) {
 			$msgs[] = $s_error . PRECHECK_str('e_error_log');
 			$this->error ++;
 		}
 		
 		// path/logs/access.log
-		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'access.log')) {
 			$msgs[] = $s_error . PRECHECK_str('e_access_log');
 			$this->error ++;
 		}
 		
 		// path/logs/spamx.log
-		clearstatcache();
 		if (!is_writable($path . 'logs' . DS . 'spamx.log')) {
 			$msgs[] = $s_error . PRECHECK_str('e_spamx_log');
 			$this->error ++;
 		}
 		
 		// path_html/backend/geeklog.rss
-		clearstatcache();
 		if (!is_writable($path_html . DS . 'backend' . DS . 'geeklog.rss')) {
 			$msgs[] = $s_error . PRECHECK_str('e_backend_geeklog_rss');
 			$this->error ++;
 		}
 		
 		// path_html/backend
-		clearstatcache();
 		if (!is_writable($path_html . DS . 'backend' . DS)) {
 			$msgs[] = $s_error . PRECHECK_str('e_backend');
 			$this->error ++;
+		}
+		
+		// path_html/sitemap.xml
+		if (version_compare($gl_version, '1.8.0') >= 0) {
+			if (!is_writable($path_html . DS . 'sitemap.xml')) {
+				$msgs[] = $s_error . PRECHECK_str('e_sitemapxml');
+				$this->error ++;
+			}
 		}
 		
 		$retval = '';
@@ -488,11 +449,10 @@ class Precheck
 	/**
 	* Return a string of information
 	*
-	* @access  public
 	* @param   item    string
 	* @return          string
 	*/
-	function getInfo($item)
+	public function getInfo($item)
 	{
 		$retval = '<div class="infobox">' . LB
 				. '<h2>' . $item . PRECHECK_str('info_config') . '</h2>' . LB;
@@ -519,17 +479,18 @@ class Precheck
 	}
 	
 	/**
-	* Write the system path into "siteconfig.php"
+	* Writes the system path into "siteconfig.php"
 	*
-	* @access  public
 	* @return  boolean  TRUE = success, FALSE = otherwise
 	*/
-	function writeSiteconfig()
+	public function writeSiteconfig()
 	{
-		$siteconfig = realpath(dirname(__FILE__) . '/../../siteconfig.php');
+		$siteconfig = PRECHECK_ROOT . '../../siteconfig.php';
 		clearstatcache();
+		
 		if (file_exists($siteconfig)) {
 			$content = file_get_contents($siteconfig);
+			
 			if ($content !== FALSE) {
 				if (OS_WIN) {
 					$path = str_replace("//", "/", $this->path);
@@ -537,7 +498,9 @@ class Precheck
 				} else {
 				    $path = str_replace("'", "\\'", $this->path);
 				}
+				
 				$content = str_replace('/path/to/Geeklog/', $path, $content);
+				
 				if (file_put_contents($siteconfig, $content) !== FALSE) {
 					return TRUE;
 				}
@@ -547,7 +510,7 @@ class Precheck
 		return FALSE;
 	}
 	
-	function _formatInfo($item, $value, $result, $additionalInfo = NULL)
+	protected function _formatInfo($item, $value, $result, $additionalInfo = NULL)
 	{
 		$retval = '<li>' . PRECHECK_str($item) . ': ' . $value . '&nbsp;';
 		
@@ -570,10 +533,8 @@ class Precheck
 	
 	/**
 	* Step 0: Checks PHP settings
-	*
-	* @access  private
 	*/
-	function _step0()
+	public function step0()
 	{
 		global $gl_version;
 		
@@ -636,10 +597,8 @@ class Precheck
 	
 	/**
 	* Step 1: Guess the path to "db-config.php"
-	*
-	* @access  private
 	*/
-	function _step1()
+	public function step1()
 	{
 		$retval = '<h2 class="heading">' . PRECHECK_str('step1') . '</h2>' . LB
 				. '<ol>' . LB;
@@ -664,10 +623,8 @@ class Precheck
 	
 	/**
 	* Step 2: Select install type
-	*
-	* @access  private
 	*/
-	function _step2()
+	public function step2()
 	{
 		$path = rawurlencode($this->path);
 
@@ -688,10 +645,8 @@ class Precheck
 	
 	/**
 	* Check PHP settings and path permissions
-	*
-	* @access  private
 	*/
-	function _step3()
+	public function step3()
 	{
 		$retval = '<h2 class="heading">' . PRECHECK_str('step3') . '</h2>' . LB
 				. '<ol>' . LB
@@ -762,10 +717,8 @@ class Precheck
 	
 	/**
 	* Step 4. Check DB settings
-	*
-	* @access  private
 	*/
-	function _step4()
+	public function step4()
 	{
 		$extensions = get_loaded_extensions();
 		$extensions = array_map('strtolower', $extensions);
@@ -827,13 +780,12 @@ class Precheck
 	/**
 	* Returns the names of databases
 	*
-	* @access  public
 	* @param   string  $_GET['type'], $_GET['host'], $_GET['user'],
 	*                  $_GET['name'], $_GET['pass']
 	* @return  string  DB names separated by a semicolon on success,
 	*                  otherwise '-ERR'.
 	*/
-	function lookupDb()
+	public function lookupDb()
 	{
 		$retval = array();
 		$err    = '-ERR';
@@ -842,6 +794,7 @@ class Precheck
 		$host = isset($_GET['host']) ? $_GET['host'] : '';
 		$user = isset($_GET['user']) ? $_GET['user'] : '';
 		$pass = isset($_GET['pass']) ? $_GET['pass'] : '';
+		
 		if ($host == 'localhost') {
 			$host = '127.0.0.1';
 		}
@@ -902,13 +855,12 @@ class Precheck
 	}
 	
 	/**
-	* Return the number of tables in a given MySQL database
+	* Returns the number of tables in a given MySQL database
 	*
-	* @access  private
 	* @param   string  $host, $user, $pass, $name, $prefix
 	* @return  mixed   FALSE = DB error, otherwise the number of tables
 	*/
-	function _countMysqlTable($host, $user, $pass, $name, $prefix)
+	private function _countMysqlTable($host, $user, $pass, $name, $prefix)
 	{
 		$retval = FALSE;
 		
@@ -932,11 +884,10 @@ class Precheck
 	/**
 	* Returns the number of tables in a given Microsoft SQL Server database
 	*
-	* @access  private
 	* @param   string  $host, $user, $pass, $name, $prefix
 	* @return  mixed   FALSE = DB error, otherwise the number of tables
 	*/
-	function _countMssqlTable($host, $user, $pass, $name, $prefix)
+	private function _countMssqlTable($host, $user, $pass, $name, $prefix)
 	{
 		$retval = FALSE;
 		
@@ -959,11 +910,10 @@ class Precheck
 	/**
 	* Returns the number of tables in a given PostgreSQL database
 	*
-	* @access  private
 	* @param   string  $host, $user, $pass, $name, $prefix
 	* @return  mixed   FALSE = DB error, otherwise the number of tables
 	*/
-	function _countPgsqlTable($host, $user, $pass, $name, $prefix)
+	private function _countPgsqlTable($host, $user, $pass, $name, $prefix)
 	{
 		$retval = FALSE;
 		$cns = 'host=' . $host . ' dbname=' . $name . ' user=' . $user
@@ -979,15 +929,14 @@ class Precheck
 	}
 	
 	/**
-	* Return the number of tables in a given database
+	* Returns the number of tables in a given database
 	*
-	* @access  public
 	* @param   string  $_GET['type'], $_GET['host'], $_GET['user'],
 	*                  $_GET['name'], $_GET['pass'], $_GET['prefix']
 	* @return  string  '-ERR' = DB error, otherwise a string representing the
 	*                  number of tables the given DB has
 	*/
-	function countTable()
+	public function countTable()
 	{
 		$err = '-ERR';
 		
@@ -1002,7 +951,7 @@ class Precheck
 			$host = '127.0.0.1';
 		}
 		
-		if (($type == 'mysql') OR ($type == 'mysql-innodb')) {
+		if (($type === 'mysql') OR ($type === 'mysql-innodb')) {
 			$retval = $this->_countMysqlTable($host, $user, $pass, $name, $prefix);
 		} else if ($type === 'mssql') {
 			$retval = $this->_countMssqlTable($host, $user, $pass, $name, $prefix);
@@ -1032,7 +981,7 @@ class Precheck
 * step 5. Redirect to public_html/admin/install/index.php <----+
 */
 
-// Get the request vars
+// Gets the request vars
 $step = 0;
 
 if (isset($_GET['step'])) {
@@ -1040,6 +989,7 @@ if (isset($_GET['step'])) {
 } else if (isset($_POST['step'])) {
 	$step = intval($_POST['step']);
 }
+
 if (($step < 1) OR ($step > 4)) {
 	$step = 0;
 }
@@ -1092,11 +1042,6 @@ if ($mode === 'lookupdb') {
 // Sets template vars
 $precheck->setVar('lang', 'ja');
 $precheck->setVar('precheck_version', PRECHECK_VERSION);
-$precheck->setVar('nav_step1_class', ($step == 1) ? 'hilight' : 'normal');
-$precheck->setVar('nav_step2_class', ($step == 2) ? 'hilight' : 'normal');
-$precheck->setVar('nav_step3_class', ($step == 3) ? 'hilight' : 'normal');
-$precheck->setVar('nav_step4_class', ($step == 4) ? 'hilight' : 'normal');
-$precheck->setVar('nav_visibility', ($step > 0) ? 'visible' : 'hidden');
 $precheck->setVar('lang_help', PRECHECK_str('lang_help'));
 $precheck->setVar('lang_step1', PRECHECK_str('step1'));
 $precheck->setVar('lang_step2', PRECHECK_str('step2'));
@@ -1106,7 +1051,7 @@ $precheck->setVar('lang_precheck', PRECHECK_str('lang_precheck'));
 $precheck->setVar('lang_version', PRECHECK_str('lang_version'));
 
 // Adds JavaScript support
-if ($step == 4) {
+if ($precheck->step === 4) {
 	$precheck->setVar(
 		'javascript',
 		'<script type="text/javascript" src="core.js"></script>' . LB
@@ -1121,7 +1066,7 @@ if ($mode === 'info') {
 } else {
 	switch ($step) {
 		case 0: // Checks PHP setting
-			$content .= $precheck->_step0();
+			$content .= $precheck->step0();
 			
 			if (($precheck->fatal_error > 0) OR ($precheck->error > 0)) {
 				break;
@@ -1131,7 +1076,7 @@ if ($mode === 'info') {
 		    $precheck->step = 1;
 			
 		case 1:	// Check the path to "db-config.php"
-			$content .= $precheck->_step1();
+			$content .= $precheck->step1();
 			
 			if (($precheck->fatal_error > 0) OR ($precheck->error > 0)) {
 				break;
@@ -1141,20 +1086,25 @@ if ($mode === 'info') {
 		    $precheck->step = 2;
 		
 		case 2:	// Select install type
-			$content .= $precheck->_step2();
+			$content .= $precheck->step2();
 			break;
 		
 		case 3:	// Check PHP settings and path permissions
-			$content .= $precheck->_step3();
+			$content .= $precheck->step3();
 			break;
 		
 		case 4:	// Check DB settings
-			$content .= $precheck->_step4();
+			$content .= $precheck->step4();
 			break;
 	}
 }
 
 $precheck->setVar('content', $content);
+$precheck->setVar('nav_step1_class', ($precheck->step === 1) ? 'hilight' : 'normal');
+$precheck->setVar('nav_step2_class', ($precheck->step === 2) ? 'hilight' : 'normal');
+$precheck->setVar('nav_step3_class', ($precheck->step === 3) ? 'hilight' : 'normal');
+$precheck->setVar('nav_step4_class', ($precheck->step === 4) ? 'hilight' : 'normal');
+$precheck->setVar('nav_visibility', ($precheck->step > 0) ? 'visible' : 'hidden');
 
 header('Content-Type: text/html; charset=utf-8');
 echo $precheck->parse();

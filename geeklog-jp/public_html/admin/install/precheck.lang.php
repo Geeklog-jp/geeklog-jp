@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-06-13
-* @version  1.4.2
+* @date     2011-11-07
+* @version  1.4.3
 * @license  GPLv2 or later
 */
 
@@ -73,7 +73,7 @@ $LANG_PRECHECK['ja'] = array(
 	'e_default_charset'					=> '<strong>default_charset</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>\'\'</strong>（空文字列）か<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=default_charset">詳しくはこちら</a>]',
 	'e_disabled'						=> '無効になっています',
 	'e_error_log'						=> '<strong>非公開領域/logs/error.log</strong>が書き込み禁止になっています。',
-	'e_fatal_error'						=> '致命的なエラーが見つかったため、インストールできません。表示されたエラーを解決してから、もう一度チェックし直してください。なお、警告の部分はとりあえず無視しても構いませんが、いったんインストールに成功したら、修正してください。',
+	'e_fatal_error'						=> '致命的なエラーが見つかったため、インストールできません。表示されたエラーを解決してから、もう一度チェックし直してください。なお、警告の部分はとりあえず無視しても構いませんが、いったんインストールに成功したら、忘れずに修正してください。',
 	'e_ini_get_disabled'				=> '<strong>ini_get()関数が無効になっているので、PHPの設定をチェックできませんでした。Webサーバーの管理者に依頼して、<strong>php.ini</strong>の<strong>disabled_functions</strong>の設定値から<strong>ini_get</strong>を除外するよう依頼してください。',
 	'e_mbstring_disabled'				=> 'PHPにマルチバイト文字列関数(mbstring)が組み込まれていません。',
 	'e_mbstring_encoding_translation'	=> '<strong>mbstring.encoding_translation</strong>が<strong>On</strong>になっています。文字化けやセキュリティ低下の原因になるので、<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>Off</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=mbstring_encoding_translation">詳しくはこちら</a>]。',
@@ -87,6 +87,7 @@ $LANG_PRECHECK['ja'] = array(
 	'e_php_version2'					=> 'が必要です。',
 	'e_precheck_not_supported'			=> 'PrecheckはこのバージョンのGeeklogをサポートしていません。バージョン1.5.0以降でお使いください。',
 	'e_siteconfig_php'					=> '<strong>公開領域/siteconfig.php</strong>が書き込み禁止になっています。',
+	'e_sitemapxml'						=> '<strong>公開領域/sitemap.xml</strong>が存在しないか、書き込み禁止になっています。',
 	'e_spamx_log'						=> '<strong>非公開領域/logs/spamx.log</strong>が書き込み禁止になっています。',
 	'fresh_install'						=> '新規インストール',
 	'go_to_installer'					=> 'インストーラへ',
