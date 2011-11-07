@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-07  mystral-kk <mystral-kk>
+	* インストール前チェック(Precheck)をGeeklog-1.8.1に対応させ、かつ
+	  Issue #162に暫定的に対応しました。
+
 2011-11-07  Yoshinori Tahara  <dengen>
 
 	* GZip形式の圧縮ファイル(.tar.gz, .tgz)をアップロードしてプラグインを
