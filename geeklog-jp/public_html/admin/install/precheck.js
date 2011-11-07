@@ -2,8 +2,8 @@
 * Check DB settings as a part of Precheck for Geeklog
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-06-13
-* @version  1.4.2
+* @date     2011-11-07
+* @version  1.4.3
 * @license  GPLv2 or later
 * @note     This script (precheck.js) needs 'core.js' published
 *           by SitePoint Pty. Ltd.
