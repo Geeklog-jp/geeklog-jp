@@ -6,6 +6,7 @@ $Id$
 	  古く、JavaScriptのシンタックスエラーが発生する問題を修正しました。
 	* WAIproCSSテーマの管理画面すべてをprofessional_cssに合わせました。
 	* mobleテーマの不要なファイブを削除しました。
+        * NEWS README.jpを修正しました。
 
 2011-11-07  mystral-kk <mystral-kk>
 	* インストール前チェック(Precheck)をGeeklog-1.8.1に対応させ、かつ
