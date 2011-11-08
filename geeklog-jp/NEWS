@@ -39,15 +39,16 @@ Geeklog 1.8.1						2011年11月09日
     - テーマの記事投稿や編集に関わる日本語版独自のテンプレートが古く、
       JavaScriptのシンタックスエラーが発生する問題を修正しました。
 
-    - WAIproCSSテーマの管理画面すべてをprofessional_cssに合わせました。
+    - WAIproCSSテーマの管理画面すべてをprofessional_cssに統一させました。
 
-    - テーマmobileの不要なファイブを削除しました。
+    - テーマmobileの不要なファイルを削除しました。
 
     日本語版カスタム関数
 
     - CUSTOM_templateSetVarsに、1.7.2から日本語プラグイン(Japanize)から
-      削除されたテーマ変数topic_id sp_id login_status prof_url_jpを復活
-      させました。
+      削除されたテーマ変数の内、topic_id sp_id login_status prof_url_jp
+      を、カスタム関数custom_templatesetvars.php(拡張版に同梱)を追加する
+      ことにより復活させました。
 
     日本語版プログラム
 
