@@ -3,14 +3,12 @@
 
 {noscript}
 
-
 <div id="advanced_editor" style="display: none;">
 {navbar}
 
 <form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onSubmit='set_postcontent();' id="admin-storyeditor_advanced" class="compact">
-  <fieldset>
-    <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt>{lang_author}</dt>
       <dd>{story_author}</dd>
@@ -62,16 +60,11 @@
         </select>
       </dd>
     </dl>
+  </div>
 
-  </fieldset>
-
-
-
-  <fieldset id="admin-storyeditor_advanced-editor">
-    <legend>エディタ</legend><!-- Geeklog Japanese -->
+  <div>
     <div id="text_editor" style="display: {show_texteditor};">
-      <p id="editor_mode" class="description">{lang_allowed_html}</p> 
-     <dl>
+      <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
         <dd>
           <ul class="navi">
@@ -92,11 +85,10 @@
           <textarea cols="45" rows="14" name="bodytext" id="bodytext">{story_bodytext}</textarea>
         </dd>
       </dl>
+      <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
 
     <div id="html_editor" style="display: {show_htmleditor};">
-      <p id="editor_mode" class="description">{lang_allowed_html}</p>
-
       <dl>
         <dt><label for="introhtml">{lang_introtext}</label></dt>
         <dd>
@@ -126,10 +118,9 @@
         </dd>
       </dl>
 
+      <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
-  </fieldset>
-
-
+  </div>
 
   <div id="se_options" style="display: none;">
   <div id="se_publish" style="display: none;">
@@ -143,19 +134,19 @@
           {publish_month_options}
         </select>
         /
-        <select name="publish_day" title="day">
+        <select name="publish_day">
           {publish_day_options}
         </select>
         /
-        <select name="publish_year" title="year">
+        <select name="publish_year">
           {publish_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="publish_hour" title="hour">
+        <select name="publish_hour">
           {publish_hour_options}
         </select>
         :
-        <select name="publish_minute" title="minute">
+        <select name="publish_minute">
           {publish_minute_options}
         </select>
 
@@ -188,23 +179,23 @@
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
         &nbsp;
            <span dir="ltr">
-               <select name="cmt_close_month" title="month">
+               <select name="cmt_close_month">
                    {cmt_close_month_options}
            </select>
            /
-           <select name="cmt_close_day" title="day">
+           <select name="cmt_close_day">
               {cmt_close_day_options}
            </select>
            /
-           <select name="cmt_close_year" title="year">
+           <select name="cmt_close_year">
               {cmt_close_year_options}
            </select>&nbsp;&nbsp;
 
-           <select name="cmt_close_hour" title="hour">
+           <select name="cmt_close_hour">
                {cmt_close_hour_options}
            </select>
            :
-           <select name="cmt_close_minute" title="minute">
+           <select name="cmt_close_minute">
                {cmt_close_minute_options}
            </select>
                {cmt_close_ampm_selection}
@@ -242,7 +233,7 @@
         <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor_advanced-archiveflag"{xhtml}>
         <input type="radio" name="statuscode" id="storycode10" value="10" {is_checked3}{xhtml}>{lang_optionarchive}
         &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>
-		&nbsp;{lang_optiondelete}
+        &nbsp;{lang_optiondelete}
       </dd>
 
       <dt><label for="admin-storyeditor_advanced-expire_month"></label></dt>
@@ -252,19 +243,19 @@
           {expire_month_options}
         </select>
         /
-        <select name="expire_day" title="day">
+        <select name="expire_day">
           {expire_day_options}
         </select>
         /
-        <select name="expire_year" title="year">
+        <select name="expire_year">
           {expire_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="expire_hour" title="hour">
+        <select name="expire_hour">
           {expire_hour_options}
         </select>
         :
-        <select name="expire_minute" title="minute">
+        <select name="expire_minute">
           {expire_minute_options}
         </select>
         {expireampm_selection}
@@ -287,8 +278,8 @@
       <dd>{group_dropdown}</dd>
 
       <dt><label for="perm_owner">{lang_permissions}</label></dt>
-      <dd class="description">{lang_perm_key}</dd>
       <dd>{permissions_editor}</dd>
+      <dd class="description">{lang_perm_key}</dd>
       <dd class="description">{lang_permissions_msg}</dd>
     </dl>
   </fieldset>
@@ -324,6 +315,5 @@
 <div id="preview" style="display: {show_preview};">
   {preview_content}
 </div>
-
 
 <!-- } admin/story/storyeditor_advanced.thtml -->
