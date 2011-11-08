@@ -2,9 +2,8 @@
 <!-- admin/user/edituser.thtml { -->
 
 <form action="{site_admin_url}/user.php" method="post" id="admin-edituser" class="compact">
-  <fieldset>
-    <legend>ユーザの編集</legend><!-- Geeklog Japanese -->
 
+  <div class="admin_basic">
     <dl>
       <dt>{lang_userid}</dt>
       <dd>{user_id}</dd>
@@ -35,9 +34,17 @@
 
       <dt>{lang_user_status}</dt>
       <dd>{user_status}</dd>
+    </dl>
+  </div>
 
+  <fieldset>
+    <legend>{lang_securitygroups}</legend>
+    <dl>
       {group_edit}
     </dl>
+
+  </fieldset>
+
 
     <p class="submit">
       <input type="hidden" name="uid" value="{user_id}"{xhtml}>
@@ -47,7 +54,7 @@
       <input type="submit" value="{lang_cancel}" name="mode" class="submit"{xhtml}>
       <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
     </p>
-  </fieldset>
+
 </form>
 
 <!-- } admin/user/edituser.thtml -->
