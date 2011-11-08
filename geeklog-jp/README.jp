@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年11月06日
+							2011年11月09日
 							Geeklog Japanese
 
 1. 概要
@@ -25,7 +25,58 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
-  (1) プラグイン
+  (1)本体の修正
+
+    o インストール前チェック(Precheck)の追加
+
+	public_html/admin/install/precheck.php
+	public_html/admin/install/precheck.js
+	public_html/admin/install/precheck.css
+		インストール前のサーバーの日本語環境をチェックするプログラムで
+		す。
+		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
+
+    o インストーラの修正
+
+	public_html/admin/install/index.php
+	public_html/admin/install/LocalizeGeeklog.php
+		インストール時にサイトを日本語化するためのプログラム。
+		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを
+		日本語化します。
+
+	public_html/admin/install/disable-plugins.php
+		インストール時に、プログラムで指定しているプラグイン以外は無効
+		とします。
+		インストールすると不具合が発生するプラグインのインストールを防
+		ぐことができます。
+
+
+    o その他本体の修正
+
+	system/classes/unpacker.class.php	
+		圧縮ファイルによる自動インストール機能の本体側の不具合を修正しま
+		した。
+
+	public_html/lib-common.php
+		携帯表示用にCOM_refresh()からsystem/custom/custom_cellular.phpの
+		CUSTOM_refresh()を呼ぶよう、修正しました。
+
+	public_html/admin/story.php
+		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプ
+		レートファイルを呼ぶハックを追加しています。
+		日本語用言語専用テンプレートファイルとして以下をすべてのテーマ
+		で追加して提供しています。
+		public_html/layout/ 以下の各テーマの以下のファイル:
+			admin/story/storyeditor_advanced.japanese_utf-8.thtml
+			admin/story/storyeditor.japanese_utf-8.thtml
+
+    o コアプラグインの修正
+
+	calendarプラグイン
+		オリジナル版では郵便番号が5文字となっていたのを8文字に変更し
+		ています。
+
+  (2) プラグインの追加
 
     すべてのプラグインはCSRF対策を加えています。
     Geeklog 1.8.1から、すべてのプラグインはGeeklog 1.6からのプラグイン管理の
@@ -88,7 +139,9 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		理機能を提供します。
 
 
-  (2) カスタム関数とPHPブロック関数他
+  (3) カスタム関数とPHPブロック関数の追加
+
+    system/lib-custom.phpを修正し、以下のソースを呼んでいます。
 
     o 標準版と拡張版に同梱
 
@@ -167,7 +220,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		prof_url_jpを、このカスタム関数で提供するよう変更しました。
 
 
-  (3) テーマ
+  (4) テーマ
 
     o 標準版と拡張版に同梱
 
@@ -191,51 +244,8 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	public_html/layout/WAIproCSS
 		「ProfessionalCSS」を基本に, アクセシィビリティに配慮したテーマ。
 
-	public_html/layout/mobile/functions.php
-	public_html/layout/professional/functions.php
-	public_html/layout/professional_css/functions.php
-		掲示板のブロックレイアウトのための変数セットを追加したものに差
-		し替えるために同梱しています。
 
-
-  (4)インストーラ
-
-	public_html/admin/install/precheck.php
-	public_html/admin/install/precheck.js
-	public_html/admin/install/precheck.css
-		インストール前のサーバーの日本語環境をチェックするプログラムで
-		す。
-		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
-
-	public_html/admin/install/index.php
-	public_html/admin/install/LocalizeGeeklog.php
-		インストール時にサイトを日本語化するためのプログラム。
-		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを
-		日本語化します。
-
-	public_html/admin/install/disable-plugins.php
-		インストール時に、プログラムで指定しているプラグイン以外は無効
-		とします。
-		インストールすると不具合が発生するプラグインのインストールを防
-		ぐことができます。
-
-
-  (5) 本体修正
-
-	public_html/admin/story.php
-		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプ
-		レートファイルを呼ぶハックを追加しています。
-		日本語用言語専用テンプレートファイルとして以下をすべてのテーマ
-		で追加して提供しています。
-		public_html/layout/ 以下の各テーマの以下のファイル:
-			admin/story/storyeditor_advanced.japanese_utf-8.thtml
-			admin/story/storyeditor.japanese_utf-8.thtml
-
-	calendarプラグイン
-		オリジナル版では郵便番号が5文字となっていたのを8文字に変更し
-		ています。
-
-  (6) その他
+  (5) その他
 
 	CHANGES.jp
 		現行リリース(Geeklog 1.8)に関する修正内容です。
