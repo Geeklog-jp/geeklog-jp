@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-10  Tetsuko Komma  <ivy>
+	* custom_templatesetvars.phpで、関数COM_isFrontpageの代わりに、
+	  推奨されている COM_onFrontpage を使うようにしました。
+
 2011-11-09  Tetsuko Komma  <ivy>
 
 	* WAIproCSSテーマで、記事投稿や編集に関わる日本語版独自のテンプレートが
