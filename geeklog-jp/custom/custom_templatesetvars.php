@@ -53,10 +53,10 @@ function CUSTOM_templateSetVars($templatename, &$template)
         }
 
         //HOME状態:home_id ('home','sub')
-        if( COM_isFrontpage() ){
-            $home_id='sub';
-        } else {
+        if( COM_onFrontpage() ){
             $home_id='home';
+        } else {
+            $home_id='sub';
         }
         $template->set_var( 'home_id', $home_id );
 
