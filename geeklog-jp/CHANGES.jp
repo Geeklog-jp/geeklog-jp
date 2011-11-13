@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-13  mystral-kk <mystral-kk>
+	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
+	  追加しました。(Issue #181)
+
 2011-11-10  Tetsuko Komma  <ivy>
 	* custom_templatesetvars.phpで、関数COM_isFrontpageの代わりに、
 	  推奨されている COM_onFrontpage を使うようにしました。
