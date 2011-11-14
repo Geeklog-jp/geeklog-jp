@@ -64,6 +64,7 @@
 
   <div>
     <div id="text_editor" style="display: {show_texteditor};">
+      <p id="editor_mode" class="description">{lang_allowed_html}</p>
       <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
         <dd>
@@ -85,10 +86,10 @@
           <textarea cols="45" rows="14" name="bodytext" id="bodytext">{story_bodytext}</textarea>
         </dd>
       </dl>
-      <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
 
     <div id="html_editor" style="display: {show_htmleditor};">
+      <p id="editor_mode" class="description">{lang_allowed_html}</p>
       <dl>
         <dt><label for="introhtml">{lang_introtext}</label></dt>
         <dd>
@@ -118,7 +119,6 @@
         </dd>
       </dl>
 
-      <p id="editor_mode" class="description">{lang_allowed_html}</p>
     </div>
   </div>
 
@@ -134,19 +134,19 @@
           {publish_month_options}
         </select>
         /
-        <select name="publish_day">
+        <select name="publish_day" title="day">
           {publish_day_options}
         </select>
         /
-        <select name="publish_year">
+        <select name="publish_year" title="year">
           {publish_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="publish_hour">
+        <select name="publish_hour" title="hour">
           {publish_hour_options}
         </select>
         :
-        <select name="publish_minute">
+        <select name="publish_minute" title="minute">
           {publish_minute_options}
         </select>
 
@@ -179,23 +179,23 @@
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
         &nbsp;
            <span dir="ltr">
-               <select name="cmt_close_month">
+               <select name="cmt_close_month" title="month">
                    {cmt_close_month_options}
            </select>
            /
-           <select name="cmt_close_day">
+           <select name="cmt_close_day title="day"">
               {cmt_close_day_options}
            </select>
            /
-           <select name="cmt_close_year">
+           <select name="cmt_close_year" title="year">
               {cmt_close_year_options}
            </select>&nbsp;&nbsp;
 
-           <select name="cmt_close_hour">
+           <select name="cmt_close_hour" title="hour">
                {cmt_close_hour_options}
            </select>
            :
-           <select name="cmt_close_minute">
+           <select name="cmt_close_minute" title="minute">
                {cmt_close_minute_options}
            </select>
                {cmt_close_ampm_selection}
@@ -243,19 +243,19 @@
           {expire_month_options}
         </select>
         /
-        <select name="expire_day">
+        <select name="expire_day" title="day">
           {expire_day_options}
         </select>
         /
-        <select name="expire_year">
+        <select name="expire_year" title="year">
           {expire_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="expire_hour">
+        <select name="expire_hour" title="hour">
           {expire_hour_options}
         </select>
         :
-        <select name="expire_minute">
+        <select name="expire_minute" title="minute">
           {expire_minute_options}
         </select>
         {expireampm_selection}
@@ -278,8 +278,8 @@
       <dd>{group_dropdown}</dd>
 
       <dt><label for="perm_owner">{lang_permissions}</label></dt>
-      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_perm_key}</dd>
+      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>
     </dl>
   </fieldset>

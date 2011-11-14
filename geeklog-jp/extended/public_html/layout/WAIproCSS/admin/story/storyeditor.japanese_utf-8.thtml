@@ -10,24 +10,24 @@
 
       <dt><label for="admin-storyeditor-publish_month">{lang_date}</label></dt>
       <dd>
-        <select name="publish_year">
+        <select name="publish_year" title="年">
           {publish_year_options}
         </select>
         年
-        <select name="publish_month" id="admin-storyeditor_advanced-publish_month">
+        <select name="publish_month" id="admin-storyeditor_advanced-publish_month" title="月">
           {publish_month_options}
         </select>
         月
-        <select name="publish_day">
+        <select name="publish_day" title="日">
           {publish_day_options}
         </select>
         日&nbsp;&nbsp;
 
-        <select name="publish_hour">
+        <select name="publish_hour" title="時間">
           {publish_hour_options}
         </select>
         :
-        <select name="publish_minute">
+        <select name="publish_minute" title="分">
           {publish_minute_options}
         </select>
 
@@ -63,24 +63,24 @@
 
       <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
       <dd>
-        <select name="expire_year">
+        <select name="expire_year" title="年">
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" id="admin-storyeditor_advanced-expire_month">
+        <select name="expire_month" id="admin-storyeditor_advanced-expire_month" title="月">
           {expire_month_options}
         </select>
         月
-        <select name="expire_day">
+        <select name="expire_day" title="日">
           {expire_day_options}
         </select>
         日&nbsp;&nbsp;
 
-        <select name="expire_hour">
+        <select name="expire_hour" title="時間">
           {expire_hour_options}
         </select>
         :
-        <select name="expire_minute">
+        <select name="expire_minute" title="分">
           {expire_minute_options}
         </select>
         {expireampm_selection}
@@ -105,24 +105,24 @@
         {lang_enabled}
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
            <span dir="ltr">
-           <select name="cmt_close_year">
+           <select name="cmt_close_year" title="年>
              {cmt_close_year_options}
             </select>
             年
-            <select name="cmt_close_month">
+            <select name="cmt_close_month" title="月>
               {cmt_close_month_options}
             </select>
             月
-           <select name="cmt_close_day">
+           <select name="cmt_close_day" title="日>
              {cmt_close_day_options}
            </select>
            日&nbsp;&nbsp;
 
-           <select name="cmt_close_hour">
+           <select name="cmt_close_hour" title="時間>
                {cmt_close_hour_options}
            </select>
            :
-           <select name="cmt_close_minute">
+           <select name="cmt_close_minute" title="分>
                {cmt_close_minute_options}
            </select>
                {cmt_close_ampm_selection}
@@ -139,12 +139,6 @@
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
       <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2">{meta_keywords}</textarea></dd>
 
-      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="45" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
-
-      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="45" rows="20" name="bodytext" id="admin-storyeditor-bodytext">{story_bodytext}</textarea></dd>
-
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
         <select name="postmode" id="admin-storyeditor-postmode">
@@ -152,6 +146,12 @@
         </select>
       </dd>
       <dd class="description">{lang_allowed_html}</dd>
+
+      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
+      <dd><textarea cols="45" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
+      <dd><textarea cols="45" rows="20" name="bodytext" id="admin-storyeditor-bodytext">{story_bodytext}</textarea></dd>
 
       <dt><label for="file1">{lang_images}</label></dt>
       <dd>
@@ -186,8 +186,8 @@
       <dd>{group_dropdown}</dd>
 
       <dt><label for="perm_owner">{lang_permissions}</label></dt>
-      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_perm_key}</dd>
+      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>
     </dl>
   </fieldset>
