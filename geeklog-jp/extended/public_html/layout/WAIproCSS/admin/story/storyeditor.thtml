@@ -14,19 +14,19 @@
           {publish_month_options}
         </select>
         /
-        <select name="publish_day">
+        <select name="publish_day" title="day">
           {publish_day_options}
         </select>
         /
-        <select name="publish_year">
+        <select name="publish_year title="year"">
           {publish_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="publish_hour">
+        <select name="publish_hour" title="hour">
           {publish_hour_options}
         </select>
         :
-        <select name="publish_minute">
+        <select name="publish_minute" title="minute">
           {publish_minute_options}
         </select>
 
@@ -68,19 +68,19 @@
           {expire_month_options}
         </select>
         /
-        <select name="expire_day">
+        <select name="expire_day" title="day">
           {expire_day_options}
         </select>
         /
-        <select name="expire_year">
+        <select name="expire_year" title="year">
           {expire_year_options}
         </select>&nbsp;&nbsp;
 
-        <select name="expire_hour">
+        <select name="expire_hour" title="hour">
           {expire_hour_options}
         </select>
         :
-        <select name="expire_minute">
+        <select name="expire_minute" title="minute">
           {expire_minute_options}
         </select>
         {expireampm_selection}
@@ -89,14 +89,14 @@
       <dt><label for="admin-storyeditor-featured">{lang_mode}</label></dt>
       <dd>
         {featured_options}
-        <select name="frontpage">
+        <select name="frontpage" title="selectmode">
           {frontpage_options}
         </select>
         <br{xhtml}>
-        <select name="commentcode">
+        <select name="commentcode" title="selectmode">
           {comment_options}
         </select>
-        <select name="trackbackcode">
+        <select name="trackbackcode" title="selectmode">
           {trackback_options}
         </select>
       </dd>
@@ -107,23 +107,23 @@
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
            &nbsp;
            <span dir="ltr">
-           <select name="cmt_close_month">
+           <select name="cmt_close_month" title="month">
                    {cmt_close_month_options}
            </select>
            /
-           <select name="cmt_close_day">
+           <select name="cmt_close_day" title="day">
               {cmt_close_day_options}
            </select>
            /
-           <select name="cmt_close_year">
+           <select name="cmt_close_year" title="year">
               {cmt_close_year_options}
            </select>&nbsp;&nbsp;
 
-           <select name="cmt_close_hour">
+           <select name="cmt_close_hour" title="hour">
                {cmt_close_hour_options}
            </select>
            :
-           <select name="cmt_close_minute">
+           <select name="cmt_close_minute" title="minute">
                {cmt_close_minute_options}
            </select>
                {cmt_close_ampm_selection}
@@ -140,12 +140,6 @@
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
       <dd{hide_meta}><textarea cols="70" rows="2" name="meta_keywords" id="admin-storyeditor-metakeywords">{meta_keywords}</textarea></dd>
 
-      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
-
-      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext">{story_bodytext}</textarea></dd>
-
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
         <select name="postmode" id="admin-storyeditor-postmode">
@@ -153,6 +147,12 @@
         </select>
       </dd>
       <dd class="description">{lang_allowed_html}</dd>
+
+      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
+      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
+      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext">{story_bodytext}</textarea></dd>
 
       <dt><label for="file1">{lang_images}</label></dt>
       <dd>
@@ -187,8 +187,8 @@
       <dd>{group_dropdown}</dd>
 
       <dt><label for="perm_owner">{lang_permissions}</label></dt>
-      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_perm_key}</dd>
+      <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>
     </dl>
   </fieldset>
