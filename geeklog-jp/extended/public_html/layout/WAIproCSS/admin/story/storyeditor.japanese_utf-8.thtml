@@ -105,24 +105,24 @@
         {lang_enabled}
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
            <span dir="ltr">
-           <select name="cmt_close_year" title="年>
+           <select name="cmt_close_year" title="年">
              {cmt_close_year_options}
             </select>
             年
-            <select name="cmt_close_month" title="月>
+            <select name="cmt_close_month" title="月">
               {cmt_close_month_options}
             </select>
             月
-           <select name="cmt_close_day" title="日>
+           <select name="cmt_close_day" title="日">
              {cmt_close_day_options}
            </select>
            日&nbsp;&nbsp;
 
-           <select name="cmt_close_hour" title="時間>
+           <select name="cmt_close_hour" title="時間">
                {cmt_close_hour_options}
            </select>
            :
-           <select name="cmt_close_minute" title="分>
+           <select name="cmt_close_minute" title="分">
                {cmt_close_minute_options}
            </select>
                {cmt_close_ampm_selection}
@@ -134,10 +134,10 @@
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="text"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2">{meta_description}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2" cols="40">{meta_description}</textarea></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2">{meta_keywords}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2" cols="40">{meta_keywords}</textarea></dd>
 
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
