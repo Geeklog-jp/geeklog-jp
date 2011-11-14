@@ -21,10 +21,10 @@
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor_advanced-sid" class="text"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2">{meta_description}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2" cols="40">{meta_description}</textarea></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2">{meta_keywords}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2" cols="40">{meta_keywords}</textarea></dd>
 
       <dt><label for="admin-storyeditor_advanced-tid">{lang_topic}</label></dt>
       <dd>
@@ -66,8 +66,8 @@
         <dt><label for="introtext">{lang_introtext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" onclick="changeTextAreaSize('introtext','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeTextAreaSize('introtext','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="14" name="introtext" id="introtext">{story_introtext}</textarea>
         </dd>
@@ -77,8 +77,8 @@
         </dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" onclick="changeTextAreaSize('bodytext','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" onclick="changeTextAreaSize('bodytext','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeTextAreaSize('bodytext','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeTextAreaSize('bodytext','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="14" name="bodytext" id="bodytext">{story_bodytext}</textarea>
         </dd>
@@ -86,13 +86,13 @@
     </div>
 
     <div id="html_editor" style="display: {show_htmleditor};">
-      <p id="editor_mode" class="description">{lang_allowed_html}</p>
+      <div id="editor_mode" class="description">{lang_allowed_html}</div>
       <dl>
         <dt><label for="introhtml">{lang_introtext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('introhtml','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('introhtml','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('introhtml','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('introhtml','smaller');"{xhtml}></li>
             <li>
               {lang_toolbar}
               <select id="fckeditor_toolbar_selector" name="fckeditor_toolbar_selector" onchange="changeToolbar(this.value);">
@@ -109,8 +109,8 @@
         <dt><label for="bodyhtml">{lang_bodytext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('bodyhtml','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('bodyhtml','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('bodyhtml','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('bodyhtml','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="20" name="bodyhtml" id="bodyhtml">{story_bodytext}</textarea>
         </dd>
