@@ -1,41 +1,39 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.8                                                               |
-// +---------------------------------------------------------------------------+
 // | useragent.class.php                                                       |
 // |                                                                           |
-// | Retrieves the information about a user agent                              |
-// +---------------------------------------------------------------------------+
 // | Copyright (C) 2011 by the following authors:                              |
 // |                                                                           |
-// | Authors: Kenji ITO         - geeklog AT mystral-kk DOT net                |
-// +---------------------------------------------------------------------------+
+// | Author: Kenji ITO          - geeklog AT mystral-kk DOT net                |
 // |                                                                           |
-// | This program is free software; you can redistribute it and/or             |
-// | modify it under the terms of the GNU General Public License               |
-// | as published by the Free Software Foundation; either version 2            |
-// | of the License, or (at your option) any later version.                    |
+// | Permission is hereby granted, free of charge, to any person obtaining a   |
+// | copy of this software and associated documentation files (the "Software"),|
+// | to deal in the Software without restriction, including without limitation |
+// | the rights to use, copy, modify, merge, publish, distribute, sublicense,  |
+// | and/or sell copies of the Software, and to permit persons to whom the     |
+// | Software is furnished to do so, subject to the following conditions:      |
+// | The above copyright notice and this permission notice shall be included   |
+// | in all copies or substantial portions of the Software.                    |
 // |                                                                           |
-// | This program is distributed in the hope that it will be useful,           |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
-// | GNU General Public License for more details.                              |
-// |                                                                           |
-// | You should have received a copy of the GNU General Public License         |
-// | along with this program; if not, write to the Free Software Foundation,   |
-// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
-// |                                                                           |
+// | THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS   |
+// | OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF                |
+// | MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN |
+// | NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,  |
+// | DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR     |
+// | OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE |
+// | USE OR OTHER DEALINGS IN THE SOFTWARE.                                    |          
 // +---------------------------------------------------------------------------+
 
 /**
 * useragent.class.php
 *
-* @copyright  (C) 2011 Kenji ITO
-* @author     Kenji ITO - geeklog AT mystral-kk DOT net
-* @license    GPL v2 or later
-* @version    1.0.0 alpha (2011-11-13)
-* @note       This class doesn't require Geeklog.
+* @copyright    (C) 2011 Kenji ITO
+* @author       Kenji ITO - geeklog AT mystral-kk DOT net
+* @license      MIT
+* @version      1.0.0 alpha (2011-11-16)
+* @description  This class retrieves the information about a user agent.
+* @note         This class doesn't require Geeklog.
 */
 class Useragent
 {
@@ -97,6 +95,7 @@ class Useragent
 	const A_EMOBILE           = 'em';
 	const A_BROWSER_OTHERS    = '';
 	
+	// Parsed data
 	private $_data;
 	
 	/**
@@ -387,11 +386,19 @@ class Useragent
 	* referenced in template files in Geeklog
 	*
 	* @param   object  $template  reference to a Template(-like) object
+	* @param   string  $prefix    prefix to the names of template vars
 	* @return  (void)
 	*/
-	public function setTemplateVars($template) {
+	public function setTemplateVars($template, $prefix = 'custom') {
 		if (is_object($template) AND method_exists($template, 'set_var')) {
-			$prefix = 'custom_';
+			$prefix = preg_replace('/[^0-9a-zA-Z_]/s', '', $prefix);
+			
+			if (empty($prefix)) {
+				$prefix = 'custom_';
+			} else if (substr($prefix, -1) !== '_') {
+				$prefix .= '_';
+			}
+			
 			$template->set_var($prefix . 'class', $this->_data['class']);
 			$template->set_var($prefix . 'os', $this->_data['os']);
 			$template->set_var($prefix . 'browser', $this->_data['browser']);
