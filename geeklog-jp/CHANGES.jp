@@ -1,18 +1,28 @@
 $Id$
 
+2011-11-16  mystral-kk <mystral-kk>
+
+	* Useragentクラスで、テンプレート変数の接頭辞を引数で指定できるようにし
+	  ました。
+
+	* UseragentクラスのライセンスをMITに変更しました。
+
 2011-11-14  Masuko Koeda  <milk851>
 
 	* WAIproCSSテーマで、記事投稿や編集に関わる日本語版独自のテンプレートを
 	  修正していただいた中で、スクリーンリーダーの読み上げを考慮して記述順を
 	  変更したりしている箇所のみ元に戻しました。
+
 	* WAIproCSSテーマで、記事投稿や編集に関わる日本語版独自のテンプレートを
 	  再修正しました。(alt属性追記等)
 
 2011-11-13  mystral-kk <mystral-kk>
+
 	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
 	  追加しました。(Issue #181)
 
 2011-11-10  Tetsuko Komma  <ivy>
+
 	* custom_templatesetvars.phpで、関数COM_isFrontpageの代わりに、
 	  推奨されている COM_onFrontpage を使うようにしました。
 
@@ -20,11 +30,15 @@ $Id$
 
 	* WAIproCSSテーマで、記事投稿や編集に関わる日本語版独自のテンプレートが
 	  古く、JavaScriptのシンタックスエラーが発生する問題を修正しました。
+
 	* WAIproCSSテーマの管理画面すべてをprofessional_cssに合わせました。
+
 	* mobleテーマの不要なファイブを削除しました。
+
         * NEWS README.jpを修正しました。
 
 2011-11-07  mystral-kk <mystral-kk>
+
 	* インストール前チェック(Precheck)をGeeklog-1.8.1に対応させ、かつ
 	  Issue #162に暫定的に対応しました。
 
@@ -34,14 +48,17 @@ $Id$
 	  インストールできない場合がある問題を修正しました。
 
 2011-11-06  mystral-kk <mystral-kk>
+
 	* テーマエディタプラグイン(themedit)をGeeklog-1.6以降の自動インストール
 	  に対応させました。
 
 2011-11-06  mystral-kk <mystral-kk>
+
 	* 話題譲渡プラグイン(nmoxtopicown)をGeekog-1.6以降の自動インストールに
 	  対応させました。
 
 2011-11-05  mystral-kk <mystral-kk>
+
 	* サイトマッププラグインを自動インストールに対応させました。また、
 	  DataProxyプラグインがインストールされていない、ないし無効になっている
 	  場合でもエラーにならないようにしました。
@@ -55,6 +72,7 @@ $Id$
 	* DbmanプラグインのアップグレードをNEWS、README.jpに記述しました。
 
 2011-10-31  mystral-kk <mystral-kk>
+
 	* Dbmanプラグイン-0.6.0で、旧バージョンからのアップグレードがうまくい
 	  かなかったバグ(Issue #183)に対応しました。
 
