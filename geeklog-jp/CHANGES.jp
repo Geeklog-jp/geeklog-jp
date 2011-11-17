@@ -4,6 +4,8 @@ $Id$
 
 	* 日本語言語ファイルのクリックジャックの選択肢を修正しました。
 
+        * NEWS README.jpを修正しました。
+
 2011-11-17  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: バージョン0.6.1に更新します。
