@@ -5,7 +5,7 @@ NEWS
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
 
 
-Geeklog 1.8.1						2011年11月09日
+Geeklog 1.8.1						2011年11月17日
 
   o Geeklog 1.8.0からの変更
 
@@ -43,13 +43,6 @@ Geeklog 1.8.1						2011年11月09日
 
     - テーマmobileの不要なファイルを削除しました。
 
-    日本語版カスタム関数
-
-    - CUSTOM_templateSetVarsに、1.7.2から日本語プラグイン(Japanize)から
-      削除されたテーマ変数の内、topic_id sp_id login_status prof_url_jp
-      を、カスタム関数custom_templatesetvars.php(拡張版に同梱)を追加する
-      ことにより復活させました。
-
     日本語版プログラム
 
     - public_html/imageresizer.php
@@ -57,7 +50,19 @@ Geeklog 1.8.1						2011年11月09日
 	* 機能を拡張し、出力画像形式を指定可能にしました。
 	* DokuWikiに対応させました。
 
-    日本語版プラグイン
+    日本語拡張版カスタム関数
+
+    - system/custom/phpblock_themetester.php 日本語拡張版に追加
+
+	* CUSTOM_templateSetVarsで、1.7.2から日本語プラグイン (Japanize)から
+	  削除されたheader.thtmlのテンプレート変数を一部復活させました。
+		'topic_id', 'sp_id', 'home_id', 'login_status', 'prof_url_jp'
+	* CUSTOM_templateSetVarsで、header.thtmlに、ユーザーエージェントの
+	  テンプレート変数を追加しました。
+		'custom_class', 'custom_os', 'custom_browser', 'custom_version',
+		'custom_alias', 'custom_mobile'
+
+    日本語拡張版プラグイン
 
     - 掲示板プラグイン(Forum)を、バージョン 2.8.0 にアップグレードし
       ました。
