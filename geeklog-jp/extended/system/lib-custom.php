@@ -608,4 +608,7 @@ require_once( 'custom/phpblock_themetester.php' );
 /* アクセス数を表示する */
 require_once( 'custom/phpblock_stats.php' );
 
+/* ユーザーエージェント判定のテンプレート変数を追加する */
+require_once( 'custom/useragent.class.php' );
+
 ?>

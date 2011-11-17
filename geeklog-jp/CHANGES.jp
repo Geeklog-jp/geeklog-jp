@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-17  Tetsuko Komma  <ivy>
+	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
+	  日本語拡張版に追加しました。
+
 2011-11-16  mystral-kk <mystral-kk>
 
 	* Useragentクラスで、テンプレート変数の接頭辞を引数で指定できるようにし
