@@ -1,6 +1,11 @@
 $Id$
 
+2011-11-17  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.8.1-jp-1.0rc5をリリースします。
+
 2011-11-17  Tetsuko Komma  <ivy>
+
 	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
 	  日本語拡張版に追加しました。
 
