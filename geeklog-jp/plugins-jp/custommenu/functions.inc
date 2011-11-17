@@ -166,9 +166,13 @@ function plugin_getadminoption_custommenu()
 */
 function plugin_chkVersion_custommenu()
 {
-    global $_CMED_CONF;
+    global $_CONF;
 
-    return $_CMED_CONF['version'];
+    require_once $_CONF['path'] . 'plugins/custommenu/autoinstall.php';
+
+    $inst_parms = plugin_autoinstall_custommenu('custommenu');
+
+    return $inst_parms['info']['pi_version'];
 }
 
 /**
