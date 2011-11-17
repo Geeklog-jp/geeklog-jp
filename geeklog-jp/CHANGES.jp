@@ -1,5 +1,11 @@
 $Id$
 
+2011-11-17  Yoshinori Tahara  <dengen>
+
+	* custommenuプラグイン: バージョン0.6.1に更新します。
+	  インストール時に初期登録メニューアイテムのグループが正しく設定されな
+	  い問題を修正しました。
+
 2011-11-17  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.8.1-jp-1.0rc5をリリースします。

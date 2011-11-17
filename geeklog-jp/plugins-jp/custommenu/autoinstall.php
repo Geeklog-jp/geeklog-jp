@@ -61,7 +61,7 @@ function plugin_autoinstall_custommenu($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '0.6.0',
+        'pi_version'      => '0.6.1',
         'pi_gl_version'   => '1.8.0',
         'pi_homepage'     => 'http://www.trybase.com/~dengen/log/'
     );
@@ -111,11 +111,10 @@ function plugin_load_configuration_custommenu($pi_name)
 
 function plugin_postinstall_custommenu($pi_name)
 {
-    global $_CONF, $_TABLES, $pi_admin, $LANG01;
+    global $_CONF, $_TABLES, $LANG01;
 
-    require_once $_CONF['path_system'] . 'classes/config.class.php';
-    $plg_config = config::get_instance();
-    $_PLG_CONF = $plg_config->get_config('custommenu');
+    $inst_parms = plugin_autoinstall_custommenu($pi_name);
+    $pi_admin = key($inst_parms['groups']);
 
     $admin_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = '{$pi_admin}'");
     $blockadmin_id  = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Block Admin'");
