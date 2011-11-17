@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-18  Tetsuko Komma  <ivy>
+
+	* 日本語言語ファイルのクリックジャックの選択肢を修正しました。
+
 2011-11-17  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: バージョン0.6.1に更新します。
