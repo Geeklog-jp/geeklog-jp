@@ -9,6 +9,7 @@ EFILES+=	custom_templatesetvars.php
 EFILES+=	phpblock_lastarticles.php
 EFILES+=	phpblock_showrights.php phpblock_sitemapmenu.php
 EFILES+=	phpblock_stats.php phpblock_themetester.php
+EFILES+=	useragent.class.php
 
 GLDESTDIR=	$(GLDIR)/system/custom
 

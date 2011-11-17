@@ -41,26 +41,31 @@ function CUSTOM_templateSetVars($templatename, &$template)
 
     switch ($templatename) {
     case 'header':
+
+        // User Agent: 'custom_class', 'custom_os', 'custom_browser', 'custom_version', 'custom_alias', 'custom_mobile'
+        $ua = Useragent::getInstance();
+        $ua->setTemplateVars($template);
+
         $template->set_var('hello_world', 'Hello, world!');
 
-        //話題ID:topic_id
+        // 話題ID:topic_id
         $template->set_var( 'topic_id', $topic );
 
-        //静的ページID:sp_id
+        // 静的ページID:sp_id
         $pageurl = COM_getCurrentURL();
         if( strpos($pageurl, "staticpages") ){
             $template->set_var( 'sp_id', $page );
         }
 
-        //HOME状態:home_id ('home','sub')
-        if( COM_onFrontpage() ){
-            $home_id='home';
-        } else {
+        // HOME状態:home_id ('home','sub')
+        if( COM_isFrontpage() ){
             $home_id='sub';
+        } else {
+            $home_id='home';
         }
         $template->set_var( 'home_id', $home_id );
 
-        //ログインしている時
+        // ログインしている時
         if (COM_isAnonUser()){
                 $login_status='guest';
                 $prof_url_jp = "{$_CONF['site_url']}/";
@@ -69,10 +74,11 @@ function CUSTOM_templateSetVars($templatename, &$template)
                 $prof_url_jp = "{$_CONF['site_url']}/users.php?mode=profile&amp;uid={$_USER['uid']}";
         }
 
-        //ログイン状態:login_status ('member','guest')
+        // ログイン状態:login_status ('member','guest')
         $template->set_var( 'login_status', $login_status );
-        //プロフィールのURL:prof_url_jp
+        // プロフィールのURL:prof_url_jp
         $template->set_var( 'prof_url_jp', $prof_url_jp );
+
 
         break;
 
@@ -82,4 +88,7 @@ function CUSTOM_templateSetVars($templatename, &$template)
         $template->set_var('hello_again', 'Hello (again)!');
         break;
     }
+
+
+
 }
