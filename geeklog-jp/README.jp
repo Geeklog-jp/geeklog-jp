@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年11月09日
+							2011年11月17日
 							Geeklog Japanese
 
 1. 概要
@@ -36,6 +36,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		す。
 		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
 
+
     o インストーラの修正
 
 	public_html/admin/install/index.php
@@ -53,6 +54,10 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 
     o その他本体の修正
 
+	system/lib-sessions.php
+		クッキーを使えない携帯でも、ログイン処理が行えるよう、
+		ハックしています。
+
 	system/classes/unpacker.class.php	
 		圧縮ファイルによる自動インストール機能の本体側の不具合を修正しま
 		した。
@@ -60,6 +65,14 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	public_html/lib-common.php
 		携帯表示用にCOM_refresh()からsystem/custom/custom_cellular.phpの
 		CUSTOM_refresh()を呼ぶよう、修正しました。
+
+	public_html/imageresizer.php
+		携帯サポートのための関数を追加しました。
+		画像をリサイズして表示する機能を提供します。
+
+	public_html/mobileblocks.php
+		携帯サポートのための関数を追加しました。
+		ブロックのみを表示する機能を提供します。
 
 	public_html/admin/story.php
 		記事編集時に、時刻指定で年月日の順番になるよう、言語専用テンプ
@@ -70,11 +83,13 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 			admin/story/storyeditor_advanced.japanese_utf-8.thtml
 			admin/story/storyeditor.japanese_utf-8.thtml
 
+
     o コアプラグインの修正
 
 	calendarプラグイン
 		オリジナル版では郵便番号が5文字となっていたのを8文字に変更し
 		ています。
+
 
   (2) プラグインの追加
 
@@ -154,22 +169,6 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		XHTMLはサポートしません。
 		※XHTMLをサポートしたい場合は、mobile_xhtmlをお勧めします。
 
-	public_html/imageresizer.php
-		携帯サポートのための関数です。
-		画像をリサイズして表示する機能を提供します。
-
-	public_html/mobileblocks.php
-		携帯サポートのための関数です。
-		ブロックのみを表示する機能を提供します。
-
-	public_html/lib-common.php
-		携帯の画面のリフレッシュはカスタム関数 CUSTOM_refresh()を呼ぶ
-		ため、COM_refresh()をハックしています。
-
-	public_html/lib-sessions.php
-		クッキーを使えない携帯でも、ログイン処理が行えるよう、
-		ハックしています。
-
 
     o 拡張版のみに同梱
 
@@ -215,9 +214,13 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		変更したテーマがデータベースに保存されるようになりました。
 
 	system/custom/custom_templatesetvars.php
-		テンプレートのテーマ変数を追加します。
-		日本語プラグインで提供していたtopic_id,sp_id,home_id,login_status,
-		prof_url_jpを、このカスタム関数で提供するよう変更しました。
+		テンプレート変数を追加します。
+		'topic_id', 'sp_id', 'home_id', 'login_status', 'prof_url_jp'
+		'custom_class', 'custom_os', 'custom_browser', 'custom_version',
+		'custom_alias', 'custom_mobile'
+
+	system/custom/useragent.class.php
+		ユーザーエージェントのテンプレート変数を生成します。
 
 
   (4) テーマ
