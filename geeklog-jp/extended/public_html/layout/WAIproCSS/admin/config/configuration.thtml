@@ -8,12 +8,8 @@
       <input type="hidden" value="" name="subgroup"{xhtml}>
       <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
     </form>
-    <table style="width: 98%;">
-        <tr>
-            <td class="block-featured-left" style="width: 25%; vertical-align:top;">
+
                 <div class="block-bg-left"> {config_menu} </div>
-            </td>
-            <td style="vertical-align:top; width: 75%;">
             
                 <div class="saved_message pluginInfo{error_validation_class}" style="display:{show_changeblock}">
                     {lang_changes_made}
@@ -21,7 +17,7 @@
                     {change_block}
                 </div>
                 
-                <div id="search-configuration-container" style="text-align: right">
+                <div id="search-configuration-container">
                     <label for="search-configuration">{search_configuration_label}</label>
                     <input name="search-configuration" id="search-configuration" value="{search_configuration_value}"{xhtml}>
                     <input name="tab-id" id="tab-id" type="hidden" value="{tab_id_value}"{xhtml}>
@@ -62,9 +58,6 @@
                 </div>
                 </form>
     
-            </td>
-        </tr>
-    </table>
 </div>
 
 <!-- } admin/config/configuration.thtml -->

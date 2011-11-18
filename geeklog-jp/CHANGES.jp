@@ -1,5 +1,17 @@
 $Id$
 
+2011-11-19  Masuko Koeda  <milk851>
+
+	* WAIproCSSテーマで、professional_cssに合わせて管理画面のファイルを
+	  修正していただいた中で、スクリーンリーダーの読み上げを考慮して記述順を
+	  変更している箇所は元に戻しました。
+
+	* Windows7 Internet Explorer9 で文字サイズが変更できないの
+	  でCSSでbodyに指定しているフォントサイズを変更しました。
+
+	* テーマWAIproCSSのバージョンを2.5.1にあげ、
+	  更新履歴等をREADMEに記載しました。
+
 2011-11-18  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイルのクリックジャックの選択肢を修正しました。

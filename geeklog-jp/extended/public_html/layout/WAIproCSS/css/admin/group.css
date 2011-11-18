@@ -39,10 +39,13 @@ form#admin-groupeditor dl dd table tr {
 form#admin-groupeditor dl dd table tr td {
   margin: 0;
   padding: 2px;
+  white-space: nowrap;
   word-wrap: break-word;
 }
 
 form#admin-groupeditor dl dd table tr td span {
+  font-size: 70%;
+  white-space: nowrap;
   word-wrap: break-word;
 }
 

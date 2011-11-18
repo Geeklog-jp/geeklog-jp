@@ -28,21 +28,10 @@ body {
   color: #000000; 
   font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;
   font-size: 13px; 
+  font-size: small;
   line-height: 1.5;
   text-align: center;  /* Win IE 6用(マージンの自動調整が効かない) */
 }
-
-/* Win IE 7用 { */
-*:first-child+html body { 
-  font-size: small;
-}
-/* } Win IE 7用 */
-
-/* Win IE 6用 { */
-* html body {
-  font-size: small;
-}
-/* } Win IE 6用 */
 
 pre {
   overflow: auto;
