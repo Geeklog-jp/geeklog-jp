@@ -33,16 +33,14 @@
       <dt><label for="admin-feededitor-limits">{lang_limits}</label></dt>
       <dd><input type="text" size="4" value="{feed_limits}" name="limits" id="admin-feededitor-limits" class="text"{xhtml}>{feed_limits_what}</dd>
 
-      <dt><label for="admin-feededitor-content_length">{lang_content_length}</label></dt>
+      <dt><label for="admin-feededitor-content_length">{lang_content_length}<br{xhtml}>{lang_clen_explain}</label></dt>
       <dd><input type="text" size="4" value="{feed_content_length}" name="content_length" id="admin-feededitor-content_length" class="text"{xhtml}></dd>
-      <dd class="description">{lang_clen_explain}</dd>
 
       <dt><label for="admin-feededitor-description">{lang_description}</label></dt>
       <dd><textarea cols="45" rows="8" name="description" id="admin-feededitor-description">{feed_description}</textarea></dd>
 
-      <dt><label for="admin-feededitor-feedlogo">{lang_feedlogo}</label></dt>
+      <dt><label for="admin-feededitor-feedlogo">{lang_feedlogo}<br{xhtml}>{lang_feedlogo_explain}</label></dt>
       <dd><input type="text" maxlength="255" size="40" value="{feed_logo}" name="feedlogo" id="admin-feededitor-feedlogo" class="text"{xhtml}></dd>
-      <dd class="description">{lang_feedlogo_explain}</dd>
   
       <dt><label for="admin-feededitor-filename">{lang_filename}</label></dt>
       <dd><input type="text" size="40" value="{feed_filename}" name="filename" id="admin-feededitor-filename" class="text"{xhtml}></dd>

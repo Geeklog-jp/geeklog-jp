@@ -2,9 +2,8 @@
 <!-- admin/trackback/pingbackform.thtml { -->
 
 <form action="{site_admin_url}/trackback.php" method="post" id="pingbackform" class="compact">
-  <fieldset>
-    <legend>ピングバックを送信</legend>  <!-- Geeklog Japanse -->
 
+<div class="admin_basic">
     <p class="message">{lang_explain}</p>
 
     <dl>
@@ -18,7 +17,7 @@
     <ul class="submit">
       <li><input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}><input type="submit" value="{lang_send}" name="mode[2]" class="submit"{xhtml}></li>
     </ul>
-  </fieldset>
+  </div>
 </form>
 
 <!-- } admin/trackback/pingbackform.thtml -->

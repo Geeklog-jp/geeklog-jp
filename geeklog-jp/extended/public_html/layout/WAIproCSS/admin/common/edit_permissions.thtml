@@ -1,13 +1,13 @@
-
+﻿
 <!-- admin/common/edit_permissions.thtml { -->
 
 <table id="admin-permissions">
   <thead>
     <tr>
-      <th colspan="2">{lang_owner}</th>
-      <th colspan="2">{lang_group}</th>
-      <th>{lang_members}</th>
-      <th>{lang_anonymous}</th>
+      <th colspan="2" scope="col">{lang_owner}</th>
+      <th colspan="2" scope="col">{lang_group}</th>
+      <th scope="col">{lang_members}</th>
+      <th scope="col">{lang_anonymous}</th>
     </tr>
   </thead>
 
