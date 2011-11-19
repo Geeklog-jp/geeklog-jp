@@ -1,0 +1,13 @@
+<!-- 文字コードはUTF-8（BOMなし）で保存してください。使用可能なタグは次の通り:
+{date} = 日付、{topic} = 話題、{link} = 記事のURL、
+{title} = 記事のタイトル、{img} = 1番目の画像タグ、{article} = 記事の冒頭部分、
+{xhtml} = XHTML定数
+-->
+<div style="width: 600px; margin: 5px 0; padding: 5px 0; border-bottom: dotted 1px gray;" class="new-story">
+	<span class="new-story-date">{date}</span>&nbsp;<span class="new-story-topic">{topic}</span>::<a href="{link}">{title}</a><br{xhtml}>
+	<div style="float: left; width: 400px; margin: 5px 0 0 0;">
+		{article}
+	</div>
+	<div style="float: left; width: 200px; overflow: hidden; margin: 5px 0 0 0;">{img}</div>
+	<div style="clear: both;"></div>
+</div>
