@@ -1,5 +1,9 @@
 $Id$
 
+2011-11-19  mystral-kk <mystral-kk>
+
+	* phpblock_lastarticles.phpで画像ファイルの表示をサポートしました。
+
 2011-11-19  Masuko Koeda  <milk851>
 
 	* WAIproCSSテーマで、professional_cssに合わせて管理画面のファイルを
