@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年11月18日
+							2011年11月21日
 							Geeklog Japanese
 
 1. 概要
@@ -245,7 +245,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
     o 拡張版のみに同梱
 
 	public_html/layout/WAIproCSS
-		「ProfessionalCSS」を基本に, アクセシィビリティに配慮したテーマ。
+		「professional_css」を基本に, アクセシィビリティに配慮したテーマ。
 
 
   (5) その他

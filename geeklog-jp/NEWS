@@ -5,7 +5,7 @@ NEWS
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
 
 
-Geeklog 1.8.1						2011年11月18日
+Geeklog 1.8.1						2011年11月21日
 
   o Geeklog 1.8.0からの変更
 
@@ -52,7 +52,7 @@ Geeklog 1.8.1						2011年11月18日
 
     日本語拡張版カスタム関数
 
-    - system/custom/phpblock_themetester.php 日本語拡張版に追加
+    - system/custom/custom_templatesetvars.php 日本語拡張版に追加
 
 	* CUSTOM_templateSetVarsで、1.7.2から日本語プラグイン (Japanize)から
 	  削除されたheader.thtmlのテンプレート変数を一部復活させました。
@@ -61,6 +61,10 @@ Geeklog 1.8.1						2011年11月18日
 	  テンプレート変数を追加しました。
 		'custom_class', 'custom_os', 'custom_browser', 'custom_version',
 		'custom_alias', 'custom_mobile'
+
+    - system/custom/phpblock_lastarticles.php
+
+	* 画像ファイルの表示をサポートしました。
 
     日本語拡張版プラグイン
 
