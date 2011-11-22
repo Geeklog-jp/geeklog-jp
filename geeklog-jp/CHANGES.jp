@@ -1,5 +1,12 @@
 $Id$
 
+2011-11-22  Takahiro Kambe  <tacahi>
+
+	* リリースのGNUmakefileの内容を整理しました。
+
+		- リリース処理前に削除できていないディレクトリを削除
+		- pax(1)に代えてtar(1)を使用
+
 2011-11-19  mystral-kk <mystral-kk>
 
 	* phpblock_lastarticles.phpで画像ファイルの表示をサポートしました。
