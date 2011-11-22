@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2011年11月21日
+							2011年11月22日
 							Geeklog Japanese
 
 1. 概要
@@ -33,9 +33,12 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	public_html/admin/install/precheck.js
 	public_html/admin/install/precheck.css
 		インストール前のサーバーの日本語環境をチェックするプログラムで
-		す。
+		す。インストール画面の「日本語環境のインストール前チェック」を
+		クリックして実行します。
 		php.ini .htaccess siteconfig.php設定方法の指南まで行います。
-
+		データベースの設定画面で、ただしい情報を入力すればデータベース名
+		が自動的にリストボックスで表示されます。
+		※ JavaScriptが無効の場合はテキスト入力になります。
 
     o インストーラの修正
 
