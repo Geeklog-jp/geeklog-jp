@@ -100,7 +100,6 @@ ZIP?=		zip
 INSTALL?=	install
 MKDIR?=		install -d -m $(DIRMODE)
 MV?=		mv
-PAX?=		pax
 RM?=		rm
 SED?=		sed
 TAR?=		tar
@@ -172,8 +171,8 @@ install-dirs:
 	@for d in $(DIRS); do \
 		if test -d $$d; then \
 			$(VERBOSE) && echo "Copying $$d to $(DESTDIR)$(GLDESTDIR)/$$d"; \
-			$(FIND) $$d $(FIND_ARGS) | $(PAX) -w | \
-				(cd $(DESTDIR)$(GLDESTDIR); $(PAX) -r -pm); \
+			$(FIND) $$d $(FIND_ARGS) | $(TAR) -cf - -T - | \
+				(cd $(DESTDIR)$(GLDESTDIR) && $(TAR) -xmf - ); \
 		fi; \
 	done
 
@@ -183,8 +182,8 @@ install-pubdir:
 		test -d $(DESTDIR)$(PLUGINPUBDIR) || \
 			$(MKDIR) $(DESTDIR)$(PLUGINPUBDIR); \
 		$(VERBOSE) && echo "Copying public_html to $(DESTDIR)$(GLDESTPUBDIR)"; \
-		cd public_html; $(FIND) . $(FIND_ARGS) | $(PAX) -w | \
-			(cd $(DESTDIR)$(GLDESTPUBDIR); $(PAX) -r -pm); \
+		cd public_html && $(FIND) . $(FIND_ARGS) | $(TAR) -cf - -T - | \
+			(cd $(DESTDIR)$(GLDESTPUBDIR) && $(TAR) -xmf - ); \
 	fi
 
 ifneq ($(strip $(SUBDIR)),)

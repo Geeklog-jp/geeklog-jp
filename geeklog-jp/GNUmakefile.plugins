@@ -100,8 +100,8 @@ make-dirs: make-plugindir make-pluginpubdir make-admindir
 install-admin:
 	@if test admin; then \
 		$(VERBOSE) && echo "Copying admin to $(DESTDIR)$(ADMINDIR)"; \
-		cd admin; $(FIND) . $(FIND_ARGS) | $(PAX) -w | \
-			(cd $(DESTDIR)$(ADMINDIR); $(PAX) -r -pm); \
+		cd admin; $(FIND) . $(FIND_ARGS) | $(TAR) -cf - -T - | \
+			(cd $(DESTDIR)$(ADMINDIR); $(TAR) -xmf - ); \
 	fi
 
 make-pubdirs:
