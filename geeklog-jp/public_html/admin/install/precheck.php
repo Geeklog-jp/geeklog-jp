@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-06-13
-* @version  1.4.3
+* @date     2011-11-23
+* @version  1.4.4
 * @license  GPLv2 or later
 */
 if (version_compare(PHP_VERSION, '5.0.0') < 0) {
@@ -49,7 +49,7 @@ define('GL_VERSION', '1.8.1');
 // DO NOT CHANGE ANYTHING BELOW THIS LINE!
 //===================================================================
 
-define('PRECHECK_VERSION', '1.4.3');
+define('PRECHECK_VERSION', '1.4.4');
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
 define('THIS_SCRIPT', basename(__FILE__));
@@ -110,7 +110,7 @@ class Precheck
 		$this->warning     = 0;
 		
 		$this->_vars     = array();
-		$this->path_html = dirname(__FILE__) . DS . '..' . DS . '..' . DS;
+		$this->path_html = $this->_realize(dirname(__FILE__) . DS . '..' . DS . '..' . DS);
 	}
 	
 	/**
@@ -184,6 +184,21 @@ class Precheck
 	}
 	
 	/**
+	* Converts a relative path into an absolute one
+	*
+	* @param   string  $path
+	* @return  string
+	*/
+	private function _realize($path)
+	{
+		if (file_exists($path)) {
+			$path = realpath($path);
+		}
+		
+		return $path;
+	}
+	
+	/**
 	* Guesses the path to db-config.php
 	*
 	* @return          mixed - string = path, FALSE = didn't find path
@@ -194,7 +209,7 @@ class Precheck
 		
 		// Checks if "siteconfig.php" exists and it is valid
 		clearstatcache();
-		$siteconfig = PRECHECK_ROOT . '../../siteconfig.php';
+		$siteconfig = $this->_realize(PRECHECK_ROOT . '../../siteconfig.php');
 		
 		if (file_exists($siteconfig)) {
 			require_once $siteconfig;
@@ -207,7 +222,7 @@ class Precheck
 		}
 		
 		// Checks the parent directory of path_html
-		$path = PRECHECK_ROOT . '../../../';
+		$path = $this->_realize(PRECHECK_ROOT . '../../../');
 		
 		return file_exists($path . 'db-config.php') ? $path : FALSE;
 	}
@@ -485,7 +500,7 @@ class Precheck
 	*/
 	public function writeSiteconfig()
 	{
-		$siteconfig = PRECHECK_ROOT . '../../siteconfig.php';
+		$siteconfig = $this->_realize(PRECHECK_ROOT . '../../siteconfig.php');
 		clearstatcache();
 		
 		if (file_exists($siteconfig)) {
