@@ -2,6 +2,10 @@ $Id$
 
 2011-11-24  mystral-kk <mystral-kk>
 
+	* r3242でpath_htmlに関して不完全だった処理を修正しました。
+
+2011-11-24  mystral-kk <mystral-kk>
+
 	* Precheckでインストールが失敗する問題(Issue #186)により根本的に対処し
 	  ました。
 
