@@ -194,6 +194,7 @@ class Precheck
 	{
 		// Resolves path parts (single dot, double dot and double delimiters)
 		$path  = str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $path);
+		$head_slash = (substr($path, 0, 1) === DIRECTORY_SEPARATOR);
 		$tail_slash = (substr($path, -1) === DIRECTORY_SEPARATOR);
 		$parts = array_filter(explode(DIRECTORY_SEPARATOR, $path), 'strlen');
 		$absolutes = array();
@@ -213,6 +214,10 @@ class Precheck
 		// Resolves any symlinks
 		if (is_link($path)) {
 			$path = readlink($path);
+		}
+		
+		if ($head_slash) {
+			$path = DIRECTORY_SEPARATOR . $path;
 		}
 		
 		if ($tail_slash) {
