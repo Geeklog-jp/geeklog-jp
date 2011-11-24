@@ -2,6 +2,10 @@ $Id$
 
 2011-11-24  mystral-kk <mystral-kk>
 
+	* r3242でpath_htmlに関して不完全だった処理を再度、修正しました。
+
+2011-11-24  mystral-kk <mystral-kk>
+
 	* r3242でpath_htmlに関して不完全だった処理を修正しました。
 
 2011-11-24  mystral-kk <mystral-kk>
