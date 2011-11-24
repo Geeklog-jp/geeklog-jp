@@ -110,7 +110,7 @@ class Precheck
 		$this->warning     = 0;
 		
 		$this->_vars     = array();
-		$this->path_html = $this->_realpath(dirname(__FILE__) . DS . '..' . DS . '..' . DS);
+		$this->path_html = $this->_realpath(dirname(__FILE__) . DS . '..' . DS . '..');
 	}
 	
 	/**
