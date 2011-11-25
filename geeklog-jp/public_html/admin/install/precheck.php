@@ -33,7 +33,7 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-11-24
+* @date     2011-11-25
 * @version  1.4.5
 * @license  GPLv2 or later
 */
@@ -200,11 +200,9 @@ class Precheck
 		$absolutes = array();
 		
 		foreach ($parts as $part) {
-			if ($part === '.') {
-				continue;
-			} else if ($part === '..') {
+			if ($part === '..') {
 				array_pop($absolutes);
-			} else {
+			} else if ($part !== '.') {
 				$absolutes[] = $part;
 			}
 		}
@@ -251,9 +249,9 @@ class Precheck
 		}
 		
 		// Checks the parent directory of path_html
-		$path = PRECHECK_ROOT . '../../../';
+		$path = $this->_realpath(PRECHECK_ROOT . '../../../');
 		
-		return file_exists($path . 'db-config.php') ? $this->_realpath($path) : FALSE;
+		return file_exists($path . 'db-config.php') ? $path : FALSE;
 	}
 	
 	protected function _return_bytes($val)
