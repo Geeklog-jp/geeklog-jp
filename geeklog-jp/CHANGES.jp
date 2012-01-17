@@ -1,5 +1,11 @@
 $Id$
 
+2012-01-17  Masuko Koeda  <milk851>
+
+	* WAIproCSSテーマで、管理画面の上部左の余白調整と
+	  コンフィギュレーション変更後のメッセージ部分の
+	  レイアウト崩れを修正しました。
+
 2011-12-25  Yoshinori Tahara  <dengen>
 
 	* professional_cssテーマ及びWAIproCSSテーマの軽微な修正。
