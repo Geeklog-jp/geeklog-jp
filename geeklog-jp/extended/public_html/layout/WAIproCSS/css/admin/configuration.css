@@ -72,7 +72,7 @@ div.block-bg-left {
   padding: 0;
 }
 
-div.block-bg-left div.block-center {
+div#geeklog_config_editor div.block-bg-left div.block-center {
   float: left;
   width: 20em;
   min-height: 17em;
