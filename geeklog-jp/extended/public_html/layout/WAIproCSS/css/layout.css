@@ -106,7 +106,6 @@ div#container div#header p.welcome_msg a:active {
 --------------------------------------*/
 
 div#container div#navigation {
-  overflow: hidden;
   padding: 0.99em 0.49em 0.49em 0.49em;
   background: #666666;
   border-top: 0.1em solid #555555;
@@ -133,6 +132,28 @@ div#container div#navigation ul {
   margin: 0;
   padding: 0;
 }
+
+div#container div#navigation ul:after {
+    clear: both;
+    content: "";
+    display: block;
+    height: 0;
+    overflow: hidden;
+}
+
+/* Win IE 7用 { \*/
+*+html div#container div#navigation ul {
+    height: 1%;
+    overflow: visible;
+}
+/* } Win IE 7用 */
+
+/* Win IE 6用 { \*/
+* html div#container div#navigation ul {
+    height: 1%;
+    overflow: visible;
+}
+/* } Win IE 6用 */
 
 div#container div#navigation ul li {
   float: left;
@@ -205,7 +226,6 @@ div#container div#navigation ul li.last-child a:active {
 --------------------------------------*/
 
 div#container div#wrapper {
-  overflow: hidden;  /* 浮動要素の調整用 */
   background: #ffffff;
 }
 
