@@ -1,5 +1,10 @@
 $Id$
 
+2012-01-29  Yoshinori Tahara  <dengen>
+
+	* professional_cssテーマ及びWAIproCSSテーマの複数の軽微な問題を修正しま
+	  した。
+
 2012-01-26  Masuko Koeda  <milk851>
 
 	* WAIproCSSテーマで、Navmanプラグインの

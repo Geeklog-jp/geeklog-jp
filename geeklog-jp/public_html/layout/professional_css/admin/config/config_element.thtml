@@ -57,8 +57,8 @@
 {delete}
 <input type="hidden" value="true" name="{name}[placeholder]"{xhtml}>
 <table style="display:none" id="arr_table_{id_name}" class="{arr_table_class_list}">
-<col width="100">
-<col width="100%">
+<col width="100"{xhtml}>
+<col width="100%"{xhtml}>
 {my_elements}
 {my_add_element_button}
 </table>

@@ -128,8 +128,8 @@ div#comments div.block-comment-content {
 }
 
 /* 個別のコメントのレベル(入れ子・ツリー) */
-div#comments div.level-25,
-div#comments ul.level-25 {
+div#comments div.level-0,
+div#comments ul.level-0 {
   margin-left: 0;
 }
 

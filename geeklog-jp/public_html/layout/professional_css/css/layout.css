@@ -38,7 +38,7 @@
 div#container {
   position: relative;
   width: 100%;  /*  Container Width */
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   text-align: left;
 }
