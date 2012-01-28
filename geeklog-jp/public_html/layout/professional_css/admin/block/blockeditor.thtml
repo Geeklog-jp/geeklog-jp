@@ -59,7 +59,7 @@
     <legend>{lang_phpblockoptions}</legend>
 
     <dl>
-      <dt></dt>
+      <dt><label for="admin-blockeditor-phpblockfn">{lang_blockfunction}</label></dt>
       <dd><input type="text" size="40" maxlength="50" value="{block_phpblockfn}" name="phpblockfn" id="admin-blockeditor-phpblockfn" class="text"{xhtml}></dd>
       <dd class="description">{lang_phpblockwarning}</dd>
     </dl>

@@ -30,7 +30,7 @@
           </dd>
           <dd class="description">{allowed_html}</dd>
     
-          <dt><label for="commentform-postmode">{lang_postmode}</label></dt>
+          <dt><label for="sel_editmode">{lang_postmode}</label></dt>
           <dd>
             <select id="sel_editmode" name="postmode" onchange="change_editmode(this);">
               {postmode_options}
