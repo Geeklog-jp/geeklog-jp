@@ -1,5 +1,10 @@
 $Id$
 
+2012-01-30  Yoshinori Tahara  <dengen>
+
+	* professional_cssテーマのlayout.cssへの変更を、派生テーマへの影響を
+	  避けるため、元に戻しました。
+
 2012-01-29  Yoshinori Tahara  <dengen>
 
 	* professional_cssテーマ及びWAIproCSSテーマの複数の軽微な問題を修正しま
