@@ -1,7 +1,6 @@
 #!/usr/bin/perl
-# $Id$
 #
-# Copyright (C) 2008
+# Copyright (C) 2008-2012
 # Takahiro Kambe.  All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
