@@ -1,0 +1,29 @@
+#summary メーリングリスト
+#labels Phase-Implementation,Featured
+
+= メーリングリスト =
+
+(本ドキュメントはドラフトの状態にあります。)
+
+ソースコードのSubversionでの変更や、Issuesの更新は[http://sourceforge.jp Sourceforge.jp]の[http://sourceforge.jp/projects/geeklogjp geeklog-jpプロジェクト]のメーリングリストを利用しています。
+
+-----
+
+== [http://lists.sourceforge.jp/mailman/listinfo/geeklogjp-devel geeklogjp-develメーリングリスト] ==
+
+Geeklog日本語版の開発に関する議論を行うことのできるメーリングリストです。
+また、Google CodeのIssueの変更の通知も流れます。
+
+
+メーリングリストへの登録追加、アドレスの変更、登録削除は、[http://lists.sourceforge.jp/mailman/listinfo/geeklogjp-devel geeklogjp-develメーリングリストのWebページ]から行ってください。
+
+-----
+
+== [http://lists.sourceforge.jp/mailman/listinfo/geeklogjp-changes geeklogjp-changesメーリングリスト] ==
+
+Google CodeのSubversionのコミット・ログが流れるメーリングリストです。
+
+ここでは議論等を行うのではなく、変更の通知を受けるためだけのメーリングリストです。
+変更の通知に対する議論などは、[http://lists.sourceforge.jp/mailman/listinfo/geeklogjp-devel geeklogjp-develメーリングリスト]で行ってください。
+
+メーリングリストへの登録追加、アドレスの変更、登録削除は、[http://lists.sourceforge.jp/mailman/listinfo/geeklogjp-changes geeklogjp-changesメーリングリストのWebページ]から行ってください。

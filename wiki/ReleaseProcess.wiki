@@ -1,0 +1,54 @@
+#summary リリースの手順
+#labels Phase-Implementation,Phase-Requirements
+
+= リリースの手順 =
+
+本ドキュメントでは、リリースを行う手順について説明します。
+
+== 準備 ==
+
+リリースを行うためには、以下のことを確認しておく必要があります。
+
+  * リリースを行う元とするソース・ツリー(`trunk/geeklog-jp`や`branches/geeklog-1.5.2`など)から、Geeklogのインストールや動作が十分に確認できていること。
+  * リリース作業に開発者間で同意が取れていること。
+
+== リリース作業 ==
+
+以下では、`trunk/geeklog-jp`のソース・ツリーから、geeklog-1.6.0sr1-jp-1.1をリリースする場合を例にして、説明します。
+
+  # `GNUmakefile.common`の中の`GL_VERSION`の値を確認します。通常、オリジナルのGeeklogを取り込んだ段階で、そのリリース(この例では1.6.0sr1)と合致しているはずです。
+  # `GNUmakefile.common`の中の`GL_JPVERSION`の値を日本語バージョンのリリース・バージョンに設定して、`GNUmakefile.common`をコミットします。
+  # {{{make update-release-jp}}}を実行して、`release_jp.php`の内容を更新します。内容を確認した上でコミットします。
+  # `CHANGES.jp`にリリースするバージョンの記述を行ってからコミットします。
+  # リリースするソース・ツリーからタグを作成します。これは、Subversionのcopyコマンドで行います。Subversionのコマンドsvnの場合は、次のように実行します。
+{{{
+    % svn copy https://geeklog-jp.googlecode.com/svn/trunk/geeklog-jp \
+            https://geeklog-jp.googlecode.com/svn/tags/geeklog-1.6.0sr1-jp-1.1
+}}}
+  # 次に、リリースするファイルを取り出す作業用のディレクトリを作成します。
+{{{
+    % mkdir /var/tmp/work
+    % cd /var/tmp/work
+}}}
+  # 作成したディレクトリに、Subversionのexportコマンドでファイルを取り出します。可能であれば、このとき日本語の言語環境としないよう(C locale)にします。また、この作業をrootで行うと、配布ファイルも特定の一般ユーザの所有者となることを避けることができます。
+{{{
+    % env LANG= svn export -q https://geeklog-jp.googlecode.com/svn/tags/geeklog-1.6.0sr1-jp-1.1
+}}}
+    TortoiseSVNの場合はリポジトリ・ブラウザから「エクスポート」を実行して、exportできますが、その際に、
+      * *改行文字に`LF`を必ず指定*してください。
+      * Subversionのキーワード展開をしているファイルの日付部分には、言語設定(locale)の関係で中途半端に日本語が入ってしまいます。公式なリリースには使用を避けた方が良いかもしれません。
+  # エクスポートしたディレクトリで、GNU makeコマンドを実行して日本語通常版の配布ファイルを作成します。
+{{{
+    % cd /var/tmp/work/geeklog-1.6.0sr1-jp-1.1
+    % make release
+}}}
+  # 日本語拡張版の配布ファイルは、makeのEXTENDEDのマクロを定義して、以下のようにして作成します。
+{{{
+    % cd /var/tmp/work/geeklog-1.6.0sr1-jp-1.1
+    % env EXTENDED= make release
+}}}
+  # 以上が終了して，残しておく必要がなければexportしたファイルを削除します。
+{{{
+    % cd /var/tmp
+    % rm -rf work
+}}}

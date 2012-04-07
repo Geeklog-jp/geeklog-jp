@@ -1,0 +1,98 @@
+#summary Subversionによる最新のソースコードの入手
+#labels Phase-Requirements,Featured
+
+= Subversionによる最新のソースコードの入手 =
+
+最新のソースコードをSubversionで取得する方法です。
+
+なお、以下で取得できるソースコードは、配布ファイルと異なる構成となっています。
+
+
+-----
+
+== Subversionを使った最初のダウンロード ==
+
+=== プロジェクトのメンバー以外の方 ===
+
+以下のURLをSubversionのリポジトリに指定してチェックアウトできます。
+(以下はtrunkのリポジトリを指定している場合です。リポジトリについては[Repositories]を参照してください。)
+
+{{{
+http://geeklog-jp.googlecode.com/svn/trunk/geeklog-jp
+}}}
+
+svnコマンドでは、次のようにHTTPのURLでアクセスすると、read onlyで取り出せます。(行頭の % はシェルのプロンプトなので入力する必要はありません。)
+
+{{{
+% svn checkout http://geeklog-jp.googlecode.com/svn/trunk/geeklog-jp
+}}}
+
+
+-----
+
+=== プロジェクトのメンバーの方 ===
+
+以下のURLをSubversionのリポジトリに指定して、チェックアウトできます。ユーザ名やパスワードは、Google Codeのアカウント情報を使用してください。
+
+プロジェクトのメンバーの方は実際にチェックアウトする前に[SettingSubVersion Subversionの設定]を読んで、Subversionに適切な設定をしてください。また、以下のURLはhttpではなく、*https(SSL)*であることに注意してください。
+(以下はtrunkのリポジトリを指定している場合です。リポジトリについては[Repositories]を参照してください。)
+
+{{{
+https://geeklog-jp.googlecode.com/svn/trunk/geeklog-jp
+}}}
+
+svnコマンドの場合は、次のようにしてください。(行頭の % はシェルのプロンプトなので入力する必要はありません。)
+
+{{{
+% svn checkout https://geeklog-jp.googlecode.com/svn/trunk/geeklog-jp --username $USER
+}}}
+
+{{{$USER}}}の部分は、Google Codeの登録ユーザ名となります。
+
+
+-----
+
+== ダウンロードしたソースを最新に更新 ==
+
+Subversionで一度ダウンロード(checkout)した後は、Subversionのupdateを実行することで、最新のソースツリーに更新できます。updateの方法は、お使いのSubversionのプログラムを確認してください。
+
+svnコマンドの場合は、以下のようになります。
+
+{{{
+% cd geeklog-jp     (checkoutで作成されたディレクトリに移動)
+% svn update
+}}}
+
+
+-----
+
+== 追加情報 ==
+
+この他の関連の情報へのリンクです。
+
+* [MailingList メーリングリスト]
+
+    コードの変更通知などを受けるためのメーリングリストの紹介です。
+
+* [Repositories リポジトリの案内]
+
+    Google Codeに置いているリポジトリの案内です。
+
+
+-----
+
+== 開発者向けの情報 ==
+
+コミット権を持つ開発者向けの情報です。
+
+* [SettingSubVersion プロジェクト・メンバーのためのSubversionの設定]
+
+    開発者向けのSubversion(クライアント)の設定の説明です。
+
+* [CommitGuide コミットガイド]
+
+    開発者向けのコミット時の注意事項などの説明です。
+
+* [CommitRule レポジトリの構成と運用方法]
+
+    リポジトリの構成の詳細と運用方法についてです。
