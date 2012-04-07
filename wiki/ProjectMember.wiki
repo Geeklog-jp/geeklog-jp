@@ -1,0 +1,34 @@
+#summary プロジェクトメンバー紹介
+
+日本語版コア開発メンバーのうち，本Subversionのプロジェクトにおいて，コミットする権限を持つプロジェクトメンバーを紹介します。
+
+なお，本Subversionでは，プロジェクトメンバーに限らず，だれでもダウンロード（[http://code.google.com/p/geeklog-jp/downloads/list Downloads]），エラー報告（[http://code.google.com/p/geeklog-jp/issues/list Issue]），ソースの表示・取得（[http://code.google.com/p/geeklog-jp/source/browse/ Checkout:Browse]），コミット履歴の参照（[http://code.google.com/p/geeklog-jp/source/list Checkout:Changes]）等が行えます。
+
+また，[http://code.google.com/p/geeklog-jp/wiki/MailingList メーリングリスト]に参加して，コミット状況などをメールで受信できます。
+
+Subversionによる最新のソースコードの入手方法は，Wiki（[http://code.google.com/p/geeklog-jp/wiki/GetSource GetSource]）をご参照ください。
+
+[http://www.geeklog.jp Geeklog.jpサポート掲示板]や[http://sns.geeklog.jp SNS]同様，積極的にご参加ください。
+
+= プロジェクトメンバー紹介 =
+
+geeklog-jpプロジェクトにおけるプロジェクトメンバーを紹介します。
+
+|| * SNS等ニックネーム * || * gmailアカウント * ||
+||Ivy/あいび～||ivysoho||
+||kino||kino.tktools.jp||
+||hiro/ひろろん||hirorongl||
+||mystral-kk||mystralkk||
+||maruyo123||maruyo123||
+||Tsuchi||tsuchi000||
+||taca||tacahi||
+||dengen||dengenxp||
+||im-ltd||tatsumi.imai||
+||nmox||nmox.nan||
+||Phize||PhizeOnTheNet||
+||milk||milk851||
+||jiro||ikeda163||
+||kuni||kunitsuji||
+
+上記プロジェクトメンバーは，Geeklog日本語版に対して，コミット権限を持ちます。
+プロジェクトメンバー以外はコミットできませんが，サポート掲示板やSNSなどを通じてフィードバックしていただくことにより，Geeklogの開発に貢献していただくことが可能です。

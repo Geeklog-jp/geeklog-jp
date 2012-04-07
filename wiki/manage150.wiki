@@ -1,0 +1,55 @@
+#summary 1.5.0開発スケジュール管理
+#labels Phase-Requirements
+
+= Introduction =
+
+Geeklog1.5.0開発スケジュール管理です。
+
+=Geeklog1.5.0コア日本語版開発=
+
+|| *作業内容* || *担当者* || *進捗状況* || *備考* ||
+||*本家版とのマージ*||taca||作業スタート|| 逐次作業中 ||
+
+
+=Geeklog1.5.0拡張版開発=
+
+==プラグイン==
+
+|| * 1.5.0拡張版 * || * プラグイン名 * || * 英語名 * || * バージョン * || * Geeklog対応 * || * CSRF対策 * || * geeklog-1-jp-extendedへ反映 * || * ダウンロード * || * レシピ * || * 担当者 * ||  
+||○||掲示板プラグイン日本版||forum||2.7.1 (JPr4)||1.4.1&       1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=356||http://hiroron.com/filemgmt/index.php?id=63||dengen(臨時代行)||  
+||○||ファイル管理       日本調整版||filemgmt||1.5.3(最終更新日2008.9.17)||1.5||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=353||http://hiroron.com/filemgmt/index.php?id=122||Tsuchi||  
+||○||テーマエディタ||themedit||1.1.3||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=96||http://hiroron.com/filemgmt/index.php?id=131||mystral-kk||  
+||○||カレンダプラグイン日本版||calendarjp||1.0.3||1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=357||http://hiroron.com/filemgmt/index.php?id=126||dengen||  
+||○||サイトカレンダ||mycaljp||2.0.5||1.4.1&1.5.0暫定対応||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=316||http://hiroron.com/filemgmt/index.php?id=49||dengen||  
+||○||自動タグ||autotags||1.02jp1||1.4.1&1.5.0（1.5.0のコンフィグUI未対応）||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=181||承認待ち||mystral-kk||  
+||○||GoogleMapsAPI||tkgmaps||0.9.3||1.4.1&1.5.0(1.5.0のコンフィグUIは未対応)||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=331||http://hiroron.com/filemgmt/index.php?id=141||kino復帰までひろろん||  
+||○||カスタムメニューエディタ||custommenu||0.2.2||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=330||http://hiroron.com/filemgmt/index.php?id=102||dengen||  
+||○||CAPTCHA||captcha||4.0.2||1.4.1&1.5.0(1.5.0のコンフィグUIは未対応)||対策不要||済み||http://www.geeklog.jp/filemgmt/index.php?id=349||http://hiroron.com/filemgmt/index.php?id=53||ひろろん||  
+||○||データプロキシ||dataproxy||1.1.3||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=266||http://hiroron.com/filemgmt/index.php?id=127||mystral-kk||  
+||○||サイトマップ||sitemap||1.1.2||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=267||http://hiroron.com/filemgmt/index.php?id=129||mystral-kk||  
+||○||Dbman||Dbman||0.5.2||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=81||http://hiroron.com/filemgmt/index.php?id=130||mystral-kk||  
+||○||QRブロック||nmoxqrblock||1.1.1||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/visit.php?lid=172||http://hiroron.com/filemgmt/visit.php?lid=56||nmox||  
+||○||話題譲渡||nmoxtopicown||1.0.9||1.4.1&1.5.0||対策済み||済み||http://www.geeklog.jp/filemgmt/visit.php?lid=175||http://hiroron.com/filemgmt/visit.php?lid=107||nmox||  
+||○||日本語化||japanize||1.0.2||1.5(1.5のコンフィグUIは対応予定なし)||対策済み||済み||http://www.geeklog.jp/filemgmt/index.php?id=340||http://hiroron.com/filemgmt/index.php?id=123||Tsuchi||  
+||×||メール記事投稿||photomail||-||開発後組み込み予定       1.5.0版では組み込まない||-||3.0.0仕掛中||-||-||Tsuchi||  
+
+
+==カスタム関数・PHPブロック関数==
+
+|| * 1.5.0拡張版 * || * 機能 * || * ファイル名 * || * バージョン * || * CSRF対策 * || * geeklog-1-jp-extendedへ反映 * || * 備考 * || * ダウンロード * || * レシピ * || * 担当者 * ||
+||○||静的ページ取得||custom_getstaticpage.php||2008-09-21||不要||済み||-||http://www.geeklog.jp/filemgmt/index.php?id=358||-||mystral-kk||
+||○||block：新着記事||phpblock_lastarticles.php||2008-09-21||不要||済み||-||http://www.geeklog.jp/filemgmt/index.php?id=361||-||mystral-kk||
+||○||block：権限表示||phpblock_showrights.php||2008-09-21||不要||済み||lib-custom.phpから同名の関数を削除する必要あり。||http://www.geeklog.jp/filemgmt/index.php?id=360||-||mystral-kk||
+||○||block：サイトマップメニュー||phpblock_sitemapmenu.php||2008-09-21||不要||済み||-||http://www.geeklog.jp/filemgmt/index.php?id=359||-||mystral-kk||
+||○||block：訪問者数表示||phpblock_stats.php||2006-10-21||不要||済み||-||http://www.geeklog.jp/filemgmt/index.php?id=355||http://hiroron.com/filemgmt/index.php?id=125||Tsuch||
+||○||block：テーマテスタ||phpblock_themetester.php||2008-09-21||不要||済み||-||http://www.geeklog.jp/filemgmt/index.php?id=258||-||mystral-kk||
+||×||メール記事投稿||custom_photomail＊.php||2.20070312||-||-||プラグイン化予定||-||-||Tsuchi||
+
+==本体ソースの修正==
+|| * ファイル名 * ||説明|| * 担当者 * ||
+||system/custom/lib-custom.php||カスタム関数とPHPブロック関数の追加||ivy||
+||すべての/language/japanese_utf-8.php||1.5.1正式版を1.5.0版に反映||ivy||
+||public_html/siteconfig.php||インストールデフォルトをutf-8に||ivy||
+||public_html/admin/install/index.php||インストール時にusersconfig無効化||mystral-kk||
+||public_html/admin/install/disable-userconfig.php||インストール時にusersconfig無効化|| mystral-kk||
+||release_jp.php||リリース内容を反映||taca||

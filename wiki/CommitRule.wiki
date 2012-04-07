@@ -1,0 +1,41 @@
+#summary レポジトリの構成と運用方法
+#labels Phase-Design
+
+= レポジトリの構成と運用方法 =
+
+本文書は、レポジトリの構成と運用方法についての文書です。
+
+
+== レポジトリの構成と運用方法 ==
+
+  * trunk
+ 基本的な開発の中心とするソース・ツリーを置きます。
+|| ディレクトリ || 内容 || 説明 || 備考 ||
+|| geeklog-jp || Geeklog日本語版 || 日々是開発版 || - ||
+|| geeklog-jp/extended || Geeklog日本語拡張版独自のファイル || 日本語通常版に追加や異なる内容のファイル || 使用終了 ||
+|| geeklog-jp/plugins-jp || 日本語版独自のプラグイン || 日本語版独自のプラグインを単独配布のソース構造 || 使用終了 ||
+|| geeklog-jp/custom || 日本語版独自のカスタム関数 || 日本語版独自のカスタム関数のファイル || 使用終了 ||
+|| geeklog-jp/tools || スクリプト等 || ブランチへのマージやリリースのためのスクリプト(UNIX系OS上で動作) || 使用終了 ||
+
+  * branches
+ trunkから枝分かれさせたリリース用、過去のバージョンの保守用、実験的な開発目的用のソース・ツリーを置きます。
+|| ディレクトリ || 内容の説明 || 担当責任者 || 状態 ||
+|| geeklog-1-jp || Geeklog 1.5.2sr4までの日本語通常版の開発用 || - || 終了 ||
+|| geeklog-1-jp-extended || Geeklog 1.5.2sr4までの日本語拡張版の開発用 || - || 終了 ||
+|| Geeklog-1.x-language_auto_select || 言語自動選択の開発 || maruyo123 || ? ||
+|| geeklog-1.4.x || Geeklog 1.4日本語版の保守用 || - || 終了 ||
+|| geeklog-1.5.0-jp || Geeklog 1.5.0日本語通常版の保守用 || tacahi || 終了 ||
+|| geeklog-1.5.0-jp-extended || Geeklog 1.5.0日本語拡張版の保守用 || tacahi || 終了 ||
+|| geeklog-1.5.1-jp || Geeklog 1.5.1日本語通常版の保守用 || tacahi || 終了 ||
+|| geeklog-1.5.1-jp-extended || Geeklog 1.5.1日本語拡張版の保守用 || tacahi || 終了 ||
+|| geeklog-1.5.2-jp || Geeklog 1.5.2系の日本語版の保守用 || tacahi || 有効 ||
+|| geeklog-1.6.0-jp || Geeklog 1.6.0系の日本語版の保守用 || tacahi || 有効 ||
+|| geeklog-new-tree || Geeklog日本語版の通常版と拡張版の統合ツリーの開発用 || tacahi || 終了 ||
+|| mystralkk || 実験的な開発用 || mystralkk || ? ||
+|| plugins || プラグインの開発・保守用 || - || ? ||
+
+  * externals
+ 外部からソース・ツリーを取り込んだものです。一般的にはtagsに入れる場合もありますが、外部由来のものをこちらに置いて区別しています。
+
+  * tags
+ trunkやbranchesから、特定の時点のソース・ツリーにタグを付けた(コピー)したもので、個々のリリース等の内容になります。
