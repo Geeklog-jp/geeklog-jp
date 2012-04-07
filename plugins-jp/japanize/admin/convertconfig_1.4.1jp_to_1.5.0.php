@@ -4,7 +4,6 @@
 // | userconfig_bak.php(userconfigプラグインのデータバックアップ)              |
 // |  をGl1.5.0 のconfigテーブルに移行する処理                                 |
 // +---------------------------------------------------------------------------+
-// $Id: convertconfig_1.4.1_to_1.5.0.php
 // public_html/admin/plugins/japanize/convertconfig_1.4.1jp_to_1.5.0.php
 // 20080717 tsuchi AT geeklog DOT jp
 

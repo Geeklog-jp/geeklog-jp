@@ -1,5 +1,3 @@
-$Id$
-
 2009-06-29  Takahiro Kambe  <tacahi>
 
 	* リリース処理: release_jp.phpの更新のルールが正しく動作していなかっ

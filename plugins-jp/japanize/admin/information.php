@@ -4,7 +4,6 @@
 // +---------------------------------------------------------------------------+
 // | information.php 更新                                                      |
 // +---------------------------------------------------------------------------+
-// $Id: information.php
 // public_html/admin/plugins/japanize/information.php
 // 20080729 tsuchi AT geeklog DOT jp
 
