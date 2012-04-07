@@ -35,8 +35,6 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
-// $Id: install_defaults.php
 
 if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
     die('This file can not be used on its own!');

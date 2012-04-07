@@ -2,7 +2,6 @@
 // +---------------------------------------------------------------------------+
 // | japanize_function 共通＆navbarMenu設定                                    |
 // +---------------------------------------------------------------------------+
-// $Id: index.php
 // public_html/admin/plugins/japanize/japanize_function.php
 // 20080729 tsuchi AT geeklog DOT jp
 require_once('../../../lib-common.php');
