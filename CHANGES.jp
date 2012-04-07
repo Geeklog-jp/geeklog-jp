@@ -1,5 +1,8 @@
 2012-04-08  Takahiro Kambe  <tacahi>
 
+	* release_jp.php: CVSのキーワード展開に依存しない更新方法に変更
+	  しました。
+
 	* SubversionからMercurialにリポジトリを移行しました。これに伴い、
 	  CVSのキーワード展開を期待している行を削除しました。
 

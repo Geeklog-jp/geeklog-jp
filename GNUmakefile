@@ -41,13 +41,12 @@ release: pre-release update-release-jp install
 
 update-release-jp: release_jp.php
 
-release_jp.php: GNUmakefile.common
-	@$(SED) -e "/release_no =/s/'.*'/'$(GL_JPVERSION)'/" release_jp.php \
-		> release_jp.php.tmp; \
-	if ${CMP} -s release_jp.php release_jp.php.tmp; then \
-		${RM} release_jp.php.tmp; \
-		${TOUCH} release_jp.php; \
-	else \
+release_jp.php: GNUmakefile.common GNUmakefile
+	@unset LANG LC_TIME; \
+	if [ `${SED} -n -e '/release_no =/s|.*= "\([^"][^"]*\)";|\1|p' release_jp.php` != "$(GL_JPVERSION)" ]; then \
+		$(SED) -e '/release_no =/s|".*"|"$(GL_JPVERSION)"|' \
+		-e '/release_date =/s|".*"|"'"`date -u`"'"|' release_jp.php \
+		> release_jp.php.tmp && \
 		${MV} release_jp.php.tmp release_jp.php; \
 	fi
 
