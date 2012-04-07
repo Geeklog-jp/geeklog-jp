@@ -1,3 +1,8 @@
+2012-04-08  Takahiro Kambe  <tacahi>
+
+	* SubversionからMercurialにリポジトリを移行しました。これに伴い、
+	  CVSのキーワード展開を期待している行を削除しました。
+
 2012-03-24  Takahiro Kambe  <tacahi>
 
 	* ディレクトリ構成を変更して、trunk/geeklog-jp以下の内容をtrunkに
