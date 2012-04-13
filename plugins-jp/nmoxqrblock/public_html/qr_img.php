@@ -1,7 +1,7 @@
 <?php
 /*
 #
-# QRcode image PHP scripts  version 0.50g (C)2000-2005,Y.Swetake
+# QRcode image PHP scripts  version 0.50i (C)2000-2009,Y.Swetake
 #
 #
 #  This program outputs a png image of "QRcode model 2". 
@@ -49,8 +49,8 @@
 
 /* ------ setting area ------ */
 
-$path="./data";           /* You must set path to data files. */
-$image_path="./image";    /* You must set path to QRcode frame images. */
+$path= dirname(__FILE__) . '/data';           /* You must set path to data files. */
+$image_path= dirname(__FILE__) . '/image';    /* You must set path to QRcode frame images. */
 
 $version_ul=40;              /* upper limit for version  */  
 /* ------ setting area end ------ */
@@ -124,8 +124,9 @@ $data_bits[$data_counter]=4;
 
 /*  --- determine encode mode */
 
-if (ereg("[^0-9]",$qrcode_data_string)){
-    if (ereg("[^0-9A-Z \$\*\%\+\-\.\/\:]",$qrcode_data_string)) {
+if (preg_match("/[^0-9]/",$qrcode_data_string)!=0){
+    if (preg_match("/[^0-9A-Z \$\*\%\+\.\/\:\-]/",$qrcode_data_string)!=0) {
+
 
      /*  --- 8bit byte mode */
 
