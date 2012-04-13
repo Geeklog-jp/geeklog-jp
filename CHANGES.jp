@@ -1,3 +1,7 @@
+2012-04-14  mystral-kk <mystral-kk>
+
+	* nmoxqrblockプラグインを自動インストールに対応させました。
+
 2012-04-08  Takahiro Kambe  <tacahi>
 
 	* release_jp.php: CVSのキーワード展開に依存しない更新方法に変更
