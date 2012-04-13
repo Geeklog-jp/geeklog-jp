@@ -2,7 +2,7 @@
 
 PLUGIN=		nmoxqrblock
 
-FILES=		config.php functions.inc readme_ja.txt
+FILES=		autoinstall.php config.php configuration_validation.php functions.inc install_defaults.php readme_ja.txt
 DIRS=		language templates
 
 include ../../GNUmakefile.plugins

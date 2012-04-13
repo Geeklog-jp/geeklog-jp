@@ -1,12 +1,12 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
-// | nmoxqrblock Geeklog Plugin 1.0                                       |
+// | nmoxqrblock Geeklog Plugin                                                |
 // +---------------------------------------------------------------------------+
-// | config.php                                                                |
+// | geeklog/plugins/nmoxqrblock/config.php                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007 by nmox                                                |
-// |                                                                           |
+// | Copyright (C) 2007-2012 by nmox                                           |
+// |                            mystral-kk - geeklog AT mystral-kk DOT net     |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -20,15 +20,34 @@
 // | GNU General Public License for more details.                              |
 // |                                                                           |
 // +---------------------------------------------------------------------------+
-//
 
-$_NMOXQRBLOCK['version'] = '1.1.1';
+if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
+    die('This file can not be used on its own!');
+}
 
-$_NMOXQRBLOCK['hidenmoxqrblockmenu']=0;
-$_NMOXQRBLOCK["size"]=80;//表示サイズ（ピクセル）　小さくしすぎた場合は携帯電話で読めない場合があります。
-$_NMOXQRBLOCK["type"]="J";//J=jpeg P=png
-$_NMOXQRBLOCK['nmoxqrblock'] = $LANG_NMOXQRBLOCK['nmoxqrblock'];
+global $_DB_table_prefix, $_TABLES, $_NMOXQRBLOCK;
 
+// DB settings
 $_TABLES['nmoxqrblock']  = $_DB_table_prefix . 'nmoxqrblock';
 
-?>
+// Plugin info
+$_NMOXQRBLOCK = array(
+	'pi_version' => '1.2.0',			// Plugin version
+	'gl_version' => '1.4.0',			// GL version
+	'pi_url'     => 'http://nmox.com/',	// Plugin Homepage
+	'GROUPS'     => array(
+		'nmoxqrblock Admin' => 'Users in this group can administer the nmoxqrblock plugin',
+	),
+	'FEATURES'   => array(
+		'nmoxqrblock.edit' => 'Access to nmoxqrblock editor',
+	),
+	'MAPPINGS'   => array(
+		'nmoxqrblock.edit' => array('nmoxqrblock Admin'),
+	),
+);
+
+// Configuration values for GL-1.4.*.  Don't edit these for GL-1.5 or later.
+// Instead, go to Configuration > nmoxqrblock
+$_NMOXQRBLOCK['image_type']  = 'P';	// J=jpeg P=png
+$_NMOXQRBLOCK['ecc_level']   = 'M';	// Error correction level
+$_NMOXQRBLOCK['module_size'] = 2;	// Image module size

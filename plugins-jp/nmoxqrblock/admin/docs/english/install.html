@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="Content-Style-Type" content="text/css">
+	<link href="../docstyle.css" rel="stylesheet" type="text/css">
+	<title>Geeklog nmoxqrblock plugin</title>
+</head>
+
+<body>
+	<h1>Install/Uninstall instruction for the Geeklog nmoxqrblock plugin</h1>
+
+	<p>In the following descriptions</p>
+	<ul>
+		<li><span class="geeklog">&lt;geeklog_dir&gt;</span> is the directory where the system db-config.php file resides</li>
+		<li><span class="public">&lt;public_html&gt;</span> is the directory where the lib-common.php file resides</li>
+		<li><span class="admin">&lt;admin&gt;</span> is the directory where the administration files reside (usually, under <span class="public">&lt;public_html&gt;</span>)</li>
+	</ul>
+
+	<h2>INSTALL:</h2>
+
+	<ol>
+		<li>Uncompress the nmoxqrblock plugin archive while in the <span class="geeklog">&lt;geeklog_dir&gt;</span>/plugins directory.  The archive will create a directory called nmoxqrblock in the plugins directory.</li>
+		<li>Create the public_html and admin directories.  Under your html directory (usually <span class="public">&lt;public_html&gt;</span>) create a directory called nmoxqrblock.  Under your <span class="admin">&lt;admin&gt;</span>/plugins/ directory create a directory called nmoxqrblock.</li>
+		<li>Change to your <span class="geeklog">&lt;geeklog_dir&gt;</span>/plugins/nmoxqrblock/ directory.  Copy the files in the admin directory to the <span class="admin">&lt;admin&gt;</span>/plugins/nmoxqrblock/ directory your created in step 3.  Copy the files and directories in the public_html directory to the <span class="public">&lt;public_html&gt;</span>/nmoxqrblock/ directory your created in step 3.</li>
+		<li>Log in to your Geeklog as a root user and install the plugin in the plugin editor.</li>
+	</ol>
+
+	<h2>UNINSTALL:</h2>
+
+	<ol>
+		<li>Uninstall the plugin in the plugin editor.</li>
+		<li>Delete the three plugin directories created in the install process:  <span class="geeklog">&lt;geeklog-dir&gt;</span>/plugins/nmoxqrblock/, <span class="public">&lt;public_html&gt;</span>/nmoxqrblock/ and <span class="admin">&lt;admin&gt;</span>/plugins/nmoxqrblock/</li>
+	</ol>
+
+	<p>That's it.</p>
+
+</body>
+</html>
