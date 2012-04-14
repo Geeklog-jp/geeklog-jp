@@ -250,7 +250,7 @@ function NMOXQRBLOCK_display(array $params = array()) {
 	$cahce_file = md5($q) . ($params['t'] === 'J' ? '.jpg' : '.png');
 	$data = NULL;
 	
-	if (file_exists($_CONF['path_data'] . $cahce_file)) {
+	if (@is_readable($_CONF['path_data'] . $cahce_file)) {
 		$data = file_get_contents($_CONF['path_data'] . $cahce_file);
 	} else {
 		require_once 'HTTP/Request.php';
@@ -258,7 +258,10 @@ function NMOXQRBLOCK_display(array $params = array()) {
 		
 		if ($client->sendRequest()) {
 			$data = $client->getResponseBody();
-			file_put_contents($_CONF['path_data'] . $cahce_file, $data);
+			
+			if (@file_put_contents($_CONF['path_data'] . $cahce_file, $data) === FALSE) {
+				COM_errorLog(__FUNCTION__ . ': "' . $_CONF['path_data'] . '" is not writable.');
+			}
 		}
 	}
 	
@@ -273,6 +276,15 @@ function NMOXQRBLOCK_display(array $params = array()) {
 	}
 }
 
+function NMOXQRBLOCK_isMobile() {
+	$agent = trim(@$_SERVER['HTTP_USER_AGENT']);
+	
+	return preg_match('@^DoCoMo/(1|2)\.0@i', $agent) OR
+		   preg_match('/^(J\-PHONE|Vodafone|MOT\-[CV]|Vemulator)/i', $agent) OR
+		   preg_match('/^(UP\.Browser|KDDI\-)/i', $agent) OR
+		   preg_match('/DDIPOCKET/i', $agent);
+}
+
 function phpblock_nmoxqrblock($d = NULL, $t = NULL, $e = NULL, $s = NULL, $v = NULL) {
 	global $_CONF, $_TABLES, $_NMOXQRBLOCK;
 	
@@ -280,24 +292,26 @@ function phpblock_nmoxqrblock($d = NULL, $t = NULL, $e = NULL, $s = NULL, $v = N
 		define('XHTML', '');
 	}
 	
-	$agent = $_SERVER['HTTP_USER_AGENT'];
+	$retval = '';
 	
-	if (($agent === '') OR
-		preg_match("@^DoCoMo/(1|2)\.0@i", $agent) OR
-		preg_match("/^(J\-PHONE|Vodafone|MOT\-[CV]|Vemulator)/i", $agent) OR
-		preg_match("/^(UP\.Browser|KDDI\-)/i", $agent) OR
-		preg_match("/DDIPOCKET/i", $agent)) {
-		$html = '';
-	} else {
-		$params = compact('d', 't', 'e', 's', 'v');
-		$html = '<div class="block-box">' . LB
-			  . '<img alt="QR code" src="' . $_CONF['site_url']
-			  . '/nmoxqrblock/index.php?' . http_build_query($params) . '"'
-			  . XHTML . '>' . LB
-			  . '</div>' . LB;
+	if (NMOXQRBLOCK_isMobile()) {
+		return $retval;
 	}
 	
-	return $html;
+	if (empty($d) OR ($d === '#C') OR ($d === '#c')) {	// Current URL (default)
+		$d = COM_buildURL(COM_getCurrentURL());
+	} else if (($d === '#S') OR ($d === '#s')) {		// Site URL
+		$d = $_CONF['site_url'];
+	}
+	
+	$params = compact('d', 't', 'e', 's', 'v');
+	$retval = '<div class="block-box">' . LB
+		  . '<img alt="QR code" src="' . $_CONF['site_url']
+		  . '/nmoxqrblock/index.php?' . http_build_query($params) . '"'
+		  . XHTML . '>' . LB
+		  . '</div>' . LB;
+	
+	return $retval;
 }
 
 /**
