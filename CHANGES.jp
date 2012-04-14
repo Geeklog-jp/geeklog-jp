@@ -1,5 +1,9 @@
 2012-04-14  mystral-kk <mystral-kk>
 
+	* nmoxqrblockプラグインのエラー処理を強化しました。
+
+2012-04-14  mystral-kk <mystral-kk>
+
 	* nmoxqrblockプラグインを自動インストールに対応させました。
 
 2012-04-08  Takahiro Kambe  <tacahi>
