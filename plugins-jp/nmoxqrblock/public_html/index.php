@@ -24,19 +24,5 @@
 require_once '../lib-common.php';
 
 if (in_array('nmoxqrblock', $_PLUGINS)) {
-	if (isset($_GET['q'])) {
-		$q = COM_applyFilter($_GET['q']);
-		
-		if (file_exists($_CONF['path_data'] . $q)) {
-			if (preg_match('/\.jpg$/', $q)) {
-				header('Content-Type: image/jpeg');
-			} else {
-				header('Content-Type: image/png');
-			}
-			
-			echo file_get_contents($_CONF['path_data'] . $q);
-		}
-	} else {
-		NMOXQRBLOCK_display($_GET);
-	}
+	NMOXQRBLOCK_display($_GET);
 }
