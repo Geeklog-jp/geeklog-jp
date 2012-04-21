@@ -1,5 +1,10 @@
 2012-04-14  mystral-kk <mystral-kk>
 
+	* Dbmanプラグイン、テーマエディタプラグインで、環境によっては、アンイン
+	  ストール時に、エラーが発生するバグを修正しました。
+
+2012-04-14  mystral-kk <mystral-kk>
+
 	* nmoxqrblockプラグインのエラー処理を強化しました。
 
 2012-04-14  mystral-kk <mystral-kk>
