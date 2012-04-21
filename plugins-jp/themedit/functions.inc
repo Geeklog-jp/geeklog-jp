@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/functions.inc                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2012 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -867,7 +867,7 @@ function THM_loadConfig() {
 	if ($config->group_exists('themedit')) {
 		$temp = $config->get_config('themedit');
 		
-		if (is_array($temp) AND (count($temp) > 0)) {
+		if (isset($_THM_CONF) AND is_array($_THM_CONF) AND is_array($temp) AND (count($temp) > 0)) {
 			$_THM_CONF = array_merge($_THM_CONF, $temp);
 		}
 	}
