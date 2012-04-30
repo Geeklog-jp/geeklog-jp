@@ -74,7 +74,7 @@ check_files() {
 
     check_arg=`create_arg`
 
-    find ${dir} -xdev -type d -name .svn -prune -o -type f $check_arg -print0 |
+    find ${dir} -xdev -type d \( -name .svn -o -name .hg -o -name .git \) -prune -o -type f $check_arg -print0 |
     case "${check}" in
     eol)    xargs -0 egrep -l "`printf '\xd$'`";;
     bom)    egrep -v "${excludes}" |
@@ -135,6 +135,10 @@ while getopts hlp:su opts; do
 	    ;;
 	s)
 	    check=eol-style
+	    test -d .svn || {
+		echo "This isn 't Subversion's work area." 1>&2
+		exit 1
+	    }
 	    ;;
 	u)
 	    check=bom
