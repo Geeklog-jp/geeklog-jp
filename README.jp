@@ -145,11 +145,6 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		サイトカレンダーを表示する提供するPHPブロック関数
 		phpblock_mycaljp2() を提供します。
 
-	QRコードプラグイン(Nmoxqrblock) バージョン 1.2.0
-		表示しているページのURLをQRコードで生成して表示するPHPブロック
-		関数 phpblock_nmoxqrblock() を提供します。
-
-
 	話題譲渡プラグイン(Nmoxtopicown) バージョン1.0.11
 		トピックとその中の記事の所有者を変更する機能を提供します。
 
