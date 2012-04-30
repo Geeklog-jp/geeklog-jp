@@ -1,3 +1,12 @@
+2012-04-30  Takahiro Kambe  <tacahi>
+
+	* NEWSとREADME.jpをgeeklog-1.8.1-jp-1.1のリリースに向けて更新しました。
+
+	* README.jpのプラグインのバージョンの記述を、現在のバージョンに合わせ
+	  て更新しました。
+
+	* 拡張版のプラグイン: tkgmapsを再び加えました。
+
 2012-04-14  mystral-kk <mystral-kk>
 
 	* Dbmanプラグイン、テーマエディタプラグインで、環境によっては、アンイン
