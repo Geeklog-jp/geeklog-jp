@@ -50,7 +50,7 @@
 # 以下のサフィックスのファイルはテキストではないものとしてチェックしません。
 #
 binaries="bat bmp dat data gd2 gif ico jpg jpeg pdf png ttf"
-excludes="/fckeditor"
+excludes="/fckeditor|/system/pear"
 
 unset LANG
 
@@ -76,7 +76,7 @@ check_files() {
 
     find ${dir} -xdev -type d \( -name .svn -o -name .hg -o -name .git \) -prune -o -type f $check_arg -print0 |
     case "${check}" in
-    eol)    xargs -0 egrep -l "`printf '\xd$'`";;
+    eol)    egrep -v "${excludes}" | xargs -0 egrep -l "`printf '\xd$'`";;
     bom)    egrep -v "${excludes}" |
 	    xargs -0 egrep -l "`printf '\xef\xbb\xbf'`";;
     esac
