@@ -969,6 +969,7 @@ $display .= '<head>
     <div class="header-navigation-container">
         <div class="header-navigation-line">
             <a href="' . 'precheck.php' . '" class="header-navigation">' . (isset($LANG_INSTALL_JP) ? $LANG_INSTALL_JP[1] : 'Pre-Installation Check (in Japanese)') . '</a>&nbsp;&nbsp;&nbsp;
+            <a href="rescue.php" class="header-navigation">' . $LANG_INSTALL[109] . '</a>&nbsp;&nbsp;&nbsp;
             <a href="' . $LANG_INSTALL[87] . '" class="header-navigation">' . $LANG_INSTALL[1] . '</a>&nbsp;&nbsp;&nbsp;
         </div>
     </div>

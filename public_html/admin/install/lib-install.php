@@ -56,7 +56,7 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.8.1');
+    define('VERSION', '2.0.0');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -65,7 +65,7 @@ if (!defined('SUPPORTED_PHP_VER')) {
     define('SUPPORTED_PHP_VER', '5.2.0');
 }
 if (!defined('SUPPORTED_MYSQL_VER')) {
-    define('SUPPORTED_MYSQL_VER', '4.0.18');
+    define('SUPPORTED_MYSQL_VER', '4.1.3');
 }
 
 $_REQUEST = array_merge($_GET, $_POST);
@@ -1257,6 +1257,14 @@ function INST_listOfSupportedDBs($gl_path, $selected_dbtype, $list_innodb = fals
         if (file_exists($gl_path . '/sql/' . $prefix . '_tableanddata.php') &&
                 file_exists($gl_path . '/system/databases/' . $prefix
                                      . '.class.php')) {
+            if ($prefix == 'mysql') {
+                // check that the MySQLi driver file is also there so we
+                // don't have to check for it every time at runtime
+                if (! file_exists($gl_path . '/system/databases/'
+                                           . 'mysqli.class.php')) {
+                    continue;
+                }
+            }
             $retval .= '<option value="' . $dbname . '"';
             if (! function_exists($info['fn'])) {
                 $retval .= ' disabled="disabled"';

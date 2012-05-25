@@ -65,6 +65,8 @@ function install_config()
     $c->add('site_mail','','text',0,1,NULL,40,TRUE, $me, 1);
     $c->add('noreply_mail','','text',0,1,NULL,50,TRUE, $me, 1);
     $c->add('mail_settings',array ('backend' => 'mail', 'sendmail_path' => '/usr/bin/sendmail', 'sendmail_args' => '', 'host' => 'smtp.example.com','port' => '25', 'auth' => false, 'username' => 'smtp-username','password' => 'smtp-password'),'@text',0,1,NULL,160,TRUE, $me, 1);
+    $c->add('mail_cc_enabled', 1, 'select', 0, 1, 0, 180, TRUE, $me, 1);
+    $c->add('mail_cc_default', 0, 'select', 0, 1, 0, 190, TRUE, $me, 1);
 
     $c->add('tab_syndication', NULL, 'tab', 0, 2, NULL, 0, TRUE, $me, 2);
     $c->add('fs_syndication', NULL, 'fieldset', 0, 2, NULL, 0, TRUE, $me, 2);
@@ -244,6 +246,11 @@ function install_config()
     $c->add('login_attempts',3,'text',4,18,NULL,1690,TRUE, $me, 18);
     $c->add('login_speedlimit',300,'text',4,18,NULL,1700,TRUE, $me, 18);
 
+    // password options
+    $c->add('fs_pass', NULL, 'fieldset', 4, 42, NULL, 0, TRUE, $me, 18);
+    $c->add('pass_alg', 1, 'select', 4, 42, 29, 800, TRUE, $me, 18);
+    $c->add('pass_stretch', 4096, 'text', 4, 42, NULL, 810, TRUE, $me, 18);
+
     $c->add('tab_user_submission', NULL, 'tab', 4, 19, NULL, 0, TRUE, $me, 19);
     $c->add('fs_user_submission', NULL, 'fieldset', 4, 19, NULL, 0, TRUE, $me, 19);
     $c->add('usersubmission',0,'select',4,19,0,780,TRUE, $me, 19);
@@ -273,6 +280,8 @@ function install_config()
     $c->add('article_comment_close_days',30,'text',4,21,NULL,1686,TRUE, $me, 21);
     $c->add('comment_close_rec_stories',0,'text',4,21,NULL,1688,TRUE, $me, 21);
     $c->add('allow_reply_notifications',0,'select',4,21,0, 1689, TRUE, $me, 21);
+    $c->add('comment_on_same_page',0,'select',4,21,0, 1690, TRUE, $me, 21);
+    $c->add('show_comments_at_replying',0,'select',4,21,0, 1691, TRUE, $me, 21);
 
     // Subgroup: Images
     $c->add('sg_images', NULL, 'subgroup', 5, 0, NULL, 0, TRUE, $me, 0);
@@ -364,6 +373,7 @@ function install_config()
     $c->add('cron_schedule_interval',0,'text',7,31,NULL,860,TRUE, $me, 31);
     $c->add('disable_autolinks',0,'select',7,31,0,1750,TRUE, $me, 31);
     $c->add('clickable_links',1,'select',7,31,1,1753,TRUE, $me, 31);
+    $c->add('linktext_maxlen',50,'text',7,31,NULL,1754,TRUE, $me,31);
     $c->add('compressed_output',0,'select',7,31,1,1756,TRUE, $me, 31);
     $c->add('frame_options','DENY','select',7,31,22,1758,TRUE, $me, 31);
 
@@ -412,6 +422,13 @@ function install_config()
     $c->add('disable_webservices',   1, 'select', 7, 40, 0, 1840, TRUE, $me, 40);
     $c->add('restrict_webservices',  0, 'select', 7, 40, 0, 1850, TRUE, $me, 40);
     $c->add('atom_max_stories',     10, 'text',   7, 40, 0, 1860, TRUE, $me, 40);
+    
+    $c->add('tab_topics', NULL, 'tab', 7, 45, NULL, 0, TRUE, $me, 45);
+    $c->add('fs_breadcrumbs', NULL, 'fieldset', 7, 45, NULL, 0, TRUE, $me, 45);
+    $c->add('multiple_breadcrumbs', 0, 'select', 7, 45, 0, 2000, TRUE, $me, 45);
+    $c->add('disable_breadcrumbs_topics', 0, 'select', 7, 45, 0, 2010, TRUE, $me, 45);
+    $c->add('disable_breadcrumbs_articles', 0, 'select', 7, 45, 0, 2020, TRUE, $me, 45);
+    $c->add('disable_breadcrumbs_plugins', 0, 'select', 7, 45, 0, 2030, TRUE, $me, 45);
     
 }
 

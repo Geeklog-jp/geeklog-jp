@@ -170,6 +170,12 @@ manually.</p>
     <td valign="top">smtp-password</td>
     <td valign="top">If you chose 'smtp' for the backend setting, this is the
         password for your SMTP account.</td></tr>
+<tr><td valign="top"><a name="desc_mail_cc_enabled">cc_enabled</a></td>
+    <td valign="top">True</td>
+    <td valign="top">Whether to allow users to send a copy of an email to themselves.</td></tr>
+<tr><td valign="top"><a name="desc_mail_cc_default">cc_default</a></td>
+    <td valign="top">False</td>
+    <td valign="top">Whether the carbon copy checkbox in the email form is ticked by default.</td></tr>
 </table>
 
 <h3><a name="site_syndication">Site: Syndication</a></h3>
@@ -357,6 +363,7 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
   <td valign="top"><a name="desc_minnews">minnews</a></td>
   <td valign="top">1</td>
   <td valign="top">Minimum numbers of stories than can appear on a topic page</td></tr>
+<tr>
 <tr>
   <td valign="top"><a name="desc_contributedbyline">contributedbyline</a></td>
   <td valign="top">1</td>
@@ -916,6 +923,25 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
   <td valign="top">How many seconds have to pass before another login attempt
     can be made after <code>$_CONF['login_attempts']</code> (see above) login
     attempts have failed.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_pass_alg">pass_alg</a></td>
+  <td valign="top">sha1</td>
+  <td valign="top">Hash algorithm used to generate password hashes. Options
+    include 
+    <a href="http://en.wikipedia.org/wiki/Md5">md5</a>, 
+    <a href="http://en.wikipedia.org/wiki/SHA-1">sha1</a>, 
+    <a href="http://en.wikipedia.org/wiki/SHA-2">sha256</a>, 
+    <a href="http://en.wikipedia.org/wiki/SHA-2">sha512</a>, and 
+    <a href="http://en.wikipedia.org/wiki/Blowfish_(cipher)">blowfish</a>. 
+    sha1 is recommended for maximum portability between PHP versions, blowfish 
+    is considered the most secure</td></tr>
+<tr>
+  <td valign="top"><a name="desc_pass_stretch">pass_stretch</a></td>
+  <td valign="top">4096</td>
+  <td valign="top">The number of iterations of the hash algorithm that should 
+    be applied to the password. Must be greater than 0. See the 
+    <a href="http://en.wikipedia.org/wiki/Key_stretching">wikipedia article</a> 
+    for more information.</td></tr>
 </table>
 
 <h3><a name="users_usersub">Users and Submissions: User Submission</a></h3>
@@ -1056,6 +1082,14 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
   <td valign="top">Allow (1) or disallow (0) subscribing to comment
     notifications. Registered users can get an email notifying them of direct
     replies to comments they left.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_comment_on_same_page">comment_on_same_page</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Enable (1) or disable (0) comment on same page of a content.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_show_comments_at_replying">show_comments_at_replying</a></td>
+  <td valign="top">0</td>
+  <td valign="top">Show (1) or hide (0) comment list when you are replying to a comment on the comment page.</td></tr>
 </table>
 
 
@@ -1461,6 +1495,10 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
   <td valign="top">Whether or not URLs in plain-text posting should
     automatically be turned into clickable links.</td></tr>
 <tr>
+  <td valign="top"><a name="desc_linktext_maxlen">linktext_maxlen</a></td>
+  <td valign="top">50</td>
+  <td valign="top">Maximum text length of clickable URLs. If 0 then there is no maximum length.</td></tr>    
+<tr>
   <td valign="top"><a name="desc_compressed_output">disable_compressed_output</a></td>
   <td valign="top">false</td>
   <td valign="top">If enabled and supported by both the browser and the
@@ -1620,6 +1658,29 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
 
 <p>Also see <a href="http://wiki.geeklog.net/wiki/index.php/Using_the_Webservices">Using the Webservices</a> in the Geeklog Wiki.</p>
 
+<h3><a name="misc_ip_webservices">Miscellaneous: Topics</a></h3>
+
+<table border="1" width="100%">
+<tr><th style="width:8%">Variable</th>
+    <th style="width:29%">Default Value</th>
+    <th style="width:63%">Description</th></tr>
+<tr>
+  <td valign="top"><a name="desc_multiple_breadcrumbs">multiple_breadcrumbs</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set this to <code>true</code> to allow multiple breadcrumbs to display if available.</td></tr>    
+<tr>
+  <td valign="top"><a name="desc_disable_breadcrumbs_topics">disable_breadcrumbs_topics</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set this to <code>true</code> to disable topic breadcrumbs.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_disable_breadcrumbs_articles">disable_breadcrumbs_articles</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set this to <code>true</code> to disable article breadcrumbs.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_disable_breadcrumbs_plugins">disable_breadcrumbs_plugins</a></td>
+  <td valign="top">false</td>
+  <td valign="top">Set this to <code>true</code> to disable all breadcrumbs that are displayed by plugins.</td></tr>
+</table>
 
 <h2><a name="db-config.php">db-config.php</a></h2>
 

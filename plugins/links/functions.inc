@@ -736,16 +736,18 @@ function plugin_upgrade_links()
             break;
 
         case '2.0.1': // Last version of old install (Geeklog 1.5.2)
-            if (! isset($_LI_CONF['new_window'])) {
-                $c = config::get_instance();
-                $c->add('new_window',false,'select',0,0,1,55,TRUE,'links');
-            }
-
-            if (! isset($_LI_CONF['category_permissions'])) {
-                $c = config::get_instance();
-                $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
-                $c->add('category_permissions', array (3, 2, 2, 2),
-                        '@select', 0, 3, 12, 150, true, 'links');
+            if (! $current_config) {
+                if (! isset($_LI_CONF['new_window'])) {
+                    $c = config::get_instance();
+                    $c->add('new_window',false,'select',0,0,1,55,TRUE,'links');
+                }
+    
+                if (! isset($_LI_CONF['category_permissions'])) {
+                    $c = config::get_instance();
+                    $c->add('fs_cpermissions', NULL, 'fieldset', 0, 3, NULL, 0, true, 'links');
+                    $c->add('category_permissions', array (3, 2, 2, 2),
+                            '@select', 0, 3, 12, 150, true, 'links');
+                }
             }
 
             $current_version = '2.1.0';
@@ -760,14 +762,30 @@ function plugin_upgrade_links()
             }
 
             if (! $current_config) {
+                // Update to Config Tables must be performed here and not in regualar SQL update array since if config is current then they shouldn't be run   
+                // Set new Tab column to whatever fieldset is
+                $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'links'";
+                DB_query($sql);
+                
                 links_update_ConfValues_2_1_0();
-
-                links_update_ConfigSecurity_2_1_0();
             }
+            
+            links_update_ConfigSecurity_2_1_0();
 
             $current_version = '2.1.1';
             break;
 
+        case '2.1.1':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            $current_version = '2.1.2';
+            break;
+            
         default:
             $done = true;
         }
@@ -965,13 +983,12 @@ function plugin_savesubmission_links($A)
             && ($A['url'] != 'http://')) {
         $retval = plugin_save_submit_links($A);
     } else {
-        $retval .= COM_siteHeader()
-            . COM_startBlock ($LANG12[22], '',
+        $retval .= COM_startBlock ($LANG12[22], '',
                            COM_getBlockTemplate ('_msg_block', 'header'))
             . $LANG12[23]
             . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_links()
-            . COM_siteFooter ();
+            . plugin_submit_links();
+        $retval = COM_createHTMLDocument($retval);
     }
 
     return $retval;
@@ -1043,10 +1060,9 @@ function plugin_save_submit_links($A)
     $msg = PLG_itemPreSave('links', $A);
     if (! empty($msg)) {
         COM_updateSpeedlimit('submit');
-        $retval .= COM_siteHeader('menu')
-                . COM_errorLog($msg, 2)
-                . plugin_submit_links()
-                . COM_siteFooter();
+        $retval .= COM_errorLog($msg, 2)
+                . plugin_submit_links();
+        $retval = COM_createHTMLDocument($retval);
 
         return $retval;
     }
@@ -1067,8 +1083,8 @@ function plugin_save_submit_links($A)
                        COM_getBlockTemplate('_msg_block', 'header'))
                 . $LANG12[23]
                 . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'))
-                . submissionform('links')
-                . COM_siteFooter();
+                . submissionform('links');
+        $retval = COM_createHTMLDocument($retval);
 
         return $retval;
     }
@@ -1508,18 +1524,22 @@ function phpblock_topic_links()
 
     if (!empty($topic)) {
         $tid = addslashes($topic);
-        $result = DB_query("SELECT l.lid, l.title, l.url, c.cid FROM {$_TABLES['links']} AS l LEFT JOIN {$_TABLES['linkcategories']} AS c ON l.cid=c.cid WHERE c.tid='{$tid}' OR c.tid='all'" . COM_getPermSQL('AND', 0, 2, 'c'));
-        $nrows = DB_numRows($result);
-        if ($nrows > 0) {
-            for ($i = 0; $i < $nrows; $i++) {
-                $A = DB_fetchArray($result);
-                $content = stripslashes($A['title']);
-                $url = COM_buildUrl($_CONF['site_url']
-                     . '/links/portal.php?what=link&amp;item=' . $A['lid']);
-                $retval .= COM_createLink($content, $url,
-                                          array('title' => $A['url']))
-                        . '<br' . XHTML . '>';
-            }
+        $topic_sql = "(c.tid='{$tid}' OR c.tid='" . TOPIC_ALL_OPTION . "') ";
+    } else {
+        $topic_sql = "(c.tid='" . TOPIC_ALL_OPTION . "') ";
+    }        
+        
+    $result = DB_query("SELECT l.lid, l.title, l.url, c.cid FROM {$_TABLES['links']} AS l LEFT JOIN {$_TABLES['linkcategories']} AS c ON l.cid=c.cid WHERE " . $topic_sql . COM_getPermSQL('AND', 0, 2, 'c'));
+    $nrows = DB_numRows($result);
+    if ($nrows > 0) {
+        for ($i = 0; $i < $nrows; $i++) {
+            $A = DB_fetchArray($result);
+            $content = stripslashes($A['title']);
+            $url = COM_buildUrl($_CONF['site_url']
+                 . '/links/portal.php?what=link&amp;item=' . $A['lid']);
+            $retval .= COM_createLink($content, $url,
+                                      array('title' => $A['url']))
+                    . '<br' . XHTML . '>';
         }
     }
 
@@ -1540,16 +1560,21 @@ function phpblock_topic_categories()
 
     if (!empty($topic)) {
         $tid = addslashes($topic);
-        $result = DB_query("SELECT category, cid FROM {$_TABLES['linkcategories']} WHERE tid='{$tid}' OR tid='all'" . COM_getPermSQL ('AND'));
-        $nrows = DB_numRows($result);
-        if ($nrows > 0) {
-            for ($i = 0; $i < $nrows; $i++) {
-                $A = DB_fetchArray($result);
-                $content = stripslashes($A['category']);
-                $url = $_CONF['site_url'] . '/links/index.php?category='
-                                          . rawurlencode($A['cid']);
-                $retval .= COM_createLink($content, $url) . '<br' . XHTML . '>';
-            }
+        $topic_sql = "(tid='{$tid}' OR tid='" . TOPIC_ALL_OPTION . "') ";
+    } else {
+        $topic_sql = "(tid='" . TOPIC_ALL_OPTION . "') ";
+    } 
+    
+
+    $result = DB_query("SELECT category, cid FROM {$_TABLES['linkcategories']} WHERE " . $topic_sql . COM_getPermSQL ('AND'));
+    $nrows = DB_numRows($result);
+    if ($nrows > 0) {
+        for ($i = 0; $i < $nrows; $i++) {
+            $A = DB_fetchArray($result);
+            $content = stripslashes($A['category']);
+            $url = $_CONF['site_url'] . '/links/index.php?category='
+                                      . rawurlencode($A['cid']);
+            $retval .= COM_createLink($content, $url) . '<br' . XHTML . '>';
         }
     }
 
@@ -1817,6 +1842,44 @@ function plugin_getconfigtooltip_links($id)
 {   
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
+}
+
+/**
+* This function is called to inform plugins when a group's information has
+* changed or a new group has been created.
+*
+* @param    int     $grp_id     Group ID
+* @param    string  $mode       type of change: 'new', 'edit', or 'delete'
+* @return   void
+*
+*/
+function plugin_group_changed_links($grp_id, $mode)
+{
+    global $_TABLES, $_GROUPS, $_LI_CONF;
+    
+    if ($mode == 'delete') {
+        // Change any deleted group ids to Links Admin if exist, if does not change to root group
+        $new_group_id = 0;
+        if (isset($_GROUPS['Links Admin'])) {
+            $new_group_id = $_GROUPS['Links Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Links Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }    
+        
+        // Update Link tables with new group id
+        $sql = "UPDATE {$_TABLES['links']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
+        $result = DB_query($sql);
+        
+        $sql = "UPDATE {$_TABLES['linkcategories']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
+        $result = DB_query($sql);
+   }
 }
 
 ?>
