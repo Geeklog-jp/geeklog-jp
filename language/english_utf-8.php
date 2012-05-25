@@ -169,7 +169,7 @@ $LANG01 = array(
     125 => 'Are you sure you want to Delete all checked items?',
     126 => 'Select or de-select all items',
     127 => 'Permalink',
-    128 => 'Login with OpenID:',
+    128 => 'Login with OpenID',
     129 => 'Configuration',
     130 => 'Webservices',
     131 => 'No HTML is allowed',
@@ -180,7 +180,10 @@ $LANG01 = array(
     136 => 'Warning: Javascript recommended for enhanced functionality',
     137 => 'Warning: Javascript required to enable functionality',
     138 => "Click <a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">here</a> to disable the advanced editor and use the default editor which does not require JavaScript",
-    139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage"
+    139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
+    'facebook' => 'Login with Facebook',
+    'twitter' => 'Login with Twitter',
+    'linkedin' => 'Login with LinkedIn'
 );
 
 ###############################################################################
@@ -230,7 +233,8 @@ $LANG03 = array(
     41 => 'Hello %s,',
     42 => 'Unsubscribe',
     43 => 'Unsubscribe from reply notifications',
-    44 => 'Your Name'
+    44 => 'Your Name',
+    45 => "Thank you for your comment. You must wait {$_CONF['commentspeedlimit']} seconds to post a new comment."
 );
 
 ###############################################################################
@@ -397,7 +401,9 @@ $LANG04 = array(
     163 => 'Re-Authentication Failed',
     164 => 'You have exceeded the number of allowed attempts for re-authentication. The operation has been aborted and your recent changes were lost, sorry.',
     165 => 'Use Advanced Editor', 
-    166 => 'Re-synch Remote Account'
+    166 => 'Re-synch Remote Account',
+    167 => 'Remote login',
+    168 => 'You may also login with one on of the below remote authentication services'
 );
 
 ###############################################################################
@@ -686,8 +692,8 @@ $LANG21 = array(
     2 => 'You do not have the necessary rights to edit this block.',
     3 => 'Block Editor',
     4 => 'There was a problem reading this feed (see error.log for details).',
-    5 => '',
-    6 => '',
+    5 => 'Yes',
+    6 => 'No',
     7 => 'All',
     8 => 'Block Security Level',
     9 => 'Block Order',
@@ -701,12 +707,12 @@ $LANG21 = array(
     17 => 'Block Content',
     18 => 'Please fill in the Block Title and Content fields',
     19 => 'Block Manager',
-    20 => '',
+    20 => 'Regular Blocks',
     21 => 'Block SecLev',
-    22 => '',
+    22 => 'Dynamic Blocks',
     23 => 'Block Order',
-    24 => '',
-    25 => 'To modify or delete a block, click on that block\'s edit icon below.  To create a new block, click on "Create New" above. To move a block, click on the arrows or [R] and [L] boxes.',
+    24 => 'Dynamic',
+    25 => 'To modify or delete a regular block, click on that block\'s edit icon below.  To create a new regular block, click on "Create New" above. To move a regular block, click on the arrows or [R] and [L] boxes. To edit dynamic blocks check the plugin configuration that the block is related too.',
     26 => 'Layout Block',
     27 => 'PHP Block',
     28 => 'PHP Block Options',
@@ -725,12 +731,12 @@ $LANG21 = array(
     41 => 'Right',
     42 => 'You must enter the block title and block order for Geeklog default blocks.',
     43 => 'Homepage Only',
-    44 => '',
+    44 => 'Multiple',
     45 => "You are trying to access a block that you don't have rights to.  This attempt has been logged. Please <a href=\"{$_CONF['site_admin_url']}/block.php\">go back to the block administration screen</a>.",
     46 => 'Move',
-    47 => '',
+    47 => 'None',
     48 => 'Block Name',
-    49 => ' (no spaces and must be unique)',
+    49 => '(no spaces)',
     50 => 'The Block Name can not be empty',
     51 => 'include http://',
     52 => 'If you leave this blank the help icon for this block will not be displayed',
@@ -745,11 +751,12 @@ $LANG21 = array(
     61 => 'No Title',
     62 => 'Article Limit',
     63 => 'Bad Block Title',
-    64 => 'Your Title must not be empty and cannot contain HTML!',
+    64 => 'Your Title must not be empty and cannot contain HTML. You must also make a topic selection.',
     65 => 'Order',
     66 => 'Autotags',
     67 => 'Check to allow autotags',
-    68 => 'The feed for this portal block is too long to display. Please set a maximum number of articles to import for the block in the block setup screen, or a global maximum in Geeklog Configuration.'
+    68 => 'The feed for this portal block is too long to display. Please set a maximum number of articles to import for the block in the block setup screen, or a global maximum in Geeklog Configuration.',
+    69 => 'Plugin Name'
 );
 
 ###############################################################################
@@ -786,7 +793,7 @@ $LANG24 = array(
     28 => '<p><b>PREVIEWING</b>: Previewing a story with images attached is best done by saving the article as a draft INSTEAD OF hitting the preview button.  Use the preview button only when images are not attached.</p>',
     29 => 'Trackbacks',
     30 => 'File Upload Errors',
-    31 => 'Please fill in the Title and Intro Text fields',
+    31 => 'Please fill in the Title and Intro Text fields and make sure at least one Topic is selected',
     32 => 'Featured',
     33 => 'There can only be one featured story',
     34 => 'Draft',
@@ -860,7 +867,7 @@ $LANG27 = array(
     3 => 'Topic Name',
     4 => 'Topic Image',
     5 => '(do not use spaces)',
-    6 => 'Deleting a topic deletes all stories and blocks associated with it',
+    6 => 'Deleting a topic deletes all stories, submissions and blocks associated with it (as long as they are only associated with that deleted topic).',
     7 => 'Please fill in the Topic ID and Topic Name fields',
     8 => 'Topic Manager',
     9 => 'To modify or delete a topic, click on that topic.  To create a new topic, click on "Create New" above. You will find your access level for each topic in parenthesis. The asterisk(*) denotes the default topic.',
@@ -877,14 +884,33 @@ $LANG27 = array(
     20 => 'cancel',
     21 => 'delete',
     22 => 'Default',
-    23 => 'make this the default topic for new story submissions',
+    23 => 'If needed, make this the default topic for new items and submissions',
     24 => '(*)',
     25 => 'Archive Topic',
-    26 => 'make this the default topic for archived stories. Only one topic allowed.',
+    26 => 'Make this the default topic for archived stories. Only one topic allowed',
     27 => 'Or Upload Topic Icon',
     28 => 'Maximum',
     29 => 'File Upload Errors',
-    30 => 'Stories in Topic'
+    30 => 'Stories in Topic', 
+    31 => 'You have used a restricted Topic ID. Please choose another one.',
+    32 => 'Parent Topic',
+    33 => 'Inherit',
+    34 => 'Items of child topic are inherited',
+    35 => 'Hidden', 
+    36 => 'Topic will be hidden and cannot be viewed directly, only inherited', 
+    37 => 'Root',
+    38 => 'All',
+    39 => 'Homepage Only', 
+    40 => 'Assign one or more topics. ',
+    41 => 'If "All" is selected then the item will appear for all topics. If "Homepage Only" is selected then item will appear just on the homepage. Else you must select at least one topic to assign the item too. ', 
+    42 => 'Inherit contains the list of assigned topics. If the topic is selected then the item will be inherited by the parent topic. You must save your item first before anything is listed in the inherit box. ',
+    43 => 'Default contains the list of assigned topics. This is the default topic that will be used when displaying the item if the actually topic the user is in is not found. ', 
+    44 => 'Inherit',
+    45 => 'Default',
+    46 => 'Your parent topic cannot be the Archive topic. Please choose a different Parent Topic.',
+    47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.', 
+    48 => 'Parent Topic Id not found.',
+    'breadcrumb_separator' => '>'
 );
 
 ###############################################################################
@@ -1568,7 +1594,7 @@ $LANG_SECTEST = array(
     'remove_inst'   => 'You should really remove the install directory %s once you have your site up and running without any errors.', 
     'remove_inst2'  => 'Keeping it around would allow malicious users the ability to destroy your current install, take over your site, or retrieve sensitive information.',
     'inst_removed'  => 'Good! You seem to have removed the install directory already.',
-    'fix_password'  => 'You still have not changed the <strong>default password</strong> from "password" on %s Root user account(s).',
+    'fix_password'  => 'You still have not changed the <strong>default password</strong> from "password" on the default Admin user account.',
     'password_okay' => 'Good! You seem to have changed the default account password already.'
 );
 
@@ -1761,6 +1787,8 @@ $LANG_confignames['Core'] = array(
     'site_admin_url' => "Admin URL",
     'site_mail' => "Site E-Mail",
     'noreply_mail' => "No-Reply E-Mail",
+    'mail_cc_enabled' => 'Allow to Send Carbon Copies',
+    'mail_cc_default' => '"Carbon Copy" on by Default',
     'site_name' => "Site Name",
     'site_slogan' => "Slogan",
     'owner_name' => "Owner Name",
@@ -1942,6 +1970,8 @@ $LANG_confignames['Core'] = array(
     'passwordspeedlimit' => "Password Speed Limit",
     'login_attempts' => "Max. Login Attempts",
     'login_speedlimit' => "Login Speed Limit",
+    'pass_alg' => 'Password Hash Algorithm',
+    'pass_stretch' => 'Hash Stretch Count',
     'user_html' => "User HTML",
     'admin_html' => "Admin HTML",
     'advanced_html' => 'Additional HTML for Adv. Editor',
@@ -1949,6 +1979,7 @@ $LANG_confignames['Core'] = array(
     'allowed_protocols' => "Allowed Protocols",
     'disable_autolinks' => "Disable Autotags?",
     'clickable_links' => 'Make URLs clickable?',
+    'linktext_maxlen' => 'Max Link Text Length',
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
     'censormode' => "Censor Mode?",
@@ -1970,6 +2001,8 @@ $LANG_confignames['Core'] = array(
     'article_comment_close_days' => 'Days to close comments (default)',
     'comment_close_rec_stories' => 'Number of most recent stories enabled for comments',
     'allow_reply_notifications' => 'Allow comment reply notifications?',
+    'comment_on_same_page' => 'Comment on Same Page?',
+    'show_comments_at_replying' => 'Show Comments at Replying?',
     'search_style' => "Results List Style",
     'search_limits' => "Page Limits",
     'search_show_num' => "Show Result Number?",
@@ -1980,7 +2013,11 @@ $LANG_confignames['Core'] = array(
     'search_def_keytype' => "Default Search Method",
     'search_def_sort' => "Default Sort Order", 
     'autotag_permissions_story' => '[story: ] Permissions', 
-    'autotag_permissions_user' => '[user: ] Permissions'   
+    'autotag_permissions_user' => '[user: ] Permissions',
+    'multiple_breadcrumbs' => "Multiple Breadcrumbs",
+    'disable_breadcrumbs_topics' => "Disable Topic Breadcrumbs",
+    'disable_breadcrumbs_articles' => "Disable Article Breadcrumbs",
+    'disable_breadcrumbs_plugins' => "Disable Plugins Breadcrumbs"
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -2036,7 +2073,9 @@ $LANG_fs['Core'] = array(
     'fs_perm_topic' => 'Topic Default Permission',
     'fs_perm_block' => 'Block Default Permission',
     'fs_webservices' => 'Webservices',
-    'fs_autotag_permissions' => 'Autotag Usage Permissions'
+    'fs_autotag_permissions' => 'Autotag Usage Permissions', 
+    'fs_breadcrumbs' => 'Breadcrumbs',
+    'fs_pass' => 'Password Settings'
 );
     
 $LANG_tab['Core'] = array(
@@ -2079,6 +2118,7 @@ $LANG_tab['Core'] = array(
     'tab_iplookup' => 'IP Lookup',
     'tab_permissions' => 'Permissions',
     'tab_webservices' => 'Webservices',
+    'tab_topics' => 'Topics'
 );
 
 $LANG_configselects['Core'] = array(
@@ -2117,7 +2157,8 @@ $LANG_configselects['Core'] = array(
     25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'), 
-    28 => array('No access' => 0, 'Use' => 2)
+    28 => array('No access' => 0, 'Use' => 2),
+    29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4)
 );
 
 ################################################################################
@@ -2132,6 +2173,7 @@ $LANG_VALIDATION = array(
     'comparison' => 'This field does not match the comparison operation',
     'date' => 'This field must be in a date format',
     'year' => 'This field must be in a year format such as 2010',
+    'yearOrRange' => 'This field must be in a year format such as 2010 or range like 2010 - 2012',
     'time' => 'This field must be in a time format',
     'datetime' => 'This field must be in a datetime format',
     'boolean' => 'This field must be a boolean',
@@ -2165,7 +2207,8 @@ $LANG_VALIDATION = array(
                          'directory where the binaries from the Netpbm package are kept',  
     'language' => 'Language file does not exist',
     'timezone' => 'Invalid timezone',
-    'single_char' => 'This field must be a single character'
+    'single_char' => 'This field must be a single character',
+    'hash' => 'This field must be a hash function supported by your version of PHP'
 );
 
 ?>

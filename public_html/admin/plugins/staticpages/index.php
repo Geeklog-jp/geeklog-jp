@@ -48,9 +48,8 @@ require_once '../../auth.inc.php';
 $display = '';
 
 if (!SEC_hasRights('staticpages.edit')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-             . COM_siteFooter();
+    $display .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $MESSAGE[30]));
     COM_accessLog("User {$_USER['username']} tried to illegally access the static pages administration screen.");
     COM_output($display);
     exit;
@@ -248,28 +247,8 @@ function staticpageeditor_form($A, $error = false)
     } else {
         $sp_template->set_var('centerblock_checked', '');
     }
-    $sp_template->set_var('lang_topic', $LANG_STATIC['topic']);
-    $sp_template->set_var('lang_position', $LANG_STATIC['position']);
-    $current_topic = '';
-    if (isset($A['sp_tid'])) {
-        $current_topic = $A['sp_tid'];
-    }
-    if (empty($current_topic)) {
-        $current_topic = 'none';
-    }
-    $topics = COM_topicList('tid,topic', $current_topic, 1, true);
-    $alltopics = '<option value="all"';
-    if ($current_topic == 'all') {
-        $alltopics .= ' selected="selected"';
-    }
-    $alltopics .= '>' . $LANG_STATIC['all_topics'] . '</option>' . LB;
-    $notopic = '<option value="none"';
-    if ($current_topic == 'none') {
-        $notopic .= ' selected="selected"';
-    }
-    $notopic .= '>' . $LANG_STATIC['no_topic'] . '</option>' . LB;
-    $sp_template->set_var('topic_selection', '<select name="sp_tid">'
-                          . $alltopics . $notopic . $topics . '</select>');
+    
+    $sp_template->set_var('lang_position', $LANG_STATIC['position']); 
     $position = '<select name="sp_where">';
     $position .= '<option value="1"';
     if ($A['sp_where'] == 1) {
@@ -367,6 +346,16 @@ function staticpageeditor_form($A, $error = false)
     }
     $sp_template->set_var('sp_title', $title);
     $sp_template->set_var('sp_page_title', $page_title);
+    
+    $sp_template->set_var('lang_topic', $LANG_STATIC['topic']);
+    if ($mode != 'clone') {
+        $sp_template->set_var('topic_selection',
+                              TOPIC_getTopicSelectionControl ('staticpages', $A['sp_id'], true, false, true));
+    } else {
+        $sp_template->set_var('topic_selection',
+                              TOPIC_getTopicSelectionControl ('staticpages', $A['clone_sp_id'], true, false, true));
+    }
+    
     $sp_template->set_var('lang_metadescription',
                           $LANG_ADMIN['meta_description']);
     $sp_template->set_var('lang_metakeywords', $LANG_ADMIN['meta_keywords']);
@@ -654,6 +643,7 @@ function staticpageeditor($sp_id, $mode = '', $editor = '')
         if (DB_numRows($result) == 1) {
             $A = DB_fetchArray($result);
             $A['sp_id'] = COM_makesid();
+            $A['clone_sp_id'] = $sp_id; // need this so we can load the correct topics
             $A['owner_id'] = $_USER['uid'];
             $A['unixdate'] = time();
             $A['sp_hits'] = 0;
@@ -718,7 +708,6 @@ function staticpageeditor($sp_id, $mode = '', $editor = '')
 * @param string sp_old_id        original ID of this static page
 * @param string sp_centerblock   Flag to indicate display as a center block
 * @param string sp_help          Help URL that displays in the block
-* @param string sp_tid           topid id (for center block)
 * @param int    sp_where         position of center block
 * @param string sp_inblock       Flag: wrap page in a block (or not)
 * @param string postmode
@@ -731,7 +720,7 @@ function submitstaticpage($sp_id, $sp_title,$sp_page_title, $sp_content, $sp_hit
                           $sp_format, $sp_onmenu, $sp_label, $commentcode,
                           $owner_id, $group_id, $perm_owner, $perm_group,
                           $perm_members, $perm_anon, $sp_php, $sp_nf,
-                          $sp_old_id, $sp_centerblock, $sp_help, $sp_tid,
+                          $sp_old_id, $sp_centerblock, $sp_help,
                           $sp_where, $sp_inblock, $postmode, $meta_description,
                           $meta_keywords, $draft_flag, $template_flag, $template_id)
 {
@@ -763,7 +752,6 @@ function submitstaticpage($sp_id, $sp_title,$sp_page_title, $sp_content, $sp_hit
                 'sp_old_id' => $sp_old_id,
                 'sp_centerblock' => $sp_centerblock,
                 'sp_help' => $sp_help,
-                'sp_tid' => $sp_tid,
                 'sp_where' => $sp_where,
                 'sp_inblock' => $sp_inblock,
                 'postmode' => $postmode
@@ -797,7 +785,6 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
         PLG_invokeService('staticpages', 'delete', $args, $display, $svc_msg);
     }
 } elseif ($mode == 'edit') {
-    $display .= COM_siteHeader('menu', $LANG_STATIC['staticpageeditor']);
     if (isset($_GET['msg'])) {
         $msg = COM_applyFilter($_GET['msg'], true);
         if ($msg > 0) {
@@ -809,12 +796,11 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
         $editor = COM_applyFilter($_GET['editor']);
     }
     $display .= staticpageeditor($sp_id, $mode, $editor);
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_STATIC['staticpageeditor']));
 } elseif ($mode == 'clone') {
     if (!empty($sp_id)) {
-        $display .= COM_siteHeader('menu', $LANG_STATIC['staticpageeditor']);
         $display .= staticpageeditor($sp_id,$mode);
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_STATIC['staticpageeditor']));
     } else {
         $display = COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
@@ -858,7 +844,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
             $_POST['perm_group'], $_POST['perm_members'], $_POST['perm_anon'],
             $_POST['sp_php'], $_POST['sp_nf'],
             COM_applyFilter($_POST['sp_old_id']), $_POST['sp_centerblock'],
-            $sp_help, COM_applyFilter($_POST['sp_tid']),
+            $sp_help,
             COM_applyFilter($_POST['sp_where'], true), $_POST['sp_inblock'],
             COM_applyFilter($_POST['postmode']), $_POST['meta_description'],
             $_POST['meta_keywords'], $_POST['draft_flag'], $_POST['template_flag'], $_POST['template_id']); 
@@ -866,7 +852,6 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
         $display = COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }
 } else {
-    $display .= COM_siteHeader('menu', $LANG_STATIC['staticpagelist']);
     if (isset($_REQUEST['msg'])) {
         $msg = COM_applyFilter($_REQUEST['msg'], true);
         if ($msg > 0) {
@@ -874,7 +859,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
         }
     }
     $display .= liststaticpages();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_STATIC['staticpagelist']));
 }
 
 COM_output($display);

@@ -14,6 +14,7 @@
 // |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
 // |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
 // |          Dirk Haun         - dirk AT haun-online DOT de                   |
+// |          Vincent Furia     - vmf AT abtech DOT org                        |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -60,9 +61,8 @@ $display = '';
 
 // Make sure user has access to this page
 if (!SEC_hasRights('user.edit')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-             . COM_siteFooter();
+    $display .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $MESSAGE[30]));
     COM_accessLog("User {$_USER['username']} tried to illegally access the user administration screen.");
     COM_output($display);
     exit;
@@ -453,7 +453,7 @@ function listusers()
 
     $query_arr = array('table' => 'users',
                        'sql' => $sql,
-                       'query_fields' => array('username', 'email', 'fullname'),
+                       'query_fields' => array('username', 'email', 'fullname', 'homepage'),
                        'default_filter' => "AND {$_TABLES['users']}.uid > 1");
 
     $retval .= ADMIN_list('user', 'ADMIN_getListField_users', $header_arr,
@@ -571,21 +571,10 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
             }
         }
 
-        if (empty ($uid) || !empty ($passwd)) {
-            $passwd = SEC_encryptPassword($passwd);
-        } else {
-            if (empty($service)) {
-                $passwd = DB_getItem($_TABLES['users'], 'passwd', "uid = $uid");
-            }
-        }
-
         if (empty ($uid)) {
             if (empty ($passwd)) {
                 // no password? create one ...
-                $passwd = rand ();
-                $passwd = md5 ($passwd);
-                $passwd = substr ($passwd, 1, 8);
-                $passwd = SEC_encryptPassword($passwd);
+                $passwd = SEC_generateRandomPassword();
             }
 
             $uid = USER_createAccount ($username, $email, $passwd, $fullname,
@@ -621,7 +610,10 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
             }
 
             $curphoto = addslashes ($curphoto);
-            DB_query("UPDATE {$_TABLES['users']} SET username = '$username', fullname = '$fullname', passwd = '$passwd', email = '$email', homepage = '$homepage', photo = '$curphoto', status='$userstatus' WHERE uid = $uid");
+            DB_query("UPDATE {$_TABLES['users']} SET username = '$username', fullname = '$fullname', email = '$email', homepage = '$homepage', photo = '$curphoto', status='$userstatus' WHERE uid = $uid");
+            if (!empty($passwd)) {
+                SEC_updateUserPassword($passwd, $uid);
+            }
             if ($_CONF['custom_registration'] AND (function_exists('CUSTOM_userSave'))) {
                 CUSTOM_userSave($uid);
             }
@@ -703,15 +695,13 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
                 21
             );
         } else {
-            $retval .= COM_siteHeader ('menu', $LANG28[22]);
             $retval .= COM_errorLog ('Error in saveusers in '
                                      . $_CONF['site_admin_url'] . '/user.php');
-            $retval .= COM_siteFooter ();
+            $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG28[22]));
             echo $retval;
             exit;
         }
     } else {
-        $retval = COM_siteHeader('menu', $LANG28[1]);
         $retval .= COM_showMessageText($LANG28[10]);
         if (!empty($uid) && ($uid > 1) &&
                 DB_count($_TABLES['users'], 'uid', $uid) > 0) {
@@ -719,7 +709,7 @@ function saveusers ($uid, $username, $fullname, $passwd, $passwd_conf, $email, $
         } else {
             $retval .= edituser();
         }
-        $retval .= COM_siteFooter();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG28[1]));
         COM_output($retval);
         exit;
     }
@@ -1080,16 +1070,14 @@ function importusers()
         }
     } else {
         // A problem occurred, print debug information
-        $retval = COM_siteHeader('menu', $LANG28[22])
-                . COM_showMessageText($upload->printErrors(false), $LANG28[24])
-                . COM_siteFooter();
+        $retval = COM_showMessageText($upload->printErrors(false), $LANG28[24]);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG28[22]));
 
         return $retval;
     }
 
     $users = file ($filename);
 
-    $retval .= COM_siteHeader ('menu', $LANG28[24]);
     $retval .= COM_startBlock ($LANG28[31], '',
             COM_getBlockTemplate ('_admin_block', 'header'));
 
@@ -1164,7 +1152,7 @@ function importusers()
     $retval .= '<p>' . sprintf ($LANG28[32], $successes, $failures);
 
     $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
-    $retval .= COM_siteFooter ();
+    $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG28[24]));
 
     return $retval;
 }
@@ -1184,7 +1172,6 @@ function display_batchAddform()
     $retval = '';
 
     $token = SEC_createToken();
-    $retval .= COM_siteHeader('menu', $LANG28[24]);
     $retval .= COM_startBlock ($LANG28[24], '',
                         COM_getBlockTemplate ('_admin_block', 'header'));
 
@@ -1212,7 +1199,7 @@ function display_batchAddform()
             . "\" value=\"{$token}\"" . XHTML . '></div></form>' . LB;
 
     $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
-    $retval .= COM_siteFooter();
+    $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG28[24]));
 
     return $retval;
 }
@@ -1294,14 +1281,10 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) { // del
                     $_POST['homepage'], $_POST['groups'], $delphoto,
                     $_POST['userstatus'], $_POST['oldstatus']);
         if (!empty($display)) {
-            $tmp = COM_siteHeader('menu', $LANG28[22]);
-            $tmp .= $display;
-            $tmp .= COM_siteFooter();
-            $display = $tmp;
+            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[22]));
         }
     }
 } elseif ($mode == 'edit') {
-    $display .= COM_siteHeader('menu', $LANG28[1]);
     $msg = '';
     if (isset($_GET['msg'])) {
         $msg = COM_applyFilter($_GET['msg'], true);
@@ -1313,35 +1296,28 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) { // del
     if ($uid == 1) {
         echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
         exit;
-    } else {
-        $display .= edituser($uid, $msg);
-        $display .= COM_siteFooter();
     }
+    $display .= edituser($uid, $msg);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[1]));
 } elseif (($mode == 'import') && SEC_checkToken()) {
     $display .= importusers();
 } elseif ($mode == 'importform') {
     $display .= display_batchAddform();
 } elseif ($mode == 'batchdelete') {
-    $display .= COM_siteHeader ('menu', $LANG28[54]);
     $display .= batchdelete();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[54]));
 } elseif (($mode == $LANG28[78]) && !empty($LANG28[78]) && SEC_checkToken()) {
     $msg = batchreminders();
-    $display .= COM_siteHeader ('menu', $LANG28[11])
-        . COM_showMessage($msg)
-        . batchdelete()
-        . COM_siteFooter();
+    $display .= COM_showMessage($msg) . batchdelete();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[11]));
 } elseif (($mode == 'batchdeleteexec') && SEC_checkToken()) {
     $msg = batchdeleteexec();
-    $display .= COM_siteHeader ('menu', $LANG28[11])
-        . COM_showMessage($msg)
-        . batchdelete()
-        . COM_siteFooter();
+    $display .= COM_showMessage($msg) . batchdelete();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[11]));
 } else { // 'cancel' or no mode at all
-    $display .= COM_siteHeader('menu', $LANG28[11]);
     $display .= COM_showMessageFromParameter();
     $display .= listusers();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG28[11]));
 }
 
 COM_output($display);

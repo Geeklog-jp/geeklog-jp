@@ -1,5 +1,59 @@
 Geeklog History/Changes:
 
+May ??, 2012 (2.0.0)
+------------
+
+- Created the function COM_createHTMLDocument which replaces COM_siteHeader and 
+  COM_siteFooter (feature request #0001358) [Dengen]
+- Fixed issue with $_CONF['left_blocks_in_footer'] and hiding the blocks 
+  (bug #0001316) [Dengen]
+- Created a new theme called denim which is based on Responsive Web Design [Dengen]
+- Created a new theme called modern_curve which will eventual replace the 
+  professional theme (feature request #0001255) [Rouslan]
+- Added Emergency Rescue Tool written by Suprsidr to Geeklog Install [Tom]
+- Fixed path issue and changed the order of loading the jQuery css files 
+  in the Scripts class (bug #0001439) [Tom]
+- Improve strength of password hashing (feature request #0001384) [Vinny]
+- Add IP Address to entries in error.log [Tom]
+- Allow markup on page navigation (feature request #0001422) [Tom]
+- Failure when trying to report sitemap.xml write error (bug #0001412) [Vinny]
+- List dynamic blocks on admin blocks page (feature request #0001434) [Tom]
+- Admin Database command fails (bug #0001404) [Dirk]
+- DB Backup fails with MySQL 5.5 or later (bug #0001410) [Dirk]
+- Gravatar Image Requests (feature request #0001435) [Dirk]
+- Can't install plugin by uploading a tarball from a browser in Windows. (bug
+  #0001405) [Dirk]
+- Feed items truncated when Length of entries is 1 (bug #0001431) [Tom]
+- Comments Form on same page as story (patch #0000728, provided by dengen)
+- Allow Topics to have child Topics [Tom]
+- Allow other objects to be associated to Topics (feature request #0001155)
+  [Tom]
+- Allow objects like Articles, Blocks and Staticpages to be associated with 
+  more than one Topic [Tom]
+- CC setting should be an admin option (patch #0001259) [Tom]
+- Delete account OAuth (bug #0001417) [Tom]
+- When saving a Poll in the admin interface the vote count gets reset (bug
+  #0001419) [Tom]
+- Scripts class including theme's style.css (bug #0001407) [Tom]
+- Query failed: Syntax error "AS dateFROM" (bug #0001418) [Tom]
+- Add $_CONF['linktext_maxlen'] to story configuration panel (patch #0001139)
+  [Tom]
+- Add Breadcrumb Support (feature request #0001062) [Tom]
+- Configuration Copyright Year can only accept a number (bug #0001416) [Tom]
+- Articles, Blocks, Topics and Core Plugins do not handle a Group being Deleted
+  (bug #0001397) [Tom]
+- Stripslashes() expects parameter 1 to be string, array given lib-common.php
+  line 5754 (bug #0001413) [Tom]
+- Comment Count maybe off for Story after Comment Submission (bug #0001414)
+  [Tom]
+- Improved logging of SQL errors to include the function name and line number
+  (feature request #0001377) [Dirk]
+- Add Stop Forum Spam and Spam Number of Links Modules to Spam-X (feature
+  request #0001378) [Tom]
+- Hardcoded strings in Spam-X plugin (patch #0000656) [Tom]
+- Added support for MySQLi (patch #0001303, provided by mystral-kk)
+
+
 Oct 9, 2011 (1.8.1)
 -----------
 

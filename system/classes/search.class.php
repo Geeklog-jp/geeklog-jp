@@ -83,6 +83,11 @@ class Search {
         }
         if (isset ($_GET['topic'])) {
             $this->_topic = COM_applyFilter ($_GET['topic']);
+        } else {
+            $last_topic = SESS_getVariable('topic');
+            if ($last_topic != '') {   
+                $this->_topic = $last_topic;
+            }
         }
         if (isset ($_GET['datestart'])) {
             $this->_dateStart = COM_applyFilter ($_GET['datestart']);
@@ -196,8 +201,7 @@ class Search {
         $searchform->set_var('date_format', $LANG09[22]);
         $searchform->set_var('lang_topic', $LANG09[3]);
         $searchform->set_var('lang_all', $LANG09[4]);
-        $searchform->set_var('topic_option_list',
-                            COM_topicList ('tid,topic', $this->_topic));
+        $searchform->set_var('topic_option_list', TOPIC_getTopicListSelect($this->_topic, 2, true));
         $searchform->set_var('lang_type', $LANG09[5]);
         $searchform->set_var('lang_results', $LANG09[59]);
         $searchform->set_var('lang_per_page', $LANG09[60]);
@@ -321,19 +325,27 @@ class Search {
     function _searchStories()
     {
         global $_TABLES, $_DB_dbms, $LANG09;
-
+        
         // Make sure the query is SQL safe
         $query = trim(addslashes($this->_query));
 
         $sql = 'SELECT s.sid AS id, s.title AS title, s.introtext AS description, ';
         $sql .= 'UNIX_TIMESTAMP(s.date) AS date, s.uid AS uid, s.hits AS hits, ';
         $sql .= 'CONCAT(\'/article.php?story=\',s.sid) AS url ';
-        $sql .= 'FROM '.$_TABLES['stories'].' AS s, '.$_TABLES['users'].' AS u ';
+        $sql .= 'FROM '.$_TABLES['stories'].' AS s, '.$_TABLES['users'].' AS u, '.$_TABLES['topic_assignments'].' AS ta ';
         $sql .= 'WHERE (draft_flag = 0) AND (date <= NOW()) AND (u.uid = s.uid) ';
-        $sql .= COM_getPermSQL('AND') . COM_getTopicSQL('AND') . COM_getLangSQL('sid', 'AND') . ' ';
+        $sql .= 'AND ta.type = \'article\' AND ta.id = sid '; 
+        $sql .= COM_getPermSQL('AND') . COM_getTopicSQL('AND', 0, 'ta') . COM_getLangSQL('sid', 'AND') . ' ';
 
         if (!empty($this->_topic)) {
-            $sql .= 'AND (s.tid = \''.$this->_topic.'\') ';
+            // Retrieve list of inherited topics
+            if ($this->_topic == TOPIC_ALL_OPTION) {
+                // Stories do not have an all option so just return all stories that meet the requirements and permissions
+                //$sql .= "AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '".$this->_topic."')) ";
+            } else {
+                $tid_list = TOPIC_getChildList($this->_topic);
+                $sql .= "AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '".$this->_topic."'))) ";
+            }
         }
         if (!empty($this->_author)) {
             $sql .= 'AND (s.uid = \''.$this->_author.'\') ';
@@ -345,6 +357,8 @@ class Search {
         $sql .= $search_s->getDateRangeSQL('AND', 'date', $this->_dateStart, $this->_dateEnd);
         list($sql, $ftsql) = $search_s->buildSearchSQL($this->_keyType, $query, $columns, $sql);
 
+        $sql .= " GROUP BY id";
+        
         $search_s->setSQL($sql);
         $search_s->setFTSQL($ftsql);
         $search_s->setRank(5);
@@ -361,13 +375,19 @@ class Search {
             $sql .= 'CONCAT(\'/comment.php?mode=view&amp;cid=\',c.cid) AS url ';
         }
 
-        $sql .= 'FROM '.$_TABLES['users'].' AS u, '.$_TABLES['comments'].' AS c ';
+        $sql .= 'FROM '.$_TABLES['users'].' AS u, '.$_TABLES['topic_assignments'].' AS ta, '.$_TABLES['comments'].' AS c ';
         $sql .= 'LEFT JOIN '.$_TABLES['stories'].' AS s ON ((s.sid = c.sid) ';
-        $sql .= COM_getPermSQL('AND',0,2,'s').COM_getTopicSQL('AND',0,'s').COM_getLangSQL('sid','AND','s').') ';
+        $sql .= COM_getPermSQL('AND',0,2,'s').COM_getLangSQL('sid','AND','s').') ';
         $sql .= 'WHERE (u.uid = c.uid) AND (s.draft_flag = 0) AND (s.commentcode >= 0) AND (s.date <= NOW()) ';
+        $sql .= 'AND ta.type = \'article\' AND ta.id = s.sid '.COM_getTopicSQL('AND',0,'ta');
 
         if (!empty($this->_topic)) {
-            $sql .= 'AND (s.tid = \''.$this->_topic.'\') ';
+            if ($this->_topic == TOPIC_ALL_OPTION) {
+                // Stories do not have an all option so just return all story comments that meet the requirements and permissions
+                //$sql .= "AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '".$this->_topic."')) ";
+            } else {
+                $sql .= "AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '".$this->_topic."'))) ";
+            }
         }
         if (!empty($this->_author)) {
             $sql .= 'AND (c.uid = \''.$this->_author.'\') ';
@@ -379,6 +399,8 @@ class Search {
         $sql .= $search_c->getDateRangeSQL('AND', 'c.date', $this->_dateStart, $this->_dateEnd);
         list($sql, $ftsql) = $search_c->buildSearchSQL($this->_keyType, $query, $columns, $sql);
 
+        $sql .= " GROUP BY id";
+        
         $search_c->setSQL($sql);
         $search_c->setFTSQL($ftsql);
         $search_c->setRank(2);

@@ -417,11 +417,36 @@ select {
 }
 .comment-edit {
   font-style: italic;
+  font-size: 0.85em;
+  color: #BBB;
   padding-top:1ex;
 }
 .comment-sig {
   color:#666666;
   padding-top:1ex;
+}
+.comment {
+  margin-bottom:5px;
+}
+.commentbody {
+  margin-top:5px;
+  margin-bottom:1em;
+}
+.commentthread {
+  margin-top:5px;
+  margin-bottom:5px;
+}
+#commentperview {
+  margin:0;
+  background:transparent;
+  border:1px dashed grey;
+  padding:5px 10px;
+}
+#commenteditform {
+  margin:0;
+  background:#F7F7F7;
+  border:1px solid #E7E7E7;
+  padding:10px;
 }
 /******************************************************************************/
 .edit-perm-down {
@@ -1010,7 +1035,82 @@ a.pluginButton:hover {
   background-position:0% -42px;
 }
 
-/* Common CSS for on-hover tooltip feature */
+/* Page Navigation *********************************************************************/
+.gl-pagenav {
+  text-align:center;
+}
+
+div.gl-pagenav b {
+   display: inline-block;
+   margin: 3px;
+   padding: 3px;
+   line-height: 1.5;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav b {
+   display: inline;
+   zoom: 1;
+ }
+ /* foe IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav b {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav a {
+   display: inline-block;
+   margin: 3px;
+   padding: 3px;
+   text-decoration: none;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav a {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav a {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav span {
+   display: inline-block;
+   padding: 3px;
+   line-height: 1.5;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav span {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav span {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav span a { 
+  margin: 0;
+   padding: 0;
+   background: transparent;
+   border: none;
+   text-decoration: underline;
+ }
+  
+/* Common CSS for on-hover tooltip feature  *********************************************************************/
 a.gl-tooltip {
     border-bottom: 1px dotted #000000; color: #000000; outline: none;
     text-decoration: none;
@@ -1092,6 +1192,98 @@ b.status_black {
   display:     inline;
   color:       black;
 }
-
 /* End of Common Plugin CSS */
+
+/* Third party login */
+form.third-party-login {
+  margin: 0.1em 0;
+}
+
+form.third-party-login div {
+  position: relative;
+}
+
+form.third-party-login div img {
+  position: absolute;
+  left: 6px;
+  top: 6px;
+}
+
+form.third-party-login div input {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+form.third-party-login div input.submit {
+  text-indent: 24px;
+  font-size: 12px;
+  height: 28px;
+}
+
+div.third-party-login {
+  width: 164px;
+}
+
+/* Admin basic form ***********************************************************/
+.admin_basic {
+  padding: 0.5em 2em;
+}
+.form_block {
+  margin: 0;
+  padding: 0;
+}
+.form_block:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 1px;
+  overflow: hidden;
+}
+.compact dt {
+  float: left;
+  clear: left;
+  width: 15%;
+  margin: 0 0 1em 0;
+  padding: 0 1% 0 0;
+  font-weight: normal;
+  text-align: right;
+}
+.compact dt:after {
+  content: ":";
+}
+.compact dt label {
+  font-weight: normal;
+}
+.compact dd {
+  float: left;
+  width: 84%;
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+.compact dd.description {
+  margin: -0.5em 0 1em 16%;
+  padding: 0;
+}
+.compact p.description {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+.wide {
+  width: 98%;
+}
+.separator {
+  display: none;
+}
+.size1  { width:  60px; }
+.size2  { width: 120px; }
+.size3  { width: 180px; }
+.size4  { width: 240px; }
+.size5  { width: 300px; }
+.size6  { width: 360px; }
+.size7  { width: 420px; }
+.size8  { width: 480px; }
+.size9  { width: 540px; }
+.size10 { width: 600px; }
 

@@ -90,13 +90,13 @@ function SYND_feedUpdateCheckAll( $frontpage_only, $update_info, $limit, $update
     if( count( $topiclist ) > 0 )
     {
         $tlist = "'" . implode( "','", $topiclist ) . "'";
-        $where .= " AND (tid IN ($tlist))";
+        $where .= " AND ta.type = 'article' AND ta.id = sid AND (ta.tid IN ($tlist))";
 
         if ($frontpage_only) {
             $where .= ' AND frontpage = 1';
         }
 
-        $result = DB_query( "SELECT sid FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() $where AND perm_anon > 0 ORDER BY date DESC $limitsql" );
+        $result = DB_query( "SELECT sid FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE draft_flag = 0 AND date <= NOW() $where AND perm_anon > 0 GROUP BY sid ORDER BY date DESC $limitsql" );
         $nrows = DB_numRows( $result );
 
         for( $i = 0; $i < $nrows; $i++ )
@@ -155,7 +155,16 @@ function SYND_feedUpdateCheckTopic( $tid, $update_info, $limit, $updated_topic =
         $limitsql = ' LIMIT 10';
     }
 
-    $result = DB_query( "SELECT sid FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() AND tid = '$tid'" . COM_getTopicSQL('AND', 1) . " AND perm_anon > 0 ORDER BY date DESC $limitsql" );
+    // "SELECT sid FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() AND tid = '$tid'" . COM_getTopicSQL('AND', 1) . " AND perm_anon > 0 ORDER BY date DESC $limitsql"
+    $sql = "SELECT sid 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE draft_flag = 0 AND date <= NOW() AND perm_anon > 0
+        AND ta.type = 'article' AND ta.id = sid  
+        AND ta.tid = '$tid'" . COM_getTopicSQL('AND', 1, 'ta') . "
+        GROUP BY sid
+        ORDER BY date DESC $limitsql";
+        
+    $result = DB_query($sql);
     $nrows = DB_numRows( $result );
 
     $sids = array ();
@@ -255,8 +264,20 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
 
         $topic = stripslashes( DB_getItem( $_TABLES['topics'], 'topic',
                                "tid = '$tid'" ));
+        
+        // Retrieve list of inherited topics for anonymous user
+        $tid_list = TOPIC_getChildList($tid, 1);        
 
-        $result = DB_query( "SELECT sid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() AND tid = '$tid' AND perm_anon > 0 ORDER BY date DESC $limitsql" );
+        //$sql = "SELECT sid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() AND tid = '$tid' AND perm_anon > 0 ORDER BY date DESC $limitsql";
+        $sql = "SELECT sid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode 
+            FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+            WHERE draft_flag = 0 AND date <= NOW() AND perm_anon > 0 
+            AND ta.type = 'article' AND ta.id = sid 
+            AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '$tid'))) 
+            GROUP BY sid 
+            ORDER BY date DESC $limitsql";
+        
+        $result = DB_query($sql);
 
         $nrows = DB_numRows( $result );
 
@@ -268,7 +289,8 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
             $storytitle = stripslashes( $row['title'] );
             $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
             $fulltext = PLG_replaceTags( $fulltext );
-            $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
+            $storytext = ($contentLength == 1) ? $fulltext : COM_truncateHTML ($fulltext, $contentLength, ' ...');
+ 
 
             $fulltext = trim( $fulltext );
             $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
@@ -337,6 +359,7 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
     $link = $_CONF['site_url'];
 
     $where = '';
+    
     if( !empty( $limit ))
     {
         if( substr( $limit, -1 ) == 'h' ) // last xx hours
@@ -381,13 +404,19 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
     }
     if( !empty( $tlist ))
     {
-        $where .= " AND (tid IN ($tlist))";
+        $where .= " AND (ta.tid IN ($tlist))";
     }
     if ($frontpage_only) {
         $where .= ' AND frontpage = 1';
     }
 
-    $result = DB_query( "SELECT sid,tid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() $where AND perm_anon > 0 ORDER BY date DESC $limitsql" );
+    $sql = "SELECT sid,ta.tid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE draft_flag = 0 AND date <= NOW() AND ta.type = 'article' AND ta.id = sid $where AND perm_anon > 0 
+        GROUP BY sid
+        ORDER BY date DESC $limitsql";
+    
+    $result = DB_query($sql);
 
     $content = array();
     $sids = array();
@@ -402,7 +431,7 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
 
         $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
         $fulltext = PLG_replaceTags( $fulltext );
-        $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
+        $storytext = ($contentLength == 1) ? $fulltext : COM_truncateHTML ($fulltext, $contentLength, ' ...');
         $fulltext = trim( $fulltext );
         $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
 
@@ -505,9 +534,7 @@ function SYND_updateFeed( $fid )
                 if ($A['content_length'] != 1) {
                     $count = count($content);
                     for ($i = 0; $i < $count; $i++ ) {
-                        $content[$i]['summary'] = COM_truncateHTML(
-                                    $content[$i]['text'], $A['content_length'], ' ...');
-      
+                        $content[$i]['summary'] = ($A['content_length'] == 1) ? $content[$i]['text'] : COM_truncateHTML ($content[$i]['text'], $A['content_length'], ' ...');
                     }
                 }
             }
@@ -627,7 +654,9 @@ function SYND_updateFeed( $fid )
 */
 function SYND_truncateSummary($text, $length)
 {
-    return COM_truncateHTML ($text, $length, ' ...');
+    $storytext = ($length == 1) ? $text : COM_truncateHTML ($text, $length, ' ...');
+    
+    return $storytext;
 }
 
 

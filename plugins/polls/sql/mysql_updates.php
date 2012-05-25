@@ -79,13 +79,17 @@ $_UPDATES = array(
     ),
 
     '2.1.2' => array(
-        // Set new Tab column to whatever fieldset is
-        "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'polls'",   
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.polls.tab_whatsnew', 'Access to configure polls what\'s new block', 0)",
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.polls.tab_main', 'Access to configure general polls settings', 0)",
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.polls.tab_permissions', 'Access to configure polls default permissions', 0)",
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.polls.tab_autotag_permissions', 'Access to configure polls autotag usage permissions', 0)"        
-    )    
+    ),     
+
+    '2.1.3' => array(
+        // Delete Poll block since moved to dynamic
+        "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_polls'", 
+        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.polls.tab_poll_block', 'Access to configure poll block', 0)"
+    )
     
 );
 
@@ -102,7 +106,7 @@ function polls_update_polltopics()
     $count_move = DB_numRows($move_rst);
     for ($i = 0; $i < $count_move; $i++) {
         $A = DB_fetchArray($move_rst);
-        $A[1] = mysql_real_escape_string($A[1]);
+        $A[1] = addslashes($A[1]);
         $P_SQL[] = "INSERT INTO {$_TABLES['pollquestions']} (pid, question) VALUES ('{$A[0]}','{$A[1]}');";
     }
 
@@ -113,35 +117,6 @@ function polls_update_polltopics()
             return false;
         }
     }
-}
-
-/**
- * Add in new security rights for the Group "Polls Admin"
- *
- */
-function polls_update_ConfigSecurity_2_1_2()
-{
-    global $_TABLES;
-    
-    // Add in security rights for Polls Admin
-    $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
-                            "grp_name = 'Polls Admin'");
-
-    if ($group_id > 0) {
-        $ft_names[] = 'config.polls.tab_whatsnew';
-        $ft_names[] = 'config.polls.tab_main';
-        $ft_names[] = 'config.polls.tab_permissions';
-        $ft_names[] = 'config.polls.tab_autotag_permissions';
-        
-        foreach ($ft_names as $name) {
-            $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '$name'");         
-            if ($ft_id > 0) {
-                $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
-                DB_query($sql);
-            }
-        }        
-    }    
-
 }
 
 function polls_update_ConfValues_2_1_0()
@@ -188,6 +163,55 @@ function polls_update_ConfValues_2_1_1()
             0, 2, 12, 100, true, 'polls');    
 
     return true;
+}
+
+/**
+ * Add in new security rights for the Group "Polls Admin"
+ *
+ */
+function polls_update_ConfigSecurity_2_1_2()
+{
+    global $_TABLES;
+    
+    // Add in security rights for Polls Admin
+    $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                            "grp_name = 'Polls Admin'");
+
+    if ($group_id > 0) {
+        $ft_names[] = 'config.polls.tab_whatsnew';
+        $ft_names[] = 'config.polls.tab_main';
+        $ft_names[] = 'config.polls.tab_permissions';
+        $ft_names[] = 'config.polls.tab_autotag_permissions';
+        
+        foreach ($ft_names as $name) {
+            $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '$name'");         
+            if ($ft_id > 0) {
+                $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
+                DB_query($sql);
+            }
+        }        
+    }    
+
+}
+
+/**
+ * Add in new security rights for the Group "Polls Admin"
+ *
+ */
+function polls_update_ConfigSecurity_2_1_3()
+{
+    global $_TABLES;
+    
+    // Add in security rights for Polls Admin
+    $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
+                            "grp_name = 'Polls Admin'");
+
+    if ($group_id > 0) {
+        $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = 'config.polls.tab_poll_block'");   
+        $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
+        DB_query($sql);    
+    }    
+
 }
 
 ?>

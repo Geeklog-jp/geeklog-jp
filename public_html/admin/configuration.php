@@ -135,7 +135,7 @@ function configmanager_select_default_perm_cookie_timeout_helper()
 function custom_validation_copyrightyear($rule, $ruleParams) {
     $year = $ruleParams[0]['copyrightyear'];
     
-    return preg_match('/^\d{1,4}$/', $year);
+    return preg_match('/^\d{1,4}\s{0,1}\-{0,1}\s{0,1}\d{0,4}$/', $year);
 }
 
 /**
@@ -432,6 +432,45 @@ function custom_validation_single_char($rule, $ruleParams) {
         }
     }
     
+    return $ret;
+}
+
+/**
+ * Custom validation rule for hash function
+ *
+ * @param string $rule String of rule name
+ * @param array $ruleParams Parameter of validation
+ * @return boolean Success
+ *
+ */
+function custom_validation_hash_function($rule, $ruleParams) {
+    $ret = false;
+
+    switch ($ruleParams[0]['pass_alg']) {
+    case HashFunction::md5:
+        if (function_exists('md5')) $ret = true;
+        break;
+
+    case HashFunction::sha1:
+        if (function_exists('sha1')) $ret = true;
+        break;
+
+    case HashFunction::sha256:
+        if (CRYPT_SHA256 == 1) $ret = true;
+        break;
+
+    case HashFunction::sha512:
+        if (CRYPT_SHA512 == 1) $ret = true;
+        break;
+
+    case HashFunction::blowfish:
+        if (CRYPT_BLOWFISH == 1) $ret = true;
+        break;
+
+    default:
+        $ret = false;
+    }
+
     return $ret;
 }
 

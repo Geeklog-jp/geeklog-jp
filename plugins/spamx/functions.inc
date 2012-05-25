@@ -235,20 +235,22 @@ function plugin_upgrade_spamx()
                 }
             }            
 
-            // Remove admin override since not needed anymore
-            $c = config::get_instance();
-            $c->del('admin_override', 'spamx');
-
-            // late fix: ensure 'notification_email' option can be disabled
-            $result = DB_query("SELECT value, default_value FROM {$_TABLES['conf_values']} WHERE name = 'notification_email' AND group_name = 'spamx'");
-            list($value, $default_value) = DB_fetchArray($result);
-            if ($value != 'unset') {
-                if (substr($default_value, 0, 6) != 'unset:') {
-                    $unset = addslashes('unset:' . $default_value);
-                    DB_query("UPDATE {$_TABLES['conf_values']} SET default_value = '$unset' WHERE name = 'notification_email' AND group_name = 'spamx'");
+            if (! $current_config) {
+                // Remove admin override since not needed anymore
+                $c = config::get_instance();
+                $c->del('admin_override', 'spamx');
+    
+                // late fix: ensure 'notification_email' option can be disabled
+                $result = DB_query("SELECT value, default_value FROM {$_TABLES['conf_values']} WHERE name = 'notification_email' AND group_name = 'spamx'");
+                list($value, $default_value) = DB_fetchArray($result);
+                if ($value != 'unset') {
+                    if (substr($default_value, 0, 6) != 'unset:') {
+                        $unset = addslashes('unset:' . $default_value);
+                        DB_query("UPDATE {$_TABLES['conf_values']} SET default_value = '$unset' WHERE name = 'notification_email' AND group_name = 'spamx'");
+                    }
                 }
             }
-
+            
             $current_version = '1.2.1';
             break;
 
@@ -262,11 +264,41 @@ function plugin_upgrade_spamx()
 
             if (! $current_config) {
                 spamx_update_ConfValues_1_2_1();  
-
-                spamx_update_ConfigSecurity_1_2_1();
             }
+            
+            spamx_update_ConfigSecurity_1_2_1();
 
             $current_version = '1.2.2';
+            break;
+            
+        case '1.2.2':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            if (! $current_config) {
+                // Update to Config Tables must be performed here and not in regular SQL update array since if config is current then they shouldn't be run   
+                // Set new Tab column to whatever fieldset is
+                $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'spamx'";
+                DB_query($sql);
+
+                // Rename the action config option since it is causes JavaScript issues in the config and IE 8
+                $sql = "UPDATE {$_TABLES['conf_values']} SET name = 'spamx_action' WHERE name = 'action' AND group_name = 'spamx'";
+                DB_query($sql);
+
+                // in an earlier update we accidentally renamed the 'action' option to 'spamx_name' - fix that
+                $sql = "UPDATE {$_TABLES['conf_values']} SET name = 'spamx_action' WHERE name = 'spamx_name' AND group_name = 'spamx'";
+                DB_query($sql);   
+
+                spamx_update_ConfValues_1_2_2();
+            }
+
+            spamx_update_ConfigSecurity_1_2_2();
+
+            $current_version = '1.3.0';
             break;
 
         default:
@@ -529,6 +561,30 @@ function plugin_getconfigtooltip_spamx($id)
 {   
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
+}
+
+/**
+* Checks user registrations against stopforumspam.com to validate email and IP addresses
+*
+* @param    string  $type       Type of item
+* @param    string  $username   Type of item
+* @return   string              
+*
+*/
+function plugin_itemPreSave_spamx($type, $username)
+{
+    global $_CONF, $LANG_SX00;
+
+    if ($type == 'registration') {
+        require_once $_CONF['path'].'/plugins/spamx/SFS.Misc.class.php';
+        $EX = new SFS;
+        $res = $EX->execute($_POST['email'], $_SERVER['REMOTE_ADDR']);
+        if ($res > 0) {
+            return $LANG_SX00['invalid_email_or_ip'];
+        }
+    }
+
+    return '';
 }
 
 ?>

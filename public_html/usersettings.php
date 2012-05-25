@@ -61,7 +61,7 @@ function edituser()
                                    'username'      => 'username.thtml',
                                    'password'      => 'password.thtml',
                                    'current_password'      => 'current_password.thtml',
-                                   'resynch'      => 'resynch.thtml',
+                                   'resynch'       => 'resynch.thtml',
                                    'deleteaccount' => 'deleteaccount.thtml'));
 
     include ($_CONF['path_system'] . 'classes/navbar.class.php');
@@ -312,23 +312,22 @@ function confirmAccountDelete ($form_reqid)
         return COM_refresh ($_CONF['site_url'] . '/index.php');
     }
 
-    // to change the password, email address, or cookie timeout,
-    // we need the user's current password
-    $current_password = DB_getItem($_TABLES['users'], 'passwd',
-                                   "uid = {$_USER['uid']}");
-    if (empty($_POST['old_passwd']) ||
-            (SEC_encryptPassword($_POST['old_passwd']) != $current_password)) {
-         return COM_refresh($_CONF['site_url']
-                            . '/usersettings.php?msg=84');
+    // Do not check current password for remote users. At some point we should reauthenticate with the service when deleting the account
+    if ($_USER['remoteservice'] == '') {
+        // verify the password
+        if (empty($_POST['old_passwd']) ||
+                (SEC_encryptUserPassword($_POST['old_passwd'], $_USER['uid']) < 0)) {
+             return COM_refresh($_CONF['site_url']
+                                . '/usersettings.php?msg=84');
+        }
     }
-
+    
     $reqid = substr (md5 (uniqid (rand (), 1)), 1, 16);
     DB_change ($_TABLES['users'], 'pwrequestid', "$reqid",
                                   'uid', $_USER['uid']);
 
     $retval = '';
 
-    $retval .= COM_siteHeader ('menu', $LANG04[97]);
     $retval .= COM_startBlock ($LANG04[97], '',
                                COM_getBlockTemplate ('_msg_block', 'header'));
     $retval .= '<p>' . $LANG04[98] . '</p>' . LB;
@@ -341,7 +340,7 @@ function confirmAccountDelete ($form_reqid)
             . '"' . XHTML . '>' . LB;
     $retval .= '</div></form>' . LB;
     $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-    $retval .= COM_siteFooter ();
+    $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[97]));
 
     return $retval;
 }
@@ -624,10 +623,7 @@ function editpreferences()
     $preferences->parse ('privacy_block', 'privacy', true);
 
     // excluded items block
-    $permissions = COM_getPermSQL ('');
-    $preferences->set_var ('exclude_topic_checklist',
-        COM_checkList($_TABLES['topics'], 'tid,topic', $permissions, $A['tids'],
-                      'topics'));
+    $preferences->set_var ('exclude_topic_checklist', TOPIC_checkList($A['tids'], 'topics'));
 
     if (($_CONF['contributedbyline'] == 1) &&
         ($_CONF['hide_author_exclusion'] == 0)) {
@@ -676,10 +672,8 @@ function editpreferences()
         } elseif ($user_etids == '-') { // this means "no topics"
             $user_etids = '';
         }
-        $tmp = COM_checkList($_TABLES['topics'], 'tid,topic', $permissions,
-                             $user_etids, 'etids');
-        $preferences->set_var('email_topic_checklist',
-                str_replace($_TABLES['topics'], 'etids', $tmp));
+        $preferences->set_var ('email_topic_checklist', TOPIC_checkList($user_etids, 'etids'));
+        
         $preferences->parse('digest_block', 'digest', true);
     } else {
         $preferences->set_var('digest_block', '');
@@ -807,13 +801,12 @@ function handlePhotoUpload ($delete_photo = '')
                                          'image/png'   => '.png'
                                  )      );
     if (!$upload->setPath ($_CONF['path_images'] . 'userphotos')) {
-        $display = COM_siteHeader ('menu', $LANG24[30]);
         $display .= COM_startBlock ($LANG24[30], '',
                 COM_getBlockTemplate ('_msg_block', 'header'));
         $display .= $upload->printErrors (false);
         $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                         'footer'));
-        $display .= COM_siteFooter ();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[30]));
         COM_output($display);
         exit; // don't return
     }
@@ -870,13 +863,12 @@ function handlePhotoUpload ($delete_photo = '')
         $upload->uploadFiles ();
 
         if ($upload->areErrors ()) {
-            $display = COM_siteHeader ('menu', $LANG24[30]);
-            $display .= COM_startBlock ($LANG24[30], '',
+            $display = COM_startBlock ($LANG24[30], '',
                     COM_getBlockTemplate ('_msg_block', 'header'));
             $display .= $upload->printErrors (false);
             $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block',
                                                             'footer'));
-            $display .= COM_siteFooter ();
+            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[30]));
             COM_output($display);
             exit; // don't return
         }
@@ -928,12 +920,11 @@ function saveuser($A)
     // we need the user's current password
     $service = DB_getItem ($_TABLES['users'], 'remoteservice', "uid = {$_USER['uid']}"); 
     if ($service == '') {
-        $current_password = DB_getItem($_TABLES['users'], 'passwd',
-                                       "uid = {$_USER['uid']}");
         if (!empty ($A['passwd']) || ($A['email'] != $_USER['email']) ||
                 ($A['cooktime'] != $_USER['cookietimeout'])) {
+            // verify password
             if (empty($A['old_passwd']) ||
-                    (SEC_encryptPassword($A['old_passwd']) != $current_password)) {
+                    (SEC_encryptUserPassword($A['old_passwd'], $_USER['uid']) < 0)) {
     
                 return COM_refresh ($_CONF['site_url']
                                     . '/usersettings.php?msg=83');
@@ -985,9 +976,8 @@ function saveuser($A)
                         $imgpath = $_CONF['path_images'] . 'userphotos/';
                         if (rename ($imgpath . $photo,
                                     $imgpath . $newphoto) === false) {
-                            $display = COM_siteHeader ('menu', $LANG04[21]);
-                            $display .= COM_errorLog ('Could not rename userphoto "' . $photo . '" to "' . $newphoto . '".');
-                            $display .= COM_siteFooter ();
+                            $display = COM_errorLog ('Could not rename userphoto "' . $photo . '" to "' . $newphoto . '".');
+                            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG04[21]));
 
                             return $display;
                         }
@@ -1043,10 +1033,8 @@ function saveuser($A)
         if ($service == '') {
             if (!empty($A['passwd'])) {
                 if (($A['passwd'] == $A['passwd_conf']) &&
-                        (SEC_encryptPassword($A['old_passwd']) == $current_password)) {
-                    $passwd = SEC_encryptPassword($A['passwd']);
-                    DB_change($_TABLES['users'], 'passwd', "$passwd",
-                              "uid", $_USER['uid']);
+                        (SEC_encryptUserPassword($A['old_passwd'], $_USER['uid']) == 0)) {
+                    SEC_updateUserPassword($A['passwd'], $_USER['uid']);
                     if ($A['cooktime'] > 0) {
                         $cooktime = $A['cooktime'];
                     } else {
@@ -1054,7 +1042,7 @@ function saveuser($A)
                     }
                     SEC_setCookie($_CONF['cookie_password'], $passwd,
                                   time() + $cooktime);
-                } elseif (SEC_encryptPassword($A['old_passwd']) != $current_password) {
+                } elseif (SEC_encryptUserPassword($A['old_passwd'], $_USER['uid']) < 0) {
                     return COM_refresh ($_CONF['site_url']
                                         . '/usersettings.php?msg=68');
                 } elseif ($A['passwd'] != $A['passwd_conf']) {
@@ -1486,18 +1474,16 @@ if (! COM_isAnonUser()) {
         // Go right into default
 
     default: // also if $mode == 'edit', 'preferences', or 'comments'
-        $display .= COM_siteHeader('menu', $LANG04[16]);
         $display .= COM_showMessageFromParameter();
         $display .= edituser();
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG04[16]));
         break;
     }
 } else {
-    $display .= COM_siteHeader ('menu');
     $display .= COM_startBlock ($LANG04[70] . '!');
     $display .= '<br' . XHTML . '>' . $LANG04[71] . '<br' . XHTML . '><br' . XHTML . '>';
     $display .= COM_endBlock ();
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display);
 }
 
 COM_output($display);

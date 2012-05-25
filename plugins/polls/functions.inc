@@ -118,10 +118,9 @@ function plugin_savecomment_polls($title, $comment, $id, $pid, $postmode)
 
     $ret = CMT_saveComment ($title, $comment, $id, $pid, 'polls', $postmode);
     if ($ret > 0) { // failure //FIXME: some failures should not return to comment form
-        $retval .= COM_siteHeader('menu', $LANG03[1])
-                . CMT_commentForm ($title, $comment, $id, $pid, 'polls',
-                                   $LANG03[14], $postmode)
-                . COM_siteFooter();
+        $retval .= CMT_commentForm ($title, $comment, $id, $pid, 'polls',
+                                   $LANG03[14], $postmode);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
     } else { // success
         $retval = COM_refresh ($_CONF['site_url']
                                 . "/polls/index.php?pid=$id");
@@ -404,7 +403,8 @@ function plugin_autouninstall_polls ()
                             'config.polls.tab_whatsnew',
                             'config.polls.tab_main',
                             'config.polls.tab_permissions',
-                            'config.polls.tab_autotag_permissions'),
+                            'config.polls.tab_autotag_permissions',
+                            'config.polls.tab_poll_block'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_polls'),
         /* give all vars with their name */
@@ -1237,13 +1237,35 @@ function plugin_upgrade_polls()
             }
 
             if (! $current_config) {
+                // Update to Config Tables must be performed here and not in regualar SQL update array since if config is current then they shouldn't be run   
+                // Set new Tab column to whatever fieldset is
+                $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'polls'";
+                DB_query($sql);                
+        
                 polls_update_ConfValues_2_1_2();
-
-                polls_update_ConfigSecurity_2_1_2();
             }
+
+            polls_update_ConfigSecurity_2_1_2();
 
             $current_version = '2.1.3';
             break;
+            
+        case '2.1.3':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            if (! $current_config) {
+                polls_update_ConfValues_2_1_3();
+            }
+            
+            polls_update_ConfigSecurity_2_1_3();
+
+            $current_version = '2.1.4';
+            break;            
 
         default:
             $done = true;
@@ -1729,6 +1751,214 @@ function plugin_getwhatsnewcomment_polls($numreturn = 0, $uid = 0)
             $A[] = DB_fetchArray($result);    
         }
         return $A;
+    }
+}
+
+/**
+* Gets Geeklog blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocks_polls($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_PO_CONF, $LANG_POLLS;
+    
+    $retval = array();
+    
+    $owner_id = SEC_getDefaultRootUser();
+    
+    // Check permissions first
+    if ($_PO_CONF['block_enable'] && SEC_hasAccess($owner_id, $_PO_CONF['block_group_id'], $_PO_CONF['block_permissions'][0], $_PO_CONF['block_permissions'][1], $_PO_CONF['block_permissions'][2], $_PO_CONF['block_permissions'][3])) {
+        // Check if right topic
+        if (($_PO_CONF['block_topic_option'] == TOPIC_ALL_OPTION) || ($_PO_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) || ($_PO_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_PO_CONF['block_topic']))) {
+            if (($side=='left' && $_PO_CONF['block_isleft'] == 1) || ($side=='right' && $_PO_CONF['block_isleft'] == 0)) { 
+                // Create a block
+                $display = phpblock_polls();
+                
+                $retval[] = array('name'           => 'polls',
+                                  'type'           => 'dynamic',
+                                  'onleft'         => $_PO_CONF['block_isleft'],
+                                  'title'          => $LANG_POLLS['poll'],
+                                  'blockorder'     => $_PO_CONF['block_order'],
+                                  'content'        => $display,
+                                  'allow_autotags' => false,
+                                  'help'           => '');
+            }
+        }
+    }
+    
+    return $retval;
+}
+
+/**
+* Gets config information for dynamic blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocksConfig_polls($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_PO_CONF, $LANG_POLLS;
+    
+    $retval = array();
+    
+    $owner_id = SEC_getDefaultRootUser();
+    
+    // Check permissions first
+    if (SEC_hasAccess($owner_id, $_PO_CONF['block_group_id'], $_PO_CONF['block_permissions'][0], $_PO_CONF['block_permissions'][1], $_PO_CONF['block_permissions'][2], $_PO_CONF['block_permissions'][3])) {
+        if (($side=='left' && $_PO_CONF['block_isleft'] == 1) || ($side=='right' && $_PO_CONF['block_isleft'] == 0)) { 
+            $retval[] = array('plugin'         => $LANG_POLLS['polls'],
+                              'name'           => 'polls',
+                              'title'          => $LANG_POLLS['poll'],
+                              'type'           => 'dynamic',
+                              'onleft'         => $_PO_CONF['block_isleft'],
+                              'blockorder'     => $_PO_CONF['block_order'],
+                              'allow_autotags' => false,
+                              'help'           => '',
+                              'enable'         => $_PO_CONF['block_enable'],
+                              'topic_option'   => $_PO_CONF['block_topic_option'],
+                              'topic'          => $_PO_CONF['block_topic'],
+                              'inherit'        => array()
+                              );
+        }
+    }
+    
+    return $retval;
+}
+
+/**
+* This function is called to inform plugins when a group's information has
+* changed or a new group has been created.
+*
+* @param    int     $grp_id     Group ID
+* @param    string  $mode       type of change: 'new', 'edit', or 'delete'
+* @return   void
+*
+*/
+function plugin_group_changed_polls($grp_id, $mode)
+{
+    global $_TABLES, $_GROUPS, $_PO_CONF;
+    
+    if ($mode == 'delete') {
+        // Change any deleted group ids to Polls Admin if exist, if does not change to root group
+        $new_group_id = 0;
+        if (isset($_GROUPS['Polls Admin'])) {
+            $new_group_id = $_GROUPS['Polls Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Polls Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }    
+        
+        // Update Polls with new group id
+        $sql = "UPDATE {$_TABLES['polltopics']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
+        $result = DB_query($sql);
+        
+        // Update Polls Block group if need be
+        if ($_PO_CONF['block_group_id'] == $grp_id) {
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_group_id', $new_group_id, 'polls');
+            
+        }
+   }
+}
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (groud id, group name) pairs
+ *
+ */
+function plugin_configmanager_select_block_group_id_polls()
+{
+    return SEC_getUserGroups();
+}
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (topic id, topic name) pairs
+ *
+ */
+function plugin_configmanager_select_block_topic_polls()
+{
+    return array_flip(TOPIC_getList());
+}
+
+/**
+* Callback function when an item was saved
+*
+* @param    string  $id     (unused) ID of item being saved
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @param    string  $old_id (unused) previous ID of item, if != $id
+* @return   void
+* @see      PLG_itemSaved
+*
+*/
+function plugin_itemsaved_polls($id, $type, $old_id)
+{
+    global $_TABLES, $_PO_CONF;
+
+    // we're really only interested in Topic ID changes
+    if (($type == 'topic') && !empty($old_id) && ($id != $old_id)) {
+        $key = array_search($old_id, $_PO_CONF['block_topic']);
+
+        if ($key > 0) {
+            // Update config
+            $_PO_CONF['block_topic'][$key] = $id;
+            
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_PO_CONF['block_topic'], 'polls');
+        }        
+    }
+}
+
+/**
+* Callback function when an item was deleted
+*
+* @param    string  $id     ID of item being deleted
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @return   void
+* @see      PLG_itemDeleted
+*
+*/
+function plugin_itemdeleted_polls($id, $type)
+{
+    global $_TABLES, $_PO_CONF;
+
+    // we're really only interested in Topic Deletes
+    if ($type == 'topic') {
+        $key = array_search($id, $_PO_CONF['block_topic']);
+
+        if ($key > 0) {
+            // delete item from config
+            unset($_PO_CONF['block_topic'][$key]);
+            
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_PO_CONF['block_topic'], 'polls');
+        }    
+        // Note: All topics could get deleted from array which would mean the block would not display untill user adds more in config
     }
 }
 
