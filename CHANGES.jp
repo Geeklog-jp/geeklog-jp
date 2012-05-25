@@ -1,0 +1,7 @@
+2012-05-26  Takahiro Kambe  <tacahi>
+
+	* tools/check-files.sh: 改行文字の検査を緩和しました。
+
+	* 行末の文字をGeeklog 2.0.0b1に合わせました。
+
+	* upstreamブランチを作成して、Geeklogの公式リリースを加えました。
