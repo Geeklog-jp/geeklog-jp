@@ -1,0 +1,11 @@
+<!-- loginform_oauth.thtml { -->
+
+<form class="third-party-login" action="{site_url}/users.php?oauth_login={oauth_service}" method="post">
+  <div>
+    <img alt="" src="{oauth_sign_in_image}"{xhtml}>
+    <input value="{lang_oauth_service}" type="submit" class="submit"{xhtml}>
+  </div>
+</form>
+
+<!-- } loginform_oauth.thtml -->
+

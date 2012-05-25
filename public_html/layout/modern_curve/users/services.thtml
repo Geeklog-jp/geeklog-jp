@@ -1,0 +1,7 @@
+
+<!-- users/services.thtml { -->
+
+{select_service}
+<label for="service">{lang_service}</label>
+
+<!-- } users/services.thtml -->

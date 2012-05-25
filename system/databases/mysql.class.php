@@ -137,8 +137,11 @@ class database {
             $this->dbError();
         }
 
-        if ($this->_mysql_version >= 40100) {
-            if ($this->_charset == 'utf-8') {
+        if ($this->_charset == 'utf-8') {
+            if (($this->_mysql_version >= 50007) &&
+                    function_exists('mysql_set_charset')) {
+                @mysql_set_charset('utf8', $this->_db);
+            } else {
                 @mysql_query ("SET NAMES 'utf8'", $this->_db);
             }
         }
@@ -689,7 +692,24 @@ class database {
     function dbError($sql='')
     {
         if (mysql_errno()) {
-            $this->_errorlog(@mysql_errno() . ': ' . @mysql_error() . ". SQL in question: $sql");        
+            $fn = '';
+            $btr = debug_backtrace();
+            if (! empty($btr)) {
+                for ($i = 0; $i < 100; $i++) {
+                    $b = $btr[$i];
+                    if ($b['function'] == 'DB_query') {
+                        if (!empty($b['file']) && !empty($b['line'])) {
+                            $fn = $b['file'] . ':' . $b['line'];
+                        }
+                        break;
+                    }
+                }
+            }
+            if (empty($fn)) {
+                $this->_errorlog(@mysql_errno() . ': ' . @mysql_error() . ". SQL in question: $sql");
+            } else {
+                $this->_errorlog(@mysql_errno() . ': ' . @mysql_error() . " in $fn. SQL in question: $sql");
+            }
             if ($this->_display_error) {
                 return  @mysql_errno() . ': ' . @mysql_error();
             } else {

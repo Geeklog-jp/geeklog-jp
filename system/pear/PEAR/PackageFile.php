@@ -9,7 +9,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: PackageFile.php 308687 2011-02-25 23:14:27Z dufuz $
+ * @version    CVS: $Id: PackageFile.php 313024 2011-07-06 19:51:24Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -35,7 +35,7 @@ define('PEAR_PACKAGEFILE_ERROR_INVALID_PACKAGEVERSION', 2);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.2
+ * @version    Release: 1.9.4
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -186,7 +186,7 @@ class PEAR_PackageFile
      */
     function &fromXmlString($data, $state, $file, $archive = false)
     {
-        if (preg_match('/<package[^>]+version="([0-9]+\.[0-9]+)"/', $data, $packageversion)) {
+        if (preg_match('/<package[^>]+version=[\'"]([0-9]+\.[0-9]+)[\'"]/', $data, $packageversion)) {
             if (!in_array($packageversion[1], array('1.0', '2.0', '2.1'))) {
                 return PEAR::raiseError('package.xml version "' . $packageversion[1] .
                     '" is not supported, only 1.0, 2.0, and 2.1 are supported.');
@@ -232,7 +232,7 @@ class PEAR_PackageFile
             }
 
             return $pf;
-        } elseif (preg_match('/<package[^>]+version="([^"]+)"/', $data, $packageversion)) {
+        } elseif (preg_match('/<package[^>]+version=[\'"]([^"\']+)[\'"]/', $data, $packageversion)) {
             $a = PEAR::raiseError('package.xml file "' . $file .
                 '" has unsupported package.xml <package> version "' . $packageversion[1] . '"');
             return $a;
@@ -351,7 +351,7 @@ class PEAR_PackageFile
             }
         }
 
-        $tmpdir = System::mktemp('-t ' . $this->_config->get('temp_dir') . ' -d pear');
+        $tmpdir = System::mktemp('-t "' . $this->_config->get('temp_dir') . '" -d pear');
         if ($tmpdir === false) {
             $ret = PEAR::raiseError("there was a problem with getting the configured temp directory");
             return $ret;
@@ -429,7 +429,6 @@ class PEAR_PackageFile
         $ret = &PEAR_PackageFile::fromXmlString($data, $state, $descfile, $archive);
         return $ret;
     }
-
 
     /**
      * Create a PEAR_PackageFile_v* from a .tgz archive or package.xml file.

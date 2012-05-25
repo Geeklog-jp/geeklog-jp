@@ -44,7 +44,7 @@ $_CONF_VALIDATE['Core']['microsummary_short'] = array('rule' => 'stringOrEmpty')
 $_CONF_VALIDATE['Core']['site_disabled_msg'] = array('rule' => 'stringOrEmpty');
 $_CONF_VALIDATE['Core']['copyrightyear'] = array(
     'rule' => 'copyrightyear',
-    'message' => isset($LANG_VALIDATION['year']) ? $LANG_VALIDATION['year'] : $LANG_VALIDATION['default']
+    'message' => isset($LANG_VALIDATION['yearOrRange']) ? $LANG_VALIDATION['yearOrRange'] : $LANG_VALIDATION['default']
 );
 $_CONF_VALIDATE['Core']['url_rewrite'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['cdn_hosted'] = array('rule' => 'boolean');
@@ -305,6 +305,15 @@ $_CONF_VALIDATE['Core']['passwordspeedlimit'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['login_attempts'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['login_speedlimit'] = array('rule' => 'numeric');
 
+/* Subgroup User and Submissions, Tab Login Settings, Fieldset Password */
+$_CONF_VALIDATE['Core']['pass_alg'] = array(
+    'rule' => 'hash_function',
+    'message' => isset($LANG_VALIDATION['hash']) ? 
+                 $LANG_VALIDATION['hash'] : $LANG_VALIDATION['default']
+);
+$_CONF_VALIDATE['Core']['pass_stretch'] = array('rule' => array('comparison', '>', 0));
+
+
 /* Subgroup Users and Submissions, Tab User Submission */
 $_CONF_VALIDATE['Core']['usersubmission'] = array('rule' => 'boolean');
 
@@ -335,6 +344,8 @@ $_CONF_VALIDATE['Core']['article_comment_close_enabled'] = array('rule' => 'bool
 $_CONF_VALIDATE['Core']['article_comment_close_days'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['comment_close_rec_stories'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['allow_reply_notifications'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['comment_on_same_page'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['show_comments_at_replying'] = array('rule' => 'boolean');
 
 /* Subgroup Images, Tab Image Library */
 $_CONF_VALIDATE['Core']['image_lib'] = array(
@@ -430,6 +441,7 @@ $_CONF_VALIDATE['Core']['cookiesecure'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['cron_schedule_interval'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['disable_autolinks'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['clickable_links'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['linktext_maxlen'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['compressed_output'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['frame_options'] = array(
     'rule' => array('inList', array('', 'SAMEORIGIN', 'DENY'), true)

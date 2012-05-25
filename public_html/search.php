@@ -36,15 +36,14 @@ require_once $_CONF['path_system'] . 'classes/search.class.php';
 
 $searchObj = new Search();
 
-if (isset ($_GET['mode']) && ($_GET['mode'] == 'search')) {
-    $display = COM_siteHeader('menu', $LANG09[11]);
-    $display .= $searchObj->doSearch();
-} else {
-    $display = COM_siteHeader ('menu', $LANG09[1]);
-    $display .= $searchObj->showForm();
-}
+// Figure out topic to display
+TOPIC_getTopic('search');
 
-$display .= COM_siteFooter();
+if (isset ($_GET['mode']) && ($_GET['mode'] == 'search')) {
+    $display = COM_createHTMLDocument($searchObj->doSearch(), array('pagetitle' => $LANG09[11]));
+} else {
+    $display = COM_createHTMLDocument($searchObj->showForm(), array('pagetitle' => $LANG09[1]));
+}
 
 COM_output($display);
 
