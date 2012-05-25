@@ -65,9 +65,14 @@ $order = '';
 $query = '';
 $reply = '';
 $page = 0;
+$mode = '';
 if (isset ($_POST['mode'])) {
-    $sid = COM_applyFilter ($_POST['story']);
     $mode = COM_applyFilter ($_POST['mode']);
+} else if (isset ($_POST['format'])) {
+    $mode = COM_applyFilter ($_POST['format']);
+}
+if (!empty($mode)) {
+    $sid = COM_applyFilter ($_POST['story']);
     if (isset ($_POST['order'])) {
         $order = COM_applyFilter ($_POST['order']);
     }
@@ -98,10 +103,20 @@ if (isset ($_POST['mode'])) {
     }
 }
 
+if (!empty ($_REQUEST['sid'])) {
+    $sid = COM_applyFilter ($_REQUEST['sid']);
+}
+if (empty ($sid) && !empty ($_POST['cmt_sid'])) {
+    $sid = COM_applyFilter ($_POST['cmt_sid']);
+}
 if (empty ($sid)) {
     echo COM_refresh ($_CONF['site_url'] . '/index.php');
     exit();
 }
+
+// Get topic
+TOPIC_getTopic('article', $sid);
+
 if ((strcasecmp ($order, 'ASC') != 0) && (strcasecmp ($order, 'DESC') != 0)) {
     $order = '';
 }
@@ -136,12 +151,11 @@ if ($A['count'] > 0) {
     }
 
     if ($output == STORY_PERMISSION_DENIED) {
-        $display .= COM_siteHeader ('menu', $LANG_ACCESS['accessdenied'])
-                 . COM_startBlock ($LANG_ACCESS['accessdenied'], '',
+        $display = COM_startBlock ($LANG_ACCESS['accessdenied'], '',
                            COM_getBlockTemplate ('_msg_block', 'header'))
                  . $LANG_ACCESS['storydenialmsg']
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-                 . COM_siteFooter ();
+                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_ACCESS['accessdenied']));
     } elseif ( $output == STORY_INVALID_SID ) {
         $display .= COM_refresh($_CONF['site_url'] . '/index.php');
     } elseif (($mode == 'print') && ($_CONF['hideprintericon'] == 0)) {
@@ -257,8 +271,6 @@ if ($A['count'] > 0) {
                 header('X-Pingback: ' . $_CONF['site_url'] . '/pingback.php');
             }
         }
-        
-        $display .= COM_siteHeader('menu', $pagetitle, $headercode);
 
         if (isset($_GET['msg'])) {
             $msg = COM_applyFilter($_GET['msg'], true);
@@ -277,7 +289,9 @@ if ($A['count'] > 0) {
 
         $story_template = COM_newTemplate($_CONF['path_layout'] . 'article');
         $story_template->set_file('article','article.thtml');
-
+        
+        $story_template->postprocess_fn = 'PLG_replaceTags';
+ 
         $story_template->set_var('story_id', $story->getSid());
         $story_template->set_var('story_title', $pagetitle);
         $story_options = array ();
@@ -402,7 +416,6 @@ if ($A['count'] > 0) {
         if (($story->displayElements('commentcode') >= 0) and $show_comments) {
             $delete_option = (SEC_hasRights('story.edit') && ($story->getAccess() == 3)
                              ? true : false);
-            require_once ( $_CONF['path_system'] . 'lib-comment.php' );
             $story_template->set_var ('commentbar',
                     CMT_userComments ($story->getSid(), $story->displayElements('title'), 'article',
                                       $order, $mode, 0, $page, false, $delete_option, $story->displayElements('commentcode')));
@@ -430,8 +443,11 @@ if ($A['count'] > 0) {
         } else {
             $story_template->set_var ('trackback', '');
         }
-        $display .= $story_template->finish ($story_template->parse ('output', 'article'));
-        $display .= COM_siteFooter ();
+        $display = $story_template->finish ($story_template->parse ('output', 'article'));
+        
+        $breadcrumbs = TOPIC_breadcrumbs('article', $story->getSid());
+        
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle, 'breadcrumbs' => $breadcrumbs, 'headercode' => $headercode));
     }
 } else {
     $display .= COM_refresh($_CONF['site_url'] . '/index.php');

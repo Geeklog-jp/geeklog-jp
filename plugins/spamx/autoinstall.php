@@ -2,7 +2,7 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Spam-X Plugin 1.2                                                         |
+// | Spam-X Plugin 1.3                                                         |
 // +---------------------------------------------------------------------------+
 // | autoinstall.php                                                           |
 // |                                                                           |
@@ -51,7 +51,7 @@ function plugin_autoinstall_spamx($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.2.2',
+        'pi_version'      => '1.3.0',
         'pi_gl_version'   => '1.8.0',
         'pi_homepage'     => 'http://www.geeklog.net/'
     );
@@ -64,12 +64,14 @@ function plugin_autoinstall_spamx($pi_name)
     $features = array(
         $pi_name . '.admin'                 => 'Full access to ' . $pi_display_name . ' plugin',
         $pi_name . '.skip'                  =>  'Skip checking posts for Spam', 
-        'config.' . $pi_name . '.tab_main'  => 'Access to configure Spam-x main settings'
+        'config.' . $pi_name . '.tab_main'  => 'Access to configure Spam-x main settings',
+        'config.' . $pi_name . '.tab_modules'  => 'Access to configure Spam-x modules'
     );
 
     $mappings = array(
         $pi_name . '.admin'                 => array($pi_admin),
-        'config.' . $pi_name . '.tab_main'  => array($pi_admin)
+        'config.' . $pi_name . '.tab_main'  => array($pi_admin),
+        'config.' . $pi_name . '.tab_modules'  => array($pi_admin)
     );
 
     $tables = array(

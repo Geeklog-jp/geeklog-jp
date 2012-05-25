@@ -46,9 +46,8 @@ $display = '';
 
 if (COM_isAnonUser() && (($_CONF['loginrequired'] == 1) ||
                          ($_CONF['directoryloginrequired'] == 1))) {
-    $display = COM_siteHeader('menu', $LANG_DIR['title']);
-    $display .= SEC_loginRequiredForm();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument(SEC_loginRequiredForm(), array('pagetitle' => $LANG_DIR['title']));
+    
     COM_output($display);
     exit;
 }
@@ -100,12 +99,7 @@ function DIR_topicList ($topic = 'all', $year = 0, $month = 0, $standalone = fal
     }
     $retval .= '><div>' . LB;
     $retval .= '<select name="topic" onchange="this.form.submit()">' . LB;
-    $retval .= '<option value="all"';
-    if ($topic == 'all') {
-        $retval .= ' selected="selected"';
-    }
-    $retval .= '>' . $LANG21[7] . '</option>' . LB;
-    $retval .= COM_topicList ('tid,topic', $topic);
+    $retval .= TOPIC_getTopicListSelect($topic, 2, true);
     $retval .= '</select>' . LB;
     $retval .= '<input type="hidden" name="year" value="' . $year . '"' . XHTML . '>';
     $retval .= '<input type="hidden" name="month" value="' . $month . '"' . XHTML . '>';
@@ -262,20 +256,29 @@ function DIR_displayMonth ($topic, $year, $month, $main = false)
     $end   = sprintf ('%04d-%02d-%02d 23:59:59', $year, $month, $lastday);
 
     $sql = array();
-    $sql['mysql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-    $sql['mssql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-    $sql['pgsql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,EXTRACT(day from date) AS mday FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-        if ($topic != 'all') {
-        $sql['mysql'] .= " AND (tid = '$topic')";
-        $sql['mssql'] .= " AND (tid = '$topic')";
-        $sql['pgsql'] .= " AND (tid = '$topic')";
+    $sql['mysql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,DATE_FORMAT(date, '%e') AS mday 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta  
+        WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid ";
+        
+    $sql['mssql'] = $sql['mysql'];
+    
+    $sql['pgsql'] = "SELECT sid,title,UNIX_TIMESTAMP(date) AS day,EXTRACT(day from date) AS mday 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid ";
+    
+    if ($topic != 'all') {
+        $sql['mysql'] .= " AND ta.tid = '$topic'";
+        $sql['mssql'] = $sql['mysql'];
+        $sql['pgsql'] .= " AND ta.tid = '$topic'";
     }
-    $sql['mysql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
-         . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";
-    $sql['mssql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
-         . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";    
-    $sql['pgsql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
-         . COM_getLangSQL ('sid', 'AND') . " ORDER BY date ASC";
+    $sql['mysql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
+         . COM_getLangSQL ('sid', 'AND') . " GROUP BY sid ORDER BY date ASC";
+    $sql['mssql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
+         . COM_getLangSQL ('sid', 'AND') . " GROUP BY sid ORDER BY date ASC";    
+    $sql['pgsql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
+         . COM_getLangSQL ('sid', 'AND') . " GROUP BY sid ORDER BY date ASC";
 
     $result = DB_query ($sql);
     $numrows = DB_numRows ($result);
@@ -348,19 +351,31 @@ function DIR_displayYear ($topic, $year, $main = false)
     $end   = sprintf ('%04d-12-31 23:59:59', $year);
 
     $monthsql = array();
-    $monthsql['mysql'] = "SELECT DISTINCT MONTH(date) AS month,COUNT(*) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-    $monthsql['mssql'] = "SELECT MONTH(date) AS month,COUNT(sid) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
-    $monthsql['pgsql'] = "SELECT EXTRACT(Month from date) AS month,COUNT(sid) AS count FROM {$_TABLES['stories']} WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW())";
+    $monthsql['mysql'] = "SELECT DISTINCT MONTH(s.date) AS month, COUNT(DISTINCT s.sid) AS count 
+        FROM {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta   
+        WHERE (s.date >= '$start') AND (s.date <= '$end') AND (s.draft_flag = 0) AND (s.date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = s.sid ";
+        
+    $monthsql['mssql'] = "SELECT MONTH(date) AS month,COUNT(DISTINCT sid) AS count 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta  
+        WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid ";
+        
+    $monthsql['pgsql'] = "SELECT EXTRACT(Month from date) AS month,COUNT(DISTINCT sid) AS count 
+        FROM {$_TABLES['stories']} , {$_TABLES['topic_assignments']} ta 
+        WHERE (date >= '$start') AND (date <= '$end') AND (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid ";
+    
     if ($topic != 'all') {
-        $monthsql['mysql'] .= " AND (tid = '$topic')";
-        $monthsql['mssql'] .= " AND (tid = '$topic')";
-        $monthsql['pgsql'] .= " AND (tid = '$topic')";
+        $monthsql['mysql'] .= " AND ta.tid = '$topic'";
+        $monthsql['mssql'] .= " AND ta.tid = '$topic'";
+        $monthsql['pgsql'] .= " AND ta.tid = '$topic'";
     }
-    $monthsql['mysql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+    $monthsql['mysql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
               . COM_getLangSQL ('sid', 'AND');
-    $monthsql['mssql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+    $monthsql['mssql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
               . COM_getLangSQL ('sid', 'AND');
-    $monthsql['pgsql'] .= COM_getTopicSql ('AND') . COM_getPermSql ('AND')
+    $monthsql['pgsql'] .= COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')
               . COM_getLangSQL ('sid', 'AND');
 
     $msql = array();
@@ -441,9 +456,24 @@ function DIR_displayAll ($topic, $list_current_month = false)
             . '</h1> ' . DIR_topicList ($topic) . '</div>' . LB;
 
     $yearsql = array();
-    $yearsql['mysql'] = "SELECT DISTINCT YEAR(date) AS year,date FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
-    $yearsql['mssql'] = "SELECT YEAR(date) AS year FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
-    $yearsql['pgsql'] = "SELECT EXTRACT( YEAR from date) AS year FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW())" . COM_getTopicSql ('AND') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
+    $yearsql['mysql'] = "SELECT DISTINCT YEAR(date) AS year,date 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE (draft_flag = 0) AND (date <= NOW())  
+        AND ta.type = 'article' AND ta.id = sid 
+        " . COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
+    
+    $yearsql['mssql'] = "SELECT YEAR(date) AS year 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid 
+        " . COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
+    
+    $yearsql['pgsql'] = "SELECT EXTRACT( YEAR from date) AS year 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+        WHERE (draft_flag = 0) AND (date <= NOW()) 
+        AND ta.type = 'article' AND ta.id = sid  
+        " . COM_getTopicSql ('AND', 0, 'ta') . COM_getPermSql ('AND')  . COM_getLangSQL ('sid', 'AND');
+    
     $ysql = array();
     $ysql['mysql'] = $yearsql['mysql'] . " GROUP BY YEAR(date) ORDER BY date DESC";
     $ysql['mssql'] = $yearsql['mssql'] . " GROUP BY YEAR(date) ORDER BY YEAR(date) DESC";
@@ -451,12 +481,15 @@ function DIR_displayAll ($topic, $list_current_month = false)
 
     $yresult = DB_query ($ysql);
     $numyears = DB_numRows ($yresult);
-
-    for ($i = 0; $i < $numyears; $i++) {
-        $Y = DB_fetchArray ($yresult);
-
-        $retval .= DIR_displayYear ($topic, $Y['year']);
-    }
+    if ($numyears > 0) {
+        for ($i = 0; $i < $numyears; $i++) {
+            $Y = DB_fetchArray ($yresult);
+    
+            $retval .= DIR_displayYear ($topic, $Y['year']);
+        }
+    } else {
+        $retval .= '<p>' . $LANG_DIR['no_articles'] . '</p>';
+    }    
 
     return $retval;
 }
@@ -528,28 +561,25 @@ if (($year != 0) && ($month != 0)) {
     if ($topic != 'all') {
         $title .= ': ' . $topicName;
     }
-    $display .= COM_siteHeader('menu', $title,
-                               DIR_canonicalLink($topic, $year, $month));
-    $display .= DIR_displayMonth ($topic, $year, $month, true);
+    $display = DIR_displayMonth ($topic, $year, $month, true);
     $display .= DIR_navBar ($topic, $year, $month);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $title, 'headercode' => DIR_canonicalLink($topic, $year, $month)));
 } else if ($year != 0) {
     $title = sprintf ($LANG_DIR['title_year'], $year);
     if ($topic != 'all') {
         $title .= ': ' . $topicName;
     }
-    $display .= COM_siteHeader('menu', $title, DIR_canonicalLink($topic, $year));
-    $display .= DIR_displayYear($topic, $year, true);
+    $display = DIR_displayYear($topic, $year, true);
     $display .= DIR_navBar($topic, $year);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $title, 'headercode' => DIR_canonicalLink($topic, $year)));
 } else {
     $title = $LANG_DIR['title'];
     if ($topic != 'all') {
         $title .= ': ' . $topicName;
     }
-    $display .= COM_siteHeader('menu', $title, DIR_canonicalLink($topic));
-    $display .= DIR_displayAll($topic, $conf_list_current_month);
+    $display = DIR_displayAll($topic, $conf_list_current_month);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $title, 'headercode' => DIR_canonicalLink($topic)));
 }
-
-$display .= COM_siteFooter (true);
 
 COM_output($display);
 

@@ -62,9 +62,8 @@ $_STORY_VERBOSE = false;
 $display = '';
 
 if (!SEC_hasRights('story.edit')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-             . COM_siteFooter();
+    $display .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $MESSAGE[30]));
     COM_accessLog("User {$_USER['username']} tried to illegally access the story administration screen.");
     COM_output($display);
     exit;
@@ -120,49 +119,44 @@ function liststories($current_topic = '')
     $retval = '';
 
     if (empty($current_topic)) {
-        $current_topic = $LANG09[9];
+        $current_topic = TOPIC_ALL_OPTION;
     }
 
-    if ($current_topic == $LANG09[9]) { // "All"
-        $excludetopics = '';
-        $seltopics = '';
-        $topicsql = "SELECT tid,topic FROM {$_TABLES['topics']}"
-                  . COM_getPermSQL ();
-        $tresult = DB_query($topicsql);
-        $trows = DB_numRows($tresult);
-        if ($trows > 0) {
-            $exclude = array();
-            for ($i = 0; $i < $trows; $i++)  {
-                $T = DB_fetchArray($tresult);
-                $exclude[] = $T['tid'];
-                $seltopics .= '<option value="' . $T['tid'] . '"';
-                if ($current_topic == $T['tid']) {
-                    $seltopics .= ' selected="selected"';
-                }
-                $seltopics .= '>' . $T['topic'] . '</option>' . LB;
-            }
-            $excludetopics = " (tid IN ('" . implode( "','", $exclude ) . "')) ";
-        } else {
+    $seltopics = TOPIC_getTopicListSelect($current_topic, 2);
+    if (empty($seltopics)) {
+        $retval .= COM_showMessage(101);
+        return $retval;
+    }    
+    if ($current_topic == TOPIC_ALL_OPTION) {
+        // Retrieve list of inherited topics
+        // $tid_list = TOPIC_getChildList(TOPIC_ROOT);
+        
+        // Retrieve list of all topics user has access to (did not do inherit way since may not see all stories has access too)
+        $tid_list = TOPIC_getList(0, true, false);
+            
+        if (empty($tid_list)) {
             $retval .= COM_showMessage(101);
             return $retval;
         }
+        $excludetopics = " (tid IN ('" . implode( "','", $tid_list ) . "')) ";
     } else {
-        $excludetopics = " tid = '$current_topic' ";
+        // Retrieve list of inherited topics
+        $tid_list = TOPIC_getChildList($current_topic);
+        
+        // Get list of blocks to display (except for dynamic). This includes blocks for all topics, and child blocks that are inherited
+        $excludetopics = " (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$current_topic}')))";        
+        /*
         $seltopics = COM_topicList('tid,topic', $current_topic, 1, true);
         if (empty($seltopics)) {
             $retval .= COM_showMessage(101);
             return $retval;
         }
+        */
     }
 
-    $alltopics = '<option value="' .$LANG09[9]. '"';
-    if ($current_topic == $LANG09[9]) {
-        $alltopics .= ' selected="selected"';
-    }
-    $alltopics .= '>' .$LANG09[9]. '</option>' . LB;
     $filter = $LANG_ADMIN['topic']
         . ': <select name="tid" style="width: 125px" onchange="this.form.submit()">'
-        . $alltopics . $seltopics . '</select>';
+        . $seltopics . '</select>';
 
     $header_arr = array(
         array('text' => $LANG_ADMIN['edit'], 'field' => 'edit', 'sort' => false),
@@ -177,7 +171,7 @@ function liststories($current_topic = '')
         $header_arr[] = array('text' => $LANG24[7], 'field' => 'username', 'sort' => true); // author
     }
     $header_arr[] = array('text' => $LANG24[15], 'field' => 'unixdate', 'sort' => true); // date
-    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'tid', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'topic_ids', 'sort' => true);
     $header_arr[] = array('text' => $LANG24[32], 'field' => 'featured', 'sort' => true);
 
     if (SEC_hasRights ('story.ping') && ($_CONF['trackback_enabled'] ||
@@ -210,7 +204,8 @@ function liststories($current_topic = '')
 
     $sql = "SELECT {$_TABLES['stories']}.*, {$_TABLES['users']}.username, {$_TABLES['users']}.fullname, "
           ."UNIX_TIMESTAMP(date) AS unixdate  FROM {$_TABLES['stories']} "
-          ."LEFT JOIN {$_TABLES['users']} ON {$_TABLES['stories']}.uid={$_TABLES['users']}.uid "
+          ."LEFT JOIN {$_TABLES['users']} ON {$_TABLES['stories']}.uid={$_TABLES['users']}.uid " 
+          ."LEFT JOIN {$_TABLES['topic_assignments']} ta ON ta.type = 'article' AND ta.id = sid "
           ."WHERE 1=1 ";
 
     if (!empty ($excludetopics)) {
@@ -219,6 +214,7 @@ function liststories($current_topic = '')
     $query_arr = array(
         'table' => 'stories',
         'sql' => $sql,
+        'query_group' => 'sid',
         'query_fields' => array('title', 'introtext', 'bodytext', 'sid', 'tid'),
         'default_filter' => $excludetopics . COM_getPermSQL('AND')
     );
@@ -574,19 +570,41 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         $story_templates->set_var('hide_meta', ' style="display:none;"');
     }
     $story_templates->set_var('lang_topic', $LANG_ADMIN['topic']);
+    
+    
+    
+    
+    
+    
+    
+    /* Tom
     if(empty($currenttopic) && ($story->EditElements('tid') == '')) {
         $story->setTid(DB_getItem($_TABLES['topics'], 'tid',
                                   'is_default = 1' . COM_getPermSQL('AND')));
     } elseif ($story->EditElements('tid') == '') {
         $story->setTid($currenttopic);
     }
-
-    $tlist = COM_topicList('tid,topic', $story->EditElements('tid'), 1, true);
+    */
+    
+    if ($mode == 'preview') {
+        $tlist = TOPIC_getTopicSelectionControl('article', '', false, true, true);
+    } else {        
+        $tlist = TOPIC_getTopicSelectionControl('article', $oldsid, false, true, true);
+    }
+    
     if (empty($tlist)) {
         $display .= COM_showMessage(101);
         return $display;
     }
-    $story_templates->set_var('topic_options', $tlist);
+    $story_templates->set_var('topic_selection', $tlist);
+    
+    
+    
+    
+    
+    
+    
+
     $story_templates->set_var('lang_show_topic_icon', $LANG24[56]);
     if ($story->EditElements('show_topic_icon') == 1) {
         $story_templates->set_var('show_topic_icon_checked', 'checked="checked"');
@@ -938,6 +956,9 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
             COM_accessLog ("User {$_USER['username']} tried to illegally delete story submission $sid.");
             echo COM_refresh ($_CONF['site_admin_url'] . '/index.php');
         } else if (SEC_checkToken()) {
+            // Delete Topic Assignments for this submission
+            TOPIC_deleteTopicAssignments('article', $sid);
+            
             DB_delete ($_TABLES['storysubmission'], 'sid', $sid,
                        $_CONF['site_admin_url'] . '/moderation.php');
         } else {
@@ -951,12 +972,10 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         echo COM_refresh ($_CONF['site_admin_url'] . '/index.php');
     }
 } else if (($mode == $LANG_ADMIN['preview']) && !empty ($LANG_ADMIN['preview'])) {
-    $display .= COM_siteHeader('menu', $LANG24[5]);
     $display .= storyeditor(COM_applyFilter($_POST['sid']), 'preview', '', '');
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[5]));
     COM_output($display);
 } elseif (($mode == 'edit') || ($mode == 'clone')) {
-    $display .= COM_siteHeader('menu', $LANG24[5]);
     $sid = '';
     if (isset ($_GET['sid'])) {
         $sid = COM_applyFilter ($_GET['sid']);
@@ -966,12 +985,11 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         $topic = COM_applyFilter ($_GET['topic']);
     }
     $display .= storyeditor($sid, $mode, '', $topic);
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[5]));
     COM_output($display);
 } else if ($mode == 'editsubmission') {
-    $display .= COM_siteHeader('menu', $LANG24[5]);
     $display .= storyeditor (COM_applyFilter ($_GET['id']), $mode);
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[5]));
     COM_output($display);
 } else if (($mode == $LANG_ADMIN['save']) && !empty ($LANG_ADMIN['save']) && SEC_checkToken()) {
     submitstory ();
@@ -992,10 +1010,9 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
                 $current_topic = COM_applyFilter($_POST['tid']);
             }
         }
-        $display .= COM_siteHeader('menu', $LANG24[22]);
         $display .= COM_showMessageFromParameter();
         $display .= liststories($current_topic);
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG24[22]));
     }
     COM_output($display);
 }

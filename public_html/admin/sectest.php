@@ -50,9 +50,8 @@ require_once 'auth.inc.php';
 $display = '';
 
 if (!SEC_inGroup('Root')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-             . COM_siteFooter();
+    $display .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $MESSAGE[30]));
     COM_accessLog("User {$_USER['username']} tried to illegally access the security check.");
     COM_output($display);
     exit;
@@ -250,10 +249,7 @@ function checkInstallDir()
 }
 
 /**
-* Check for accounts that still use the default password
-*
-* NOTE: If one of our users is also using "password" as their password, this
-*       test will also detect that, as it checks all accounts.
+* Check if the Admin account is still using the default password
 *
 * @return   string      text explaining the result of the test
 *
@@ -264,24 +260,8 @@ function checkDefaultPassword()
 
     $retval = '';
 
-    // check to see if any account still has 'password' as its password.
-    $pwdRoot = 0;
-    $pwdUser = 0;
-    $result = DB_query("SELECT uid FROM {$_TABLES['users']} WHERE passwd='" . SEC_encryptPassword('password') . "'");
-    $numPwd = DB_numRows($result);
-    if ($numPwd > 0) {
-        for ($i = 0; $i < $numPwd; $i++) {
-            list($uid) = DB_fetchArray($result);
-            if (SEC_inGroup('Root', $uid)) {
-                $pwdRoot++;
-            } else {
-                $pwdUser++;
-            }
-        }
-    }
-    if ($pwdRoot > 0) {
-        $retval .= '<li>' . sprintf($LANG_SECTEST['fix_password'], $pwdRoot)
-                . '</li>';
+    if (SEC_encryptUserPassword('password', 2) ==  0) {
+        $retval .= '<li>' . $LANG_SECTEST['fix_password'] . '</li>';
         $failed_tests++;
     } else {
         $retval .= '<li>' . $LANG_SECTEST['password_okay'] . '</li>';
@@ -291,8 +271,7 @@ function checkDefaultPassword()
 }
 
 // MAIN
-$display = COM_siteHeader('menu', $LANG_SECTEST['sectest']);
-$display .= COM_startBlock($LANG_SECTEST['results']);
+$display = COM_startBlock($LANG_SECTEST['results']);
 
 $url = urlToCheck();
 if (!empty($url)) {
@@ -390,7 +369,7 @@ $display .= '<p>' . sprintf($LANG_SECTEST['stay_informed'], $ml, $versioncheck)
          . '</p>';
 
 $display .= COM_endBlock();
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_SECTEST['sectest']));
 
 COM_output($display);
 

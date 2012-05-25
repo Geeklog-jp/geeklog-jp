@@ -438,13 +438,12 @@ function plugin_savesubmission_calendar($A)
 
     // check for missing textfields
     if (empty ($A['title']) || empty ($A['start_month']) || empty ($A['start_day']) || empty ($A['start_year'])) {
-        $retval .= COM_siteHeader ('menu', $LANG_CAL_1[27])
-            . COM_startBlock ($LANG12[22], '',
+        $retval .= COM_startBlock ($LANG12[22], '',
                            COM_getBlockTemplate ('_msg_block', 'header'))
             . $LANG12[23]
             . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_calendar ($A['calendar_type'])
-            . COM_siteFooter ();
+            . plugin_submit_calendar ($A['calendar_type']);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_1[27]));
 
         return $retval;
     }
@@ -512,10 +511,9 @@ function plugin_savesubmission_calendar($A)
 
     $msg = PLG_itemPreSave('calendar', $A);
     if (! empty($msg)) {
-        $retval .= COM_siteHeader('menu', $LANG_CAL_1[27])
-            . COM_errorLog($msg, 2)
-            . plugin_submit_calendar($A['calendar_type'])
-            . COM_siteFooter();
+        $retval .= COM_errorLog($msg, 2)
+            . plugin_submit_calendar($A['calendar_type']);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_1[27]));
 
         return $retval;
     }
@@ -1587,13 +1585,35 @@ function plugin_upgrade_calendar()
             }
 
             if (! $current_config) {
+                // Update to Config Tables must be performed here and not in regualar SQL update array since if config is current then they shouldn't be run   
+                // Set new Tab column to whatever fieldset is
+                $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'calendar'";
+                DB_query($sql);
+                
                 calendar_update_ConfValues_1_1_1();
-
-                calendar_update_ConfigSecurity_1_1_1();
             }
+            
+            calendar_update_ConfigSecurity_1_1_1();
 
             $current_version = '1.1.2';
             break;
+            
+        case '1.1.2':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            if (! $current_config) {
+                calendar_update_ConfValues_1_1_2();
+            }
+
+            calendar_update_ConfigSecurity_1_1_2();
+
+            $current_version = '1.1.3';
+            break;            
 
         default:
             $done = true;
@@ -1674,7 +1694,8 @@ function plugin_autouninstall_calendar ()
                             'calendar.submit',
                             'config.calendar.tab_main',
                             'config.calendar.tab_permissions',
-                            'config.calendar.tab_autotag_permissions'),
+                            'config.calendar.tab_autotag_permissions', 
+                            'config.calendar.tab_events_block'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_calendar'),
         /* give all vars with their name */
@@ -2109,6 +2130,220 @@ function plugin_getconfigtooltip_calendar($id)
 {   
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
+}
+
+/**
+* Gets Geeklog blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocks_calendar($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_CA_CONF, $LANG_CAL_1;
+    
+    $retval = array();
+    
+    $owner_id = SEC_getDefaultRootUser();
+
+    // Check permissions first
+    if ($_CA_CONF['block_enable'] && SEC_hasAccess($owner_id, $_CA_CONF['block_group_id'], $_CA_CONF['block_permissions'][0], $_CA_CONF['block_permissions'][1], $_CA_CONF['block_permissions'][2], $_CA_CONF['block_permissions'][3])) {
+        // Check if right topic
+        if (($_CA_CONF['block_topic_option'] == TOPIC_ALL_OPTION) || ($_CA_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) || ($_CA_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_CA_CONF['block_topic']))) {
+            if (($side=='left' && $_CA_CONF['block_isleft'] == 1) || ($side=='right' && $_CA_CONF['block_isleft'] == 0)) { 
+                // Create a block
+                $display = phpblock_calendar();
+                
+                $retval[] = array('name'           => 'events',
+                                  'type'           => 'dynamic',
+                                  'onleft'         => $_CA_CONF['block_isleft'],
+                                  'title'          => $LANG_CAL_1[50],
+                                  'blockorder'     => $_CA_CONF['block_order'],
+                                  'content'        => $display,
+                                  'allow_autotags' => false,
+                                  'help'           => '');
+            }
+        }
+    }
+    
+    return $retval;
+}
+
+
+/**
+* Gets config information for dynamic blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocksConfig_calendar($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_CA_CONF, $LANG_CAL_1;
+    
+    $retval = array();
+    
+    $owner_id = SEC_getDefaultRootUser();
+    
+    // Check permissions first
+    if (SEC_hasAccess($owner_id, $_CA_CONF['block_group_id'], $_CA_CONF['block_permissions'][0], $_CA_CONF['block_permissions'][1], $_CA_CONF['block_permissions'][2], $_CA_CONF['block_permissions'][3])) {
+        if (($side=='left' && $_CA_CONF['block_isleft'] == 1) || ($side=='right' && $_CA_CONF['block_isleft'] == 0)) { 
+            $retval[] = array('plugin'         => $LANG_CAL_1[16],
+                              'name'           => 'events',
+                              'title'          => $LANG_CAL_1[50],
+                              'type'           => 'dynamic',
+                              'onleft'         => $_CA_CONF['block_isleft'],
+                              'blockorder'     => $_CA_CONF['block_order'],
+                              'allow_autotags' => false,
+                              'help'           => '',
+                              'enable'         => $_CA_CONF['block_enable'],
+                              'topic_option'   => $_CA_CONF['block_topic_option'],
+                              'topic'          => $_CA_CONF['block_topic'],
+                              'inherit'        => array()
+                              );
+        }
+    }
+    
+    return $retval;
+}
+
+/**
+* This function is called to inform plugins when a group's information has
+* changed or a new group has been created.
+*
+* @param    int     $grp_id     Group ID
+* @param    string  $mode       type of change: 'new', 'edit', or 'delete'
+* @return   void
+*
+*/
+function plugin_group_changed_calendar($grp_id, $mode)
+{
+    global $_TABLES, $_GROUPS, $_CA_CONF;
+    
+    if ($mode == 'delete') {
+        // Change any deleted group ids to Polls Admin if exist, if does not change to root group
+        $new_group_id = 0;
+        if (isset($_GROUPS['Calendar Admin'])) {
+            $new_group_id = $_GROUPS['Calendar Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Calendar Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }    
+        
+        // Update Events with new group id
+        $sql = "UPDATE {$_TABLES['events']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
+        $result = DB_query($sql);
+        
+        // Update Events with new group id
+        $sql = "UPDATE {$_TABLES['personal_events']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
+        $result = DB_query($sql);
+        
+        // Update Events Block group if need be
+        if ($_CA_CONF['block_group_id'] == $grp_id) {
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_group_id', $new_group_id, 'calendar');
+            
+        }
+   }
+}
+
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (groud id, group name) pairs
+ *
+ */
+function plugin_configmanager_select_block_group_id_calendar()
+{
+    return SEC_getUserGroups();
+}
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (topic id, topic name) pairs
+ *
+ */
+function plugin_configmanager_select_block_topic_calendar()
+{
+    return array_flip(TOPIC_getList());
+}
+
+/**
+* Callback function when an item was saved
+*
+* @param    string  $id     (unused) ID of item being saved
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @param    string  $old_id (unused) previous ID of item, if != $id
+* @return   void
+* @see      PLG_itemSaved
+*
+*/
+function plugin_itemsaved_calendar($id, $type, $old_id)
+{
+    global $_TABLES, $_CA_CONF;
+
+    // we're really only interested in Topic ID changes
+    if (($type == 'topic') && !empty($old_id) && ($id != $old_id)) {
+        $key = array_search($old_id, $_CA_CONF['block_topic']);
+
+        if ($key > 0) {
+            // Update config
+            $_CA_CONF['block_topic'][$key] = $id;
+            
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_CA_CONF['block_topic'], 'calendar');
+        }        
+    }
+}
+
+/**
+* Callback function when an item was deleted
+*
+* @param    string  $id     ID of item being deleted
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @return   void
+* @see      PLG_itemDeleted
+*
+*/
+function plugin_itemdeleted_calendar($id, $type)
+{
+    global $_TABLES, $_CA_CONF;
+
+    // we're really only interested in Topic Deletes
+    if ($type == 'topic') {
+        $key = array_search($id, $_CA_CONF['block_topic']);
+
+        if ($key > 0) {
+            // delete item from config
+            unset($_CA_CONF['block_topic'][$key]);
+            
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_CA_CONF['block_topic'], 'calendar');
+        }    
+        // Note: All topics could get deleted from array which would mean the block would not display untill user adds more in config
+    }
 }
 
 ?>
