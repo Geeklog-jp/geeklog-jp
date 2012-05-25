@@ -126,9 +126,9 @@ function DIR_topicList ($topic = 'all', $year = 0, $month = 0, $standalone = fal
 */
 function DIR_monthLink ($topic, $year, $month, $count)
 {
-    global $_CONF, $LANG_MONTH, $LANG_WEEK;
+    global $_CONF, $LANG_MONTH;
 
-    $retval = $LANG_MONTH[$month] . (($_CONF['language'] == 'japanese_utf-8') ? $LANG_WEEK[2] : '') . ' (' . COM_numberFormat ($count) . ')' . LB;
+    $retval = $LANG_MONTH[$month] . ' (' . COM_numberFormat ($count) . ')' . LB;
 
     if ($count > 0) {
         $month_url = COM_buildUrl ($_CONF['site_url'] . '/'
@@ -248,13 +248,12 @@ function DIR_displayMonth ($topic, $year, $month, $main = false)
 
     $retval = '';
 
-    $tmy = sprintf ($LANG_DIR['title_month_year'], $year, $month);
     if ($main) {
-        $retval .= '<div><h1 style="display:inline">' . $tmy
-                . '</h1> ' . DIR_topicList ($topic, $year, $month)
+        $retval .= '<div><h1 style="display:inline">' . $LANG_MONTH[$month]
+                . ' ' . $year . '</h1> ' . DIR_topicList ($topic, $year, $month)
                 . '</div>' . LB;
     } else {
-        $retval .= '<h1>' . $tmy . '</h1>' . LB;
+        $retval .= '<h1>' . $LANG_MONTH[$month] . ' ' . $year . '</h1>' . LB;
     }
 
     $start = sprintf ('%04d-%02d-01 00:00:00', $year, $month);
@@ -333,12 +332,11 @@ function DIR_displayYear ($topic, $year, $main = false)
 
     $retval = '';
 
-    $ty = sprintf ($LANG_DIR['title_year'], $year);
     if ($main) {
-        $retval .= '<div><h1 style="display:inline">' . $ty . '</h1> '
+        $retval .= '<div><h1 style="display:inline">' . $year . '</h1> '
                 . DIR_topicList ($topic, $year) . '</div>' . LB;
     } else {
-        $retval .= '<h2>' . $ty . '</h2>' . LB;
+        $retval .= '<h2>' . $year . '</h2>' . LB;
     }
 
     $currentyear = date ('Y', time ());
@@ -524,7 +522,7 @@ if ($topic != 'all') {
 }
 if (($year != 0) && ($month != 0)) {
     $title = sprintf ($LANG_DIR['title_month_year'],
-                      $year, $month);
+                      $LANG_MONTH[$month], $year);
     if ($topic != 'all') {
         $title .= ': ' . $topicName;
     }

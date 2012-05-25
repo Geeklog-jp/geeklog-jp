@@ -4,7 +4,7 @@
                                             <form action="{form_url}" method="post" onsubmit='set_postcontent();'>
                                                 <table cellspacing="0" cellpadding="3" width="100%">
                                                     <tr>
-                                                        <td class="alignright" style="width:6.5em"><b>{lang_username}:</b></td>
+                                                        <td class="alignright"><b>{lang_username}:</b></td>
                                                         <td>
                                                             {cid}
                                                             <input type="hidden" name="sid" value="{sid}"{xhtml}>
@@ -26,7 +26,7 @@
                                                                 <textarea id="comment_text" name="comment" cols="60" rows="10">{comment}</textarea>
                                                             </div>
                                                             <div  id="html_editor" style="display:{show_htmleditor};">
-                                                                <textarea id="comment_html" name="comment_html" cols="60" rows="10">{comment}</textarea>
+                                                                <textarea id="comment_html" name="comment_html" rows="10">{comment}</textarea>
                                                             </div>
                                                         </td>
                                                     </tr>

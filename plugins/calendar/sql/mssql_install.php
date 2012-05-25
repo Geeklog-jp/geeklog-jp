@@ -51,7 +51,7 @@ CREATE TABLE [dbo].[{$_TABLES['events']}] (
     [address2] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [city] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [state] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-    [zipcode] [varchar] (8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [zipcode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [allday] [smallint] NULL ,
     [event_type] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [location] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -70,7 +70,7 @@ CREATE TABLE [dbo].[{$_TABLES['eventsubmission']}] (
     [dateend] [smalldatetime] NULL ,
     [url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [allday] [smallint] NOT NULL ,
-    [zipcode] [varchar] (8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [zipcode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [state] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [city] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [address2] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -93,7 +93,7 @@ CREATE TABLE [dbo].[{$_TABLES['personal_events']}] (
     [address2] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [city] [varchar] (60) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [state] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-    [zipcode] [varchar] (8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [zipcode] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [allday] [smallint] NOT NULL ,
     [url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -134,7 +134,7 @@ $_SQL[] = "ALTER TABLE [dbo].[{$_TABLES['personal_events']}] ADD
     )  ON [PRIMARY]
 ";
 
-$_SQL[] = "INSERT INTO {$_TABLES['eventsubmission']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend, owner_id) VALUES ('2008050110130162','Geeklogカレンダプラグインインストール完了!','カレンダプラグインのインストールが完了しました。','Webサーバ',getdate(),getdate(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,1)";
+$_SQL[] = "INSERT INTO {$_TABLES['eventsubmission']} (eid, title, description, location, datestart, dateend, url, allday, zipcode, state, city, address2, address1, event_type, timestart, timeend, owner_id) VALUES ('2008050110130162','Installed the Calendar plugin','Today, you successfully installed the Calendar plugin.','Your webserver',getdate(),getdate(),'http://www.geeklog.net/',1,NULL,NULL,NULL,NULL,NULL,'',NULL,NULL,1)";
 
 $_SQL[] = "INSERT INTO {$_TABLES['blocks']} (is_enabled, name, type, title, tid, blockorder, content, onleft, phpblockfn, owner_id, group_id, perm_owner, perm_group) VALUES (1,'events_block','phpblock','Events','all',100,'',1,'phpblock_calendar',{$_USER['uid']},#group#,3,3)";
 

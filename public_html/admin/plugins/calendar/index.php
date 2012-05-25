@@ -454,7 +454,7 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
         return $retval;
     }
     if ($allday == 0) {
-        if (strtotime($dateend) < strtotime($datestart)) {
+        if ($dateend < $datestart) {
             $retval .= COM_siteHeader ('menu', $LANG_CAL_ADMIN[2]);
             $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
                                 COM_getBlockTemplate ('_msg_block', 'header'));
@@ -465,7 +465,7 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
             return $retval;
         }
     } else {
-        if (strtotime($dateend) < strtotime($datestart)) {
+        if ($dateend < $datestart) {
             // Force end date to be same as start date
             $dateend = $datestart;
         }

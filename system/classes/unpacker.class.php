@@ -55,8 +55,7 @@ class unpacker {
     					  'application/x-gzip'           => 'tar',
     					  'application/octet-stream'     => 'tar',
     					  'application/x-compress'       => 'tar',
-    					  'application/x-compressed'     => 'tar',
-    					  'application/x-gzip-compressed' => 'tar');
+    					  'application/x-compressed'     => 'tar');
 
     var $file = null; // archive name 
     var $filesize = null; // archive size (in bytes)

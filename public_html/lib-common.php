@@ -2866,11 +2866,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
 */
 function COM_refresh($url)
 {
-    if ( function_exists( 'CUSTOM_refresh' ) ) {
-        return CUSTOM_refresh( $url );
-    } else {
-        return "<html><head><meta http-equiv=\"refresh\" content=\"0; URL=$url\"></head></html>\n";
-    }
+    return "<html><head><meta http-equiv=\"refresh\" content=\"0; URL=$url\"></head></html>\n";
 }
 
 /**
@@ -7288,13 +7284,11 @@ function COM_output($display)
 
             $zlib_comp = ini_get('zlib.output_compression');
             if (empty($zlib_comp) || (strcasecmp($zlib_comp, 'off') == 0)) {
-                if ( !function_exists('CUSTOM_MOBILE_is_cellular') || !CUSTOM_MOBILE_is_cellular() ) {
 
-                    header('Content-encoding: gzip');
-                    echo gzencode($display);
-                    return;
+                header('Content-encoding: gzip');
+                echo gzencode($display);
+                return;
 
-                }
             }
         }
     }
