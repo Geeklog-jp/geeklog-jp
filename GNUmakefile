@@ -1,6 +1,7 @@
 #
 
-CHANGES=	CHANGES.jp CHANGES-1.7.jp CHANGES-1.6.jp CHANGES-1.5.jp
+CHANGES=	CHANGES.jp CHANGES-1.8.jp CHANGES-1.7.jp CHANGES-1.6.jp \
+		CHANGES-1.5.jp
 FILES=		$(CHANGES) INSTALL NEWS README.jp \
 		db-config.php emailgeeklogstories emailgeeklogstories.en \
 		readme readme.ja release_jp.php
