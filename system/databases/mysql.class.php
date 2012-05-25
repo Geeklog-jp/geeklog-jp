@@ -138,7 +138,7 @@ class database {
         }
 
         if ($this->_mysql_version >= 40100) {
-            if (strcasecmp($this->_charset, 'utf-8') == 0) {
+            if ($this->_charset == 'utf-8') {
                 @mysql_query ("SET NAMES 'utf8'", $this->_db);
             }
         }

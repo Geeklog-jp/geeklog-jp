@@ -1336,13 +1336,15 @@ class Story
                 $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
             }
 
-            $norm = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
-            $left = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
-            $right = '|' . preg_quote($lLinkPrefix . '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""', '|') . '( /)?>' . preg_quote($lLinkSuffix, '|') . '|';
+            $norm = $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
+            $left = $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""' . XHTML . '>'
+                    . $lLinkSuffix;
+            $right = $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""' . XHTML . '>'
+                    . $lLinkSuffix;
 
-            $text = preg_replace($norm, $imageX, $text);
-            $text = preg_replace($left, $imageX_left, $text);
-            $text = preg_replace($right, $imageX_right, $text);
+            $text = str_replace($norm, $imageX, $text);
+            $text = str_replace($left, $imageX_left, $text);
+            $text = str_replace($right, $imageX_right, $text);
 
             if (($_CONF['allow_user_scaling'] == 1) and ($_CONF['keep_unscaled_image'] == 1)) {
                 $unscaledX = '[unscaled' . ($i + 1) . ']';
@@ -1351,14 +1353,14 @@ class Story
 
                 if (file_exists($lFilename_large_complete)) {
                     $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
-                    $norm = '|' . preg_quote('<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
-                    $left = '|' . preg_quote('<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
-                    $right = '|' . preg_quote('<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""', '|') . '( /)?>|';
+                    $norm = '<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
+                    $left = '<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
+                    $right = '<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
                 }
 
-                $text = preg_replace($norm, $unscaledX, $text);
-                $text = preg_replace($left, $unscaledX_left, $text);
-                $text = preg_replace($right, $unscaledX_right, $text);
+                $text = str_replace($norm, $unscaledX, $text);
+                $text = str_replace($left, $unscaledX_left, $text);
+                $text = str_replace($right, $unscaledX_right, $text);
             }
         }
 

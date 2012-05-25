@@ -411,7 +411,7 @@ function innodb_supported()
     $retval = false;
 
     if ($_DB_dbms == 'mysql') {
-        $result = DB_query("SHOW ENGINES");
+        $result = DB_query("SHOW TABLE TYPES");
         $numEngines = DB_numRows($result);
         for ($i = 0; $i < $numEngines; $i++) {
             $A = DB_fetchArray($result);

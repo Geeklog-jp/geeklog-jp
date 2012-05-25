@@ -35,7 +35,7 @@ CREATE TABLE {$_TABLES['tokens']} (
     urlfor varchar(255) NOT NULL,
     ttl mediumint(8) unsigned NOT NULL default '1',
     PRIMARY KEY (token)
-) ENGINE=MyISAM
+) TYPE=MyISAM
 ";
 
 
@@ -54,7 +54,7 @@ function create_ConfValues()
       selectionArray int(11) default NULL,
       sort_order int(11) default NULL,
       fieldset int(11) default NULL
-    ) ENGINE=MyISAM");
+    ) TYPE=MyISAM");
 
     require_once $_CONF['path_system'] . 'classes/config.class.php';
 
