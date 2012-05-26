@@ -152,8 +152,8 @@ $LANG_confignames['polls'] = array(
     'hidenewpolls' => '新着アンケート',
     'title_trim_length' => 'タイトル最大長',
     'meta_tags' => 'メタタグを有効にする',
-    'block_enable' => '有効化',
-    'block_isleft' => 'ブロックを左側に表示する',
+    'block_enable' => '有効',
+    'block_isleft' => '左ブロックで表示する',
     'block_order' => 'ブロックの順番',
     'block_topic_option' => '話題オプション',
     'block_topic' => '話題',
@@ -192,7 +192,7 @@ $LANG_configselects['polls'] = array(
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
     13 => array('アクセス不可' => 0, '利用する' => 2),
     14 => array('No access' => 0, 'Read-Only' => 2),
-    15 => array('All' => 'TOPIC_ALL_OPTION', 'Homepage Only' => 'TOPIC_HOMEONLY_OPTION', 'Select Topics' => 'TOPIC_SELECTED_OPTION')
+    15 => array('すべて' => 'TOPIC_ALL_OPTION', 'ホームページのみ' => 'TOPIC_HOMEONLY_OPTION', '話題を選択する' => 'TOPIC_SELECTED_OPTION')
 );
 
 ?>

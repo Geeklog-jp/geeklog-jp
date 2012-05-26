@@ -18,6 +18,49 @@
 
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
+
+<h2>May ??, 2012 (2.0.0)</h2>
+
+<ul>
+    <li>COM_siteHeaderとCOM_siteFooterを置き換える関数としてCOM_createHTMLDocumentに変更されました。 (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001358</a>) [Dengen]</li>
+    <li>$_CONF['left_blocks_in_footer']を有効にしたとき、ブロックを表示しないモードが正しく動作しないバグを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001316</a>) [Dengen]</li>
+    <li>Responsive Web DesignのテーマDenimを追加しました。[Dengen]</li>
+    <li>professionalを置き換えるテーマとしてmodern_curveを追加しました。(feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001255</a>) [Rouslan]</li>
+    <li>Emergency Rescue Toolをインストールディレクトリに追加しました。[Tom]</li>
+    <li>jQuery css filesのロード順をScripts classで変更しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001439</a>) [Tom]</li>
+    <li>パスワードの暗号化の強度を高めました。 (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001384</a>) [Vinny]</li>
+    <li>error.logにIPアドレスを追加しました。 [Tom]</li>
+    <li>ページナビゲーションにマークアップを許可しました。 (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001422</a>) [Tom]</li>
+    <li>sitemap.xml 書き込みエラーを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001412</a>) [Vinny]</li>
+    <li>ダイナミックブロックリスト機能をブロック管理ページに追加しました。 (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001434</a>) [Tom]</li>
+    <li>管理者向けにDatabase コマンドエラーを表示するようにしました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001404</a>) [Dirk]</li>
+    <li>MySQL 5.5 以降で発生するDB バックアップエラーを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001410</a>) [Dirk]</li>
+    <li>Gravatar Image リクエスト (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001435</a>) [Dirk]</li>
+    <li>アップロードによるインストールがWindowsのブラウザからできなかったバグを修正しました。 (bug  <a href="http://project.geeklog.net/tracking/view.php?id=">#0001405</a>) [Dirk]</li>
+    <li>要素がひとつしかない場合にフィードが作成されないバグを修正しました。(bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001431</a>) [Tom]</li>
+    <li>コメントを同一ページで行うようにしました。 (patch <a href="http://project.geeklog.net/tracking/view.php?id=">#0000728</a>, provided by dengen)</li>
+    <li>話題を階層化しました。 [Tom]</li>
+    <li>話題への関連付けを他のオブジェクトにも広げました。(feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001155</a>)  [Tom]</li>
+    <li>記事、ブロック、静的ページを複数の話題を選択できるようにしました。[Tom]</li>
+    <li>管理者用にCC設定モードを追加しました。 (patch <a href="http://project.geeklog.net/tracking/view.php?id=">#0001259</a>) [Tom]</li>
+    <li>OAuthのアカウント削除ができないバグを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001417</a>) [Tom]</li>
+    <li>アンケートプラグインの管理画面で保存するとき投票数がリセットされるバグを修正しました。 (bug  <a href="http://project.geeklog.net/tracking/view.php?id=">#0001419</a>) [Tom]</li>
+    <li>Scripts class がテーマのstyle.cssをincludeするバグを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001407</a>) [Tom]</li>
+    <li>Queryエラー: Syntax error &quot;AS dateFROM&quot; を修正しました。(bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001418</a>) [Tom]</li>
+    <li>記事のコンフィギュレーションパネルに$_CONF['linktext_maxlen']を追加しました。  (patch <a href="http://project.geeklog.net/tracking/view.php?id=">#0001139</a>)  [Tom]</li>
+    <li>パンくずリストを追加しました。 (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001062</a>) [Tom]</li>
+    <li>コンフィギュレーションのCopyright Yearは数字のみの入力に制限しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001416</a>) [Tom]</li>
+    <li>記事とブロック、話題と、コアプラグインは削除されたグループを扱えないバグを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001397</a>) [Tom]</li>
+    <li>lib-common.php  line 5754で定義された配列によりStripslashes() がパラメーター1がストリングであると予想されるバグを修正しました。   (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001413</a>) [Tom]</li>
+    <li>コメント投稿後のコメント数がなくなるバグを修正しました。 (bug <a href="http://project.geeklog.net/tracking/view.php?id=">#0001414</a>)  [Tom]</li>
+    <li>SQL errorsの表示に、function名とline numberを追加しました。  (feature request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001377</a>) [Dirk]</li>
+    <li>Spam-XへForum SpamとLinks ModulesのSpam数を追加しました。 (feature  request <a href="http://project.geeklog.net/tracking/view.php?id=">#0001378</a>) [Tom]</li>
+    <li>Spam-X pluginの言語を分離しました。 (patch <a href="http://project.geeklog.net/tracking/view.php?id=">#0000656</a>) [Tom]</li>
+    <li>MySQLi へのサポートを追加しました。(patch <a href="http://project.geeklog.net/tracking/view.php?id=">#0001303</a>, provided by mystral-kk)</li>
+</ul>
+<p>最新開発状況は本家<a href="http://project.geeklog.net/cgi-bin/hgwebdir.cgi/geeklog/">リポジトリ</a>を。</p>
+
+
 <h2>Oct 9, 2011 (1.8.1)</h2>
 
 <ul>
