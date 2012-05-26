@@ -125,8 +125,8 @@ $LANG_STATIC = array(
     'draft' => 'ドラフト',
     'draft_yes' => '○',
     'draft_no' => '-',
-    'autotag_desc_staticpage' => '[staticpage: id alternate title] - 静的ページタイトルで静的ページへのリンクを表示。アンカーテキストの指定は任意。',
-    'autotag_desc_staticpage_content' => '[staticpage_content: id alternate title] - 静的ページのコンテンツを表示。'
+    'autotag_desc_staticpage' => '[staticpage: id alternate title] - 静的ページタイトルで静的ページへのリンクを表示。アンカーテキストの指定は任意です。',
+    'autotag_desc_staticpage_content' => '[staticpage_content: id alternate title] - 静的ページのコンテンツを表示します。'
 );
 
 $PLG_staticpages_MESSAGE15 = 'コメントは投稿されました。管理者の承認をお待ちください。';

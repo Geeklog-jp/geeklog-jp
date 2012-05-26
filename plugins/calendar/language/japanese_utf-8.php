@@ -216,13 +216,13 @@ $LANG_confignames['calendar'] = array(
     'aftersave' => 'イベント保存後の画面遷移',
     'default_permissions' => 'パーミッション',
     'autotag_permissions_event' => '[event: ] パーミッション',
-    'block_enable' => 'Enabled',
-    'block_isleft' => 'Display Block on Left',
-    'block_order' => 'Block Order',
-    'block_topic_option' => 'Topic Options',
-    'block_topic' => 'Topic',
-    'block_group_id' => 'Group',
-    'block_permissions' => 'Permissions'
+    'block_enable' => '有効化',
+    'block_isleft' => 'ブロックを左側に表示する',
+    'block_order' => 'ブロックの順番',
+    'block_topic_option' => '話題オプション',
+    'block_topic' => '話題',
+    'block_group_id' => 'グループ',
+    'block_permissions' => 'パーミッション'
 );
 
 $LANG_configsubgroups['calendar'] = array(
@@ -240,8 +240,8 @@ $LANG_fs['calendar'] = array(
     'fs_main' => 'カレンダのメイン設定',
     'fs_permissions' => 'カレンダのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_autotag_permissions' => '自動タグのパーミッション',
-    'fs_block_settings' => 'Block Settings',
-    'fs_block_permissions' => 'Block Permissions'
+    'fs_block_settings' => 'ブロック設定',
+    'fs_block_permissions' => 'ブロックのパーミッション'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']
