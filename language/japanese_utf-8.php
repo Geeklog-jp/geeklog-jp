@@ -189,9 +189,9 @@ $LANG01 = array(
     137 => '警告: JavaScriptが機能を有効にするのに必要です',
     138 => "JavaScriptを使わないようアドバンストエディタを無効にしてノーマルエディタを有効にするには<a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">こちら</a>をクリックしてください。",
     139 => "ホームページへは<a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">こちら</a>をクリック",
-    'facebook' => 'Login with Facebook',
-    'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn'
+    'facebook' => 'Facebookでログイン',
+    'twitter' => 'Twitterでログイン',
+    'linkedin' => 'LinkedInでログイン'
 );
 
 ###############################################################################
@@ -303,7 +303,7 @@ $LANG04 = array(
     52 => 'デフォルト:',
     53 => 'その日の記事を毎晩メールで受け取る。',
     54 => '読みたくない投稿者名と話題をチェックしてください。',
-    55 => 'すべてのチェックをはずした場合は、デフォルトが反映されます。一つでもチェックした場合、デフォルトは無視されますので、読みたいものを全部チェックするようにしてください。 デフォルトは強調表示されている話題です。',
+    55 => 'すべてのチェックをはずした場合は、デフォルトが反映されます。ひとつでもチェックした場合、デフォルトは無視されますので、読みたいものを全部チェックするようにしてください。 デフォルトは強調表示されている話題です。',
     56 => '投稿者名',
     57 => '表示モード',
     58 => 'ソート順',
@@ -410,13 +410,12 @@ $LANG04 = array(
     164 => '再認証回数を超えました。残念ながら操作はアボートされ、今回の編集作業は失われました。',
     165 => 'アドバンストエディタを使う',
     166 => 'リモートアカウントの再同期',
-    167 => 'Remote login',
-    168 => 'You may also login with one on of the below remote authentication services'
+    167 => 'リモートログイン',
+    168 => 'リモート認証サービスによるログインも可能です。'
 );
 
 ###############################################################################
 # Customize if need to modify the Tabbed navbar MyAccount panels used.
-# Array index key matches preference div id
 
 $LANG_MYACCOUNT = array(
     'pe_preview' => 'プレビュー',
@@ -764,7 +763,7 @@ $LANG21 = array(
     66 => '自動タグ',
     67 => '自動タグ使用許可',
     68 => 'このポータルブロックのフィードは長すぎて表示できません。ブロック設定画面でブロックに表示する記事の最大数を設定するか、コンフィギュレーションで標準の最大数を設定してください。',
-    69 => 'Plugin Name'
+    69 => 'プラグイン名'
 );
 
 ###############################################################################
@@ -801,7 +800,7 @@ $LANG24 = array(
     28 => '<p><strong>プレビュー</strong>: 画像付きの記事をプレビューする場合、プレビューボタンをクリックしないで一旦ドラフトモードで保存してください。プレビューボタンは画像がない場合にのみクリックしてください。</p>',
     29 => 'トラックバック数',
     30 => 'ファイルのアップロード時にエラーが発生しました',
-    31 => 'タイトルと冒頭文を入力してください',
+    31 => 'タイトルと冒頭文を入力し、話題を少なくともひとつ選択してください',
     32 => '注目記事',
     33 => '注目記事は最後に指定した1件が指定されます',
     34 => 'ドラフト',
@@ -899,24 +898,24 @@ $LANG27 = array(
     28 => '最大',
     29 => 'ファイルアップロード時にエラー',
     30 => 'この話題の記事数',
-    31 => 'You have used a restricted Topic ID. Please choose another one.',
-    32 => 'Parent Topic',
-    33 => 'Inherit',
-    34 => 'Items of child topic are inherited',
-    35 => 'Hidden',
-    36 => 'Topic will be hidden and cannot be viewed directly, only inherited',
+    31 => '制限されたトピックIDを使用しました。他のIDにしてください。',
+    32 => '親の話題',
+    33 => '継承',
+    34 => '子の話題は継承される',
+    35 => '隠された',
+    36 => '話題は継承され、隠されて直接閲覧されません',
     37 => 'Root',
-    38 => 'All',
-    39 => 'Homepage Only',
-    40 => 'Assign one or more topics. ',
-    41 => 'If "All" is selected then the item will appear for all topics. If "Homepage Only" is selected then item will appear just on the homepage. Else you must select at least one topic to assign the item too. ',
-    42 => 'Inherit contains the list of assigned topics. If the topic is selected then the item will be inherited by the parent topic. You must save your item first before anything is listed in the inherit box. ',
-    43 => 'Default contains the list of assigned topics. This is the default topic that will be used when displaying the item if the actually topic the user is in is not found. ',
-    44 => 'Inherit',
-    45 => 'Default',
-    46 => 'Your parent topic cannot be the Archive topic. Please choose a different Parent Topic.',
-    47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.',
-    48 => 'Parent Topic Id not found.',
+    38 => 'すべて',
+    39 => 'ホームページのみ',
+    40 => '記事はひとつ以上の話題にアサインします。',
+    41 => 'もし "すべて" が選ばれたらそのアイテムはすべての話題で表示されます。もし、 "ホームページのみ" が選ばれたらホームページにのみ表示。そうでなければ少なくともひとつ以上の話題を選択してください。 ',
+    42 => '記事はアサインした話題に親の話題があれば親の話題も継承します。記事の保存の前に、継承リストを保存しなければなりません。デフォルトではアサインされた話題のリストを含みます。',
+    43 => 'デフォルトではアサインされた話題のリストを含みます。 ', 
+    44 => '継承する',
+    45 => 'デフォルト',
+    46 => '親の話題に、アーカイブの話題は設定できません。他の親の話題を選んでください。',
+    47 => 'アーカイブの話題は子の話題を持てません。アーカイブ話題に設定する前に子の話題を解除してください。',
+    48 => '親の話題IDが見つかりません。',
     'breadcrumb_separator' => '>'
 );
 
@@ -1600,29 +1599,29 @@ $LANG_SECTEST = array(
 
 ###############################################################################
 # "What's New" Time Strings
-# 
-# For the first two strings, you can use the following placeholders.
-# Order them so it makes sense in your language:
-# %i    item, "Stories"
-# %n    amount, "2", "20" etc.
-# %t    time, "2" (weeks)
-# %s    scale, "hrs", "weeks"
 
 $LANG_WHATSNEW = array(
+    # This here determines the order of the sentence "No new stories in 2 hrs"
+    # order it so it makes sense in your language:
+    # %i    item, "Stories"
+    # %n    amount, "2", "20" etc
+    # %t    time, "2" (weeks)
+    # %s    scale, "hrs", "weeks"
     'new_string' => '新着%i %n件(%t%s)',
-    'new_last' => '(%t%s)',
+    'new_last'    => '新着(%t%s)',
+    # other strings
     'minutes' => '分',
     'hours' => '時間',
     'days' => '日',
     'weeks' => '週',
     'months' => 'ヶ月',
     'years' => '年',
-    'minute' => '分',
-    'hour' => '時間',
-    'day' => '日',
-    'week' => '週',
-    'month' => 'ヶ月',
-    'year' => '年'
+    'minute'      => '分',
+    'hour'        => '時',
+    'day'         => '日',
+    'week'        => '週',
+    'month'       => '月',
+    'year'        => '年'
 );
 
 ###############################################################################
@@ -1975,8 +1974,8 @@ $LANG_confignames['Core'] = array(
     'passwordspeedlimit' => 'パスワード入力間隔制限',
     'login_attempts' => 'ログイン回数制限',
     'login_speedlimit' => 'ログイン間隔制限',
-    'pass_alg' => 'Password Hash Algorithm',
-    'pass_stretch' => 'Hash Stretch Count',
+    'pass_alg' => 'パスワード暗号化アルゴリズム',
+    'pass_stretch' => '暗号化ストレッチカウント',
     'user_html' => 'ユーザHTML',
     'admin_html' => '管理者HTML',
     'advanced_html' => 'アドバンストエディタ用追加HTML',
@@ -2019,10 +2018,10 @@ $LANG_confignames['Core'] = array(
     'search_def_sort' => 'ソート順のデフォルト',
     'autotag_permissions_story' => '[story: ] パーミッション',
     'autotag_permissions_user' => '[user: ] パーミッション',
-    'multiple_breadcrumbs' => 'Multiple Breadcrumbs',
-    'disable_breadcrumbs_topics' => 'Disable Topic Breadcrumbs',
-    'disable_breadcrumbs_articles' => 'Disable Article Breadcrumbs',
-    'disable_breadcrumbs_plugins' => 'Disable Plugins Breadcrumbs'
+    'multiple_breadcrumbs' => 'マルチプルパンくずリスト',
+    'disable_breadcrumbs_topics' => '話題のパンくずリストを無効にする',
+    'disable_breadcrumbs_articles' => '記事のパンくずリストを無効にする。',
+    'disable_breadcrumbs_plugins' => 'プラグインのパンくずリストを無効にする。'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -2079,8 +2078,8 @@ $LANG_fs['Core'] = array(
     'fs_perm_block' => 'ブロックのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
     'fs_webservices' => 'Webサービス',
     'fs_autotag_permissions' => '自動タグのパーミッション',
-    'fs_breadcrumbs' => 'Breadcrumbs',
-    'fs_pass' => 'Password Settings'
+    'fs_breadcrumbs' => 'パンくずリスト',
+    'fs_pass' => 'パスワード設定'
 );
 
 $LANG_tab['Core'] = array(
@@ -2149,7 +2148,7 @@ $LANG_configselects['Core'] = array(
     19 => array('Google' => 'google', 'Table' => 'table'),
     20 => array('完全一致' => 'phrase', 'すべてのキーワードを含む' => 'all', 'いずれかのキーワードを含む' => 'any'),
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
-    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(無効にする)' => ''),
+    22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
     23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみデフォルトを使用する)' => 2),
     24 => array('投稿する' => 'contribute', 'Home' => 'home', '詳しい検索' => 'search', 'ディレクトリ' => 'directory', 'マイアカウント' => 'prefs', 'プラグインエントリ' => 'plugins', 'カスタムエントリ' => 'custom', 'サイトステータス' => 'stats'),
     25 => array('新着記事' => 'story', '新着コメント' => 'comment', '新着トラックバック' => 'trackback', '新着ピングバック' => 'pingback', '新着ユーザ' => 'user'),
@@ -2201,9 +2200,9 @@ $LANG_VALIDATION = array(
     'path_to_mogrify' => '画像処理ライブラリimagemagickのセットアップを行い、このフィールドにmogrifyが可能になるようパスを入力してください',
     'path_to_netpbm' => '画像処理ライブラリnetpbmのセットアップを行い、このフィールドにNetpbmのパッケージソースへのパスを入力してください',
     'language' => '言語ファイルがありません',
-    'timezone' => '無効なtimezoneです',
+    'timezone' => '無効なタイムゾーンです',
     'single_char' => 'このフィールドには半角1文字を入力してください',
-    'hash' => 'This field must be a hash function supported by your version of PHP'
+    'hash' => 'このフィールドはあなたのバージョンのPHPによるhash関数が必要です。'
 );
 
 
