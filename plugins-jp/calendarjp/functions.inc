@@ -135,8 +135,8 @@ function phpblock_calendarjp( $help='', $title='' )
             $eventSql .= "WHERE dateend >= DATEADD(hh, 24, NOW()) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
         } else if($_DB_dbms =='pgsql')
         {
-            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL '1 day') AND (NOW() - INTERVAL '$range days') < datestart ";   
-        } 
+            $eventSql .= "WHERE dateend >= (NOW() - INTERVAL '1 day') AND (NOW() - INTERVAL '$range days') < datestart ";
+        }
         else {
             $eventSql .= "WHERE dateend >= (NOW() - INTERVAL 24 HOUR) AND (TO_DAYS(datestart) - TO_DAYS(NOW()) < $range) ";
         }
@@ -469,13 +469,12 @@ function plugin_savesubmission_calendarjp($A)
 
     // check for missing textfields
     if (empty ($A['title']) || empty ($A['start_month']) || empty ($A['start_day']) || empty ($A['start_year'])) {
-        $retval .= COM_siteHeader ('menu', $LANG_CALJP_1[27])
-            . COM_startBlock ($LANG12[22], '',
+        $retval .= COM_startBlock ($LANG12[22], '',
                            COM_getBlockTemplate ('_msg_block', 'header'))
             . $LANG12[23]
             . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_calendarjp ($A['calendar_type'])
-            . COM_siteFooter ();
+            . plugin_submit_calendarjp ($A['calendar_type']);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_1[27]));
 
         return $retval;
     }
@@ -543,10 +542,9 @@ function plugin_savesubmission_calendarjp($A)
 
     $msg = PLG_itemPreSave('calendarjp', $A);
     if (! empty($msg)) {
-        $retval .= COM_siteHeader('menu', $LANG_CALJP_1[27])
-            . COM_errorLog($msg, 2)
-            . plugin_submit_calendarjp($A['calendar_type'])
-            . COM_siteFooter();
+        $retval .= COM_errorLog($msg, 2)
+            . plugin_submit_calendarjp($A['calendar_type']);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_1[27]));
 
         return $retval;
     }
@@ -1239,7 +1237,7 @@ function plugin_autotags_calendarjp ($op, $content = '', $autotag = '')
     } elseif ($op == 'description') {
         return array (
             'event' => $LANG_CALJP_1['autotag_desc_event']
-            );        
+            );
     } else if ($op == 'parse') {
         $eid = COM_applyFilter($autotag['parm1']);
         if (! empty($eid)) {
@@ -1648,13 +1646,37 @@ function plugin_upgrade_calendarjp()
                     DB_query($sql);
                 }
             }
-            
-            calendarjp_update_ConfValues_1_1_4();
-            
+
+            if (! $current_config) {
+                // Update to Config Tables must be performed here and not in regualar SQL update array since if config is current then they shouldn't be run
+                // Set new Tab column to whatever fieldset is
+                $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'calendarjp'";
+                DB_query($sql);
+
+                calendarjp_update_ConfValues_1_1_4();
+            }
+
             calendarjp_update_ConfigSecurity_1_1_4();
 
             $current_version = '1.1.5';
-            break;            
+            break;
+
+        case '1.1.5':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            if (! $current_config) {
+                calendarjp_update_ConfValues_1_1_5();
+            }
+
+            calendarjp_update_ConfigSecurity_1_1_5();
+
+            $current_version = '1.1.6';
+            break;
 
         default:
             $done = true;
@@ -1730,12 +1752,13 @@ function plugin_autouninstall_calendarjp ()
         /* give the full name of the group, as in the db */
         'groups' => array('Calendarjp Admin'),
         /* give the full name of the feature, as in the db */
-        'features' => array('calendarjp.edit', 
-                            'calendarjp.moderate', 
+        'features' => array('calendarjp.edit',
+                            'calendarjp.moderate',
                             'calendarjp.submit',
                             'config.calendarjp.tab_main',
                             'config.calendarjp.tab_permissions',
-                            'config.calendarjp.tab_autotag_permissions'),
+                            'config.calendarjp.tab_autotag_permissions',
+                            'config.calendarjp.tab_events_block'),
         /* give the full name of the block, including 'phpblock_', etc */
         'php_blocks' => array('phpblock_calendarjp'),
         /* give all vars with their name */
@@ -2160,14 +2183,228 @@ function plugin_getdocumentationurl_calendarjp($file)
 * Provides text for a Configuration tooltip
 *
 * @param    string  $id     Id of config value
-* @return   mixed           Text to use regular tooltip, NULL to use config 
+* @return   mixed           Text to use regular tooltip, NULL to use config
 *                           tooltip hack, or empty string when not available
 *
 */
 function plugin_getconfigtooltip_calendarjp($id)
-{   
+{
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
+}
+
+/**
+* Gets Geeklog blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocks_calendarjp($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_CAJP_CONF, $LANG_CALJP_1;
+
+    $retval = array();
+
+    $owner_id = SEC_getDefaultRootUser();
+
+    // Check permissions first
+    if ($_CAJP_CONF['block_enable'] && SEC_hasAccess($owner_id, $_CAJP_CONF['block_group_id'], $_CAJP_CONF['block_permissions'][0], $_CAJP_CONF['block_permissions'][1], $_CAJP_CONF['block_permissions'][2], $_CAJP_CONF['block_permissions'][3])) {
+        // Check if right topic
+        if (($_CAJP_CONF['block_topic_option'] == TOPIC_ALL_OPTION) || ($_CAJP_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) || ($_CAJP_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_CAJP_CONF['block_topic']))) {
+            if (($side=='left' && $_CAJP_CONF['block_isleft'] == 1) || ($side=='right' && $_CAJP_CONF['block_isleft'] == 0)) {
+                // Create a block
+                $display = phpblock_calendarjp();
+
+                $retval[] = array('name'           => 'eventsjp', /* need check ( dengen ) */
+                                  'type'           => 'dynamic',
+                                  'onleft'         => $_CAJP_CONF['block_isleft'],
+                                  'title'          => $LANG_CALJP_1[50],
+                                  'blockorder'     => $_CAJP_CONF['block_order'],
+                                  'content'        => $display,
+                                  'allow_autotags' => false,
+                                  'help'           => '');
+            }
+        }
+    }
+
+    return $retval;
+}
+
+
+/**
+* Gets config information for dynamic blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocksConfig_calendarjp($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_CAJP_CONF, $LANG_CALJP_1;
+
+    $retval = array();
+
+    $owner_id = SEC_getDefaultRootUser();
+
+    // Check permissions first
+    if (SEC_hasAccess($owner_id, $_CAJP_CONF['block_group_id'], $_CAJP_CONF['block_permissions'][0], $_CAJP_CONF['block_permissions'][1], $_CAJP_CONF['block_permissions'][2], $_CAJP_CONF['block_permissions'][3])) {
+        if (($side=='left' && $_CAJP_CONF['block_isleft'] == 1) || ($side=='right' && $_CAJP_CONF['block_isleft'] == 0)) {
+            $retval[] = array('plugin'         => $LANG_CALJP_1[16],
+                              'name'           => 'eventsjp', /* need check ( dengen ) */
+                              'title'          => $LANG_CALJP_1[50],
+                              'type'           => 'dynamic',
+                              'onleft'         => $_CAJP_CONF['block_isleft'],
+                              'blockorder'     => $_CAJP_CONF['block_order'],
+                              'allow_autotags' => false,
+                              'help'           => '',
+                              'enable'         => $_CAJP_CONF['block_enable'],
+                              'topic_option'   => $_CAJP_CONF['block_topic_option'],
+                              'topic'          => $_CAJP_CONF['block_topic'],
+                              'inherit'        => array()
+                              );
+        }
+    }
+
+    return $retval;
+}
+
+/**
+* This function is called to inform plugins when a group's information has
+* changed or a new group has been created.
+*
+* @param    int     $grp_id     Group ID
+* @param    string  $mode       type of change: 'new', 'edit', or 'delete'
+* @return   void
+*
+*/
+function plugin_group_changed_calendarjp($grp_id, $mode)
+{
+    global $_TABLES, $_GROUPS, $_CAJP_CONF;
+
+    if ($mode == 'delete') {
+        // Change any deleted group ids to Polls Admin if exist, if does not change to root group
+        $new_group_id = 0;
+        if (isset($_GROUPS['Calendarjp Admin'])) {
+            $new_group_id = $_GROUPS['Calendarjp Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Calendarjp Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }
+
+        // Update Events with new group id
+        $sql = "UPDATE {$_TABLES['eventsjp']} SET group_id = $new_group_id WHERE group_id = $grp_id";
+        $result = DB_query($sql);
+
+        // Update Events with new group id
+        $sql = "UPDATE {$_TABLES['personal_eventsjp']} SET group_id = $new_group_id WHERE group_id = $grp_id";
+        $result = DB_query($sql);
+
+        // Update Events Block group if need be
+        if ($_CAJP_CONF['block_group_id'] == $grp_id) {
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_group_id', $new_group_id, 'calendarjp');
+
+        }
+   }
+}
+
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (groud id, group name) pairs
+ *
+ */
+function plugin_configmanager_select_block_group_id_calendarjp()
+{
+    return SEC_getUserGroups();
+}
+
+/**
+ * Config Manager function
+ *
+ * @return   array   Array of (topic id, topic name) pairs
+ *
+ */
+function plugin_configmanager_select_block_topic_calendarjp()
+{
+    return array_flip(TOPIC_getList());
+}
+
+/**
+* Callback function when an item was saved
+*
+* @param    string  $id     (unused) ID of item being saved
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @param    string  $old_id (unused) previous ID of item, if != $id
+* @return   void
+* @see      PLG_itemSaved
+*
+*/
+function plugin_itemsaved_calendarjp($id, $type, $old_id)
+{
+    global $_TABLES, $_CAJP_CONF;
+
+    // we're really only interested in Topic ID changes
+    if (($type == 'topic') && !empty($old_id) && ($id != $old_id)) {
+        $key = array_search($old_id, $_CAJP_CONF['block_topic']);
+
+        if ($key > 0) {
+            // Update config
+            $_CAJP_CONF['block_topic'][$key] = $id;
+
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_CAJP_CONF['block_topic'], 'calendarjp');
+        }
+    }
+}
+
+/**
+* Callback function when an item was deleted
+*
+* @param    string  $id     ID of item being deleted
+* @param    string  $type   type of item ('article', 'staticpages', ...)
+* @return   void
+* @see      PLG_itemDeleted
+*
+*/
+function plugin_itemdeleted_calendarjp($id, $type)
+{
+    global $_TABLES, $_CAJP_CONF;
+
+    // we're really only interested in Topic Deletes
+    if ($type == 'topic') {
+        $key = array_search($id, $_CAJP_CONF['block_topic']);
+
+        if ($key > 0) {
+            // delete item from config
+            unset($_CAJP_CONF['block_topic'][$key]);
+
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_topic', $_CAJP_CONF['block_topic'], 'calendarjp');
+        }
+        // Note: All topics could get deleted from array which would mean the block would not display untill user adds more in config
+    }
 }
 
 /**
@@ -2252,7 +2489,6 @@ function CALENDARJP_getAmPmFormSelection( $name, $selected = '' )
 
     return $retval;
 }
-
 
 /**
 * Authenticate adding events

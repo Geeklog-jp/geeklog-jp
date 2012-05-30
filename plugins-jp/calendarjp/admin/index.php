@@ -52,9 +52,8 @@ $display = '';
 
 // Ensure user even has the rights to access this page
 if (!SEC_hasRights('calendarjp.edit')) {
-    $display .= COM_siteHeader('menu', $MESSAGE[30])
-             . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-             . COM_siteFooter();
+    $display .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $MESSAGE[30]));
 
     // Log attempt to access.log
     COM_accessLog("User {$_USER['username']} tried to illegally access the event administration screen.");
@@ -459,10 +458,8 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
                 $perm_members, $perm_anon);
     }
     if (($access < 3) || !SEC_inGroup ($group_id)) {
-        $retval .= COM_siteHeader('menu', $MESSAGE[30])
-                . COM_showMessageText($MESSAGE[29], $MESSAGE[30])
-                . COM_siteFooter();
-
+        $retval .= COM_showMessageText($MESSAGE[29], $MESSAGE[30]);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $MESSAGE[30]));
         COM_accessLog ("User {$_USER['username']} tried to illegally submit or edit event $eid.");
         return $retval;
     }
@@ -525,12 +522,11 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
         $datestart = $start_year . '-' . $start_month . '-' . $start_day;
         $timestart = $start_hour . ':' . $start_minute . ':00';
     } else {
-        $retval .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[2]);
         $retval .= COM_startBlock ($LANG_CALJP_ADMIN[2], '',
                             COM_getBlockTemplate ('_msg_block', 'header'));
         $retval .= $LANG_CALJP_ADMIN[23];
         $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_ADMIN[2]));
 
         return $retval;
     }
@@ -538,23 +534,21 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
         $dateend = $end_year . '-' . $end_month . '-' . $end_day;
         $timeend = $end_hour . ':' . $end_minute . ':00';
     } else {
-        $retval .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[2]);
         $retval .= COM_startBlock ($LANG_CALJP_ADMIN[2], '',
                             COM_getBlockTemplate ('_msg_block', 'header'));
         $retval .= $LANG_CALJP_ADMIN[24];
         $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_ADMIN[2]));
 
         return $retval;
     }
     if ($allday == 0) {
         if (strtotime($dateend) < strtotime($datestart)) {
-            $retval .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[2]);
             $retval .= COM_startBlock ($LANG_CALJP_ADMIN[2], '',
                                 COM_getBlockTemplate ('_msg_block', 'header'));
             $retval .= $LANG_CALJP_ADMIN[25];
             $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-            $retval .= COM_siteFooter ();
+            $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_ADMIN[2]));
 
             return $retval;
         }
@@ -564,9 +558,9 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
             $dateend = $datestart;
         }
     }
-    
+
     // Remove any autotags the user doesn't have permission to use
-    $description = PLG_replaceTags($description, '', true);    
+    $description = PLG_replaceTags($description, '', true);
 
     // clean 'em up
     if ($postmode == 'html' || $postmode == 'adveditor') {
@@ -681,12 +675,11 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
             17
         );
     } else {
-        $retval .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[2]);
         $retval .= COM_startBlock ($LANG_CALJP_ADMIN[2], '',
                             COM_getBlockTemplate ('_msg_block', 'header'));
         $retval .= $LANG_CALJP_ADMIN[10];
         $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter ();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CALJP_ADMIN[2]));
 
         return $retval;
     }
@@ -756,9 +749,8 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $result = DB_query ("SELECT * FROM {$_TABLES['eventsubmissionjp']} WHERE eid ='$id'");
     $A = DB_fetchArray ($result);
     $A['hits'] = 0;
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[1]);
     $display .= CALENDARJP_editEvent ($mode, $A);
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[1]));
 } else if ($mode == 'clone') {
     $eid = COM_applyFilter ($_REQUEST['eid']);
     $result = DB_query ("SELECT * FROM {$_TABLES['eventsjp']} WHERE eid ='$eid'");
@@ -766,9 +758,8 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $A['hits'] = 0;
     $A['eid'] = COM_makesid ();
     $A['owner_id'] = $_USER['uid'];
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[1]);
     $display .= CALENDARJP_editEvent ($mode, $A);
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[1]));
 } else if ($mode == 'edit') {
     $eid = '';
     if (isset ($_REQUEST['eid'])) {
@@ -808,12 +799,10 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         $result = DB_query ("SELECT * FROM {$_TABLES['eventsjp']} WHERE eid ='$eid'");
         $A = DB_fetchArray ($result);
     }
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[1]);
     $display .= CALENDARJP_editEvent ($mode, $A);
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[1]));
 } else if ($mode == 'batchdelete') {
     // list_old
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[11]);
     if (isset ($_REQUEST['msg'])) {
         $display .= COM_showMessage (
             COM_applyFilter ($_REQUEST['msg'], true),
@@ -821,21 +810,18 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         );
     }
     $display .= CALENDARJP_listOld();
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[11]));
 } elseif (($mode == 'batchdeleteexec') && SEC_checkToken()) {
     $msg = CALENDARJP_deleteOld();
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[11])
-        . COM_showMessage($msg)
-        . CALENDARJP_listOld()
-        . COM_siteFooter();
+    $display .= COM_showMessage($msg) . CALENDARJP_listOld();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[11]));
 } else { // 'cancel' or no mode at all
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_ADMIN[11]);
     if (isset ($_REQUEST['msg'])) {
         $display .= COM_showMessage (COM_applyFilter ($_REQUEST['msg'],
                                                       true), 'calendarjp');
     }
     $display .= CALENDARJP_listevents();
-    $display .= COM_siteFooter ();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_ADMIN[11]));
 }
 
 COM_output($display);
