@@ -77,13 +77,8 @@ class scripts {
         $this->header_set = false;
         $this->javascript_set = false;
         
-        $theme_path = '/layout/' . $_CONF['theme'];
-        
         $this->jquery_cdn = false;
         $this->jquery_ui_cdn = false;
-        
-        // Add Theme CSS File
-        $this->setCSSFilePrivate('theme', $theme_path . '/style.css');
         
         // Find available JavaScript libraries
         $this->findJavaScriptLibraries();     
@@ -97,7 +92,7 @@ class scripts {
         }            
         
         // Setup restricted names after setting main libraries (do not want plugins messing with them)
-        $this->restricted_names = array('fckeditor', 'core', 'jquery', 'theme');
+        $this->restricted_names = array('fckeditor', 'core', 'jquery');
         
     }
     
@@ -122,7 +117,7 @@ class scripts {
                      
         
         // Find available jQuery library files
-        $version_jQuery = '1.6.3';
+        $version_jQuery = '1.7.2'; // '1.6.3';
         $this->jquery_cdn_file = 'https://ajax.googleapis.com/ajax/libs/jquery/' . $version_jQuery .'/jquery.min.js';
         $name = 'jquery';
         $this->library_files[$name]['file'] = 'javascript/jquery.min.js';
@@ -130,13 +125,13 @@ class scripts {
 
         // jQuery UI
         // When upgrading jQuery UI include the redmond theme
-        $version_jQuery_ui = '1.8.11';
+        $version_jQuery_ui = '1.8.20'; // '1.8.11';
         $this->jquery_ui_cdn_file = 'https://ajax.googleapis.com/ajax/libs/jqueryui/' . $version_jQuery_ui .'/jquery-ui.min.js';
         
         // Set jQuery UI CSS
-        $this->setCSSFilePrivate('jquery.ui.geeklog', $theme_path . '/jquery_ui/jquery.ui.geeklog.css', false);
         $this->setCSSFilePrivate('jquery.ui.all', $theme_path . '/jquery_ui/jquery.ui.all.css', false);
         $this->setCSSFilePrivate('jquery.ui', $theme_path . '/jquery_ui/jquery-ui.css', false);
+        $this->setCSSFilePrivate('jquery.ui.geeklog', $theme_path . '/jquery_ui/jquery.ui.geeklog.css', false);        
 
         // Set jQuery UI Core
         $names[] = 'jquery.ui.core';
@@ -199,7 +194,7 @@ class scripts {
                 // If name is subset of jQuery. make sure all Core UI libraries are loaded
                 if (substr($name, 0, 7) == 'jquery.' && !$this->jquery_ui_cdn) {
                     // Check that file exists, if not use Google version
-                    if (!file_exists($_CONF['path'] . 'public_html/' . $this->library_files[$name]['file'])) {
+                    if (!file_exists($_CONF['path_html'] . $this->library_files[$name]['file'])) {
                         $this->jquery_ui_cdn = true;
                         
                         $this->css_files['jquery.ui']['load'] = true;
@@ -294,6 +289,10 @@ class scripts {
 
         // Make sure file exists and is readable. We don't want any 403 or 404, right?
         $path = substr($_CONF['path_html'], 0, -1) . $file;
+        // Strip parameters
+        if (strrpos($path, '?') !== false) {
+            $path = substr($path, 0, strrpos($path, '?'));
+        }
         if (! is_file($path) || ! is_readable($path)) {
             return false;
         }
@@ -340,6 +339,7 @@ class scripts {
         }
         
         $this->css_files[$name]['file'] = $file;
+        $this->css_files[$name]['extra'] = '';
         $this->css_files[$name]['constant'] = false;
         $this->css_files[$name]['load'] = $load;
         
@@ -352,11 +352,12 @@ class scripts {
     * @param    $name       name of CSS file
     * @param    $file       location of file relative to public_html directory. Include '/' at beginning
     * @param    $constant   Future use. Set to true if file is planned to be loaded all the time (Caching/Compression)
+    * @param    $attributes (optional) array of extra attributes
     * @access   public
     * @return   boolean 
     *
-    */      
-    public function setCSSFile($name, $file, $constant = true) {
+    */
+    public function setCSSFile($name, $file, $constant = true, $attributes = array()) {
         
         global $_CONF;
 
@@ -372,16 +373,27 @@ class scripts {
         
         // Make sure file exists and is readable. We don't want any 403 or 404, right?
         $path = substr($_CONF['path_html'], 0, -1) . $file;
+        // Strip parameters
+        if (strrpos($path, '?') !== false) {
+            $path = substr($path, 0, strrpos($path, '?'));
+        }
         if (! is_file($path) || ! is_readable($path)) {
             return false;
         }
 
+        $extra = '';
+        foreach ($attributes as $key => $value) {
+            $extra .= " $key=\"$value\"";
+        }
+
+        $this->css_files[$name]['name'] = $name;
         $this->css_files[$name]['file'] = $file;
+        $this->css_files[$name]['extra'] = $extra;
         $this->css_files[$name]['constant'] = $constant;
         $this->css_files[$name]['load'] = true;
         
         return true;
-    }    
+    }
 
     /**
     * Returns header code (JavaScript and CSS) to include in the Head of the webpage
@@ -401,9 +413,15 @@ class scripts {
         // Set CSS Files
         foreach ($this->css_files as $file) {
             if ($file['load'] && isset($file['file'])) {
-                $headercode .= '<link rel="stylesheet" type="text/css" href="' . $_CONF['site_url'] . $file['file'] . '" ' . XHTML . '>' . LB;
+                $csslink = '<link rel="stylesheet" type="text/css" href="'
+                         . $_CONF['site_url'] . $file['file'] . '"' . $file['extra'] . XHTML . '>' . LB;
+                if (isset($file['name']) && $file['name'] == 'theme') { // load theme css first
+                    $headercode = $csslink . $headercode;
+                } else {
+                    $headercode .= $csslink;
+                }
             }
-        }  
+        }
 
         // Set JavaScript (do this before file incase variables are needed)
         if (isset($this->scripts['header'])) {

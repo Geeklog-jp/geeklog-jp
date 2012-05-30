@@ -79,12 +79,11 @@ function contactemail($uid,$cc,$author,$authoremail,$subject,$message)
     COM_clearSpeedlimit ($_CONF['speedlimit'], 'mail');
     $last = COM_checkSpeedlimit ('mail');
     if ($last > 0) {
-        $retval = COM_siteHeader('menu', $LANG04[81]);
-        $retval .= COM_startBlock ($LANG12[26], '',
+        $retval = COM_startBlock ($LANG12[26], '',
                             COM_getBlockTemplate ('_msg_block', 'header'))
                 . $LANG08[39] . $last . $LANG08[40]
                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
-        $retval .= COM_siteFooter();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[81]));
         
         return $retval;
     }
@@ -118,10 +117,9 @@ function contactemail($uid,$cc,$author,$authoremail,$subject,$message)
 
             $msg = PLG_itemPreSave ('contact', $message);
             if (!empty ($msg)) {
-                $retval .= COM_siteHeader ('menu', $LANG04[81])
-                        . COM_errorLog ($msg, 2)
-                        . contactform ($uid, $cc, $subject, $message)
-                        . COM_siteFooter ();
+                $retval = COM_errorLog ($msg, 2)
+                        . contactform ($uid, $cc, $subject, $message);
+                $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[81]));
 
                 return $retval;
             }
@@ -138,7 +136,7 @@ function contactemail($uid,$cc,$author,$authoremail,$subject,$message)
 
             $sent = COM_mail($to, $subject, $message, $from);
 
-            if ($sent && isset($_POST['cc']) && ($_POST['cc'] == 'on')) {
+            if ($sent && $_CONF['mail_cc_enabled'] && isset($_POST['cc']) && ($_POST['cc'] == 'on')) {
                 $ccmessage = sprintf($LANG08[38], COM_getDisplayName($uid,
                                             $A['username'], $A['fullname']));
                 $ccmessage .= "\n------------------------------------------------------------\n\n" . $message;
@@ -155,19 +153,17 @@ function contactemail($uid,$cc,$author,$authoremail,$subject,$message)
             $subject = strip_tags ($subject);
             $subject = substr ($subject, 0, strcspn ($subject, "\r\n"));
             $subject = htmlspecialchars (trim ($subject), ENT_QUOTES);
-            $retval .= COM_siteHeader ('menu', $LANG04[81])
-                    . COM_errorLog ($LANG08[3], 2)
-                    . contactform ($uid, $cc, $subject, $message)
-                    . COM_siteFooter ();
+            $retval = COM_errorLog ($LANG08[3], 2)
+                    . contactform ($uid, $cc, $subject, $message);
+            $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[81]));
         }
     } else {
         $subject = strip_tags ($subject);
         $subject = substr ($subject, 0, strcspn ($subject, "\r\n"));
         $subject = htmlspecialchars (trim ($subject), ENT_QUOTES);
-        $retval .= COM_siteHeader ('menu', $LANG04[81])
-                . COM_errorLog ($LANG08[4], 2)
-                . contactform ($uid, $cc, $subject, $message)
-                . COM_siteFooter ();
+        $retval = COM_errorLog ($LANG08[4], 2)
+                . contactform ($uid, $cc, $subject, $message);
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[81]));
     }
 
     return $retval;
@@ -238,9 +234,13 @@ function contactform ($uid, $cc = false, $subject = '', $message = '')
             } else {
                 $mail_template->set_var ('useremail', $_USER['email']);
             }
-            $mail_template->set_var('cc', $cc);
-            $mail_template->set_var('lang_cc', $LANG08[36]);
-            $mail_template->set_var('lang_cc_description', $LANG08[37]);
+            if (!$_CONF['mail_cc_enabled']) {
+                $mail_template->set_var('cc_enabled', ' style="display: none"');
+            } else {
+                $mail_template->set_var('cc', $cc);
+                $mail_template->set_var('lang_cc', $LANG08[36]);
+                $mail_template->set_var('lang_cc_description', $LANG08[37]);
+            }
             $mail_template->set_var('lang_subject', $LANG08[13]);
             $mail_template->set_var('subject', $subject);
             $mail_template->set_var('lang_message', $LANG08[14]);
@@ -376,7 +376,7 @@ function mailstory($sid, $to, $toemail, $from, $fromemail, $shortmsg)
 
     $sent = COM_mail($mailto, $subject, $mailtext, $mailfrom);
 
-    if ($sent && isset($_POST['cc']) && ($_POST['cc'] == 'on')) {
+    if ($sent && $_CONF['mail_cc_enabled'] && isset($_POST['cc']) && ($_POST['cc'] == 'on')) {
         $ccmessage = sprintf($LANG08[38], $to);
         $ccmessage .= "\n------------------------------------------------------------\n\n" . $mailtext;
 
@@ -469,9 +469,13 @@ function mailstoryform ($sid, $cc=false, $to = '', $toemail = '', $from = '',
     $mail_template->set_var('toname', $to);
     $mail_template->set_var('lang_toemailaddress', $LANG08[19]);
     $mail_template->set_var('toemail', $toemail);
-    $mail_template->set_var('cc', $cc);
-    $mail_template->set_var('lang_cc', $LANG08[36]);
-    $mail_template->set_var('lang_cc_description', $LANG08[37]);
+    if (!$_CONF['mail_cc_enabled']) {
+        $mail_template->set_var('cc_enabled', ' style="display: none"');
+    } else {
+        $mail_template->set_var('cc', $cc);
+        $mail_template->set_var('lang_cc', $LANG08[36]);
+        $mail_template->set_var('lang_cc_description', $LANG08[37]);
+    }
     $mail_template->set_var('lang_shortmessage', $LANG08[27]);
     $mail_template->set_var('shortmsg', htmlspecialchars($shortmsg));
     $mail_template->set_var('lang_warning', $LANG08[22]);
@@ -523,9 +527,8 @@ switch ($what) {
             $display = COM_refresh (COM_buildUrl ($_CONF['site_url']
                                     . '/article.php?story=' . $sid));
         } else {
-            $display .= COM_siteHeader ('menu', $LANG08[17])
-                     . mailstoryform ($sid, true)
-                     . COM_siteFooter ();
+            $display = mailstoryform ($sid, $_CONF['mail_cc_default']);
+            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG08[17]));
         }
         break;
 
@@ -539,34 +542,32 @@ switch ($what) {
                     !COM_isEmail($_POST['fromemail']) ||
                     (strpos($_POST['to'], '@') !== false) ||
                     (strpos($_POST['from'], '@') !== false)) {
-                $display .= COM_siteHeader('menu', $LANG08[17])
-                         . mailstoryform ($sid, $cc, COM_applyFilter($_POST['to']),
+                $display = mailstoryform ($sid, $cc, COM_applyFilter($_POST['to']),
                                 COM_applyFilter($_POST['toemail']),
                                 COM_applyFilter($_POST['from']),
                                 COM_applyFilter($_POST['fromemail']),
-                                $_POST['shortmsg'], 52)
-                         . COM_siteFooter();
+                                $_POST['shortmsg'], 52);
+                $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG08[17]));
+
             } else if (empty($_POST['to']) || empty($_POST['from']) ||
                     empty($_POST['shortmsg'])) {
-                $display .= COM_siteHeader ('menu', $LANG08[17])
-                         . COM_showMessageText($LANG08[22])
+                $display = COM_showMessageText($LANG08[22])
                          . mailstoryform($sid, $cc, COM_applyFilter($_POST['to']),
                                 COM_applyFilter($_POST['toemail']),
                                 COM_applyFilter($_POST['from']),
                                 COM_applyFilter($_POST['fromemail']),
-                                $_POST['shortmsg'])
-                         . COM_siteFooter();
+                                $_POST['shortmsg']);
+                $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG08[17]));
             } else {
                 $msg = PLG_itemPreSave('emailstory', $_POST['shortmsg']);
                 if (!empty($msg)) {
-                    $display .= COM_siteHeader('menu', $LANG08[17])
-                             . COM_errorLog($msg, 2)
+                    $display = COM_errorLog($msg, 2)
                              . mailstoryform($sid, $cc, COM_applyFilter($_POST['to']),
                                 COM_applyFilter($_POST['toemail']),
                                 COM_applyFilter($_POST['from']),
                                 COM_applyFilter($_POST['fromemail']),
-                                $_POST['shortmsg'])
-                             . COM_siteFooter();
+                                $_POST['shortmsg']);
+                    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG08[17]));
                 } else {
                     $display .= mailstory($sid, $_POST['to'], $_POST['toemail'],
                         $_POST['from'], $_POST['fromemail'], $_POST['shortmsg']);
@@ -588,9 +589,8 @@ switch ($what) {
                 $subject = substr ($subject, 0, strcspn ($subject, "\r\n"));
                 $subject = htmlspecialchars (trim ($subject), ENT_QUOTES);
             }
-            $display .= COM_siteHeader ('menu', $LANG04[81])
-                     . contactform ($uid, true, $subject)
-                     . COM_siteFooter ();
+            $display = contactform ($uid, $_CONF['mail_cc_default'], $subject);
+            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG04[81]));
         } else {
             $display .= COM_refresh ($_CONF['site_url'] . '/index.php');
         }
