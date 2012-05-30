@@ -129,28 +129,6 @@ function USER_deleteAccount ($uid)
 }
 
 /**
-* Create a new password and set in DB if User Id supplied
-*
-* @param    int      $uid   id of the user
-* @return   array    ['normal'] = human readable password, ['encrypted'] = encrypted password
-*
-*/
-function USER_createPassword ($uid = 0)
-{
-    global $_TABLES;
-
-    $passwd['normal'] = rand ();
-    $passwd['normal'] = md5 ($passwd['normal']);
-    $passwd['normal'] = substr ($passwd['normal'], 1, 8);
-    $passwd['encrypted'] = SEC_encryptPassword($passwd['normal']);
-    if ($uid > 1) { 
-        DB_change ($_TABLES['users'], 'passwd', $passwd['encrypted'], 'uid', $uid);
-    }
-    
-    return $passwd;
-}
-
-/**
 * Create a new password and send it to the user
 *
 * @param    string  $username   user's login name
@@ -162,8 +140,8 @@ function USER_createAndSendPassword ($username, $useremail, $uid)
 {
     global $_CONF, $LANG04;
 
-    $passwords = USER_createPassword($uid);
-    $passwd = $passwords['normal'];
+    $passwd = null;
+    SEC_updateUserPassword($password, $uid);
 
     if (file_exists ($_CONF['path_data'] . 'welcome_email.txt')) {
         $template = COM_newTemplate($_CONF['path_data']);
@@ -269,9 +247,11 @@ function USER_createAccount($username, $email, $passwd = '', $fullname = '', $ho
     $values = "'$username','$email','$regdate','{$_CONF['default_perm_cookie_timeout']}'";
 
     if (! empty($passwd)) {
-        $passwd = addslashes($passwd);
-        $fields .= ',passwd';
-        $values .= ",'$passwd'";
+        // Since no uid exists yet we can't use SEC_updateUserPassword and must handle things manually
+        $salt = SEC_generateSalt();
+        $passwd = SEC_encryptPassword($passwd, $salt, $_CONF['pass_alg'], $_CONF['pass_stretch']); 
+        $fields .= ',passwd,salt,algorithm,stretch';
+        $values .= ",'$passwd','$salt','" . $_CONF['pass_alg'] . "','" . $_CONF['pass_stretch'] . "'";
     }
     if (! empty($fullname)) {
         $fullname = addslashes($fullname);
@@ -443,20 +423,22 @@ function USER_getPhoto ($uid = 0, $photo = '', $email = '', $width = 0)
         }
 
         $img = '';
-        if (empty ($photo) || ($photo == 'none')) {
+        if (empty($photo) || ($photo == 'none')) {
             // no photo - try gravatar.com, if allowed
             if ($_CONF['use_gravatar']) {
-                $img = 'http://www.gravatar.com/avatar.php?gravatar_id='
-                     . md5 ($email);
+                $img = 'http://www.gravatar.com/avatar/' . md5($email);
+                $parms = array();
                 if ($width > 0) {
-                    $img .= '&amp;size=' . $width;
+                    $parms[] = 's=' . $width;
                 }
-                if (!empty ($_CONF['gravatar_rating'])) {
-                    $img .= '&amp;rating=' . $_CONF['gravatar_rating'];
+                if (! empty($_CONF['gravatar_rating'])) {
+                    $parms[] = 'r=' . $_CONF['gravatar_rating'];
                 }
-                if (!empty ($_CONF['default_photo'])) {
-                    $img .= '&amp;default='
-                         . urlencode ($_CONF['default_photo']);
+                if (! empty($_CONF['default_photo'])) {
+                    $parms[] = 'd=' . urlencode($_CONF['default_photo']);
+                }
+                if (count($parms) > 0) {
+                    $img .= '?' . implode('&amp;', $parms);
                 }
             }
         } else {
@@ -506,9 +488,8 @@ function USER_deletePhoto ($photo, $abortonerror = true)
         if (file_exists ($filetodelete)) {
             if (!@unlink ($filetodelete)) {
                 if ($abortonerror) {
-                    $display = COM_siteHeader ('menu', $LANG04[21])
-                             . COM_errorLog ("Unable to remove file $photo")
-                             . COM_siteFooter ();
+                    $display = COM_errorLog ("Unable to remove file $photo");
+                    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG04[21]));
                     echo $display;
                     exit;
                 } else {
@@ -869,9 +850,8 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
 
     if (COM_isAnonUser() &&
         (($_CONF['loginrequired'] == 1) || ($_CONF['profileloginrequired'] == 1))) {
-        $retval .= COM_siteHeader('menu', $LANG_LOGIN[1]);
         $retval .= SEC_loginRequiredForm();
-        $retval .= COM_siteFooter();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_LOGIN[1]));
 
         return $retval;
     }
@@ -887,11 +867,14 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
         COM_displayMessageAndAbort(30, '', 403, 'Forbidden');
     }
 
+    if ($A['status'] != USER_ACCOUNT_ACTIVE && !SEC_hasRights('user.edit')) {
+        return COM_refresh($_CONF['site_url'] . '/index.php');
+    }
+    
     $display_name = COM_getDisplayName($uid, $A['username'], $A['fullname']);
     $display_name = htmlspecialchars($display_name);
 
     if (! $preview) {
-        $retval .= COM_siteHeader('menu', $LANG04[1] . ' ' . $display_name);
         if ($msg > 0) {
             $retval .= COM_showMessage($msg, $plugin);
         }
@@ -999,20 +982,17 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     $user_templates->set_var('headline_last10comments', $LANG04[10]);
     $user_templates->set_var('headline_postingstats', $LANG04[83]);
 
-    $result = DB_query("SELECT tid FROM {$_TABLES['topics']}"
-                       . COM_getPermSQL());
-    $nrows = DB_numRows($result);
-    $tids = array();
-    for ($i = 0; $i < $nrows; $i++) {
-        $T = DB_fetchArray($result);
-        $tids[] = $T['tid'];
-    }
+    $tids = TOPIC_getList();
     $topics = "'" . implode("','", $tids) . "'";
 
     // list of last 10 stories by this user
     if (count($tids) > 0) {
-        $sql = "SELECT sid,title,UNIX_TIMESTAMP(date) AS unixdate FROM {$_TABLES['stories']} WHERE (uid = $uid) AND (draft_flag = 0) AND (date <= NOW()) AND (tid IN ($topics))" . COM_getPermSQL('AND');
-        $sql .= " ORDER BY unixdate DESC LIMIT 10";
+        $sql = "SELECT sid,title,UNIX_TIMESTAMP(date) AS unixdate 
+            FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
+            WHERE (uid = $uid) AND (draft_flag = 0) AND (date <= NOW()) AND (tid IN ($topics))" . COM_getPermSQL('AND') . " 
+            AND ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 
+            ORDER BY unixdate DESC LIMIT 10";
+            
         $result = DB_query($sql);
         $nrows = DB_numRows($result);
     } else {
@@ -1110,7 +1090,7 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     $retval .= PLG_profileBlocksDisplay($uid);
 
     if (! $preview) {
-        $retval .= COM_siteFooter();
+        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG04[1] . ' ' . $display_name));
     }
 
     return $retval;
