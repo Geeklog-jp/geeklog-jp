@@ -1,8 +1,8 @@
 {doctype}
 <html{html_attribute}{xmlns}>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"{xhtml}>
 <title>{page_title_and_site_name}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"{xhtml}>
 <meta http-equiv="Content-Script-Type" content="text/javascript"{xhtml}>
 <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
 <link rel="SHORTCUT ICON" href="{layout_url}/images/favicon.ico"{xhtml}>
