@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.6                                                               |
+// | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | lib-database.php                                                          |
 // |                                                                           |
 // | Geeklog database library.                                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2010 by the following authors:                         |
+// | Copyright (C) 2000-2011 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs, tony AT tonybibbs DOT com                            |
 // +---------------------------------------------------------------------------+
@@ -77,6 +77,7 @@ $_TABLES['stories']             = $_DB_table_prefix . 'stories';
 $_TABLES['storysubmission']     = $_DB_table_prefix . 'storysubmission';
 $_TABLES['syndication']         = $_DB_table_prefix . 'syndication';
 $_TABLES['tokens']              = $_DB_table_prefix . 'tokens';
+$_TABLES['topic_assignments']   = $_DB_table_prefix . 'topic_assignments';
 $_TABLES['topics']              = $_DB_table_prefix . 'topics';
 $_TABLES['trackback']           = $_DB_table_prefix . 'trackback';
 $_TABLES['trackbackcodes']      = $_DB_table_prefix . 'trackbackcodes';
@@ -129,7 +130,11 @@ $_TABLES['userevent']           = $_DB_table_prefix . 'userevent';
 * Include appropriate DBMS object
 *
 */
-require_once $_CONF['path_system'] . 'databases/'. $_DB_dbms . '.class.php';
+if (($_DB_dbms === 'mysql') AND class_exists('MySQLi')) {
+    require_once $_CONF['path_system'] . 'databases/mysqli.class.php';
+} else {
+    require_once $_CONF['path_system'] . 'databases/'. $_DB_dbms . '.class.php';
+}
 
 // Instantiate the database object
 $_DB = new database($_DB_host, $_DB_name, $_DB_user, $_DB_pass, 'COM_errorLog',
