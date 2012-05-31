@@ -1,3 +1,12 @@
+2012-05-31  Tetsuko Komma  <Ivy>
+
+	* Professional_cssテーマを2.0に合わせました。
+
+2012-05-26  Tetsuko Komma  <Ivy>
+
+	* コア日本語言語ファイル、コアプラグイン日本語言語ファイル、ドキュ
+	  メントの翻訳を追加しました。
+
 2012-05-26  Takahiro Kambe  <tacahi>
 
 	* Geeklog 2.0.0b1をマージしました。
@@ -7,3 +16,5 @@
 	* 行末の文字をGeeklog 2.0.0b1に合わせました。
 
 	* upstreamブランチを作成して、Geeklogの公式リリースを加えました。
+
+

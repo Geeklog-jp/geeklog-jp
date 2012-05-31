@@ -24,7 +24,8 @@
 body {
   margin: 0;
   padding: 0;
-  font-size: 13px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 12px;
   line-height: 1.25;
   text-align: center;  /* For Win IE 6(Margin auto layout) */
 }
@@ -95,8 +96,8 @@ a img {
 input,
 select,
 textarea {
-/*    font-family: arial,verdana,tahoma,helvetica,sans-serif; */
-  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;
+  font-family: arial,verdana,tahoma,helvetica,sans-serif;
+/*    font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;  */
 }
 /* } Mac */
 
@@ -396,3 +397,86 @@ ul.compact li {
   margin: 0;
   padding: 0;
 }
+
+
+
+/*--------------------------------------
+  Page Navigation
+--------------------------------------*/
+.gl-pagenav {
+  text-align:center;
+}
+
+div.gl-pagenav b {
+   display: inline-block;
+   margin: 4px;
+   padding: 4px;
+   border: 1px solid #cccccc;
+   line-height: 1.5;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav b {
+   display: inline;
+   zoom: 1;
+ }
+ /* foe IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav b {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav a {
+   display: inline-block;
+   margin: 4px;
+   padding: 4px;
+   background: #C8E0E0;
+   border: 1px solid #40A0A0;
+   text-decoration: none;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav a {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav a {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav span {
+   display: inline-block;
+   padding: 4px;
+   line-height: 1.5;
+ }
+ 
+/* for IE6 { */
+ * html div.gl-pagenav span {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE6 } */
+ 
+/* for IE7 { */
+ *:first-child+html div.gl-pagenav span {
+   display: inline;
+   zoom: 1;
+ }
+ /* for IE7 } */
+ 
+div.gl-pagenav span a { 
+  margin: 0;
+   padding: 0;
+   background: transparent;
+   border: none;
+   text-decoration: underline;
+ }
+
