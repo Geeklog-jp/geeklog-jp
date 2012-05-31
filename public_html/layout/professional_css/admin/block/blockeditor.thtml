@@ -24,13 +24,7 @@
       <dd class="description">{lang_nospaces}</dd>
 
       <dt><label for="admin-blockeditor-tid">{lang_topic}</label></dt>
-      <dd>
-        <select name="tid" id="admin-blockeditor-tid">
-          <option value="all" {all_selected}>{lang_all}</option>
-          <option value="homeonly" {homeonly_selected}>{lang_homeonly}</option>
-          {topic_options}
-        </select>
-      </dd>
+      <dd>{topic_selection}</dd>
 
       <dt><label for="admin-blockeditor-onleft">{lang_side}</label></dt>
       <dd>
@@ -59,7 +53,7 @@
     <legend>{lang_phpblockoptions}</legend>
 
     <dl>
-      <dt><label for="admin-blockeditor-phpblockfn">{lang_blockfunction}</label></dt>
+      <dt></dt>
       <dd><input type="text" size="40" maxlength="50" value="{block_phpblockfn}" name="phpblockfn" id="admin-blockeditor-phpblockfn" class="text"{xhtml}></dd>
       <dd class="description">{lang_phpblockwarning}</dd>
     </dl>

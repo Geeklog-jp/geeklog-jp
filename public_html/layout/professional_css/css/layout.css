@@ -38,7 +38,7 @@
 div#container {
   position: relative;
   width: 100%;  /*  Container Width */
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   text-align: left;
 }
@@ -291,7 +291,6 @@ div#container div#footer {
   clear: left;
   padding: 16px;
   border-top: 1px solid #1A3955;
-  text-align: center;
 }
 
 div#container div#footer-content {
@@ -334,7 +333,6 @@ div#container div#footer ul li {
 /* Copyright */
 div#container div#footer ul.copyright {
   float: left;
-  text-align: left;
 }
 div#container div#footer ul li.copyright_notice {
 }
