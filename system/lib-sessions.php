@@ -94,7 +94,7 @@ function SESS_sessionCheck()
         $_COOKIE[$_CONF['cookie_session']] = CUSTOM_MOBILE_load_session();
         CUSTOM_MOBILE_debug("cookie_session in SESS_sessionCheck: " . $_COOKIE[$_CONF['cookie_session']]);
     }
-    
+
     // Check for a cookie on the users's machine.  If the cookie exists, build
     // an array of the users info and setup the theme.
 
@@ -126,6 +126,9 @@ function SESS_sessionCheck()
                 $_USER = $userdata;
                 $_USER['auto_login'] = false;
             }
+        } elseif ($userid == 1) {
+            // Anonymous User has session so update any information
+            SESS_updateSessionTime($sessid, $_CONF['cookie_ip']);
         } else {
             // Session probably expired, now check permanent cookie
             if (isset ($_COOKIE[$_CONF['cookie_name']])) {
@@ -133,6 +136,10 @@ function SESS_sessionCheck()
                 if (empty ($userid) || ($userid == 'deleted')) {
                     unset ($userid);
                 } else {
+                    if ($_SESS_VERBOSE) {
+                        COM_errorLog("Got $userid as User ID from the permanent cookie",1);
+                    }
+                    
                     $userid = COM_applyFilter ($userid, true);
                     $cookie_password = '';
                     $userpass = '';
@@ -143,6 +150,10 @@ function SESS_sessionCheck()
                                                "uid = $userid");
                     }
                     if (empty($cookie_password) || ($cookie_password <> $userpass)) {
+                        if ($_SESS_VERBOSE) {
+                            COM_errorLog("Password comparison failed or cookie password missing",1);
+                        }
+                        
                         // Invalid or manipulated cookie data
                         SEC_setCookie($_CONF['cookie_session'], '',
                                       time() - 10000);
@@ -157,12 +168,18 @@ function SESS_sessionCheck()
                         }
                         COM_updateSpeedlimit('login');
                     } else if ($userid > 1) {
+                        if ($_SESS_VERBOSE) {
+                            COM_errorLog("Password comparison passed",1);
+                        }                        
                         // Check user status
                         $status = SEC_checkUserStatus ($userid);
                         if (($status == USER_ACCOUNT_ACTIVE) ||
                                 ($status == USER_ACCOUNT_AWAITING_ACTIVATION)) {
                             $user_logged_in = 1;
 
+                            if ($_SESS_VERBOSE) {
+                                COM_errorLog("Create new session and write cookie",1);
+                            }                               
                             $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
                             SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
                             $userdata = SESS_getUserDataFromId($userid);
@@ -171,6 +188,15 @@ function SESS_sessionCheck()
                         }
                     }
                 }
+            } else {
+                if ($_SESS_VERBOSE) {
+                    COM_errorLog('perm cookie not found from lib-sessions.php',1);
+                }                
+                
+                // Anonymous user has session id but it has been expired and wiped from the db so reset
+                $userid = 1;
+                $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
+                SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
             }
         }
     } else {
@@ -179,7 +205,6 @@ function SESS_sessionCheck()
         }
 
         // Check if the persistent cookie exists
-
         if (isset ($_COOKIE[$_CONF['cookie_name']])) {
             // Session cookie doesn't exist but a permanent cookie does.
             // Start a new session cookie;
@@ -191,6 +216,10 @@ function SESS_sessionCheck()
             if (empty ($userid) || ($userid == 'deleted')) {
                 unset ($userid);
             } else {
+                if ($_SESS_VERBOSE) {
+                    COM_errorLog("Got $userid as User ID from the permanent cookie",1);
+                }
+                
                 $userid = COM_applyFilter ($userid, true);
                 $cookie_password = '';
                 $userpass = '';
@@ -200,6 +229,10 @@ function SESS_sessionCheck()
                     $cookie_password = $_COOKIE[$_CONF['cookie_password']];
                 }
                 if (empty($cookie_password) || ($cookie_password <> $userpass)) {
+                    if ($_SESS_VERBOSE) {
+                        COM_errorLog("Password comparison failed or cookie password missing",1);
+                    }
+                    
                     // Invalid or manipulated cookie data
                     SEC_setCookie($_CONF['cookie_session'], '', time() - 10000);
                     SEC_setCookie($_CONF['cookie_password'], '', time() - 10000);
@@ -212,12 +245,19 @@ function SESS_sessionCheck()
                     }
                     COM_updateSpeedlimit('login');
                 } else if ($userid > 1) {
+                    if ($_SESS_VERBOSE) {
+                        COM_errorLog("Password comparison passed",1);
+                    }                        
+                    
                     // Check user status
                     $status = SEC_checkUserStatus($userid);
                     if (($status == USER_ACCOUNT_ACTIVE) ||
                             ($status == USER_ACCOUNT_AWAITING_ACTIVATION)) {
                         $user_logged_in = 1;
 
+                        if ($_SESS_VERBOSE) {
+                            COM_errorLog("Create new session and write cookie",1);
+                        }                        
                         // Create new session and write cookie
                         $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
                         SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);
@@ -227,6 +267,15 @@ function SESS_sessionCheck()
                     }
                 }
             }
+        } else {
+            if ($_SESS_VERBOSE) {
+                COM_errorLog('perm cookie not found from lib-sessions.php',1);
+            }
+            
+            // New Anonymous user so create new session and write cookie
+            $userid = 1;
+            $sessid = SESS_newSession($userid, $_SERVER['REMOTE_ADDR'], $_CONF['session_cookie_timeout'], $_CONF['cookie_ip']);
+            SESS_setSessionCookie($sessid, $_CONF['session_cookie_timeout'], $_CONF['cookie_session'], $_CONF['cookie_path'], $_CONF['cookiedomain'], $_CONF['cookiesecure']);            
         }
     }
 
@@ -234,6 +283,8 @@ function SESS_sessionCheck()
         COM_errorLog("***Leaving SESS_sessionCheck***",1);
     }
 
+    $_USER['session_id'] = $sessid;
+    
     // Ensure $_USER is set to avoid warnings (path exposure...)
     if (isset($_USER)) {
         return $_USER;
@@ -295,14 +346,20 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
         }
     }
     // Remove the anonymous sesssion for this user
-    DB_delete($_TABLES['sessions'], array('uid', 'remote_ip'),
-                                    array(1, $remote_ip));
-
+    if ($userid > 1) {
+        // Retrieve any session variables that we need to add to the new logged in session
+        // To come
+        
+        // Delete record
+        DB_delete($_TABLES['sessions'], array('uid', 'remote_ip'),
+                                        array(1, $remote_ip));
+    }
+    
     // Create new session
     if (empty ($md5_sessid)) {
-        $sql = "INSERT INTO {$_TABLES['sessions']} (sess_id, uid, start_time, remote_ip) VALUES ($sessid, $userid, $currtime, '$remote_ip')";
+        $sql = "INSERT INTO {$_TABLES['sessions']} (sess_id, uid, start_time, remote_ip, whos_online) VALUES ($sessid, $userid, $currtime, '$remote_ip', 1)";
     } else {
-        $sql = "INSERT INTO {$_TABLES['sessions']} (sess_id, md5_sess_id, uid, start_time, remote_ip) VALUES ($sessid, '$md5_sessid', $userid, $currtime, '$remote_ip')";
+        $sql = "INSERT INTO {$_TABLES['sessions']} (sess_id, md5_sess_id, uid, start_time, remote_ip, whos_online) VALUES ($sessid, '$md5_sessid', $userid, $currtime, '$remote_ip', 1)";
     }
     $result = DB_query($sql);
     if ($result) {
@@ -392,7 +449,7 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
         $remote_ip = CUSTOM_MOBILE_load_ip();
         CUSTOM_MOBILE_debug("remote_ip from mobile session: $remote_ip");
     }
-    
+
     if ($md5_based == 1) {
         $sql = "SELECT uid FROM {$_TABLES['sessions']} WHERE "
         . "(md5_sess_id = '$sessid') AND (start_time > $mintime) AND (remote_ip = '$remote_ip')";
@@ -406,16 +463,17 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
     }
 
     $result = DB_query($sql);
-    $row = DB_fetchArray($result);
-
+    $numrows = DB_numRows($result);
+    
     if ($_SESS_VERBOSE) {
         COM_errorLog("****Leaving SESS_getUserIdFromSession",1);
     }
 
-    if (!$row) {
-        return 0;
-    } else {
+    if ($numrows == 1) {
+        $row = DB_fetchArray($result);
         return $row['uid'];
+    } else {
+        return 0;
     }
 }
 
@@ -437,9 +495,9 @@ function SESS_updateSessionTime($sessid, $md5_based=0)
     $newtime = (string) time();
 
     if ($md5_based == 1) {
-        $sql = "UPDATE {$_TABLES['sessions']} SET start_time=$newtime WHERE (md5_sess_id = '$sessid')";
+        $sql = "UPDATE {$_TABLES['sessions']} SET start_time = $newtime, whos_online = 1 WHERE (md5_sess_id = '$sessid')";
     } else {
-        $sql = "UPDATE {$_TABLES['sessions']} SET start_time=$newtime WHERE (sess_id = '$sessid')";
+        $sql = "UPDATE {$_TABLES['sessions']} SET start_time = $newtime, whos_online = 1 WHERE (sess_id = '$sessid')";
     }
 
     $result = DB_query($sql);
@@ -526,6 +584,55 @@ function SESS_getUserDataFromId($userid)
     }
 
     return $myrow;
+}
+
+/**
+* Retrieves a session variable from the db
+*
+* @param        string      $variable   Variable name to retrieve
+* @return       string     data from variable
+*
+*/
+function SESS_getVariable($variable)
+{
+    global $_TABLES, $_CONF, $_USER;
+    
+    $session_id = $_USER['session_id'];
+
+    if ( $_CONF['cookie_ip'] == 1) { // $md5_based  Indicates if sessid is MD5 hash
+        $sql_where = "md5_sess_id = '$session_id'";
+    } else {
+        $sql_where = "sess_id = '$session_id'";
+    }
+
+    $retval = DB_getItem($_TABLES['sessions'], $variable, $sql_where);
+
+    return $retval;
+}
+
+/**
+* Updates a session variable from the db
+*
+* @param        string      $variable   Variable name to update
+* @param        string      $value      Value of variable
+* @return       boolean     always true for some reason
+*
+*/
+function SESS_setVariable($variable, $value)
+{
+    global $_TABLES, $_CONF, $_USER;
+    
+    $session_id = $_USER['session_id'];
+
+    if ( $_CONF['cookie_ip'] == 1) { // $md5_based  Indicates if sessid is MD5 hash
+        $sql = "UPDATE {$_TABLES['sessions']} SET $variable = '$value' WHERE (md5_sess_id = '$session_id')";
+    } else {
+        $sql = "UPDATE {$_TABLES['sessions']} SET $variable = '$value' WHERE (sess_id = '$session_id')";
+    }
+
+    $result = DB_query($sql);
+
+    return 1;
 }
 
 ?>

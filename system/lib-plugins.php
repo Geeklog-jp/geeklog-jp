@@ -1281,8 +1281,10 @@ function PLG_userInfoChanged($uid)
 function PLG_groupChanged($grp_id, $mode)
 {
     global $_PLUGINS;
-
-    foreach ($_PLUGINS as $pi_name) {
+    
+    $all_plugins = array_merge($_PLUGINS, array('story', 'block', 'topic'));
+    
+    foreach ($all_plugins as $pi_name) {    
         $function = 'plugin_group_changed_' . $pi_name;
         if (function_exists($function)) {
             $function($grp_id, $mode);
@@ -1550,6 +1552,13 @@ function PLG_collectTags($type = 'tagname')
     require_once $_CONF['path_system'] . 'lib-story.php';
     require_once $_CONF['path_system'] . 'lib-user.php';
 
+    if (! is_array($_PLUGINS)) {
+        /** as a side effect of parsing autotags in templates, we may end
+         *  up here from a call to COM_errorLog() during the install, i.e.
+         *  when Geeklog is not fully operational, so we need to catch this
+         */
+        $_PLUGINS = array();
+    }
     $all_plugins = array_merge($_PLUGINS, array('story', 'user'));
     
     $autolinkModules = array();
@@ -2430,8 +2439,8 @@ function PLG_itemDisplay($id, $type)
 * Returns data for blocks on a given side and, potentially, for
 * a given topic.
 *
-* @param    string  $side   Side to get blocks for (right or left for now)
-* @param    string  $topic  Only get blocks for this topic
+* @param    string   $side   Side to get blocks for (right or left for now)
+* @param    string   $topic  Only get blocks for this topic
 * @return   array           array of block data
 * @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
 *
@@ -2452,12 +2461,49 @@ function PLG_getBlocks($side, $topic='')
     }
 
     if (function_exists('CUSTOM_getBlocks')) {
-       $cust_items .= CUSTOM_getBlocks($side, $topic);
+       $cust_items = CUSTOM_getBlocks($side, $topic);
        if (is_array($cust_items)) {
           $ret = array_merge($ret, $cust_items);
        }
     }
 
+    return $ret;
+}
+
+/**
+* Gets Geeklog blocks from plugins
+*
+* Returns config data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string   $side   Side to get blocks for (right or left for now)
+* @param    string   $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function PLG_getBlocksConfig($side, $topic='')
+{
+    global $_PLUGINS;
+
+    $ret = array();
+    foreach ($_PLUGINS as $pi_name) {
+        $function = 'plugin_getBlocksConfig_' . $pi_name;
+        if (function_exists($function)) {
+            $items = $function($side, $topic, $config);
+            if (is_array($items)) {
+                $ret = array_merge($ret, $items);
+            }
+        }
+    }
+
+    if (function_exists('CUSTOM_getBlocksConfig')) {
+       $cust_items = CUSTOM_getBlocks($side, $topic, $config);
+       if (is_array($cust_items)) {
+          $ret = array_merge($ret, $cust_items);
+       }
+    }
+    
     return $ret;
 }
 
