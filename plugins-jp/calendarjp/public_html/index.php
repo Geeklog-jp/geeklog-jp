@@ -49,9 +49,8 @@ $display = '';
 
 if (COM_isAnonUser() &&
     (($_CONF['loginrequired'] == 1) || ($_CAJP_CONF['calendarloginrequired'] == 1))) {
-    $display .= COM_siteHeader('menu', $LANG_CALJP_1[41]);
     $display .= SEC_loginRequiredForm();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CALJP_1[41]));
     COM_output($display);
     exit;
 }
@@ -395,9 +394,9 @@ if ($mode != 'personal' && $mode != 'quickadd') {
 }
 
 if ($mode == 'personal') {
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_1[42]);
+    $pagetitle = $LANG_CALJP_1[42];
 } else {
-    $display .= COM_siteHeader ('menu', $LANG_CALJP_1[41]);
+    $pagetitle = $LANG_CALJP_1[41];
 }
 
 // Set mode back to master if user refreshes screen after their session expires
@@ -409,7 +408,7 @@ if ($mode == 'personal' AND $_CAJP_CONF['personalcalendars'] == 0) {
     // User is trying to use the personal calendar feature even though it isn't
     // turned on.
     $display .= $LANG_CALJP_2[37];
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
     COM_output($display);
     exit;
 }
@@ -666,7 +665,7 @@ case 'day':
 // Added ---------<
     
     $display .= $cal_templates->parse('output', 'dayview');
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
     break;
 
 case 'week':
@@ -880,12 +879,12 @@ case 'week':
     }
 
     $display .= $cal_templates->parse('output','week');
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
     break;
 
 case 'addentry':
     $display .= plugin_submit_calendarjp($mode);
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
     break;
 
 case 'savepersonal':
@@ -1135,7 +1134,7 @@ $cal_templates->parse('add_event_option','addevent',true);
 $cal_templates->parse('output','calendar');
 $display .= $cal_templates->finish($cal_templates->get_var('output'));
 
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
 break;
 
 } // end switch

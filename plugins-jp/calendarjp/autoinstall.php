@@ -49,8 +49,8 @@ function plugin_autoinstall_calendarjp($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '1.1.5',
-        'pi_gl_version'   => '1.8.0',
+        'pi_version'      => '1.1.6',
+        'pi_gl_version'   => '2.0.0',
         'pi_homepage'     => 'http://www.geeklog.jp/'
     );
 
@@ -65,7 +65,8 @@ function plugin_autoinstall_calendarjp($pi_name)
         $pi_name . '.submit'                                => 'May skip the event submission queue',
         'config.' . $pi_name . '.tab_main'                  => 'Access to configure general calendar settings',
         'config.' . $pi_name . '.tab_permissions'           => 'Access to configure event default permissions',
-        'config.' . $pi_name . '.tab_autotag_permissions'   => 'Access to configure event autotag usage permissions'
+        'config.' . $pi_name . '.tab_autotag_permissions'   => 'Access to configure event autotag usage permissions', 
+        'config.' . $pi_name . '.tab_events_block'          => 'Access to configure events block'
     );
 
     $mappings = array(
@@ -74,7 +75,8 @@ function plugin_autoinstall_calendarjp($pi_name)
         $pi_name . '.submit'                                => array($pi_admin),
         'config.' . $pi_name . '.tab_main'                  => array($pi_admin),
         'config.' . $pi_name . '.tab_permissions'           => array($pi_admin),
-        'config.' . $pi_name . '.tab_autotag_permissions'   => array($pi_admin)
+        'config.' . $pi_name . '.tab_autotag_permissions'   => array($pi_admin), 
+        'config.' . $pi_name . '.tab_events_block'          => array($pi_admin)
     );
 
     $tables = array(

@@ -88,6 +88,14 @@ $_CAJP_DEFAULT['delete_event'] = 0;
  */
 $_CAJP_DEFAULT['aftersave'] = 'list';
 
+// Events Block
+$_CAJP_DEFAULT['block_isleft'] = 1;
+$_CAJP_DEFAULT['block_order'] = 50;
+$_CAJP_DEFAULT['block_topic_option'] = TOPIC_ALL_OPTION;
+$_CAJP_DEFAULT['block_topic'] = array();
+$_CAJP_DEFAULT['block_enable'] = true;
+$_CAJP_DEFAULT['block_permissions'] = array (2, 2, 2, 2);
+
 // Define default permissions for new events created from the Admin panel.
 // Permissions are perm_owner, perm_group, perm_members, perm_anon (in that
 // order). Possible values:
@@ -129,7 +137,7 @@ $_CAJP_DEFAULT['addeventloginrequired'] = 0;
 */
 function plugin_initconfig_calendarjp()
 {
-    global $_CONF, $_CAJP_CONF, $_CAJP_DEFAULT;
+    global $_CONF, $_CAJP_CONF, $_CAJP_DEFAULT, $_TABLES, $_GROUPS;
 
     if (is_array($_CAJP_CONF) && (count($_CAJP_CONF) > 1)) {
         $_CAJP_DEFAULT = array_merge($_CAJP_DEFAULT, $_CAJP_CONF);
@@ -197,9 +205,40 @@ function plugin_initconfig_calendarjp()
 
         $c->add('tab_autotag_permissions', NULL, 'tab', 0, 10, NULL, 0, true, 'calendarjp', 10);
         $c->add('fs_autotag_permissions', NULL, 'fieldset', 0, 10, NULL, 0, true, 'calendarjp', 10);
-        $c->add('autotag_permissions_event', $_CAJP_DEFAULT['autotag_permissions_event'], '@select', 
+        $c->add('autotag_permissions_event', $_CAJP_DEFAULT['autotag_permissions_event'], '@select',
                 0, 10, 13, 10, true, 'calendarjp', 10);
 
+        $c->add('tab_events_block', NULL, 'tab', 0, 20, NULL, 0, true, 'calendarjp', 20);
+        $c->add('fs_block_settings', NULL, 'fieldset', 0, 10, NULL, 0, true, 'calendarjp', 20);
+        $c->add('block_enable', $_CAJP_DEFAULT['block_enable'], 'select',
+                0, 10, 0, 10, true, 'calendarjp', 20);
+        $c->add('block_isleft', $_CAJP_DEFAULT['block_isleft'], 'select',
+                0, 10, 0, 20, true, 'calendarjp', 20);
+        $c->add('block_order', $_CAJP_DEFAULT['block_order'], 'text',
+                0, 10, 0, 30, true, 'calendarjp', 20);
+        $c->add('block_topic_option', $_CAJP_DEFAULT['block_topic_option'],'select',
+                0, 10, 15, 40, true, 'calendarjp', 20);
+        $c->add('block_topic', $_CAJP_DEFAULT['block_topic'], '%select',
+                0, 10, NULL, 50, true, 'calendarjp', 20);
+
+        $c->add('fs_block_permissions', NULL, 'fieldset', 0, 20, NULL, 0, true, 'calendarjp', 20);
+        $new_group_id = 0;
+        if (isset($_GROUPS['Calendarjp Admin'])) {
+            $new_group_id = $_GROUPS['Calendarjp Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Calendarjp Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }
+        $c->add('block_group_id', $new_group_id,'select',
+                0, 20, NULL, 10, TRUE, 'calendarjp', 20);
+        $c->add('block_permissions', $_CAJP_DEFAULT['block_permissions'], '@select',
+                0, 20, 14, 20, true, 'calendarjp', 20);
     }
 
     return true;
