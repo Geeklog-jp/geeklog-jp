@@ -1,3 +1,12 @@
+2012-06-03  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: Google Codeリポジトリの最新をマージしました。
+
+2012-06-03  Yoshinori Tahara  <dengen>
+
+	* calendarjpプラグイン: Geeklog 2.0.0b1のcalendarプラグインの変更を
+	  マージしました。
+
 2012-06-01  Takahiro Kambe  <tacahi>
 
 	* Geeklog 2.0.0b1のマージの抜けを反映させました。
