@@ -95,7 +95,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
         require_once $CONF_FORUM['path_include'] . 'bbcode/stringparser_bbcode.class.php';
     }
 
-    $topictemplate = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topictemplate = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topictemplate->set_file (array (
             'topictemplate' =>  'topic.thtml',
             'profile'       =>  'links/profile.thtml',
@@ -105,7 +105,6 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
             'quote'         =>  'links/quotetopic.thtml',
             'edit'          =>  'links/edittopic.thtml'));
 
-    $topictemplate->set_var ('xhtml', XHTML);
     // if preview, only stripslashes is gpc=on, else assume from db so strip        
     if ( $mode == 'preview' ) {
         $showtopic['subject'] = COM_stripslashes($showtopic['subject']);
@@ -370,7 +369,6 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
     $topictemplate->set_var ('regdate', $regdate);
     $topictemplate->set_var ('numposts', $numposts);
     $topictemplate->set_var ('location', $location);
-    $topictemplate->set_var ('site_url', $_CONF['site_url']);
     $topictemplate->set_var ('imgset', $CONF_FORUM['imgset']);
     $topictemplate->set_var ('topic_subject', $showtopic['subject']);
     $topictemplate->set_var ('LANG_ON2', $LANG_GF01['ON2']);

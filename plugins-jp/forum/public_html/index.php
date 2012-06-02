@@ -58,11 +58,10 @@ $display = '';
 
 //Check is anonymous users can access
 if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
-    $display .= COM_siteHeader();
     $display .= COM_startBlock();
     $display .= alertMessage($LANG_GF02['msg01'],$LANG_GF02['msg171']);
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
@@ -105,9 +104,6 @@ if ($_USER['uid'] > 1 && $op == 'markallread') {
 //Check if anonymous users allowed to access forum
 forum_chkUsercanAccess();
 
-// Display Common headers
-$display .= gf_siteHeader();
-
 // Debug Code to show variables
 $display .= gf_showVariables();
 
@@ -122,7 +118,7 @@ if ($msg==3) {
 }
 
 if ($op == 'newposts' AND $_USER['uid'] > 1) {
-    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/report_results.thtml',
                     'records'        => 'reports/report_record.thtml',
@@ -155,7 +151,6 @@ if ($op == 'newposts' AND $_USER['uid'] > 1) {
         $direction = ($direction == "ASC") ? "ASC" : "DESC";
     }
 
-    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=newposts');
@@ -247,14 +242,13 @@ if ($op == 'newposts' AND $_USER['uid'] > 1) {
 
     $report->parse ('output', 'report');
     $display .= $report->finish ($report->get_var('output'));
-    // Display Common headers
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit();
 }
 
 if ($op == 'search') {
-    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/report_results.thtml',
                     'records'        => 'reports/report_record.thtml',
@@ -286,7 +280,6 @@ if ($op == 'search') {
         $direction = ($direction == "ASC") ? "ASC" : "DESC";
     }
 
-    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=search');
@@ -359,15 +352,14 @@ if ($op == 'search') {
     }
     $report->parse ('output', 'report');
     $display .= $report->finish($report->get_var('output'));
-    // Display Common headers
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit();
 }
 
 if ($op == 'popular') {
 
-    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/report_results.thtml',
                     'records'        => 'reports/report_record.thtml',
@@ -404,7 +396,6 @@ if ($op == 'popular') {
         $report->set_var ('startblock', COM_startBlock("{$LANG_GF02['msg120']} {$LANG_GF01['VIEWS']}") );
     }
 
-    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('phpself',$_CONF['site_url'] . '/forum/index.php?op=popular');
@@ -463,8 +454,7 @@ if ($op == 'popular') {
     }
     $report->parse ('output', 'report');
     $display .= $report->finish($report->get_var('output'));
-    // Display Common headers
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit();
 }
@@ -480,8 +470,7 @@ if ($op == 'subscribe') {
     } else {
         $display .= BlockMessage($LANG_GF01['ERROR'],$LANG_GF02['msg136'],false);
     }
-    // Display Common headers
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit();
 }
@@ -531,7 +520,7 @@ if ($forum == 0) {
 
     $categoryQuery = DB_query("SELECT * FROM {$_TABLES['forum_categories']} ORDER BY cat_order ASC");
     $numCategories = DB_numRows($categoryQuery);
-    $forumlisting = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $forumlisting = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
 
     $forumlisting->set_file (array (
             'forumlisting'         => 'homepage.thtml',
@@ -542,7 +531,6 @@ if ($forum == 0) {
             'forum_record'         => 'forumlisting_record.thtml',
             'category_record'      => 'categorylisting.thtml' ));
 
-    $forumlisting->set_var ('xhtml', XHTML);
     $forumlisting->set_var ('imgset', $CONF_FORUM['imgset']);
     $forumlisting->set_var ('forumindeximg','<img alt="forum index" src="'.gf_getImage('forumindex').'"' . XHTML . '>');
     $forumlisting->set_var ('phpself', $_CONF['site_url'] .'/forum/index.php');
@@ -714,7 +702,7 @@ if ($forum == 0) {
  // Display Forums
 if ($forum > 0) {
 
-    $topiclisting = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topiclisting = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topiclisting->set_file (array (
             'topiclisting'         => 'topiclisting.thtml',
             'forum_outline_header' => 'forum_outline_header.thtml',
@@ -723,10 +711,8 @@ if ($forum > 0) {
             'new'                  => 'links/newtopic.thtml',
             'topic_record'         => 'topiclist_record.thtml' ));
 
-    $topiclisting->set_var ('xhtml', XHTML);
     $topiclisting->set_var ('imgset', $CONF_FORUM['imgset']);
     $topiclisting->set_var ('layout_url', $CONF_FORUM['layout_url']);
-    $topiclisting->set_var ('site_url',$_CONF['site_url']);
     $topiclisting->set_var ('LANG_HOME', $LANG_GF01['HOMEPAGE']);
     $topiclisting->set_var ('forum_home',$LANG_GF01['INDEXPAGE']);
     $topiclisting->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'"' . XHTML . '>');
@@ -1036,9 +1022,6 @@ if ($forum > 0) {
 }
 
 $display .= BaseFooter();
-
-// Display Common headers
-$display .= gf_siteFooter();
-
+$display = gf_createHTMLDocument($display);
 COM_output($display);
 ?>

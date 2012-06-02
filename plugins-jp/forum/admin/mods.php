@@ -36,7 +36,6 @@
 include_once 'gf_functions.php';
 
 $display = '';
-$display .= COM_siteHeader();
 
 // Debug Code to show variables
 $display .= gf_showVariables();
@@ -116,17 +115,17 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
                     $mod_ban = "0";
                 } else {
                     $mod_ban = "1";
-                }    
+                }
                 if (!isset($_POST['chk_edit'])) {
                     $mod_edit = "0";
                 } else {
                     $mod_edit = "1";
-                }    
+                }
                 if (!isset($_POST['chk_move'])) {
                     $mod_move = "0";
                 } else {
                     $mod_move = "1";
-                }    
+                }
                 if (!isset($_POST['chk_stick'])) {
                     $mod_stick = "0";
                 } else {
@@ -178,9 +177,8 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
 
     if ($promptadd == $LANG_GF93['addmoderator']) {
 
-        $addmod= new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+        $addmod= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $addmod->set_file (array ('moderator'=>'mod_add.thtml'));
-        $addmod->set_var ('xhtml', XHTML);
         $addmod->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
         $addmod->set_var ('imgset', $CONF_FORUM['imgset']);
         $addmod->set_var ('LANG_filtertitle', 'Type' );
@@ -217,9 +215,8 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
             }
         }
 
-        $moderators = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+        $moderators = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $moderators->set_file (array ('moderators'=>'moderators.thtml','mod_record'=>'mod_record.thtml'));
-        $moderators->set_var ('xhtml', XHTML);
         $moderators->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/mods.php');
         $moderators->set_var ('imgset', $CONF_FORUM['imgset']);
         $moderators->set_var ('userfilter', '');
@@ -268,33 +265,33 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
         $modsql = DB_query("$sql");
         $i = 0;
         while($M = DB_fetchArray($modsql)) {
-        
+
             if ($M['mod_delete'] == "1") {
-                $chk_delete = "checked";    
+                $chk_delete = "checked";
             } else {
                 $chk_delete = "";
-            }    
+            }
             if ($M['mod_ban'] == "1") {
-                $chk_ban = "checked";   
+                $chk_ban = "checked";
             } else {
                 $chk_ban = "";
             }
             if ($M['mod_edit'] == "1") {
-                $chk_edit = "checked";    
+                $chk_edit = "checked";
             } else {
-                $chk_edit = "";    
+                $chk_edit = "";
             }
             if ($M['mod_move'] == "1") {
-                $chk_move = "checked";    
+                $chk_move = "checked";
             } else {
-                $chk_move = "";    
+                $chk_move = "";
             }
             if ($M['mod_stick'] == "1") {
-                $chk_stick = "checked";    
+                $chk_stick = "checked";
             } else {
                 $chk_stick = "";
             }
-            
+
             $moderators->set_var ('id', $M['mod_id']);
             if ($filtermode == 'group') {
                 $moderators->set_var ('name', DB_getItem($_TABLES['groups'],'grp_name', "grp_id='{$M['mod_groupid']}'"));
@@ -321,6 +318,6 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
 }
 $display .= COM_endBlock();
 $display .= adminfooter();
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display);
 COM_output($display);
 ?>

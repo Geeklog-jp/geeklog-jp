@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | autoinstall.php                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
@@ -33,7 +33,7 @@
 /**
 * Autoinstall API functions for the Forum plugin
 *
-* @package Forum
+* @package GeeklogForum
 */
 
 /**
@@ -53,8 +53,8 @@ function plugin_autoinstall_forum($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.8.0',
-        'pi_gl_version'   => '1.6.0',
+        'pi_version'      => '2.9.0hg',
+        'pi_gl_version'   => '2.0.0',
         'pi_homepage'     => 'http://code.google.com/p/geeklog/'
     );
 
@@ -134,6 +134,7 @@ function plugin_load_configuration_forum($pi_name)
 * @return   boolean     true = proceed with install, false = an error occured
 *
 */
+/*
 function plugin_postinstall_forum($pi_name)
 {
     global $_CONF, $_TABLES;
@@ -170,6 +171,7 @@ function plugin_postinstall_forum($pi_name)
 
     return true;
 }
+*/
 
 /**
 * Check if the plugin is compatible with this Geeklog version
@@ -200,6 +202,10 @@ function plugin_compatible_with_this_version_forum($pi_name)
     if (!function_exists('COM_showMessageText')) {
         return false;
     }
+    
+    if (!function_exists('TOPIC_getList')) {
+        return false;
+    }    
 
     return true;
 }

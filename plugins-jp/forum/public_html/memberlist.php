@@ -57,15 +57,12 @@ forum_chkUsercanAccess();
 
 $display = '';
 
-// Display Common headers
-$display .= gf_siteHeader();
-
 // Debug Code to show variables
 $display .= gf_showVariables();
 
 if ($op == "last10posts") {
 
-    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/report_results.thtml',
                     'records'        => 'reports/report_record.thtml',
@@ -74,7 +71,6 @@ if ($op == "last10posts") {
                     'return1'        => 'links/return.thtml',
                     'return2'        => 'links/return.thtml'));
 
-    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $report->set_var ('phpself', $_CONF['site_url'] .'/forum/memberlist.php?op=last10posts&amp;showuser='.$showuser);
@@ -134,13 +130,13 @@ if ($op == "last10posts") {
     $report->set_var ('bottomlink', $link);
     $report->parse ('output', 'report');
     $display .= $report->finish($report->get_var('output'));
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit();
 
 } else {
 
-    $report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/memberlist.thtml',
                     'records'        => 'reports/memberlist_line.thtml',
@@ -217,10 +213,8 @@ if ($op == "last10posts") {
 
     $query = DB_query($sql);
 
-    $report->set_var ('xhtml', XHTML);
     $report->set_var ('imgset', $CONF_FORUM['imgset']);
     $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
-    $report->set_var ('site_url', $_CONF['site_url']);
     $report->set_var ('startblock', COM_startBlock($LANG_GF02['msg88']) );
     $report->set_var ('endblock', COM_endBlock());
     $report->set_var ('LANG_TITLE', $LANG_GF02['msg88'] . "&nbsp;($membercount)");
@@ -313,7 +307,7 @@ if ($op == "last10posts") {
 
 }
 
-$display .= gf_siteFooter();
+$display = gf_createHTMLDocument($display);
 
 COM_output($display);
 ?>

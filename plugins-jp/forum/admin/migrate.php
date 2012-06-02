@@ -34,7 +34,8 @@
 // +---------------------------------------------------------------------------+
 
 
-include_once 'gf_functions.php';
+require_once 'gf_functions.php';
+require_once $_CONF['path_system'] . 'lib-story.php';
 
 $page     = isset($_GET['page'])            ? COM_applyFilter($_GET['page'],true)            : '';
 $show     = isset($_GET['show'])            ? COM_applyFilter($_GET['show'],true)            : '';
@@ -43,81 +44,95 @@ $selforum = isset($_POST['selforum'])       ? COM_applyFilter($_POST['selforum']
 $curtopic = isset($_POST['seltopic'])       ? COM_applyFilter($_POST['seltopic'])            : '';
 $dpm      = isset($_POST['delPostMigrate']) ? COM_applyFilter($_POST['delPostMigrate'],true) : '';
 
-if ($migrate == $LANG_GF01['MIGRATE_NOW'] && $selforum != "select" && !empty($_POST['cb_chkentry']) && SEC_checkToken()) {
+if ($migrate == $LANG_GF01['MIGRATE_NOW'] && $selforum != "select"
+        && !empty($_POST['cb_chkentry']) && SEC_checkToken()) {
     $num_stories = 0;
     $num_posts = 0;
-    foreach($_POST['cb_chkentry'] as $sid ) {
+    foreach ($_POST['cb_chkentry'] as $sid) {
         if ($curtopic == 'submissions') {
-            $topic = DB_getItem($_TABLES['storysubmission'],"tid","sid='$sid'");
-            //echo "<br>Migrating SID:$sid for Topic: $topic to Forum: $selforum";
-            $sql = DB_query("SELECT sid,tid,date,uid,title,introtext from {$_TABLES['storysubmission']} WHERE sid='$sid'");
-            list($sid,$tid,$storydate,$uid,$subject,$introtext) = DB_fetchARRAY($sql);
-            $num_posts = migratetopic($selforum,$sid,$tid,$storydate,$uid,$subject,$introtext,'','0') + $num_posts;
-            $num_stories++;
-            if ( $dpm == 1) {
-                DB_query("DELETE FROM {$_TABLES['storysubmission']} WHERE sid='$sid'");
-            }
-
-        } else {
-            $topic = DB_getItem($_TABLES['stories'],"tid","sid='$sid'");
-            //echo "<br>Migrating SID:$sid for Topic: $topic to Forum: $selforum";
-            $sql = DB_query("SELECT sid,tid,date,uid,title,introtext,bodytext,hits from {$_TABLES['stories']} WHERE sid='$sid'");
-            list($sid,$tid,$storydate,$uid,$subject,$introtext,$bodytext,$hits) = DB_fetchARRAY($sql);
-            $num_posts = migratetopic($selforum,$sid,$tid,$storydate,$uid,$subject,$introtext,$bodytext,$hits) + $num_posts;
+            $sql = "SELECT sid,date,uid,title,introtext "
+                 . "FROM {$_TABLES['storysubmission']} WHERE sid='$sid'";
+            $result = DB_query($sql);
+            list($sid, $storydate, $uid, $subject, $introtext) = DB_fetchArray($result);
+            $num_posts = migratetopic($selforum, $sid, $storydate, $uid,
+                             $subject, $introtext, '', '0') + $num_posts;
             $num_stories++;
             if ($dpm == 1) {
-                migrate_deletestory($sid);
+                PLG_deleteSubmission('story', $sid);
             }
-       }
+        } else {
+            $sql = "SELECT sid,date,uid,title,introtext,bodytext,hits "
+                 . "FROM {$_TABLES['stories']} WHERE sid='$sid'";
+            $result = DB_query($sql);
+            list($sid, $storydate, $uid, $subject, $introtext, $bodytext, $hits)
+                = DB_fetchArray($result);
+            $num_posts = migratetopic($selforum, $sid, $storydate, $uid,
+                             $subject, $introtext, $bodytext, $hits) + $num_posts;
+            $num_stories++;
+            if ($dpm == 1) {
+                STORY_doDeleteThisStoryNow($sid);
+            }
+        }
     }
     gf_resyncforum($selforum);
-    echo COM_refresh($_CONF['site_admin_url'] . "/plugins/forum/migrate.php?num_stories=". $num_stories. "&num_posts=".$num_posts);
+    echo COM_refresh($_CONF['site_admin_url']
+                     . "/plugins/forum/migrate.php?num_stories="
+                     . $num_stories . "&num_posts=" . $num_posts);
     exit;
 }
 
-function migratetopic($forum,$sid,$tid,$storydate,$uid,$subject,$introtext,$bodytext,$hits) {
+function migratetopic($forum, $sid, $storydate, $uid, $subject, $introtext, $bodytext, $hits)
+{
     global $_TABLES;
+
     $comment = $introtext . $bodytext;
     $comment = prepareStringForDB($comment);
     $subject = prepareStringForDB($subject);
     $postmode = "HTML";
-    $name = DB_getItem($_TABLES['users'],'username',"uid=$uid");
-    $email = DB_getItem($_TABLES['users'],'email',"uid=$uid");
-    $website = DB_getItem($_TABLES['users'],'homepage',"uid=$uid");
+    $name = DB_getItem($_TABLES['users'], 'username', "uid=$uid");
+    $email = DB_getItem($_TABLES['users'], 'email', "uid=$uid");
+    $website = DB_getItem($_TABLES['users'], 'homepage', "uid=$uid");
 
     $datetime = explode(" ", $storydate);
-    $date = explode("-",$datetime[0]);
-    $time = explode(":",$datetime[1]);
+    $date = explode("-", $datetime[0]);
+    $time = explode(":", $datetime[1]);
     $year  = ($date[0] > 1969) ? $date[0] : "2001";
     $month = $date[1];
     $day   = $date[2];
     $hour  = $time[0];
     $min   = $time[1];
-    $timestamp = mktime($hour,$min,0,$month,$day,$year);
+    $timestamp = mktime($hour, $min, 0, $month, $day, $year);
 
-    DB_query("INSERT INTO {$_TABLES['forum_topic']} (forum,name,date,lastupdated, email, website, subject, comment, views, postmode, ip, mood, uid, pid, sticky, locked)
-        VALUES ('$forum','$name','$timestamp','$timestamp','$email','$website','$subject','$comment','$hits','$postmode','','','$uid','0','0','0')");
+    DB_query("INSERT INTO {$_TABLES['forum_topic']} "
+        . "(forum, name, date, lastupdated, email, website, subject, "
+        . "comment, views, postmode, ip, mood, uid, pid, sticky, locked) "
+        . "VALUES ('$forum','$name','$timestamp','$timestamp','$email',"
+        . "'$website','$subject','$comment','$hits','$postmode','','',"
+        . "'$uid','0','0','0')");
     $parent = DB_insertID();
     PLG_itemSaved($parent, 'forum');
     $i++;
     $comments = 0;
     if (isset($_POST['seltopic']) && $_POST['seltopic'] != 'submissions') {
-    $comments = migrateComments($forum,$sid, $parent);
+        $comments = migrateComments($forum, $sid, $parent);
     }
     $num_posts = $num_posts + $comments;
     return $num_posts;
 }
 
-
-function migrateComments($forum,$sid, $parent) {
+function migrateComments($forum, $sid, $parent)
+{
     global $verbose,$_TABLES,$_CONF,$migratedcomments;
-    $sql = DB_query("SELECT sid,date,uid,title,comment from {$_TABLES['comments']} WHERE sid = '$sid' ORDER BY date ASC");
-    $num_comments = DB_numROWS($sql);
+
+    $sql = "SELECT sid,date,uid,title,comment "
+         . "FROM {$_TABLES['comments']} WHERE sid = '$sid' ORDER BY date ASC";
+    $result = DB_query($sql);
+    $num_comments = DB_numRows($result);
     if ($verbose) {
         echo "Found $num_comments Comments to migrate for this topic";
     }
     $i = 0;
-    while ( list($sid,$commentdate,$uid,$subject,$comment) = DB_fetchARRAY($sql)) {
+    while (list($sid,$commentdate,$uid,$subject,$comment) = DB_fetchArray($sql)) {
 
         $sqlid = DB_query("SELECT id FROM {$_TABLES['forum_topic']} ORDER BY id DESC LIMIT 1");
         list ($lastid) = DB_fetchArray($sqlid);
@@ -125,9 +140,9 @@ function migrateComments($forum,$sid, $parent) {
         $comment = prepareStringForDB($comment);
         $subject = prepareStringForDB($subject);
         $postmode = "HTML";
-        $name = DB_getItem($_TABLES['users'],'username',"uid=$uid");
-        $email = DB_getItem($_TABLES['users'],'email',"uid=$uid");
-        $website = DB_getItem($_TABLES['users'],'homepage',"uid=$uid");
+        $name = DB_getItem($_TABLES['users'], 'username', "uid=$uid");
+        $email = DB_getItem($_TABLES['users'], 'email', "uid=$uid");
+        $website = DB_getItem($_TABLES['users'], 'homepage', "uid=$uid");
 
         $datetime = explode(" ", $commentdate);
         $date = explode("-",$datetime[0]);
@@ -141,8 +156,12 @@ function migrateComments($forum,$sid, $parent) {
         $lastupdated = $timestamp;
         $migratedcomments++;
 
-        DB_query("INSERT INTO {$_TABLES['forum_topic']} (forum,name,date,lastupdated, email, website, subject, comment, postmode, ip, mood, uid, pid, sticky, locked)
-            VALUES ('$forum','$name','$timestamp','$lastupdated','$email','$website','$subject','$comment','$postmode','','','$uid','$parent','0','0')");
+        DB_query("INSERT INTO {$_TABLES['forum_topic']} "
+            . "(forum,name,date,lastupdated, email, website, subject, "
+            . "comment, postmode, ip, mood, uid, pid, sticky, locked) "
+            . "VALUES ('$forum','$name','$timestamp','$lastupdated','$email',"
+            . "'$website','$subject','$comment','$postmode','','',"
+            . "'$uid','$parent','0','0')");
         PLG_itemSaved(DB_insertID(), 'forum');
         $i++;
     }
@@ -151,7 +170,8 @@ function migrateComments($forum,$sid, $parent) {
     return $num_comments;
 }
 
-function prepareStringForDB($message,$postmode="html",$censor=TRUE,$htmlfilter=TRUE) {
+function prepareStringForDB($message, $postmode="html", $censor=TRUE, $htmlfilter=TRUE)
+{
     global $CONF_FORUM;
 
     if ($censor) {
@@ -161,91 +181,37 @@ function prepareStringForDB($message,$postmode="html",$censor=TRUE,$htmlfilter=T
         if ($htmlfilter) {
             // Need to call addslahes again as COM_checkHTML stips it out
             $message = addslashes(COM_checkHTML($message));
-        } elseif (!get_magic_quotes_gpc() ) {
+        } elseif (!get_magic_quotes_gpc()) {
             $message = addslashes($message);
-        }    
+        }
     } else {
-        if (get_magic_quotes_gpc() ) {
+        if (get_magic_quotes_gpc()) {
             $message = @htmlspecialchars($message,ENT_QUOTES,$CONF_FORUM['charset']);
-        } else {    
+        } else {
             $message = addslashes(@htmlspecialchars($message,ENT_QUOTES,$CONF_FORUM['charset']));
-        }    
-    }    
+        }
+    }
     return $message;
 }
 
+function migrate_topicsList($selected='')
+{
+    global $LANG_GF01;
 
-function migrate_topicsList($selected='') {
-    global $_TABLES,$LANG_GF01;
-
-    $retval = '<select name="seltopic"><option value="all">'.$LANG_GF01['ALL'].'</option>' . LB;
+    $retval = '<select name="seltopic"><option value="all">'
+            . $LANG_GF01['ALL'] . '</option>';
     $retval .= '<option value="submissions"';
     if ($selected == "submissions") {
         $retval .= ' selected="selected"';
     }
-    $retval .= '>'.$LANG_GF01['SUBMISSIONS'].'</option>' .LB;
-
-    $result = DB_query( "SELECT tid,topic FROM {$_TABLES['topics']} ORDER BY topic" );
-    $nrows = DB_numRows( $result );
-
-    for( $i = 0; $i < $nrows; $i++ )
-    {
-        $A = DB_fetchArray( $result );
-        $retval .= '<option value="' . $A[0] . '"';
-
-        if ( $A[0] == $selected )
-        {
-            $retval .= ' selected="selected"';
-        }
-
-        $retval .= '>' . $A[1] . '</option>' . LB;
-    }
+    $retval .= '>' . $LANG_GF01['SUBMISSIONS'] . '</option>';
+    $retval .= TOPIC_getTopicListSelect(array($selected), 0);
     $retval .= '</select>';
 
     return $retval;
 }
 
-
-function migrate_deletestory ($sid)
-{
-    global $_TABLES, $_CONF;
-
-    $result = DB_query ("SELECT ai_filename FROM {$_TABLES['article_images']} WHERE ai_sid = '$sid'");
-    $nrows = DB_numRows ($result);
-    for ($i = 1; $i <= $nrows; $i++) {
-        $A = DB_fetchArray ($result);
-        $filename = $_CONF['path_html'] . 'images/articles/' . $A['ai_filename'];
-        if (!@unlink ($filename)) {
-            // log the problem but don't abort the script
-            echo COM_errorLog ('Unable to remove the following image from the article: ' . $filename);
-        }
-
-        // remove unscaled image, if it exists
-        $lFilename_large = substr_replace ($A['ai_filename'], '_original.',
-                                           strrpos ($A['ai_filename'], '.'), 1);
-        $lFilename_large_complete = $_CONF['path_html'] . 'images/articles/'
-                                  . $lFilename_large;
-        if (file_exists ($lFilename_large_complete)) {
-            if (!@unlink ($lFilename_large_complete)) {
-                // again, log the problem but don't abort the script
-                echo COM_errorLog ('Unable to remove the following image from the article: ' . $lFilename_large_complete);
-            }
-        }
-    }
-    DB_delete ($_TABLES['article_images'], 'ai_sid', $sid);
-    DB_delete ($_TABLES['comments'], 'sid', $sid);
-    DB_delete ($_TABLES['stories'], 'sid', $sid);
-
-    // update RSS feed and Older Stories block
-    COM_rdfUpToDateCheck ();
-    COM_olderStuff ();
-
-    return;
-}
-
-
 $display = '';
-$display .= COM_siteHeader();
 
 // Debug Code to show variables
 $display .= gf_showVariables();
@@ -264,79 +230,90 @@ $display .= COM_startBlock($LANG_GF02['msg193']);
 $navbar->set_selected($LANG_GF06['5']);
 $display .= $navbar->generate();
 
-$p= new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
-$p->set_file (array ('page'=>'migratestories.thtml','records' => 'migrate_records.thtml'));
+$p = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$p->set_file(array('page'=>'migratestories.thtml',
+                   'records' => 'migrate_records.thtml'));
 
-$p->set_var ('xhtml', XHTML);
 if (!empty($_GET['num_stories']) && !empty($_GET['num_posts'])) {
-    $p->set_var ('status_message',sprintf($LANG_GF02['msg192'],$_GET['num_stories'],$_GET['num_posts']));
+    $p->set_var('status_message',
+        sprintf($LANG_GF02['msg192'], $_GET['num_stories'], $_GET['num_posts']));
 } else {
-    $p->set_var ('show_message','none');
+    $p->set_var('show_message', 'none');
 }
 
 if (!empty($curtopic) && $curtopic != 'all') {
     if ($curtopic == "submissions") {
-        $sql = "SELECT tid,sid,title,date, 0 AS comments FROM {$_TABLES['storysubmission']}";
-        $countsql = DB_query("SELECT COUNT(*) FROM {$_TABLES['storysubmission']}");
+        $table_name = $_TABLES['storysubmission'];
+        $sql_part0 = "SELECT ta.tid,s.sid,s.title,s.date,0 AS comments ";
+        $sql_part2 = '';
     } else {
-        $sql = "SELECT tid,sid,title,date,comments FROM {$_TABLES['stories']} WHERE tid='$curtopic'";
-        $countsql = DB_query("SELECT COUNT(*) FROM {$_TABLES['stories']} WHERE tid='$curtopic'");
+        $table_name = $_TABLES['stories'];
+        $sql_part0 = "SELECT ta.tid,s.sid,s.title,s.date,s.comments ";
+        $sql_part2 = "AND tid='$curtopic' ";
     }
-
 } else {
-    $sql = "SELECT tid,sid,title,date,comments FROM {$_TABLES['stories']}";
-    $countsql = DB_query("SELECT COUNT(*) FROM {$_TABLES['stories']}");
+    $table_name = $_TABLES['stories'];
+    $sql_part0 = "SELECT ta.tid,s.sid,s.title,s.date,s.comments ";
+    $sql_part2 = '';
 }
+$sql_part1 = "FROM $table_name AS s, {$_TABLES['topic_assignments']} AS ta "
+           . "WHERE ta.id=s.sid AND ta.type='article' ";
 
+$countsql = DB_query("SELECT COUNT(*) " . $sql_part1 . $sql_part2);
 list($maxrows) = DB_fetchArray($countsql);
 $numpages = ceil($maxrows / $show);
 $offset = ($page - 1) * $show;
 
-$sql .= " ORDER BY sid DESC LIMIT $offset, $show";
+$sql_part3 = "ORDER BY s.sid DESC LIMIT $offset, $show";
 
-$result  = DB_query($sql);
-$numrows = DB_numRows($result);
+$result = DB_query($sql_part0 . $sql_part1 . $sql_part2 . $sql_part3);
+$nrows = DB_numRows($result);
 
-$p->set_var ('action_url', $_CONF['site_admin_url'] . '/plugins/forum/migrate.php');
-$p->set_var ('filter_topic_selection',migrate_topicsList($curtopic));
-$p->set_var ('select_filter_options',COM_optionList($_TABLES['forum_forums'], "forum_id,forum_name",$selforum));
-$p->set_var ('LANG_migrate',$LANG_GF01['MIGRATE_NOW']);
-$p->set_var ('LANG_filterlist',$LANG_GF01['FILTERLIST']); 
-$p->set_var ('LANG_selectforum',$LANG_GF01['SELECTFORUM']); 
-$p->set_var ('LANG_deleteafter',$LANG_GF01['DELETEAFTER']); 
-$p->set_var ('LANG_all',$LANG_GF01['ALL']); 
+$p->set_var('action_url', $_CONF['site_admin_url'] . '/plugins/forum/migrate.php');
+$p->set_var('filter_topic_selection', migrate_topicsList($curtopic));
+$p->set_var('select_filter_options',
+    COM_optionList($_TABLES['forum_forums'], "forum_id,forum_name", $selforum));
+$p->set_var('LANG_migrate', $LANG_GF01['MIGRATE_NOW']);
+$p->set_var('LANG_filterlist', $LANG_GF01['FILTERLIST']);
+$p->set_var('LANG_selectforum', $LANG_GF01['SELECTFORUM']);
+$p->set_var('LANG_deleteafter', $LANG_GF01['DELETEAFTER']);
+$p->set_var('LANG_all', $LANG_GF01['ALL']);
+$p->set_var('LANG_topic', $LANG_GF01['TOPIC']);
+$p->set_var('LANG_title', $LANG_GF01['TITLE']);
+$p->set_var('LANG_date', $LANG_GF01['DATE']);
+$p->set_var('LANG_comments', $LANG_GF01['COMMENTS']);
 
-$p->set_var ('LANG_topic',$LANG_GF01['TOPIC']);
-$p->set_var ('LANG_title',$LANG_GF01['TITLE']);
-$p->set_var ('LANG_date',$LANG_GF01['DATE']);
-$p->set_var ('LANG_comments',$LANG_GF01['COMMENTS']);
-
-if ($numrows > 0 && isset($tid)) {
-    $base_url = $_CONF['site_admin_url'] . '/plugins/forum/migrate.php?tid='.$tid;
-    for ($i = 0; $i < $numrows; $i++) {
-        list($topic,$sid,$story,$date,$comments) = DB_fetchArray($result);
-        $p->set_var ('sid',$sid);
-        $p->set_var ('topic',stripslashes($topic));
-        if ($curtopic == "submissions") {
-            $p->set_var ('story_link', $_CONF['site_admin_url'] . '/story.php?mode=editsubmission&amp;id=' . $sid);
-        } else {
-            $p->set_var ('story_link', $_CONF['site_url'] . '/article.php?story=' . $sid);
-        }
-        $p->set_var ('story_title',$story);
-        $p->set_var ('date',$date);
-        $p->set_var ('num_comments',$comments);
-        $p->set_var ('cssid', ($i%2)+1);
-        $p->parse('story_record','records',true);
+if ($nrows > 0) {
+    $base_url = $_CONF['site_admin_url'] . '/plugins/forum/migrate.php';
+    if (!empty($curtopic)) {
+        $base_url .= '?tid=' . $curtopic;
     }
-    $p->set_var ('page_navigation',COM_printPageNavigation($base_url,$page,$numpages));
+    for ($i = 0; $i < $nrows; $i++) {
+        list($topic, $sid, $story, $date, $comments) = DB_fetchArray($result);
+        $p->set_var('sid', $sid);
+        $p->set_var('topic', stripslashes($topic));
+        if ($curtopic == "submissions") {
+            $story_link = $_CONF['site_admin_url']
+                        . '/story.php?mode=editsubmission&amp;id=' . $sid;
+        } else {
+            $story_link = COM_buildUrl($_CONF['site_url']
+                                       . '/article.php?story=' . $sid);
+        }
+        $p->set_var('story_link', $story_link);
+        $p->set_var('story_title', $story);
+        $p->set_var('date', $date);
+        $p->set_var('num_comments', $comments);
+        $p->set_var('cssid', ($i%2)+1);
+        $p->parse('story_record', 'records', true);
+    }
+    $p->set_var('page_navigation', COM_printPageNavigation($base_url, $page, $numpages));
 }
 $p->set_var('gltoken_name', CSRF_TOKEN);
 $p->set_var('gltoken', SEC_createToken());
-$p->parse ('output', 'page');
-$display .= $p->finish ($p->get_var('output'));
-
+$p->parse('output', 'page');
+$display .= $p->finish($p->get_var('output'));
 $display .= COM_endBlock();
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display);
 
 COM_output($display);
 ?>

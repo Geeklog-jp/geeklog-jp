@@ -20,7 +20,7 @@
     </tr>
 </table>
 
-<div>
+<div class="clearfix">
     <fieldset style="float: left; padding: 10px; margin: 10px;">
     <!-- A form for baning IP addresses -->
         <legend>{legend}</legend>
