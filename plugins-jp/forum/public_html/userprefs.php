@@ -46,8 +46,6 @@ forum_chkUsercanAccess(true);
 
 $display = '';
 
-// Display Common headers
-$display .= gf_siteHeader();
 $msg = isset($_GET['msg']) ? COM_applyFilter($_GET['msg'], true) : '';
 if ($msg==1) {
     $display .= COM_showMessageText($LANG_GF92['setsavemsg']);
@@ -56,7 +54,7 @@ if ($msg==1) {
 // SAVE SETTINGS
 if (isset($_POST['submit']) && SEC_checkToken()) {
     $xalwaysnotify    = isset($_POST['xalwaysnotify'])    ? COM_applyFilter($_POST['xalwaysnotify'],true)    : '';
-    $xemailnotify     = isset($_POST['xemailnotify'])     ? COM_applyFilter($_POST['xemailnotify'],true)     : '';
+    $xalwaysnotify     = isset($_POST['xalwaysnotify'])     ? COM_applyFilter($_POST['xalwaysnotify'],true)  : '';
     $xmembersperpage  = isset($_POST['xmembersperpage'])  ? COM_applyFilter($_POST['xmembersperpage'],true)  : '';
     $xmessagesperpage = isset($_POST['xmessagesperpage']) ? COM_applyFilter($_POST['xmessagesperpage'],true) : '';
     $xnotifyonce      = isset($_POST['xnotifyonce'])      ? COM_applyFilter($_POST['xnotifyonce'],true)      : '';
@@ -73,7 +71,7 @@ if (isset($_POST['submit']) && SEC_checkToken()) {
         popularlimit='$xpopularlimit',
         searchlines='$xsearchlines',
         membersperpage='$xmembersperpage',
-        enablenotify='$xemailnotify',
+        enablenotify='$xalwaysnotify',
         viewanonposts='$xviewanonposts',
         alwaysnotify='$xalwaysnotify',
         notify_once='$xnotifyonce',
@@ -139,9 +137,8 @@ if (!isset($_POST['$submit'])) {
         $showiframe_yes = '';
     }
 
-    $usersettings = new Template($CONF_FORUM['path_layout'] . 'forum/layout/userprefs');
+    $usersettings = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/userprefs');
     $usersettings->set_file (array ('usersettings'=>'user_settings.thtml'));
-    $usersettings->set_var ('xhtml', XHTML);
     $usersettings->set_var ('phpself', $_CONF['site_url'] .'/forum/userprefs.php');
     $usersettings->set_var ('LANG_feature', $LANG_GF01['FEATURE']);  
     $usersettings->set_var ('LANG_setting', $LANG_GF01['SETTING']);  
@@ -199,7 +196,7 @@ if (!isset($_POST['$submit'])) {
     $display .= $usersettings->finish($usersettings->get_var('output'));
 }
 
-$display .= gf_siteFooter();
+$display = gf_createHTMLDocument($display);
 
 COM_output($display);
 ?>

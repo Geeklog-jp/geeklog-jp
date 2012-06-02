@@ -87,6 +87,12 @@ $_FORUM_DEFAULT = array(
     'sideblock_numposts'    => '5',
     'sb_subject_size'       => '20',
     'sb_latestpostonly'     => '0',
+    'sideblock_isleft'         => '0',
+    'sideblock_order'          => '100',
+    'sideblock_topic_option'   => TOPIC_HOMEONLY_OPTION,
+    'sideblock_topic'          => array(),
+    'sideblock_enable'         => true,
+    'sideblock_permissions'    => array (2, 2, 2, 2),
     // ----------------------------------
     'level1'                => '1',
     'level2'                => '15',
@@ -98,6 +104,13 @@ $_FORUM_DEFAULT = array(
     'level3name'            => 'Chatty',
     'level4name'            => 'Regular Member',
     'level5name'            => 'Active Member',
+    // ----------------------------------
+    'menublock_isleft'         => '1',
+    'menublock_order'          => '0',
+    'menublock_topic_option'   => TOPIC_ALL_OPTION,
+    'menublock_topic'          => array(),
+    'menublock_enable'         => true,
+    'menublock_permissions'    => array (2, 2, 2, 2)
 );
 
 /**
@@ -124,71 +137,104 @@ function plugin_initconfig_forum()
     if (!$c->group_exists($n)) {
         $c->add('sg_main',               NULL,                                     'subgroup', 0, 0, NULL, 0,    true, $n);
         // ----------------------------------
-        $c->add('fs_main',               NULL,                                     'fieldset', 0, 0, NULL, 0,    true, $n);
-        $c->add('registration_required', $_FORUM_DEFAULT['registration_required'], 'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('registered_to_post',    $_FORUM_DEFAULT['registered_to_post'],    'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('allow_notification',    $_FORUM_DEFAULT['allow_notification'],    'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('show_topicreview',      $_FORUM_DEFAULT['show_topicreview'],      'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('allow_user_dateformat', $_FORUM_DEFAULT['allow_user_dateformat'], 'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('use_pm_plugin',         $_FORUM_DEFAULT['use_pm_plugin'],         'select',   0, 0, 0,    $o++, true, $n);
-        $c->add('show_topics_perpage',   $_FORUM_DEFAULT['show_topics_perpage'],   'text',     0, 0, 0,    $o++, true, $n);
-        $c->add('show_posts_perpage',    $_FORUM_DEFAULT['show_posts_perpage'],    'text',     0, 0, 0,    $o++, true, $n);
-        $c->add('show_messages_perpage', $_FORUM_DEFAULT['show_messages_perpage'], 'text',     0, 0, 0,    $o++, true, $n);
-        $c->add('show_searches_perpage', $_FORUM_DEFAULT['show_searches_perpage'], 'text',     0, 0, 0,    $o++, true, $n);
-        $c->add('showblocks',            $_FORUM_DEFAULT['showblocks'],            'select',   0, 0, 6,    $o++, true, $n); // Added
-        $c->add('usermenu',              $_FORUM_DEFAULT['usermenu'],              'select',   0, 0, 7,    $o++, true, $n); // Added
-        $c->add('use_themes_template',   $_FORUM_DEFAULT['use_themes_template'],   'select',   0, 0, 0,    $o++, true, $n); // Added
+        $t = 0;
+        $c->add('tab_main',              NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_main',               NULL,                                     'fieldset', 0, 0, NULL, 0,    true, $n, $t);
+        $c->add('registration_required', $_FORUM_DEFAULT['registration_required'], 'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('registered_to_post',    $_FORUM_DEFAULT['registered_to_post'],    'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('allow_notification',    $_FORUM_DEFAULT['allow_notification'],    'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('show_topicreview',      $_FORUM_DEFAULT['show_topicreview'],      'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('allow_user_dateformat', $_FORUM_DEFAULT['allow_user_dateformat'], 'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('use_pm_plugin',         $_FORUM_DEFAULT['use_pm_plugin'],         'select',   0, 0, 0,    $o++, true, $n, $t);
+        $c->add('show_topics_perpage',   $_FORUM_DEFAULT['show_topics_perpage'],   'text',     0, 0, 0,    $o++, true, $n, $t);
+        $c->add('show_posts_perpage',    $_FORUM_DEFAULT['show_posts_perpage'],    'text',     0, 0, 0,    $o++, true, $n, $t);
+        $c->add('show_messages_perpage', $_FORUM_DEFAULT['show_messages_perpage'], 'text',     0, 0, 0,    $o++, true, $n, $t);
+        $c->add('show_searches_perpage', $_FORUM_DEFAULT['show_searches_perpage'], 'text',     0, 0, 0,    $o++, true, $n, $t);
+        $c->add('showblocks',            $_FORUM_DEFAULT['showblocks'],            'select',   0, 0, 6,    $o++, true, $n, $t);
+        $c->add('usermenu',              $_FORUM_DEFAULT['usermenu'],              'select',   0, 0, 7,    $o++, true, $n, $t);
+        $c->add('use_themes_template',   $_FORUM_DEFAULT['use_themes_template'],   'select',   0, 0, 0,    $o++, true, $n, $t);
         // ----------------------------------
-        $c->add('fs_topicposting',       NULL,                                     'fieldset', 0, 1, NULL, 0,    true, $n);
-        $c->add('show_subject_length',   $_FORUM_DEFAULT['show_subject_length'],   'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('min_username_length',   $_FORUM_DEFAULT['min_username_length'],   'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('min_subject_length',    $_FORUM_DEFAULT['min_subject_length'],    'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('min_comment_length',    $_FORUM_DEFAULT['min_comment_length'],    'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('views_tobe_popular',    $_FORUM_DEFAULT['views_tobe_popular'],    'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('post_speedlimit',       $_FORUM_DEFAULT['post_speedlimit'],       'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('allowed_editwindow',    $_FORUM_DEFAULT['allowed_editwindow'],    'text',     0, 1, 0,    $o++, true, $n);
-        $c->add('allow_html',            $_FORUM_DEFAULT['allow_html'],            'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('post_htmlmode',         $_FORUM_DEFAULT['post_htmlmode'],         'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('convert_break',         $_FORUM_DEFAULT['convert_break'],         'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('use_censor',            $_FORUM_DEFAULT['use_censor'],            'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('use_glfilter',          $_FORUM_DEFAULT['use_glfilter'],          'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('use_geshi',             $_FORUM_DEFAULT['use_geshi'],             'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('use_spamx_filter',      $_FORUM_DEFAULT['use_spamx_filter'],      'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('show_moods',            $_FORUM_DEFAULT['show_moods'],            'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('allow_smilies',         $_FORUM_DEFAULT['allow_smilies'],         'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('use_smilies_plugin',    $_FORUM_DEFAULT['use_smilies_plugin'],    'select',   0, 1, 0,    $o++, true, $n);
-        $c->add('avatar_width',          $_FORUM_DEFAULT['avatar_width'],          'text',     0, 1, 0,    $o++, true, $n); // Added
+        $t = 1;
+        $c->add('tab_topicposting',      NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_topicposting',       NULL,                                     'fieldset', 0, 1, NULL, 0,    true, $n, $t);
+        $c->add('show_subject_length',   $_FORUM_DEFAULT['show_subject_length'],   'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('min_username_length',   $_FORUM_DEFAULT['min_username_length'],   'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('min_subject_length',    $_FORUM_DEFAULT['min_subject_length'],    'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('min_comment_length',    $_FORUM_DEFAULT['min_comment_length'],    'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('views_tobe_popular',    $_FORUM_DEFAULT['views_tobe_popular'],    'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('post_speedlimit',       $_FORUM_DEFAULT['post_speedlimit'],       'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('allowed_editwindow',    $_FORUM_DEFAULT['allowed_editwindow'],    'text',     0, 1, 0,    $o++, true, $n, $t);
+        $c->add('allow_html',            $_FORUM_DEFAULT['allow_html'],            'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('post_htmlmode',         $_FORUM_DEFAULT['post_htmlmode'],         'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('convert_break',         $_FORUM_DEFAULT['convert_break'],         'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('use_censor',            $_FORUM_DEFAULT['use_censor'],            'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('use_glfilter',          $_FORUM_DEFAULT['use_glfilter'],          'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('use_geshi',             $_FORUM_DEFAULT['use_geshi'],             'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('use_spamx_filter',      $_FORUM_DEFAULT['use_spamx_filter'],      'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('show_moods',            $_FORUM_DEFAULT['show_moods'],            'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('allow_smilies',         $_FORUM_DEFAULT['allow_smilies'],         'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('use_smilies_plugin',    $_FORUM_DEFAULT['use_smilies_plugin'],    'select',   0, 1, 0,    $o++, true, $n, $t);
+        $c->add('avatar_width',          $_FORUM_DEFAULT['avatar_width'],          'text',     0, 1, 0,    $o++, true, $n, $t);
         // ----------------------------------
-        $c->add('fs_centerblock',        NULL,                                     'fieldset', 0, 2, NULL, 0,    true, $n);
-        $c->add('show_centerblock',      $_FORUM_DEFAULT['show_centerblock'],      'select',   0, 2, 0,    $o++, true, $n);
-        $c->add('centerblock_homepage',  $_FORUM_DEFAULT['centerblock_homepage'],  'select',   0, 2, 0,    $o++, true, $n);
-        $c->add('centerblock_numposts',  $_FORUM_DEFAULT['centerblock_numposts'],  'text',     0, 2, 0,    $o++, true, $n);
-        $c->add('cb_subject_size',       $_FORUM_DEFAULT['cb_subject_size'],       'text',     0, 2, 0,    $o++, true, $n);
-        $c->add('centerblock_where',     $_FORUM_DEFAULT['centerblock_where'],     'select',   0, 2, 5,    $o++, true, $n);
+        $t = 2;
+        $c->add('tab_centerblock',       NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_centerblock',        NULL,                                     'fieldset', 0, 2, NULL, 0,    true, $n, $t);
+        $c->add('show_centerblock',      $_FORUM_DEFAULT['show_centerblock'],      'select',   0, 2, 0,    $o++, true, $n, $t);
+        $c->add('centerblock_homepage',  $_FORUM_DEFAULT['centerblock_homepage'],  'select',   0, 2, 0,    $o++, true, $n, $t);
+        $c->add('centerblock_numposts',  $_FORUM_DEFAULT['centerblock_numposts'],  'text',     0, 2, 0,    $o++, true, $n, $t);
+        $c->add('cb_subject_size',       $_FORUM_DEFAULT['cb_subject_size'],       'text',     0, 2, 0,    $o++, true, $n, $t);
+        $c->add('centerblock_where',     $_FORUM_DEFAULT['centerblock_where'],     'select',   0, 2, 5,    $o++, true, $n, $t);
         // ----------------------------------
-        $c->add('fs_sideblock',          NULL,                                     'fieldset', 0, 3, NULL, 0,    true, $n);
-        $c->add('sideblock_numposts',    $_FORUM_DEFAULT['sideblock_numposts'],    'text',     0, 3, 0,    $o++, true, $n);
-        $c->add('sb_subject_size',       $_FORUM_DEFAULT['sb_subject_size'],       'text',     0, 3, 0,    $o++, true, $n);
-        $c->add('sb_latestpostonly',     $_FORUM_DEFAULT['sb_latestpostonly'],     'select',   0, 3, 0,    $o++, true, $n);
-        // ----------------------------------
-        $c->add('fs_rank',               NULL,                                     'fieldset', 0, 4, NULL, 0,    true, $n);
-        $c->add('level1',                $_FORUM_DEFAULT['level1'],                'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level2',                $_FORUM_DEFAULT['level2'],                'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level3',                $_FORUM_DEFAULT['level3'],                'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level4',                $_FORUM_DEFAULT['level4'],                'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level5',                $_FORUM_DEFAULT['level5'],                'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level1name',            $_FORUM_DEFAULT['level1name'],            'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level2name',            $_FORUM_DEFAULT['level2name'],            'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level3name',            $_FORUM_DEFAULT['level3name'],            'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level4name',            $_FORUM_DEFAULT['level4name'],            'text',     0, 4, 0,    $o++, true, $n);
-        $c->add('level5name',            $_FORUM_DEFAULT['level5name'],            'text',     0, 4, 0,    $o++, true, $n);
-    }
+        $t = 3;
+        $c->add('tab_sideblock',         NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_sideblock',          NULL,                                     'fieldset', 0, 3, NULL, 0,    true, $n, $t);
+        $c->add('sideblock_numposts',    $_FORUM_DEFAULT['sideblock_numposts'],    'text',     0, 3, 0,    $o++, true, $n, $t);
+        $c->add('sb_subject_size',       $_FORUM_DEFAULT['sb_subject_size'],       'text',     0, 3, 0,    $o++, true, $n, $t);
+        $c->add('sb_latestpostonly',     $_FORUM_DEFAULT['sb_latestpostonly'],     'select',   0, 3, 0,    $o++, true, $n, $t);
 
-    if (function_exists('COM_versionCompare')) { // This function was introduced in Geeklog 1.8.0
-        // So, if we have it, we can use tabs in the configuration UI
-        // Which were also introduced in version 1.8.0 of Geeklog
-        
-        forum_update_ConfValues_addTabs();
+        $c->add('fs_sideblock_settings', NULL,                                     'fieldset', 0, 5, NULL, 0,    true, $n, $t);
+        $c->add('sideblock_enable',      $_FORUM_DEFAULT['sideblock_enable'],      'select',   0, 5, 0,    $o++, true, $n, $t);
+        $c->add('sideblock_isleft',      $_FORUM_DEFAULT['sideblock_isleft'],      'select',   0, 5, 0,    $o++, true, $n, $t);
+        $c->add('sideblock_order',       $_FORUM_DEFAULT['sideblock_order'],       'text',     0, 5, 0,    $o++, true, $n, $t);
+        $c->add('sideblock_topic_option',$_FORUM_DEFAULT['sideblock_topic_option'],'select',   0, 5, 15,   $o++, true, $n, $t);
+        $c->add('sideblock_topic',       $_FORUM_DEFAULT['sideblock_topic'],       '%select',  0, 5, NULL, $o++, true, $n, $t);
+
+        $c->add('fs_sideblock_permissions', NULL,                                  'fieldset', 0, 6, NULL, 0,    true, $n, $t);
+        $new_group_id = 0;
+        if (isset($_GROUPS['Forum Admin'])) {
+            $new_group_id = $_GROUPS['Forum Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Forum Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }
+        $c->add('sideblock_group_id',    $new_group_id,                            'select',   0, 6, NULL,    $o++, true, $n, $t);
+        $c->add('sideblock_permissions', $_FORUM_DEFAULT['sideblock_permissions'], '@select',  0, 6, 14,      $o++, true, $n, $t);
+        // ----------------------------------
+        $t = 4;
+        $c->add('tab_rank',              NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_rank',               NULL,                                     'fieldset', 0, 4, NULL, 0,    true, $n, $t);
+        $c->add('level1',                $_FORUM_DEFAULT['level1'],                'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level2',                $_FORUM_DEFAULT['level2'],                'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level3',                $_FORUM_DEFAULT['level3'],                'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level4',                $_FORUM_DEFAULT['level4'],                'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level5',                $_FORUM_DEFAULT['level5'],                'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level1name',            $_FORUM_DEFAULT['level1name'],            'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level2name',            $_FORUM_DEFAULT['level2name'],            'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level3name',            $_FORUM_DEFAULT['level3name'],            'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level4name',            $_FORUM_DEFAULT['level4name'],            'text',     0, 4, 0,    $o++, true, $n, $t);
+        $c->add('level5name',            $_FORUM_DEFAULT['level5name'],            'text',     0, 4, 0,    $o++, true, $n, $t);
+        // ----------------------------------
+        $t = 5;
+        $c->add('tab_menublock',         NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+        $c->add('fs_menublock_settings', NULL,                                     'fieldset', 0, 7, NULL, 0,    true, $n, $t);
+        $c->add('menublock_isleft',      $_FORUM_DEFAULT['menublock_isleft'],      'select',   0, 7, 0,    $o++, true, $n, $t);
+        $c->add('menublock_order',       $_FORUM_DEFAULT['menublock_order'],       'text',     0, 7, 0,    $o++, true, $n, $t);
     }
 
     return true;
@@ -197,7 +243,7 @@ function plugin_initconfig_forum()
 function forum_update_ConfValues_2_7_4()
 {
     global $CONF_FORUM, $_FORUM_DEFAULT, $_TABLES, $_DB_table_prefix;
-    
+
     // Retrieve the forum global settings so we can move them to the geeeklog configuration
     $_TABLES['forum_settings']     = $_DB_table_prefix . 'forum_settings';
     $result = DB_query("SELECT * FROM {$_TABLES['forum_settings']}");
@@ -319,31 +365,67 @@ function forum_update_ConfValues_2_7_4()
         $c->add('level3name',            $_FORUM_DEFAULT['level3name'],            'text',     0, 4, 0,    $o++, true, $n);
         $c->add('level4name',            $_FORUM_DEFAULT['level4name'],            'text',     0, 4, 0,    $o++, true, $n);
         $c->add('level5name',            $_FORUM_DEFAULT['level5name'],            'text',     0, 4, 0,    $o++, true, $n);
-    }
 
-    if (function_exists('COM_versionCompare')) { // This function was introduced in Geeklog 1.8.0
-        // So, if we have it, we can use tabs in the configuration UI
-        // Which were also introduced in version 1.8.0 of Geeklog
-        
-        forum_update_ConfValues_addTabs();
+        // Forum 2.8.0 only required Geeklog 1.6.0 but since this is now an upgrade to 2.9.0 lets insert all tabs here for version 2.8.0
+        $c->add('tab_main',         NULL, 'tab', 0, 0, NULL, 0, true, 'forum', 0);
+        $c->add('tab_topicposting', NULL, 'tab', 0, 1, NULL, 0, true, 'forum', 1);
+        $c->add('tab_centerblock',  NULL, 'tab', 0, 2, NULL, 0, true, 'forum', 2);
+        $c->add('tab_sideblock',    NULL, 'tab', 0, 3, NULL, 0, true, 'forum', 3);
+        $c->add('tab_rank',         NULL, 'tab', 0, 4, NULL, 0, true, 'forum', 4);
+
+        DB_query("UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'forum'");
     }
 
     return true;
 }
 
-function forum_update_ConfValues_addTabs()
+function forum_update_ConfValues_2_8_0()
 {
-    global $_TABLES;
+    global $_CONF, $_FORUM_DEFAULT, $CONF_FORUM, $_GROUPS, $_TABLES;
 
-    // Add in all the Tabs for the configuration UI
+    require_once $_CONF['path_system'] . 'classes/config.class.php';
+
     $c = config::get_instance();
-    $c->add('tab_main',         NULL, 'tab', 0, 0, NULL, 0, true, 'forum', 0);
-    $c->add('tab_topicposting', NULL, 'tab', 0, 1, NULL, 0, true, 'forum', 1);
-    $c->add('tab_centerblock',  NULL, 'tab', 0, 2, NULL, 0, true, 'forum', 2);
-    $c->add('tab_sideblock',    NULL, 'tab', 0, 3, NULL, 0, true, 'forum', 3);
-    $c->add('tab_rank',         NULL, 'tab', 0, 4, NULL, 0, true, 'forum', 4);
 
-    DB_query("UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'forum'");
+    require_once $_CONF['path'] . 'plugins/forum/install_defaults.php';
+
+
+    // Config values for dynamic blocks (posts and menu)
+    $n = 'forum';
+
+    // ----------------------------------
+    $t = 3;
+    $o = 40; // Set sort order of config value
+    $c->add('fs_sideblock_settings', NULL,                                     'fieldset', 0, 5, NULL, 0,    true, $n, $t);
+    $c->add('sideblock_enable',      $_FORUM_DEFAULT['sideblock_enable'],      'select',   0, 5, 0,    $o++, true, $n, $t);
+    $c->add('sideblock_isleft',      $_FORUM_DEFAULT['sideblock_isleft'],      'select',   0, 5, 0,    $o++, true, $n, $t);
+    $c->add('sideblock_order',       $_FORUM_DEFAULT['sideblock_order'],       'text',     0, 5, 0,    $o++, true, $n, $t);
+    $c->add('sideblock_topic_option',$_FORUM_DEFAULT['sideblock_topic_option'],'select',   0, 5, 15,   $o++, true, $n, $t);
+    $c->add('sideblock_topic',       $_FORUM_DEFAULT['sideblock_topic'],       '%select',  0, 5, NULL, $o++, true, $n, $t);
+
+    $c->add('fs_sideblock_permissions', NULL,                                  'fieldset', 0, 6, NULL, 0,    true, $n, $t);
+    $new_group_id = 0;
+    if (isset($_GROUPS['Forum Admin'])) {
+        $new_group_id = $_GROUPS['Forum Admin'];
+    } else {
+        $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Forum Admin'");
+        if ($new_group_id == 0) {
+            if (isset($_GROUPS['Root'])) {
+                $new_group_id = $_GROUPS['Root'];
+            } else {
+                $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+            }
+        }
+    }
+    $c->add('sideblock_group_id',    $new_group_id,                            'select',   0, 6, NULL,  $o++, true, $n, $t);
+    $c->add('sideblock_permissions', $_FORUM_DEFAULT['sideblock_permissions'], '@select',  0, 6, 14,    $o++, true, $n, $t);
+    // ----------------------------------
+    $t = 5;
+    $o = 57; // Set sort order of config value
+    $c->add('tab_menublock',         NULL,                                     'tab',      0, $t, NULL, 0,   true, $n, $t);
+    $c->add('fs_menublock_settings', NULL,                                     'fieldset', 0, 7, NULL, 0,    true, $n, $t);
+    $c->add('menublock_isleft',      $_FORUM_DEFAULT['menublock_isleft'],      'select',   0, 7, 0,    $o++, true, $n, $t);
+    $c->add('menublock_order',       $_FORUM_DEFAULT['menublock_order'],       'text',     0, 7, 0,    $o++, true, $n, $t);
 
     return true;
 }

@@ -61,11 +61,10 @@ $result = DB_query("SELECT forum, pid, subject FROM {$_TABLES['forum_topic']} WH
 list($forum, $topic_pid, $subject) = DB_fetchArray($result); // <- new
 
 if ($topic_pid == '') {
-    $display .= COM_siteHeader();
     $display .= COM_startBlock();
     $display .= alertMessage($LANG_GF02['msg172'],$LANG_GF02['msg171']);
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
@@ -84,8 +83,6 @@ if ($onlytopic == 1) {
 } else {
     //Check is anonymous users can access
     forum_chkUsercanAccess();
-    // Display Common headers
-    $display .= gf_siteHeader($subject);
     // Debug Code to show variables
     $display .= gf_showVariables();
 
@@ -162,12 +159,16 @@ if ($page > 1) {
 }
 
 $base_url = "{$_CONF['site_url']}/forum/viewtopic.php?showtopic=$showtopic&amp;mode=$mode&amp;show=$show";
-$forum_outline_header = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+$forum_outline_header = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
 $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
-$forum_outline_header->set_var ('xhtml', XHTML);
 $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
 $forum_outline_header->parse ('output', 'forum_outline_header');
 $display .= $forum_outline_header->finish($forum_outline_header->get_var('output'));
+
+$pagenavigation = '';
+if ($numpages > 1) {
+    $pagenavigation = COM_printPageNavigation($base_url, $page, $numpages);
+}
 
 // Stop timer and print elapsed time
 //$intervalTime = $mytimer->stopTimer();
@@ -175,7 +176,7 @@ $display .= $forum_outline_header->finish($forum_outline_header->get_var('output
 
 if ($mode != 'preview') {
 
-    $topicnavbar = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topicnavbar = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topicnavbar->set_file (array (
             'topicnavbar' => 'topic_navbar.thtml',
             'subscribe'   => 'links/subscribe.thtml',
@@ -185,9 +186,7 @@ if ($mode != 'preview') {
             'new'         => 'links/newtopic.thtml',
             'reply'       => 'links/replytopic.thtml'));
 
-    $topicnavbar->set_var('xhtml', XHTML);
     $topicnavbar->set_var('layout_url', $CONF_FORUM['layout_url']);
-    $topicnavbar->set_var('site_url', $_CONF['site_url']);
 
     if ($topic_pid > 0) {
         $replytopic_id = $topic_pid;
@@ -316,13 +315,12 @@ if ($mode != 'preview') {
     $topicnavbar->set_var ('LANG_TOP', $LANG_GF01['TOP']);
     $topicnavbar->set_var ('subject', $viewtopic['subject']);
     $topicnavbar->set_var ('LANG_HOME', $LANG_GF01['HOMEPAGE']);
-    $topicnavbar->set_var ('pagenavigation', COM_printPageNavigation($base_url,$page,$numpages));
+    $topicnavbar->set_var ('pagenavigation', $pagenavigation);
     $topicnavbar->parse ('output', 'topicnavbar');
     $display .= $topicnavbar->finish($topicnavbar->get_var('output'));
 } else {
-    $preview_header = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $preview_header = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $preview_header->set_file ('header', 'topicpreview_header.thtml');
-    $preview_header->set_var ('xhtml', XHTML);
     $preview_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $preview_header->parse ('output', 'header');
     $display .= $preview_header->finish($preview_header->get_var('output'));
@@ -372,7 +370,7 @@ while ($topicRec = DB_fetchArray($result)) {
 }
 
 if ($mode != 'preview') {
-    $topic_footer = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topic_footer = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topic_footer->set_file (array ('topicfooter'=>'topicfooter.thtml',
             'new'   => 'links/newtopic.thtml',
             'reply' => 'links/replytopic.thtml'
@@ -381,7 +379,6 @@ if ($mode != 'preview') {
     if ($viewtopic['is_readonly'] == 0 OR forum_modPermission($viewtopic['forum'],$_USER['uid'],'mod_edit')) {
         $newtopiclink = "{$_CONF['site_url']}/forum/createtopic.php?method=newtopic&amp;forum=$forum";
         $newtopiclinktext = $LANG_GF09['newtopic'];
-        $topic_footer->set_var ('xhtml', XHTML);
         $topic_footer->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $topicDisplayTime = $mytimer->stopTimer();
         $topic_footer->set_var ('page_generated_time', sprintf($LANG_GF02['msg179'],$topicDisplayTime));
@@ -404,20 +401,18 @@ if ($mode != 'preview') {
 
 } else {
     $base_url .= '&amp;onlytopic=1';
-    $topic_footer = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topic_footer = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topic_footer->set_file (array ('topicfooter'=>'topicfooter_preview.thtml'));
 }
 
-$topic_footer->set_var ('xhtml', XHTML);
-$topic_footer->set_var ('pagenavigation', COM_printPageNavigation($base_url,$page, $numpages));
+$topic_footer->set_var ('pagenavigation', $pagenavigation);
 $topic_footer->set_var ('forum_id', $forum);
 $topic_footer->set_var ('imgset', $CONF_FORUM['imgset']);
 $topic_footer->parse ('output', 'topicfooter');
 $display .= $topic_footer->finish($topic_footer->get_var('output'));
 
-$forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+$forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
 $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-$forum_outline_footer->set_var ('xhtml', XHTML);
 $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
 $forum_outline_footer->parse ('output', 'forum_outline_footer');
 $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -427,8 +422,7 @@ $intervalTime = $mytimer->stopTimer();
 
 if ($onlytopic != 1) {
     $display .= BaseFooter();
-    // Display Common headers
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display, $subject);
 } else {
     $display .= '</body>' . LB;
     $display .= '</html>' . LB;

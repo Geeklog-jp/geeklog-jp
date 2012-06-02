@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | japanese_utf-8.php                                                        |
 // | Language defines for all text                                             |
@@ -33,12 +33,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = '掲示板プラグインアップグレード: 成功しました。';
 $PLG_forum_MESSAGE2 = '掲示板プラグインアップグレード: 自動インストール失敗。プラグインドキュメントをご覧ください。';
 $PLG_forum_MESSAGE5 = '掲示板プラグインのアップグレードに失敗しました。エラーログ(error.log)をご覧ください。';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => '掲示板',
@@ -260,7 +257,7 @@ $LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left: 10px;">申し
 $LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '><p>掲示板のタイトルを入力してください。</p>';
 $LANG_GF02['msg84']    = '全て既読にする';
 $LANG_GF02['msg85']    = 'ページ:';
-$LANG_GF02['msg86']    = '最新 %s 投稿　投稿者: ';
+$LANG_GF02['msg86']    = '&nbsp;最新 %s 投稿　投稿者&nbsp;';
 $LANG_GF02['msg87']    = '<br' . XHTML . '>警告:このトピックはロックされています。<br' . XHTML . '>追加の投稿はできません。';
 $LANG_GF02['msg88']    = '掲示板投稿者リスト';
 $LANG_GF02['msg88b']   = '掲示板発言者のみ';
@@ -544,6 +541,37 @@ $LANG_GF96 = array (
     'specip'             => '禁止IP アドレスを指定してください!',
     'ipunbanned'         => '禁止は解除されました。',
     'noip'               => 'IPアドレスが入力されていません!'
+);
+
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
 );
 
 // Localization of the Admin Configuration UI

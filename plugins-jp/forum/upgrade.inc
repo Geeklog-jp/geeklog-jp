@@ -114,14 +114,6 @@ function upgrade_232() {
         next($_SQL);
     }
     
-    if (!DB_count($_TABLES['blocks'],'phpblockfn','phpblock_forum_menu')) {
-        // Add new block definition for Forum Menu
-        $fields = 'is_enabled,name,type,title,tid,blockorder,onleft,phpblockfn,group_id,owner_id,perm_owner,perm_group,perm_members,perm_anon';
-        $sql = "INSERT INTO {$_TABLES['blocks']} ($fields) " ;
-        $sql .= "VALUES (0, 'forum_menu', 'phpblock', 'Forum Menu', 'all', 0, 1, 'phpblock_forum_menu', 2,2,3,2,2,2)";       
-        DB_query($sql);
-    }
-    
     // Update the moderator records - now that we have a uid field
     $query = DB_query("SELECT mod_id,mod_username FROM {$_TABLES['forum_moderators']}");
     while ($A = DB_fetchArray($query)) {
@@ -191,4 +183,17 @@ function upgrade_274() {
     return 0;
 }
 
+
+function upgrade_280() {
+    global $_CONF, $_TABLES;
+    
+    // Delete Old Forum Blocks since now dynamic blocks
+    DB_query("DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_forum_newposts' OR phpblockfn = 'phpblock_forum_menu'");
+
+    require_once $_CONF['path'] . 'plugins/forum/install_defaults.php';
+    forum_update_ConfValues_2_8_0();
+
+    COM_errorLog("Success - Completed Forum plugin version 2.9.0 update",1);
+    return 0;
+}
 ?>

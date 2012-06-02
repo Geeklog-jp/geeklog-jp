@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | korean_utf-8.php                                                          |
 // | Language defines for all text                                             |
@@ -33,12 +33,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = 'Forum Plugin Upgrade: Update completed successfully.';
 $PLG_forum_MESSAGE2 = 'Forum Plugin upgrade: We are unable to update this version automatically. Refer to the plugin documentation.';
 $PLG_forum_MESSAGE5 = '게시판 플러그인의 업그레이드에 실패 하였습니다. 에러로그(error.log) 를 살펴보시기 바랍니다.';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => '게시판',
@@ -261,7 +258,7 @@ $LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left:10px;"> 죄송
 $LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '>게시판 제목을 입력하시기 바랍니다.</p>';
 $LANG_GF02['msg84']    = '전부 읽은 것으로 하기';
 $LANG_GF02['msg85']    = '페이지:';
-$LANG_GF02['msg86']    = '최신 덧글 10  글쓴이;';
+$LANG_GF02['msg86']    = '&nbsp;최신 덧글 %s  글쓴이;&nbsp;';
 $LANG_GF02['msg87']    = '<br' . XHTML . '>경고: 이 토픽은 잠겨져 있습니다.<br' . XHTML . '> 추가 덧글은 할 수 없습니다.';
 $LANG_GF02['msg88']    = '게시판의 덧글쓴이 목록';
 $LANG_GF02['msg88b']   = '게시판 발언자 전용';
@@ -545,6 +542,37 @@ $LANG_GF96 = array (
     'specip'             => '금지 IP 주소를 지정 하시기 바랍니다!',
     'ipunbanned'         => '금지는 해제 되었습니다.',
     'noip'               => 'You did not provide an IP address!'
+);
+
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
 );
 
 // Localization of the Admin Configuration UI

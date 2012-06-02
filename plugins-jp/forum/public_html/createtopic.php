@@ -42,15 +42,16 @@ if (!in_array('forum', $_PLUGINS)) {
     exit;
 }
 
+$display = '';
+
 //Check is anonymous users can post
 if ($CONF_FORUM['registered_to_post'] && $_USER['uid'] < 2) {
     $url = $_CONF['site_url']. '/users.php?mode=new';
-    $display = COM_siteHeader();
     $display .= COM_startBlock($LANG_GF00['access_denied']);
     $display .= '<br' . XHTML . '>' .$LANG_GF01['loginreqpost']. '<p>';
     $display .= '<meta http-equiv="refresh" content="3; URL=' .$url. '">';
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
@@ -60,17 +61,14 @@ $ip = getenv("REMOTE_ADDR");
 $sqlresult = DB_query ("SELECT * FROM {$_TABLES['forum_banned_ip']} WHERE host_ip like '$ip'");
 $numRows = DB_numRows($sqlresult);
 if ($numRows > 0) {
-    $display = COM_siteHeader();
     $display .= COM_startBlock($LANG_GF00['access_denied']);
     $display .= $LANG_GF02['msg14'];
     $display .= sprintf($LANG_GF02['msg15'], $_CONF['site_mail']);
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit();
 }
-
-$display = '';
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
 $aname       = isset($_POST['aname'])              ? strip_tags($_POST['aname'])                        : '';
@@ -103,9 +101,6 @@ if (isset($_REQUEST['postmode'])) {
         $postmode = 'html';
     }
 }
-
-// Display Common headers
-$display .= gf_siteHeader();
 
 // Debug Code to show variables
 $display .= gf_showVariables();
@@ -153,7 +148,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && ($editpost == 'yes') && SEC_checkToken(
                 if ($result > 0) {
                     // then tell them to get lost ...
                     $display .= COM_showMessage( $result, 'spamx' );
-                    $display .= gf_siteFooter();
+                    $display = gf_createHTMLDocument($display);
                     COM_output($display);
                     exit;
                 }
@@ -209,7 +204,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && ($editpost == 'yes') && SEC_checkToken(
         }
     }
 
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
@@ -258,7 +253,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && (($uid == 1) || SEC_checkToken())) {
                         if ($result > 0) {
                             // then tell them to get lost ...
                             $display .= COM_showMessage( $result, 'spamx' );
-                            $display .= gf_siteFooter();
+                            $display = gf_createHTMLDocument($display);
                             COM_output($display);
                             exit;
                         }
@@ -356,7 +351,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && (($uid == 1) || SEC_checkToken())) {
                         if ($result > 0) {
                             // then tell them to get lost ...
                             $display .= COM_showMessage( $result, 'spamx' );
-                            $display .= gf_siteFooter();
+                            $display = gf_createHTMLDocument($display);
                             COM_output($display);
                             exit;
                         }
@@ -416,7 +411,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && (($uid == 1) || SEC_checkToken())) {
     }
 
     if ( $msg == '' ) {
-        $display .= gf_siteFooter();
+        $display = gf_createHTMLDocument($display);
         COM_output($display);
         exit;
     }
@@ -436,7 +431,7 @@ if ($id > 0) {
 } else {
     if (empty($forum)) {
         $display .= alertMessage('', $LANG_GF02['msg171']);
-        $display .= COM_siteFooter();
+        $display = gf_createHTMLDocument($display);
         COM_output($display);
         exit;
     }
@@ -505,16 +500,14 @@ if ($preview == 'Preview') {
 
     $previewitem['comment'] = trim($comment);
 
-    $forum_outline_header = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $forum_outline_header = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
-    $forum_outline_header->set_var ('xhtml', XHTML);
     $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_header->parse ('output', 'forum_outline_header');
     $display .= $forum_outline_header->finish($forum_outline_header->get_var('output'));
 
-    $preview_header = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $preview_header = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $preview_header->set_file (array ('preview_header'=>'topicpreview_header.thtml'));
-    $preview_header->set_var ('xhtml', XHTML);
     $preview_header->set_var ('imgset', $CONF_FORUM['imgset']);
 //    $preview_header->set_var ('startblock', COM_startBlock('<b>' .$LANG_GF01['TopicPreview']. '</b>','','forum/layout/blockheader.thtml') );
     $preview_header->parse ('output', 'preview_header');
@@ -522,16 +515,14 @@ if ($preview == 'Preview') {
 
     $display .= showtopic($previewitem,'preview');
 
-    $preview_footer = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $preview_footer = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $preview_footer->set_file (array ('preview_footer'=>'topicpreview_footer.thtml'));
-    $preview_footer->set_var ('xhtml', XHTML);
     $preview_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $preview_footer->parse ('output', 'preview_footer');
     $display .= $preview_footer->finish($preview_footer->get_var('output'));
 
-    $forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-    $forum_outline_footer->set_var ('xhtml', XHTML);
     $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_footer->parse ('output', 'forum_outline_footer');
     $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -561,13 +552,12 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         if ( ($forum != 0) && $forum != $edittopic['forum'] ) {
             $display .= '<br' . XHTML . '>';
             $display .= BlockMessage('ERROR',$LANG_GF02['msg87'],false);
-            $forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+            $forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
-            $display .= gf_siteFooter();
+            $display = gf_createHTMLDocument($display);
             COM_output($display);
             exit;
         }
@@ -577,13 +567,12 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         if (!forum_modPermission($forum,$_USER['uid'],'mod_edit')) {
             $display .= '<br' . XHTML . '>';
             $display .= BlockMessage('ERROR',$LANG_GF02['msg87'],false);
-            $forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+            $forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
-            $display .= gf_siteFooter();
+            $display = gf_createHTMLDocument($display);
             COM_output($display);
             exit;
         }
@@ -593,21 +582,19 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         if (!forum_modPermission($edittopic['forum'],$_USER['uid'],'mod_edit')) {
             $display .= '<br' . XHTML . '>';
             $display .= BlockMessage('ERROR',$LANG_GF02['msg87'],false);
-            $forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+            $forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
             $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-            $forum_outline_footer->set_var ('xhtml', XHTML);
             $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
             $forum_outline_footer->parse ('output', 'forum_outline_footer');
             $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
-            $display .= gf_siteFooter();
+            $display = gf_createHTMLDocument($display);
             COM_output($display);
             exit;
         }
     }
 
-    $forum_outline_header = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $forum_outline_header = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $forum_outline_header->set_file (array ('forum_outline_header'=>'forum_outline_header.thtml'));
-    $forum_outline_header->set_var ('xhtml', XHTML);
     $forum_outline_header->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_header->parse ('output', 'forum_outline_header');
     $display .= $forum_outline_header->finish($forum_outline_header->get_var('output'));
@@ -618,13 +605,11 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         $subject = COM_stripslashes($subject);
     }
 
-    $topicnavbar = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $topicnavbar = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $topicnavbar->set_file (array ('topicnavbar'=>'post_topic_navbar.thtml'));
-    $topicnavbar->set_var ('xhtml', XHTML);
     $topicnavbar->set_var ('imgset', $CONF_FORUM['imgset']);
     $topicnavbar->set_var ('navbreadcrumbsimg','<img alt="" src="'.gf_getImage('nav_breadcrumbs').'"' . XHTML . '>');
     $topicnavbar->set_var ('navtopicimg','<img alt="" src="'.gf_getImage('nav_topic').'"' . XHTML . '>');
-    $topicnavbar->set_var ('site_url', $_CONF['site_url']);
     $topicnavbar->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $topicnavbar->set_var ('phpself', $_CONF['site_url'] .'/forum/createtopic.php');
 
@@ -745,9 +730,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     $display .= $topicnavbar->finish($topicnavbar->get_var('output'));
 
     if ($uid < 2) {
-        $submissionformtop = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+        $submissionformtop = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
         $submissionformtop->set_file (array ('submissionformtop'=>'submissionform_anontop.thtml'));
-        $submissionformtop->set_var ('xhtml', XHTML);
         $submissionformtop->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $submissionformtop->set_var ('post_message', $postmessage);
         $submissionformtop->set_var ('LANG_NAME', $LANG_GF02['msg33']);
@@ -756,9 +740,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         $display .= $submissionformtop->finish($submissionformtop->get_var('output'));
 
     } else {
-        $submissionformtop = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+        $submissionformtop = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
         $submissionformtop->set_file (array ('submissionformtop'=>'submissionform_membertop.thtml'));
-        $submissionformtop->set_var ('xhtml', XHTML);
         $submissionformtop->set_var ('layout_url', $CONF_FORUM['layout_url']);
         $submissionformtop->set_var ('post_message', $postmessage);
         $submissionformtop->set_var ('LANG_NAME', $LANG_GF02['msg33']);
@@ -806,9 +789,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
             closedir($dir);
         }
 
-        $submissionform_moods = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+        $submissionform_moods = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
         $submissionform_moods->set_file (array ('submissionform_moods'=>'submissionform_moods.thtml'));
-        $submissionform_moods->set_var ('xhtml', XHTML);
         $submissionform_moods->set_var ('LANG_MOOD', $LANG_GF02['msg36']);
         $submissionform_moods->set_var ('moodoptions', $moodoptions);
         $submissionform_moods->parse ('output', 'submissionform_moods');
@@ -836,10 +818,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         $postmode = $chkpostmode;
         $mode_switch = 0;
     }
-    $submissionform_code = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $submissionform_code = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $submissionform_code->set_file (array ('submissionform_code'=>'submissionform_code.thtml'));
-    $submissionform_code->set_var ('xhtml', XHTML);
-    $submissionform_code->set_var ('site_url', $_CONF['site_url']);
     $submissionform_code->set_var ('LANG_code', $LANG_GF01['CODE']);
     $submissionform_code->set_var ('LANG_fontcolor', $LANG_GF01['FONTCOLOR']);
     $submissionform_code->set_var ('LANG_fontsize', $LANG_GF01['FONTSIZE']);
@@ -916,7 +896,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         } else {
             $notify_val = '';
         }
-        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' . $notify_val . XHTML . '>';
+        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="on" ' . $notify_val. XHTML . '>';
 
         // check that this is the parent topic - only able to make it skicky or locked
         if ($editpid == 0) {
@@ -944,7 +924,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
             } else {
                 $notify_val = '';
             }
-            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="' . $notify . '" ' .$notify_val. XHTML . '>';
+            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="on" ' . $notify_val. XHTML . '>';
         } else {
             $notify_prompt = '';
         }
@@ -978,10 +958,9 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
 
     $subject = str_replace('"', '&quot;',$subject);
 
-    $submissionform_main = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $submissionform_main = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $submissionform_main->set_file (array ('submissionform_main'=>'submissionform_main.thtml'));
     $submissionform_main->set_unknowns('keep');
-    $submissionform_main->set_var ('xhtml', XHTML);
     $submissionform_main->set_var ('LANG_SUBJECT', $LANG_GF01['SUBJECT']);
     $submissionform_main->set_var ('LANG_OPTIONS', $LANG_GF01['OPTIONS']);
     $submissionform_main->set_var ('mode_prompt', $mode_prompt);
@@ -1019,9 +998,8 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     $display .= $submissionform_main->finish($submissionform_main->get_var('output'));
     $display .= '</form>';
 
-    $forum_outline_footer= new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+    $forum_outline_footer= COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $forum_outline_footer->set_file (array ('forum_outline_footer'=>'forum_outline_footer.thtml'));
-    $forum_outline_footer->set_var ('xhtml', XHTML);
     $forum_outline_footer->set_var ('imgset', $CONF_FORUM['imgset']);
     $forum_outline_footer->parse ('output', 'forum_outline_footer');
     $display .= $forum_outline_footer->finish ($forum_outline_footer->get_var('output'));
@@ -1036,7 +1014,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
 
 }
 
-$display .= gf_siteFooter();
+$display = gf_createHTMLDocument($display);
 COM_output($display);
 
 
