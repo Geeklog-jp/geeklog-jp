@@ -1,3 +1,7 @@
+2012-06-17  Kenji ITO  <mystralkk>
+
+	* nmoxqrblockプラグインをGeeklog-2.0.0に対応させました。
+
 2012-06-05  Kazuko Tsuchitani  <Tsuchi>
 
 	* phpblock_lastarticle.php 2.0対応しました。
