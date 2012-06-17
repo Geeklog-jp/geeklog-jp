@@ -83,7 +83,7 @@ function plugin_upgrade_nmoxqrblock() {
 					require_once $_CONF['path_system'] . 'classes/config.class.php';
 					require_once $_CONF['path'] . 'plugins/nmoxqrblock/install_defaults.php';
 					plugin_initconfig_nmoxqrblock();
-					$v = '1.2.0';
+					$v = '1.2.1';
 					break;
 			}
 		}

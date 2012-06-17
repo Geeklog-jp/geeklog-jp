@@ -97,17 +97,6 @@ function plugin_compatible_with_this_version_nmoxqrblock($pi_name) {
 	global $_CONF, $_DB_dbms;
 	
 	return TRUE;
-	
-	
-	
-	
-	
-	// checks if we support the DBMS the site is running on
-	$dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/'
-			. $_DB_dbms . '_install.php';
-	clearstatcache();
-	
-	return file_exists($dbFile) AND is_callable('COM_versionCompare');	// Since GL-1.8.0
 }
 
 function plugin_postinstall_nmoxqrblock($pi_name) {
@@ -126,22 +115,54 @@ function plugin_postinstall_nmoxqrblock($pi_name) {
 	$rc = DB_getItem(
 		$_TABLES['blocks'],
 		'COUNT(*)',
-		"(tid = '{$LANG_NMOXQRBLOCK['title_block']}') "
+		"(name = 'nmoxqrblock') "
 	);
 	
 	if ($rc < 1) {
+		$result = TRUE;
+		$sqls = array();
+		
 		$group_id = DB_getItem(
 			$_TABLES['groups'], 'grp_id', "grp_name = 'nmoxqrblock Admin'"
 		);
-		$sql = "INSERT INTO {$_TABLES['blocks']} "
-			 . "  (is_enabled, name, type, title, tid, blockorder, onleft, "
-			 . "  phpblockfn, owner_id, group_id) "
-			 . "VALUES (1, 'nmoxqrblock', 'phpblock', "
-			 . "  '{$LANG_NMOXQRBLOCK['title_block']}', 'all', 90, 1, "
-			 . "  'phpblock_nmoxqrblock', {$_USER['uid']}, {$group_id})";
-		DB_query($sql, 1);
 		
-		if (DB_error()) {
+		if (is_callable('COM_createHTMLDocument')) {
+			$sql = "INSERT INTO {$_TABLES['blocks']} "
+				 . "  (is_enabled, name, type, title, blockorder, onleft, "
+				 . "  phpblockfn, owner_id, group_id) "
+				 . "VALUES (1, 'nmoxqrblock', 'phpblock', "
+				 . "  '{$LANG_NMOXQRBLOCK['title_block']}', 90, 1, "
+				 . "  'phpblock_nmoxqrblock', {$_USER['uid']}, {$group_id})";
+			DB_query($sql, 1);
+			
+			if (DB_error()) {
+				$result = FALSE;
+			} else {
+				$bid = DB_insertId();
+				$sql = "INSERT INTO {$_TABLES['topic_assignments']} "
+					 . "  (tid, type, id, inherit, tdefault) "
+					 . "  VALUES ('all', 'block', {$bid}, 1, 0) ";
+				DB_query($sql, 1);
+				
+				if (DB_error()) {
+					$result = FALSE;
+				}
+			}
+		} else {
+			$sql = "INSERT INTO {$_TABLES['blocks']} "
+				 . "  (is_enabled, name, type, title, tid, blockorder, onleft, "
+				 . "  phpblockfn, owner_id, group_id) "
+				 . "VALUES (1, 'nmoxqrblock', 'phpblock', "
+				 . "  '{$LANG_NMOXQRBLOCK['title_block']}', 'all', 90, 1, "
+				 . "  'phpblock_nmoxqrblock', {$_USER['uid']}, {$group_id})";
+			DB_query($sql, 1);
+			
+			if (DB_error()) {
+				$result = FALSE;
+			}
+		}
+		
+		if ($result === FALSE) {
 			COM_errorLog('Failed to insert a new QR block', 1);
 			return FALSE;
 		}
