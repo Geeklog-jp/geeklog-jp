@@ -1,3 +1,14 @@
+2012-06-18  Takahiro Kambe  <tacahi>
+
+	* リビジョンa73e8c6bfdafをマージしました。
+
+	  2012-06-05  Kazuko Tsuchitani  <Tsuchi>
+
+		* phpblock_lastarticle.php 2.0対応しました。
+
+		* phpblock_lastarticle.php PHPブロック使用で画面がくずれる
+		  問題を修正しました。
+
 2012-05-04  Takahiro Kambe  <tacahi>
 
 	* geeklog-1.8.1-jp-1.1をリリースします。
