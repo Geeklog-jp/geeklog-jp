@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/forum.class.php                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,9 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'forum.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_forum extends DataproxyDriver {
-	public $driver_name = 'forum';
-	
+class dpxyDriver_Forum extends dpxyDriver
+{
 	/*
 	* Returns the location of index.php of each plugin
 	*/
@@ -59,10 +58,10 @@ class Dataproxy_forum extends DataproxyDriver {
 		}
 		
 		$sql = "SELECT forum_id, forum_name FROM {$_TABLES['gf_forums']} "
-			 . "WHERE (is_hidden = '0') ";
+			 . "  WHERE (is_hidden = '0') ";
 		
-		if ($this->uid > 0) {
-			$current_groups = SEC_getUserGroups( $this->uid );
+		if (!Dataproxy::isRoot()) {
+			$current_groups = SEC_getUserGroups( Dataproxy::uid() );
 			$sql .= "AND (grp_id IN (" . implode(',', $current_groups) . ")) ";
 		}
 		
@@ -75,7 +74,6 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = (int) $A['forum_id'];
 			$entry['pid']       = FALSE;
 			$entry['title']     = stripslashes($A['forum_name']);
@@ -83,7 +81,6 @@ class Dataproxy_forum extends DataproxyDriver {
 								. $entry['id'];
 			$entry['date']      = FALSE;
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		
@@ -107,7 +104,7 @@ class Dataproxy_forum extends DataproxyDriver {
 		$retval = array();
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['gf_topic']} "
+			 . "  FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (id = '" . addslashes($id) . "')";
 		$result = DB_query($sql);
 		
@@ -118,7 +115,6 @@ class Dataproxy_forum extends DataproxyDriver {
 		if (DB_numRows($result) == 1) {
 			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
-			
 			$retval['id']        = $id;
 			$retval['title']     = $A['subject'];
 			$retval['uri']       = $_CONF['site_url']
@@ -147,7 +143,7 @@ class Dataproxy_forum extends DataproxyDriver {
 		$entries = array();
 		
 		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
-		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
+		     . "  WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
 		
@@ -157,14 +153,12 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['id'];
 			$entry['title']     = stripslashes($A['subject']);
 			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		
@@ -186,13 +180,15 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		$entries = array();
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
-		$sql = "SELECT id, subject, date FROM {$_TABLES['gf_topic']} "
+		$sql = "SELECT id, subject, date "
+			 . "  FROM {$_TABLES['gf_topic']} "
 		     . "WHERE (pid = 0) AND (forum = '" . addslashes($forum_id) ."') "
-			 . "AND (date BETWEEN '$this->startdate' AND '$this->enddate') "
+			 . "  AND (date BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
 		
@@ -202,14 +198,12 @@ class Dataproxy_forum extends DataproxyDriver {
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['id'];
 			$entry['title']     = stripslashes($A['subject']);
 			$entry['uri']       = $_CONF['site_url'] . '/forum/viewtopic.php?showtopic='
 								. $entry['id'];
 			$entry['date']      = $A['date'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		

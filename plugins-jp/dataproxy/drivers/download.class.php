@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/download.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'download.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_download extends DataproxyDriver
+class dpxyDriver_Download extends dpxyDriver
 {
-	public $driver_name = 'download';
-	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
@@ -70,11 +68,12 @@ class Dataproxy_download extends DataproxyDriver
 			$pid = 0;
 		}
 		
-		$sql = "SELECT * FROM {$_TABLES['download_category']} "
+		$sql = "SELECT * "
+			 . "  FROM {$_TABLES['download_category']} "
 			 . "WHERE (pid = '" . addslashes($pid) . "') ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 		}
 		
 		$sql .= "ORDER BY cid";
@@ -86,7 +85,6 @@ class Dataproxy_download extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = (int) $A['cid'];
 			$entry['pid']       = (int) $A['pid'];
 			$entry['title']     = stripslashes($A['title']);
@@ -94,7 +92,6 @@ class Dataproxy_download extends DataproxyDriver
 								. $entry['id'];
 			$entry['date']      = FALSE;
 			$entry['image_uri'] = $A['imgurl'];
-			
 			$entries[] = $entry;
 		}
 		
@@ -118,15 +115,15 @@ class Dataproxy_download extends DataproxyDriver
 		$retval = array();
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['download_filedetail']} AS f "
-			 . "LEFT JOIN {$_TABLES['download_category']} AS c "
-			 . "ON f.cid = c.cid "
+			 . "  FROM {$_TABLES['download_filedetail']} AS f "
+			 . "  LEFT JOIN {$_TABLES['download_category']} AS c "
+			 . "    ON f.cid = c.cid "
 			 . "WHERE (lid = '" . addslashes($id) . "') "
-			 . "AND (is_released = 1) "
-			 . "AND (date <= UNIX_TIMESTAMP(NOW())) ";
+			 . "  AND (is_released = 1) "
+			 . "  AND (date <= UNIX_TIMESTAMP(NOW())) ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -145,9 +142,11 @@ class Dataproxy_download extends DataproxyDriver
 								 . $id;
 			$retval['date']      = (int) $A['date'];
 			$retval['image_uri'] = $A['logourl'];
+			
 			if (empty($retval['image_uri'])) {
 				$retval['image_uri'] = FALSE;
 			}
+			
 			$retval['raw_data']  = $A;
 		}
 		
@@ -170,15 +169,15 @@ class Dataproxy_download extends DataproxyDriver
 		$entries = array();
 		
 		$sql = "SELECT lid, f.title, logourl, date "
-			 . "FROM {$_TABLES['download_filedetail']} AS f "
-			 . "LEFT JOIN {$_TABLES['download_category']} AS c "
-			 . "ON f.cid = c.cid "
+			 . "  FROM {$_TABLES['download_filedetail']} AS f "
+			 . "  LEFT JOIN {$_TABLES['download_category']} AS c "
+			 . "    ON f.cid = c.cid "
 			 . "WHERE (f.cid = '" . addslashes($cid) . "') "
-			 . "AND (is_released = 1) "
-			 . "AND (date <= UNIX_TIMESTAMP(NOW())) ";
+			 . "  AND (is_released = 1) "
+			 . "  AND (date <= UNIX_TIMESTAMP(NOW())) ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -189,7 +188,6 @@ class Dataproxy_download extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/download/index.php?id='
@@ -217,24 +215,25 @@ class Dataproxy_download extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT lid, f.title, logourl, date "
-			 . "FROM {$_TABLES['download_filedetail']} AS f "
-			 . "LEFT JOIN {$_TABLES['download_category']} AS c "
-			 . "ON f.cid = c.cid "
+			 . "  FROM {$_TABLES['download_filedetail']} AS f "
+			 . "  LEFT JOIN {$_TABLES['download_category']} AS c "
+			 . "    ON f.cid = c.cid "
 			 . "WHERE (is_released = 1) "
-			 . "AND (date <= UNIX_TIMESTAMP(NOW())) "
-			 . "AND (date BETWEEN '$this->startdate' AND '$this->enddate') ";
+			 . "  AND (date <= UNIX_TIMESTAMP(NOW())) "
+			 . "  AND (date BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') ";
 		
 		if (!empty($cid)) {
 			$sql .= "AND (f.cid = '" . addslashes($cid) . "') ";
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -245,7 +244,6 @@ class Dataproxy_download extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/download/index.php?id='

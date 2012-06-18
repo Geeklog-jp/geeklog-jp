@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/comments.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,11 +35,20 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'comment.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_comments extends DataproxyDriver
+class dpxyDriver_Comments extends dpxyDriver
 {
-	public $driver_name = 'comments';
+	/**
+	* Returns the location of index.php of each plugin
+	*
+	* @return mixed uri(string) / FALSE(no entry)
+	*/
+	public function getEntryPoint()
+	{
+		return FALSE;
+	}
 	
-	public function getChildCategories($pid = FALSE, $all_langs = FALSE) {
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
+	{
 		global $_CONF, $_TABLES, $LANG_SMAP;
 		
 		$entries = array();
@@ -48,8 +57,9 @@ class Dataproxy_comments extends DataproxyDriver
 			return $entries;
 		}
 		
-		$supported_drivers = $this->getAllDriverNames();
-		$sql = "SELECT DISTINCT type FROM {$_TABLES['comments']} "
+		$supported_drivers = Dataproxy::getAllDriverNames();
+		$sql = "SELECT DISTINCT type "
+			 . "  FROM {$_TABLES['comments']} "
 			 . "ORDER BY type";
 		$result = DB_query($sql);
 		
@@ -66,7 +76,6 @@ class Dataproxy_comments extends DataproxyDriver
 				$entry['uri']       = FALSE;
 				$entry['date']      = FALSE;
 				$entry['image_uri'] = FALSE;
-				
 				$entries[] = $entry;
 			}
 		}
@@ -90,7 +99,7 @@ class Dataproxy_comments extends DataproxyDriver
 		$retval = array();
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['comments']} "
+			 . "  FROM {$_TABLES['comments']} "
 			 . "WHERE (cid = '" . addslashes($id) . "') ";
 		$result = DB_query($sql);
 		
@@ -128,12 +137,12 @@ class Dataproxy_comments extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (!in_array($category, $this->getAllDriverNames())) {
+		if (!in_array($category, Dataproxy::getAllDriverNames())) {
 			return $entries;
 		}
 		
 		$sql = "SELECT cid, title, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['comments']} "
+			 . "  FROM {$_TABLES['comments']} "
 			 . "WHERE (type = '" . addslashes($category) . "') "
 			 . "ORDER BY day DESC";
 		$result = DB_query($sql);
@@ -144,14 +153,12 @@ class Dataproxy_comments extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['cid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = $_CONF['site_url'] . '/comment.php?mode=view&amp;cid='
 								. $entry['id'];
 			$entry['date']      = $A['day'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		
@@ -173,24 +180,27 @@ class Dataproxy_comments extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (!empty($category) AND !in_array($category, $this->getAllDriverNames())) {
+		if (!empty($category) AND
+			!in_array($category, Dataproxy::getAllDriverNames())) {
 			return $entries;
 		}
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT cid, title, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['comments']} "
+			 . "  FROM {$_TABLES['comments']} "
 			 . "WHERE (1 = 1) ";
 		
 		if (!empty($category)) {
 			$sql .= "AND (type = '" . addslashes($category) . "') ";
 		}
 		
-		$sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '{$this->startdate}' AND '{$this->enddate}') "
-			 . "ORDER BY date DESC";
+		$sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '"
+			 .  Dataproxy::$startDate . "' AND '" . Dataproxy::$endDate
+			 .  "') "
+			 .  "ORDER BY date DESC";
 		$result = DB_query($sql);
 		
 		if (DB_error()) {
@@ -205,7 +215,6 @@ class Dataproxy_comments extends DataproxyDriver
 								. $entry['id'];
 			$entry['date']      = $A['day'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		

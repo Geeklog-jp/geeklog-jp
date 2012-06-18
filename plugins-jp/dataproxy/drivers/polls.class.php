@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/polls.class.php                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'polls.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_polls extends DataproxyDriver
+class dpxyDriver_Polls extends dpxyDriver
 {
-	public $driver_name = 'polls';
-	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
@@ -65,13 +63,13 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		$retval = array();
 		
-		if (version_compare(VERSION, '1.5.0') >= 0) {
+		if (Dataproxy::$isGL150) {
 			$sql = "SELECT * "
-				 . "FROM {$_TABLES['polltopics']} "
+				 . "  FROM {$_TABLES['polltopics']} "
 				 . "WHERE (pid = '" . addslashes($id) . "') ";
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('AND', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 			}
 			
 			$result = DB_query($sql);
@@ -88,23 +86,19 @@ class Dataproxy_polls extends DataproxyDriver
 				$retval['title']     = $A['topic'];
 				$retval['uri']       = $_CONF['site_url']
 									 . '/polls/index.php?pid=' . urlencode($id);
-				
-				if ($this->_isGL170) {
-					$retval['date'] = strtotime($A['modified']);
-				} else {
-					$retval['date'] = strtotime($A['date']);
-				}
-				
+				$retval['date']      = Dataproxy::$isGL170
+									 ? strtotime($A['modified'])
+									 : strtotime($A['date']);
 				$retval['image_uri'] = FALSE;
 				$retval['raw_data']  = $A;
 			}
 		} else {
 			$sql = "SELECT * "
-				 . "FROM {$_TABLES['pollquestions']} "
+				 . "  FROM {$_TABLES['pollquestions']} "
 				 . "WHERE (qid = '" . addslashes($id) . "') ";
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('AND', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 			}
 			
 			$result = DB_query($sql);
@@ -132,6 +126,26 @@ class Dataproxy_polls extends DataproxyDriver
 	}
 	
 	/**
+	* Returns meta data of child categories
+	*
+	* @param $pid       int/string/boolean: id of the parent category.  FALSE
+	*                   means the top category (with no parent)
+	* @param $all_langs boolean: TRUE = all languages, FALSE = current language
+	* @return array(
+	*   'id'        => $id (string),
+	*   'pid'       => $pid (string: id of its parent)
+	*   'title'     => $title (string),
+	*   'uri'       => $uri (string),
+	*   'date'      => $date (int: Unix timestamp),
+	*   'image_uri' => $image_uri (string)
+	* )
+	*/
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
+	{
+		return array();
+	}
+	
+	/**
 	* Returns an array of (
 	*   'id'        => $id (string),
 	*   'title'     => $title (string),
@@ -146,17 +160,17 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (version_compare(VERSION, '1.5.0') >= 0) {
-			if ($this->_isGL170) {
+		if (Dataproxy::$isGL150) {
+			if (Dataproxy::$isGL170) {
 				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(modified) AS day "
-					 . "FROM {$_TABLES['polltopics']} ";
+					 . "  FROM {$_TABLES['polltopics']} ";
 			} else {
 				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
-					 . "FROM {$_TABLES['polltopics']} ";
+					 . "  FROM {$_TABLES['polltopics']} ";
 			}
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('WHERE', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('WHERE', Dataproxy::uid());
 			}
 			
 			$sql .= " ORDER BY pid";
@@ -178,10 +192,10 @@ class Dataproxy_polls extends DataproxyDriver
 			}
 		} else {
 			$sql = "SELECT qid, question, UNIX_TIMESTAMP(date) AS day "
-				 . "FROM {$_TABLES['pollquestions']} ";
+				 . "  FROM {$_TABLES['pollquestions']} ";
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('WHERE', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('WHERE', Dataproxy::uid());
 			}
 			
 			$sql .= " ORDER BY qid";
@@ -221,26 +235,29 @@ class Dataproxy_polls extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
-		$sql_date = "AND (UNIX_TIMESTAMP(date) BETWEEN '{$this->startdate}' AND '{$this->enddate}') ";
+		$sql_date = "AND (UNIX_TIMESTAMP(date) BETWEEN '"
+				  . Dataproxy::$startDate . "' AND '" . Dataproxy::$endDate
+				  . "') ";
 		
-		if (version_compare(VERSION, '1.5.0') >= 0) {
-			if ($this->_isGL170) {
+		if (Dataproxy::$isGL150) {
+			if (Dataproxy::$isGL170) {
 				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(modified) AS day "
-					 . "FROM {$_TABLES['polltopics']} "
-					 . "WHERE (1 = 1) "
-					 . "AND (UNIX_TIMESTAMP(modified) BETWEEN '$this->startdate' AND '$this->enddate') ";
+					 . "  FROM {$_TABLES['polltopics']} "
+					 . "WHERE (UNIX_TIMESTAMP(modified) BETWEEN '"
+					 . Dataproxy::$startDate . "' AND '" . Dataproxy::$endDate
+					 . "') ";
 			} else {
 				$sql = "SELECT pid, topic, UNIX_TIMESTAMP(date) AS day "
-					 . "FROM {$_TABLES['polltopics']} "
+					 . "  FROM {$_TABLES['polltopics']} "
 					 . "WHERE (1 = 1) " . $sql_date;
 			}
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('AND', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 			}
 			
 			$sql .= " ORDER BY pid";
@@ -265,8 +282,8 @@ class Dataproxy_polls extends DataproxyDriver
 				 . "FROM {$_TABLES['pollquestions']} "
 				 . "WHERE (1 = 1) " . $sql_date;
 			
-			if ($this->uid > 0) {
-				$sql .= COM_getPermSQL('AND', $this->uid);
+			if (!Dataproxy::isRoot()) {
+				$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 			}
 			
 			$sql .= " ORDER BY qid";

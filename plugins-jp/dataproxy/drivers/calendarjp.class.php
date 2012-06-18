@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'calendarjp.class.php') !== false) 
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_calendarjp extends DataproxyDriver
+class dpxyDriver_Calendarjp extends dpxyDriver
 {
-	public $driver_name = 'calendarjp';
-	
 	/**
 	* Returns the location of index.php of each plugin
 	*/
@@ -101,8 +99,8 @@ class Dataproxy_calendarjp extends DataproxyDriver
 			 . "FROM {$_TABLES['eventsjp']} "
 			 . "WHERE (eid = '" . addslashes($id) . "') ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSql('AND', Dataproxy::uid());
 		}
 		
 		$result = DB_query($sql);
@@ -145,8 +143,8 @@ class Dataproxy_calendarjp extends DataproxyDriver
 			 . "FROM {$_TABLES['eventsjp']} "
 			 . "WHERE (event_type = '" . addslashes($category) . "') ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSql('AND', Dataproxy::uid());
 		}
 		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
@@ -188,21 +186,23 @@ class Dataproxy_calendarjp extends DataproxyDriver
 		
 		$entries = array();
 
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT eid, title, UNIX_TIMESTAMP(datestart) AS day1, "
 			 . "  UNIX_TIMESTAMP(timestart) AS day2 "
 			 . "FROM {$_TABLES['eventsjp']} "
-			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '{$this->startdate}' AND '{$this->enddate}') ";
+			 . "WHERE (UNIX_TIMESTAMP(datestart) BETWEEN '"
+			 . Dataproxy::$startDate . "' AND '" . Dataproxy::$endDate
+			 . "') ";
 		
 		if (!empty($event_type)) {
 			$sql .= "AND (event_type = '" . addslashes($event_type) . "') ";
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSql('AND', Dataproxy::uid());
 		}
 		
 		$sql .= " ORDER BY day1 DESC, day2 DESC";
@@ -212,16 +212,14 @@ class Dataproxy_calendarjp extends DataproxyDriver
 			return $entries;
 		}
 		
-		while (($A = DB_fetchArray($result, false)) !== false) {
+		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['eid'];
 			$entry['title']     = stripslashes( $A['title'] );
 			$entry['uri']       = $_CONF['site_url'] . '/calendarjp/event.php?eid='
 								. $entry['id'];
 			$entry['date']      = (int) $A['day1'] + (int) $A['day2'];
-			$entry['image_uri'] = false;
-			
+			$entry['image_uri'] = FALSE;
 			$entries[] = $entry;
 		}
 		

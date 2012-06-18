@@ -8,7 +8,7 @@
 // |                                                                           |
 // | This file provides helper functions for the automatic plugin install.     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2011 by the following authors:                         |
+// | Copyright (C) 2009-2012 by the following authors:                         |
 // |                                                                           |
 // | Authors: Hiroron           - hiroron AT hiroron DOT com                   |
 // |          mystral-kk        - geeklog AT mystral-kk DOT net                |
@@ -48,7 +48,7 @@ function plugin_autoinstall_dataproxy($pi_name) {
 	global $_DPXY_CONF;
 	
     $pi_name         = 'dataproxy';
-    $pi_display_name = 'DataProxy';
+    $pi_display_name = 'Dataproxy';
     $pi_admin        = $pi_display_name . ' Admin';
 
     $info = array(
@@ -89,32 +89,25 @@ function plugin_autoinstall_dataproxy($pi_name) {
 /**
 * Check if the plugin is compatible with this Geeklog version
 *
-* @param    string  $pi_name    Plugin name
-* @return   boolean             TRUE: plugin compatible; FALSE: not compatible
+* @param    string   $pi_name    Plugin name
+* @return   boolean              TRUE: plugin compatible; FALSE: not compatible
 */
 function plugin_compatible_with_this_version_dataproxy($pi_name) {
     global $_CONF, $_DB_dbms;
 
-    // check if we support the DBMS the site is running on
-//    $dbFile = $_CONF['path'] . 'plugins/' . $pi_name . '/sql/'
-//            . $_DB_dbms . '_install.php';
-//    if (! file_exists($dbFile)) {
-//        return FALSE;
-//    }
-
-    if (! function_exists('SEC_getGroupDropdown')) {
+    if (!function_exists('SEC_getGroupDropdown')) {
         return FALSE;
     }
 
-    if (! function_exists('SEC_createToken')) {
+    if (!function_exists('SEC_createToken')) {
         return FALSE;
     }
 
-    if (! function_exists('COM_showMessageText')) {
+    if (!function_exists('COM_showMessageText')) {
         return FALSE;
     }
 
-    if (! function_exists('COM_setLangIdAndAttribute')) {
+    if (!function_exists('COM_setLangIdAndAttribute')) {
         return FALSE;
     }
 

@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/dokuwiki.class.php                      |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'dokuwiki.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_dokuwiki extends DataproxyDriver
+class dpxyDriver_Dokuwiki extends dpxyDriver
 {
-	public $driver_name = 'dokuwiki';
-	
 	/**
 	* Returns the location of index.php of each plugin
 	*/
@@ -48,6 +46,10 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		return $_CONF['site_url'] . '/dokuwiki/doku.php';
 	}
 	
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
+	{
+		return array();
+	}
 	
 	/**
 	* Returns array of (
@@ -137,8 +139,8 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 			$full_path = $data_path . DIRECTORY_SEPARATOR . $entry_name;
 			clearstatcache();
 			
-			if (is_file($full_path)
-			 AND preg_match("/^(.*)(\.txt)$/i", $entry_name, $match)) {
+			if (is_file($full_path) AND
+				preg_match('/^(.*)(\.txt)$/i', $entry_name, $match)) {
 				$entry = array();
 				$entry['id']    = $match[1];
 				$entry['title'] = urldecode($entry['id']);
@@ -165,7 +167,6 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 				clearstatcache();
 				$entry['date']      = filemtime($full_path);
 				$entry['image_uri'] = FALSE;
-				
 				$entries[] = $entry;
 			}
 		}
@@ -190,7 +191,7 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 		
 		$entries = array();
 		
-		// Collect all Dokuwiki entries since Dokuwiki does no access control.
+		// Collects all Dokuwiki entries since Dokuwiki does no access control.
 		$base_path = $_CONF['path_html'] . substr($_DW_CONF['public_dir'], 1);
 		clearstatcache();
 		
@@ -213,22 +214,24 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 			return $entries;
 		}
 		
-		if (empty($this->startdate) || empty($this->enddate)) return $entries;
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
+			return $entries;
+		}
 		
 		while (($entry_name = readdir($dh)) !== FALSE) {
 			$full_path = $data_path . DIRECTORY_SEPARATOR . $entry_name;
 			$file_time = filemtime($full_path);
 			
-			if (($file_time < $this->startdate) OR ($file_time > $this->enddate)) {
+			if (($file_time < Dataproxy::$startDate) OR
+				($file_time > Dataproxy::$endDate)) {
 				continue;
 			}
 			
 			clearstatcache();
 			
-			if (is_file($full_path)
-			 AND preg_match("/^(.*)(\.txt)$/i", $entry_name, $match)) {
+			if (is_file($full_path) AND
+				preg_match('/^(.*)(\.txt)$/i', $entry_name, $match)) {
 				$entry = array();
-				
 				$entry['id']    = $match[1];
 				$entry['title'] = urldecode($entry['id']);
 				
@@ -254,7 +257,6 @@ class Dataproxy_dokuwiki extends DataproxyDriver
 				clearstatcache();
 				$entry['date']      = $file_time;
 				$entry['image_uri'] = FALSE;
-				
 				$entries[] = $entry;
 			}
 		}
