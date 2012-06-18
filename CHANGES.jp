@@ -1,3 +1,11 @@
+2012-06-18  Kenji ITO  <mystralkk>
+
+	* dataproxyプラグインをGeeklog-2.0.0に対応させました。
+
+	* sitemapプラグインをGeeklog-2.0.0に対応させました。
+
+	* dbmanプラグインをGeeklog-2.0.0に対応させました。
+
 2012-06-17  Kenji ITO  <mystralkk>
 
 	* nmoxqrblockプラグインをGeeklog-2.0.0に対応させました。
