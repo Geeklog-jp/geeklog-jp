@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/sitemap/index.php                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -40,19 +40,23 @@ if (!defined('XHTML')) {
 // Checks if user has right to access this page
 $uid = 1;
 
-if (isset($_USER['uid'])) {
-	$uid = $_USER['uid'];
+if (isset($_USER['uid']) AND is_numeric($_USER['uid'])) {
+	$uid = (int) $_USER['uid'];
 } else {
 	$_USER['uid']   = 1;
 	$_USER['theme'] = $_CONF['theme'];
 }
 
-if (($_SMAP_CONF['anon_access'] === FALSE) AND ($uid == 1)) {
-    // Anonymous user is not allwed to access this page
+if (($_SMAP_CONF['anon_access'] === FALSE) AND ($uid === 1)) {
+    // Anonymous user is not allowed to access this page
 	echo COM_refresh($_CONF['site_url']);
 	exit;
 } else if (!in_array('dataproxy', $_PLUGINS)) {
     COM_errorLog(SITEMAP_str('dataproxy_unavailable'));
+	echo COM_refresh($_CONF['site_url']);
+	exit;
+} else if (!in_array('sitemap', $_PLUGINS)) {
+    COM_errorLog(SITEMAP_str('sitemap_unavailable'));
 	echo COM_refresh($_CONF['site_url']);
 	exit;
 }
@@ -65,7 +69,7 @@ if (($_SMAP_CONF['anon_access'] === FALSE) AND ($uid == 1)) {
 * Returns a selector to choose data source
 */
 function SITEMAP_getSelectForm($selected = 'all') {
-	global $_CONF, $_SMAP_CONF, $LANG_SMAP, $dataproxy;
+	global $_CONF, $_SMAP_CONF, $LANG_SMAP;
 	
 	$this_script = $_CONF['site_url'] . '/sitemap/index.php';
 	
@@ -73,22 +77,22 @@ function SITEMAP_getSelectForm($selected = 'all') {
 			. '  <select name="type" onchange="this.form.submit()">' . LB
 			. '    <option value="all"';
 	
-	if ($selected == 'all') {
+	if ($selected === 'all') {
 		$retval .= ' selected="selected"';
 	}
 	
 	$retval .= '>' . SITEMAP_str('all') . '</option>' . LB;
 	$disp_orders = array();
 	
-	foreach ($dataproxy->getAllDriverNames() as $driver) {
+	foreach (Dataproxy::getAllDriverNames() as $driver) {
 		$order = $_SMAP_CONF['order_' . $driver];
 		$disp_orders[$order] = $driver;
 	}
 	
 	if (count($disp_orders) > 0) {
 		foreach ($disp_orders as $driver_name) {
-			if (empty($driver_name)
-			 OR ($_SMAP_CONF['sitemap_' . $driver_name] === FALSE)) {
+			if (empty($driver_name) OR
+				($_SMAP_CONF['sitemap_' . $driver_name] === FALSE)) {
 				continue;
 			}
 			
@@ -115,14 +119,14 @@ function SITEMAP_getSelectForm($selected = 'all') {
 /**
 * Builds items belonging to a category
 *
-* @param $T       reference to Template object
-* @param $driver  reference to driver object
-* @param $pid     id of parent category
-* @return         array of ( num_items, html )
+* @param   object  $T       reference to Template object
+* @param   object  $driver  reference to driver object
+* @param   mixed   $pid     id of parent category
+* @return  array of (num_items, html)
 *
 * @destroy        $T->var( 'items', 'item', 'item_list' )
 */
-function SITEMAP_buildItems(&$driver, $pid) {
+function SITEMAP_buildItems($driver, $pid) {
 	global $_SMAP_CONF, $T;
 	
 	$html = '';
@@ -133,8 +137,9 @@ function SITEMAP_buildItems(&$driver, $pid) {
 	
 	if ($num_items > 0) {
 		foreach ($items as $item) {
-			// Static pages
-			if ($driver->getDriverName() === 'staticpages') {
+			list(, $class_name) = explode('_', get_class($driver), 2);
+			
+			if ($class_name === 'Staticpages') {
 				if (SITEMAP_isExcepted($item['id'], $sp_excepts)) {
 					$num_items --;
 					continue;
@@ -142,8 +147,9 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				
 				$temp = $driver->getItemById($item['id']);
 				$raw  = $temp['raw_data'];
-				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
-				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
+				
+				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1)) OR
+					(($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					$num_items --;
 					continue;
 				}
@@ -153,10 +159,11 @@ function SITEMAP_buildItems(&$driver, $pid) {
 				  . $driver->escape($item['title']) . '</a>';
 			$T->set_var('item', $link);
 			
-			if (($item['date'] !== FALSE) AND ($item['date'] != '')) {
+			if (($item['date'] !== FALSE) AND ($item['date'] !== '')) {
 				$date = date($_SMAP_CONF['date_format'], $item['date']);
 				$T->set_var('date', $date);
 			}
+			
 			$T->parse('items', 't_item', TRUE);
 		}
 		
@@ -170,14 +177,14 @@ function SITEMAP_buildItems(&$driver, $pid) {
 /**
 * Builds a category and items belonging to it
 *
-* @param $T       reference to Template object
-* @param $driver  reference to driver object
-* @param $cat     array of category data
-* @return         string HTML
+* @param   object  $T       reference to Template object
+* @param   object  $driver  reference to driver object
+* @param   array   $cat     array of category data
+* @return  string           HTML
 *
 * @destroy        $T->var( 'child_categories', 'category', 'num_items' )
 */
-function SITEMAP_buildCategory(&$driver, $cat) {
+function SITEMAP_buildCategory($driver, $cat) {
 	global $T;
 	
 	$num_total_items = 0;
@@ -219,7 +226,7 @@ function SITEMAP_buildCategory(&$driver, $cat) {
 	// Builds {category}
 	if ($cat['uri'] !== false) {
 		$category_link = '<a href="' . $cat['uri'] . '">'
-			  . $driver->escape($cat['title']) . '</a>';
+					   . $driver->escape($cat['title']) . '</a>';
 	} else {
 		$category_link = $driver->escape($cat['title']);
 	}
@@ -227,7 +234,6 @@ function SITEMAP_buildCategory(&$driver, $cat) {
 	$T->set_var('category', $category_link);
 	$T->parse('category', 't_category');
 	$retval = $T->finish($T->get_var('category'));
-	
 	$T->set_var('child_categories', $temp);		// Pop $T->var('child_categories')
 	
 	return array($num_total_items, $retval);
@@ -249,7 +255,7 @@ if (isset($_POST['type'])) {
 // Decides templates to be used
 $theme = $_CONF['theme'];
 
-if (isset( $_USER['theme'] ) AND in_array($_USER['theme'], COM_getThemes())) {
+if (isset($_USER['theme']) AND in_array($_USER['theme'], COM_getThemes())) {
 	$theme = $_USER['theme'];
 }
 
@@ -276,10 +282,10 @@ $T->set_var('xhtml', XHTML);
 // Collects data sources
 
 // $dataproxy is a global object in this script and functions.inc
-$dataproxy = new Dataproxy($uid);
+$dataproxy = Dataproxy::getInstance($uid);
 $disp_orders = array();
 
-foreach ($dataproxy->getAllDriverNames() as $driver) {
+foreach (Dataproxy::getAllDriverNames() as $driver) {
 	$order = $_SMAP_CONF['order_' . $driver];
 	$disp_orders[$order] = $driver;
 }
@@ -287,8 +293,8 @@ foreach ($dataproxy->getAllDriverNames() as $driver) {
 ksort($disp_orders);
 
 foreach ($disp_orders as $disp_order => $driver_name) {
-	if (($_SMAP_CONF['sitemap_' . $driver_name] === FALSE)
-	 OR (($selected !== 'all') AND ($selected !== $driver_name))) {
+	if (($_SMAP_CONF['sitemap_' . $driver_name] === FALSE) OR
+		(($selected !== 'all') AND ($selected !== $driver_name))) {
 		continue;
 	}
 	
@@ -304,11 +310,10 @@ foreach ($disp_orders as $disp_order => $driver_name) {
 	}
 	
 	$T->set_var('lang_data_source', $entry);
-	
 	$categories = $driver->getChildCategories(false);
 	
 	if (count($categories) === 0) {
-		list($num_items, $items) = SITEMAP_buildItems($driver, false);
+		list($num_items, $items) = SITEMAP_buildItems($driver, FALSE);
 		$T->set_var('category_list', $items);
 	} else {
 		$cats = '';
@@ -324,14 +329,24 @@ foreach ($disp_orders as $disp_order => $driver_name) {
 	}
 	
 	$T->set_var('num_items', $num_items);
-	$T->parse('data_sources', 't_data_source', true);
+	$T->parse('data_sources', 't_data_source', TRUE);
 }
 
 $T->set_var('lang_sitemap', SITEMAP_str('sitemap'));
 $T->set_var('selector', SITEMAP_getSelectForm($selected));
 $T->parse('output', 't_index');
+$content = $T->finish($T->get_var('output'));
 
-$display = COM_siteHeader()
-		 . $T->finish($T->get_var('output'))
-		 . COM_siteFooter();
-echo $display;
+if (is_callable('COM_createHTMLDocument')) {
+	$display = COM_createHTMLDocument($content);
+} else {
+	$display = COM_siteHeader()
+			 . $content
+			 . COM_siteFooter();
+}
+
+if (is_callable('COM_output')) {
+	COM_output($display);
+} else {
+	echo $display;
+}
