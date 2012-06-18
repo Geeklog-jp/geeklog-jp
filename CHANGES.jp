@@ -13,7 +13,9 @@
 2012-06-05  Kazuko Tsuchitani  <Tsuchi>
 
 	* phpblock_lastarticle.php 2.0対応しました。
-	* phpblock_lastarticle.php PHPブロック使用で画面がくずれる問題を修正しました。
+
+	* phpblock_lastarticle.php PHPブロック使用で画面がくずれる問題を修正
+	  しました。
 
 2012-06-03  Yoshinori Tahara  <dengen>
 
