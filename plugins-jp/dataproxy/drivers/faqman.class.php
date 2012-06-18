@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/faqman.class.php                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'faqman.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_faqman extends DataproxyDriver
+class dpxyDriver_Faqman extends dpxyDriver
 {
-	public $driver_name = 'faqman';
-	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
@@ -59,7 +57,8 @@ class Dataproxy_faqman extends DataproxyDriver
 			return $entries;
 		}
 		
-		$sql = "SELECT catID, name FROM {$_TABLES['faq_categories']} "
+		$sql = "SELECT catID, name "
+			 . "  FROM {$_TABLES['faq_categories']} "
 			 . "ORDER BY catID";
 		$result = DB_query($sql);
 		
@@ -69,7 +68,6 @@ class Dataproxy_faqman extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['catID'];
 			$entry['pid']       = FALSE;
 			$entry['title']     = stripslashes($A['name']);
@@ -77,7 +75,6 @@ class Dataproxy_faqman extends DataproxyDriver
 								. $entry['id'];
 			$entry['date']      = FALSE;
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		
@@ -101,7 +98,7 @@ class Dataproxy_faqman extends DataproxyDriver
 		$retval = array();
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['faq_topics']} "
+			 . "  FROM {$_TABLES['faq_topics']} "
 			 . "WHERE (topicID = '" . addslashes($id) . "') ";
 		$result = DB_query($sql);
 		
@@ -140,7 +137,7 @@ class Dataproxy_faqman extends DataproxyDriver
 		$entries = array();
 		
 		$sql = "SELECT topicID, question "
-			 . "FROM {$_TABLES['faq_topics']} "
+			 . "  FROM {$_TABLES['faq_topics']} "
 			 . "WHERE (catID = '" . addslashes($cid) . "') "
 			 . "ORDER BY topicID";
 		$result = DB_query($sql);
@@ -151,7 +148,6 @@ class Dataproxy_faqman extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = stripslashes($A['topicID']);
 			$entry['title']     = stripslashes($A['question']);
 			$entry['uri']       = $_CONF['site_url'] . '/faqman/index.php?op=view&amp;t='

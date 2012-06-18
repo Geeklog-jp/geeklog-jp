@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/mediagallery.class.php                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,20 +35,17 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'mediagallery.class.php') !== FALSE
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_mediagallery extends DataproxyDriver
+class dpxyDriver_Mediagallery extends dpxyDriver
 {
-	public $driver_name = 'mediagallery';
-	
 	public function isLoginRequired() {
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
 		static $retval = NULL;
 		
-		if (is_null($retval)) {
+		if ($retval === NULL) {
 			$sql = "SELECT config_value "
-				 . "FROM {$_TABLES['mg_config']} "
+				 . "  FROM {$_TABLES['mg_config']} "
 				 . "WHERE (config_name = 'loginrequired')";
-			
 			$result = DB_query($sql);
 			
 			if (DB_error()) {
@@ -90,7 +87,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
+		if (Dataproxy::isAnon() AND $this->isLoginRequired()) {
 			return $entries;
 		}
 		
@@ -99,11 +96,11 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		}
 		
 		$sql = "SELECT album_id, album_title, album_parent, last_update "
-			 . "FROM {$_TABLES['mg_albums']} "
+			 . "  FROM {$_TABLES['mg_albums']} "
 			 . "WHERE (album_parent = '" . addslashes($pid) . "') ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND ', $this->uid)
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND ', Dataproxy::uid())
 				 .  " AND (hidden = '0') ";
 		}
 		
@@ -116,7 +113,6 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['album_id'];
 			$entry['pid']       = $A['album_parent'];
 			$entry['title']     = stripslashes($A['album_title']);
@@ -146,7 +142,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		$retval = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
+		if (Dataproxy::isAnon() AND $this->isLoginRequired()) {
 			return $retval;
 		}
 
@@ -194,12 +190,12 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() === TRUE)) {
+		if (Dataproxy::isAnon() AND $this->isLoginRequired()) {
 			return $entries;
 		}
 		
 		$sql = "SELECT media_id "
-			 . "FROM {$_TABLES['mg_media_albums']} "
+			 . "  FROM {$_TABLES['mg_media_albums']} "
 			 . "WHERE (album_id ='" . addslashes($category) . "') "
 			 . "ORDER BY media_order";
 		$result = DB_query($sql);
@@ -219,7 +215,7 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		}
 		
 		$sql = "SELECT media_id, media_title, media_time "
-			 . "FROM {$_TABLES['mg_media']} "
+			 . "  FROM {$_TABLES['mg_media']} "
 			 . "WHERE (media_id IN (" . implode(',', $media_ids) . "))";
 		$result = DB_query($sql);
 		
@@ -260,16 +256,16 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (($this->uid == 1) AND ($this->isLoginRequired() == TRUE)) {
+		if (Dataproxy::isAnon() AND $this->isLoginRequired()) {
 			return $entries;
 		}
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT media_id "
-			 . "FROM {$_TABLES['mg_media_albums']} "
+			 . "  FROM {$_TABLES['mg_media_albums']} "
 			 . "WHERE (album_id ='" . addslashes($category) . "') "
 			 . "ORDER BY media_order";
 		$result = DB_query($sql);
@@ -289,9 +285,10 @@ class Dataproxy_mediagallery extends DataproxyDriver
 		}
 		
 		$sql = "SELECT media_id, media_title, media_time "
-			 . "FROM {$_TABLES['mg_media']} "
+			 . "  FROM {$_TABLES['mg_media']} "
 			 . "WHERE (media_id IN (" . implode(',', $media_ids) . "))"
-			 . "AND (media_time BETWEEN '$this->startdate' AND '$this->enddate') ";
+			 . "  AND (media_time BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') ";
 		$result = DB_query($sql);
 		
 		if (DB_error()) {
