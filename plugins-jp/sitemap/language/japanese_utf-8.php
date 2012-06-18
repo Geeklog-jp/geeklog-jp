@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/sitemap/language/japanese_utf-8.php                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -30,7 +30,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'japanese_utf-8.php') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'japanese_utf-8.php') !== FALSE) {
 	die('This file cannot be used on its own.');
 }
 
@@ -106,5 +106,8 @@ $LANG_SMAP = array(
 	'sp_except'         => '除外するページID（正規表現可。半角スペースで区切る）',
 	
 	// Since version 1.2.2
-	'dataproxy_unavailable'	=> 'エラーが発生しました。DataProxyプラグインがインストールされていないか、無効になっています。',
+	'dataproxy_unavailable'	=> 'エラーが発生しました。Dataproxyプラグインがインストールされていないか、無効になっています。',
+	
+	// Since version 2.0.0
+	'sitemap_unavailable'	=> 'エラーが発生しました。サイトマッププラグインがインストールされていないか、無効になっています。',
 );
