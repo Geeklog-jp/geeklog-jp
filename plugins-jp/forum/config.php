@@ -66,8 +66,8 @@ $CONF_FORUM['default_Topic_Datetime_format'] = $_CONF['shortdate']." ".$_CONF['t
 /* Number of characters of the topic contents when hovering over the topic post subject link */ 
 $CONF_FORUM['contentinfo_numchars'] = 256;
 
-/* Width of pop-up info window that is displayed when hovering over topic posts. Also refer to the CSS declaration 'info' */
-$CONF_FORUM['linkinfo_width'] = 70;
+/* Width of pop-up info window that is displayed when hovering over topic posts. */
+$CONF_FORUM['linkinfo_width'] = 40;
 
 /* Format style for quotes */
 $CONF_FORUM['quoteformat'] = "[QUOTE][u]Quote by: %s[/u][p]%s[/p][/QUOTE]";

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/downloads.class.php                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,10 +35,8 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'downloads.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_downloads extends DataproxyDriver
+class dpxyDriver_Downloads extends dpxyDriver
 {
-	public $driver_name = 'downloads';
-	
 	/*
 	* Returns the location of index.php of each plugin
 	*/
@@ -71,7 +69,7 @@ class Dataproxy_downloads extends DataproxyDriver
 		}
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['downloadcategories']} "
+			 . "  FROM {$_TABLES['downloadcategories']} "
 			 . "WHERE (pid = '" . addslashes($pid) . "') "
 			 . "  AND (is_enabled = 1) ";
 		
@@ -79,8 +77,8 @@ class Dataproxy_downloads extends DataproxyDriver
 			$sql .= COM_getLangSQL('cid', 'AND');
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid());
 		}
 		
 		$sql .= "ORDER BY corder";
@@ -92,7 +90,6 @@ class Dataproxy_downloads extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['cid'];
 			$entry['pid']       = $A['pid'];
 			$entry['title']     = stripslashes($A['title']);
@@ -100,7 +97,6 @@ class Dataproxy_downloads extends DataproxyDriver
 								. $entry['id'];
 			$entry['date']      = FALSE;
 			$entry['image_uri'] = $A['imgurl'];
-			
 			$entries[] = $entry;
 		}
 		
@@ -124,9 +120,9 @@ class Dataproxy_downloads extends DataproxyDriver
 		$retval = array();
 		
 		$sql = "SELECT * "
-			 . "FROM {$_TABLES['downloads']} AS f "
-			 . "LEFT JOIN {$_TABLES['downloadcategories']} AS c "
-			 . "  ON f.cid = c.cid "
+			 . "  FROM {$_TABLES['downloads']} AS f "
+			 . "  LEFT JOIN {$_TABLES['downloadcategories']} AS c "
+			 . "    ON f.cid = c.cid "
 			 . "WHERE (f.lid = '" . addslashes($id) . "') "
 			 . "  AND (c.is_enabled = 1) "
 			 . "  AND (f.is_released = 1) "
@@ -137,8 +133,8 @@ class Dataproxy_downloads extends DataproxyDriver
 			$sql .= COM_getLangSQL('cid', 'AND', 'c');
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -150,16 +146,17 @@ class Dataproxy_downloads extends DataproxyDriver
 		if (DB_numRows($result) == 1) {
 			$A = DB_fetchArray($result, FALSE);
 			$A = array_map('stripslashes', $A);
-			
 			$retval['id']        = $id;
 			$retval['title']     = $A['title'];
 			$retval['uri']       = $_CONF['site_url'] . '/downloads/index.php?id='
 								 . $id;
 			$retval['date']      = (int) $A['date'];
 			$retval['image_uri'] = $A['logourl'];
+			
 			if (empty($retval['image_uri'])) {
 				$retval['image_uri'] = FALSE;
 			}
+			
 			$retval['raw_data']  = $A;
 		}
 		
@@ -182,9 +179,9 @@ class Dataproxy_downloads extends DataproxyDriver
 		$entries = array();
 		
 		$sql = "SELECT lid, f.title, logourl, date "
-			 . "FROM {$_TABLES['downloads']} AS f "
-			 . "LEFT JOIN {$_TABLES['downloadcategories']} AS c "
-			 . "  ON f.cid = c.cid "
+			 . "  FROM {$_TABLES['downloads']} AS f "
+			 . "  LEFT JOIN {$_TABLES['downloadcategories']} AS c "
+			 . "    ON f.cid = c.cid "
 			 . "WHERE (f.cid = '" . addslashes($cid) . "') "
 			 . "  AND (c.is_enabled = 1) "
 			 . "  AND (f.is_released = 1) "
@@ -195,8 +192,8 @@ class Dataproxy_downloads extends DataproxyDriver
 			$sql .= COM_getLangSQL('cid', 'AND', 'c');
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -207,7 +204,6 @@ class Dataproxy_downloads extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = COM_buildUrl(
@@ -236,18 +232,19 @@ class Dataproxy_downloads extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT f.lid, f.title, f.logourl, f.date "
-			 . "FROM {$_TABLES['downloads']} AS f "
+			 . "  FROM {$_TABLES['downloads']} AS f "
 			 . "  LEFT JOIN {$_TABLES['downloadcategories']} AS c "
 			 . "    ON f.cid = c.cid "
 			 . "WHERE (f.is_released = 1) "
 			 . "  AND (f.is_listing = 1) "
 			 . "  AND (f.date <= UNIX_TIMESTAMP(NOW())) "
-			 . "  AND (f.date BETWEEN '$this->startdate' AND '$this->enddate') ";
+			 . "  AND (f.date BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') ";
 		
 		if (!empty($cid)) {
 			$sql .= "  AND (c.is_enabled = 1) "
@@ -258,8 +255,8 @@ class Dataproxy_downloads extends DataproxyDriver
 			}
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getPermSQL('AND', $this->uid, 2, 'c');
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getPermSQL('AND', Dataproxy::uid(), 2, 'c');
 		}
 		
 		$result = DB_query($sql);
@@ -270,7 +267,6 @@ class Dataproxy_downloads extends DataproxyDriver
 		
 		while (($A = DB_fetchArray($result, FALSE)) !== FALSE) {
 			$entry = array();
-			
 			$entry['id']        = $A['lid'];
 			$entry['title']     = stripslashes($A['title']);
 			$entry['uri']       = COM_buildUrl(

@@ -56,9 +56,6 @@ forum_chkUsercanAccess(true);
 
 $display = '';
 
-// Display Common headers
-$display .= gf_siteHeader();
-
 // Debug Code to show variables
 $display .= gf_showVariables();
 
@@ -140,17 +137,15 @@ if ($op == 'delchecked' && isset($_POST['chkrecid'])) {
     }
 }
 
-$report = new Template($CONF_FORUM['path_layout'] . 'forum/layout');
+$report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
 $report->set_file (array (
                   'report'         => 'reports/notifications.thtml',
                   'records'        => 'reports/notifications_line.thtml',
                   'outline_header' => 'forum_outline_header.thtml',
                   'outline_footer' => 'forum_outline_footer.thtml' ));
 
-$report->set_var ('xhtml', XHTML);
 $report->set_var ('imgset', $CONF_FORUM['imgset']);
 $report->set_var ('layout_url', $CONF_FORUM['layout_url']);
-$report->set_var ('site_url', $_CONF['site_url']);
 $report->set_var ('LANG_TITLE', $LANG_GF02['msg89']);
 $report->set_var ('select_forum', f_forumjump($_CONF['site_url'].'/forum/notify.php',$forum));
 
@@ -264,8 +259,7 @@ if ($nrows == 0) {
 }
 $report->parse ('output', 'report');
 $display .= $report->finish ($report->get_var('output'));
-// Display Common headers
-$display .= gf_siteFooter();
+$display = gf_createHTMLDocument($display);
 
 COM_output($display);
 ?>

@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/sitemap/functions.inc                                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,8 +31,8 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
-    die('This file can not be used on its own.');
+if (stripos($_SERVER['PHP_SELF'], 'functions.inc') !== FALSE) {
+    die('This file cannot be used on its own.');
 }
 
 // Language file Include
@@ -208,9 +208,10 @@ function plugin_upgrade_sitemap() {
 		
 			case '1.2.0':
 			case '1.2.1':
+			case '1.2.2':
 				DB_query("UPDATE {$_TABLES['features']} SET ft_descr = 'Sitemap Admin' WHERE (ft_name = 'sitemap.admin')");
 				DB_query("UPDATE {$_TABLES['groups']} SET grp_name = 'Sitemap Admin' WHERE (grp_name = 'sitemap Admin')");
-				$pi_version = '1.2.2';
+				$pi_version = '2.0.0';
 				break;
 			
 			default:
@@ -222,7 +223,7 @@ function plugin_upgrade_sitemap() {
 	// Update plugin info
 	
 	$sql = "UPDATE {$_TABLES['plugins']} "
-		 . "SET pi_version = '" . addslashes($_SMAP_CONF['pi_version']) . "' "
+		 . "  SET pi_version = '" . addslashes($_SMAP_CONF['pi_version']) . "' "
 		 . "WHERE (pi_name = 'sitemap')";
 	$result = DB_query($sql);
 	COM_errorLog("Sitemap plugin was successfully updated to version {$_SMAP_CONF['pi_version']}.");
@@ -302,20 +303,20 @@ function SITEMAP_saveConfig() {
 			} else if ($value === FALSE) {
 				$value = 'false';
 			}
-		
+			
 			// To prevent MySQL from trimming trailing spaces
 			if ($name == 'date_format') {
 				$value = '[' . $value . ']';
 			}
-		
+			
 			$name  = addslashes($name);
 			$value = addslashes($value);
-		
+			
 			$sql = "UPDATE {$_TABLES['smap_config']} "
 				 . "SET value = '{$value}' "
 				 . "WHERE (name = '{$name}')";
 			$result = DB_query($sql);
-		
+			
 			if (DB_error()) {
 				COM_errorLog(__FUNCTION__ . ': cannot save config.');
 			}
@@ -469,19 +470,18 @@ function SITEMAP_createGoogleSitemap() {
 			 . '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . LB;
 	
 	// Collects items
-	$dataproxy  = new Dataproxy(1);
-	$drivers    = $dataproxy->getAllDriverNames();
+	$dataproxy  = Dataproxy::getInstance(1);
 	$sp_excepts = explode(' ', $_SMAP_CONF['sp_except']);
 	
-	foreach ($drivers as $driver) {
-		if (($driver === 'trackback') OR ($driver === 'comments')
-		 OR ($_SMAP_CONF['gsmap_' . $driver] === FALSE)) {
+	foreach (Dataproxy::getAllDriverNames() as $driver) {
+		if (($driver === 'trackback') OR ($driver === 'comments') OR
+			($_SMAP_CONF['gsmap_' . $driver] === FALSE)) {
 			continue;
 		}
 		
 		$items = $dataproxy->$driver->getAllItems(TRUE);
 		
-		if (count($items) === 0) {
+		if (!is_array($items) OR (count($items) === 0)) {
 			continue;
 		}
 		
@@ -494,8 +494,8 @@ function SITEMAP_createGoogleSitemap() {
 				$temp = $dataproxy->$driver->getItemById($item['id']);
 				$raw  = $temp['raw_data'];
 				
-				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1))
-				 OR (($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
+				if ((($_SMAP_CONF['sp_type'] == 1) AND ($raw['sp_centerblock'] != 1)) OR
+					(($_SMAP_CONF['sp_type'] == 2) AND ($raw['sp_centerblock'] == 1))) {
 					continue;
 				}
 			}
@@ -510,7 +510,7 @@ function SITEMAP_createGoogleSitemap() {
 			}
 			
 			$sitemap .= '    <changefreq>' . $_SMAP_CONF['freq_' . $driver]
-					 . '</changefreq>' . LB;
+					 .  '</changefreq>' . LB;
 			$priority = (float) $_SMAP_CONF['priority_' . $driver];
 			
 			if (($priority != 0.5) AND ($priority >= 0.0) AND ($priority <= 1.0)) {
@@ -524,7 +524,7 @@ function SITEMAP_createGoogleSitemap() {
 	// Footer
 	$sitemap .= '</urlset>' . LB;
 	
-	// Writes the Google Sitemap
+	// Writes into the Google Sitemap
 	foreach (explode(';', $_SMAP_CONF['google_sitemap_name']) as $filename) {
 		$retval = ($retval OR !SITEMAP_write($filename, $sitemap));
 	}

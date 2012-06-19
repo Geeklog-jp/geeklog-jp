@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | english_utf-8.php                                                         |
 // | Language defines for all text                                             |
@@ -33,12 +33,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = 'Forum Plugin Upgrade: Update completed successfully.';
 $PLG_forum_MESSAGE2 = 'Forum Plugin upgrade: We are unable to update this version automatically. Refer to the plugin documentation.';
 $PLG_forum_MESSAGE5 = 'Forum Plugin Upgrade failed - check error.log';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => 'Forum',         // What shows up in the siteHeader
@@ -171,11 +168,13 @@ $LANG_GF01['WARNING']        = 'Warning';
 $LANG_GF01['MODERATED']      = 'Moderators: %s';
 $LANG_GF01['LASTREPLYBY']    = 'Last reply by:&nbsp;%s';
 $LANG_GF01['UID']            = 'UID';
+$LANG_GF01['FORUMMENU']      = 'Forum Menu';
 $LANG_GF01['INDEXPAGE']      = 'Forum Index';
 $LANG_GF01['FEATURE']        = 'Feature';
 $LANG_GF01['SETTING']        = 'Setting';
 $LANG_GF01['MARKALLREAD']    = 'Mark All Read';
 $LANG_GF01['MSG_NO_CAT']     = 'No Categories or Forums Defined';
+$LANG_GF01['FORUMPOSTS']     = 'Forum Posts';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'Code';
@@ -327,7 +326,7 @@ $LANG_GF02['msg179']   = 'Content generated in: %s seconds';
 $LANG_GF02['msg180']   = 'Forum Posting Alert';
 $LANG_GF02['msg181']   = 'You don\'t have access to any other forum as a moderator';
 $LANG_GF02['msg182']   = 'Moderator Confirmation';
-$LANG_GF02['msg183']   = 'New topic was created from this post in forum: %s';
+$LANG_GF02['msg183']   = 'Topic split and moved';
 $LANG_GF02['msg184']   = 'Notify Once Only';
 $LANG_GF02['msg185']   = 'Notifications will only be sent once for forums and topics which have multiple new posts since your last visit.';
 $LANG_GF02['msg186']   = 'New Topic Title';
@@ -546,6 +545,37 @@ $LANG_GF96 = array (
     'noip'               => 'You did not provide an IP address!'
 );
 
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
+);
+
 // Localization of the Admin Configuration UI
 $LANG_configsections['forum'] = array(
     'label' => 'Forum',
@@ -595,6 +625,13 @@ $LANG_confignames['forum'] = array(
     'sideblock_numposts'    => 'Number of Posts to Show',
     'sb_subject_size'       => 'Max Length of Subject',
     'sb_latestpostonly'     => 'Show Latest Post Only?',
+    'sideblock_enable'          => 'Enabled',
+    'sideblock_isleft'          => 'Display Block on Left',
+    'sideblock_order'           => 'Block Order',
+    'sideblock_topic_option'    => 'Topic Options',
+    'sideblock_topic'           => 'Topic',
+    'sideblock_group_id'        => 'Group',
+    'sideblock_permissions'     => 'Permissions',    
     // ----------------------------------
     'level1'                => 'Number of Posts of Level1',
     'level2'                => 'Number of Posts of Level2',
@@ -605,7 +642,15 @@ $LANG_confignames['forum'] = array(
     'level2name'            => 'Name of Level2',
     'level3name'            => 'Name of Level3',
     'level4name'            => 'Name of Level4',
-    'level5name'            => 'Name of Level5'
+    'level5name'            => 'Name of Level5', 
+    // ----------------------------------
+    'menublock_enable' => 'Enabled',
+    'menublock_isleft' => 'Display Block on Left',
+    'menublock_order' => 'Block Order',
+    'menublock_topic_option' => 'Topic Options',
+    'menublock_topic' => 'Topic',
+    'menublock_group_id' => 'Group',
+    'menublock_permissions' => 'Permissions' 
 );
 
 $LANG_configsubgroups['forum'] = array(
@@ -616,16 +661,22 @@ $LANG_tab['forum'] = array(
     'tab_main'         => 'General Forum Settings',
     'tab_topicposting' => 'Topic Posting',
     'tab_centerblock'  => 'Centerblock',
-    'tab_sideblock'    => 'Sideblock',
-    'tab_rank'         => 'Rank'
+    'tab_sideblock'    => 'Posts Block',
+    'tab_rank'         => 'Rank', 
+    'tab_menublock'    => 'Menu Block'
 );
 
 $LANG_fs['forum'] = array(
     'fs_main'         => 'General Forum Settings',
     'fs_topicposting' => 'Topic Posting',
     'fs_centerblock'  => 'Centerblock',
-    'fs_sideblock'    => 'Sideblock',
-    'fs_rank'         => 'Rank'
+    'fs_sideblock'    => 'Posts Block',
+    'fs_sideblock_settings' => 'Block Settings', 
+    'fs_sideblock_permissions' => 'Block Permissions',    
+    'fs_rank'         => 'Rank', 
+    'fs_menublock'    => 'Menu Block',
+    'fs_menublock_settings' => 'Block Settings', 
+    'fs_menublock_permissions' => 'Block Permissions'    
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -636,5 +687,8 @@ $LANG_configselects['forum'] = array(
     6 => array('Left Blocks' => 'leftblocks', 'Right Blocks' => 'rightblocks', 'All Blocks' => 'allblocks', 'No Blocks' => 'noblocks'),
     7 => array('Block Menu' => 'blockmenu', 'Navigation Bar' => 'navbar', 'None' => 'none'),
     12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3),
+    13 => array('No access' => 0, 'Use' => 2),
+    14 => array('No access' => 0, 'Read-Only' => 2),
+    15 => array('All' => TOPIC_ALL_OPTION, 'Homepage Only' => TOPIC_HOMEONLY_OPTION, 'Select Topics' => TOPIC_SELECTED_OPTION)
 );
 ?>

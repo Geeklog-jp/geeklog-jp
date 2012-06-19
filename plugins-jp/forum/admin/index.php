@@ -36,7 +36,6 @@
 include_once 'gf_functions.php';
 
 $display = '';
-$display .= COM_siteHeader();
 $display .= COM_startBlock($LANG_GF91['gfstats']);
 
 $navbar->set_selected($LANG_GF06['1']);
@@ -91,10 +90,9 @@ if ($totalviews['TOTAL'] != 0) {
 }
 
 
-$indextemplate = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$indextemplate = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
 $indextemplate->set_file (array ('indextemplate'=>'index.thtml'));
 
-$indextemplate->set_var('xhtml', XHTML);
 $indextemplate->set_var('statsmsg', $LANG_GF91['statsmsg']);
 $indextemplate->set_var('totalcatsmsg', $LANG_GF91['totalcats']);
 $indextemplate->set_var('totalcats', $totalcats);
@@ -122,7 +120,7 @@ $indextemplate->parse ('output', 'indextemplate');
 $display .= $indextemplate->finish ($indextemplate->get_var('output'));
 $display .= COM_endBlock();
 $display .= adminfooter();
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display);
 
 COM_output($display);
 ?>

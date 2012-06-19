@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/article.class.php                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,9 +35,17 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'article.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_article extends DataproxyDriver
+class dpxyDriver_Article extends dpxyDriver
 {
-	var $driver_name = 'article';
+	/**
+	* Returns the location of index.php of each plugin
+	*
+	* @return mixed uri(string) / FALSE(no entry)
+	*/
+	public function getEntryPoint()
+	{
+		return FALSE;
+	}
 	
 	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
@@ -49,41 +57,42 @@ class Dataproxy_article extends DataproxyDriver
 			return $retval;
 		}
 		
-		$where = FALSE;
-		$sql = "SELECT tid, topic, imageurl FROM {$_TABLES['topics']} ";
+		$where = array();
+		$sql = "SELECT tid, topic, imageurl "
+			 . "FROM {$_TABLES['topics']} ";
 		
-		if ($this->uid > 1) {
+		if (Dataproxy::uid() > 1) {
 			$tids = DB_getItem(
-				$_TABLES['userindex'], 'tids', "uid = '" . $this->uid . "'"
+				$_TABLES['userindex'], 'tids', "uid = " . Dataproxy::uid()
 			);
 			
 			if (!empty($tids)) {
-				$sql .= ($where === TRUE) ? ' AND' : ' WHERE';
-				$sql .= "(tid NOT IN ('"
-					 . str_replace(' ', "','", addslashes($tids)) . "'))";
-				$where = TRUE;
+				$where[] = "(tid NOT IN ('"
+						 .  str_replace(' ', "','", addslashes($tids)) . "'))";
 			}
 		}
 		
 		// Adds permission check.  When uid is 0, then it means access as Root
-		if ($this->uid > 0) {
-			if ($where === TRUE) {
-				$sql .= COM_getPermSQL('AND', $this->uid);
-			} else {
-				$sql .= COM_getPermSQL('WHERE', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$temp = COM_getPermSQL('', Dataproxy::uid());
+			
+			if (!empty($temp)) {
+				$where[] = $temp;
 			}
 		}
 
 		// Adds lang id.  When uid is 0, then it means access as Root
-		if (($this->uid > 0) AND function_exists('COM_getLangSQL')
-		 AND $all_langs === FALSE) {
-			$where = (strpos($sql, 'WHERE') !== FALSE) ? TRUE : FALSE;
+		if (!Dataproxy::isRoot() AND function_exists('COM_getLangSQL') AND
+			$all_langs === FALSE) {
+			$temp = COM_getLangSQL('tid', '');
 			
-			if ($where === TRUE) {
-				$sql .= COM_getLangSQL('tid', 'AND');
-			} else {
-				$sql .= COM_getLangSQL('tid', 'WHERE');
+			if (!empty($temp)) {
+				$where[] = $temp;
 			}
+		}
+		
+		if (count($where) > 0) {
+			$sql .= " WHERE " . implode(" AND ", $where);
 		}
 		
 		if ($_CONF['sortmethod'] == 'alpha') {
@@ -133,9 +142,9 @@ class Dataproxy_article extends DataproxyDriver
 			 . "WHERE (sid ='" . addslashes($id) . "') "
 			 . "AND (draft_flag = 0) AND (date <= NOW()) ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getTopicSql('AND', $this->uid)
-				 .  COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getTopicSql('AND', Dataproxy::uid())
+				 .  COM_getPermSql('AND', Dataproxy::uid());
 			
 			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');
@@ -183,14 +192,15 @@ class Dataproxy_article extends DataproxyDriver
 			 . "FROM {$_TABLES['stories']} WHERE (draft_flag = 0) AND (date <= NOW()) "
 			 . "AND (tid = '" . addslashes($tid) . "') ";
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getTopicSql('AND', $this->uid)
-			     .  COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getTopicSql('AND', Dataproxy::uid())
+			     .  COM_getPermSql('AND', Dataproxy::uid());
 			
 			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');
 			}
 		}
+		
 		$sql .= " ORDER BY date DESC";
 		$result = DB_query($sql);
 		
@@ -231,21 +241,23 @@ class Dataproxy_article extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT sid, title, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['stories']} "
+			 . "  FROM {$_TABLES['stories']} "
 			 . "WHERE (draft_flag = 0) AND (date <= NOW()) "
-			 . "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') ";
+			 . "  AND (UNIX_TIMESTAMP(date) BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') ";
+		
 		if (!empty($tid)) {
 			$sql .= "AND (tid = '" . addslashes($tid) . "') ";
 		}
 		
-		if ($this->uid > 0) {
-			$sql .= COM_getTopicSql('AND', $this->uid)
-				 .  COM_getPermSql('AND', $this->uid);
+		if (!Dataproxy::isRoot()) {
+			$sql .= COM_getTopicSql('AND', Dataproxy::uid())
+				 .  COM_getPermSql('AND', Dataproxy::uid());
 			
 			if (function_exists('COM_getLangSQL') AND ($all_langs === FALSE)) {
 				$sql .= COM_getLangSQL('sid', 'AND');

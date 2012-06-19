@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/drivers/trackback.class.php                     |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -35,9 +35,17 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'trackback.class.php') !== FALSE) {
     die('This file can not be used on its own.');
 }
 
-class Dataproxy_trackback extends DataproxyDriver
+class dpxyDriver_Trackback extends dpxyDriver
 {
-	public $driver_name = 'trackback';
+	/**
+	* Returns the location of index.php of each plugin
+	*
+	* @return mixed uri(string) / FALSE(no entry)
+	*/
+	public function getEntryPoint()
+	{
+		return FALSE;
+	}
 	
 	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
@@ -49,8 +57,9 @@ class Dataproxy_trackback extends DataproxyDriver
 			return $entries;
 		}
 		
-		$supported_drivers = $this->getAllDriverNames();
-		$sql = "SELECT DISTINCT type FROM {$_TABLES['trackback']} "
+		$supported_drivers = Dataproxy::getAllDriverNames();
+		$sql = "SELECT DISTINCT type "
+			 . "FROM {$_TABLES['trackback']} "
 			 . "ORDER BY type";
 		$result = DB_query($sql);
 		
@@ -67,7 +76,6 @@ class Dataproxy_trackback extends DataproxyDriver
 				$entry['uri']       = FALSE;
 				$entry['date']      = FALSE;
 				$entry['image_uri'] = FALSE;
-				
 				$entries[] = $entry;
 			}
 		}
@@ -130,12 +138,12 @@ class Dataproxy_trackback extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (!in_array($category, $this->getAllDriverNames())) {
+		if (!in_array($category, Dataproxy::getAllDriverNames())) {
 			return $entries;
 		}
 		
 		$sql = "SELECT cid, title, url, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['trackback']} "
+			 . "  FROM {$_TABLES['trackback']} "
 			 . "WHERE (type = '" . addslashes($category) . "') "
 			 . "ORDER BY day DESC";
 		$result = DB_query($sql);
@@ -152,7 +160,6 @@ class Dataproxy_trackback extends DataproxyDriver
 			$entry['uri']       = $this->cleanUrl($A['url']);
 			$entry['date']      = $A['day'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		
@@ -174,18 +181,19 @@ class Dataproxy_trackback extends DataproxyDriver
 		
 		$entries = array();
 		
-		if (!in_array($category, $this->getAllDriverNames())) {
+		if (!in_array($category, Dataproxy::getAllDriverNames())) {
 			return $entries;
 		}
 		
-		if (empty($this->startdate) OR empty($this->enddate)) {
+		if (empty(Dataproxy::$startDate) OR empty(Dataproxy::$endDate)) {
 			return $entries;
 		}
 		
 		$sql = "SELECT cid, title, url, UNIX_TIMESTAMP(date) AS day "
-			 . "FROM {$_TABLES['trackback']} "
+			 . "  FROM {$_TABLES['trackback']} "
 			 . "WHERE (type = '" . addslashes($category) . "') "
-			 . "AND (UNIX_TIMESTAMP(date) BETWEEN '$this->startdate' AND '$this->enddate') "
+			 . "  AND (UNIX_TIMESTAMP(date) BETWEEN '" . Dataproxy::$startDate
+			 . "' AND '" . Dataproxy::$endDate . "') "
 			 . "ORDER BY date DESC";
 		$result = DB_query($sql);
 		
@@ -201,7 +209,6 @@ class Dataproxy_trackback extends DataproxyDriver
 			$entry['uri']       = $this->cleanUrl($A['url']);
 			$entry['date']      = $A['day'];
 			$entry['image_uri'] = FALSE;
-			
 			$entries[] = $entry;
 		}
 		

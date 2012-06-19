@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | italian_utf-8.php                                                         |
 // | Language defines for all text                                             |
@@ -36,12 +36,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = 'Aggiornamento dell\'Estensione Forum: Aggiornamento completato con successo.';
 $PLG_forum_MESSAGE2 = 'Aggiornamento dell\'Estensione Forum: Non é possibile aggiornare questa versione automaticamente. Vedi la documentazione delle estensioni.';
 $PLG_forum_MESSAGE5 = 'L\'aggiornamento dell\'estensione Forum é fallito - vedi file error.log';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => 'Forum',         // What shows up in the siteHeader
@@ -233,8 +230,8 @@ $LANG_GF02['msg18']    = 'Errore! Non tutti i campi richiesti sono stati complet
 $LANG_GF02['msg19']    = 'Il tuo messaggio é stato inviato.';
 $LANG_GF02['msg22']    = '- Notifica Nuovo Messaggio sul Forum';
 $LANG_GF02['msg23a']   = "\nUna risposta è stata aggiunta all'argomento '%s' da %s\n\nQuesto argomento è stato aperto da %s nel forum %s.\n";
-$LANG_GF02['msg23b']   = "Il nuovo argomento '%s' è stato aggiunto da %s nel forum %s sul sito web %s.\nPuoi vederlo su: %s/forum/viewtopic.php?forum=%s&showtopic=%s\n";
-$LANG_GF02['msg23c']   = "\nPuoi leggerlo su: %s/forum/viewtopic.php?forum=%s&showtopic=%s&lastpost=true\n";
+$LANG_GF02['msg23b']   = "Il nuovo argomento '%s' è stato aggiunto da %s nel forum %s sul sito web %s.\nPuoi vederlo su: %s/forum/viewtopic.php?showtopic=%s\n";
+$LANG_GF02['msg23c']   = "\nPuoi leggerlo su: %s/forum/viewtopic.php?showtopic=%s&lastpost=true\n";
 $LANG_GF02['msg25']    = "\nBuona giornata! \n";
 $LANG_GF02['msg26']    = "\nHai ricevuto questa e-mail perchè hai scelto di ricevere una notifica\nper ogni risposta aggiunta.";
 $LANG_GF02['msg27']    = 'Per non ricevere più notifiche su questo argomento vai <a href="%s">qui</a> per rimuoverti.';
@@ -242,7 +239,7 @@ $LANG_GF02['msg33']    = 'Autore: ';
 $LANG_GF02['msg36']    = 'Umore:';
 $LANG_GF02['msg38']    = 'Inviami una Notifica per ogni risposta ';
 $LANG_GF02['msg40']    = '<br' . XHTML . '>Spiacente, ma hai giá chiesto di ricevere notifiche per risposte a questo argomento.<br/><br/>';
-$LANG_GF02['msg44']    = 'Al momento non hai nessuna notifica attiva.<p/>';
+$LANG_GF02['msg44']    = '<p style="margin:0px; padding:5px;">Al momento non hai nessuna notifica attiva.</p>';
 $LANG_GF02['msg49']    = '(Letto %s volte) ';
 $LANG_GF02['msg55']    = 'Messaggio Eliminato.';
 $LANG_GF02['msg56']    = 'IP Bloccato.';
@@ -263,7 +260,7 @@ $LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left:10px;">Non dov
 $LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '>Devi essere loggato per utilizzare questa funzionalitá di questo forum.</p>';
 $LANG_GF02['msg84']    = 'Segnala tutti gli argomenti come giá letti';
 $LANG_GF02['msg85']    = 'Pagina:';
-$LANG_GF02['msg86']    = 'Ultimi 10 messaggi per: ';
+$LANG_GF02['msg86']    = '&nbsp;Ultimi %s messaggi&nbsp;';
 $LANG_GF02['msg87']    = '<br' . XHTML . '>Attenzione: Questo argomento é stato bloccato dal moderatore.<br' . XHTML . '>Non é possibile inviare altri messaggi';
 $LANG_GF02['msg88']    = 'Utenti con Attivitá sul Forum';
 $LANG_GF02['msg88b']   = 'Forum Activity Only';
@@ -547,6 +544,37 @@ $LANG_GF96 = array (
     'specip'             => 'Prego specifica un indirizzo IP da bloccare!',
     'ipunbanned'         => 'Indirizzo IP Sbloccato.',
     'noip'               => 'You did not provide an IP address!'
+);
+
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
 );
 
 // Localization of the Admin Configuration UI

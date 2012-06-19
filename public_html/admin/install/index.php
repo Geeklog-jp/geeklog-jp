@@ -278,7 +278,7 @@ function INST_installEngine($install_type, $install_step)
             require_once $_CONF['path_system'] . 'lib-database.php';
 
             $req_string = 'index.php?mode=' . $install_type
-                        . '&step=3&dbconfig_path=' . urlencode($dbconfig_path)
+                        . '&step=3&dbconfig_path=' . urlencode($dbconfig_path) // bug fix
                         . '&install_plugins=' . $install_plugins
                         . '&language=' . $language
                         . '&site_name=' . urlencode($site_name)
@@ -531,7 +531,7 @@ function INST_installEngine($install_type, $install_step)
 
                         INST_setVersion($siteconfig_path);
 
-                        if (! $install_plugins) {
+                        if (! $install_plugins) { 
                             // do a default install of all available plugins
 
                             /**

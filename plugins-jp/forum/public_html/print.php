@@ -74,11 +74,10 @@ $display = '';
 
 //Check is anonymous users can access
 if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
-    $display .= COM_siteHeader();
     $display .= COM_startBlock();
     $display .= alertMessage($LANG_GF02['msg01'],$LANG_GF02['msg171']);
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
@@ -94,9 +93,8 @@ $forum = DB_getItem($_TABLES['forum_topic'],"forum","id='{$id}'");
 $query = DB_query("SELECT grp_name FROM {$_TABLES['groups']} groups, {$_TABLES['forum_forums']} forum WHERE forum.forum_id='$forum' AND forum.grp_id=groups.grp_id");
 list ($groupname) = DB_fetchArray($query);
 if (!SEC_inGroup($groupname) AND $grp_id != 2) {
-    $display .= COM_siteHeader();
     $display .= alertMessage($LANG_GF02['msg02'],$LANG_GF02['msg171']);
-    $display .= COM_siteFooter();
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }

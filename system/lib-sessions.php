@@ -94,7 +94,7 @@ function SESS_sessionCheck()
         $_COOKIE[$_CONF['cookie_session']] = CUSTOM_MOBILE_load_session();
         CUSTOM_MOBILE_debug("cookie_session in SESS_sessionCheck: " . $_COOKIE[$_CONF['cookie_session']]);
     }
-    
+
     // Check for a cookie on the users's machine.  If the cookie exists, build
     // an array of the users info and setup the theme.
 
@@ -449,7 +449,7 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
         $remote_ip = CUSTOM_MOBILE_load_ip();
         CUSTOM_MOBILE_debug("remote_ip from mobile session: $remote_ip");
     }
-    
+
     if ($md5_based == 1) {
         $sql = "SELECT uid FROM {$_TABLES['sessions']} WHERE "
         . "(md5_sess_id = '$sessid') AND (start_time > $mintime) AND (remote_ip = '$remote_ip')";

@@ -127,16 +127,16 @@ $LANG_SX00 = array(
     'stats_ipofurl' => 'URLのIPによってブロックされました',
     'stats_header' => 'HTTPヘッダ',
     'stats_deleted' => 'スパム投稿削除数',
-    'invalid_email_or_ip' => '不正なe-mail アドレスまたは IP アドレスがブロックされました。',
+    'invalid_email_or_ip' => '不正なe-mailアドレスまたはIPアドレスがブロックされました。',
     'email_ip_spam' => '%s または %s 登録を試みますが、スパマーだと思われます。',
     'edit_personal_blacklist' => 'パーソナルブラックリスト編集',
     'mass_delete_spam_comments' => 'スパムコメント一括削除',
-    'mass_delete_trackback_spam' => 'Mass Delete Trackback Spam',
-    'edit_http_header_blacklist' => 'Edit HTTP Header Blacklist',
-    'edit_ip_blacklist' => 'Edit IP Blacklist',
-    'edit_ip_url_blacklist' => 'Edit IP of URL Blacklist',
-    'edit_sfs_blacklist' => 'Edit SFS Email Blacklist',
-    'edit_slv_whitelist' => 'Edit SLV Whitelist',
+    'mass_delete_trackback_spam' => 'トラックバックスパム一括削除',
+    'edit_http_header_blacklist' => 'HTTPヘッダブラックリスト編集',
+    'edit_ip_blacklist' => 'IPブラックリスト編集',
+    'edit_ip_url_blacklist' => 'URLのIPブラックリスト編集',
+    'edit_sfs_blacklist' => 'SFS Emailブラックリスト編集',
+    'edit_slv_whitelist' => 'SLV ホワイトリスト編集',
     'plugin_name' => 'Spam-X',
     'slvwhitelist' => 'SLVホワイトリスト'
 );
@@ -176,8 +176,8 @@ $LANG_tab['spamx'] = array(
 
 $LANG_fs['spamx'] = array(
     'fs_main' => 'Spam-Xの設定',
-    'fs_sfs' => 'Stop Forum Spam (SFS)',
-    'fs_snl' => 'Spam Number of Links (SNL)'
+    'fs_sfs' => '掲示板スパムを中止(SFS)',
+    'fs_snl' => 'リンクのスパム数(SNL)'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']

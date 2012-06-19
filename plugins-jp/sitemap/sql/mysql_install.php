@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/sitemap/sql/mysql_install.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2011 mystral-kk - geeklog AT mystral-kk DOT net             |
+// | Copyright (C) 2012 mystral-kk - geeklog AT mystral-kk DOT net             |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // +---------------------------------------------------------------------------+
@@ -25,15 +25,17 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
-    die('This file can not be used on its own!');
+if (stripos($_SERVER['PHP_SELF'], basename(__FILE__)) !== FALSE) {
+    die('This file cannot be used on its own!');
 }
+
+$_SQL = array();
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['smap_config']} (
-name VARCHAR(30) NOT NULL default '',
-value VARCHAR(255),
-PRIMARY KEY name(name)
+  name VARCHAR(30) NOT NULL default '',
+  value VARCHAR(255),
+  PRIMARY KEY name(name)
 )
 ";
 

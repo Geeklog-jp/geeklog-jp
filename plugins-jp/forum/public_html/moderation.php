@@ -47,9 +47,6 @@ forum_chkUsercanAccess(true);
 
 $display = '';
 
-// Display Common headers
-$display .= gf_siteHeader();
-
 // Debug Code to show variables
 $display .= gf_showVariables();
 
@@ -63,8 +60,8 @@ $hostip           = isset($_POST['hostip'])           ? COM_applyFilter($_POST['
 $modconfirmdelete = isset($_POST['modconfirmdelete']) ? COM_applyFilter($_POST['modconfirmdelete'])      : '';
 $modfunction      = isset($_REQUEST['modfunction'])   ? COM_applyFilter($_REQUEST['modfunction'])        : '';
 $moveid           = isset($_REQUEST['moveid'])        ? COM_applyFilter($_REQUEST['moveid'],true)        : '';
-$movetoforum      = isset($_REQUEST['movetoforum'])   ? COM_applyFilter($_REQUEST['movetoforum'],true)   : '';
-$movetitle        = isset($_REQUEST['movetitle'])     ? COM_applyFilter($_REQUEST['movetitle'],true)     : '';
+$movetoforum      = isset($_REQUEST['movetoforum'])   ? COM_applyFilter($_REQUEST['movetoforum'])        : '';
+$movetitle        = isset($_REQUEST['movetitle'])     ? COM_applyFilter($_REQUEST['movetitle'])          : '';
 $msgid            = isset($_REQUEST['msgid'])         ? COM_applyFilter($_REQUEST['msgid'],true)         : '';
 $msgpid           = isset($_REQUEST['msgpid'])        ? COM_applyFilter($_REQUEST['msgpid'],true)        : '';
 $page             = isset($_REQUEST['page'])          ? COM_applyFilter($_REQUEST['page'],true)          : '';
@@ -76,7 +73,7 @@ ForumHeader($forum, $showtopic, $display);
 
 if ($forum == 0) {
     $display .= alertMessage($LANG_GF02['msg71']);
-    $display .= gf_siteFooter();
+    $display = gf_createHTMLDocument($display);
     echo $display;
     exit();
 }
@@ -277,11 +274,11 @@ if (forum_modPermission($forum,$_USER['uid'])) {
 
     } elseif ($modfunction == 'editpost' AND forum_modPermission($forum,$_USER['uid'],'mod_edit') AND $fortopicid != 0) {
         echo COM_refresh("createtopic.php?method=edit&amp;id=$fortopicid&amp;page=$page");
-        echo $LANG_GF02['msg110'];
+        $display .= BlockMessage($LANG_GF01['FORUM'], $LANG_GF02['msg110'], false);
 
     } elseif ($modfunction == 'lockedpost' AND forum_modPermission($forum,$_USER['uid'],'mod_edit') AND $fortopicid != 0) {
         echo COM_refresh("createtopic.php?method=postreply&amp;id=$fortopicid");
-        echo $LANG_GF02['msg173'];
+        $display .= BlockMessage($LANG_GF01['FORUM'], $LANG_GF02['msg173'], false);
 
     } elseif ($modfunction == 'movetopic' AND forum_modPermission($forum,$_USER['uid'],'mod_move') AND $fortopicid != 0) {
 
@@ -376,7 +373,7 @@ if (forum_modPermission($forum,$_USER['uid'])) {
     $display .= alertMessage($LANG_GF02['msg72'],$LANG_GF01['ACCESSERROR']);
 }
 
-$display .= gf_siteFooter();
+$display = gf_createHTMLDocument($display);
 
 COM_output($display);
 ?>

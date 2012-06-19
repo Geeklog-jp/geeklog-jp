@@ -46,15 +46,15 @@ $_UPDATES = array(
     '1.1.4' => array(
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_main', 'Access to configure general calendar settings', 0)",
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_permissions', 'Access to configure event default permissions', 0)",
-        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_autotag_permissions', 'Access to configure event autotag usage permissions', 0)"
-    ),
+        "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_autotag_permissions', 'Access to configure event autotag usage permissions', 0)"        
+    ),     
 
     '1.1.5' => array(
         // Delete Events block since moved to dynamic
-        "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_calendarjp'",
+        "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_calendarjp'", 
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_events_block', 'Access to configure events block', 0)"
-    )
-
+    )       
+    
 );
 
 /**
@@ -64,7 +64,7 @@ $_UPDATES = array(
 function calendarjp_update_ConfigSecurity_1_1_4()
 {
     global $_TABLES;
-
+    
     // Add in security rights for Calendarjp Admin
     $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
                             "grp_name = 'Calendarjp Admin'");
@@ -73,15 +73,15 @@ function calendarjp_update_ConfigSecurity_1_1_4()
         $ft_names[] = 'config.calendarjp.tab_main';
         $ft_names[] = 'config.calendarjp.tab_permissions';
         $ft_names[] = 'config.calendarjp.tab_autotag_permissions';
-
+        
         foreach ($ft_names as $name) {
-            $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '$name'");
+            $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = '$name'");         
             if ($ft_id > 0) {
                 $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
                 DB_query($sql);
             }
-        }
-    }
+        }        
+    }    
 
 }
 
@@ -92,16 +92,16 @@ function calendarjp_update_ConfigSecurity_1_1_4()
 function calendarjp_update_ConfigSecurity_1_1_5()
 {
     global $_TABLES;
-
+    
     // Add in security rights for Calendarjp Admin
     $group_id = DB_getItem($_TABLES['groups'], 'grp_id',
                             "grp_name = 'Calendarjp Admin'");
 
     if ($group_id > 0) {
-        $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = 'config.calendarjp.tab_events_block'");
+        $ft_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = 'config.calendarjp.tab_events_block'");   
         $sql = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($ft_id, $group_id)";
-        DB_query($sql);
-    }
+        DB_query($sql);    
+    }    
 
 }
 

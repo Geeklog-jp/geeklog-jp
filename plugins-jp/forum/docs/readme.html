@@ -165,7 +165,7 @@ var MENU = {
         document.getElementById('features_div').style.display = 'block';
         var names = new Array(
             'features',      'changelog',    'installation',
-            'upgrade',       'upgrade2.7.x', 'upgrade2.6',
+            'upgrade',       'upgrade2.8.x',       'upgrade2.7.x', 'upgrade2.6',
             'upgrade2.5RC3', 'upgrade2.3.x', 'config',
             'profile'
         );
@@ -182,11 +182,11 @@ onload = function() {
 </head>
 <body>
 <!-- Body start -->
-<h1>Geeklog Forum plugin - version 2.8.0</h1>
+<h1>Geeklog Forum plugin - version 2.9.0</h1>
 <h3>Current Maintainers: <span class="email"><a href="http://code.google.com/p/geeklog/">Geeklog Community Members</a></span></h3>
 <h3>Original Author: Blaine Lang <span class="email">&lt; blaine@portalparts.com &gt;</span></h3>
 <h3>Release Date: 1 August 2011</h3>
-<h4>Requires minimum Geeklog version 1.6.0 (version 1.8.0+ recommended) and MySQL 4.1+</h4>
+<h4>Requires minimum Geeklog version 1.9.0 and MySQL 4.1+</h4>
 
 <!-- Main menu -->
 <div class='menuwrap'>
@@ -196,6 +196,7 @@ onload = function() {
     <li><a href='#installation' class='installation_link'>Installing</a></li>
     <li><a href='#upgrade' class='upgrade_link'>Upgrading</a>
         <ul>
+            <li><a href='#upgrade2.8.x' class='upgrade2.8.x_link'>Upgrading from 2.8.x</a></li>
             <li><a href='#upgrade2.7.x' class='upgrade2.7.x_link'>Upgrading from 2.7.x</a></li>
             <li><a href='#upgrade2.6' class='upgrade2.6_link'>Upgrading from 2.6</a></li>
             <li><a href='#upgrade2.5RC3' class='upgrade2.5RC3_link'>Upgrading from 2.5RC3</a></li>
@@ -279,12 +280,51 @@ onload = function() {
 <div id='upgrade_div' class='page'>
     <p class="sectionheading" style="margin-bottom:0px;"><a id="upgrade">Upgrading</a></p>
     <ol>
+        <li><a href='#upgrade2.8.x' class='upgrade2.8.x_link'>Upgrading from 2.8.x</a></li>
         <li><a href='#upgrade2.7.x' class='upgrade2.7.x_link'>Upgrading from 2.7.x</a></li>
         <li><a href='#upgrade2.6' class='upgrade2.6_link'>Upgrading from 2.6</a></li>
         <li><a href='#upgrade2.5RC3' class='upgrade2.5RC3_link'>Upgrading from 2.5RC3</a></li>
         <li><a href='#upgrade2.3.x' class='upgrade2.3.x_link'>Upgrading from 2.3.x</a></li>
         <li><a href="http://wiki.geeklog.net/index.php/Plugins" target="_blank">Plugin Installation Overview Reference</a></li>        
     </ol>
+    <div style="margin:10px 0px 20px 10px;" class="gototop"><a href="#top">Goto Top</a></div>
+</div>
+
+<!-- section -->
+<div id='upgrade2.8.x_div' class='page'>
+    <p class="sectionheading" style="margin-bottom:0px;"><a id="upgrade2.8.x">How to update from version 2.8.x</a></p>
+    <p class="attention" style="margin-top:5px;padding-left:25px;">The update process will update your forum to version 2.9.0 in one step if version 2.8.x is detected. The forum blocks will be removed, new config options added, plus the version number stored is changed.</p>
+    <p>Step 0 - Backup your Database.</p>
+    <ul>
+    <li>Make a backup of your current geeklog database using the built-in admin feature. 
+    </ul>
+    <p>Step 1 - Disable the forum plugin (optional)</p>
+    <ul>
+    <li>From the Plugin Editor <strong>Admin &gt; plugins</strong>, disable the forum plugin so any current site users will not be accessing the forum during the update. This is an optional step and not required.</li>
+    </ul>
+    <p>Step 2 - Restore the plugin Archive</p>
+    <p class="attention" style="margin-top:5px;padding-left:25px;">Note: Make a copy of your plugins config.php and compare to the new one if you have made changes. Additionally, do the same for your forum theme files if you have made changes that you don't want to loose.</p>
+    <ul>
+    <li>Uncompress the archive files into your &lt;geeklog_dir&gt;/plugins directory. You will need to replace all the files and some directories and files are no longer needed.</li>
+    <li>Update all your sites main public_html/forum files. Suggest you delete current files and copy over the new files</li>
+    <li>Update all your sites main public_html/admin/plugins/forum files. Suggest you delete current files and copy over the new files</li>
+    <li>Update all your sites main public_html/layout/{theme}/forum files. Suggest you delete current files and copy over the new files</li>
+    <li>Update the system/lib-portalparts.php - new version is located in the system folder of the archive
+    </ul>
+    <p>Step 3 - Run the plugin update</p>
+    <ul>
+    <li>Access the plugin update from the Plugin Editor. The plugin listing will show version 2.7.x is installed and that an update is recommended. Using the Edit link by the plugin record, access the edit screen where there will now be an <strong>update</strong> button. Pressing [Update] will execute the needed database changes</li>
+    </ul>
+    <p>Step 4 - Update your theme</p>
+    <ul>
+    <li><div class="box">The forum now is able to appear with leftblocks only (default), noblocks, rightblocks only or both left and right blocks. Setting to noblocks allows the forum to appear the full-width of your theme. Additionally, you can show the usermenu as a horizontal navbar which is necessary if you are not showing left or right blocks. These new settings are expected to be in your themes <span style="font-style: italic">functions.php</span> file so the layout can be theme specific. Refer to the default professional theme version of <span style="font-style: italic">functions.php</span> that is in the plugin archive themefiles directory for more details.</div></li>
+    </ul>
+    <p>Step 5 - Review Admin Settings</p>
+    <ul>
+    <li>Review the admin settings</li>
+    <li>Review the optional plugin <a href="#config" class='config_link'>config.php settings</a></li>
+    </ul>
+    <p>Congratulations - you should now have your forum updated to version 2.9.0</p>
     <div style="margin:10px 0px 20px 10px;" class="gototop"><a href="#top">Goto Top</a></div>
 </div>
 

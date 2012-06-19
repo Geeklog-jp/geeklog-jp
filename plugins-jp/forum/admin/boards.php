@@ -85,7 +85,6 @@ function forum_deleteForum($id) {
 }
 
 $display = '';
-$display .= COM_siteHeader();
 
 // Debug Code to show variables
 $display .= gf_showVariables();
@@ -132,9 +131,8 @@ if ($type == "category") {
             COM_output($display);
             exit();
         } else {
-            $boards_addcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+            $boards_addcategory = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_addcategory->set_file (array ('boards_addcategory'=>'boards_edtcategory.thtml'));
-            $boards_addcategory->set_var ('xhtml', XHTML);
             $boards_addcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_addcategory->set_var ('title', $LANG_GF93['addcat']);
             $boards_addcategory->set_var ('mode', 'add');
@@ -151,7 +149,7 @@ if ($type == "category") {
             $display .= $boards_addcategory->finish ($boards_addcategory->get_var('output'));
             $display .= COM_endBlock();
             $display .= adminfooter();
-            $display .= COM_siteFooter();
+            $display = COM_createHTMLDocument($display);
             COM_output($display);
             exit();
         }
@@ -165,9 +163,8 @@ if ($type == "category") {
             exit();
         } else {
             $catname = DB_getItem($_TABLES['forum_categories'], "cat_name","id=$id");
-            $boards_delcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+            $boards_delcategory = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_delcategory->set_file (array ('boards_delcategory'=>'boards_delete.thtml'));
-            $boards_delcategory->set_var ('xhtml', XHTML);
             $boards_delcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_delcategory->set_var ('deletenote1', sprintf($LANG_GF93['deletecatnote1'], $catname));
             $boards_delcategory->set_var ('id', $id);
@@ -181,7 +178,7 @@ if ($type == "category") {
             $display .= $boards_delcategory->finish ($boards_delcategory->get_var('output'));
             $display .= COM_endBlock();
             $display .= adminfooter();
-            $display .= COM_siteFooter();
+            $display = COM_createHTMLDocument($display);
             COM_output($display);
             exit();
         }
@@ -197,9 +194,8 @@ if ($type == "category") {
     } elseif ($mode == $LANG_GF01['EDIT']) {
         $esql = DB_query("SELECT * FROM {$_TABLES['forum_categories']} WHERE (id='$id')");
         $E = DB_fetchArray($esql);
-        $boards_edtcategory = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+        $boards_edtcategory = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $boards_edtcategory->set_file (array ('boards_edtcategory'=>'boards_edtcategory.thtml'));
-        $boards_edtcategory->set_var ('xhtml', XHTML);
         $boards_edtcategory->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
         $boards_edtcategory->set_var ('title', sprintf($LANG_GF93['editcatnote'], stripslashes($E['cat_name'])));
         $boards_edtcategory->set_var ('catname', $E['cat_name']);
@@ -219,7 +215,7 @@ if ($type == "category") {
         $display .= $boards_edtcategory->finish ($boards_edtcategory->get_var('output'));
         $display .= COM_endBlock();
         $display .= adminfooter();
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display);
         COM_output($display);
         exit();
 
@@ -272,9 +268,8 @@ if ($type == "forum") {
 
             $category_id = isset($_GET['category']) ? COM_applyFilter($_GET['category'],true) : '';
             $catname = DB_getItem($_TABLES['forum_categories'], "cat_name","id=$category_id");
-            $boards_addforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+            $boards_addforum = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_addforum->set_file (array ('boards_addforum'=>'boards_edtforum.thtml'));
-            $boards_addforum->set_var ('xhtml', XHTML);
             $boards_addforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_addforum->set_var ('title', "{$LANG_GF93['addforum']}&nbsp;{$LANG_GF93['undercat']}&nbsp;" .stripslashes($catname));
             $boards_addforum->set_var ('mode', 'add');
@@ -284,14 +279,14 @@ if ($type == "forum") {
             $boards_addforum->set_var ('LANG_DESCRIPTION', $LANG_GF01['DESCRIPTION']);
             $boards_addforum->set_var ('LANG_NAME', $LANG_GF01['NAME']);
             $boards_addforum->set_var ('LANG_GROUPACCESS', $LANG_GF93['groupaccess']);
-            
-            $boards_addforum->set_var ('LANG_readonly', $LANG_GF93['readonly']); 
-            $boards_addforum->set_var ('LANG_readonlydscp', $LANG_GF93['readonlydscp']); 
-            $boards_addforum->set_var ('LANG_hidden', $LANG_GF93['hidden']); 
-            $boards_addforum->set_var ('LANG_hiddendscp', $LANG_GF93['hiddendscp']); 
-            $boards_addforum->set_var ('LANG_hideposts', $LANG_GF93['hideposts']); 
-            $boards_addforum->set_var ('LANG_hidepostsdscp', $LANG_GF93['hidepostsdscp']);                                                                         
-            
+
+            $boards_addforum->set_var ('LANG_readonly', $LANG_GF93['readonly']);
+            $boards_addforum->set_var ('LANG_readonlydscp', $LANG_GF93['readonlydscp']);
+            $boards_addforum->set_var ('LANG_hidden', $LANG_GF93['hidden']);
+            $boards_addforum->set_var ('LANG_hiddendscp', $LANG_GF93['hiddendscp']);
+            $boards_addforum->set_var ('LANG_hideposts', $LANG_GF93['hideposts']);
+            $boards_addforum->set_var ('LANG_hidepostsdscp', $LANG_GF93['hidepostsdscp']);
+
             $boards_addforum->set_var ('groupname', $groupname);
             $boards_addforum->set_var ('grouplist', $grouplist);
             $boards_addforum->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
@@ -302,7 +297,7 @@ if ($type == "forum") {
             $display .= $boards_addforum->finish ($boards_addforum->get_var('output'));
             $display .= COM_endBlock();
             $display .= adminfooter();
-            $display .= COM_siteFooter();
+            $display = COM_createHTMLDocument($display);
             COM_output($display);
             exit();
         }
@@ -314,9 +309,8 @@ if ($type == "forum") {
             COM_output($display);
             exit();
         } else {
-            $boards_delforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+            $boards_delforum = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
             $boards_delforum->set_file (array ('boards_delforum'=>'boards_delete.thtml'));
-            $boards_delforum->set_var ('xhtml', XHTML);
             $boards_delforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
             $boards_delforum->set_var ('deletenote1', sprintf($LANG_GF93['deleteforumnote1'], COM_applyFilter($_POST['forumname'])));
             $boards_delforum->set_var ('deletenote2', $LANG_GF93['deleteforumnote2']);
@@ -330,7 +324,7 @@ if ($type == "forum") {
             $display .= $boards_delforum->finish ($boards_delforum->get_var('output'));
             $display .= COM_endBlock();
             $display .= adminfooter();
-            $display .= COM_siteFooter();
+            $display = COM_createHTMLDocument($display);
             COM_output($display);
             exit();
         }
@@ -374,9 +368,8 @@ if ($type == "forum") {
             }
         }
 
-        $boards_edtforum = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+        $boards_edtforum = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
         $boards_edtforum->set_file (array ('boards_edtforum'=>'boards_edtforum.thtml'));
-        $boards_edtforum->set_var ('xhtml', XHTML);
         $boards_edtforum->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
         $boards_edtforum->set_var ('title', sprintf($LANG_GF93['editforumnote'], $forum_name));
         $boards_edtforum->set_var ('id', $id);
@@ -393,13 +386,13 @@ if ($type == "forum") {
         $boards_edtforum->set_var ('LANG_NAME', $LANG_GF01['NAME']);
         $boards_edtforum->set_var ('LANG_GROUPACCESS', $LANG_GF93['groupaccess']);
 
-        $boards_edtforum->set_var ('LANG_readonly', $LANG_GF93['readonly']); 
-        $boards_edtforum->set_var ('LANG_readonlydscp', $LANG_GF93['readonlydscp']); 
-        $boards_edtforum->set_var ('LANG_hidden', $LANG_GF93['hidden']); 
-        $boards_edtforum->set_var ('LANG_hiddendscp', $LANG_GF93['hiddendscp']); 
-        $boards_edtforum->set_var ('LANG_hideposts', $LANG_GF93['hideposts']); 
-        $boards_edtforum->set_var ('LANG_hidepostsdscp', $LANG_GF93['hidepostsdscp']);  
-        
+        $boards_edtforum->set_var ('LANG_readonly', $LANG_GF93['readonly']);
+        $boards_edtforum->set_var ('LANG_readonlydscp', $LANG_GF93['readonlydscp']);
+        $boards_edtforum->set_var ('LANG_hidden', $LANG_GF93['hidden']);
+        $boards_edtforum->set_var ('LANG_hiddendscp', $LANG_GF93['hiddendscp']);
+        $boards_edtforum->set_var ('LANG_hideposts', $LANG_GF93['hideposts']);
+        $boards_edtforum->set_var ('LANG_hidepostsdscp', $LANG_GF93['hidepostsdscp']);
+
         $boards_edtforum->set_var ('grouplist', $grouplist);
         $boards_edtforum->set_var ('LANG_SAVE', $LANG_GF01['SAVE']);
         $boards_edtforum->set_var ('LANG_CANCEL', $LANG_GF01['CANCEL']);
@@ -409,7 +402,7 @@ if ($type == "forum") {
         $display .= $boards_edtforum->finish ($boards_edtforum->get_var('output'));
         $display .= COM_endBlock();
         $display .= adminfooter();
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display);
         COM_output($display);
         exit();
     }
@@ -418,9 +411,8 @@ if ($type == "forum") {
 
 // MAIN CODE
 
-$boards = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$boards = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
 $boards->set_file (array ('boards'=>'boards.thtml','categories' => 'board_categories.thtml','forums' => 'board_forums.thtml'));
-$boards->set_var ('xhtml', XHTML);
 $boards->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/boards.php');
 $boards->set_var ('siteurl', $_CONF['site_url']);
 $boards->set_var ('adminurl', $_CONF['site_admin_url']);
@@ -492,6 +484,6 @@ $boards->parse ('output', 'boards');
 $display .= $boards->finish ($boards->get_var('output'));
 $display .= COM_endBlock();
 $display .= adminfooter();
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display);
 COM_output($display);
 ?>

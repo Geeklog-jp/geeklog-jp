@@ -39,7 +39,6 @@ require_once '../../../lib-common.php';
 $token = SEC_createToken();
 
 $display  = '';
-$display .= COM_siteHeader();
 $display .= COM_startBlock($LANG_GF92['gfsettings']);
 $display .= "<div><form method='POST' name='redirect' action='" . $_CONF['site_admin_url'] . "/configuration.php'><div>";
 $display .= "<noscript><meta http-equiv='refresh' content='0; URL=" . $_CONF['site_admin_url'] . "/configuration.php'></noscript>";
@@ -49,7 +48,7 @@ $display .= "<input type='hidden' name='conf_group' value='forum'" . XHTML . ">"
 $display .= "</div></form></div>";
 $display .= COM_endBlock();
 $display .= "<script type='text/javascript'>document.redirect.submit();</script>";
-$display .= COM_siteFooter();
+$display = COM_createHTMLDocument($display, array('what' => 'none'));
 
 COM_output($display);
 

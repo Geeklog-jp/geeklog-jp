@@ -59,7 +59,7 @@ function selectHTML_forum($selected='') {
                     $selectHTML .= '<option value="-1">' .$A['cat_name']. '';
                  }
                 $firstforum = false;
-                if ($B['forum_id'] == $selected) { 
+                if ($B['forum_id'] == $selected) {
                     $selectHTML .= LB .'<option value="' .$B['forum_id']. '" selected="selected">&nbsp;&#187;&nbsp;&nbsp;' .$B['forum_name']. '';
                 } else {
                     $selectHTML .= LB .'<option value="' .$B['forum_id']. '">&nbsp;&#187;&nbsp;&nbsp;' .$B['forum_name']. '';
@@ -76,13 +76,13 @@ function selectHTML_members($selected='') {
     $sql  = "SELECT  user.uid,user.username FROM {$_TABLES['users']} user, {$_TABLES['forum_topic']} topic ";
     $sql .= "WHERE user.uid <> 1 AND user.uid=topic.uid GROUP BY uid ORDER BY user.username";
     $memberlistsql = DB_query($sql);
-    if ($selected == 1) { 
+    if ($selected == 1) {
         $selectHTML .= LB .'<option value="1" selected="selected">' .$LANG_GF02['msg177']. '</option>';
     } else {
         $selectHTML .= LB .'<option value="1">' .$LANG_GF02['msg177']. '</option>';
     }
     while($A = DB_fetchArray($memberlistsql)) {
-        if ($A['uid'] == $selected) { 
+        if ($A['uid'] == $selected) {
             $selectHTML .= LB .'<option value="' .$A['uid']. '" selected="selected">' .$A['username']. '</option>';
         } else {
             $selectHTML .= LB .'<option value="' .$A['uid']. '">' .$A['username']. '</option>';
@@ -91,7 +91,7 @@ function selectHTML_members($selected='') {
     return $selectHTML;
 
 }
-    
+
 /* Check to see if user has checked multiple records to delete */
 if (strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') === 0 AND $op == 'delchecked' AND SEC_checkToken()) {
     $chkrecid = array();
@@ -146,29 +146,26 @@ $result = DB_query($sql);
 $num_messages = DB_numRows($result);
 
 $display = '';
-$display .= COM_siteHeader();
-$report = new Template($CONF_FORUM['path_layout'] . 'forum/layout/admin');
-$report->set_file (array ('messages'=>'messages.thtml', 'records' => 'message_line.thtml'));
-$report->set_var ('xhtml', XHTML);
-$report->set_var ('phpself', $_CONF['site_admin_url'] .'/plugins/forum/messages.php');
-$report->set_var ('site_url', $_CONF['site_url']);
-$report->set_var ('imgset', $CONF_FORUM['imgset']); 
-$report->set_var ('LANG_deleteall', $LANG_GF01['DELETEALL']);
-$report->set_var ('LANG_DELCONFIRM', $LANG_GF01['DELCONFIRM']);
-$report->set_var ('LANG_DELALLCONFIRM', $LANG_GF01['DELALLCONFIRM']);
-$report->set_var ('LANG_select1', $LANG_GF02['msg106']);
-$report->set_var ('LANG_select2', $LANG_GF02['msg176']);
-$report->set_var ('LANG_Parent',  $LANG_GF02['msg178']);
-$report->set_var ('LANG_Author',  $LANG_GF01['AUTHOR']);
-$report->set_var ('LANG_Subject', $LANG_GF01['SUBJECT']);
-$report->set_var ('LANG_Views',   $LANG_GF01['VIEWS']);
-$report->set_var ('LANG_Replies', $LANG_GF01['REPLIES']);
-$report->set_var ('LANG_Actions', $LANG_GF01['ACTIONS']);
-$report->set_var ('LANG_Moderate', $LANG_GF95['moderate']);
-$report->set_var ('LANG_Delete', $LANG_GF01['DELETE']);
+$report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout/admin');
+$report->set_file(array ('messages'=>'messages.thtml', 'records' => 'message_line.thtml'));
+$report->set_var('phpself', $_CONF['site_admin_url'] .'/plugins/forum/messages.php');
+$report->set_var('imgset', $CONF_FORUM['imgset']);
+$report->set_var('LANG_deleteall', $LANG_GF01['DELETEALL']);
+$report->set_var('LANG_DELCONFIRM', $LANG_GF01['DELCONFIRM']);
+$report->set_var('LANG_DELALLCONFIRM', $LANG_GF01['DELALLCONFIRM']);
+$report->set_var('LANG_select1', $LANG_GF02['msg106']);
+$report->set_var('LANG_select2', $LANG_GF02['msg176']);
+$report->set_var('LANG_Parent',  $LANG_GF02['msg178']);
+$report->set_var('LANG_Author',  $LANG_GF01['AUTHOR']);
+$report->set_var('LANG_Subject', $LANG_GF01['SUBJECT']);
+$report->set_var('LANG_Views',   $LANG_GF01['VIEWS']);
+$report->set_var('LANG_Replies', $LANG_GF01['REPLIES']);
+$report->set_var('LANG_Actions', $LANG_GF01['ACTIONS']);
+$report->set_var('LANG_Moderate', $LANG_GF95['moderate']);
+$report->set_var('LANG_Delete', $LANG_GF01['DELETE']);
 
-$report->set_var ('select_forum',selectHTML_forum($forum));
-$report->set_var ('select_member',selectHTML_members($member));
+$report->set_var('select_forum',selectHTML_forum($forum));
+$report->set_var('select_member',selectHTML_members($member));
 
 $navbar->set_selected($LANG_GF06['6']);
 $report->set_var('navbar', $navbar->generate());
@@ -180,7 +177,7 @@ if ($parentonly == 1) {
 if ($num_messages == 0) {
     $report->set_var('startblock', COM_startBlock($LANG_GF95['header1']));
     $report->set_var('showalert','');
-    $report->set_var ('alertmessage', $LANG_GF95['nomess']);
+    $report->set_var('alertmessage', $LANG_GF95['nomess']);
     $report->set_var('endblock', COM_endBlock());
 
 } else {
@@ -190,36 +187,36 @@ if ($num_messages == 0) {
         $report->set_var('startblock', COM_startBlock(sprintf($LANG_GF95['header2'],$forumname)));
     }
     $report->set_var('showalert','none');
-    $report->set_var ('alertmessage', '');
+    $report->set_var('alertmessage', '');
     $report->set_var('endblock', COM_endBlock());
     $numpages = ceil($num_messages / $show);
     $offset = ($page - 1) * $show;
     $base_url = $_CONF['site_admin_url'] . '/plugins/forum/messages.php?forum='.$forum;
-    $report->set_var ('pagenav', COM_printPageNavigation($base_url,$page, $numpages));
+    $report->set_var('pagenav', COM_printPageNavigation($base_url,$page, $numpages));
 
     $query = DB_query("SELECT * FROM {$_TABLES['forum_topic']} $whereSQL ORDER BY id DESC LIMIT $offset, $show");
     $csscode = 1;
     while($A = DB_fetchArray($query)){
-        $report->set_var ('id', $A['id']);
+        $report->set_var('id', $A['id']);
         if ($A['uid'] > 1) {
-               $report->set_var ('name', '<a href="' .$_CONF['site_url']. '/users.php?mode=profile&amp;uid=' .$A['uid']. '">' .COM_getDisplayName($A['uid']). '</a>');
+               $report->set_var('name', '<a href="' .$_CONF['site_url']. '/users.php?mode=profile&amp;uid=' .$A['uid']. '">' .COM_getDisplayName($A['uid']). '</a>');
         } else {
-            $report->set_var ('name', COM_getDisplayName($A['uid']));
+            $report->set_var('name', COM_getDisplayName($A['uid']));
         }
         if ($A['pid'] == "0") {
             $id = $A['id'];
-            $report->set_var ('topicid', $id);
+            $report->set_var('topicid', $id);
         } else {
-            $report->set_var ('topicid', $A['pid']);
+            $report->set_var('topicid', $A['pid']);
         }
         $report->set_var('csscode', $csscode);
-        $report->set_var ('subject', $A['subject']);
-        $report->set_var ('siteurl', $_CONF['site_url']);
-        $report->set_var ('forum', $A['forum']);
-        $report->set_var ('views', $A['views']);
-        $report->set_var ('replies', $A['replies']);
-        $report->set_var ('uid', $A['uid']);
-        $report->parse ('message_records', 'records',true);
+        $report->set_var('subject', $A['subject']);
+        $report->set_var('siteurl', $_CONF['site_url']);
+        $report->set_var('forum', $A['forum']);
+        $report->set_var('views', $A['views']);
+        $report->set_var('replies', $A['replies']);
+        $report->set_var('uid', $A['uid']);
+        $report->parse('message_records', 'records',true);
         if ($csscode == 2) {
             $csscode = 1;
         } else {
@@ -230,9 +227,9 @@ if ($num_messages == 0) {
 
 $report->set_var('gltoken_name', CSRF_TOKEN);
 $report->set_var('gltoken', SEC_createToken());
-$report->parse ('output', 'messages');
-$display .= $report->finish ($report->get_var('output'));
-$display .= COM_siteFooter();
+$report->parse('output', 'messages');
+$display .= $report->finish($report->get_var('output'));
+$display = COM_createHTMLDocument($display);
 
 COM_output($display);
 ?>

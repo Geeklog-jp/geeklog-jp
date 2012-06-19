@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | private/plugins/sitemap/language/english.php                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-k DOT net         |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-k DOT net         |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -30,7 +30,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------|
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'english.php') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'english.php') !== FALSE) {
 	die('This file cannot be used on its own.');
 }
 
@@ -106,5 +106,8 @@ $LANG_SMAP = array (
 	'sp_except'         => 'IDs of pages that should not be listed on the sitemap (space separated, regular expression supported)',
 	
 	// Since version 1.2.2
-	'dataproxy_unavailable'	=> 'Error!  DataProxy plugin is not installed or is disabled.',
+	'dataproxy_unavailable'	=> 'Error!  Dataproxy plugin is not installed or is disabled.',
+
+	// Since version 2.0.0
+	'sitemap_unavailable'	=> 'Error!  Sitemap plugin is not installed or is disabled.',
 );

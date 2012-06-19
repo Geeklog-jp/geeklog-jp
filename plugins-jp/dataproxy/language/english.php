@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/language/english.php                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2008 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,14 +31,14 @@
 // +---------------------------------------------------------------------------|
 
 $LANG_DPXY = array(
-	'plugin'            => 'dataproxy Plugin',
+	'plugin'            => 'Dataproxy Plugin',
 	'access_denied'     => 'Access Denied',
 	'access_denied_msg' => 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
-	'admin'             => 'dataproxy Plugin Admin',
-	'install_header'    => 'Install/Uninstall the dataproxy Plugin',
+	'admin'             => 'Dataproxy Plugin Admin',
+	'install_header'    => 'Install/Uninstall the Dataproxy Plugin',
 	'install_success'   => 'Installation Successful',
 	'install_fail'      => 'Installation Failed -- See your error log to find out why.',
 	'uninstall_success' => 'Uninstallation Successful',
 	'uninstall_fail'    => 'Uninstallation Failed -- See your error log to find out why.',
-	'menu_label'        => 'DataProxy',
+	'menu_label'        => 'Dataproxy',
 );

@@ -1,5 +1,26 @@
 Geeklog Forum Plugin History/Changes:
 
+Not yet released (2.9.0)
+------------
+
+- Issue 34: Converted forum smilie images to a sprite and improved the handling of smilies in general [Rouslan]
+- Issue 45: Missing Punctuation in English Error Message [Rouslan]
+- Issue 53: Updated Forum to work with Geeklog 1.9.0. Min version of Geeklog required is now 1.9.0 [Tom]
+- Issue 44: Fixed checking the notify box does not subscribe you to the thread [Tom]
+- Issue 50: Removed echo from redirect to post edit page [Tom]
+- Issue 47: Fixed moving and splitting topics [Tom]
+
+
+Not yet released (2.8.1)
+------------
+
+- Issue 46: Search did not take into account group privileges on forums [Tom]
+- Wrong number of arguments in some language strings causes sprintf to crash [Rouslan]
+- Fixed invalid index in French language file [Rouslan]
+- Fixed format string [Rouslan]
+- Fixed invalid HTML tag in Italian language file [Rouslan]
+
+
 August 12, 2011 (2.8.0)
 ------------
 

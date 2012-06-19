@@ -1,11 +1,49 @@
-2012-05-31  Yoshinori Tahara  <dengen>
+2012-06-19  Tetsuko Komma  <Ivy>
+
+	* コアプラグイン日本語言語ファイルを修正しました。
+
+	* テーマmodern_curveを日本語化しました。
+
+2012-06-18  Kenji ITO  <mystralkk>
+
+	* dataproxyプラグインをGeeklog-2.0.0に対応させました。
+
+	* sitemapプラグインをGeeklog-2.0.0に対応させました。
+
+	* dbmanプラグインをGeeklog-2.0.0に対応させました。
+
+2012-06-17  Kenji ITO  <mystralkk>
+
+	* nmoxqrblockプラグインをGeeklog-2.0.0に対応させました。
+
+2012-06-05  Kazuko Tsuchitani  <Tsuchi>
+
+	* phpblock_lastarticle.php 2.0対応しました。
+
+	* phpblock_lastarticle.php PHPブロック使用で画面がくずれる問題を修正
+	  しました。
+
+2012-06-03  Yoshinori Tahara  <dengen>
+
+	* forumプラグイン: Google Codeリポジトリの最新をマージしました。
+
+2012-06-03  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: Geeklog 2.0.0b1のcalendarプラグインの変更を
 	  マージしました。
 
-2012-05-30  Takahiro Kambe  <tacahi>
+2012-06-01  Takahiro Kambe  <tacahi>
 
-	* Geeklog 2.0.0b1をマージの抜けを反映しました。
+	* Geeklog 2.0.0b1のマージの抜けを反映させました。
+
+2012-05-31  Tetsuko Komma  <Ivy>
+
+	* Professional_cssテーマを2.0に合わせました。
+
+2012-05-26  Tetsuko Komma  <Ivy>
+
+	* コア日本語言語ファイル、コアプラグイン日本語言語ファイル、ドキュ
+	  メントの翻訳を追加しました。
 
 2012-05-26  Takahiro Kambe  <tacahi>
 

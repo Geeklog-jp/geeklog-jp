@@ -2,9 +2,9 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog forums Plugin 2.8 for Geeklog - The Ultimate Weblog               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
-// | French_france_utf-8.php                                                   |
+// | french_france.php                                                         |
 // | Language defines for all text                                             |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2011 by the following authors:                              |
@@ -37,12 +37,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = 'Mise à niveau du plugin forum : Mise à jour réussie.';
 $PLG_forum_MESSAGE2 = 'Mise à niveau du plugin forum : Impossible de mettre à jour automatiquement cette version. Merci de vous référer à la documentation.';
 $PLG_forum_MESSAGE5 = 'La mise à niveau du plugin forum a échouée - Consultez le fichier error.log';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => 'Forum',         // What shows up in the siteHeader
@@ -548,6 +545,37 @@ $LANG_GF96 = array (
     'specip'             => 'Veuillez spécifier une adresse IP à bannir !',
     'ipunbanned'         => 'Adresse IP n\'est plus bannie.',
     'noip'               => 'Vous n\'avez pas fourni une adresse IP !'
+);
+
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
 );
 
 // Localization of the Admin Configuration UI

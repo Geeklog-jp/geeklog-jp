@@ -645,7 +645,7 @@ case 'day':
     } else {
         $cal_templates->set_var('quickadd_form','');
     }
-
+    
 // Added --------->
     if ($mode == 'personal') {
         $cal_templates->set_var('editor','calendarjp/index.php');
@@ -663,7 +663,7 @@ case 'day':
         }
     }
 // Added ---------<
-
+    
     $display .= $cal_templates->parse('output', 'dayview');
     $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
     break;
@@ -798,7 +798,7 @@ case 'week':
         }
         $monthname = $cal->getMonthName($monthnum);
         if ($ja) {
-            $cal_templates->set_var ('day' . $i,
+            $cal_templates->set_var ('day' . $i, 
                 COM_createLink( strftime ('%m/%d', $thedate[1]),
                 $_CONF['site_url'] . '/calendarjp/index.php?' . addMode ($mode)
                 . "view=day&amp;day$daynum&amp;month=$monthnum&amp;year=$yearnum") . ' (' . $dayname . ')'
@@ -842,7 +842,7 @@ case 'week':
                 $endmonth = date('n',$endstamp);
 
                 $tformat = (isset($_CAJP_CONF['hour_mode']) && ($_CAJP_CONF['hour_mode'] == 12)) ? 'g:i a' : 'G:i';
-
+                
                 if (($startmonth == $monthnum && $daynum > $startday) OR ($startmonth <> $monthnum)) {
                     $starttime = date('n/j ' . $tformat, $startstamp);
                 } else {

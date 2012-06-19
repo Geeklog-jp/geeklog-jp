@@ -2,7 +2,7 @@
 /* vim: set expandtab sw=4 ts=4 sts=4: */
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog Forums Plugin 2.8.0                                               |
+// | Geeklog Forums Plugin 2.9.0                                               |
 // +---------------------------------------------------------------------------+
 // | danish_utf-8.php                                                          |
 // | Language defines for all text                                             |
@@ -33,12 +33,9 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-global $LANG32;
-
 $PLG_forum_MESSAGE1 = 'Forum Plugin Upgrade: Update completed successfully.';
 $PLG_forum_MESSAGE2 = 'Forum Plugin upgrade: We are unable to update this version automatically. Refer to the plugin documentation.';
 $PLG_forum_MESSAGE5 = 'Forum Plugin Upgrade failed - check error.log';
-$PLG_forum_MESSAGE3002 = $LANG32[9];
 
 $LANG_GF00 = array (
     'pluginlabel'       => 'Forum',         // What shows up in the siteHeader
@@ -230,8 +227,8 @@ $LANG_GF02['msg18']    = 'Fejl! Ikke alle de krævede felter er udfyldt eller og
 $LANG_GF02['msg19']    = 'Dit indlæg er blevet gemt.';
 $LANG_GF02['msg22']    = '- Forum Indlæg Advisering';
 $LANG_GF02['msg23a']   = "Der er kommet et svar vedrørende emnet '%s' af %s\n\nDette emne blev startet af: %s i %s forummet.\n";
-$LANG_GF02['msg23b']   = "Et nyt emne '%s' er oprettet af %s i %s's forummer på %s hjemmesiden.\nDu kan se det her: %s/forum/viewtopic.php?forum=%s&showtopic=%s\n";
-$LANG_GF02['msg23c']   = "\nDu kan se det her: %s/forum/viewtopic.php?forum=%s&showtopic=%s&lastpost=true\n";
+$LANG_GF02['msg23b']   = "Et nyt emne '%s' er oprettet af %s i %s's forummer på %s hjemmesiden.\nDu kan se det her: %s/forum/viewtopic.php?showtopic=%s\n";
+$LANG_GF02['msg23c']   = "\nDu kan se det her: %s/forum/viewtopic.php?showtopic=%s&lastpost=true\n";
 $LANG_GF02['msg25']    = "\nFortsat god dag! \n";
 $LANG_GF02['msg26']    = "\nDu modtager denne email fordi du har valgt at blive adviseret når der kommer et svar på dette emne. \n";
 $LANG_GF02['msg27']    = 'Du kan stoppe adviseringen: <a href="%s">her</a>.';
@@ -260,7 +257,7 @@ $LANG_GF02['msg77']    = '<br' . XHTML . '><p style="padding-left:10px;">Du burd
 $LANG_GF02['msg83']    = '<br' . XHTML . '><br' . XHTML . '>Du skal være logget ind for at anvende denne Forum facilitet.</p>';
 $LANG_GF02['msg84']    = 'Markér alle emner læst';
 $LANG_GF02['msg85']    = 'Side:';
-$LANG_GF02['msg86']    = 'Nyeste 10 indlæg af: ';
+$LANG_GF02['msg86']    = '&nbsp;Nyeste %s indlæg af&nbsp;';
 $LANG_GF02['msg87']    = '<br' . XHTML . '>Advarsel: Dette emne er låst af en moderator.<br' . XHTML . '>Det er ikke tilladt at skrive nye poster for emnet';
 $LANG_GF02['msg88']    = 'Brugere med Forum Aktivitet';
 $LANG_GF02['msg88b']   = 'Forum Activity Only';
@@ -544,6 +541,37 @@ $LANG_GF96 = array (
     'specip'             => 'Vælg hvilken IP-addresse du vil forbyde!',
     'ipunbanned'         => 'IP-address Tilladt.',
     'noip'               => 'You did not provide an IP address!'
+);
+
+// Smilies
+$LANG_GF_SMILIES = array(
+    // These strings are used for the "alt" and
+    // "title" attribute for the smilies images 
+    'biggrin'  => 'Big Grin',
+    'smile'    => 'Smile',
+    'frown'    => 'Frown',
+    'eek'      => 'Geek',
+    'confused' => 'Confused',
+    'cool'     => 'Cool',
+    'lol'      => 'LOL',
+    'angry'    => 'Angry',
+    'razz'     => 'Razz',
+    'oops'     => 'Oops!',
+    'surprise' => 'Surprised!',
+    'cry'      => 'Cry',
+    'evil'     => 'Evil',
+    'twisted'  => 'Twisted',
+    'rolleye'  => 'Rolling Eyes',
+    'wink'     => 'Wink',
+    'exclaim'  => 'Exclaimation',
+    'question' => 'Question',
+    'idea'     => 'Idea',
+    'arrow'    => 'Arrow',
+    'neutral'  => 'Neutral',
+    'green'    => 'Mr. Green',
+    'sick'     => 'Sick',
+    'tired'    => 'Tired',
+    'monkey'   => 'Monkey'
 );
 
 // Localization of the Admin Configuration UI

@@ -32,7 +32,7 @@
             <select name="start_day">
                 {startday_options}
             </select>
-            {lang_tail_day}&nbsp;&nbsp;{lang_starttime}:
+            {lang_tail_day}&nbsp;&nbsp;{lang_starttime}: 
             <select name="start_hour">
                 {starthour_options}
             </select>
@@ -55,7 +55,7 @@
             <select name="end_day">
                 {endday_options}
             </select>
-            {lang_tail_day}&nbsp;&nbsp;{lang_endtime}:
+            {lang_tail_day}&nbsp;&nbsp;{lang_endtime}: 
             <select name="end_hour">
                 {endhour_options}
             </select>
@@ -139,8 +139,8 @@
     </fieldset>
 
     <div class="submit">
-      <input type="submit" value="{lang_save}" name="mode" class="submit"{xhtml}>
-      <input type="submit" value="{lang_cancel}" name="mode" class="submit"{xhtml}>
+      <input type="submit" value="{lang_save}" name="mode" class="submit"{xhtml}> 
+      <input type="submit" value="{lang_cancel}" name="mode" class="submit"{xhtml}> 
       <input type="hidden" name="eid" value="{event_id}"{xhtml}>
       <input type="hidden" name="hour_mode" value="{hour_mode}"{xhtml}>
       {delete_option}

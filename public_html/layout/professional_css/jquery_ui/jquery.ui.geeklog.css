@@ -41,10 +41,6 @@
 }
 #tooltip-content { background-color: #FFF; min-width: 175px; min-height: 50px; }
 
-#tooltip-content table td{
-    text-align:left;
-}
-
 /* Validation */
 .input_error { border: solid 1px red; }
 .validation_error_block {

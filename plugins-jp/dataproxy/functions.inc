@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | Data Proxy Plugin for Geeklog - The Ultimate Weblog                       |
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dataproxy/functions.inc                                   |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2007-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -31,15 +31,13 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
-	die('This file can not be used on its own.');
+if (stripos($_SERVER['PHP_SELF'], 'functions.inc') !== FALSE) {
+	die('This file cannot be used on its own.');
 }
 
-//define( 'DATAPROXY_DEBUG', TRUE );
+//define('DATAPROXY_DEBUG', TRUE);
 
-/**
-* Language file Include
-*/
+// Includes language file 
 $langfile = $_CONF['path'] . 'plugins/dataproxy/language/' . $_CONF['language'] . '.php';
 clearstatcache();
 
@@ -49,9 +47,7 @@ if (file_exists($langfile)) {
 	include_once $_CONF['path'] . 'plugins/dataproxy/language/english.php';
 }
 
-/**
-* Include dataproxy config file
-*/
+// Includes dataproxy config file
 require_once $_CONF['path'] . 'plugins/dataproxy/config.php';
 require_once $_CONF['path'] . 'plugins/dataproxy/dataproxy.php';
 
@@ -78,19 +74,6 @@ function plugin_commentsupport_dataproxy() {
 }
 
 /**
-* Shows the statistics for the plugin on stats.php.  If $showsitestats is 1
-* then we are to only print the overall stats in the 'site statistics' box
-* otherwise we show the detailed stats for the plugin
-*
-* @param    int showsitestate   Flag to let us know which stats to get
-* @return   string  returns formatted HTML to insert in stats page
-*/
-function plugin_showstats_dataproxy($showsitestats) {
-	$retval = '';
-	return $retval;
-}
-
-/**
 * This will put an option for the plugin in the command and control block on
 * moderation.php
 *
@@ -100,7 +83,6 @@ function plugin_cclabel_dataproxy() {
 	global $_CONF;
 	
 	$pi_name   = DPXY_str('menu_label');
-//	$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
 	$admin_url = '';
 	$icon_url  = $_CONF['site_admin_url'] . '/plugins/dataproxy/images/dataproxy.gif';
 	
@@ -112,8 +94,6 @@ function plugin_cclabel_dataproxy() {
 *
 * Adds the plugin to the Admin menu
 *
-* Universal Plugin:  Modify/Uncomment use it
-*
 * @return   array   Array containing (plugin name, plugin admin url, # of items in plugin or '')
 */
 function plugin_getadminoption_dataproxy() {
@@ -121,10 +101,8 @@ function plugin_getadminoption_dataproxy() {
 
 	if (SEC_hasRights('dataproxy.admin')) {
 		$pi_name   = DPXY_str('menu_label');
-//		$admin_url = $_CONF['site_admin_url'] . '/plugins/dataproxy/index.php';
 		$admin_url = '';
 		$num_items = '';
-//		$num_items = DB_count($_TABLES['table1']);
 		return array($pi_name, $admin_url, $num_items);
 	}
 }
@@ -138,15 +116,6 @@ function plugin_chkVersion_dataproxy() {
 	global $_DPXY_CONF;
 	
 	return $_DPXY_CONF['pi_version'];
-}
-
-/**
-* Returns the user option for this plugin
-*
-* @return   array   Array containing (plugin name, plugin user url, 0)
-*/
-function plugin_getuseroption_dataproxy() {
-	return array();
 }
 
 /**
