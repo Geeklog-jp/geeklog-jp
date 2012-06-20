@@ -1,38 +1,120 @@
 <?php
 
+/* Reminder: always indent with 4 spaces (no tabs). */
+// +---------------------------------------------------------------------------+
+// | Geeklog 2.0                                                               |
+// +---------------------------------------------------------------------------+
+// | functions.php                                                             |
+// |                                                                           |
+// | Functions implementing the theme API                                      |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2000-2012 by the following authors:                         |
+// |                                                                           |
+// | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
+// |          Mark Limburg      - mlimburg AT users DOT sourceforge DOT net    |
+// |          Jason Whittenburg - jwhitten AT securitygeeks DOT com            |
+// |          Dirk Haun         - dirk AT haun-online DOT de                   |
+// |          Vincent Furia     - vinny01 AT users DOT sourceforge DOT net     |
+// |          Rouslan Placella  - rouslan AT placella DOT com                  |
+// +---------------------------------------------------------------------------+
+// |                                                                           |
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// |                                                                           |
+// +---------------------------------------------------------------------------+
+
 // this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
     die('This file can not be used on its own!');
 }
 
-$_IMAGE_TYPE = 'png';
-
-$_SCRIPTS->setJavaScriptFile('theme.confirm', '/layout/' . $_CONF['theme'] . '/javascript/confirm.js');
-$_SCRIPTS->setJavaScriptFile('theme.fix_html', '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js');
-
-/*
- * For left/right block support there is no longer any need for the theme to
- * put code into functions.php to set specific templates for the left/right
- * versions of blocks. Instead, Geeklog will automagically look for
- * blocktemplate-left.thtml and blocktemplate-right.thtml if given
- * blocktemplate.thtml from $_BLOCK_TEMPLATE. So, if you want different left
- * and right templates from admin_block, just create blockheader-list-left.thtml
- * etc.
+/**
+ * Return the configuration values for the theme
  */
-
-$_BLOCK_TEMPLATE['_msg_block'] = 'blockheader-message.thtml,blockfooter-message.thtml';
-$_BLOCK_TEMPLATE['configmanager_block'] = 'blockheader-config.thtml,blockfooter-config.thtml';
-$_BLOCK_TEMPLATE['configmanager_subblock'] = 'blockheader-config.thtml,blockfooter-config.thtml';
-$_BLOCK_TEMPLATE['whats_related_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
-$_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
-
-// Define the blocks that are a list of links styled as an unordered list - using class="blocklist"
-$_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
-$_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
-
-if (!COM_isAnonUser()) {
-    $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+function theme_config_mobile()
+{
+    return array(
+        'image_type' => 'png',
+        'doctype' => 'xhtml10strict'
+    );
 }
+
+/**
+ * Return an array of CSS files to be loaded
+ */
+function theme_css_mobile()
+{
+    global $_CONF, $LANG_DIRECTION;
+    return array(
+        array(
+            'file' => '/layout/' . $_CONF['theme'] . '/style.css'
+        )
+    );
+}
+
+/**
+ * Return an array of JS libraries to be loaded
+ */
+function theme_js_libs_mobile()
+{
+    return array(
+    );
+}
+
+/**
+ * Return an array of JS files to be loaded
+ */
+function theme_js_files_mobile()
+{
+    global $_CONF;
+    return array(
+        '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
+        '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js'
+    );
+}
+
+/**
+ * Do any other initialisation here
+ */
+function theme_init_mobile()
+{
+    global $_BLOCK_TEMPLATE;
+
+    /*
+     * For left/right block support there is no longer any need for the theme to
+     * put code into functions.php to set specific templates for the left/right
+     * versions of blocks. Instead, Geeklog will automagically look for
+     * blocktemplate-left.thtml and blocktemplate-right.thtml if given
+     * blocktemplate.thtml from $_BLOCK_TEMPLATE. So, if you want different left
+     * and right templates from admin_block, just create blockheader-list-left.thtml
+     * etc.
+     */
+    $_BLOCK_TEMPLATE['_msg_block'] = 'blockheader-message.thtml,blockfooter-message.thtml';
+    $_BLOCK_TEMPLATE['configmanager_block'] = 'blockheader-config.thtml,blockfooter-config.thtml';
+    $_BLOCK_TEMPLATE['configmanager_subblock'] = 'blockheader-config.thtml,blockfooter-config.thtml';
+    $_BLOCK_TEMPLATE['whats_related_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
+    $_BLOCK_TEMPLATE['story_options_block'] = 'blockheader-related.thtml,blockfooter-related.thtml';
+
+    // Define the blocks that are a list of links styled as an unordered list - using class="blocklist"
+    $_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+    $_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+
+    if (! COM_isAnonUser()) {
+        $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
+    }
+}
+
 function mobile_siteFooter( $rightblock = -1, $custom = '' )
 {
     global $_CONF, $_TABLES, $LANG01, $_PAGE_TIMER, $topic, $LANG_BUTTONS, $_USER;
@@ -208,16 +290,16 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     $footer->set_var( 'execution_textandtime', $exectext );
 
     /*
-     * ƒƒjƒ…[
+     * ãƒ¡ãƒ‹ãƒ¥ãƒ¼
      */
 	$akey = 1;
 	
-    // ƒz[ƒ€
+    // ãƒ›ãƒ¼ãƒ 
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
                       '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
 	$akey ++;
 	
-    // ƒƒOƒCƒ“/ƒƒOƒAƒEƒg
+    // ãƒ­ã‚°ã‚¤ãƒ³/ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
@@ -229,43 +311,43 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     }
 	$akey ++;
 	
-    // ‹L–“Še
+    // è¨˜äº‹æŠ•ç¨¿
     $footer->set_var( 'mn_submit', '<a href="' . $_CONF['site_url'] .
                       '/submit.php?type=story" accesskey="' . $akey . '">' . $LANG01['71'] . '</a>' );
 	$akey ++;
 	
-    // Œf¦”Â
+    // æ²ç¤ºæ¿
 	$temp = DB_query("SELECT 1 AS cnt FROM {$_TABLES['plugins']} WHERE (pi_name = 'forum') AND (pi_enabled = '1')");
 	if (DB_numRows($temp) == 1) {
 	    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
-    	                  '/forum/index.php" accesskey="' . $akey . '">' . "Œf¦”Â</a>" );
+    	                  '/forum/index.php" accesskey="' . $akey . '">' . "æ²ç¤ºæ¿</a>" );
 		$akey ++;
 	}
 	
-    // ‹L–ˆê——
+    // è¨˜äº‹ä¸€è¦§
     $footer->set_var( 'mn_directory', '<a href="' . $_CONF['site_url'] .
                       '/directory.php" accesskey="' . $akey . '">' . $LANG01['117'] . '</a>' );
 	$akey ++;
 	
-    // ŒŸõ
+    // æ¤œç´¢
     $footer->set_var( 'mn_search', '<a href="' . $_CONF['site_url'] .
                       '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
 	$akey ++;
 	
-    // ƒuƒƒbƒN
+    // ãƒ–ãƒ­ãƒƒã‚¯
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="' . $akey . '">ƒTƒuƒƒjƒ…[</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-    // ƒ}ƒCƒAƒJƒEƒ“ƒg
+    // ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
     } else {
-    // V‹K“o˜^
+    // æ–°è¦ç™»éŒ²
         	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/users.php?mode=new" accesskey="' . $akey . '">‰ïˆõ“o˜^</a>' );
+                      '/users.php?mode=new" accesskey="' . $akey . '">ä¼šå“¡ç™»éŒ²</a>' );
 	$akey ++;
     }
 
@@ -278,5 +360,6 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     // Return resulting HTML
     return $footer->finish( $footer->get_var( 'index_footer' ));
 }
+
 
 ?>
