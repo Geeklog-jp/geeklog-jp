@@ -1,3 +1,4 @@
+
 <!-- footer.thtml { -->
 
     </div>
@@ -16,7 +17,9 @@
     </ol>
   <hr style="color:#666699"{xhtml}>
 
-{googleanalytics} 
+    {plg_footercode}
 
-</body>
+<!-- } footer.thtml -->
+
+  </body>
 </html>
