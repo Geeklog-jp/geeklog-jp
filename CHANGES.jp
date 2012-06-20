@@ -1,3 +1,7 @@
+2012-06-20  Tetsuko Komma  <Ivy>
+
+	* 携帯専用テーマmobileをGeeklog 2.0.0に対応させました。
+
 2012-06-20  Yoshinori Tahara  <dengen>
 
 	* 不要なチェンジセットを破棄してマージしました。
@@ -10,15 +14,15 @@
 
 2012-06-18  Kenji ITO  <mystralkk>
 
-	* dataproxyプラグインをGeeklog-2.0.0に対応させました。
+	* dataproxyプラグインをGeeklog 2.0.0に対応させました。
 
-	* sitemapプラグインをGeeklog-2.0.0に対応させました。
+	* sitemapプラグインをGeeklog 2.0.0に対応させました。
 
-	* dbmanプラグインをGeeklog-2.0.0に対応させました。
+	* dbmanプラグインをGeeklog 2.0.0に対応させました。
 
 2012-06-17  Kenji ITO  <mystralkk>
 
-	* nmoxqrblockプラグインをGeeklog-2.0.0に対応させました。
+	* nmoxqrblockプラグインをGeeklog 2.0.0に対応させました。
 
 2012-06-05  Kazuko Tsuchitani  <Tsuchi>
 
