@@ -1,3 +1,11 @@
+2012-06-21  Tetsuko Komma  <Ivy>
+
+	* テーマprofessional_cssのadminテンプレートとスタイルを修正
+	  しました。
+
+	* コアプラグイン日本語言語ファイルの話題登録関係を修正しま
+	  した。
+
 2012-06-20  Tetsuko Komma  <Ivy>
 
 	* 携帯専用テーマmobileをGeeklog 2.0.0に対応させました。

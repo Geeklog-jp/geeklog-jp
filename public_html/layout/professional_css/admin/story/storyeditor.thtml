@@ -1,10 +1,10 @@
 
 <!-- admin/story/storyeditor.thtml { -->
 
-<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
+<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="frmstory" class="compact">
 
   <div class="admin_basic">
-    <dl>
+    <dl class="form_block">
       <dt>{lang_author}</dt>
       <dd>{story_author}</dd>
 
@@ -35,12 +35,12 @@
       <dd class="description">{publish_date_explanation}</dd>
 
       <dt><label for="admin-storyeditor-title">{lang_title}</label></dt>
-      <dd><input type="text" size="48" maxlength="255" value="{story_title}" name="title" id="admin-storyeditor-title" class="text"{xhtml}></dd>
+      <dd><input type="text" maxlength="255" value="{story_title}" name="title" id="admin-storyeditor-title" class="size6"{xhtml}></dd>
 
       <dt><label for="admin-storyeditor-page_title">{lang_page_title}</label></dt>
-      <dd><input type="text" size="48" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="text"{xhtml}></dd>
+      <dd><input type="text" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="size6"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor-tid">{lang_topic}</label></dt>
+      <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
 
       <dt><label for="admin-storyeditor-show_topic_icon">{lang_show_topic_icon}</label></dt>
@@ -58,8 +58,8 @@
         &nbsp;{lang_optiondelete}
       </dd>
 
-      <dt><label for="admin-storyeditor-expire_month"></label></dt>
-      <dd>{lang_date}&nbsp;
+      <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
+      <dd>
         <select name="expire_month" id="admin-storyeditor-expire_month">
           {expire_month_options}
         </select>
@@ -82,7 +82,7 @@
         {expireampm_selection}
       </dd>
 
-      <dt><label for="admin-storyeditor-featured">{lang_mode}</label></dt>
+      <dt><label>{lang_mode}</label></dt>
       <dd>
         {featured_options}
         <select name="frontpage">
@@ -97,7 +97,7 @@
         </select>
       </dd>
 
-      <dt><label for="admin-storyeditor-featured">{lang_cmt_disable}:</label></dt>
+      <dt><label>{lang_cmt_disable}:</label></dt>
       <dd>
         {lang_enabled}&nbsp;
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
@@ -128,13 +128,13 @@
       </dd>
 
       <dt><label for="admin-storyeditor-sid">{lang_sid}</label></dt>
-      <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="text"{xhtml}></dd>
+      <dd><input type="text" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="size5"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd{hide_meta}><textarea cols="70" rows="2" name="meta_description" id="admin-storyeditor-metadescription">{meta_description}</textarea></dd>
+      <dd{hide_meta}><textarea cols="70" rows="2" name="meta_description" id="admin-storyeditor-metadescription" class="wide">{meta_description}</textarea></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd{hide_meta}><textarea cols="70" rows="2" name="meta_keywords" id="admin-storyeditor-metakeywords">{meta_keywords}</textarea></dd>
+      <dd{hide_meta}><textarea cols="70" rows="2" name="meta_keywords" id="admin-storyeditor-metakeywords" class="wide">{meta_keywords}</textarea></dd>
 
       <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
       <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
@@ -150,7 +150,7 @@
       </dd>
       <dd class="description">{lang_allowed_html}</dd>
 
-      <dt><label for="file1">{lang_images}</label></dt>
+      <dt><label>{lang_images}</label></dt>
       <dd>
         {saved_images}
         {image_form_elements}
@@ -168,33 +168,28 @@
       <dt>{lang_emails}</dt>
       <dd>{story_emails}</dd>
     </dl>
-  </div>
 
-  <fieldset>
-    <legend>{lang_accessrights}</legend>
+    <fieldset>
+      <legend>{lang_accessrights}</legend>
+      <dl class="form_block">
+        <dt>{lang_owner}</dt>
+        <dd>{owner_name}</dd>
 
-    <h3>{lang_accessrights}</h3>
+        <dt><label>{lang_group}</label></dt>
+        <dd>{group_dropdown}</dd>
 
-    <dl>
-      <dt>{lang_owner}</dt>
-      <dd>{owner_name}</dd>
+        <dt><label for="admin-permissions">{lang_permissions}</label></dt>
+        <dd>{permissions_editor}</dd>
+        <dd class="description">{lang_perm_key}</dd>
+        <dd class="description">{lang_permissions_msg}</dd>
+      </dl>
+    </fieldset>
 
-      <dt><label for="group_id">{lang_group}</label></dt>
-      <dd>{group_dropdown}</dd>
-
-      <dt><label for="perm_owner">{lang_permissions}</label></dt>
-      <dd>{permissions_editor}</dd>
-      <dd class="description">{lang_perm_key}</dd>
-      <dd class="description">{lang_permissions_msg}</dd>
-    </dl>
-  </fieldset>
-
-  <ul class="submit">
-    <li><input type="submit" value="{lang_save}" name="mode"{xhtml}></li>
-    <li><input type="submit" value="{lang_preview}" name="mode"{xhtml}></li>
-    <li><input type="submit" value="{lang_cancel}" name="mode"{xhtml}></li>
-    <li>{delete_option}</li>
-    <li>
+    <div class="submit">
+      <input type="submit" value="{lang_save}" name="mode"{xhtml}>
+      <input type="submit" value="{lang_preview}" name="mode"{xhtml}>
+      <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
+      {delete_option}
       <input type="hidden" name="uid" value="{story_uid}"{xhtml}>
       <input type="hidden" name="publish_second" value="{publish_second}"{xhtml}>
       <input type="hidden" name="old_sid" value="{old_story_id}"{xhtml}>
@@ -208,8 +203,9 @@
       <input type="hidden" name="owner_id" value="{owner_id}"{xhtml}>
       <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
       {submission_option}
-    </li>
-  </ul>
+    </div>
+  </div>
+
 </form>
 
 <!-- } admin/story/storyeditor.thtml -->

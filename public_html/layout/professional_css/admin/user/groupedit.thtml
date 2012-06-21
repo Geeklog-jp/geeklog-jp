@@ -3,7 +3,7 @@
 
 <dd>
   <p class="groupinstructions">{lang_groupinstructions}</p>
-  {group_options}
+  <div class="fieldset-table-wrapper">{group_options}</div>
 </dd>
 
 <!-- } admin/user/groupedit.thtml -->
