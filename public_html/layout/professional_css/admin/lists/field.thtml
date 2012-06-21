@@ -1,6 +1,1 @@
-
-<!-- admin/lists/field.thtml { -->
-
 <td class="{class}"{colspan}>{itemtext}</td>
-
-<!-- } admin/lists/field.thtml -->
