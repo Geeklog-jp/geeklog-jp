@@ -137,7 +137,7 @@ class database {
             $this->dbError();
         }
 
-        if (strcasecmp($this->_charset, 'utf-8') == 0) {
+        if ($this->_charset == 'utf-8') {
             if (($this->_mysql_version >= 50007) &&
                     function_exists('mysql_set_charset')) {
                 @mysql_set_charset('utf8', $this->_db);
