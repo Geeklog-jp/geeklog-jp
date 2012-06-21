@@ -81,6 +81,7 @@ function submissionform($type = 'story', $mode = '', $topic = '')
                         . $LANG12[9]
                         . COM_endBlock();
             }
+
             if ((strlen($type) > 0) && ($type <> 'story')) {
                 $formresult = PLG_showSubmitForm($type);
                 if ($formresult == false) {
