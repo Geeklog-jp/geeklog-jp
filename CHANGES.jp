@@ -1,3 +1,27 @@
+2012-06-21  Takahiro Kambe  <tacahi>
+
+	* Geeklog 2.0.0b1から日本語版で独自に修正している部分で不用となっ
+	  ていたり、確認が必要なところをGeeklog 2.0.0b1ベースに戻しました。
+
+	  public_html/admin/install/index.php
+
+		バグ修正を表すコメントを削除
+
+	  system/databases/mysql.class.php
+
+		charsetの皮革にstrcasecmp()の使用を取り止め
+
+	  system/lib-custom.php
+
+		Geeklog 2.0.0b1でPHPのechoに括弧を使用しているのに追従
+
+	  system/classes/story.class.php
+
+		日本語版で独自の変更を一旦差し戻し
+
+	* public_html/lib-common.phpにリビジョンa310237a9328の変更を再適用
+	  してGeeklog 2.0.0b1ベースの内容に戻しました。
+
 2012-06-21  Tetsuko Komma  <Ivy>
 
 	* テーマprofessional_cssのadminテンプレートとスタイルを修正
