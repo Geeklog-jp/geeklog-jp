@@ -549,7 +549,7 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
                 "An error has occurred: $errno $errstr @ $errline of $errfile");
         COM_errorLog("Error Handler: $errno $errstr @ $errline of $errfile");
     }
-    echo "
+    echo("
         <html>
             <head>
                 <title>{$_CONF['site_name']} - An error occurred.</title>
@@ -576,7 +576,7 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
                 </div>
             </body>
         </html>
-        ";
+        ");
     exit;
 }
 */
