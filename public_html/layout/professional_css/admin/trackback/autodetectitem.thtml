@@ -1,7 +1,7 @@
 
 <!-- admin/trackback/autodetectitem.thtml { -->
 
-<tr class="pluginRow{cssid}">
+<tr class="admin-listitem{cssid}">
   <td class="admin-list-field"><a href="{autodetect_link}">{link_text}</a></td>
   <td class="admin-list-field">{link_url}</td>
 </tr>

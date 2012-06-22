@@ -9,7 +9,7 @@
   <fieldset>
     <legend></legend>
 
-    <dl class="form_block">
+    <dl>
       <dt>{pingback_button}</dt>
       <dd>{lang_pingback_short}</dd>
 

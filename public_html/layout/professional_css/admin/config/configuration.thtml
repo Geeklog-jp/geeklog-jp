@@ -7,12 +7,12 @@
       <input type="hidden" value="" name="subgroup"{xhtml}>
       <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
     </form>
-    <table style="width: 100%;">
+    <table>
         <tr>
-            <td class="block-featured-left" style="width: 25%; vertical-align:top;">
+            <td class="block-featured-left" style="vertical-align:top;">
                 <div class="block-bg-left"> {config_menu} </div>
             </td>
-            <td style="vertical-align:top; width: 75%">
+            <td style="vertical-align:top; width: 100%">
             
                 <div class="saved_message pluginInfo{error_validation_class}" style="display:{show_changeblock}">
                     {lang_changes_made}

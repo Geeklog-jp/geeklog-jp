@@ -1,1 +1,6 @@
-<li><a href="{page_url}" style="text-align:center"><img src="{page_image}" style="display:block;margin:5px auto" alt=""{xhtml}>{option_label}</a></li>
+
+<!-- admin/moderation/ccitem.thtml { -->
+
+<li><a href="{page_url}"><img src="{page_image}" alt=""{xhtml}></a><a href="{page_url}">{option_label}</a></li>
+
+<!-- } admin/moderation/ccitem.thtml -->
