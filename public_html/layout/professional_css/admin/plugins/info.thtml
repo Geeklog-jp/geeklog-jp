@@ -4,7 +4,7 @@
 {start_block_editor}
 <form action="{site_admin_url}/plugins.php" method="post" class="compact">
   <div class="admin_basic" id="admin-editor">
-    <dl class="form_block">
+    <dl>
       <dt id="title">{title}</dt>
       <dd><img src="{pi_icon}" alt=""{xhtml}></dd>
 
@@ -28,10 +28,10 @@
 
       <dt>{lang_enabled}</dt>
       <dd>{pi_enabled}</dd>
+
+      <dt></dt>
+      <dd><input id="close" type="submit" value="{back}" {xhtml}></dd>
     </dl>
-    <div class="submit">
-      <input id="close" type="submit" value="{back}" {xhtml}>
-    </div>
   </div>
 </form>
 {end_block}

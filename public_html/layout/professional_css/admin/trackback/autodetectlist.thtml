@@ -3,7 +3,7 @@
 
 <p class="trackback-message">{lang_trackback_explain}</p>
 
-<table class="admin-list-table">
+<table class="admin-list">
   <tbody>
     {autodetect_items}
   </tbody>

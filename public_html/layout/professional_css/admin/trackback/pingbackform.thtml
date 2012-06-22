@@ -5,20 +5,19 @@
   <fieldset>
     <legend>ピングバックを送信</legend>  <!-- Geeklog Japanse -->
 
-    <p class="form_message">{lang_explain}</p>
+    <p class="message">{lang_explain}</p>
 
-    <dl class="form_block">
+    <dl>
       <dt><label for="pingbackform-target">{lang_pingback_url}</label></dt>
-      <dd><input type="text" maxlength="{max_url_length}" value="{target_url}" name="target" id="pingbackform-target" class="size6"{xhtml}></dd>
+      <dd><input type="text" size="50" maxlength="{max_url_length}" value="{target_url}" name="target" id="pingbackform-target" class="text"{xhtml}></dd>
 
       <dt>{lang_site_url}</dt>
-      <dd><span class="url">{site_url}</span></dd>
+      <dd>{site_url}</dd>
     </dl>
 
-    <div class="submit">
-      <input type="submit" value="{lang_send}" name="mode[2]" class="submit"{xhtml}>
-      <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-    </div>
+    <ul class="submit">
+      <li><input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}><input type="submit" value="{lang_send}" name="mode[2]" class="submit"{xhtml}></li>
+    </ul>
   </fieldset>
 </form>
 
