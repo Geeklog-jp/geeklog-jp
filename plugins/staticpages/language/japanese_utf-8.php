@@ -69,7 +69,7 @@ $LANG_STATIC = array(
     'all_html_allowed' => 'すべてのHTMLが利用できます。',
     'results' => '静的ページ検索結果',
     'author' => '所有者',
-    'no_title_or_content' => '<b>タイトル</b>と<b>内容</b>を記入してください。',
+    'no_title_or_content' => 'タイトルと冒頭文を入力し、話題を少なくともひとつ選択してください。',
     'no_such_page_anon' => 'ログインしてください。',
     'no_page_access_msg' => "この問題は、まだログインしていないか、そもそもこのサイト（{$_CONF['site_name']}）のメンバーではないためだと考えられます。{$_CONF['site_name']}に<a href=\"{$_CONF['site_url']}/users.php?mode=new\"> メンバー登録</a>するか、適切なアクセス権を管理者から取得してください。",
     'php_msg' => 'PHP: ',
