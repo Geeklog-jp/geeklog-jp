@@ -1,6 +1,6 @@
 Geeklog日本語版
 
-							2012年5月4日
+							2012年 6月**日
 							Geeklog Japanese
 
 1. 概要
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 1.8.1-jp-1.1の内容
+2. Geeklog 2.0.0-jp-1.0の内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -255,7 +255,11 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
   (5) その他
 
 	CHANGES.jp
-		現行リリース(Geeklog 1.8)に関する修正内容です。
+		現行リリース(Geeklog 2.0)に関する修正内容です。
+
+	CHANGES-1.8.jp
+		Geeklog 1.8に関する修正内容です。(保守用のブランチ
+		作成の前までです。)
 
 	CHANGES-1.7.jp
 		Geeklog 1.7に関する修正内容です。(保守用のブランチ

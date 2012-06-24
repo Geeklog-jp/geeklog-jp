@@ -5,6 +5,21 @@ NEWS
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
 
 
+Geeklog 2.0.0-jp-1.1					2012年6月**日
+
+  o Geeklog 1.8.1-jp-1.1からの変更
+
+    日本語版テーマ
+
+	* professional_cssテーマ及びWAIproCSSテーマをGeeklog 2.0に対応させ
+	  ました。
+
+	* mobileテーマは、JavaScriptを多用するようになった管理画面をサポート
+	  できなくなりました。
+
+	* その他の些細な調整を行いました。
+
+
 Geeklog 1.8.1-jp-1.1					2012年5月4日
 
   o Geeklog 1.8.1-jp-1.0からの変更
