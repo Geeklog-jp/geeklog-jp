@@ -1,5 +1,5 @@
                                 Geeklog Readme
-                                2011年10月18日
+                                2012年 6月**日
 
 目次
 ================
@@ -21,7 +21,7 @@
                               
 1) Geeklogとは?
 ================
-GeeklogはPHPとMySQL/PostgreSQL/Microsoft SQL Server 2000をベースにした、ダイナミックなWebコンテンツを管理するアプリケーションです。
+GeeklogはPHPとMySQL/PostgreSQL/Microsoft SQL Server 2000をベースにした、ダイナミックWebコンテンツを管理するアプリケーションです。
 
 インストール直後から、ブログエンジン、言い換えれば、コメント・トラックバック・複数のシンジケーションフォーマット・スパム防御など、CMSにふさわしい基本機能を備えたCMS(Contents Management System)です。
 
@@ -29,11 +29,11 @@ Geeklogの基本機能はコミュニティが開発した多数のプラグイ�
 
 GeeklogはもともとSecurityGeeksとNewsGeeksを運営するために使用されており、それ以来、GPL(GNU General Public License)のもとで公開されています。生粋のオープンソース/フリーソフトウェアプロジェクトです。Geeklogのコアコードで使用されているテンプレート用のコードはPHPLibに由来しますが、LGPL(GNU Lesser General Public License)のもとで公開されています。
 
-GeeklogはもともとJason Whittenburgによって作成されていましたが、他の優れたオープンソースのプロジェクトと同様、コミュニティに依存しています。現在、Geeklog 1.5はDirk Haunによってメンテナンスされており、Tony BibbsはGeeklog 2に注力しています。Geeklogを支援していただき、ありがとうございます。Geeklogを改善するために私たちにできることを知らせてください。
+GeeklogはもともとJason Whittenburgによって開発されましたが、他の優れたオープンソースのプロジェクトと同様、コミュニティに依存しています。現在、GeeklogはDirk Haunを中心とした開発者たちによってメンテナンスされています。Geeklogを支援していただき、ありがとうございます。Geeklogを改善する方法の提案をお願いします。
 
 インストールするには、public_html/docs/japanese/install.htmlをご覧ください。
 
-最新のGeeklogのソースコードを入手するには、最新のGeeklogのニュースを読み、議論に参加し、Geeklog本家を訪問してください。
+最新のGeeklogのソースコードは、Geeklog本家サイトで最新のGeeklogのニュースを読み、議論に参加してください。
 
 http://www.geeklog.net
 
