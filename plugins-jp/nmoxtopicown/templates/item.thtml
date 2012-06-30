@@ -1,9 +1,9 @@
 			<tr>
 				<td>
-					{topic}<input type="hidden" name="id{n}" value="{tid}"{xhtml}>
+					{topic}<input type="hidden" name="tid{n}" value="{tid}"{xhtml}>
 				</td>
 				<td>
-					<select name="n{n}">
+					<select name="uid{n}">
 						{options}
 					</select>
 				</td>

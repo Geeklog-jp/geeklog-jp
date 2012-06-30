@@ -1,11 +1,11 @@
 <?php
-//
+
 // +---------------------------------------------------------------------------+
 // | nmoxtopicown Geeklog Plugin                                               |
 // +---------------------------------------------------------------------------+
 // | function.inc                                                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 by nmox                                           |
+// | Copyright (C) 2007-2012 by nmox                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -20,9 +20,8 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-// this file can't be used on its own
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE){
-    die ('This file can not be used on its own.');
+    die ('This file cannot be used on its own.');
 }
 
 if (!defined('XHTML')) {

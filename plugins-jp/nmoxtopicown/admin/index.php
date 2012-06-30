@@ -1,10 +1,11 @@
 <?php
+
 // +---------------------------------------------------------------------------+
 // | nmoxtopicown Geeklog Plugin                                               |
 // +---------------------------------------------------------------------------+
 // | index.php                                                                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 by nmox                                           |
+// | Copyright (C) 2007-2012 by nmox                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -21,33 +22,64 @@
 
 require_once '../../../lib-common.php';
 
+// Checks if the current user is allowed to administer this page
+if (!SEC_hasRights('nmoxtopicown.edit')) {
+	COM_errorLog("Someone has tried to illegally access the nmoxtopicown page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
+	$content = '<div style="margin: 50px;">' . $LANG_NMOXTOPICOWN['access_denied']
+			 . '</div>';
+	
+	if (is_callable('COM_createHTMLDocument')) {
+		$display = COM_createHTMLDocument($content);
+	} else {
+		$display = COM_siteHeader() . $content . COM_siteFooter();
+	}
+	
+	if (is_callable('COM_output')) {
+		COM_output($display);
+	} else {
+		echo $display;
+	}
+	
+	exit;
+}
+
 class Nmoxtopicown
 {
-	var $_charset;
+	private $_charset;
+	private $_gl150 = TRUE;
+	private $_gl200 = TRUE;
 	
-	function Nmoxtopicown()
+	public function __construct()
 	{
 		global $_CONF, $LANG_CHARSET;
-
-		if (empty($LANG_CHARSET)) {
-			$charset = $_CONF['default_charset'];
-			
-			if (empty($charset)) {
-				$charset = 'iso-8859-1';
-			}
+		
+		$version = preg_replace("/[^0-9.]/", '', VERSION);
+		$this->_gl150 = version_compare($version, '1.5.0', '>=');
+		$this->_gl200 = version_compare($version, '2.0.0', '>=');
+		
+		if (is_callable('COM_getCharset')) {
+			$charset = COM_getCharset();
 		} else {
-			$charset = $LANG_CHARSET;
+			if (empty($LANG_CHARSET)) {
+				$charset = $_CONF['default_charset'];
+			
+				if (empty($charset)) {
+					$charset = 'iso-8859-1';
+				}
+			} else {
+				$charset = $LANG_CHARSET;
+			}
 		}
 		
 		$this->_charset = $charset;
 	}
 	
-	function esc($str)
+	public function esc($str)
 	{
 		return htmlspecialchars($str, ENT_QUOTES, $this->_charset);
 	}
 	
-	function str($index)
+	public function str($index)
 	{
 		global $LANG_NMOXTOPICOWN;
 		
@@ -58,7 +90,7 @@ class Nmoxtopicown
 		}
 	}
 	
-	function listup()
+	public function listup()
 	{
 		global $_CONF, $_TABLES, $LANG_NMOXTOPICOWN;
 		
@@ -80,7 +112,7 @@ class Nmoxtopicown
 		$T->set_var('lang_caution', $this->str('message_caution'));
 		$T->set_var('lang_change_writer', $this->str('change_writer'));
 
-		if (version_compare(VERSION, '1.5.0') >= 0) {
+		if ($this->_gl150) {
 			$T->set_var('token_name', CSRF_TOKEN);
 			$T->set_var('token_value', SEC_createToken());
 		}
@@ -116,28 +148,88 @@ class Nmoxtopicown
 		return $T->finish($T->get_var('output'));
 	}
 	
-	function dbset()
+	/**
+	* Changes the owner of a topic
+	*
+	* @param   string  $uid  new user id
+	* @param   string  $tid  topic id to be changed
+	* @return  (void)
+	*/
+	protected function _changeOwner($uid, $tid)
 	{
 		global $_TABLES;
 		
+		$uid = (int) $uid;
+		$tid = addslashes($tid);
+		
+		$sql1 = "UPDATE {$_TABLES['topics']} "
+			  . "  SET owner_id = {$uid} "
+			  . "  WHERE (tid ='{$tid}') ";
+		
+		if ($this->_gl200) {
+			$sql2 = "UPDATE {$_TABLES['stories']} "
+				  . "  SET owner_id = $uid "
+				  . "  WHERE (sid IN ("
+				  . "    SELECT id "
+				  . "      FROM {$_TABLES['topic_assignments']} "
+				  . "      WHERE ((type = 'article') AND (tid = '{$tid}')) "
+				  . "  )"
+				  . "  ) ";
+		} else {
+			$sql2 = "UPDATE {$_TABLES['stories']} "
+				  . "  SET owner_id = {$uid} "
+				  . "  WHERE (tid = '{$tid}') ";
+		}
+		
+		DB_query($sql1);
+		DB_query($sql2);
+	}
+	
+	/**
+	* Changes the uid of stories with a given topic id
+	*
+	* @param   string  $uid  new user id
+	* @param   string  $tid  topic id to be changed
+	* @return  (void)
+	*/
+	protected function _changeUid($uid, $tid)
+	{
+		global $_TABLES;
+		
+		$uid = (int) $uid;
+		$tid = addslashes($tid);
+		
+		if ($this->_gl200) {
+			$sql = "UPDATE {$_TABLES['stories']} "
+				 . "  SET uid = {$uid} "
+				 . "  WHERE (sid IN ("
+				 . "    SELECT id "
+				 . "      FROM {$_TABLES['topic_assignments']} "
+				 . "      WHERE ((type = 'article') AND (tid = '{$tid}')) "
+				 . "  )"
+				 . "  ) ";
+		} else {
+			$sql = "UPDATE {$_TABLES['stories']} "
+				 . "  SET uid = {$uid} "
+				 . "  WHERE (tid = '{$tid}') ";
+		}
+		
+		DB_query($sql);
+	}
+	
+	public function dbset()
+	{
 		for ($n = 1; $n < 1000; $n ++) {
-			$name = 'n' . $n;
+			$f_uid = 'uid' . $n;
+			$f_tid = 'tid' . $n;
+			$f_chk = 'touser' . $n;
 			
-			if (isset($_POST[$name])){
-				$sql1 = "UPDATE {$_TABLES['topics']} "
-					  . "  SET owner_id = '" . $_POST[$name] ."' "
-					  . "  WHERE (tid ='" . $_POST['id' . $n] ."') ";
-				$sql2 = "UPDATE {$_TABLES['stories']} "
-					  . "  SET owner_id = '" . $_POST['n' . $n] . "' "
-					  . "  WHERE (tid='" . $_POST['id' . $n] . "') ";
-				DB_query($sql1);
-				DB_query($sql2);
+			if (isset($_POST[$f_uid]) AND is_numeric($_POST[$f_uid]) AND
+				isset($_POST[$f_tid])){
+				$this->_changeOwner($_POST[$f_uid], $_POST[$f_tid]);
 				
-				if (isset($_POST['touser' . $n]) AND ($_POST['touser' . $n] == 1)) {
-					$sql3 = "UPDATE {$_TABLES['stories']} "
-						  . "  SET uid = '" . $_POST[$name] ."' "
-						  . "  WHERE (tid='" . $_POST['id' . $n] ."') ";
-					DB_query($sql3);
+				if (isset($_POST[$f_chk]) AND ((int) $_POST[$f_chk] === 1)) {
+					$this->_changeUid($_POST[$f_uid], $_POST[$f_tid]);
 				}
 			} else {
 				break;
@@ -146,15 +238,9 @@ class Nmoxtopicown
 	}
 }
 
-// Checks if the current user is allowed to administer this page
-if (!SEC_hasRights('nmoxtopicown.edit')) {
-	COM_errorLog("Someone has tried to illegally access the nmoxtopicown page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
-	$display = COM_siteHeader()
-			 . '<div style="margin: 50px;">' . $LANG_NMOXTOPICOWN['access_denied'] . '</div>'
-			 . COM_siteFooter();
-	echo $display;
-	exit;
-}
+//===================================================================
+// Main
+//===================================================================
 
 $cl = new Nmoxtopicown();
 
@@ -165,7 +251,7 @@ if (isset($_POST['mode'])) {
 }
 
 if ($mode === 'dbset') {
-	if ((version_compare(VERSION, '1.5.0') >= 0) AND !SEC_checkToken()) {
+	if (is_callable('SEC_checkToken') AND !SEC_checkToken()) {
 		exit($LANG_NMOXTOPICOWN['invalid_token']);
 	} else {
 		$html = $cl->dbset();
@@ -176,7 +262,14 @@ if ($mode === 'dbset') {
 	$html = $cl->listup();
 }
 
-$display = COM_siteHeader()
-		 . $html
-		 . COM_siteFooter();
-echo $display;
+if (is_callable('COM_createHTMLDocument')) {
+	$display = COM_createHTMLDocument($html);
+} else {
+	$display = COM_siteHeader() . $html . COM_siteFooter();
+}
+
+if (is_callable('COM_output')) {
+	COM_output($display);
+} else {
+	echo $display;
+}

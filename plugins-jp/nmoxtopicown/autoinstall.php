@@ -5,8 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/nmoxtopicown/autoinstall.php                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2007-2011 by nmox                                           |
-// |                                                                           |
+// | Copyright (C) 2007-2012 by nmox                                           |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -26,7 +25,7 @@
 // +---------------------------------------------------------------------------+
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
-	die('This file can not be used on its own!');
+	die('This file cannot be used on its own!');
 }
 
 /**
