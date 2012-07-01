@@ -37,7 +37,7 @@
       <dd><input type="text" size="4" value="{feed_content_length}" name="content_length" id="admin-feededitor-content_length" class="text"{xhtml}></dd>
 
       <dt><label for="admin-feededitor-description">{lang_description}</label></dt>
-      <dd><textarea cols="45" rows="8" name="description" id="admin-feededitor-description">{feed_description}</textarea></dd>
+      <dd><textarea cols="45" rows="8" name="description" id="admin-feededitor-description" class="wide">{feed_description}</textarea></dd>
 
       <dt><label for="admin-feededitor-feedlogo">{lang_feedlogo}<br{xhtml}>{lang_feedlogo_explain}</label></dt>
       <dd><input type="text" maxlength="255" size="40" value="{feed_logo}" name="feedlogo" id="admin-feededitor-feedlogo" class="text"{xhtml}></dd>
