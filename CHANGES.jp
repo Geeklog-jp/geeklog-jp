@@ -1,3 +1,8 @@
+2012-07-01  Yoshinori Tahara  <dengen>
+
+	* Professional CSSとWAIproCSSをGeeklog2.0.0からの新テーマエンジンに
+	  対応させたチェンジセットe3ffccf5580eの不備を再度修正しました。
+
 2012-07-01  Kenji ITO  <mystralkk>
 
 	* 掲示板プラグインで本家のリビジョン0ae7885bb4fbを取り込みました。
