@@ -30,7 +30,6 @@ body {
   font-size: 13px; 
   font-size: small;
   line-height: 1.5;
-  text-align: center;  /* Win IE 6用(マージンの自動調整が効かない) */
 }
 
 pre {
@@ -90,9 +89,11 @@ a img {
   border: none;
 }
 
+/*
 textarea {
   width: 98% !important;
 }
+*/
 
 /* Mac用(入力ボックス内で2バイト文字が欧文フォントで表示される) { */
 input,
@@ -121,6 +122,10 @@ iframe[width="100%"] {
 /* Basic editor */
 .user_basic {
   padding: 0.5em 2em;
+}
+
+.wide {
+  width: 98%;
 }
 
 /*--------------------------------------
@@ -256,7 +261,6 @@ form.compact p.message {
 }
 
 form.compact dl {
-  overflow: hidden;  /* 浮動要素の調整用 */
   margin: 0 0 1em 0;
   padding: 0;
 }

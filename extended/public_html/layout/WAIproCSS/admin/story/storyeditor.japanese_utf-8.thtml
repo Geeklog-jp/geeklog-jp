@@ -42,11 +42,7 @@
       <dd><input type="text" size="48" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="text"{xhtml}></dd>
 
       <dt><label for="admin-storyeditor-tid">{lang_topic}</label></dt>
-      <dd>
-        <select name="tid" id="admin-storyeditor-tid">
-          {topic_options}
-        </select>
-      </dd>
+      <dd>{topic_selection}</dd>
 
       <dt><label for="admin-storyeditor-show_topic_icon">{lang_show_topic_icon}</label></dt>
       <dd><input type="checkbox" {show_topic_icon_checked} name="show_topic_icon" id="admin-storyeditor-show_topic_icon"{xhtml}></dd>
@@ -134,10 +130,10 @@
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="text"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" style="width:95%" rows="2" cols="40">{meta_description}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" rows="2" cols="40" class="wide">{meta_description}</textarea></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" style="width:95%" rows="2" cols="40">{meta_keywords}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="40" class="wide">{meta_keywords}</textarea></dd>
 
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
@@ -148,10 +144,10 @@
       <dd class="description">{lang_allowed_html}</dd>
 
       <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="45" rows="12" name="introtext" id="admin-storyeditor-introtext">{story_introtext}</textarea></dd>
+      <dd><textarea cols="45" rows="12" name="introtext" id="admin-storyeditor-introtext" class="wide">{story_introtext}</textarea></dd>
 
       <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="45" rows="20" name="bodytext" id="admin-storyeditor-bodytext">{story_bodytext}</textarea></dd>
+      <dd><textarea cols="45" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
 
       <dt><label for="file1">{lang_images}</label></dt>
       <dd>

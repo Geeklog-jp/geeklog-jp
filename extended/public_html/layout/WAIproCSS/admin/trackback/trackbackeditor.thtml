@@ -20,7 +20,7 @@
       <dd><input type="text" size="48" maxlength="255" value="{title}" name="title" id="trackbackeditor-title" class="text"{xhtml}></dd>
 
       <dt><label for="trackbackeditor-excerpt">{lang_excerpt}</label></dt>
-      <dd><textarea cols="45" rows="8" name="excerpt" id="trackbackeditor-excerpt">{excerpt}</textarea></dd>
+      <dd><textarea cols="45" rows="8" name="excerpt" id="trackbackeditor-excerpt" class="wide">{excerpt}</textarea></dd>
       <dd class="description">{lang_excerpt_truncated}</dd>
     </dl>
 
