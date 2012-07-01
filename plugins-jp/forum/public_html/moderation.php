@@ -34,13 +34,14 @@
 // +---------------------------------------------------------------------------+
 
 require_once '../lib-common.php';
-require_once $CONF_FORUM['path_include'] . 'gf_format.php';
-require_once $CONF_FORUM['path_include'] . 'gf_showtopic.php';
 
 if (!in_array('forum', $_PLUGINS)) {
     echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
+
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
+require_once $CONF_FORUM['path_include'] . 'gf_showtopic.php';
 
 // Check for access privilege and pass true to check that user is signed in.
 forum_chkUsercanAccess(true);

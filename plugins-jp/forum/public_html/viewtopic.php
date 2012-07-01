@@ -34,6 +34,12 @@
 // +---------------------------------------------------------------------------+
 
 require_once '../lib-common.php'; // Path to your lib-common.php
+
+if (!in_array('forum', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
+
 require_once $_CONF['path_system'] . 'classes/timer.class.php';
 $mytimer = new timerobject();
 $mytimer->setPercision(2);
@@ -74,11 +80,48 @@ if ($topic_pid != 0) {
 
 if ($onlytopic == 1) {
     // Send out the HTML headers and load the stylesheet for the iframe preview
-    $display .= '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' . LB;
+    switch ($_CONF['doctype']) {
+    case 'html401transitional':
+        $display .= '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">' . LB;
+        break;
+
+    case 'html401strict':
+        $display .= '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">' . LB;
+        break;
+
+    case 'xhtml10transitional':
+        $display .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . LB;
+        break;
+
+    case 'xhtml10strict':
+        $display .= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . LB;
+        break;
+
+    default: // fallback: HTML 4.01 Transitional w/o system identifier
+        $display .= '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">' . LB;
+        break;
+    }
     $display .= '<html>' . LB;
     $display .= '<head>' . LB;
-    $display .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$LANG_CHARSET\">" . LB;
-    $display .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$_CONF['site_url']}/layout/{$_CONF['theme']}/style.css\"></head>\n";
+    $display .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$LANG_CHARSET\"" . XHTML . ">" . LB;
+    $display .= '<title>Forum Preview</title>' . LB;
+    if (version_compare($_CONF['supported_version_theme'], '2.0.0', '>=')) {
+        $func = "theme_css_" . $_CONF['theme'];
+        if (function_exists($func)) {
+            $FORUM_SCRIPTS = new scripts();
+            foreach ($func() as $info) {
+                $file = $info['file'];
+                $name = md5($file);
+                $constant   = (!empty($info['constant']))   ? $info['constant']   : true;
+                $attributes = (!empty($info['attributes'])) ? $info['attributes'] : array();
+                $FORUM_SCRIPTS->setCssFile($name, $file, $constant, $attributes);
+            }
+            $display .= $FORUM_SCRIPTS->getHeader();
+        }
+        $display .= '</head>' . LB;
+    } else {
+        $display .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"{$_CONF['site_url']}/layout/{$_CONF['theme']}/style.css\"></head>\n";
+    }
     $display .= '<body class="sitebody">';
 } else {
     //Check is anonymous users can access
