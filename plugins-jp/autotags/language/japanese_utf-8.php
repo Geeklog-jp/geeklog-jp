@@ -65,9 +65,9 @@ $LANG_AUTO = array(
     
     'usagepermissionskey' => 'U = 使用法',
     
-    'list_all_title' => '自動タグリスト',
+    'list_all_title' => '自動タグ一覧',
     'window_close' => 'クローズ',
-    'main_menulabel' => '自動タグリスト',
+    'main_menulabel' => '自動タグ一覧',
 );
 
 // Localization of the Admin Configuration UI
