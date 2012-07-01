@@ -1,7 +1,8 @@
 2012-07-01  Yoshinori Tahara  <dengen>
 
 	* Professional CSSとWAIproCSSをGeeklog2.0.0からの新テーマエンジンに
-	  対応させたチェンジセットe3ffccf5580eの不備を再度修正しました。
+	  対応させたチェンジセットe3ffccf5580e及びcaf294bd9563の不備を再度
+	  修正しました。
 
 2012-07-01  Kenji ITO  <mystralkk>
 
