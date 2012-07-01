@@ -16,7 +16,7 @@
   </head>
 
 
-  <body class="js_off">
+  <body dir="{direction}" class="{layout_columns}">
 <!-- header.thtml { -->
 
 <!-- #container { -->
@@ -58,5 +58,6 @@
     <!--[if !IE]> #centerblocks { <![endif]-->
     <!-- 中央ブロックコンテナ -->
     <div id="centerblocks">
+      {breadcrumb_trail}
 	      
 <!-- } header.thtml -->

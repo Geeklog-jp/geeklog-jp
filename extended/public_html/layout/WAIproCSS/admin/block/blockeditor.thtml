@@ -22,13 +22,7 @@
       <dd><input type="text" size="40" value="{block_name}" name="name" id="admin-blockeditor-name" class="text"{xhtml}></dd>
 
       <dt><label for="admin-blockeditor-tid">{lang_topic}</label></dt>
-      <dd>
-        <select name="tid" id="admin-blockeditor-tid">
-          <option value="all" {all_selected}>{lang_all}</option>
-          <option value="homeonly" {homeonly_selected}>{lang_homeonly}</option>
-          {topic_options}
-        </select>
-      </dd>
+      <dd>{topic_selection}</dd>
 
       <dt><label for="admin-blockeditor-onleft">{lang_side}</label></dt>
       <dd>
@@ -85,7 +79,7 @@
       <dt><label for="admin-use-autotags">{lang_autotags}&nbsp;({lang_use_autotags})</label></dt>
       <dd><input type="checkbox" name="allow_autotags"id="admin-use-autotags" {allow_autotags}{xhtml}></dd>
       <dt><label for="admin-blockeditor-content">{lang_blockcontent}</label></dt>
-      <dd><textarea cols="40" rows="12" name="content" id="admin-blockeditor-content">{block_content}</textarea></dd>
+      <dd><textarea cols="40" rows="12" name="content" id="admin-blockeditor-content" class="wide">{block_content}</textarea></dd>
     </dl>
 
   </fieldset>
