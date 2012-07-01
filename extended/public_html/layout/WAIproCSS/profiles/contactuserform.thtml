@@ -18,7 +18,7 @@
       <dd><input type="text" size="32" maxlength="96" value="{subject}" name="subject" id="contactuserform-subject" class="text"{xhtml}></dd>
 
       <dt><label for="contactuserform-message">{lang_message}&nbsp;{lang_nohtml}</label></dt>
-      <dd><textarea rows="10" cols="50" name="message" id="contactuserform-message">{message}</textarea></dd>
+      <dd><textarea rows="10" cols="50" name="message" id="contactuserform-message" class="wide">{message}</textarea></dd>
 
       <dt>{lang_cc}</dt>
       <dd><input type="checkbox" id="contactuserform-cc" name="cc" checked="checked"{xhtml}>&nbsp;<label for="contactuserform-cc">{lang_cc_description}</label></dd>
