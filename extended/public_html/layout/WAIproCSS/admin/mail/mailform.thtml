@@ -22,7 +22,7 @@
       <dd><input type="text" value="{subject}" size="40" name="subject" class="text" id="admin-mailform-subject"{xhtml}></dd>
 
       <dt><label for="admin-mailform-message">{lang_body}</label></dt>
-      <dd><textarea rows="12" cols="44" name="message" id="admin-mailform-message">{message}</textarea></dd>
+      <dd><textarea rows="12" cols="44" name="message" id="admin-mailform-message" class="wide">{message}</textarea></dd>
 
       <dt><label for="admin-mailform-html">{lang_options}</label></dt>
       <dd>

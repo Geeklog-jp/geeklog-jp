@@ -8,82 +8,105 @@
             admin/config/menu_element.thtml
 ==============================================================================*/
 
-
-
-/*--------------------------------------
-  設定画面
---------------------------------------*/
-form#config-editor {
-  width: 99%;
-  margin-top: 0;
-  margin-right: auto;
-  margin-left: auto;
+#config_menu {
+  float: left;
+  width: 200px;
+  padding: 0 10px;
 }
 
-form#config-editor fieldset {
-  margin: 0 0 1em 0;
-  padding: 8px;
-  border: 1px solid #000000;
+#search-configuration-container,
+div#centerblocks #config_menu .block-center {
+  margin: 0 0 0.5em;
+  padding: 0 0em 1em;
+  text-align: left;
+  border-bottom: 1px solid #CCC;
 }
 
-form#config-editor fieldset legend {
-  display: inline;
-  padding: 2px 4px;
+div#centerblocks #config_menu .block-center h2 {
+  font-size: 1.125em;
 }
 
-/* 設定項目 */
-form#config-editor table.inputTable td {
-  padding: 5px;
-  font-size: 90%;
+#search-configuration-container label {
+  margin: 0 0 0.5em 0;
+  padding: 0 0 0.1em 0;
+  display: block;
+  font-size: 1.125em;
+  font-weight: bold;
 }
 
-form#config-editor ul.submit {
-  display: inline;
+div#centerblocks #config_menu .block-center .block-center-content {
+  padding-left: 0.5em;
+}
+
+.configoption,
+.configoption_off {
+  list-style: none outside;
   margin: 0;
   padding: 0;
 }
 
-form#config-editor ul.submit li {
-  display: inline;
-  margin-right: 13px;
-  padding: 0;
-}
-
-/* メッセージ */
-div#configuration div.pluginInfo {
-  overflow: auto;
-  height: 120px;
-  min-height: 50px;
-  max-height: 100px;
-  margin: 5px 0;
-  padding: 10px 20px;
-  border: 1px solid #CCCCCC;
-}
-
-
-/*--------------------------------------
-  レイアウト
---------------------------------------*/
-
-/* Left Menu */
-div.block-bg-left {
+#config_content {
   float: left;
-  margin-left: -6px;
-  padding: 0;
+  width: 650px;
+  padding: 0 10px;
+  margin-bottom: 1em;
 }
 
-div#geeklog_config_editor div.block-bg-left div.block-center {
-  float: left;
-  width: 20em;
-  min-height: 17em;
-  margin-right: 8px;
-  margin-left: 8px;
-}
-
-div.block-bg-left div.block-center h2 {
-  font-size: 110%;
-}
-
-#search-configuration-container {
+#geeklog_config_editor:after {
+  content: "";
+  display: block;
   clear: both;
+  height: 1px;
+  overflow: hidden;
+}
+
+#config_main {
+  width: 100%;
+}
+
+#config_main form {
+  margin: 0;
+}
+
+#search-configuration {
+  width: 90%;
+  margin: 1em 0 1em 0.5em;
+}
+
+.inputTable {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.config_label {
+  float: left;
+  width: 40%;
+  padding-right: .5em;
+}
+
+.restore {
+  padding: .5em 0;
+}
+
+.config_input {
+  float: left;
+  width: 53%;
+  
+}
+
+.config_name {
+  clear: left;
+  margin: 5px 0;
+  padding: 5px;
+}
+
+.config_name input[type="text"],
+.config_name textarea {
+  width: 53%;
+}
+
+.config_name select {
+  width: 54.5%;
+  max-width: none;
 }

@@ -4,8 +4,7 @@
 {noscript}
 <div id="advanced_editor" style="display:none;">
 {start_block_postacomment}
-
-<form action="{site_url}/comment.php" method="post" onsubmit='set_postcontent();' id="commentform_advanced" class="linear">
+<form action="{form_url}" method="post" onsubmit='set_postcontent();' id="commentform_advanced" class="linear">
   <fieldset>
     <legend>投稿情報</legend><!-- Geeklog Japanese -->
 
@@ -25,11 +24,14 @@
     <dl>
       <dt class="username">{lang_username}</dt>
       <dd class="username">{cid}
-         <input type="hidden" name="sid" value="{sid}"{xhtml}>
-         <input type="hidden" name="pid" value="{pid}"{xhtml}>
-         <input type="hidden" name="type" value="{type}"{xhtml}>
+         <input type="hidden" name="order" value="{order}"{xhtml}>
+         <input type="hidden" name="format" value="{format}"{xhtml}>
+         <input type="hidden" name="cpage" value="{cpage}"{xhtml}>
+         <input type="hidden" name="{nprefix}sid" value="{sid}"{xhtml}>
+         <input type="hidden" name="{nprefix}pid" value="{pid}"{xhtml}>
+         <input type="hidden" name="{nprefix}type" value="{type}"{xhtml}>
          <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
-         <input type="hidden" name="uid" value="{uid}"{xhtml}>{username}
+         <input type="hidden" name="{nprefix}uid" value="{uid}"{xhtml}>{username}
          <span{hidewhenediting}><a href="{action_url}" rel="nofollow" class="logoutorcreateaccount">{lang_logoutorcreateaccount}</a></span>
       </dd>
       <dt class="title"><label for="commentform-title">{lang_title}</label></dt>
@@ -47,10 +49,10 @@
       <dt><label for="comment_text">{lang_comment}</label></dt>
       <dd>
         <div id="text_editor" style="display: {show_texteditor};">
-          <textarea cols="45" rows="10" name="comment" id="comment_text">{comment}</textarea>
+          <textarea cols="45" rows="10" name="comment" id="comment_text" class="wide">{comment}</textarea>
         </div>
         <div id="html_editor" style="display: {show_htmleditor};">
-          <textarea cols="45" rows="10" name="comment_html" id="comment_html">{comment}</textarea>
+          <textarea cols="45" rows="10" name="comment_html" id="comment_html" class="wide">{comment}</textarea>
         </div>
       </dd>
     </dl>
@@ -59,15 +61,16 @@
 
     <ul class="submit">
       <li>{notification}</li>
-      <li><input type="submit" name="mode" value="{lang_preview}" class="submit"{xhtml}></li>
+      <li><input type="submit" name="{nprefix}mode" value="{lang_preview}" class="submit"{xhtml}></li>
       <li><input type="hidden" name="formtype" value="{formtype}"{xhtml}>
-	{save_option}
-          <input type="submit" value="{lang_cancel}" name="mode"{xhtml}>
-        {delete_option}
+          {save_option}
+          <input type="submit" value="{lang_cancel}" name="{nprefix}mode"{xhtml}> 
+          {delete_option}
       </li>
     </ul>
   </fieldset>
 </form>
 {end_block}
 </div>
+
 <!-- } comment/commentform_advanced.thtml -->

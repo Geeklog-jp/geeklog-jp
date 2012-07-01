@@ -23,7 +23,7 @@
         <dd><input type="text" size="30" maxlength="96" value="{toemail}" name="toemail" id="contactauthorform-toemail" class="text"{xhtml}></dd>
 
         <dt><label for="contactauthorform-shortmsg">{lang_shortmessage}</label></dt>
-        <dd><textarea rows="8" cols="50" name="shortmsg" id="contactauthorform-shortmsg">{shortmsg}</textarea></dd>
+        <dd><textarea rows="8" cols="50" name="shortmsg" id="contactauthorform-shortmsg" class="wide">{shortmsg}</textarea></dd>
         <dt>{lang_cc}</dt>
         <dd><input type="checkbox" id="contactauthorform-cc" name="cc" checked="checked"{xhtml}>&nbsp;<label for="contactauthorform-cc">{lang_cc_description}</label></dd>
 

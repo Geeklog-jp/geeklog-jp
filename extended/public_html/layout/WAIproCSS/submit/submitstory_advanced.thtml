@@ -26,11 +26,7 @@
       <dd><input type="text" size="36" maxlength="96" value="{story_title}" name="title" id="submitstory_advanced-title" class="text"{xhtml}></dd>
 
       <dt><label for="submitstory_advanced-tid">{lang_topic}</label></dt>
-      <dd>
-        <select name="tid" id="submitstory_advanced-tid">
-          {story_topic_options}
-        </select>
-      </dd>
+      <dd>{topic_selection}</dd>
 
       <dt><label for="submitstory_advanced-postmode">{lang_postmode}</label></dt>
       <dd>
@@ -43,10 +39,10 @@
       <dt><label for="introtext">{lang_story}</label></dt>
       <dd>
         <div id="text_editor" style="display: {show_texteditor};">
-          <textarea cols="45" rows="15" name="introtext" id="introtext">{story_introtext}</textarea>
+          <textarea cols="45" rows="15" name="introtext" id="introtext" class="wide">{story_introtext}</textarea>
         </div>
         <div id="html_editor" style="display: {show_htmleditor};">
-          <textarea cols="45" rows="15" name="introhtml" id="introhtml">{story_introtext}</textarea>
+          <textarea cols="45" rows="15" name="introhtml" id="introhtml" class="wide">{story_introtext}</textarea>
         </div>
       </dd>
     </dl>
