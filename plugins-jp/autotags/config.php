@@ -11,7 +11,7 @@
 // +---------------------------------------------------------------------------+
 // | Based on the Universal Plugin and prior work by the following authors:    |
 // |                                                                           |
-// | Copyright (C) 2000-2006 by the following authors:                         |
+// | Copyright (C) 2000-2012 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tony Bibbs       - tony AT tonybibbs DOT com                     |
 // |          Tom Willett      - twillett AT users DOT sourceforge DOT net     |
@@ -42,7 +42,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config.php') !== false) {
 
 $_AUTO_CONF = Array();
 
-$_AUTO_CONF['version'] = '1.02jp3';
+$_AUTO_CONF['version'] = '1.1.1';
 
 /*
  *  Adds a link to top menu for access to the autotag link in
