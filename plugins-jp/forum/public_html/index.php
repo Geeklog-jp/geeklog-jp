@@ -34,12 +34,13 @@
 // +---------------------------------------------------------------------------+
 
 require_once '../lib-common.php'; // Path to your lib-common.php
-require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
 if (!in_array('forum', $_PLUGINS)) {
     echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
+
+require_once $CONF_FORUM['path_include'] . 'gf_format.php';
 
 // Pass thru filter any get or post variables to only allow numeric values and remove any hostile data
 $op        = isset($_REQUEST['op'])        ? COM_applyFilter($_REQUEST['op'])          : '';
