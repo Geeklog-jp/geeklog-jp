@@ -1791,8 +1791,8 @@ $LANG_confignames['Core'] = array(
     'site_admin_url' => '管理画面のURL',
     'site_mail' => 'サイトのメールアドレス',
     'noreply_mail' => 'No-Replyメールアドレス',
-    'mail_cc_enabled' => 'Allow to Send Carbon Copies',
-    'mail_cc_default' => '"Carbon Copy" on by Default',
+    'mail_cc_enabled' => 'CC(カーボンコピー)を許可する',
+    'mail_cc_default' => 'CC(カーボンコピー)をデフォルトにする',
     'site_name' => 'サイト名',
     'site_slogan' => 'スローガン',
     'owner_name' => '管理者名',
@@ -1983,7 +1983,7 @@ $LANG_confignames['Core'] = array(
     'allowed_protocols' => '許可されたプロトコル',
     'disable_autolinks' => '自動タグを無効にする',
     'clickable_links' => 'URLを自動リンクさせる',
-    'linktext_maxlen' => 'Max Link Text Length',
+    'linktext_maxlen' => 'クリッカブルリンクの長さ',
     'compressed_output' => 'HTML出力を圧縮して送信する',
     'frame_options' => '"クリックジャッキング"を防止する',
     'censormode' => 'チェックする',
@@ -2170,7 +2170,7 @@ $LANG_VALIDATION = array(
     'comparison' => 'このフィールドは比較操作に適合していません',
     'date' => 'このフィールドはdateフォーマットで入力してください',
     'year' => 'このフィールドはyearフォーマットで入力してください',
-    'yearOrRange' => 'This field must be in a year format such as 2010 or range like 2010 - 2012',
+    'yearOrRange' => 'このフィールドは年のフォーマットで入力してください。例) 2010 または 2010 - 2012',
     'time' => 'このフィールドはdateフォーマットで入力してください',
     'datetime' => 'このフィールドはdatetimeフォーマットで入力してください',
     'boolean' => 'このフィールドはbooleanフォーマットで入力してください',
@@ -2204,6 +2204,5 @@ $LANG_VALIDATION = array(
     'single_char' => 'このフィールドには半角1文字を入力してください',
     'hash' => 'このフィールドはあなたのバージョンのPHPによるhash関数が必要です。'
 );
-
 
 ?>
