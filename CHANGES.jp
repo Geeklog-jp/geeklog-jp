@@ -1,3 +1,8 @@
+2012-07-02  Kenji ITO  <mystralkk>
+
+	* nmoxqrblockプラグインでphpblock_nmoxqrblock()関数の第1引数の初期値
+	  を変更しました。
+
 2012-07-01  Yoshinori Tahara  <dengen>
 
 	* Professional CSSとWAIproCSSをGeeklog2.0.0からの新テーマエンジンに
