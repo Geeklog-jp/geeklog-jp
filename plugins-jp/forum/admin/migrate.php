@@ -111,11 +111,14 @@ function migratetopic($forum, $sid, $storydate, $uid, $subject, $introtext, $bod
         . "'$uid','0','0','0')");
     $parent = DB_insertID();
     PLG_itemSaved($parent, 'forum');
-    $i++;
-    $comments = 0;
+//    $i++;
+    $num_posts = 0;
+	$comments  = 0;
+	
     if (isset($_POST['seltopic']) && $_POST['seltopic'] != 'submissions') {
         $comments = migrateComments($forum, $sid, $parent);
     }
+	
     $num_posts = $num_posts + $comments;
     return $num_posts;
 }
@@ -132,7 +135,7 @@ function migrateComments($forum, $sid, $parent)
         echo "Found $num_comments Comments to migrate for this topic";
     }
     $i = 0;
-    while (list($sid,$commentdate,$uid,$subject,$comment) = DB_fetchArray($sql)) {
+    while (list($sid,$commentdate,$uid,$subject,$comment) = DB_fetchArray($result)) {
 
         $sqlid = DB_query("SELECT id FROM {$_TABLES['forum_topic']} ORDER BY id DESC LIMIT 1");
         list ($lastid) = DB_fetchArray($sqlid);

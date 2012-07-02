@@ -279,7 +279,7 @@ if ($mode != 'preview') {
     }
 
     // Enable TOPIC NOTIFY IF THE USER IS A MEMBER
-    if (isset($_USER['uid']) AND $_USER['uid'] > 1) {
+    if (!COM_isAnonUser()) {
         $forumid = $viewtopic['forum'];
 
         /* Check for a un-subscribe record */
@@ -374,7 +374,7 @@ if ($mode != 'preview') {
 
 // Update the topic view counter and user access log
 DB_query("UPDATE {$_TABLES['forum_topic']} SET views=views+1 WHERE id='$showtopic'");
-if ($_USER['uid'] > 1) {
+if (!COM_isAnonUser()) {
     $query = DB_query("SELECT pid,forum FROM {$_TABLES['forum_topic']} WHERE id='$showtopic'");
     list ($showtopicpid,$forumid) = DB_fetchArray($query);
     if ($showtopicpid == 0 ) {

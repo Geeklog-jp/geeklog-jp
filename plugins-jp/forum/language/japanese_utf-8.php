@@ -168,11 +168,13 @@ $LANG_GF01['WARNING']        = 'ご注意';
 $LANG_GF01['MODERATED']      = 'モデレータ: %s';
 $LANG_GF01['LASTREPLYBY']    = '最新の書き込み者:&nbsp;%s';
 $LANG_GF01['UID']            = 'UID';
+$LANG_GF01['FORUMMENU']      = '掲示板メニュー';
 $LANG_GF01['INDEXPAGE']      = '掲示板目次';
 $LANG_GF01['FEATURE']        = '機能';
 $LANG_GF01['SETTING']        = '設定';
 $LANG_GF01['MARKALLREAD']    = 'すべて既読にする';
 $LANG_GF01['MSG_NO_CAT']     = 'カテゴリーまたは掲示板が定義されていません。';
+$LANG_GF01['FORUMPOSTS']     = '掲示板投稿';
 
 // Language for bbcode toolbar
 $LANG_GF01['CODE']           = 'コード';

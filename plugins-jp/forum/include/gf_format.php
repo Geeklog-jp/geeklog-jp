@@ -220,7 +220,7 @@ function forumNavbarMenu($current='') {
     require_once $_CONF['path_system'] . 'classes/navbar.class.php';
     $navmenu = new navbar; 
     $navmenu->add_menuitem($LANG_GF01['INDEXPAGE'],"{$_CONF['site_url']}/forum/index.php");
-    if ($_USER['uid'] > 1) {  
+    if (!COM_isAnonUser()) {  
         $navmenu->add_menuitem($LANG_GF02['msg197'],"{$_CONF['site_url']}/forum/index.php?op=markallread");
         $navmenu->set_onclick($LANG_GF02['msg197'], 'return confirm("' . $LANG_GF02['msg301'] . '");');
         $navmenu->add_menuitem($LANG_GF01['USERPREFS'],"{$_CONF['site_url']}/forum/userprefs.php");
@@ -686,7 +686,7 @@ function BaseFooter($showbottom=true) {
     global $_USER,$_CONF,$LANG_GF02,$forum,$CONF_FORUM;
 
     $retval = '';
-    if (!$CONF_FORUM['registration_required'] OR $_USER['uid'] > 1) {
+    if (!$CONF_FORUM['registration_required'] OR !COM_isAnonUser()) {
         $footer = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
         $footer->set_file (array (
             'footerblock'=>'footer/footer.thtml',

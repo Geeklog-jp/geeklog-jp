@@ -173,7 +173,9 @@ if (DB_count($_TABLES['forum_forums']) == 0) {
 
     if (isset($_POST['sel_forum']) && !is_array($_POST['sel_forum'])) {
         $selected_forum = COM_applyFilter($_POST['sel_forum']);
-    }
+    } else {
+        $selected_forum = '';
+	}
 
     if ($promptadd == $LANG_GF93['addmoderator']) {
 

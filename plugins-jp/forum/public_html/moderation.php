@@ -123,10 +123,10 @@ if (forum_modPermission($forum,$_USER['uid'])) {
                 $lsql = DB_query("SELECT MAX(id) FROM {$_TABLES['forum_topic']} WHERE pid=$topicparent");
                 list($lastrecid) = DB_fetchArray($lsql);
                 if ($lastrecid == NULL) {
-                    $topicdatecreated = DB_getItem($_TABLES['forum_topic'],date,"id=$topicparent");
+                    $topicdatecreated = DB_getItem($_TABLES['forum_topic'], 'date', "id=$topicparent");
                     DB_query("UPDATE {$_TABLES['forum_topic']} SET last_reply_rec=$topicparent, lastupdated='$topicdatecreated' WHERE id=$topicparent");
                 } else {
-                    $topicdatecreated = DB_getItem($_TABLES['forum_topic'],date,"id=$lastrecid");
+                    $topicdatecreated = DB_getItem($_TABLES['forum_topic'], 'date', "id=$lastrecid");
                     DB_query("UPDATE {$_TABLES['forum_topic']} SET last_reply_rec=$lastrecid, lastupdated='$topicdatecreated' WHERE id=$topicparent");
                 }
             }

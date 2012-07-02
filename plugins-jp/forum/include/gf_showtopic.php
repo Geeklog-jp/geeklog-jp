@@ -153,7 +153,10 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
         if ($userarray['photo'] != "") {
             $avatar = USER_getPhoto($showtopic['uid'],'','',$CONF_FORUM['avatar_width']);
             $min_height = $min_height + 50;
-        }
+        } else {
+			$avatar = '';
+		}
+
         $regdate = $LANG_GF01['REGISTERED']. ': ' . strftime($_CONF['shortdate'],strtotime($userarray['regdate'])). '<br' . XHTML . '>';
         $numposts = $LANG_GF01['POSTS']. ': ' .$posts;
         if (DB_count( $_TABLES['sessions'], 'uid', $showtopic['uid']) > 0 AND DB_getItem($_TABLES['userprefs'],'showonline',"uid={$showtopic['uid']}") == 1) {
@@ -166,7 +169,9 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
             $sig = '<hr size="1" style="width: 95%; color:black; text-align:left; margin-left:0; margin-bottom:0.5em; padding:0;" noshade' . XHTML . '>';
             $sig .= '<b>' .$userarray['sig']. '</b>';
             $min_height = $min_height + 30;
-        }
+        } else {
+			$sig = '';
+		}
 
 
     } else {
@@ -178,7 +183,9 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
     if ($CONF_FORUM['show_moods'] &&  $showtopic['mood'] != "") {
         $moodimage = '<img style="vertical-align:middle;" src="'.gf_getImage($showtopic['mood'],'moods') .'" title="'.$showtopic['mood'].'" alt="'.$showtopic['mood'].'"' . XHTML . '><br'. XHTML . '>';
         $min_height = $min_height + 30;
-    }
+    } else {
+		$moodimage = '';
+	}
 
 
     //$intervalTime = $mytimer->stopTimer();
@@ -221,7 +228,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
     //$intervalTime = $mytimer->stopTimer();
     //COM_errorLog("Show Topic Display Time2: $intervalTime");
 
-    if ($mode != 'preview' && $uservalid && ($_USER['uid'] > 1) && ($_USER['uid'] == $showtopic['uid'])) {
+    if ($mode != 'preview' && $uservalid && !COM_isAnonUser() && ($_USER['uid'] == $showtopic['uid'])) {
         /* Check if user can still edit this post - within allowed edit timeframe */
         $editAllowed = false;
         if ($CONF_FORUM['allowed_editwindow'] > 0) {
@@ -247,7 +254,11 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
         $showtopic['subject'] = str_replace("$highlight","<span class=\"highlight\">$highlight</span>", $showtopic['subject']);
         $showtopic['comment'] = str_replace("$highlight","<span class=\"highlight\">$highlight</span>", $showtopic['comment']);
     }
-
+	
+	if (!isset($showtopic['pid'])) {
+		$showtopic['pid'] = 0;
+	}
+	
     if ($showtopic['pid'] == 0) {
         $replytopicid = $showtopic['id'];
         $is_lockedtopic = $showtopic['locked'];
@@ -336,7 +347,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
         }
         $backlink = '<center><a href="' . $_CONF['site_url'] . '/forum/viewtopic.php?showtopic=' . $replytopicid. '">' .$back2. '</a></center>';
     } else {
-        if ($_GET['onlytopic'] != 1) {
+        if (isset($_GET['onlytopic']) AND $_GET['onlytopic'] != 1) {
             $topictemplate->set_var ('posted_date', '');
             $topictemplate->set_var ('preview_topic_subject', $showtopic['subject']);
         } else {
@@ -346,6 +357,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
         $topictemplate->set_var ('locked_icon', '');
 
         $topictemplate->set_var ('preview_mode', 'none');
+		$backlink = '';
     }
 
     //$intervalTime = $mytimer->stopTimer();
@@ -356,6 +368,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
 
     // Temporary correspondence. You should cope in more roots.
     $showtopic['comment'] = str_replace(array("<br />","<br>"), '<br' . XHTML . '>', $showtopic['comment'] );
+	$mod_functions = forum_getmodFunctions($showtopic);
 
     $topictemplate->set_var ('layout_url', $CONF_FORUM['layout_url']);
     $topictemplate->set_var ('csscode', $onetwo);
@@ -368,7 +381,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
     $topictemplate->set_var ('avatar', $avatar);
     $topictemplate->set_var ('regdate', $regdate);
     $topictemplate->set_var ('numposts', $numposts);
-    $topictemplate->set_var ('location', $location);
+//    $topictemplate->set_var ('location', $location);
     $topictemplate->set_var ('imgset', $CONF_FORUM['imgset']);
     $topictemplate->set_var ('topic_subject', $showtopic['subject']);
     $topictemplate->set_var ('LANG_ON2', $LANG_GF01['ON2']);
@@ -387,7 +400,7 @@ function showtopic($showtopic,$mode='',$onetwo=1,$page=1)
     $topictemplate->set_var ('back_link', $backlink);
     $topictemplate->set_var ('member_badge',forumPLG_getMemberBadge($showtopic['uid']));
     $topictemplate->parse ('output', 'topictemplate');
-    $retval .= $topictemplate->finish ($topictemplate->get_var('output'));
+    $retval = $topictemplate->finish ($topictemplate->get_var('output'));
 
     //$intervalTime = $mytimer->stopTimer();
     //COM_errorLog("Show Topic Display Time5: $intervalTime");
@@ -400,6 +413,11 @@ function forum_getmodFunctions($showtopic) {
 
     $retval = '';
     $options = '';
+	
+	if (COM_isAnonUser()) {
+		return $retval;
+	}
+	
     if (forum_modPermission($showtopic['forum'],$_USER['uid'],'mod_edit')) {
         $options .= '<option value="editpost">' .$LANG_GF03['edit']. '</option>';
         if ($showtopic['locked'] == 1) {
