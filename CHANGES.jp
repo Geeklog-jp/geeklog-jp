@@ -1,5 +1,9 @@
 2012-07-02  Kenji ITO  <mystralkk>
 
+	* ForumプラグインでE_ALL noticeが出ないように修正しました。
+
+2012-07-02  Kenji ITO  <mystralkk>
+
 	* nmoxqrblockプラグインでphpblock_nmoxqrblock()関数の第1引数の初期値
 	  を変更しました。
 
