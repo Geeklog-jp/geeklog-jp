@@ -163,8 +163,8 @@ if (($submit == $LANG_GF01['SUBMIT']) && ($editpost == 'yes') && SEC_checkToken(
             $locked = 0;
             $sticky = 0;
             if ($_POST['modedit'] == 1) {
-                if ($_POST['locked_switch'] == 1)  $locked = 1;
-                if ($_POST['sticky_switch'] == 1)  $sticky = 1;
+                if (isset($_POST['locked_switch']) AND $_POST['locked_switch'] == 1)  $locked = 1;
+                if (isset($_POST['sticky_switch']) AND $_POST['sticky_switch'] == 1)  $sticky = 1;
             }
             $sql = "UPDATE {$_TABLES['forum_topic']} SET subject='$subject',comment='$comment',postmode='$postmode', ";
             $sql .= "mood='$mood', sticky='$sticky', locked='$locked' WHERE (id='$editid')";
@@ -420,7 +420,7 @@ if (($submit == $LANG_GF01['SUBMIT']) && (($uid == 1) || SEC_checkToken())) {
 
 
 // EDIT MESSAGE
-$comment = COM_stripslashes( $_POST['comment'] );
+$comment = isset($_POST['comment']) ? COM_stripslashes( $_POST['comment'] ) : '';
 
 if ($id > 0) {
     $sql  = "SELECT a.forum,a.pid,a.comment,a.date,a.locked,a.subject,a.mood,a.sticky,a.uid,a.name,a.postmode,b.forum_cat,b.forum_name,b.is_readonly,c.cat_name ";
@@ -463,7 +463,7 @@ if ($method == 'edit') {
         }
     }
     // Moderator or logged-in User is editing their topic post
-    if ($_USER['uid'] > 1 AND $editAllowed) {
+    if (!COM_isAnonUser() AND $editAllowed) {
         // Check to see if user has this topic or complete forum is selected for notifications
         $fields1 = array( 'topic_id','uid' );
         $values1 = array( $id,$edittopic['uid'] );
@@ -494,10 +494,15 @@ if ($preview == 'Preview') {
             $previewitem['uid'] = 1;
         }
     }
-    $previewitem['date'] = time();
-    $previewitem['subject'] = gf_checkHTML($subject);
-    $previewitem['postmode'] = gf_chkpostmode($postmode,$mode_switch);
-    $previewitem['mood'] = $mood;
+    $previewitem['date']      = time();
+    $previewitem['subject']   = gf_checkHTML($subject);
+    $previewitem['postmode']  = gf_chkpostmode($postmode,$mode_switch);
+    $previewitem['mood']      = $mood;
+    $previewitem['pid']       = $edittopic['pid'];
+    $previewitem['id']        = 0;
+    $previewitem['locked']    = $edittopic['locked'];
+    $previewitem['views']     = 0;
+    $previewitem['forum']     = $edittopic['forum'];
 
     $previewitem['comment'] = trim($comment);
 
@@ -651,7 +656,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
     $topicnavbar->set_var ('LANG_fhelp', $LANG_GF01['f_help']);
     $topicnavbar->set_var ('LANG_hhelp', $LANG_GF01['h_help']);
 
-    if (forum_modPermission($edittopic['forum'],$_USER['uid'],'mod_edit')) {
+    if (!COM_isAnonUser() AND forum_modPermission($forum, $_USER['uid'], 'mod_edit')) {
         $editmoderator = TRUE;
         $topicnavbar->set_var ('hidden_modedit', '1');
     } else {
@@ -874,7 +879,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         }
 
         $sql  = "(SELECT id FROM {$_TABLES['forum_watch']} WHERE ((topic_id='$notifyTopicid' AND uid='$uid')) ) UNION ALL "
-              . "(SELECT id FROM {$_TABLES['forum_watch']} WHERE ((forum_id='{$edittopic['forum']}') AND (topic_id='0') AND (uid='$uid')) ) ";
+              . "(SELECT id FROM {$_TABLES['forum_watch']} WHERE ((forum_id='{$forum}') AND (topic_id='0') AND (uid='$uid')) ) ";
         $notifyquery = DB_query($sql);
 
         if (DB_getItem($_TABLES['forum_userprefs'],'alwaysnotify', "uid='$uid'") == 1 OR DB_numRows($notifyquery) > 0) {
@@ -897,11 +902,11 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
         } else {
             $notify_val = '';
         }
-        $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="on" ' . $notify_val. XHTML . '>';
+        $notify_prompt = '<label for="notify">' . $LANG_GF02['msg38']. '</label><br' . XHTML . '><input type="checkbox" name="notify" id="notify" value="on" ' . $notify_val. XHTML . '>';
 
         // check that this is the parent topic - only able to make it skicky or locked
         if ($editpid == 0) {
-            if (!isset($locked_val) and !isset($sticky_val) AND $method == 'edit') {
+            if (!isset($locked_val) AND !isset($sticky_val) AND $method == 'edit') {
 
 
                 if ((!isset($_POST['locked_switch']) AND $edittopic['locked'] == 1) OR (isset($_POST['locked_switch']) && $_POST['locked_switch'] == 1 )) {
@@ -914,9 +919,13 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
                     $locked_val = '';
                     $sticky_val = '';
                 }
-            }
-            $locked_prompt = $LANG_GF02['msg109']. '<br' . XHTML . '><input type="checkbox" name="locked_switch" ' .$locked_val. ' value="1"' . XHTML . '>';
-            $sticky_prompt = $LANG_GF02['msg61']. '<br' . XHTML . '><input type="checkbox" name="sticky_switch" ' .$sticky_val. ' value="1"' . XHTML . '>';
+            } else {
+                $locked_val = '';
+                $sticky_val = '';
+			}
+			
+            $locked_prompt = '<label for="locked_switch">' . $LANG_GF02['msg109']. '</label><br' . XHTML . '><input type="checkbox" name="locked_switch" id="locked_switch" ' .$locked_val. ' value="1"' . XHTML . '>';
+            $sticky_prompt = '<label for="sticky_switch">' . $LANG_GF02['msg61']. '</label><br' . XHTML . '><input type="checkbox" name="sticky_switch" id="sticky_switch" ' .$sticky_val. ' value="1"' . XHTML . '>';
         }
     } else {
         if ($uid > 1) {
@@ -925,7 +934,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
             } else {
                 $notify_val = '';
             }
-            $notify_prompt = $LANG_GF02['msg38']. '<br' . XHTML . '><input type="checkbox" name="notify" value="on" ' . $notify_val. XHTML . '>';
+            $notify_prompt = '<label for="notify">' . $LANG_GF02['msg38']. '</label><br' . XHTML . '><input type="checkbox" name="notify" id="notify" value="on" ' . $notify_val. XHTML . '>';
         } else {
             $notify_prompt = '';
         }
@@ -937,7 +946,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
          $postmode_msg = $LANG_GF01['HTMLMODE'];
     }
     if ($CONF_FORUM['allow_html'] || SEC_inGroup( 'Root' )) {
-        $mode_prompt = $postmode_msg. '<br' . XHTML . '><input type="checkbox" name="postmode_switch" value="1"' . XHTML . '><input type="hidden" name="postmode" value="{postmode}"' . XHTML . '>';
+        $mode_prompt = '<label for="postmode_switch">' . $postmode_msg. '</label><br' . XHTML . '><input type="checkbox" name="postmode_switch" id="postmode_switch" value="1"' . XHTML . '><input type="hidden" name="postmode" value="{postmode}"' . XHTML . '>';
     }
 
     if ($method == 'edit') {
@@ -947,7 +956,7 @@ if (($method == 'newtopic' || $method == 'postreply' || $method == 'edit') || ($
             $comment = str_replace( '<pre>', '[code]', $comment );
             $comment = str_replace( '</pre>', '[/code]', $comment );
         }
-        $edit_prompt = $LANG_GF02['msg190'] . '<br' . XHTML . '><input type="checkbox" name="silentedit" ';
+        $edit_prompt = '<label for="silentedit">' . $LANG_GF02['msg190'] . '</label><br' . XHTML . '><input type="checkbox" name="silentedit" id="silentedit" ';
         if ($silentedit == 1 OR ( !isset($_POST['modedit']) AND $CONF_FORUM['silent_edit_default'])) {
              $edit_prompt .= 'checked="checked" ';
         }

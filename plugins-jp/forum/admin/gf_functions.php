@@ -103,12 +103,12 @@ function gf_resyncforum($id) {
             $lastrec = DB_fetchArray($lsql);
             if ($lastrec['maxid'] != NULL) {
                 $postCount = DB_count($_TABLES['forum_topic'],'forum',$id);
-                $latest = DB_getItem($_TABLES['forum_topic'],date,"id={$lastrec['maxid']}");
+                $latest = DB_getItem($_TABLES['forum_topic'], 'date', "id={$lastrec['maxid']}");
                 DB_query("UPDATE {$_TABLES['forum_topic']} SET lastupdated = '$latest' WHERE id='{$trecord['id']}'");
                 // Update the parent topic record to know the id of the Last Reply
                 DB_query("UPDATE {$_TABLES['forum_topic']} SET last_reply_rec = {$lastrec['maxid']} WHERE id='{$trecord['id']}'");
             } else {
-                $latest = DB_getItem($_TABLES['forum_topic'],date,"id={$trecord['id']}");
+                $latest = DB_getItem($_TABLES['forum_topic'], 'date', "id={$trecord['id']}");
                 DB_query("UPDATE {$_TABLES['forum_topic']} SET lastupdated = '$latest' WHERE id='{$trecord['id']}'");
             }
             // Recalculate and Update the number of replies

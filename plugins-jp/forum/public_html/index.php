@@ -70,7 +70,7 @@ if ($CONF_FORUM['registration_required'] && $_USER['uid'] < 2) {
 $todaysdate = date($_CONF['shortdate']);
 
 // Check to see if request to mark all topics read was requested
-if ($_USER['uid'] > 1 && $op == 'markallread') {
+if (!COM_isAnonUser() && $op == 'markallread') {
     $now = time();
     $categories = array();
     if ($cat_id == 0) {
@@ -118,7 +118,7 @@ if ($msg==3) {
     $display .= COM_showMessageText($LANG_GF02['msg55']);
 }
 
-if ($op == 'newposts' AND $_USER['uid'] > 1) {
+if ($op == 'newposts' AND !COM_isAnonUser()) {
     $report = COM_newTemplate($CONF_FORUM['path_layout'] . 'forum/layout');
     $report->set_file (array (
                     'report'         => 'reports/report_results.thtml',
@@ -602,7 +602,7 @@ if ($forum == 0) {
                 if ( strlen($B['subject']) > 25 ) {
                     $B['subject'] = COM_truncate($B['subject'], 25, '..');
                 }
-                if ($_USER['uid'] > 1) {
+                if (!COM_isAnonUser()) {
                     // Determine if there are new topics since last visit for this user.
                     if ($topicCount > DB_getItem($_TABLES['forum_log'], 'COUNT(*)', "uid='{$_USER['uid']}' AND forum='{$B['forum_id']}' AND time > 0")) {
                         $folderimg = '<img src="'.gf_getImage('busyforum', 'status').'" style="border:none; vertical-align:middle;" alt="'.$LANG_GF02['msg111'].'" title="'.$LANG_GF02['msg111'].'"' . XHTML . '>';
@@ -662,7 +662,7 @@ if ($forum == 0) {
         }
 
         if ($numForumsDisplayed > 0) {
-            if (isset($_USER['uid']) AND $_USER['uid'] > 1) {
+            if (!COM_isAnonUser()) {
                 $link = 'href="' . $_CONF['site_url'] . '/forum/index.php?op=markallread&amp;cat_id=' . $A['id'] . '"'
                       . ' onclick="return confirm(\'' . $LANG_GF02['msg302'] . '\');"';
                 $forumlisting->set_var ('markreadlink', $link);
@@ -791,7 +791,7 @@ if ($forum > 0) {
     $base_url .= "&amp;order=$order&amp;sort=$sort";
 
     // Retrieve all the Topic Records - where pid is 0 - check to see if user does not want to see anonymous posts
-    if ($_USER['uid'] > 1 AND $CONF_FORUM['show_anonymous_posts'] == 0) {
+    if (!COM_isAnonUser() AND $CONF_FORUM['show_anonymous_posts'] == 0) {
         $sql  = "SELECT * FROM {$_TABLES['forum_topic']} topic WHERE forum = '$forum' AND pid = 0 AND uid > 1 ";
     } else {
         $sql  = "SELECT * FROM {$_TABLES['forum_topic']} topic WHERE forum = '$forum' AND pid = 0 ";
@@ -809,7 +809,7 @@ if ($forum > 0) {
         $LANG_MSG05 = $LANG_GF02['msg05'];
     }
     $subscribe = '';
-    if ($_USER['uid'] > 1) {
+    if (!COM_isAnonUser()) {
         // Check for user subscription status
         $sub_check = DB_getITEM($_TABLES['forum_watch'],"id","forum_id='$forum' AND topic_id=0 AND uid='{$_USER['uid']}'");
         if ($sub_check == '') {
@@ -889,7 +889,7 @@ if ($forum > 0) {
             $showuserlink= $record['name'];
         }
 
-        if (substr($_USER['language'],0,2) == "ja") { // need examination
+        if (isset($_USER['language']) AND substr($_USER['language'],0,2) == "ja") { // need examination
             $format1 = '%Y/%m/%d';
             $format2 = 'Y/m/d';
             $format3 = '%p&nbsp;%H:%M';
@@ -911,7 +911,7 @@ if ($forum > 0) {
             if ($lastdate1 == date($format2)) {
                 $lasttime = strftime($format3, $lastreply['date']);
                 $lastdate = $LANG_GF01['TODAY'] . $lasttime;
-            } elseif ($CONF_FORUM['use_userdate_format']) {
+            } elseif (isset($CONF_FORUM['use_userdate_format']) AND $CONF_FORUM['use_userdate_format']) {
                 $lastdate = COM_getUserDateTimeFormat($lastreply['date']);
                 $lastdate = $lastdate[0];
             } else {
@@ -933,7 +933,7 @@ if ($forum > 0) {
             $firstdate = strftime($CONF_FORUM['default_Datetime_format'],$record['date']);
         }
 
-        if ($_USER['uid'] > 1) {
+        if (!COM_isAnonUser()) {
             // Determine if there are new topics since last visit for this user.
             // If topic has been updated or is new - then the user will not have record for this parent topic in the log table
             if (DB_getItem($_TABLES['forum_log'], 'COUNT(*)', "uid='{$_USER['uid']}' AND topic='{$record['id']}' AND time > 0") == 0) {

@@ -50,6 +50,8 @@ if (file_exists($langfile)) {
  * This language string is inherited from Geeklog Core, which makes
  * it static, so we define it here instead of in the language files.
  */
+global $LANG32;
+
 $PLG_forum_MESSAGE3002 = $LANG32[9]; // This plugin requires a newer version of Geeklog
 
 /**
@@ -1720,7 +1722,7 @@ function phpblock_forum_menu() {
         if ($CONF_GLMENU['milonicmode']) {
             $retval = COM_startBlock( $LANG_GF00['forumblock'], '', 'glmenu/milonicmenu/blockheader-blockmenu.thtml');
             $retval .= 'aI("text='.$LANG_GF01['INDEXPAGE'].';url='.$_CONF['site_url'].'/forum/index.php;");' . LB;
-            if ($_USER['uid'] > 1) {
+            if (!COM_isAnonUser()) {
                 $retval .= 'aI("text='.$LANG_GF01['USERPREFS'].';url='.$_CONF['site_url'].'/forum/userprefs.php;");' . LB;
                 $retval .= 'aI("text='.$LANG_GF01['SUBSCRIPTIONS'].';url='.$_CONF['site_url'].'/forum/notify.php;");' . LB;
             }
@@ -1732,7 +1734,7 @@ function phpblock_forum_menu() {
             $t = COM_newTemplate($_CONF['path_layout'] . 'glmenu/cssmenu');
             $t->set_file('menu','blockmenu.thtml');
             $links = "<li><a href=\"{$_CONF['site_url']}/forum/index.php\" title=\"{$LANG_GF02['msg196']}\">{$LANG_GF01['INDEXPAGE']}</a></li>" . LB;
-            if ($_USER['uid'] > 1) {
+            if (!COM_isAnonUser()) {
                 $links .= "<li><a href=\"{$_CONF['site_url']}/forum/index.php?op=markallread\" title=\"{$LANG_GF02['msg197']}\">{$LANG_GF01['MARKALLREAD']}</a></li>" . LB;
                 $links .= "<li><a href=\"{$_CONF['site_url']}/forum/userprefs.php\" title=\"{$LANG_GF02['msg198']}\">{$LANG_GF01['USERPREFS']}</a></li>" . LB;
                 $links .= "<li><a href=\"{$_CONF['site_url']}/forum/notify.php\" title=\"{$LANG_GF02['msg199']}\">{$LANG_GF01['SUBSCRIPTIONS']}</a></li>" . LB;
@@ -1749,7 +1751,7 @@ function phpblock_forum_menu() {
         $base = $_CONF['site_url'] . '/forum/';
         $items = array();
         $items[] = COM_createLink($LANG_GF01['INDEXPAGE'], $base.'index.php', array('title' => $LANG_GF02['msg196']));
-        if (isset($_USER['uid']) && $_USER['uid'] > 1) {
+        if (!COM_isAnonUser()) {
             $items[] = COM_createLink($LANG_GF01['MARKALLREAD'], $base.'index.php?op=markallread',
                        array('title' => $LANG_GF02['msg197'], 'onclick' => 'return confirm(\'' . $LANG_GF02['msg301'] . '\');'));
             $items[] = COM_createLink($LANG_GF01['USERPREFS'], $base.'userprefs.php', array('title' => $LANG_GF02['msg198']));

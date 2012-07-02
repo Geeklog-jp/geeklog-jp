@@ -253,6 +253,8 @@ if ($type == "forum") {
             exit();
 
         } else {
+			$grouplist = '';
+			$groupname = '';
             $result    = DB_query("SELECT DISTINCT grp_id, grp_name FROM {$_TABLES['groups']}");
             $nrows    = DB_numRows($result);
             if ($nrows > 0) {
@@ -329,7 +331,7 @@ if ($type == "forum") {
             exit();
         }
 
-    } elseif (($mode == $LANG_GF01['EDIT'] &&  COM_applyFilter($_POST['what'])== 'order') && SEC_checkToken()) {
+    } elseif (($mode == $LANG_GF01['EDIT'] && isset($_POST['what']) && COM_applyFilter($_POST['what']) == 'order') && SEC_checkToken()) {
         $order = COM_applyFilter($_POST['order'],true);
         DB_query("UPDATE {$_TABLES['forum_forums']} SET forum_order='$order' WHERE forum_id='$id'");
         $display = COM_refresh($_CONF['site_admin_url'] .'/plugins/forum/boards.php?msg=7');
@@ -339,10 +341,10 @@ if ($type == "forum") {
     } elseif (($mode == 'save') && SEC_checkToken()) {
         $name = gf_preparefordb($_POST['name'],'text');
         $dscp = gf_preparefordb($_POST['dscp'],'text');
-        $is_hidden   = isset($_POST['is_hidden'])   ? COM_applyFilter($_POST['is_hidden'],true)   : '';
-        $is_readonly = isset($_POST['is_readonly']) ? COM_applyFilter($_POST['is_readonly'],true) : '';
-        $no_newposts = isset($_POST['no_newposts']) ? COM_applyFilter($_POST['no_newposts'],true) : '';
-        $privgroup   = isset($_POST['privgroup'])   ? COM_applyFilter($_POST['privgroup'],true)   : '';
+        $is_hidden   = isset($_POST['is_hidden'])   ? COM_applyFilter($_POST['is_hidden'],true)   : 0;
+        $is_readonly = isset($_POST['is_readonly']) ? COM_applyFilter($_POST['is_readonly'],true) : 0;
+        $no_newposts = isset($_POST['no_newposts']) ? COM_applyFilter($_POST['no_newposts'],true) : 0;
+        $privgroup   = isset($_POST['privgroup'])   ? COM_applyFilter($_POST['privgroup'],true)   : 0;
         if ($privgroup == 0) $privgroup = 2;
         DB_query("UPDATE {$_TABLES['forum_forums']} SET forum_name='$name',forum_dscp='$dscp', grp_id=$privgroup,
                 is_hidden='$is_hidden', is_readonly='$is_readonly', no_newposts='$no_newposts' WHERE forum_id='$id'");
@@ -354,6 +356,7 @@ if ($type == "forum") {
         gf_resyncforum($id);
 
     } elseif ($mode == $LANG_GF01['EDIT']) {
+		$grouplist = '';
         $sql  = "SELECT forum_name,forum_cat,forum_dscp,grp_id,forum_order,is_hidden,is_readonly,no_newposts ";
         $sql .= "FROM {$_TABLES['forum_forums']} WHERE (forum_id='$id')";
         $resForum  = DB_query($sql);
