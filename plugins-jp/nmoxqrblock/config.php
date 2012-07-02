@@ -32,7 +32,7 @@ $_TABLES['nmoxqrblock']  = $_DB_table_prefix . 'nmoxqrblock';
 
 // Plugin info
 $_NMOXQRBLOCK = array(
-	'pi_version' => '1.2.1',			// Plugin version
+	'pi_version' => '1.2.2',			// Plugin version
 	'gl_version' => '1.4.0',			// GL version
 	'pi_url'     => 'http://nmox.com/',	// Plugin Homepage
 	'GROUPS'     => array(

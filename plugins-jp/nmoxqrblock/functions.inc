@@ -85,6 +85,10 @@ function plugin_upgrade_nmoxqrblock() {
 					plugin_initconfig_nmoxqrblock();
 					$v = '1.2.1';
 					break;
+				
+				case '1.2.1':
+					$v = '1.2.2';
+					break;
 			}
 		}
 
@@ -298,10 +302,10 @@ function phpblock_nmoxqrblock($d = NULL, $t = NULL, $e = NULL, $s = NULL, $v = N
 		return $retval;
 	}
 	
-	if (empty($d) OR ($d === '#C') OR ($d === '#c')) {	// Current URL (default)
-		$d = COM_buildURL(COM_getCurrentURL());
-	} else if (($d === '#S') OR ($d === '#s')) {		// Site URL
+	if (empty($d) OR ($d === '#S') OR ($d === '#s')) {	// Site URL (default)
 		$d = $_CONF['site_url'];
+	} else if (($d === '#C') OR ($d === '#c')) {		// Current URL
+		$d = COM_buildURL(COM_getCurrentURL());
 	}
 	
 	$params = compact('d', 't', 'e', 's', 'v');
