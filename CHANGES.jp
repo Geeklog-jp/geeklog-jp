@@ -1,3 +1,9 @@
+2012-07-11  Tetsuko Komma  <Ivy>
+
+	* 日本語ドキュメントのhistory.htmlにGeeklog Bugtrackerへのリンクの
+	  追加と翻訳を追加しました。
+	* phpblock_lastarticlesのテンプレートを修正しました。
+
 2012-07-03  Tetsuko Komma  <Ivy>
 
 	* 日本語コア言語ファイル、日本語ドキュメントのコンフィギュレーションの
