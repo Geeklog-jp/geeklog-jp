@@ -170,7 +170,7 @@ $LANG_tab['polls'] = array(
     'tab_whatsnew' => '新着情報ブロック',
     'tab_permissions' => 'パーミッションのデフォルト',
     'tab_autotag_permissions' => '自動タグのパーミッション',
-    'tab_poll_block' => '投票ブロック'
+    'tab_poll_block' => 'アンケートブロック'
 );
 
 $LANG_fs['polls'] = array(
