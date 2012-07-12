@@ -252,7 +252,7 @@ $LANG_configselects['calendar'] = array(
     9 => array('ページを表示する' => 'item', 'リストを表示する' => 'list', 'プラグイントップを表示する' => 'plugin', 'ホームを表示する' => 'home', '管理画面トップを表示する' => 'admin'),
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
     13 => array('アクセス不可' => 0, '利用する' => 2),
-    14 => array('No access' => 0, 'Read-Only' => 2),
+    14 => array('アクセス不可' => 0, '表示' => 2),
     15 => array('すべて' => 'TOPIC_ALL_OPTION', 'ホームページのみ' => 'TOPIC_HOMEONLY_OPTION', '話題を選択する' => 'TOPIC_SELECTED_OPTION')
 );
 
