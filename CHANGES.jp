@@ -1,6 +1,8 @@
 2012-07-13  Tetsuko Komma  <Ivy>
 
 	* 言語ファイルをBETA 2に対応させて修正し、さらに細かい修正を加えました。
+	* アップグレードで有効のままにするプラグインのホワイトリストにmoblogと
+	  googleanalyticsを追加しました。
 
 2012-07-11  Tetsuko Komma  <Ivy>
 
