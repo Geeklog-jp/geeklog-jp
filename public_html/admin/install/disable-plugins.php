@@ -35,6 +35,8 @@ function GEEKLOGJP_disablePlugins() {
 		'nmoxqrblock'  => '1.1.1',
 		'nmoxtopicown' => '1.0.9',
 		'japanize'     => '1.0.2',
+		'moblog'       => '1.0.0',
+		'googleanalytics' => '1.0.0',
 	);
 	
 	$sqls = array();
