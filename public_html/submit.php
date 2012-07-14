@@ -105,7 +105,7 @@ function submissionform($type = 'story', $mode = '', $topic = '')
 */
 function submitstory($topic = '')
 {
-    global $_CONF, $_TABLES, $_USER, $LANG12, $LANG24;
+    global $_CONF, $_TABLES, $_USER, $LANG01, $LANG12, $LANG24, $_SCRIPTS;
 
     $retval = '';
 
@@ -128,6 +128,23 @@ function submitstory($topic = '')
         $storyform->set_var ('change_editormode', 'onchange="change_editmode(this);"');
         $storyform->set_var ('lang_expandhelp', $LANG24[67]);
         $storyform->set_var ('lang_reducehelp', $LANG24[68]);
+
+        if (COM_isAnonUser()) {
+            $link_message = "";
+        } else {
+            $link_message = $LANG01[138];    
+        } 
+        $storyform->set_var('noscript', COM_getNoScript(false, '', $link_message));
+        
+        // Add JavaScript
+        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
+        $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
+        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
+        $js .= 'document.getElementById("advanced_editor").style.display="";';                 
+        $_SCRIPTS->setJavaScript($js, true);
+        $_SCRIPTS->setJavaScriptFile('submitstory_fckeditor', '/javascript/submitstory_fckeditor.js');         
+        
+        
         if ($story->EditElements('postmode') == 'html') {
             $storyform->set_var ('show_texteditor', 'none');
             $storyform->set_var ('show_htmleditor', '');
@@ -175,8 +192,8 @@ function submitstory($topic = '')
     $storyform->set_var('lang_topic', $LANG12[28]);
 
     
-    $tlist = TOPIC_getTopicListSelect($story->EditElements('tid'), 0, true);
-    $storyform->set_var('topic_selection', TOPIC_getTopicSelectionControl('article', $story->EditElements('tid')));
+    $tlist = TOPIC_getTopicSelectionControl('article', '', false, false, false);
+    $storyform->set_var('topic_selection', $tlist);
     if (empty($tlist)) {
         $retval .= COM_showMessage(101);
         return $retval;

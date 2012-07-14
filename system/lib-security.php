@@ -273,17 +273,29 @@ function SEC_isModerator()
 
 /**
 * Checks to see if current user has access to a configuration
-* 
+*
 * @return   boolean     returns if user has any config. rights
 */
-function SEC_hasConfigAcess() {
+function SEC_hasConfigAccess()
+{
     global $_CONF_FT;
-    
+
     if (SEC_hasRights($_CONF_FT, 'OR')) {
         return true;
     }
-    
+
     return false;
+}
+
+/**
+* Deprecated - use SEC_hasConfigAccess instead
+*
+* @deprecated since Geeklog 2.0.0
+* @see SEC_hasConfigAccess
+*/
+function SEC_hasConfigAcess()
+{
+    return SEC_hasConfigAccess();
 }
 
 /**
@@ -1280,8 +1292,8 @@ function SEC_updateUserPassword(&$password = '', $uid = '') {
     // update the database with the new password using algorithm and stretch from $_CONF
     $salt = SEC_generateSalt();
     $newhash = SEC_encryptPassword($password, $salt, $_CONF['pass_alg'], $_CONF['pass_stretch']);
-    $query = 'UPDATE ' . $_TABLES['users'] . " SET passwd = \"$newhash\", "
-        . "salt = \"$salt\", algorithm =\"" . $_CONF['pass_alg'] . '",' 
+    $query = 'UPDATE ' . $_TABLES['users'] . " SET passwd = '$newhash', "
+        . "salt = '$salt', algorithm ='" . $_CONF['pass_alg'] . "', " 
         . 'stretch = ' . $_CONF['pass_stretch'] . " WHERE uid = $uid";
     DB_query($query);
 
