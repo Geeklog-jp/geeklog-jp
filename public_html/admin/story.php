@@ -214,7 +214,7 @@ function liststories($current_topic = '')
     $query_arr = array(
         'table' => 'stories',
         'sql' => $sql,
-        'query_group' => 'sid',
+        'query_group' => "sid,{$_TABLES['users']}.username,{$_TABLES['users']}.fullname",
         'query_fields' => array('title', 'introtext', 'bodytext', 'sid', 'tid'),
         'default_filter' => $excludetopics . COM_getPermSQL('AND')
     );
@@ -571,21 +571,6 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
     }
     $story_templates->set_var('lang_topic', $LANG_ADMIN['topic']);
     
-    
-    
-    
-    
-    
-    
-    /* Tom
-    if(empty($currenttopic) && ($story->EditElements('tid') == '')) {
-        $story->setTid(DB_getItem($_TABLES['topics'], 'tid',
-                                  'is_default = 1' . COM_getPermSQL('AND')));
-    } elseif ($story->EditElements('tid') == '') {
-        $story->setTid($currenttopic);
-    }
-    */
-    
     if ($mode == 'preview') {
         $tlist = TOPIC_getTopicSelectionControl('article', '', false, true, true);
     } else {        
@@ -597,13 +582,6 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
         return $display;
     }
     $story_templates->set_var('topic_selection', $tlist);
-    
-    
-    
-    
-    
-    
-    
 
     $story_templates->set_var('lang_show_topic_icon', $LANG24[56]);
     if ($story->EditElements('show_topic_icon') == 1) {
@@ -805,6 +783,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '', $currenttopic = '')
             document.getElementById("advanced_editor").style.display=""
         </script>';     
         
+        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
         $_SCRIPTS->setJavaScriptFile('advanced_editor', '/javascript/advanced_editor.js');
         $_SCRIPTS->setJavaScriptFile('storyeditor_fckeditor', '/javascript/storyeditor_fckeditor.js');        
     }
