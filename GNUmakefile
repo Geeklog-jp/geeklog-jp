@@ -44,7 +44,7 @@ update-release-jp: release_jp.php
 
 release_jp.php: GNUmakefile.common GNUmakefile
 	@unset LANG LC_TIME; \
-	$(SED) -e '/release_no =/s|".*"|"$(GL_JPVERSION)"|' 
+	$(SED) -e '/release_no =/s|".*"|"$(GL_JPVERSION)"|'  \
 		-e '/release_date =/s|".*"|"'"`date -u`"'"|' release_jp.php \
 		> release_jp.php.tmp && ${MV} release_jp.php.tmp release_jp.php
 
