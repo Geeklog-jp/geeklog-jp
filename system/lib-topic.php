@@ -836,15 +836,19 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
     
     // Do they have any access to topics first?
     
-    
     // Retrieve Topic options
     $from_db = true;
     if (empty($type) || empty($id)) {
-        $from_db = false;
+        $from_db = false; 
     }
     if (!$from_db) {    
         TOPIC_getDataTopicSelectionControl($topic_option, $tids, $inherit_tids, $default_tid);
-    } else {        
+        
+        // Figure out if we need to set the default topic for the list
+        if ($topic_option == TOPIC_SELECTED_OPTION AND empty($tids)) {
+            $tids = (DB_getItem($_TABLES['topics'], 'tid', 'is_default = 1' . COM_getPermSQL('AND')));
+        }
+    } else {    
         $sql = "SELECT * FROM {$_TABLES['topic_assignments']} WHERE type = '$type' AND id ='$id'";
     
         $result = DB_query($sql);
@@ -1329,13 +1333,25 @@ function TOPIC_breadcrumbs($type, $id)
                         } else {
                             $breadcrumb_a[]['id'] = TOPIC_ROOT;
                             end($breadcrumb_a);
-                            $breadcrumb_a[key($breadcrumb_a)]['title'] = $_CONF['site_name'];
+                            
+                            if ($_CONF['breadcrumb_root_site_name']) {
+                                $rootname = $_CONF['site_name'];
+                            } else {
+                                $rootname = $LANG27['breadcrumb_root'];
+                            }
+                            $breadcrumb_a[key($breadcrumb_a)]['title'] = $rootname;
                         }
                     }
                 } else {
                     $breadcrumb_a[]['id'] = TOPIC_ROOT;
                     end($breadcrumb_a);
-                    $breadcrumb_a[key($breadcrumb_a)]['title'] = $_CONF['site_name'];
+                    
+                    if ($_CONF['breadcrumb_root_site_name']) {
+                        $rootname = $_CONF['site_name'];
+                    } else {
+                        $rootname = $LANG27['breadcrumb_root'];
+                    }
+                    $breadcrumb_a[key($breadcrumb_a)]['title'] = $rootname;
                 }
                 
                 $retval = '';

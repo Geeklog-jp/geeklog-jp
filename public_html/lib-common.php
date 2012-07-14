@@ -1305,6 +1305,8 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '')
     $headercode = $_SCRIPTS->getHeader() . $headercode;
     $header->set_var( 'plg_headercode', $headercode );
 
+    $header->set_var( 'layout_columns', 'js_off' );
+
     // The following lines allow users to embed PHP in their templates.  This
     // is almost a contradition to the reasons for using templates but this may
     // prove useful at times ...
@@ -2710,7 +2712,10 @@ function COM_featuredCheck()
         if ($numB > 1) {
             // OK, we have two or more featured stories in a topic, fix that
             $B = DB_fetchArray($resultB);
-            $sql = "UPDATE {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta SET s.featured = 0 WHERE s.featured = 1 AND s.draft_flag = 0 AND ta.tid = '{$A['tid']}' AND ta.type = 'article' AND ta.id = s.sid AND s.date <= NOW() AND s.sid <> '{$B['sid']}'";
+            $sql = array();
+            $sql['mysql'] = "UPDATE {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta SET s.featured = 0 WHERE s.featured = 1 AND s.draft_flag = 0 AND ta.tid = '{$A['tid']}' AND ta.type = 'article' AND ta.id = s.sid AND s.date <= NOW() AND s.sid <> '{$B['sid']}'";
+            $sql['mssql'] = $sql['mysql']; // I hope ...
+            $sql['pgsql'] = "UPDATE {$_TABLES['stories']} AS s SET featured = 0 FROM {$_TABLES['topic_assignments']} WHERE s.featured = 1 AND s.draft_flag = 0 AND {$_TABLES['topic_assignments']}.tid = '{$A['tid']}' AND {$_TABLES['topic_assignments']}.type = 'article' AND {$_TABLES['topic_assignments']}.id = s.sid AND s.date <= NOW() AND s.sid <> '{$B['sid']}'";
             DB_query($sql);            
         }
     }
@@ -3245,7 +3250,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
     $plugin_options = PLG_getAdminOptions();
     $num_plugins = count( $plugin_options );
 
-    if( SEC_isModerator() OR SEC_hasRights( 'story.edit,block.edit,topic.edit,user.edit,plugin.edit,user.mail,syndication.edit', 'OR' ) OR ( $num_plugins > 0 ) OR SEC_hasConfigAcess())        
+    if( SEC_isModerator() OR SEC_hasRights( 'story.edit,block.edit,topic.edit,user.edit,plugin.edit,user.mail,syndication.edit', 'OR' ) OR ( $num_plugins > 0 ) OR SEC_hasConfigAccess())        
     {
         $link_array = array();
 
@@ -3335,7 +3340,7 @@ function COM_adminMenu( $help = '', $title = '', $position = '' )
             }
         }
 
-        if (SEC_hasConfigAcess()) {
+        if (SEC_hasConfigAccess()) {
             $url = $_CONF['site_admin_url'] . '/configuration.php';
             $adminmenu->set_var('option_url', $url);
             $adminmenu->set_var('option_label', $LANG01[129]);
@@ -4243,13 +4248,12 @@ function COM_showBlock( $name, $help='', $title='', $position='' )
 *
 * @param        string      $side       Side to get blocks for (right or left for now)
 * @param        string      $topic      Only get blocks for this topic
-* @param        string      $name       Block name (not used)
 * @see function COM_showBlock
 * @return   string  HTML Formated blocks
 *
 */
 
-function COM_showBlocks( $side, $topic='', $name='all' )
+function COM_showBlocks( $side, $topic='' )
 {
     global $_CONF, $_TABLES, $_USER, $LANG21, $topic, $page, $_TOPICS;
 
@@ -4277,18 +4281,28 @@ function COM_showBlocks( $side, $topic='', $name='all' )
 
     $blocksql['mysql'] = "SELECT b.*,UNIX_TIMESTAMP(rdfupdated) AS date ";
     $blocksql['pgsql'] = 'SELECT b.*, date_part(\'epoch\', rdfupdated) AS date ';
-    
-    
 
-    $commonsql = "FROM {$_TABLES['blocks']} b, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'block' AND ta.id = bid AND is_enabled = 1";
+    $blocksql['mysql'] .= "FROM {$_TABLES['blocks']} b, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'block' AND ta.id = bid AND is_enabled = 1";
+    $blocksql['mssql'] .= "FROM {$_TABLES['blocks']} b, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'block' AND ta.id = bid AND is_enabled = 1";
+    $blocksql['pgsql'] .= "FROM {$_TABLES['blocks']} b, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'block' AND ta.id::integer = bid AND is_enabled = 1";
 
-    if( $side == 'left' ) {
+    $commonsql = '';
+    if ($side == 'left') {
         $commonsql .= " AND onleft = 1";
     } else {
         $commonsql .= " AND onleft = 0";
     }
 
-    if(!empty($topic) && $topic != TOPIC_ALL_OPTION && $topic != TOPIC_HOMEONLY_OPTION && $_TOPICS[TOPIC_getIndex($topic)]['access'] > 0) {
+    // Figure out topic access
+    $topic_access = 0;
+    if(!empty($topic) && $topic != TOPIC_ALL_OPTION && $topic != TOPIC_HOMEONLY_OPTION) {
+        $topic_index = TOPIC_getIndex($topic);
+        if ($topic_index > 0) {
+            $topic_access = $_TOPICS[$topic_index]['access'];
+        }
+    }
+
+    if(!empty($topic) && $topic != TOPIC_ALL_OPTION && $topic != TOPIC_HOMEONLY_OPTION && $topic_access > 0) {
         // Retrieve list of inherited topics
         $tid_list = TOPIC_getChildList($topic);
         // Get list of blocks to display (except for dynamic). This includes blocks for all topics, and child blocks that are inherited
@@ -4324,7 +4338,7 @@ function COM_showBlocks( $side, $topic='', $name='all' )
     }
 
     // Check and see if any plugins have blocks to show
-    $pluginBlocks = PLG_getBlocks( $side, $topic, $name );
+    $pluginBlocks = PLG_getBlocks( $side, $topic );
     $blocks = array_merge( $blocks, $pluginBlocks );
 
     // sort the resulting array by block order
@@ -7269,7 +7283,7 @@ function COM_getLanguageFromBrowser()
 
     $retval = '';
 
-    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) AND is_array($_CONF['language_files'])) {
         $accept = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
         foreach ($accept as $l) {
             $l = explode(';', trim($l));
