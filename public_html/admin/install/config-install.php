@@ -50,7 +50,6 @@ function install_config()
     $c->add('site_admin_url','','text',0,0,NULL,30,TRUE, $me, 0);
     $c->add('site_name','','text',0,0,NULL,60,TRUE, $me, 0);
     $c->add('site_slogan','','text',0,0,NULL,70,TRUE, $me, 0);
-    $c->add('microsummary_short','GL: ','text',0,0,NULL,80,TRUE, $me, 0);
     $c->add('site_disabled_msg','Geeklog Site is down. Please come back soon.','textarea',0,0,NULL,510,TRUE, $me, 0);
     $c->add('owner_name','','text',0,0,NULL,1000,TRUE, $me, 0);
     $c->add('copyrightyear',date('Y'),'text',0,0,NULL,1440,FALSE, $me, 0);
@@ -156,7 +155,7 @@ function install_config()
     
     $c->add('tab_theme', NULL, 'tab', 2, 10, NULL, 0, TRUE, $me, 10);
     $c->add('fs_theme', NULL, 'fieldset', 2, 10, NULL, 0, TRUE, $me, 10);
-    $c->add('theme','professional','select',2,10,NULL,190,TRUE, $me, 10);
+    $c->add('theme','modern_curve','select',2,10,NULL,190,TRUE, $me, 10);
     $c->add('doctype','html401strict','select',2,10,21,195,TRUE, $me, 10);
     $c->add('menu_elements',array('contribute','search','stats','directory','plugins'),'%select',2,10,24,200,TRUE, $me, 10);
     $c->add('path_themes','','text',2,10,NULL,210,TRUE, $me, 10);
@@ -429,7 +428,7 @@ function install_config()
     $c->add('disable_breadcrumbs_topics', 0, 'select', 7, 45, 0, 2010, TRUE, $me, 45);
     $c->add('disable_breadcrumbs_articles', 0, 'select', 7, 45, 0, 2020, TRUE, $me, 45);
     $c->add('disable_breadcrumbs_plugins', 0, 'select', 7, 45, 0, 2030, TRUE, $me, 45);
-    
+    $c->add('breadcrumb_root_site_name', 0, 'select', 7, 45, 0, 2040, TRUE, $me, 45);
 }
 
 ?>

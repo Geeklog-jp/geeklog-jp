@@ -111,7 +111,18 @@ function plugin_getmenuitems_staticpages()
             $topic_sql = " AND (ta.tid = '" . TOPIC_ALL_OPTION . "')";
         }
     }
-    $topic_sql .= COM_getTopicSQL('AND', 0, 'ta');
+    
+    // Have to recheck for homeonly and all since the staticpage could be that
+    $com_topic_sql = COM_getTopicSQL('', 0, 'ta');
+    if ($com_topic_sql != "") {
+        $topic_sql .= " AND (" . $com_topic_sql . "";
+
+        if (COM_onFrontpage()) {
+            $topic_sql .= " OR (ta.tid = '" . TOPIC_HOMEONLY_OPTION . "' OR ta.tid = '" . TOPIC_ALL_OPTION . "'))";
+        } else {
+            $topic_sql .= " OR ta.tid = '" . TOPIC_ALL_OPTION . "')";
+        }
+    }
 
     $sql = "SELECT sp.sp_id, sp.sp_label 
         FROM {$_TABLES['staticpage']} sp, {$_TABLES['topic_assignments']} ta   
@@ -1133,7 +1144,10 @@ function plugin_centerblock_staticpages($where = 1, $page = 1, $topic ='')
                 } elseif ($S['sp_format'] != 'blankpage') {
                     $rightblock = -1;
                 }
-                $retval = COM_createHTMLDocument($retval, array('what' => $what, 'rightblock' => $rightblock));
+                
+                if ($S['sp_format'] != 'blankpage') {
+                    $retval = COM_createHTMLDocument($retval, array('what' => $what, 'rightblock' => $rightblock));
+                }
             }
 
             // increment hit counter for page
