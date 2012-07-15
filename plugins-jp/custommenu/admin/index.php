@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/custommenu/index.php                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2012 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -53,75 +53,22 @@ if (!SEC_hasRights('custommenu.admin')) {
     // Someone is trying to illegally access this page
     COM_errorLog("CustomMenu admin: Someone has tried to illegally access the CustomMenu admin page. "
                . "User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1);
-    $display  = COM_siteHeader();
-    $display .= COM_startBlock($LANG_CMED['access_denied']);
+    $display = COM_startBlock($LANG_CMED['access_denied']);
     $display .= $LANG_CMED['access_denied_msg'];
     $display .= COM_endBlock();
-    $display .= COM_siteFooter(true);
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
 
 $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "(pi_name = 'custommenu')");
 if (version_compare($pi_version, $_CMED_CONF['version']) < 0) {
-    $display  = COM_siteHeader();
-    $display .= COM_startBlock($LANG_CMED['warning_updated']);
+    $display = COM_startBlock($LANG_CMED['warning_updated']);
     $display .= $LANG_CMED['instructions_update'];
     $display .= COM_endBlock();
-    $display .= COM_siteFooter(true);
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
-}
-
-/**
-* Sanitize a URL
-*
-* @param    string  $url                URL to sanitized
-* @param    array   $allowed_protocols  array of allowed protocols
-* @param    string  $default_protocol   replacement protocol (default: http)
-* @return   string                      sanitized URL
-*
-*/
-function CMED_sanitizeUrl($url, $allowed_protocols = '', $default_protocol = '')
-{
-    global $_CONF;
-
-    if (empty($allowed_protocols)) {
-        $allowed_protocols = $_CONF['allowed_protocols'];
-    } else if (!is_array($allowed_protocols)) {
-        $allowed_protocols = array($allowed_protocols);
-    }
-
-    if (empty($default_protocol)) {
-        $default_protocol = 'http:';
-    } else if (substr($default_protocol, -1) != ':') {
-        $default_protocol .= ':';
-    }
-
-    $url = strip_tags($url);
-    if (!empty($url)) {
-        $pos = MBYTE_strpos($url, ':');
-        if ($pos === false) {
-            $url = $default_protocol . '//' . $url;
-        } else {
-            $protocol = MBYTE_substr($url, 0, $pos + 1);
-            $found_it = false;
-            foreach ($allowed_protocols as $allowed) {
-                if (substr($allowed, -1 ) != ':') {
-                    $allowed .= ':';
-                }
-                if ($protocol == $allowed) {
-                    $found_it = true;
-                    break;
-                }
-            }
-            if (!$found_it) {
-                $url = $default_protocol . MBYTE_substr( $url, $pos + 1 );
-            }
-        }
-    }
-
-    return $url;
 }
 
 
@@ -146,8 +93,6 @@ function CMED_setMI()
         'label'        => $_POST['title_fixation'],
         'label_var'    => $_POST['title_variable'],
         'php_function' => $_POST['php_function'],
-//        'url'          => isset ($url)      ? CMED_sanitizeUrl($url,      array('http', 'https')) : '',
-//        'icon_url'     => isset ($icon_url) ? CMED_sanitizeUrl($icon_url, array('http', 'https')) : '',
         'url'          => empty($url)      ? '' : strip_tags($url),
         'icon_url'     => empty($icon_url) ? '' : strip_tags($icon_url),
         'tid'          => COM_applyFilter ($_POST['tid']),
@@ -177,36 +122,37 @@ function CMED_validateMI($mode)
     global $_TABLES, $LANG_CMED_EDITOR, $LANG_CMED, $MI;
 
     $retval = '';
+    $br = '<br' . XHTML . '>';
 
     if (empty($MI['label']) && ($MI['mode'] == 'fixation')) {
-        $retval .= $LANG_CMED_EDITOR['validate_message_1'] . '<br' . XHTML . '>';
+        $retval .= $LANG_CMED_EDITOR['validate_message_1'] . $br;
     }
 
     if (empty($MI['label_var']) && ($MI['mode'] == 'variable')) {
-        $retval .= $LANG_CMED_EDITOR['validate_message_2'] . '<br' . XHTML . '>';
+        $retval .= $LANG_CMED_EDITOR['validate_message_2'] . $br;
     }
 
     if (empty($MI['php_function']) && ($MI['mode'] == 'php')) {
-        $retval .= $LANG_CMED_EDITOR['validate_message_3'] . '<br' . XHTML . '>';
+        $retval .= $LANG_CMED_EDITOR['validate_message_3'] . $br;
     }
 
     if (empty($MI['mid'])) {
-        $retval .= $LANG_CMED_EDITOR['validate_message_4'] . '<br' . XHTML . '>';
+        $retval .= $LANG_CMED_EDITOR['validate_message_4'] . $br;
     } else {
         $n = DB_count($_TABLES['menuitems'], "mid", $MI['mid']);
         if (($n > 0) && ($mode != 'update')) {
-            $retval .= $LANG_CMED_EDITOR['validate_message_5'] . '<br' . XHTML . '>';
+            $retval .= $LANG_CMED_EDITOR['validate_message_5'] . $br;
         }
     }
 
     if (!empty($MI['pattern']) && ($MI['is_preg'] != 0)) {
         if (@preg_match($MI['pattern'], 'test') === false) {
-            $retval .= $LANG_CMED_EDITOR['validate_message_6'] . '<br' . XHTML . '>';
+            $retval .= $LANG_CMED_EDITOR['validate_message_6'] . $br;
         }
     }
 
     if (empty($MI['url']) && ($MI['mode'] != 'php')) {
-        $retval .= $LANG_CMED_EDITOR['validate_message_7'] . '<br' . XHTML . '>';
+        $retval .= $LANG_CMED_EDITOR['validate_message_7'] . $br;
     }
 
     return $retval;
@@ -351,15 +297,9 @@ function CMED_editMenuitem($mid, $mode='edit', $A=array())
         $access = 3;
     }
 
-
-    // テンプレートの生成
-    $T = new Template($_CMED_CONF['path_layout']);
+    $T = COM_newTemplate($_CMED_CONF['path_layout']);
     $T->set_file('editor', 'menueditor.thtml');
-    $T->set_var('xhtml', XHTML);
-    $T->set_var('site_url',       $_CONF['site_url']);
-    $T->set_var('site_admin_url', $_CONF['site_admin_url']);
     $T->set_var('icon_url', plugin_geticon_custommenu());
-    $T->set_var('layout_url',     $_CONF['layout_url']);
 
     $retval .= COM_startBlock($LANG_CMED_EDITOR['custommenueditor'], '',
                               COM_getBlockTemplate ('_admin_block', 'header'));
@@ -810,7 +750,7 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                 if ( ($access == 3 && ($A['type'] == 'custom')) || 
                      ($access == 3 && ($A['type'] == 'plugin') && !in_array($A['mid'], $_PLUGINS)) ) {
                     $icon   = "<img src=\"{$_CONF['site_url']}/custommenu/images/delete.png\" "
-                            . "alt=\"{$LANG_ADMIN['delete']}\" title=\"{$LANG_ADMIN['delete']}\">";
+                            . "alt=\"{$LANG_ADMIN['delete']}\" title=\"{$LANG_ADMIN['delete']}\"" . XHTML . ">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
                             . "?mode=delete&amp;mid={$A['mid']}"
@@ -822,13 +762,13 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
             case 'menuorder':
                 if ($access == 3) {
                     $iconup  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-up.png\" "
-                             . "alt=\"{$LANG_CMED_EDITOR['move_up']}\" title=\"{$LANG_CMED_EDITOR['move_up']}\">";
+                             . "alt=\"{$LANG_CMED_EDITOR['move_up']}\" title=\"{$LANG_CMED_EDITOR['move_up']}\"" . XHTML . ">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
                              . "?mode=move&amp;mid={$A['mid']}&amp;where=up" . $token . "\">$iconup</a>";
 
                     $icondn  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-dn.png\" "
-                             . "alt=\"{$LANG_CMED_EDITOR['move_down']}\" title=\"{$LANG_CMED_EDITOR['move_down']}\">";
+                             . "alt=\"{$LANG_CMED_EDITOR['move_down']}\" title=\"{$LANG_CMED_EDITOR['move_down']}\"" . XHTML . ">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php?"
                              . "mode=move&amp;mid={$A['mid']}&amp;where=dn" . $token . "\">$icondn</a>";
@@ -866,7 +806,7 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                     $switch = ($A['is_enabled'] == 1) ? UC_CHECKED : '';
                     $val = ($A['is_enabled'] == 1) ? 1 : 0;
                     $order = intval($A['menuorder'] / 10);
-                    $retval = "<input type=\"checkbox\" name=\"itemenable[$order]\" onclick=\"submit()\" value=\"$val\" $switch>" . $retval;
+                    $retval = "<input type=\"checkbox\" name=\"itemenable[$order]\" onclick=\"submit()\" value=\"$val\" $switch" . XHTML . ">" . $retval;
                     $retval .= "<input type=\"hidden\" name=\"" . CSRF_TOKEN . "\" value=\"$CMED_CSRF_TOKEN\"" . XHTML . ">";
                 }
                 break;
@@ -917,14 +857,13 @@ if ($mode == 'delete' && SEC_checkToken()) {
 
     if (!isset ($mid) || empty ($mid)) {
         COM_errorLog('CustomMenu admin: Attempted to delete menuitem, mid empty or null, value =' . $mid);
-        $display .= COM_refresh($_CONF['site_admin_url'] . '/plugins/custommenu/index.php');
+        $display = COM_refresh($_CONF['site_admin_url'] . '/plugins/custommenu/index.php');
     } else {
         $msg = CMED_deleteMenuitem($mid);
         $CMED_CSRF_TOKEN = SEC_createToken();
-        $display .= COM_siteHeader('menu', $LANG_CMED['manager']);
-        $display .= $msg;
+        $display = $msg;
         $display .= CMED_listMenuitems();
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CMED['manager']));
     }
 
 } else if ((($mode == 'save') || ($mode == 'update')) && SEC_checkToken()) {
@@ -934,24 +873,21 @@ if ($mode == 'delete' && SEC_checkToken()) {
     if (empty($msg)) {
         $msg = CMED_saveMenuitems($mode);
         $CMED_CSRF_TOKEN = SEC_createToken();
-        $display .= COM_siteHeader('menu', $LANG_CMED['manager']);
-        $display .= $msg;
+        $display = $msg;
         $display .= CMED_listMenuitems();
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CMED['manager']));
     } else {
-        $display .= COM_siteHeader('menu', $LANG_CMED_EDITOR['custommenueditor']);
-        $display .= COM_startBlock($LANG_CMED_EDITOR['error_field'], '', COM_getBlockTemplate('_msg_block', 'header'));
+        $display = COM_startBlock($LANG_CMED_EDITOR['error_field'], '', COM_getBlockTemplate('_msg_block', 'header'));
         $display .= $msg;
         $display .= COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
         $display .= CMED_editMenuitem($mid, 'edit', $MI);
-        $display .= COM_siteFooter();
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CMED_EDITOR['custommenueditor']));
     }
 
 } else if (($mode == 'create') || ($mode == 'edit') || ($mode == 'clone')) {
 
-    $display .= COM_siteHeader('menu', $LANG_CMED_EDITOR['custommenueditor']);
-    $display .= CMED_editMenuitem($mid, $mode);
-    $display .= COM_siteFooter();
+    $display = CMED_editMenuitem($mid, $mode);
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CMED_EDITOR['custommenueditor']));
 
 } else {
 
@@ -960,9 +896,8 @@ if ($mode == 'delete' && SEC_checkToken()) {
         CMED_addPluginsMenuitems();
     }
     $CMED_CSRF_TOKEN = SEC_createToken();
-    $display .= COM_siteHeader('menu', $LANG_CMED['manager']);
-    $display .= CMED_listMenuitems();
-    $display .= COM_siteFooter();
+    $display = CMED_listMenuitems();
+    $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_CMED['manager']));
 }
 
 COM_output($display);

@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/functions.inc                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2012 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -68,13 +68,19 @@ if (is_array($temp)) {
     $_CMED_CONF = array_merge($_CMED_CONF, $temp);
 }
 
-// テンプレートパスおよびCSSのURLを設定する
+// Set path and URL to the templates directory
 if (is_dir($_CONF['path_layout'] . 'custommenu')) {
     $_CMED_CONF['path_layout'] = $_CONF['path_layout'] . 'custommenu';
     $_CMED_CONF['css_url'] = $_CONF['layout_url'] . '/custommenu';
+
+    //location of file relative to public_html directory.
+    $_CMED_CONF['css_file'] = '/layout/' . $_CONF['theme'] . '/custommenu/custommenu.css';
 } else {
     $_CMED_CONF['path_layout'] = $_CONF['path_html'] . 'custommenu/templates';
     $_CMED_CONF['css_url'] = $_CONF['site_url'] . '/custommenu/templates';
+
+    //location of file relative to public_html directory.
+    $_CMED_CONF['css_file'] = '/custommenu/templates/custommenu.css';
 }
 
 // +---------------------------------------------------------------------------+
@@ -312,6 +318,13 @@ function plugin_getconfigtooltip_custommenu($id)
 {   
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
+}
+
+function plugin_getheadercode_custommenu()
+{
+    global $_SCRIPTS, $_CMED_CONF;
+
+    $_SCRIPTS->setCSSFile('custommenu', $_CMED_CONF['css_file'], false);
 }
 
 function CMED_replaceLabel($label)

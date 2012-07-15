@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/configuration_validation.php                           |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2011 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2012 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
