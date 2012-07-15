@@ -1,3 +1,12 @@
+2012-07-16  Yoshinori Tahara  <dengen>
+
+	* custommenuプラグイン: バージョン0.7.0に更新します。
+	  Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。
+	  Denim, Modern Curve, WAIproCSSの各テーマのサポートを開始しました。
+	  動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。
+	  メニューデザインを新しくシンプルなデザインに変更しました。
+	  IE6及びIE7のサポートを廃止しました。
+
 2012-07-14  Takahiro Kambe  <tacahi>
 
 	* Geeklog 2.0.0b2をマージしました。
