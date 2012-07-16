@@ -134,7 +134,7 @@ class dpxyDriver_Calendar extends dpxyDriver
 	*   'image_uri' => $image_uri (string)
 	* )
 	*/
-	public function getItems($category = '', $all_langs = FALSE)
+	public function getItems($category, $all_langs = FALSE)
 	{
 	    global $_CONF, $_TABLES;
 		
