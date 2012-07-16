@@ -1,5 +1,10 @@
 2012-07-16  Yoshinori Tahara  <dengen>
 
+	* custommenuプラグイン: バージョン0.7.0に更新した際の不備を修正
+	  しました。
+
+2012-07-16  Yoshinori Tahara  <dengen>
+
 	* professional, professional_css, denim, modern_curve, WAIproCSS の
 	  各ディレクトリにcustommenuプラグイン用のテンプレートファイルと
 	  スタイルシートを配置しました。
