@@ -1,5 +1,10 @@
 2012-07-16  Yoshinori Tahara  <dengen>
 
+	* WAIproCSS: コンフィギュレーションページでレイアウトが崩れる場合が
+	  ある問題を修正しました。
+
+2012-07-16  Yoshinori Tahara  <dengen>
+
 	* custommenuプラグイン: バージョン0.7.0に更新した際の不備を修正
 	  しました。
 
