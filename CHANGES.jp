@@ -1,5 +1,11 @@
 2012-07-16  Yoshinori Tahara  <dengen>
 
+	* professional, professional_css, denim, modern_curve, WAIproCSS の
+	  各ディレクトリにcustommenuプラグイン用のテンプレートファイルと
+	  スタイルシートを配置しました。
+
+2012-07-16  Yoshinori Tahara  <dengen>
+
 	* custommenuプラグイン: バージョン0.7.0に更新します。
 	  Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。
 	  Denim, Modern Curve, WAIproCSSの各テーマのサポートを開始しました。
