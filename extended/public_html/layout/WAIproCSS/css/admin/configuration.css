@@ -10,8 +10,12 @@
 
 #config_menu {
   float: left;
-  width: 200px;
-  padding: 0 10px;
+  width: 15em;
+  padding: 0 1em;
+}
+
+body.center-right #config_menu {
+  width: 12.5em;
 }
 
 #search-configuration-container,
@@ -47,9 +51,13 @@ div#centerblocks #config_menu .block-center .block-center-content {
 
 #config_content {
   float: left;
-  width: 650px;
-  padding: 0 10px;
+  width: 49.8em;
+  padding: 0 1em;
   margin-bottom: 1em;
+}
+
+body.center-right #config_content {
+  width: 40.1em;
 }
 
 #geeklog_config_editor:after {
@@ -82,11 +90,11 @@ div#centerblocks #config_menu .block-center .block-center-content {
 .config_label {
   float: left;
   width: 40%;
-  padding-right: .5em;
+  padding-right: 0.5em;
 }
 
 .restore {
-  padding: .5em 0;
+  padding: 0.1em 0;
 }
 
 .config_input {
@@ -97,8 +105,8 @@ div#centerblocks #config_menu .block-center .block-center-content {
 
 .config_name {
   clear: left;
-  margin: 5px 0;
-  padding: 5px;
+  margin: 0.4em 0;
+  padding: 0.4em;
 }
 
 .config_name input[type="text"],
