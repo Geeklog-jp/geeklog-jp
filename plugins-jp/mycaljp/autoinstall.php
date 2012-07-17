@@ -37,8 +37,8 @@ function plugin_autoinstall_mycaljp($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.1.4',
-        'pi_gl_version'   => '1.6.0',
+        'pi_version'      => '2.2.0',
+        'pi_gl_version'   => '2.0.0',
         'pi_homepage'     => 'http://www.trybase.com/~dengen/log/'
     );
 
@@ -77,28 +77,6 @@ function plugin_load_configuration_mycaljp($pi_name)
     require_once $base_path . 'install_defaults.php';
 
     return plugin_initconfig_mycaljp();
-}
-
-function plugin_postinstall_mycaljp($pi_name)
-{
-    global $_TABLES;
-
-    // Add the "Site Calendar" block
-    $blockadmin_id  = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Block Admin'");
-
-    $result = DB_query( "SELECT COUNT(*) AS c FROM " . $_TABLES['blocks'] . " WHERE phpblockfn = 'phpblock_mycaljp2'" );
-    $A = DB_fetchArray ($result);
-    if ( $A["c"] < 1 ) {
-        DB_query( "INSERT INTO " . $_TABLES['blocks'] 
-        . " ( is_enabled, name, type, title, tid, blockorder, onleft, phpblockfn, owner_id, group_id ) "
-        . "VALUES ( 1, 'mycaljp', 'phpblock', 'Site Calendar', 'all', 1, 1, 'phpblock_mycaljp2', 2, $blockadmin_id )", 1 );
-        if ( DB_error() ) {
-            COM_errorLog( 'failed insert blocks table', 1 );
-            return false;
-        }
-    }
-
-    return true;
 }
 
 function plugin_compatible_with_this_version_mycaljp($pi_name)
@@ -201,6 +179,17 @@ function MYCALJP_upgrade()
         if (function_exists('COM_versionCompare')) {
             MYCALJP_update_ConfValues_addTabs();
         }
+        // MYCALJP_updateSortOrder();
+    }
+
+    if (version_compare($installed_version, '2.2.0') < 0) {
+
+        // Delete Old Site Calendar Blocks since now dynamic blocks
+        DB_query("DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_mycaljp2'");
+
+        require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+        require_once $_CONF['path_system'] . 'classes/config.class.php';
+        MYCALJP_update_ConfValues_2_1_4();
         MYCALJP_updateSortOrder();
     }
 

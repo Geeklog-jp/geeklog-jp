@@ -8,7 +8,7 @@
 // | Copyright (C) 2000-2009 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
-// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
+// | Mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -29,20 +29,21 @@
 // +---------------------------------------------------------------------------+
 
 $LANG_MYCALJP = array (
-    'plugin'            => 'mycaljpプラグイン',
+    'plugin'            => 'Mycaljpプラグイン',
+    'plugin_name'       => 'Mycaljp',
     'access_denied'     => 'アクセスは拒否されました。',
     'access_denied_msg' => 'このページにアクセスできるのは，Rootユーザだけです。あなたのユーザ名とIPアドレスは記録されました。',
-    'admin'             => 'サイトカレンダ mycaljp の管理',
-    'install_header'    => 'サイトカレンダ mycaljp プラグインのインストール/アンインストール',
-    'installed'         => 'サイトカレンダ mycaljp プラグインはインストールされています。',
-    'uninstalled'       => 'サイトカレンダ mycaljp プラグインはインストールされていません。',
-    'install_success'   => 'サイトカレンダ mycaljp プラグインのインストールに成功しました。',
-    'install_failed'    => 'サイトカレンダ mycaljp プラグインのインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
-    'uninstall_msg'     => 'サイトカレンダ mycaljp プラグインはアンインストールされました。',
+    'admin'             => 'サイトカレンダ Mycaljp の管理',
+    'install_header'    => 'サイトカレンダ Mycaljp プラグインのインストール/アンインストール',
+    'installed'         => 'サイトカレンダ Mycaljp プラグインはインストールされています。',
+    'uninstalled'       => 'サイトカレンダ Mycaljp プラグインはインストールされていません。',
+    'install_success'   => 'サイトカレンダ Mycaljp プラグインのインストールに成功しました。',
+    'install_failed'    => 'サイトカレンダ Mycaljp プラグインのインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
+    'uninstall_msg'     => 'サイトカレンダ Mycaljp プラグインはアンインストールされました。',
     'install'           => 'インストール',
     'uninstall'         => 'アンインストール',
-    'warning'           => '警告！　サイトカレンダ mycaljp プラグインは有効なままです。',
-    'enabled'           => 'アンインストールする前に，サイトカレンダ mycaljp プラグインを無効にしてください。',
+    'warning'           => '警告！　サイトカレンダ Mycaljp プラグインは有効なままです。',
+    'enabled'           => 'アンインストールする前に，サイトカレンダ Mycaljp プラグインを無効にしてください。',
     'readme'            => 'ちょっと待って！　「インストール」をクリックする前に，お読みください：',
     'installdoc'        => 'インストール手順書',
     
@@ -71,6 +72,7 @@ $LANG_MYCALJP = array (
     'footerofdate'      => ' の検索結果',
     'no_dataproxy'      => 'Dataproxy がありません。',
     'pickup_title'      => 'サイトカレンダ - ピックアップ',
+    'block_title'       => 'サイトカレンダ',
 );
 
 
@@ -102,6 +104,13 @@ $LANG_confignames['mycaljp'] = array(
     'enabled_contents'    => '有効にするコンテンツ',
     'sp_type'             => 'リストに掲載するタイプ',
     'sp_except'           => '除外するページID',
+    'block_enable'        => '有効',
+    'block_isleft'        => '左ブロックで表示する',
+    'block_order'         => 'ブロックの順番',
+    'block_topic_option'  => '話題オプション',
+    'block_topic'         => '話題',
+    'block_group_id'      => 'グループ',
+    'block_permissions'   => 'パーミッション'
 );
 
 $LANG_configsubgroups['mycaljp'] = array(
@@ -109,13 +118,16 @@ $LANG_configsubgroups['mycaljp'] = array(
 );
 
 $LANG_tab['mycaljp'] = array(
-    'tab_main'        => 'Mycaljpのメイン設定',
-    'tab_staticpages' => '静的ページの設定',
+    'tab_main'          => 'Mycaljpのメイン設定',
+    'tab_staticpages'   => '静的ページの設定',
+    'tab_mycaljp_block' => 'ブロックの設定',
 );
 
 $LANG_fs['mycaljp'] = array(
-    'fs_main'        => 'Mycaljpのメイン設定',
-    'fs_staticpages' => '静的ページの設定',
+    'fs_main'              => 'Mycaljpのメイン設定',
+    'fs_staticpages'       => '静的ページの設定',
+    'fs_block_settings'    => 'ブロックの設定',
+    'fs_block_permissions' => 'ブロックのパーミッション',
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -125,5 +137,7 @@ $LANG_configselects['mycaljp'] = array(
     12 => array('アクセス不可' => 0, '表示' => 2, '表示・編集' => 3),
     13 => array('年 月' => TRUE, '月 年' => FALSE),
     14 => array('すべて' => 0, 'センターブロックに表示されるページのみ' => 1, 'センターブロックに表示されないページのみ' => 2),
+    15 => array('すべて' => TOPIC_ALL_OPTION, 'ホームページのみ' => TOPIC_HOMEONLY_OPTION, '話題を選択する' => TOPIC_SELECTED_OPTION),
+    16 => array('アクセス不可' => 0, '表示' => 2),
 );
 ?>

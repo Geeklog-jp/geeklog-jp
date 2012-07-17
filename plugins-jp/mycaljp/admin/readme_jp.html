@@ -106,6 +106,11 @@
     font-weight: bold;
     }
 
+    .mod {
+    color: green;
+    font-weight: bold;
+    }
+
     .center {
     text-align: center;
     }
@@ -118,11 +123,11 @@
   
 <h1><a name="_top">Geeklog Mycaljp プラグイン</a></h1>
   
-<h2>バージョン: 2.1.4</h2>
+<h2>バージョン: 2.2.0</h2>
 <h2>作成者: Yoshinori Tahara - dengen</h2>
   
-<h2>公開日:&nbsp;2011.9.3</h2>
-<h2>ライセンス:&nbsp;GPL</h2>
+<h2>公開日:&nbsp;2012.7.18</h2>
+<h2>ライセンス:&nbsp;GPLv2</h2>
 <h2>概要:</h2>
   
 <ul>
@@ -144,8 +149,8 @@
   </ul>
   <h2>条件:</h2>
   <ul>
-    <li class="attention">このプラグインは、バージョン2.1.0以降より、Geeklog 1.6.0 以降用となります。それ以前のバージョンのGeeklogでは動作しません。</li>
-    <li class="attention">Dataproxyプラグインのバージョン1.1.4.1以降を別途インストールする必要があります。（バージョン1.1.4.1は、バージョン1.1.4をmycaljpプラグイン用に機能拡張したものです）</li>
+    <li class="attention">このプラグインは、バージョン2.2.0以降より、Geeklog 2.0.0 以降用となります。それ以前のバージョンのGeeklogでは動作しません。</li>
+    <li class="attention">Dataproxyプラグインのバージョン1.6.0以降を別途インストールする必要があります。</li>
     <li class="attention">本プラグインをインストールする前に、PHPブロック関数版の mycaljp をアンインストールしてください。</li>
   </ul>
   <h2>この説明のセクション:</h2>
@@ -450,6 +455,13 @@ $_MYCALJP2_CONF['saturday']</td>
       <th>説明</th>
     </tr>
     <tr>
+      <td class="center">2.2.0</td>
+      <td class="center">2012.7.18</td>
+      <td><span class="mod">変更</span>&nbsp;Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。<br>
+          <span class="mod">変更</span>&nbsp;動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。<br>
+          <span class="mod">変更</span>&nbsp;ダイナミックブロックタイプに変更しました。<br></td>
+    </tr>
+    <tr>
       <td class="center">2.1.4</td>
       <td class="center">2011.9.3</td>
       <td><span class="new">追加</span>&nbsp;Geeklog1.8からの新コンフィギュレーションUIに対応しました。</td>
@@ -457,8 +469,8 @@ $_MYCALJP2_CONF['saturday']</td>
     <tr>
       <td class="center">2.1.3</td>
       <td class="center">2010.11.27</td>
-      <td><span class="fix">修正</span>&nbsp;コンフィギュレーションの設定項目「テンプレート名」を選択式へ変更しました。（設定がより簡単になります。）<br>
-          <span class="fix">修正</span>&nbsp;サポートするコンテンツの初期値からdownloadを削除し、downloadsを追加しました。</td>
+      <td><span class="mod">変更</span>&nbsp;コンフィギュレーションの設定項目「テンプレート名」を選択式へ変更しました。（設定がより簡単になります。）<br>
+          <span class="mod">変更</span>&nbsp;サポートするコンテンツの初期値からdownloadを削除し、downloadsを追加しました。</td>
     </tr>
     <tr>
       <td class="center">2.1.2</td>
@@ -468,12 +480,12 @@ $_MYCALJP2_CONF['saturday']</td>
     <tr>
       <td class="center">2.1.1</td>
       <td class="center">2009.11.7</td>
-      <td><span class="fix">修正</span>&nbsp;携帯電話でのカレンダ表示を改善し、月めくり操作が問題なくできるようにしました。</td>
+      <td><span class="mod">変更</span>&nbsp;携帯電話でのカレンダ表示を改善し、月めくり操作が問題なくできるようにしました。</td>
     </tr>
     <tr>
       <td class="center">2.1.0</td>
       <td class="center">2009.11.3</td>
-      <td><span class="new">追加</span>&nbsp;Geeklog1.6で動作するようにしました。<br>
+      <td><span class="mod">変更</span>&nbsp;Geeklog1.6で動作するようにしました。<br>
           <span class="new">追加</span>&nbsp;Dataproxyに対応しました。（というかDataproxyが必須になりました）<br>
           <span class="new">追加</span>&nbsp;コンフィギュレーションとオートインストール機能に対応しました。</td>
     </tr>
@@ -511,7 +523,7 @@ $_MYCALJP2_CONF['saturday']</td>
     <tr>
       <td class="center">2.0.1</td>
       <td class="center">2008.7.26</td>
-      <td><span class="new">追加</span>&nbsp;Geeklog1.5で動作するようにしました。<br>
+      <td><span class="mod">変更</span>&nbsp;Geeklog1.5で動作するようにしました。<br>
       <span class="fix">修正</span>&nbsp;プラグインバージョンが正常に更新されない問題を修正しました。<br>
       <span class="fix">修正</span>&nbsp;テンプレートおよびスタイルシートの軽微な修正。</td>
     </tr>

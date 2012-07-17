@@ -8,7 +8,7 @@
 // | Copyright (C) 2000-2009 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
-// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
+// | Mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -29,19 +29,20 @@
 // +---------------------------------------------------------------------------+
 
 $LANG_MYCALJP = array (
-    'plugin'            => 'mycaljp Plugin',
+    'plugin'            => 'Mycaljp Plugin',
+    'plugin_name'       => 'Mycaljp',
     'access_denied'     => 'Access Denied',
     'access_denied_msg' => 'Only Root Users have Access to this Page.  Your user name and IP have been recorded.',
-    'admin'             => 'mycaljp Plugin Admin',
-    'install_header'    => 'Install/Uninstall the mycaljp Plugin',
+    'admin'             => 'Mycaljp Plugin Admin',
+    'install_header'    => 'Install/Uninstall the Mycaljp Plugin',
     'installed'         => 'The Plugin is Installed',
     'uninstalled'       => 'The Plugin is Not Installed',
     'install_success'   => 'Installation Successful',
     'install_failed'    => 'Installation Failed -- See your error log to find out why.',
-    'uninstall_msg'     => 'The mycaljp Plugin Successfully Uninstalled',
+    'uninstall_msg'     => 'The Mycaljp Plugin Successfully Uninstalled',
     'install'           => 'Install',
     'uninstall'         => 'UnInstall',
-    'warning'           => 'Warning!  the mycaljp Plugin is still Enabled',
+    'warning'           => 'Warning!  the Mycaljp Plugin is still Enabled',
     'enabled'           => 'Disable the plugin before uninstalling.',
     'readme'            => 'STOP!  Before you press install please read the ',
     'installdoc'        => 'Install Document.',
@@ -71,6 +72,7 @@ $LANG_MYCALJP = array (
     'footerofdate'      => '',
     'no_dataproxy'      => 'Dataproxy does not exist.',
     'pickup_title'      => 'Site Calendar - Pickup',
+    'block_title'       => 'Site Calendar',
 );
 
 
@@ -102,6 +104,13 @@ $LANG_confignames['mycaljp'] = array(
     'enabled_contents'    => 'Enabled Contents',
     'sp_type'             => 'Types of pages to be listed',
     'sp_except'           => 'IDs of pages should not be listed',
+    'block_enable'        => 'Enabled',
+    'block_isleft'        => 'Display Block on Left',
+    'block_order'         => 'Block Order',
+    'block_topic_option'  => 'Topic Options',
+    'block_topic'         => 'Topic',
+    'block_group_id'      => 'Group',
+    'block_permissions'   => 'Permissions',
 );
 
 $LANG_configsubgroups['mycaljp'] = array(
@@ -111,11 +120,14 @@ $LANG_configsubgroups['mycaljp'] = array(
 $LANG_tab['mycaljp'] = array(
     'tab_main'        => 'General Mycaljp Settings',
     'tab_staticpages' => 'Staticpages Settings',
+    'tab_mycaljp_block' => 'Block Settings',
 );
 
 $LANG_fs['mycaljp'] = array(
-    'fs_main'        => 'General Mycaljp Settings',
-    'fs_staticpages' => 'Staticpages Settings',
+    'fs_main'              => 'General Mycaljp Settings',
+    'fs_staticpages'       => 'Staticpages Settings',
+    'fs_block_settings'    => 'Block Settings', 
+    'fs_block_permissions' => 'Block Permissions',
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
@@ -125,5 +137,7 @@ $LANG_configselects['mycaljp'] = array(
     12 => array('No access' => 0, 'Read-Only' => 2, 'Read-Write' => 3),
     13 => array('Year Month' => 0, 'Month Year' => 1),
     14 => array('All' => 0, 'Only pages that appear on the center block' => 1, 'Only pages that do NOT appear on the center block' => 2),
+    15 => array('All' => TOPIC_ALL_OPTION, 'Homepage Only' => TOPIC_HOMEONLY_OPTION, 'Select Topics' => TOPIC_SELECTED_OPTION),
+    16 => array('No access' => 0, 'Read-Only' => 2),
 );
 ?>
