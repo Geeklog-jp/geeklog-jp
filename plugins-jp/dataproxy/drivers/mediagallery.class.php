@@ -81,7 +81,7 @@ class dpxyDriver_Mediagallery extends dpxyDriver
 	*   'image_uri' => $image_uri (string)
 	*  )
 	*/	
-	public function getChildCategories($pid = FALSE)
+	public function getChildCategories($pid = FALSE, $all_langs = FALSE)
 	{
 		global $_CONF, $_TABLES, $_MG_CONF;
 		
