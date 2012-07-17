@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/mycaljp/index.php                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2012 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
 // | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
@@ -30,42 +30,24 @@
 
 require_once '../lib-common.php';
 
-// Check user has rights to access this page
+if (!in_array('mycaljp', $_PLUGINS)) {
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    exit;
+}
 
-if ( !SEC_hasRights( 'mycaljp.edit','mycaljp.view','mycaljp.admin','OR' ) ) {
+// Check user has rights to access this page
+if (!SEC_hasRights('mycaljp.edit,mycaljp.view,mycaljp.admin','OR')) {
     // Someone is trying to illegally access this page
-    COM_errorLog( "Someone has tried to illegally access the mycaljp page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1 );
-    $display  = COM_siteHeader();
-    $display .= COM_startBlock( $LANG_mycaljp['access_denied'] );
+    COM_errorLog("Someone has tried to illegally access the mycaljp page.  "
+               . "User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1);
+    $display = COM_startBlock( $LANG_mycaljp['access_denied'] );
     $display .= $LANG_MYCALJP['access_denied_msg'];
     $display .= COM_endBlock();
-    $display .= COM_siteFooter( true );
-//    echo $display;
+    $display = COM_createHTMLDocument($display);
     COM_output($display);
     exit;
 }
- 
-/* 
-* Main Function
-*/
 
-$display = COM_siteHeader();
-if ( is_dir( $_MYCALJP2_CONF['path_layout'] . '/admin' ) ) {
-    $T = new Template( $_MYCALJP2_CONF['path_layout'] . '/admin' );
-} else {
-    $T = new Template( $_CONF['path'] . 'plugins/mycaljp/templates/admin' );
-}
-$T->set_file( 'page', 'index.thtml' );
-$T->set_var( 'header', $LANG_MYCALJP['plugin'] );
-$T->set_var( 'site_url', $_CONF['site_url'] );
-$T->set_var( 'icon_url', $_CONF['site_url'] . '/mycaljp/images/mycaljp.gif' );
-$T->set_var( 'plugin', 'mycaljp' );
-$T->set_var( 'xhtml', XHTML );
-
-$T->parse( 'output', 'page' );
-$display .= $T->finish( $T->get_var( 'output' ) );
-$display .= COM_siteFooter();
-
-//echo $display;
-COM_output($display);
+echo COM_refresh($_CONF['site_url'] . '/index.php');
+exit;
 ?>

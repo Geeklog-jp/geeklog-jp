@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/mycaljp/calsearch.php                                         |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2012 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
 // | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
@@ -53,7 +53,7 @@ if (isset($_USER['uid'])) {
 *
 * @destroy        $T->var( 'items', 'item', 'item_list' )
 */
-function MYCALJP_buildItems(&$driver, $pid) {
+function MYCALJP_buildItems(&$driver, $driver_name, $pid) {
     global $_MYCALJP2_CONF, $T;
     
     $html = '';
@@ -66,7 +66,7 @@ function MYCALJP_buildItems(&$driver, $pid) {
     if ($num_items > 0) {
         foreach ($items as $item) {
             // Static pages
-            if ($driver->getDriverName() == 'staticpages') {
+            if ($driver_name == 'staticpages') {
                 if (in_array($item['id'], $sp_except)) {
                     $num_items --;
                     continue;
@@ -108,7 +108,7 @@ function MYCALJP_buildItems(&$driver, $pid) {
 *
 * @destroy        $T->var( 'child_categories', 'category', 'num_items' )
 */
-function MYCALJP_buildCategory(&$driver, $cat) {
+function MYCALJP_buildCategory(&$driver, $driver_name, $cat) {
     global $T;
     
     $num_total_items = 0;
@@ -121,7 +121,7 @@ function MYCALJP_buildCategory(&$driver, $cat) {
         $child_cats = '';
         
         foreach ($child_categories as $child_category) {
-            list($num_child_category, $child_cat) = MYCALJP_buildCategory($driver, $child_category);
+            list($num_child_category, $child_cat) = MYCALJP_buildCategory($driver, $driver_name, $child_category);
             $num_total_items += $num_child_category;
             $child_cats      .= $child_cat;
         }
@@ -136,7 +136,7 @@ function MYCALJP_buildCategory(&$driver, $cat) {
     }
     
     // Builds {items}
-    list($num_items, $items) = MYCALJP_buildItems($driver, $cat['id']);
+    list($num_items, $items) = MYCALJP_buildItems($driver, $driver_name, $cat['id']);
     $num_total_items += $num_items;
     $T->set_var('num_items', $num_items);
     if (!empty($items)) {
@@ -179,12 +179,12 @@ function MYCALJP_showStoriesIntro() {
         $de = explode("-", $_dateEnd);
         $startdate = mktime( 0, 0, 0,$ds[1],$ds[2],$ds[0]);
         $enddate   = mktime(23,59,59,$de[1],$de[2],$de[0]);
-        $sql = "(UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') ";
+        $sql = "AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') ";
     }
     
     $sql .= "AND (draft_flag = 0) ";
     $sql .= COM_getPermSQL('AND', 0, 2, 's') . ' ';
-    $sql .= COM_getTopicSQL('AND', 0, 's') . ' ';
+    $sql .= COM_getTopicSQL('AND', 0, 'ta') . ' ';
     $sql .= COM_getLangSQL('sid', 'AND', 's') . ' ';
 
     $userfields = 'u.username, u.fullname';
@@ -196,22 +196,25 @@ function MYCALJP_showStoriesIntro() {
     }
 
     $msql = array();
-    $msql['mysql']="SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, "
-             . 'UNIX_TIMESTAMP(s.expire) AS expireunix, '
+    $msql['mysql']="SELECT DISTINCT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, "
+             . "UNIX_TIMESTAMP(s.expire) AS expireunix, "
              . $userfields . ", t.topic, t.imageurl "
              . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
-             . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+             . "{$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta "
+             . " WHERE (ta.type = 'article') AND (s.uid = u.uid) AND (ta.tid = t.tid) "
              . $sql . "ORDER BY featured DESC, date DESC";
+
 /*
     $msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.in_transit, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
              . " UNIX_TIMESTAMP(s.date) AS unixdate, "
              . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
              . $userfields . ", t.topic, t.imageurl "
              . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
-             . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND "
+             . "{$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta "
+             . " WHERE (ta.type = 'article') AND (s.uid = u.uid) AND (ta.tid = t.tid) "
              . $sql . "ORDER BY featured DESC, date DESC";
 */
-    $result = DB_query ($msql);
+    $result = DB_query($msql);
 
     require_once $_CONF['path_system'] . 'lib-story.php';
     $story = new Story();
@@ -226,8 +229,7 @@ function MYCALJP_showStoriesIntro() {
 // MAIN
 
 if (!class_exists('Dataproxy')) {
-    $display = COM_siteHeader() . COM_siteFooter();
-//    echo $display;
+    $display = COM_createHTMLDocument('');
     COM_output($display);
     exit;
 }
@@ -254,14 +256,14 @@ $_dateStart = COM_applyFilter($_GET['datestart']);
 $_dateEnd   = COM_applyFilter($_GET['dateend']);
 
 // $dataproxy is a global object in this script and functions.inc
-$dataproxy =& new Dataproxy($uid);
+$dataproxy = Dataproxy::getInstance($uid);
+$drivers = Dataproxy::getAllDriverNames();
 $dataproxy->setDateStart(COM_applyFilter($_dateStart));
 $dataproxy->setDateEnd(COM_applyFilter($_dateEnd));
-$drivers = $dataproxy->getAllDriverNames();
 
 foreach ($drivers as $driver_name) {
     $content = $driver_name;
-    if ($driver_name=='article') $content = 'stories';
+    if ($driver_name == 'article') $content = 'stories';
     if (!in_array($content, $_MYCALJP2_CONF['supported_contents'])) continue;
     if (!($_MYCALJP2_CONF['enabled_contents'][$content] == 1)) continue;
 
@@ -279,12 +281,12 @@ foreach ($drivers as $driver_name) {
     
     $categories = $driver->getChildCategories(false);
     if (count($categories) == 0) {
-        list($num_items, $items) = MYCALJP_buildItems($driver, false);
+        list($num_items, $items) = MYCALJP_buildItems($driver, $driver_name, false);
         $T->set_var('category_list', $items);
     } else {
         $cats = '';
         foreach ($categories as $category) {
-            list($num_cat, $cat) = MYCALJP_buildCategory($driver, $category);
+            list($num_cat, $cat) = MYCALJP_buildCategory($driver, $driver_name, $category);
             if ($num_cat > 0) $cats .= $cat;
             $num_items += $num_cat;
         }
@@ -305,10 +307,7 @@ foreach ($drivers as $driver_name) {
 
 $T->set_var('lang_site_calendar_result', $LANG_MYCALJP['pickup_title']); // ハードコード
 $T->parse('output', 't_index');
+$display = $T->finish($T->get_var('output'));
+$display = COM_createHTMLDocument($display, array('rightblock' => $_MYCALJP2_CONF['enablesrblocks']));
 
-$display = COM_siteHeader()
-         . $T->finish($T->get_var('output'))
-         . COM_siteFooter($_MYCALJP2_CONF['enablesrblocks']);
-
-//echo $display;
 COM_output($display);

@@ -199,12 +199,22 @@ $_MYCALJP2_DEFAULT['template'] = 'default';
 
 $_MYCALJP2_DEFAULT['use_theme'] = false;
 
-
 $_MYCALJP2_DEFAULT['sp_type']   = 1;
 $_MYCALJP2_DEFAULT['sp_except'] = 'formmail';
 
 $_MYCALJP2_DEFAULT['date_format'] = '[Y-m-d] ';
 
+
+/*
+ * SiteCalendar Block
+ * ----------------------------
+ */
+$_MYCALJP2_DEFAULT['block_isleft'] = 1;
+$_MYCALJP2_DEFAULT['block_order'] = 10;
+$_MYCALJP2_DEFAULT['block_topic_option'] = TOPIC_ALL_OPTION;
+$_MYCALJP2_DEFAULT['block_topic'] = array();
+$_MYCALJP2_DEFAULT['block_enable'] = true;
+$_MYCALJP2_DEFAULT['block_permissions'] = array (2, 2, 2, 2);
 
 /**
 * Initialize Navigation Manager plugin configuration
@@ -218,7 +228,7 @@ $_MYCALJP2_DEFAULT['date_format'] = '[Y-m-d] ';
 */
 function plugin_initconfig_mycaljp()
 {
-    global $_MYCALJP2_CONF, $_MYCALJP2_DEFAULT;
+    global $_GROUPS, $_TABLES, $_MYCALJP2_CONF, $_MYCALJP2_DEFAULT;
 
     if (is_array($_MYCALJP2_CONF) && (count($_MYCALJP2_CONF) > 1)) {
         $_MYCALJP2_DEFAULT = array_merge($_MYCALJP2_DEFAULT, $_MYCALJP2_CONF);
@@ -259,6 +269,21 @@ function plugin_initconfig_mycaljp()
         MYCALJP_update_ConfValues_addTabs();
     }
 
+    $new_group_id = MYCALJP_helper_get_new_group_id();
+
+    // ----------------------------------
+    $c->add('tab_mycaljp_block',  NULL,                                     'tab',      0, 2, NULL, 0,    true, $n, 2);
+    $c->add('fs_block_settings',  NULL,                                     'fieldset', 0, 2, NULL, 0,    true, $n, 2);
+    $c->add('block_enable',       $_MYCALJP2_DEFAULT['block_enable'],       'select',   0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_isleft',       $_MYCALJP2_DEFAULT['block_isleft'],       'select',   0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_order',        $_MYCALJP2_DEFAULT['block_order'],        'text',     0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_topic_option', $_MYCALJP2_DEFAULT['block_topic_option'], 'select',   0, 2, 15,   $o++, true, $n, 2);
+    $c->add('block_topic',        $_MYCALJP2_DEFAULT['block_topic'],        '%select',  0, 2, NULL, $o++, true, $n, 2);
+    // ----------------------------------
+    $c->add('fs_block_permissions', NULL,                                   'fieldset', 0, 3, NULL, 0,    true, $n, 2);
+    $c->add('block_group_id',     $new_group_id,                            'select',   0, 3, NULL, $o++, true, $n, 2);
+    $c->add('block_permissions',  $_MYCALJP2_DEFAULT['block_permissions'],  '@select',  0, 3, 16,   $o++, true, $n, 2);
+
     return true;
 }
 
@@ -288,6 +313,13 @@ function MYCALJP_updateSortOrder()
         'enabled_contents',
         'sp_type',
         'sp_except',
+        'block_enable',
+        'block_isleft',
+        'block_order',
+        'block_topic_option',
+        'block_topic',
+        'block_group_id',
+        'block_permissions',
     );
     $o = 1;
     foreach ($conf_vals as $val) {
@@ -311,6 +343,52 @@ function MYCALJP_update_ConfValues_addTabs()
     DB_query("UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'mycaljp'");
 
     return true;
+}
+
+function MYCALJP_update_ConfValues_2_1_4()
+{
+    global $_TABLES;
+
+    $new_group_id = MYCALJP_helper_get_new_group_id();
+
+    $c = config::get_instance();
+    $n = 'mycaljp';
+    $o = 1;
+    // ----------------------------------
+    $c->add('tab_mycaljp_block',  NULL,                                     'tab',      0, 2, NULL, 0,    true, $n, 2);
+    $c->add('fs_block_settings',  NULL,                                     'fieldset', 0, 2, NULL, 0,    true, $n, 2);
+    $c->add('block_enable',       $_MYCALJP2_DEFAULT['block_enable'],       'select',   0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_isleft',       $_MYCALJP2_DEFAULT['block_isleft'],       'select',   0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_order',        $_MYCALJP2_DEFAULT['block_order'],        'text',     0, 2, 0,    $o++, true, $n, 2);
+    $c->add('block_topic_option', $_MYCALJP2_DEFAULT['block_topic_option'], 'select',   0, 2, 15,   $o++, true, $n, 2);
+    $c->add('block_topic',        $_MYCALJP2_DEFAULT['block_topic'],        '%select',  0, 2, NULL, $o++, true, $n, 2);
+    // ----------------------------------
+    $c->add('fs_block_permissions', NULL,                                   'fieldset', 0, 3, NULL, 0,    true, $n, 2);
+    $c->add('block_group_id',     $new_group_id,                            'select',   0, 3, NULL, $o++, true, $n, 2);
+    $c->add('block_permissions',  $_MYCALJP2_DEFAULT['block_permissions'],  '@select',  0, 3, 16,   $o++, true, $n, 2);
+
+    return true;
+}
+
+function MYCALJP_helper_get_new_group_id()
+{
+    global $_GROUPS, $_TABLES;
+
+    $new_group_id = 0;
+    if (isset($_GROUPS['Mycaljp Admin'])) {
+        $new_group_id = $_GROUPS['Mycaljp Admin'];
+    } else {
+        $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Mycaljp Admin'");
+        if ($new_group_id == 0) {
+            if (isset($_GROUPS['Root'])) {
+                $new_group_id = $_GROUPS['Root'];
+            } else {
+                $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+            }
+        }
+    }
+
+    return $new_group_id;
 }
 
 ?>

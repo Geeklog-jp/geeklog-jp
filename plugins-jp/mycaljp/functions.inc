@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/mycaljp/functions.inc                                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2012 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
 // | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
@@ -196,12 +196,12 @@ function plugin_getdocumentationurl_mycaljp($file)
 * Provides text for a Configuration tooltip
 *
 * @param    string  $id     Id of config value
-* @return   mixed           Text to use regular tooltip, NULL to use config 
+* @return   mixed           Text to use regular tooltip, NULL to use config
 *                           tooltip hack, or empty string when not available
 *
 */
 function plugin_getconfigtooltip_mycaljp($id)
-{   
+{
     // Use config tooltip hack where tooltip is read from the config documentation
     return;
 }
@@ -251,7 +251,7 @@ function MYCALJP_checkChange($name)
                     if ($valids[$value] !== 1) $valids[$value] = 0;
                 }
             }
-        
+
             break;
     }
 
@@ -260,7 +260,7 @@ function MYCALJP_checkChange($name)
     if (!empty($valids)) {
         $config->set($name, $valids, 'mycaljp');
     }
-    
+
     switch ($name) {
         case 'supported_contents':
             $enabled_contents = array();
@@ -302,7 +302,7 @@ if ( ! function_exists('mycaljp_setlayoutpath') ) {
 function MYCALJP_setLayoutPath_old() // for slidecalendar
 {
     global $_CONF, $_MYCALJP2_CONF;
-    
+
     if ( is_dir( $_CONF['path_layout'] . 'mycaljp' ) ) {
       $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
       $_MYCALJP2_CONF['css_url'] = $_CONF['layout_url'] . '/mycaljp';
@@ -357,8 +357,8 @@ function plugin_getheadercode_mycaljp()
 }
 
 define ( "_MYCAL_DAY_", 86400 ); // 60 * 60 * 24
-define ( "_STORY_"  , 1 ); 
-define ( "_ACTIVE_" , 2 ); 
+define ( "_STORY_"  , 1 );
+define ( "_ACTIVE_" , 2 );
 
 function MYCALJP_showCalendar( $caltype = 1 )
 {
@@ -375,13 +375,13 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $tmpmonth = $_GET['moon'];
     if( isset( $GLOBALS['WorkDate'] ) )
         $WorkDate = $GLOBALS['WorkDate'];
-    else if( !isset($tmpmonth) ) 
+    else if( !isset($tmpmonth) )
         $WorkDate = date("Y-m-d");
     else {
         $WorkDate = $tmpmonth;
         $GLOBALS['WorkDate'] = $WorkDate;
     }
-    
+
     // Determine the first and last day to display
     $base               = strtotime($WorkDate) + 60 * 60 * 12;
     $firstdayofmonth    = $base - ((date("d", $base) - 1) * _MYCAL_DAY_);
@@ -391,14 +391,14 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $lastdaytodisplay   = $lastdayofmonth + ((6 - strftime ('%w', $lastdayofmonth)) * _MYCAL_DAY_);
     $totaldays          = ((($lastdaytodisplay - $firstdaytodisplay) / _MYCAL_DAY_) + 1);
     $totalweeks         = 6; // 固定してみる
-    
+
     $firststr = date("Y-m-d", $firstdaytodisplay);
     $laststr  = date("Y-m-d", $lastdaytodisplay);
     $ds = explode("-", $firststr);
     $de = explode("-", $laststr);
     $startdate = mktime( 0, 0, 0,$ds[1],$ds[2],$ds[0]);
     $enddate   = mktime(23,59,59,$de[1],$de[2],$de[0]);
-    
+
     $thismonth = date("Y-m-01", $base);
     $prevmonth = date("Y-m-01", strtotime($thismonth . "-1 month"));
     $nextmonth = date("Y-m-01", strtotime($thismonth . "+1 month"));
@@ -409,9 +409,8 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $firstdayofyearstr  = date("Y-01-01", $base);
     $lastdayofyearstr   = date("Y-12-31", $base);
 
-
-    $dataproxy =& new Dataproxy($uid);
-    $drivers = $dataproxy->getAllDriverNames();
+    $dataproxy = Dataproxy::getInstance($uid);
+    $drivers = Dataproxy::getAllDriverNames();
     $dataproxy->setDateStart($firststr);
     $dataproxy->setDateEnd($laststr);
 
@@ -484,7 +483,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
                             }
                         }
                     }
-                    
+
                     break;
                 }
             }
@@ -511,7 +510,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
         $headertitleyear = date( $_MYCALJP2_CONF['headertitleyear'], $base );
     else
         $headertitleyear = ucfirst( strftime( ( substr($_CONF['locale'],0,2) == "ja" ) ? "%Y年" : "%Y", $base ) );
-    $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $firstdayofyearstr 
+    $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $firstdayofyearstr
         . '&amp;dateend=' . $lastdayofyearstr . '&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0&amp;moon=' . $thismonth
         . '" title="'. $LANG_MYCALJP['headeroflink'] . $headertitleyear . $LANG_MYCALJP['footeroflink'] . '">' . $headertitleyear . '</a>';
     $cal->set_var('title_' . ( ( $_MYCALJP2_CONF['titleorder'] == '1' ) ? '1' : '2' ) ,$anchor);
@@ -521,7 +520,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
         $headertitlemonth = date( $_MYCALJP2_CONF['headertitlemonth'], $base );
     else
         $headertitlemonth = ucfirst( strftime( ( substr($_CONF['locale'],0,2) == "ja" ) ? "%m月" : "%B", $base ) );
-    $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $firstdayofmonthstr 
+    $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $firstdayofmonthstr
         . '&amp;dateend=' . $lastdayofmonthstr . '&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0'
         . '" title="'. $LANG_MYCALJP['headeroflink'] . $headertitlemonth . $LANG_MYCALJP['footeroflink'] . '">' . $headertitlemonth . '</a>';
     $cal->set_var('title_' . ( ( $_MYCALJP2_CONF['titleorder'] == '1' ) ? '2' : '1' ) ,$anchor);
@@ -538,7 +537,7 @@ function MYCALJP_showCalendar( $caltype = 1 )
     $tmp = $url . "?" . $qstr . "&amp;moon=" . $prevmonth;
     $tmp = str_replace( '?&amp;', '?', $tmp );
     $cal->set_var('prevmonth', $tmp );
-    
+
     $tmp = $url . "?" . $qstr . "&amp;moon=" . $nextmonth;
     $tmp = str_replace( '?&amp;', '?', $tmp );
     $cal->set_var('nextmonth', $tmp );
@@ -618,12 +617,12 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
 
     if ( $event || $active || $story )
     {
-        $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $key 
+        $anchor = '<a href="' . $_CONF["site_url"] . '/mycaljp/calsearch.php?datestart=' . $key
             . '&amp;dateend=' . $key . '&amp;type=all&amp;mode=search&amp;topic=0&amp;author=0';
         $anchor .= $event ? '" title="'. $event : '';
         $anchor .= '">' . $day . '</a>';
     }
-    
+
     $holidayclass = '';
     if ( $sunday )
         $holidayclass = ' sunday';
@@ -639,8 +638,8 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
         if ( ! $thismonth )
         {
             $event_url = '<td class="NotThisMonth">' . $space;
-        } 
-        else 
+        }
+        else
         {
             $event_url = '<td class="' . ( $today ? 'TodayEvent' : 'Event' ) . $holidayclass . '">' . $anchor;
         }
@@ -651,7 +650,7 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
         {
             $event_url = '<td class="NotThisMonth">' . $space;
         }
-        else 
+        else
         {
             if ( $today )
             {
@@ -659,16 +658,16 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
 
                 if ( $story )
                 {
-                    $event_url = '<td class="TodayStory' . $holidayclass . '">' . $anchor; 
+                    $event_url = '<td class="TodayStory' . $holidayclass . '">' . $anchor;
                 }
             }
             else
             {
                 $event_url = ( $holidayclass ? '<td class="' . ltrim($holidayclass) . '">' : '<td>' ) . $day;
-                
+
                 if ( $story )
                 {
-                    $event_url = '<td class="Story' . $holidayclass . '">' . $anchor; 
+                    $event_url = '<td class="Story' . $holidayclass . '">' . $anchor;
                 }
             }
         }
@@ -679,7 +678,7 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
         {
             $event_url = '<td class="NotThisMonth">' . $space;
         }
-        else 
+        else
         {
             if ( $today )
             {
@@ -687,23 +686,23 @@ function MYCALJP_getDaysURL(&$events, $timestamp, $base, &$days, $weekday, $calt
 
                 if ( $active )
                 {
-                    $event_url = '<td class="TodayActive' . $holidayclass . '">' . $anchor; 
+                    $event_url = '<td class="TodayActive' . $holidayclass . '">' . $anchor;
                 }
             }
             else
             {
                 $event_url = ( $holidayclass ? '<td class="' . ltrim($holidayclass) . '">' : '<td>' ) . $day;
-                
+
                 if ( $active )
                 {
-                    $event_url = '<td class="Active' . $holidayclass . '">' . $anchor; 
+                    $event_url = '<td class="Active' . $holidayclass . '">' . $anchor;
                 }
             }
         }
     }
 
     $event_url .= "</td>";
-        
+
     return $event_url;
 }
 
@@ -732,7 +731,7 @@ function is_Japanese_Holiday($timestamp)
               if ( $week == 2 && $weekday == 1 ) return true; //成人の日(第2月曜日)
           }
           break;
-      
+
       case 2:// 2月
           if ( $year >= 1967 )
           {
@@ -740,7 +739,7 @@ function is_Japanese_Holiday($timestamp)
               if ( $day == 12 && $weekday == 1 ) return true; //振替休日
           }
           break;
-      
+
       case 3:// 3月
           if( $year > 1979 && $year < 2100 )
           {
@@ -749,12 +748,12 @@ function is_Japanese_Holiday($timestamp)
               if ( ( $day == $SpringEquinox + 1 ) && $weekday == 1 ) return true; //振替休日
           }
           break;
-      
+
       case 4:// 4月
           if ( $day == 29 ) return true; //昭和の日
           if ( $day == 30 && $weekday == 1 ) return true; //振替休日
           break;
-      
+
       case 5:// 5月
           if ( $day == 3 ) return true; //憲法記念日
           if ( $day == 4 )
@@ -784,7 +783,7 @@ function is_Japanese_Holiday($timestamp)
               if ( $day == 20 ) return true; //海の日
           }
           break;
-      
+
       case 9:// 9月
           $AutumnEquinox = floor( 23.2488 + 0.242194 * ( $year - 1980 ) - floor( ( $year - 1980 ) / 4 ) );
           if( $year > 1979 && $year < 2100 )
@@ -803,7 +802,7 @@ function is_Japanese_Holiday($timestamp)
               if ( $day == 15 ) return true; //敬老の日
           }
           break;
-      
+
       case 10:// 10月
           if ( $year >= 2000 )
           {
@@ -815,14 +814,14 @@ function is_Japanese_Holiday($timestamp)
               if ( $day == 10 ) return true; //体育の日
           }
           break;
-      
+
       case 11:// 11月
           if ( $day == 3 ) return true; //文化の日
           if ( $day == 4 && $weekday == 1 ) return true; //振替休日
           if ( $day == 23 ) return true; //勤労感謝の日
           if ( $day == 24 && $weekday == 1 ) return true; //振替休日
           break;
-      
+
       case 12:// 12月
           if ( $year >= 1989 )
           {
@@ -868,7 +867,7 @@ function MYCALJP_htmlspecialchars( $str )
 function MYCALJP_pi_enabled($pi_name)
 {
     global $_TABLES, $_MYCALJP2_CONF;
-    
+
     if ($_MYCALJP2_CONF['enabled_contents'][$pi_name] != 1) return false;
     return ( DB_getItem($_TABLES['plugins'], 'pi_enabled', "pi_name = '$pi_name'") == 1 );
 }
@@ -924,6 +923,148 @@ if (!function_exists('COM_output')) {
     }
 }
 
+
+/**
+* Gets Geeklog blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocks_mycaljp($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_MYCALJP2_CONF, $LANG_MYCALJP;
+
+    $retval = array();
+
+    if (!$_MYCALJP2_CONF['block_enable']) return $retval;
+
+    $owner_id = SEC_getDefaultRootUser();
+
+    // Check permissions first
+    if (SEC_hasAccess($owner_id,
+                      $_MYCALJP2_CONF['block_group_id'],
+                      $_MYCALJP2_CONF['block_permissions'][0],
+                      $_MYCALJP2_CONF['block_permissions'][1],
+                      $_MYCALJP2_CONF['block_permissions'][2],
+                      $_MYCALJP2_CONF['block_permissions'][3])) {
+        // Check if right topic
+        if (($_MYCALJP2_CONF['block_topic_option'] == TOPIC_ALL_OPTION) ||
+            ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) ||
+            ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_MYCALJP2_CONF['block_topic']))) {
+
+            if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
+                ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
+
+                $retval[] = array('name'           => 'sitecalendar',
+                                  'type'           => 'dynamic',
+                                  'onleft'         => $_MYCALJP2_CONF['block_isleft'],
+                                  'title'          => $LANG_MYCALJP['block_title'],
+                                  'blockorder'     => $_MYCALJP2_CONF['block_order'],
+                                  'content'        => phpblock_mycaljp2(),
+                                  'allow_autotags' => false,
+                                  'help'           => '');
+            }
+        }
+    }
+
+    return $retval;
+}
+
+
+/**
+* Gets config information for dynamic blocks from plugins
+*
+* Returns data for blocks on a given side and, potentially, for
+* a given topic.
+*
+* @param    string  $side   Side to get blocks for (right or left for now)
+* @param    string  $topic  Only get blocks for this topic
+* @return   array           array of block data
+* @link     http://wiki.geeklog.net/index.php/Dynamic_Blocks
+*
+*/
+function plugin_getBlocksConfig_mycaljp($side, $topic='')
+{
+    global $_TABLES, $_CONF, $_MYCALJP2_CONF, $LANG_MYCALJP;
+
+    $retval = array();
+
+    $owner_id = SEC_getDefaultRootUser();
+
+    // Check permissions first
+    if (SEC_hasAccess($owner_id,
+                      $_MYCALJP2_CONF['block_group_id'],
+                      $_MYCALJP2_CONF['block_permissions'][0],
+                      $_MYCALJP2_CONF['block_permissions'][1],
+                      $_MYCALJP2_CONF['block_permissions'][2],
+                      $_MYCALJP2_CONF['block_permissions'][3])) {
+
+        if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
+            ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
+
+            $retval[] = array('plugin'         => $LANG_MYCALJP['plugin_name'],
+                              'name'           => 'sitecalendar',
+                              'title'          => $LANG_MYCALJP['block_title'],
+                              'type'           => 'dynamic',
+                              'onleft'         => $_MYCALJP2_CONF['block_isleft'],
+                              'blockorder'     => $_MYCALJP2_CONF['block_order'],
+                              'allow_autotags' => false,
+                              'help'           => '',
+                              'enable'         => $_MYCALJP2_CONF['block_enable'],
+                              'topic_option'   => $_MYCALJP2_CONF['block_topic_option'],
+                              'topic'          => $_MYCALJP2_CONF['block_topic'],
+                              'inherit'        => array()
+                              );
+        }
+    }
+
+    return $retval;
+}
+
+/**
+* This function is called to inform plugins when a group's information has
+* changed or a new group has been created.
+*
+* @param    int     $grp_id     Group ID
+* @param    string  $mode       type of change: 'new', 'edit', or 'delete'
+* @return   void
+*
+*/
+function plugin_group_changed_mycaljp($grp_id, $mode)
+{
+    global $_TABLES, $_GROUPS, $_MYCALJP2_CONF;
+
+    if ($mode == 'delete') {
+        // Change any deleted group ids to Polls Admin if exist, if does not change to root group
+        $new_group_id = 0;
+        if (isset($_GROUPS['Mycaljp Admin'])) {
+            $new_group_id = $_GROUPS['Mycaljp Admin'];
+        } else {
+            $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Mycaljp Admin'");
+            if ($new_group_id == 0) {
+                if (isset($_GROUPS['Root'])) {
+                    $new_group_id = $_GROUPS['Root'];
+                } else {
+                    $new_group_id = DB_getItem($_TABLES['groups'], 'grp_id', "grp_name = 'Root'");
+                }
+            }
+        }
+
+        // Update Site Calendar Block group if need be
+        if ($_MYCALJP2_CONF['block_group_id'] == $grp_id) {
+            // Now save it to the configuration
+            $c = config::get_instance();
+            $c->set('block_group_id', $new_group_id, 'mycaljp');
+        }
+   }
+}
+
 /**
 * Helper function: Provide templates dropdown
 *
@@ -951,6 +1092,28 @@ function plugin_configmanager_select_template_mycaljp()
     }
 
     return $themes;
+}
+
+/**
+* Config Manager function
+*
+* @return   array   Array of (groud id, group name) pairs
+*
+*/
+function plugin_configmanager_select_block_group_id_mycaljp()
+{
+    return SEC_getUserGroups();
+}
+
+/**
+* Config Manager function
+*
+* @return   array   Array of (topic id, topic name) pairs
+*
+*/
+function plugin_configmanager_select_block_topic_mycaljp()
+{
+    return array_flip(TOPIC_getList());
 }
 
 ?>
