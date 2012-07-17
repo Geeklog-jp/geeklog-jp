@@ -19,7 +19,30 @@
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
 
-<h2>May ??, 2012 (2.0.0)</h2>
+<h2>Jul 13, 2012 (2.0.0b2)</h2>
+
+<ul>
+    <li>rescue.php: $config array を追加しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001463">#0001463</a>) [Tom]</li>
+    <li>多言語セットアップでクラッシュするバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001465">#0001465</a>) [Yoshinori]</li>
+    <li>Theme: professional_css と modern_curve: コメント投稿ボタンが常時表示されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001464">#0001464</a>) [Yoshinori]</li>
+    <li>静的ページメニューがログインユーザにしか表示されなかったバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001461">#0001461</a>) [Tom]</li>
+    <li>ゲストユーザが投稿したときページタイトルが入力できないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001458">#0001458</a>) [Tom]</li>
+    <li>静的ページをページ全体のモードで作成したとき、ブロックとページヘッダーとフッタが表示されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001460">#0001460</a>) [Tom]</li>
+    <li>MySQL-5.5.xへのアップグレードのバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001456">#0001456</a>) [Tom]</li>
+    <li>$dbconfig_path がエスケープされていなかったバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001457">#0001457</a>) [Tom]</li>
+    <li>microsummariesの使用を中止しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001455">#0001455</a>) [Dirk]</li>
+    <li>サブの話題を追加しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001175">#0001175</a>) [Tom]</li>
+    <li>パンくずリストのRootにサイト名の代わりに登録した名前を使えるようにしました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001454">#0001454</a>) [Tom]</li>
+    <li>複数のパンくずリストが表示されるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001441">#0001441</a>) [Tom]</li>
+    <li>PUBLIC_HTML/index.php?display=microsummaryで、SQL errorが発生するバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001451">#0001451</a>) [Tom]</li>
+    <li>関数名のタイポ: SEC_hasConfigAcessを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001446">#0001446</a>) [Dirk]</li>
+    <li>PUBLIC_HTML/index.php?topic=存在しない話題IDを指定したときにクラッシュするバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001452">#0001452</a>) [Tom]</li>
+    <li>多言語モードを有効にするとサイトがクラッシュするバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001450">#0001450</a>) [Dirk]</li>
+    <li>記事新規作成で話題がセレクトされていないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001448">#0001448</a>) [Tom]</li>
+</ul>
+
+<h2>May 24, 2012 (2.0.0b1)</h2>
+
 
 <ul>
     <li>COM_siteHeaderとCOM_siteFooterを置き換える関数としてCOM_createHTMLDocumentに変更されました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001358">#0001358</a>) [Dengen]</li>
