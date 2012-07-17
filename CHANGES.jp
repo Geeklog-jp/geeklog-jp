@@ -1,3 +1,13 @@
+2012-07-18  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン: バージョン2.2.0に更新します。
+	  Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。
+	  動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。
+	  ダイナミックブロックタイプに変更しました。
+
+	* dataproxyプラグイン: calendarjpとmediagalleryのドライバクラスの
+	  メソッド宣言に関する問題を修正しました。
+
 2012-07-17  Tetsuko Komma  <Ivy>
 
 	* 日本語ドキュメントファイルのhistory.htmlに、BETA 2の開発内容を追加
