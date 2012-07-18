@@ -1,5 +1,9 @@
 2012-07-18  Yoshinori Tahara  <dengen>
 
+	* Denim: 日本語環境向けの記事エディタのテンプレートを追加しました。
+
+2012-07-18  Yoshinori Tahara  <dengen>
+
 	* mycaljpプラグイン: バージョン2.2.0に更新します。
 	  Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。
 	  動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。
