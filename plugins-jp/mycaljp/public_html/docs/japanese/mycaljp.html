@@ -42,8 +42,8 @@
 </tr>
 <tr>
   <td><a name="desc_titleorder">titleorder</a></td>
-  <td>年 月</td>
-  <td>ヘッダタイトルの年と月の表示順序を設定します。<br>一般的に、和風にしたいときは「年 月」、洋風にしたいときは「月 年」を選択します。</td>
+  <td>年 月(true)</td>
+  <td>ヘッダタイトルの年と月の表示順序を設定します。<br>一般的に、和風にしたいときは「年 月」(true)、洋風にしたいときは「月 年」(false)を選択します。</td>
 </tr>
 <tr class="r2">
   <td><a name="desc_sunday">sunday</a></td>
@@ -82,32 +82,32 @@
 </tr>
 <tr>
   <td><a name="desc_showholiday">showholiday</a></td>
-  <td>true</td>
+  <td>はい(true)</td>
   <td>土・日・休日を色分け表示の有無を設定します。<br>「はい」(true)を選択すると色分け表示します。<br>「いいえ」(false)を選択すると色分け表示しません。</td>
 </tr>
 <tr class="r2">
   <td><a name="desc_checkjpholiday">checkjpholiday</a></td>
-  <td>true</td>
+  <td>はい(true)</td>
   <td>日本の休日を調べるかどうかを設定します。<br>「はい」(true)を選択すると日本の休日を色分け表示の対象とします。<br>「いいえ」(false)を選択すると日本の休日を色分け表示の対象としません。</td>
 </tr>
 <tr>
   <td><a name="desc_enablesrblocks">enablesrblocks</a></td>
-  <td>true</td>
+  <td>はい(true)</td>
   <td>日付のリンクをクリックしたあとの、コンテンツの一覧表示画面において、右サイドバーを表示するかどうかを設定します。<br>「はい」(true)を選択すると右サイドバーを表示します。<br>「いいえ」(false)を選択すると右サイドバーを表示しません。</td>
 </tr>
 <tr class="r2">
   <td><a name="desc_showstoriesintro">showstoriesintro</a></td>
-  <td>true</td>
+  <td>はい(true)</td>
   <td>日付のリンクをクリックしたあとの、コンテンツの一覧表示画面において、記事のイントロ部を表示するかどうかを設定します。<br>「はい」(true)を選択すると記事のイントロ部を一覧表示します。<br>「いいえ」(false)を選択すると記事のタイトルを一覧表示します。</td>
 </tr>
 <tr>
   <td><a name="desc_use_theme">use_theme</a></td>
-  <td>false</td>
+  <td>いいえ(false)</td>
   <td>テーマで提供されているテンプレートを適用するかどうかを設定します。<br>&lt;public_html&gt;/layout/テーマ名/mycaljp ディレクトリ内のテンプレートを使用するかどうか設定します。</td>
 </tr>
 <tr class="r2">
   <td><a name="desc_template">template</a></td>
-  <td>'default'</td>
+  <td>Default</td>
   <td>サイトカレンダの表示に用いられるテンプレートを選択します。<br>本プラグインには最初から数種類のテンプレートが用意されています。<br>なお、名前に「_multi_language」を含むテンプレートはマルチランゲージ環境用に設定されたものです。</td>
 </tr>
 <tr>
@@ -130,7 +130,7 @@
 
 
 
-<h3><a name="config_autotag">静的ページの設定</a></h3>
+<h3><a name="config_staticpages">静的ページの設定</a></h3>
 
 <table class="config">
 <tr><th style="width:25%">項目(変数)</th>
@@ -139,11 +139,11 @@
 </tr>
 <tr>
   <td><a name="desc_sp_type">sp_type</a></td>
-  <td>1</td>
+  <td>センターブロックに表示されるページのみ(1)</td>
   <td>サイトカレンダが検索する静的ページの種類を設定します。<br>
-1: すべて<br>
-2: センターブロックに表示されるページのみ<br>
-3: センターブロックに表示されないページのみ</td>
+0: すべて<br>
+1: センターブロックに表示されるページのみ<br>
+2: センターブロックに表示されないページのみ</td>
 </tr>
 <tr class="r2">
   <td><a name="desc_sp_except">sp_except</a></td>
@@ -152,6 +152,46 @@
 </tr>
 </table>
 
+
+
+<h3><a name="config_mycaljp_block">ブロックの設定</a></h3>
+
+<table class="config">
+<tr><th style="width:25%">項目(変数)</th>
+    <th style="width:25%">デフォルト</th>
+    <th style="width:50%">説明</th>
+</tr>
+<tr>
+  <td><a name="desc_block_enable">有効(block_enable)</a></td>
+  <td>はい(true)</td>
+  <td>ブロックを有効化します。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_block_isleft">左ブロックで表示する(block_isleft)</a></td>
+  <td>はい(1)</td>
+  <td>左ブロックで表示(1) あるいは右 (0)に表示します。</td>
+</tr>
+<tr>
+  <td><a name="desc_block_order">ブロックの順番(block_order)</a></td>
+  <td>10</td>
+  <td>ブロックカラムのソート番号を指定します。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_block_topic_option">話題オプション(block_topic_option)</a></td>
+  <td>すべて(all)</td>
+  <td>'すべて'なら、すべてのページで表示。'ホームページのみ'ならホームページのみで表示。'話題を選択する'なら選択された話題でのみ表示されます。</td>
+</tr>
+<tr>
+  <td><a name="desc_block_topic">話題(block_topic)</a></td>
+  <td>-</td>
+  <td>話題オプションが '話題を選択する'のときだけ表示されます。</td>
+</tr>
+<tr class="r2">
+  <td><a name="desc_block_group_id">グループ(block_group_id)</a></td>
+  <td>Mycaljp Admin</td>
+  <td>パーミッションで使われるグループ</td>
+</tr>
+</table>
 
 
 </body>

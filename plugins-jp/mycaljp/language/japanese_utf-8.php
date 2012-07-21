@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/mycaljp/language/japanese_utf-8.php                               |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2009 by the following authors:                         |
+// | Copyright (C) 2000-2012 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
 // | Mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
