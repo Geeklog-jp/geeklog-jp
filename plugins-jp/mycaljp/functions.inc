@@ -348,7 +348,7 @@ function plugin_getheadercode_mycaljp()
     $_SCRIPTS->setCssFile('mycaljp.style', $_MYCALJP2_CONF['css_location'] . '/mycaljp.css');
     $_SCRIPTS->setJavaScriptFile('mycaljp.xmlhttp', '/mycaljp/xmlhttp.js');
 
-    return ''
+    return '';
 }
 
 define ( "_MYCAL_DAY_", 86400 ); // 60 * 60 * 24
