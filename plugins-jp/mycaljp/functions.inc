@@ -8,7 +8,7 @@
 // | Copyright (C) 2000-2012 by the following authors:                         |
 // | Geeklog Author:        Tony Bibbs - tony AT tonybibbs DOT com             |
 // | mycal Block Author:    Blaine Lang - geeklog AT langfamily DOT ca         |
-// | mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
+// | Mycaljp Plugin Author: dengen - taharaxp AT gmail DOT com                 |
 // | Original PHP Calendar by Scott Richardson - srichardson@scanonline.com    |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
@@ -30,14 +30,6 @@
 
 if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
     die ('This file can not be used on its own.');
-}
-
-if (!defined('GL_VERSION_15')) {
-    define('GL_VERSION_15', (version_compare(VERSION, '1.5') >= 0));
-}
-
-if (!defined(CSRF_TOKEN)) {
-    define('CSRF_TOKEN', 'token');
 }
 
 /**
@@ -287,10 +279,11 @@ if ( empty($_MYCALJP2_CONF['template']) ) {
 // テンプレートパスおよびCSSのURLを設定する
 if ($_MYCALJP2_CONF['use_theme'] && is_dir($_CONF['path_layout'] . 'mycaljp')) {
     $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
-    $_MYCALJP2_CONF['css_url'] = $_CONF['layout_url'] . '/mycaljp';
+    // location of css file relative to public_html directory
+    $_MYCALJP2_CONF['css_location'] = '/layout/' . $_CONF['theme'] . '/mycaljp';
 } else {
     $_MYCALJP2_CONF['path_layout'] = $_CONF['path_html'] . 'mycaljp/templates/' . $_MYCALJP2_CONF['template'];
-    $_MYCALJP2_CONF['css_url'] = $_CONF['site_url'] . '/mycaljp/templates/' . $_MYCALJP2_CONF['template'];
+    $_MYCALJP2_CONF['css_location'] =                     '/mycaljp/templates/' . $_MYCALJP2_CONF['template'];
 }
 
 // テンプレートのパスを設定する
@@ -304,11 +297,12 @@ function MYCALJP_setLayoutPath_old() // for slidecalendar
     global $_CONF, $_MYCALJP2_CONF;
 
     if ( is_dir( $_CONF['path_layout'] . 'mycaljp' ) ) {
-      $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
-      $_MYCALJP2_CONF['css_url'] = $_CONF['layout_url'] . '/mycaljp';
+        $_MYCALJP2_CONF['path_layout'] = $_CONF['path_layout'] . 'mycaljp';
+        // location of css file relative to public_html directory
+        $_MYCALJP2_CONF['css_location'] = '/layout/' . $_CONF['theme'] . '/mycaljp';
     } else {
-      $_MYCALJP2_CONF['path_layout'] = $_CONF['path_html'] . 'mycaljp/templates/' . $_MYCALJP2_CONF['template'];
-      $_MYCALJP2_CONF['css_url'] = $_CONF['site_url'] . '/mycaljp/templates/' . $_MYCALJP2_CONF['template'];
+        $_MYCALJP2_CONF['path_layout'] = $_CONF['path_html'] . 'mycaljp/templates/' . $_MYCALJP2_CONF['template'];
+        $_MYCALJP2_CONF['css_location'] =                     '/mycaljp/templates/' . $_MYCALJP2_CONF['template'];
     }
 }
 
@@ -347,13 +341,14 @@ function MYCALJP_getTemplates()
 */
 function plugin_getheadercode_mycaljp()
 {
-    global $_CONF, $_MYCALJP2_CONF;
+    global $_CONF, $_SCRIPTS, $_MYCALJP2_CONF;
 
-    return '
-<!-- Include CSS & Script for Site Calendar Mycaljp -->
-<link rel="stylesheet" type="text/css" href="' . $_MYCALJP2_CONF['css_url'] . '/mycaljp.css"' . XHTML . '>
-<script type="text/javascript" src="' . $_CONF['site_url'] . '/mycaljp/xmlhttp.js"></script>
-';
+    if (!$_MYCALJP2_CONF['block_enable']) return '';
+
+    $_SCRIPTS->setCssFile('mycaljp.style', $_MYCALJP2_CONF['css_location'] . '/mycaljp.css');
+    $_SCRIPTS->setJavaScriptFile('mycaljp.xmlhttp', '/mycaljp/xmlhttp.js');
+
+    return ''
 }
 
 define ( "_MYCAL_DAY_", 86400 ); // 60 * 60 * 24
@@ -905,25 +900,6 @@ if (!function_exists('mycaljp_slidecalender'))
     }
 }
 
-if ((!GL_VERSION_15) && (!function_exists('SEC_checkToken'))) {
-    function SEC_checkToken() {
-        return true;
-    }
-}
-
-if ((!GL_VERSION_15) && (!function_exists('SEC_createToken'))) {
-    function SEC_createToken() {
-        return "1";
-    }
-}
-
-if (!function_exists('COM_output')) {
-    function COM_output($display) {
-        echo $display;
-    }
-}
-
-
 /**
 * Gets Geeklog blocks from plugins
 *
@@ -947,29 +923,31 @@ function plugin_getBlocks_mycaljp($side, $topic='')
     $owner_id = SEC_getDefaultRootUser();
 
     // Check permissions first
-    if (SEC_hasAccess($owner_id,
+    if (!SEC_hasAccess($owner_id,
                       $_MYCALJP2_CONF['block_group_id'],
                       $_MYCALJP2_CONF['block_permissions'][0],
                       $_MYCALJP2_CONF['block_permissions'][1],
                       $_MYCALJP2_CONF['block_permissions'][2],
                       $_MYCALJP2_CONF['block_permissions'][3])) {
-        // Check if right topic
-        if (($_MYCALJP2_CONF['block_topic_option'] == TOPIC_ALL_OPTION) ||
-            ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) ||
-            ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_MYCALJP2_CONF['block_topic']))) {
+        return $retval;
+    }
 
-            if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
-                ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
+    // Check if right topic
+    if (($_MYCALJP2_CONF['block_topic_option'] == TOPIC_ALL_OPTION) ||
+        ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_HOMEONLY_OPTION && COM_onFrontpage()) ||
+        ($_MYCALJP2_CONF['block_topic_option'] == TOPIC_SELECTED_OPTION && in_array($topic, $_MYCALJP2_CONF['block_topic']))) {
 
-                $retval[] = array('name'           => 'sitecalendar',
-                                  'type'           => 'dynamic',
-                                  'onleft'         => $_MYCALJP2_CONF['block_isleft'],
-                                  'title'          => $LANG_MYCALJP['block_title'],
-                                  'blockorder'     => $_MYCALJP2_CONF['block_order'],
-                                  'content'        => phpblock_mycaljp2(),
-                                  'allow_autotags' => false,
-                                  'help'           => '');
-            }
+        if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
+            ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
+
+            $retval[] = array('name'           => 'sitecalendar',
+                              'type'           => 'dynamic',
+                              'onleft'         => $_MYCALJP2_CONF['block_isleft'],
+                              'title'          => $LANG_MYCALJP['block_title'],
+                              'blockorder'     => $_MYCALJP2_CONF['block_order'],
+                              'content'        => phpblock_mycaljp2(),
+                              'allow_autotags' => false,
+                              'help'           => '');
         }
     }
 
@@ -998,30 +976,31 @@ function plugin_getBlocksConfig_mycaljp($side, $topic='')
     $owner_id = SEC_getDefaultRootUser();
 
     // Check permissions first
-    if (SEC_hasAccess($owner_id,
+    if (!SEC_hasAccess($owner_id,
                       $_MYCALJP2_CONF['block_group_id'],
                       $_MYCALJP2_CONF['block_permissions'][0],
                       $_MYCALJP2_CONF['block_permissions'][1],
                       $_MYCALJP2_CONF['block_permissions'][2],
                       $_MYCALJP2_CONF['block_permissions'][3])) {
+        return $retval;
+    }
 
-        if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
-            ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
+    if (($side=='left'  && $_MYCALJP2_CONF['block_isleft'] == 1) ||
+        ($side=='right' && $_MYCALJP2_CONF['block_isleft'] == 0)) {
 
-            $retval[] = array('plugin'         => $LANG_MYCALJP['plugin_name'],
-                              'name'           => 'sitecalendar',
-                              'title'          => $LANG_MYCALJP['block_title'],
-                              'type'           => 'dynamic',
-                              'onleft'         => $_MYCALJP2_CONF['block_isleft'],
-                              'blockorder'     => $_MYCALJP2_CONF['block_order'],
-                              'allow_autotags' => false,
-                              'help'           => '',
-                              'enable'         => $_MYCALJP2_CONF['block_enable'],
-                              'topic_option'   => $_MYCALJP2_CONF['block_topic_option'],
-                              'topic'          => $_MYCALJP2_CONF['block_topic'],
-                              'inherit'        => array()
-                              );
-        }
+        $retval[] = array('plugin'         => $LANG_MYCALJP['plugin_name'],
+                          'name'           => 'sitecalendar',
+                          'title'          => $LANG_MYCALJP['block_title'],
+                          'type'           => 'dynamic',
+                          'onleft'         => $_MYCALJP2_CONF['block_isleft'],
+                          'blockorder'     => $_MYCALJP2_CONF['block_order'],
+                          'allow_autotags' => false,
+                          'help'           => '',
+                          'enable'         => $_MYCALJP2_CONF['block_enable'],
+                          'topic_option'   => $_MYCALJP2_CONF['block_topic_option'],
+                          'topic'          => $_MYCALJP2_CONF['block_topic'],
+                          'inherit'        => array()
+                          );
     }
 
     return $retval;
@@ -1041,7 +1020,7 @@ function plugin_group_changed_mycaljp($grp_id, $mode)
     global $_TABLES, $_GROUPS, $_MYCALJP2_CONF;
 
     if ($mode == 'delete') {
-        // Change any deleted group ids to Polls Admin if exist, if does not change to root group
+        // Change any deleted group ids to Mycaljp Admin if exist, if does not change to root group
         $new_group_id = 0;
         if (isset($_GROUPS['Mycaljp Admin'])) {
             $new_group_id = $_GROUPS['Mycaljp Admin'];

@@ -212,4 +212,10 @@
 * mycaljp plugin version 2.1.4                                                  *
 * 2011.9.3 : Yoshinori Tahara as dengen                                         *
 * Geeklog1.8からの新コンフィギュレーションUIに対応した．                        *
+*                                                                               *
+* mycaljp plugin version 2.2.0                                                  *
+* 2012.7.18 : Yoshinori Tahara as dengen                                        *
+* Geeklog 2.0.0からの新テーマエンジンに合わせて最適化した。                     *
+* 動作に必要なGeeklogのバージョンを 2.0.0以降に変更した。                       *
+* ダイナミックブロックタイプに変更した。                                        *
 *********************************************************************************/
