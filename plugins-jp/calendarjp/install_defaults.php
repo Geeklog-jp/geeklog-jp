@@ -10,7 +10,7 @@
 // | records. These settings are only used during the initial installation     |
 // | and not referenced any more once the plugin is installed.                 |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2009 by dengen - taharaxp AT gmail DOT com             |
+// | Copyright (C) 2008-2012 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |

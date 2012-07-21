@@ -8,7 +8,7 @@
 // |                                                                           |
 // | Shows details of an event or events                                       |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2010 by dengen - taharaxp AT gmail DOT com             |
+// | Copyright (C) 2008-2012 by dengen - taharaxp AT gmail DOT com             |
 // |                                                                           |
 // | Calendarjp plugin is based on prior work by:                              |
 // | Authors: Tony Bibbs        - tony AT tonybibbs DOT com                    |
