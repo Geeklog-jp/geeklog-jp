@@ -219,13 +219,15 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		変更したテーマがデータベースに保存されるようになりました。
 
 	system/custom/custom_templatesetvars.php
-		テンプレート変数を追加します。
-		'topic_id', 'sp_id', 'home_id', 'login_status', 'prof_url_jp'
-		'custom_class', 'custom_os', 'custom_browser', 'custom_version',
-		'custom_alias', 'custom_mobile'
+		テンプレート変数を生成します。
+		{topic_id}, {sp_id}, {home_id}, {login_status}, {prof_url_jp}
+		{custom_class}, {custom_os}, {custom_browser}, {custom_version},
+		{custom_alias}, {custom_mobile}
 
 	system/custom/useragent.class.php
 		ユーザーエージェントのテンプレート変数を生成します。
+		class:{custom_class} os:{custom_os} browser:{custom_browser}
+		alias:{custom_alias} version:{custom_version} mobile:{custom_mobile}
 
 
   (4) テーマ

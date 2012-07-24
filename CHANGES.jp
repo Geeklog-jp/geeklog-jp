@@ -1,3 +1,8 @@
+2012-07-24  Tetsuko Komma  <Ivy>
+
+	* README.jpにsystem/custom/useragent.class.phpのテーマ変数を補足しま
+	  した。
+
 2012-07-21  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: 主に言語ファイルやドキュメント関係の修正を
