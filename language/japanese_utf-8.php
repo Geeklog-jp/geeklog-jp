@@ -1709,7 +1709,7 @@ $LANG_ADMIN = array(
 
 $LANG_commentcodes = array(
     0 => 'コメント有効',
-    -1 => 'コメント停止',
+    -1 => 'コメント無効',
     1 => 'コメント終了'
 );
 
@@ -1757,7 +1757,7 @@ $LANG_sortcodes = array(
 
 $LANG_trackbackcodes = array(
     0 => 'トラックバック有効',
-    -1 => 'トラックバック停止'
+    -1 => 'トラックバック無効'
 );
 
 ###############################################################################
@@ -2001,8 +2001,8 @@ $LANG_confignames['Core'] = array(
     'atom_max_stories' => 'フィードの最大記事数',
     'disable_webservices' => '無効にする',
     'restrict_webservices' => '制限する',
-    'article_comment_close_enabled' => '自動的にコメントの受付を停止する(デフォルト)',
-    'article_comment_close_days' => '停止までの日数(デフォルト)',
+    'article_comment_close_enabled' => '自動的にコメントの受付を終了する(デフォルト)',
+    'article_comment_close_days' => '終了までの日数(デフォルト)',
     'comment_close_rec_stories' => 'コメント可能な記事の最大数',
     'allow_reply_notifications' => '返信のメール通知を許可する',
     'comment_on_same_page' => 'コンテンツのページ上でコメント投稿',
@@ -2129,7 +2129,7 @@ $LANG_configselects['Core'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => true, 'いいえ' => false),
     2 => array('拒否する' => 0, '最新ポストのみ保存する' => 1, 'マルチポストを許可する' => 2),
-    3 => array('トラックバック有効' => 0, 'トラックバック停止' => -1),
+    3 => array('トラックバック有効' => 0, 'トラックバック無効' => -1),
     4 => array('ノーチェック' => 0, 'URLリンクをチェックする' => 1, 'フルURLをチェックする' => 2, 'URLリンクとフルURLをチェックする' => 3, 'IPとサイトのIPをチェックする' => 4, 'IPとURLリンクをチェックする' => 5, 'IPとフルURLをチェックする' => 6, 'IPとフルURLとURLリンクをチェックする' => 7),
     5 => array('テキスト' => 'plaintext', 'HTML' => 'html'),
     6 => array('12' => 12, '24' => 24),
