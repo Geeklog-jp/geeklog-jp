@@ -4,10 +4,10 @@
 // *** インストール後 *** にGeeklog本家配布分のDBデータを日本語に
 // ローカライズする・英語に戻すクラス
 //
-//       対象：Geeklog-1.8.0
+//       対象：Geeklog-1.8.0-2.0.0
 //       作者：mystral-kk - geeklog AT mystral-kk DOT net
 // ライセンス：GPL
-// バージョン：2011-06-15
+// バージョン：2012-08-16
 //     使用法：このファイルをrequire_onceしたのち、
 //               $obj = new LocalizeGeeklog;
 //               // 日本語化するとき
@@ -18,9 +18,7 @@
 
 global $_CONF, $_TABLES;
 
-/**
-* Loads config, because $_CONF is not set fully at this point of installation
-*/
+// Loads config, because $_CONF is not set fully at this point of installation.
 require_once '../../siteconfig.php';
 require_once $_CONF['path_system'] . 'classes/config.class.php';
 
@@ -46,20 +44,21 @@ class LocalizeGeeklog
 	{
 		$this->setMode($mode);
 	}
-	
+
 	/**
-	* ローカライズモードをセット
+	* ローカライズモードをセットする
 	*/
 	public function setMode($mode)
 	{
 		$mode = strtolower($mode);
-		
+
 		if (!in_array($mode, array_keys($this->_supported_modes))) {
 			$mode = 'ja';
 		}
+
 		$this->_mode = $mode;
 	}
-	
+
 	/**
 	* ローカライズモードを返す
 	*/
@@ -67,7 +66,7 @@ class LocalizeGeeklog
 	{
 		return $this->_mode;
 	}
-	
+
 	/**
 	* サポートされているモードを返す
 	*/
@@ -75,9 +74,9 @@ class LocalizeGeeklog
 	{
 		return $this->_supported_modes;
 	}
-	
+
 	/**
-	* ローカライズ用のデータ配列をセット
+	* ローカライズ用のデータ配列をセットする
 	*/
 	public function setData($data)
 	{
@@ -85,25 +84,26 @@ class LocalizeGeeklog
 			$this->_data = $data;
 		}
 	}
-	
+
 	/**
-	* ローカライズ用のデータ配列を取得
+	* ローカライズ用のデータ配列を取得する
 	*/
 	public function getData()
 	{
 		return $this->_data;
 	}
-	
+
 	/**
-	* ローカライズ実行
+	* ローカライズを実行する
 	*/
 	public function execute($mode = '')
 	{
 		if (!in_array($mode, array_keys($this->_supported_modes))) {
 			$mode = 'ja';
 		}
+
 		$this->setMode($mode);
-		
+
 		$this->_changeMain();
 		$this->_changeLinks();
 		$this->_changePingServices();
@@ -113,48 +113,59 @@ class LocalizeGeeklog
 		$this->_changeConfig();
 		$this->_changeTheme();
 	}
-	
+
 	/**
-	* GDライブラリがインストールされているかチェック
+	* GDライブラリがインストールされているかチェックする
 	*
 	* @return boolean  TRUE = installed, FALSE = otherwise
 	*/
 	public function isGDInstalled()
 	{
-		if (is_callable('gd_info') OR is_callable('imagegd')
-		 OR is_callable('imagegd2')) {
+		if (is_callable('gd_info') OR is_callable('imagegd') OR
+			is_callable('imagegd2')) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
 	}
-	
+
+	/**
+	* SQLインジェクションを防ぐためにエスケープする
+	*
+	* @param   string  $str
+	* @return  string
+	*/
+	protected function _esc($str)
+	{
+		return addslashes($str);
+	}
+
 	/**
 	* 更新メイン
 	*/
 	protected function _changeMain()
 	{
 		global $_TABLES;
-		
+
 		foreach ($this->_data as $table => $rows) {
 			if (DB_checkTableExists($table)) {
 				foreach ($rows as $R) {
 					$sql = "UPDATE " . $_TABLES[$table] . " "
 						 . "SET " . $R['target'] . " = '"
-						 . addslashes($R[$this->_mode]) . "' "
-						 . "WHERE (" . $R['field'] . " = '" . addslashes($R['value'])
+						 . $this->_esc($R[$this->_mode]) . "' "
+						 . "WHERE (" . $R['field'] . " = '" . $this->_esc($R['value'])
 						 . "')";
+
 					if (isset($R['field2']) AND isset($R['value2'])) {
 						$sql .= " AND (" . $R['field2'] . " = '"
-							 .  addslashes($R['value2']) . "')";
+							 .  $this->_esc($R['value2']) . "')";
 					}
-					
+
 					DB_query($sql);
 				}
 			}
 		}
 	}
-	
 
 	/**
 	* リンク
@@ -165,17 +176,18 @@ class LocalizeGeeklog
 	protected function _changeLinks()
 	{
 		global $_TABLES;
-		
+
 		if (!DB_checkTableExists('links')) {
 			return;
 		}
-		
+
 		$sqls = array();
-		
+
 		if ($this->_mode === 'ja') {
 			$sqls[] = "UPDATE {$_TABLES['linkcategories']} "
-					. "SET description = '" . addslashes('Geeklog関係のサイト') . "' "
-					. "WHERE (cid = '" . addslashes('geeklog-sites') . "')";
+					. "SET description = '" . $this->_esc('Geeklog関係のサイト') . "' "
+					. "WHERE (cid = '" . $this->_esc('geeklog-sites') . "')";
+
 			if (DB_count($_TABLES['links'], 'lid', 'geeklog.jp') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['links']} "
 					 	. "(lid, cid, url, description, title, hits, date, "
@@ -183,19 +195,19 @@ class LocalizeGeeklog
 						. "perm_members, perm_anon) "
 						. "VALUES ('geeklog.jp', 'geeklog-sites', "
 						. "'http://www.geeklog.jp/', '"
-						. addslashes('Geeklog 日本公式サイト') . "', '"
-						. addslashes('Geeklog Japanese') . "', 0, NOW(), 1, 5, "
+						. $this->_esc('Geeklog 日本公式サイト') . "', '"
+						. $this->_esc('Geeklog Japanese') . "', 0, NOW(), 1, 5, "
 						. "3, 3, 2, 2);";
 			}
 		} else if ($this->_mode === 'en') {
 			$sqls[] = "UPDATE {$_TABLES['linkcategories']} "
 					. "SET description = '"
-					. addslashes('Sites using or related to the Geeklog CMS') . "' "
-					. "WHERE (cid = '" . addslashes('geeklog-sites') . "')";
+					. $this->_esc('Sites using or related to the Geeklog CMS') . "' "
+					. "WHERE (cid = '" . $this->_esc('geeklog-sites') . "')";
 			$sqls[] = "DELETE FROM {$_TABLES['links']} "
 					. "WHERE (lid = 'geeklog.jp')";
 		}
-		
+
 		if (count($sqls) > 0) {
 			foreach ($sqls as $sql) {
 				DB_query($sql);
@@ -206,19 +218,20 @@ class LocalizeGeeklog
 	/**
 	* 更新ピング
 	*
-	* 日本語化するときのサイト = (BlogPeople, ping.bloggers.jp, ドリコムRSS,
-								  gooブログ, Googleブログ検索, テクノラティ)
-	* 英語に戻すときのサイト   = (Ping-O-Matic)
+	* 日本語化するときのサイト = [BlogPeople, ping.bloggers.jp, gooブログ,
+	*                             Googleブログ検索]
+	* 英語に戻すときのサイト   = [Ping-O-Matic]
 	*/
 	protected function _changePingServices()
 	{
 		global $_TABLES;
-		
+
 		$sqls = array();
-		
+
 		if ($this->_mode === 'ja') {
 			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
 					. "WHERE (name = 'Ping-O-Matic')";
+
 			if (DB_count($_TABLES['pingservice'], 'name', 'BlogPeople') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
@@ -226,6 +239,7 @@ class LocalizeGeeklog
 						. "'http://www.blogpeople.net/servlet/weblogUpdates', "
 						. "'weblogUpdates.ping', 1)";
 			}
+
 			if (DB_count($_TABLES['pingservice'], 'name', 'ping.bloggers.jp') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
@@ -233,13 +247,7 @@ class LocalizeGeeklog
 						. "'http://ping.bloggers.jp/rpc/', "
 						. "'weblogUpdates.ping', 1)";
 			}
-			if (DB_count($_TABLES['pingservice'], 'name', 'ドリコムRSS') == 0) {
-				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
-						. "site_url, ping_url, method, is_enabled) VALUES "
-						. "(0, 'ドリコムRSS', 'http://rss.drecom.jp/', "
-						. "'http://ping.rss.drecom.jp/', "
-						. "'weblogUpdates.ping', 1)";
-			}
+
 			if (DB_count($_TABLES['pingservice'], 'name', 'gooブログ') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
@@ -247,6 +255,7 @@ class LocalizeGeeklog
 						. "'http://blog.goo.ne.jp/XMLRPC', "
 						. "'weblogUpdates.ping', 1)";
 			}
+
 			if (DB_count($_TABLES['pingservice'], 'name', 'Googleブログ検索') == 0) {
 				$sqls[] = "INSERT INTO {$_TABLES['pingservice']} (pid, name, "
 						. "site_url, ping_url, method, is_enabled) VALUES "
@@ -262,65 +271,65 @@ class LocalizeGeeklog
 						. "'http://rpc.pingomatic.com/', "
 						. "'weblogUpdates.ping', 1)";
 			}
-			
+
 			$sqls[] = "DELETE FROM {$_TABLES['pingservice']} "
 					. "WHERE (name IN ('BlogPeople', 'ping.bloggers.jp', "
 					. "'ドリコムRSS', 'gooブログ', 'Googleブログ検索'))";
 		}
-		
+
 		if (count($sqls) > 0) {
 			foreach ($sqls as $sql) {
 				DB_query($sql);
 			}
 		}
 	}
-	
+
 	/**
 	* 記事
 	*/
 	protected function _changeStories()
 	{
 		global $_CONF, $_TABLES;
-		
+
 		$sqls = array();
-		
+
 		if ($this->_mode === 'en') {
 			$sqls[] = "UPDATE {$_TABLES['stories']} "
 					. "SET title = 'Welcome to Geeklog!', "
-					. "introtext = '" . addslashes("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/english/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>")
+					. "introtext = '" . $this->_esc("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/english/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>")
 					. "' "
 					. "WHERE (sid = 'welcome')";
 			$sqls[] = "UPDATE {$_TABLES['storysubmission']} "
 					. "SET title = 'Are you secure?', "
-					. "introtext = '" . addslashes("<p>This is a reminder to secure your site once you have Geeklog up and running. What you should do:</p>\n\n<ol>\n<li>Change the default password for the Admin account.</li>\n<li>Remove the install directory (you won\'t need it any more).</li>\n</ol>") . "' "
+					. "introtext = '" . $this->_esc("<p>This is a reminder to secure your site once you have Geeklog up and running. What you should do:</p>\n\n<ol>\n<li>Change the default password for the Admin account.</li>\n<li>Remove the install directory (you won\'t need it any more).</li>\n</ol>") . "' "
 					. "WHERE (sid = 'security-reminder')";
 		} else if ($this->_mode === 'ja') {
 			$sqls[] = "UPDATE {$_TABLES['stories']} "
-					. "SET title = '" . addslashes('Geeklogへようこそ!') . "', "
-					. "introtext = '" . addslashes("<p>無事インストールが完了したようですね。おめでとうございます。できれば、<a href=\"docs/japanese/index.html\">docs ディレクトリ</a>のすべての文書に一通り目を通しておいてください。Geeklogはユーザーを中心としたセキュリティモデルを実装しています。Geeklogを管理・運用するにはこの仕組みを理解する必要があります。</p>\n<p>サイトにログインするには、次のアカウントを使用してください:</p>\n<p>ユーザー名: <strong>Admin</strong><br />\nパスワード: <strong>password</strong></p><p><strong>ログインしたら、忘れずに<a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">パスワードを変更</a>してください。</strong></p><p>Geeklogのサポートは、<a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。追加ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。</p>")
+					. "SET title = '" . $this->_esc('Geeklogへようこそ!') . "', "
+					. "introtext = '" . $this->_esc("<p>無事インストールが完了したようですね。おめでとうございます。できれば、<a href=\"docs/japanese/index.html\">docs ディレクトリ</a>のすべての文書に一通り目を通しておいてください。Geeklogはユーザーを中心としたセキュリティモデルを実装しています。Geeklogを管理・運用するにはこの仕組みを理解する必要があります。</p>\n<p>サイトにログインするには、次のアカウントを使用してください:</p>\n<p>ユーザー名: <strong>Admin</strong><br />\nパスワード: <strong>password</strong></p><p><strong>ログインしたら、忘れずに<a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">パスワードを変更</a>してください。</strong></p><p>Geeklogのサポートは、<a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。追加ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。</p>")
 					. "' "
 					. "WHERE (sid = 'welcome')";
 			$sqls[] = "UPDATE {$_TABLES['storysubmission']} "
-					. "SET title = '" . addslashes('セキュリティを確認してください。')
+					. "SET title = '" . $this->_esc('セキュリティを確認してください。')
 					. "', "
-					. "introtext = '" . addslashes("<p>インストールが終了したら、次のことを実行してセキュリティを高めてください。</p><ol>\n<li>Adminアカウントのパスワードを変更する。</li>\n<li>installディレクトリを削除する（もう必要ありません）。</li>\n</ol>") . "' "
+					. "introtext = '" . $this->_esc("<p>インストールが終了したら、次のことを実行してセキュリティを高めてください。</p><ol>\n<li>Adminアカウントのパスワードを変更する。</li>\n<li>installディレクトリを削除する（もう必要ありません）。</li>\n</ol>") . "' "
 					. "WHERE (sid = 'security-reminder')";
 		}
-		
+
 		foreach ($sqls as $sql) {
 			DB_query($sql);
 		}
 	}
-	
+
 	/**
 	* ユーザー定義＆データ
 	*/
 	protected function _changeUsers()
 	{
 		global $_TABLES;
-		
+
 		$sqls = array();
-		
+
 		if ($this->_mode === 'en') {
 			$sqls[] = "ALTER TABLE {$_TABLES['users']} "
 					. "MODIFY username VARCHAR(16) ";
@@ -340,26 +349,27 @@ class LocalizeGeeklog
 					. "SET fullname= 'サイト管理者', homepage='' "
 					. "WHERE (uid = 2)";
 		}
-		
+
 		foreach ($sqls as $sql) {
 			DB_query($sql);
 		}
 	}
-	
+
 	/**
 	* その他
 	*/
 	protected function _changeMisc()
 	{
 		global $_TABLES;
-		
+
 		$sqls = array();
-		
+
 		if ($this->_mode === 'en') {
 			$sqls[] = "ALTER TABLE {$_TABLES['syndication']} "
 					. "ALTER language SET DEFAULT 'en-gb'";
 			$sqls[] = "ALTER TABLE {$_TABLES['users']} "
 					. "MODIFY username VARCHAR(16)";
+
 			if (DB_checkTableExists('events')) {
 				$sqls[] = "ALTER TABLE {$_TABLES['events']} "
 						. "MODIFY zipcode VARCHAR(5)";
@@ -375,36 +385,37 @@ class LocalizeGeeklog
 			// ユーザー名を108バイト（全角36文字くらい）に
 			$sqls[] = "ALTER TABLE {$_TABLES['users']} "
 					. "MODIFY username VARCHAR(108)";
+
 			if (DB_checkTableExists('events')) {
-				// イベントの郵便番号を8桁に
+				// イベントの郵便番号を16桁に
 				$sqls[] = "ALTER TABLE {$_TABLES['events']} "
-						. "MODIFY zipcode VARCHAR(8)";
+						. "MODIFY zipcode VARCHAR(16)";
 				$sqls[] = "ALTER TABLE {$_TABLES['eventsubmission']} "
-						. "MODIFY zipcode VARCHAR(8)";
+						. "MODIFY zipcode VARCHAR(16)";
 				$sqls[] = "ALTER TABLE {$_TABLES['personal_events']} "
-						. "MODIFY zipcode VARCHAR(8)";
+						. "MODIFY zipcode VARCHAR(16)";
 			}
 		}
-		
+
 		foreach ($sqls as $sql) {
 			DB_query($sql);
 		}
 	}
-	
+
 	/**
 	* コンフィギュレーション
 	*/
 	protected function _changeConfig()
 	{
 		global $_CONF, $_TABLES;
-		
+
 		require_once $_CONF['path_system'] . 'classes/config.class.php';
 		$c = config::get_instance();
-		
+
 		if ($this->_mode === 'en') {
 			// サイト一時閉鎖メッセージ
 			$c->set('site_disabled_msg', 'Geeklog Site is down. Please come back soon.');
-			
+
 			// 言語＆多言語
 			$c->set_default('rdf_language','en-gb');
 			$c->set('language','english');
@@ -422,7 +433,7 @@ class LocalizeGeeklog
 # 					'de' => 'Deutsch'
 # 				)
 # 			);
-			
+
 			// ロケール
 			$c->set('locale', 'en_GB');
 			$c->set('rdf_language', 'en-gb');
@@ -433,7 +444,7 @@ class LocalizeGeeklog
 			$c->set('timeonly', '%I:%M%p');
 			$c->set('hour_mode', 12);
 			$c->set('timezone', 'Etc/GMT-6');
-			
+
 			// HTMLフィルタ
 			$c->set(
 				'user_html',
@@ -479,10 +490,10 @@ class LocalizeGeeklog
 								),
 				)
 			);
-			
+
 			// 検閲モード
 			$c->set('censormode', 1);
-			
+
 			// カレンダプラグイン
 			$c->set(
 				'event_types',
@@ -495,21 +506,21 @@ class LocalizeGeeklog
 				'calendar'
 			);
 			$c->set('hour_mode', 12, 'calendar');
-			
+
 			// 画像関係
 			$c->set('keep_unscaled_image', 0);	// 元画像を残す = FALSE
 			$c->set('image_lib', '', 'Core');
-			
+
 			// 記事関係
 			$c->set('advanced_editor', FALSE);
-			
+
 			// 管理者関係
 			$c->set('sort_admin', TRUE);
-			
+
 		} else if ($this->_mode === 'ja') {
 			// サイト一時閉鎖メッセージ
 			$c->set('site_disabled_msg', $_CONF['site_url'] . '/disabledmsg.html');
-			
+
 			// 言語＆多言語
 			$c->set_default('rdf_language','ja');	// 'ja-JP'の方がよいかも
 			$c->set('language','japanese_utf-8');
@@ -529,7 +540,7 @@ class LocalizeGeeklog
 # 					'de' => 'Deutsch'
 # 				)
 # 			);
-			
+
 			// ロケール
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$c->set('locale', 'C');
@@ -544,17 +555,18 @@ class LocalizeGeeklog
 				} else {
 					$c->set('locale', 'ja_JP.UTF-8');
 				}
+
 				$c->set('date', '%Y年%B%e日(%a) %H:%M %Z');
 				$c->set('daytime', '%m/%d %H:%M %Z');
 				$c->set('shortdate', '%Y年%B%e日');
 				$c->set('dateonly', '%B%e日');
 				$c->set('timeonly', '%H:%M %Z');
 			}
-			
+
 			$c->set('rdf_language', 'ja');
 			$c->set('hour_mode', 24);
 			$c->set('timezone', 'Asia/Tokyo');
-			
+
 			// HTMLフィルタ
 			$c->set(
 				'user_html',
@@ -645,10 +657,10 @@ class LocalizeGeeklog
 					'ul'       => array('class' => 1, 'style' => 1),
 				)
 			);
-			
+
 			// 検閲モード
 			$c->set('censormode', 0);
-			
+
 			// カレンダプラグイン
 			$c->set(
 				'event_types',
@@ -660,21 +672,22 @@ class LocalizeGeeklog
 				'calendar'
 			);
 			$c->set('hour_mode', 24, 'calendar');
-			
+
 			// 画像関係
 			$c->set('keep_unscaled_image', 1);	// 元画像を残す = TRUE
+
 			if ($this->isGDInstalled()) {
 				$c->set('image_lib', 'gdlib', 'Core');
 			}
-			
+
 			// 記事関係
 			$c->set('advanced_editor', TRUE);
-			
+
 			// 管理者関係
 			$c->set('sort_admin', FALSE);
 		}
 	}
-	
+
 	/**
 	* テーマ変更
 	*
@@ -685,16 +698,16 @@ class LocalizeGeeklog
 	protected function _changeTheme()
 	{
 		global $_CONF, $_TABLES;
-		
-		if (defined('VERSION')
-		 AND (version_compare(VERSION, '1.8.0') >= 0)
-		 AND ($_CONF['theme'] === 'ProfessionalCSS')) {
+
+		if (defined('VERSION') AND
+			(version_compare(VERSION, '1.8.0') >= 0) AND
+			($_CONF['theme'] === 'ProfessionalCSS')) {
 			clearstatcache();
-			
+
 			if (file_exists($_CONF['path_themes'] . 'professional_css')) {
 				$c = config::get_instance();
 				$c->set('theme', 'professional_css', 'Core');
-				
+
 				$sql = "UPDATE {$_TABLES['users']} "
 					 . "  SET theme = 'professional_css' "
 					 . "  WHERE theme = 'ProfessionalCSS' ";
@@ -702,11 +715,11 @@ class LocalizeGeeklog
 			}
 		}
 	}
-	
+
 	//=====================================================
 	// ローカライズ用データ
 	//=====================================================
-	
+
 	private $_data = array(
 		/**
 		* ブロックタイトル・内容
@@ -783,7 +796,7 @@ class LocalizeGeeklog
 				'ja'     => '<p><strong>Geeklogへようこそ!</strong></p><p>Geeklogのサポートは、<a href="http://www.geeklog.jp">Geeklog Japanese</a>へ。ドキュメントは <a href="http://wiki.geeklog.jp">Geeklog Wikiドキュメント</a>をどうぞ。</p>',
 			),
 		),
-		
+
 		/**
 		* コメントコード
 		*/
@@ -810,7 +823,7 @@ class LocalizeGeeklog
 				'ja'     => 'コメント受付終了',
 			),
 		),
-		
+
 		/**
 		* コメント表示モード
 		*/
@@ -844,7 +857,7 @@ class LocalizeGeeklog
 				'ja'     => '表示しない',
 			),
 		),
-		
+
 		/**
 		* クッキー保存期間
 		*/
@@ -906,7 +919,7 @@ class LocalizeGeeklog
 				'ja'     => '1ヶ月',
 			),
 		),
-		
+
 		/**
 		* イベント投稿
 		*/
@@ -933,7 +946,7 @@ class LocalizeGeeklog
 				'ja'     => 'Webサーバー',
 			),
 		),
-		
+
 		/**
 		* 注目記事コード
 		*/
@@ -953,7 +966,7 @@ class LocalizeGeeklog
 				'ja'     => '注目記事',
 			),
 		),
-		
+
 		/**
 		* 権限コード
 		*/
@@ -1141,7 +1154,7 @@ class LocalizeGeeklog
 				'ja'     => 'Atompubウェブサービスル使用する権限',
 			),
 		),
-		
+
 		/**
 		* フロントページコード
 		*/
@@ -1161,7 +1174,7 @@ class LocalizeGeeklog
 				'ja'     => 'ホームにも表示する',
 			),
 		),
-		
+
 		/**
 		* グループ
 		*/
@@ -1293,7 +1306,7 @@ class LocalizeGeeklog
 				'ja'     => 'WebサービスAPIユーザー',
 			),
 		),
-		
+
 		/**
 		* リンクカテゴリ
 		*/
@@ -1306,7 +1319,7 @@ class LocalizeGeeklog
 				'ja'     => 'Geeklogサイト',
 			),
 		),
-		
+
 		/**
 		* メールダイジェスト
 		*/
@@ -1326,7 +1339,7 @@ class LocalizeGeeklog
 				'ja'     => 'メールダイジェストを送信する',
 			),
 		),
-		
+
 		/**
 		* アンケートの選択肢
 		*/
@@ -1422,7 +1435,7 @@ class LocalizeGeeklog
 # 				'ja'     => 'プラグイン',
 # 			),
 # 		),
-		
+
 		/**
 		* アンケートの質問事項
 		*/
@@ -1459,7 +1472,7 @@ class LocalizeGeeklog
 # 				'ja'     => 'Geeklogについてお答えください。',
 # 			),
 # 		),
-		
+
 		/**
 		* 投稿モード
 		*/
@@ -1479,7 +1492,7 @@ class LocalizeGeeklog
 				'ja'     => 'HTML',
 			),
 		),
-		
+
 		/**
 		* 並べ換えモード
 		*/
@@ -1499,7 +1512,7 @@ class LocalizeGeeklog
 				'ja'     => '降順',
 			),
 		),
-		
+
 		/**
 		* ステータスコード
 		*/
@@ -1526,7 +1539,7 @@ class LocalizeGeeklog
 				'ja'     => 'アーカイブ',
 			),
 		),
-		
+
 		/**
 		* フィードの初期値
 		*/
@@ -1546,7 +1559,7 @@ class LocalizeGeeklog
 				'ja'     => 'ja',			// 'ja-JP'の方がよいかも
 			),
 		),
-		
+
 		/**
 		* 話題
 		*/
@@ -1559,7 +1572,7 @@ class LocalizeGeeklog
 				'ja'     => 'おしらせ',
 			),
 		),
-		
+
 		/**
 		* トラックバックコード
 		*/
