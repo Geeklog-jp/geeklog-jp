@@ -34,10 +34,7 @@ function CUSTOM_templateSetVars($templatename, &$template)
     // define a {hello_world} variable available in header.thtml and
     // a {hello_again} variable available in the story templates
 
-    global  $LANG01, $LANG_JPN;
-    global  $_USER,$_CONF;
-    global  $topic;
-    global  $page;
+    global  $_CONF, $_PLUGINS, $_USER, $LANG01, $LANG_JPN, $page, $topic;
 
     switch ($templatename) {
     case 'header':
@@ -89,6 +86,25 @@ function CUSTOM_templateSetVars($templatename, &$template)
         break;
     }
 
+    // Sets the name of the current plugin as {plugin_name}
+    $pluginFound = FALSE;
 
+    if (isset($_PLUGINS) AND (count($_PLUGINS) > 0)) {
+        $pattern = '|^' . preg_quote($_CONF['site_url'], '|')
+                 . '/(?:admin/plugins/)?(.+?)/|';
 
+        if (preg_match($pattern, COM_getCurrentURL(), $match)) {
+            foreach ($_PLUGINS as $plugin) {
+                if (strcasecmp($plugin, $match[1]) === 0) {
+                    $template->set_var('plugin_name', $plugin);
+                    $pluginFound = TRUE;
+                    break;
+                }
+            }
+        }
+    }
+
+    if ($pluginFound === FALSE) {
+        $template->set_var('plugin_name', '');
+    }
 }
