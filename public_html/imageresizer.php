@@ -91,7 +91,7 @@ function RESIZER_isLocal($image_uri) {
 	if (stripos($image_uri, $_CONF['site_url']) === 0) {
 		$path = RESIZER_uriToPath($image_uri);
 		clearstatcache();
-		$retval = file_exists($image_uri);
+		$retval = file_exists($path);
 	}
 
 	return $retval;
