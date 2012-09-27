@@ -164,6 +164,7 @@ div#centerblocks div.poll-questions {
 --------------------------------------*/
 
 /* ブロック */
+div#leftblocks div.block-list,
 div#leftblocks div.block-left,
 div#leftblocks div.block-center {
   margin: 0 0.5em;
@@ -173,6 +174,7 @@ div#leftblocks div.block-center {
 }
 
 /* ブロックタイトル */
+div#leftblocks div.block-list h2,
 div#leftblocks div.block-left h2 {
   margin: 0 0 0.5em 0;
   padding: 0;
@@ -181,11 +183,13 @@ div#leftblocks div.block-left h2 {
 }
 
 /* ヘルプアイコン */
+div#leftblocks div.block-list h2 img,
 div#leftblocks div.block-left h2 img {
   vertical-align: middle;
 }
 
 /* ブロックコンテンツ */
+div#leftblocks div.block-list div.block-left-content,
 div#leftblocks div.block-left div.block-left-content {
   margin: 0;
   padding: 0;
@@ -198,6 +202,7 @@ div#leftblocks div.block-left div.block-left-content {
 --------------------------------------*/
 
 /* ブロック */
+div#rightblocks div.block-list,
 div#rightblocks div.block-right {
   margin: 0 0.5em;
   padding: 1em 0.5em 0.5em;
@@ -206,6 +211,7 @@ div#rightblocks div.block-right {
 }
 
 /* ブロックタイトル */
+div#rightblocks div.block-list h2,
 div#rightblocks div.block-right h2 {
   margin: 0 0 0.5em 0;
   padding: 0;
@@ -214,11 +220,13 @@ div#rightblocks div.block-right h2 {
 }
 
 /* ヘルプアイコン */
+div#rightblocks div.block-list h2 img,
 div#rightblocks div.block-right h2 img {
   vertical-align: middle;
 }
 
 /* ブロックコンテンツ */
+div#rightblocks div.block-list div.block-right-content,
 div#rightblocks div.block-right div.block-right-content {
   margin: 0;
   padding: 0;

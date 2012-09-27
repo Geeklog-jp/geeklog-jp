@@ -200,11 +200,120 @@ form[name="change"] select[name="lang"] option {
   ページナビゲーション
 --------------------------------------*/
 
-div.pagenav {
+div.gl-pagenav {
   margin-bottom: 0.5em;
   text-align: center;
   line-height: 1.5;
 }
+
+div.gl-pagenav span {
+  line-height: 1.7;
+  padding: 8px;
+}
+
+/* IE6用 ここから */
+* html div.gl-pagenav {
+  line-height: 2.9;
+}
+/* IE6用 ここまで */
+
+/* IE7用 ここから */
+*:first-child+html div.gl-pagenav {
+  line-height: 2.9;
+}
+/* IE7用 ここまで */
+
+div.gl-pagenav b {
+  margin: 8px;
+  padding: 8px;
+  border: 1px solid #cccccc;
+  line-height: 1.7;
+  -webkit-box-shadow: inset 0px 0px 2px 0px #436878; /* For Safari,Chrome */
+  -moz-box-shadow: inset 0px 0px 2px 0px #436878; /* For Firefox */
+  -o-box-shadow: inset 0px 0px 2px 0px #436878; /* For Opera */
+  box-shadow: inset 0px 0px 2px 0px #436878; /* There is no vendor pre-fix（Standard）） */
+}
+
+div.gl-pagenav a {
+  margin: 8px;
+  padding: 8px;
+  background: #c0dfef;
+  border: 1px solid #3087b1;
+  text-decoration: none;
+  line-height: 4;
+  -webkit-box-shadow: inset 0px 0px 2px 0px #436878; /* For Safari,Chrome */
+  -moz-box-shadow: inset 0px 0px 2px 0px #436878; /* For Firefox */
+  -o-box-shadow: inset 0px 0px 2px 0px #436878; /* For Opera */
+  box-shadow: inset 0px 0px 2px 0px #436878; /* There is no vendor pre-fix（Standard）） */
+}
+
+/* IE6用 ここから */
+* html div.gl-pagenav a {
+  text-decoration: none !important;
+}
+/* IE6用 ここまで */
+div.gl-pagenav a:hover {
+  background: #90a7b3;
+  text-decoration: none;
+}
+
+div.gl-pagenav span {
+  padding: 8px;
+  line-height: 1.7;
+}
+
+div.gl-pagenav span a { 
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  -webkit-box-shadow: none; /* For Safari,Chrome */
+  -moz-box-shadow: none; /* For Firefox */
+  -o-box-shadow: none; /* For Opera */
+  box-shadow: none; /* There is no vendor pre-fix（Standard） */
+  border: none;
+  text-decoration: underline;
+}
+
+div.gl-pagenav span a:hover {
+  background: transparent;
+}
+
+/* 掲示板のページナビに影響を与えないようにする[ */
+table div.gl-pagenav b {
+  display: inline;
+  margin: 0;
+  padding: 0;
+  border: none;
+  -webkit-box-shadow: none; /* For Safari,Chrome */
+  -moz-box-shadow: none; /* For Firefox */
+  -o-box-shadow: none; /* For Opera */
+  box-shadow: none; /* There is no vendor pre-fix（Standard） */
+  line-height: 1.5;
+}
+
+table div.gl-pagenav a {
+  display: inline;
+  margin: 0 5px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  -webkit-box-shadow: none; /* For Safari,Chrome */
+  -moz-box-shadow: none; /* For Firefox */
+  -o-box-shadow: none; /* For Opera */
+  box-shadow: none; /* There is no vendor pre-fix（Standard） */
+  text-decoration: underline;
+}
+
+table div.gl-pagenav a:hover {
+  background: transparent;
+}
+
+table div.gl-pagenav span {
+  display: inline;
+  padding: 0;
+  line-height: 1.5;
+}
+/* 掲示板のページナビに影響を与えないようにする] */
 
 /*--------------------------------------
   プラグインの警告
