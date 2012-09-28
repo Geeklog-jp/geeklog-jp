@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
   <link rel="stylesheet" type="text/css" href="{layout_url}/print.css"{xhtml}>
   <link rel="stylesheet" type="text/css" media="print" href="{layout_url}/print.css"{xhtml}>
+  <link rel="shortcut icon" href="{layout_url}/images/favicon.ico">
   <link rel="canonical" href="{article_url}"{xhtml}>
 
 <title>{page_title}</title>

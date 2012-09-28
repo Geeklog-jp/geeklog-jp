@@ -46,7 +46,7 @@ function theme_config_WAIproCSS()
 {
     return array(
         'image_type' => 'gif',
-        'doctype' => 'xhtml10strict'
+        'doctype' => 'xhtml10transitional'
     );
 }
 
