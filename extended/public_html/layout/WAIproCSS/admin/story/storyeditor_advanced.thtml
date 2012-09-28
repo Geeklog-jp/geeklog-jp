@@ -28,7 +28,7 @@
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
       <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="40" class="wide">{meta_keywords}</textarea></dd>
 
-      <dt><label for="admin-storyeditor_advanced-tid">{lang_topic}</label></dt>
+      <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
 
       <dt>{lang_hits}</dt>
@@ -156,7 +156,7 @@
     <legend>{lang_publishoptions}</legend>
 
     <dl>
-      <dt><label for="admin-storyeditor_advanced-featured">{lang_mode}</label></dt>
+      <dt><label>{lang_mode}</label></dt>
       <dd>
         {featured_options}
         <select name="frontpage">
@@ -169,7 +169,7 @@
           {trackback_options}
         </select>
       </dd>
-      <dt><label for="admin-storyeditor-featured">{lang_cmt_disable}</label></dt>
+      <dt><label>{lang_cmt_disable}</label></dt>
       <dd>
         {lang_enabled}&nbsp;
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
@@ -207,7 +207,7 @@
     <legend>{lang_images}</legend>
 
     <dl>
-      <dt><label for="file1">{lang_images}</label></dt>
+      <dt><label>{lang_images}</label></dt>
       <dd>
         {saved_images}
         {image_form_elements}
@@ -273,7 +273,7 @@
       <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
-      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dt><label for="admin-permissions">{lang_permissions}</label></dt>
       <dd class="description">{lang_perm_key}</dd>
       <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>

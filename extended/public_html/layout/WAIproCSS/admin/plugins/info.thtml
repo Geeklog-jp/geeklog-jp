@@ -28,10 +28,12 @@
 
       <dt>{lang_enabled}</dt>
       <dd>{pi_enabled}</dd>
-
-      <dt></dt>
-      <dd><input id="close" type="submit" value="{back}" {xhtml}></dd>
     </dl>
+
+<div class="submit">
+      <input id="close" type="submit" value="{back}" {xhtml}>
+</div>
+
   </div>
 </form>
 {end_block}

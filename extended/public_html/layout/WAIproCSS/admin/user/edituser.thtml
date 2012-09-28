@@ -26,7 +26,7 @@
 
       {password_option}
 
-      <dt><label for="v-email">{lang_emailaddress}</label></dt>
+      <dt><label for="admin-edituser-email">{lang_emailaddress}</label></dt>
       <dd><input type="text" size="48" maxlength="255" value="{user_email}" name="email" id="admin-edituser-email" class="text"{xhtml}></dd>
 
       <dt><label for="admin-edituser-homepage">{lang_homepage}</label></dt>

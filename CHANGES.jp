@@ -1,3 +1,13 @@
+2012-09-28  Masuko Koeda <milk851>
+
+	* テーマWAIproCSSでlabelにfor属性をつけて
+	  id属性と関連づけられていない箇所を修正し、
+	  テーマ側では関連付けられない箇所はfor属性を
+	  削除しました。
+	  マークアップがおかしい箇所を修正しました。
+	  functions.phpで指定しているdoctypeを
+	  xhtml10transitionalに変更しました。
+
 2012-09-27  Masuko Koeda <milk851>
 
 	* Issue #217に対応し、テーマWAIproCSSのページナビに

@@ -21,7 +21,7 @@
       <dt><label for="admin-blockeditor-name">{lang_blockname}<br{xhtml}>{lang_nospaces}</label></dt>
       <dd><input type="text" size="40" value="{block_name}" name="name" id="admin-blockeditor-name" class="text"{xhtml}></dd>
 
-      <dt><label for="admin-blockeditor-tid">{lang_topic}</label></dt>
+      <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
 
       <dt><label for="admin-blockeditor-onleft">{lang_side}</label></dt>
@@ -94,7 +94,7 @@
       <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
-      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dt><label for="admin-permissions">{lang_permissions}</label></dt>
       <dd class="description">{lang_perm_key}</dd>
       <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>

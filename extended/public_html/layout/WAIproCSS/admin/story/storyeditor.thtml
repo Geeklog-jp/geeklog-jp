@@ -40,7 +40,7 @@
       <dt><label for="admin-storyeditor-page_title">{lang_page_title}</label></dt>
       <dd><input type="text" size="48" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="text"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor-tid">{lang_topic}</label></dt>
+      <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
 
       <dt><label for="admin-storyeditor-show_topic_icon">{lang_show_topic_icon}</label></dt>
@@ -82,7 +82,7 @@
         {expireampm_selection}
       </dd>
 
-      <dt><label for="admin-storyeditor-featured">{lang_mode}</label></dt>
+      <dt><label>{lang_mode}</label></dt>
       <dd>
         {featured_options}
         <select name="frontpage" title="selectmode">
@@ -150,7 +150,7 @@
       <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
       <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
 
-      <dt><label for="file1">{lang_images}</label></dt>
+      <dt><label>{lang_images}</label></dt>
       <dd>
         {saved_images}
         {image_form_elements}
