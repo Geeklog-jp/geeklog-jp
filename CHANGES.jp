@@ -1,3 +1,8 @@
+2012-09-30  Kenji ITO  <mystralkk>
+
+	* Dbmanプラグインで、管理画面のURLを統一しました。(Issue #218)
+	* Dbmanプラグインで、管理画面以外ではdbman.jsを読み込まないようにしました。(Issue #219)
+
 2012-09-28  Masuko Koeda <milk851>
 
 	* テーマWAIproCSSでlabelにfor属性をつけて
