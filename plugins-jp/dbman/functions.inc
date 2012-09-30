@@ -134,8 +134,14 @@ function plugin_getadminoption_dbman() {
 * Inserts a header link to 'dbman.js'
 */
 function plugin_getheadercode_dbman() {
-	return '<script type="text/javascript" src="' . DBMAN_BASE_URL
-		 . '/js/dbman.js' . '"></script>' . LB;
+	global $_CONF;
+	
+	if (stripos(COM_getCurrentURL(), $_CONF['site_admin_url']) !== FALSE) {
+		return '<script type="text/javascript" src="' . DBMAN_BASE_URL
+			 . '/js/dbman.js' . '"></script>' . LB;
+	} else {
+		return '';
+	}
 }
 
 /**
@@ -567,8 +573,8 @@ function DBMAN_listBackups() {
 			$filesize   = COM_numberFormat(filesize($backupfile));
 			$url        = '<input name="deletefiles[]" type="checkbox" '
 						. 'value="' . $backup . '"' . XHTML . '>  '
-						. '<a href="' . $_CONF['site_url']
-						. '/admin/plugins/dbman/download.php?filename='
+						. '<a href="' . $_CONF['site_admin_url']
+						. '/plugins/dbman/download.php?filename='
 						. rawurlencode($backup) . '">' . $backup . '</a>';
 			$data_arr[] = array($url, $filesize);
 		}
