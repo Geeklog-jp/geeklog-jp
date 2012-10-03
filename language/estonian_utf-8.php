@@ -909,6 +909,7 @@ $LANG27 = array(
     46 => 'Your parent topic cannot be the Archive topic. Please choose a different Parent Topic.',
     47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.',
     48 => 'Parent Topic Id not found.',
+    49 => 'This Topic ID is already being used. Please choose another one.',
     'breadcrumb_separator' => '>',
     'breadcrumb_root' => 'Home'
 );
@@ -1980,6 +1981,7 @@ $LANG_confignames['Core'] = array(
     'linktext_maxlen' => 'Max Link Text Length',
     'compressed_output' => 'Saada väljund tihendatult?',
     'frame_options' => 'Kaitse "clickjacking" vastu',
+    'page_navigation_max_pages' => 'Max Pages for Navigation',
     'censormode' => 'Tsensuurireþiim?',
     'censorreplace' => 'Tsensuuri asendustekst',
     'censorlist' => 'Tsenseerimisloetelu',
@@ -2142,7 +2144,7 @@ $LANG_configselects['Core'] = array(
     18 => array('Keelatud' => 0, 'Lubatud (täpne kattumine)' => 1, 'Lubatud (sõna algus)' => 2, 'Lubatud (sõna osa)' => 3),
     19 => array('Google' => 'google', 'Tabel' => 'table'),
     20 => array('Täpne fraas' => 'phrase', 'Kõik sõnad' => 'all', 'Mõni sõnadest' => 'any'),
-    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('Range' => 'DENY', 'Sama allikas' => 'SAMEORIGIN', '(väljas)' => ''),
     23 => array('Keelatud' => 0, 'Lubatud' => 1, 'Lubatud (vaikimisi ainult avalehel)' => 2),
     24 => array('Avlda' => 'contribute', 'Avaleht' => 'home', 'Täpsem otsing' => 'search', 'Artiklid' => 'directory', 'Minu konto' => 'prefs', 'Pluginate kanded' => 'plugins', 'Kohandatud kanded' => 'custom', 'Lehe statistika' => 'stats'),
@@ -2197,6 +2199,7 @@ $LANG_VALIDATION = array(
     'language' => 'Language file does not exist',
     'timezone' => 'Invalid timezone',
     'single_char' => 'This field must be a single character',
+    'page_navigation_max_pages' => 'This field must be between 2 - 21',
     'hash' => 'This field must be a hash function supported by your version of PHP'
 );
 

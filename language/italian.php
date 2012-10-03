@@ -910,6 +910,7 @@ $LANG27 = array(
     46 => 'Your parent topic cannot be the Archive topic. Please choose a different Parent Topic.',
     47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.',
     48 => 'Parent Topic Id not found.',
+    49 => 'This Topic ID is already being used. Please choose another one.',
     'breadcrumb_separator' => '>',
     'breadcrumb_root' => 'Home'
 );
@@ -1981,6 +1982,7 @@ $LANG_confignames['Core'] = array(
     'linktext_maxlen' => 'Max Link Text Length',
     'compressed_output' => 'Inviare i dati in Formato Compresso?',
     'frame_options' => 'Protezione contro "clickjacking"',
+    'page_navigation_max_pages' => 'Max Pages for Navigation',
     'censormode' => 'Attivare Modo Censurato?',
     'censorreplace' => 'Sostituire Il Testo Censurato Con',
     'censorlist' => 'Lista di Parole Censurate',
@@ -2143,7 +2145,7 @@ $LANG_configselects['Core'] = array(
     18 => array('No' => 0, 'Si (Corrispondenza Esatta)' => 1, 'Si (Inizio Parola)' => 2, 'Si (Fragmento della Parola)' => 3),
     19 => array('Google' => 'google', 'Tabella' => 'table'),
     20 => array('Frase Esatta' => 'phrase', 'Tutte le Parole' => 'all', 'Qualsiasi Parola' => 'any'),
-    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('Elevata' => 'DENY', 'Stessa Origine' => 'SAMEORIGIN', '(disabilitata)' => ''),
     23 => array('Disabilitati' => 0, 'Abilitati' => 1, 'Abilitati (Predefiniti solo per la homepage)' => 2),
     24 => array('Contribuisci' => 'contribute', 'Home' => 'home', 'Ricerca Avanzata' => 'search', 'Directory' => 'directory', 'Il Mio Account' => 'prefs', 'Inserimenti di Plug-in' => 'plugins', 'Inserimenti personalizzati' => 'custom', 'Statistiche del Sito' => 'stats'),
@@ -2198,6 +2200,7 @@ $LANG_VALIDATION = array(
     'language' => 'File di linguaggio non esistente',
     'timezone' => 'Fuso orario invalido',
     'single_char' => 'Questo campo deve essere un solo carattere',
+    'page_navigation_max_pages' => 'This field must be between 2 - 21',
     'hash' => 'This field must be a hash function supported by your version of PHP'
 );
 

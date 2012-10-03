@@ -3,7 +3,7 @@
 
 {noscript}
 <div id="advanced_editor" style="display:none;">
-    <form action="{site_url}/submit.php" method="post" onSubmit='set_postcontent();' id="submitstory" class="compact">
+    <form action="{site_url}/submit.php" method="post" onsubmit="set_postcontent();" id="submitstory" class="compact">
     
       <div class="user_basic">
         <dl class="form_block">
@@ -26,7 +26,7 @@
             </div>
           </dd>
      
-          <dt><label for="submitstory_advanced-postmode">{lang_postmode}</label></dt>
+          <dt><label for="sel_editmode">{lang_postmode}</label></dt>
           <dd>
             <select name="postmode" id="sel_editmode" {change_editormode}>
               {story_postmode_options}

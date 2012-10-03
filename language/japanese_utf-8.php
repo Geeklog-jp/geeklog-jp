@@ -416,6 +416,7 @@ $LANG04 = array(
 
 ###############################################################################
 # Customize if need to modify the Tabbed navbar MyAccount panels used.
+# Array index key matches preference div id
 
 $LANG_MYACCOUNT = array(
     'pe_preview' => 'プレビュー',
@@ -916,8 +917,10 @@ $LANG27 = array(
     46 => '親の話題に、アーカイブの話題は設定できません。他の親の話題を選んでください。',
     47 => 'アーカイブの話題は子の話題を持てません。アーカイブ話題に設定する前に子の話題を解除してください。',
     48 => '親の話題IDが見つかりません。',
+    49 => 'This Topic ID is already being used. Please choose another one.',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home');
+    'breadcrumb_root' => 'Home'
+);
 
 ###############################################################################
 # admin/user.php
@@ -1599,17 +1602,17 @@ $LANG_SECTEST = array(
 
 ###############################################################################
 # "What's New" Time Strings
+# 
+# For the first two strings, you can use the following placeholders.
+# Order them so it makes sense in your language:
+# %i    item, "Stories"
+# %n    amount, "2", "20" etc.
+# %t    time, "2" (weeks)
+# %s    scale, "hrs", "weeks"
 
 $LANG_WHATSNEW = array(
-    # This here determines the order of the sentence "No new stories in 2 hrs"
-    # order it so it makes sense in your language:
-    # %i    item, "Stories"
-    # %n    amount, "2", "20" etc
-    # %t    time, "2" (weeks)
-    # %s    scale, "hrs", "weeks"
     'new_string' => '新着%i %n件(%t%s)',
     'new_last'    => '新着(%t%s)',
-    # other strings
     'minutes' => '分',
     'hours' => '時間',
     'days' => '日',
@@ -1986,6 +1989,7 @@ $LANG_confignames['Core'] = array(
     'linktext_maxlen' => 'クリッカブルリンクの長さ',
     'compressed_output' => 'HTML出力を圧縮して送信する',
     'frame_options' => '"クリックジャッキング"を防止する',
+    'page_navigation_max_pages' => 'ページナビゲーションのページ数',
     'censormode' => 'チェックする',
     'censorreplace' => '置き換えるワード',
     'censorlist' => 'バッドワード',
@@ -2022,7 +2026,8 @@ $LANG_confignames['Core'] = array(
     'disable_breadcrumbs_topics' => '話題のパンくずリストを無効にする',
     'disable_breadcrumbs_articles' => '記事のパンくずリストを無効にする。',
     'disable_breadcrumbs_plugins' => 'プラグインのパンくずリストを無効にする。',
-    'breadcrumb_root_site_name' => 'サイト名をパンくずリストのルートにする?');
+    'breadcrumb_root_site_name' => 'サイト名をパンくずリストのルートにする?'
+);
 
 $LANG_configsubgroups['Core'] = array(
     'sg_site' => 'サイト',
@@ -2147,10 +2152,10 @@ $LANG_configselects['Core'] = array(
     18 => array('チェックしない' => 0, 'チェックする（完全一致）' => 1, 'チェックする（前方一致）' => 2, 'チェックする（部分一致）' => 3),
     19 => array('Google' => 'google', 'Table' => 'table'),
     20 => array('完全一致' => 'phrase', 'すべてのキーワードを含む' => 'all', 'いずれかのキーワードを含む' => 'any'),
-    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
     23 => array('無効にする' => 0, '有効にする' => 1, '有効にする(トップページにのみデフォルトを使用する)' => 2),
-    24 => array('投稿する' => 'contribute', 'Home' => 'home', '詳しい検索' => 'search', 'ディレクトリ' => 'directory', 'マイアカウント' => 'prefs', 'プラグインエントリ' => 'plugins', 'カスタムエントリ' => 'custom', 'サイトステータス' => 'stats'),
+    24 => array('記事投稿' => 'contribute', 'ホーム' => 'home', '検索オプション' => 'search', '記事一覧' => 'directory', 'マイアカウント' => 'prefs', 'プラグインエントリ' => 'plugins', 'カスタムエントリ' => 'custom', 'サイト情報' => 'stats'),
     25 => array('新着記事' => 'story', '新着コメント' => 'comment', '新着トラックバック' => 'trackback', '新着ピングバック' => 'pingback', '新着ユーザ' => 'user'),
     26 => array('G (一般向け)' => 'G', 'PG (保護者の指導が望ましい)' => 'PG', 'R (保護者同伴制限付き' => 'R', 'X (17歳未満利用禁止)' => 'X'),
     27 => array('閲覧数 (昇順)' => 'hits|asc', '閲覧数 (降順)' => 'hits|desc', '日付 (昇順)' => 'date|asc', '日付 (降順)' => 'date|desc', 'タイトル (昇順)' => 'title|asc', 'タイトル (降順)' => 'title|desc', '所有者 (昇順)' => 'uid|asc', '所有者 (降順)' => 'uid|desc'),
@@ -2202,7 +2207,9 @@ $LANG_VALIDATION = array(
     'language' => '言語ファイルがありません',
     'timezone' => '無効なタイムゾーンです',
     'single_char' => 'このフィールドには半角1文字を入力してください',
+    'page_navigation_max_pages' => 'このフィールドには2から21の数値を入力してください',
     'hash' => 'このフィールドはあなたのバージョンのPHPによるhash関数が必要です。'
 );
+
 
 ?>

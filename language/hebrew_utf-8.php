@@ -910,6 +910,7 @@ $LANG27 = array(
     46 => 'Your parent topic cannot be the Archive topic. Please choose a different Parent Topic.',
     47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.',
     48 => 'Parent Topic Id not found.',
+    49 => 'This Topic ID is already being used. Please choose another one.',
     'breadcrumb_separator' => '>',
     'breadcrumb_root' => 'Home'
 );
@@ -1981,6 +1982,7 @@ $LANG_confignames['Core'] = array(
     'linktext_maxlen' => 'Max Link Text Length',
     'compressed_output' => 'שליחת פלט מכווץ?',
     'frame_options' => 'הגנה נגד "clickjacking"',
+    'page_navigation_max_pages' => 'Max Pages for Navigation',
     'censormode' => 'הפעלת צנזורה?',
     'censorreplace' => 'צנזורת החלפת טקסט',
     'censorlist' => 'רשימת צנזורה',
@@ -2143,7 +2145,7 @@ $LANG_configselects['Core'] = array(
     18 => array('ניטרול' => 0, 'הפעלה (התאמה מדויקת)' => 1, 'הפעלה (לפי התחלת המילה)' => 2, 'הפעלה (לפי חלקי מילה)' => 3),
     19 => array('גוגל' => 'google', 'טבלה' => 'table'),
     20 => array('ביטוי מדויק' => 'phrase', 'כל המילים שהוכנסו' => 'all', 'לפחות אחת מהמילים שהוכנסו' => 'any'),
-    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict'),
+    21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('נוקשה' => 'DENY', 'מאותו המקור' => 'SAMEORIGIN', '(מנוטרל)' => ''),
     23 => array('מנוטרל' => 0, 'מאופשר' => 1, 'מאופשר (ברירת המחדל לדף הבית בלבד)' => 2),
     24 => array('הגשות' => 'contribute', 'דף הבית' => 'home', 'חיפוש מתקדם' => 'search', 'ספרייה' => 'directory', 'החשבון שלי' => 'prefs', 'פריטי plugins' => 'plugins', 'פריטים מותאמים אישית' => 'custom', 'סטטיסטיקת אתר' => 'stats'),
@@ -2198,6 +2200,7 @@ $LANG_VALIDATION = array(
     'language' => 'Language file does not exist',
     'timezone' => 'Invalid timezone',
     'single_char' => 'This field must be a single character',
+    'page_navigation_max_pages' => 'This field must be between 2 - 21',
     'hash' => 'This field must be a hash function supported by your version of PHP'
 );
 

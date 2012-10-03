@@ -777,7 +777,7 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
   <td valign="top">Whether to allow logins using <a href="http://oauth.net/">OAuth</a>. This will display a special OAuth login below the normal login field.<br>
     <strong>Note:</strong> Currently only OAuth 1.0 is support. Current login methods supported: Facebook, Twitter and LinkedIn.<br>Please note that to enable login for a 
     specific method, you need an  authorization class in <tt>system/classes/oauth</tt>. If you only want to allow Facebook but not Twitter users (or vice versa), simply
-    remove the class file for the unwanted service(s). You must also update the class file(s) with the application key ($consumer_key) and application secret 
+    remove the class file for the unwanted service(s) or use the config options below. You must also update the config options below with the correct key and secret string 
     ($consumer_secret) values. The PHP extenstion OpenSSL is required to be loaded.<br>
     See our <a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a> for more information.</td></tr>
 <tr>
@@ -1515,6 +1515,10 @@ running on a MySQL database. They are ignored when using MS SQL.</p>
     (Strict), only allow framing from within the same site (Same Origin), or to
     allow all framing (disabled). We strongly suggest <em>not</em> to disable
     this option.</td></tr>
+<tr>
+  <td valign="top"><a name="desc_page_navigation_max_pages">page_navigation_max_pages</a></td>
+  <td valign="top">7</td>
+  <td valign="top">Maximum number of pages to show for the page navigation. Minimum of 3 pages to a maximum of 20 pages allowed.</td></tr>        
 </table>
 
 <h3><a name="misc_debug">Miscellaneous: Debug</a></h3>
