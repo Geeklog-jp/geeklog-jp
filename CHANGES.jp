@@ -5,17 +5,17 @@
 2012-09-30  Kenji ITO  <mystralkk>
 
 	* Dbmanプラグインで、管理画面のURLを統一しました。(Issue #218)
-	* Dbmanプラグインで、管理画面以外ではdbman.jsを読み込まないようにしました。(Issue #219)
+	* Dbmanプラグインで、管理画面以外ではdbman.jsを読み込まないようにしま
+	  した。(Issue #219)
 
 2012-09-28  Masuko Koeda <milk851>
 
-	* テーマWAIproCSSでlabelにfor属性をつけて
-	  id属性と関連づけられていない箇所を修正し、
-	  テーマ側では関連付けられない箇所はfor属性を
-	  削除しました。
-	  マークアップがおかしい箇所を修正しました。
-	  functions.phpで指定しているdoctypeを
-	  xhtml10transitionalに変更しました。
+	* テーマWAIproCSSでlabelにfor属性をつけてid属性と関連づけられていない
+	  箇所を修正し、テーマ側では関連付けられない箇所はfor属性を削除しまし
+	  た。
+	* マークアップがおかしい箇所を修正しました。
+	* functions.phpで指定しているdoctypeをxhtml10transitionalに変更しまし
+	  た。
 
 2012-09-27  Masuko Koeda <milk851>
 
@@ -44,7 +44,8 @@
 
 2012-07-31  Tetsuko Komma  <Ivy>
 
-	* 日本語コア言語ファイルの、Disabledの翻訳を停止から無効に変更しました。
+	* 日本語コア言語ファイルの、Disabledの翻訳を停止から無効に変更しまし
+	  た。
 	* 日本語ドキュメントの、Disabledの翻訳を停止から無効に変更しました。
 
 2012-07-24  Tetsuko Komma  <Ivy>
