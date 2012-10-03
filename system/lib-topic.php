@@ -912,7 +912,7 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
         $topic_templates->set_var('topic_options_hide', '0');
         $topic_info = $LANG27[41];
         if ($topic_option == TOPIC_ALL_OPTION) {
-            $topic_templates->set_var('all_checked', 'checked');
+            $topic_templates->set_var('all_checked', 'checked="checked"');
             $topic_templates->set_var('homeonly_checked', '');
             $topic_templates->set_var('selectedtopics_checked', '');
             
@@ -920,7 +920,7 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
             $show_default = false;            
         } elseif ($topic_option == TOPIC_HOMEONLY_OPTION) {
             $topic_templates->set_var('all_checked', '');
-            $topic_templates->set_var('homeonly_checked', 'checked');
+            $topic_templates->set_var('homeonly_checked', 'checked="checked"');
             $topic_templates->set_var('selectedtopics_checked', '');
 
             $show_inherit = false;
@@ -930,11 +930,11 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
             
             // if no topics found cannot check so set default
             if ($topiclist == '') {
-                $topic_templates->set_var('all_checked', 'checked');
+                $topic_templates->set_var('all_checked', 'checked="checked"');
                 $topic_templates->set_var('selectedtopics_checked', '');
             } else {
                 $topic_templates->set_var('all_checked', '');
-                $topic_templates->set_var('selectedtopics_checked', 'checked');
+                $topic_templates->set_var('selectedtopics_checked', 'checked="checked"');
             }
         }
     } else {
@@ -958,6 +958,7 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
     } else {
         $topic_templates->set_var('inherit_hide', 'display: none;');
         $topic_templates->set_var('topic_inherit_hide', '1');
+        $topic_templates->set_var('inherit_options', '<option value="dummy">dummy</option>');
     }
     
     if ($show_default) {
@@ -972,6 +973,7 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
     } else {
         $topic_templates->set_var('default_hide', 'display: none;');
         $topic_templates->set_var('topic_default_hide', '1');
+        $topic_templates->set_var('default_options', '<option value="dummy">dummy</option>');
     }
 
     $topic_templates->set_var('info_hide', '');

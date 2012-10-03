@@ -283,7 +283,8 @@ form.compact dl dd.description {
 }
 /* } Win IE 6 */
 
-form.compact p.description {
+form.compact p.description,
+form.compact div.description {
   margin: 0 0 1em 0;
   padding: 0;
 }
@@ -345,7 +346,8 @@ form.linear dl dd.description {
   padding: 0;
 }
 
-form.linear p.description {
+form.linear p.description,
+form.linear div.description {
   margin: 0 0 1em 0;
   padding: 0;
 }
@@ -421,77 +423,43 @@ ul.compact li {
 --------------------------------------*/
 .gl-pagenav {
   text-align:center;
+  color: #CCC;
+  margin: 0 0 1.5em;
 }
 
-div.gl-pagenav b {
+.gl-pagenav a,
+.gl-pagenav b {
    display: inline-block;
-   margin: 8px;
-   padding: 8px;
-   border: 1px solid #cccccc;
-   line-height: 1.7;
+  margin: 1px;
+  padding: 2px 7px;
+  background: transparent;
+  border: 1px solid #E7E7E7;
  }
  
-/* for IE6 { */
- * html div.gl-pagenav b {
-   display: inline;
-   zoom: 1;
- }
- /* foe IE6 } */
- 
-/* for IE7 { */
- *:first-child+html div.gl-pagenav b {
-   display: inline;
-   zoom: 1;
- }
- /* for IE7 } */
- 
-div.gl-pagenav a {
-   display: inline-block;
-   margin: 8px;
-   padding: 8px;
-   background: #e4ecf5;
-   border: 1px solid #204a87;
-   text-decoration: none;
+.gl-pagenav b {
+  color: #222;
  }
  
-/* for IE6 { */
- * html div.gl-pagenav a {
-   display: inline;
-   zoom: 1;
- }
- /* for IE6 } */
- 
-/* for IE7 { */
- *:first-child+html div.gl-pagenav a {
-   display: inline;
-   zoom: 1;
- }
- /* for IE7 } */
- 
-div.gl-pagenav span {
-   display: inline-block;
-   padding: 8px;
-   line-height: 1.7;
+.gl-pagenav a:hover {
+  background: #EEE;
+  border: 1px solid #CCC;
  }
  
-/* for IE6 { */
- * html div.gl-pagenav span {
-   display: inline;
-   zoom: 1;
+.gl-pagenav span {
+  display: inline-block;
+  padding: 4px;
+  line-height: 1.7;
+  color: #999;
  }
- /* for IE6 } */
  
-/* for IE7 { */
- *:first-child+html div.gl-pagenav span {
-   display: inline;
-   zoom: 1;
- }
- /* for IE7 } */
- 
-div.gl-pagenav span a { 
+.gl-pagenav span a { 
   margin: 0;
-   padding: 0;
+  padding: 2px 0;
    background: transparent;
    border: none;
-   text-decoration: underline;
  }
+
+.gl-pagenav span a:hover {
+  background: transparent;
+  border: none;
+}

@@ -245,7 +245,7 @@ if ($_CONF['allow_user_photo'] == 1) {
 }
 
 $msql = array(); 
-$msql['mysql']="SELECT STRAIGHT_JOIN s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate, "
+$msql['mysql']="SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate, "
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta,{$_TABLES['users']} AS u, "
@@ -253,7 +253,7 @@ $msql['mysql']="SELECT STRAIGHT_JOIN s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unix
          . " ta.type = 'article' AND ta.id = s.sid AND"
          . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
 
-$msql['mssql']="SELECT STRAIGHT_JOIN s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
+$msql['mssql']="SELECT s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
          . " UNIX_TIMESTAMP(s.date) AS unixdate, "
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
@@ -342,12 +342,10 @@ if ( $A = DB_fetchArray( $result ) ) {
     $display .= PLG_showCenterblock (3, $page, $topic); // bottom blocks
 }
 
+$header = '';
+
 if ($topic)
 {
-    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
-            . '/index.php?display=microsummary&amp;topic=' . urlencode($topic)
-            . '" title="Microsummary"' . XHTML . '>';
-
     // Meta Tags
     if ($_CONF['meta_tags'] > 0) {
         $result = DB_query ("SELECT meta_description, meta_keywords FROM {$_TABLES['topics']} WHERE tid = '{$topic}'");
@@ -357,10 +355,6 @@ if ($topic)
         $meta_keywords = stripslashes($A['meta_keywords']);
         $header .= COM_createMetaTags($meta_description, $meta_keywords);
     }
-} else {
-    $header = '<link rel="microsummary" href="' . $_CONF['site_url']
-            . '/index.php?display=microsummary" title="Microsummary"' . XHTML
-            . '>';
 }
 
 $display = COM_createHTMLDocument($display, array('breadcrumbs' => $breadcrumbs, 'headercode' => $header, 'rightblock' => true));
