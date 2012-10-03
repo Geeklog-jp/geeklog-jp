@@ -1361,8 +1361,9 @@ function plugin_showstats_calendar ($showsitestats)
             array('text' => $LANG_CAL_1[48], 'field' => 'hits', 'field_class'  => 'stats-list-count'),
         );
         $data_arr = array();
-        $text_arr = array('has_menu'     => false,
-                          'title'        => $LANG_CAL_1[47],
+        $text_arr = array('has_menu' => false,
+                          'title'    => $LANG_CAL_1[47],
+                          'form_url' => $_CONF['site_url'] . '/stats.php'
         );
         for ($i = 0; $i < $nrows; $i++) {
             $A = DB_fetchArray($result);
@@ -1611,7 +1612,8 @@ function plugin_upgrade_calendar()
             }
 
             calendar_update_ConfigSecurity_1_1_2();
-
+            calendar_update_Zipcode_1_1_2();
+            
             $current_version = '1.1.3';
             break;            
 

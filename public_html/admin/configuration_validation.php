@@ -218,7 +218,7 @@ $_CONF_VALIDATE['Core']['theme'] = array(
 );
 $_CONF_VALIDATE['Core']['doctype'] = array(
     'rule' => array('inList', array(
-        'html401strict', 'html401transitional', 'xhtml10strict', 'xhtml10transitional'
+        'html401strict', 'html401transitional', 'xhtml10strict', 'xhtml10transitional', 'html5', 'xhtml5'
     ), true)
 );
 $_CONF_VALIDATE['Core']['path_themes'] = array(
@@ -445,6 +445,11 @@ $_CONF_VALIDATE['Core']['linktext_maxlen'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['compressed_output'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['frame_options'] = array(
     'rule' => array('inList', array('', 'SAMEORIGIN', 'DENY'), true)
+);
+$_CONF_VALIDATE['Core']['page_navigation_max_pages'] = array(
+    'rule' => array('range', 2, 21),
+    'message' => isset($LANG_VALIDATION['page_navigation_max_pages']) ? 
+                 $LANG_VALIDATION['page_navigation_max_pages'] : $LANG_VALIDATION['default']
 );
 
 /* Subgroup Misc, Tab Debug */

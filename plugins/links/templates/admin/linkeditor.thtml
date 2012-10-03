@@ -21,8 +21,8 @@
       <dt><label for="links-linkeditor-hits">{lang_linkhits}</label></dt>
       <dd><input type="text" name="hits" id="links-linkeditor-hits" value="{link_hits}" class="size2"{xhtml}></dd>
 
-      <dt><label for="links-linkeditor-hits">{lang_linkdescription}</label></dt>
-      <dd><textarea name="description" cols="45" rows="8" id="links-linkeditor-hits" class="wide">{link_description}</textarea>
+      <dt><label for="links-linkeditor-description">{lang_linkdescription}</label></dt>
+      <dd><textarea name="description" cols="45" rows="8" id="links-linkeditor-description" class="wide">{link_description}</textarea>
           <br{xhtml}>{lang_allowed_html}</dd>
     </dl>
   </div>
@@ -34,7 +34,7 @@
       <dt>{lang_owner}</dt>
       <dd>{owner_name}<input type="hidden" name="owner_id" value="{link_ownerid}"{xhtml}></dd>
 
-      <dt><label>{lang_group}</label></dt>
+      <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
       <dt><label for="admin-permissions">{lang_permissions}</label></dt>

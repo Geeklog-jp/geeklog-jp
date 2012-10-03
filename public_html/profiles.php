@@ -203,6 +203,8 @@ function contactform ($uid, $cc = false, $subject = '', $message = '')
 
             if ($cc) {
                 $cc = ' checked="checked"';
+            } else {
+                $cc = '';
             }
             $retval = COM_startBlock($LANG08[10] . ' ' . $displayname);
             $mail_template = COM_newTemplate($_CONF['path_layout'] . 'profiles');
@@ -449,6 +451,8 @@ function mailstoryform ($sid, $cc=false, $to = '', $toemail = '', $from = '',
 
     if ($cc) {
         $cc = ' checked="checked"';
+    } else {
+        $cc = '';
     }
 
     $mail_template = COM_newTemplate($_CONF['path_layout'] . 'profiles');
