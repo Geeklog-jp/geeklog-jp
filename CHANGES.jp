@@ -1,3 +1,7 @@
+2012-10-03  Takahiro Kambe  <tacahi>
+
+	* Geeklog 2.0.0rc1をマージしました。
+
 2012-09-30  Kenji ITO  <mystralkk>
 
 	* Dbmanプラグインで、管理画面のURLを統一しました。(Issue #218)
