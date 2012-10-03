@@ -49,7 +49,7 @@
       <dt><label for="admin-storyeditor_advanced-draft_flag">{lang_draft}</label></dt>
       <dd><input type="checkbox" {is_checked} name="draft_flag" id="admin-storyeditor_advanced-draft_flag"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor_advanced-postmode">{lang_postmode}</label></dt>
+      <dt><label for="sel_editmode">{lang_postmode}</label></dt>
       <dd>
         <select {change_editormode} name="postmode" id="sel_editmode">
           {post_options}
@@ -265,7 +265,7 @@
       <dt>{lang_owner}</dt>
       <dd>{owner_name}</dd>
 
-      <dt><label>{lang_group}</label></dt>
+      <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
       <dt><label for="admin-permissions">{lang_permissions}</label></dt>

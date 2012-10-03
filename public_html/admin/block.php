@@ -440,6 +440,7 @@ function listblocks()
 	
 	$dyn_text_arr = array(
         'title'      => "$LANG21[22] ($LANG21[40])",
+        'form_url'   => $_CONF['site_admin_url'] . '/block.php'
     );
 	
 	$leftblocks = PLG_getBlocksConfig('left', '');    
@@ -483,6 +484,7 @@ function listblocks()
 	// Dynamic blocks
 	$dyn_text_arr = array(
         'title'      => "$LANG21[22] ($LANG21[41])",
+        'form_url'   => $_CONF['site_admin_url'] . '/block.php'
     );
 	
 	$rightblocks = PLG_getBlocksConfig('right', '');
@@ -908,7 +910,8 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
                     $_POST['perm_members'], $_POST['perm_anon'],
                     $is_enabled, $allow_autotags);
 } elseif ($mode == 'edit') {
-    $display = COM_createHTMLDocument(editblock($bid), array('pagetitle' => $LANG21[3]));
+    $tmp = editblock($bid);
+    $display = COM_createHTMLDocument($tmp, array('pagetitle' => $LANG21[3]));
 } elseif ($mode == 'move') {
     if(SEC_checkToken()) {
         $display .= moveBlock();

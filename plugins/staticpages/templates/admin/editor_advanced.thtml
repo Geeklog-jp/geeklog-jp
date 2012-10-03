@@ -66,7 +66,7 @@
         <table border="0" cellspacing="0" cellpadding="3" width="100%">
           <tr id="advanced_editarea" style="display:{show_adveditor};">
             <td colspan="2" style="margin-top:10px;">
-              <textarea id="adv_content" name="sp_content">{sp_content}</textarea>
+              <textarea id="adv_content" name="sp_content" cols="45" rows="24">{sp_content}</textarea>
               <br{xhtml}>
               {lang_allowed_html}
             </td>
@@ -136,7 +136,7 @@
           <dd>{owner_link} {camera_icon}
               <input type="hidden" name="owner_id" value="{owner_id}"{xhtml}></dd>
 
-          <dt><label>{lang_group}</label></dt>
+          <dt><label for="group_id">{lang_group}</label></dt>
           <dd>{group_dropdown}</dd>
 
           <dt><label for="admin-permissions">{lang_permissions}</label></dt>
