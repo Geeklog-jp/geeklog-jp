@@ -42,8 +42,8 @@ $LANG_SX00 = array(
     'clickv' => 'クリックしてブラックリストを閲覧',
     'clicki' => 'クリックしてブラックリストをインポート',
     'ok' => 'OK',
-    'rsscreated' => 'RSSフィードが作成されました',
-    'add1' => 'Added ',
+    'rsscreated' => 'RSSフィードを作成しました',
+    'add1' => '',
     'add2' => ' 個のエントリを ',
     'add3' => 'さんのブラックリストから追加しました。',
     'adminc' => '管理者コマンド:',
@@ -55,46 +55,46 @@ $LANG_SX00 = array(
     'e1' => 'クリックしてエントリを削除',
     'e2' => 'エントリを追加するには、入力してエントリ追加ボタンをクリックしてください。エントリは完全なPerl互換正規表現を使用することができます。',
     'pblack' => 'Spam-X パーソナルブラックリスト',
-    'sfseblack' => 'Spam-X SFS Email Blacklist',
+    'sfseblack' => 'Spam-X 掲示板のspam防止のメールのブラックリスト',
     'conmod' => 'Spam-X モジュール設定',
     'acmod' => 'Spam-X アクションモジュール',
     'exmod' => 'Spam-X 検証モジュール',
     'actmod' => '有効になっているモジュール',
     'avmod' => '利用可能なモジュール',
     'coninst' => '<hr' . XHTML . '>クリックして有効になっているモジュールを削除、クリックして利用可能なモジュールを追加。<br' . XHTML . '>モジュールは、表示されている順序で実行されます。',
-    'fsc' => 'マッチするスパム投稿が見つかりました:',
+    'fsc' => 'マッチするスパム投稿を見つけました:',
     'fsc1' => ' 投稿ユーザ:',
-    'fsc2' => ' IP:',
-    'uMTlist' => 'MT-ブラックリストを更新する',
+    'fsc2' => ' IPアドレス:',
+    'uMTlist' => 'MT-ブラックリストを更新',
     'uMTlist2' => ': 追加 ',
     'uMTlist3' => ' 投稿と削除 ',
     'entries' => ' 投稿',
     'uPlist' => 'パーソナルブラックリストを更新',
-    'entriesadded' => 'エントリが追加されました',
-    'entriesdeleted' => 'エントリが削除されました',
+    'entriesadded' => 'エントリを追加しました',
+    'entriesdeleted' => 'エントリを削除しました',
     'viewlog' => 'Spam-Xログ閲覧',
     'clearlog' => 'Spam-Xログファイル削除',
-    'logcleared' => '- Spam-Xログファイルの内容が削除されました',
+    'logcleared' => '- Spam-Xログファイルの内容を消去しました',
     'plugin' => 'プラグイン',
-    'access_denied' => 'アクセスが拒否されました',
-    'access_denied_msg' => 'ルートユーザだけがこのページにアクセスできます。あなたのユーザ名とIPアドレスを記録しました。',
+    'access_denied' => 'アクセスを拒否しました',
+    'access_denied_msg' => 'rootユーザだけがこのページにアクセスできます。あなたのユーザ名とIPアドレスを記録しました。',
     'admin' => 'プラグイン管理',
     'install_header' => 'インストール/アンインストールプラグイン',
-    'installed' => 'プラグインがインストールされました',
-    'uninstalled' => 'プラグインはインストールされませんでした',
-    'install_success' => 'インストール成功',
-    'install_failed' => 'インストール失敗 -- エラーログを見てください。',
-    'uninstall_msg' => 'プラグインはアンインストールされました',
+    'installed' => 'プラグインをインストールしました',
+    'uninstalled' => 'プラグインをインストールしませんでした',
+    'install_success' => 'インストールに成功',
+    'install_failed' => 'インストールに失敗 -- エラーログを見て原因を調べてください。',
+    'uninstall_msg' => 'プラグインをアンインストールしました',
     'install' => 'インストール',
     'uninstall' => 'アンインストール',
-    'warning' => '注意! プラグインがまだ有効です',
+    'warning' => '警告! プラグインがまだ有効です',
     'enabled' => 'アンインストールする前に無効にしてください。',
     'readme' => 'ちょっと待って! インストールの前にインストールドキュメントをお読みください。',
     'installdoc' => 'インストールドキュメント。',
     'spamdeleted' => 'スパム投稿削除',
-    'foundspam' => 'マッチするスパム投稿が見つかりました:',
+    'foundspam' => 'マッチするスパム投稿を見つけました:',
     'foundspam2' => ' 投稿ユーザ:',
-    'foundspam3' => ' IP:',
+    'foundspam3' => ' IPアドレス:',
     'deletespam' => 'スパム削除',
     'numtocheck' => 'チェックするコメント数',
     'note1' => '<p>注: 一括削除機能は、コメントスパムが投稿されたにもかかわらず、',
@@ -105,48 +105,51 @@ $LANG_SX00 = array(
     'note6' => '時間がかかります。</p>',
     'masshead' => '<hr' . XHTML . '><h1 align="center">スパムコメントを一括削除</h1>',
     'masstb' => '<hr' . XHTML . '><h1 align="center">トラックバックスパムを一括削除</h1>',
-    'comdel' => 'コメントが削除されました。',
+    'comdel' => 'コメントを削除しました。',
     'initial_Pimport' => '<p>パーソナルブラックリストのインポート"',
     'initial_import' => 'MT-ブラックリストの初期インポート',
-    'import_success' => '<p> %d 個のブラックリストエントリがインポートされました。',
-    'import_failure' => '<p><strong>エラー:</strong> エントリが見つかりません。',
+    'import_success' => '<p> %d 個のブラックリストエントリをインポートしました。',
+    'import_failure' => '<p><strong>エラー:</strong> エントリが1つもありません。',
     'allow_url_fopen' => '<p>申し訳ありませんが、あなたのWebサーバのコンフィギュレーションはリモートファイルの読み込みを許可していません。 (<code>allow_url_fopen</code> がオフ)。次のURLからブラックリストをダウンロードしてGeeklogの "data" ディレクトリにアップロードしてください。<tt>%s</tt>, 再実行の前に:',
     'documentation' => 'Spam-X プラグインドキュメント',
     'emailmsg' => "新しいスパム投稿 \"%s\"\nUser UID: \"%s\"\n\nコンテンツ: \"%s\"",
     'emailsubject' => 'スパム投稿: %s',
-    'ipblack' => 'Spam-X IPブラックリスト',
-    'ipofurlblack' => 'Spam-X URLのIPブラックリスト',
-    'headerblack' => 'Spam-X HTTPヘッダブラックリスト',
+    'ipblack' => 'Spam-X IPアドレスのブラックリスト',
+    'ipofurlblack' => 'Spam-X URLのIPアドレスのブラックリスト',
+    'headerblack' => 'Spam-X HTTPヘッダのブラックリスト',
     'headers' => 'リクエストヘッダ:',
+
     'stats_headline' => 'Spam-X 統計',
     'stats_page_title' => 'ブラックリスト',
     'stats_entries' => 'エントリ',
     'stats_mtblacklist' => 'MT-ブラックリスト',
     'stats_pblacklist' => 'パーソナルブラックリスト',
-    'stats_ip' => 'ブロックされたIP',
-    'stats_ipofurl' => 'URLのIPによってブロックされました',
+    'stats_ip' => 'ブロックしたIPアドレス',
+    'stats_ipofurl' => 'URLのIPアドレスによってブロックしました',
     'stats_header' => 'HTTPヘッダ',
     'stats_deleted' => 'スパム投稿削除数',
-    'invalid_email_or_ip' => '不正なe-mailアドレスまたはIPアドレスがブロックされました。',
-    'email_ip_spam' => '%s または %s 登録を試みますが、スパマーだと思われます。',
-    'edit_personal_blacklist' => 'パーソナルブラックリスト編集',
-    'mass_delete_spam_comments' => 'スパムコメント一括削除',
-    'mass_delete_trackback_spam' => 'トラックバックスパム一括削除',
-    'edit_http_header_blacklist' => 'HTTPヘッダブラックリスト編集',
-    'edit_ip_blacklist' => 'IPブラックリスト編集',
-    'edit_ip_url_blacklist' => 'URLのIPブラックリスト編集',
-    'edit_sfs_blacklist' => 'SFS Emailブラックリスト編集',
-    'edit_slv_whitelist' => 'SLV ホワイトリスト編集',
+
+    'invalid_email_or_ip' => '不正なe-mailアドレスまたはIPアドレスをブロックしています。',
+    'email_ip_spam' => '%s または %s の登録を試みますが、スパマーだと思われます。',
+    'edit_personal_blacklist' => 'パーソナルブラックリストを編集',
+    'mass_delete_spam_comments' => 'スパムコメントを一括削除',
+    'mass_delete_trackback_spam' => 'トラックバックスパムを一括削除',
+    'edit_http_header_blacklist' => 'HTTPヘッダブラックリストを編集',
+    'edit_ip_blacklist' => 'IPアドレスブラックリストを編集',
+    'edit_ip_url_blacklist' => 'URLのIPアドレスブラックリストを編集',
+    'edit_sfs_blacklist' => '掲示板のスパム防止のEmailブラックリストを編集',
+    'edit_slv_whitelist' => 'スパムリンク検証のホワイトリストを編集',
+
     'plugin_name' => 'Spam-X',
-    'slvwhitelist' => 'SLVホワイトリスト'
+    'slvwhitelist' => 'スパムリンク検証のホワイトリスト'
 );
 
 // Define Messages that are shown when Spam-X module action is taken
-$PLG_spamx_MESSAGE128 = 'スパムを検出。投稿は削除されました。';
-$PLG_spamx_MESSAGE8 = 'スパムを検出。メールが管理者に送られました。';
+$PLG_spamx_MESSAGE128 = 'スパムを検出。投稿を削除しました。';
+$PLG_spamx_MESSAGE8 = 'スパムを検出。メールを管理者に送りました。';
 
 // Messages for the plugin upgrade
-$PLG_spamx_MESSAGE3001 = 'プラグインのアップグレードはサポートされていません。';
+$PLG_spamx_MESSAGE3001 = 'プラグインのアップグレードはサポートしていません。';
 $PLG_spamx_MESSAGE3002 = $LANG32[9];
 
 // Localization of the Admin Configuration UI
@@ -157,11 +160,11 @@ $LANG_configsections['spamx'] = array(
 
 $LANG_confignames['spamx'] = array(
     'spamx_action' => 'Spam-Xアクション',
-    'notification_email' => 'メールで通知する',
-    'logging' => 'ログを有効化',
+    'notification_email' => 'メールで通知',
+    'logging' => 'ログを有効',
     'timeout' => 'タイムアウト',
-    'sfs_enabled' => 'SFSを有効化',
-    'snl_enabled' => 'SNLを有効化',
+    'sfs_enabled' => 'フォーラムのスパム防止を有効',
+    'snl_enabled' => 'スパムリンク検証を有効',
     'snl_num_links' => 'リンク数'
 );
 
@@ -171,13 +174,13 @@ $LANG_configsubgroups['spamx'] = array(
 
 $LANG_tab['spamx'] = array(
     'tab_main' => 'Spam-Xのメイン設定',
-    'tab_modules' => 'Modules'
+    'tab_modules' => 'モジュール'
 );
 
 $LANG_fs['spamx'] = array(
     'fs_main' => 'Spam-Xの設定',
-    'fs_sfs' => '掲示板スパムを中止(SFS)',
-    'fs_snl' => 'リンクのスパム数(SNL)'
+    'fs_sfs' => 'フォーラムのスパム防止',
+    'fs_snl' => 'スパムリンク検証'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']
