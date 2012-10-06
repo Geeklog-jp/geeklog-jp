@@ -1,5 +1,9 @@
 2012-10-06  Takahiro Kambe  <tacahi>
 
+	* public_html/docs/japanese: changes.htmlとhistory.htmlの未翻訳の
+	  部分を翻訳しました。(history.htmlに正しく日付が入っていないのは、
+	  オリジナルのままです。日付の書式が英文のままなのも従来からです。)
+
 	* plugins/spamx/language/japanese_utf-8.php: 試験的な翻訳の改善をし
 	  てみました。
 
