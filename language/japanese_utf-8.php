@@ -185,9 +185,9 @@ $LANG01 = array(
     133 => '重要',
     134 => 'ヘルプ',
     135 => '警告',
-    136 => '警告: 強化機能のためにJavaScriptを推薦します',
-    137 => '警告: JavaScriptが機能を有効にするのに必要です',
-    138 => "JavaScriptを使わないようアドバンストエディタを無効にしてノーマルエディタを有効にするには<a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">こちら</a>をクリックしてください。",
+    136 => '警告: 強化した機能のためにJavaScriptの使用の許可を推奨します',
+    137 => '警告: 機能を有効とするにはJavaScriptの使用の許可が必要です',
+    138 => "アドバンストエディタを無効にして、JavaScriptが不要なノーマルエディタを有効にするには<a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">こちら</a>をクリックしてください。",
     139 => "ホームページへは<a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">こちら</a>をクリック",
     'facebook' => 'Facebookでログイン',
     'twitter' => 'Twitterでログイン',
@@ -911,15 +911,15 @@ $LANG27 = array(
     40 => '記事はひとつ以上の話題にアサインします。',
     41 => 'もし "すべて" が選ばれたらそのアイテムはすべての話題で表示されます。もし、 "ホームページのみ" が選ばれたらホームページにのみ表示。そうでなければ少なくともひとつ以上の話題を選択してください。 ',
     42 => '記事はアサインした話題に親の話題があれば親の話題も継承します。記事の保存の前に、継承リストを保存しなければなりません。デフォルトではアサインされた話題のリストを含みます。',
-    43 => 'デフォルトではアサインされた話題のリストを含みます。 ', 
+    43 => 'デフォルトではアサインされた話題のリストを含みます。 ',
     44 => '継承する',
     45 => 'デフォルト',
     46 => '親の話題に、アーカイブの話題は設定できません。他の親の話題を選んでください。',
     47 => 'アーカイブの話題は子の話題を持てません。アーカイブ話題に設定する前に子の話題を解除してください。',
     48 => '親の話題IDが見つかりません。',
-    49 => 'This Topic ID is already being used. Please choose another one.',
+    49 => 'この話題IDは既に使用されています。別の話題IDを使用してください。',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home'
+    'breadcrumb_root' => 'ホーム'
 );
 
 ###############################################################################
@@ -1612,19 +1612,19 @@ $LANG_SECTEST = array(
 
 $LANG_WHATSNEW = array(
     'new_string' => '新着%i %n件(%t%s)',
-    'new_last'    => '新着(%t%s)',
+    'new_last' => '新着(%t%s)',
     'minutes' => '分',
     'hours' => '時間',
     'days' => '日',
     'weeks' => '週',
     'months' => 'ヶ月',
     'years' => '年',
-    'minute'      => '分',
-    'hour'        => '時',
-    'day'         => '日',
-    'week'        => '週',
-    'month'       => '月',
-    'year'        => '年'
+    'minute' => '分',
+    'hour' => '時',
+    'day' => '日',
+    'week' => '週',
+    'month' => '月',
+    'year' => '年'
 );
 
 ###############################################################################
@@ -1713,7 +1713,7 @@ $LANG_ADMIN = array(
 $LANG_commentcodes = array(
     0 => 'コメント有効',
     -1 => 'コメント無効',
-    1 => 'コメント終了'
+    1 => 'コメント停止'
 );
 
 $LANG_commentmodes = array(
@@ -1760,7 +1760,7 @@ $LANG_sortcodes = array(
 
 $LANG_trackbackcodes = array(
     0 => 'トラックバック有効',
-    -1 => 'トラックバック無効'
+    -1 => 'トラックバック停止'
 );
 
 ###############################################################################
@@ -2005,8 +2005,8 @@ $LANG_confignames['Core'] = array(
     'atom_max_stories' => 'フィードの最大記事数',
     'disable_webservices' => '無効にする',
     'restrict_webservices' => '制限する',
-    'article_comment_close_enabled' => '自動的にコメントの受付を終了する(デフォルト)',
-    'article_comment_close_days' => '終了までの日数(デフォルト)',
+    'article_comment_close_enabled' => '自動的にコメントの受付を停止する(デフォルト)',
+    'article_comment_close_days' => '停止までの日数(デフォルト)',
     'comment_close_rec_stories' => 'コメント可能な記事の最大数',
     'allow_reply_notifications' => '返信のメール通知を許可する',
     'comment_on_same_page' => 'コンテンツのページ上でコメント投稿',
@@ -2127,14 +2127,14 @@ $LANG_tab['Core'] = array(
     'tab_iplookup' => 'IP検索',
     'tab_permissions' => 'パーミッション',
     'tab_webservices' => 'Webサービス',
-    'tab_topics' => 'Topics'
+    'tab_topics' => '話題'
 );
 
 $LANG_configselects['Core'] = array(
     0 => array('はい' => 1, 'いいえ' => 0),
     1 => array('はい' => true, 'いいえ' => false),
     2 => array('拒否する' => 0, '最新ポストのみ保存する' => 1, 'マルチポストを許可する' => 2),
-    3 => array('トラックバック有効' => 0, 'トラックバック無効' => -1),
+    3 => array('トラックバック有効' => 0, 'トラックバック停止' => -1),
     4 => array('ノーチェック' => 0, 'URLリンクをチェックする' => 1, 'フルURLをチェックする' => 2, 'URLリンクとフルURLをチェックする' => 3, 'IPとサイトのIPをチェックする' => 4, 'IPとURLリンクをチェックする' => 5, 'IPとフルURLをチェックする' => 6, 'IPとフルURLとURLリンクをチェックする' => 7),
     5 => array('テキスト' => 'plaintext', 'HTML' => 'html'),
     6 => array('12' => 12, '24' => 24),
@@ -2183,21 +2183,21 @@ $LANG_VALIDATION = array(
     'email' => 'このフィールドにはemailアドレスフォーマットで入力してください',
     'equalTo' => 'このフィールドは同じではありません',
     'extension' => 'このフィールドには許可された拡張子のファイルのみ入力できます',
-    'ip' => 'IPフォーマットが間違っています',
+    'ip' => '正しいフォーマットでIPアドレスを入力してください',
     'minLength' => 'このフィールドは短すぎます',
     'maxLength' => 'このフィールドは長すぎます',
     'numeric' => 'このフィールドには数値を入力してください',
     'phone' => 'このフィールドは電話番号フォーマットで入力してください',
     'range' => 'このフィールドは特定範囲内の数値を入力してください',
-    'url' => 'このフィールドはURLフォーマットです',
+    'url' => 'このフィールドは正しいURLフォーマットを入力してください',
     'inList' => 'このフィールドは特定のリストを含まなければなりません',
     'mail_settings_backend' => 'このフィールドは \'smtp\', \'sendmail\', or \'mail\'のどれかひとつだけです',
     'mail_settings_sendmail_path' => 'このフィールドにはsendmail binaryへのパスを入力してください',
-    'mail_settings_host' => 'このフィールドにはhostnameを入力してください',
+    'mail_settings_host' => 'このフィールドには正しいホスト名を入力してください',
     'mail_settings_port' => 'このフィールドには0から65535の数値を入力してください',
-    'rdf_limit' => 'このフィールドには数値または24hのようなhourフォーマットで入力してください',
-    'path' => 'パスはありません',
-    'file' => 'ファイルはありません',
+    'rdf_limit' => 'このフィールドには数値で入力してください',
+    'path' => 'パスがありません',
+    'file' => 'ファイルがありません',
     'search_limits' => 'このフィールドにはカンマで区切られた数値を入力してください',
     'num_search_results' => 'このフィールドには下の\'search_limits\'の数値を入力してください',
     'theme' => 'テーマディレクトリがありません',
@@ -2208,7 +2208,7 @@ $LANG_VALIDATION = array(
     'timezone' => '無効なタイムゾーンです',
     'single_char' => 'このフィールドには半角1文字を入力してください',
     'page_navigation_max_pages' => 'このフィールドには2から21の数値を入力してください',
-    'hash' => 'このフィールドはあなたのバージョンのPHPによるhash関数が必要です。'
+    'hash' => 'このフィールドにはあなたの使用しているPHPのバージョンでサポートしているhash関数を入力しなければなりません'
 );
 
 
