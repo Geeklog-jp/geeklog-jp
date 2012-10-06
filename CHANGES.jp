@@ -1,3 +1,12 @@
+2012-10-07  Tetsuko Komma  <Ivy>
+
+	* README.jp, NEWSを修正しました。
+	* 言語ファイル、ドキュメントの表記、CHANGES全で、末尾にar/er/orが
+	  つくものを長音表記としました。
+	  ただし「パラメータ」は慣習として今回は付けません。
+	* 「申し訳ありませんが、残念ながら、申し訳ありません。」という表記は
+	  日本語の場合重くなりすぎるきらいがあるので削除しました。
+
 2012-10-06  Takahiro Kambe  <tacahi>
 
 	* public_html/docs/japanese: changes.htmlとhistory.htmlの未翻訳の
@@ -77,7 +86,7 @@
 
 2012-07-18  Yoshinori Tahara  <dengen>
 
-	* Denim: 日本語環境向けの記事エディタのテンプレートを追加しました。
+	* Denim: 日本語環境向けの記事エディターのテンプレートを追加しました。
 
 2012-07-18  Yoshinori Tahara  <dengen>
 
@@ -86,7 +95,7 @@
 	  動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。
 	  ダイナミックブロックタイプに変更しました。
 
-	* dataproxyプラグイン: calendarjpとmediagalleryのドライバクラスの
+	* dataproxyプラグイン: calendarjpとmediagalleryのドライバークラスの
 	  メソッド宣言に関する問題を修正しました。
 
 2012-07-17  Tetsuko Komma  <Ivy>
@@ -96,7 +105,7 @@
 
 2012-07-16  Yoshinori Tahara  <dengen>
 
-	* dataproxyプラグイン: calendarとcalendarjpのドライバクラスのメソッド
+	* dataproxyプラグイン: calendarとcalendarjpのドライバークラスのメソッド
 	  宣言に関する問題を修正しました。
 
 2012-07-16  Yoshinori Tahara  <dengen>

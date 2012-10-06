@@ -27,8 +27,8 @@
 
 2009-04-24  mystral-kk <mystral-kk>
 
-	* custom_mail_jp: 「ヘッダのエンコード方法」に ICONV_MIME_ENCODE を
-	  指定した場合に、ヘッダの先頭にコロンが付加される問題を修正しました。
+	* custom_mail_jp: 「ヘッダーのエンコード方法」に ICONV_MIME_ENCODE を
+	  指定した場合に、ヘッダーの先頭にコロンが付加される問題を修正しました。
 
 2009-04-22  mystral-kk <mystral-kk>
 
@@ -52,7 +52,7 @@
 
 2009-04-15  Tetsuko Komma  <ivysoho>
 
-	* インストーラのSpam-Xプラグインの本家の処理変更に対応しました。
+	* インストーラーのSpam-Xプラグインの本家の処理変更に対応しました。
 
 2009-04-15  Tetsuko Komma  <ivysoho>
 
@@ -145,7 +145,7 @@
 
 2009-02-19  Tetsuko Komma  <ivysoho>
 
-	* 携帯テーマmobile,mobile_3gのヘッダを修正して、Googleで検索するとGWT
+	* 携帯テーマmobile,mobile_3gのヘッダーを修正して、Googleで検索するとGWT
 	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケー
 	  タイハックを無視して勝手にケータイ用に変換してしまう不具合を解消し
 	  ました。
@@ -154,9 +154,9 @@
 
 	* calendarjpプラグインをバージョン1.0.7に更新しました。
 	  calendarプラグインのバージョン1.0.3の変更をマージしました。
-	  ナビゲーションバーの操作で常に全体カレンダを表示してしまう問題を修正
+	  ナビゲーションバーの操作で常に全体カレンダーを表示してしまう問題を修正
 	  しました。
-	  カレンダでの年月日及び時間の選択が、イベントエディタにおいて初期値と
+	  カレンダーでの年月日及び時間の選択が、イベントエディターにおいて初期値と
 	  して入力されるようにしました。
 	  HTMLコードの適正化を実施しました。 
 
@@ -188,7 +188,7 @@
 
 2009-01-18  mystral-kk <mystral-kk>
 
-	* フルネームを表示する」を「はい」にしても、コメントバーでユーザ名
+	* フルネームを表示する」を「はい」にしても、コメントバーでユーザー名
 	  が表示されてしまう問題(Issue #52)に対応しました。
 
 2009-01-14  Tetsuko Komma  <ivysoho>
@@ -216,7 +216,7 @@
 
 	* テーマProfessionalCSSを修正しました。
 	  ProfessionalCSS/css/common.css
-	  bodyセレクタ fontプロパティにIE7用ハック(文字サイズ拡大対応)追加
+	  bodyセレクター fontプロパティにIE7用ハック(文字サイズ拡大対応)追加
 	  css/admin/lists.css
 	  ブロック管理画面のアイコンでのボーダー非表示
 
@@ -288,8 +288,8 @@
 
 2008-10-29  hirorongl <hirorongl>
 
-	* 携帯対応でrefreshにLocationヘッダの使用の有無を制御できるように
-	  しました。(デフォルトはLocationヘッダを使用)
+	* 携帯対応でrefreshにLocationヘッダーの使用の有無を制御できるように
+	  しました。(デフォルトはLocationヘッダーを使用)
 
 2008-10-28  hirorongl <hirorongl>
 
@@ -312,7 +312,7 @@
 2008-10-19  Tetsuko Komma  <ivysoho>
 
 	* 携帯テーマ　mobile, mobile_3gのfunctions.php header.thtmlを修正。
-	  XHTMLモードチェックの追加やヘッダコードの追加を行いました。
+	  XHTMLモードチェックの追加やヘッダーコードの追加を行いました。
 
 2008-10-19  Yoshinori Tahara <dengenxp>
 

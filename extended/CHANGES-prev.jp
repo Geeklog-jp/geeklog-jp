@@ -39,8 +39,8 @@
 
 2009-04-24  mystral-kk <mystral-kk>
 
-	* custom_mail_jp: 「ヘッダのエンコード方法」に ICONV_MIME_ENCODE を
-	  指定した場合に、ヘッダの先頭にコロンが付加される問題を修正しました。
+	* custom_mail_jp: 「ヘッダーのエンコード方法」に ICONV_MIME_ENCODE を
+	  指定した場合に、ヘッダーの先頭にコロンが付加される問題を修正しました。
 
 2009-04-22  mystral-kk <mystral-kk>
 
@@ -71,7 +71,7 @@
 
 2009-04-15  Tetsuko Komma  <ivysoho>
 
-	* インストーラのSpam-Xプラグインの本家の処理変更に対応しました。
+	* インストーラーのSpam-Xプラグインの本家の処理変更に対応しました。
 
 2009-04-15  Tetsuko Komma  <ivysoho>
 
@@ -157,7 +157,7 @@
 
 2009-03-12  Masuko Koeda  <milk851>
 
-	* フッタ部分、ページの先頭へ戻るのa要素の幅を
+	* フッター部分、ページの先頭へ戻るのa要素の幅を
           px指定からem指定に修正しました。
 
 2009-03-10  Takahiro Kambe  <tacahi>
@@ -200,14 +200,14 @@
 
 2009-02-21  Masuko Koeda  <milk851>
 
-	* WAIproCSSのページの先頭へ戻るのアイコンに一部のブラウザで下線が付いて
+	* WAIproCSSのページの先頭へ戻るのアイコンに一部のブラウザーで下線が付いて
           いたのでfooter.thtmlに記述していたimgエレメントを削除し、CSSでa要素に
 	  背景として指定しました。
           その変更をREADMEに追記しました。
 
 2009-02-19  Tetsuko Komma  <ivysoho>
 
-	* 携帯テーマmobile,mobile_3gのヘッダを修正して，Googleで検索するとGWT
+	* 携帯テーマmobile,mobile_3gのヘッダーを修正して，Googleで検索するとGWT
 	  (Google Wireless Transcoder/Google Mobile Proxy)が、せっかくのケー
 	  タイハックを無視して勝手にケータイ用に変換してしまう不具合を解消し
 	  ました。
@@ -219,8 +219,8 @@
 	  た。
 	  div#centerblocksに余白を追加した事に伴い、
 	  中央ブロックの幅を変更しました。
-	  余白の初期化を変更しました。(ユニバーサルセレクタでの初期化をやめ
-	  必要なセレクタのみ初期化)
+	  余白の初期化を変更しました。(ユニバーサルセレクターでの初期化をやめ
+	  必要なセレクターのみ初期化)
 	  掲示板でオンラインユーザーの名前の色を黒文字から白文字に変更
 	  したのを元に戻しました。(黒文字に戻しました)
 	  背景画像/navbar/images/tabrightI.gifと/navbar/images/tabrightJ.gif
@@ -231,9 +231,9 @@
 
 	* calendarjpプラグインをバージョン1.0.7に更新しました。
 	  calendarプラグインのバージョン1.0.3の変更をマージしました。
-	  ナビゲーションバーの操作で常に全体カレンダを表示してしまう問題を修正
+	  ナビゲーションバーの操作で常に全体カレンダーを表示してしまう問題を修正
 	  しました。
-	  カレンダでの年月日及び時間の選択が、イベントエディタにおいて初期値と
+	  カレンダーでの年月日及び時間の選択が、イベントエディターにおいて初期値と
 	  して入力されるようにしました。
 	  HTMLコードの適正化を実施しました。
 
@@ -289,7 +289,7 @@
 
 2009-02-05  Masuko Koeda  <milk851>
 
-	* WAIproCSSのREADMEに確認したプラウザを1つ追記しました。
+	* WAIproCSSのREADMEに確認したプラウザーを1つ追記しました。
 
 2009-01-29  Masuko Koeda  <milk851>
 
@@ -299,7 +299,7 @@
 	  アンケートの結果を中央ブロックで表示した際、
 	  アンケート結果部分左右に余白を入れました。
 	  記事内の左右の余白を広げました。
-	  カレンダ管理のイベント削除ページ上部に左余白を入れました。
+	  カレンダー管理のイベント削除ページ上部に左余白を入れました。
 	  管理画面で表示されなくなっていたアイコンのgif画像を追加し、
 	  アイコンが表示されるようにしました。
 	  READMEに更新履歴を追記しました。
@@ -316,7 +316,7 @@
 2009-01-27  Tetsuko Komma  <ivysoho>
 
 	* WAIproCSSの掲示板プラグイン(forum)でgif形式のアイコンを追加しました。
-	  WAIproCSSのヘッダのh1タグのコメント部を改善しました。
+	  WAIproCSSのヘッダーのh1タグのコメント部を改善しました。
 	  WAIproCSSのREADMEにこれまでの変更点を追記しました。
 
 2009-01-26  Tetsuko Komma  <ivysoho>
@@ -331,13 +331,13 @@
 
 2009-01-25  Masuko Koeda  <milk851>
 
-	* 中央ブロックの縦のボーダー(左右ボーダー)とフッタの横のボーダーの
+	* 中央ブロックの縦のボーダー(左右ボーダー)とフッターの横のボーダーの
 	  間にある1pxの隙間をなくしました。
 	  システムメッセージの背景色をデザインに合わせて変更しました。
 
 2009-01-21  Masuko Koeda  <milk851>
 
-	* WAIproCSSのフッタにある「ページの先頭へ戻る」に
+	* WAIproCSSのフッターにある「ページの先頭へ戻る」に
 	  付けているアイコンをgif形式に変更し、アイコンにも
 	  リンクを付ける為、修正しました。
 	  forum.css内で設定されている背景色と文字色のコントラストが
@@ -346,7 +346,7 @@
 
 2009-01-20  Masuko Koeda  <milk851>
 
-	* WAIproCSSの独自に追加していたフッタのリンクをコメントに変更しました。
+	* WAIproCSSの独自に追加していたフッターのリンクをコメントに変更しました。
 	  CSSのValidatorを通す為に「ProfessionalCSS」で設定されている
 	  word-break:break-allを削除し、その変更をREADMEに追記しました。
 
@@ -357,7 +357,7 @@
 
 2009-01-18  mystral-kk <mystral-kk>
 
-	* フルネームを表示する」を「はい」にしても、コメントバーでユーザ名
+	* フルネームを表示する」を「はい」にしても、コメントバーでユーザー名
 	  が表示されてしまう問題(Issue #52)に対応しました。
 
 2009-01-14  Tetsuko Komma  <ivysoho>
@@ -367,7 +367,7 @@
 
 2009-01-13  Masuko Koeda  <milk851>
 
-	* WAIproCSSがInternet ExplorerIE6でフッタ部分のページの先頭へ戻る及び
+	* WAIproCSSがInternet ExplorerIE6でフッター部分のページの先頭へ戻る及び
 	  validateアイコンが表示されていなかったのを修正しました。
 
 2009-01-12  Masuko Koeda  <milk851>
@@ -446,7 +446,7 @@
 
 	* テーマProfessionalCSSを修正しました。
 	  ProfessionalCSS/css/common.css
-	  bodyセレクタ fontプロパティにIE7用ハック(文字サイズ拡大対応)追加
+	  bodyセレクター fontプロパティにIE7用ハック(文字サイズ拡大対応)追加
 	  css/admin/lists.css
 	  ブロック管理画面のアイコンでのボーダー非表示
 
@@ -529,8 +529,8 @@
 
 2008-10-29  hirorongl <hirorongl>
 
-	* 携帯対応でrefreshにLocationヘッダの使用の有無を制御できるように
-	  しました。(デフォルトはLocationヘッダを使用)
+	* 携帯対応でrefreshにLocationヘッダーの使用の有無を制御できるように
+	  しました。(デフォルトはLocationヘッダーを使用)
 
 2008-10-28  hirorongl <hirorongl>
 
@@ -562,7 +562,7 @@
 2008-10-19  Tetsuko Komma  <ivysoho>
 
 	* 携帯テーマ　mobile, mobile_3gのfunctions.php header.thtmlを修正。
-	  XHTMLモードチェックの追加やヘッダコードの追加を行いました。
+	  XHTMLモードチェックの追加やヘッダーコードの追加を行いました。
 
 2008-10-19  Yoshinori Tahara <dengen>
 
