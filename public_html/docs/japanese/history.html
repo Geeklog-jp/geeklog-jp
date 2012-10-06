@@ -92,7 +92,7 @@ Calendar plugin install sql zipcode size is too small (要望 <a href="http://pr
     <li>パンくずリストを追加しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001062">#0001062</a>) [Tom]</li>
     <li>コンフィギュレーションのCopyright Yearは数字のみの入力に制限しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001416">#0001416</a>) [Tom]</li>
     <li>記事とブロック、話題と、コアプラグインは削除されたグループを扱えないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001397">#0001397</a>) [Tom]</li>
-    <li>lib-common.php  line 5754で定義された配列によりStripslashes() がパラメータ1がストリングであると予想されるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001413">#0001413</a>) [Tom]</li>
+    <li>lib-common.php  line 5754で定義された配列によりStripslashes() がパラメーター1がストリングであると予想されるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001413">#0001413</a>) [Tom]</li>
     <li>コメント投稿後のコメント数がなくなるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001414">#0001414</a>)  [Tom]</li>
     <li>SQL errorsの表示に、function名とline numberを追加しました。  (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001377">#0001377</a>) [Dirk]</li>
     <li>Spam-XへForum SpamとLinks ModulesのSpam数を追加しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001378">#0001378</a>) [Tom]</li>
@@ -555,7 +555,7 @@ Calendar plugin install sql zipcode size is too small (要望 <a href="http://pr
   <li>ゲストユーザーのコメント投稿で、なまえを、"ユーザー名(Username)"から"あなたの名前(Your Name)"に
   変更しました。
   (機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=1039">#0001039</a>) [Dirk]</li>
-  <li>CUSTOM_group_change()のパラメータの間違いを修正しました。
+  <li>CUSTOM_group_change()のパラメーターの間違いを修正しました。
   (バグ <a href="http://project.geeklog.net/tracking/view.php?id=1051">#0001051</a>)
   [Blaine]</li>
   <li>記事のプリンター用ページに対して、クリックジャッキングプロテクションを追加しました。
@@ -788,7 +788,7 @@ Calendar plugin install sql zipcode size is too small (要望 <a href="http://pr
   <li>admin/user.phpからCUSTOM_userCheckを呼び出すようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=925">#0000925</a>) [Dirk]</li>
   <li>話題ごとに注目記事を1つ指定できるようになりました。(機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=750">#0000750</a>, パッチ提供: Tom Homer)</li>
   <li>アドバンストエディターで投稿モードを変更すると間違ったタブが選択されるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=980">#0000980</a>, パッチ提供: dengen)</li>
-  <li>COM_mail関数の$ccパラメータをメールヘッダーのオプションな配列にしました。($ccパラメータに文字列を指定しても、依然としてCC:として機能します。) [Dirk]</li>
+  <li>COM_mail関数の$ccパラメーターをメールヘッダーのオプションな配列にしました。($ccパラメーターに文字列を指定しても、依然としてCC:として機能します。) [Dirk]</li>
   <li>1番目のコメントに対する返信の通知に関するバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=973">#0000973</a>)[dengen, Dirk]</li>
   <li>ゲストのコメント投稿者が名前を記入した場合、その名前をコメント通知メールで使用するようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=960">#0000960</a>) [Dirk]</li>
   <li>コメントを編集するリンクからすべてのCSRFトークンを削除しました。トークンが必要なのは実際にコメントを編集するときだけなので、承認のページで問題が発生していました。[Dirk]</li>
@@ -1059,7 +1059,7 @@ href="http://www.sem-r.com/09/20090213153711.html" class="external free"
 title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/20090213153711.html</a>)を追加しました。 [Dirk]</li>
   <li>admin/sectest.phpに直接書かれていた文字列を言語ファイルに移動しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=716">#0000716</a>) [Dirk]</li>
   <li>ユーザーにメール送信を行うときに、自分にもコピーを送るオプションを追加しました。(機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=771">#0000771</a>, Roshan Singh氏提供のパッチを元)</li>
-  <li>COM_checkListがHTML内のcheckbox配列の名前にテーブルの名前を使ってしまうでしょう!  checkboxの名前用に新しいパラメータを追加しました。
+  <li>COM_checkListがHTML内のcheckbox配列の名前にテーブルの名前を使ってしまうでしょう!  checkboxの名前用に新しいパラメーターを追加しました。
     (Bookoo氏によりusersettings.phpの脆弱性と共に指摘、Geeklog1.5.2sr4を参照)</li>
   <li>プラグインで<code>COM_allowedHTML</code>と<code>COM_checkHTML</code>の誤って使用していた問題を修正しました: 特定のパーミッションなしに関数が呼ばれていたため'story.edit'がデフォルトとなっていました。すなわち話題の管理者として、admin_htmlをイベントに使用できるのに、カレンダーの管理者としては使用できませんでした。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=785">#0000785</a>) [Dirk]</li>
   <li>header.thtmlといった、テンプレートのいくつかにfinish()の呼び出しが欠けていました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=855">#0000855</a>) [Dirk]</li>
@@ -1253,7 +1253,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>STORY_getItemInfoを修正して、未来の日付とドラフトフラグのチェックをするようにしました。 [mystral-kk,
     Dirk]</li>
   <li>COM_getPermSQLでのCOM_isAnonUserの誤用を訂正しました。(1.5.0以降) [Dirk]</li>
-  <li>COM_getYearFormOptionsを$startoffsetパラメータと一緒に呼ぶとき、年のリストが1年ずつ戻っていました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=783">#0000783</a>; パッチ提供: hiroron)</li>
+  <li>COM_getYearFormOptionsを$startoffsetパラメーターと一緒に呼ぶとき、年のリストが1年ずつ戻っていました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=783">#0000783</a>; パッチ提供: hiroron)</li>
   <li>話題のパーミッションを変更した後のアップデートフィードを修正しました。
     (バグ <a href="http://project.geeklog.net/tracking/view.php?id=783">#0000783</a>; パッチ提供: hiroron)</li>
   <li>トラックバックエディターのテンプレートファイルでセキュリティトークンがなくなっている問題(バグ <a href="http://project.geeklog.net/tracking/view.php?id=778">#0000778</a>, 報告とパッチ提供: hiroron)</li>
@@ -1283,7 +1283,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>CUSTOM_formatEmailAddress と CUSTOM_emailEscape functionsのサポートを追加しました。(機能要望 <a href="http://project.geeklog.net/tracking/view.php?id=727">#0000727</a>) [Dirk]</li>
   <li>コンフィギュレーションで変わってしまっていると報告があった'cookiedomain'を修正しました。(バグ
     <a href="http://project.geeklog.net/tracking/view.php?id=638">#0000638</a>) [Dirk]</li>
-  <li>1つのページに2つ以上のメッセージを表示するときに問題を起こしていたので、バグ <a href="http://project.geeklog.net/tracking/view.php?id=618">#0000618</a>(COM_showMessageが自動的に'plugin'パラメータを拾ってしまう)への修正を元に戻しました。 [Dirk]</li>
+  <li>1つのページに2つ以上のメッセージを表示するときに問題を起こしていたので、バグ <a href="http://project.geeklog.net/tracking/view.php?id=618">#0000618</a>(COM_showMessageが自動的に'plugin'パラメーターを拾ってしまう)への修正を元に戻しました。 [Dirk]</li>
   <li>ダウンローダクラスで許可されているIPアドレスチェックが漏れていたので追加しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=709">#0000709</a>) [Dirk]</li>
   <li>プラグインのアンインストール後に強制的にリフレッシュするようにして、管理者専用ブロックからそのプラグインのエントリーが消えるようにしました。
     [Dirk]</li>
@@ -1723,12 +1723,12 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
     (報告: THX100) [Dirk]</li>
   <li>全てのプラグインAPIで、本当にプラグインのみで使われているもの以外はmatching
     CUSTOM_ 関数をを呼ぶようにした。 [Mike]</li>
-  <li>phpブロック関数にパラメータを渡す統合的なサポート(Joe
+  <li>phpブロック関数にパラメーターを渡す統合的なサポート(Joe
     Mucchielloのパッチ#643)[Mike]</li>
   <li>管理ページでの多くのHTMLエラーの修正[Oliver]</li>
   <li>過去記事ブロックで日付と日付名の間に抜けていたブランクを追加(IRCによる報告: Jeruvy's girlfriend) [Dirk]</li>
   <li>バグ[#648]のフィックス。新パスワードをemailした時にSMTPサーバーに届かずに送信に失敗していても&quot;OK&quot;を返してしまう。 [Oliver]</li>
-  <li>ピングバック送信時にはURLにパラメータを含める必要がある。例えば
+  <li>ピングバック送信時にはURLにパラメーターを含める必要がある。例えば
     to</li>
 </ul>
 <p>Serendipity [Dirk]</p>
@@ -1786,7 +1786,7 @@ title="http://www.sem-r.com/09/20090213153711.html">http://www.sem-r.com/09/2009
   <li>イベントカレンダーからイベント削除する際の問題の修正[Dirk]</li>
   <li>gloabal $_STATESをGeeklog本体から除去した。イベント詳細のstateの項をテキスト入力フィールドにした。</li>
   <li>個人カレンダーのイベント入力フォームでサイトフッターが抜けていたので修正した(報告: Mark Evens)[Dirk]</li>
-  <li>カレンダーのフィードの修正: getFeedContent関数への最初のパラメータをfeed
+  <li>カレンダーのフィードの修正: getFeedContent関数への最初のパラメーターをfeed
     limitでなくfeedのIDにした。(バグ$659)[Dirk]</li>
   <li>検索文をハイライトするようにした[Dirk]</li>
   <li>自動アンインストールを導入[Oliver]</li>

@@ -71,7 +71,7 @@ $LANG_SMAP = array(
 	'anon_access'       => 'ゲストユーザーのアクセスを許可する',
 	'sitemap_in_xhtml'  => 'XHTMLで作成する',
 	'date_format'       => '日付の形式',
-	'desc_date_format'  => '「日付の形式」で使用するパラメータは、PHPの<a href="http://www.php.net/manual/ja/function.date.php">date()関数</a>のformatパラメータと同じです。',
+	'desc_date_format'  => '「日付の形式」で使用するパラメーターは、PHPの<a href="http://www.php.net/manual/ja/function.date.php">date()関数</a>のformatパラメーターと同じです。',
 	'sitemap_items'     => 'サイトマップに掲載する項目',
 	'gsmap_setting'     => 'Googleサイトマップの設定',
 	'file_creation'     => 'ファイル作成の設定',

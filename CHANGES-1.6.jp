@@ -682,7 +682,7 @@
 2009-09-11  Takahiro Kambe  <tacahi>
 
 	* インストール・スクリプト: 状況によって、インストール・スクリプトが
-	  言語パラメータを引き継がない問題を修正しました。
+	  言語パラメーターを引き継がない問題を修正しました。
 	  (Geeklog-jp Issue #74, Geeklog Bugtracker #0000969)
 
 2009-09-10  Yoshinori Tahara  <dengen>
@@ -696,13 +696,13 @@
 
 2009-09-06  Takahiro Kambe  <tacahi>
 
-	* インストール・スクリプト: fb.phpにもcharsetパラメータを付加する
+	* インストール・スクリプト: fb.phpにもcharsetパラメーターを付加する
 	  対応を行いました。
 
 	* Geeklog 1.6.0sr2-jp-0.99.1をベータ版2としてリリースします。
 
 	* インストール・スクリプト: HTTP応答ヘッダーのContent-Typeフィールドに
-	  charsetパラメータが抜けている問題への対処がGeeklog 1.6.1に向けた
+	  charsetパラメーターが抜けている問題への対処がGeeklog 1.6.1に向けた
 	  変更として取り込まれました。ここで、bigdump.phpとhelp.phpにも対応が
 	  必要と言うことなので、変更を日本語版にも取り込みました。
 
