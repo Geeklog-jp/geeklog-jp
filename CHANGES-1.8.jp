@@ -7,7 +7,7 @@
 
 2012-04-14  mystral-kk <mystral-kk>
 
-	* Dbmanプラグイン、テーマエディタプラグインで、環境によっては、アンイン
+	* Dbmanプラグイン、テーマエディタープラグインで、環境によっては、アンイン
 	  ストール時に、エラーが発生するバグを修正しました。
 
 2012-04-14  mystral-kk <mystral-kk>
@@ -141,7 +141,7 @@
 
 2011-11-17  Tetsuko Komma  <ivy>
 
-	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
+	* ブラウザーのユーザーエージェントを判別するクラス(useragent.class.php)を
 	  日本語拡張版に追加しました。
 
 2011-11-16  mystral-kk <mystral-kk>
@@ -162,7 +162,7 @@
 
 2011-11-13  mystral-kk <mystral-kk>
 
-	* ブラウザのユーザーエージェントを判別するクラス(useragent.class.php)を
+	* ブラウザーのユーザーエージェントを判別するクラス(useragent.class.php)を
 	  追加しました。(Issue #181)
 
 2011-11-10  Tetsuko Komma  <ivy>
@@ -193,7 +193,7 @@
 
 2011-11-06  mystral-kk <mystral-kk>
 
-	* テーマエディタプラグイン(themedit)をGeeklog-1.6以降の自動インストール
+	* テーマエディタープラグイン(themedit)をGeeklog-1.6以降の自動インストール
 	  に対応させました。
 
 2011-11-06  mystral-kk <mystral-kk>
@@ -342,7 +342,7 @@
 2011-09-05  Tetsuko Komma  <ivy>
 
 	* 日本語言語ファイルで誤解の多かった「氏名を表示する」から
-	  「ユーザ名の代わりに氏名を表示する」に変更しました。
+	  「ユーザー名の代わりに氏名を表示する」に変更しました。
 
 2011-09-03  Yoshinori Tahara  <dengen>
 
@@ -450,7 +450,7 @@
 
 	* 日本語ドキュメントファイルの、history.htmlの翻訳を行いました。
 
-	* カレンダプラグイン、カレンダjpプラグインのテンプレートのformのURLを
+	* カレンダープラグイン、カレンダーjpプラグインのテンプレートのformのURLを
 	  修正しました: http://project.geeklog.net/tracking/view.php?id=1360
 
 	* README.jp NEWSを修正しました。
@@ -504,7 +504,7 @@
 
 2011-06-05  mystral-kk <mystral-kk>
 
-	* テーマエディタプラグインで編集できるテーマの初期値をprofessionalのみ
+	* テーマエディタープラグインで編集できるテーマの初期値をprofessionalのみ
 	  に変更しました。
 
 2011-06-05  Tetsuko Komma  <ivy>
@@ -526,7 +526,7 @@
 
 2011-05-30  Yoshinori Tahara  <dengen>
 
-	* calendarjpプラグイン: カレンダの週表示で日付の「月」が欠落する場合が
+	* calendarjpプラグイン: カレンダーの週表示で日付の「月」が欠落する場合が
 	  ある問題を修正しました。
 
 2011-05-27  Tetsuko Komma  <ivy>
@@ -602,7 +602,7 @@
 
 2011-04-10  Tetsuko Komma  <ivy>
 
-	* インストーラの日本語言語ファイルを修正しました。
+	* インストーラーの日本語言語ファイルを修正しました。
 
 2011-04-10  Yoshinori Tahara  <dengen>
 
