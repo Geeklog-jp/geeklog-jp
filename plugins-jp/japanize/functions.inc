@@ -207,7 +207,7 @@ function plugin_autouninstall_japanize ()
 }
 
 /**
-* ☆★現在のユーザは権利があるのをチェック
+* ☆★現在のユーザーは権利があるのをチェック
 *
 * @return        boolean       Returns true if moderator
 *

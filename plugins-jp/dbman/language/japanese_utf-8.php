@@ -101,7 +101,7 @@ $LANG_DBMAN = array(
 	'menu_export'                   => 'エクスポート',
 	'desc_import'                   => 'Movable Type &reg;のエクスポートファイルからGeeklogに記事を取り込みます。',
 	'desc_export'                   => 'Geeklogの記事をMovable Type &reg;のエクスポートファイルの形式で出力します。',
-	'errmsg1'                       => 'CSRFチェックに引っかかりました。Webブラウザの「戻る」ボタンを使用しないでください。',
+	'errmsg1'                       => 'CSRFチェックに引っかかりました。Webブラウザーの「戻る」ボタンを使用しないでください。',
 );
 
 // For Config UI
@@ -113,7 +113,7 @@ $LANG_configsections['dbman'] = array(
 $LANG_confignames['dbman'] = array(
 	'allow_restore'     => 'リストアを許可する',
 	'add_drop_table'    => '"DROP TABLE IF EXISTS"を追加する',
-	'chunk_size'        => 'バッファのサイズ（デフォルト：100）',
+	'chunk_size'        => 'バッファーのサイズ（デフォルト：100）',
 	'compress_data'     => 'データを圧縮する',
 	'compression_level' => '圧縮レベル',
 	'download_as_file'  => 'ファイルとしてダウンロードする',

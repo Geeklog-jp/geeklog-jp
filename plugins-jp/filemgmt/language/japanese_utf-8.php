@@ -32,7 +32,7 @@
 
 $LANG_FM00 = array (
     'access_denied'     => 'アクセス拒否',
-    'access_denied_msg' => 'Rootユーザしかこのページにはアクセスできません。あなたの名前とIPは記録されました。',
+    'access_denied_msg' => 'Rootユーザーしかこのページにはアクセスできません。あなたの名前とIPは記録されました。',
     'admin'             => 'プラグイン管理者',
     'install_header'    => 'プラグインのインストール/アンインストール',
     'installed'         => 'このプラグインとブロックはインストールされています。<p><i>楽しんでください。<br><a href="MAILTO:blaine@portalparts.com">Blaine</a></i>',
@@ -44,7 +44,7 @@ $LANG_FM00 = array (
     'uninstall_msg'     => 'このプラグインはアンインストールされました。',
     'install'           => 'インストール',
     'uninstall'         => 'アンインストール',
-    'editor'            => 'プラグインエディタ',
+    'editor'            => 'プラグインエディター',
     'warning'           => 'アンインストール前の警告',
     'enabled'           => '<p style="padding: 15px 0px 5px 25px;">このプラグインはインストールされ、有効になっています。<br>アンインストールする前に、このプラグインを無効にしてください。</p><div style="padding:5px 0px 5px 25px;"><a href="'.$_CONF['site_admin_url'].'/plugins.php">Plugin Editor</a></div',
     'WhatsNewLabel'    => 'ファイル',
@@ -98,7 +98,7 @@ $LANG_FILEMGMT= array(
     'delete' => '削除',
     'cancel' => 'キャンセル',
     'access_denied' => 'アクセス拒否',
-    'invalid_install' => 'ファイル管理プラグインのインストール/アンインストールページに不正にアクセスしようとした人がいます。ユーザID: ',
+    'invalid_install' => 'ファイル管理プラグインのインストール/アンインストールページに不正にアクセスしようとした人がいます。ユーザーID: ',
     'start_install' => 'ファイル管理プラグインをインストールしようとしています。',
     'start_dbcreate' => 'ファイル管理プラグイン用にテーブルを作成しようとしています。',
     'install_skip' => '... skipped as per filemgmt.cfg',
@@ -132,7 +132,7 @@ $PLG_filemgmt_MESSAGE5 = 'ファイル管理プラグインのアップグレー
 define("_MD_THANKSFORINFO","情報提供ありがとうございました。そのうちリクエストを調べてみます。");
 define("_MD_BACKTOTOP","ダウンロードトップへ戻る");
 define("_MD_THANKSFORHELP","このディレクトリの健全さの維持にご協力いただき、ありがとうございます。");
-define("_MD_FORSECURITY","セキュリティ上の理由であなたのユーザ名とIPアドレスも一時的に記録されます。");
+define("_MD_FORSECURITY","セキュリティ上の理由であなたのユーザー名とIPアドレスも一時的に記録されます。");
 
 define("_MD_SEARCHFOR","検索対象");
 define("_MD_MATCH","一致");
@@ -225,7 +225,7 @@ define("_MD_WHENAPPROVED","承認されたらメールが届きます。");
 define("_MD_SUBMITONCE","一度だけ実行してください。");
 define("_MD_APPROVED", "あなたのファイルは承認されました。");
 define("_MD_ALLPENDING","すべてのファイル情報は未検証状態です。");
-define("_MD_DONTABUSE","ユーザ名と IP は記録されています。");
+define("_MD_DONTABUSE","ユーザー名と IP は記録されています。");
 define("_MD_TAKEDAYS","ファイル/スクリプトがデータベースに登録されるまで数日かかる場合があります。");
 
 define("_MD_RANK","ランク");
@@ -292,12 +292,12 @@ define("_MD_IN","in");
 define("_MD_ADDNEWFILE","新規ファイルアップロード");
 define("_MD_MODCAT","カテゴリ修正");
 define("_MD_MODDL","ダウンロード情報変更");
-define("_MD_USER","ユーザ");
+define("_MD_USER","ユーザー");
 define("_MD_IP","IPアドレス");
-define("_MD_USERAVG","ユーザ評価の平均");
+define("_MD_USERAVG","ユーザー評価の平均");
 define("_MD_TOTALRATE","全評価");
-define("_MD_NOREGVOTES","登録済みユーザによる投票なし");
-define("_MD_NOUNREGVOTES","未登録済みユーザによる投票なし");
+define("_MD_NOREGVOTES","登録済みユーザーによる投票なし");
+define("_MD_NOUNREGVOTES","未登録済みユーザーによる投票なし");
 define("_MD_VOTEDELETED","投票データは削除されています。");
 define("_MD_NOBROKEN","破損ファイルはありません。");
 define("_MD_IGNOREDESC","無視(レポートを無視して、レポートのあったこの項目だけを削除する)");
@@ -308,7 +308,7 @@ define("_MD_IGNORE","無視");
 define("_MD_FILEDELETED","ファイルは削除されました。");
 define("_MD_FILENOTDELETED","記録は削除されましたが、ファイルは削除されませんでした。<p>複数の記録が同じファイルを指しています。</p>");
 define("_MD_BROKENDELETED","破損ファイルのレポートは削除されました。");
-define("_MD_USERMODREQ","ユーザによるダウンロード情報修正要求");
+define("_MD_USERMODREQ","ユーザーによるダウンロード情報修正要求");
 define("_MD_ORIGINAL","オリジナル");
 define("_MD_PROPOSED","提案");
 define("_MD_OWNER","所有者: ");
@@ -342,15 +342,15 @@ define("_MD_DLSSEARCH","検索結果中のダウンロードファイル数: ");
 define("_MD_TRIMDESC","ファイルリストで説明の一部を表示する: ");
 define("_MD_DLREPORT","ダウンロード履歴の閲覧を制限する: ");
 define("_MD_WHATSNEWDESC","新着情報リストを表示する: ");
-define("_MD_SELECTPRIV","ユーザのダウンロードを許可: ");
-define("_MD_ACCESSPRIV","ゲストユーザのダウンロードを許可: ");
-define("_MD_UPLOADSELECT","ユーザのアップロードを許可: ");
-define("_MD_UPLOADPUBLIC","ゲストユーザのアップロードを許可: ");
+define("_MD_SELECTPRIV","ユーザーのダウンロードを許可: ");
+define("_MD_ACCESSPRIV","ゲストユーザーのダウンロードを許可: ");
+define("_MD_UPLOADSELECT","ユーザーのアップロードを許可: ");
+define("_MD_UPLOADPUBLIC","ゲストユーザーのアップロードを許可: ");
 define("_MD_USESHOTS","カテゴリ画像を表示する: ");
 define("_MD_IMGWIDTH","画像横幅: ");
 define("_MD_MUSTBEVALID","サムネール画像は %s ディレクトリ内の有効な画像ファイルでなければなりません(例 shot.gif)。画像ファイルがなければ空白にしておいてください。");
-define("_MD_REGUSERVOTES","登録済みユーザによる投票(投票総数: %s)");
-define("_MD_ANONUSERVOTES","未登録ユーザによる投票(投票総数: %s)");
+define("_MD_REGUSERVOTES","登録済みユーザーによる投票(投票総数: %s)");
+define("_MD_ANONUSERVOTES","未登録ユーザーによる投票(投票総数: %s)");
 define("_MD_YOURFILEAT","あなたが %s に提供したファイル"); // this is an approved mail subject. %s is your site name
 define("_MD_VISITAT","%s のダウンロード部門をごらんください。");
 define("_MD_DLRATINGS","ダウンロード評価(投票総数: %s)");
@@ -404,10 +404,10 @@ $LANG_confignames['filemgmt'] = array(
     'mydownloads_trimdesc'        => 'ファイルリストで説明の一部を表示',
     'mydownloads_whatsnew'        => '新着情報リストを表示する',
 
-    'mydownloads_selectpriv'      => 'ユーザのダウンロードを許可',
-    'mydownloads_uploadselect'    => 'ユーザのアップロードを許可',
-    'mydownloads_publicpriv'      => 'ゲストユーザのダウンロードを許可',
-    'mydownloads_uploadpublic'    => 'ゲストユーザのアップロードを許可',
+    'mydownloads_selectpriv'      => 'ユーザーのダウンロードを許可',
+    'mydownloads_uploadselect'    => 'ユーザーのアップロードを許可',
+    'mydownloads_publicpriv'      => 'ゲストユーザーのダウンロードを許可',
+    'mydownloads_uploadpublic'    => 'ゲストユーザーのアップロードを許可',
 
     'mydownloads_useshots'        => 'カテゴリ画像を表示する',
     'mydownloads_shotwidth'       => 'サムネール画像の横幅',

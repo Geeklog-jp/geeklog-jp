@@ -56,7 +56,7 @@ function plugin_autoinstall_calendarjp($pi_name)
 
     $groups = array(
 //      $pi_admin => 'Has full access to ' . $pi_display_name . ' features'
-        $pi_admin => 'カレンダ管理者'
+        $pi_admin => 'カレンダー管理者'
     );
 
     $features = array(

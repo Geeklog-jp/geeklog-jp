@@ -1,11 +1,11 @@
 @charset "utf-8";
 
 /*--------------------------------------
-  サイトカレンダ mycaljp 用スタイル
+  サイトカレンダー mycaljp 用スタイル
 --------------------------------------*/
 
 
-/* カレンダ全体 */
+/* カレンダー全体 */
 div.mycaljp_slide table {
   margin: auto;
   padding: 0;
@@ -16,7 +16,7 @@ div.mycaljp_slide table a {
   text-decoration: none;
 }
 
-/* カレンダ部分 */
+/* カレンダー部分 */
 div.mycaljp_slide table tr td {
   margin: 0;
   padding: 0 0.1em;

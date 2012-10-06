@@ -6,7 +6,7 @@
 // もし万一エンコードの種類が  utf-8でない場合は、utf-8に変換してください。
 // 最終更新日　2007/05/21 tsuchi AT geeklog DOT jp
 
-// (05) Anonymous → ゲストユーザ (users)
+// (05) Anonymous → ゲストユーザー (users)
 $_SQL[] = "UPDATE {$_TABLES['users']} "
 		. "SET `username` = 'ゲストユーザー', `fullname` = 'ゲストユーザー' "
 		. "WHERE (`uid` = 1) ";

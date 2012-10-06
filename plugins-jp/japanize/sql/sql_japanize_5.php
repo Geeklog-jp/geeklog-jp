@@ -56,7 +56,7 @@ $_SQL[] = "UPDATE {$_TABLES['groups']} "
 		. "WHERE (grp_name = 'Syndication Admin') ";
 
 $_SQL[] = "UPDATE {$_TABLES['groups']} "
-		. "SET grp_descr = 'カレンダ管理者' "
+		. "SET grp_descr = 'カレンダー管理者' "
 		. "WHERE (grp_name = 'Calendar Admin') ";
 
 $_SQL[] = "UPDATE {$_TABLES['groups']} "
@@ -132,7 +132,7 @@ $_SQL[] = "UPDATE {$_TABLES['groups']} "
 		. "WHERE (grp_name = 'Sitemap Admin') ";
 
 $_SQL[] = "UPDATE {$_TABLES['groups']} "
-		. "SET grp_descr = 'カレンダ管理者' "
+		. "SET grp_descr = 'カレンダー管理者' "
 		. "WHERE (grp_name = 'Calendar Admin') ";
 
 $_SQL[] = "UPDATE {$_TABLES['groups']} "

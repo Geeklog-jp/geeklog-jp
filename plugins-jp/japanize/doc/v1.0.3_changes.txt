@@ -11,7 +11,7 @@ Fatal error: Cannot redeclare custom_convertencoding() というエラーがで�
 
 1.ppNavbar 分離
 　lib-portalparts.php より、ppNavbar抜粋
-2.アドバンストエディタ用．管理ユーザーが使ってもよいHTMLタグと属性．編集削除
+2.アドバンストエディター用．管理ユーザーが使ってもよいHTMLタグと属性．編集削除
 3.日本語メール同梱（geeklogｊｐ仕様の設定変更機能つき）
 4.autoinstall 追加
 

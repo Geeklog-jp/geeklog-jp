@@ -13,7 +13,7 @@
 <p>テーブル構造を日本語化します。</p>
 <ul>
   <li>フィード　文字コード:utf-8、言語:ja</li>
-  <li>ユーザ名の桁数:108に拡大</li>
+  <li>ユーザー名の桁数:108に拡大</li>
 </ul>
 <blockquote>
 <form method="POST" action="{this_script}?mode=cmd1"><p><input type="submit" value="日本語化実行" name="cmd1"></p>
@@ -36,7 +36,7 @@
   <li>話題ブロック･･･記事投稿数を表示しない</li>
   <li>話題ブロック･･･Homeへのリンクを隠す</li>
 </ul>
-<p>【ユーザと投稿】</p>
+<p>【ユーザーと投稿】</p>
 <ul>
   <li>コメント･･･コメント形状 flat:一覧</li>
 </ul>
@@ -75,9 +75,9 @@
 </ul>
 <p>【その他】</p>
 <ul>
-  <li>HTMLフィルタ･･･ユーザHTML 追加調整</li>
+  <li>HTMLフィルタ･･･ユーザーHTML 追加調整</li>
   <li>HTMLフィルタ･･･管理者HTML 追加調整</li>
-  <li>HTMLフィルタ･･･RootユーザはHTMLフィルタを無効にする</li>
+  <li>HTMLフィルタ･･･RootユーザーはHTMLフィルタを無効にする</li>
   <li>バッドワードチェック･･･チェックモード いいえ</li>
 </ul>
 <blockquote>
@@ -107,7 +107,7 @@
 
 <fieldset style="margin-top:10px;">
 <legend>(4)Anonymous</legend>
-<p>Anonymousの表記をゲストユーザに変更します。</p>
+<p>Anonymousの表記をゲストユーザーに変更します。</p>
 <blockquote>
 <form method="POST" action="{this_script}?mode=cmd4"><p><input type="submit" value="日本語化実行" name="cmd4"></p>
 <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
