@@ -55,7 +55,7 @@ $LANG_SX00 = array(
     'e1' => 'クリックしてエントリを削除',
     'e2' => 'エントリを追加するには、入力してエントリ追加ボタンをクリックしてください。エントリは完全なPerl互換正規表現を使用することができます。',
     'pblack' => 'Spam-X パーソナルブラックリスト',
-    'sfseblack' => 'Spam-X 掲示板のspam防止のメールのブラックリスト',
+    'sfseblack' => 'Spam-X 掲示板のスパム防止のメールのブラックリスト',
     'conmod' => 'Spam-X モジュール設定',
     'acmod' => 'Spam-X アクションモジュール',
     'exmod' => 'Spam-X 検証モジュール',
@@ -163,7 +163,7 @@ $LANG_confignames['spamx'] = array(
     'notification_email' => 'メールで通知',
     'logging' => 'ログを有効',
     'timeout' => 'タイムアウト',
-    'sfs_enabled' => 'フォーラムのスパム防止を有効',
+    'sfs_enabled' => '掲示板のスパム防止を有効',
     'snl_enabled' => 'スパムリンク検証を有効',
     'snl_num_links' => 'リンク数'
 );
@@ -179,7 +179,7 @@ $LANG_tab['spamx'] = array(
 
 $LANG_fs['spamx'] = array(
     'fs_main' => 'Spam-Xの設定',
-    'fs_sfs' => 'フォーラムのスパム防止',
+    'fs_sfs' => '掲示板のスパム防止',
     'fs_snl' => 'スパムリンク検証'
 );
 
