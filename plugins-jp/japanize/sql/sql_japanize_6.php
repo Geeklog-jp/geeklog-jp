@@ -30,7 +30,7 @@ $_SQL[] = "INSERT INTO {$_TABLES['pollanswers']} "
 
 $_SQL[] = "INSERT INTO {$_TABLES['pollanswers']} "
 		. "  (`pid`, `qid`, `aid`, `answer`, `votes`, `remark`) "
-		. "  VALUES ('geeklogfeaturepolljp', 0, 3, 'すぐに日本語サイトになるインストーラ', 0, '') ";
+		. "  VALUES ('geeklogfeaturepolljp', 0, 3, 'すぐに日本語サイトになるインストーラー', 0, '') ";
 
 $_SQL[] = "INSERT INTO {$_TABLES['pollanswers']} "
 		. "  (`pid`, `qid`, `aid`, `answer`, `votes`, `remark`) "

@@ -40,7 +40,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		名が自動的にリストボックスで表示されます。
 		※ JavaScriptが無効の場合はテキスト入力になります。
 
-    o インストーラの修正
+    o インストーラーの修正
 
 	public_html/admin/install/index.php
 	public_html/admin/install/LocalizeGeeklog.php
@@ -110,7 +110,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		任せています。かならずインストールして、実行してください。
 		実行しない場合、メール送信などで不具合が発生します。
 
-	カレンダjpプラグイン(Calendarjp) バージョン 2.2.0
+	カレンダーjpプラグイン(Calendarjp) バージョン 2.2.0
 		Calendarプラグインを日本語サイト向けにローカライズして
 		機能アップさせました。
 
@@ -157,7 +157,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		※DataproxyプラグインのAPIを利用しているため、
 		Dataproxyプラグインのインストールが必要です。
 
-	テーマエディタプラグイン(Themedit) バージョン 1.2.1
+	テーマエディタープラグイン(Themedit) バージョン 1.2.1
 		テンプレートとカスケーディング・スタイルシートの編集や画像の管
 		理機能を提供します。
 
@@ -183,7 +183,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 	system/custom/custom_forcethemechange.php
 		サイトのデフォルトテーマが変化した場合のコールバック関数
 		サイトのテーマを変更したらサイトのテーマを利用している
-		ユーザのテーマも自動的に新テーマに変更します。
+		ユーザーのテーマも自動的に新テーマに変更します。
 
 	system/custom/custom_getstaticpage.php
 		静的ページコンテンツの内容を返すカスタム関数
@@ -198,7 +198,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
 		  活用してください。
 
 	system/custom/phpblock_showrights.php
-		現在ログインしているユーザの権限を表示するPHPブロック関数
+		現在ログインしているユーザーの権限を表示するPHPブロック関数
 		phpblock_showrights()
 		ブロックや静的ページPHPで活用します。
 

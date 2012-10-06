@@ -65,7 +65,7 @@ $_MYCALJP2_DEFAULT['supported_contents'] = array(
     'comments',         //コメント
     'trackback',        //トラックバック
     'staticpages',      //静的ページ
-    'calendar',         //イベントカレンダ
+    'calendar',         //イベントカレンダー
     'links',            //リンク
     'polls',            //アンケート
     'dokuwiki',         //DokuWiki
@@ -73,7 +73,7 @@ $_MYCALJP2_DEFAULT['supported_contents'] = array(
     'filemgmt',         //ファイル管理
     'faqman',           //Faqman
     'mediagallery',     //メディアギャラリ
-    'calendarjp',       //イベントカレンダ（日本語版）
+    'calendarjp',       //イベントカレンダー（日本語版）
     'downloads'         //ダウンロード
 );
 
@@ -82,7 +82,7 @@ $_MYCALJP2_DEFAULT['enabled_contents'] = array(
     'comments'     => 1,    //コメント
     'trackback'    => 1,    //トラックバック
     'staticpages'  => 1,    //静的ページ
-    'calendar'     => 1,    //イベントカレンダ
+    'calendar'     => 1,    //イベントカレンダー
     'links'        => 1,    //リンク
     'polls'        => 1,    //アンケート
     'dokuwiki'     => 1,    //DokuWiki
@@ -90,7 +90,7 @@ $_MYCALJP2_DEFAULT['enabled_contents'] = array(
     'filemgmt'     => 1,    //ファイル管理
     'faqman'       => 1,    //Faqman
     'mediagallery' => 1,    //メディアギャラリ
-    'calendarjp'   => 1,    //イベントカレンダ（日本語版）
+    'calendarjp'   => 1,    //イベントカレンダー（日本語版）
     'downloads'    => 1     //ダウンロード
 );
 

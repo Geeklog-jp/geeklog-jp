@@ -33,7 +33,7 @@ $_SQL[] = "UPDATE {$_TABLES['conf_values']} "
 		. "SET value = '" . serialize(TRUE) . "' "
 		. "WHERE (name = 'hide_home_link') AND (group_name = 'Core') ";
 
-//【ユーザと投稿】
+//【ユーザーと投稿】
 //コメント･･･コメント形状 flat:一覧
 $_SQL[] = "UPDATE {$_TABLES['conf_values']} "
 		. "SET value = '" . serialize('flat') . "' "
@@ -117,7 +117,7 @@ $_SQL[] = "UPDATE {$_TABLES['conf_values']} "
 		. "WHERE (name ='timezone') AND (group_name = 'Core') ";
 
 //【その他】
-//HTMLフィルタ･･･ユーザHTML
+//HTMLフィルタ･･･ユーザーHTML
 $value = array(
 	'a'				=> array('href' => 1, 'title' => 1, 'rel' => 1),
 	'b'				=> array(),
@@ -203,7 +203,7 @@ $_SQL[] = "UPDATE {$_TABLES['conf_values']} "
 		. "SET value = '" . serialize($value) . "' "
 		. "WHERE (name = 'admin_html') AND (group_name = 'Core') ";
 
-//HTMLフィルタ･･･RootユーザはHTMLフィルタを無効にする
+//HTMLフィルタ･･･RootユーザーはHTMLフィルタを無効にする
 $_SQL[] = "UPDATE {$_TABLES['conf_values']} "
 		. "SET value = '" . serialize(1) . "' "
 		. "WHERE (name = 'skip_html_filter_for_root') AND (group_name = 'Core') ";

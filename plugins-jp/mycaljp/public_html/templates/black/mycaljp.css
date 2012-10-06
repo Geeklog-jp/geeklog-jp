@@ -1,10 +1,10 @@
 @charset "utf-8";
 
 /*-------------------------------------------
-  サイトカレンダ mycaljp プラグイン用スタイル
+  サイトカレンダー mycaljp プラグイン用スタイル
 ---------------------------------------------*/
 
-/* カレンダ全体 */
+/* カレンダー全体 */
 table.mycaljp2 {
   margin: auto;
   padding: 0;
@@ -40,7 +40,7 @@ table.mycaljp2 tr th.saturday {
   color: #ffffff;
 }
 
-/* カレンダ部分 */
+/* カレンダー部分 */
 table.mycaljp2 tr td {
   margin: 0;
   padding: 0;
@@ -142,7 +142,7 @@ table.mycaljp2 tr td.holiday a {
   color: #C00000;
 }
 
-/* サイトカレンダのスキップ用スパン */
+/* サイトカレンダーのスキップ用スパン */
 div#mycaljp p.skip {
   position: absolute;
   left: -9999px;

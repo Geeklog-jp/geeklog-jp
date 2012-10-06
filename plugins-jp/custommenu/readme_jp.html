@@ -198,7 +198,7 @@
   <ul>
     <li>(参考) &lt;geeklog_dir&gt;/system/lib-custom.php にはカスタムメニューエントリーを定義する CUSTOM_menuEntries 関数が含まれています。</li>
     <li>本プラグインでは、独自にCUSTOM_menuEntries 関数を定義していますので、lib-custom.phpの中の CUSTOM_menuEntries 関数を無効する必要があります。</li>
-    <li>&lt;geeklog_dir&gt;/system/lib-custom.php をテキストエディタで開き、513行目付近の CUSTOM_menuEntries 関数を次のようにコメントアウトしてください。（既にコメントアウトされている場合は変更不要です）</li>
+    <li>&lt;geeklog_dir&gt;/system/lib-custom.php をテキストエディターで開き、513行目付近の CUSTOM_menuEntries 関数を次のようにコメントアウトしてください。（既にコメントアウトされている場合は変更不要です）</li>
   </ul>
   <pre><code>/*
 function CUSTOM_menuEntries ()
@@ -223,9 +223,9 @@ function CUSTOM_menuEntries ()
 }
 */
 </code></pre>
-  <h4>Step 6 - プラグインエディタでインストールの実行</h4>
+  <h4>Step 6 - プラグインエディターでインストールの実行</h4>
   <ul>
-    <li>Root ユーザとしてログインし，プラグインエディタから custommenu のインストールを実行します。</li>
+    <li>Rootユーザーとしてログインし，プラグインエディターから custommenu のインストールを実行します。</li>
     <li>失敗した場合には，エラーログ（ error.log ）を調べます。</li>
     <li>これで，CustomMenu Editor プラグインはインストールされました。</li>
     <li>投稿管理メニューまたはサイドバーのメニューから、「カスタムメニュー」をクリックすると、メニューアイテムリストが表示されるでしょう。</li>
@@ -250,9 +250,9 @@ function CUSTOM_menuEntries ()
     <li>CustomMenu Editorプラグインはバージョン0.7.0から、Geeklog2.0.0以降でなければインストールできません。必ず事前にGeeklog本体をバージョン2.0.0以降にアップグレードしてください。</li>
     <li>また、念のためテーマをprofessionalに設定してから作業を行なってください。</li>
   </ul>
-  <h4>Step 1 - プラグインエディタで無効化</h4>
+  <h4>Step 1 - プラグインエディターで無効化</h4>
   <ul>
-    <li>プラグインエディタ（プラグイン管理ページ）でいったん'CustomMenu'を無効にします。</li>
+    <li>プラグインエディター（プラグイン管理ページ）でいったん'CustomMenu'を無効にします。</li>
   </ul>
   <h4>Step 2 - ディレクトリの削除</h4>
   <ul>
@@ -291,11 +291,11 @@ function CUSTOM_menuEntries ()
     <li>admin ディレクトリの内容を，Step 2 で作成した <span class="admin">&lt;admin&gt;</span>/plugins/custommenu/ ディレクトリにコピーします。</li>
     <li>public_html ディレクトリの内容を，Step 2 で作成した <span class="public">&lt;public_html&gt;</span>/custommenu/ ディレクトリにコピーします。</li>
   </ul>
-  <h4>Step 9 - プラグインエディタで有効化</h4>
+  <h4>Step 9 - プラグインエディターで有効化</h4>
   <ul>
-    <li>プラグインエディタ（プラグイン管理ページ）で'CustomMenu'を有効にします。</li>
+    <li>プラグインエディター（プラグイン管理ページ）で'CustomMenu'を有効にします。</li>
   </ul>
-  <h4>Step 10 - プラグインエディタでアップデート</h4>
+  <h4>Step 10 - プラグインエディターでアップデート</h4>
   <ul>
     <li>プラグイン管理ページで'CustomMenu'をアップデートします。（「アップデートしてください!」の直後のアイコンをクリックします）</li>
   </ul>
@@ -316,9 +316,9 @@ function CUSTOM_menuEntries ()
     <li>CustomMenu Editor プラグインはアンインストール時に，CustomMenu Editor プラグインが使用していたテーブルを破棄するので，管理者メニューの「DBのバックアップ」や
     phpMyAdmin を使用して，事前に Geeklog のデータベースをバックアップしておくことをお勧めします。</li>
   </ul>
-  <h4>Step 1 - プラグインエディタでアンインストールの実行</h4>
+  <h4>Step 1 - プラグインエディターでアンインストールの実行</h4>
   <ul>
-    <li>プラグインエディタから，custommenu をアンインストールします。このとき，CustomMenu Editor
+    <li>プラグインエディターから，custommenu をアンインストールします。このとき，CustomMenu Editor
     プラグインが使用していたテーブルは破棄され，その中に記録されていたデータも削除されます。</li>
   </ul>
 
@@ -387,7 +387,7 @@ function CUSTOM_menuEntries ()
     <tr>
       <td>phpmenuitem_login</td>
       <td>ログイン（ログアウト）</td>
-      <td>ユーザがログインしているかどうかに応じて、タイトルとURLを変化させる例です。</td>
+      <td>ユーザーがログインしているかどうかに応じて、タイトルとURLを変化させる例です。</td>
     </tr>
 </table></td>
       <td>難しい</td>
@@ -440,7 +440,7 @@ about_ja     無効</code></pre>
   <ul>
   <li><span class="attention">コンフィギュレーション -&gt; カスタムメニュー -&gt; メニューレンダラ を「階層メニュー対応」に設定してください。</span></li>
   <li>カスタムメニューの管理画面で「リンク」を編集します。</li>
-  <li>項目「URL照合文字列」へ"/links/"を入力し、更新ボタンをクリックします。カスタムメニューエディタでの作業はこれだけです。<br />
+  <li>項目「URL照合文字列」へ"/links/"を入力し、更新ボタンをクリックします。カスタムメニューエディターでの作業はこれだけです。<br />
 これは、「表示ページのURLに"/links/"が含まれていたときに、メニューアイテム「リンク」のスタイルを変化させる。」という意味の設定です。</li>
   <li>なお、「正規表現」を有効にすると、PHPがサポートしている正規表現で照合することができます。照合の条件が複雑な場合に使用することを想定した機能であり、使用する場面は少ないでしょう。照合にはpreg_match関数を使用しています。<br />
 正規表現の詳細については <a href="http://jp.php.net/manual/ja/regexp.reference.php">http://jp.php.net/manual/ja/regexp.reference.php</a> を参照してください。</li>
