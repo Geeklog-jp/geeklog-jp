@@ -1,5 +1,8 @@
 2012-10-06  Takahiro Kambe  <tacahi>
 
+	* plugins/spamx/language/japanese_utf-8.php: 試験的な翻訳の改善をし
+	  てみました。
+
 	* language/japanese_utf-8.php: 未翻訳の部分の翻訳と一部の改善をして
 	  みました。
 
