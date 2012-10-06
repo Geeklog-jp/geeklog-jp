@@ -18,37 +18,27 @@
 
 <h2><a name="changes200">Geeklog 2.0.0</a></h2>
 
-<p><strong>Note:</strong> Geeklog 2.0.0 manages topics differently. Topic 
-assignments for articles and blocks are now stored in their own database table. 
-This means the article and block tables have changed slightly. Plugins that 
-modify blocks directly or have a centerblock may not be compatible with 
-Geeklog 2.0.0. Please check to see if the plugins you have installed are 
-compatible before you upgrade. If they are not then disable them if you still 
-wish to upgrade. We expect most plugin authors to upgrade their plugins to 
-support Geeklog 2.0.0 soon after the release.</p>
+<p><strong>注意:</strong> Geeklog 2.0.0は話題を異なる方法で管理しています。記事とブロックへの話題の割り当ては、データベースの専用のテーブルに保存するようになりました。これは記事とブロックのテーブルを少し変更したことを意味します。ブロックを直接変更したり、中央ブロックを持ったプラグインはGeeklog 2.0.0と互換性がないかもしれません。アップグレードする前に、インストールしているプラグインに互換性があるかどうか確認してください。もし互換性がなく、それでもアップグレードしたい場合はプラグインを無効にしてください。Geeklog 2.0.0のリリースの後、ほとんどのプラグインの作成者がすぐにGeeklog 2.0.0をサポートするようにプラグインをアップグレードするように期待しています。</p>
 
-<p>The theme engine has also been updated. Geeklog 2.0.0 introduces 
-a new function that allows a page to be generated all at once instead of in specific   
-parts as it was before. Only themes and 
-plugins that have been updated to use the new function for display can take 
-advantage of the new features this brings to Geeklog and themes.
+<p>また、テーマのエンジンも更新しました。Geeklog 2.0.0では、以前に特定の部分毎にはなく、すべてを一度に生成する新しい関数を導入しています。
+この新しい関数を表示に使用するように更新したテーマとプラグインだけが、この新しい機能によるGeeklogとテーマへの恩恵を受けることができます。
 </p>
 
-<p>This Geeklog release now ships with jQuery 1.7.2 and jQuery UI 1.8.20.</p>
+<p>このGeeklogはjQuery 1.7.2とjQuery UI 1.8.20を同梱しています。</p>
 
-<h3>New Features and Improvements</h3>
+<h3>新機能と改善点</h3>
 
 <ul>
-<li>Improved strength of password hashing.</li>
-<li>Allow Topics to have child Topics.</li>
-<li>Allow Articles, Blocks and other Plugin objects to be associated with more than one Topic.</li>
-<li>Topic Breadcrumb support.</li>
-<li>Emergency Rescue Tool is included with the Geeklog Install.</li>
-<li>Added support for MySQLi.</li>
-<li>Add Stop Forum Spam and Spam Number of Links Modules to Spam-X.</li>
-<li>A new theme called Denim which is based on Responsive Web Design.</li>
-<li>A new theme called Modern Curve.</li>
-<li>Comments Form on same page as article.</li>
+<li>パスワードのハッシュ処理の強度を改善しました。</li>
+<li>話題は子の話題を持てるようになりました。</li>
+<li>記事、ブロック、他のプラグインのオブジェクトは1つ以上の話題に関係付けられるようになりました。</li>
+<li>話題はパンくずリストをサポートしました。</li>
+<li>Geeklogのインストールに緊急救助のツールを含めました。</li>
+<li>MySQLiのサポートを追加しました。</li>
+<li>Spam-Xに掲示板のスパム防止とスパムリンク(数)検証のモジュールを追加しました。</li>
+<li>レスポンシブなウェブデザインに基づいたDenimというテーマを追加しました。</li>
+<li>Modern Curveというテーマを追加しました。</li>
+<li>記事と同じページにコメント欄を設けました。</li>
 
 </ul>
 
