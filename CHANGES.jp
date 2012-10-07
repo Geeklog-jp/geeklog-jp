@@ -1,5 +1,9 @@
 2012-10-07  Yoshinori Tahara  <dengen>
 
+	* 2.0.0rc1から追加されたテンプレートをWAIproCSSテーマに追加しました。
+
+2012-10-07  Yoshinori Tahara  <dengen>
+
 	* 2.0.0rc1から追加されたテンプレートをprofessional_cssおよび
 	  mobileテーマに追加しました。
 
