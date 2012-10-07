@@ -30,9 +30,9 @@
                 </div>
                 <form action="{site_admin_url}/configuration.php" method="post" name="subgroup">
                 <div>
-                <input type="hidden" name="conf_group" value="{open_group}"{xhtml}>
-                <input type="hidden" name="sub_group" value="{open_sg}"{xhtml}>
-                <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
+                  <input type="hidden" name="conf_group" value="{open_group}"{xhtml}>
+                  <input type="hidden" name="sub_group" value="{open_sg}"{xhtml}>
+                  <input type="hidden" name="{gltoken_name}" value="{gltoken}"{xhtml}>
                 </div>
     
                 <div id="tabs">

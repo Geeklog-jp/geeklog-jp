@@ -9,8 +9,8 @@
 {formfields_top}
 
 <table class="admin-list">
-    <tr>{header_row}</tr>
-    {item_row}
+  <tr>{header_row}</tr>
+  {item_row}
 </table>
 
 <ul class="admin-list-navi" style="{show_deleteimage}">
