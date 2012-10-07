@@ -230,9 +230,9 @@
         &nbsp;{lang_optiondelete}
       </dd>
 
-      <dt><label for="admin-storyeditor_advanced-expire_month">{lang_archivetitle}({lang_date})</label></dt>
+      <dt><label for="admin-storyeditor_advanced-expire_month"></label></dt>
       <dd>
-      {lang_date}&nbsp;
+        {lang_date}&nbsp;
         <select name="expire_year">
           {expire_year_options}
         </select>
