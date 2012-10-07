@@ -1,7 +1,7 @@
 
 <!-- admin/common/edit_topics.thtml { -->
 
-<div style="vertical-align:top;{options_hide}">                 
+<div style="vertical-align:top;display:inline-block;{options_hide}">                 
     <input type="hidden" name="topic_options_hide" value="{topic_options_hide}"{xhtml}>
     <label><input type="radio" name="topic_option" value="all" {all_checked}{xhtml}> {lang_all}</label> 
     <label><input type="radio" name="topic_option" value="homeonly" {homeonly_checked}{xhtml}> {lang_homeonly}</label>
@@ -13,13 +13,13 @@
 <div style="vertical-align:top;display:inline-block;{inherit_hide}">
     <input type="hidden" name="topic_inherit_hide" value="{topic_inherit_hide}"{xhtml}>
     <span style="vertical-align:top;">{lang_inherit}:</span>
-    <select name="inherit_tid[]" multiple="multiple" size="4">
+    <select name="inherit_tid[]" multiple="multiple" class="multiple" size="4">
         {inherit_options}
     </select>
 </div>
 <div style="vertical-align:top;display:inline-block;{default_hide}">
     <input type="hidden" name="topic_default_hide" value="{topic_default_hide}"{xhtml}>
-    {lang_default}:
+    <span style="vertical-align:top;">{lang_default}:</span>
     <select name="default_tid">
         {default_options}
     </select>

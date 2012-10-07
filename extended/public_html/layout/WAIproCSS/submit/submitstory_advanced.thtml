@@ -1,15 +1,8 @@
 
 <!-- submit/submitstory_advanced.thtml { -->
 
-<script type="text/javascript">
-  <!--
-  // Setup editor path for FCKeditor JS Functions
-  geeklogEditorBasePath = "{site_url}/fckeditor/";
-  -->
-</script>
-<script type="text/JavaScript" src="{site_url}/javascript/submitstory_fckeditor.js"></script>
-
-<form action="{site_url}/submit.php" method="post" onSubmit='set_postcontent();' id="submitstory_advanced" class="compact">
+{noscript}
+<form action="{site_url}/submit.php" method="post" onsubmit="set_postcontent();" id="submitstory_advanced" class="compact">
   <fieldset>
     <legend>記事の編集</legend><!-- Geeklog Japanese -->
 
@@ -28,9 +21,9 @@
       <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
 
-      <dt><label for="submitstory_advanced-postmode">{lang_postmode}</label></dt>
+      <dt><label for="sel_editmode">{lang_postmode}</label></dt>
       <dd>
-        <select name="postmode" id="submitstory_advanced-postmode" {change_editormode}>
+        <select name="postmode" id="sel_editmode" {change_editormode}>
           {story_postmode_options}
         </select>
       </dd>

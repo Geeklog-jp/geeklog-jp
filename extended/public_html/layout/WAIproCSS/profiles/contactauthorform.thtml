@@ -7,7 +7,7 @@
       <legend>送信情報</legend><!-- Geeklog Japanese -->
 
       <dl>
-        <dt><label for="contactauthorform-title">{lang_title}</label></dt>
+        <dt>{lang_title}</dt>
         <dd>{story_link}</dd>
 
         <dt><label for="contactauthorform-from">{lang_fromname}</label></dt>

@@ -226,7 +226,7 @@ div#rightblocks div.block-right h2 img {
 }
 
 /* ブロックコンテンツ */
-div#rightblocks div.block-list div.block-right-content,
+div#rightblocks div.block-list div.block-list-content,
 div#rightblocks div.block-right div.block-right-content {
   margin: 0;
   padding: 0;

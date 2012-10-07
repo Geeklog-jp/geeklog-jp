@@ -1,7 +1,7 @@
 
 <!-- admin/story/storyeditor.thtml { -->
 
-<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
+<form action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
 
   <div class="admin_basic">
     <dl>
@@ -97,7 +97,7 @@
         </select>
       </dd>
 
-      <dt><label for="admin-storyeditor-featured">{lang_cmt_disable}:</label></dt>
+      <dt><label>{lang_cmt_disable}:</label></dt>
       <dd>
         {lang_enabled}&nbsp;
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
@@ -182,7 +182,7 @@
       <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
-      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dt><label for="admin-permissions">{lang_permissions}</label></dt>
       <dd class="description">{lang_perm_key}</dd>
       <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>

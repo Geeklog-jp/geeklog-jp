@@ -57,6 +57,7 @@
                 <div id="bottom_buttons" class="aligncenter">
                     <input type="submit" id="save_changes" value="{lang_save_changes}"{xhtml}>
                     <input type="submit" id="form_reset" name="form_reset" value="{lang_reset_form}"{xhtml}>
+                    <input type="hidden" name="form_submit" value="true"{xhtml}>
                 </div>
             </form>
         </div>
