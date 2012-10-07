@@ -159,7 +159,8 @@ table {
 }
 textarea {
   color:#000000;
-  font-family: "Hiragino Kaku Gothic Pro", "ãƒ’ãƒ©ã‚®ãƒŽè§’ã‚´ Pro W3", Osaka, "ï¼­ï¼³ ï¼°ã‚´ã‚·ãƒƒã‚¯", Verdana, Arial, Helvetica, sans-serif;
+  font-family: "Hiragino Kaku Gothic Pro", "ƒqƒ‰ƒMƒmŠpƒS Pro W3", Osaka, "‚l‚r ‚oƒSƒVƒbƒN", Verdana, Arial, Helvetica, sans-serif;
+  /* font-family:arial,verdana,tahoma,helvetica,sans-serif; */
 }
 th {
   color:#000000;
@@ -575,9 +576,6 @@ select {
   background:transparent;
   font-size:.9em;
   border-left: 1px dotted #FFFFFF;
-}
-.header-navigation-container li.last {
-  border:none;
 }
 .header-navigation-container a:link {
   color:#0000FF;
