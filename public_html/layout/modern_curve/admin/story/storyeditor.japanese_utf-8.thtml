@@ -14,7 +14,7 @@
           {publish_year_options}
         </select>
         年
-        <select name="publish_month" id="admin-storyeditor_advanced-publish_month">
+        <select name="publish_month" id="admin-storyeditor-publish_month">
           {publish_month_options}
         </select>
         月
@@ -50,20 +50,22 @@
       <dt><label for="admin-storyeditor-draft_flag">{lang_draft}</label></dt>
       <dd><input type="checkbox" {is_checked} name="draft_flag" id="admin-storyeditor-draft_flag"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor-archiveflag">{lang_archivetitle}({lang_option})</label></dt>
+      <dt><label for="admin-storyeditor-archiveflag">{lang_archivetitle}</label></dt>
       <dd>
-        <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor-archiveflag"{xhtml}>{lang_enabled}
+        {lang_enabled}&nbsp;
+        <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor-archiveflag"{xhtml}>
         <input type="radio" name="statuscode" id="storycode10" value="10" {is_checked3}{xhtml}>{lang_optionarchive}
-        <input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>{lang_optiondelete}
+        &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>
+        &nbsp;{lang_optiondelete}
       </dd>
 
-      <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
-      <dd>
+      <dt><label for="admin-storyeditor-expire_month"></label></dt>
+      <dd>{lang_date}&nbsp;
         <select name="expire_year">
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" id="admin-storyeditor_advanced-expire_month">
+        <select name="expire_month" id="admin-storyeditor-expire_month">
           {expire_month_options}
         </select>
         月
@@ -99,17 +101,18 @@
 
       <dt>{lang_cmt_disable}:</dt>
       <dd>
-        {lang_enabled}
+        {lang_enabled}&nbsp;
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
+           &nbsp;
            <span dir="ltr">
            <select name="cmt_close_year">
              {cmt_close_year_options}
-            </select>
-            年
-            <select name="cmt_close_month">
-              {cmt_close_month_options}
-            </select>
-            月
+           </select>
+           年
+           <select name="cmt_close_month">
+                   {cmt_close_month_options}
+           </select>
+           月
            <select name="cmt_close_day">
              {cmt_close_day_options}
            </select>
