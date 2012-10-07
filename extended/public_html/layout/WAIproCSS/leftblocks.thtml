@@ -14,7 +14,9 @@
             <fieldset>
               <legend>{button_search}</legend>
               <ul>
-                <li><input type="text" size="16" maxlength="255" name="query" class="text"{xhtml}></li>
+                <li><input type="text" class="search" size="16" maxlength="255" value="{button_search}" name="query"
+                  onfocus="if (this.value == '{button_search}') this.value = ''"
+                  onblur="if (this.value == '') this.value = '{button_search}'"{xhtml}></li>
                 <li>
                   <input type="hidden" value="all" name="type"{xhtml}>
                   <input type="hidden" value="all" name="keyType"{xhtml}>

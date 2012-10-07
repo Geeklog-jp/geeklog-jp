@@ -87,7 +87,7 @@
   <fieldset>
     <legend>{lang_accessrights}</legend>
 
-    <dl>
+    <dl class="form_block">
       <dt>{lang_owner}</dt>
       <dd>{owner_username}</dd>
 

@@ -1,10 +1,12 @@
 
 <!-- admin/story/storyeditor_advanced.japanese_utf-8.thtml { -->
 
+{noscript}
+
 <div id="advanced_editor" style="display: none;">
 {navbar}
 
-<form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onSubmit='set_postcontent();' id="admin-storyeditor_advanced" class="compact">
+<form action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onsubmit="set_postcontent();" id="admin-storyeditor_advanced" class="compact">
 
   <div class="admin_basic">
     <dl>
@@ -21,10 +23,10 @@
       <dd><input type="text" size="40" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor_advanced-sid" class="text"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
-      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" rows="2" cols="40" class="wide">{meta_description}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_description" id="admin-storyeditor-metadescription" rows="2" cols="70" class="wide">{meta_description}</textarea></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
-      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="40" class="wide">{meta_keywords}</textarea></dd>
+      <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="70" class="wide">{meta_keywords}</textarea></dd>
 
       <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
@@ -47,7 +49,7 @@
       <dt><label for="admin-storyeditor_advanced-draft_flag">{lang_draft}</label></dt>
       <dd><input type="checkbox" {is_checked} name="draft_flag" id="admin-storyeditor_advanced-draft_flag"{xhtml}></dd>
 
-      <dt><label for="admin-storyeditor_advanced-postmode">{lang_postmode}</label></dt>
+      <dt><label for="sel_editmode">{lang_postmode}</label></dt>
       <dd>
         <select {change_editormode} name="postmode" id="sel_editmode">
           {post_options}
@@ -62,8 +64,8 @@
         <dt><label for="introtext">{lang_introtext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeTextAreaSize('introtext','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="expand button" title="{lang_expandhelp}" onclick="changeTextAreaSize('introtext','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="collapse button" title="{lang_reducehelp}" onclick="changeTextAreaSize('introtext','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="14" name="introtext" id="introtext" class="wide">{story_introtext}</textarea>
         </dd>
@@ -73,8 +75,8 @@
         </dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeTextAreaSize('bodytext','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeTextAreaSize('bodytext','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="expand button" title="{lang_expandhelp}" onclick="changeTextAreaSize('bodytext','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="collapse button" title="{lang_reducehelp}" onclick="changeTextAreaSize('bodytext','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="14" name="bodytext" id="bodytext" class="wide">{story_bodytext}</textarea>
         </dd>
@@ -87,8 +89,8 @@
         <dt><label for="introhtml">{lang_introtext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('introhtml','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('introhtml','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="expand button" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('introhtml','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="collapse butto" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('introhtml','smaller');"{xhtml}></li>
             <li>
               {lang_toolbar}
               <select id="fckeditor_toolbar_selector" name="fckeditor_toolbar_selector" onchange="changeToolbar(this.value);">
@@ -105,8 +107,8 @@
         <dt><label for="bodyhtml">{lang_bodytext}</label></dt>
         <dd>
           <ul class="navi">
-            <li><img src="{layout_url}/images/expand.png" alt="{lang_expandhelp}" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('bodyhtml','larger');"{xhtml}></li>
-            <li><img src="{layout_url}/images/collapse.png" alt="{lang_reducehelp}" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('bodyhtml','smaller');"{xhtml}></li>
+            <li><img src="{layout_url}/images/expand.png" alt="" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('bodyhtml','larger');"{xhtml}></li>
+            <li><img src="{layout_url}/images/collapse.png" alt="" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('bodyhtml','smaller');"{xhtml}></li>
           </ul>
           <textarea cols="45" rows="20" name="bodyhtml" id="bodyhtml" class="wide">{story_bodytext}</textarea>
         </dd>
@@ -266,10 +268,10 @@
       <dt>{lang_owner}</dt>
       <dd>{owner_name}</dd>
 
-      <dt><label>{lang_group}</label></dt>
+      <dt><label for="group_id">{lang_group}</label></dt>
       <dd>{group_dropdown}</dd>
 
-      <dt><label for="perm_owner">{lang_permissions}</label></dt>
+      <dt><label for="admin-permissions">{lang_permissions}</label></dt>
       <dd class="description">{lang_perm_key}</dd>
       <dd>{permissions_editor}</dd>
       <dd class="description">{lang_permissions_msg}</dd>
