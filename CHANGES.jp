@@ -1,3 +1,10 @@
+2012-10-07  Masuko Koeda <milk851>
+
+	* Geeklog 2.0.0rc1の修正をテーマWAIproCSSに反映しました。
+	  WAIprocssのバージョンを2.6.0に上げ、
+	  READMEにこの更新を記載しました。
+
+
 2012-10-07  Tetsuko Komma  <Ivy>
 
 	* テーマmobileを2.0.0rc1のProfessional_cssに追従させました。
