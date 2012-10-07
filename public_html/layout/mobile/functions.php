@@ -89,7 +89,9 @@ function theme_js_files_mobile()
  */
 function theme_init_mobile()
 {
-    global $_BLOCK_TEMPLATE;
+    global $_BLOCK_TEMPLATE, $_CONF;
+
+    $_CONF['supported_version_theme'] = '2.0.0'; // support new theme format for the later Geeklog 2.0
 
     /*
      * For left/right block support there is no longer any need for the theme to
@@ -290,16 +292,16 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     $footer->set_var( 'execution_textandtime', $exectext );
 
     /*
-     * ãƒ¡ãƒ‹ãƒ¥ãƒ¼
+     * ƒƒjƒ…[
      */
 	$akey = 1;
 	
-    // ãƒ›ãƒ¼ãƒ 
+    // ƒz[ƒ€
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
                       '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
 	$akey ++;
 	
-    // ãƒ­ã‚°ã‚¤ãƒ³/ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
+    // ƒƒOƒCƒ“/ƒƒOƒAƒEƒg
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
@@ -311,43 +313,43 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     }
 	$akey ++;
 	
-    // è¨˜äº‹æŠ•ç¨¿
+    // ‹L–“Še
     $footer->set_var( 'mn_submit', '<a href="' . $_CONF['site_url'] .
                       '/submit.php?type=story" accesskey="' . $akey . '">' . $LANG01['71'] . '</a>' );
 	$akey ++;
 	
-    // æ²ç¤ºæ¿
+    // Œf¦”Â
 	$temp = DB_query("SELECT 1 AS cnt FROM {$_TABLES['plugins']} WHERE (pi_name = 'forum') AND (pi_enabled = '1')");
 	if (DB_numRows($temp) == 1) {
 	    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
-    	                  '/forum/index.php" accesskey="' . $akey . '">' . "æ²ç¤ºæ¿</a>" );
+    	                  '/forum/index.php" accesskey="' . $akey . '">' . "Œf¦”Â</a>" );
 		$akey ++;
 	}
 	
-    // è¨˜äº‹ä¸€è¦§
+    // ‹L–ˆê——
     $footer->set_var( 'mn_directory', '<a href="' . $_CONF['site_url'] .
                       '/directory.php" accesskey="' . $akey . '">' . $LANG01['117'] . '</a>' );
 	$akey ++;
 	
-    // æ¤œç´¢
+    // ŒŸõ
     $footer->set_var( 'mn_search', '<a href="' . $_CONF['site_url'] .
                       '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
 	$akey ++;
 	
-    // ãƒ–ãƒ­ãƒƒã‚¯
+    // ƒuƒƒbƒN
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="' . $akey . '">ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">ƒTƒuƒƒjƒ…[</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-    // ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ
+    // ƒ}ƒCƒAƒJƒEƒ“ƒg
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
     } else {
-    // æ–°è¦ç™»éŒ²
+    // V‹K“o˜^
         	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/users.php?mode=new" accesskey="' . $akey . '">ä¼šå“¡ç™»éŒ²</a>' );
+                      '/users.php?mode=new" accesskey="' . $akey . '">‰ïˆõ“o˜^</a>' );
 	$akey ++;
     }
 
