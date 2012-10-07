@@ -1,5 +1,10 @@
 2012-10-07  Yoshinori Tahara  <dengen>
 
+	* 2.0.0rc1から追加されたテンプレートをprofessional_cssおよび
+	  mobileテーマに追加しました。
+
+2012-10-07  Yoshinori Tahara  <dengen>
+
 	* 記事エディタの日本語専用のテンプレートを更新しました。
 
 2012-10-07  Tetsuko Komma  <Ivy>
