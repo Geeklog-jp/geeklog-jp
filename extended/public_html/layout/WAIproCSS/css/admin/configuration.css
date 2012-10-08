@@ -23,7 +23,14 @@ div#centerblocks #config_menu .block-center {
   margin: 0 0 0.5em;
   padding: 0 0em 1em;
   text-align: left;
+}
+
+#search-configuration-container {
   border-bottom: 1px solid #CCC;
+}
+
+div#centerblocks #config_menu div.block-center {
+  border-bottom: none;
 }
 
 div#centerblocks #config_menu .block-center h2 {
@@ -40,6 +47,7 @@ div#centerblocks #config_menu .block-center h2 {
 
 div#centerblocks #config_menu .block-center .block-center-content {
   padding-left: 0.5em;
+  border-bottom: 1px solid #CCC;
 }
 
 .configoption,

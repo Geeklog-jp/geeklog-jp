@@ -6,7 +6,9 @@
     <label><input type="radio" name="topic_option" value="all" {all_checked}{xhtml}> {lang_all}</label> 
     <label><input type="radio" name="topic_option" value="homeonly" {homeonly_checked}{xhtml}> {lang_homeonly}</label>
     <span style="{topic_option_hide}"><input type="radio" name="topic_option" value="selectedtopics" {selectedtopics_checked}{xhtml}></span> 
-    <select name="tid[]" multiple="multiple" size="4" style="vertical-align:top;display:inline-block;{topic_hide}">
+</div>
+<div style="vertical-align:top;display:inline-block;{topic_hide}">
+    <select name="tid[]" multiple="multiple" class="multiple" size="4">
         {topic_options}
     </select>
 </div>

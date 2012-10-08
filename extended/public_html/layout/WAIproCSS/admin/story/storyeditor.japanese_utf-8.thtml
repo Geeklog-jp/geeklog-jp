@@ -59,11 +59,11 @@
 
       <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
       <dd>
-        <select name="expire_year" id="admin-storyeditor_advanced-expire_month" title="年">
+        <select name="expire_year" title="年">
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" title="月">
+        <select name="expire_month" id="admin-storyeditor_advanced-expire_month" title="月">
           {expire_month_options}
         </select>
         月
@@ -136,6 +136,12 @@
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
       <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="70" class="wide">{meta_keywords}</textarea></dd>
 
+      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
+      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext" class="wide">{story_introtext}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
+      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
+
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
         <select name="postmode" id="admin-storyeditor-postmode">
@@ -143,12 +149,6 @@
         </select>
       </dd>
       <dd class="description">{lang_allowed_html}</dd>
-
-      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext" class="wide">{story_introtext}</textarea></dd>
-
-      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
 
       <dt><label>{lang_images}</label></dt>
       <dd>
