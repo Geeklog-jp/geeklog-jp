@@ -60,6 +60,7 @@
 
   <div>
     <div id="text_editor" style="display: {show_texteditor};">
+      <div class="description">{lang_allowed_html}</div>
       <dl>
         <dt><label for="introtext">{lang_introtext}</label></dt>
         <dd>
@@ -156,7 +157,7 @@
     <legend>{lang_publishoptions}</legend>
 
     <dl>
-      <dt><label>{lang_mode}</label></dt>
+      <dt>{lang_mode}</dt>
       <dd>
         {featured_options}
         <select name="frontpage">
@@ -169,7 +170,7 @@
           {trackback_options}
         </select>
       </dd>
-      <dt><label>{lang_cmt_disable}</label></dt>
+      <dt>{lang_cmt_disable}</dt>
       <dd>
         {lang_enabled}
         <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
@@ -207,7 +208,7 @@
     <legend>{lang_images}</legend>
 
     <dl>
-      <dt><label>{lang_images}</label></dt>
+      <dt>{lang_images}</dt>
       <dd>
         {saved_images}
         {image_form_elements}
