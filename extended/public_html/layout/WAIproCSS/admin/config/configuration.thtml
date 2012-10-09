@@ -15,8 +15,7 @@
             <input name="tab-id" id="tab-id" type="hidden" value="{tab_id_value}"{xhtml}>
         </div>
         {config_menu}
-</div>
-</div>
+
     </div>
 
     <div id="config_content">
