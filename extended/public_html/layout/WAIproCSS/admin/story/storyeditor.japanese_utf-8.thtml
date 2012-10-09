@@ -136,11 +136,6 @@
       <dt{hide_meta}><label for="admin-storyeditor-metakeywords">{lang_metakeywords}</label></dt>
       <dd{hide_meta}><textarea name="meta_keywords" id="admin-storyeditor-metakeywords" rows="2" cols="70" class="wide">{meta_keywords}</textarea></dd>
 
-      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
-      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext" class="wide">{story_introtext}</textarea></dd>
-
-      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
-      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
 
       <dt><label for="admin-storyeditor-postmode">{lang_postmode}</label></dt>
       <dd>
@@ -150,6 +145,11 @@
       </dd>
       <dd class="description">{lang_allowed_html}</dd>
 
+      <dt><label for="admin-storyeditor-introtext">{lang_introtext}</label></dt>
+      <dd><textarea cols="70" rows="12" name="introtext" id="admin-storyeditor-introtext" class="wide">{story_introtext}</textarea></dd>
+
+      <dt><label for="admin-storyeditor-bodytext">{lang_bodytext}</label></dt>
+      <dd><textarea cols="70" rows="20" name="bodytext" id="admin-storyeditor-bodytext" class="wide">{story_bodytext}</textarea></dd>
       <dt><label>{lang_images}</label></dt>
       <dd>
         {saved_images}
