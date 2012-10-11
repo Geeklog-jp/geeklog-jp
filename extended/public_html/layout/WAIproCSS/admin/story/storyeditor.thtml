@@ -1,7 +1,7 @@
 
 <!-- admin/story/storyeditor.thtml { -->
 
-<form action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
+<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="frmstory" class="compact">
 
   <div class="admin_basic">
     <dl>
@@ -58,8 +58,8 @@
         &nbsp;{lang_optiondelete}
       </dd>
 
-      <dt><label for="admin-storyeditor-expire_month"></label></dt>
-      <dd>{lang_date}&nbsp;
+      <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
+      <dd>
         <select name="expire_month" id="admin-storyeditor-expire_month">
           {expire_month_options}
         </select>

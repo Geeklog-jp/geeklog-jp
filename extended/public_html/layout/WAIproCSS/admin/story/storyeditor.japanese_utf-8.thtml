@@ -1,7 +1,7 @@
 
 <!-- admin/story/storyeditor.japanese_utf-8.thtml { -->
 
-<form action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="admin-storyeditor" class="compact">
+<form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="frmstory" class="compact">
 
   <div class="admin_basic">
     <dl>
@@ -59,11 +59,11 @@
 
       <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
       <dd>
-        <select name="expire_year" title="年">
+        <select name="expire_year" title="年" id="admin-storyeditor-expire_month">
           {expire_year_options}
         </select>
         年
-        <select name="expire_month" id="admin-storyeditor_advanced-expire_month" title="月">
+        <select name="expire_month" title="月">
           {expire_month_options}
         </select>
         月
