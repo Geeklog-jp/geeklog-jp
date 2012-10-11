@@ -6,7 +6,7 @@
 <div id="advanced_editor" style="display: none;">
 {navbar}
 
-<form action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onsubmit="set_postcontent();" id="admin-storyeditor_advanced" class="compact">
+<form  name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" onsubmit="set_postcontent();" id="frmstory" class="compact">
 
   <div class="admin_basic">
     <dl>
@@ -93,7 +93,7 @@
             <li><img src="{layout_url}/images/expand.png" alt="expand button" title="{lang_expandhelp}" onclick="changeHTMLTextAreaSize('introhtml','larger');"{xhtml}></li>
             <li><img src="{layout_url}/images/collapse.png" alt="collapse button" title="{lang_reducehelp}" onclick="changeHTMLTextAreaSize('introhtml','smaller');"{xhtml}></li>
             <li>
-              {lang_toolbar}
+              <label for="fckeditor_toolbar_selector">{lang_toolbar}</label>
               <select id="fckeditor_toolbar_selector" name="fckeditor_toolbar_selector" onchange="changeToolbar(this.value);">
                 <option value="editor-toolbar1">{toolbar1}</option>
                 <option value="editor-toolbar2" selected="selected">{toolbar2}</option>
@@ -179,7 +179,7 @@
                    {cmt_close_month_options}
            </select>
            /
-           <select name="cmt_close_day title="day"">
+           <select name="cmt_close_day title="day">
               {cmt_close_day_options}
            </select>
            /

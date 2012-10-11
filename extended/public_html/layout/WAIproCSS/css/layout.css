@@ -21,8 +21,8 @@
               ・サイト全体の幅[W] = 70.2em
               ・左ブロックの幅[L] = 12.5em
               ・右ブロックの幅[R] = 12.5em
-              ・中央ブロックの幅(3カラム) = 44.08em
-              ・中央ブロックの幅(2カラム) = 56.694em
+              ・中央ブロックの幅(3カラム) = 44.069em
+              ・中央ブロックの幅(2カラム) = 56.669em
               ・中央ブロックの幅(1カラム) = 68.8em
   適用先  : header.thtml, footer.thtml, leftblocks.thtml, rightblocks.thtml
 ==============================================================================*/
@@ -349,7 +349,7 @@ div#container div#wrapper div#carrier div#centerblocks {
 /* JavaScript有効・3カラム(左ブロック・中央ブロック・右ブロック)時の中央ブロックコンテナ */
 body.left-center-right div#container div#wrapper div#carrier div#centerblocks {
   float: right;
-  width: 44.08em;  /* 中央ブロックの幅(3カラム) */
+  width: 44.069em;  /* 中央ブロックの幅(3カラム) */
   padding: 0.45em;
   background: #ffffff;
   border-left: 0.1em solid #555555;
@@ -359,7 +359,7 @@ body.left-center-right div#container div#wrapper div#carrier div#centerblocks {
 /* JavaScript有効・2カラム(左ブロック・中央ブロック)時の中央ブロックコンテナ */
 body.left-center div#container div#wrapper div#carrier div#centerblocks {
   float: right;
-  width: 56.694em;  /* 中央ブロックの幅(2カラム) */
+  width: 56.669em;  /* 中央ブロックの幅(2カラム) */
   padding: 0.45em;
   background: #ffffff;
   border-left: 0.1em solid #555555;
@@ -368,7 +368,7 @@ body.left-center div#container div#wrapper div#carrier div#centerblocks {
 /* JavaScript有効・2カラム(中央ブロック・右ブロック)時の中央ブロックコンテナ */
 body.center-right div#container div#wrapper div#carrier div#centerblocks {
   float: left;
-  width: 56.694em;
+  width: 56.669em;
   padding: 0.45em;
   background: #ffffff;
   border-right: 0.1em solid #555555;
@@ -384,7 +384,7 @@ body.center div#container div#wrapper div#carrier div#centerblocks {
 /* JavaScript無効時の中央ブロックコンテナ */
 body.js_off div#container div#wrapper div#carrier div#centerblocks {
   float: right;
-  width: 44.08em;
+  width: 44.069em;
   padding: 0.45em;
   background: #ffffff;
   border-left: 0.1em solid #555555;

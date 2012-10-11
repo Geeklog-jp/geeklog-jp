@@ -116,12 +116,12 @@ form#admin-storyeditor_advanced h3 {
 }
 
 /* ナビゲーション */
-form#admin-storyeditor_advanced dl dd ul.navi {
+form#frmstory dl dd ul.navi {
   margin: 0;
   padding: 0;
 }
 
-form#admin-storyeditor_advanced dl dd ul.navi li {
+form#frmstory dl dd ul.navi li {
   display: inline;
   margin: 0;
   padding: 0;
