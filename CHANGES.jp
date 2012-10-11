@@ -1,3 +1,8 @@
+2012-10-10  Takahiro Kambe  <tacahi>
+
+	* geeklog.netからの修正: 新しい匿名のセッションの作成によって、
+	  既存の匿名のセッションが削除される問題の修正を取り込みました。
+
 2012-10-09  Masuko Koeda <milk851>
 
 	* テーマWAIproCSSのコンフィギレーションページの
