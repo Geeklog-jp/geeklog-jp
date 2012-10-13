@@ -1,3 +1,8 @@
+2012-10-13  Yoshinori Tahara  <dengen>
+
+	* custommenuプラグイン: 親アイテムIDとして自分・子・孫のメニューアイテ
+	  ムIDを設定できてしまう問題を修正しました。
+
 2012-10-13  Takahiro Kambe  <tacahi>
 
 	* Geeklog 2.0.0rc1のマージ: GNUmakefile.commonのGL_VERSIONを
