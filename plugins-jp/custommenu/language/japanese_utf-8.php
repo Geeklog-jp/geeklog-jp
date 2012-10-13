@@ -133,6 +133,7 @@ $LANG_CMED_EDITOR = array(
     'validate_message_5'  => 'すでに同じメニューアイテムIDが存在します。',
     'validate_message_6'  => 'URL照合文字列が正しくありません。',
     'validate_message_7'  => '固定モードと可変モードで、URLは省略できません。',
+    'validate_message_8'  => '親アイテムIDの設定に誤りがあります。',
     'pattern'             => 'URL照合文字列',
     'pattern_info'        => '表示中のページのURLがこの文字列とマッチした場合は、システムに渡されるメニューアイテムの情報に"selected"が付加されます。<br' . XHTML . '>これを活用するとメニューアイテムのスタイルを反転させることなどが可能になります。',
     'is_preg'             => '正規表現',

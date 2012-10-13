@@ -155,6 +155,18 @@ function CMED_validateMI($mode)
         $retval .= $LANG_CMED_EDITOR['validate_message_7'] . $br;
     }
 
+    if ($MI['mid'] == $MI['pmid']) {
+        $retval .= $LANG_CMED_EDITOR['validate_message_8'] . $br;
+    } else {
+        $A = CMED_getChildTreeArray($MI['mid']);
+        foreach ($A as $B) {
+            if ($MI['pmid'] == $B['mid']) {
+                $retval .= $LANG_CMED_EDITOR['validate_message_8'] . $br;
+                break;
+            }
+        }
+    }
+
     return $retval;
 }
 
