@@ -290,7 +290,7 @@
 
 	  system/databases/mysql.class.php
 
-		charsetの皮革にstrcasecmp()の使用を取り止め
+		charsetの比較にstrcasecmp()の使用を取り止め
 
 	  system/lib-custom.php
 

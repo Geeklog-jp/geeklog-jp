@@ -5,7 +5,7 @@ NEWS
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
 
 
-Geeklog 2.0.0-jp-1.1					2012年10月**日
+Geeklog 2.0.0-jp-1.0					2012年10月**日
 
   o Geeklog 1.8.1-jp-1.1からの変更
 
@@ -13,23 +13,84 @@ Geeklog 2.0.0-jp-1.1					2012年10月**日
 
     - 日本語コア言語ファイル
 	* 国語審議会の報告を基に告示された1991年の内閣告示第二号にあわせて
-	  長音表記を変更しました。
+	  長音表記ルールを変更しました。
+
+    インストーラ
+
+	* LocalizeGeeklogクラスでセットする更新pingサーバーを変更しました
 
     日本語版テーマ
 
-	* professional_cssテーマ及びWAIproCSSテーマをGeeklog 2.0に対応させ
+	* Professional_css、Mobile、およびWAIproCSSをGeeklog 2.0に対応させ
 	  ました。
 
 	* mobileテーマは、JavaScriptを多用するようになった管理画面をサポート
 	  できなくなりました。
 
 	* その他Professional、新テーマModern Curve、およびレスポンシブWEB
-	  デザインテーマの些細な調整を行いました。
+	  デザインテーマDenimの些細な調整を行いました。
 
     日本語拡張版プラグイン
 
-    - Dbmanを、バージョン 2.8.0 にアップグレードし
+      すべてのプラグインをGeeklog 2.0に対応させました。
 
+    - Autotags バージョン 1.1.1 を同梱
+    - Calendarjp バージョン 1.1.6 を同梱
+
+	* Geeklog 2.0.0b1のcalendarプラグインの変更を
+	  マージしました。
+
+    - CAPTCHA バージョン 4.0.2 を同梱
+
+    - CustomMenu バージョン 0.7.0 を同梱
+
+	* 親アイテムIDとして自分・子・孫のメニューアイテムIDを設定
+	  できてしまう問題を修正しました。
+
+    - Dataproxy バージョン 2.0.0 を同梱
+
+	* Geeklog 2.0.0に対応させました。
+	* calendarjpとmediagalleryのドライバークラスの
+	  メソッド宣言に関する問題を修正しました。
+
+    - Dbman バージョン 0.7.1 を同梱
+
+	* 管理画面のURLを統一しました。
+	* 管理画面以外ではdbman.jsを読み込まないようにしました。
+	* Geeklog 2.0.0に対応させました。
+
+    - Filemgmt バージョン 1.6.0.jp3 を同梱
+
+    - Forum バージョン 2.9.0hg を同梱
+
+	* Google Codeリポジトリの最新をマージしました。
+
+    - Japanize バージョン 1.0.6RC5 を同梱
+
+    - Mycaljp バージョン 2.2.0 を同梱
+
+	* Geeklog 2.0.0からの新テーマエンジンに合わせて最適化しました。
+	* 動作に必要なGeeklogのバージョンを 2.0.0以降に変更しました。
+	* ダイナミックブロックタイプに変更しました。
+
+    - Nmoxtopicown バージョン 1.0.12 を同梱
+
+	* Geeklog 2.0.0に対応させました。
+
+    - Sitemap バージョン 2.0.0 を同梱
+
+	* Geeklog 2.0.0に対応させました。
+
+    - Theme Editor バージョン 1.2.1 を同梱
+
+	* 管理画面のURLを統一しました。
+
+
+    日本語拡張版カスタム関数
+
+    - phpblock_lastarticle.php 
+
+      Geeklog 2.0に対応させました。
 
 
 Geeklog 1.8.1-jp-1.1					2012年5月4日
