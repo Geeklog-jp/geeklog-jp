@@ -148,7 +148,7 @@ $LANG_confignames['polls'] = array(
     'autotag_permissions_poll' => '[poll: ] パーミッション',
     'autotag_permissions_poll_vote' => '[poll_vote: ] パーミッション',
     'autotag_permissions_poll_result' => '[poll_result: ] パーミッション',
-    'newpollsinterval' => 'アンケート投稿の間隔',
+    'newpollsinterval' => 'アンケートの"新着"期間',
     'hidenewpolls' => '新着アンケート',
     'title_trim_length' => 'タイトル最大長',
     'meta_tags' => 'メタタグを有効にする',
@@ -176,10 +176,10 @@ $LANG_tab['polls'] = array(
 $LANG_fs['polls'] = array(
     'fs_main' => 'アンケートのメイン設定',
     'fs_whatsnew' => '新着情報ブロック',
-    'fs_permissions' => 'アンケートのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_autotag_permissions' => '自動タグのパーミッション',
+    'fs_permissions' => 'アンケートのパーミッションのデフォルト ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
+    'fs_autotag_permissions' => '自動タグのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
     'fs_block_settings' => 'ブロックの設定',
-    'fs_block_permissions' => 'ブロックのパーミッション'
+    'fs_block_permissions' => 'ブロックのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']

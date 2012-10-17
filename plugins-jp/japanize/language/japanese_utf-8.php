@@ -50,8 +50,8 @@ $PLG_japanize_MESSAGE1001 = "更新しました。";
 ###############################################################################
 ## コンフィギュレーション
 $LANG_configsections['japanize'] = array();
-$LANG_configsections['japanize']['label']='japanize';
-$LANG_configsections['japanize']['title']='japanizeの設定';
+$LANG_configsections['japanize']['label']='Japanize';
+$LANG_configsections['japanize']['title']='Japanizeの設定';
 
 //
 $LANG_confignames['japanize'] = array();
@@ -62,7 +62,7 @@ $LANG_configsubgroups['japanize'] = array();
 $LANG_configsubgroups['japanize']['sg_main'] = 'メイン';
 //
 $LANG_fs['japanize'] = array();
-$LANG_fs['japanize']['fs_main'] = '既定値の設定';
+$LANG_fs['japanize']['fs_main'] = 'デフォルトの設定';
 
 //
 $LANG_configselects['japanize'] = array(

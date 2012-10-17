@@ -57,7 +57,7 @@ $LANG_CALJP_1 = array(
     13 => '開始',
     14 => '終了',
     15 => 'カレンダーに戻る',
-    16 => 'カレンダーjp',
+    16 => 'カレンダー',
     17 => '開始',
     18 => '終了日時',
     19 => 'イベントの投稿申請',
@@ -252,10 +252,10 @@ $LANG_tab['calendarjp'] = array(
 
 $LANG_fs['calendarjp'] = array(
     'fs_main' => 'カレンダーjpのメイン設定',
-    'fs_permissions' => 'カレンダーjpのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_autotag_permissions' => '自動タグのパーミッション',
+    'fs_permissions' => 'カレンダーjpのパーミッションのデフォルト ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
+    'fs_autotag_permissions' => '自動タグのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
     'fs_block_settings' => 'ブロック設定',
-    'fs_block_permissions' => 'ブロックのパーミッション'
+    'fs_block_permissions' => 'ブロックのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)'
 );
 
 // Note: entries 0, 1, 6, 9, 12 are the same as in $LANG_configselects['Core']

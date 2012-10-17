@@ -146,9 +146,9 @@ $LANG_configsections['staticpages'] = array(
 
 $LANG_confignames['staticpages'] = array(
     'allow_php' => 'PHPを許可する',
-    'sort_by' => 'センターブロックでのソート項目',
-    'sort_menu_by' => 'メニューでのソート項目',
-    'sort_list_by' => '管理者ページソート順',
+    'sort_by' => 'センターブロックのソート',
+    'sort_menu_by' => 'メニューのソート',
+    'sort_list_by' => '管理者ページのソート',
     'delete_pages' => '所有者の削除と共に削除する',
     'in_block' => 'ページをブロックで囲む',
     'show_hits' => '閲覧数を表示する',
@@ -164,11 +164,11 @@ $LANG_confignames['staticpages'] = array(
     'comment_code' => '新規作成時のデフォルト',
     'draft_flag' => 'ドラフトモードをデフォルトにする',
     'disable_breadcrumbs_staticpages' => 'パンくずリストを無効にする',
-    'newstaticpagesinterval' => '静的ページの"新着"の期間',
+    'newstaticpagesinterval' => '静的ページの"新着"期間',
     'hidenewstaticpages' => '新着ブロック表示',
     'title_trim_length' => 'タイトル最大長',
     'includecenterblocks' => 'センターブロックの静的ページを含む',
-    'includephp' => '静的ページPHPを含む',
+    'includephp' => 'PHPモードの静的ページを含む',
     'includesearch' => '静的ページを検索する',
     'includesearchcenterblocks' => 'センターブロックの静的ページを含む',
     'includesearchphp' => '静的ページPHPを含む'
@@ -190,8 +190,8 @@ $LANG_fs['staticpages'] = array(
     'fs_main' => '静的ページのメイン設定',
     'fs_whatsnew' => '新着情報ブロック',
     'fs_search' => '検索結果',
-    'fs_permissions' => '静的ページのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_autotag_permissions' => '自動タグのパーミッション'
+    'fs_permissions' => '静的ページのパーミッションのデフォルト ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
+    'fs_autotag_permissions' => '自動タグのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)'
 );
 
 // Note: entries 0, 1, 9, 12, 17 are the same as in $LANG_configselects['Core']
