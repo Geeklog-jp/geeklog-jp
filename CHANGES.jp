@@ -1,3 +1,8 @@
+2012-10-18  Tetsuko Komma  <Ivy>
+
+	* コンフィギュレーションの言語ファイル全般、日本語ドキュメントの
+	  Geeklog 2.0.0rc1 新規部分の追加および細かな調整を行いました。
+
 2012-10-13  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: 親アイテムIDとして自分・子・孫のメニューアイテ
