@@ -114,19 +114,14 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 <p><i>(to be grouped and sorted)</i></p>
 
 <ul>
-<li>Added a new variable <code>{plg_footercode}</code> to <tt>footer.thtml</tt>.
-    Allows for adding code, e.g. JavaScript code, to the end of a page.</li>
-<li>Added a robots meta tag to the printable story page,
-    <tt>article/printable.thtml</tt>, so that it isn't indexed by search
-    engines.</li>
-<li>Added a robots meta tag to the printable Static Pages page,
-    <tt>templates/printable.thtml</tt>, so that it isn't indexed by search
-    engines.</li>
-<li>Added a new <tt>tooltips</tt> directory that contains templates for various
-    forms of tooltips (used e.g. for displaying autotag descriptions). Also
-    required some changes in the <code>tooltip</code> classes and introduced
-    new classes (<tt>classic</tt>, <tt>help</tt>, etc.) in the stylesheet,
-    <tt>style.css</tt>.</li>
+<li>新たにテーマ変数 <code>{plg_footercode}</code> が <tt>footer.thtml</tt>に追加されました。
+    これにより追加コード、たとえば JavaScriptコードがページの終わりに追加されます。</li>
+<li>検索エンジン向けにメタタグが記事の印刷用ページ<tt>article/printable.thtml</tt>に追加されました。
+    これにより検索エンジンにクロールされないようになりました。</li>
+<li>検索エンジン向けにメタタグが静的ページの印刷用ページ
+    <tt>templates/printable.thtml</tt>に追加されましたこれにより検索エンジンにクロールされないようになりました。</li>
+<li>新たに様々な tooltips向けのテンプレートを含む<tt>tooltips</tt>ディレクトリ(自動タグの説明などで活用)が提供されました。
+    スタイルシート<tt>style.css</tt>の<code>tooltip</code>クラスとあたらしいクラスに、いくつかの変更が必要です (<tt>classic</tt>, <tt>help</tt>, etc.) </li>
 </ul>
 
 

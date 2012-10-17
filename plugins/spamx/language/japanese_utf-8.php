@@ -160,12 +160,12 @@ $LANG_configsections['spamx'] = array(
 
 $LANG_confignames['spamx'] = array(
     'spamx_action' => 'Spam-Xアクション',
-    'notification_email' => 'メールで通知',
-    'logging' => 'ログを有効',
+    'notification_email' => 'メール通知',
+    'logging' => 'ログを有効にする',
     'timeout' => 'タイムアウト',
-    'sfs_enabled' => '掲示板のスパム防止を有効',
-    'snl_enabled' => 'スパムリンク検証を有効',
-    'snl_num_links' => 'リンク数'
+    'sfs_enabled' => 'Stop Forum Spamモジュールを有効',
+    'snl_enabled' => 'Spam Number of Linksモジュールを有効',
+    'snl_num_links' => 'リンクの数'
 );
 
 $LANG_configsubgroups['spamx'] = array(
@@ -179,8 +179,8 @@ $LANG_tab['spamx'] = array(
 
 $LANG_fs['spamx'] = array(
     'fs_main' => 'Spam-Xの設定',
-    'fs_sfs' => '掲示板のスパム防止',
-    'fs_snl' => 'スパムリンク検証'
+    'fs_sfs' => 'Stop Forum Spam',
+    'fs_snl' => 'Spam Number of Links'
 );
 
 // Note: entries 0, 1, 9, and 12 are the same as in $LANG_configselects['Core']

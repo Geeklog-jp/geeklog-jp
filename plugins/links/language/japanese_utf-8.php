@@ -232,7 +232,7 @@ $LANG_configsections['links'] = array(
 $LANG_confignames['links'] = array(
     'linksloginrequired' => 'ログインを要求する',
     'linksubmission' => 'リンクの投稿を管理者が承認する',
-    'newlinksinterval' => '新規リンクと見なす期間',
+    'newlinksinterval' => 'リンクの"新着"期間',
     'hidenewlinks' => '新着情報ブロックに表示しない',
     'hidelinksmenu' => 'メニューに表示しない',
     'linkcols' => 'カテゴリの表示カラム数',
@@ -264,9 +264,9 @@ $LANG_tab['links'] = array(
 $LANG_fs['links'] = array(
     'fs_public' => 'リンクのメイン設定',
     'fs_admin' => 'リンクの管理',
-    'fs_permissions' => 'リンクのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_cpermissions' => 'カテゴリのパーミッションのデフォルト（[0]所有者 [1]グループ [2]メンバー [3]ゲスト）',
-    'fs_autotag_permissions' => '自動タグのパーミッション'
+    'fs_permissions' => 'リンクのパーミッションのデフォルト ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
+    'fs_cpermissions' => 'カテゴリのパーミッションのデフォルト ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)',
+    'fs_autotag_permissions' => '自動タグのパーミッション ([0]所有者 [1]グループ [2]メンバー [3]ゲスト)'
 );
 
 // Note: entries 0, 1, and 12 are the same as in $LANG_configselects['Core']
