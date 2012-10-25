@@ -452,8 +452,25 @@ function CMED_listMenuitems()
                            'query_fields'   => array('label'),
                            'default_filter' => COM_getPermSql('AND'));
 
+        $top = '';
+        if (isset($_REQUEST['query_limit'])) {
+            $query_limit = COM_applyFilter($_REQUEST['query_limit'], true);
+            if ($query_limit != 0) {
+                $top = '<input type="hidden" name="query_limit" value="'
+                       . $query_limit . '"' . XHTML . '>' . LB;
+            }
+        }
+
+        if (isset ($_REQUEST['menuitemslistpage'])) {
+            $page = COM_applyFilter($_REQUEST['menuitemslistpage'], true);
+            $top .= '<input type="hidden" name="menuitemslistpage" value="'
+                    . $page . '"' . XHTML . '>' . LB;
+        }
+
+        $form_arr = array('top' => $top);
+
         $retval .= ADMIN_list("menuitems", "CMED_getListField_Menuitems", $header_arr, $text_arr,
-                               $query_arr, $defsort_arr);
+                               $query_arr, $defsort_arr, '', '', '', $form_arr);
 
         $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
@@ -665,15 +682,30 @@ function CMED_moveMenuitem()
 /**
 * Enable and Disable menuitem
 */
-function CMED_changeMenuitemStatus($itemenable)
+function CMED_changeMenuitemStatus($itemenable, $memenable)
 {
     global $_TABLES;
-    
-    DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = '0'");
-    foreach ($itemenable as $index => $value) {
-        $index = COM_applyFilter($index, true);
-        $order = $index * 10;
-        DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = '1' WHERE menuorder = '$order'");
+
+    $disabled = array_diff($memenable, $itemenable);
+
+    // disable blocks
+    $in = '';
+    foreach ($disabled as $id) {
+        $in .= "'" . $id . "',";
+    }
+    $in = rtrim($in, ',');
+    if (!empty($in)) {
+        DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = 0 WHERE mid IN ($in)");
+    }
+
+    // enable blocks
+    $in = '';
+    foreach ($itemenable as $id) {
+        $in .= "'" . $id . "',";
+    }
+    $in = rtrim($in, ',');
+    if (!empty($in)) {
+        DB_query("UPDATE {$_TABLES['menuitems']} SET is_enabled = 1 WHERE mid IN ($in)");
     }
 }
 
@@ -750,8 +782,8 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
             $token  = "&amp;" . CSRF_TOKEN . "=" . $CMED_CSRF_TOKEN;
         }
 
-        switch($fieldname) {
-            case "edit":
+        switch ($fieldname) {
+            case 'edit':
                 if ($access == 3) {
                     $retval = "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
                             . "?mode=edit&amp;mid={$A['mid']}\">{$icon_arr['edit']}</a>" . LB
@@ -773,17 +805,30 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
 
             case 'menuorder':
                 if ($access == 3) {
+                    $param = '';
+                    if (isset($_REQUEST['query_limit'])) {
+                        $query_limit = COM_applyFilter($_REQUEST['query_limit'], true);
+                        if ($query_limit != 0) {
+                            $param = "&amp;query_limit=" . $query_limit;
+                        }
+                    }
+
+                    if (isset ($_REQUEST['menuitemslistpage'])) {
+                        $page = COM_applyFilter($_REQUEST['menuitemslistpage'], true);
+                        $param .= "&amp;menuitemslistpage=" . $page;
+                    }
+
                     $iconup  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-up.png\" "
                              . "alt=\"{$LANG_CMED_EDITOR['move_up']}\" title=\"{$LANG_CMED_EDITOR['move_up']}\"" . XHTML . ">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php"
-                             . "?mode=move&amp;mid={$A['mid']}&amp;where=up" . $token . "\">$iconup</a>";
+                             . "?mode=move&amp;mid={$A['mid']}&amp;where=up" . $param . $token . "\">$iconup</a>";
 
                     $icondn  = "<img src=\"{$_CONF['site_url']}/custommenu/images/arrow-dn.png\" "
                              . "alt=\"{$LANG_CMED_EDITOR['move_down']}\" title=\"{$LANG_CMED_EDITOR['move_down']}\"" . XHTML . ">";
 
                     $retval .= "<a href=\"{$_CONF['site_admin_url']}/plugins/custommenu/index.php?"
-                             . "mode=move&amp;mid={$A['mid']}&amp;where=dn" . $token . "\">$icondn</a>";
+                             . "mode=move&amp;mid={$A['mid']}&amp;where=dn" . $param . $token . "\">$icondn</a>";
 
                     $retval .= "&nbsp;";
                     $retval .= $A['menuorder'];
@@ -792,16 +837,16 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
 
             case 'label':
                 switch ($A['mode']) {
-                    case "fixation":
+                    case 'fixation':
                         $retval = stripslashes ($A['label']);
                         break;
                         
-                    case "variable":
+                    case 'variable':
                         $retval = stripslashes ($A['label_var']);
                         $retval = CMED_replaceLabel($retval);
                         break;
                         
-                    case "php":
+                    case 'php':
                         $function = stripslashes ($A['php_function']);
                         if (function_exists($function)) {
                             $menuitems = $function();
@@ -816,10 +861,10 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                 }
                 if ($access == 3) {
                     $switch = ($A['is_enabled'] == 1) ? UC_CHECKED : '';
-                    $val = ($A['is_enabled'] == 1) ? 1 : 0;
-                    $order = intval($A['menuorder'] / 10);
-                    $retval = "<input type=\"checkbox\" name=\"itemenable[$order]\" onclick=\"submit()\" value=\"$val\" $switch" . XHTML . ">" . $retval;
+                    $val = $A['mid'];
+                    $retval = "<input type=\"checkbox\" name=\"itemenable[]\" onclick=\"submit()\" value=\"$val\" $switch" . XHTML . ">" . $retval;
                     $retval .= "<input type=\"hidden\" name=\"" . CSRF_TOKEN . "\" value=\"$CMED_CSRF_TOKEN\"" . XHTML . ">";
+                    $retval .= "<input type=\"hidden\" name=\"memenable[]\" value=\"$val\"" . XHTML . ">";
                 }
                 break;
 
@@ -832,7 +877,7 @@ function CMED_getListField_Menuitems($fieldname, $fieldvalue, $A, $icon_arr)
                 $retval .= $A['mid'];
                 break;
 
-            case "mode":
+            case 'mode':
                 $retval = $LANG_CMED_EDITOR['mode_' . $fieldvalue];
                 break;
 
@@ -855,11 +900,16 @@ $mode = (($mode == $LANG_CMED_EDITOR['update']) && !empty($LANG_CMED_EDITOR['upd
 
 $mid = (!empty($_REQUEST['mid'])) ? COM_applyFilter($_REQUEST['mid']) : '';
 
+
 $itemenable = array();
-$itemenable = $_POST['itemenable'];
-if (isset($itemenable) && SEC_checkToken()) {
-    CMED_changeMenuitemStatus($itemenable);
+if (isset($_POST['itemenable'])) {
+    $itemenable = $_POST['itemenable'];
 }
+$memenable = array();
+if (isset($_POST['memenable'])) {
+    $memenable = $_POST['memenable'];
+}
+CMED_changeMenuitemStatus($itemenable, $memenable);
 
 if (($mode == 'move') && SEC_checkToken()) {
     CMED_moveMenuitem();
