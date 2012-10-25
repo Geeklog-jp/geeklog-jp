@@ -435,7 +435,7 @@ if (!function_exists('CUSTOM_menuEntries')) {
                                     if (!empty($menuitems['class_name'])) {
                                         $id_name = $menuitems['class_name'];
                                     }
-                                    if (is_array($menuitems['submenu_entries'])) {
+                                    if (is_array($menuitems['submenu_entries']) && !empty($menuitems['submenu_entries'])) {
                                         $submenu_entries = $menuitems['submenu_entries'];
                                     }
                                 }
