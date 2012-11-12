@@ -1,3 +1,8 @@
+2012-11-12  Kenji ITO  <mystralkk>
+
+	* 英語でインストールしているときには、インストーラー内で日本語化を行わ
+	  ないようにしました。(Issue #224)
+
 2012-10-26  Yoshinori Tahara  <dengen>
 
 	* custommenuプラグイン: PHPモードのメニューアイテムにぶら下がる
