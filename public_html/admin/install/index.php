@@ -552,9 +552,12 @@ function INST_installEngine($install_type, $install_step)
 
                             INST_defaultPluginInstall();
 
-                        	require_once 'LocalizeGeeklog.php';
-                        	$obj = new LocalizeGeeklog('ja');
-                        	$obj->execute();
+                            if (isset($language) AND
+                                (strcasecmp($language, 'japanese_utf-8') === 0)) {
+                                require_once 'LocalizeGeeklog.php';
+                                $obj = new LocalizeGeeklog('ja');
+                                $obj->execute();
+                            }
                         }
 
                         // Installation is complete. Continue onto either
@@ -627,9 +630,12 @@ function INST_installEngine($install_type, $install_step)
                     // disable plugins for which we don't have the source files
                     INST_checkPlugins();
 
-                    require_once 'LocalizeGeeklog.php';
-                    $obj = new LocalizeGeeklog('ja');
-                    $obj->execute();
+                    if (isset($language) AND
+                        (strcasecmp($language, 'japanese_utf-8') === 0)) {
+                        require_once 'LocalizeGeeklog.php';
+                        $obj = new LocalizeGeeklog('ja');
+                        $obj->execute();
+                    }
 
                     // extra step 4: upgrade plugins
                     $next_link = 'index.php?step=4&mode=' . $install_type
