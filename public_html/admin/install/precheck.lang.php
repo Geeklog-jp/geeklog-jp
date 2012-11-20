@@ -1,13 +1,13 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Precheck for Geeklog 1.8                                                  |
+// | Precheck for Geeklog 2.0                                                  |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/precheck.lang.php                               |
 // |                                                                           |
 // | Part of Geeklog pre-installation check scripts                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 by the following authors:                         |
+// | Copyright (C) 2006-2012 by the following authors:                         |
 // |                                                                           |
 // | Authors: mystral-kk - geeklog AT mystral-kk DOT net                       |
 // +---------------------------------------------------------------------------+
@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-11-07
-* @version  1.4.3
+* @date     2012-11-20
+* @version  1.4.6
 * @license  GPLv2 or later
 */
 
@@ -67,7 +67,9 @@ $LANG_PRECHECK['ja'] = array(
 	'e_backups'							=> '<strong>非公開領域/backups</strong>が書き込み禁止になっています。',
 	'e_data'							=> '<strong>非公開領域/data</strong>が書き込み禁止になっています。',
 	'e_database_disabled'				=> 'PHPにデータベースを利用する機能が組み込まれていません。',
+	'e_database_unknown'                => 'データベースの種類が不正です。',
 	'e_database_not_empty'				=> 'エラー：データベースが空ではありません!',
+	'e_database_not_utf8'               => 'エラー：データベースの文字セットがutf8で作成されていません。「サーバー接続の照合順序」を <strong>utf8_general_ci</strong> か <strong>utf8mb4_general_ci</strong> に変更してから、データベースを作成してください。',
 	'e_dbconfig_not_found'				=> 'db-config.php の場所がわかりません。',
 	'e_db_config_php'					=> '<strong>非公開領域/db-config.php</strong>が書き込み禁止になっています。',
 	'e_default_charset'					=> '<strong>default_charset</strong>に特定の文字セットが設定されているようです。文字化けの原因になるので、<strong>siteconfig.php</strong>か<strong>httpd.conf</strong>、<strong>php.ini</strong>、<strong>.htaccess</strong>で<strong>\'\'</strong>（空文字列）か<strong>utf-8</strong>に設定することをお勧めします。[<a href="precheck.php?mode=info&amp;item=default_charset">詳しくはこちら</a>]',
@@ -104,7 +106,6 @@ $LANG_PRECHECK['ja'] = array(
 	'info_mbstring_language'			=> '<p>（<strong>php.ini</strong>で設定する場合）</p><code>mbstring.language = Japanese</code><p>（<strong>.htaccess</strong>で設定する場合）</p><code>php_value mbstring.language Japanese</code>',	// INI_ALL、INI_PERDIR(～5.2.6)
 	'info_memory_limit'					=> '<p>（<strong>php.ini</strong>で設定する場合）</p><code>memory_limit = 128M</code><p>（<strong>.htaccess</strong>で設定する場合）</p><code>php_value memory_limit 128M</code><p>（<strong>siteconfig.php</strong>で設定する場合）</p><code>@ini_set(\'memory_limit\', \'128M\');</code>',	// INI_ALL
 	'info_register_globals'				=> '<p>（<strong>php.ini</strong>で設定する場合）</p><code>register_globals = Off</code><p>（<strong>.htaccess</strong>で設定する場合）</p><code>php_flag register_globals Off</code>', // INI_PERDIR
-	
 	
 	'item_php_version'					=> 'PHPのバージョン',
 	'item_database'						=> 'データベース機能',

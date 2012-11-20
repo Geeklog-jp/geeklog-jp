@@ -1,13 +1,13 @@
 <?php
 
 // +---------------------------------------------------------------------------+
-// | Precheck for Geeklog 1.8                                                  |
+// | Precheck for Geeklog 2.0                                                  |
 // +---------------------------------------------------------------------------+
 // | public_html/admin/install/precheck.php                                    |
 // |                                                                           |
 // | Part of Geeklog pre-installation check scripts                            |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 by the following authors:                         |
+// | Copyright (C) 2006-2012 by the following authors:                         |
 // |                                                                           |
 // | Authors: mystral-kk - geeklog AT mystral-kk DOT net                       |
 // +---------------------------------------------------------------------------+
@@ -33,8 +33,8 @@
 * most common errors / omissions when setting up a new Geeklog site ...
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-11-25
-* @version  1.4.5
+* @date     2012-11-20
+* @version  1.4.6
 * @license  GPLv2 or later
 */
 if (version_compare(PHP_VERSION, '5.0.0') < 0) {
@@ -43,13 +43,13 @@ if (version_compare(PHP_VERSION, '5.0.0') < 0) {
 
 error_reporting(E_ALL);
 
-define('GL_VERSION', '1.8.1');
+define('GL_VERSION', '2.0.0');
 
 //===================================================================
 // DO NOT CHANGE ANYTHING BELOW THIS LINE!
 //===================================================================
 
-define('PRECHECK_VERSION', '1.4.5');
+define('PRECHECK_VERSION', '1.4.6');
 define('LB', "\n");
 define('DS', DIRECTORY_SEPARATOR);
 define('THIS_SCRIPT', basename(__FILE__));
@@ -78,6 +78,8 @@ if (version_compare($gl_version, '1.7.0') < 0) {
 } else {
 	define('MIN_MYSQL_VERSION', '4.1.3');
 }
+
+define('MIN_MEMORY_LIMIT', 16);	// in megabytes
 
 require_once PRECHECK_ROOT . 'precheck.lang.php';
 
@@ -241,9 +243,9 @@ class Precheck
 		if (file_exists($siteconfig)) {
 			require_once $siteconfig;
 			
-			if (isset($_CONF['path'])
-			 AND ($_CONF['path'] !== '/path/to/Geeklog/')
-			 AND file_exists($_CONF['path'] . 'db-config.php')) {
+			if (isset($_CONF['path']) AND
+				($_CONF['path'] !== '/path/to/Geeklog/') AND
+				file_exists($_CONF['path'] . 'db-config.php')) {
 				return $_CONF['path'];
 			}
 		}
@@ -284,7 +286,7 @@ class Precheck
 		$this->error   = 0;
 		$this->warning = 0;
 		
-		$has_php6 = (version_compare(PHP_VERSION, '6') >= 0);
+		$has_php540 = (version_compare(PHP_VERSION, '5.4.0') >= 0);
 		$msgs = array();
 		
 		$s_warning = '<span class="warning">' . PRECHECK_str('warning')
@@ -292,14 +294,14 @@ class Precheck
 		$s_error   = '<span class="bad">' . PRECHECK_str('error')
 				   . '</span>&nbsp;';
 		
-		// magic_quotes_gpc
-		if (!$has_php6 AND @get_magic_quotes_gpc()) {
+		// magic_quotes_gpc (removed as of PHP-5.4.0)
+		if (!$has_php540 AND @get_magic_quotes_gpc()) {
 			$msgs[] = $s_warning . PRECHECK_str('w_magic_quotes_gpc');
 			$this->warning ++;
 		}
 		
-		// magic_quotes_runtime
-		if (!$has_php6 AND @get_magic_quotes_runtime()) {
+		// magic_quotes_runtime (removed as of PHP-5.4.0)
+		if (!$has_php540 AND @get_magic_quotes_runtime()) {
 			$msgs[] = $s_warning . PRECHECK_str('w_get_magic_quotes_runtime');
 			$this->warning ++;
 		}
@@ -314,16 +316,16 @@ class Precheck
 				$this->warning ++;
 			}
 			
-			// magic_quotes_sybase
-			if (!$has_php6 AND @ini_get('magic_quotes_sybase')) {
+			// magic_quotes_sybase (removed as of PHP-5.4.0)
+			if (!$has_php540 AND @ini_get('magic_quotes_sybase')) {
 				$msgs[] = $s_warning . PRECHECK_str('w_magic_quotes_sybase');
 				$this->warning ++;
 			}
 			
 			// mbstring.language
 			$mbstring_language = ini_get('mbstring.language');
-			if (strcasecmp($mbstring_language, 'japanese') != 0) {
-				if (strcasecmp($mbstring_language, 'neutral') == 0) {
+			if (strcasecmp($mbstring_language, 'japanese') !== 0) {
+				if (strcasecmp($mbstring_language, 'neutral') === 0) {
 					$msgs[] = $s_warning . PRECHECK_str('w_mbstring_language_neutral');
 					$this->warning ++;
 				} else {
@@ -334,13 +336,14 @@ class Precheck
 			
 			// mbstring.http_output
 			$mbstring_http_output = ini_get('mbstring.http_output');
-			if ((strcasecmp($mbstring_http_output, 'pass') != 0)
-			 AND (strcasecmp($mbstring_http_output, 'utf-8') != 0)) {
+			if ((strcasecmp($mbstring_http_output, 'pass') !== 0) AND
+				(strcasecmp($mbstring_http_output, 'utf-8') !== 0)) {
 				$msgs[] = $s_error . PRECHECK_str('e_mbstring_http_output');
 				$this->error ++;
 			}
 			
 			$mbstring_encoding_translation = @ini_get('mbstring.encoding_translation');
+			
 			if ($mbstring_encoding_translation) {
 				$msgs[] = $s_error . PRECHECK_str('e_mbstring_encoding_translation');
 				$this->error ++;
@@ -348,22 +351,24 @@ class Precheck
 			
 			// mbstring.internal_encoding
 			$mbstring_internal_encoding = ini_get('mbstring.internal_encoding');
-			if (($mbstring_internal_encoding != '')
-			 AND (strcasecmp($mbstring_internal_encoding, 'utf-8') != 0)) {
+			
+			if (($mbstring_internal_encoding != '') AND
+				(strcasecmp($mbstring_internal_encoding, 'utf-8') !== 0)) {
 				$msgs[] = $s_warning . PRECHECK_str('w_mbstring.internal_encoding');
 				$this->warning ++;
 			}
 			
 			// default_charset
 			$default_charset = @ini_get('default_charset');
-			if (($default_charset != '')
-			 AND (strcasecmp($default_charset, 'utf-8') != 0)) {
+			
+			if (($default_charset != '') AND
+				(strcasecmp($default_charset, 'utf-8') !== 0)) {
 				$msgs[] = $s_error . PRECHECK_str('e_default_charset');
 				$this->error ++;
 			}
 			
-			// register_globals
-			if (!$has_php6 AND @ini_get('register_globals')) {
+			// register_globals (removed as of PHP-5.4.0)
+			if (!$has_php540 AND @ini_get('register_globals')) {
 				$msgs[] = $s_warning . PRECHECK_str('w_register_globals');
 				$this->warning ++;
 			}
@@ -371,7 +376,7 @@ class Precheck
 			// memory_limit
 			$mem = $this->_return_bytes(@ini_get('memory_limit'));
 			
-			if ($mem < 1024 * 1024 * 64) {	// 64M bytes
+			if ($mem < 1024 * 1024 * MIN_MEMORY_LIMIT) {
 				$msgs[] = $s_warning . PRECHECK_str('w_memory_limit');
 				$this->warning ++;
 			}
@@ -800,16 +805,31 @@ class Precheck
 				. '<input type="password" id="db_pass" name="db_pass" size="30" maxlength="30" /></p>' . LB
 				. '<p><label class="lbl right">' . PRECHECK_str('db_name')
 				. ':</label>&nbsp;'
-				. '<input type="text" id="db_name_input" name="db_name" size="30" maxlength="30" /><select id="db_name" name="db_name" class="none"><option>--</option></select><span id="db_name_warning" class="hidden">'
-				. PRECHECK_str('e_database_not_empty') . '</span></p>' . LB
+				. '<input type="text" id="db_name_input" name="db_name" size="30" maxlength="30" />'
+				. '<select id="db_name" name="db_name" class="none">'
+				. '<option>--</option>'
+				. '</select></p>'
+				. '<p><span id="e_database_not_empty" class="hidden">'
+				. PRECHECK_str('e_database_not_empty')
+				. '</span>'
+				. '<span id="e_database_not_utf8" class="hidden">'
+				. PRECHECK_str('e_database_not_utf8')
+				. '</span></p>' . LB
 				. '<p><label class="lbl right">' . PRECHECK_str('db_prefix')
 				. ':</label>&nbsp;'
 				. '<input type="text" id="db_prefix" name="db_prefix" size="30" maxlength="30" value="gl_" /></p>' . LB
-				. '<p><label class="lbl right">' . PRECHECK_str('use_utf8')
+				. '<p>'
+				. '<label class="lbl right">'
+				. PRECHECK_str('use_utf8')
 				. ':</label>&nbsp;'
 				. '<input id="utf8on" type="radio" name="utf8" value="on" checked="checked" />'
-				. PRECHECK_str('yes') . '<input id="utf8off" type="radio" name="utf8" value="off" />'
-				. PRECHECK_str('no') . '</p>' . LB
+				. '<label for="utf8on" class="radio_lbl">'
+				. PRECHECK_str('yes')
+				. '</label>'
+				. '<input id="utf8off" type="radio" name="utf8" value="off" />'
+				. '<label for="utf8off" class="radio_lbl">'
+				. PRECHECK_str('no')
+				. '</label></p>' . LB
 				. '</fieldset>' . LB
 				. '<p><input id="install_submit" class="submit button big-button" type="submit" value="'
 				. PRECHECK_str('go_to_installer') . '" /></p>' . LB
@@ -855,18 +875,20 @@ class Precheck
 				return $err;
 			}
 			
-			if (($result = @mysql_list_dbs($db)) === FALSE) {
+			if (($result = @mysql_query("SHOW DATABASES", $db)) === FALSE) {
 				return $err;
 			}
 			
-			while (($A = mysql_fetch_object($result)) !== FALSE) {
-				if (($A->Database != 'mysql')
-				 AND ($A->Database != 'information_schema')) {
-					$retval[] = $A->Database;
+			while (($A = mysql_fetch_assoc($result)) !== FALSE) {
+				if (($A['Database'] !== 'mysql') AND
+					($A['Database'] !== 'information_schema') AND
+					($A['Database'] !== 'performance_schema')) {
+					$retval[] = $A['Database'];
 				}
 			}
 			
 			$retval = implode(';', $retval);
+			
 			if ($retval == '') {
 				$err .= PRECHECK_str('e_mysql_database_not_found');
 			}
@@ -897,23 +919,42 @@ class Precheck
 	}
 	
 	/**
-	* Returns the number of tables in a given MySQL database
+	* Returns if a given MySQL database is good
 	*
-	* @param   string  $host, $user, $pass, $name, $prefix
-	* @return  mixed   FALSE = DB error, otherwise the number of tables
+	* @param   string   $host, $user, $pass, $name, $prefix, $utf8
+	* @return  string
 	*/
-	private function _countMysqlTable($host, $user, $pass, $name, $prefix)
+	private function _checkMysqlDb($host, $user, $pass, $name, $prefix, $utf8)
 	{
-		$retval = FALSE;
+		$retval = '';
 		
 		if (($db = @mysql_connect($host, $user, $pass)) !== FALSE) {
 			if (mysql_select_db($name, $db) === TRUE) {
-				// '_' is a wild character in MySQL, so we have to escape it
-				// with '\'
-				$prefix = str_replace('_', '\\_', $prefix);
+				if ($utf8 === 'yes') {
+					$result = mysql_query("SHOW VARIABLES LIKE 'character_set_%'", $db);
+					
+					if ($result !== FALSE) {
+						while (($A = mysql_fetch_assoc($result)) !== FALSE) {
+							if ($A['Variable_name'] === 'character_set_database') {
+								$retval = ($A['Value'] !== 'utf8')
+										? 'e_database_not_utf8'
+										: '';
+								break;
+							}
+						}
+					}
+				}
 				
-				if (($result = mysql_query("SHOW TABLES LIKE '{$prefix}%'", $db)) !== FALSE) {
-					$retval = mysql_num_rows($result);
+				if ($retval === '') {
+					// '_' is a wild character in MySQL, so we have to escape it
+					// with '\'
+					$prefix = str_replace('_', '\\_', $prefix);
+					
+					if (($result = mysql_query("SHOW TABLES LIKE '{$prefix}%'", $db)) !== FALSE) {
+						$retval = (mysql_num_rows($result) !== 0)
+								? 'e_database_not_empty'
+								: '';
+					}
 				}
 			}
 			
@@ -924,14 +965,14 @@ class Precheck
 	}
 	
 	/**
-	* Returns the number of tables in a given Microsoft SQL Server database
+	* Returns if a given Microsoft SQL Server database is good
 	*
-	* @param   string  $host, $user, $pass, $name, $prefix
-	* @return  mixed   FALSE = DB error, otherwise the number of tables
+	* @param   string   $host, $user, $pass, $name, $prefix, $utf8
+	* @return  string
 	*/
-	private function _countMssqlTable($host, $user, $pass, $name, $prefix)
+	private function _checkMssqlDb($host, $user, $pass, $name, $prefix, $utf8)
 	{
-		$retval = FALSE;
+		$retval = '';
 		
 		if (($db = @mssql_connect($host, $user, $pass)) !== FALSE) {
 			// Escapes the db name with '[' and ']'
@@ -950,14 +991,15 @@ class Precheck
 	}
 	
 	/**
-	* Returns the number of tables in a given PostgreSQL database
+	* Returns if a given PostgreSQL database is good
 	*
-	* @param   string  $host, $user, $pass, $name, $prefix
-	* @return  mixed   FALSE = DB error, otherwise the number of tables
+	* @param   string   $host, $user, $pass, $name, $prefix, $utf8
+	* @return  string
 	*/
-	private function _countPgsqlTable($host, $user, $pass, $name, $prefix)
+	private function _checkPgsqlDb($host, $user, $pass, $name, $prefix, $utf8)
 	{
-		$retval = FALSE;
+		$retval = '';
+		
 		$cns = 'host=' . $host . ' dbname=' . $name . ' user=' . $user
 			 . ' password=' . $pass;
 		
@@ -971,39 +1013,49 @@ class Precheck
 	}
 	
 	/**
-	* Returns the number of tables in a given database
+	* Returns if a given database is valid
 	*
 	* @param   string  $_GET['type'], $_GET['host'], $_GET['user'],
 	*                  $_GET['name'], $_GET['pass'], $_GET['prefix']
 	* @return  string  '-ERR' = DB error, otherwise a string representing the
 	*                  number of tables the given DB has
 	*/
-	public function countTable()
+	public function checkDb()
 	{
-		$err = '-ERR';
+		$retval = '';
 		
-		$type   = isset($_GET['type']) ? $_GET['type'] : '';
-		$host   = isset($_GET['host']) ? $_GET['host'] : '';
-		$user   = isset($_GET['user']) ? $_GET['user'] : '';
-		$pass   = isset($_GET['pass']) ? $_GET['pass'] : '';
-		$name   = isset($_GET['name']) ? $_GET['name'] : '';
+		$type   = isset($_GET['type'])   ? $_GET['type']   : '';
+		$host   = isset($_GET['host'])   ? $_GET['host']   : '';
+		$user   = isset($_GET['user'])   ? $_GET['user']   : '';
+		$pass   = isset($_GET['pass'])   ? $_GET['pass']   : '';
+		$name   = isset($_GET['name'])   ? $_GET['name']   : '';
 		$prefix = isset($_GET['prefix']) ? $_GET['prefix'] : '';
+		$utf8   = isset($_GET['utf8'])   ? $_GET['utf8']   : '';
 		
 		if ($host === 'localhost') {
 			$host = '127.0.0.1';
 		}
 		
-		if (($type === 'mysql') OR ($type === 'mysql-innodb')) {
-			$retval = $this->_countMysqlTable($host, $user, $pass, $name, $prefix);
-		} else if ($type === 'mssql') {
-			$retval = $this->_countMssqlTable($host, $user, $pass, $name, $prefix);
-		} else if ($type === 'pgsql') {
-			$retval = $this->_countPgsqlTable($host, $user, $pass, $name, $prefix);
-		} else {
-			$retval = FALSE;
+		switch ($type) {
+			case 'mysql':
+			case 'mysql-innodb':
+				$retval = $this->_checkMysqlDb($host, $user, $pass, $name, $prefix, $utf8);
+				break;
+			
+			case 'mssql':
+				$retval = $this->_checkMssqlDb($host, $user, $pass, $name, $prefix, $utf8);
+				break;
+			
+			case 'pgsql':
+				$retval = $this->_checkPgsqlDb($host, $user, $pass, $name, $prefix, $utf8);
+				break;
+			
+			default:
+				$retval = 'e_database_unknown';
+				break;
 		}
 		
-		return ($retval === FALSE) ? '-ERR' : (string) $retval;
+		return $retval;
 	}
 }
 
@@ -1044,19 +1096,19 @@ if (isset($_GET['mode'])) {
 	$mode = $_POST['mode'];
 }
 
-if (!in_array($mode, array('install', 'upgrade', 'migrate', 'info', 'lookupdb', 'counttable'))) {
+if (!in_array($mode, array('install', 'upgrade', 'migrate', 'info', 'lookupdb', 'checkdb'))) {
 	$step = 2;
 }
 
 $path = '';
 
 if (isset($_GET['path'])) {
-	$path = $_GET['path'];
+	$path = trim($_GET['path']);
 } else if (isset($_POST['path'])) {
-	$path = $_POST['path'];
+	$path = trim($_POST['path']);
 }
 
-if ($path == '') {
+if ($path === '') {
 	$step = 0;
 } else {
 	$path = str_replace("\\", '/', $path);
@@ -1074,8 +1126,8 @@ if ($mode === 'lookupdb') {
     header('Content-Type: text/html; charset=utf-8');
 	echo $result;
 	exit;
-} else if ($mode === 'counttable') {
-	$result = $precheck->countTable();
+} else if ($mode === 'checkdb') {
+	$result = $precheck->checkDb();
     header('Content-Type: text/plain; charset=utf-8');
 	echo $result;
 	exit;

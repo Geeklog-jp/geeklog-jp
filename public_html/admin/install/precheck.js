@@ -2,8 +2,8 @@
 * Check DB settings as a part of Precheck for Geeklog
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-11-07
-* @version  1.4.3
+* @date     2012-11-20
+* @version  1.4.6
 * @license  GPLv2 or later
 * @note     This script (precheck.js) needs 'core.js' published
 *           by SitePoint Pty. Ltd.
@@ -12,50 +12,68 @@ var callback = {
 	/**
 	* Callback function when a database was selected
 	*/
-	showCountResult: function(req) {
-		var install_submit, db_name_warning;
+	showDbResult: function(req) {
+		var install_submit = $('install_submit'),
+			e_database_not_empty = $('e_database_not_empty'),
+			e_database_not_utf8 = $('e_database_not_utf8');
 		
-		install_submit = $('install_submit');
-		db_name_warning = $('db_name_warning');
-		
-		if ((req.responseText == '-ERR') || (parseInt(req.responseText) > 0)) {
-			install_submit.disabled = true;
-			Core.removeClass(db_name_warning, 'hidden');
-			Core.addClass(db_name_warning, 'bad');
-		} else {
-			install_submit.disabled = false;
-			Core.removeClass(db_name_warning, 'bad');
-			Core.addClass(db_name_warning, 'hidden');
+		switch (req.responseText) {
+			case 'e_database_not_utf8':
+				Core.removeClass(e_database_not_utf8, 'hidden');
+				Core.addClass(e_database_not_utf8, 'bad');
+				Core.removeClass(e_database_not_empty, 'bad');
+				Core.addClass(e_database_not_empty, 'hidden');
+				break;
+			
+			case 'e_database_not_empty':
+				Core.removeClass(e_database_not_utf8, 'bad');
+				Core.addClass(e_database_not_utf8, 'hidden');
+				Core.removeClass(e_database_not_empty, 'hidden');
+				Core.addClass(e_database_not_empty, 'bad');
+				break;
+			
+			default:
+				Core.removeClass(e_database_not_utf8, 'bad');
+				Core.removeClass(e_database_not_empty, 'bad');
+				Core.addClass(e_database_not_utf8, 'hidden');
+				Core.addClass(e_database_not_empty, 'hidden');
+				break;
 		}
+		
+		install_submit.disabled = (req.responseText !== '');
+
 	},
 	
 	/**
 	* Callback function when db_name selection was changed
 	*/
 	dbSelected: function() {
-		var type, host, user, pass, name, prefix, args;
+		var type, host, user, pass, name, prefix, args, utf8;
 			
 		$('install_submit').disabled = true;
-		Core.addClass($('db_name_warning'), 'hidden');
+		Core.addClass($('e_database_not_empty'), 'hidden');
+		Core.addClass($('e_database_not_utf8'), 'hidden');
 		
-		if ($('db_name').value != '--') {
+		if ($('db_name').value !== '--') {
 			type   = $('db_type').value;
 			host   = $('db_host').value;
 			user   = $('db_user').value;
 			pass   = $('db_pass').value;
 			name   = $('db_name').value;
 			prefix = $('db_prefix').value;
+			utf8   = $('utf8on').checked ? 'yes' : 'no';
+			
 			args = {
 				'url': 'precheck.php',
 				'method': 'get',
-				'params': 'mode=counttable&type=' + type + '&host=' + host + '&user=' + user + '&pass=' + pass + '&name=' + name + '&prefix=' + prefix,
-				'onSuccess': callback.showCountResult
+				'params': 'mode=checkdb&type=' + type + '&host=' + host + '&user=' + user + '&pass=' + pass + '&name=' + name + '&prefix=' + prefix + '&utf8=' + utf8,
+				'onSuccess': callback.showDbResult
 			}
 			
 			// prefix could be an empty string, so we don't check it here
-			if ((host != '') && (user != '') && (pass != '') && (name != '')) {
+			if ((host !== '') && (user !== '') && (pass !== '') && (name !== '')) {
 				if (!Core.Ajax(args)) {
-					alert('サーバとの通信に失敗しました。');
+					alert('サーバーとの通信に失敗しました。');
 				}
 			}
 		}
@@ -70,7 +88,7 @@ var callback = {
 		db_name = $('db_name');
 		install_submit = $('install_submit');
 		
-		if (req.responseText.substring(0, 4) == '-ERR') {
+		if (req.responseText.substring(0, 4) === '-ERR') {
 			db_name.disabled = true;
 			install_submit.disabled = true;
 			
@@ -120,9 +138,9 @@ var callback = {
 			'onSuccess': callback.showLookupResult
 		}
 		
-		if ((host != '') && (user != '') && (pass != '')) {
+		if ((host !== '') && (user !== '') && (pass !== '')) {
 			if (!Core.Ajax(args)) {
-				alert('サーバとの通信に失敗しました。');
+				alert('サーバーとの通信に失敗しました。');
 			}
 		}
 	},
@@ -154,6 +172,10 @@ var callback = {
 		Core.addEventListener($('db_pass'), 'keyup', this.dataEntered);
 		Core.addEventListener($('db_name'), 'change', this.dbSelected);
 		Core.addEventListener($('db_name_input'), 'change', this.dbSelected);
+		Core.addEventListener($('utf8on'), 'change', this.dbSelected);
+		Core.addEventListener($('utf8off'), 'change', this.dbSelected);
+		Core.addEventListener($('utf8on'), 'click', this.dbSelected);
+		Core.addEventListener($('utf8off'), 'click', this.dbSelected);
 	}
 }
 

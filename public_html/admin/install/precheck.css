@@ -2,8 +2,8 @@
 * CSS for precheck.php
 *
 * @author   mystral-kk <geeklog AT mystral-kk DOT net>
-* @date     2011-01-05
-* @version  1.4.0
+* @date     2012-11-20
+* @version  1.4.6
 * @license  GPLv2 or later
 */
 
@@ -11,11 +11,11 @@
 @import url("layout/style.css");
 
 .installation-body-container {
-    padding:4px 50px 10px 50px;
+    padding: 4px 50px 10px 50px;
 }
 
 .heading {
-    width:100%;
+    width: 100%;
 }
 
 li {
@@ -107,6 +107,10 @@ ul.navi {
 	padding: 0;
 }
 
+.radio_lbl {
+	display: inline;
+}
+
 ul.navi li {
 	margin: 10px -1px 0 0;
 	padding: 5px;
@@ -117,24 +121,23 @@ ul.navi li {
 	line-height: 1em;
 }
 
-a.big-button {
+a.big-button,
+input.big-button {
+	font-size: 14px;
+	margin: 2px;
+	padding: 6px 8px;
 	background-color: #1A3955;
-	border: 0px;
+	border: 0;
 	color: white;
 	text-align: center;
+	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 a.big-button:hover {
 	background-color: #295a86;
-}
-
-a.big-button {
-	font-size:14px;
-	margin: 2px;
-	padding: 6px 8px;
 }
 
 .precheck-version {
