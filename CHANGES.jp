@@ -1,3 +1,9 @@
+2012-12-08  Yoshinori Tahara  <dengen>
+
+	* mycaljpプラグイン: コンフィギュレーションの設定項目
+	  「サポートするコンテンツ」及び「有効にするコンテンツ」の変更でエラー
+	  が発生する問題を修正しました。
+
 2012-11-20  Kenji ITO  <mystralkk>
 
 	* PrecheckをGeeklog-2.0.0に対応させました。
