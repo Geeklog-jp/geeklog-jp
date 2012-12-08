@@ -367,6 +367,12 @@ function MYCALJP_update_ConfValues_2_1_4()
     $c->add('block_group_id',     $new_group_id,                            'select',   0, 3, NULL, $o++, true, $n, 2);
     $c->add('block_permissions',  $_MYCALJP2_DEFAULT['block_permissions'],  '@select',  0, 3, 16,   $o++, true, $n, 2);
 
+    // fixed type of 'enabled_contents' from '%text' to '*text'
+    $sql = "UPDATE {$_TABLES['conf_values']} "
+         . "SET type = '*text' "
+         . "WHERE name = 'enabled_contents' AND group_name = 'mycaljp'";
+    DB_query($sql);
+
     return true;
 }
 

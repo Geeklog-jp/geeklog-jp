@@ -225,6 +225,7 @@ function MYCALJP_checkChange($name)
     $valids = array();
 
     require_once $_CONF['path'] . 'plugins/mycaljp/install_defaults.php';
+    global $_MYCALJP2_DEFAULT;
 
     // Check and add a valid value to $valids
     switch ($name) {
@@ -251,6 +252,7 @@ function MYCALJP_checkChange($name)
     $config = config::get_instance();
     if (!empty($valids)) {
         $config->set($name, $valids, 'mycaljp');
+        $_MYCALJP2_CONF = $config->get_config('mycaljp');
     }
 
     switch ($name) {
