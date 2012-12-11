@@ -32,12 +32,12 @@
 
 $LANG_DPXY = array(
 	'plugin'            => 'Dataproxyプラグイン',
-	'access_denied'     => 'アクセスは拒否されました。',
-	'access_denied_msg' => 'このページにアクセスできるのはRootユーザーだけです。あなたのユーザー名とIPアドレスは記録されました。',
+	'access_denied'     => 'アクセスを拒否しました。',
+	'access_denied_msg' => 'このページにアクセスできるのはRootユーザーだけです。あなたのユーザー名とIPアドレスを記録しました。',
 	'admin'             => 'Dataproxyプラグイン管理',
 	'install_success'   => 'Dataproxyプラグインのインストールに成功しました。',
 	'install_fail'		=> 'Dataproxyプラグインのインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
-	'uninstall_success' => 'Dataproxyプラグインはアンインストールされました。',
+	'uninstall_success' => 'Dataproxyプラグインをアンインストールしました。',
 	'uninstall_fail'    => 'Dataproxyプラグインのアンインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
 	'menu_label'        => 'Dataproxy',
 );

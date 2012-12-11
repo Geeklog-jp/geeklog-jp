@@ -1,7 +1,7 @@
 <?php
 ###############################################################################
 # plugins/japanize/language/japanese_utf-8.php
-# もし万一エンコードの種類が　UTF-8でない場合は、utf-8に変換してください。
+# もし万一エンコードの種類がUTF-8でない場合は、UTF-8に変換してください。
 # Last Update 2009/09/02
 
 
@@ -35,8 +35,8 @@ $PLG_japanize_MESSAGE1 = "テーブル構造を日本語化しました。";
 $PLG_japanize_MESSAGE2 = "コンフィギュレーションを日本語化しました。";
 $PLG_japanize_MESSAGE3 = "日本語pingサイトを追加しました。";
 $PLG_japanize_MESSAGE4 = "ゲストユーザーに変更しました。";
-$PLG_japanize_MESSAGE5 = " グループ　詳細を日本語に変更しました。";
-$PLG_japanize_MESSAGE105 = "グループ　詳細を英語に戻しました。";
+$PLG_japanize_MESSAGE5 = " グループの詳細を日本語に変更しました。";
+$PLG_japanize_MESSAGE105 = "グループの詳細を英語に戻しました。";
 $PLG_japanize_MESSAGE6 = " 日本語サンプルアンケート追加しました。";
 $PLG_japanize_MESSAGE7 = " 初期ブロックタイトルを日本語に変更しました。";
 $PLG_japanize_MESSAGE107 = " 初期ブロックタイトルを英語に戻しました。";
