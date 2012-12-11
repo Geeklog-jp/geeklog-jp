@@ -1,3 +1,8 @@
+2012-12-12  Takahiro Kambe  <tacahi>
+
+	* captchaプラグインとnmoxtopicownプラグイン: 既にGeeklog本体でサポート
+	  していない、保守もしていないUTF-8でない翻訳ファイルを削除しました。
+
 2012-12-08  Yoshinori Tahara  <dengen>
 
 	* mycaljpプラグイン: コンフィギュレーションの設定項目
