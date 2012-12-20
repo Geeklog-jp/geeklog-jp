@@ -36,7 +36,7 @@ if (stripos($_SERVER['PHP_SELF'], 'japanese_utf-8.php') !== FALSE) {
 
 $LANG_SMAP = array(
     'plugin'            => 'sitemapプラグイン',
-	'access_denied'     => 'アクセスを拒否しました。',
+	'access_denied'     => 'アクセスできません',
 	'access_denied_msg' => 'このページにアクセスできるのは、Rootユーザーだけです。あなたのユーザー名とIPアドレスを記録しました。',
 	'admin'		        => 'sitemapプラグイン管理',
 	'install_header'	=> 'sitemapプラグインのインストール/アンインストール',

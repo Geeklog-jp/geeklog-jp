@@ -45,7 +45,7 @@ $LANG_GF00 = array (
     'statsheading2'     => '掲示板上位10位書き込み数',
     'statsheading3'     => '投稿はありません。',
     'useradminmenu'     => '掲示板の機能',
-    'access_denied'     => 'アクセスを拒否しました',
+    'access_denied'     => 'アクセスできません',
     'autotag_desc_forum' => '[forum: id alternate title] - 掲示板トピックのタイトルで掲示板トピックへのリンクを表示。アンカーテキストの指定は任意。'
 );
 

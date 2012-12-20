@@ -23,8 +23,8 @@
 $LANG_NMOXTOPICOWN = array(
 	'nmoxtopicown'		=> '話題譲渡',
 	'plugin'            => 'プラグイン',
-	'access_denied'     => 'アクセスを拒否しました。',
-	'access_denied_msg' => 'Rootユーザーしかこのページにはアクセスできません。あなたのユーザー名とIPアドレスを記録しました。',
+	'access_denied'     => 'アクセスできません',
+	'access_denied_msg' => 'このページにはRootユーザーだけがアクセスできます。あなたのユーザー名とIPアドレスを記録しました。',
 	'install_header'	=> 'プラグインのインストール/アンインストール',
 	'installed'         => '話題譲渡プラグインはインストールしてあります。',
 	'uninstalled'       => '話題譲渡プラグインはインストールしていません。',

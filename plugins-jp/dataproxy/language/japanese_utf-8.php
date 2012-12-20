@@ -32,8 +32,8 @@
 
 $LANG_DPXY = array(
 	'plugin'            => 'Dataproxyプラグイン',
-	'access_denied'     => 'アクセスを拒否しました。',
-	'access_denied_msg' => 'このページにアクセスできるのはRootユーザーだけです。あなたのユーザー名とIPアドレスを記録しました。',
+	'access_denied'     => 'アクセスできません',
+	'access_denied_msg' => 'このページにはRootユーザーだけがアクセスできます。あなたのユーザー名とIPアドレスを記録しました。',
 	'admin'             => 'Dataproxyプラグイン管理',
 	'install_success'   => 'Dataproxyプラグインのインストールに成功しました。',
 	'install_fail'		=> 'Dataproxyプラグインのインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
