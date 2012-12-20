@@ -31,8 +31,8 @@
 $LANG_MYCALJP = array (
     'plugin'            => 'Mycaljpプラグイン',
     'plugin_name'       => 'Mycaljp',
-    'access_denied'     => 'アクセスを拒否しました。',
-    'access_denied_msg' => 'このページにアクセスできるのはRootユーザーだけです。あなたのユーザー名とIPアドレスを記録しました。',
+    'access_denied'     => 'アクセスできません',
+    'access_denied_msg' => 'このページにはRootユーザーだけがアクセスできます。あなたのユーザー名とIPアドレスを記録しました。',
     'admin'             => 'サイトカレンダーMycaljpの管理',
     'install_header'    => 'サイトカレンダーMycaljpプラグインのインストール/アンインストール',
     'installed'         => 'サイトカレンダーMycaljpプラグインはインストールしてあります。',

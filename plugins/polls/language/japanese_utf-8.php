@@ -71,7 +71,7 @@ $LANG_POLLS = array(
     'autotag_desc_poll' => '[poll: id alternate title] - Displays a link to a poll using the Poll Topic as the title. An alternate title may be specified but is not required.',
     'autotag_desc_poll_vote' => '[poll_vote: id class:poll-autotag showall:1] - アンケートの投票リンクを表示。Class と showall は必須ではありません。Class は css class を。Showall が 1ならすべての投票を表示',
     'autotag_desc_poll_result' => '[poll_result: id class:poll-autotag] - 投票結果を表示。Class は必須ではありません。Claはcss classを指定します',
-    'deny_msg' => 'このアンケートへアクセスできません。(このアンケートを移動や削除しているか、アクセス権がありません。)'
+    'deny_msg' => 'このアンケートにアクセスできません。(このアンケートを移動や削除しているか、アクセス権がありません。)'
 );
 
 ###############################################################################
@@ -98,7 +98,7 @@ $LANG25 = array(
     18 => 'アンケート管理',
     19 => 'アンケートの編集・削除は編集アイコンをクリック、アンケートの作成は上の「新規作成」をクリックしてください。',
     20 => '投票者',
-    21 => 'アクセスを拒否しました',
+    21 => 'アクセスできません',
     22 => "管理権限のないアンケートを編集しようとしました。このアクセスを記録しました。<a href=\"{$_CONF['site_admin_url']}/poll.php\">投票の管理画面</a>に戻ってください。",
     23 => '新規アンケート',
     24 => '管理画面',

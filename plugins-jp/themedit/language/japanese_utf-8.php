@@ -32,7 +32,7 @@
 
 $LANG_THM = array(
     'plugin'            => 'プラグイン',
-	'access_denied'     => 'アクセスを拒否しました。',
+	'access_denied'     => 'アクセスできません',
 	'access_denied_msg' => 'このページにアクセスできるのはRootユーザーだけです。あなたのユーザー名とIPアドレスを記録しました。',
 	'admin'		        => 'テーマエディター',
 	'install_header'	=> 'テーマエディタープラグインのインストール/アンインストール',
