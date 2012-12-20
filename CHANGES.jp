@@ -1,3 +1,19 @@
+2012-12-21  Takahiro Kambe  <tacahi>
+
+	* 日本語の翻訳: いくつかの修正:
+		- 「閾値」を「しきい値」に戻しました。
+		- 「新しくコメントで返信」を「新しいコメント」
+		- 「Geeklogバージョンテスト」を「Geeklogバージョン確認」
+
+	* 日本語の翻訳: plugins-jp/custommenu の$LANG_CMED['warning_updated']
+	  から「プラグイン」の単語が抜けていたのを修正しました。
+
+	* 日本語の翻訳: プラグインのインストールやアンインストールの実行、
+	  インストールの状態の文面を修正しました。
+
+	* 日本語の翻訳: "Access Denied"の表現を修正、関連する表記を修正しま
+	  した。
+
 2012-12-18  Takahiro Kambe  <tacahi>
 
 	* fckeditor: FCKEditor 2.6.9での些細な変更を反映しました。
