@@ -37,7 +37,7 @@ $LANG_DPXY = array(
 	'admin'             => 'Dataproxyプラグイン管理',
 	'install_success'   => 'Dataproxyプラグインのインストールに成功しました。',
 	'install_fail'		=> 'Dataproxyプラグインのインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
-	'uninstall_success' => 'Dataproxyプラグインをアンインストールしました。',
+	'uninstall_success' => 'Dataproxyプラグインのアンインストールに成功しました。',
 	'uninstall_fail'    => 'Dataproxyプラグインのアンインストールに失敗しました。詳細はエラーログ(error.log)をご覧ください。',
 	'menu_label'        => 'Dataproxy',
 );
