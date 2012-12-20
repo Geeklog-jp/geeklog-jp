@@ -70,7 +70,7 @@ $LANG_CMED = array(
     'classname'           => 'クラス名',
     'instructions'        => 'データを修正、削除する場合は各データの「編集」アイコンをクリックしてください。新規作成は「新規作成」をクリックしてください。',
 
-    'warning_updated'     => 'カスタムメニュー編集は最新です。',
+    'warning_updated'     => 'カスタムメニュー編集プラグインは最新です。',
     'instructions_update' => 'プラグイン管理で \'custommenu\' の更新を行って下さい。',
 );
 
