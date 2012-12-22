@@ -340,7 +340,7 @@ define("_MD_HITSPOP","ダウンロード件数の多い順表示件数: ");
 define("_MD_DLSNEW","新規ページの 1 ページあたりの表示件数: ");
 define("_MD_DLSSEARCH","検索結果中のダウンロードファイル数: ");
 define("_MD_TRIMDESC","ファイルリストで説明の一部を表示する: ");
-define("_MD_DLREPORT","ダウンロード履歴の閲覧を制限する: ");
+define("_MD_DLREPORT","ダウンロード履歴のアクセスを制限する: ");
 define("_MD_WHATSNEWDESC","新着情報リストを表示する: ");
 define("_MD_SELECTPRIV","ユーザーのダウンロードを許可: ");
 define("_MD_ACCESSPRIV","ゲストユーザーのダウンロードを許可: ");
@@ -394,11 +394,11 @@ $LANG_configsections['filemgmt'] = array(
 );
 
 $LANG_confignames['filemgmt'] = array(
-    'mydownloads_popular'         => '人気を判断する閲覧数のしきい値',
+    'mydownloads_popular'         => '人気を判断する表示回数のしきい値',
     'mydownloads_newdownloads'    => '新着ファイルの表示件数',
     'mydownloads_perpage'         => '1ページあたりのファイル表示件数',
 
-    'mydownloads_dlreport'        => 'ダウンロード履歴の閲覧を制限する',
+    'mydownloads_dlreport'        => 'ダウンロード履歴のアクセスを制限する',
     'mydownloads_trimdesc'        => 'ファイルリストで説明の一部を表示',
     'mydownloads_whatsnew'        => '新着情報リストを表示する',
 
