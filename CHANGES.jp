@@ -1,3 +1,8 @@
+2012-12-29  Takahiro Kambe  <tacahi>
+
+	* plugins/staticpages: upstreamの変更に合わせて日本語の翻訳を修正
+	  しました。
+
 2012-12-23  Takahiro Kambe  <tacahi>
 
 	* 日本語の翻訳: 「閲覧」を基本的に「表示」を使用した言い回しに変更
