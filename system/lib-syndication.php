@@ -268,7 +268,8 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
             $storytitle = stripslashes( $row['title'] );
             $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
             $fulltext = PLG_replaceTags( $fulltext );
-            $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
+            $storytext = ($contentLength == 1) ? $fulltext : COM_truncateHTML ($fulltext, $contentLength, ' ...');
+ 
 
             $fulltext = trim( $fulltext );
             $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
@@ -402,7 +403,7 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
 
         $fulltext = stripslashes( $row['introtext']."\n".$row['bodytext'] );
         $fulltext = PLG_replaceTags( $fulltext );
-        $storytext = COM_truncateHTML ( $fulltext, $contentLength, ' ...' );
+        $storytext = ($contentLength == 1) ? $fulltext : COM_truncateHTML ($fulltext, $contentLength, ' ...');
         $fulltext = trim( $fulltext );
         $fulltext = str_replace(array("\015\012", "\015"), "\012", $fulltext);
 
@@ -505,9 +506,7 @@ function SYND_updateFeed( $fid )
                 if ($A['content_length'] != 1) {
                     $count = count($content);
                     for ($i = 0; $i < $count; $i++ ) {
-                        $content[$i]['summary'] = COM_truncateHTML(
-                                    $content[$i]['text'], $A['content_length'], ' ...');
-      
+                        $content[$i]['summary'] = ($A['content_length'] == 1) ? $content[$i]['text'] : COM_truncateHTML ($content[$i]['text'], $A['content_length'], ' ...');
                     }
                 }
             }
@@ -627,7 +626,9 @@ function SYND_updateFeed( $fid )
 */
 function SYND_truncateSummary($text, $length)
 {
-    return COM_truncateHTML ($text, $length, ' ...');
+    $storytext = ($length == 1) ? $text : COM_truncateHTML ($text, $length, ' ...');
+    
+    return $storytext;
 }
 
 
