@@ -18,6 +18,19 @@
 
 <p><a href="../history">public_html/docs/history</a>をHTML化し、翻訳したものです。</p>
 
+<h2>Dec 30, 2012 (1.8.2)</h2>
+
+<ul>
+<li>A remote service user now bypasses current password check when account is deleted (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001417">#0001417</a>) [Tom]</li>
+<li>Fixed Twitter OAuth login error after Twitter deactived some old URLs (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001497">#0001497</a>) [Tom]</li>
+<li>$dbconfig_path was not escaped in the install script (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001457">#0001457</a>, patch provided by mystral-kk)</li>
+<li>COM_stripslashes will now handle arrays; this was a problem during re-authentication after a security token expired (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001413">#0001413</a>) [suprsidr]</li>
+<li>The comment count for a story could be wrong if there was a different object with the same id and a comment (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001414">#0001414</a>) [Tom]</li>
+<li>Feeds with the full story text still had a '...' at the end (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001431">#0001431</a>) [Jeff Rivett, Tom]</li>
+<li>Allow MIME type application/x-gzip-compressed when uploading a plugin for installation (bug <a href="http://project.geeklog.net/tracking/view.php?id="0001405">#0001405</a>) [Dirk]</li>
+<li>Fixed compatibility with MySQL 5.5 (bugs <a href="http://project.geeklog.net/tracking/view.php?id="0001410">#0001410</a>, <a href="http://project.geeklog.net/tracking/view.php?id="0001456">#0001456</a>). This also raises the minimum supported MySQL version to 4.1.2 [Dirk, Tom]</li>
+</ul>
+
 <h2>Oct 9, 2011 (1.8.1)</h2>
 
 <ul>
