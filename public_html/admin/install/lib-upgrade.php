@@ -766,13 +766,14 @@ function INST_innodbSupported()
 {
     $retval = false;
 
-    $result = DB_query("SHOW ENGINES");
+    $result = DB_query("SHOW STORAGE ENGINES");
     $numEngines = DB_numRows($result);
     for ($i = 0; $i < $numEngines; $i++) {
         $A = DB_fetchArray($result);
 
         if (strcasecmp($A['Engine'], 'InnoDB') == 0) {
-            if (strcasecmp($A['Support'], 'yes') == 0) {
+            if ((strcasecmp($A['Support'], 'yes') == 0) ||
+                (strcasecmp($A['Support'], 'default') == 0)) {
                 $retval = true;
             }
             break;
