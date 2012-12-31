@@ -236,11 +236,11 @@ define("_MD_VOTE","投票");
 
 define("_MD_SEARCHRESULT4","検索結果 <b>%s</b>:");
 define("_MD_MATCHESFOUND","%s 件一致しました。");
-define("_MD_SORTBY","ソート基準:");
+define("_MD_SORTBY","並べ替え方法:");
 define("_MD_TITLE","タイトル");
 define("_MD_DATE","日付");
 define("_MD_POPULARITY","人気");
-define("_MD_CURSORTBY","表示ソート順: ");
+define("_MD_CURSORTBY","並べ替え順: ");
 define("_MD_FOUNDIN","見つかりました:");
 define("_MD_PREVIOUS","前へ");
 define("_MD_NEXT","次へ");

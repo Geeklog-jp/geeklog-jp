@@ -146,9 +146,9 @@ $LANG_configsections['staticpages'] = array(
 
 $LANG_confignames['staticpages'] = array(
     'allow_php' => 'PHPを許可する',
-    'sort_by' => 'センターブロックのソート',
-    'sort_menu_by' => 'メニューのソート',
-    'sort_list_by' => '管理者ページのソート',
+    'sort_by' => 'センターブロックの並べ替え',
+    'sort_menu_by' => 'メニューの並べ替え',
+    'sort_list_by' => '管理者ページの並べ替え',
     'delete_pages' => '所有者の削除と共に削除する',
     'in_block' => 'ページをブロックで囲む',
     'show_hits' => '表示回数を表示する',
