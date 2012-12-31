@@ -101,6 +101,20 @@
 <p>最新開発状況は本家<a href="http://project.geeklog.net/cgi-bin/hgwebdir.cgi/geeklog/">リポジトリ</a>を。</p>
 
 
+<h2>Dec 30, 2012 (1.8.2)</h2>
+
+<ul>
+    <li>リモートサービスのユーザーはアカウントが削除されるとき、バイパスカレントパスワードチェックされるようになりました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001417">#0001417</a>) [Tom]</li>
+    <li>Twitter OAuthログインエラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001497">#0001497</a>) [Tom]</li>
+    <li>$dbconfig_path がインストールスクリプトでエスケープされていなかったバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001457">#0001457</a>, パッチ提供 mystral-kk)</li>
+    <li>COM_stripslashes は配列を制御して、セキュリティTokenが切れた時の再認証のバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001413">#0001413</a>) [suprsidr]</li>
+    <li>おなじ記事IDでおなじコメントの場合、記事へのコメント数のバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001414">#0001414</a>) [Tom]</li>
+    <li>フルテキストのフィードに含まれるURLに...が含まれるバグを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001431">#0001431</a>) [Jeff Rivett, Tom]</li>
+    <li>プラグインアップロードのファイルタイプに、MIME type application/x-gzip-compressed を対応させました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001405">#0001405</a>) [Dirk]</li>
+    <li>MySQL 5.5コンパチブルにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001410">#0001410</a>, <a href="http://project.geeklog.net/tracking/view.php?id=0001456">#0001456</a>)。これにより対応するMySQLの最小バージョンは version 4.1.2となりました。 [Dirk, Tom]</li>
+</ul>
+
+
 <h2>Oct 9, 2011 (1.8.1)</h2>
 
 <ul>
