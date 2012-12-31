@@ -10,7 +10,7 @@
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    CVS: $Id: Builder.php 308687 2011-02-25 23:14:27Z dufuz $
+ * @version    CVS: $Id: Builder.php 313024 2011-07-06 19:51:24Z dufuz $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  *
@@ -33,7 +33,7 @@ require_once 'PEAR/PackageFile.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2009 The Authors
  * @license    http://opensource.org/licenses/bsd-license.php New BSD License
- * @version    Release: 1.9.2
+ * @version    Release: 1.9.4
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since PHP 4.0.2
  * @see        http://pear.php.net/manual/en/core.ppm.pear-builder.php
@@ -287,6 +287,14 @@ class PEAR_Builder extends PEAR_Common
             $dir = dirname($descfile);
         }
 
+        // Find config. outside of normal path - e.g. config.m4
+        foreach (array_keys($pkg->getInstallationFileList()) as $item) {
+          if (stristr(basename($item), 'config.m4') && dirname($item) != '.') {
+            $dir .= DIRECTORY_SEPARATOR . dirname($item);
+            break;
+          }
+        }
+
         $old_cwd = getcwd();
         if (!file_exists($dir) || !is_dir($dir) || !chdir($dir)) {
             return $this->raiseError("could not chdir to $dir");
@@ -338,7 +346,7 @@ class PEAR_Builder extends PEAR_Common
         }
 
         $tmpdir = $this->config->get('temp_dir');
-        $build_basedir = System::mktemp(" -t $tmpdir -d pear-build-$user");
+        $build_basedir = System::mktemp(' -t "' . $tmpdir . '" -d "pear-build-' . $user . '"');
         $build_dir = "$build_basedir/$vdir";
         $inst_dir = "$build_basedir/install-$vdir";
         $this->log(1, "building in $build_dir");
@@ -367,7 +375,7 @@ class PEAR_Builder extends PEAR_Common
         if (!file_exists($build_dir) || !is_dir($build_dir) || !chdir($build_dir)) {
             return $this->raiseError("could not chdir to $build_dir");
         }
-        putenv('PHP_PEAR_VERSION=1.9.2');
+        putenv('PHP_PEAR_VERSION=1.9.4');
         foreach ($to_run as $cmd) {
             $err = $this->_runCommand($cmd, $callback);
             if (PEAR::isError($err)) {
