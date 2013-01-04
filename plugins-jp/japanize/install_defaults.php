@@ -1,24 +1,14 @@
 <?php
 
-// Reminder: always indent with 4 spaces (no tabs).
 // +---------------------------------------------------------------------------+
-// | japanize Plugin  日本語化プラグイン                                       |
+// | Japanize Plugin for Geeklog - The Ultimate Weblog                         |
 // +---------------------------------------------------------------------------+
-// | install_defaults.php                                                      |
+// | geeklog/plugins/japanize/install_defaults.php                             |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2009-2013 by the following authors:                         |
 // |                                                                           |
-// | Initial Installation Defaults used when loading the online configuration  |
-// | records. These settings are only used during the initial installation     |
-// | and not referenced any more once the plugin is installed.                 |
-// +---------------------------------------------------------------------------+
-// | Copyright (C) 2000-2008 by the following authors:                         |
-// |                                                                           |
-// | Authors: Tony Bibbs         - tony AT tonybibbs DOT com                   |
-// |          Mark Limburg       - mlimburg AT users.sourceforge DOT net       |
-// |          Jason Whittenburg  - jwhitten AT securitygeeks DOT com           |
-// |          Dirk Haun          - dirk AT haun-online DOT de                  |
-// |          Trinity Bays       - trinity93 AT gmail DOT com                  |
-// |          Oliver Spiesshofer - oliver AT spiesshofer DOT com               |
-// |          Euan McKay         - info AT heatherengineering DOT com          |
+// | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
+// |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is licensed under the terms of the GNU General Public License|
@@ -36,14 +26,13 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos($_SERVER['PHP_SELF'], 'install_defaults.php') !== false) {
-    die('This file can not be used on its own!');
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'install_defaults.php') !== FALSE) {
+	die('This file cannot be used on its own!');
 }
 
 global $_JAPANIZE_DEFAULT;
 
 $_JAPANIZE_DEFAULT = array();
-
 
 /**
 * Initialize Links plugin configuration
@@ -53,38 +42,9 @@ $_JAPANIZE_DEFAULT = array();
 * an old config.php), uses $_LI_DEFAULT otherwise.
 *
 * @return   boolean     true: success; false: an error occurred
-*
 */
-function plugin_initconfig_japanize()
-{
-    global $_JAPANIZE_CONF, $_JAPANIZE_DEFAULT;
+function plugin_initconfig_japanize() {
+	global $_JAPANIZE_CONF, $_JAPANIZE_DEFAULT;
 
-
-
-    if (is_array($_JAPANIZE_CONF) && (count($_JAPANIZE_CONF) > 1)) {
-        $_JAPANIZE_DEFAULT = array_merge($_JAPANIZE_DEFAULT, $_JAPANIZE_CONF);
-    }
-
-    $c = config::get_instance();
-    if (!$c->group_exists('japanize')) {
-
-    /* add( 
-        $param_name
-        , $default_value
-        , $type
-        , $subgroup, $fieldset,$selection_array=null
-        , $sort=0
-        , $set=true
-        , $group='japanize')
-    */
-
-        $c->add('sg_main', NULL, 'subgroup', 0, 0, NULL, 0, true, 'japanize');
-        $c->add('fs_main', NULL, 'fieldset', 0, 0, NULL, 0, true, 'japanize');
-
-
-    }
-
-    return true;
+	return TRUE;
 }
-
-?>
