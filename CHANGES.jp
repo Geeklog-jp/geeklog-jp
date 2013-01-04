@@ -1,5 +1,10 @@
 2013-01-04  Kenji ITO  <mystralkk>
 
+	* LocalizeGeeklogの機能をJapanizeプラグインに統合したため、インストー
+	  ラーからLocalizeGeeklogに関する部分を削除しました。
+
+2013-01-04  Kenji ITO  <mystralkk>
+
 	* Japanizeプラグインをmystral-kk作成の私家版と入れ替えました。
 
 2013-01-01  Tetsuko Komma  <Ivy>
