@@ -1,161 +1,170 @@
 <?php
 
-/* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | index.php 更新                                                            |
+// | Japanize Plugin for Geeklog - The Ultimate Weblog                         |
 // +---------------------------------------------------------------------------+
-// public_html/admin/plugins/japanize/index.php
-// 20100421 tsuchi AT geeklog DOT jp
-// 20100421 一括更新から（６）(6)サンプルアンケートをはずす
-// 20100421POLLSが有効のときのみ(6)サンプルアンケート　ボタン表示 (fncEdit)
-// 20101109 言語とロケール変更追加
-
-define ('THIS_SCRIPT', 'index.php');
-define ('THIS_PLUGIN', 'japanize');
-//define ('THIS_SCRIPT', 'test.php');
-
-include_once('japanize_functions.php');
-
-
+// | public_html/admin/plugins/japanize/index.php                              |
 // +---------------------------------------------------------------------------+
-// | 機能  テーブル更新実行                                                    |
-// | 書式 fncCmdExec ($no)                                                     |
+// | Copyright (C) 2009-2013 by the following authors:                         |
+// |                                                                           |
+// | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
+// |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
 // +---------------------------------------------------------------------------+
-// | 引数 $no:                                                                 |
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// |                                                                           |
 // +---------------------------------------------------------------------------+
-// | 戻値 nomal:戻り画面＆メッセージ                                           |
-// +---------------------------------------------------------------------------+
-function fncCmdExec ($no)
-{
-    global $_TABLES,$_CONF;
-    $_SQL =array();
-    //require_once ("sql/sql_japanize_{$no}.php");
-	$no = (int) $no;
-	
-    require_once ($_CONF['path']."plugins/japanize/sql/sql_japanize_{$no}.php");
 
-    for ($i = 1; $i <= count($_SQL); $i++) {
-        $w=current($_SQL);
-        DB_query(current($_SQL));
-        next($_SQL);
-    }
+require_once '../../../lib-common.php';
 
-}
+if (!SEC_hasRights('japanize.edit')) {
+	$display = COM_siteHeader('menu', $MESSAGE[30])
+			 . COM_startBlock(
+					$MESSAGE[30], '', COM_getBlockTemplate('_msg_block', 'header')
+			   )
+			 . $MESSAGE[35]
+			 . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'))
+			 . COM_siteFooter();
 
-// +---------------------------------------------------------------------------+
-// | 機能  初期画面表示                                                        |
-// | 書式 fncEdit ()                                                           |
-// +---------------------------------------------------------------------------+
-// 20101109
-function fncEdit ()
-{
-    global $_CONF;
-    global $LANG04,$LANG_ADMIN;
-    global $_TABLES;
-    global $_PLUGINS;
-
-    $retval = '';
-    $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
-    $T->set_file ('admin','index.thtml');
-
-
-    $T->set_var('gltoken_name', CSRF_TOKEN);
-    $T->set_var('gltoken', SEC_createToken());
-    $T->set_var ( 'xhtml', XHTML );
-
-    $php_os=strtoupper(PHP_OS);
-    $T->set_var ( 'php_os', $php_os );
-
-    if (substr($php_os, 0, 3) == 'WIN') {
-        $T->set_var ( 'win', '' );
-        $T->set_var ( 'freebsd', 'style="display:none;"' );
-        $T->set_var ( 'linux', 'style="display:none;"' );
-    } else if (substr($php_os, 0, 7) == 'FREEBSD') {
-        $T->set_var ( 'win', 'style="display:none;"' );
-        $T->set_var ( 'freebsd', '' );
-        $T->set_var ( 'linux', 'style="display:none;"' );
-    }else{
-        $T->set_var ( 'win', 'style="display:none;"' );
-        $T->set_var ( 'freebsd', 'style="display:none;"' );
-        $T->set_var ( 'linux', '' );
-    }
-
-
-    $this_script=$_CONF['site_admin_url']."/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
-    $T->set_var ( 'this_script', $this_script );
-
-
-    if  (in_array("polls", $_PLUGINS)) {
-        $T->set_var ( 'type6', "submit" );
-    }else{
-        $T->set_var ( 'type6', "hidden" );
-    }
-
-    $T->set_var ('lang_submit', $LANG04[9]);
-    $T->set_var ('lang_cancel',$LANG_ADMIN['cancel']);
-
-    $japanize_custommail=DB_getItem($_TABLES['vars'],"value","name='japanize_custommail'");
-    if ($japanize_custommail==1){
-        $T->set_var ('japanize_custommail_value',"(現在、Geeklog Japanese推奨値です)");
-    }else{
-        $T->set_var ('japanize_custommail_value',"(現在、オリジナル設定です)");
-    }
-
-    $T->parse('output', 'admin');
-    $retval .= $T->finish($T->get_var('output'));
-
-    return $retval;
-
+	COM_accessLog('User	' .	$_USER['username'] . ' tried to	illegally access the japanize administration screen.');
+	echo $display;
+	exit;
 }
 
 // +---------------------------------------------------------------------------+
 // | MAIN                                                                      |
 // +---------------------------------------------------------------------------+
-$mode="";
-if (isset ($_REQUEST['mode'])) {
-    $mode = COM_applyFilter ($_REQUEST['mode'], false);
+
+// Gets the current state of Japanization
+if (DB_getItem($_TABLES['vars'], 'COUNT(*)', "name='japanize_plugin'") === '1') {
+	$current = (int) DB_getItem($_TABLES['vars'], 'value', "name='japanize_plugin'");
+} else {
+	$current = 0;
 }
 
-if ((substr($mode,0,3)=="cmd") OR (substr($mode,0,3)=="ALL")){
-    if (!SEC_checkToken()){
-        COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks.");
-        echo COM_refresh($_CONF['site_admin_url'] . '/index.php');
-        exit;
-    }
+$needChange = FALSE;
+
+if (isset($_POST['japanize_all']) AND
+		($_POST['japanize_all'] === JAPANIZE_str('japanize_all'))) {
+	$A = 63;
+	$needChange = TRUE;
+} else if (isset($_POST['restore_all']) AND
+		($_POST['restore_all'] === JAPANIZE_str('restore_all'))) {
+	$A = 0;
+	$needChange = TRUE;
+} else if (isset($_POST['execute']) AND
+		($_POST['execute'] === JAPANIZE_str('execute')) AND
+		isset($_POST['A']) AND
+		is_array($_POST['A'])) {
+	$A = 0;
+	$needChange = TRUE;
+	
+	foreach ($_POST['A'] as $value) {
+		$A += (int) COM_applyFilter($value, TRUE);
+	}
+} else {
+	$A = $current;
 }
 
-$display = '';
-$display .= COM_siteHeader ('menu', $LANG_JPN['pinameadmin']);
-if (isset ($_REQUEST['msg'])) {
-    $display .= COM_showMessage (COM_applyFilter ($_REQUEST['msg'],
-                                                  true), 'japanize');
+$checked = array(
+	1 => (($A &  1) ===  1),
+	2 => (($A &  2) ===  2),
+	3 => (($A &  4) ===  4),
+	4 => (($A &  8) ===  8),
+	5 => (($A & 16) === 16),
+	6 => (($A & 32) === 32),
+);
+
+$japanized = array(
+	1 => (($current &  1) ===  1),
+	2 => (($current &  2) ===  2),
+	3 => (($current &  4) ===  4),
+	4 => (($current &  8) ===  8),
+	5 => (($current & 16) === 16),
+	6 => (($current & 32) === 32),
+);
+
+$new = 0;
+$msgs = array();
+
+if ($needChange AND SEC_checkToken()) {
+	for ($type = 1; $type <= 6; $type ++) {
+		if ($checked[$type]) {
+			$new += pow(2, $type - 1);
+		}
+		
+		if ($checked[$type] !== $japanized[$type]) {
+			$lang = $checked[$type] ? 'ja' : 'en';
+			JAPANIZE_execute($type, $lang);
+			$msgs[] = JAPANIZE_str('msg_' . $lang . '_' . $type);
+		}
+	}
+} else {
+	$new = $current;
 }
 
-$display.=ppNavbarjp($navbarMenu,$LANG_JPN_admin_menu['1']);
-
-if (substr($mode,0,3)=="cmd") {
-    $no=trim($mode,"cmd");
-    fncCmdExec($no);
-
-    $url=$_CONF['site_admin_url'] . "/plugins/".THIS_PLUGIN."/".THIS_SCRIPT;
-    $url.="?msg={$no}";
-    echo COM_refresh($url);
-
-}elseif (substr($mode,0,3)=="ALL") {
-    for ($no = 1; $no <= 8; $no++) {
-        if ($no<>6){
-            fncCmdExec($no);
-            $var = 'PLG_japanize_MESSAGE'. $no;
-            $display .=$$var."<br>";
-        }
-    }
-    $display .= COM_siteFooter ();
-}else{// 初期表示、一覧表示
-    $display .=fncEdit();
-    $display .= COM_siteFooter ();
+if (count($msgs) > 0) {
+	$li_style = ' style="margin: 0 0 0 2em; padding: 0;"';
+	$msgs = '<ol style="background-color: #ccff99; padding: 3px; border: solid 1px #33ccff;">'
+		  . '<li' . $li_style . '>'
+		  . implode('</li><li' . $li_style . '>', $msgs)
+		  . '</li></ol>';
+} else {
+	$msgs = '';
 }
 
+$new = addslashes($new);
 
-echo $display;
+if (DB_getItem($_TABLES['vars'], 'COUNT(*)', "name='japanize_plugin'") === '1') {
+	$sql = "UPDATE {$_TABLES['vars']} "
+		 . "SET value = '" . $new . "' "
+		 . "WHERE (name = 'japanize_plugin') ";
+} else {
+	$sql = "INSERT INTO {$_TABLES['vars']} (name, value) "
+		 . "VALUES ('japanize_plugin', '" . $new . "') ";
+}
 
-?>
+DB_query($sql);
+
+$T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
+$T->set_file('admin', 'index.thtml');
+$T->set_var(array(
+	'xhtml'             => XHTML,
+	'lang_piname'       => JAPANIZE_str('piname'),
+	'lang_execute'      => JAPANIZE_str('execute'),
+	'lang_japanize_all' => JAPANIZE_str('japanize_all'),
+	'lang_restore_all'  => JAPANIZE_str('restore_all'),
+	'lang_cancel'       => JAPANIZE_str('cancel'),
+	'icon_url'          => plugin_geticon_japanize(),
+	'msgs'              => $msgs,
+	'checked1'          => ($checked[1] ? ' checked="checked"' : ''),
+	'checked2'          => ($checked[2] ? ' checked="checked"' : ''),
+	'checked3'          => ($checked[3] ? ' checked="checked"' : ''),
+	'checked4'          => ($checked[4] ? ' checked="checked"' : ''),
+	'checked5'          => ($checked[5] ? ' checked="checked"' : ''),
+	'checked6'          => ($checked[6] ? ' checked="checked"' : ''),
+	'token_name'        => CSRF_TOKEN,
+	'token_value'       => SEC_createToken(),
+));
+$T->parse('output', 'admin');
+$content = $T->finish($T->get_var('output'));
+$display = is_callable('COM_createHTMLDocument')
+		 ? COM_createHTMLDocument($content)
+		 : COM_siteHeader() . $content . COM_siteFooter();
+
+if (is_callable('COM_output')) {
+	COM_output($display);
+} else {
+	echo $display;
+}

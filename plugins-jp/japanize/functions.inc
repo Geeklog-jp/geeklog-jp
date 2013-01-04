@@ -1,317 +1,369 @@
 <?php
-/* Reminder: always indent with 4 spaces (no tabs). */
-// +---------------------------------------------------------------------------+
-// | 日本語化プラグイン                                                        |
-// +---------------------------------------------------------------------------+
-//2008/09/26 08:18 tsuchi AT geeklog DOT jp
-//2009/10/13 Ver1.0.5用
-//2010/10/20 テーマ変数　sp_id　の問題対応（Issue #160）
-//                       (plugin_templatesetvars_japanize)
-//2011/02/07 テーマ変数 （Issue #168 (#167 #160 #87)）
-//                       (plugin_templatesetvars_japanize)
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== false) {
-    die('This file can not be used on its own.');
+// +---------------------------------------------------------------------------+
+// | Japanize Plugin for Geeklog - The Ultimate Weblog                         |
+// +---------------------------------------------------------------------------+
+// | geeklog/plugins/japanize/functions.inc                                    |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2009-2013 by the following authors:                         |
+// |                                                                           |
+// | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
+// |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
+// +---------------------------------------------------------------------------+
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software Foundation,   |
+// | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
+// |                                                                           |
+// +---------------------------------------------------------------------------+
+
+if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
+	die('This file cannot be used on its own.');
 }
 
-$pi_name         = 'japanize';
+$langfile = $_CONF['path'] . 'plugins/japanize/language/' . $_CONF['language'] . '.php';
 
-//言語ファイル
-$langfile = $_CONF['path'] . "plugins/{$pi_name}/language/"
-          . $_CONF['language'] . '.php';
-
-if (file_exists ($langfile)) {
-    require_once ($langfile);
+if (file_exists($langfile)) {
+	require_once $langfile;
 } else {
-    require_once ($_CONF['path'] . "plugins/{$pi_name}/language/japanese_utf-8.php");
+	require_once $_CONF['path'] . 'plugins/japanize/language/japanese_utf-8.php';
 }
 
-include_once 'version.php';
+require_once 'version.php';
+require_once $_CONF['path'] . 'plugins/japanize/japanize_data.php';
 
-// 日本語メール
-require_once('custom/custom_mail_japanize.php');
-
-// +-----------+
-// | 専用関数  |
-// +-----------+
+if (!is_callable('CUSTOM_convertEncoding') AND
+	!is_callable('CUSTOM_emailEscape') AND
+	!is_callable('CUSTOM_formatEmailAddress') AND
+	!is_callable('CUSTOM_splitAddress') AND
+	!is_callable('CUSTOM_mail')) {
+	require_once 'custom/custom_mail_japanize.php';
+}
 
 /**
-* 言語ファイル名を言語IDに変換
+* Converts language file name to language ID
+*
+* @param   string   $language
+* @return  string
 */
 function JAPANIZE_languageToLangId($language) {
-    $retval = '';
+	$retval = '';
+	
+	$lang_mappings = array(
+		'afrikaans'           => 'af',
+		'bosnian'             => 'bs',
+		'bulgarian'           => 'bg',
+		'catalan'             => 'ca',
+		'chinese_simplified'  => 'zh-cn',
+		'chinese_traditional' => 'zh',
+		'croatian'            => 'hr',
+		'czech'               => 'cs',
+		'danish'              => 'da',
+		'dutch'               => 'nl',
+		'english'             => 'en',
+		'estonian'            => 'et',
+		'farsi'               => 'fa',
+		'finnish'             => 'fi',
+		'french_canada'       => 'fr-ca',
+		'french_france'       => 'fr',
+		'german'              => 'de',
+		'german_formal'       => 'de',
+		'hebrew'              => 'he',
+		'hellenic'            => 'el',
+		'indonesian'          => '',
+		'italian'             => 'it',
+		'japanese'            => 'ja',
+		'korean'              => 'ko',
+		'norwegian'           => 'no',
+		'polish'              => 'pl',
+		'portuguese'          => 'pt',
+		'portuguese_brazil'   => 'pt-br',
+		'romanian'            => 'ro',
+		'russian'             => 'ru',
+		'slovak'              => 'sk',
+		'slovenian'           => 'sl',
+		'spanish'             => 'es',
+		'spanish_argentina'   => 'es',
+		'swedish'             => 'sv',
+		'turkish'             => 'tr',
+		'ukrainian'           => 'uk',
+	);
 
-    $lang_mappings = array(
-        'afrikaans'           => 'af',
-        'bosnian'             => 'bs',
-        'bulgarian'           => 'bg',
-        'catalan'             => 'ca',
-        'chinese_simplified'  => 'zh-cn',
-        'chinese_traditional' => 'zh',
-        'croatian'            => 'hr',
-        'czech'               => 'cs',
-        'danish'              => 'da',
-        'dutch'               => 'nl',
-        'english'             => 'en',
-        'estonian'            => 'et',
-        'farsi'               => 'fa',
-        'finnish'             => 'fi',
-        'french_canada'       => 'fr-ca',
-        'french_france'       => 'fr',
-        'german'              => 'de',
-        'german_formal'       => 'de',
-        'hebrew'              => 'he',
-        'hellenic'            => 'el',
-        'indonesian'          => '',
-        'italian'             => 'it',
-        'japanese'            => 'ja',
-        'korean'              => 'ko',
-        'norwegian'           => 'no',
-        'polish'              => 'pl',
-        'portuguese'          => 'pt',
-        'portuguese_brazil'   => 'pt-br',
-        'romanian'            => 'ro',
-        'russian'             => 'ru',
-        'slovak'              => 'sk',
-        'slovenian'           => 'sl',
-        'spanish'             => 'es',
-        'spanish_argentina'   => 'es',
-        'swedish'             => 'sv',
-        'turkish'             => 'tr',
-        'ukrainian'           => 'uk',
-    );
+	if (isset($language)) {
+		$lang = str_replace('_utf-8', '', $language);
+		
+		if (isset($lang_mappings[$lang])) {
+			$retval = $lang_mappings[$lang];
+		}
+	}
 
-    if (isset($language)) {
-        $lang = str_replace('_utf-8', '', $language);
-        if (isset($lang_mappings[$lang])) {
-            $retval = $lang_mappings[$lang];
-        }
-    }
-
-    return $retval;
+	return $retval;
 }
 
 /**
-* {html_attribute}に変数をセットする
+* Sets a variable to {html_attribute} template var
+*
+* @param   object  $template
+* @return  (void)
 */
 function JAPANIZE_setHtmlAttribute(&$template) {
-    global  $_USER, $_CONF;
+	global  $_USER, $_CONF;
+	
+	$langId = COM_getLanguageId();
 
-    $langId = COM_getLanguageId();
+	if ($langId === '') {
+		$langId = JAPANIZE_languageToLangId(@$_USER['language']);
+		
+		if ($langId === '') {
+			// Tries to derive the language id from the locale
+			$l = explode('.', $_CONF['locale']); // get rid of character set
+			$langId = $l[0];
+			$l = explode('@', $langId); // get rid of '@euro', etc.
+			$langId = $l[0];
+		}
+	}
 
-    if ($langId === '') {
-        $langId = JAPANIZE_languageToLangId(@$_USER['language']);
-        if ($langId === '') {
-            // try to derive the language id from the locale
-            $l = explode('.', $_CONF['locale']); // get rid of character set
-            $langId = $l[0];
-            $l = explode('@', $langId); // get rid of '@euro', etc.
-            $langId = $l[0];
-        }
-    }
+	if (!empty($langId)) {
+		$l = explode('-', str_replace('_', '-', $langId));
+		
+		if ((count($l) === 1) AND (strlen($langId) === 2)) {
+			// Do nothing
+		} else if (count($l) === 2) {
+			if (($l[0] === 'i') OR ($l[0] === 'x')) {
+				$langId = implode('-', $l);
+			} else if (strlen($l[0]) === 2) {
+				$langId = implode('-', $l);
+			} else {
+				$langId = $l[0];
+			}
+		}
+	}
 
-    if (!empty($langId)) {
-        $l = explode('-', str_replace('_', '-', $langId));
-        if ((count($l) === 1) AND (strlen($langId) === 2)) {
-            // Do nothing
-        } else if (count($l) === 2) {
-            if (($l[0] === 'i') OR ($l[0] === 'x')) {
-                $langId = implode('-', $l);
-            } else if (strlen($l[0]) === 2) {
-                $langId = implode('-', $l);
-            } else {
-                $langId = $l[0];
-            }
-        }
-    }
+	switch ($_CONF['doctype']) {
+		case 'html401transitional':
+		case 'html401strict':
+			$html_attribute = ' lang="' . $langId . '"';
+			break;
 
-    switch ($_CONF['doctype']) {
-        case 'html401transitional':
-        case 'html401strict':
-            $html_attribute = ' lang="' . $langId . '"';
-            break;
+		case 'xhtml10transitional':
+		case 'xhtml10strict':
+			$html_attribute = ' xml:lang="' . $langId . '" lang="' . $langId . '"';
+			break;
 
-        case 'xhtml10transitional':
-        case 'xhtml10strict':
-            $html_attribute = ' xml:lang="' . $langId . '" lang="' . $langId . '"';
-            break;
+		default:
+			$html_attribute = ' lang="' . $langId.'"';
+			break;
+	}
 
-        default:
-            $html_attribute = ' lang="' . $langId.'"';
-            break;
-    }
+	$template->set_var( 'html_attribute', $html_attribute);
+}
 
-    $template->set_var( 'html_attribute', $html_attribute);
+function JAPANIZE_execute($type, $lang) {
+	global $_CONF, $_TABLES, $_JAPANIZE_DATA;
+	
+	if (!SEC_hasRights('japanize.edit')) {
+		return;
+	}
+	
+	$type = (string) $type;
+	
+	switch ($type) {
+		case '1':
+			foreach ($_JAPANIZE_DATA[1] as $sqls) {
+				DB_query($sqls[$lang]);
+			}
+			break;
+		
+		case '2':
+			foreach ($_JAPANIZE_DATA[2] as $d) {
+				$sql = "UPDATE {$_TABLES['groups']} "
+					 . "SET grp_descr = '" . addslashes($d[$lang]) . "' "
+					 . "WHERE (grp_name = '" . addslashes($d['group']) . "') ";
+				DB_query($sql);
+			}
+			break;
+	
+		case '3':
+			foreach ($_JAPANIZE_DATA[3] as $d) {
+				if (isset($d['type']) AND ($d['type'] === 'sql')) {
+					$sql = $d[$lang];
+				} else {
+					$sql = "UPDATE {$_TABLES['blocks']} "
+						 . "SET title = '" . addslashes($d[$lang]) . "' "
+						 . "WHERE (name = '" . addslashes($d['name']) . "') ";
+				}
+				
+				DB_query($sql);
+			}
+			break;
+	
+		case '4':
+			require_once $_CONF['path_system'] . 'classes/config.class.php';
+			
+			$c = config::get_instance();
+
+			foreach ($_JAPANIZE_DATA[4] as $method => $groups) {
+				foreach ($groups as $groupName => $items) {
+					foreach ($items as $itemName => $data) {
+						if ($method === 'set') {
+							$c->set($itemName, $data[$lang], $groupName);
+						} else if ($method === 'set_default') {
+							$c->set_default($itemName, $data[$lang], $groupName);
+						}
+					}
+				}
+			}
+			break;
+	
+		case '5':
+			foreach ($_JAPANIZE_DATA[5] as $d) {
+				if ($lang === 'ja') {
+					if (DB_getItem($_TABLES['pingservice'], 'COUNT(*)', "site_url = '" . addslashes($d['site_url']) . "'") === '0') {
+						DB_query($d['sql']);
+					}
+				} else {
+					$sql = "DELETE FROM {$_TABLES['pingservice']} "
+						 . "WHERE (site_url = '" . addslashes($d['site_url']) . "') "
+						 . "LIMIT 1 ";
+					DB_query($sql);
+				}
+			}
+			break;
+		
+		case '6':
+			foreach ($_JAPANIZE_DATA[6] as $ft_name => $ft_descr) {
+				$sql = "UPDATE {$_TABLES['features']} "
+					 . "SET ft_descr = '" . addslashes($ft_descr[$lang]) . "' "
+					 . "WHERE (ft_name = '" . addslashes($ft_name) . "') ";
+				DB_query($sql);
+			}
+			break;
+		
+		default:
+			COM_errorLog(__FUNCTION__ . ': Unknown type "' . $type . '" was called.');
+			break;
+	}
+}
+
+function JAPANIZE_str($str) {
+	global $LANG_JPN;
+	
+	return isset($LANG_JPN[$str]) ? $LANG_JPN[$str] : '(undefined)';
 }
 
 // +---------------------------------------------------------------------------+
 // | Geeklog Plugin API Implementation                                         |
 // +---------------------------------------------------------------------------+
 
+function plugin_chkVersion_japanize() {
+	global $_JPN_CONF;
 
-// +---------------------------------------------------------------------------+
-// | 現在インストールされているバージョン取得                                  |
-// | 書式 plugin_chkVersion_japanize                                           |
-// +---------------------------------------------------------------------------+
-function plugin_chkVersion_japanize ()
-{
-    global $_JPN_CONF;
-
-    return $_JPN_CONF['version'];
+	return $_JPN_CONF['version'];
 }
 
-// +---------------------------------------------------------------------------+
-// | 機能  プラグイン更新:バージョンナンバーの更新                             |
-// | 書式 plugin_upgrade_japanize                                              |
-// +---------------------------------------------------------------------------+
-function plugin_upgrade_japanize ()
-{
-    global $_TABLES, $_JPN_CONF;
+function plugin_upgrade_japanize() {
+	global $_TABLES, $_JPN_CONF;
 
-    // the plugin needs these functions so complain when they doesn't exist
-    if (!function_exists ('COM_truncate') ||
-        !function_exists ('MBYTE_strpos')) {
-        return 3002;
-    }
+	// the plugin needs these functions so complain when they doesn't exist
+	if (!is_callable('COM_truncate') OR !function_exists('MBYTE_strpos')) {
+		return 3002;
+	}
 
-    include ('upgrade.inc');        // Include the upgrade functions
+	// No db changes - just update the version numbers
+	$sql = "UPDATE {$_TABLES['plugins']} "
+		 . "SET pi_version = '" . addslashes($_JPN_CONF['version']) . "', "
+		 . "    pi_gl_version = '" . addslashes(VERSION) . "' "
+		 . "WHERE (pi_name = 'japanize') ";
+	DB_query($sql);
 
-    // no db changes - just update the version numbers
-    DB_query ("UPDATE {$_TABLES['plugins']} SET pi_version = '{$_JPN_CONF['version']}', pi_gl_version = '" . VERSION . "' WHERE pi_name = 'japanize'");
-
-    return true;
+	return TRUE;
 }
 
-// +---------------------------------------------------------------------------+
-// | 機能  プラグインアンインストール    1.5.0用                               |
-// | 書式 plugin_getadminoption_japanize                                       |
-// +---------------------------------------------------------------------------+
-// | 戻値 nomal:                                                               |
-// +---------------------------------------------------------------------------+
-function plugin_autouninstall_japanize ()
-{
-    // (1) 削除するテーブル
-    $out['tables']=array();
-    // (2) 削除するグループ名
-    $out['groups'][]='japanize Admin';
-    // (3) 削除するfeatures
-    $out['features'][]='japanize.edit';
-    $out['features'][]='japanize.moderate';
-    $out['features'][]='japanize.submit';
-    // (4) 削除するphp_blocks
-    $out['php_blocks']=array();
-    // (5) 削除する vars */
-    $out['vars']=array('japanize_custommail');
-
-    return $out;
+function plugin_autouninstall_japanize() {
+	// Undoes all Japanizations
+	for ($type = 1; $type <= 5; $type ++) {
+		JAPANIZE_execute($type, 'en');
+	}
+	
+	return array(
+		'tables'     => array(),
+		'groups'     => array('japanize Admin'),
+		'features'   => array('japanize.edit'),
+		'php_blocks' => array(),
+		'vars'       => array('japanize_plugin'),
+	);
 }
 
-/**
-* ☆★現在のユーザーは権利があるのをチェック
-*
-* @return        boolean       Returns true if moderator
-*
-*/
-function plugin_ismoderator_japanize()
-{
-    //return SEC_hasRights ('japanize.moderate');
-    return true;
+# /**
+# * @return        boolean       Returns true if moderator
+# */
+# function plugin_ismoderator_japanize() {
+# 	return TRUE;
+# }
+# 
+function plugin_geticon_japanize() {
+	global $_CONF;
+
+	return $_CONF['site_url'] . '/japanize/images/japanize.png';
 }
 
+function plugin_cclabel_japanize() {
+	global $_CONF;
 
-
-
-
-// +---------------------------------------------------------------------------+
-// | 機能  プラグインのアイコン取得                                            |
-// | 書式 plugin_geticon_japanize                                              |
-// +---------------------------------------------------------------------------+
-
-function plugin_geticon_japanize ()
-{
-    global $_CONF;
-
-    return $_CONF['site_url'] . '/japanize/images/japanize.png';
+	if (SEC_hasRights('japanize.edit')) {
+		return array(
+			'japanize',
+			$_CONF['site_admin_url'] . '/plugins/japanize/index.php',
+			plugin_geticon_japanize()
+		);
+	} else {
+		return FALSE;
+	}
 }
 
-// +---------------------------------------------------------------------------+
-// | 機能  管理画面メニュ                                                      |
-// | 書式 plugin_cclabel_japanize                                              |
-// +---------------------------------------------------------------------------+
-function plugin_cclabel_japanize()
-{
-    global $_CONF;
+function plugin_getadminoption_japanize() {
+	global $_CONF, $_TABLES, $LANG_JPN;
 
-    if (SEC_hasRights('japanize.edit')) {
-        return array(
-            'japanize'
-            ,$_CONF['site_admin_url'] . "/plugins/japanize/index.php"
-            ,plugin_geticon_japanize ()
-            );
-    }
-
-    return "";
-
+	if (SEC_hasRights('japanize.edit')){
+		$count = 0;
+		$current = (int) @DB_getItem($_TABLES['vars'], 'value', "name='japanize_plugin'");
+		
+		for ($i = 1; $i <= 6; $i ++) {
+			$v = pow(2, $i - 1);
+			
+			if (($current & $v) === $v) {
+				$count ++;
+			}
+		}
+		
+		return array(
+			$LANG_JPN['piname'],
+			$_CONF['site_admin_url'] . '/plugins/japanize/index.php',
+			(string) $count . '/6'
+		);
+	} else {
+		return FALSE;
+	}
 }
 
-// +---------------------------------------------------------------------------+
-// | 機能  管理者メニュ表示 　                                                 |
-// | 書式 plugin_getadminoption_japanize                                       |
-// +---------------------------------------------------------------------------+
-// | 戻値 nomal:管理者メニュリンク                                             |
-// +---------------------------------------------------------------------------+
-function plugin_getadminoption_japanize()
-{
-    global $_CONF, $_TABLES;
-    global $LANG_JPN;
-
-    if (SEC_hasRights ('japanize.edit') ){
-        return array (
-                      $LANG_JPN['piname']
-                      ,$_CONF['site_admin_url'] . '/plugins/japanize/index.php'
-                      );
-    }
-    return "";
-
-}
-
-// +---------------------------------------------------------------------------+
-// | 機能  テンプレート変数設定                                                |
-// | 書式 plugin_templatesetvars_japanize                                      |
-// +---------------------------------------------------------------------------+
-//  2006/10/16 Geeklog Japanese ivy added
-//  2007/05/14 Geeklog Japanese kino changed
-//  2007.8.26 Ivy added
-//  2007/12/22 Geeklog Japanese Ivy changed
-//  2008/06/11 Geeklog Japanese Tsuchi modify custom_templatesetvars
-//  2010/10/20 update （Issue #160）
-//  2011/02/07 update （Issue #168 (#167 #160 #87)）
 function plugin_templatesetvars_japanize($templatename, &$template) {
-    global  $LANG01, $LANG_JPN;
-    global  $_USER,$_CONF;
-    global  $topic;
-    global  $page;
+	global $LANG01, $LANG_JPN;
 
-
-    switch ($templatename) {
-        case 'header':
-
-            //ログインしている時
-            if (isset($_USER['uid']) && $_USER['uid'] > 1) {
-                $welcome_msg_jp = "{$LANG01[67]}";
-                $welcome_msg_jp .= ' ' . COM_getDisplayName()." ".$LANG_JPN['keisyo'];
-            //ログインしていない時
-            } else {
-                $welcome_msg_jp = "";
-            }
-
-            //ようこそメッセージ:welcome_msg_jp
-            $template->set_var( 'welcome_msg_jp', $welcome_msg_jp );
-
-            //html_attribute 暫定処置
-            JAPANIZE_setHtmlAttribute($template);
-    }
+	switch ($templatename) {
+		case 'header':
+			$welcome_msg_jp = COM_isAnonUser()
+							? ''
+							: $LANG01[67] . COM_getDisplayName() . $LANG_JPN['keisyo'];
+			$template->set_var('welcome_msg_jp', $welcome_msg_jp);
+			JAPANIZE_setHtmlAttribute($template);
+	}
 }
-
-
-?>

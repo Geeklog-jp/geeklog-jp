@@ -1,71 +1,73 @@
 <?php
-###############################################################################
-# plugins/japanize/language/japanese_utf-8.php
-# もし万一エンコードの種類がUTF-8でない場合は、UTF-8に変換してください。
-# Last Update 2009/09/02
 
+// +---------------------------------------------------------------------------+
+// | Japanize Plugin for Geeklog - The Ultimate Weblog                         |
+// +---------------------------------------------------------------------------+
+// | geeklog/plugins/japanize/language/japanese_utf-8.php                      |
+// +---------------------------------------------------------------------------+
+// | Copyright (C) 2009-2013 by the following authors:                         |
+// |                                                                           |
+// | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
+// |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
+// +---------------------------------------------------------------------------|
+// | This program is free software; you can redistribute it and/or             |
+// | modify it under the terms of the GNU General Public License               |
+// | as published by the Free Software Foundation; either version 2            |
+// | of the License, or (at your option) any later version.                    |
+// |                                                                           |
+// | This program is distributed in the hope that it will be useful,           |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of            |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             |
+// | GNU General Public License for more details.                              |
+// |                                                                           |
+// | You should have received a copy of the GNU General Public License         |
+// | along with this program; if not, write to the Free Software               |
+// | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA|
+// |                                                                           |
+// +---------------------------------------------------------------------------|
 
-###############################################################################
+if (strpos(strtolower($_SERVER['PHP_SELF']), strtolower(basename(__FILE__))) !== FALSE) {
+	die('This file cannot be used on its own!');
+}
 
+$LANG_JPN = array(
+	'piname'       => '日本語化',
+	'pinameadmin'  => 'Geeklogを日本語化する',
+	'keisyo'       => ' さん',
+	'execute'      => '実行',
+	'japanize_all' => '全部まとめて日本語化実行',
+	'restore_all'  => '全部まとめて英語版に戻す',
+	'cancel'       => 'キャンセル',
+	'msg_ja_1'     => 'テーブル構造・データを日本語化しました。',
+	'msg_en_1'     => 'テーブル構造・データを英語版に戻しました。',
+	'msg_ja_2'     => 'グループ管理画面の説明文を日本語化しました。',
+	'msg_en_2'     => 'グループ管理画面の説明文を英語版に戻しました。',
+	'msg_ja_3'     => '初期ブロックタイトルを日本語化しました。',
+	'msg_en_3'     => '初期ブロックタイトルを英語版に戻しました。',
+	'msg_ja_4'     => 'コンフィギュレーションを日本語化しました。',
+	'msg_en_4'     => 'コンフィギュレーションを英語版に戻しました。',
+	'msg_ja_5'     => '更新pingサーバーを追加しました。',
+	'msg_en_5'     => '更新pingサーバーを英語版のものに戻しました。',
+	'msg_ja_6'     => '権限のツールチップを日本語化しました。',
+	'msg_en_6'     => '権限のツールチップを英語版に戻しました。',
+);
 
+$LANG_configsections['japanize'] = array(
+	'label' => 'Japanize',
+	'title' => 'Japanizeの設定',
+);
 
-###############################################################################
-$LANG_JPN= array();
-$LANG_JPN['piname']= '日本語化';
-$LANG_JPN['pinameadmin']= 'Geeklogを日本語化する';
-$LANG_JPN['keisyo']= ' さん';
-
-###############################################################################
-## 管理画面
-$LANG_JPN_admin_menu = array();
-$LANG_JPN_admin_menu['1']= '更新';
-$LANG_JPN_admin_menu['2']= '設定';
-$LANG_JPN_admin_menu['3']= '情報';
-$LANG_JPN_admin_menu['4']= '移行';
-
-
-
-###############################################################################
-# COM_showMessage()
-
-// Messages for the plugin upgrade
-$PLG_JAPANIZE_MESSAGE3002 = $LANG32[9];
-
-$PLG_japanize_MESSAGE1 = "テーブル構造を日本語化しました。";
-$PLG_japanize_MESSAGE2 = "コンフィギュレーションを日本語化しました。";
-$PLG_japanize_MESSAGE3 = "日本語pingサイトを追加しました。";
-$PLG_japanize_MESSAGE4 = "ゲストユーザーに変更しました。";
-$PLG_japanize_MESSAGE5 = " グループの詳細を日本語に変更しました。";
-$PLG_japanize_MESSAGE105 = "グループの詳細を英語に戻しました。";
-$PLG_japanize_MESSAGE6 = " 日本語サンプルアンケート追加しました。";
-$PLG_japanize_MESSAGE7 = " 初期ブロックタイトルを日本語に変更しました。";
-$PLG_japanize_MESSAGE107 = " 初期ブロックタイトルを英語に戻しました。";
-$PLG_japanize_MESSAGE8 = " 日本語メールをGeeklog Japanese推奨値に変更しました。";
-$PLG_japanize_MESSAGE108 = " 日本語メールを元に戻しました。";
-
-
-$PLG_japanize_MESSAGE1001 = "更新しました。";
-
-
-###############################################################################
-## コンフィギュレーション
-$LANG_configsections['japanize'] = array();
-$LANG_configsections['japanize']['label']='Japanize';
-$LANG_configsections['japanize']['title']='Japanizeの設定';
-
-//
 $LANG_confignames['japanize'] = array();
 
+$LANG_configsubgroups['japanize'] = array(
+	'sg_main' => 'メイン',
+);
 
-//
-$LANG_configsubgroups['japanize'] = array();
-$LANG_configsubgroups['japanize']['sg_main'] = 'メイン';
-//
-$LANG_fs['japanize'] = array();
-$LANG_fs['japanize']['fs_main'] = 'デフォルトの設定';
+$LANG_fs['japanize'] = array(
+	'fs_main' => 'デフォルトの設定',
+);
 
-//
 $LANG_configselects['japanize'] = array(
-    0 => array('はい' => 1, 'いいえ' => 0),
-    1 => array('はい' => TRUE, 'いいえ' => FALSE)
+	0 => array('はい' => 1, 'いいえ' => 0),
+	1 => array('はい' => TRUE, 'いいえ' => FALSE)
 );
