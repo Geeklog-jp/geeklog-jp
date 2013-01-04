@@ -531,7 +531,7 @@ function INST_installEngine($install_type, $install_step)
 
                         INST_setVersion($siteconfig_path);
 
-                        if (! $install_plugins) { 
+                        if (! $install_plugins) {
                             // do a default install of all available plugins
 
                             /**
@@ -551,13 +551,6 @@ function INST_installEngine($install_type, $install_step)
                             $language = $lx_inst;
 
                             INST_defaultPluginInstall();
-
-                            if (isset($language) AND
-                                (strcasecmp($language, 'japanese_utf-8') === 0)) {
-                                require_once 'LocalizeGeeklog.php';
-                                $obj = new LocalizeGeeklog('ja');
-                                $obj->execute();
-                            }
                         }
 
                         // Installation is complete. Continue onto either
@@ -629,13 +622,6 @@ function INST_installEngine($install_type, $install_step)
 
                     // disable plugins for which we don't have the source files
                     INST_checkPlugins();
-
-                    if (isset($language) AND
-                        (strcasecmp($language, 'japanese_utf-8') === 0)) {
-                        require_once 'LocalizeGeeklog.php';
-                        $obj = new LocalizeGeeklog('ja');
-                        $obj->execute();
-                    }
 
                     // extra step 4: upgrade plugins
                     $next_link = 'index.php?step=4&mode=' . $install_type
@@ -1232,7 +1218,7 @@ if (INST_phpOutOfDate()) {
             // Show the "Select your installation method" buttons
             $upgr_class = ($LANG_DIRECTION == 'rtl') ? 'upgrade-rtl' : 'upgrade' ;
             $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[23] . '</h1>' . LB
-                . '<p><form action="index.php" method="GET">' . LB
+                . '<p><form action="index.php" method="get">' . LB
                 . '<input type="hidden" name="dbconfig_path" value="' . htmlspecialchars($dbconfig_path) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="mode" value="' . htmlspecialchars($mode) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="language" value="' . $language . '"' . XHTML . '>' . LB
