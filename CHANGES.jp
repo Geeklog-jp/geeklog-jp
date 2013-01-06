@@ -1,3 +1,9 @@
+2013-01-07  Takahiro Kambe  <tacahi>
+
+	* geeklog-1.8.2-jp-1.0をリリースします。
+
+	* NEWS: MySQLの最小のバージョンについて記述を加えました。
+
 2013-01-05    Tetsuko Komma  <ivy>
 
 	* NEWS に1.8.2-jp-1.0のリリースを追加しました。
