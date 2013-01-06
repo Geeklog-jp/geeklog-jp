@@ -11,6 +11,8 @@ Geeklog 1.8.2-jp-1.0					2013年1月5日
 
     本家のGeeklog 1.8.2を取り込みました。
 
+    - MySQLの最小のバージョンが4.1.2となっています。
+
     日本語拡張版カスタム関数
 
     - system/custom/phpblock_lastarticle.php
