@@ -1,3 +1,8 @@
+2013-01-11  Takahiro Kambe  <tacahi>
+
+	* japanize: japanize_data.phpがリリースのファイルに含まれていない
+	  問題を修正しました。
+
 2013-01-08  Tetsuko Komma  <Ivy>
 
 	* 言語ファイルを微修正しました。"ひとつ"を"1つ"に。
