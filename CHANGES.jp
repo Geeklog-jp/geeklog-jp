@@ -1,3 +1,7 @@
+2013-01-27  Kenji ITO  <mystralkk>
+
+	* CAPTCHAプラグインの言語ファイルのSyntax Errorを修正しました。
+
 2013-01-11  Takahiro Kambe  <tacahi>
 
 	* japanize: japanize_data.phpがリリースのファイルに含まれていない
