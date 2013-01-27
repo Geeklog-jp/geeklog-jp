@@ -48,7 +48,7 @@ $LANG_CP00 = array (
     'enabled'           => 'プラグイン無効',
     'readme'            => 'CAPTCHAプラグインをインストール・アンインストールします。',
     'installdoc'        => "<a href=\"{$_CONF['site_admin_url']}/plugins/captcha/install_doc.html\">インストールドキュメント</a>",
-    'overview'          => 'CAPTCHAはGeeklog固有のプラグインで、spambotsに対するセキュリティに追加のレイヤーを提供します。<br' . XHTML . '><br' . XHTML '>' .
+    'overview'          => 'CAPTCHAはGeeklog固有のプラグインで、spambotsに対するセキュリティに追加のレイヤーを提供します。<br' . XHTML . '><br' . XHTML . '>' .
 							'CAPTCHAは("Completely Automated Public Turing test to tell Computers and Humans Apart"の省略で、カーネギーメロン大学の商標で)、ユーザーが人かどうかを決めるためにコンピューターで使用するチャレンジ・レスポンス方式のテストです。読みにくい文字や数字の図を示すと、人だけが読めて適切な文字を入力できると仮定しています。CAPTCHAのテストの実装は、サイトへのspambotによる投稿を減らすことに役立つでしょう。',
     'details'           => 'CAPTCHAプラグインでCAPTCHA画像はTrue Type fonts(TTF)に対応したGDまたはImageMagick画像ライブラリで作成します。ホスティングプロバイダーにTTFをサポートしているかどうか確認してください。',
     'preinstall_check'  => 'CAPTCHAプレインストールチェック:',
