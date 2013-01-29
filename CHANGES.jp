@@ -1,3 +1,9 @@
+2013-01-29  Tetsuko Komma  <Ivy>
+
+	* テーマmobile/functions.phpを調整しました。
+	  $_CONF['supported_version_theme'] = '2.0.0';をコメントアウト
+	  してフッタのメニュー表示を復活させました。
+
 2013-01-27  Kenji ITO  <mystralkk>
 
 	* CAPTCHAプラグインの言語ファイルのSyntax Errorを修正しました。
