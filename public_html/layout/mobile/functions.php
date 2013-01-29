@@ -68,8 +68,7 @@ function theme_css_mobile()
  */
 function theme_js_libs_mobile()
 {
-    return array(
-    );
+    return array();
 }
 
 /**
@@ -79,8 +78,6 @@ function theme_js_files_mobile()
 {
     global $_CONF;
     return array(
-        '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
-        '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js'
     );
 }
 
@@ -91,9 +88,7 @@ function theme_init_mobile()
 {
     global $_BLOCK_TEMPLATE, $_CONF;
 
-    $_CONF['supported_version_theme'] = '2.0.0'; // support new theme format for the later Geeklog 2.0
-
-    /*
+     /*
      * For left/right block support there is no longer any need for the theme to
      * put code into functions.php to set specific templates for the left/right
      * versions of blocks. Instead, Geeklog will automagically look for
@@ -292,16 +287,16 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     $footer->set_var( 'execution_textandtime', $exectext );
 
     /*
-     * ƒƒjƒ…[
+     * ãƒ¡ãƒ‹ãƒ¥ãƒ¼
      */
 	$akey = 1;
 	
-    // ƒz[ƒ€
+    // ãƒ›ãƒ¼ãƒ 
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
                       '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
 	$akey ++;
 	
-    // ƒƒOƒCƒ“/ƒƒOƒAƒEƒg
+    // ãƒ­ã‚°ã‚¤ãƒ³/ãƒ­ã‚°ã‚¢ã‚¦ãƒˆ
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
@@ -313,43 +308,43 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     }
 	$akey ++;
 	
-    // ‹L–“Še
+    // è¨˜äº‹æŠ•ç¨¿
     $footer->set_var( 'mn_submit', '<a href="' . $_CONF['site_url'] .
                       '/submit.php?type=story" accesskey="' . $akey . '">' . $LANG01['71'] . '</a>' );
 	$akey ++;
 	
-    // Œf¦”Â
+    // æ²ç¤ºæ¿
 	$temp = DB_query("SELECT 1 AS cnt FROM {$_TABLES['plugins']} WHERE (pi_name = 'forum') AND (pi_enabled = '1')");
 	if (DB_numRows($temp) == 1) {
 	    $footer->set_var( 'mn_forum', '<a href="' . $_CONF['site_url'] .
-    	                  '/forum/index.php" accesskey="' . $akey . '">' . "Œf¦”Â</a>" );
+    	                  '/forum/index.php" accesskey="' . $akey . '">' . "æ²ç¤ºæ¿</a>" );
 		$akey ++;
 	}
 	
-    // ‹L–ˆê——
+    // è¨˜äº‹ä¸€è¦§
     $footer->set_var( 'mn_directory', '<a href="' . $_CONF['site_url'] .
                       '/directory.php" accesskey="' . $akey . '">' . $LANG01['117'] . '</a>' );
 	$akey ++;
 	
-    // ŒŸõ
+    // æ¤œç´¢
     $footer->set_var( 'mn_search', '<a href="' . $_CONF['site_url'] .
                       '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
 	$akey ++;
 	
-    // ƒuƒƒbƒN
+    // ãƒ–ãƒ­ãƒƒã‚¯
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
-                      '/mobileblocks.php" accesskey="' . $akey . '">ƒTƒuƒƒjƒ…[</a>' );
+                      '/mobileblocks.php" accesskey="' . $akey . '">ã‚µãƒ–ãƒ¡ãƒ‹ãƒ¥ãƒ¼</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-    // ƒ}ƒCƒAƒJƒEƒ“ƒg
+    // ãƒã‚¤ã‚¢ã‚«ã‚¦ãƒ³ãƒˆ
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
     } else {
-    // V‹K“o˜^
+    // æ–°è¦ç™»éŒ²
         	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
-                      '/users.php?mode=new" accesskey="' . $akey . '">‰ïˆõ“o˜^</a>' );
+                      '/users.php?mode=new" accesskey="' . $akey . '">ä¼šå“¡ç™»éŒ²</a>' );
 	$akey ++;
     }
 
@@ -362,6 +357,5 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
     // Return resulting HTML
     return $footer->finish( $footer->get_var( 'index_footer' ));
 }
-
 
 ?>
