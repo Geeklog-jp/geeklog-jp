@@ -1,3 +1,8 @@
+2013-02-10  Tetsuko Komma  <Ivy>
+
+	* テーマ　Denim　(max-width: 1192px)のとき、管理画面のテーブル
+	  幅が右メニューと重なるので、幅の固定幅指定を削除しました。
+
 2013-01-29  Tetsuko Komma  <Ivy>
 
 	* テーマmobile/functions.phpを調整しました。
