@@ -3004,6 +3004,11 @@ body.center-right #config_content {
 	  overflow: scroll;
 	  width: 614px; /* 614 = 660 - 13 - 13 - 10 - 10 */
 	}
+
+	.admin-list-table {
+	  width: 900px;
+	}
+
 	.table-wrapper-fit {
 	  width: 100%;
 	  overflow: visible;
