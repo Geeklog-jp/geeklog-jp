@@ -56,7 +56,7 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '1.8.2');
+    define('VERSION', '1.8.2sr1');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -1300,6 +1300,20 @@ function INST_dbPasswordCheck($site_url, $db)
     } else {
         return false;
     }
+}
+
+/**
+* Returns a cleaned string
+*
+* @param   string  $str
+* @return  string
+*/
+function INST_cleanString($str)
+{
+    $str = preg_replace('/[[:cntrl:]]/', '', $str);
+    $str = strip_tags($str);
+
+    return $str;
 }
 
 ?>
