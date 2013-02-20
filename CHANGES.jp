@@ -1,3 +1,8 @@
+2013-02-20  Takahiro Kambe  <tacahi>
+
+	* calendarjpプラグイン: Geeklog 1.8.2sr1で修正されているcalendarプラグ
+	  インのXSS修正と同様な修正を加えました。
+
 2013-02-11  Tetsuko Komma  <Ivy>
 
 	* 前回のcssを戻しました。
