@@ -5,9 +5,9 @@ NEWS
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
 
 
-Geeklog 2.0.0-jp-1.0					2012年10月**日
+Geeklog 2.0.0-jp-1.0					2013年 2月**日
 
-  o Geeklog 1.8.1-jp-1.1からの変更
+  o Geeklog 1.8.2-sr1-jp-1.0からの変更
 
     言語ファイル
 
@@ -93,11 +93,31 @@ Geeklog 2.0.0-jp-1.0					2012年10月**日
       Geeklog 2.0に対応させました。
 
 
-Geeklog 1.8.2-jp-1.0					2013年1月1日
+Geeklog 1.8.2-sr1-jp-1.0				2013年2月21日
+
+  o Geeklog 1.8.2-jp-1.0からの変更
+
+    - Geeklog 1.8.2-sr1はカレダーおよびカレンダーjpプラグインのXSSを
+      修正した、セキュリティリリースです。
+
+    - Twitter OAuth ログインのTwitter APIをversion 1.1に切り替えました。
+
+
+Geeklog 1.8.2-jp-1.0					2013年1月5日
 
   o Geeklog 1.8.1-jp-1.1からの変更
 
-    本家Geeklog 1.8.2をマージしました。
+    本家のGeeklog 1.8.2を取り込みました。
+
+    - MySQLの最小のバージョンが4.1.2となっています。
+
+    日本語拡張版カスタム関数
+
+    - system/custom/phpblock_lastarticle.php
+
+	* 2.0対応しました。
+	* PHPブロック使用で画面がくずれる問題を修正しました。
+
 
 
 Geeklog 1.8.1-jp-1.1					2012年5月4日
