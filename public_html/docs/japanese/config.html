@@ -694,11 +694,9 @@
   <td valign="top"><a name="desc_user_login_method_oauth">ログイン方法[oauth](user_login_method_oauth)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
   <td valign="top"><a href="http://oauth.net/">OAuth</a>によるログインを許可するかどうかを設定します。許可すると、通常のログインフォームの下にOAuthログインが表示されます。<br>
-    <strong>Note:</strong>現在はOAuth 1.0のみをサポートしています。現在可能なサポート: Facebook, TwitterそしてLinkedInの３つです。<br>ログインを有効にするには、
-    OAuthの設定には<tt>system/classes/oauth</tt>のauthorization classが必要です。あなたがもしFacebookのみで、Twitterだけにしたければ(逆もまた同様), 単に
-    欲しくないサービスのファイルを削除するだけです。あなたはさらにapplication key ($consumer_key) とapplication secret 
-    ($consumer_secret) の値をセットする必要があります。The PHP extenstion OpenSSL がロードされている必要があります。<br>
-    より詳しい情報は<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
+    <strong>Note:</strong>現在はOAuth 1.0のみをサポートしています。現在可能なサポート: Facebook、Twitter、LinkedInです。<br>特定のログイン方法を有効にするには、<tt>system/classes/oauth</tt>に認証のクラスが必要です。あなたがもしFacebookのみで、Twitterだけにしたければ(逆もまた同様), 単に
+    欲しくないクラスのファイルを削除するか、以下の設定オプションを使用してください。また、以下の設定オプションで正しいキーと秘密の文字列($consumer_secret)も設定しなければなりません。PHP extenstion OpenSSLをロードしている必要があります。<br>
+    さらに詳しい情報は<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_facebook_login">FacebookのOAuthを有効にする(facebook_login)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
@@ -706,12 +704,12 @@
 <tr>
   <td valign="top"><a name="desc_facebook_consumer_key">Facebook OAuth Application ID(facebook_consumer_key)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Facebook OAuth ログイン利用時には入力してください。Applicaiton作成およびApplication IDとApplication Secretの取得は、<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>のApplicaitonを参照してください。<br>
-  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
+  <td valign="top">Facebook OAuth ログイン利用時には入力してください。アプリケーションを作成してkeyとsecretを取得するには、この<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>を参照してください。<br>
+  さらに詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_facebook_consumer_secret">Facebook OAuth Application Secret(facebook_consumer_secret)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Facebook OAuth ログイン利用時には入力してください。Applicaiton作成およびApplication IDとApplication Secretの取得は、<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>のApplicaitonを参照してください。<br>
+  <td valign="top">Facebook OAuth ログイン利用時には入力してください。アプリケーションを作成してkeyとsecretを取得するには、この<a href="http://developers.facebook.com/setup/">Facebook Developers page</a>を参照してください。<br>
   より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_linkedin_login">LinkedInのOAuthを有効にする(linkedin_login)</a></td>
@@ -720,15 +718,13 @@
 <tr>
   <td valign="top"><a name="desc_linkedin_consumer_key">LinkedIn OAuth API Key(linkedin_consumer_key)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。Applicaiton作成およびAPI KeyとSecret Keyの取得は、<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
-  のApplicaitonを参照してください。<br>
-  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
+  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。アプリケーションを作成してAPI KeyとSecret Keyを取得するには、この<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a>を参照してください。<br>
+  さらに詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_linkedin_consumer_secret">LinkedIn OAuth Secret Key(linkedin_consumer_secret)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。Applicaiton作成およびAPI KeyとSecret Keyの取得は、<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a> 
-  のApplicaitonを参照してください。<br>
-  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
+  <td valign="top">LinkedIn OAuth ログイン利用時には入力してください。アプリケーションを作成してAPI KeyとSecret Keyを取得するには、この<a href="https://www.linkedin.com/secure/developer">LinkedIn Developers page</a>を参照してください。<br>
+  さらに詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_twitter_login">TwitterのOAuthを有効にする(twitter_login)</a></td>
   <td valign="top"><code>いいえ(false)</code></td>
@@ -736,15 +732,13 @@
 <tr>
   <td valign="top"><a name="desc_twitter_consumer_key">Twitter OAuth Consumer Key(twitter_consumer_key)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Twitter OAuth ログイン利用時には入力してください。Applicaiton作成およびConsumer KeyとConsumer Secretの取得は、<a href="https://twitter.com/apps">Twitter Application page</a> 
-  のApplicaitonを参照してください。<br>
+  <td valign="top">Twitter OAuth ログイン利用時には入力してください。アプリケーションを作成してconsumer Keyとsecretを取得するには、この<a href="https://twitter.com/apps">Twitter Application page</a>を参照してください。<br>
   より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
 <tr>
   <td valign="top"><a name="desc_twitter_consumer_secret">Twitter OAuth Consumer Secret(twitter_consumer_secret)</a></td>
   <td valign="top"><code>''</code></td>
-  <td valign="top">Twitter OAuth ログイン利用時には入力してください。Applicaiton作成およびConsumer KeyとConsumer Secretの取得は、<a href="https://twitter.com/apps">Twitter Application page</a> 
-  のApplicaitonを参照してください。<br>
-  より詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>まで。</td></tr>
+  <td valign="top">Twitter OAuth ログイン利用時には入力してください。アプリケーションを作成してconsumer keyと secretを取得するには、この<a href="https://twitter.com/apps">Twitter Application page</a>を参照してください。<br>
+  さらに詳しい情報は、<a href="http://wiki.geeklog.net/index.php/OAuth">Wiki OAuth page</a>を参照してください。</td></tr>
 <tr>
   <td valign="top"><a name="desc_aftersave_user">ユーザー保存後の画面遷移(aftersave_user)</a></td>
   <td valign="top"><code>作成した項目を表示する(item)</code></td>
