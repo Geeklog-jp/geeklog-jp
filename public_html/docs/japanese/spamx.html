@@ -52,7 +52,8 @@
 <li><a href="#ip">IPフィルター(IP Filter)</a></li>
 <li><a href="#ipofurl">URLのIPフィルター(IP of URL Filter)</a></li>
 <li><a href="#header">HTTPヘッダーフィルター(HTTP Header Filter)</a></li>
-<!-- <li><a href="#honeypot">ハニーポットプロジェクトフィルター(Project Honeypot Filter)</a></li> -->
+<li><a href="#sfs">Stop Forum Spam (SFS)</a></li>
+<li><a href="#snl">Spam Number of Links (SNL)</a></li>
 </ul>
 
 <h3><a name="slv">スパムリンク検証(SLV: Spam Link Verification)</a></h3>
@@ -103,33 +104,24 @@ SLVを使用しているということは、自分のサイトから第三者�
 </table>
 <p>これで "libwww-perl" で始まるユーザーエージェントからのスパム投稿はすべてブロックされます。</p>
 
-<!-- Currently not shipped with Geeklog
+<h3><a name="sfs">Stop Forum Spam (SFS)</a></h3>
 
-<h3><a name="honeypot">Project Honeypot http:BL Filter</a></h3>
+<p>Stop Forum Spam is a centralized, server-based service that provides lists of 
+ips, usernames and email addresses of know spammers of forums and blogs. With this 
+module enabled, on new user registrations the ip of the user and email address 
+will be checked against the SFS database. If found the Geeklog user account will 
+not be created.</p>
 
-<p><a href="http://www.projecthoneypot.org" title="visit the project honey pot site">ProjectHoneypot.org</a>
-    is a new service providing a way of trapping malicious web users with
-    <a href="http://en.wikipedia.org/wiki/Honeypot_%28computing%29" title="view the wikipedia definition of a Honeypot">honeypots</a>.
-    Essentially this provides traps for email address harvesting bots, spammers,
-    and people trying to exploit web sites. Using the honeypots, the project
-    gathers and maintains an active blacklist of IP addresses categorised by
-    threat type, level and activity.</p>
+<p>SFS is a free service and can be found at <a
+href="http://www.stopforumspam.com/">www.stopforumspam.com</a>.
 
-<p>With the ProjectHoneyPot filter module, you can block posts from known bad
-    ip addresses as identified by the <a href="http://www.projecthoneypot.org/httpbl_configure.php">http:BL</a>
-    blacklist.
-    </p>
-    <p>In order to do so, you must first <a href="http://www.projecthoneypot.org/create_account.php">Register with projectHoneyPot</a>,
-        <a href="http://www.projecthoneypot.org/manage_honey_pots.php">install a honeypot</a> or
-        <a href="http://www.projecthoneypot.org/manage_quicklink.php">quick link</a> and
-        <a href="http://www.projecthoneypot.org/httpbl_configure.php">get an access key</a>
-        for the http:BL.</p>
-    <p>Once you have done this, and inserted appropriate details into the Spam-X
-        config.php file, http:BL blocking will be used for all filtered content
-    automatically.</p>
+<h3><a name="snl">Spam Number of Links (SNL)</a></h3>
 
--->
-
+<p>With this module enabled you can limit the number of links that appear in a 
+post and user profile. To enable the module and set the number of links you need 
+to update the Spam-X configuration. If enabled you should allow at least 1 link 
+to take into account when a user creates a profile since Homepage is a default 
+user field.</p>
 
 <h2><a name="action">アクションモジュール</a></h2>
 
@@ -216,12 +208,12 @@ SLVを使用しているということは、自分のサイトから第三者�
 <tr class="r2">
   <td><a name="desc_snl_enabled">Spam Number of Linksモジュールを有効(snl_enabled)</a></td>
   <td><code>true</code></td>
-  <td>Spam Number of Links (SNL)モジュールを有効にするかどうか。有効なら特定の数までリンクの投稿を許可します。</td>
+  <td>Spam Number of Links (SNL)モジュールを有効にするかどうか。If enabled it will only allow a specified number of links in a post or when a user creates or updates their profile.</td>
 </tr>
 <tr>
   <td><a name="desc_snl_num_links">リンク数(snl_num_links)</a></td>
   <td>5</td>
-  <td>Spamだと思われるリンク数の最大数を設定します。</td>
+  <td>The maximum number of links allowed in a post or profile before it is considered spam.</td>
 </tr>
 </table>
 
