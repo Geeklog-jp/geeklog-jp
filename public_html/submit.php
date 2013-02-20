@@ -49,11 +49,10 @@ require_once $_CONF['path_system'] . 'lib-story.php';
 *
 * @param    string  $type   type of submission ('story')
 * @param    string  $mode   calendar mode ('personal' or empty string)
-* @param    string  $topic  topic (for stories)
 * @return   string          HTML for submission form
 *
 */
-function submissionform($type = 'story', $mode = '', $topic = '')
+function submissionform($type = 'story', $mode = '')
 {
     global $_CONF, $_TABLES, $LANG12;
 
@@ -89,7 +88,7 @@ function submissionform($type = 'story', $mode = '', $topic = '')
                     $retval .= $formresult;
                 }
             } else {
-                $retval .= submitstory($topic);
+                $retval .= submitstory();
             }
         }
     }
@@ -101,7 +100,7 @@ function submissionform($type = 'story', $mode = '', $topic = '')
 * Shows the story submission form
 *
 */
-function submitstory($topic = '')
+function submitstory()
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $LANG12, $LANG24, $_SCRIPTS;
 
@@ -117,7 +116,7 @@ function submitstory($topic = '')
                 . STORY_renderArticle ($story, 'p')
                 . COM_endBlock();
     } else {
-        $story->initSubmission($topic);
+        $story->initSubmission();
     }
 
     $storyform = COM_newTemplate($_CONF['path_layout'] . 'submit');
@@ -136,9 +135,8 @@ function submitstory($topic = '')
         
         // Add JavaScript
         $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-        $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
         // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-        $js .= 'document.getElementById("advanced_editor").style.display="";';                 
+        $js = 'document.getElementById("advanced_editor").style.display="";';                 
         $_SCRIPTS->setJavaScript($js, true);
         $_SCRIPTS->setJavaScriptFile('submitstory_fckeditor', '/javascript/submitstory_fckeditor.js');         
         
@@ -402,6 +400,9 @@ if (isset ($_REQUEST['mode'])) {
     $mode = COM_applyFilter ($_REQUEST['mode']);
 }
 
+// Get last topic
+TOPIC_getTopic();
+
 if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
     if (COM_isAnonUser() &&
         (($_CONF['loginrequired'] == 1) || ($_CONF['submitloginrequired'] == 1))) {
@@ -411,7 +412,7 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
             $msg = PLG_itemPreSave ($type, $_POST);
             if (!empty ($msg)) {
                 $_POST['mode'] =  $LANG12[32];
-                $display = COM_errorLog ($msg, 2) . submitstory ($topic);
+                $display = COM_errorLog ($msg, 2) . submitstory();
                 $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle));
                 COM_output($display);
                 exit;
@@ -428,17 +429,9 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
             exit;
         }
     } elseif (SEC_hasRights ('story.edit')) {
-        $topic = '';
-        if (isset ($_REQUEST['topic'])) {
-            $topic = '&topic=' . urlencode(COM_applyFilter($_REQUEST['topic']));
-        }
         echo COM_refresh ($_CONF['site_admin_url']
-                . '/story.php?mode=edit' . $topic);
+                . '/story.php?mode=edit');
         exit;
-    }
-    $topic = '';
-    if (isset ($_REQUEST['topic'])) {
-        $topic = COM_applyFilter ($_REQUEST['topic']);
     }
 
     switch ($type) {
@@ -450,7 +443,7 @@ if (($mode == $LANG12[8]) && !empty ($LANG12[8])) { // submit
             break;
     }
     $noindex = '<meta name="robots" content="noindex"' . XHTML . '>' . LB;
-    $display .= submissionform($type, $mode, $topic);
+    $display .= submissionform($type, $mode);
     $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle, 'headercode' => $noindex));
 }
 

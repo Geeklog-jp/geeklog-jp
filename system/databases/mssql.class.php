@@ -1176,7 +1176,20 @@ class database {
         $v = $this->dbFetchArray($q, true);
         return $v[0];
     }
-    
+
+    /**
+    * Escapes a string so that it can be safely used in a query
+    *
+    * @param   string   $str          a string to be escaped
+    * @return  string
+    */
+    function dbEscapeString($str)
+    {
+        $retval = str_replace("'", "''", $str);
+
+        return $retval;
+    }
+
 }//end class
 
 ?>

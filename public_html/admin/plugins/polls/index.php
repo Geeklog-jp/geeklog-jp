@@ -163,6 +163,7 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     list($perm_owner,$perm_group,$perm_members,$perm_anon) = SEC_getPermissionValues($perm_owner,$perm_group,$perm_members,$perm_anon);
 
     $topic = COM_stripslashes($topic);
+    $topic = COM_checkHTML($topic);
     $meta_description = strip_tags(COM_stripslashes($meta_description));
     $meta_keywords = strip_tags(COM_stripslashes($meta_keywords));
     $pid = COM_sanitizeID($pid);
@@ -248,9 +249,9 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     DB_delete($_TABLES['pollanswers'], 'pid', $del_pid);
     DB_delete($_TABLES['pollquestions'], 'pid', $del_pid);
 
-    $topic = addslashes($topic);
-    $meta_description = addslashes($meta_description);
-    $meta_keywords = addslashes($meta_keywords);
+    $topic = DB_escapeString($topic);
+    $meta_description = DB_escapeString($meta_description);
+    $meta_keywords = DB_escapeString($meta_keywords);
 
     $k = 0; // set up a counter to make sure we do assign a straight line of question id's
     // first dimension of array are the questions
@@ -259,10 +260,12 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     $num_questions_exist = 0;
     for ($i = 0; $i < $num_questions; $i++) {
         $Q[$i] = COM_stripslashes($Q[$i]);
+        $Q[$i] = COM_checkHTML($Q[$i]);
+
         if (strlen($Q[$i]) > 0) { // only insert questions that exist
             $num_questions_exist++;
             
-            $Q[$i] = addslashes($Q[$i]);
+            $Q[$i] = DB_escapeString($Q[$i]);
             DB_save($_TABLES['pollquestions'], 'qid, pid, question',
                                                "'$k', '$pid', '$Q[$i]'");
             // within the questions, we have another dimensions with answers,
@@ -270,12 +273,16 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
             $num_answers = count($A[$i]);
             for ($j = 0; $j < $num_answers; $j++) {
                 $A[$i][$j] = COM_stripslashes($A[$i][$j]);
+                $A[$i][$j] = COM_checkHTML($A[$i][$j]);
+                $R[$i][$j] = COM_stripslashes($R[$i][$j]);
+                $R[$i][$j] = COM_checkHTML($R[$i][$j]);
+
                 if (strlen($A[$i][$j]) > 0) { // only insert answers etc that exist
                     if (!is_numeric($V[$i][$j])) {
                         $V[$i][$j] = "0";
                     }
-                    $A[$i][$j] = addslashes ($A[$i][$j]);
-                    $R[$i][$j] = addslashes ($R[$i][$j]);
+                    $A[$i][$j] = DB_escapeString($A[$i][$j]);
+                    $R[$i][$j] = DB_escapeString($R[$i][$j]);
                     $sql = "INSERT INTO {$_TABLES['pollanswers']} (pid, qid, aid, answer, votes, remark) VALUES "
                         . "('$pid', '$k', " . ($j+1) . ", '{$A[$i][$j]}', {$V[$i][$j]}, '{$R[$i][$j]}');";
                     DB_query($sql);
@@ -322,8 +329,8 @@ function savepoll($pid, $old_pid, $Q, $mainpage, $topic, $meta_description, $met
     if (empty($old_pid) || ($old_pid == $pid)) {
         PLG_itemSaved($pid, 'polls');
     } else {
-        DB_change($_TABLES['comments'], 'sid', addslashes($pid),
-                  array('sid', 'type'), array(addslashes($old_pid), 'polls'));
+        DB_change($_TABLES['comments'], 'sid', DB_escapeString($pid),
+                  array('sid', 'type'), array(DB_escapeString($old_pid), 'polls'));
         PLG_itemSaved($pid, 'polls', $old_pid);
     }
 
@@ -573,7 +580,7 @@ function deletePoll ($pid)
 {
     global $_CONF, $_TABLES, $_USER;
 
-    $pid = addslashes ($pid);
+    $pid = DB_escapeString ($pid);
     $result = DB_query ("SELECT owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon FROM {$_TABLES['polltopics']} WHERE pid = '$pid'");
     $Q = DB_fetchArray ($result);
     $access = SEC_hasAccess ($Q['owner_id'], $Q['group_id'], $Q['perm_owner'],

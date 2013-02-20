@@ -870,7 +870,7 @@ $LANG27 = array(
     6 => 'Deleting a topic deletes all stories, submissions and blocks associated with it (as long as they are only associated with that deleted topic).',
     7 => 'Please fill in the Topic ID and Topic Name fields',
     8 => 'Topic Manager',
-    9 => 'To modify or delete a topic, click on that topic.  To create a new topic, click on "Create New" above. You will find your access level for each topic in parenthesis. The asterisk(*) denotes the default topic.',
+    9 => 'To modify or delete a topic, click on that topic\'s edit icon below. To create a new topic, click on "Create New" above. The asterisk(*) denotes the default topic.',
     10 => 'Sort Order',
     11 => 'Stories/Page',
     12 => 'Access Denied',
@@ -903,7 +903,7 @@ $LANG27 = array(
     39 => 'Homepage Only', 
     40 => 'Assign one or more topics. ',
     41 => 'If "All" is selected then the item will appear for all topics. If "Homepage Only" is selected then item will appear just on the homepage. Else you must select at least one topic to assign the item too. ', 
-    42 => 'Inherit contains the list of assigned topics. If the topic is selected then the item will be inherited by the parent topic. You must save your item first before anything is listed in the inherit box. ',
+    42 => 'Inherit contains the list of assigned topics. If the topic is selected then the item will be inherited by the parent topic. You must save or preview your item first before anything is listed in the inherit box. ',
     43 => 'Default contains the list of assigned topics. This is the default topic that will be used when displaying the item if the actually topic the user is in is not found. ', 
     44 => 'Inherit',
     45 => 'Default',
@@ -911,6 +911,10 @@ $LANG27 = array(
     47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.', 
     48 => 'Parent Topic Id not found.',
     49 => 'This Topic ID is already being used. Please choose another one.',
+    50 => 'Yes',
+    51 => 'No',
+    52 => 'Story',
+    53 => 'Image',
     'breadcrumb_separator' => '>', 
     'breadcrumb_root' => 'Home'
 );
@@ -1009,7 +1013,7 @@ $LANG28 = array(
     88 => 'Default Group',
     89 => 'Check to make this a default group for new users',
     90 => 'Apply "Default Group" change to existing user accounts',
-    'autotag_desc_user' => '[user: id alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.' 
+    'autotag_desc_user' => '[user: name alternate title] - Displays a link to a User using the Username as the title. An alternate title may be specified but is not required.' 
 );
 
 ###############################################################################
@@ -1183,7 +1187,7 @@ $LANG33 = array(
     20 => 'Yes',
     21 => 'No',
     22 => '<i>(no feeds)</i>',
-    23 => 'All Stories',
+    23 => 'All Topics',
     24 => 'Feed Editor',
     25 => 'Feed Title',
     26 => 'Limit',
@@ -1941,6 +1945,10 @@ $LANG_confignames['Core'] = array(
     'rdf_storytext' => "Length of Stories in Feed",
     'rdf_language' => "Feed Language",
     'syndication_max_headlines' => 'Max. Number of Headlines (portal blocks)',
+    'comment_feeds_article_tag' => 'Article Tag',
+    'comment_feeds_article_tag_position' => 'Article Tag Position',
+    'comment_feeds_article_author_tag' => 'Article Author Tag',
+    'comment_feeds_comment_author_tag' => 'Comment Author Tag', 
     'copyrightyear' => "Copyright Year",
     'image_lib' => "Image Library",
     'path_to_mogrify' => "Path to Mogrify",
@@ -2063,6 +2071,7 @@ $LANG_fs['Core'] = array(
     'fs_story' => 'Story',
     'fs_theme_advanced' => 'Advanced Settings',
     'fs_syndication' => 'Syndication',
+    'fs_syndication_comment' => 'Comment Syndication',
     'fs_imagelib' => 'Image Library',
     'fs_upload' => 'Upload',
     'fs_articleimg' => 'Images in Articles',
@@ -2162,7 +2171,8 @@ $LANG_configselects['Core'] = array(
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'), 
     28 => array('No access' => 0, 'Use' => 2),
-    29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4)
+    29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')    
 );
 
 ################################################################################

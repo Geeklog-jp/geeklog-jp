@@ -911,6 +911,19 @@ class database {
         return $v['server'];
     }
 
+    /**
+    * Escapes a string so that it can be safely used in a query
+    *
+    * @param   string   $str          a string to be escaped
+    * @return  string
+    */
+    function dbEscapeString($str)
+    {
+        $retval = pg_escape_string($this->_db, $str);
+
+        return $retval;
+    }
+
 }
 
 ?>

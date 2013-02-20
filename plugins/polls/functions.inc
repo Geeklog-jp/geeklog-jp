@@ -120,7 +120,14 @@ function plugin_savecomment_polls($title, $comment, $id, $pid, $postmode)
     if ($ret > 0) { // failure //FIXME: some failures should not return to comment form
         $retval .= CMT_commentForm ($title, $comment, $id, $pid, 'polls',
                                    $LANG03[14], $postmode);
-        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+        
+        if (!defined('COMMENT_ON_SAME_PAGE')) {
+            $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+        } else {
+            if (!COMMENT_ON_SAME_PAGE) {
+                $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+            }
+        }        
     } else { // success
         $retval = COM_refresh ($_CONF['site_url']
                                 . "/polls/index.php?pid=$id");
@@ -1178,7 +1185,7 @@ function plugin_upgrade_polls()
 
             if (isset($_UPDATES[$current_version])) {
                 $_SQL = $_UPDATES[$current_version];
-                $_SQL = INST_checkInnodbUpgrade($_SQL);
+
                 foreach ($_SQL as $sql) {
                     DB_query($sql);
                 }
@@ -1357,7 +1364,7 @@ function plugin_getiteminfo_polls($pid, $what, $uid = 0, $options = array())
         $where = '';
         $permOp = 'WHERE';
     } else {
-        $where = " WHERE pid = '" . addslashes($pid) . "'";
+        $where = " WHERE pid = '" . DB_escapeString($pid) . "'";
         $permOp = 'AND';
     }
     if ($uid > 0) {
