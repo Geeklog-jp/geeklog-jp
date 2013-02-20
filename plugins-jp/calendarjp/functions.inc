@@ -551,23 +551,23 @@ function plugin_savesubmission_calendarjp($A)
 
     // Remove any autotags the user doesn't have permission to use
     $A['description'] = PLG_replaceTags($A['description'], '', true);
-     $A['description'] = addslashes (htmlspecialchars (COM_checkWords ($A['description'])));
-    $A['address1'] = addslashes (strip_tags (COM_checkWords ($A['address1'])));
-    $A['address2'] = addslashes (strip_tags (COM_checkWords ($A['address2'])));
-    $A['city'] = addslashes (strip_tags (COM_checkWords ($A['city'])));
-    $A['zipcode'] = addslashes (strip_tags (COM_checkWords ($A['zipcode'])));
-    $A['state'] = addslashes (strip_tags (COM_checkWords ($A['state'])));
-    $A['location'] = addslashes (strip_tags (COM_checkWords ($A['location'])));
-    $A['event_type'] = addslashes (strip_tags (COM_checkWords ($A['event_type'])));
-    $A['title'] = addslashes ($A['title']);
+     $A['description'] = DB_escapeString (htmlspecialchars (COM_checkWords ($A['description'])));
+    $A['address1'] = DB_escapeString (strip_tags (COM_checkWords ($A['address1'])));
+    $A['address2'] = DB_escapeString (strip_tags (COM_checkWords ($A['address2'])));
+    $A['city'] = DB_escapeString (strip_tags (COM_checkWords ($A['city'])));
+    $A['zipcode'] = DB_escapeString (strip_tags (COM_checkWords ($A['zipcode'])));
+    $A['state'] = DB_escapeString (strip_tags (COM_checkWords ($A['state'])));
+    $A['location'] = DB_escapeString (strip_tags (COM_checkWords ($A['location'])));
+    $A['event_type'] = DB_escapeString (strip_tags (COM_checkWords ($A['event_type'])));
+    $A['title'] = DB_escapeString ($A['title']);
 
-    $A['url'] = addslashes(COM_sanitizeUrl($A['url']));
+    $A['url'] = DB_escapeString(COM_sanitizeUrl($A['url']));
 
     if (!empty ($A['eid'])) {
-        $A['eid'] = addslashes (COM_applyFilter ($A['eid']));
+        $A['eid'] = DB_escapeString (COM_applyFilter ($A['eid']));
     }
     if (empty ($A['eid'])) {
-        $A['eid'] = addslashes (COM_makeSid ());
+        $A['eid'] = DB_escapeString (COM_makeSid ());
     }
 
     COM_updateSpeedlimit ('submit');
@@ -715,7 +715,7 @@ function plugin_getheadercode_calendarjp()
 */
 function plugin_submit_calendarjp($mode = 'master')
 {
-    global $_CONF, $_CAJP_CONF, $LANG_CALJP_1, $LANG12;
+    global $_CONF, $_CAJP_CONF, $LANG_CALJP_1, $LANG12, $_SCRIPTS;
 
     if (isset($_POST['calendar_type'])) {
         $mode = $_POST['calendar_type'];
@@ -766,6 +766,22 @@ function plugin_submit_calendarjp($mode = 'master')
         exit;
     }
     // otherwise non-admin or admin-personal. do personal form or public submission.
+
+    // Loads jQuery UI datepicker
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.i18n');
+    $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
+
+    $langCode = COM_getLangIso639Code();
+    $toolTip  = 'Click and select a date';	// Should be translated
+    $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
+
+    $_SCRIPTS->setJavaScript(
+        "jQuery(function () {"
+        . "  geeklog.datepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "});", TRUE, TRUE
+    );
 
     if ($mode != 'personal') {
         CALENDARJP_authAddingEvent();
@@ -1439,8 +1455,9 @@ function plugin_showstats_calendarjp ($showsitestats)
             array('text' => $LANG_CALJP_1[48], 'field' => 'hits', 'field_class'  => 'stats-list-count'),
         );
         $data_arr = array();
-        $text_arr = array('has_menu'     => false,
-                          'title'        => $LANG_CALJP_1[47],
+        $text_arr = array('has_menu' => false,
+                          'title'    => $LANG_CALJP_1[47],
+                          'form_url' => $_CONF['site_url'] . '/stats.php'
         );
         for ($i = 0; $i < $nrows; $i++) {
             $A = DB_fetchArray($result);
@@ -1677,7 +1694,8 @@ function plugin_upgrade_calendarjp()
             }
 
             calendarjp_update_ConfigSecurity_1_1_5();
-
+            calendarjp_update_Zipcode_1_1_5();
+            
             $current_version = '1.1.6';
             break;
 
@@ -1850,7 +1868,7 @@ function plugin_dopluginsearch_calendarjp($query, $datestart, $dateend, $topic, 
     global $_TABLES, $_USER, $LANG_CALJP_1;
 
     // Make sure the query is SQL safe
-    $query = trim(addslashes($query));
+    $query = trim(DB_escapeString($query));
 
     if (COM_isAnonUser()) {
         $uid = 1;
@@ -2068,7 +2086,7 @@ function plugin_getiteminfo_calendarjp($eid, $what, $uid = 0, $options = array()
         $where = '';
         $permOp = 'WHERE';
     } else {
-        $where = " WHERE eid = '" . addslashes($eid) . "'";
+        $where = " WHERE eid = '" . DB_escapeString($eid) . "'";
         $permOp = 'AND';
     }
     if ($uid > 0) {

@@ -53,8 +53,13 @@ $_UPDATES = array(
         // Delete Events block since moved to dynamic
         "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_calendarjp'", 
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendarjp.tab_events_block', 'Access to configure events block', 0)"
-    )    
+    ),
     
+    '1.1.6' => array(
+        "ALTER TABLE {$_TABLES['eventsjp']} ALTER COLUMN [zipcode] varchar(16)",
+        "ALTER TABLE {$_TABLES['eventsubmissionjp']} ALTER COLUMN [zipcode] varchar(16)",
+        "ALTER TABLE {$_TABLES['personal_eventsjp']} ALTER COLUMN [zipcode] varchar(16)"
+    ),
 );
 
 /**
@@ -103,6 +108,15 @@ function calendarjp_update_ConfigSecurity_1_1_5()
         DB_query($sql);    
     }    
 
+}
+
+/**
+ * Modify zipcode field
+ *
+ */
+function calendarjp_update_Zipcode_1_1_5()
+{
+    // Nothing to do
 }
 
 ?>

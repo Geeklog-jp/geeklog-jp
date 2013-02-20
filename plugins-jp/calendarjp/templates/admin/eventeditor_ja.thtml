@@ -67,7 +67,7 @@
       <dd><textarea name="location" cols="45" rows="2" id="calendar-eventeditor-location" class="size6">{event_location}</textarea></dd>
 
       <dt><label for="calendar-eventeditor-zipcode">{lang_zipcode}</label></dt>
-      <dd><input type="text" name="zipcode" maxlength="5" value="{event_zipcode}" id="calendar-eventeditor-zipcode" class="size1"{xhtml}></dd>
+      <dd><input type="text" name="zipcode" maxlength="16" value="{event_zipcode}" id="calendar-eventeditor-zipcode" class="size1"{xhtml}></dd>
 
       <dt><label for="calendar-eventeditor-state">{lang_state}</label></dt>
       <dd><input type="text" name="state" value="{event_state}" id="calendar-eventeditor-state" class="size6"{xhtml}></dd>

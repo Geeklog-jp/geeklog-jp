@@ -1,12 +1,6 @@
 
 <!-- plugins/calendarjp/templates/admin/eventeditor_advanced.thtml { -->
 
-<script type="text/javascript">
-    // Setup editor path for FCKeditor JS Functions
-    geeklogEditorBasePath = "{site_url}/fckeditor/";
-</script>
-<script type="text/javascript" src="{site_url}/calendarjp/eventeditor_fckeditor.js"></script>
-
 <form action="{site_admin_url}/plugins/calendarjp/index.php" name="events" method="post" id="calendar-eventeditor" class="compact" onsubmit='set_postcontent();'>
   <div class="admin_basic">
     <dl class="form_block">
@@ -85,7 +79,7 @@
       <dd><input type="text" name="state" value="{event_state}" id="calendar-eventeditor-state" class="size6"{xhtml}></dd>
 
       <dt><label for="calendar-eventeditor-zipcode">{lang_zipcode}</label></dt>
-      <dd><input type="text" name="zipcode" maxlength="5" value="{event_zipcode}" id="calendar-eventeditor-zipcode" class="size1"{xhtml}></dd>
+      <dd><input type="text" name="zipcode" maxlength="16" value="{event_zipcode}" id="calendar-eventeditor-zipcode" class="size1"{xhtml}></dd>
 
       <dt><label for="calendar-eventeditor-url">{lang_eventurl}</label></dt>
       <dd><input type="text" dir="ltr" name="url" maxlength="{max_url_length}" value="{event_url}" id="calendar-eventeditor-url" class="size6"{xhtml}> {lang_includehttp}</dd>
@@ -112,8 +106,8 @@
               <textarea id="html_description" name="html_description" cols="50" rows="10" class="wide">{event_description}</textarea>
           </div>
       </dd>
-      <dt><label for="calendar-eventeditor-postmode">{lang_postmode}</label></dt>
-      <dd><select name="postmode" id="calendar-eventeditor-postmode" {change_editormode}>
+      <dt><label for="sel_editmode">{lang_postmode}</label></dt>
+      <dd><select name="postmode" id="sel_editmode" {change_editormode}>
             {post_options}
           </select><br{xhtml}>{lang_allowed_html}</dd>
 

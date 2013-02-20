@@ -77,7 +77,23 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
 {
     global $_CONF, $_GROUPS, $_TABLES, $_USER, $_CAJP_CONF, $LANG_CALJP_1,
            $LANG_CALJP_ADMIN, $LANG10, $LANG12, $LANG24, $LANG_ACCESS, $LANG_ADMIN,
-           $MESSAGE;
+           $MESSAGE, $_SCRIPTS;
+
+    // Loads jQuery UI datepicker
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.i18n');
+    $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
+
+    $langCode = COM_getLangIso639Code();
+    $toolTip  = 'Click and select a date';	// Should be translated
+    $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
+
+    $_SCRIPTS->setJavaScript(
+        "jQuery(function () {"
+        . "  geeklog.datepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "});", TRUE, TRUE
+    );
 
     $retval = '';
 
@@ -118,6 +134,13 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
             $event_templates->set_var ('show_texteditor', '');
             $event_templates->set_var ('show_htmleditor', 'none');
         }
+    }
+
+    if ($advanced_editor) {
+        // Add JavaScript
+        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
+        $_SCRIPTS->setJavaScript($js, true);
+        $_SCRIPTS->setJavaScriptFile('eventeditor_fckeditor', '/calendarjp/eventeditor_fckeditor.js');
     }
 
     if ($mode <> 'editsubmission' AND !empty($A['eid'])) {
@@ -572,16 +595,16 @@ function CALENDARJP_saveEvent ($eid, $title, $event_type, $url, $allday,
         }
         $description = htmlspecialchars(COM_checkWords($description));
     }
-    $description = addslashes($description);
-    $title = addslashes(strip_tags(COM_checkWords($title)));
-    $location = addslashes(COM_checkHTML(COM_checkWords($location),
+    $description = DB_escapeString($description);
+    $title = DB_escapeString(strip_tags(COM_checkWords($title)));
+    $location = DB_escapeString(COM_checkHTML(COM_checkWords($location),
                                          'calendarjp.edit'));
-    $address1 = addslashes(strip_tags(COM_checkWords($address1)));
-    $address2 = addslashes(strip_tags(COM_checkWords($address2)));
-    $city = addslashes(strip_tags(COM_checkWords($city)));
-    $zipcode =  addslashes(strip_tags(COM_checkWords($zipcode)));
-    $event_type = addslashes(strip_tags(COM_checkWords($event_type)));
-    $url = addslashes(strip_tags($url));
+    $address1 = DB_escapeString(strip_tags(COM_checkWords($address1)));
+    $address2 = DB_escapeString(strip_tags(COM_checkWords($address2)));
+    $city = DB_escapeString(strip_tags(COM_checkWords($city)));
+    $zipcode =  DB_escapeString(strip_tags(COM_checkWords($zipcode)));
+    $event_type = DB_escapeString(strip_tags(COM_checkWords($event_type)));
+    $url = DB_escapeString(strip_tags($url));
 
     if ($allday == 0) {
         // Add 12 to make time on 24 hour clock if needed
