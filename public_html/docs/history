@@ -1,7 +1,78 @@
 Geeklog History/Changes:
 
-Sep ??, 2012 (2.0.0rc1)
+Feb 19, 2013 (2.0.0rc2)
 ------------
+
+This release addresses the following security issues:
+- High-Tech Bridge Security Research Lab reported an XSS in the calendar_type
+  parameter in the Calendar plugin (HTB23143).
+- Trustwave Spiderlabs reported XSS in the install script, the Configuration,
+  as well as in the Admin interfaces for the Polls plugin and the Topic editor
+  (TWSL2013-001).
+
+Not security-related:
+- Illegal string offset 'phantom' when using Batch Admin mode (patch #0001558)
+  [Dirk]
+- Optimize 2.0.0 MySQL Topic Upgrade Script (feature request #0001544) [Tom]
+- Introduce DB_escapeString (feature request #0001146) [Kenji]
+- For articles with 2 or more topics the incorrect topic icon may display in the
+  parent topic (bug #0001509) [Tom]
+- Topic selection is lost when trying to contribute a story as a Story Admin
+  (bug #0001486) [Tom]
+- Staticpage Topic Selection (bug #0001462) [Tom]
+- Span-X plugin: Spam Number of Links (SNL) True, Posted many links users are
+  blocked. (bug #0001516) [Tom]
+- Delete account oauth (bug #0001417) [Tom]
+- Can save a staticpage with Add To Menu enabled but no label (bug #0001542)
+  [Tom]
+- Space as decimal separator (bug #0001537) [Tom]
+- Replying to a Comment and inputing the incorrect captcha code results in page
+  in a page (bug #0001527) [Tom]
+- Deleting a Comment with a Notification fails (bug #0001529) [Tom]
+- CC setting should be an admin option (patch #0001259) [Tom]
+- Date validation in advanced search (patch #0000853) [Tom]
+- Can not handle Breadcrumbs in custom function mytheme_createHTMLDocument (bug
+  #0001531) [Tom]
+- Update Topic Control Description in Admin Article Editor about Inherit
+  (feature request #0001489) [Tom]
+- Clicking on a user name causes a fatal error (bug #0001514) [Tom]
+- Can't edit plugin comment submissions (bug #0001511) [Tom]
+- User comment submission does not get deleted. (bug #0001512) [Tom]
+- nl2br breaks the HTML compliance (patch #0001141) [Tom]
+- Spam-X SFS default change to OFF (feature request #0001488) [Tom]
+- Twitter OAuth login Authentication error (bug #0001497) [Tom]
+- Trackback SQL Error (bug #0001498) [Tom]
+- Articles Feeds should only be updated when needed (feature request #0001501)
+  [Tom]
+- JavaScript error in admin/story.php (bug #0001496) [Yoshinori]
+- Default Topic for Article with Multiple Topics is always Used for Anonymous
+  Users (bug #0001487) [Tom]
+- Add HTML 5 DOCTYPE (feature request #0001426) [Yoshinori]
+
+
+Dec 30, 2012 (1.8.2)
+------------
+
+- A remote service user now bypasses current password check when account is
+  deleted (bug #0001417) [Tom]
+- Fixed Twitter OAuth login error after Twitter deactived some old URLs (bug
+  #0001497) [Tom]
+- $dbconfig_path was not escaped in the install script (bug #0001457, patch
+  provided by mystral-kk)
+- COM_stripslashes will now handle arrays; this was a problem during
+  re-authentication after a security token expired (bug #0001413) [suprsidr]
+- The comment count for a story could be wrong if there was a different object
+  with the same id and a comment (bug #0001414) [Tom]
+- Feeds with the full story text still had a '...' at the end (bug #0001431)
+  [Jeff Rivett, Tom]
+- Allow MIME type application/x-gzip-compressed when uploading a plugin for
+  installation (bug #0001405) [Dirk]
+- Fixed compatibility with MySQL 5.5 (bugs #0001410, #0001456). This also
+  raises the minimum supported MySQL version to 4.1.2 [Dirk, Tom]
+
+
+Oct 2, 2012 (2.0.0rc1)
+-----------
 
 - You can create a new topic with the same id as another topic (bug #0001472)
   [Tom]
