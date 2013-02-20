@@ -177,7 +177,8 @@ function TOPIC_getIndex($id)
 }
 
 /**
-* Return a list of child topic ids that the user has access to
+* Return a list of child topic ids that the user has access to. 
+* Includes the parent topic in the list as well.
 *
 * @param        string      $id      The id of the parent topic
 * @param        int         $uid     user id or 0 = current user
@@ -650,7 +651,7 @@ function TOPIC_checkTopicSelectionControl()
 {
     global $_TABLES;
 
-    $topic_options_hide = 1;
+    $topic_options_hide = 0;
     if (isset ($_POST['topic_options_hide'])) {
         $topic_options_hide = COM_applyFilter($_POST['topic_options_hide'], true);
     }
@@ -782,7 +783,7 @@ function TOPIC_saveTopicSelectionControl($type, $id)
 */
 function TOPIC_getDataTopicSelectionControl(&$topic_option, &$tids, &$inherit_tids, &$default_tid)
 {
-    $topic_options_hide = 1;
+    $topic_options_hide = 0;
     if (isset ($_POST['topic_options_hide'])) {
         $topic_options_hide = COM_applyFilter($_POST['topic_options_hide'], true);
     }
@@ -827,12 +828,17 @@ function TOPIC_getDataTopicSelectionControl(&$topic_option, &$tids, &$inherit_ti
 */
 function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show_inherit = false, $show_default = false)
 {
-    global $_CONF, $LANG27, $_TABLES;
+    global $_CONF, $LANG27, $_TABLES, $topic;
     
     $tids = array();
     $inherit_tids = array();
     $default_tid = '';
-    $topic_option = '';
+    // Set Default Topic Option
+    if ($show_options) {
+        $topic_option = TOPIC_ALL_OPTION; // Default to all topics so things will work similar to how topics handled before Geeklog 2.0.0
+    } else {
+        $topic_option = TOPIC_SELECTED_OPTION;
+    }
     
     // Do they have any access to topics first?
     
@@ -841,12 +847,19 @@ function TOPIC_getTopicSelectionControl($type, $id, $show_options = false, $show
     if (empty($type) || empty($id)) {
         $from_db = false; 
     }
-    if (!$from_db) {    
-        TOPIC_getDataTopicSelectionControl($topic_option, $tids, $inherit_tids, $default_tid);
-        
-        // Figure out if we need to set the default topic for the list
-        if ($topic_option == TOPIC_SELECTED_OPTION AND empty($tids)) {
-            $tids = (DB_getItem($_TABLES['topics'], 'tid', 'is_default = 1' . COM_getPermSQL('AND')));
+    if (!$from_db) {
+         // see if a selection control variable is_a set. If not then first time for display of control
+        if (isset($_POST['topic_options_hide'])) {
+            TOPIC_getDataTopicSelectionControl($topic_option, $tids, $inherit_tids, $default_tid);
+        } else {
+            // Figure out if we set current topic for first display or use default topic
+            if ($topic_option == TOPIC_SELECTED_OPTION AND empty($tids)) {
+                if ($topic == '') {
+                    $tids = (DB_getItem($_TABLES['topics'], 'tid', 'is_default = 1' . COM_getPermSQL('AND')));
+                } else {
+                    $tids = $topic;
+                }
+            }
         }
     } else {    
         $sql = "SELECT * FROM {$_TABLES['topic_assignments']} WHERE type = '$type' AND id ='$id'";
@@ -1131,15 +1144,16 @@ function TOPIC_getTopicAdminColumn($type, $id)
 
 /**
 * Figure out the current topic for a plugin. If permissions or language wrong 
-* will find default else end with a '' topic (which is all). Needs to be run after 
-* lib-common.php so it can grab topic in url if need be.
+* will find default else end with a '' topic (which is all). Needs to be run  
+* on page that is affected by the topic after lib-common.php so it can grab 
+* topic in url if need be. Also if pass blank $type and $id then return just last topic
 *
 * @param    string          $type   Type of object to find topic access about.  
 * @param    string/array    $id     ID of object
 * @return   void
 *
 */
-function TOPIC_getTopic($type, $id = '')
+function TOPIC_getTopic($type = '', $id = '')
 {
     global $_TABLES, $topic;
     
@@ -1149,7 +1163,7 @@ function TOPIC_getTopic($type, $id = '')
     // Double check
     $topic = COM_applyFilter($topic);
     
-    // Check Previous topic
+    // Check and return Previous topic
     if ($topic == '') {
         // Blank could mean all topics or that we do not know topic
         // retrieve previous topic
@@ -1160,7 +1174,10 @@ function TOPIC_getTopic($type, $id = '')
 
     // ***********************************
     // Special Cases
-    if ($type == 'comment') {
+    if ($type == '') { // used by search, submit, etc to find last topic
+        $topic = $last_topic;
+        $found = true;
+    } elseif ($type == 'comment') {
         if ($id != '') {
             // Find comment objects topic
             $sql = "SELECT type, sid 
@@ -1186,25 +1203,34 @@ function TOPIC_getTopic($type, $id = '')
             $topic = $last_topic;
             $found = true;
         }
-    } elseif ($type == 'search') {
-        $topic = $last_topic;
-        $found = true;
     }
     // ***********************************
     
     if (!$found) {
         if ($last_topic != '') {    
-            // see if object belongs to topic
-            $sql = "SELECT ta.* 
+            // see if object belongs to topic or any child inherited topics
+            $tid_list = TOPIC_getChildList($last_topic);
+            
+            $sql = "SELECT ta.tid 
                 FROM {$_TABLES['topics']} t, {$_TABLES['topic_assignments']} ta 
                 WHERE t.tid = ta.tid  
-                AND ta.type = '$type' AND ta.id = '$id' AND ta.tid = '$last_topic' 
-                " . COM_getLangSQL('tid', 'AND', 't') . COM_getPermSQL('AND', 0, 2, 't');
+                AND ta.type = '$type' AND ta.id = '$id' 
+                AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$last_topic}')))
+                " . COM_getLangSQL('tid', 'AND', 't') . COM_getPermSQL('AND', 0, 2, 't')
+                . " ORDER BY tdefault DESC, tid ASC"; // Order by default first and then tid alphabetically since no defined sort order of topics. This needs to be the same as when topics are displayed (index.php)
         
             $result = DB_query($sql);
             $nrows = DB_numRows($result);
             if ($nrows > 0) {
-                $topic = $last_topic;
+                $A = DB_fetchArray($result);
+                $topic = $A['tid']; // Default topic if returned else first topic in order by tid
+                
+                // Need to check if topic assignment exists for last topic if so make that the topic instead
+                while ($A = DB_fetchArray($result)) {
+                    if ($last_topic == $A['tid']) {
+                        $topic = $A['tid'];
+                    }
+                } 
             } else {
                 $find_another = true;
             }

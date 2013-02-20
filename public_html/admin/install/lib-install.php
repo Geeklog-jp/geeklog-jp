@@ -68,12 +68,6 @@ if (!defined('SUPPORTED_MYSQL_VER')) {
     define('SUPPORTED_MYSQL_VER', '4.1.3');
 }
 
-$_REQUEST = array_merge($_GET, $_POST);
-
-// this is not ideal but will stop PHP 5.3.0ff from complaining ...
-$system_timezone = @date_default_timezone_get();
-date_default_timezone_set($system_timezone);
-
 $language = INST_getLanguage();
 // Include the language file
 require_once 'language/' . $language . '.php'; 
@@ -88,6 +82,34 @@ if ($LANG_DIRECTION == 'rtl') {
     $form_label_dir = 'form-label-left';
     $perms_label_dir = 'perms-label-left';
 }
+
+// Initial PHP version check for PHP-4.x and 5.0.x, which don't have
+// date_default_timezone_get() (introduced as of PHP-5.1.0)
+if (version_compare(PHP_VERSION, '5.1.0', '<')) {
+    $output = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" '
+            . '"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">' . LB
+            . '<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">' . LB
+            . '<head>' . LB
+            . '  <meta http-equiv="Content-Type" content="text/html;charset='
+            . $LANG_CHARSET . '" />' . LB
+            . '  <title>Geeklog - The secure CMS.</title>' . LB
+            . '</head>' . LB
+            . '<body dir="' . $LANG_DIRECTION . '">' . LB
+            . '<h1>' . $LANG_INSTALL[3] . '</h1>' . LB
+            . '<p>' . sprintf($LANG_INSTALL[5], '<strong>' . SUPPORTED_PHP_VER . '</strong>')
+            . '<strong>' . PHP_VERSION . '</strong>' . $LANG_INSTALL[6] . '</p>' . LB
+            . '</body>' . LB
+            . '</html>' . LB;
+    header('Content-Type: text/html; charset=' . $LANG_CHARSET);
+    echo $output;
+    die(1);
+}
+
+// this is not ideal but will stop PHP 5.3.0ff from complaining ...
+$system_timezone = @date_default_timezone_get();
+date_default_timezone_set($system_timezone);
+
+$_REQUEST = array_merge($_GET, $_POST);
 
 // Before we begin, check if an uploaded file exceeds PHP's post_max_size
 if (isset($_SERVER['CONTENT_LENGTH'])) {
@@ -560,7 +582,7 @@ function INST_getUploadError($mFile)
         $mRetval = false;
 
     }
-    
+
     return $mRetval;
 }
 
@@ -788,8 +810,8 @@ function INST_pluginAutoinstall($plugin, $inst_parms, $verbose = true)
                 COM_errorLog("Attempting to create '$name' group", 1);
             }
 
-            $grp_name = addslashes($name);
-            $grp_desc = addslashes($desc);
+            $grp_name = DB_escapeString($name);
+            $grp_desc = DB_escapeString($desc);
             DB_query("INSERT INTO {$_TABLES['groups']} (grp_name, grp_descr) VALUES ('$grp_name', '$grp_desc')", 1);
             if (DB_error()) {
                 COM_errorLog('Error creating plugin group', 1);
@@ -825,9 +847,6 @@ function INST_pluginAutoinstall($plugin, $inst_parms, $verbose = true)
 
         foreach ($_SQL as $sql) {
             $sql = str_replace('#group#', $admin_group_id, $sql);
-            if ($use_innodb) {
-                $sql = str_replace('MyISAM', 'InnoDB', $sql);
-            }
             DB_query($sql);
             if (DB_error()) {
                 COM_errorLog('Error creating plugin table', 1);
@@ -852,8 +871,8 @@ function INST_pluginAutoinstall($plugin, $inst_parms, $verbose = true)
         }
 
         foreach ($features as $feature => $desc) {
-            $ft_name = addslashes($feature);
-            $ft_desc = addslashes($desc);
+            $ft_name = DB_escapeString($feature);
+            $ft_desc = DB_escapeString($desc);
             DB_query("INSERT INTO {$_TABLES['features']} (ft_name, ft_descr) "
                      . "VALUES ('$ft_name', '$ft_desc')", 1);
             if (DB_error()) {
@@ -913,7 +932,7 @@ function INST_pluginAutoinstall($plugin, $inst_parms, $verbose = true)
             if (DB_error()) {
                 COM_errorLog('Error adding plugin default data', 1);
                 PLG_uninstall($plugin);
-            
+
                 return false;
             }
         }
@@ -1042,7 +1061,7 @@ function INST_fixPathsAndUrls($path, $path_html, $site_url, $site_admin_url)
         // if we had to fix the site's URL, chances are that cookie domain
         // and path are also wrong and the user won't be able to log in
         $config->set('cookiedomain', '');
-        $config->set('cookie_path', '/');
+        $config->set('cookie_path', INST_guessCookiePath($site_url));
     }
     if (! empty($site_admin_url) &&
             ($_CONF['site_admin_url'] != $site_admin_url)) {
@@ -1186,7 +1205,7 @@ function INST_setVersion($siteconfig_path)
         $v[2] = (int) $v[2];
         $version = implode('.', $v);
     }
-    $version = addslashes($version);
+    $version = DB_escapeString($version);
 
     DB_change($_TABLES['vars'], 'value', $version, 'name', 'database_version');
 }
@@ -1308,6 +1327,45 @@ function INST_dbPasswordCheck($site_url, $db)
     } else {
         return false;
     }
+}
+
+/**
+* Returns a cookie path for a site URL
+*
+* @param   string  $site_url    site URL
+* @return  string               a cookie path
+*/
+function INST_guessCookiePath($site_url)
+{
+    $retval = '/';
+
+    if (preg_match('|(^https?://[^/]+)|i', $site_url, $match)) {
+        $path = substr($site_url, strlen($match[1]));
+
+        if (($path !== '') AND ($path !== FALSE)) {
+            $retval = $path;
+
+            if (substr($retval, -1) !== '/') {
+                $retval .= '/';
+            }
+        }
+    }
+
+    return $retval;
+}
+
+/**
+* Returns a cleaned string
+*
+* @param   string  $str
+* @return  string
+*/
+function INST_cleanString($str)
+{
+    $str = preg_replace('/[[:cntrl:]]/', '', $str);
+    $str = strip_tags($str);
+
+    return $str;
 }
 
 ?>

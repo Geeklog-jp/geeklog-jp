@@ -159,7 +159,7 @@ function SYND_feedUpdateCheckTopic( $tid, $update_info, $limit, $updated_topic =
     $sql = "SELECT sid 
         FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
         WHERE draft_flag = 0 AND date <= NOW() AND perm_anon > 0
-        AND ta.type = 'article' AND ta.id = sid  
+        AND ta.type = 'article' AND ta.id = sid 
         AND ta.tid = '$tid'" . COM_getTopicSQL('AND', 1, 'ta') . "
         GROUP BY sid
         ORDER BY date DESC $limitsql";
@@ -299,11 +299,11 @@ function SYND_getFeedContentPerTopic( $tid, $limit, &$link, &$update, $contentLe
             {
                 if( !empty($storytext) )
                 {
-                    $storytext = nl2br($storytext);
+                    $storytext = COM_nl2br($storytext);
                 }
                 if( !empty($fulltext) )
                 {
-                    $fulltext = nl2br($fulltext);
+                    $fulltext = COM_nl2br($fulltext);
                 }
             }
 
@@ -412,7 +412,7 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
 
     $sql = "SELECT sid,ta.tid,uid,title,introtext,bodytext,postmode,UNIX_TIMESTAMP(date) AS modified,commentcode,trackbackcode 
         FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta 
-        WHERE draft_flag = 0 AND date <= NOW() AND ta.type = 'article' AND ta.id = sid $where AND perm_anon > 0 
+        WHERE draft_flag = 0 AND date <= NOW() AND ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 $where AND perm_anon > 0 
         GROUP BY sid,ta.tid
         ORDER BY date DESC $limitsql";
     
@@ -439,11 +439,11 @@ function SYND_getFeedContentAll($frontpage_only, $limit, &$link, &$update, $cont
         {
             if( !empty($storytext) )
             {
-                $storytext = nl2br($storytext);
+                $storytext = COM_nl2br($storytext);
             }
             if( !empty($fulltext) )
             {
-                $fulltext = nl2br($fulltext);
+                $fulltext = COM_nl2br($fulltext);
             }
         }
         

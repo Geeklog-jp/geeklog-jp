@@ -215,7 +215,14 @@ function plugin_savecomment_staticpages($title, $comment, $id, $pid, $postmode)
     if ($ret > 0) { // failure //FIXME: some failures should not return to comment form
         $retval .= CMT_commentForm($title, $comment, $id, $pid, 'staticpages',
                                   $LANG03[14], $postmode);
-        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+        
+        if (!defined('COMMENT_ON_SAME_PAGE')) {
+            $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+        } else {
+            if (!COMMENT_ON_SAME_PAGE) {
+                $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+            }
+        }            
     } else { // success
         $url = COM_buildUrl($_CONF['site_url'] . '/staticpages/index.php?page='
                             . $id);
@@ -794,7 +801,7 @@ function plugin_dopluginsearch_staticpages($query, $datestart, $dateend, $topic,
     }
 
     // Make sure the query is SQL safe
-    $query = trim(addslashes($query));
+    $query = trim(DB_escapeString($query));
 
     $sql = "SELECT sp.sp_id AS id, sp.sp_title AS title, sp.sp_content AS description, ";
     $sql .= "UNIX_TIMESTAMP(sp.created) AS date, sp.owner_id AS uid, sp.sp_hits AS hits, ";
@@ -1888,7 +1895,7 @@ function plugin_getiteminfo_staticpages($sp_id, $what, $uid = 0, $options = arra
     // prepare SQL request
     $where = ' WHERE (draft_flag = 0) AND (template_flag = 0) ';
     if ($sp_id != '*') {
-        $where .= " AND (sp_id = '" . addslashes($sp_id) . "')";
+        $where .= " AND (sp_id = '" . DB_escapeString($sp_id) . "')";
     }
     if ($uid > 0) {
         $permSql = COM_getPermSql('AND', $uid);
