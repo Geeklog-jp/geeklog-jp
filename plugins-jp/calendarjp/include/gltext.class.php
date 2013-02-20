@@ -259,14 +259,20 @@ class GLText
     function _editText($in)
     {
         $out = '';
+
+//        $out = $this->replaceImages($in);
+        
+        // Remove any autotags the user doesn't have permission to use
+        $out = PLG_replaceTags($in, '', true);
+
         if ($this->_postmode == 'plaintext') {
-            $out = COM_undoClickableLinks($in);
+            $out = COM_undoClickableLinks($out);
             $out = $this->_displayEscape($out);
         } elseif ($this->_postmode == 'wikitext') {
             $out = $this->_editUnescape($in);
         } else {
             // html
-            $out = str_replace('<pre><code>', '[code]', $in);
+            $out = str_replace('<pre><code>', '[code]', $out);
             $out = str_replace('</code></pre>', '[/code]', $out);
             $out = str_replace('<!--raw--><span class="raw">', '[raw]', $out);
             $out = str_replace('</span><!--/raw-->', '[/raw]', $out);

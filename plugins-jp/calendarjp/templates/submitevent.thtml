@@ -83,7 +83,7 @@
         </tr>
         <tr>
             <td align="right" style="whight-space:nowrap">{lang_zipcode}:</td>
-            <td><input type="text" name="zipcode" size="8" maxlength="8"{xhtml}></td>
+            <td><input type="text" name="zipcode" size="16" maxlength="16"{xhtml}></td>
         </tr>
         <tr>
             <td align="right">{lang_state}:</td>

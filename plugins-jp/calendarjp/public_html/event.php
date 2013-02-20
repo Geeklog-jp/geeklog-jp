@@ -109,7 +109,7 @@ function adduserevent ($eid)
         $cal_template->set_var('lang_description', $LANG_CALJP_1[5]);
         $description = stripslashes ($A['description']);
         if (empty($A['postmode']) || ($A['postmode'] == 'plaintext')) {
-            $description = nl2br ($description);
+            $description = COM_nl2br ($description);
         }
         $cal_template->set_var ('event_description',
                                 PLG_replaceTags ($description));
@@ -298,7 +298,7 @@ function editpersonalevent ($A)
 
     $cal_templates->set_var('lang_description', $LANG_CALJP_1[5]);
     $cal_templates->set_var('event_description',
-                            nl2br (stripslashes ($A['description'])));
+                            COM_nl2br (stripslashes ($A['description'])));
 
     $cal_templates->set_var('lang_htmlnotallowed', $LANG_CALJP_1[44]);
     $cal_templates->set_var('lang_submit', $LANG_CALJP_1[45]);
