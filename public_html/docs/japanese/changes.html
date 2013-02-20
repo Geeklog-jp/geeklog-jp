@@ -16,6 +16,20 @@
 
 <p>このドキュメントでは最も重要な変更点や目につく変更点を簡潔に説明しています。変更履歴の詳細なリストは、<a href="history.html">変更詳細履歴</a>をご覧ください。<tt>docs/changed-files</tt>には、前回リリース以来変更されたファイルの一覧があります。</p>
 
+<h2><a name="changes182sr1">Geeklog 1.8.2sr1</a></h2>
+
+<p>This release addresses the following security issues:</p>
+<ul>
+<li>High-Tech Bridge Security Research Lab reported an XSS in the calendar_type parameter in the Calendar plugin (HTB23143).</li>
+<li>Trustwave Spiderlabs reported XSS in the install script, the Configuration, as well as in the Admin interfaces for the Polls plugin and the Topic editor (TWSL2013-001).</li>
+</ul>
+
+<p>Other fixes:</p>
+<ul>
+<li>Fixed Twitter OAuth login by switching to version 1.1 of the Twitter API.</li>
+</ul>
+
+
 <h2><a name="changes182">Geeklog 1.8.2</a></h2>
 
 <p>Geeklog 1.8.1 はメンテナンスリリースです。このリリースにはデータベース、テンプレート、言語ファイルの変更はありません。そのためアップグレードは容易です。</p>
