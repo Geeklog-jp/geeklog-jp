@@ -26,6 +26,9 @@ $_SQL[] = "ALTER TABLE {$_TABLES['users']} ADD salt varchar(64) NOT NULL default
 $_SQL[] = "ALTER TABLE {$_TABLES['users']} ADD algorithm tinyint(3) NOT NULL default 0 AFTER salt";
 $_SQL[] = "ALTER TABLE {$_TABLES['users']} ADD stretch int(8) unsigned NOT NULL default 1 AFTER algorithm";
 
+// New Geeklog variable for Article content syndication
+$_SQL[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('last_article_publish','') ";
+
 /**
  * Create Story and Submission Topic assignments
  *
@@ -36,18 +39,12 @@ function update_StoryTopicAssignmentsFor200()
     
     $story_tables[] = $_TABLES['stories'];
     $story_tables[] = $_TABLES['storysubmission'];
-
-    foreach ($story_tables as $story_table) {
-        $sql = "SELECT * FROM $story_table";
-        $result = DB_query($sql);
-        $nrows = DB_numRows($result);
     
-        for ($i = 0; $i < $nrows; $i++) {
-            $A = DB_fetchArray($result);
-            
-            $sql = "INSERT INTO {$_TABLES['topic_assignments']} (tid, type, id, inherit, tdefault) VALUES ('{$A['tid']}', 'article', '{$A['sid']}', 1, 1)";
-            DB_query($sql);
-        }
+    foreach ($story_tables as $story_table) {
+        $sql = "INSERT INTO {$_TABLES['topic_assignments']} (tid, type, id, inherit, tdefault)
+                SELECT tid, 'article' AS type, sid, 1 AS inherit, 1 AS tdefault
+                FROM $story_table";
+        DB_query($sql);   
         
         // Remove tid from table
         $sql = "ALTER TABLE $story_table DROP tid";
@@ -63,20 +60,14 @@ function update_StoryTopicAssignmentsFor200()
 function update_BlockTopicAssignmentsFor200()
 {
     global $_TABLES;
-    
-    $sql = "SELECT * FROM {$_TABLES['blocks']}";
-    $result = DB_query($sql);
-    $nrows = DB_numRows($result);
 
-    for ($i = 0; $i < $nrows; $i++) {
-        $A = DB_fetchArray($result);
-        
-        $sql = "INSERT INTO {$_TABLES['topic_assignments']} (tid, type, id, inherit, tdefault) VALUES ('{$A['tid']}', 'block', '{$A['bid']}', 1, 0)";
-        DB_query($sql);
-    }
+    $sql = "INSERT INTO {$_TABLES['topic_assignments']} (tid, type, id, inherit, tdefault)
+            SELECT tid, 'block' AS type, bid, 1 AS inherit, 0 AS tdefault
+            FROM {$_TABLES['blocks']}";
+    DB_query($sql);
 
     // Remove Topic Id from blocks table
-    $sql = "ALTER TABLE {$_TABLES['blocks']} DROP `tid`";    
+    $sql = "ALTER TABLE {$_TABLES['blocks']} DROP tid";    
     DB_query($sql);
     
 }
@@ -124,9 +115,16 @@ function update_ConfValuesFor200()
     
     // Breadcrumb Root Site Name
     $c->add('breadcrumb_root_site_name', 0, 'select', 7, 45, 0, 2040, TRUE, $me, 45);    
-
+    
     // Page Navigation
     $c->add('page_navigation_max_pages',7,'text',7,31,NULL,1800,TRUE, $me, 31);
+    
+    // Add in Comment Syndication
+    $c->add('fs_syndication_comment', NULL, 'fieldset', 0, 3, NULL, 0, TRUE, $me, 2);
+    $c->add('comment_feeds_article_tag', "<p>[Original Article: <a href=\"%s\">%s</a>%s%s]\n", 'text', 0, 3, NULL, 10, TRUE, $me, 2);
+    $c->add('comment_feeds_article_tag_position', 'end', 'select', 0, 3, 30, 20, TRUE, $me, 2);        
+    $c->add('comment_feeds_article_author_tag', '', 'text', 0, 3, NULL, 30, TRUE, $me, 2);        
+    $c->add('comment_feeds_comment_author_tag', ", Comment By: <a href=\"%s\">%s</a>", 'text', 0, 3, NULL, 40, TRUE, $me, 2);        
 
     return true;
 }

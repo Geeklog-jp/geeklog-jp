@@ -104,9 +104,8 @@ function staticpageeditor_form($A)
         
         // Add JavaScript
         $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-        $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
         // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-        $js .= 'document.getElementById("advanced_editor").style.display="";';                 
+        $js = 'document.getElementById("advanced_editor").style.display="";';                 
         $_SCRIPTS->setJavaScript($js, true);
         $_SCRIPTS->setJavaScriptFile('staticpages_fckeditor', '/javascript/staticpages_fckeditor.js');
 
@@ -464,7 +463,7 @@ function staticpageeditor_form($A)
         $sp_template->set_var('sp_comments', $LANG_ADMIN['na']);
     } else {
         $num_comments = DB_count($_TABLES['comments'], array('sid', 'type'),
-            array(addslashes($A['sp_id']), 'staticpages'));
+            array(DB_escapeString($A['sp_id']), 'staticpages'));
         $sp_template->set_var('sp_comments', COM_numberFormat($num_comments));
     }
     $sp_template->set_var('end_block',

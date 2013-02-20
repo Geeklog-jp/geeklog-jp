@@ -35,6 +35,54 @@
 require_once 'lib-common.php';
 require_once $_CONF['path_system'] . 'lib-story.php';
 
+/**
+* Update array if need be with correct topic. 
+*
+* @param    array   A           Array of articles from db
+* @param    string  tid_list    List of child topics of current topic
+*
+*/
+function fixTopic(&$A, $tid_list)
+{
+    global $_TABLES, $topic;
+    
+    if (!empty($topic)) {
+        // This case may happen if a article belongs to the current topic but the default topic for the article is a child  of the current topic.
+        $sql = "SELECT t.topic, t.imageurl
+            FROM {$_TABLES['topics']} t, {$_TABLES['topic_assignments']} ta 
+            WHERE t.tid = ta.tid  
+            AND ta.type = 'article' AND ta.id = '{$A['sid']}' AND ta.tid = '$topic'
+            " . COM_getLangSQL('tid', 'AND', 't') . COM_getPermSQL('AND', 0, 2, 't');
+           
+        $result = DB_query($sql);
+        $nrows = DB_numRows($result);
+        if ($nrows > 0) {
+            $B = DB_fetchArray($result);
+            $A['topic'] = $B['topic'];
+            $A['imageurl'] = $B['imageurl']; 
+        } else {
+            // Does not belong to current topic so check inherited
+            
+            // Make sure sort order the same as in TOPIC_getTopic or articles with multiple topics might not display in the right topic when clicked
+            $sql = "SELECT t.topic, t.imageurl
+                FROM {$_TABLES['topics']} t, {$_TABLES['topic_assignments']} ta 
+                WHERE t.tid = ta.tid  
+                AND ta.type = 'article' AND ta.id = '{$A['sid']}' 
+                AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$topic}'))) 
+                " . COM_getLangSQL('tid', 'AND', 't') . COM_getPermSQL('AND', 0, 2, 't') . " 
+                ORDER BY ta.tdefault DESC, ta.tid ASC";
+                
+            $result = DB_query($sql);
+            $nrows = DB_numRows($result);
+            if ($nrows > 0) {
+                $B = DB_fetchArray($result);
+                $A['topic'] = $B['topic'];
+                $A['imageurl'] = $B['imageurl']; 
+            }
+        }
+    }
+}
+
 $newstories = false;
 $displayall = false;
 if (isset ($_GET['display'])) {
@@ -152,17 +200,6 @@ if ($limit < 1) {
     $limit = 1;
 }
 
-// Geeklog now allows for articles to be published in the future.  Because of
-// this, we need to check to see if we need to rebuild the RDF file in the case
-// that any such articles have now been published
-COM_rdfUpToDateCheck();
-
-// For similar reasons, we need to see if there are currently two featured
-// articles.  Can only have one but you can have one current featured article
-// and one for the future...this check will set the latest one as featured
-// solely
-COM_featuredCheck();
-
 // Scan for any stories that have expired and should be archived or deleted
 $asql = "SELECT sid,ta.tid,title,expire,statuscode FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta ";
 $asql .= "WHERE (expire <= NOW()) AND ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND (statuscode = " . STORY_DELETE_ON_EXPIRE;
@@ -191,6 +228,7 @@ if (empty ($topic)) {
 }
 
 // if a topic was provided only select those stories.
+$tid_list = '';
 if (!empty($topic)) {
     // Retrieve list of inherited topics
     $tid_list = TOPIC_getChildList($topic);
@@ -199,7 +237,6 @@ if (!empty($topic)) {
     if (empty($tid_list)) {
         $tid_list = "'" . $topic . "'";
     }
-    // Get list of blocks to display (except for dynamic). This includes blocks for all topics, and child blocks that are inherited
     $sql .= " AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$topic}')))";
 } elseif (!$newstories) {
     $sql .= " AND frontpage = 1 AND ta.tdefault = 1";
@@ -244,31 +281,35 @@ if ($_CONF['allow_user_photo'] == 1) {
     }
 }
 
-$msql = array(); 
-$msql['mysql']="SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate, "
+$msql = array();
+
+// The incorrect t.topic, t.imageurl will most likely be return ... will fix later in fixtopic function. 
+// Could not fix in sql since 2 many variables to contend with plus speed of sql statement probably an issue
+$msql['mysql'] = "SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate, "         
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta,{$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND"
          . " ta.type = 'article' AND ta.id = s.sid AND"
-         . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
+         . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";     
 
-$msql['mssql']="SELECT s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
+$msql['mssql'] = "SELECT s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
          . " UNIX_TIMESTAMP(s.date) AS unixdate, "
          . 'UNIX_TIMESTAMP(s.expire) as expireunix, '
          . $userfields . ", t.topic, t.imageurl "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta, {$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND"
          . " ta.type = 'article' AND ta.id = s.sid AND"
-         . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";
-$msql['pgsql']="SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate,
+         . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";   
+         
+$msql['pgsql'] = "SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate,
             UNIX_TIMESTAMP(s.expire) as expireunix,
             {$userfields}, t.topic, t.imageurl
             FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta, {$_TABLES['users']} AS u,
             {$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND 
-            ta.type = 'article' AND ta.id = s.sid AND 
-            {$sql} GROUP BY s.sid,ta.tid,u.uid,t.topic,t.imageurl ORDER BY featured DESC, date DESC LIMIT {$limit} OFFSET {$offset}";
-
+            ta.type = 'article' AND ta.id = s.sid AND
+            {$sql} GROUP BY s.sid, ta.tid, expireunix, {$userfields}, t.topic, t.imageurl ORDER BY featured DESC, date DESC LIMIT {$offset}, {$limit}";   
+         
 $result = DB_query ($msql);
 
 $nrows = DB_numRows ($result);
@@ -280,6 +321,7 @@ $num_pages = ceil ($D['count'] / $limit);
 $breadcrumbs = '';
 
 if ( $A = DB_fetchArray( $result ) ) {
+    fixTopic($A, $tid_list);
     $story = new Story();
     $story->loadFromArray($A);
     if ( $_CONF['showfirstasfeatured'] == 1 ) {
@@ -305,6 +347,7 @@ if ( $A = DB_fetchArray( $result ) ) {
 
     // get remaining stories
     while ($A = DB_fetchArray ($result)) {
+        fixTopic($A, $tid_list);
         $story = new Story();
         $story->loadFromArray($A);
         $display .= STORY_renderArticle ($story, 'y');

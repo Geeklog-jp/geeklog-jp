@@ -909,6 +909,10 @@ $LANG27 = array(
     47 => 'An Archive Topic cannot have any child topics. Please remove any child topics before making a topic the Archive Topic.',
     48 => 'Parent Topic Id not found.',
     49 => 'This Topic ID is already being used. Please choose another one.',
+    50 => 'Yes',
+    51 => 'No',
+    52 => 'Story',
+    53 => 'Image',
     'breadcrumb_separator' => '>',
     'breadcrumb_root' => 'Home'
 );
@@ -1937,6 +1941,10 @@ $LANG_confignames['Core'] = array(
     'rdf_storytext' => 'Długość artykułu w pliku RSS',
     'rdf_language' => 'Język kanału RSS',
     'syndication_max_headlines' => 'Maks. liczba tytułów (bloki portalowe)',
+    'comment_feeds_article_tag' => 'Article Tag',
+    'comment_feeds_article_tag_position' => 'Article Tag Position',
+    'comment_feeds_article_author_tag' => 'Article Author Tag',
+    'comment_feeds_comment_author_tag' => 'Comment Author Tag',
     'copyrightyear' => 'Prawa Autorskie Rok',
     'image_lib' => 'Image Library',
     'path_to_mogrify' => 'Path to Mogrify',
@@ -2059,6 +2067,7 @@ $LANG_fs['Core'] = array(
     'fs_story' => 'Artykuł',
     'fs_theme_advanced' => 'Ustawienia zaawansowane',
     'fs_syndication' => 'Syndykacja treści',
+    'fs_syndication_comment' => 'Comment Syndication',
     'fs_imagelib' => 'Katalog zdjęć',
     'fs_upload' => 'Ładuj',
     'fs_articleimg' => 'Zdjęcia w artykułach',
@@ -2151,7 +2160,8 @@ $LANG_configselects['Core'] = array(
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
     28 => array('No access' => 0, 'Use' => 2),
-    29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4)
+    29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
 );
 
 ###############################################################################

@@ -250,8 +250,8 @@ function INST_doDatabaseUpgrades($current_gl_version)
 
             $pos = strrpos ($_CONF['rdf_file'], '/');
             $filename = substr ($_CONF['rdf_file'], $pos + 1);
-            $sitename = addslashes ($_CONF['site_name']);
-            $siteslogan = addslashes ($_CONF['site_slogan']);
+            $sitename = DB_escapeString($_CONF['site_name']);
+            $siteslogan = DB_escapeString($_CONF['site_slogan']);
             DB_query ("INSERT INTO {$_TABLES['syndication']} (title, description, limits, content_length, filename, charset, language, is_enabled, updated, update_info) VALUES ('{$sitename}', '{$siteslogan}', '{$_CONF['rdf_limit']}', {$_CONF['rdf_storytext']}, '{$filename}', '{$_CONF['default_charset']}', '{$_CONF['rdf_language']}', {$_CONF['backend']}, '0000-00-00 00:00:00', NULL)");
 
             // upgrade static pages plugin
@@ -315,7 +315,7 @@ function INST_doDatabaseUpgrades($current_gl_version)
             $numStories = DB_numRows ($result);
             for ($i = 0; $i < $numStories; $i++) {
                 $A = DB_fetchArray ($result);
-                $related = addslashes (implode ("\n", UPDATE_extractLinks ($A['introtext'] . ' ' . $A['bodytext'])));
+                $related = DB_escapeString(implode ("\n", UPDATE_extractLinks ($A['introtext'] . ' ' . $A['bodytext'])));
                 if (empty ($related)) {
                     DB_query ("UPDATE {$_TABLES['stories']} SET related = NULL WHERE sid = '{$A['sid']}'");
                 } else {
@@ -483,10 +483,11 @@ function INST_doDatabaseUpgrades($current_gl_version)
             break;
 
         case '1.8.0':
-            // there were no database changes in 1.8.0
-
         case '1.8.1':
-            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_1.8.1_to_2.0.0.php';
+        case '1.8.2':
+            // there were no database changes in 1.8.x
+
+            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_1.8.2_to_2.0.0.php';
             INST_updateDB($_SQL);
             
             update_ConfValuesFor200();
@@ -739,7 +740,6 @@ function INST_updateDB($_SQL)
 {
     global $progress, $use_innodb, $_DB, $_DB_dbms;
 
-    $_SQL = INST_checkInnodbUpgrade($_SQL);
     foreach ($_SQL as $sql) {
         $progress .= "executing " . $sql . "<br" . XHTML . ">\n";
         if ($_DB_dbms == 'mssql') {
@@ -749,28 +749,6 @@ function INST_updateDB($_SQL)
         }
     }
 }
-
-/**
- * Check InnoDB Upgrade
- *
- * @param   array   $_SQL   List of SQL queries
- * @return  array           InnoDB table style if chosen
- *
- */
-function INST_checkInnodbUpgrade($_SQL)
-{
-    global $use_innodb;
-
-    if ($use_innodb) {
-        $statements = count($_SQL);
-        for ($i = 0; $i < $statements; $i++) {
-            $_SQL[$i] = str_replace('MyISAM', 'InnoDB', $_SQL[$i]);
-        }
-    }
-
-    return $_SQL;
-}
-
 
 /**
  * Check for InnoDB table support (usually as of MySQL 4.0, but may be
@@ -789,7 +767,8 @@ function INST_innodbSupported()
         $A = DB_fetchArray($result);
 
         if (strcasecmp($A['Engine'], 'InnoDB') == 0) {
-            if (strcasecmp($A['Support'], 'yes') == 0) {
+            if ((strcasecmp($A['Support'], 'yes') == 0) ||
+                (strcasecmp($A['Support'], 'default') == 0)) {
                 $retval = true;
             }
             break;
@@ -811,7 +790,7 @@ function INST_pluginExists($plugin)
 {
     global $_TABLES;
 
-    $plugin = addslashes($plugin);
+    $plugin = DB_escapeString($plugin);
     $result = DB_query("SELECT pi_name FROM {$_TABLES['plugins']} WHERE pi_name = '$plugin'");
     if (DB_numRows($result) > 0) {
         return true;
@@ -967,7 +946,7 @@ function INST_fixOptionalConfig()
         list($value, $default_value) = DB_fetchArray($result);
         if ($value != 'unset') {
             if (substr($default_value, 0, 6) != 'unset:') {
-                $unset = addslashes('unset:' . $default_value);
+                $unset = DB_escapeString('unset:' . $default_value);
                 DB_query("UPDATE {$_TABLES['conf_values']} SET default_value = '$unset' WHERE name = '$name'");
             }
         }
