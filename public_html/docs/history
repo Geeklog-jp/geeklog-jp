@@ -1,5 +1,20 @@
 Geeklog History/Changes:
 
+Feb 19, 2013 (1.8.2sr1)
+------------
+
+This release addresses the following security issues:
+- High-Tech Bridge Security Research Lab reported an XSS in the calendar_type
+  parameter in the Calendar plugin (HTB23143).
+- Trustwave Spiderlabs reported XSS in the install script, the Configuration,
+  as well as in the Admin interfaces for the Polls plugin and the Topic editor
+  (TWSL2013-001).
+
+Not security-related:
+- Fixed Twitter OAuth login by switching to version 1.1 of the Twitter API
+  (feature request #0001506).
+
+
 Dec 30, 2012 (1.8.2)
 ------------
 
