@@ -362,7 +362,7 @@ function savetopic($tid,$topic,$imageurl,$meta_description,$meta_keywords,$sortn
         if ($imageurl == '/images/topics/') {
             $imageurl = '';
         }
-        $topic = addslashes($topic);
+        $topic = addslashes(strip_tags($topic));
         $meta_description = addslashes(strip_tags($meta_description));
         $meta_keywords = addslashes(strip_tags($meta_keywords));
 
