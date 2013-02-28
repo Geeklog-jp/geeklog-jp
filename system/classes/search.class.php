@@ -101,7 +101,7 @@ class Search {
             // In case we got a username instead of uid, convert it.  This should
             // make custom themes for search page easier.
             if (!is_numeric($this->_author) && !preg_match('/^([0-9]+)$/', $this->_author) && $this->_author != '') {
-                $this->_author = DB_getItem($_TABLES['users'], 'uid', 'username=\'' . addslashes ($this->_author) . '\'');
+                $this->_author = DB_getItem($_TABLES['users'], 'uid', 'username=\'' . DB_escapeString($this->_author) . '\'');
             }
 
             if ($this->_author < 1) {
@@ -327,7 +327,7 @@ class Search {
         global $_TABLES, $_DB_dbms, $LANG09;
         
         // Make sure the query is SQL safe
-        $query = trim(addslashes($this->_query));
+        $query = trim(DB_escapeString($this->_query));
 
         $sql = 'SELECT s.sid AS id, s.title AS title, s.introtext AS description, ';
         $sql .= 'UNIX_TIMESTAMP(s.date) AS date, s.uid AS uid, s.hits AS hits, ';
@@ -432,7 +432,9 @@ class Search {
 
         // Make sure there is a query string
         // Full text searches have a minimum word length of 3 by default
-        if ((empty($this->_query) && empty($this->_author) && empty($this->_topic)) || ($_CONF['search_use_fulltext'] && strlen($this->_query) < 3))
+        if ((trim($this->_query) === '') ||
+                (empty($this->_query) && empty($this->_author) && empty($this->_topic)) ||
+                ($_CONF['search_use_fulltext'] && strlen($this->_query) < 3))
         {
             $retval = '<p>' . $LANG09[41] . '</p>' . LB;
             $retval .= $this->showForm();

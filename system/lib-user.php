@@ -103,9 +103,10 @@ function USER_deleteAccount ($uid)
     DB_query ("UPDATE {$_TABLES['stories']} SET uid = 1 WHERE uid = $uid");
     DB_query ("UPDATE {$_TABLES['stories']} SET owner_id = 1 WHERE owner_id = $uid");
 
-    // delete story submissions
+    // delete submissions
     DB_delete ($_TABLES['storysubmission'], 'uid', $uid);
-
+    DB_delete ($_TABLES['commentsubmissions'], 'uid', $uid); // Includes article and plugin submissions
+    
     // delete user photo, if enabled & exists
     if ($_CONF['allow_user_photo'] == 1) {
         $photo = DB_getItem ($_TABLES['users'], 'photo', "uid = $uid");
@@ -239,8 +240,8 @@ function USER_createAccount($username, $email, $passwd = '', $fullname = '', $ho
     global $_CONF, $_TABLES;
 
     $queueUser = false;
-    $username = addslashes($username);
-    $email = addslashes($email);
+    $username = DB_escapeString($username);
+    $email = DB_escapeString($email);
 
     $regdate = strftime('%Y-%m-%d %H:%M:%S', time());
     $fields = 'username,email,regdate,cookietimeout';
@@ -254,12 +255,12 @@ function USER_createAccount($username, $email, $passwd = '', $fullname = '', $ho
         $values .= ",'$passwd','$salt','" . $_CONF['pass_alg'] . "','" . $_CONF['pass_stretch'] . "'";
     }
     if (! empty($fullname)) {
-        $fullname = addslashes($fullname);
+        $fullname = DB_escapeString($fullname);
         $fields .= ',fullname';
         $values .= ",'$fullname'";
     }
     if (! empty($homepage)) {
-        $homepage = addslashes($homepage);
+        $homepage = DB_escapeString($homepage);
         $fields .= ',homepage';
         $values .= ",'$homepage'";
     }
@@ -625,7 +626,7 @@ function USER_uniqueUsername($username)
 
     $try = $username;
     do {
-        $try = addslashes($try);
+        $try = DB_escapeString($try);
         $uid = DB_getItem($_TABLES['users'], 'uid', "username = '$try'");
         if (!empty($uid)) {
             $r = rand(2, 9999);
@@ -714,7 +715,7 @@ function USER_subscribeToTopic($tid)
         $etids[] = $tid;
         $user_etids = implode(' ', $etids);
     }
-    $user_etids = addslashes($user_etids);
+    $user_etids = DB_escapeString($user_etids);
 
     DB_query("UPDATE {$_TABLES['userindex']} SET etids = '$user_etids' WHERE uid = {$_USER['uid']}");
 }
@@ -764,7 +765,7 @@ function USER_unsubscribeFromTopic($tid)
     } else {
         $user_etids = implode(' ', $etids);
     }
-    $user_etids = addslashes($user_etids);
+    $user_etids = DB_escapeString($user_etids);
 
     DB_query("UPDATE {$_TABLES['userindex']} SET etids = '$user_etids' WHERE uid = {$_USER['uid']}");
 }
@@ -965,9 +966,9 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     $user_templates->set_var('lang_location', $LANG04[106]);
     $user_templates->set_var('user_location', strip_tags($A['location']));
     $user_templates->set_var('lang_bio', $LANG04[7]);
-    $user_templates->set_var('user_bio', nl2br(stripslashes ($A['about'])));
+    $user_templates->set_var('user_bio', COM_nl2br(stripslashes($A['about'])));
     $user_templates->set_var('lang_pgpkey', $LANG04[8]);
-    $user_templates->set_var('user_pgp', nl2br ($A['pgpkey']));
+    $user_templates->set_var('user_pgp', COM_nl2br($A['pgpkey']));
     $user_templates->set_var('start_block_last10stories',
             COM_startBlock($LANG04[82] . ' ' . $display_name));
     $user_templates->set_var('start_block_last10comments',
@@ -982,7 +983,7 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     $user_templates->set_var('headline_last10comments', $LANG04[10]);
     $user_templates->set_var('headline_postingstats', $LANG04[83]);
 
-    $tids = TOPIC_getList();
+    $tids = TOPIC_getList(0, TRUE, FALSE);
     $topics = "'" . implode("','", $tids) . "'";
 
     // list of last 10 stories by this user
@@ -1140,7 +1141,7 @@ function plugin_autotags_user($op, $content = '', $autotag = '')
             );          
     } elseif ($op == 'parse') {
         $uname = COM_applyFilter($autotag['parm1']);
-        $uname = addslashes($uname);
+        $uname = DB_escapeString($uname);
         $sql = "SELECT uid, username, fullname, status FROM {$_TABLES['users']} WHERE username = '$uname'";
         $result = DB_query($sql);
         if (DB_numRows($result) == 1) {

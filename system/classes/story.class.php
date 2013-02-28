@@ -438,7 +438,7 @@ class Story
     {
         global $_TABLES, $_CONF, $_USER, $topic;
 
-        $sid = addslashes(COM_applyFilter($sid));
+        $sid = DB_escapeString(COM_applyFilter($sid));
 
         if (!empty($sid) && (($mode == 'edit') || ($mode == 'view') || ($mode == 'clone'))) {
             if (empty($topic)) {
@@ -734,7 +734,7 @@ class Story
         $currentSidExists = false;
 
         /* Fix up old sid => new sid stuff */
-        $checksid = addslashes($this->_originalSid); // needed below
+        $checksid = DB_escapeString($this->_originalSid); // needed below
 
         if ($this->_sid != $this->_originalSid) {
             /* The sid has changed. Load from request will have
@@ -744,7 +744,7 @@ class Story
              * sid that was then thrown away) to reduce the sheer
              * number of SQL queries we do.
              */
-            $newsid = addslashes($this->_sid);
+            $newsid = DB_escapeString($this->_sid);
 
             $sql = "SELECT 1 FROM {$_TABLES['stories']} WHERE sid='{$checksid}'";
             $result = DB_query($sql);
@@ -817,11 +817,11 @@ class Story
                     {
                         if(is_numeric($this->{$varname}))
                         {              
-                            $values .= addslashes($this->{$varname}).', ';
+                            $values .= DB_escapeString($this->{$varname}).', ';
                         }
                         else
                         {
-                            $values .= '\''.addslashes($this->{$varname}) . '\', ';     
+                            $values .= '\''. DB_escapeString($this->{$varname}) . '\', ';     
                         }
                     }
                 }
@@ -936,12 +936,10 @@ class Story
 
     /**
      * Sets up basic data for a new user submission story
-     *
-     * @param   string   Topic the user picked before heading to submission
      */
-    function initSubmission($topic)
+    function initSubmission()
     {
-        global $_USER, $_CONF, $_TABLES;
+        global $_USER, $_CONF, $_TABLES, $topic;
 
         if (COM_isAnonUser()) {
             $this->_uid = 1;
@@ -957,7 +955,7 @@ class Story
 
         // Have we specified a permitted topic?
         if (!empty($topic)) {
-            $allowed = DB_getItem($_TABLES['topics'], 'tid', "tid = '" . addslashes($topic) . "'" . COM_getTopicSql('AND'));
+            $allowed = DB_getItem($_TABLES['topics'], 'tid', "tid = '" . DB_escapeString($topic) . "'" . COM_getTopicSql('AND'));
 
             if ($allowed != $topic) {
                 $topic = '';
@@ -1079,12 +1077,12 @@ class Story
         
 
         if (($_CONF['storysubmission'] == 1) && !SEC_hasRights('story.submit')) {
-            $this->_sid = addslashes($this->_sid);
-            $this->_title = addslashes($this->_title);
+            $this->_sid = DB_escapeString($this->_sid);
+            $this->_title = DB_escapeString($this->_title);
             
-            $this->_introtext = addslashes($this->_introtext);
-            $this->_bodytext = addslashes($this->_bodytext);
-            $this->_postmode = addslashes($this->_postmode);
+            $this->_introtext = DB_escapeString($this->_introtext);
+            $this->_bodytext = DB_escapeString($this->_bodytext);
+            $this->_postmode = DB_escapeString($this->_postmode);
             DB_save($_TABLES['storysubmission'], 'sid,uid,title,introtext,bodytext,date,postmode',
                         "{$this->_sid},{$this->_uid},'{$this->_title}'," .
                         "'{$this->_introtext}','{$this->_bodytext}',NOW(),'{$this->_postmode}'");
@@ -1133,7 +1131,9 @@ class Story
             $this->saveToDatabase();
 
             PLG_itemSaved($this->_sid, 'article');
-            COM_rdfUpToDateCheck();
+            COM_rdfUpToDateCheck('article');
+            COM_rdfUpToDateCheck('comment');
+            STORY_updateLastArticlePublished();
             COM_olderStuff();
 
             return STORY_SAVED;
@@ -1417,12 +1417,12 @@ class Story
     /**
      * Return the SID in a clean way
      *
-     * @param $fordb    boolean True if we want an 'addslashes' version for the db
+     * @param $fordb    boolean True if we want an 'DB_escapeString' version for the db
      */
     function getSid($fordb = false)
     {
         if ($fordb) {
-            return addslashes($this->_sid);
+            return DB_escapeString($this->_sid);
         } else {
             return $this->_sid;
         }
@@ -1672,7 +1672,7 @@ class Story
         {
         case 'introtext':
             if ($this->_postmode == 'plaintext') {
-                $return = nl2br($this->_introtext);
+                $return = COM_nl2br($this->_introtext);
             } elseif ($this->_postmode == 'wikitext') {
                 $return = COM_renderWikiText($this->_editUnescape($this->_introtext));
             } else {
@@ -1684,7 +1684,7 @@ class Story
 
         case 'bodytext':
             if (($this->_postmode == 'plaintext') && !(empty($this->_bodytext))) {
-                $return = nl2br($this->_bodytext);
+                $return = COM_nl2br($this->_bodytext);
             } elseif (($this->_postmode == 'wikitext') && !(empty($this->_bodytext))) {
                 $return = COM_renderWikiText($this->_editUnescape($this->_bodytext));
             } elseif (!empty($this->_bodytext)) {
@@ -2158,7 +2158,7 @@ class Story
      * title, page title, intro and body of the article from the post array, removing all
      * HTML mode content into the nice safe form that geeklog can then (simply)
      * spit back out into the page on render. After doing a magic tags
-     * replacement. And nl2br.
+     * replacement. And COM_nl2br.
      *
      * This DOES NOT ADDSLASHES! We do that on DB store, because we want to
      * keep our internal variables in "display mode", not in db mode or anything.
