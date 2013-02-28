@@ -1,13 +1,17 @@
+2013-03-01  Tetsuko Komma  <ivy>
+
+	* 日本語ドキュメント history.htmlを日本語に翻訳しました。
+
 2013-02-28  Takahiro Kambe  <tacahi>
 
 	* Geeklog 2.0.0rc2のマージの再確認と修正を行いました。
 
-2013-02-24    Tetsuko Komma  <ivy>
+2013-02-24  Tetsuko Komma  <ivy>
 
 	* savedの日本語訳部分で"変更"とあったものを"保存"に変更しました。
 	  新規保存の場合も"変更"になっていた不具合の対策です。
 
-2013-02-21    Tetsuko Komma  <ivy>
+2013-02-21  Tetsuko Komma  <ivy>
 
 	* ドキュメントを修正しました。
 
