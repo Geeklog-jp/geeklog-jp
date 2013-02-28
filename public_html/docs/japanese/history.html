@@ -29,33 +29,33 @@
 
 <p>セキュリティーの問題以外の修正:</p>
 <ul>
-<li>Illegal string offset 'phantom' when using Batch Admin mode (patch #0001558) [Dirk]</li>
-<li>Optimize 2.0.0 MySQL Topic Upgrade Script (feature request #0001544) [Tom]</li>
-<li>Introduce DB_escapeString (feature request #0001146) [Kenji]</li>
-<li>For articles with 2 or more topics the incorrect topic icon may display in the parent topic (bug #0001509) [Tom]</li>
-<li>Topic selection is lost when trying to contribute a story as a Story Admin (bug #0001486) [Tom]</li>
-<li>Staticpage Topic Selection (bug #0001462) [Tom]</li>
-<li>Span-X plugin: Spam Number of Links (SNL) True, Posted many links users are blocked. (bug #0001516) [Tom]</li>
-<li>Delete account oauth (bug #0001417) [Tom]</li>
-<li>Can save a staticpage with Add To Menu enabled but no label (bug #0001542) [Tom]</li>
-<li>Space as decimal separator (bug #0001537) [Tom]</li>
-<li>Replying to a Comment and inputing the incorrect captcha code results in page in a page (bug #0001527) [Tom]</li>
-<li>Deleting a Comment with a Notification fails (bug #0001529) [Tom]</li>
-<li>CC setting should be an admin option (patch #0001259) [Tom]</li>
-<li>Date validation in advanced search (patch #0000853) [Tom]</li>
-<li>Can not handle Breadcrumbs in custom function mytheme_createHTMLDocument (bug #0001531) [Tom]</li>
-<li>Update Topic Control Description in Admin Article Editor about Inherit (feature request #0001489) [Tom]</li>
-<li>Clicking on a user name causes a fatal error (bug #0001514) [Tom]</li>
-<li>Can't edit plugin comment submissions (bug #0001511) [Tom]</li>
-<li>User comment submission does not get deleted. (bug #0001512) [Tom]</li>
-<li>nl2br breaks the HTML compliance (patch #0001141) [Tom]</li>
-<li>Spam-X SFS default change to OFF (feature request #0001488) [Tom]</li>
-<li>Twitter OAuth ログインのTwitter APIをversion 1.1に切り替えました。(bug #0001497) [Tom]</li>
-<li>Trackback SQL Error (bug #0001498) [Tom]</li>
-<li>Articles Feeds should only be updated when needed (feature request #0001501) [Tom]</li>
-<li>JavaScript error in admin/story.php (bug #0001496) [Yoshinori]</li>
-<li>Default Topic for Article with Multiple Topics is always Used for Anonymous Users (bug #0001487) [Tom]</li>
-<li>Add HTML 5 DOCTYPE (feature request #0001426) [Yoshinori]</li>
+<li>ユーザーバッチ管理で不正なオフセット文字列'phantom'を修正しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001558">#0001558</a>) [Dirk]</li>
+<li>2.0.0 のMySQL話題アップグレードスクリプトを適正化しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001544">#0001544</a>) [Tom]</li>
+<li>DB_escapeStringを紹介しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001146">#0001146</a>) [Kenji]</li>
+<li>複数話題に登録された記事の話題アイコンがただしく表示されるようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001509">#0001509</a>) [Tom]</li>
+<li>記事管理画面で話題選択が外れないようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001486">#0001486</a>) [Tom]</li>
+<li>静的ページの話題選択。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001462">#0001462</a>) [Tom]</li>
+<li>Span-X プラグイン: Spam Number of Links (SNL) が有効だと, たくさんのリンクを有するユーザーがブロックされるのを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001516">#0001516</a>) [Tom]</li>
+<li>OAuthアカウントの削除のバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001417">#0001417</a>) [Tom]</li>
+<li>静的ページを、メニューに登録しながらもラベルが登録されなかったバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001542">#0001542</a>) [Tom]</li>
+<li>デシマルセパレータのスペースを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001537">#0001537</a>) [Tom]</li>
+<li>コメントへの返信とCAPTCHA間違いの結果をおなじページで表示するようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001527">#0001527</a>) [Tom]</li>
+<li>通知エラーのコメントを削除しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001529">#0001529</a>) [Tom]</li>
+<li>管理オプションでCCをオプションで選べるようにしました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001259">#0001259</a>) [Tom]</li>
+<li>詳しい検索で日付処理を追加しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0000853">#0000853</a>) [Tom]</li>
+<li>カスタム関数 mytheme_createHTMLDocumentでパンくずが表示できないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001531">#0001531</a>) [Tom]</li>
+<li>継承について記事管理画面で話題コントロール説明。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001489">#0001489</a>) [Tom]</li>
+<li>ユーザー名のクリックでエラーになるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001514">#0001514</a>) [Tom]</li>
+<li>プラグインのコメントを編集できない不具合を修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001511">#0001511</a>) [Tom]</li>
+<li>ユーザーが投稿したコメントを削除できないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001512">#0001512</a>) [Tom]</li>
+<li>nl2br が HTML コンプライアンスを破る不具合を修正しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001141">#0001141</a>) [Tom]</li>
+<li>Spam-X SFS デフォルトをOFFにしました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001488">#0001488</a>) [Tom]</li>
+<li>Twitter OAuth ログインのTwitter APIをversion 1.1に切り替えました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001497">#0001497</a>) [Tom]</li>
+<li>トラックバック SQL エラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001498">#0001498</a>) [Tom]</li>
+<li>記事のフィードが必要なときだけ更新されるようにしました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001501">#0001501</a>) [Tom]</li>
+<li>admin/story.phpのJavaScript エラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001496">#0001496</a>) [Yoshinori]</li>
+<li>デフォルトの複数話題に登録された記事が常にゲストユーザーに利用されるのを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001487">#0001487</a>) [Tom]</li>
+<li>HTML 5 DOCTYPEを追加しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001426">#0001426</a>) [Yoshinori]</li>
 </ul>
 
 
