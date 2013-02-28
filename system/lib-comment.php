@@ -558,8 +558,7 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         $text = str_replace('<div class="comment-edit">', '', $text);
         $text = str_replace('</div><!-- /COMMENTEDIT -->', '', $text);
         if (preg_match('/<.*>/', $text) == 0) {
-//          $A['comment'] = '<p>' . nl2br($A['comment']) . '</p>';
-            $A['comment'] = '<div class="commentbody">' . nl2br($A['comment']) . '</div>';
+            $A['comment'] = '<div class="commentbody">' . COM_nl2br($A['comment']) . '</div>';
         }
 
         // highlight search terms if specified
@@ -1031,9 +1030,8 @@ function CMT_commentForm($title, $comment, $sid, $pid='0', $type, $mode, $postmo
                 
                 // Add JavaScript
                 $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-                $js = 'geeklogEditorBasePath = "' . $_CONF['site_url'] . '/fckeditor/";';
                 // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-                $js .= 'document.getElementById("advanced_editor").style.display="";';                 
+                $js = 'document.getElementById("advanced_editor").style.display="";';                 
                 $_SCRIPTS->setJavaScript($js, true);
                 $_SCRIPTS->setJavaScriptFile('submitcomment_fckeditor', '/javascript/submitcomment_fckeditor.js');
             } else {
@@ -1296,8 +1294,8 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
         return $someError;
     }
 
-    $comment = addslashes(CMT_prepareText($comment, $postmode, $type));
-    $title = addslashes(COM_checkWords(strip_tags($title)));
+    $comment = DB_escapeString(CMT_prepareText($comment, $postmode, $type));
+    $title = DB_escapeString(COM_checkWords(strip_tags($title)));
     if (($uid == 1) && isset($_POST[CMT_USERNAME])) {
         $anon = COM_getDisplayName(1);
         if (strcmp($_POST[CMT_USERNAME], $anon) != 0) {
@@ -1305,7 +1303,7 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             setcookie($_CONF['cookie_anon_name'], $username, time() + 31536000,
                       $_CONF['cookie_path'], $_CONF['cookiedomain'],
                       $_CONF['cookiesecure']);
-            $name = addslashes($username);
+            $name = DB_escapeString($username);
         }
     }
 
@@ -1321,7 +1319,7 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
                    . 'to submit a comment with invalid $title and/or $comment.');
         return $ret = 5;
     } 
-    
+
     if (($_CONF['commentsubmission'] == 1) && !SEC_hasRights('comment.submit')) {
         // comment into comment submission table enabled
         if (isset($name)) {
@@ -1356,12 +1354,16 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
             }
 
             $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
+
         } else { //replying to non-existent comment or comment in wrong article
             COM_errorLog("CMT_saveComment: $uid from {$_SERVER['REMOTE_ADDR']} tried "
                        . 'to reply to a non-existent comment or the pid/sid did not match');
             $ret = 4; // Cannot return here, tables locked!
         }
         DB_unlockTable($_TABLES['comments']);
+        
+        // Update Comment Feeds
+        COM_rdfUpToDateCheck('comment');        
         
         // notify parent of new comment
         // Must occur after table unlock, only with valid $cid and $pid
@@ -1392,6 +1394,9 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
         
         $cid = DB_insertId('',$_TABLES['comments'].'_cid_seq');
         DB_unlockTable($_TABLES['comments']);
+        
+        // Update Comment Feeds
+        COM_rdfUpToDateCheck('comment');
     }
 
     // save user notification information
@@ -1546,13 +1551,16 @@ function CMT_deleteComment ($cid, $sid, $type)
            . "WHERE sid = '$sid' AND type = '$type'  AND lft >= $rht");
         DB_query("UPDATE {$_TABLES['comments']} SET rht = rht - 2 "
            . "WHERE sid = '$sid' AND type = '$type'  AND rht >= $rht");
+        DB_unlockTable ($_TABLES['comments']);
+        
+        // Update Comment Feeds
+        COM_rdfUpToDateCheck('comment');
     } else {
+        DB_unlockTable ($_TABLES['comments']);
         COM_errorLog("CMT_deleteComment: {$_USER['uid']} from {$_SERVER['REMOTE_ADDR']} tried "
                    . 'to delete a comment that doesn\'t exist as described.');
         return $ret = 2;
     }
-
-    DB_unlockTable ($_TABLES['comments']);
 
     return $ret;
 }
@@ -1764,8 +1772,8 @@ function CMT_handleEditSubmit($mode = null)
     
     if (!empty ($title) && !empty ($comment)) {
         COM_updateSpeedlimit ('comment');
-        $title = addslashes ($title);
-        $comment = addslashes ($comment);
+        $title = DB_escapeString($title);
+        $comment = DB_escapeString($comment);
   
         // save the comment into the table
         DB_query("UPDATE $table SET comment = '$comment', title = '$title', type = '$type'"
@@ -1777,8 +1785,11 @@ function CMT_handleEditSubmit($mode = null)
             return COM_refresh($_CONF['site_url'] . '/index.php');
         }
         //save edit information for published comment
+        // Update any feeds
         if ($mode != $LANG03[35]) {
             DB_save($_TABLES['commentedits'],'cid,uid,time',"$cid,$uid,NOW()");
+            
+            COM_rdfUpToDateCheck('comment');
         } else {
             return COM_refresh (COM_buildUrl ($_CONF['site_admin_url'] . "/moderation.php"));
         }
@@ -1823,7 +1834,7 @@ function CMT_prepareText($comment, $postmode, $type, $edit = false, $cid = null)
         $comment = htmlspecialchars(COM_checkWords(COM_stripslashes($comment)));
         $newcomment = COM_makeClickableLinks ($comment);
         if (strcmp ($comment, $newcomment) != 0) {
-            $comment = nl2br ($newcomment);
+            $comment = COM_nl2br($newcomment);
         }
     }
     
@@ -1850,7 +1861,7 @@ function CMT_prepareText($comment, $postmode, $type, $edit = false, $cid = null)
         if (!empty ($sig)) {
             $comment .= '<!-- COMMENTSIG --><div class="comment-sig">';
             if ( $postmode == 'html') {
-                $comment .= '---<br' . XHTML . '>' . nl2br($sig);
+                $comment .= '---<br' . XHTML . '>' . COM_nl2br($sig);
             } else {
                 $comment .=  '---' . LB . $sig;
             }
@@ -1945,12 +1956,12 @@ function CMT_approveModeration($cid)
         $indent = 0;
     }
 
-    $A['title'] = addslashes($A['title']);
-    $A['comment'] = addslashes($A['comment']);
+    $A['title'] = DB_escapeString($A['title']);
+    $A['comment'] = DB_escapeString($A['comment']);
 
     if (isset($A['name'])) {
         // insert data
-        $A['name'] = addslashes($A['name']);
+        $A['name'] = DB_escapeString($A['name']);
         DB_save($_TABLES['comments'], 'type,sid,date,title,comment,uid,name,pid,ipaddress,indent',
                         "'{$A['type']}','{$A['sid']}','{$A['date']}','{$A['title']}','{$A['comment']}','{$A['uid']}',".
                         "'{$A['name']}','{$A['pid']}','{$A['ipaddress']}',$indent");
@@ -1973,6 +1984,9 @@ function CMT_approveModeration($cid)
             CMT_sendReplyNotification($B);
         }
     }
+    
+    // Update Comment Feeds
+    COM_rdfUpToDateCheck('comment');
 
     return $A['sid'];
 }
@@ -2216,7 +2230,7 @@ function CMT_handleEdit($mode='', $postmode='', $format, $order, $page)
     // Filemgmt plugin is doing special processing.
     // Therefore, I support specially, against my better judgment.
     // May should delete this code part.
-    if ($type == 'filemgmt') {
+    if ($type == 'filemgmt' AND $mode != 'editsubmission') {
         $sid = 'fileid_' . $sid;
     }
 
@@ -2362,7 +2376,7 @@ function CMT_handleComment($mode='', $type='', $title='', $sid='', $format='')
             $pid = $cid;
         }
         if (($pid > 0) && empty($title)) {
-            $atype = addslashes($type);
+            $atype = DB_escapeString($type);
             $title = DB_getItem($_TABLES['comments'], 'title',
                                 "(cid = $pid) AND (type = '$atype')");
         }
@@ -2480,7 +2494,7 @@ function CMT_handleComment($mode='', $type='', $title='', $sid='', $format='')
             $cid = 0;
             $key = COM_applyFilter($_GET['key']);
             if (!empty($key)) {
-                $key = addslashes($key);
+                $key = DB_escapeString($key);
                 $cid = DB_getItem($_TABLES['commentnotifications'], 'cid',
                                   "deletehash = '$key'");
 
@@ -2529,7 +2543,7 @@ function CMT_handleComment($mode='', $type='', $title='', $sid='', $format='')
 
             if (!$abort && !empty($sid) && !empty($type)) {
                 if (($pid > 0) && empty($title)) {
-                    $atype = addslashes($type);
+                    $atype = DB_escapeString($type);
                     $title = DB_getItem($_TABLES['comments'], 'title',
                                         "(cid = $pid) AND (type = '$atype')");
                 }
@@ -2603,126 +2617,208 @@ function CMT_getCommentUrlId($type)
     return $retval;
 }
 
-/**
- * article: saves a comment
- *
- * @param   string  $title  comment title
- * @param   string  $comment comment text
- * @param   string  $id     Item id to which $cid belongs
- * @param   int     $pid    comment parent
- * @param   string  $postmode 'html' or 'text'
- * @return  mixed   false for failure, HTML string (redirect?) for success
+/*
+ * Implement *some* of the Plugin API functions for comments. While comments
+ * aren't a plugin (and likely never will be), implementing some of the API
+ * functions here will save us from doing special handling elsewhere.
  */
-function plugin_savecomment_article($title, $comment, $id, $pid, $postmode)
-{
-    global $_CONF, $_TABLES, $LANG03, $_USER;
-
-    $retval = '';
-
-    $commentcode = DB_getItem($_TABLES['stories'], 'commentcode',
-                "(sid = '$id') AND (draft_flag = 0) AND (date <= NOW())"
-                . COM_getPermSQL('AND'));
-    if (!isset($commentcode) || ($commentcode != 0 || TOPIC_hasMultiTopicAccess('article', $id) < 2)) { // Need read access of topics to post comment
-        return COM_refresh($_CONF['site_url'] . '/index.php');
-    }
-
-    $ret = CMT_saveComment($title, $comment, $id, $pid, 'article', $postmode);
-    if ($ret == -1) {
-        $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story=' . $id);
-        $url .= (strpos($url, '?') ? '&' : '?') . 'msg=15';
-        $retval = COM_refresh($url);
-    } elseif ($ret > 0) { // failure
-        // FIXME: some failures should not return to comment form
-        $retval .= CMT_commentForm($title, $comment, $id, $pid, 'article',
-                                  $LANG03[14], $postmode);
-        $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
-    } else { // success
-        $comments = DB_count($_TABLES['comments'], array('type', 'sid'), array('article', $id));
-        DB_change($_TABLES['stories'], 'comments', $comments, 'sid', $id);
-        COM_olderStuff(); // update comment count in Older Stories block
-        $retval = COM_refresh(COM_buildUrl($_CONF['site_url']
-                              . "/article.php?story=$id"));
-    }
-
-    return $retval;
-}
 
 /**
- * article: delete a comment
- *
- * @param   int     $cid    Comment to be deleted
- * @param   string  $id     Item id to which $cid belongs
- * @return  mixed   false for failure, HTML string (redirect?) for success
- */
-function plugin_deletecomment_article($cid, $id)
-{
-    global $_CONF, $_TABLES, $_USER;
-
-    $retval = '';
-
-    $has_editPermissions = SEC_hasRights ('story.edit');
-    $result = DB_query ("SELECT owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon "
-                      . "FROM {$_TABLES['stories']} WHERE sid = '$id'");
-    $A = DB_fetchArray ($result);
-
-    if ($has_editPermissions && SEC_hasAccess ($A['owner_id'],
-            $A['group_id'], $A['perm_owner'], $A['perm_group'],
-            $A['perm_members'], $A['perm_anon']) == 3) {
-        CMT_deleteComment($cid, $id, 'article');
-        $comments = DB_count ($_TABLES['comments'], 'sid', $id);
-        DB_change ($_TABLES['stories'], 'comments', $comments, 'sid', $id);
-        $retval .= COM_refresh(COM_buildUrl($_CONF['site_url']
-                 . "/article.php?story=$id") . '#comments');
-    } else {
-        COM_errorLog ("User {$_USER['username']} (IP: {$_SERVER['REMOTE_ADDR']}) "
-                    . "tried to illegally delete comment $cid from $type $id");
-        $retval .= COM_refresh ($_CONF['site_url'] . '/index.php');
-    }
-
-    return $retval;
-}
-
-/**
- * article: display [a] comment[s]
- *
- * @param   string  $id     Unique idenifier for item comment belongs to
- * @param   int     $cid    Comment id to display (possibly including sub-comments)
- * @param   string  $title  Page/comment title
- * @param   string  $order  'ASC' or 'DESC' or blank
- * @param   string  $format 'threaded', 'nested', or 'flat'
- * @param   int     $page   Page number of comments to display
- * @param   boolean $view   True to view comment (by cid), false to display (by $pid)
- * @return  mixed   results of calling the plugin_displaycomment_ function
+* Do we support comment feeds? (use plugin api)
+*
+* @return   array   id/name pairs of all supported feeds
+*
 */
-function plugin_displaycomment_article($id, $cid, $title, $order, $format, $page, $view)
+function plugin_getfeednames_comment()
 {
-    global $_TABLES, $LANG_ACCESS;
+    global $_TABLES, $LANG33;
 
-    $retval = '';
+    $feeds = array ();
+    
+    $feeds[] = array ('id' => 'all', 'name' => $LANG33[23]);
 
-    $sql = 'SELECT COUNT(*) AS count, commentcode, owner_id, group_id, perm_owner, perm_group, '
-         . "perm_members, perm_anon FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE (sid = '$id') "
-         . 'AND (draft_flag = 0) AND (commentcode >= 0) AND (date <= NOW()) AND ta.type = "article" AND ta.id = sid ' . COM_getPermSQL('AND') 
-         . COM_getTopicSQL('AND', 0, 'ta') . ' GROUP BY sid, owner_id, group_id, perm_owner, perm_group,perm_members, perm_anon ';
-    $result = DB_query ($sql);
-    $A = DB_fetchArray ($result);
-    $allowed = $A['count'];
+    $result = DB_query ("SELECT tid, topic FROM {$_TABLES['topics']} ".COM_getPermSQL('AND')." ORDER BY topic ASC");
+    $num = DB_numRows ($result);
 
-    if ($allowed > 0) { // Was equal 1 but when multiple topics in play the comment could belong to more than onetopic creating a higher count
-        $delete_option = (SEC_hasRights('story.edit') &&
-            (SEC_hasAccess($A['owner_id'], $A['group_id'],
-                $A['perm_owner'], $A['perm_group'], $A['perm_members'],
-                $A['perm_anon']) == 3));
-        $retval .= CMT_userComments ($id, $title, 'article', $order,
-                       $format, $cid, $page, $view, $delete_option,
-                       $A['commentcode']);
-    } else {
-        $retval .= COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $LANG_ACCESS['storydenialmsg']
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    if ($num > 0) {
+        for ($i = 0; $i < $num; $i++) {
+            $A = DB_fetchArray ($result);
+            $feeds[] = array ('id' => $A['tid'], 'name' => $A['topic']);
+        }
     }
 
-    return $retval;
+    return $feeds;
 }
+
+/**
+* Provide feed data
+*
+* @param    int     $feed       feed ID
+* @param    ref     $link
+* @param    ref     $update
+* @return   array               feed entries
+*
+*/
+function plugin_getfeedcontent_comment ($feed, &$link, &$update)
+{
+    global $_CONF, $_TABLES;
+
+    $result = DB_query( "SELECT topic,limits,content_length FROM {$_TABLES['syndication']} WHERE fid = '$feed'" );
+    $S = DB_fetchArray( $result );
+    
+    // If topic is all then make it root so all topics are returned (since articles cannot belong to all topics)
+    if ($S['topic'] == TOPIC_ALL_OPTION OR empty($S['topic'])) {
+       $S['topic'] = TOPIC_ROOT;
+    }
+   
+    // Retrieve list of inherited topics for anonymous user
+    $tid_list = TOPIC_getChildList($S['topic'], 1);
+    
+    $sql = "SELECT c.cid, c.sid, c.title as title, c.comment, UNIX_TIMESTAMP(c.date) AS modified, "    
+            ." s.title as articleTitle, c.uid, s.uid as articleAuthor "
+            . "FROM {$_TABLES['comments']} c, {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta "
+            . "WHERE (s.draft_flag = 0) AND (s.date <= NOW()) "
+            . COM_getPermSQL('AND', 1, 2, 's')
+            . " AND ta.type = 'article' AND ta.id = s.sid "
+            ." AND c.type = 'article' AND s.sid = c.sid "
+            . "AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$S['topic']}'))) "
+            . "GROUP BY c.cid "
+            . "ORDER BY modified DESC  LIMIT 0, {$S['limits']} ";    
+
+    $result = DB_query( $sql );
+
+    $content = array();
+    $cids = array();
+    $nrows = DB_numRows( $result );
+
+    for( $i = 0; $i < $nrows; $i++ )
+    {
+        $row = DB_fetchArray( $result );
+        $cids[] = $row['cid'];
+        
+        $title = stripslashes( $row['title'] );
+        $body = stripslashes( $row['comment'] );
+        if ($S['content_length'] > 1) {
+            $body = SYND_truncateSummary( $body, $S['content_length'] );
+        }
+        $articleLink = COM_buildUrl( $_CONF['site_url']
+                  ."/article.php?story={$row['sid']}");
+
+        $link = $_CONF['site_url']."/comment.php?mode=view&cid={$row['cid']}";
+        $articleTitle = $row['articleTitle'];
+        
+        if( $_CONF['comment_feeds_article_tag_position'] != 'none' )
+        {
+            
+            $articleAuthor = sprintf($_CONF['comment_feeds_article_author_tag'],
+                    $_CONF['site_url'].'/users.php?mode=profile&uid='.$row['articleAuthor'],
+                    COM_getDisplayName( $row['articleAuthor']));
+            $commentAuthor = sprintf($_CONF['comment_feeds_comment_author_tag'], 
+                    $_CONF['site_url'].'/users.php?mode=profile&uid='.$row['uid'],
+                    COM_getDisplayName( $row['uid'] ));
+            $magicTag = sprintf($_CONF['comment_feeds_article_tag'], $articleLink, $articleTitle, $articleAuthor, $commentAuthor);
+            if( $_CONF['comment_feeds_article_tag_position'] == 'start' )
+            {
+                $body = $magicTag.$body;
+            } else {
+                $body .= $magicTag;
+            }
+        }
+
+        $content[] = array( 'title'   => $title,
+                            'summary' => $body,
+                            'link'    => $link,
+                            'uid'     => $row['uid'],
+                            'author'  => COM_getDisplayName( $row['uid'] ),
+                            'date'    => $row['modified'],
+                            'format'  => 'html'
+                          );
+    }
+
+    $link = $_CONF['site_url'];
+    $update = implode( ',', $cids );
+    
+    return $content;
+}
+
+/**
+* Checking if comment feeds are up to date
+*
+* @param    int     $feed           id of feed to be checked
+* @param    string  $topic          topic
+* @param    string  $update_data    data describing current feed contents
+* @param    string  $limit          number of entries or number of hours
+* @param    string  $updated_type   (optional) type of feed to be updated
+* @param    string  $updated_topic  (optional) feed's "topic" to be updated
+* @param    string  $updated_id     (optional) id of entry that has changed
+* @return   boolean                 true: feed data is up to date; false: isn't
+*
+*/
+function plugin_feedupdatecheck_comment ($feed, $topic, $update_data, $limit, $updated_type = '', $updated_topic = '', $updated_id = '')
+{
+    global $_TABLES, $_TOPICS;
+
+    $is_current = true;
+
+    if ($updated_type != 'comment') {
+        // we're not interested
+        $updated_type = '';
+        $updated_topic = '';
+        $updated_id = '';
+    }
+
+    /* Original
+    $sql = "SELECT c.cid, UNIX_TIMESTAMP(c.date) AS modified "
+           ." FROM {$_TABLES['comments']} as c "
+           ." JOIN {$_TABLES['stories']} as s ON s.sid = c.sid "
+           ." JOIN {$_TABLES['topics']} as t ON t.tid = s.tid "
+           .COM_getPermSQL('WHERE', 1, 2, 's')
+           .COM_getPermSQL('AND', 1, 2, 't')
+           ." AND type='article' ";
+   */
+
+    /*       
+    if( $topic != 'all' )
+    {
+        $sql .= " AND topic='{$topic}' ";
+    } */
+    
+   
+   // If topic is all then make it root so all topics are returned (since articles cannot belong to all topics)
+   if ($topic == TOPIC_ALL_OPTION OR empty($topic)) {
+       $topic = TOPIC_ROOT;
+   }
+   
+    // Retrieve list of inherited topics for anonymous user
+    $tid_list = TOPIC_getChildList($topic, 1);
+    
+    $sql = "SELECT c.cid, UNIX_TIMESTAMP(c.date) AS modified "
+            . "FROM {$_TABLES['comments']} c, {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta "
+            . "WHERE (s.draft_flag = 0) AND (s.date <= NOW()) "
+            . COM_getPermSQL('AND', 1, 2, 's')
+            . " AND ta.type = 'article' AND ta.id = s.sid "
+            ." AND c.type = 'article' AND s.sid = c.sid "
+            . "AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$topic}'))) "
+            . "GROUP BY c.cid "
+            . "ORDER BY modified DESC  LIMIT 0, {$limit} ";
+            
+    $result = DB_query ($sql);
+    $num = DB_numRows ($result);
+
+    $cids = array ();
+    for ($i = 0; $i < $num; $i++) {
+        $A = DB_fetchArray ($result);
+
+        if ($A['cid'] == $updated_id) {
+            // this feed has to be updated - no further checks needed
+            return false;
+        }
+
+        $cids[] = $A['cid'];
+    }
+    $current = implode (',', $cids);
+
+    return ($current != $update_data) ? false : true;
+}
+
 ?>

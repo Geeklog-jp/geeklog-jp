@@ -47,7 +47,7 @@ require_once 'lib-upgrade.php';
  */
 function INST_installEngine($install_type, $install_step)
 {
-    global $_CONF, $_TABLES, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_DB_dbms, $_DB_table_prefix, $_URL, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $form_label_dir, $use_innodb, $LANG_INSTALL_JP;
+    global $_CONF, $_TABLES, $LANG_INSTALL, $LANG_CHARSET, $_DB, $_DB_dbms, $_DB_table_prefix, $_URL, $gl_path, $html_path, $dbconfig_path, $siteconfig_path, $display, $language, $form_label_dir, $use_innodb;
 
     switch ($install_step) {
 
@@ -267,10 +267,12 @@ function INST_installEngine($install_type, $install_step)
             }
 
             // for the default charset, patch siteconfig.php again
-            if (!INST_setDefaultCharset($siteconfig_path,
-                    ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
-                exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
-                     . $LANG_INSTALL[58]);
+            if ($install_type != 'upgrade') {
+                if (!INST_setDefaultCharset($siteconfig_path,
+                        ($utf8 ? 'utf-8' : $LANG_CHARSET))) {
+                    exit($LANG_INSTALL[26] . ' ' . $siteconfig_path
+                         . $LANG_INSTALL[58]);
+                }
             }
 
             require $dbconfig_path;
@@ -711,7 +713,7 @@ function INST_checkIfWritable($files)
  */
 function INST_permissionWarning($files)
 {
-    global $LANG_INSTALL, $form_label_dir, $LANG_INSTALL_JP;
+    global $LANG_INSTALL, $form_label_dir;
     $display .= '
         <div class="install-path-container-outer">
             <div class="install-path-container-inner">
@@ -1045,9 +1047,7 @@ if (INST_phpOutOfDate()) {
 
         $display .= '<h1 class="heading">' . $LANG_INSTALL[3] . '</h1>' . LB;
 
-        require_once $siteconfig_path; // We need siteconfig.php for core $_CONF['path'] values.
-        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)
-                                                    && !file_exists($_CONF['path'] . $dbconfig_file)) {
+        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
             // If the file/directory is not located in the default location
             // or in public_html have the user enter its location.
             $form_fields .= '<p><label class="' . $form_label_dir . '"><code>db-config.php</code></label> ' . LB
@@ -1056,13 +1056,9 @@ if (INST_phpOutOfDate()) {
             $num_errors++;
         } else {
             // See whether the file/directory is located in the default place or in public_html
-            if (file_exists($gl_path . $dbconfig_file)) {
-                $dbconfig_path = $gl_path . $dbconfig_file;
-            } else if (file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
-                $dbconfig_path = $gl_path . 'public_html/' . $dbconfig_file;
-            } else {
-                $dbconfig_path = $_CONF['path'] . $dbconfig_file;
-            }
+            $dbconfig_path = file_exists($gl_path . $dbconfig_file)
+                                ? $gl_path . $dbconfig_file
+                                : $gl_path . 'public_html/' . $dbconfig_file;
         }
 
         if ($num_errors == 0) {
@@ -1166,7 +1162,7 @@ if (INST_phpOutOfDate()) {
             /**
              * Display permissions, etc
              */
-            if ($num_wrong && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
+            if ($num_wrong) {
                 // If any files have incorrect permissions.
 
                 $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
@@ -1228,7 +1224,7 @@ if (INST_phpOutOfDate()) {
             // Show the "Select your installation method" buttons
             $upgr_class = ($LANG_DIRECTION == 'rtl') ? 'upgrade-rtl' : 'upgrade' ;
             $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[23] . '</h1>' . LB
-                . '<p><form action="index.php" method="get">' . LB
+                . '<div><form action="index.php" method="get">' . LB
                 . '<input type="hidden" name="dbconfig_path" value="' . htmlspecialchars($dbconfig_path) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="mode" value="' . htmlspecialchars($mode) . '"' . XHTML . '>' . LB
                 . '<input type="hidden" name="language" value="' . $language . '"' . XHTML . '>' . LB
@@ -1236,7 +1232,7 @@ if (INST_phpOutOfDate()) {
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[24] . '"' . XHTML .'>' . LB
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[25] . '"' . XHTML .'>' . LB
                 . '<input type="submit" name="install_type" class="button big-button" value="' . $LANG_INSTALL[16] . '"' . XHTML .'>' . LB
-                . '</form> </p> <br' . XHTML . '>' . LB;
+                . '</form> </div> <br' . XHTML . '>' . LB;
 
         }
         break;

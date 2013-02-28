@@ -45,7 +45,7 @@ $_UPDATES = array(
         "DELETE FROM {$_TABLES['blocks']} WHERE phpblockfn = 'phpblock_calendar'", 
         "INSERT INTO {$_TABLES['features']} (ft_name, ft_descr, ft_gl_core) VALUES ('config.calendar.tab_events_block', 'Access to configure events block', 0)"
     ),
-    
+
     // Pgsql doesn't support the change of a column definition, so the update task
     // will be done calendar_update_Zipcode_1_1_2().
 //  '1.1.3' => array(

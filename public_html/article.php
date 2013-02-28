@@ -446,7 +446,7 @@ if ($A['count'] > 0) {
         $display .= $story_template->finish ($story_template->parse ('output', 'article'));
         
         $breadcrumbs = TOPIC_breadcrumbs('article', $story->getSid());
-        
+
         $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle, 'breadcrumbs' => $breadcrumbs, 'headercode' => $headercode));
     }
 } else {

@@ -493,7 +493,7 @@ function savetopic($tid,$topic,$inherit,$hidden,$parent_id,$imageurl,$meta_descr
             }
             
             // If not a new topic and id change then...
-                if (! empty($old_tid)) {
+            if (!empty($old_tid)) {
                 if ($tid != $old_tid) {
                     changetopicid($tid, $old_tid);
     
@@ -503,7 +503,7 @@ function savetopic($tid,$topic,$inherit,$hidden,$parent_id,$imageurl,$meta_descr
             }
     
             DB_save($_TABLES['topics'],'tid, topic, inherit, hidden, parent_id, imageurl, meta_description, meta_keywords, sortnum, limitnews, is_default, archive_flag, owner_id, group_id, perm_owner, perm_group, perm_members, perm_anon',"'$tid', '$topic', $inherit, $hidden, '$parent_id', '$imageurl', '$meta_description', '$meta_keywords','$sortnum','$limitnews',$is_default,'$is_archive',$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon");
-    
+            
             // Update Topics Array to reflect any changes since not sure what is called after
             $_TOPICS = TOPIC_buildTree(TOPIC_ROOT, true);
     

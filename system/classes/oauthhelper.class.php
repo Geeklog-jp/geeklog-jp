@@ -5,7 +5,7 @@
 // | Geeklog 1.8                                                               |
 // +---------------------------------------------------------------------------+
 // | oauthhelper.class.php                                                     |
-// | version: 1.0.0                                                            |
+// | version: 1.0.1                                                            |
 // |                                                                           |
 // | Geeklog Distributed Authentication Module.                                |
 // +---------------------------------------------------------------------------+
@@ -107,7 +107,7 @@ class OAuthConsumerBaseClass {
     protected $request = '';
     protected $consumer = '';
     protected $errormsg = '';
-    protected $shortapi = 'http://api.tr.im/api/trim_url.xml';
+    protected $shortapi = '';
     public $consumer_key = '';
     public $consumer_secret = '';
     public $url_requestToken = '';
@@ -117,6 +117,7 @@ class OAuthConsumerBaseClass {
     public $method_requestToken = 'GET';
     public $method_accessToken = 'GET';
     public $method_userinfo = 'GET';
+    public $dataformat = 'xml';
     public $cookietimeout = 300;    // google Callbacks 5min
     public $token = '';
     public $token_secret = '';
@@ -179,7 +180,11 @@ class OAuthConsumerBaseClass {
             if ($response->getStatus() !== 200) {
                 $this->errormsg = $response->getStatus() . ' : ' . $response->getBody();
             } else {
-                $userinfo = simplexml_load_string($response->getBody());
+                if ($this->dataformat == 'json') {
+                    $userinfo = json_decode($response->getBody());
+                } else {
+                    $userinfo = simplexml_load_string($response->getBody());
+                }
             }
         } catch (HTTP_OAuth_Consumer_Exception_Invalid_Response $e) {
             $this->errormsg = get_class($e) . ': ' . $e->getBody();
@@ -205,21 +210,21 @@ class OAuthConsumerBaseClass {
         if (is_array($users)) {
             $sql = "UPDATE {$_TABLES['users']} SET ";
             if (!empty($users['fullname'])) {
-                $fn = addslashes(strip_tags($users['fullname']));
+                $fn = DB_escapeString(strip_tags($users['fullname']));
                 $updatecolumns .= "fullname='$fn'";
             }
             if (!empty($users['email'])) {
                 if (!empty($updatecolumns)) {
                     $updatecolumns .= ", ";
                 }
-                $em = addslashes(COM_applyFilter($users['email']));
+                $em = DB_escapeString(COM_applyFilter($users['email']));
                 $updatecolumns .= "email='$em'";
             }
             if (!empty($users['homepage'])) {
                 if (!empty($updatecolumns)) {
                     $updatecolumns .= ", ";
                 }
-                $hp = addslashes(COM_applyFilter($users['homepage']));
+                $hp = DB_escapeString(COM_applyFilter($users['homepage']));
                 $updatecolumns .= "homepage='$hp'";
             }
             $sql = $sql . $updatecolumns . " WHERE uid={$_USER['uid']}";
@@ -345,11 +350,11 @@ class OAuthConsumerBaseClass {
             // COM_errorLog("userinfo[location]={$userinfo['location']}");
             $sql = "UPDATE {$_TABLES['userinfo']} SET";
             if (! empty($userinfo['about'])) {
-                $sql .= " about = '" . addslashes(strip_tags($userinfo['about'])) . "'";
+                $sql .= " about = '" . DB_escapeString(strip_tags($userinfo['about'])) . "'";
             }
             $sql .= (!empty($userinfo['about']) && !empty($userinfo['location'])) ? "," : "";
             if (! empty($userinfo['location'])) {
-                $sql .= " location = '" . addslashes(strip_tags($userinfo['location'])) . "'";
+                $sql .= " location = '" . DB_escapeString(strip_tags($userinfo['location'])) . "'";
             }
             $sql .= " WHERE uid = {$uid}";
             // COM_errorLog("sql={$sql}");
@@ -391,6 +396,7 @@ class OAuthConsumerBaseClass {
     }
 
     protected function _shorten($url) {
+        if (empty($this->shortapi)) { return $url; }
         $this->request->setUrl($this->shortapi.'?url='.$url);
         $this->request->setMethod('GET');
         $response = $this->request->send();

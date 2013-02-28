@@ -550,21 +550,21 @@ CREATE TABLE {$_TABLES['vars']} (
 $_SQL[] = "
 CREATE OR REPLACE FUNCTION UNIX_TIMESTAMP(timestamp with time zone) RETURNS integer AS '
 SELECT ROUND(EXTRACT(EPOCH FROM ABSTIME($1)))::int4 AS result;
-' LANGUAGE 'SQL';
+' LANGUAGE SQL;
 ";
 
 $_SQL[] = "
 CREATE OR REPLACE FUNCTION UNIX_TIMESTAMP() RETURNS integer AS '
 SELECT ROUND(EXTRACT(EPOCH FROM ABSTIME(NOW())))::int4 AS result;
-' LANGUAGE 'SQL';
+' LANGUAGE SQL;
 ";
 
 $_SQL[] = "CREATE OR REPLACE FUNCTION FROM_UNIXTIME(integer) RETURNS timestamp AS '
 SELECT $1::ABSTIME::TIMESTAMP AS result;
-' LANGUAGE 'SQL';
+' LANGUAGE SQL;
 ";
 
-$_SQL[] = "CREATE OR REPLACE FUNCTION CURDATE() RETURNS date AS 'SELECT current_date AS result' LANGUAGE 'SQL';";
+$_SQL[] = "CREATE OR REPLACE FUNCTION CURDATE() RETURNS date AS 'SELECT current_date AS result' LANGUAGE SQL;";
 
 $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (1,3) ";
 $_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (2,3) ";
@@ -848,6 +848,7 @@ $_DATA[] = "INSERT INTO {$_TABLES['users']} (uid, username, fullname, passwd, em
 $_DATA[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('totalhits','0') ";
 $_DATA[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('lastemailedstories','') ";
 $_DATA[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('last_scheduled_run','') ";
+$_DATA[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('last_article_publish','') ";
 $_DATA[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('database_version','0.0.0') ";
 
 $_DATA[] = "INSERT INTO {$_TABLES['trackbackcodes']} (code, name) VALUES (0,'Trackback Enabled') ";

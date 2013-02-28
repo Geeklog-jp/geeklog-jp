@@ -225,9 +225,9 @@ require_once( $_CONF['path_system'] . 'lib-topic.php' );
 */
 
 if (isset($_GET['topic'])) {
-    $topic = COM_applyFilter( $_GET['topic'] );
-} elseif (isset( $_POST['topic'])) {
-    $topic = COM_applyFilter( $_POST['topic'] );
+    $topic = COM_applyFilter($_GET['topic']);
+} elseif (isset($_POST['topic'])) {
+    $topic = COM_applyFilter($_POST['topic']);
 } else {
     $topic = '';
 }
@@ -494,6 +494,28 @@ $_RIGHTS = explode( ',', SEC_getUserPermissions() );
 */
 $_TOPICS = TOPIC_buildTree(TOPIC_ROOT, true);
 
+// Figure out if we need to update article feeds. Check last article date punlished in feed
+$sql = "SELECT date FROM {$_TABLES['stories']} WHERE draft_flag = 0 AND date <= NOW() AND perm_anon > 0 ORDER BY date DESC LIMIT 1";
+$result = DB_query($sql);
+$A = DB_fetchArray($result);
+if (DB_getItem($_TABLES['vars'], 'value', "name='last_article_publish'") != $A['date']) {
+    //Set new latest article published
+    DB_query("UPDATE {$_TABLES['vars']} SET value='{$A['date']}' WHERE name='last_article_publish'");
+
+    // We need to see if there are currently two featured articles (because of future article).
+    // Can only have one but you can have one current featured article
+    // and one for the future...this check will set the latest one as featured
+    // solely
+    COM_featuredCheck();
+    
+    // Geeklog now allows for articles to be published in the future.  Because of
+    // this, we need to check to see if we need to rebuild the RDF file in the case
+    // that any such articles have now been published. Need to do this for comments
+    // as well since article can have comments
+    COM_rdfUpToDateCheck('article');
+    COM_rdfUpToDateCheck('comment');
+}
+
 // +---------------------------------------------------------------------------+
 // | HTML WIDGETS                                                              |
 // +---------------------------------------------------------------------------+
@@ -682,15 +704,9 @@ function COM_renderMenu( &$header, $plugin_menu )
         switch( $item )
         {
             case 'contribute':
-                if (empty($topic)) {
-                    $url = $_CONF['site_url'] . '/submit.php?type=story';
-                    $header->set_var('current_topic', '');
-                } else {
-                    $tp = urlencode($topic);
-                    $url = $_CONF['site_url']
-                         . '/submit.php?type=story&amp;topic=' . $tp;
-                    $header->set_var('current_topic', '&amp;topic=' . $tp);
-                }
+                $url = $_CONF['site_url'] . '/submit.php?type=story';
+                $header->set_var('current_topic', '');
+
                 $label = $LANG01[71];
                 if ($anon && ($_CONF['loginrequired'] ||
                               $_CONF['submitloginrequired'])) {
@@ -975,7 +991,7 @@ function COM_siteHeader( $what = 'menu', $pagetitle = '', $headercode = '')
              . $_TABLES['syndication'] . " WHERE (header_tid = 'all')";
         if( !empty( $topic ))
         {
-            $sql .= " OR (header_tid = '" . addslashes( $topic ) . "')";
+            $sql .= " OR (header_tid = '" . DB_escapeString( $topic ) . "')";
         }
         $result = DB_query( $sql );
         $numRows = DB_numRows( $result );
@@ -1565,7 +1581,7 @@ function COM_siteFooter( $rightblock = -1, $custom = '' )
 * @param    array   $information    An array defining variables to be used when creating the output
 *                       string  'what'          If 'none' then no left blocks are returned, if 'menu' (default) then right blocks are returned
 *                       string  'pagetitle'     Optional content for the page's <title>
-*                       string  'breadcrumbs'   Optional content for the page's <title>
+*                       string  'breadcrumbs'   Optional content for the page's breadcrumb
 *                       string  'headercode'    Optional code to go into the page's <head>
 *                       boolean 'rightblock'    Whether or not to show blocks on right hand side default is no (-1)
 *                       array   'custom'        An array defining custom function to be used to format Rightblocks
@@ -1621,7 +1637,7 @@ function COM_createHTMLDocument(&$content = '', $information = array())
     $function = $_CONF['theme'] . '_createHTMLDocument';
 
     if( function_exists($function)) {
-        return $function( $content, $what, $pagetitle, $headercode, $rightblock, $custom );
+        return $function($content, $information);
     }
 
     // If we reach here then either we have the default theme OR
@@ -1691,7 +1707,7 @@ function COM_createHTMLDocument(&$content = '', $information = array())
              . $_TABLES['syndication'] . " WHERE (header_tid = 'all')";
         if( !empty( $topic ))
         {
-            $sql .= " OR (header_tid = '" . addslashes( $topic ) . "')";
+            $sql .= " OR (header_tid = '" . DB_escapeString( $topic ) . "')";
         }
         $result = DB_query( $sql );
         $numRows = DB_numRows( $result );
@@ -1873,7 +1889,7 @@ function COM_createHTMLDocument(&$content = '', $information = array())
 
     // Call to plugins to set template variables in the header
     PLG_templateSetVars( 'header', $header );
-
+    
     if( $_CONF['left_blocks_in_footer'] == 1 )
     {
         $header->set_var( 'left_blocks', '' );
@@ -2650,38 +2666,30 @@ function COM_rdfUpToDateCheck( $updated_type = '', $updated_topic = '', $updated
 {
     global $_CONF, $_TABLES;
 
-    if( $_CONF['backend'] > 0 )
-    {
-        if( !empty( $updated_type ) && ( $updated_type != 'article' ))
-        {
+    if ($_CONF['backend'] > 0) {
+        if (!empty( $updated_type)) {
             // when a plugin's feed is to be updated, skip Geeklog's own feeds
-            $sql = "SELECT fid,type,topic,limits,update_info FROM {$_TABLES['syndication']} WHERE (is_enabled = 1) AND (type <> 'article')";
-        }
-        else
-        {
+            $sql = "SELECT fid,type,topic,limits,update_info FROM {$_TABLES['syndication']} WHERE (is_enabled = 1) AND (type = '{$updated_type}')";
+        } else {
             $sql = "SELECT fid,type,topic,limits,update_info FROM {$_TABLES['syndication']} WHERE is_enabled = 1";
         }
         $result = DB_query( $sql );
         $num = DB_numRows( $result );
-        for( $i = 0; $i < $num; $i++)
-        {
+        
+        for ($i = 0; $i < $num; $i++) {
             $A = DB_fetchArray( $result );
 
             $is_current = true;
-            if( $A['type'] == 'article' )
-            {
+            if ($A['type'] == 'article') {
                 $is_current = SYND_feedUpdateCheck( $A['topic'],
                                 $A['update_info'], $A['limits'],
                                 $updated_topic, $updated_id );
-            }
-            else
-            {
+            } else {
                 $is_current = PLG_feedUpdateCheck( $A['type'], $A['fid'],
                                 $A['topic'], $A['update_info'], $A['limits'],
                                 $updated_type, $updated_topic, $updated_id );
             }
-            if( !$is_current )
-            {
+            if (!$is_current) {
                 SYND_updateFeed( $A['fid'] );
             }
         }
@@ -2793,13 +2801,13 @@ function COM_errorLog( $logentry, $actionid = '' )
             case 2:
                 $retval .= COM_startBlock( $LANG01[55] . ' ' . $timestamp, '',
                                COM_getBlockTemplate( '_msg_block', 'header' ))
-                        . nl2br( $logentry )
+                        . COM_nl2br($logentry)
                         . COM_endBlock( COM_getBlockTemplate( '_msg_block',
                                                               'footer' ));
                 break;
 
             case 3:
-                $retval = nl2br($logentry);
+                $retval = COM_nl2br($logentry);
                 break;
 
             default:
@@ -2815,7 +2823,7 @@ function COM_errorLog( $logentry, $actionid = '' )
                     $retval .= COM_startBlock( $LANG01[34] . ' - ' . $timestamp,
                                    '', COM_getBlockTemplate( '_msg_block',
                                    'header' ))
-                            . nl2br( $logentry )
+                            . COM_nl2br($logentry)
                             . COM_endBlock( COM_getBlockTemplate( '_msg_block',
                                                                   'footer' ));
                 }
@@ -4136,8 +4144,8 @@ function COM_olderStuff()
     $sql['pgsql'] = "SELECT sid,ta.tid,title,comments,date_part('epoch',date) AS day 
         FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta  
         WHERE ta.type = 'article' AND ta.id = sid AND 
-        AND (perm_anon = 2) AND (frontpage = 1) AND (date <= NOW()) AND (draft_flag = 0)" . COM_getTopicSQL('AND', 1, 'ta') . " 
-        GROUP BY sid 
+        (perm_anon = 2) AND (frontpage = 1) AND (date <= NOW()) AND (draft_flag = 0)" . COM_getTopicSQL('AND', 1, 'ta') . " 
+        GROUP BY sid, ta.tid, title, comments, day 
         ORDER BY featured DESC, date DESC LIMIT {$_CONF['limitnews']}, {$_CONF['limitnews']}";
 
     $result = DB_query( $sql );
@@ -4187,7 +4195,7 @@ function COM_olderStuff()
             $daylist = COM_makeList( $oldnews, 'list-older-stories' );
             $daylist = preg_replace( "/(\015\012)|(\015)|(\012)/", '', $daylist );
             $string .= $daylist;
-            $string = addslashes( $string );
+            $string = DB_escapeString( $string );
 
             DB_query( "UPDATE {$_TABLES['blocks']} SET content = '$string' WHERE name = 'older_stories'" );
         }
@@ -4501,11 +4509,11 @@ function COM_formatBlock( $A, $noboxes = false )
         $blockcontent = stripslashes($A['content']);
 
         // Hack: If the block content starts with a '<' assume it
-        // contains HTML and do not call nl2br() which would only add
+        // contains HTML and do not call COM_nl2br() which would only add
         // unwanted <br> tags.
 
         if (substr(trim($blockcontent), 0, 1) != '<') {
-            $blockcontent = nl2br($blockcontent);
+            $blockcontent = COM_nl2br($blockcontent);
         }
 
         // autotags are only(!) allowed in normal blocks
@@ -4606,11 +4614,11 @@ function COM_rdfImport($bid, $rdfurl, $maxheadlines = 0)
         $update = date('Y-m-d H:i:s');
         $last_modified = '';
         if (!empty($factory->lastModified)) {
-            $last_modified = addslashes($factory->lastModified);
+            $last_modified = DB_escapeString($factory->lastModified);
         }
         $etag = '';
         if (!empty($factory->eTag)) {
-            $etag = addslashes($factory->eTag);
+            $etag = DB_escapeString($factory->eTag);
         }
 
         if (empty($last_modified) || empty($etag)) {
@@ -4653,14 +4661,14 @@ function COM_rdfImport($bid, $rdfurl, $maxheadlines = 0)
 
         // Standard theme based function to put it in the block
         $result = DB_change($_TABLES['blocks'], 'content',
-                            addslashes($content), 'bid', $bid);
+                            DB_escapeString($content), 'bid', $bid);
     } else if ($factory->errorStatus !== false) {
         // failed to aquire info, 0 out the block and log an error
         COM_errorLog("Unable to aquire feed reader for $rdfurl", 1);
         COM_errorLog($factory->errorStatus[0] . ' ' .
                      $factory->errorStatus[1] . ' ' .
                      $factory->errorStatus[2]);
-        $content = addslashes($LANG21[4]);
+        $content = DB_escapeString($LANG21[4]);
         DB_query("UPDATE {$_TABLES['blocks']} SET content = '$content', rdf_last_modified = NULL, rdf_etag = NULL WHERE bid = $bid");
     }
 }
@@ -5472,7 +5480,7 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
     }
 
     $first_url = '';
-    $last_url = '';    
+    $last_url = '';
     if (is_array($base_url)) {
         $first_url = current($base_url);
         $last_url = end($base_url);
@@ -5500,10 +5508,10 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
     $page_navigation->set_var('lang_last', $LANG05[8]);
 
     if ($curpage > 1) {
-         $pg = '';
+        $pg = '';
         if (($curpage - 1) > 1) {
-             $pg = $sep . $page_str . ( $curpage - 1 );
-         }
+            $pg = $sep . $page_str . ($curpage - 1);
+        }
         $page_navigation->set_var('start_first_anchortag', '<a href="' . $first_url . $last_url . '">');
         $page_navigation->set_var('end_first_anchortag', '</a>');
         $page_navigation->set_var('start_previous_anchortag', '<a href="' . $first_url . $pg . $last_url . '">');
@@ -5538,10 +5546,10 @@ function COM_printPageNavigation( $base_url, $curpage, $num_pages,
             $page_navigation->parse('pages', 'page-current', true);
             continue;
         }
-             $pg = '';
+        $pg = '';
         if ($pgcount > 1) {
-                 $pg = $sep . $page_str . $pgcount;
-             }
+            $pg = $sep . $page_str . $pgcount;
+        }
         $page_navigation->set_var('page_number', COM_createLink($pgcount, $first_url . $pg . $last_url));
         $page_navigation->parse('pages', 'page', true);
     }
@@ -6109,7 +6117,7 @@ function COM_checkSpeedlimit($type = 'submit', $max = 1, $property = '')
     if (empty($property)) {
         $property = $_SERVER['REMOTE_ADDR'];
     }
-    $property = addslashes($property);
+    $property = DB_escapeString($property);
 
     $res  = DB_query("SELECT date FROM {$_TABLES['speedlimit']} WHERE (type = '$type') AND (ipaddress = '$property') ORDER BY date ASC");
 
@@ -6146,7 +6154,7 @@ function COM_updateSpeedlimit($type = 'submit', $property = '')
     if (empty($property)) {
         $property = $_SERVER['REMOTE_ADDR'];
     }
-    $property = addslashes($property);
+    $property = DB_escapeString($property);
 
     DB_save($_TABLES['speedlimit'], 'ipaddress,date,type',
             "'$property',UNIX_TIMESTAMP(),'$type'");
@@ -6185,7 +6193,7 @@ function COM_resetSpeedlimit($type = 'submit', $property = '')
     if (empty($property)) {
         $property = $_SERVER['REMOTE_ADDR'];
     }
-    $property = addslashes($property);
+    $property = DB_escapeString($property);
 
     DB_delete($_TABLES['speedlimit'], array('type', 'ipaddress'),
                                       array($type, $property));
@@ -8176,11 +8184,11 @@ function COM_output($display)
 
             $zlib_comp = ini_get('zlib.output_compression');
             if (empty($zlib_comp) || (strcasecmp($zlib_comp, 'off') == 0)) {
-                if ( !function_exists('CUSTOM_MOBILE_is_cellular') || !CUSTOM_MOBILE_is_cellular() ) {
-                    header('Content-encoding: gzip');
-                    echo gzencode($display);
-                    return;
-                }
+
+                header('Content-encoding: gzip');
+                echo gzencode($display);
+                return;
+
             }
         }
     }
@@ -8401,6 +8409,87 @@ function COM_newTemplate($root, $options = Array())
     $T->set_var('site_admin_url', $_CONF['site_admin_url']);
     $T->set_var('layout_url', $_CONF['layout_url']);
     return $T;
+}
+
+/**
+ * Replaces all newlines in a string with <br> or <br />,
+ * depending on the detected setting.
+ * 
+ * @param    string    $string  The string to modify
+ * @return   string             The modified string
+ */
+function COM_nl2br($string)
+{
+    if (! defined('XHTML')) {
+        define('XHTML', '');
+    }
+
+    $tag = '<br' . XHTML . '>';
+    $find = array("\r\n", "\n\r", "\r", "\n");
+    $replace = array($tag."\r\n", $tag."\n\r", $tag."\r", $tag."\n");
+    return str_replace($find, $replace, $string);
+}
+
+/**
+* Returns the ISO-639-1 language code
+*
+* @param   string   $langName
+* @return  string
+*/
+function COM_getLangIso639Code($langName = NULL)
+{
+    $mapping = array(
+        // GL language name   => ISO-639-1
+        'afrikaans'           => 'af',
+        'bosnian'             => 'bs',
+        'bulgarian'           => 'bg',
+        'catalan'             => 'ca',
+        'chinese_simplified'  => 'zh-cn',
+        'chinese_traditional' => 'zh',
+        'croatian'            => 'hr',
+        'czech'               => 'cs',
+        'danish'              => 'da',
+        'dutch'               => 'nl',
+        'english'             => 'en',
+        'estonian'            => 'et',
+        'farsi'               => 'fa',
+        'finnish'             => 'fi',
+        'french_canada'       => 'fr-ca',
+        'french_france'       => 'fr',
+        'german'              => 'de',
+        'german_formal'       => 'de',
+        'hebrew'              => 'he',
+        'hellenic'            => 'el',
+		'indonesian'          => 'id',
+        'italian'             => 'it',
+        'japanese'            => 'ja',
+        'korean'              => 'ko',
+        'norwegian'           => 'no',	// Norwegian (nynorsk)
+//		'norwegian'           => 'nb',	// Norwegian (Bokmal)
+        'polish'              => 'pl',
+        'portuguese'          => 'pt',
+        'portuguese_brazil'   => 'pt-br',
+        'romanian'            => 'ro',
+        'russian'             => 'ru',
+        'serbian'             => 'sr',
+        'slovak'              => 'sk',
+        'slovenian'           => 'sl',
+        'spanish'             => 'es',
+        'spanish_argentina'   => 'es',
+        'swedish'             => 'sv',
+        'turkish'             => 'tr',
+        'ukrainian'           => 'uk',
+		'ukrainian_koi8-u'    => 'uk',
+    );
+
+    if ($langName === NULL) {
+        $langName = COM_getLanguage();
+    }
+
+    $langName = strtolower($langName);
+    $langName = str_replace('_utf-8', '', $langName);
+
+    return isset($mapping[$langName]) ? $mapping[$langName] : 'en';
 }
 
 /**

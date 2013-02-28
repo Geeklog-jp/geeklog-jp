@@ -345,9 +345,9 @@ class config {
     {
         global $_TABLES;
 
-        $escaped_val = addslashes(serialize($value));
-        $escaped_name = addslashes($name);
-        $escaped_grp = addslashes($group);
+        $escaped_val = DB_escapeString(serialize($value));
+        $escaped_name = DB_escapeString($name);
+        $escaped_grp = DB_escapeString($group);
         $sql = "UPDATE {$_TABLES['conf_values']} " .
                "SET value = '{$escaped_val}' WHERE " .
                "name = '{$escaped_name}' AND group_name = '{$escaped_grp}'";
@@ -369,9 +369,9 @@ class config {
     {
         global $_TABLES;
 
-        $escaped_val = addslashes(serialize($value));
-        $escaped_name = addslashes($name);
-        $escaped_grp = addslashes($group);
+        $escaped_val = DB_escapeString(serialize($value));
+        $escaped_name = DB_escapeString($name);
+        $escaped_grp = DB_escapeString($group);
         $sql = "UPDATE {$_TABLES['conf_values']} " .
                "SET default_value = '{$escaped_val}' WHERE " .
                "name = '{$escaped_name}' AND group_name = '{$escaped_grp}'";
@@ -399,15 +399,15 @@ class config {
             return false;
         }
 
-        $escaped_name = addslashes($name);
-        $escaped_grp = addslashes($group);
+        $escaped_name = DB_escapeString($name);
+        $escaped_grp = DB_escapeString($group);
 
         $result = DB_query("SELECT value, default_value FROM {$_TABLES['conf_values']} WHERE name = '{$escaped_name}' AND group_name = '{$escaped_grp}'");
         list($value, $default_value) = DB_fetchArray($result);
 
         $sql = "UPDATE {$_TABLES['conf_values']} ";
         if ($value == 'unset') {
-            $default_value = addslashes($default_value);
+            $default_value = DB_escapeString($default_value);
             $sql .= "SET value = '{$default_value}', default_value = 'unset:{$default_value}'";
         } else {
             $sql .= "SET value = default_value";
@@ -438,13 +438,13 @@ class config {
             return false;
         }
 
-        $escaped_name = addslashes($name);
-        $escaped_grp = addslashes($group);
+        $escaped_name = DB_escapeString($name);
+        $escaped_grp = DB_escapeString($group);
         $default_value = DB_getItem($_TABLES['conf_values'], 'default_value',
                 "name = '{$escaped_name}' AND group_name = '{$escaped_grp}'");
         $sql = "UPDATE {$_TABLES['conf_values']} SET value = 'unset'";
         if (substr($default_value, 0, 6) == 'unset:') {
-            $default_value = addslashes(substr($default_value, 6));
+            $default_value = DB_escapeString(substr($default_value, 6));
             $sql .= ", default_value = '{$default_value}'";
         }
         $sql .= " WHERE name = '{$escaped_name}' AND group_name = '{$escaped_grp}'";
@@ -509,7 +509,7 @@ class config {
             $columns .= ', tab';
             $Qargs[9] = $tab;
         }
-        $Qargs = array_map('addslashes', $Qargs);
+        $Qargs = array_map('DB_escapeString', $Qargs);
 
         // Now add in config item
         $sql = "INSERT INTO {$_TABLES['conf_values']} ($columns) VALUES ("
@@ -543,7 +543,7 @@ class config {
     {
         DB_delete($GLOBALS['_TABLES']['conf_values'],
                   array('name', 'group_name'),
-                  array(addslashes($param_name), addslashes($group)));
+                  array(DB_escapeString($param_name), DB_escapeString($group)));
         unset($this->config_array[$group][$param_name]);
     }
 
@@ -957,6 +957,7 @@ class config {
         $t->set_var('tab_li', $tab_li);
         
         $_SCRIPTS->setJavaScriptLibrary('jquery.ui.autocomplete');
+        $_SCRIPTS->setJavaScriptLibrary('jquery.ui.menu');	// Required by 'jquery.ui.autocomplete'
         $_SCRIPTS->setJavaScriptLibrary('jquery.ui.tabs');
         
         $t->set_var('config_menu',$this->_UI_configmanager_menu($grp,$sg));
@@ -1599,6 +1600,43 @@ class config {
         if ( empty($this->validationErrors) ) {
             // only set if there is no validation error
             foreach ( $pass_validation as $param => $val ) {
+                if ($group === 'Core') {
+                    switch ($param) {
+                        case 'site_name':
+                        case 'site_slogan':
+                        case 'owner_name':
+                        case 'meta_description':
+                        case 'meta_keywords':
+                        case 'rdf_language':
+                        case 'locale':
+                        case 'date':
+                        case 'daytime':
+                        case 'shortdate':
+                        case 'dateonly':
+                        case 'timeonly':
+                        case 'cookie_session':
+                        case 'cookie_name':
+                        case 'cookie_password':
+                        case 'cookie_theme':
+                        case 'cookie_language':
+                        case 'cookie_tzid':
+                        case 'cookie_anon_name':
+                            $val = strip_tags($val);
+                            break;
+
+                        case 'site_disabled_msg':
+                        case 'comment_feeds_article_tag':
+                        case 'comment_feeds_article_author_tag':
+                        case 'comment_feeds_comment_author_tag':
+                        case 'search_separator':
+                            $val = COM_checkHTML($val);
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+
                 $this->set($param, $val, $group);
                 $success_array[$param] = true;
             }

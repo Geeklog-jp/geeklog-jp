@@ -662,5 +662,17 @@ function DB_getVersion()
     return $_DB->dbGetVersion();
 }
 
+/**
+* Escapes a string so that it can be safely used in a query
+*
+* @param   string   $str          a string to be escaped
+* @return  string
+*/
+function DB_escapeString($str)
+{
+    global $_DB;
+
+	return $_DB->dbEscapeString($str);
+}
 
 ?>
