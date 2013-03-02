@@ -1,3 +1,8 @@
+2013-03-02  Takahiro Kambe  <tacahi>
+
+	* public_html/layout/denim/javascript/script.js: Geeklog 2.0.0rc2の
+	  マージの抜けを反映しました。
+
 2013-03-01  Tetsuko Komma  <ivy>
 
 	* 日本語ドキュメント history.htmlを日本語に翻訳しました。
