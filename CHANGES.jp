@@ -1,5 +1,7 @@
 2013-03-02  Takahiro Kambe  <tacahi>
 
+	* tools: Subversionのために必要だった機能やスクリプトを削除しました。
+
 	* public_html/layout/denim/javascript/script.js: Geeklog 2.0.0rc2の
 	  マージの抜けを反映しました。
 
