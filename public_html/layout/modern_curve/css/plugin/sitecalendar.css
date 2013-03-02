@@ -1,5 +1,3 @@
-@charset "utf-8";
-
 /*==============================================================================
   Title       : Site Calender Style (Plugin)
   Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
@@ -40,17 +38,17 @@ table.mycalTitle tr td.mycalDateField {
   background: #FFFFFF;
 }
 
-/* Date( Due date) */
+/* Date(Due date) */
 table.mycalTitle tr td.mycalEventHighlight {
   background: #8FBC8F;
 }
 
-/* Date(Today ) */
+/* Date(Today) */
 table.mycalTitle tr td.mycalTodayHighlight {
   background: #EEDD82;
 }
 
-/* Date(来月) */
+/* Date(Next month) */
 table.mycalTitle tr td.mycalNextMonth {
   background: #DCDCDC;
 }
