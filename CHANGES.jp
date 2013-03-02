@@ -1,5 +1,17 @@
 2013-03-02  Takahiro Kambe  <tacahi>
 
+	* public_html/layout/modern_curve/css/tooltips: 空のindex.htmlを追加
+	  しました。
+
+	* スタイルシート: US-ASCIIの文字絵コーディングのスタイルシートのファ
+	  イルから@charset指定を削除しました。
+
+	* modern_curve: スタイルシートのコメントに使用している日本語を英文に
+	  して、@charset指定を削除しました。
+
+	* public_html/layout/professional/style.css: 文字エンコーディングが
+	  誤っていたのを修正しました。
+
 	* tools: Subversionのために必要だった機能やスクリプトを削除しました。
 
 	* public_html/layout/denim/javascript/script.js: Geeklog 2.0.0rc2の
