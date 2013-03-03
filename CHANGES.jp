@@ -1,3 +1,10 @@
+2013-03-03  Takahiro Kambe  <tacahi>
+
+	* public_html/admin/story.php: 日本語版hackを再度追加しました。
+
+	* public_html/admin/install/index.php: Japanizeプラグインの呼び出しを
+	  再び加えました。
+
 2013-03-02  Takahiro Kambe  <tacahi>
 
 	* public_html/layout/modern_curve/css/tooltips: 空のindex.htmlを追加
