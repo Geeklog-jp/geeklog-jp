@@ -29,31 +29,31 @@
 
 <p>セキュリティーの問題以外の修正:</p>
 <ul>
-<li>ユーザーバッチ管理で不正なオフセット文字列'phantom'を修正しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001558">#0001558</a>) [Dirk]</li>
-<li>2.0.0 のMySQL話題アップグレードスクリプトを適正化しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001544">#0001544</a>) [Tom]</li>
-<li>DB_escapeStringを紹介しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001146">#0001146</a>) [Kenji]</li>
-<li>複数話題に登録された記事の話題アイコンがただしく表示されるようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001509">#0001509</a>) [Tom]</li>
-<li>記事管理画面で話題選択が外れないようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001486">#0001486</a>) [Tom]</li>
+<li>ユーザーバッチ管理を使用したときに"Illegal string offset 'phantom'"となるエラーを修正しました。(パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001558">#0001558</a>) [Dirk]</li>
+<li>2.0.0 のMySQL話題アップグレードスクリプトを最適化しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001544">#0001544</a>) [Tom]</li>
+<li>DB_escapeStringを導入しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001146">#0001146</a>) [Kenji]</li>
+<li>複数の話題に登録された記事で、親の話題に誤った話題のアイコンが表示される可能性がありました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001509">#0001509</a>) [Tom]</li>
+<li>話題の管理者として記事を投稿しようとしたときに話題の選択が外れていました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001486">#0001486</a>) [Tom]</li>
 <li>静的ページの話題選択。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001462">#0001462</a>) [Tom]</li>
 <li>Span-X プラグイン: Spam Number of Links (SNL) が有効だと, たくさんのリンクを有するユーザーがブロックされるのを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001516">#0001516</a>) [Tom]</li>
 <li>OAuthアカウントの削除のバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001417">#0001417</a>) [Tom]</li>
-<li>静的ページを、メニューに登録しながらもラベルが登録されなかったバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001542">#0001542</a>) [Tom]</li>
-<li>デシマルセパレータのスペースを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001537">#0001537</a>) [Tom]</li>
-<li>コメントへの返信とCAPTCHA間違いの結果をおなじページで表示するようにしました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001527">#0001527</a>) [Tom]</li>
-<li>通知エラーのコメントを削除しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001529">#0001529</a>) [Tom]</li>
-<li>管理オプションでCCをオプションで選べるようにしました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001259">#0001259</a>) [Tom]</li>
-<li>詳しい検索で日付処理を追加しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0000853">#0000853</a>) [Tom]</li>
-<li>カスタム関数 mytheme_createHTMLDocumentでパンくずが表示できないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001531">#0001531</a>) [Tom]</li>
-<li>継承について記事管理画面で話題コントロール説明。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001489">#0001489</a>) [Tom]</li>
+<li>ラベルなしでメニューに登録した静的ページを保存できてしまいました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001542">#0001542</a>) [Tom]</li>
+<li>小数点の記号としてスペースを使用できるようにしました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001537">#0001537</a>) [Tom]</li>
+<li>コメントに返信して誤ったcaptchaコードを入力すると、ページの中にページが表示されました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001527">#0001527</a>) [Tom]</li>
+<li>通知を指定した湖面との削除でエラーが起きました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001529">#0001529</a>) [Tom]</li>
+<li>管理オプションで写し(CC)をオプションで選べるようにしました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001259">#0001259</a>) [Tom]</li>
+<li>詳しい検索で日付の検証に問題がありました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0000853">#0000853</a>) [Tom]</li>
+<li>カスタム関数 mytheme_createHTMLDocumentでパンくずの処理ができませんでした。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001531">#0001531</a>) [Tom]</li>
+<li>記事管理画面の話題の管理で継承について説明を更新しました。(要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001489">#0001489</a>) [Tom]</li>
 <li>ユーザー名のクリックでエラーになるバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001514">#0001514</a>) [Tom]</li>
 <li>プラグインのコメントを編集できない不具合を修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001511">#0001511</a>) [Tom]</li>
 <li>ユーザーが投稿したコメントを削除できないバグを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001512">#0001512</a>) [Tom]</li>
-<li>nl2br が HTML コンプライアンスを破る不具合を修正しました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001141">#0001141</a>) [Tom]</li>
+<li>nl2brがHTML準拠を壊していました。 (パッチ <a href="http://project.geeklog.net/tracking/view.php?id=0001141">#0001141</a>) [Tom]</li>
 <li>Spam-X SFS デフォルトをOFFにしました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001488">#0001488</a>) [Tom]</li>
-<li>Twitter OAuth ログインのTwitter APIをversion 1.1に切り替えました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001497">#0001497</a>) [Tom]</li>
-<li>トラックバック SQL エラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001498">#0001498</a>) [Tom]</li>
+<li>Twitter OAuthログインの認証エラーを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001497">#0001497</a>) [Tom]</li>
+<li>トラックバックでSQLのエラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001498">#0001498</a>) [Tom]</li>
 <li>記事のフィードが必要なときだけ更新されるようにしました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001501">#0001501</a>) [Tom]</li>
-<li>admin/story.phpのJavaScript エラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001496">#0001496</a>) [Yoshinori]</li>
+<li>admin/story.phpのJavaScriptのエラーを修正しました。 (バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001496">#0001496</a>) [Yoshinori]</li>
 <li>デフォルトの複数話題に登録された記事が常にゲストユーザーに利用されるのを修正しました。(バグ <a href="http://project.geeklog.net/tracking/view.php?id=0001487">#0001487</a>) [Tom]</li>
 <li>HTML 5 DOCTYPEを追加しました。 (要望 <a href="http://project.geeklog.net/tracking/view.php?id=0001426">#0001426</a>) [Yoshinori]</li>
 </ul>
