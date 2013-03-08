@@ -37,7 +37,7 @@
  * @package  HTTP_Request2
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id: Socket.php 324935 2012-04-07 07:10:50Z avb $
+ * @version  SVN: $Id: Socket.php 324953 2012-04-08 07:24:12Z avb $
  * @link     http://pear.php.net/package/HTTP_Request2
  */
 
@@ -57,7 +57,7 @@ require_once 'HTTP/Request2/SocketWrapper.php';
  * @package  HTTP_Request2
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  Release: 2.1.0
+ * @version  Release: 2.1.1
  * @link     http://pear.php.net/package/HTTP_Request2
  */
 class HTTP_Request2_Adapter_Socket extends HTTP_Request2_Adapter
@@ -837,6 +837,7 @@ class HTTP_Request2_Adapter_Socket extends HTTP_Request2_Adapter
 
         } else {
             if (!$this->request->getConfig('proxy_host')
+                || 'http' != $this->request->getConfig('proxy_type')
                 || 0 == strcasecmp($url->getScheme(), 'https')
             ) {
                 $requestUrl = '';

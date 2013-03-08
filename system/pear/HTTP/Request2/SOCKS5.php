@@ -37,7 +37,7 @@
  * @package  HTTP_Request2
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  SVN: $Id: SOCKS5.php 324935 2012-04-07 07:10:50Z avb $
+ * @version  SVN: $Id: SOCKS5.php 324953 2012-04-08 07:24:12Z avb $
  * @link     http://pear.php.net/package/HTTP_Request2
  */
 
@@ -51,7 +51,7 @@ require_once 'HTTP/Request2/SocketWrapper.php';
  * @package  HTTP_Request2
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  Release: 2.1.0
+ * @version  Release: 2.1.1
  * @link     http://pear.php.net/package/HTTP_Request2
  * @link     http://pear.php.net/bugs/bug.php?id=19332
  * @link     http://tools.ietf.org/html/rfc1928
@@ -59,7 +59,7 @@ require_once 'HTTP/Request2/SocketWrapper.php';
 class HTTP_Request2_SOCKS5 extends HTTP_Request2_SocketWrapper
 {
     /**
-     * Constructor, tries to connect to a SOCKS5 proxy
+     * Constructor, tries to connect and authenticate to a SOCKS5 proxy
      *
      * @param string $address    Proxy address, e.g. 'tcp://localhost:1080'
      * @param int    $timeout    Connection timeout (seconds)
@@ -76,20 +76,7 @@ class HTTP_Request2_SOCKS5 extends HTTP_Request2_SocketWrapper
         $username = null, $password = null
     ) {
         parent::__construct($address, $timeout, $sslOptions);
-        $this->performNegotiation();
-    }
 
-    /**
-     * Performs a negotiation for auth method
-     *
-     * @param string $username Proxy user name
-     * @param string $password Proxy password
-     *
-     * @throws HTTP_Request2_MessageException
-     * @throws HTTP_Request2_ConnectionException
-     */
-    protected function performNegotiation($username = null, $password = null)
-    {
         if (strlen($username)) {
             $request = pack('C4', 5, 2, 0, 2);
         } else {
@@ -127,8 +114,8 @@ class HTTP_Request2_SOCKS5 extends HTTP_Request2_SocketWrapper
      */
     protected function performAuthentication($username, $password)
     {
-        $request  = pack('C2', 1, strlen($username)) . $username;
-        $request .= pack('C', strlen($password)) . $password;
+        $request  = pack('C2', 1, strlen($username)) . $username
+                    . pack('C', strlen($password)) . $password;
 
         $this->write($request);
         $response = unpack('Cvn/Cstatus', $this->read(3));
