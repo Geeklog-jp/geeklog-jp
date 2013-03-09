@@ -1,6 +1,6 @@
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.7                                                               |
+// | Geeklog 2.0                                                               |
 // +---------------------------------------------------------------------------+
 // | javascript functions to support the online configuration manager          |
 // |                                                                           |
@@ -106,20 +106,21 @@ $(function() {
                 if ($('#tabs-dropdown').length > 0) {
                     $('#tabs-dropdown').toggle();
                 } else {
-                    container.append( dropDown ).removeClass('ui-tabs-selected ui-state-active');
+                    ui.newTab.append(dropDown);
+                    container.removeClass('ui-tabs-active ui-state-active');
                     
                     // show it and the positioning!
                     $('#tabs-dropdown').show().position({
                         of: ui.newTab,
                         my: 'right top',
                         at: 'right bottom',
-                        offset: '0 ' + ui.newTab.parent().height()
+                        offset: '0 ' + container.height()
                     });
                 }
                 
-//                return false;
+                return false;
             } else {
-                $('#tabs-dropdown').hide().parent().removeClass('ui-tabs-selected ui-state-active');
+                $('#tabs-dropdown').hide().parent().removeClass('ui-tabs-active ui-state-active');
                 $('.ui-tabs-panel').removeClass('ui-tabs-hide');
             }
             selectedTab = ui.newTab.children('a').attr('href');
@@ -256,6 +257,19 @@ $(function() {
         var targetParent = target.parent();
         
         if ($('#tabs-dropdown').length > 0) {
+            if ((target.attr('class') === 'ui-tabs-anchor') && (target.attr('href') !== '#tab-dropdown')) {
+                var idx = tabs.tabs('option', 'active');
+                var dummy = idx + ((idx == 0) ? 1 : -1); // dummy is any value not idx
+                tabs.tabs("option", "active", dummy);
+                tabs.tabs("option", "active", idx);
+
+                $("#tabs-dropdown > li").each(function() {
+                    var href = $('a', this).attr('href');
+                    $(href).addClass('ui-tabs-hide');
+                });
+                return false;
+            }
+
             if ( target.is('a') && (target.attr('href') === '#tab-dropdown')) {
 //                $('#tabs-dropdown').toggle();
                 e.preventDefault();
@@ -268,6 +282,7 @@ $(function() {
                 return dropDownHandler(e);
             }
         }
+
         $('#tabs-dropdown').hide();
         $('.config_name', tabs).removeClass('active-config');
         
@@ -375,8 +390,9 @@ $(function() {
      */
     function selectTabInHiddenTabs(href) {
         $('.ui-tabs-nav li.ui-state-default').each(function() {
-            $(this).removeClass('ui-tabs-selected');
-            $(this).removeClass('ui-state-active');
+            $(this).removeClass('ui-state-active ui-tabs-active');
+//            $(this).attr('aria-selected', false);
+//            $(this).attr('tabindex', -1);
         });
         $('.ui-tabs-panel', tabs).addClass('ui-tabs-hide');
         href = href.substring(href.lastIndexOf('#'));

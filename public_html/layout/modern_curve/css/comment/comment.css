@@ -107,7 +107,7 @@ div.comments ul.thread li.title {
   padding: 0;
 }
 
-/* Individual Comment (Tree) Auther */
+/* Individual Comment (Tree) Author */
 div.comments ul.thread li.author {
   display: inline;
   margin: 0;
@@ -194,14 +194,14 @@ div.comments div.block-comment-content ul.status li.title {
   background: #F7F7F7;
 }
 
-/* Comment Auther */
+/* Comment Author */
 div.comments div.block-comment-content ul.status li.author {
   display: block;
   margin: 0 0 1em 0;
   padding: 0;
 }
 
-/* Comment Text */
+/* Comment Body */
 div.comments div.block-comment-content div.comment {
   margin: 0 0 1em 0;
   padding: 0;
@@ -227,14 +227,14 @@ div.comments div.block-comment-content ul.navi li {
   padding: 0;
 }
 
-/* Permlinks */
+/* Perm Links */
 div.comments div.block-comment-content ul.navi li.permlink {
   margin: 0 2px 0 0;
 }
 
 
 /*--------------------------------------
-  Report Form 
+  Report Form
 --------------------------------------*/
 
 /* Comment  */
