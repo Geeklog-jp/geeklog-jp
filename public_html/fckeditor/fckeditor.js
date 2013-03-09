@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
@@ -59,8 +59,8 @@ FCKeditor.MinHeight = 200 ;
  */
 FCKeditor.MinWidth = 750 ;
 
-FCKeditor.prototype.Version			= '2.6.6' ;
-FCKeditor.prototype.VersionBuild	= '25427' ;
+FCKeditor.prototype.Version			= '2.6.9' ;
+FCKeditor.prototype.VersionBuild	= '25428' ;
 
 FCKeditor.prototype.Create = function()
 {
@@ -313,9 +313,9 @@ function FCKeditor_IsCompatibleBrowser()
 		// introduced in Firefox 17.0
 		if ( sAgent.match(/gecko\/(\d+\.\d+)/i) )
 			return true ;
-	// Gecko (Opera 9 tries to behave like Gecko at this point).
+		// Gecko (Opera 9 tries to behave like Gecko at this point).
 		if ( navigator.productSub >= 20030210 && !( typeof(opera) == 'object' && opera.postError ) )
-		return true ;
+			return true ;
 	}
 
 	// Opera 9.50+

@@ -58,7 +58,7 @@ require_once 'HTTP/Request2/Exception.php';
  * @package  HTTP_Request2
  * @author   Alexey Borzov <avb@php.net>
  * @license  http://opensource.org/licenses/bsd-license.php New BSD License
- * @version  Release: 2.1.0
+ * @version  Release: 2.1.1
  * @link     http://pear.php.net/package/HTTP_Request2
  * @link     http://tools.ietf.org/html/rfc2616#section-5
  */
@@ -235,7 +235,7 @@ class HTTP_Request2 implements SplSubject
             $this->setMethod($method);
         }
         $this->setHeader(
-            'user-agent', 'HTTP_Request2/2.1.0 ' .
+            'user-agent', 'HTTP_Request2/2.1.1 ' .
             '(http://pear.php.net/package/http_request2) PHP/' . phpversion()
         );
     }
