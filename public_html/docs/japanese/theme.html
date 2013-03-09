@@ -111,33 +111,33 @@ Geeklog 1.4.1以降、重大なエラーが発生したときにRoot以外のユ
 
 <h2><a name="changes">Theme changes in Geeklog 2.0.0</a></h2>
 
-<p>As of Geeklog 2.0.0 there are now 2 theme engines in Geeklog. Currently the themes Demin and Modern Curve use the 2.0.0 theme engine. The Professional and Professional CSS themes use the 1.8.1 engine. 
-The 1.8.1 theme engine will eventually be removed from Geeklog so if you are developing a new theme it is best to use the new engine. To find out more about this please visit the Geeklog Wiki <a href="http://wiki.geeklog.net/index.php/Theme_Developers_Guide">Theme Developers Guide</a>.</p>
+<p>Geeklog 2.0.0には2つのテーマエンジンが存在します。現在、DeminとModern Curveテーマは2.0.0のテーマエンジンを使っています。Professional および Professional CSS テーマは1.8.1テーマエンジンを使っています。 
+1.8.1テーマエンジンはそのうちGeeklogからなくなります。そのため、テーマを開発するなら新しいテーマエンジンを使ってください。くわしくはGeeklog Wiki <a href="http://wiki.geeklog.net/index.php/Theme_Developers_Guide">Theme Developers Guide</a>を。</p>
 
 <h3>General Changes</h3>
 <ul>
-<li>HTML 5 DOCTYPE added.</li>
-<li>A minimal theme API is now available. It can be used to override defaults, load CSS files and load JavaScript files. See the Geeklog Wiki for more details. New functions are  function theme_config_mytheme(), function theme_css_mytheme(), function theme_js_libs_mytheme(), function theme_js_files_mytheme(), and function theme_init_mytheme().</li>
-<li>New breadcrumbs folder. New files in folder include  breadcrumbs.html, breadcrumb_root.thtml, breadcrumb.thtml, breadcrumb_nolink.thtml, and breadcrumb_child.thtml.</li>
-<li>To display breadcrumbs for topics, articles and staticpages add {breadcrumb_trail} template variable to your header.thtml.</li>
-<li>New file edit_topics.thtml for topic selection found in /admin/common folder.</li>
-<li>Updated topicoption.thtml and topicoption_off.thtml files found in root of theme folder.</li>
-<li>Replace topic folder in admin folder. Lots of changes with these files.</li>  
-<li>For topic selection control you need to add the template variable {topic_selection} to the files /admin/block/blockeditor.thtml, /admin/block/defaultblockeditor.thtml, /admin/story/storyeditor.thtml, /admin/story/ storyeditor_advenced.thtml, /submit/submitstory.thtml, and /submit/submitstory_advanced.thtml.</li>
-<li>Comments on same page changed a lot of things. Copy paste the complete comment folder and custom the commentbar.thtml and comment.thtml files as necessary.</li>
-<li>New css for static pages, stories and blocks editors.</li>
+<li>HTML 5 DOCTYPE が追加されました。</li>
+<li>最小のテーマAPIが利用可能になりました。それはデフォルトを無視するために使用することができます、CSSファイルとJavaScriptファイルのロード、くわしくはGeeklog Wikiを。新しい機能は、function theme_config_mytheme()、function theme_css_mytheme()、 function theme_js_libs_mytheme()、function theme_js_files_mytheme()とfunction theme_init_mytheme()です。</li>
+<li>新しいパンくず用フォルダには、breadcrumbs.html, breadcrumb_root.thtml, breadcrumb.thtml, breadcrumb_nolink.thtml, と breadcrumb_child.thtmlがあります.</li>
+<li>話題、記事と静的ページのパンくずリスト表示には、テンプレート変数 {breadcrumb_trail} をheader.thtmlに追加します。</li>
+<li>話題選択のための新しいファイルedit_topics.thtmlが/admin/commonに追加されました。</li>
+<li>topicoption.thtmlとtopicoption_off.thtml がテーマのrootフォルダに追加されました。</li>
+<li>adminフォルダの話題フォルダの入れ替え。たくさんのファイルに変更があります。</li>  
+<li>話題選択のために、テーマ変数 {topic_selection} が、ファイル /admin/block/blockeditor.thtml, /admin/block/defaultblockeditor.thtml, /admin/story/storyeditor.thtml, /admin/story/ storyeditor_advenced.thtml, /submit/submitstory.thtml, と /submit/submitstory_advanced.thtmlに追加されました。</li>
+<li>同じページでコメントする機能で多くの変更があります。すべてのコメントフォルダとcommentbar.thtml と comment.thtmlを必要に応じてカスタマイズします。</li>
+<li>静的ページとブロック編集のための新しいCSSが追加されました。</li>
 </ul>
 
 <h3>Theme Engine 2.0.0 Specific Changes</h3>
 <ul>
-<li>New template variable {layout_columns} sets the class of the body tag which is found in header.thtml. This is needed to set the number of Geeklog columns on a given page.</li>
-<li>New Javscript file /javascript/fix_html.js required when plugin doesn't support the 2.0.0 theme engine.</li>
-<li>Javascript code that runs <code>FixHTML('leftblocks', 'centerblocks', 'rightblocks');</code> needs to be added to the footer.thtml file.</li>
+<li>header.thtmlのbody のclassに新しいテンプレート変数 {layout_columns}が追加されました。これはGeeklogのカラム数の指定のためのものです。</li>
+<li>新しいJavscriptファイル /javascript/fix_html.jsは、プラグインが2.0.0テーマエンジンをサポートしていない場合に必要になります。</li>
+<li>Javascript code <code>FixHTML('leftblocks', 'centerblocks', 'rightblocks');</code> はfooter.thtml ファイルに必要になりました。</li>
 </ul>
 
 <h3>Theme Engine 1.8.1 Specific Changes</h3>
 <ul>
-<li>None.</li>
+<li>なし。</li>
 </ul>
 
 
