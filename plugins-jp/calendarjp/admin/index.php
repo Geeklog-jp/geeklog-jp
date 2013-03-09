@@ -81,7 +81,7 @@ function CALENDARJP_editEvent ($mode, $A, $msg = '')
 
     // Loads jQuery UI datepicker
     $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
-    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.i18n');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-i18n');
     $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
 
     $langCode = COM_getLangIso639Code();
