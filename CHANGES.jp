@@ -1,5 +1,7 @@
 2013-03-09  Takahiro Kambe  <tacahi>
 
+	* calendarjp: jQuery UIのファイル名の変更を反映しました。
+
 	* Geeklog: 2.0.0rc3をマージしました。
 
 2013-03-03  Takahiro Kambe  <tacahi>
