@@ -1,3 +1,7 @@
+2013-03-10  Tetsuko Komma  <ivy>
+
+	* 日本語ドキュメントの翻訳を追加しました。
+
 2013-03-09  Takahiro Kambe  <tacahi>
 
 	* calendarjp: jQuery UIのファイル名の変更を反映しました。
@@ -6,7 +10,7 @@
 
 2013-03-03  Takahiro Kambe  <tacahi>
 
-	* public_html/docs/japanese/history.html: 翻訳を少し修正しました|。!|
+	* public_html/docs/japanese/history.html: 翻訳を少し修正しました。
 
 	* public_html/admin/story.php: 日本語版hackを再度追加しました。
 
