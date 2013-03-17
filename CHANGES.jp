@@ -1,3 +1,8 @@
+2013-03-18  Yoshinori Tahara  <dengen>
+
+	* custommenu: Geeklog本体のアップグレードとともにインストールされる
+	  場合にエラーが発生する問題を修正しました。
+
 2013-03-17  Kenji ITO  <mystralkk>
 
 	* LocalizeGeeklogクラスの廃止に伴って加えた変更が元に戻されていたので、
