@@ -1,3 +1,8 @@
+2013-03-17  Kenji ITO  <mystralkk>
+
+	* LocalizeGeeklogクラスの廃止に伴って加えた変更が元に戻されていたので、
+	  再度変更しました。
+
 2013-03-17  Yoshinori Tahara  <dengen>
 
 	* 日本語言語ファイルを修正しました。
