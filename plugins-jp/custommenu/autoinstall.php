@@ -6,7 +6,7 @@
 // +---------------------------------------------------------------------------+
 // | plugins/custommenu/autoinstall.php                                        |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2012 dengen - taharaxp AT gmail DOT com                |
+// | Copyright (C) 2008-2013 dengen - taharaxp AT gmail DOT com                |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -289,6 +289,8 @@ function CMED_addPluginsMenuitems()
 {
     global $_PLUGINS, $_TABLES, $_CMED_plugin_label_var;
 
+    if (empty($_PLUGINS)) return true;
+
     $SQLS = array();
     $num = DB_getItem($_TABLES['menuitems'], "MAX(menuorder)") + 10;
     $menuitems = array();
@@ -322,5 +324,6 @@ function CMED_addPluginsMenuitems()
             return false;
         }
     }
+    return true;
 }
 ?>
