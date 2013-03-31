@@ -160,6 +160,7 @@ table {
 textarea {
   color:#000000;
   font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;
+  font-size:.9em;
 }
 th {
   color:#000000;
