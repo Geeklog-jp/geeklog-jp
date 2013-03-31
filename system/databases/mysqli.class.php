@@ -540,7 +540,7 @@ class database
         }
 
         // return only if recordset exists, otherwise 0
-        if (strcasecmp(get_class($recordset), 'MySQLi_Result') === 0) {
+        if (strcasecmp(@get_class($recordset), 'MySQLi_Result') === 0) {
             if ($this->_verbose) {
                 $this->_errorlog('got ' . $recordset->num_rows . ' rows');
                 $this->_errorlog("\n*** Inside database->dbNumRows ***");
@@ -683,11 +683,15 @@ class database
             $btr = debug_backtrace();
             if (! empty($btr)) {
                 for ($i = 0; $i < 100; $i++) {
-                    $b = $btr[$i];
-                    if ($b['function'] == 'DB_query') {
-                        if (!empty($b['file']) && !empty($b['line'])) {
-                            $fn = $b['file'] . ':' . $b['line'];
+                    if (isset($btr[$i])) {
+                        $b = $btr[$i];
+                        if ($b['function'] == 'DB_query') {
+                            if (!empty($b['file']) && !empty($b['line'])) {
+                                $fn = $b['file'] . ':' . $b['line'];
+                            }
+                            break;
                         }
+                    } else {
                         break;
                     }
                 }
