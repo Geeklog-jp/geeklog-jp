@@ -303,7 +303,8 @@ class dpxyDriver_Article extends dpxyDriver
 			 . "  FROM {$_TABLES['stories']} "
 			 . "WHERE (draft_flag = 0) AND (date <= NOW()) "
 			 . "  AND (UNIX_TIMESTAMP(date) BETWEEN '" . Dataproxy::$startDate
-			 . "' AND '" . Dataproxy::$endDate . "') ";
+			 . "' AND '" . Dataproxy::$endDate . "') "
+			 . "  AND (sid IN ('" . implode("', '", $sids) . "')) ";
 		
 		if (!Dataproxy::isRoot()) {
 			$sql .= COM_getPermSql('AND', Dataproxy::uid());
@@ -313,6 +314,7 @@ class dpxyDriver_Article extends dpxyDriver
 			}
 		}
 		
+		$sql .= " ORDER BY date DESC ";
 		$result = DB_query($sql);
 		
 		if (DB_error()) {

@@ -201,7 +201,7 @@ function MYCALJP_showStoriesIntro() {
              . $userfields . ", t.topic, t.imageurl "
              . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
              . "{$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta "
-             . " WHERE (ta.type = 'article') AND (s.uid = u.uid) AND (ta.tid = t.tid) "
+             . "WHERE (ta.type = 'article') AND (ta.tdefault = 1) AND (s.uid = u.uid) AND (ta.tid = t.tid) AND (s.sid = ta.id) "
              . $sql . "ORDER BY featured DESC, date DESC";
 
 /*
@@ -211,7 +211,7 @@ function MYCALJP_showStoriesIntro() {
              . $userfields . ", t.topic, t.imageurl "
              . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, "
              . "{$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta "
-             . " WHERE (ta.type = 'article') AND (s.uid = u.uid) AND (ta.tid = t.tid) "
+             . "WHERE (ta.type = 'article') AND (ta.tdefault = 1) AND (s.uid = u.uid) AND (ta.tid = t.tid) AND (s.sid = ta.id) "
              . $sql . "ORDER BY featured DESC, date DESC";
 */
     $result = DB_query($msql);
@@ -258,8 +258,8 @@ $_dateEnd   = COM_applyFilter($_GET['dateend']);
 // $dataproxy is a global object in this script and functions.inc
 $dataproxy = Dataproxy::getInstance($uid);
 $drivers = Dataproxy::getAllDriverNames();
-$dataproxy->setDateStart(COM_applyFilter($_dateStart));
-$dataproxy->setDateEnd(COM_applyFilter($_dateEnd));
+$dataproxy->setDateStart($_dateStart);
+$dataproxy->setDateEnd($_dateEnd);
 
 foreach ($drivers as $driver_name) {
     $content = $driver_name;
