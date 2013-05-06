@@ -1,3 +1,8 @@
+2013-05-06  Yoshinori Tahara  <dengen>
+
+	* mycaljpとdataproxy: 複数の話題を割り当てている記事がピックアップ画面
+	  で重複して表示される問題を修正しました。
+
 2013-04-12  Takahiro Kambe  <tacahi>
 
 	* geeklog-2.0.0-jp-1.0をリリースします。
