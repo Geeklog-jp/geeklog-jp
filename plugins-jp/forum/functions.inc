@@ -115,7 +115,7 @@ $CONF_FORUM['charset']      = COM_getCharset();
 $CONF_FORUM['add_forum_menu_check'] = 0; // Reset Check to false. If needed it is set to true in gf_format.php where then used by plugin_getBlocks_forum
 
 // User Preference Config Parms. Check if user has set their preference or use defaults
-if (!empty($_USER['uid']) AND DB_getItem($_TABLES['forum_userprefs'],"uid","uid='{$_USER['uid']}'") == $_USER['uid']) {
+if (!empty($_USER['uid']) AND ($_USER['uid'] > 1) AND DB_getItem($_TABLES['forum_userprefs'],"uid","uid='{$_USER['uid']}'") == $_USER['uid']) {
     $sql = DB_query("Select * FROM {$_TABLES['forum_userprefs']} WHERE uid = '{$_USER['uid']}'");
     $userprefs = DB_fetchArray($sql);
     $CONF_FORUM['show_topics_perpage']  = $userprefs['topicsperpage'];

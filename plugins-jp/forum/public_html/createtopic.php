@@ -1049,6 +1049,11 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
     $postername = COM_getDisplayName($userid);
     $nrows = DB_numRows($sqlresult);
 
+    $site_language = unserialize(DB_getItem($_TABLES['conf_values'], 'value', "group_name='Core' AND name='language'")); // Retrieve original language of site
+    $mail_language = $_CONF['language'];
+    $last_mail_language = $mail_language;
+    $plugin_path = $_CONF['path'] . 'plugins/forum/';
+    
     for ($i =1; $i <= $nrows; $i++) {
         $N = DB_fetchArray($sqlresult);
         // Don't need to send a notification to the user that posted this message and users with NOTIFY disabled
@@ -1073,9 +1078,35 @@ function gf_chknotifications($forumid,$topicid,$userid,$type='topic') {
                 if  ($userNotifyOnceOption == 0 OR ($userNotifyOnceOption == 1 AND ($nologRecord OR $logtime != 0)) ) {
                     $topicrec = DB_query("SELECT subject,name,forum FROM {$_TABLES['forum_topic']} WHERE id='$pid'");
                     $A = DB_fetchArray($topicrec);
-                    $userrec = DB_query("SELECT username,email,status FROM {$_TABLES['users']} WHERE uid='{$N['uid']}'");
+                    $userrec = DB_query("SELECT username,email,language,status FROM {$_TABLES['users']} WHERE uid='{$N['uid']}'");
                     $B = DB_fetchArray($userrec);
                     if ($B['status'] == USER_ACCOUNT_ACTIVE) {
+                        // Need to send email in user own language if set, else site default
+                        // Should not use current user language if does not match
+                        if (empty($B['language'])) {
+                            $mail_language = $site_language;
+                        } else {
+                            $mail_language = $B['language'];
+                        }
+                        
+                        if ($mail_language != $last_mail_language) {
+                            $langfile = $plugin_path . 'language/' . $mail_language . '.php';
+                            if (file_exists($langfile)) {
+                                require $langfile;
+                                $last_mail_language = $mail_language;
+                            } else {
+                                // Use site default language as backup
+                                $langfile = $plugin_path . 'language/' . $site_language . '.php';
+                                if (file_exists($langfile)) {
+                                    require $langfile;
+                                    $last_mail_language = $site_language;
+                                } else {
+                                    require $plugin_path . 'language/english.php';
+                                    $last_mail_language = 'english';
+                                }
+                            }
+                        }
+                        
                         $subjectline = "{$_CONF['site_name']} {$LANG_GF02['msg22']}";
                         $message  = "{$LANG_GF01['HELLO']} {$B['username']},\n\n";
                         if ($type=='forum') {

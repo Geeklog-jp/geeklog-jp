@@ -75,7 +75,7 @@ ForumHeader($forum, $showtopic, $display);
 if ($forum == 0) {
     $display .= alertMessage($LANG_GF02['msg71']);
     $display = gf_createHTMLDocument($display);
-    echo $display;
+    COM_output($display);
     exit();
 }
 
@@ -275,12 +275,10 @@ if (forum_modPermission($forum,$_USER['uid'])) {
 
     } elseif ($modfunction == 'editpost' AND forum_modPermission($forum,$_USER['uid'],'mod_edit') AND $fortopicid != 0) {
         echo COM_refresh("createtopic.php?method=edit&amp;id=$fortopicid&amp;page=$page");
-        $display .= BlockMessage($LANG_GF01['FORUM'], $LANG_GF02['msg110'], false);
-
+        exit();
     } elseif ($modfunction == 'lockedpost' AND forum_modPermission($forum,$_USER['uid'],'mod_edit') AND $fortopicid != 0) {
         echo COM_refresh("createtopic.php?method=postreply&amp;id=$fortopicid");
-        $display .= BlockMessage($LANG_GF01['FORUM'], $LANG_GF02['msg173'], false);
-
+        exit();
     } elseif ($modfunction == 'movetopic' AND forum_modPermission($forum,$_USER['uid'],'mod_move') AND $fortopicid != 0) {
 
         $SECgroups = SEC_getUserGroups();  // Returns an Associative Array - need to parse out the group id's

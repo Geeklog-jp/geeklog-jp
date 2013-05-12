@@ -1,15 +1,20 @@
 Geeklog Forum Plugin History/Changes:
 
-Not yet released (2.9.0)
+April 19, 2013 (2.9.0)
 ------------
 
 - Issue 34: Converted forum smilie images to a sprite and improved the handling of smilies in general [Rouslan]
 - Issue 45: Missing Punctuation in English Error Message [Rouslan]
-- Issue 53: Updated Forum to work with Geeklog 1.9.0. Min version of Geeklog required is now 1.9.0 [Tom]
+- Issue 53: Updated Forum to work with Geeklog 2.0.0. Min version of Geeklog required is now 2.0.0 [Tom]
 - Issue 44: Fixed checking the notify box does not subscribe you to the thread [Tom]
 - Issue 50: Removed echo from redirect to post edit page [Tom]
 - Issue 47: Fixed moving and splitting topics [Tom]
-
+- Issue 48: Fixed reply notifications being sent in incorrect language [Tom]
+- Issue 56: Convert Tool now displays articles [Tom]
+- Issue 67: If forum disabled no access is allowed to viewtopic.php [Tom]
+- Issue 69: Fixed edit Forum Post Fails when Geeklog Compressed Output enabled [Tom]
+- Issue 70: NoIndex tag added to inframe forum posts to prevent search engines from indexing [Tom]
+- Issue 74: Forums can now be merged together [Tom]
 
 Not yet released (2.8.1)
 ------------
