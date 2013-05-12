@@ -9,7 +9,8 @@
                                     <td style="padding:2px 0px 0px 2px; white-space:nowrap;"><input type="submit" name="mode" value="{edit}"{xhtml}></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="padding:2px 0px 2px 2px;">
+                                    <td style="padding:2px 0px 0px 2px; white-space:nowrap;"><input type="submit" name="mode" value="{merge}"{xhtml}></td>
+                                    <td style="padding:2px 0px 2px 2px;">
                                         <input type="submit" name="mode" value="{resync}"{xhtml}>
                                         <input type="hidden" name="type" value="forum"{xhtml}>
                                         <input type="hidden" name="forumname" value="{forumname}"{xhtml}>

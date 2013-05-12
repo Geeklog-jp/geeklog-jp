@@ -53,7 +53,7 @@ function plugin_autoinstall_forum($pi_name)
     $info = array(
         'pi_name'         => $pi_name,
         'pi_display_name' => $pi_display_name,
-        'pi_version'      => '2.9.0hg',
+        'pi_version'      => '2.9.0',
         'pi_gl_version'   => '2.0.0',
         'pi_homepage'     => 'http://code.google.com/p/geeklog/'
     );

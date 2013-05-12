@@ -104,6 +104,7 @@ if ($onlytopic == 1) {
     $display .= '<html>' . LB;
     $display .= '<head>' . LB;
     $display .= "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=$LANG_CHARSET\"" . XHTML . ">" . LB;
+    $display .= '<meta name="robots" content="NOINDEX"' . XHTML . '>' . LB;
     $display .= '<title>Forum Preview</title>' . LB;
     if (version_compare($_CONF['supported_version_theme'], '2.0.0', '>=')) {
         $func = "theme_css_" . $_CONF['theme'];
