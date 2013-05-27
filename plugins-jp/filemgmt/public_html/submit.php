@@ -117,7 +117,7 @@ if (SEC_hasRights("filemgmt.upload") OR $mydownloads_uploadselect) {
         $version = $myts->makeTboxData4Save($_POST['version']);
         $size = intval($_FILES['newfile']['size']);
         $description = $myts->makeTareaData4Save($_POST['description']);
-        $comments = $_POST['commentoption'];
+        $comments = intval($_POST['commentoption']);
         $date = time();
         $tmpfilename = randomfilename();
 
@@ -219,7 +219,7 @@ if (SEC_hasRights("filemgmt.upload") OR $mydownloads_uploadselect) {
 
     } else {
 
-        $display .= COM_siteHeader('menu');
+        $display = '';
         $display .= COM_startBlock("<b>". _MD_UPLOADTITLE ."</b>");
         $display .= "<table width=\"100%\" cellspacing=\"0\" cellpadding=\"8\" class=\"plugin\">\n";
         $display .= "<tr><td style=\"padding-top:10px;padding-left:50px;\">\n";
@@ -259,9 +259,12 @@ if (SEC_hasRights("filemgmt.upload") OR $mydownloads_uploadselect) {
         $display .= "</div></form>\n";
         $display .= "</td></tr></table>\n";
         $display .= COM_endBlock();
-        $display .= COM_siteFooter();
+        if (function_exists('COM_createHTMLDocument')) {
+            $display = COM_createHTMLDocument($display);
+        } else {
+            $display = COM_siteHeader() . $display . COM_siteFooter();
+        }
         COM_output($display);
-
     }
 
 } else {

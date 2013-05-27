@@ -91,12 +91,15 @@ function plugin_compatible_with_this_geeklog_version ()
 // Only let Root users access this script
 if (!SEC_inGroup('Root')) {
     COM_errorLog("Someone has tried to illegally access the FileMgmt Pro install/uninstall page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR",1);
-    $display = COM_siteHeader();
-    $display .= COM_startBlock($LANG_FM00['access_denied']);
+    $display = COM_startBlock($LANG_FM00['access_denied']);
     $display .= $LANG_FM00['access_denied_msg'];
     $display .= COM_endBlock();
-    $display .= COM_siteFooter(true);
-    echo $display;
+    if (function_exists('COM_createHTMLDocument')) {
+        $display = COM_createHTMLDocument($display);
+    } else {
+        $display = COM_siteHeader() . $display . COM_siteFooter();
+    }
+    COM_output($display);
     exit;
 }
 
@@ -283,21 +286,27 @@ if ($_REQUEST['action'] == 'uninstall') {
         }
     } else {
         // plugin needs a newer version of Geeklog
-        $display .= COM_siteHeader ('menu', $LANG32[8])
-                 . COM_startBlock ($LANG32[8])
+        $display .= COM_startBlock ($LANG32[8])
                  . '<p>' . $LANG32[9] . '</p>'
-                 . COM_endBlock ()
-                 . COM_siteFooter ();
+                 . COM_endBlock ();
+        if (function_exists('COM_createHTMLDocument')) {
+            $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG32[8]));
+        } else {
+            $display = COM_siteHeader('menu', $LANG32[8]) . $display . COM_siteFooter();
+        }
     }
 } else {
     // plugin already installed
-    $display .= COM_siteHeader ('menu', $LANG01[77])
-             . COM_startBlock ($LANG32[6])
+    $display .= COM_startBlock ($LANG32[6])
              . '<p>' . $LANG32[7] . '</p>'
-             . COM_endBlock ()
-             . COM_siteFooter();
+             . COM_endBlock ();
+    if (function_exists('COM_createHTMLDocument')) {
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG01[77]));
+    } else {
+        $display = COM_siteHeader('menu', $LANG01[77]) . $display . COM_siteFooter();
+    }
 }
 
-echo $display;
+COM_output($display);
 
 ?>

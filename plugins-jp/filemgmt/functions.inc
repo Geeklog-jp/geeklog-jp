@@ -82,7 +82,7 @@ function plugin_getmenuitems_filemgmt()
 
 
 /**
-* Called by the plugin Editor to display the current plugin code version 
+* Called by the plugin Editor to display the current plugin code version
 * This may be different then the version installed and registered currently.
 * If newer then you may want to run the update
 */
@@ -97,45 +97,6 @@ function plugin_chkVersion_filemgmt() {
 */
 function plugin_upgrade_filemgmt()
 {
-/*
-    global $_TABLES,$_FM_TABLES,$CONF_FM;
-
-    $cur_version = DB_getItem($_TABLES['plugins'],'pi_version', "pi_name='filemgmt'");
-    $gl_version = floatval (VERSION);
-    if ($gl_version >= 1.3) {
-        if ($cur_version == '1.3') {
-            DB_query("ALTER TABLE {$_FM_TABLES['filemgmt_cat']} ADD `grp_access` mediumint(8) DEFAULT '2' NOT NULL AFTER imgurl");
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '{$CONF_FM['version']}' WHERE pi_name = 'filemgmt'"); 
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_gl_version = '1.4' WHERE pi_name = 'filemgmt'");
-
-            // Update all the comment records
-            $result = DB_query("SELECT cid,sid FROM {$_TABLES['comments']} WHERE type='filemgmt'");
-            while (list($cid,$sid) = DB_fetchArray($result)) {
-                if (strpos($sid,'fileid_') === FALSE) {
-                    $sid = "fileid_{$sid}";
-                    DB_query("UPDATE {$_TABLES['comments']} SET sid='$sid' WHERE cid='$cid'");
-                }
-            }
-            return true;
-        } elseif ($cur_version == '1.5') {
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '{$CONF_FM['version']}' WHERE pi_name = 'filemgmt'"); 
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_gl_version = '1.4' WHERE pi_name = 'filemgmt'");
-            return true;
-        } elseif ($cur_version == '1.5.1') {
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '{$CONF_FM['version']}' WHERE pi_name = 'filemgmt'");
-            return true;
-        } elseif ($cur_version == '1.5.2') {
-            DB_query("UPDATE {$_TABLES['plugins']} SET pi_version = '{$CONF_FM['version']}' WHERE pi_name = 'filemgmt'");
-            return true;
-        } else {
-            return 5;
-        }
-
-    } else {
-        return 3;
-    }
-*/
-
     global $_TABLES, $_FM_TABLES, $CONF_FM, $_CONF, $_FM_CONF;
 
     $cur_version = DB_getItem($_TABLES['plugins'],'pi_version', "pi_name='filemgmt'");
@@ -197,7 +158,7 @@ function plugin_migrate_filemgmt($old_conf)
  * @author Blaine Lang blaine@portalparts.com
  * @return  boolean  true indicates comments are suppported
  */
-function plugin_commentsupport_filemgmt() 
+function plugin_commentsupport_filemgmt()
 {
     // Filemgmt Module will use comments
     return true;
@@ -217,26 +178,30 @@ function plugin_commentsupport_filemgmt()
  * @param   string  $postmode 'html' or 'text'
  * @return  mixed   HTML string (redirect?) for success or comment form if failure.
  */
-function plugin_savecomment_filemgmt($title,$comment,$id,$pid,$postmode) {
-    global $_CONF,$_FM_TABLES, $LANG03, $_TABLES;
+function plugin_savecomment_filemgmt($title, $comment, $id, $pid, $postmode)
+{
+    global $_CONF, $_FM_TABLES, $LANG03, $_TABLES;
 
-    $title = strip_tags ($title);
-    $pid = COM_applyFilter ($pid, true);
-    $postmode = COM_applyFilter ($postmode);
+    $retval = '';
 
-    $ret = CMT_saveComment ( $title, $comment, $id, $pid, 'filemgmt',$postmode);
-
-    if ( $ret > 0 ) { // failure
-        return COM_siteHeader()
-            . CMT_commentform ($title, $comment, $id, $pid, 
-                    'filemgmt', $LANG03[14], $postmode)
-            . COM_siteFooter();
+    $ret = CMT_saveComment($title, $comment, $id, $pid, 'filemgmt', $postmode);
+    if ($ret > 0) { // failure
+        $retval = CMT_commentform($title, $comment, $id, $pid, 'filemgmt',
+                                  $LANG03[14], $postmode);
+        if (!defined('COMMENT_ON_SAME_PAGE') || !COMMENT_ON_SAME_PAGE) {
+            if (function_exists('COM_createHTMLDocument')) {
+                $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG03[1]));
+            } else {
+                $retval = COM_siteHeader('menu', $LANG03[1]) . $retval . COM_siteFooter();
+            }
+        }
     } else { // success
-        $comments = DB_count ($_TABLES['comments'], 'sid', $id);
-        DB_change($_FM_TABLES['filemgmt_filedetail'],'comments', $comments, 'lid',$id); 
-        return (COM_refresh (COM_buildUrl ($_CONF['site_url']
-            . "/filemgmt/index.php?id=$id")) );
+        $comments = DB_count($_TABLES['comments'], 'sid', $id);
+        DB_change($_FM_TABLES['filemgmt_filedetail'], 'comments', $comments, 'lid', $id);
+        $retval = COM_refresh(COM_buildUrl($_CONF['site_url'] . "/filemgmt/index.php?id=$id"));
     }
+
+    return $retval;
 }
 
 
@@ -247,19 +212,23 @@ function plugin_savecomment_filemgmt($title,$comment,$id,$pid,$postmode) {
  * @param   int     $cid    Comment to be deleted
  * @param   string  $id     Item id to which $cid belongs
  * @return  mixed   false for failure, HTML string (redirect?) for success
- */function plugin_deletecomment_filemgmt($cid,$id) {
-    global $_CONF,$_FM_TABLES, $_TABLES;
+ */
+function plugin_deletecomment_filemgmt($cid, $id)
+{
+    global $_CONF, $_USER;
+
+    $retval = '';
 
     if (SEC_hasRights("filemgmt.edit")) {
-        if (CMT_deleteComment($cid, $id, 'filemgmt') == 0) {
-            // Now redirect the program flow to the view of the file and its comments
-            return (COM_refresh($_CONF['site_url'] . "/filemgmt/index.php?id=$id"));
-        } else {
-            return false;
-        }
+        CMT_deleteComment($cid, $id, 'filemgmt');
+        $retval = COM_refresh($_CONF['site_url'] . "/filemgmt/index.php?id=$id");
     } else {
-        return false;
+        COM_errorLog("User {$_USER['username']} (IP: {$_SERVER['REMOTE_ADDR']}) "
+                   . "tried to illegally delete comment $cid from filemgmt $id");
+        $retval .= COM_refresh($_CONF['site_url'] . '/index.php');
     }
+
+    return $retval;
 }
 
 
@@ -276,7 +245,8 @@ function plugin_savecomment_filemgmt($title,$comment,$id,$pid,$postmode) {
  * @param   boolean $view   True to view comment (by cid), false to display (by $pid)
  * @return  mixed   results of calling the CMT_userComments function
  */
-function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$page,$view) {
+function plugin_displaycomment_filemgmt($id, $commentid, $title, $order, $format, $page, $view)
+{
     global $LANG_FILEMGMT, $_TABLES, $_FM_TABLES, $_CONF, $LANG01;
 
     $id = str_replace('fileid_','',$id);
@@ -291,7 +261,7 @@ function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$pa
     $myts = new MyTextSanitizer; // MyTextSanitizer object
     $mytree = new XoopsTree($_DB_name,$_FM_TABLES['filemgmt_cat'],"cid","pid");
 
-    $display = COM_startBlock("<b>". $LANG_FILEMGMT['plugin_name'] ."</b>"); 
+    $display = COM_startBlock("<b>". $LANG_FILEMGMT['plugin_name'] ."</b>");
     $fields = 'd.lid, d.cid, d.title, d.url, d.homepage, d.version, d.size, d.logourl,';
     $fields .= 'd.submitter, d.status, d.date, d.hits, d.rating, d.votes, t.description';
 
@@ -299,13 +269,13 @@ function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$pa
     $sql .= "{$_FM_TABLES['filemgmt_filedesc']} t ";
     $sql .= "WHERE d.lid='$id' AND d.lid=t.lid AND status > 0";
     $result=DB_query($sql);
-    list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $logourl, $submitter, $status, $time, $hits, $rating, $votes, $description)=DB_fetchARRAY($result);
-    
+    list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $logourl, $submitter, $status, $time, $hits, $rating, $votes, $description)=DB_fetchArray($result);
+
     $p = new Template($_CONF['path'] . 'plugins/filemgmt/templates');
     $p->set_file (array (
-        'page'             =>     'filelisting.thtml',
-        'records'          =>     'filelisting_record.thtml',
-        'category'         =>     'filelisting_category.thtml'));
+        'page'     => 'filelisting.thtml',
+        'records'  => 'filelisting_record.thtml',
+        'category' => 'filelisting_category.thtml'));
 
     $p->set_var ('layout_url', $_CONF['layout_url']);
     $p->set_var ('site_url',$_CONF['site_url']);
@@ -315,7 +285,7 @@ function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$pa
     $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php?op=");
     $pathstring .= $nicepath;
     $p->set_var('category_path_link',$pathstring);
-    
+
     $rating = number_format($rating, 2);
     $dtitle = $myts->makeTboxData4Show($dtitle);
     $url = $myts->makeTboxData4Show($url);
@@ -327,28 +297,20 @@ function plugin_displaycomment_filemgmt($id,$commentid,$title,$order,$format,$pa
     $datetime = formatTimestamp($time);
     $description = $myts->makeTareaData4Show($description,0); //no html
     $result2 = DB_query("SELECT username,fullname,photo FROM {$_TABLES['users']} WHERE uid = $submitter");
-    list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
+    list ($submitter_name,$submitter_fullname,$photo) = DB_fetchArray($result2);
     $submitter_name = COM_getDisplayName ($submitter, $submitter_name, $submitter_fullname);
-    include($_CONF[path_html] ."/filemgmt/include/dlformat.php");
+    include ($_CONF[path_html] . "/filemgmt/include/dlformat.php");
     $p->set_var('cssid',1);
-    $p->parse ('filelisting_records', 'records');        
+    $p->parse ('filelisting_records', 'records');
     $p->parse ('output', 'page');
-    $display .= $p->finish ($p->get_var('output'));    
+    $display .= $p->finish ($p->get_var('output'));
 
     $display .= COM_endBlock();
 
-    /* Get formatted comment thread */ 
-    if (SEC_hasRights('filemgmt.edit')) {
-        $delete_option = true;
-    } else {
-        $delete_option = false;
-    }
+    /* Get formatted comment thread */
+    $delete_option = SEC_hasRights('filemgmt.edit');
 
-    if ($view == 1) {
-        $display .= CMT_userComments ("fileid_$id", $title, 'filemgmt',$order,$format,$commentid,$page,true,$delete_option);
-    } else {
-        $display .= CMT_userComments ("fileid_$id", $title, 'filemgmt',$order,$format,$commentid,$page,false,$delete_option);
-    }
+    $display .= CMT_userComments("fileid_$id", $title, 'filemgmt', $order, $format, $commentid, $page, $view, $delete_option);
 
     return $display;
 }
@@ -375,9 +337,9 @@ function plugin_statssummary_filemgmt ()
 *
 * @showsitestats        int         Flag to let us know which stats to get
 */
-function plugin_showstats_filemgmt($showsitestats) 
+function plugin_showstats_filemgmt($showsitestats)
 {
-global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
+    global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
 
     $stat_templates = new Template($_CONF['path_layout'] . 'stats');
     $stat_templates->set_file(array(
@@ -404,17 +366,17 @@ global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
             $stat_templates->set_var('item_label',"Page Title");
             $stat_templates->set_var('stat_name',"Hits");
             for ($i = 0; $i < $nrows && $i < 10; $i++) {
-                list ($lid, $title,$hits) = DB_fetchARRAY($result);
+                list ($lid, $title,$hits) = DB_fetchArray($result);
                 $stat_templates->set_var('item_url', $_CONF[site_url]. "/filemgmt/index.php?id=".$lid);
                 $stat_templates->set_var('item_text', $title);
                 $stat_templates->set_var('item_stat', $hits);
-                $stat_templates->parse('stat_row','statrow',true); 
+                $stat_templates->parse('stat_row','statrow',true);
             }
             $stat_templates->parse('output','itemstats');
             $retval .= $stat_templates->finish($stat_templates->get_var('output'));
         } else {
             $retval .= $LANG_FILEMGMT['StatsMsg2'];
-        }    
+        }
         $retval .= COM_endBlock();
     }
     return $retval;
@@ -426,7 +388,7 @@ global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
 *
 */
 
-function plugin_searchtypes_filemgmt() 
+function plugin_searchtypes_filemgmt()
 {
     global $LANG_FILEMGMT;
 
@@ -434,95 +396,6 @@ function plugin_searchtypes_filemgmt()
 
     return $tmp;
 }
-
-/**
-* this searches for files matching the user query and returns an array of 
-* for the header and table rows back to search.php where it will be formated and
-* printed 
-*
-* @query            string          Keywords user is looking for
-* @datestart        date/time       Start date to get results for
-* @dateend          date/time       End date to get results for
-* @topic            string          The topic they were searching in
-* @type             string          Type of items they are searching
-* @author           string          Get all results by this author
-*
-*/
-/*
-function plugin_dopluginsearch_filemgmt($query, $datestart, $dateend, $topic, $type, $author) 
-{
-    global $LANG_FILEMGMT, $_TABLES, $_FM_TABLES, $_CONF, $filemgmt_FileStoreURL;
-
-    $query = addslashes($query);
-    if (empty($type)) {
-        $type = 'all';
-    }
-    
-    // Bail if we aren't supppose to do our search
-    if ($type <> 'all' AND $type <> 'filemgmt') {
-        $plugin_results = new Plugin();
-        $plugin_results->plugin_name = $LANG_FILEMGMT['plugin_name'];
-        $plugin_results->searchlabel = $LANG_FILEMGMT['searchlabel'];
-        return $plugin_results;
-    }
-
-    // Build search SQL
-    $sql  = "SELECT a.lid, a.lid, a.cid, a.title, url, submitter, comments, hits, UNIX_TIMESTAMP(date) as day, description ";
-    $sql .= "FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
-    $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON b.cid=a.cid ";
-    $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_filedesc']} c ON c.lid=a.lid ";
-    $sql .= filemgmt_buildAccessSql('WHERE');
-    $sql .= " AND a.status > 0 ";
-    $sql .= "AND ((comments like '%$query%' OR comments like '$query%' OR comments like '%$query') ";
-    $sql .= "OR (a.title like '%$query%' OR a.title like '$query%' OR a.title like '%$query') ";
-    $sql .= "OR (c.description like '%$query%' OR c.description like '$query%' OR c.description like '%$query')) ";
-
-    if (!empty($datestart) && !empty($dateend)) {
-        $delim = substr($datestart, 4, 1);
-        $DS = explode($delim,$datestart);
-        $DE = explode($delim,$dateend);
-        $startdate = mktime(0,0,0,$DS[1],$DS[2],$DS[0]);
-        $enddate = mktime(0,0,0,$DE[1],$DE[2],$DE[0]) + 3600;
-        $sql .= "AND (UNIX_TIMESTAMP(date) BETWEEN '$startdate' AND '$enddate') ";
-    }
-
-    if (!empty($author)) {
-        $sql .= "AND (submitter = '$author') ";
-    }
-    $sql    .= "ORDER BY date desc";
-
-    // Perform search
-    $result = DB_query($sql);
-    
-    // OK, now return coma delmited string of table header labels
-    // Need to use language variables
-    require_once($_CONF['path_system'] . 'classes/plugin.class.php');
-    $plugin_results = new Plugin();
-    $plugin_results->plugin_name = 'filemgmt';
-    $plugin_results->searchlabel = $LANG_FILEMGMT['searchlabel_results'];
-    $plugin_results->addSearchHeading('Title');
-    $plugin_results->addSearchHeading('Description');
-    $plugin_results->addSearchHeading('Author');
-    $plugin_results->addSearchHeading('Downloads');
-    $plugin_results->num_searchresults = DB_numRows($result);
-
-    // NOTE if any of your data items need to be links then add them here! 
-    // make sure data elements are in an array and in the same order as your
-    // headings above!
-    
-    for ($i = 1; $i <= $plugin_results->num_searchresults; $i++) {
-        $A = DB_fetchArray($result);
-        $thetime = COM_getUserDateTimeFormat($A['day']);
-        $url = $_CONF[site_url]. "/filemgmt/index.php?id=".$A['lid'];
-        $row = array("<a href={$url}>{$A['title']}</a>", wordwrap($A['description'],70,"<br".XHTML.">"), COM_getDisplayName($A['submitter']), $A['hits']);
-        $plugin_results->addSearchResult($row);
-    }
-
-    $plugin_results->num_itemssearched = DB_count($_FM_TABLES['filemgmt_filedetail']);
-
-    return $plugin_results;
-}
-*/
 
 /**
 * This searches for links matching the user query and returns an array for the
@@ -604,13 +477,15 @@ function plugin_cclabel_filemgmt()
 *
 */
 
-function plugin_getuseroption_filemgmt() {
-    global $_CONF, $_FM_TABLES, $LANG_FILEMGMT,$mydownloads_uploadselect;
+function plugin_getuseroption_filemgmt()
+{
+    global $_CONF, $_FM_TABLES, $LANG_FILEMGMT, $mydownloads_uploadselect;
+
     if (SEC_hasRights('filemgmt.upload') OR $mydownloads_uploadselect == 1) {
            return array($LANG_FILEMGMT['usermenu3'], $_CONF['site_url'] . '/filemgmt/submit.php');
-    } else { 
+    } else {
         return false;
-    }    
+    }
 }
 
 
@@ -619,12 +494,14 @@ function plugin_getuseroption_filemgmt() {
 * *
 */
 
-function plugin_getadminoption_filemgmt() 
+function plugin_getadminoption_filemgmt()
 {
     global $_CONF, $_FM_TABLES, $LANG_FILEMGMT;
+
     if (SEC_hasRights('filemgmt.edit')) {
-        $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status=0");
-        list($submittedfiles) = DB_fetchARRAY($result);
+//        $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status=0");
+        $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status=1");
+        list($submittedfiles) = DB_fetchArray($result);
         return array($LANG_FILEMGMT['admin_menu'], $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php', $submittedfiles);
     }
 }
@@ -673,19 +550,23 @@ function plugin_uninstall_filemgmt($installCheck='')
     $pi_name='filemgmt';
     $FEATURES = array ('filemgmt.edit', 'filemgmt.user','filemgmt.upload');
     $TABLES = array ('filemgmt_cat','filemgmt_filedetail','filemgmt_filedesc','filemgmt_brokenlinks','filemgmt_votedata','filemgmt_history');
-  
+
      // Check and see if plugin is still enabled - if so display warning and exit
     if ($installCheck != '' && DB_getItem($_TABLES['plugins'],'pi_enabled', 'pi_name = "' .$pi_name. '"')) {
         COM_errorLog("Plugin is installed and enabled. Disable first if you want to de-install it",1);
-        $display = COM_siteHeader();
+        $display = '';
         $display .= COM_startBlock($LANG_FM00['warning']);
         $display .= $LANG_FM00['enabled'];
         $display .= COM_endBlock();
-        $display .= COM_siteFooter();
-        echo $display;
+        if (function_exists('COM_createHTMLDocument')) {
+            $retval = COM_createHTMLDocument($display);
+        } else {
+            $retval = COM_siteHeader() . $display . COM_siteFooter();
+        }
+        COM_output($display);
         exit;
     }
-    
+
     // Ok to proceed and delete plugin - Unregister the plugin with Geeklog
     COM_errorLog('Attempting to unregister the Forum plugin from Geeklog',1);
     DB_query("DELETE FROM {$_TABLES['plugins']} WHERE pi_name = 'filemgmt'",1);
@@ -740,11 +621,6 @@ function plugin_uninstall_filemgmt($installCheck='')
             foreach ($param_names as $key => $val) {
                 $plg_config->del($key, 'filemgmt');
             }
-/*
-            foreach ($param_names as $param_name) {
-                $plg_config->del($param_name, 'filemgmt');
-            }
-*/
         }
     }
 
@@ -753,8 +629,9 @@ function plugin_uninstall_filemgmt($installCheck='')
 }
 
 // Common function used to build group access SQL
-function filemgmt_buildAccessSql($clause='AND') {
-    global $_TABLES,$_USER;
+function filemgmt_buildAccessSql($clause='AND')
+{
+    global $_TABLES, $_USER;
 
     $pi_version = DB_getItem($_TABLES['plugins'], 'pi_version', "pi_name='filemgmt'");
     if (version_compare($pi_version, '1.5') < 0) {
@@ -871,7 +748,7 @@ function plugin_getfeedcontent_filemgmt ($feed, &$link, &$update)
     return $content;
 }
 
-function plugin_feedupdatecheck_filemgmt ($feed, $topic, $update_data, $limit)
+function plugin_feedupdatecheck_filemgmt($feed, $topic, $update_data, $limit)
 {
     global $_FM_TABLES;
 
@@ -894,8 +771,10 @@ function plugin_feedupdatecheck_filemgmt ($feed, $topic, $update_data, $limit)
   * Whats New Block API Support
   * Return the Headline and Byline for the new section in the Whatsnew Block
 */
-function plugin_whatsnewsupported_filemgmt() {
-    global $_CONF, $LANG_FM00,$mydownloads_whatsnew,$filemgmtWhatsNewPeriodDays;
+function plugin_whatsnewsupported_filemgmt()
+{
+    global $_CONF, $LANG_FM00, $mydownloads_whatsnew, $filemgmtWhatsNewPeriodDays;
+
     if ($mydownloads_whatsnew == 1) {
         return array(
             $LANG_FM00['WhatsNewLabel'],
@@ -910,12 +789,13 @@ function plugin_whatsnewsupported_filemgmt() {
 /**
   * API function provides the content of our "What's New" feed
 */
-function plugin_getwhatsnew_filemgmt() {
+function plugin_getwhatsnew_filemgmt()
+{
     global $_TABLES, $_FM_TABLES, $_CONF, $LANG_FILEMGMT, $LANG01;
-    global $filemgmtWhatsNewTitleLength,$filemgmtWhatsNewPeriodDays,$filemgmt_showWhatsNewComments;
+    global $filemgmtWhatsNewTitleLength, $filemgmtWhatsNewPeriodDays, $filemgmt_showWhatsNewComments;
 
     $items = array();
-    if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {     
+    if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $sql  = "SELECT a.lid, a.title FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
         $sql .= "WHERE date >= UNIX_TIMESTAMP( DATE_SUB(NOW(), INTERVAL $filemgmtWhatsNewPeriodDays DAY )) ";
@@ -1150,8 +1030,10 @@ function plugin_getiteminfo_filemgmt($lid, $what, $uid = 0, $options = array())
 *  It will generate the menuitems and submenus for your filemgmt plugin
 *  Works with the function plugin_glMenuCreateMenus_filemgmt()
 */
-function glmenu_filemgmt() {
-    global $_CONF,$_FM_TABLES,$CONF_FILEMGMT;
+function glmenu_filemgmt()
+{
+    global $_CONF, $_FM_TABLES, $CONF_FILEMGMT;
+
     $menu_location = $CONF_FILEMGMT['glmenutype'];
 
     $retval = '';
@@ -1167,8 +1049,9 @@ function glmenu_filemgmt() {
 
 
 /* GL-Menu API function to generate requires Milonic Javascript functions */
-function plugin_glMenuCreateMenus_filemgmt() {
-    global $_CONF,$_FM_TABLES,$CONF_GLMENU,$CONF_FILEMGMT,$_FMDOWNLOAD;
+function plugin_glMenuCreateMenus_filemgmt()
+{
+    global $_CONF, $_FM_TABLES, $CONF_GLMENU, $CONF_FILEMGMT, $_FMDOWNLOAD;
 
     /* Generate the JS Menu Functions that are needed for the Content Editor submenus */
     $menu_location = $CONF_FILEMGMT['glmenutype'];

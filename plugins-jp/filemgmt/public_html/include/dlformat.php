@@ -9,7 +9,7 @@
 // ------------------------------------------------------------------------- //
 // Developed for Geeklog as File Management Module                           //
 // By: Blaine Lang  -  July 2002                                             //
-// blaine@portalparts.com                                                     //
+// blaine@portalparts.com                                                    //
 //                                                                           //
 // Ver 1.2 Sept 24/2002: Enhancements to display formatting                  //
 // ------------------------------------------------------------------------- //
@@ -114,7 +114,7 @@ if ($comments) {
         $recentPostMessage = $LANG01[27].': '.strftime($_CONF['daytime'],$C['day']). ' ' . $LANG01[104] . ' ' . $C['username'];
         $comment_link = '<a href="' .$_CONF[site_url] .'/filemgmt/index.php?id=' .$lid.'" title="'.$recentPostMessage.'">' .$commentCount.'&nbsp;' .$LANG01[3]. '</a>';
     } else {
-        $comment_link = '<a href="' .$_CONF[site_url] . '/comment.php?type=filemgmt&amp;sid=fileid_' .$lid.'" title="'.$recentPostMessage.'">' . _MD_ENTERCOMMENT . '</a>';
+        $comment_link = '<a href="' .$_CONF[site_url] . '/comment.php?type=filemgmt&amp;sid=' .$lid.'" title="'.$recentPostMessage.'">' . _MD_ENTERCOMMENT . '</a>';
     }
     $p->set_var('comment_link',$comment_link);
     $p->set_var('show_comments','');
