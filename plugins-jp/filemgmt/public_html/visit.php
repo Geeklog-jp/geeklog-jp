@@ -43,7 +43,10 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $uid = 1;    // Set to annonymous GL User ID
     }
 
-    $lid = COM_applyFilter($_GET['lid'],true);
+    $lid = 0;
+    if (isset($_GET['lid'])) {
+        $lid = COM_applyFilter($_GET['lid'], true);
+    }
     $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
     $groupsql = filemgmt_buildAccessSql();
 

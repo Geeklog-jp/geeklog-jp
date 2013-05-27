@@ -1,10 +1,10 @@
 <?php
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -36,20 +36,23 @@ require_once("../lib-common.php");
 include_once($_CONF[path_html]."filemgmt/include/header.php");
 include($_CONF[path_html] ."filemgmt/include/functions.php"); 
 
+$lid = 0;
+if (isset($_GET['lid'])) {
+    $lid = COM_applyFilter($_GET['lid'], true);
+}
+
 // Comment out the following security check if you want general filemgmt users access to this report
 if (!SEC_hasRights("filemgmt.edit")) {
     COM_errorLOG("Downloadhistory.php => Filemgmt Plugin Access denied. Attempted access for file ID:{$lid}, Remote address is:{$_SERVER['REMOTE_ADDR']}");
     redirect_header($_CONF['site_url']."/index.php",1,_GL_ERRORNOADMIN);
     exit();
 }
-$lid = COM_applyFilter($_GET['lid'],true);
 
 $result=DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid=$lid");
-list($dtitle)=DB_fetchARRAY($result); 
+list($dtitle)=DB_fetchArray($result); 
 
 $result=DB_query("SELECT date,uid,remote_ip FROM {$_FM_TABLES['filemgmt_history']} WHERE lid=$lid");
-$display = COM_siteHeader('none');
-
+$display = '';
 $display .= "<table width='100%' border='0' cellspacing='1' cellpadding='4' class='plugin'><tr>";
 $display .= "<td colspan='3'><div style=\"text-align:center;\"><h2>". $LANG_FILEMGMT['DownloadReport'] ."</h2></div></td></tr><tr>";
 $display .= "<td colspan='3'><h4>File: " . $dtitle . "</h4></td></tr><tr>";
@@ -59,11 +62,11 @@ $display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\
 $display .= "</tr>";
 
 $highlight = true;
-while (list($date,$uid,$remote_ip) = DB_fetchARRAY($result)) {
+while (list($date,$uid,$remote_ip) = DB_fetchArray($result)) {
     $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
-    list ($username) = DB_fetchARRAY($result2);    
+    list ($username) = DB_fetchArray($result2);    
     $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
-    list ($username) = DB_fetchARRAY($result2);
+    list ($username) = DB_fetchArray($result2);
 
     if ($highlight) {
         $highlight = false;
@@ -84,7 +87,12 @@ while (list($date,$uid,$remote_ip) = DB_fetchARRAY($result)) {
 }
 $display .= "</table>";
 $display .= "<br" . XHTML . ">";
-$display .= COM_siteFooter();
+if (function_exists('COM_createHTMLDocument')) {
+    $information = array('menu' => 'none');
+    $display = COM_createHTMLDocument($display, $information);
+} else {
+    $display = COM_siteHeader() . $display . COM_siteFooter();
+}
 COM_output($display);
 
 ?>

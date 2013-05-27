@@ -40,7 +40,7 @@ include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
 //$myts =& MyTextSanitizer::getInstance(); // MyTextSanitizer object
 $myts = new MyTextSanitizer;
 
-if($_POST['submit']) {
+if ($_POST['submit']) {
     $eh = new ErrorHandler; //ErrorHandler object    
     if(!FilemgmtUser){
         $ratinguser = 0;
@@ -50,8 +50,14 @@ if($_POST['submit']) {
     //Make sure only 1 anonymous from an IP in a single day.
     $anonwaitdays = 1;
     $ip = $_SERVER['REMOTE_ADDR'];
-    $lid = COM_applyFilter($_POST['lid'],true);
-    $rating = COM_applyFilter($_POST['rating'],true);
+    $lid = 0;
+    if (isset($_POST['lid'])) {
+        $lid = COM_applyFilter($_POST['lid'], true);
+    }
+    $rating = 0;
+    if (isset($_POST['rating'])) {
+        $rating = COM_applyFilter($_POST['rating'], true);
+    }
     // Check if Rating is Null
     if ($rating=="--") {
         redirect_header("ratefile.php?lid=".$lid."",4,_MD_NORATING);
@@ -61,7 +67,7 @@ if($_POST['submit']) {
        // Check if Download POSTER is voting (UNLESS Anonymous users allowed to post)
     if ($ratinguser != 0) {
         $result=DB_query("SELECT submitter FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-        while(list($ratinguserDB)=DB_fetchARRAY($result)) {
+        while(list($ratinguserDB)=DB_fetchArray($result)) {
             if ($ratinguserDB==$ratinguser) {
                 redirect_header("index.php",4,_MD_CANTVOTEOWN);
                  exit();
@@ -70,7 +76,7 @@ if($_POST['submit']) {
 
        // Check if REG user is trying to vote twice.
        $result=DB_query("SELECT ratinguser FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid'");
-       while(list($ratinguserDB)=DB_fetchARRAY($result)) {
+       while(list($ratinguserDB)=DB_fetchArray($result)) {
            if ($ratinguserDB==$ratinguser) {
                redirect_header("index.php",4,_MD_VOTEONCE);
                 exit();
@@ -78,10 +84,10 @@ if($_POST['submit']) {
       }
     }
     // Check if ANONYMOUS user is trying to vote more than once per day.
-    if ($ratinguser==0){
+    if ($ratinguser==0) {
         $yesterday = (time()-(86400 * $anonwaitdays));
         $result=DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' AND ratinguser=0 AND ratinghostname = '$ip'  AND ratingtimestamp > $yesterday");
-        list($anonvotecount) = DB_fetchARRAY($result);
+        list($anonvotecount) = DB_fetchArray($result);
         if ($anonvotecount >= 1) {
             redirect_header("index.php",4,_MD_VOTEONCE);
             exit();
@@ -100,10 +106,10 @@ if($_POST['submit']) {
 } else {
 
     $lid = COM_applyFilter($_GET['lid'],true);
-    $display = COM_siteHeader('menu');
+    $display = '';
     $display .= COM_startBlock("<b>"._MD_RATEFILETITLE."</b>");
     $result=DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-    list($title) = DB_fetchARRAY($result);
+    list($title) = DB_fetchArray($result);
     $title = $myts->makeTboxData4Show($title);
     $display .= '<table border="0" cellpadding="1" cellspacing="0" width="80%" class="plugin"><tr>';
     $display .= '<td class="pluginHeader">' . _MD_FILE . ':&nbsp;' . $title . '</td></tr>';
@@ -124,7 +130,11 @@ if($_POST['submit']) {
     $display .= "&nbsp;<input type=\"button\" value=\"" . _MD_CANCEL . "\" onclick=\"javascript:history.go(-1)\"" . XHTML . ">\n";
     $display .= "</div></form></td></tr></table>";
     $display .= COM_endBlock();
-    $display .= COM_siteFooter();
+    if (function_exists('COM_createHTMLDocument')) {
+        $display = COM_createHTMLDocument($display);
+    } else {
+        $display = COM_siteHeader() . $display . COM_siteFooter();
+    }
     COM_output($display);
 }
 

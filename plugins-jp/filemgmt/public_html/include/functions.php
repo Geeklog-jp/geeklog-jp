@@ -61,9 +61,10 @@ function popgraphic($hits) {
 }
 
 //updates rating data in itemtable for a given item
-function updaterating($sel_id){
+function updaterating($sel_id) {
     global $_FM_TABLES;
-    $voteresult = DB_query("select rating FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid = '$sel_id'");
+    $sel_id = intval($sel_id);
+    $voteresult = DB_query("SELECT rating FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid = '$sel_id'");
     $votesDB = DB_numROWS($voteresult);
     $totalrating = 0;
     if ($votesDB > 0) {
@@ -77,21 +78,25 @@ function updaterating($sel_id){
 }
 
 //returns the total number of items in items table that are accociated with a given table $table id
-function getTotalItems($sel_id, $status=''){
+function getTotalItems($sel_id, $status='') {
     global $_FM_TABLES,$mytree;
     $count = 0;
     $arr = array();
-    $sql = "SELECT count(*) from {$_FM_TABLES['filemgmt_filedetail']} a ";
+    $sel_id = intval($sel_id);
+    if (!empty($status)) {
+        $status = intval($status);
+    }
+    $sql = "SELECT count(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
     $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
-    $sql .= "WHERE  a.cid='$sel_id' and a.status='$status' $mytree->filtersql";
+    $sql .= "WHERE a.cid='$sel_id' AND a.status='$status' $mytree->filtersql";
     list($thing) = DB_fetchArray(DB_query($sql));
     $count = $thing;
     $arr = $mytree->getAllChildId($sel_id);
     $size = sizeof($arr);
     for($i=0;$i<$size;$i++){
-        $sql = "SELECT count(*) from {$_FM_TABLES['filemgmt_filedetail']} a ";
+        $sql = "SELECT count(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
-        $sql .= "WHERE  a.cid='{$arr[$i]}}'and a.status='$status' $mytree->filtersql";
+        $sql .= "WHERE a.cid='{$arr[$i]}}' AND a.status='$status' $mytree->filtersql";
         list($thing) = DB_fetchArray(DB_query($sql));
         $count += $thing;
     }
@@ -145,8 +150,7 @@ function themecenterposts($title, $content) {
  return $retval;
 }
 
-function redirect_header($url, $time=3, $message=''){
-    $display = COM_siteHeader('menu');
+function redirect_header($url, $time=3, $message='') {
     $display .= "<html><head>\n";
     $display .= "<meta http-equiv='Content-Type' content='text/html;' />\n";
     $display .= "<meta http-equiv='Refresh' content='$time; url=$url' />\n";
@@ -160,43 +164,116 @@ function redirect_header($url, $time=3, $message=''){
     $display .= sprintf(_IFNOTRELOAD,$url);
     $display .= "\n";
     $display .= COM_endBlock();
-    $display .= COM_siteFooter(false);
+    if (function_exists('COM_createHTMLDocument')) {
+        $display = COM_createHTMLDocument($display);
+    } else {
+        $display = COM_siteHeader() . $display . COM_siteFooter();
+    }
     echo $display;
 }
 
 //Reusable Link Sorting Functions
 function convertorderbyin($orderby) {
-        if ($orderby == "titleA")                       $orderby = "title ASC";
-        if ($orderby == "dateA")                        $orderby = "date ASC";
-        if ($orderby == "hitsA")                        $orderby = "hits ASC";
-        if ($orderby == "ratingA")                      $orderby = "rating ASC";
-        if ($orderby == "titleD")                       $orderby = "title DESC";
-        if ($orderby == "dateD")                        $orderby = "date DESC";
-        if ($orderby == "hitsD")                        $orderby = "hits DESC";
-        if ($orderby == "ratingD")                      $orderby = "rating DESC";
-        return $orderby;
+    switch ($orderby) {
+        case 'titleA':
+            $orderby = 'title ASC';
+            break;
+        case 'dateA':
+            $orderby = 'date ASC';
+            break;
+        case 'hitsA':
+            $orderby = 'hits ASC';
+            break;
+        case 'ratingA':
+            $orderby = 'rating ASC';
+            break;
+        case 'titleD':
+            $orderby = 'title DESC';
+            break;
+        case 'dateD':
+            $orderby = 'date DESC';
+            break;
+        case 'hitsD':
+            $orderby = 'hits DESC';
+            break;
+        case 'ratingD':
+            $orderby = 'rating DESC';
+            break;
+        default:
+            $orderby = 'date DESC';
+            break;
+    }
+
+    return $orderby;
 }
+
 function convertorderbytrans($orderby) {
-        if ($orderby == "hits ASC")     $orderbyTrans = _MD_POPULARITYLTOM;
-        if ($orderby == "hits DESC")    $orderbyTrans = _MD_POPULARITYMTOL;
-        if ($orderby == "title ASC")    $orderbyTrans = _MD_TITLEATOZ;
-       if ($orderby == "title DESC")    $orderbyTrans = _MD_TITLEZTOA;
-        if ($orderby == "date ASC")     $orderbyTrans = _MD_DATEOLD;
-        if ($orderby == "date DESC")    $orderbyTrans = _MD_DATENEW;
-        if ($orderby == "rating ASC")   $orderbyTrans = _MD_RATINGLTOH;
-        if ($orderby == "rating DESC")  $orderbyTrans = _MD_RATINGHTOL;
-        return $orderbyTrans;
+    switch ($orderby) {
+        case 'hits ASC':
+            $orderbyTrans = _MD_POPULARITYLTOM;
+            break;
+        case 'hits DESC':
+            $orderbyTrans = _MD_POPULARITYMTOL;
+            break;
+        case 'title ASC':
+            $orderbyTrans = _MD_TITLEATOZ;
+            break;
+        case 'title DESC':
+            $orderbyTrans = _MD_TITLEZTOA;
+            break;
+        case 'date ASC':
+            $orderbyTrans = _MD_DATEOLD;
+            break;
+        case 'date DESC':
+            $orderbyTrans = _MD_DATENEW;
+            break;
+        case 'rating ASC':
+            $orderbyTrans = _MD_RATINGLTOH;
+            break;
+        case 'rating DESC':
+            $orderbyTrans = _MD_RATINGHTOL;
+            break;
+        default:
+            $orderbyTrans = _MD_DATENEW;
+            break;
+    }
+
+    return $orderbyTrans;
 }
+
 function convertorderbyout($orderby) {
-        if ($orderby == "title ASC")    $orderby = "titleA";
-        if ($orderby == "date ASC")     $orderby = "dateA";
-        if ($orderby == "hits ASC")     $orderby = "hitsA";
-        if ($orderby == "rating ASC")   $orderby = "ratingA";
-        if ($orderby == "title DESC")   $orderby = "titleD";
-        if ($orderby == "date DESC")    $orderby = "dateD";
-        if ($orderby == "hits DESC")    $orderby = "hitsD";
-        if ($orderby == "rating DESC")  $orderby = "ratingD";
-        return $orderby;
+    switch ($orderby) {
+        case 'title ASC':
+            $orderby = 'titleA';
+            break;
+        case 'date ASC':
+            $orderby = 'dateA';
+            break;
+        case 'hits ASC':
+            $orderby = 'hitsA';
+            break;
+        case 'rating ASC':
+            $orderby = 'ratingA';
+            break;
+
+        case 'title DESC':
+            $orderby = 'titleD';
+            break;
+        case 'date DESC':
+            $orderby = 'dateD';
+            break;
+        case 'hits DESC':
+            $orderby = 'hitsD';
+            break;
+        case 'rating DESC':
+            $orderby = 'ratingD';
+            break;
+        default:
+            $orderby = 'dateD';
+            break;
+    }
+
+    return $orderby;
 }
 
 function randomfilename() {

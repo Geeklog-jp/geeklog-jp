@@ -40,20 +40,20 @@ include_once($_CONF[path_html]."filemgmt/include/xoopstree.php");
 include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
 
 // Setup how many categories you want to show in the category row display
-$numCategoriesPerRow  = 2;
+$numCategoriesPerRow = 2;
 $numSubCategories2Show = 5;
 
 if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
 
     $p = new Template($_CONF['path'] . 'plugins/filemgmt/templates');
     $p->set_file (array (
-        'page'             =>     'filelisting.thtml',
-        'records'          =>     'filelisting_record.thtml',
-        'category'         =>     'filelisting_category.thtml'));
-
+        'page'     => 'filelisting.thtml',
+        'records'  => 'filelisting_record.thtml',
+        'category' => 'filelisting_category.thtml'
+    ));
     $p->set_var ('layout_url', $_CONF['layout_url']);
-    $p->set_var ('site_url',$_CONF['site_url']);
-    $p->set_var ('site_admin_url',$_CONF['site_admin_url']);
+    $p->set_var ('site_url', $_CONF['site_url']);
+    $p->set_var ('site_admin_url', $_CONF['site_admin_url']);
     $p->set_var ('xhtml', XHTML);
     $p->set_var ('target', ($CONF_FM['ignore_target']) ? '' : 'target="_blank"');
 
@@ -61,7 +61,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     $mytree = new XoopsTree($_DB_name,$_FM_TABLES['filemgmt_cat'],"cid","pid");
     $mytree->setGroupAccessFilter($_GROUPS);
 
-    $display = COM_siteHeader('menu');
+    $display = '';
     //@@@@@20090602update urlrewrite ---->
     //$lid = COM_applyFilter($_GET['id'],true);
     COM_setArgNames(array('id'));
@@ -91,7 +91,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $sql .= "{$_FM_TABLES['filemgmt_filedesc']} t WHERE d.lid='$lid' AND d.lid=t.lid AND status > 0";
 
         $result = DB_query($sql);
-        list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $logourl, $submitter, $status, $time, $hits, $rating, $votes, $comments, $description) = DB_fetchARRAY($result);
+        list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $logourl, $submitter, $status, $time, $hits, $rating, $votes, $comments, $description) = DB_fetchArray($result);
 
         $pathstring = "<a href='{$_CONF['site_url']}/filemgmt/index.php'>"._MD_MAIN."</a>&nbsp;:&nbsp;";
         $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php");
@@ -109,7 +109,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $datetime = formatTimestamp($time);
         $description = $myts->makeTareaData4Show($description,0); //no html
         $result2 = DB_query("SELECT username,fullname,photo FROM {$_TABLES['users']} WHERE uid = $submitter");
-        list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
+        list ($submitter_name,$submitter_fullname,$photo) = DB_fetchArray($result2);
         $submitter_name = COM_getDisplayName ($submitter, $submitter_name, $submitter_fullname);
         include($_CONF[path_html] ."/filemgmt/include/dlformat.php");
         $p->set_var('cssid',1);
@@ -119,11 +119,19 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         } else {
             $delete_option = false;
         }
-        $p->set_var('comment_records', CMT_userComments( "fileid_{$lid}", $dtitle, 'filemgmt', $_POST['order'], $_POST['mode'], 0, 1, false, $delete_option ));
-	    $p->set_var('subcategories','');
-	    $p->set_var('new_table_row', '<tr>');
-	    $p->set_var('end_of_row', '</tr>');
-	    $p->parse ('category_records', 'category');
+        $order = '';
+        if (isset($_POST['order'])) {
+            $order = COM_applyFilter($_POST['order']);
+        }
+        $mode = '';
+        if (isset($_POST['mode'])) {
+            $mode = COM_applyFilter($_POST['mode']);
+        }
+        $p->set_var('comment_records', CMT_userComments( "fileid_{$lid}", $dtitle, 'filemgmt', $order, $mode, 0, 1, false, $delete_option ));
+        $p->set_var('subcategories', '');
+        $p->set_var('new_table_row', '<tr>');
+        $p->set_var('end_of_row', '</tr>');
+        $p->parse ('category_records', 'category');
 
         $p->parse ('output', 'page');
         $display .= $p->finish ($p->get_var('output'));
@@ -132,16 +140,16 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
 
         $p = new Template($_CONF['path'] . 'plugins/filemgmt/templates');
         $p->set_file (array (
-            'page'             =>     'filelisting.thtml',
-            'records'          =>     'filelisting_record.thtml',
-            'category'         =>     'filelisting_category.thtml'));
-
+            'page'     => 'filelisting.thtml',
+            'records'  => 'filelisting_record.thtml',
+            'category' => 'filelisting_category.thtml'
+        ));
         $p->set_var ('layout_url', $_CONF['layout_url']);
-        $p->set_var ('site_url',$_CONF['site_url']);
-        $p->set_var ('site_admin_url',$_CONF['site_admin_url']);
+        $p->set_var ('site_url', $_CONF['site_url']);
+        $p->set_var ('site_admin_url', $_CONF['site_admin_url']);
         $p->set_var ('xhtml', XHTML);
         $p->set_var ('target', ($CONF_FM['ignore_target']) ? '' : 'target="_blank"');
-        $p->set_var ('imgset',$_CONF['layout_url'] . '/nexflow/images');
+        $p->set_var ('imgset', $_CONF['layout_url'] . '/nexflow/images');
         $p->set_var ('tablewidth', $mydownloads_shotwidth+10);
 
         $page = COM_applyFilter($_GET['page'],true);
@@ -157,7 +165,7 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $nrows = DB_numRows($result);
 
         // Need to use a SQL stmt that does a join on groups user has access to  - for file count
-        $sql  = "SELECT count(*)  FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
+        $sql  = "SELECT count(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid WHERE status > 0 ";
         $sql .= $groupsql;
         $countsql = DB_query($sql);
@@ -255,8 +263,8 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
                     if (($breakPosition > 0) AND ($breakPosition < strlen($description)) AND $mydownloads_trimdesc) {
                         $description = substr($description, 0,$breakPosition) . "<p style=\"text-align:left\"><a href=\"{$_CONF[site_url]}/filemgmt/index.php?id=$lid&amp;comments=1\">{$LANG_FILEMGMT['more']}</a></p>";
                     }
-                    $result2 = DB_query("SELECT username,fullname,photo  FROM {$_TABLES['users']} WHERE uid = $submitter");
-                    list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
+                    $result2 = DB_query("SELECT username,fullname,photo FROM {$_TABLES['users']} WHERE uid = $submitter");
+                    list ($submitter_name,$submitter_fullname,$photo) = DB_fetchArray($result2);
                     $submitter_name = COM_getDisplayName ($submitter, $submitter_name, $submitter_fullname);
                     include($_CONF[path_html] ."/filemgmt/include/dlformat.php");
                     $p->set_var('cssid',$cssid);
@@ -274,7 +282,11 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
         $display .= $p->finish ($p->get_var('output'));
     }
 
-    $display .= COM_siteFooter();
+    if (function_exists('COM_createHTMLDocument')) {
+        $display = COM_createHTMLDocument($display);
+    } else {
+        $display = COM_siteHeader() . $display . COM_siteFooter();
+    }
     COM_output($display);
 
 } else {

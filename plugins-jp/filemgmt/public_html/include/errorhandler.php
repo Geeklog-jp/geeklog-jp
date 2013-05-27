@@ -104,15 +104,19 @@ class ErrorHandler {
             $e_code = '9999';
         }
         include_once($_CONF[path_html]."filemgmt/include/header.php");
-        $display  = COM_siteHeader('menu');
+        $display  = '';
         $display .= '<table class="plugin" border="0" cellspacing="0" cellpadding="1" style="width:100%;">';
         $display .= '<tr><td class="pluginAlert" style="text-align:right; padding:5px;">File Management Plugin</td>';
         $display .= '<td class="pluginAlert" style="width:50%; padding:5px 0px 5px 10px;">Error Code: ' . $e_code . '</td></tr>';
         $display .= '<tr><td colspan="2" class="pluginInfo"><b>ERROR:</b> ' . $errmsg[$e_code] . '</td></tr>';
         $display .= '<tr><td colspan="2" class="pluginInfo" style="text-align:center;padding:10px;">';
         $display .= '[ <a href="javascript:history.go(-' . $pages . ')">Go Back</a> ]</td></tr></table>';
-        $display .= COM_siteFooter();
-        echo $display;
+        if (function_exists('COM_createHTMLDocument')) {
+            $display = COM_createHTMLDocument($display);
+        } else {
+            $display = COM_siteHeader() . $display . COM_siteFooter();
+        }
+        COM_output($display);
         die("");
     }
 }
