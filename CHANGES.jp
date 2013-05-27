@@ -1,3 +1,8 @@
+2013-05-28  Yoshinori Tahara  <dengen>
+
+	* filemgmt: SQLインジェクション対策を施しました。
+	  COM_createHTMLDocument関数に対応しました。
+
 2013-05-12  Kenji ITO  <mystralkk>
 
 	* 掲示板プラグインv2.9.0を取り込みました。
