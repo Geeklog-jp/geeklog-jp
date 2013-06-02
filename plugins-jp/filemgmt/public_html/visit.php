@@ -1,9 +1,9 @@
 <?php
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // +-------------------------------------------------------------------------+
 // | Filemgmt plugin - version 1.5                                           |
-// | Date: Mar 18, 2006                                                      |    
+// | Date: Mar 18, 2006                                                      |
 // +-------------------------------------------------------------------------+
 // | Copyright (C) 2004 by Consult4Hire Inc.                                 |
 // | Author:                                                                 |
@@ -31,18 +31,15 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once('../lib-common.php');
-include_once($_CONF[path_html]."filemgmt/include/header.php");
-include($_CONF[path_html] ."filemgmt/include/functions.php"); 
+require_once '../lib-common.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/header.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/functions.php';
 
 if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
-
+    $uid = 1;    // Set to annonymous GL User ID
     if (isset($_USER['uid'])) {
         $uid = $_USER['uid'];
-    } else {
-        $uid = 1;    // Set to annonymous GL User ID
     }
-
     $lid = 0;
     if (isset($_GET['lid'])) {
         $lid = COM_applyFilter($_GET['lid'], true);
@@ -53,29 +50,34 @@ if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     $sql = "SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
     $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
     $sql .= "WHERE a.lid='$lid' $groupsql";
-    list($testaccess_cnt) = DB_fetchArray( DB_query($sql));
+    list($testaccess_cnt) = DB_fetchArray(DB_query($sql));
 
-    if ($testaccess_cnt == 0 OR DB_count($_FM_TABLES['filemgmt_filedetail'],"lid",$lid ) == 0) {
-        COM_errorLOG("filemgmt visit.php ERROR: Invalid attempt to download a file. User:{$_USER['username']}, IP:{$_SERVER['REMOTE_ADDR']}, File ID:{$lid}");
+    if ($testaccess_cnt == 0 OR DB_count($_FM_TABLES['filemgmt_filedetail'], "lid", $lid) == 0) {
+        COM_errorLog("filemgmt visit.php ERROR: Invalid attempt to download a file. "
+                   . "User:{$_USER['username']}, IP:{$_SERVER['REMOTE_ADDR']}, File ID:{$lid}");
         echo COM_refresh($_CONF['site_url'] . '/filemgmt/index.php');
         exit;
     } else {
-        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_history']} (uid, lid, remote_ip, date) VALUES ($uid, $lid, '{$_SERVER['REMOTE_ADDR']}', NOW())") or $eh->show("0013");
+        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_history']} (uid, lid, remote_ip, date) "
+               . "VALUES ($uid, $lid, '{$_SERVER['REMOTE_ADDR']}', NOW())") or $eh->show("0013");
         DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET hits=hits+1 WHERE lid=$lid AND status>0");
         $result = DB_query("SELECT url FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid=$lid AND status>0");
         list($url) = DB_fetchArray($result);
-        $fullurl = $filemgmt_FileStoreURL .$url;
+        $fullurl = $filemgmt_FileStoreURL . $url;
         $fullurl = stripslashes($fullurl);
-        COM_accessLOG("Visit.php => Download File:{$url}, User ID is:{$uid}, Remote address is: {$_SERVER['REMOTE_ADDR']}");
+        COM_accessLog("Visit.php => Download File:{$url}, User ID is:{$uid}, "
+                    . "Remote address is: {$_SERVER['REMOTE_ADDR']}");
         Header("Location: $fullurl");
-        echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL=".$fullurl."\"></meta></head><body></body></html>";
-        exit();
+        echo "<html><head><meta http-equiv=\"Refresh\" content=\"0; URL="
+            . $fullurl . "\"></meta></head><body></body></html>";
+        exit;
     }
 
 } else {
-    COM_errorLOG("Visit.php => FileMgmt Plugin Access denied. Attempted download of file ID:{$lid}, Remote address is: {$_SERVER['REMOTE_ADDR']}");
-    redirect_header($_CONF['site_url']."/index.php",1,_GL_ERRORNOACCESS);
-    exit();
+    COM_errorLog("Visit.php => FileMgmt Plugin Access denied. Attempted download "
+               . "of file ID:{$lid}, Remote address is: {$_SERVER['REMOTE_ADDR']}");
+    redirect_header($_CONF['site_url']."/index.php", 1, _GL_ERRORNOACCESS);
+    exit;
 }
 
 ?>

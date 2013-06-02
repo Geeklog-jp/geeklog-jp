@@ -32,9 +32,9 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once("../lib-common.php");
-include_once($_CONF[path_html]."filemgmt/include/header.php");
-include($_CONF[path_html] ."filemgmt/include/functions.php"); 
+require_once '../lib-common.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/header.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/functions.php';
 
 $lid = 0;
 if (isset($_GET['lid'])) {
@@ -43,50 +43,51 @@ if (isset($_GET['lid'])) {
 
 // Comment out the following security check if you want general filemgmt users access to this report
 if (!SEC_hasRights("filemgmt.edit")) {
-    COM_errorLOG("Downloadhistory.php => Filemgmt Plugin Access denied. Attempted access for file ID:{$lid}, Remote address is:{$_SERVER['REMOTE_ADDR']}");
-    redirect_header($_CONF['site_url']."/index.php",1,_GL_ERRORNOADMIN);
-    exit();
+    COM_errorLog("Downloadhistory.php => Filemgmt Plugin Access denied. "
+        . "Attempted access for file ID:{$lid}, Remote address is:{$_SERVER['REMOTE_ADDR']}");
+    redirect_header($_CONF['site_url'] . "/index.php", 1, _GL_ERRORNOADMIN);
+    exit;
 }
 
 $result=DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid=$lid");
-list($dtitle)=DB_fetchArray($result); 
+list($dtitle) = DB_fetchArray($result);
 
-$result=DB_query("SELECT date,uid,remote_ip FROM {$_FM_TABLES['filemgmt_history']} WHERE lid=$lid");
+$result = DB_query("SELECT date,uid,remote_ip FROM {$_FM_TABLES['filemgmt_history']} WHERE lid=$lid");
 $display = '';
-$display .= "<table width='100%' border='0' cellspacing='1' cellpadding='4' class='plugin'><tr>";
-$display .= "<td colspan='3'><div style=\"text-align:center;\"><h2>". $LANG_FILEMGMT['DownloadReport'] ."</h2></div></td></tr><tr>";
-$display .= "<td colspan='3'><h4>File: " . $dtitle . "</h4></td></tr><tr>";
-$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">Date</span></b></td>";
-$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">User</span></b></td>";
-$display .= "<td style=\"background-color:#000000; width:20%;\"><b><span style=\"text-align:center; color:#ffffff; \">Remote IP</span></b></td>";
-$display .= "</tr>";
+$display .= '<table width="100%" border="0" cellspacing="1" cellpadding="4" class="plugin"><tr>';
+$display .= '<td colspan="3"><div style="text-align:center;"><h2>' . $LANG_FILEMGMT['DownloadReport'] . '</h2></div></td></tr><tr>';
+$display .= '<td colspan="3"><h4>File: ' . $dtitle . '</h4></td></tr><tr>';
+$display .= '<td style="background-color:#000000; width:20%;"><b><span style="text-align:center; color:#ffffff;">Date</span></b></td>';
+$display .= '<td style="background-color:#000000; width:20%;"><b><span style="text-align:center; color:#ffffff;">User</span></b></td>';
+$display .= '<td style="background-color:#000000; width:20%;"><b><span style="text-align:center; color:#ffffff;">Remote IP</span></b></td>';
+$display .= '</tr>';
 
 $highlight = true;
-while (list($date,$uid,$remote_ip) = DB_fetchArray($result)) {
-    $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
-    list ($username) = DB_fetchArray($result2);    
-    $result2 = DB_query("SELECT username  FROM {$_TABLES['users']} WHERE uid = $uid");
-    list ($username) = DB_fetchArray($result2);
+while (list($date, $uid, $remote_ip) = DB_fetchArray($result)) {
+    $result2 = DB_query("SELECT username FROM {$_TABLES['users']} WHERE uid = $uid");
+    list($username) = DB_fetchArray($result2);
+    $result2 = DB_query("SELECT username FROM {$_TABLES['users']} WHERE uid = $uid");
+    list($username) = DB_fetchArray($result2);
 
     if ($highlight) {
         $highlight = false;
-        $display .= "<tr>";
-        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$date</td>";
-        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$username</td>";
-        $display .= "<td style=\"background-color:#f5f5f5; width:20%;\">$remote_ip</td>";
-        $display .= "</tr>";
-    }else {
+        $display .= '<tr>';
+        $display .= '<td style="background-color:#f5f5f5; width:20%;">' . $date . '</td>';
+        $display .= '<td style="background-color:#f5f5f5; width:20%;">' . $username . '</td>';
+        $display .= '<td style="background-color:#f5f5f5; width:20%;">' . $remote_ip . '</td>';
+        $display .= '</tr>';
+    } else {
         $highlight = true;
-        $display .= "<tr>";
-        $display .= "<td style=\"width:20%;\">$date</td>";
-        $display .= "<td style=\"width:20%;\">$username</td>";
-        $display .= "<td style=\"width:20%;\">$remote_ip</td>";
-        $display .= "</tr>";
+        $display .= '<tr>';
+        $display .= '<td style="width:20%;">' . $date . '</td>';
+        $display .= '<td style="width:20%;">' . $username . '</td>';
+        $display .= '<td style="width:20%;">' . $remote_ip . '</td>';
+        $display .= '</tr>';
     }
 
 }
-$display .= "</table>";
-$display .= "<br" . XHTML . ">";
+$display .= '</table>';
+$display .= '<br' . XHTML . '>';
 if (function_exists('COM_createHTMLDocument')) {
     $information = array('menu' => 'none');
     $display = COM_createHTMLDocument($display, $information);

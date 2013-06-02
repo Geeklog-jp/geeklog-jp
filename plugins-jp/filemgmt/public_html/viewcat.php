@@ -31,17 +31,17 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once('../lib-common.php');
-include_once($_CONF[path_html]."filemgmt/include/header.php");
-include($_CONF[path_html] ."filemgmt/include/functions.php");
-include_once($_CONF[path_html]."filemgmt/include/xoopstree.php");
-include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
+require_once '../lib-common.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/header.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/functions.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/xoopstree.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/textsanitizer.php';
 
-$_GROUPS = SEC_getUserGroups( $uid );       // List of groups user is a member of
-$numCategoriesPerRow  = 6;
+$_GROUPS = SEC_getUserGroups($uid);       // List of groups user is a member of
+$numCategoriesPerRow = 6;
 
 $myts = new MyTextSanitizer;
-$mytree = new XoopsTree($_DB_name,$_FM_TABLES['filemgmt_cat'],'cid','pid');
+$mytree = new XoopsTree($_DB_name, $_FM_TABLES['filemgmt_cat'], 'cid', 'pid');
 $mytree->setGroupAccessFilter($_GROUPS);
 
 $cid = 0;
@@ -67,14 +67,14 @@ $p->set_file(array(
 ));
 $p->set_var('layout_url', $_CONF['layout_url']);
 $p->set_var('site_url', $_CONF['site_url']);
-$p->set_var('site_admin_url',$_CONF['site_admin_url']);
+$p->set_var('site_admin_url', $_CONF['site_admin_url']);
 $p->set_var('xhtml', XHTML);
 $p->set_var('imgset', $_CONF['layout_url'] . '/nexflow/images');
 $p->set_var('tablewidth', $mydownloads_shotwidth+10);
 $p->set_var('block_header', COM_startBlock(_MD_CATEGORYTITLE));
 $p->set_var('block_footer', COM_endBlock());
 
-$trimDescription=true;    // Set to false if you do not want to auto trim the description and insert the <more..> link
+$trimDescription = true; // Set to false if you do not want to auto trim the description and insert the <more..> link
 
 $page = 1; // If no page sent then assume the first.
 if (isset($_GET['page'])) {
@@ -92,35 +92,36 @@ if (isset($_GET['orderby'])) {
 }
 $orderby = convertorderbyin($orderby);
 
-$pathstring = "<a href='index.php'>"._MD_MAIN."</a>&nbsp;:&nbsp;";
+$pathstring = '<a href="index.php">' . _MD_MAIN . '</a>&nbsp;:&nbsp;';
 $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php");
 $pathstring .= $nicepath;
-$p->set_var('category_path_link',$pathstring);
-$p->set_var('cid',$cid);
+$p->set_var('category_path_link', $pathstring);
+$p->set_var('cid', $cid);
 
 // get child category objects
 $subcategories = '';
-$arr=array();
-$arr=$mytree->getFirstChild($cid, 'title');
+$arr = array();
+$arr = $mytree->getFirstChild($cid, 'title');
 
 if (count($arr) > 0) {
     $count = 1;
-    foreach($arr as $ele) {
+    foreach ($arr as $ele) {
         $totalfiles = 0;
         $chtitle=$myts->makeTboxData4Show($ele['title']);
         $totalfiles = $totalfiles + getTotalItems($ele['cid'], 1);
-        $subcategories = '<a href="' .$_CONF[site_url] .'/filemgmt/viewcat.php?cid=' .$ele['cid'] .'">' .$chtitle .'</a>&nbsp;('.$totalfiles.')&nbsp;&nbsp;';
-        $p->set_var('subcategories',$subcategories);
+        $subcategories = '<a href="' . $_CONF[site_url] . '/filemgmt/viewcat.php?cid=' . $ele['cid'] . '">'
+            . $chtitle . '</a>&nbsp;(' . $totalfiles . ')&nbsp;&nbsp;';
+        $p->set_var('subcategories', $subcategories);
         $p->set_var('new_table_row', ($count == 1) ? '<tr>' : '');
         $p->set_var('end_of_row', ($count == $numCategoriesPerRow) ? '</tr>' : '');
         $count = ($count == $numCategoriesPerRow) ? 1 : ($count + 1);
-        $p->parse ('category_records', 'category',true);
+        $p->parse('category_records', 'category', true);
     }
 } else {
-    $p->set_var('subcategories','');
+    $p->set_var('subcategories', '');
     $p->set_var('new_table_row', '<tr>');
     $p->set_var('end_of_row', '</tr>');
-    $p->parse ('category_records', 'category');
+    $p->parse('category_records', 'category');
 }
 
 $sql = "SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
@@ -129,29 +130,31 @@ $sql .= "WHERE a.cid = $cid AND status > 0 $groupsql";
 list($maxrows) = DB_fetchArray(DB_query($sql));
 $numpages = ceil($maxrows / $show);
 
-if($maxrows > 0) {
-    $sql  = "SELECT a.lid, a.cid, a.title, a.url, a.homepage, a.version, a.size, a.submitter, a.logourl, a.status, a.date, a.hits, a.rating, a.votes, a.comments, b.description ";
+if ($maxrows > 0) {
+    $sql  = "SELECT a.lid, a.cid, a.title, a.url, a.homepage, a.version, a.size, a.submitter, ";
+    $sql .= "a.logourl, a.status, a.date, a.hits, a.rating, a.votes, a.comments, b.description ";
     $sql .= "FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
     $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_filedesc']} b ON a.lid=b.lid ";
     $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} c ON a.cid=c.cid ";
-    $sql .= "WHERE a.cid='$cid' AND a.status > 0 $groupsql ORDER BY {$orderby} LIMIT $offset, $show";
+    $sql .= "WHERE a.cid='$cid' AND a.status > 0 $groupsql ORDER BY $orderby LIMIT $offset, $show";
     $result = DB_query($sql);
 
-    $numrows = DB_numROWS($result);
+    $numrows = DB_numRows($result);
     //if 2 or more items in result, show the sort menu
-    if($maxrows > 1){
-        $p->set_var('LANG_SORTBY',_MD_SORTBY);
-        $p->set_var('LANG_TITLE',_MD_TITLE);
-        $p->set_var('LANG_DATE',_MD_DATE);
-        $p->set_var('LANG_RATING',_MD_RATING);
-        $p->set_var('LANG_POPULARITY',_MD_POPULARITY);
-        $p->set_var('LANG_CURSORTBY',_MD_CURSORTBY);
-        $p->set_var('orderbyTrans',$orderbyTrans = convertorderbytrans($orderby));
-        $p->parse ('sort_menu', 'sortmenu');
+    if ($maxrows > 1) {
+        $p->set_var('LANG_SORTBY', _MD_SORTBY);
+        $p->set_var('LANG_TITLE', _MD_TITLE);
+        $p->set_var('LANG_DATE', _MD_DATE);
+        $p->set_var('LANG_RATING', _MD_RATING);
+        $p->set_var('LANG_POPULARITY', _MD_POPULARITY);
+        $p->set_var('LANG_CURSORTBY', _MD_CURSORTBY);
+        $p->set_var('orderbyTrans', $orderbyTrans = convertorderbytrans($orderby));
+        $p->parse('sort_menu', 'sortmenu');
     }
     $cssid = 1;
     for ($x = 1; $x <= $numrows; $x++) {
-        list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $submitter, $logourl, $status, $time, $hits, $rating, $votes, $comments, $description) = DB_fetchArray($result);
+        list($lid, $cid, $dtitle, $url, $homepage, $version, $size, $submitter, $logourl, $status,
+             $time, $hits, $rating, $votes, $comments, $description) = DB_fetchArray($result);
         $rating = number_format($rating, 2);
         $dtitle = $myts->makeTboxData4Show($dtitle);
         $url = $myts->makeTboxData4Show($url);
@@ -163,24 +166,26 @@ if($maxrows > 0) {
         $datetime = formatTimestamp($time);
         $description = $myts->makeTareaData4Show($description,0); //no html
         $result2 = DB_query("SELECT username,fullname,photo FROM {$_TABLES['users']} WHERE uid = $submitter");
-        list ($submitter_name,$submitter_fullname,$photo) = DB_fetchARRAY($result2);
+        list($submitter_name, $submitter_fullname, $photo) = DB_fetchArray($result2);
         $submitter_name = COM_getDisplayName ($submitter, $submitter_name, $submitter_fullname);
-        include($_CONF[path_html] ."/filemgmt/include/dlformat.php");
-        $p->set_var('cssid',$cssid);
-        $p->parse ('filelisting_records', 'records',true);
+        include $_CONF['path_html'] . '/filemgmt/include/dlformat.php';
+        $p->set_var('cssid', $cssid);
+        $p->parse('filelisting_records', 'records', true);
         $cssid = ($cssid == 2) ? 1 : 2;
 
         // Print Google-like paging navigation
-        $base_url = $_CONF['site_url'] . '/filemgmt/viewcat.php?cid='.$cid.'&amp;orderby='.$orderby;
+        $base_url = $_CONF['site_url'] . '/filemgmt/viewcat.php?cid=' . $cid . '&amp;orderby=' . $orderby;
         $p->set_var('page_navigation', COM_printPageNavigation($base_url, $page, $numpages));
     }
 
-    $p->parse ('output', 'page');
-    $display .= $p->finish ($p->get_var('output'));
+    $p->parse('output', 'page');
+    $display .= $p->finish($p->get_var('output'));
 }  else {
-    $p->set_var('filelisting_records','<tr><td><div class="pluginAlert" style="width:500px;padding:10px;margin:10px;border:1px dashed #CCC;">'._MD_NOFILES.'</div></td></tr>');
-    $p->parse ('output', 'page');
-    $display .= $p->finish ($p->get_var('output'));
+    $p->set_var('filelisting_records', '<tr><td><div class="pluginAlert" '
+        . 'style="width:500px;padding:10px;margin:10px;border:1px dashed #CCC;">'
+        . _MD_NOFILES . '</div></td></tr>');
+    $p->parse('output', 'page');
+    $display .= $p->finish($p->get_var('output'));
 }
 
 if (function_exists('COM_createHTMLDocument')) {

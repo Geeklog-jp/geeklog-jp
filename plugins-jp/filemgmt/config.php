@@ -43,13 +43,13 @@ $CONF_FM['version'] = '1.6.0.jp3';
 $_FM_CONF = array();
 $_FM_CONF['version'] = '1.6.0.jp3';
 
-$_FM_TABLES['filemgmt_cat']           = $_DB_table_prefix . 'filemgmt_category';
-$_FM_TABLES['filemgmt_filedetail']    = $_DB_table_prefix . 'filemgmt_filedetail';
-$_FM_TABLES['filemgmt_filedesc']      = $_DB_table_prefix . 'filemgmt_filedesc';
-$_FM_TABLES['filemgmt_brokenlinks']   = $_DB_table_prefix . 'filemgmt_broken';
-//$_FM_TABLES['filemgmt_modreq']        = $_DB_table_prefix . 'filemgmt_mod'; // No use ?
-$_FM_TABLES['filemgmt_votedata']      = $_DB_table_prefix . 'filemgmt_votedata';
-$_FM_TABLES['filemgmt_history']       = $_DB_table_prefix . 'filemgmt_downloadhistory';
+$_FM_TABLES['filemgmt_cat']          = $_DB_table_prefix . 'filemgmt_category';
+$_FM_TABLES['filemgmt_filedetail']   = $_DB_table_prefix . 'filemgmt_filedetail';
+$_FM_TABLES['filemgmt_filedesc']     = $_DB_table_prefix . 'filemgmt_filedesc';
+$_FM_TABLES['filemgmt_brokenlinks']  = $_DB_table_prefix . 'filemgmt_broken';
+//$_FM_TABLES['filemgmt_modreq']       = $_DB_table_prefix . 'filemgmt_mod'; // No use ?
+$_FM_TABLES['filemgmt_votedata']     = $_DB_table_prefix . 'filemgmt_votedata';
+$_FM_TABLES['filemgmt_history']      = $_DB_table_prefix . 'filemgmt_downloadhistory';
 
 $_TABLES['filemgmt_category']        = $_FM_TABLES['filemgmt_cat'];
 $_TABLES['filemgmt_filedetail']      = $_FM_TABLES['filemgmt_filedetail'];
@@ -72,13 +72,13 @@ $filemgmt_showWhatsNewComments = true;
 /* Map any extensions to a new extension or 'reject' if they should not be allowed  */
 /* Any file type not listed will be uploaded using original file extension  */
 
-$_FMDOWNLOAD  = array( 
-    'php'   => 'phps',
-    'pl'    => 'txt',
-    'cgi'   => 'txt',
-    'py'    => 'txt',
-    'sh'    => 'txt',
-    'exe'   => 'reject'
+$_FMDOWNLOAD  = array(
+    'php' => 'phps',
+    'pl'  => 'txt',
+    'cgi' => 'txt',
+    'py'  => 'txt',
+    'sh'  => 'txt',
+    'exe' => 'reject'
 );
 
 $CONF_FM['ignore_target'] = true;
@@ -91,29 +91,29 @@ $_FM_CONF['notification'] = true;
 
 $CONF_FILEMGMT['glmenutype'] = 'block';      // Set to block or header
 
-$_FMDOWNLOAD['inconlib']    = array( 
-        php => "php.gif",
-        phps => "php.gif",
-        bmp => "bmp.gif",
-        gif => "gif.gif",
-        jpg => "jpg.gif",
-        html => "htm.gif",
-        htm => "htm.gif",
-        mov => "mov.gif",
-        mp3 => "mp3.gif",
-        pdf => "pdf.gif",
-        ppt => "ppt.gif",
-        tar => "zip.gif",
-        gz  => "zip.gif",
-        zip => "zip.gif",
-        txt => "txt.gif",
-        doc => "doc.gif",
-        xls => "xls.gif",
-        mpp => "mpp.gif",
-        exe => "exe.gif",
-        swf => "swf.gif",
-        vsd => "visio.gif",
-        none => "file.gif"
-        );
+$_FMDOWNLOAD['inconlib'] = array(
+    php  => "php.gif",
+    phps => "php.gif",
+    bmp  => "bmp.gif",
+    gif  => "gif.gif",
+    jpg  => "jpg.gif",
+    html => "htm.gif",
+    htm  => "htm.gif",
+    mov  => "mov.gif",
+    mp3  => "mp3.gif",
+    pdf  => "pdf.gif",
+    ppt  => "ppt.gif",
+    tar  => "zip.gif",
+    gz   => "zip.gif",
+    zip  => "zip.gif",
+    txt  => "txt.gif",
+    doc  => "doc.gif",
+    xls  => "xls.gif",
+    mpp  => "mpp.gif",
+    exe  => "exe.gif",
+    swf  => "swf.gif",
+    vsd  => "visio.gif",
+    none => "file.gif"
+);
 
 ?>

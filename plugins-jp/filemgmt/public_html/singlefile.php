@@ -1,7 +1,7 @@
 <?php
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +-------------------------------------------------------------------------+
-// | File Management Plugin for Geeklog - by portalparts www.portalparts.com | 
+// | File Management Plugin for Geeklog - by portalparts www.portalparts.com |
 // | File: singlefile.php                                                    |
 // | Wrapper Script for backward compatibility with earlier releases         |
 // +-------------------------------------------------------------------------+
@@ -31,12 +31,12 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once ('../lib-common.php');
+require_once '../lib-common.php';
 
-if (isset ($_GET['lid'])) {
-    echo COM_refresh ($_CONF['site_url'] . '/filemgmt/index.php?id=' . $_GET['lid']);
+if (isset($_GET['lid'])) {
+    echo COM_refresh($_CONF['site_url'] . '/filemgmt/index.php?id=' . $_GET['lid']);
 } else {
-    echo COM_refresh ($_CONF['site_url'] . '/filemgmt/index.php');
+    echo COM_refresh($_CONF['site_url'] . '/filemgmt/index.php');
 }
 
 ?>

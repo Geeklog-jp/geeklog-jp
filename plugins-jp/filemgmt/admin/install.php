@@ -42,9 +42,9 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-require_once('../../../lib-common.php');
-require_once($_CONF['path'] . 'plugins/filemgmt/config.php');
-require_once($_CONF['path'] . 'plugins/filemgmt/functions.inc');
+require_once '../../../lib-common.php';
+require_once $_CONF['path'] . 'plugins/filemgmt/config.php';
+require_once $_CONF['path'] . 'plugins/filemgmt/functions.inc';
 
 //
 // Universal plugin install variables
@@ -77,10 +77,10 @@ $NEWFEATURE['filemgmt.upload'] = "filemgmt File Upload Rights";
 * @return   boolean     true = proceed with install, false = not compatible
 *
 */
-function plugin_compatible_with_this_geeklog_version ()
+function plugin_compatible_with_this_geeklog_version()
 {
     // Check for version 1.4+
-    $gl_version = floatval (VERSION);
+    $gl_version = floatval(VERSION);
     if ($gl_version >= 1.3) {
         return true;
     } else {
@@ -90,7 +90,8 @@ function plugin_compatible_with_this_geeklog_version ()
 
 // Only let Root users access this script
 if (!SEC_inGroup('Root')) {
-    COM_errorLog("Someone has tried to illegally access the FileMgmt Pro install/uninstall page.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR",1);
+    COM_errorLog("Someone has tried to illegally access the FileMgmt Pro install/uninstall page.  "
+        . "User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: $REMOTE_ADDR", 1);
     $display = COM_startBlock($LANG_FM00['access_denied']);
     $display .= $LANG_FM00['access_denied_msg'];
     $display .= COM_endBlock();
@@ -150,73 +151,73 @@ function plugin_install_now()
         }
         next($_SQL);
     }
-    COM_errorLog("Success - Created $table table",1);
+    COM_errorLog("Success - Created $table table", 1);
        
     // Insert Default Data
     
     foreach ($DEFVALUES as $table => $sql) {
-        COM_errorLog("Inserting default data into $table table",1);
+        COM_errorLog("Inserting default data into $table table", 1);
         DB_query($sql,1);
         if (DB_error()) {
-            COM_errorLog("Error inserting default data into $table table",1);
-            $uninstall_plugin ();
+            COM_errorLog("Error inserting default data into $table table", 1);
+            $uninstall_plugin();
             return false;
             exit;
         }
-        COM_errorLog("Success - inserting data into $table table",1);
+        COM_errorLog("Success - inserting data into $table table", 1);
     }
     
     // Create the plugin admin security group
     COM_errorLog("Attempting to create $pi_name admin group", 1);
     DB_query("INSERT INTO {$_TABLES['groups']} (grp_name, grp_descr) "
-        . "VALUES ('$pi_name Admin', 'Users in this group can administer the $pi_name plugin')",1);
+        . "VALUES ('$pi_name Admin', 'Users in this group can administer the $pi_name plugin')", 1);
     if (DB_error()) {
-        $uninstall_plugin ();
+        $uninstall_plugin();
         return false;
         exit;
     }
-    COM_errorLog('...success',1);
+    COM_errorLog('...success', 1);
     $group_id = DB_insertId();
     
     // Save the grp id for later uninstall
-    COM_errorLog('About to save group_id to vars table for use during uninstall',1);
-    DB_query("INSERT INTO {$_TABLES['vars']} VALUES ('{$pi_name}_admingrp_id', $group_id)",1);
+    COM_errorLog('About to save group_id to vars table for use during uninstall', 1);
+    DB_query("INSERT INTO {$_TABLES['vars']} VALUES ('{$pi_name}_admingrp_id', $group_id)", 1);
     if (DB_error()) {
-        $uninstall_plugin ();
+        $uninstall_plugin();
         return false;
         exit;
     }
-    COM_errorLog('...success',1);
+    COM_errorLog('...success', 1);
     
     // Add plugin Features
     foreach ($NEWFEATURE as $feature => $desc) {
-        COM_errorLog("Adding $feature feature",1);
+        COM_errorLog("Adding $feature feature", 1);
         DB_query("INSERT INTO {$_TABLES['features']} (ft_name, ft_descr) "
-            . "VALUES ('$feature','$desc')",1);
+            . "VALUES ('$feature','$desc')", 1);
         if (DB_error()) {
-            COM_errorLog("Failure adding $feature feature",1);
-            $uninstall_plugin ();
+            COM_errorLog("Failure adding $feature feature", 1);
+            $uninstall_plugin();
             return false;
             exit;
         }
         $feat_id = DB_insertId();
-        COM_errorLog("Success",1);
-        COM_errorLog("Adding $feature feature to admin group",1);
+        COM_errorLog("Success", 1);
+        COM_errorLog("Adding $feature feature to admin group", 1);
         DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ($feat_id, $group_id)");
         if (DB_error()) {
-            COM_errorLog("Failure adding $feature feature to admin group",1);
-            $uninstall_plugin ();
+            COM_errorLog("Failure adding $feature feature to admin group", 1);
+            $uninstall_plugin();
             return false;
             exit;
         }
-        COM_errorLog("Success",1);
+        COM_errorLog("Success", 1);
     }        
     
     // OK, now give Root users access to this plugin now! NOTE: Root group should always be 1
-    COM_errorLog("Attempting to give all users in Root group access to $pi_name admin group",1);
+    COM_errorLog("Attempting to give all users in Root group access to $pi_name admin group", 1);
     DB_query("INSERT INTO {$_TABLES['group_assignments']} VALUES ($group_id, NULL, 1)");
     if (DB_error()) {
-        $uninstall_plugin ();
+        $uninstall_plugin();
         return false;
         exit;
     }
@@ -224,7 +225,7 @@ function plugin_install_now()
     // Load the online configuration records
     if (function_exists('plugin_load_configuration')) {
         if (!plugin_load_configuration()) {
-            $uninstall_plugin ();
+            $uninstall_plugin();
             return false;
             exit;
         }
@@ -232,19 +233,17 @@ function plugin_install_now()
 
     // Register the plugin with Geeklog
     COM_errorLog("Registering $pi_name plugin with Geeklog", 1);
-    DB_delete($_TABLES['plugins'],'pi_name',$pi_name);
+    DB_delete($_TABLES['plugins'], 'pi_name', $pi_name);
     DB_query("INSERT INTO {$_TABLES['plugins']} (pi_name, pi_version, pi_gl_version, pi_homepage, pi_enabled) "
         . "VALUES ('$pi_name', '$pi_version', '$gl_version', '$pi_url', 1)");
 
     if (DB_error()) {
-        $uninstall_plugin ();
+        $uninstall_plugin();
         return false;
         exit;
     }
 
-
-
-    COM_errorLog("Succesfully installed the $pi_name Plugin!",1);
+    COM_errorLog("Succesfully installed the $pi_name Plugin!", 1);
     return true;
 }
 
@@ -257,38 +256,38 @@ function plugin_install_now()
 $display = '';
 
 //@@@@@20080917add CSRF checks ---->
-if (!SEC_checkToken()){
+if (!SEC_checkToken()) {
     COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks. filemgmt install");
-    echo COM_refresh($_CONF['site_admin_url'].'/plugins.php');
+    echo COM_refresh($_CONF['site_admin_url'] . '/plugins.php');
     exit;
 }
 //@@@@@20080917add CSRF checks <----
 
 if ($_REQUEST['action'] == 'uninstall') {
     $uninstall_plugin = 'plugin_uninstall_' . $pi_name;
-    if ($uninstall_plugin ()) {
-        $display = COM_refresh ($_CONF['site_admin_url']
-                                . '/plugins.php?msg=45');
+    if ($uninstall_plugin()) {
+        $display = COM_refresh($_CONF['site_admin_url']
+                               . '/plugins.php?msg=45');
     } else {
-        $display = COM_refresh ($_CONF['site_admin_url']
-                                . '/plugins.php?msg=73');
+        $display = COM_refresh($_CONF['site_admin_url']
+                               . '/plugins.php?msg=73');
     }
 
-} else if (DB_count ($_TABLES['plugins'], 'pi_name', $pi_name) == 0) {
+} else if (DB_count($_TABLES['plugins'], 'pi_name', $pi_name) == 0) {
     // plugin not installed
-    if (plugin_compatible_with_this_geeklog_version ()) {
-        if (plugin_install_now ()) {
-            $display = COM_refresh ($_CONF['site_admin_url']
-                                    . '/plugins.php?msg=44');
+    if (plugin_compatible_with_this_geeklog_version()) {
+        if (plugin_install_now()) {
+            $display = COM_refresh($_CONF['site_admin_url']
+                                   . '/plugins.php?msg=44');
         } else {
-            $display = COM_refresh ($_CONF['site_admin_url']
-                                    . '/plugins.php?msg=72');
+            $display = COM_refresh($_CONF['site_admin_url']
+                                   . '/plugins.php?msg=72');
         }
     } else {
         // plugin needs a newer version of Geeklog
-        $display .= COM_startBlock ($LANG32[8])
+        $display .= COM_startBlock($LANG32[8])
                  . '<p>' . $LANG32[9] . '</p>'
-                 . COM_endBlock ();
+                 . COM_endBlock();
         if (function_exists('COM_createHTMLDocument')) {
             $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG32[8]));
         } else {
@@ -297,9 +296,9 @@ if ($_REQUEST['action'] == 'uninstall') {
     }
 } else {
     // plugin already installed
-    $display .= COM_startBlock ($LANG32[6])
+    $display .= COM_startBlock($LANG32[6])
              . '<p>' . $LANG32[7] . '</p>'
-             . COM_endBlock ();
+             . COM_endBlock();
     if (function_exists('COM_createHTMLDocument')) {
         $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG01[77]));
     } else {
