@@ -31,20 +31,20 @@
 // +-------------------------------------------------------------------------+
 //
 
-require_once('../lib-common.php');
-include_once($_CONF[path_html]."filemgmt/include/header.php");
-include($_CONF[path_html] ."filemgmt/include/functions.php"); 
-include_once($_CONF[path_html]."filemgmt/include/errorhandler.php");
-include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
+require_once '../lib-common.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/header.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/functions.php'; 
+require_once $_CONF['path_html'] . 'filemgmt/include/errorhandler.php';
+require_once $_CONF['path_html'] . 'filemgmt/include/textsanitizer.php';
 
 //$myts =& MyTextSanitizer::getInstance(); // MyTextSanitizer object
 $myts = new MyTextSanitizer;
 
 if ($_POST['submit']) {
-    $eh = new ErrorHandler; //ErrorHandler object    
-    if(!FilemgmtUser){
+    $eh = new ErrorHandler; //ErrorHandler object
+    if (!FilemgmtUser) {
         $ratinguser = 0;
-    }else{
+    } else {
         $ratinguser = $uid;
     }
     //Make sure only 1 anonymous from an IP in a single day.
@@ -59,65 +59,72 @@ if ($_POST['submit']) {
         $rating = COM_applyFilter($_POST['rating'], true);
     }
     // Check if Rating is Null
-    if ($rating=="--") {
-        redirect_header("ratefile.php?lid=".$lid."",4,_MD_NORATING);
-        exit();
+    if ($rating == "--") {
+        redirect_header("ratefile.php?lid=" . $lid . "", 4, _MD_NORATING);
+        exit;
     }
 
        // Check if Download POSTER is voting (UNLESS Anonymous users allowed to post)
     if ($ratinguser != 0) {
         $result=DB_query("SELECT submitter FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-        while(list($ratinguserDB)=DB_fetchArray($result)) {
-            if ($ratinguserDB==$ratinguser) {
-                redirect_header("index.php",4,_MD_CANTVOTEOWN);
-                 exit();
+        while (list($ratinguserDB) = DB_fetchArray($result)) {
+            if ($ratinguserDB == $ratinguser) {
+                redirect_header("index.php", 4, _MD_CANTVOTEOWN);
+                exit;
             }
         }
 
-       // Check if REG user is trying to vote twice.
-       $result=DB_query("SELECT ratinguser FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid'");
-       while(list($ratinguserDB)=DB_fetchArray($result)) {
-           if ($ratinguserDB==$ratinguser) {
-               redirect_header("index.php",4,_MD_VOTEONCE);
-                exit();
-           }
-      }
+        // Check if REG user is trying to vote twice.
+        $result = DB_query("SELECT ratinguser FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid'");
+        while (list($ratinguserDB) = DB_fetchArray($result)) {
+            if ($ratinguserDB == $ratinguser) {
+                redirect_header("index.php", 4, _MD_VOTEONCE);
+                exit;
+            }
+        }
     }
     // Check if ANONYMOUS user is trying to vote more than once per day.
     if ($ratinguser==0) {
-        $yesterday = (time()-(86400 * $anonwaitdays));
-        $result=DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' AND ratinguser=0 AND ratinghostname = '$ip'  AND ratingtimestamp > $yesterday");
+        $yesterday = (time() - (86400 * $anonwaitdays));
+        $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_votedata']} "
+            . "WHERE lid='$lid' AND ratinguser=0 AND ratinghostname = '$ip' "
+            . "AND ratingtimestamp > $yesterday");
         list($anonvotecount) = DB_fetchArray($result);
         if ($anonvotecount >= 1) {
-            redirect_header("index.php",4,_MD_VOTEONCE);
-            exit();
+            redirect_header("index.php", 4, _MD_VOTEONCE);
+            exit;
         }
     }
 
     //All is well.  Add to Line Item Rate to DB.
     $datetime = time();
-    DB_query("INSERT INTO {$_FM_TABLES['filemgmt_votedata']} (lid, ratinguser, rating, ratinghostname, ratingtimestamp) VALUES ('$lid', '$ratinguser', '$rating', '$ip', '$datetime')");
+    DB_query("INSERT INTO {$_FM_TABLES['filemgmt_votedata']} "
+        . "(lid, ratinguser, rating, ratinghostname, ratingtimestamp) "
+        . "VALUES ('$lid', '$ratinguser', '$rating', '$ip', '$datetime')");
     //All is well.  Calculate Score & Add to Summary (for quick retrieval & sorting) to DB.
     updaterating($lid);
-    $ratemessage = _MD_VOTEAPPRE."<br>".sprintf(_MD_THANKYOU,$_CONF[site_name]);
-    redirect_header("index.php",4,$ratemessage);
-    exit();
+    $ratemessage = _MD_VOTEAPPRE . "<br>" . sprintf(_MD_THANKYOU, $_CONF[site_name]);
+    redirect_header("index.php", 4, $ratemessage);
+    exit;
 
 } else {
 
-    $lid = COM_applyFilter($_GET['lid'],true);
+    $lid = 0;
+    if (isset($_GET['lid'])) {
+        $lid = COM_applyFilter($_GET['lid'], true);
+    }
     $display = '';
-    $display .= COM_startBlock("<b>"._MD_RATEFILETITLE."</b>");
-    $result=DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
+    $display .= COM_startBlock("<b>" . _MD_RATEFILETITLE . "</b>");
+    $result = DB_query("SELECT title FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
     list($title) = DB_fetchArray($result);
     $title = $myts->makeTboxData4Show($title);
     $display .= '<table border="0" cellpadding="1" cellspacing="0" width="80%" class="plugin"><tr>';
     $display .= '<td class="pluginHeader">' . _MD_FILE . ':&nbsp;' . $title . '</td></tr>';
     $display .= '<tr><td style="padding:10px;"><ul>';
-    $display .= '<li>'._MD_VOTEONCE . '</li>';
-    $display .= '<li>'._MD_RATINGSCALE . '</li>';
-    $display .= '<li>'._MD_BEOBJECTIVE . '</li>';
-    $display .= '<li>'._MD_DONOTVOTE . '</li>';
+    $display .= '<li>' . _MD_VOTEONCE . '</li>';
+    $display .= '<li>' . _MD_RATINGSCALE . '</li>';
+    $display .= '<li>' . _MD_BEOBJECTIVE . '</li>';
+    $display .= '<li>' . _MD_DONOTVOTE . '</li>';
     $display .=  "
          </ul></td></tr><tr><td style=\"text-align:center;\">
          <form method=\"post\" action=\"ratefile.php\"><div>
@@ -126,8 +133,10 @@ if ($_POST['submit']) {
          for ($i=10; $i>0; $i--) {
             $display .= "<option value=\"" . $i . "\">" . $i . "</option>\n";
         }
-    $display .= "</select><br" . XHTML . "><br" . XHTML . "><input type=\"submit\" name=\"submit\" value=\"" . _MD_RATEIT . "\"" . XHTML . ">\n";
-    $display .= "&nbsp;<input type=\"button\" value=\"" . _MD_CANCEL . "\" onclick=\"javascript:history.go(-1)\"" . XHTML . ">\n";
+    $display .= "</select><br" . XHTML . "><br" . XHTML . ">";
+    $display .= "<input type=\"submit\" name=\"submit\" value=\"" . _MD_RATEIT . "\"" . XHTML . ">\n";
+    $display .= "&nbsp;<input type=\"button\" value=\"" . _MD_CANCEL;
+    $display .= "\" onclick=\"javascript:history.go(-1)\"" . XHTML . ">\n";
     $display .= "</div></form></td></tr></table>";
     $display .= COM_endBlock();
     if (function_exists('COM_createHTMLDocument')) {

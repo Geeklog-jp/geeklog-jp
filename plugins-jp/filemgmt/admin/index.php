@@ -33,13 +33,13 @@
 //
 //@@@@@20080917 CSRF checks
 
-require_once("../../../lib-common.php");
-include_once($_CONF[path_html]."filemgmt/include/header.php");
-include_once($_CONF[path_html]."filemgmt/include/functions.php");
-include_once($_CONF[path_html]."filemgmt/include/xoopstree.php");
-include_once($_CONF[path_html]."filemgmt/include/textsanitizer.php");
-include_once($_CONF[path_html]."filemgmt/include/errorhandler.php");
-include_once($_CONF[path]."system/classes/navbar.class.php");
+require_once '../../../lib-common.php';
+include_once $_CONF['path_html'] . 'filemgmt/include/header.php';
+include_once $_CONF['path_html'] . 'filemgmt/include/functions.php';
+include_once $_CONF['path_html'] . 'filemgmt/include/xoopstree.php';
+include_once $_CONF['path_html'] . 'filemgmt/include/textsanitizer.php';
+include_once $_CONF['path_html'] . 'filemgmt/include/errorhandler.php';
+include_once $_CONF['path'] . 'system/classes/navbar.class.php';
 
 $op = '';
 if (isset($_REQUEST['op'])) {
@@ -49,7 +49,7 @@ $display = '';
 if (!SEC_hasRights('filemgmt.edit')) {
     if ($op != 'comment') {
         $display .= COM_startBlock(_GL_ERRORNOACCESS);
-        $display .= _MD_USER." ".$_USER['username']. " " ._GL_NOUSERACCESS;
+        $display .= _MD_USER . " " . $_USER['username'] . " " . _GL_NOUSERACCESS;
         $display .= COM_endBlock();
         if (function_exists('COM_createHTMLDocument')) {
             $display = COM_createHTMLDocument($display);
@@ -62,30 +62,30 @@ if (!SEC_hasRights('filemgmt.edit')) {
 }
 
 function filemgmt_navbar($selected='') {
-    global $_CONF,$LANG_FM02,$_FM_TABLES;
+    global $_CONF, $LANG_FM02, $_FM_TABLES;
 
     $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_brokenlinks']}");
     list($totalbrokendownloads) = DB_fetchArray($result);
-    if($totalbrokendownloads > 0){
+    if ($totalbrokendownloads > 0) {
         $totalbrokendownloads = '<span style="display:inline; background-image:none; padding:0; color:#ff0000; font-weight:bold;">' . $totalbrokendownloads . '</span>';
     }
     $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status=0");
     list($totalnewdownloads) = DB_fetchArray($result);
-    if($totalnewdownloads > 0){
+    if ($totalnewdownloads > 0) {
         $totalnewdownloads = '<span style="display:inline; background-image:none; padding:0; color:#ff0000; font-weight:bold;">' . $totalnewdownloads . '</span>';
     }
 
     $navbar = new navbar;
-    $navbar->add_menuitem($LANG_FM02['nav1'],$_CONF['site_admin_url'] .'/plugins/filemgmt/index.php?op=filemgmtConfigAdmin');
-    $navbar->add_menuitem($LANG_FM02['nav2'],$_CONF['site_admin_url'] .'/plugins/filemgmt/index.php?op=categoryConfigAdmin');
-    $navbar->add_menuitem($LANG_FM02['nav3'],$_CONF['site_admin_url'] .'/plugins/filemgmt/index.php?op=newfileConfigAdmin');
-    $navbar->add_menuitem(sprintf($LANG_FM02['nav4'],$totalnewdownloads),$_CONF['site_admin_url'] .'/plugins/filemgmt/index.php?op=listNewDownloads');
-    $navbar->add_menuitem(sprintf($LANG_FM02['nav5'],$totalbrokendownloads),$_CONF['site_admin_url'] .'/plugins/filemgmt/index.php?op=listBrokenDownloads');
+    $navbar->add_menuitem($LANG_FM02['nav1'], $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php?op=filemgmtConfigAdmin');
+    $navbar->add_menuitem($LANG_FM02['nav2'], $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php?op=categoryConfigAdmin');
+    $navbar->add_menuitem($LANG_FM02['nav3'], $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php?op=newfileConfigAdmin');
+    $navbar->add_menuitem(sprintf($LANG_FM02['nav4'], $totalnewdownloads), $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php?op=listNewDownloads');
+    $navbar->add_menuitem(sprintf($LANG_FM02['nav5'], $totalbrokendownloads), $_CONF['site_admin_url'] . '/plugins/filemgmt/index.php?op=listBrokenDownloads');
 
     if ($selected == $LANG_FM02['nav4']) {
-        $navbar->set_selected(sprintf($LANG_FM02['nav4'],$totalnewdownloads));
+        $navbar->set_selected(sprintf($LANG_FM02['nav4'], $totalnewdownloads));
     } elseif ($selected == $LANG_FM02['nav5']) {
-        $navbar->set_selected(sprintf($LANG_FM02['nav5'],$totalbrokendownloads));
+        $navbar->set_selected(sprintf($LANG_FM02['nav5'], $totalbrokendownloads));
     } else {
         $navbar->set_selected($selected);
     }
@@ -95,11 +95,11 @@ function filemgmt_navbar($selected='') {
 }
 
 $myts = new MyTextSanitizer;
-$mytree = new XoopsTree($_DB_name,$_FM_TABLES['filemgmt_cat'],"cid","pid");
+$mytree = new XoopsTree($_DB_name, $_FM_TABLES['filemgmt_cat'], "cid", "pid");
 $eh = new ErrorHandler;
 
 function mydownloads() {
-    global $_CONF,$LANG_FM02,$_FM_TABLES;
+    global $_FM_TABLES;
 
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE);
@@ -107,7 +107,7 @@ function mydownloads() {
     $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status > 0");
     list($numrows) = DB_fetchArray($result);
     $display .= '<br' . XHTML . '><br' . XHTML . '><div style="text-align:center;padding:10px;">';
-    $display .= sprintf(_MD_THEREARE,$numrows);
+    $display .= sprintf(_MD_THEREARE, $numrows);
     $display .= '</div>';
     $display .= '<br' . XHTML . '>';
     $display .= COM_endBlock();
@@ -120,13 +120,14 @@ function mydownloads() {
 }
 
 function listNewDownloads() {
-    global $_CONF,$_TABLES,$_FM_TABLES,$myts,$eh,$mytree,$filemgmt_FileStoreURL,$filemgmt_FileSnapURL,$LANG_FM02;
+    global $_CONF, $_TABLES, $_FM_TABLES, $myts, $mytree,
+           $filemgmt_FileStoreURL, $filemgmt_FileSnapURL, $LANG_FM02;
 
     // List downloads waiting for validation
     $sql = "SELECT lid, cid, title, url, homepage, version, size, logourl, submitter, comments, platform ";
     $sql .= "FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE status=0 ORDER BY date DESC";
     $result = DB_query($sql);
-    $numrows = DB_numROWS($result);
+    $numrows = DB_numRows($result);
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE) . LB;
     $display .= filemgmt_navbar($LANG_FM02['nav4']);
@@ -134,8 +135,8 @@ function listNewDownloads() {
     $i = 1;
     if ($numrows > 0) {
         $display .= '<table border="0" class="plugin" style="width:100%;">' . LB;
-        $display .= '<tr><td class="pluginHeader" style="width:100%; padding:5px;">' . _MD_DLSWAITING. '&nbsp;(' . $numrows . ')</td></tr>' . LB;
-        while(list($lid, $cid, $title, $url, $homepage, $version, $size, $logourl, $submitter, $comments, $tmpnames) = DB_fetchArray($result)) {
+        $display .= '<tr><td class="pluginHeader" style="width:100%; padding:5px;">' . _MD_DLSWAITING . '&nbsp;(' . $numrows . ')</td></tr>' . LB;
+        while (list($lid, $cid, $title, $url, $homepage, $version, $size, $logourl, $submitter, $comments, $tmpnames) = DB_fetchArray($result)) {
             $result2 = DB_query("SELECT description FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid='$lid'");
             list($description) = DB_fetchArray($result2);
             $title = $myts->makeTboxData4Edit($title);
@@ -145,10 +146,10 @@ function listNewDownloads() {
             $version = $myts->makeTboxData4Edit($version);
             $size = $myts->makeTboxData4Edit($size);
             $description = $myts->makeTareaData4Edit($description);
-            $tmpfilenames = explode(";",$tmpnames);
-            $tempfileurl = $filemgmt_FileStoreURL . 'tmp/' .$tmpfilenames[0];
+            $tmpfilenames = explode(";", $tmpnames);
+            $tempfileurl = $filemgmt_FileStoreURL . 'tmp/' . $tmpfilenames[0];
             if (isset($tmpfilenames[1]) and $tmpfilenames[1] != '') {
-                $tempsnapurl = $filemgmt_FileSnapURL . 'tmp/' .$tmpfilenames[1];
+                $tempsnapurl = $filemgmt_FileSnapURL . 'tmp/' . $tmpfilenames[1];
             } else {
                 $tempsnapurl = '';
             }
@@ -156,7 +157,7 @@ function listNewDownloads() {
             $display .= '<form action="index.php" method="post" enctype="multipart/form-data" style="margin:0px;">' . LB;
             $display .= '<table border="0" class="plugin" style="width:100%;">' . LB;
             $display .= '<tr><td style="text-align:right; white-space:nowrap;">' . _MD_SUBMITTER . '</td><td>' . LB;
-            $display .= '<a href="'. $_CONF['site_url'] . '/users.php?mode=profile&amp;uid='. $submitter. '">'  .COM_getDisplayName($submitter) . '</a>' . LB;
+            $display .= '<a href="' . $_CONF['site_url'] . '/users.php?mode=profile&amp;uid=' . $submitter . '">'  . COM_getDisplayName($submitter) . '</a>' . LB;
             $display .= '</td></tr>' . LB;
             $display .= '<tr><td style="text-align:right; white-space:nowrap;">' . _MD_FILETITLE . '</td><td>' . LB;
             $display .= '<input type="text" name="title" size="50" maxlength="100" value="' . $title . '"' . XHTML . '>' . LB;
@@ -173,7 +174,7 @@ function listNewDownloads() {
             $display .= '<tr><td style="text-align:right;">' . _MD_FILESIZEC . '</td><td>' . LB;
             $display .= '<input type="text" name="size" size="10" maxlength="8" value="' . $size . '"' . XHTML . '>&nbsp;' . _MD_BYTES . '</td></tr>' . LB;
             $display .= '<tr><td style="text-align:right; vertical-align:top; white-space:nowrap;">' . _MD_DESCRIPTIONC . '</td><td>' . LB;
-            $display .= '<textarea name=description cols="60" rows="5">' . $description . '</textarea>' . LB;
+            $display .= '<textarea name="description" cols="60" rows="5">' . $description . '</textarea>' . LB;
             $display .= '</td></tr>' . LB;
             $display .= '<tr><td style="text-align:right; white-space:nowrap;">' . _MD_SHOTIMAGE . '</td><td>' . LB;
             $display .= '<input type="text" name="logourl" size="50" maxlength="250" value="' . $logourl . '"' . XHTML . '>' . LB;
@@ -201,14 +202,14 @@ function listNewDownloads() {
             $display .= '<span style="padding-left:10px;">' . LB;
             $display .= '<input type="submit" value="' . _MD_APPROVE . '" onclick=\'this.form.op.value="approve"\'' . XHTML . '></span>' . LB;
             $display .= '</td><td style="padding:10px;">' . _MD_DLTEMPFILE . '<a href="' . $tempfileurl . '">' . _MD_TEMPFILE . '</a></td></tr>' . LB;
-            if ($numrows > 1 and $i < $numrows ) {
+            if ($numrows > 1 and $i < $numrows) {
                $i++;
             }
             $display .= '</table></form></td></tr>' . LB;
         }
         $display .= '</table>' . LB;
     } else {
-        $display .= '<div style="padding:20px">' . _MD_NOSUBMITTED .'</div>' . LB;
+        $display .= '<div style="padding:20px">' . _MD_NOSUBMITTED . '</div>' . LB;
     }
 
     $display .= COM_endBlock();
@@ -222,7 +223,7 @@ function listNewDownloads() {
 
 
 function categoryConfigAdmin() {
-    global $_CONF, $_TABLES, $LANG_FM02, $_FM_TABLES, $myts, $eh, $mytree;
+    global $_TABLES, $LANG_FM02, $_FM_TABLES, $mytree;
 
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE) . LB;
@@ -234,7 +235,7 @@ function categoryConfigAdmin() {
     $display .= '<tr><td>' . _MD_TITLEC. '</td><td><input type="text" name="title" size="30" maxlength="50"' . XHTML . '></td></tr>' . LB;
     $display .= '<tr><td>' . _MD_CATSEC. '</td><td><select name="sel_access">' . LB;
     $display .= COM_optionList($_TABLES['groups'], "grp_id,grp_name") . '</select></td></tr>' . LB;
-    $display .= '<tr><td>'. _MD_ADDCATEGORYSNAP . '<br' . XHTML . '><span style="text-size:-2">'. _MD_ADDIMAGENOTE .'</span></td>' . LB;
+    $display .= '<tr><td>' . _MD_ADDCATEGORYSNAP . '<br' . XHTML . '><span style="text-size:-2">' . _MD_ADDIMAGENOTE . '</span></td>' . LB;
     $display .= '<td><input type="file" name="uploadfile" size="50" maxlength="200"' . XHTML . '></td></tr>' . LB;
     $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">' . LB;
     $display .= '<input type="hidden" name="cid" value="0"' . XHTML . '>' . LB;
@@ -248,8 +249,8 @@ function categoryConfigAdmin() {
 
     // Add a New Sub-Category
     $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_cat']}");
-    $numrows = DB_numROWS($result);
-    if($numrows > 0) {
+    $numrows = DB_numRows($result);
+    if ($numrows > 0) {
         $display .= '</td></tr><tr><td>' . LB;
         $display .= '<form method="post" action="index.php" style="margin:0px;"><div>' . LB;
         $display .= '<table border="0" class="plugin" style="width:100%; margin-top:10px;">' . LB;
@@ -269,7 +270,7 @@ function categoryConfigAdmin() {
         $display .= '<form method="post" action="index.php" style="margin:0px;"><div>';
         $display .= '<table border="0" class="plugin" style="width:100%; margin-top:10px;">';
         $display .= '<tr><td colspan="2" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_MODCAT . '</td></tr>';
-        $display .= '<tr><td style="width:20%">'. _MD_CATEGORYC . '</td><td>';
+        $display .= '<tr><td style="width:20%">' . _MD_CATEGORYC . '</td><td>';
         $display .= $mytree->makeMySelBox('title', 'title') . '</td></tr>';
         $display .= '<tr><td colspan="2" style="text-align:center;padding:10px;">';
         $display .= '<input type="hidden" name="op" value="modCat"' . XHTML . '>' . LB;
@@ -292,7 +293,7 @@ function categoryConfigAdmin() {
 }
 
 function newfileConfigAdmin() {
-    global $_CONF,$myts,$eh,$mytree,$LANG_FM02;
+    global $mytree, $LANG_FM02;
 
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE);
@@ -305,7 +306,7 @@ function newfileConfigAdmin() {
     $display .= '</td></tr><tr><td style="text-align:right; white-space:nowrap;">File:</td><td>';
     $display .= '<input type="file" name="newfile" size="50" maxlength="100"' . XHTML . '>';
     $display .= '</td></tr>';
-    $display .= '<tr><td style="text-align:right; white-space:nowrap;">'._MD_CATEGORYC.'</td><td>';
+    $display .= '<tr><td style="text-align:right; white-space:nowrap;">' . _MD_CATEGORYC . '</td><td>';
     $display .= $mytree->makeMySelBox('title', 'title');
     $display .= '</td></tr><tr><td></td><td></td></tr>';
     $display .= '<tr><td style="text-align:right; white-space:nowrap;">' . _MD_HOMEPAGEC . '</td><td>';
@@ -319,7 +320,7 @@ function newfileConfigAdmin() {
     $display .= '<input type="file" name="newfileshot" size="50" maxlength="60"' . XHTML . '></td></tr>';
     $display .= '<tr><td style="text-align:right;"></td><td>';
     $display .= '</td></tr><tr><td style="text-align:right;">' . _MD_COMMENTOPTION . '</td><td>';
-    $display .= '<input type="radio" name="commentoption" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES .'&nbsp;';
+    $display .= '<input type="radio" name="commentoption" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
     $display .= '<input type="radio" name="commentoption" value="0"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     $display .= '</td></tr>';
     $display .= '<tr><td colspan="2" style="text-align:center; padding:10px;">';
@@ -327,7 +328,7 @@ function newfileConfigAdmin() {
     $display .= '<input type="submit" class="button" value="' . _MD_ADD . '"' . XHTML . '>';
     //@@@@@20080917add CSRF checks ---->
     $display .= LB;
-    $display .= '<input type="hidden" name="'.CSRF_TOKEN.'" value="' . SEC_createToken() . '"' . XHTML . '>';
+    $display .= '<input type="hidden" name="' . CSRF_TOKEN . '" value="' . SEC_createToken() . '"' . XHTML . '>';
     $display .= LB;
     //@@@@@20080917add CSRF checks <----
     $display .= '</td></tr></table>';
@@ -343,17 +344,19 @@ function newfileConfigAdmin() {
 }
 
 function modDownload() {
-    global $_CONF,$_FM_TABLES,$_USER,$myts,$eh,$mytree,$filemgmt_SnapStore,$filemgmt_FileSnapURL;
+    global $_CONF, $_FM_TABLES, $_USER, $myts, $mytree,
+           $filemgmt_SnapStore, $filemgmt_FileSnapURL;
 
     $lid = 0;
     if (isset($_GET['lid'])) {
         $lid = COM_applyFilter($_GET['lid'], true);
     }
-    $result = DB_query("SELECT cid, title, url, homepage, version, size, logourl, comments FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-    $nrows = DB_numROWS($result);
+    $result = DB_query("SELECT cid, title, url, homepage, version, size, logourl, comments "
+                     . "FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
+    $nrows = DB_numRows($result);
     if ($nrows == 0) {
-        redirect_header("index.php",2,_MD_NOMATCH);
-        exit();
+        redirect_header("index.php", 2, _MD_NOMATCH);
+        exit;
     }
 
     $display = '';
@@ -364,15 +367,15 @@ function modDownload() {
     $display .= '<input type="hidden" name="lid" value="' . $lid . '"' . XHTML . '>' . LB;
     $display .= '<table border="0" class="plugin" style="width:100%;">' . LB;
 
-    list($cid, $title, $url, $homepage, $version, $size, $logourl,$comments) = DB_fetchArray($result);
+    list($cid, $title, $url, $homepage, $version, $size, $logourl, $comments) = DB_fetchArray($result);
     $title = $myts->makeTboxData4Edit($title);
-    $pathstring = "<a href=\"{$_CONF['site_url']}/filemgmt/index.php\">"._MD_MAIN."</a>&nbsp;:&nbsp;";
+    $pathstring = "<a href=\"{$_CONF['site_url']}/filemgmt/index.php\">" . _MD_MAIN . "</a>&nbsp;:&nbsp;";
     $nicepath = $mytree->getNicePathFromId($cid, "title", "{$_CONF['site_url']}/filemgmt/viewcat.php?op=");
     $pathstring .= $nicepath;
     $pathstring .= "<a href=\"{$_CONF['site_url']}/filemgmt/index.php?id=$lid\">{$title}</a>";
 
     $display .= '<tr><td colspan="3" style="width:100%; padding:5px;">' . $pathstring . '</td></tr>' . LB;
-    $display .= '<tr><td colspan="3" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_MODDL. '</td></tr>' . LB;
+    $display .= '<tr><td colspan="3" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_MODDL . '</td></tr>' . LB;
 
     $url = rawurldecode($myts->makeTboxData4Edit($url));
     $homepage = $myts->makeTboxData4Edit($homepage);
@@ -380,26 +383,26 @@ function modDownload() {
     $size = $myts->makeTboxData4Edit($size);
     $logourl = rawurldecode($myts->makeTboxData4Edit($logourl));
     $result2 = DB_query("SELECT description FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid=$lid");
-    list($description)=DB_fetchArray($result2);
+    list($description) = DB_fetchArray($result2);
     $description = $myts->makeTareaData4Edit($description);
     $display .= '<tr><td>' . _MD_FILEID . '</td><td colspan="2"><b>' . $lid . '</b></td></tr>' . LB;
-    $display .= '<tr><td>' . _MD_FILETITLE . '</td><td colspan="2"><input type="text" name="title" value="' . $title . '" size="50" maxlength="200"' . XHTML . '></td></tr>' .LB;
-    $display .= '<tr><td>' . _MD_DLFILENAME . '</td><td colspan="2"><input type="text" name="url" value="' . $url . '" size="50" maxlength="200"' . XHTML . '></td></tr>' .LB;
-    $display .= '<tr><td style="width:25%;">' . _MD_REPLFILENAME . '</td><td colspan="2"><input type="file" name="newfile" size="50" maxlength="200"' . XHTML . '></td></tr>' .LB;
-    $display .= '<tr><td>' . _MD_HOMEPAGEC . '</td><td colspan="2"><input type="text" name="homepage" value="' . $homepage . '" size="50" maxlength="150"' . XHTML . '></td></tr>' .LB;
-    $display .= '<tr><td>' . _MD_VERSIONC . '</td><td colspan="2"><input type="text" name="version" value="' . $version . '" size="10" maxlength="10"' . XHTML . '></td></tr>' .LB;
-    $display .= '<tr><td>' . _MD_FILESIZEC . '</td><td colspan="2"><input type="text" name="size" value="' . $size . '" size="10" maxlength="20"' . XHTML . '> ' . _MD_BYTES . '</td></tr>' .LB;
-    $display .= '<tr><td style="vertical-align:top;">' . _MD_DESCRIPTIONC . '</td><td colspan="2"><textarea name="description" cols="55" rows="10">' . $description . '</textarea></td></tr>' .LB;
+    $display .= '<tr><td>' . _MD_FILETITLE . '</td><td colspan="2"><input type="text" name="title" value="' . $title . '" size="50" maxlength="200"' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><td>' . _MD_DLFILENAME . '</td><td colspan="2"><input type="text" name="url" value="' . $url . '" size="50" maxlength="200"' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><td style="width:25%;">' . _MD_REPLFILENAME . '</td><td colspan="2"><input type="file" name="newfile" size="50" maxlength="200"' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><td>' . _MD_HOMEPAGEC . '</td><td colspan="2"><input type="text" name="homepage" value="' . $homepage . '" size="50" maxlength="150"' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><td>' . _MD_VERSIONC . '</td><td colspan="2"><input type="text" name="version" value="' . $version . '" size="10" maxlength="10"' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><td>' . _MD_FILESIZEC . '</td><td colspan="2"><input type="text" name="size" value="' . $size . '" size="10" maxlength="20"' . XHTML . '> ' . _MD_BYTES . '</td></tr>' . LB;
+    $display .= '<tr><td style="vertical-align:top;">' . _MD_DESCRIPTIONC . '</td><td colspan="2"><textarea name="description" cols="55" rows="10">' . $description . '</textarea></td></tr>' . LB;
     $display .= '<tr><td>' . _MD_CATEGORYC . '</td><td colspan="2">';
-    $display .= $mytree->makeMySelBox("title", "title", $cid,0,"cid");
-    $display .= '</td></tr>' .LB;
+    $display .= $mytree->makeMySelBox("title", "title", $cid, 0, "cid");
+    $display .= '</td></tr>' . LB;
 
-    if (!empty($logourl) AND file_exists($filemgmt_SnapStore.$logourl)) {
-        $display .= '<tr><td>' . _MD_SHOTIMAGE . '</td><td style="width:5%;"><img src="' . $filemgmt_FileSnapURL . $logourl . '" style="width:80px;" alt=""' . XHTML . '></td>' .LB;
-        $display .= '<td style="width:35%;"><input type="file" size="40" name="newfileshot"' . XHTML . '><br' . XHTML . '><br' . XHTML . '><input type="checkbox" name="deletesnap"' . XHTML . '>&nbsp;Delete</td></tr>' .LB;
+    if (!empty($logourl) AND file_exists($filemgmt_SnapStore . $logourl)) {
+        $display .= '<tr><td>' . _MD_SHOTIMAGE . '</td><td style="width:5%;"><img src="' . $filemgmt_FileSnapURL . $logourl . '" style="width:80px;" alt=""' . XHTML . '></td>' . LB;
+        $display .= '<td style="width:35%;"><input type="file" size="40" name="newfileshot"' . XHTML . '><br' . XHTML . '><br' . XHTML . '><input type="checkbox" name="deletesnap"' . XHTML . '>&nbsp;Delete</td></tr>' . LB;
     } else {
-        $display .= '<tr><td>'._MD_SHOTIMAGE.'</td>' .LB;
-        $display .= '<td colspan="2"><input type="file" size="40" name="newfileshot"' . XHTML . '></td></tr>' .LB;
+        $display .= '<tr><td>' . _MD_SHOTIMAGE . '</td>' . LB;
+        $display .= '<td colspan="2"><input type="file" size="40" name="newfileshot"' . XHTML . '></td></tr>' . LB;
     }
 
     $display .= '<tr><td>' . _MD_COMMENTOPTION . '</td><td colspan="2">' . LB;
@@ -410,11 +413,11 @@ function modDownload() {
         $display .= '<input type="radio" name="commentoption" value="1" ' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;' . LB;
         $display .= '<input type="radio" name="commentoption" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;' . LB;
     }
-    $display .= '</td></tr>' .LB;
+    $display .= '</td></tr>' . LB;
 
     $display .= '<tr><td>' . _MD_MODOPT . '</td><td colspan="2">' . LB;
     $display .= '<input type="checkbox" name="updateregdate"' . XHTML . '>&nbsp;' . _MD_OPTUPDATE . LB;
-    $display .= '</td></tr>' .LB;
+    $display .= '</td></tr>' . LB;
 
     $display .= '<tr><td colspan="3" style="text-align:center;padding:10px;">' . LB;
     $display .= '<input type="submit" value="' . _MD_SUBMIT . '"' . XHTML . '><span style="padding-left:15px;padding-right:15px;">' . LB;
@@ -424,12 +427,12 @@ function modDownload() {
     $wk_token = SEC_createToken();
     $display .= '<input type="hidden" name="' . CSRF_TOKEN . '" value="' . $wk_token . '"' . XHTML . '>' . LB;
     //@@@@@20080917add CSRF checks <----
-    $display .= '</td></tr></table></div></form>' .LB;
+    $display .= '</td></tr></table></div></form>' . LB;
 
 
     /* Display File Voting Information */
     $result5 = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_votedata']}");
-    list ($totalvotes) = DB_fetchArray($result5);
+    list($totalvotes) = DB_fetchArray($result5);
 
     $display .= '<form method="post" action="index.php"><div>' . LB;
     $display .= '<input type="hidden" name="op" value=""' . XHTML . '>' . LB;
@@ -442,28 +445,33 @@ function modDownload() {
     $display .= '<tr><th colspan="7">';
     if ($totalvotes == '')
        $totalvotes = 0;
-    $display .= sprintf(_MD_DLRATINGS,$totalvotes);
+    $display .= sprintf(_MD_DLRATINGS, $totalvotes);
     $display .= '</th></tr>' . LB;
     // Show Registered Users Votes
-    $result5 = DB_query("SELECT ratingid, ratinguser, rating, ratinghostname, ratingtimestamp FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' AND ratinguser != 0 ORDER BY ratingtimestamp DESC");
-    $votes = DB_numROWS($result5);
+    $result5 = DB_query("SELECT ratingid, ratinguser, rating, ratinghostname, ratingtimestamp "
+                      . "FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' "
+                      . "AND ratinguser != 0 ORDER BY ratingtimestamp DESC");
+    $votes = DB_numRows($result5);
     $display .= '<tr><td colspan="7">';
-    $display .= sprintf(_MD_REGUSERVOTES,$votes);
+    $display .= sprintf(_MD_REGUSERVOTES, $votes);
     $display .= '</td></tr>' . LB;
-    $display .= '<tr><th>' . _MD_USER . '</th><th>' . _MD_IP . '</th><th>' . _MD_RATING . '</th><th>' . _MD_USERAVG . '</th><th>' . _MD_TOTALRATE . '</th><th>' . _MD_DATE  . '</th><th style="text-align:center;">' . _MD_DELETE . '</th></tr>';
-    if ($votes == 0){
-          $display .= '<tr><td style="text-align:center;" colspan="7">' . _MD_NOREGVOTES . '<br' . XHTML . '></td></tr>' . LB;
+    $display .= '<tr><th>' . _MD_USER . '</th><th>' . _MD_IP . '</th><th>' . _MD_RATING . '</th><th>'
+              . _MD_USERAVG . '</th><th>' . _MD_TOTALRATE . '</th><th>'
+              . _MD_DATE  . '</th><th style="text-align:center;">' . _MD_DELETE . '</th></tr>';
+    if ($votes == 0) {
+        $display .= '<tr><td style="text-align:center;" colspan="7">'
+                  . _MD_NOREGVOTES . '<br' . XHTML . '></td></tr>' . LB;
     }
-    $x=0;
+    $x = 0;
     $cssid = 1;
-    while(list($ratingid, $ratinguser, $rating, $ratinghostname, $ratingtimestamp)=DB_fetchArray($result5)) {
+    while (list($ratingid, $ratinguser, $rating, $ratinghostname, $ratingtimestamp) = DB_fetchArray($result5)) {
         $formatted_date = formatTimestamp($ratingtimestamp);
 
         //Individual user information
         $result2 = DB_query("SELECT rating FROM {$_FM_TABLES['filemgmt_votedata']} WHERE ratinguser='$ratinguser'");
-        $uservotes = DB_numROWS($result2);
+        $uservotes = DB_numRows($result2);
         $useravgrating = 0;
-        while(list($rating2) = DB_fetchArray($result2)){
+        while (list($rating2) = DB_fetchArray($result2)) {
              $useravgrating = $useravgrating + $rating2;
         }
         $useravgrating = $useravgrating / $uservotes;
@@ -476,13 +484,14 @@ function modDownload() {
         $display .= '</td></tr>' . LB;
         $x++;
         $cssid = ($cssid == 1) ? 2 : 1;
-
     }
 
     $display .= '</table></div></form>' .LB;
     // Show Unregistered Users Votes
-    $result5 = DB_query("SELECT ratingid, rating, ratinghostname, ratingtimestamp FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' AND ratinguser=0 ORDER BY ratingtimestamp DESC");
-    $votes = DB_numROWS($result5);
+    $result5 = DB_query("SELECT ratingid, rating, ratinghostname, ratingtimestamp "
+                      . "FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid' "
+                      . "AND ratinguser=0 ORDER BY ratingtimestamp DESC");
+    $votes = DB_numRows($result5);
     $display .= '<form method="post" action="index.php" onsubmit="alert(this.form.op.value)"><div>' . LB;
     $display .= '<input type="hidden" name="op" value=""' . XHTML . '>' . LB;
     $display .= '<input type="hidden" name="rid" value=""' . XHTML . '>' . LB;
@@ -492,15 +501,15 @@ function modDownload() {
     //@@@@@20080917add CSRF checks <----
     $display .= '<table class="pluginSubTable" style="vertical-align:top; width:100%;">' . LB;
     $display .= '<tr><th colspan="7">';
-    $display .= sprintf(_MD_ANONUSERVOTES,$votes);
+    $display .= sprintf(_MD_ANONUSERVOTES, $votes);
     $display .= '</th></tr>' . LB;
     $display .= '<tr><th colspan="2">' . _MD_IP . '</th><th colspan="3">' . _MD_RATING . '</th><th colspan="2">' . _MD_DATE . '</th></tr>' . LB;
     if ($votes == 0) {
-           $display .= '<tr><td colspan="7" style="text-align:center;">' . _MD_NOUNREGVOTES . '<br' . XHTML . '></td></tr>' . LB;
+        $display .= '<tr><td colspan="7" style="text-align:center;">' . _MD_NOUNREGVOTES . '<br' . XHTML . '></td></tr>' . LB;
     }
-    $x=0;
+    $x = 0;
     $cssid = 1;
-    while(list($ratingid, $rating, $ratinghostname, $ratingtimestamp)=DB_fetchArray($result5)) {
+    while (list($ratingid, $rating, $ratinghostname, $ratingtimestamp) = DB_fetchArray($result5)) {
         $formatted_date = formatTimestamp($ratingtimestamp);
         $display .= '<tr class="pluginRow' . $cssid . '" style="vertical-align:bottom;"><td colspan="2">' . $ratinghostname . '</td><td colspan="3">' . $rating . '</td>' . LB;
         $display .= '<td>' . $formatted_date . '</td>' . LB . '<td style="text-align:right;padding-right:20px;">' . LB;
@@ -522,17 +531,17 @@ function modDownload() {
 }
 
 function listBrokenDownloads() {
-    global $_CONF,$_TABLES,$_FM_TABLES,$LANG_FM02,$myts,$eh;
+    global $_CONF, $_TABLES, $_FM_TABLES, $LANG_FM02;
 
     $result = DB_query("SELECT * FROM {$_FM_TABLES['filemgmt_brokenlinks']} ORDER BY reportid");
-    $totalbrokendownloads = DB_numROWS($result);
+    $totalbrokendownloads = DB_numRows($result);
 
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE) . LB;
     $display .= filemgmt_navbar($LANG_FM02['nav5']);
 
-    if ($totalbrokendownloads==0) {
-        $display .= '<div style="padding:20px">' . _MD_NOBROKEN .'</div>' . LB;
+    if ($totalbrokendownloads == 0) {
+        $display .= '<div style="padding:20px">' . _MD_NOBROKEN . '</div>' . LB;
     } else {
         $display .= '<form method="post" action="index.php"><div>' . LB;
         $display .= '<input type="hidden" name="op" value=""' . XHTML . '>' . LB;
@@ -541,17 +550,17 @@ function listBrokenDownloads() {
         $display .= '<input type="hidden" name="' . CSRF_TOKEN . '" value="' . SEC_createToken() . '"' . XHTML . '>' . LB;
         //@@@@@20080917add CSRF checks <----
         $display .= '<table border="0" class="plugin" style="width:100%;">' . LB;
-        $display .= '<tr><td colspan="5" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_BROKENREPORTS. '&nbsp;(' . $totalbrokendownloads . ')</td></tr>' . LB;
+        $display .= '<tr><td colspan="5" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_BROKENREPORTS . '&nbsp;(' . $totalbrokendownloads . ')</td></tr>' . LB;
         $display .= '<tr><td colspan="5">' . _MD_IGNOREDESC . '<br' . XHTML . '>' . _MD_DELETEDESC . '</td></tr>' . LB;
         $display .= '<tr class="pluginHeader"><th>' . _MD_FILETITLE . '</th><th>' . _MD_REPORTER . '</th>' . LB;
         $display .= '<th>' . _MD_FILESUBMITTER . '</th><th>' . _MD_IGNORE . '</th><th>' . _MD_DELETE . '</th></tr>' . LB;
 
         $cssid = 1;
-        while(list($reportid, $lid, $sender, $ip) = DB_fetchArray($result)) {
-           $result2 = DB_query("SELECT title, url, submitter FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-           if ($sender != 0) {
-               $result3 = DB_query("SELECT username, email FROM {$_TABLES['users']} WHERE uid='$sender'");
-               list($sendername, $email) = DB_fetchArray($result3);
+        while (list($reportid, $lid, $sender, $ip) = DB_fetchArray($result)) {
+            $result2 = DB_query("SELECT title, url, submitter FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
+            if ($sender != 0) {
+                $result3 = DB_query("SELECT username, email FROM {$_TABLES['users']} WHERE uid='$sender'");
+                list($sendername, $email) = DB_fetchArray($result3);
             }
             list($title, $url, $owner) = DB_fetchArray($result2);
             $result4 = DB_query("SELECT username, email FROM {$_TABLES['users']} WHERE uid='$owner'");
@@ -569,7 +578,7 @@ function listBrokenDownloads() {
             } else {
                 $display .= '<td><a href="mailto:' . $owneremail . '">' . $ownername . '</a>';
             }
-            $display .= "</td><td style='text-align:center'>" . LB;
+            $display .= '</td><td style="text-align:center">' . LB;
             $display .= '<input type="image" src="' . $_CONF['site_url'] . '/filemgmt/images/delete.gif" ';
             $display .= 'onclick=\'if (confirm("Delete this broken file report?")) {this.form.op.value="ignoreBrokenDownloads";';
             $display .= 'this.form.lid.value="' . $lid . '";return true};return false;\'' . XHTML . '>' . LB;
@@ -593,7 +602,7 @@ function listBrokenDownloads() {
 }
 
 function delBrokenDownloads() {
-    global $_FM_TABLES,$eh;
+    global $_FM_TABLES;
 
     $lid = 0;
     if (isset($_POST['lid'])) {
@@ -601,24 +610,24 @@ function delBrokenDownloads() {
     }
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_brokenlinks']} WHERE lid='$lid'");
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']}  WHERE lid='$lid'");
-    redirect_header("index.php?op=listBrokenDownloads",1,_MD_FILEDELETED);
-    exit();
+    redirect_header("index.php?op=listBrokenDownloads", 1, _MD_FILEDELETED);
+    exit;
 }
 
 function ignoreBrokenDownloads() {
-    global $_FM_TABLES,$eh;
+    global $_FM_TABLES;
 
     $lid = 0;
     if (isset($_POST['lid'])) {
         $lid = COM_applyFilter($_POST['lid'], true);
     }
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_brokenlinks']} WHERE lid='$lid'");
-    redirect_header("index.php?op=listBrokenDownloads",1,_MD_BROKENDELETED);
-    exit();
+    redirect_header("index.php?op=listBrokenDownloads", 1, _MD_BROKENDELETED);
+    exit;
 }
 
 function delVote() {
-    global $_CONF,$_FM_TABLES,$eh;
+    global $_CONF, $_FM_TABLES;
 
     $rid = 0;
     if (isset($_POST['rid'])) {
@@ -630,13 +639,14 @@ function delVote() {
     }
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_votedata']} WHERE ratingid='$rid'");
     updaterating($lid);
-    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?lid=$lid&op=modDownload",2,_MD_VOTEDELETED);
-    exit();
+    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?lid=$lid&op=modDownload", 2, _MD_VOTEDELETED);
+    exit;
 }
 
 
 function modDownloadS() {
-    global $_CONF,$_FM_TABLES,$myts,$eh,$filemgmt_SnapStore,$filemgmt_FileStore;
+    global $_CONF, $_FM_TABLES, $myts,
+           $filemgmt_SnapStore, $filemgmt_FileStore;
 
     $cid = 0;
     if (isset($_POST['cid'])) {
@@ -651,38 +661,38 @@ function modDownloadS() {
         $url = rawurlencode($myts->makeTboxData4Save($_POST['url']));
     }
 
-    $currentfile = DB_getITEM($_FM_TABLES['filemgmt_filedetail'], 'url', "lid='$lid'");
+    $currentfile = DB_getItem($_FM_TABLES['filemgmt_filedetail'], 'url', "lid='$lid'");
     $currentfileFQN = $filemgmt_FileStore . $myts->makeTboxData4Save(rawurldecode($currentfile));
     $newfile = rawurlencode($myts->makeTboxData4Save($_FILES['newfile']['name']));
-    COM_errorLOG("Currentfilename is:'$currentfile' and new file is:'$newfile'");
+    COM_errorLog("Currentfilename is:'$currentfile' and new file is:'$newfile'");
     if (($newfile != '' AND $currentfile != $newfile)  OR ($newfile != '' and $currentfile == '')) {
-        COM_errorLOG("Download file has changed");
-        if (uploadNewFile($_FILES["newfile"],$filemgmt_FileStore)) {
+        COM_errorLog("Download file has changed");
+        if (uploadNewFile($_FILES["newfile"], $filemgmt_FileStore)) {
             if (file_exists($currentfileFQN) && (!is_dir($currentfileFQN))) {
-               $err=@unlink ($currentfileFQN);
+                $err=@unlink ($currentfileFQN);
             }
             $url = rawurlencode($myts->makeTboxData4Save($_FILES['newfile']['name']));
             DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET url='$url' WHERE lid='$lid'");
-       }
+        }
     }
 
-    $currentsnapfile = DB_getITEM($_FM_TABLES['filemgmt_filedetail'], 'logourl', "lid='$lid'");
+    $currentsnapfile = DB_getItem($_FM_TABLES['filemgmt_filedetail'], 'logourl', "lid='$lid'");
     $currentSnapFQN = $filemgmt_SnapStore . $myts->makeTboxData4Save(rawurldecode($currentsnapfile));
     $newsnapfile = rawurlencode($myts->makeTboxData4Save($_FILES['newfileshot']['name']));
     if (($newsnapfile !="" AND $currentsnapfile != $newsnapfile)  OR ($newsnapfile != '' and $currentsnapfile == '')) {
-        //COM_errorLOG("Snap file has changed");
-        if (uploadNewFile($_FILES["newfileshot"],$filemgmt_SnapStore)) {
+        //COM_errorLog("Snap file has changed");
+        if (uploadNewFile($_FILES["newfileshot"], $filemgmt_SnapStore)) {
             if (file_exists($currentSnapFQN) && (!is_dir($currentSnapFQN))) {
-               $err=@unlink ($currentSnapFQN);
+                $err = @unlink($currentSnapFQN);
             }
             $logourl = rawurlencode($myts->makeTboxData4Save($_FILES['newfileshot']['name']));
             DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET logourl='$logourl' WHERE lid='$lid'");
-       }
-    } elseif(isset($_POST['deletesnap'])) {
+        }
+    } elseif (isset($_POST['deletesnap'])) {
         if (file_exists($currentSnapFQN) && (!is_dir($currentSnapFQN))) {
-            $err=@unlink ($currentSnapFQN);
+            $err = @unlink($currentSnapFQN);
             DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET logourl='' WHERE lid='$lid'");
-            COM_errorLOG("Delete repository snapfile:$currentSnapFQN.");
+            COM_errorLog("Delete repository snapfile:$currentSnapFQN.");
         }
     }
 
@@ -696,24 +706,29 @@ function modDownloadS() {
         $commentoption = COM_applyFilter($_POST['commentoption'], true);
     }
     $update = (isset($_POST['updateregdate'])) ? "date=" . time() . ", " : "";
-    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET cid='$cid', title='$title', url='$url', homepage='$homepage', version='$version', size='$size', status=1, " . $update . "comments='$commentoption' WHERE lid='$lid'");
-    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedesc']} SET description='$description' WHERE lid='$lid'");
-    redirect_header("{$_CONF['site_url']}/filemgmt/index.php",2,_MD_DBUPDATED);
-    exit();
+    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} "
+           . "SET cid='$cid', title='$title', url='$url', homepage='$homepage', "
+           . "version='$version', size='$size', status=1, " . $update
+           . "comments='$commentoption' WHERE lid='$lid'");
+    DB_query("UPDATE {$_FM_TABLES['filemgmt_filedesc']} "
+           . "SET description='$description' WHERE lid='$lid'");
+    redirect_header("{$_CONF['site_url']}/filemgmt/index.php", 2, _MD_DBUPDATED);
+    exit;
 }
 
 function delDownload() {
-    global $_FM_TABLES,$_CONF,$myts,$filemgmt_FileStore,$filemgmt_SnapStore,$eh;
+    global $_FM_TABLES, $_CONF, $myts,
+           $filemgmt_FileStore, $filemgmt_SnapStore;
 
     $lid = $myts->makeTboxData4Save($_POST['lid']);
     $name = $myts->makeTboxData4Save(rawurldecode($_POST['url']));
     $tmpurl = rawurlencode($_POST['url']);
-    $tmpfile  = $filemgmt_FileStore . $name;
+    $tmpfile = $filemgmt_FileStore . $name;
 
     $result = DB_query("SELECT COUNT(*) FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE url='$tmpurl'");
     list($numrows) = DB_fetchArray($result);
-    $tmpsnap = DB_getItem($_FM_TABLES['filemgmt_filedetail'],'logourl',"lid='$lid'");
-    $tmpsnap  = $filemgmt_SnapStore . $tmpsnap;
+    $tmpsnap = DB_getItem($_FM_TABLES['filemgmt_filedetail'], 'logourl', "lid='$lid'");
+    $tmpsnap = $filemgmt_SnapStore . $tmpsnap;
 
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']}  WHERE lid='$lid'");
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedesc']}    WHERE lid='$lid'");
@@ -724,22 +739,22 @@ function delDownload() {
     // We don't want to delete actual file if there are more then 1 record linking to it.
     // Site may be allowing more then 1 file listing to duplicate files
     if ($numrows > 1) {
-         redirect_header("{$_CONF['site_url']}/filemgmt/index.php",2,_MD_FILENOTDELETED);
-         exit();
+         redirect_header("{$_CONF['site_url']}/filemgmt/index.php", 2, _MD_FILENOTDELETED);
+         exit;
     } else {
         if ($tmpfile != "" && file_exists($tmpfile) && (!is_dir($tmpfile))) {
-            $err=@unlink ($tmpfile);
+            $err = @unlink($tmpfile);
         }
         if ($tmpsnap != "" && file_exists($tmpsnap) && (!is_dir($tmpsnap))) {
-            $err=@unlink ($tmpsnap);
+            $err = @unlink($tmpsnap);
         }
     }
-    redirect_header("{$_CONF['site_url']}/filemgmt/index.php",2,_MD_FILEDELETED);
-    exit();
+    redirect_header("{$_CONF['site_url']}/filemgmt/index.php", 2, _MD_FILEDELETED);
+    exit;
 }
 
 function modCat() {
-    global $_CONF,$_TABLES,$_FM_TABLES,$myts,$eh,$mytree,$LANG_FM02;
+    global $_TABLES, $_FM_TABLES, $myts, $mytree, $LANG_FM02;
 
     $cid = 0;
     if (isset($_POST['cid'])) {
@@ -755,7 +770,7 @@ function modCat() {
     $display .= '<tr><td colspan="2" class="pluginHeader" style="width:100%; padding:5px;">' . _MD_MODCAT . '</td></tr>' . LB;
 
     $result = DB_query("SELECT pid, title, imgurl, grp_access FROM {$_FM_TABLES['filemgmt_cat']} WHERE cid='$cid'");
-    list($pid,$title,$imgurl,$grp_access) = DB_fetchArray($result);
+    list($pid, $title, $imgurl, $grp_access) = DB_fetchArray($result);
     $title = $myts->makeTboxData4Edit($title);
     $imgurl = rawurldecode($myts->makeTboxData4Edit($imgurl));
 
@@ -786,40 +801,40 @@ function modCat() {
 
 
 function delNewDownload() {
-    global $_FM_TABLES,$filemgmt_FileStore,$filemgmt_SnapCat,$filemgmt_SnapStore,$myts,$eh;
+    global $_FM_TABLES, $filemgmt_FileStore, $filemgmt_SnapStore;
 
     $lid = 0;
     if (isset($_POST['lid'])) {
         $lid = COM_applyFilter($_POST['lid'], true);
     }
-    if (DB_count($_FM_TABLES['filemgmt_filedetail'],'lid',$lid) == 1) {
-        $tmpnames = explode(";",DB_getItem($_FM_TABLES['filemgmt_filedetail'],'platform',"lid='$lid'"));
+    if (DB_count($_FM_TABLES['filemgmt_filedetail'], 'lid', $lid) == 1) {
+        $tmpnames = explode(";", DB_getItem($_FM_TABLES['filemgmt_filedetail'], 'platform', "lid='$lid'"));
         $tmpfilename = $tmpnames[0];
         $tmpshotname = $tmpnames[1];
-        $tmpfilename = $filemgmt_FileStore ."tmp/" . $tmpfilename;
-        $tmpshotname = $filemgmt_SnapStore ."tmp/" . $tmpshotname;
+        $tmpfilename = $filemgmt_FileStore . "tmp/" . $tmpfilename;
+        $tmpshotname = $filemgmt_SnapStore . "tmp/" . $tmpshotname;
 
         DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
         DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid='$lid'");
         if ($tmpfilename != '' && file_exists($tmpfilename) && (!is_dir($tmpfilename))) {
-            $err=@unlink ($tmpfilename);
-            //COM_errorLOG("Delete submitted file: ".$tmpfilename." Return status of unlink is: ".$err);
+            $err = @unlink($tmpfilename);
+            //COM_errorLog("Delete submitted file: " . $tmpfilename . " Return status of unlink is: " . $err);
         }
         if ($tmpshotname != '' && file_exists($tmpshotname) && (!is_dir($tmpshotename))) {
-            $err=@unlink ($tmpshotname);
-            //COM_errorLOG("Delete submitted snapshot: ".$tmpshotname." Return status of unlink is: ".$err);
+            $err = @unlink($tmpshotname);
+            //COM_errorLog("Delete submitted snapshot: " . $tmpshotname . " Return status of unlink is: " . $err);
         }
-        redirect_header("index.php?op=listNewDownloads",1,_MD_FILEDELETED);
+        redirect_header("index.php?op=listNewDownloads", 1, _MD_FILEDELETED);
     } else {
-        redirect_header("index.php?op=listNewDownloads",1,_MD_ERRORNOFILE);
+        redirect_header("index.php?op=listNewDownloads", 1, _MD_ERRORNOFILE);
     }
-    exit();
+    exit;
 }
 
 
 
 function modCatS() {
-    global $_CONF,$_FM_TABLES,$myts,$eh;
+    global $_CONF, $_FM_TABLES, $myts;
 
     $cid = 0;
     if (isset($_POST['cid'])) {
@@ -829,8 +844,8 @@ function modCatS() {
     if (isset($_POST['pid'])) {
         $sid = COM_applyFilter($_POST['pid'], true);
     }
-    $title =  $myts->makeTboxData4Save($_POST['title']);
-    $title = str_replace('/','&#47',$title);
+    $title = $myts->makeTboxData4Save($_POST['title']);
+    $title = str_replace('/', '&#47', $title);
     $grp_access = $_POST['sel_access'];
     if ($grp_access < 1) {
         $grp_access = 2;  // All Users Group
@@ -838,46 +853,51 @@ function modCatS() {
     if (($_POST["imgurl"]) || ($_POST["imgurl"]!="")) {
         $imgurl = $myts->makeTboxData4Save($_POST["imgurl"]);
     }
-    DB_query("UPDATE {$_FM_TABLES['filemgmt_cat']} SET title='$title', imgurl='$imgurl', pid='$sid', grp_access='$grp_access' WHERE cid='$cid'");
-    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php",2,_MD_DBUPDATED);
-    exit();
+    DB_query("UPDATE {$_FM_TABLES['filemgmt_cat']} "
+           . "SET title='$title', imgurl='$imgurl', pid='$sid', "
+           . "grp_access='$grp_access' WHERE cid='$cid'");
+    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php", 2, _MD_DBUPDATED);
+    exit;
 }
 
 function delCat() {
-    global $_CONF,$_FM_TABLES,$eh, $mytree,$filemgmt_FileStore,$filemgmt_SnapCat,$filemgmt_SnapStore;
+    global $_CONF, $_FM_TABLES, $mytree,
+           $filemgmt_FileStore,
+           $filemgmt_SnapCat,
+           $filemgmt_SnapStore;
 
     $cid = 0;
     if (isset($_POST['cid'])) {
         $cid = COM_applyFilter($_POST['cid'], true);
     }
     //get all subcategories under the specified category
-    $arr=$mytree->getAllChildId($cid);
-    for($i=0;$i<sizeof($arr);$i++){
+    $arr = $mytree->getAllChildId($cid);
+    for ($i=0; $i < sizeof($arr); $i++) {
         //get all downloads in each subcategory
         $result = DB_query("SELECT lid,url,logourl FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE cid='{$arr[$i]}'");
         //now for each download, delete the text data and votes associated with the download
-        while(list($lid,$url,$logourl)= DB_fetchArray($result)){
+        while (list($lid, $url, $logourl) = DB_fetchArray($result)) {
             DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid='$lid'");
             DB_query("DELETE FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid='$lid'");
             DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
             DB_query("DELETE FROM {$_FM_TABLES['filemgmt_brokenlinks']} WHERE lid='$lid'");
             $name = rawurldecode($url);
-            $fullname  = $filemgmt_FileStore . $name;
-            if ($fullname !="" && file_exists($fullname) && (!is_dir($fullname))) {
-                $err=@unlink($fullname);
+            $fullname = $filemgmt_FileStore . $name;
+            if ($fullname != "" && file_exists($fullname) && (!is_dir($fullname))) {
+                $err = @unlink($fullname);
             }
             $name = rawurldecode($logourl);
-            $fullname  = $filemgmt_SnapStore . $name;
-            if ($fullname !="" && file_exists($fullname) && (!is_dir($fullname))) {
-                $err=@unlink($fullname);
+            $fullname = $filemgmt_SnapStore . $name;
+            if ($fullname != "" && file_exists($fullname) && (!is_dir($fullname))) {
+                $err = @unlink($fullname);
             }
         }
         //all downloads for each subcategory is deleted, now delete the subcategory data
-        $catimage = DB_getItem($_FM_TABLES['filemgmt_cat'],'imgurl', "cid='{$arr[$i]}'");
+        $catimage = DB_getItem($_FM_TABLES['filemgmt_cat'], 'imgurl', "cid='{$arr[$i]}'");
         $catimage_filename = $filemgmt_SnapCat . $catimage;
         if ($catimage != '' && file_exists($catimage_filename) && (!is_dir($catimage_filename))) {
             // Check that there is only one category using this image
-            if (DB_count($_FM_TABLES['filemgmt_cat'],'imgurl',$catimage) == 1) {
+            if (DB_count($_FM_TABLES['filemgmt_cat'], 'imgurl', $catimage) == 1) {
                 @unlink($catimage_filename);
             }
         }
@@ -885,38 +905,37 @@ function delCat() {
     }
     //all subcategory and associated data are deleted, now delete category data and its associated data
     $result = DB_query("SELECT lid,url,logourl FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE cid='$cid'");
-    while(list($lid,$url,$logourl)= DB_fetchArray($result)){
-       DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
-       DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid='$lid'");
-       DB_query("DELETE FROM {$_FM_TABLES['filemgmt_brokenlinks']} WHERE lid='$lid'");
+    while (list($lid, $url, $logourl) = DB_fetchArray($result)) {
+        DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedetail']} WHERE lid='$lid'");
+        DB_query("DELETE FROM {$_FM_TABLES['filemgmt_filedesc']} WHERE lid='$lid'");
+        DB_query("DELETE FROM {$_FM_TABLES['filemgmt_brokenlinks']} WHERE lid='$lid'");
 
-       $name = rawurldecode($url);
-            $fullname  = $filemgmt_FileStore . $name;
-            if ($fullname !="" && file_exists($fullname) && (!is_dir($fullname))) {
-                $err=@unlink($fullname);
-            }
-            $name = rawurldecode($logourl);
-            $fullname  = $filemgmt_SnapStore . $name;
-            if ($fullname != '' && file_exists($fullname) && (!is_dir($fullname))) {
-                $err=@unlink($fullname);
-            }
+        $name = rawurldecode($url);
+        $fullname = $filemgmt_FileStore . $name;
+        if ($fullname != "" && file_exists($fullname) && (!is_dir($fullname))) {
+            $err = @unlink($fullname);
+        }
+        $name = rawurldecode($logourl);
+        $fullname = $filemgmt_SnapStore . $name;
+        if ($fullname != "" && file_exists($fullname) && (!is_dir($fullname))) {
+            $err = @unlink($fullname);
+        }
     }
-    $catimage = DB_getItem($_FM_TABLES['filemgmt_cat'],'imgurl', "cid='$cid'");
+    $catimage = DB_getItem($_FM_TABLES['filemgmt_cat'], 'imgurl', "cid='$cid'");
     $catimage_filename = $filemgmt_SnapCat . $catimage;
     if ($catimage != '' && file_exists($catimage_filename) && (!is_dir($catimage_filename))) {
         // Check that there is only one category using this image
-        if (DB_count($_FM_TABLES['filemgmt_cat'],'imgurl',$catimage) == 1) {
+        if (DB_count($_FM_TABLES['filemgmt_cat'], 'imgurl', $catimage) == 1) {
             @unlink($catimage_filename);
         }
     }
     DB_query("DELETE FROM {$_FM_TABLES['filemgmt_cat']} WHERE cid='$cid'");
-    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=categoryConfigAdmin",2,_MD_CATDELETED);
-    exit();
-
+    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=categoryConfigAdmin", 2, _MD_CATDELETED);
+    exit;
 }
 
 function addCat() {
-    global $_CONF, $_FM_TABLES, $filemgmt_SnapCat,$filemgmt_SnapCatURL,$myts,$eh;
+    global $_CONF, $_FM_TABLES, $filemgmt_SnapCat, $myts;
 
     $pid = 0;
     if (isset($_POST['cid'])) {
@@ -940,22 +959,25 @@ function addCat() {
             $name = $_FILES["uploadfile"]['name'];        // this is the real name of your file
             $tmp  = $_FILES["uploadfile"]['tmp_name'];    // temporary name of file in temporary directory on server
             $imgurl = rawurlencode($myts->makeTboxData4Save($name));
-            if (is_uploaded_file ($tmp)) {                       // is this temporary file really uploaded?
-               if(!file_exists($filemgmt_SnapCat.$name)) {       // Check to see the file already exists
-                $target = $filemgmt_SnapCat.$name;
-                $returnMove = move_uploaded_file($tmp, $target);    // move temporary file to your upload directory
+            if (is_uploaded_file($tmp)) {                       // is this temporary file really uploaded?
+                if (!file_exists($filemgmt_SnapCat . $name)) {       // Check to see the file already exists
+                    $target = $filemgmt_SnapCat . $name;
+                    $returnMove = move_uploaded_file($tmp, $target);    // move temporary file to your upload directory
                 }
-             }
+            }
         }
-        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_cat']} (pid, title, imgurl,grp_access) VALUES ('$pid', '$title', '$imgurl','$grp_access')");
+        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_cat']} "
+               . "(pid, title, imgurl,grp_access) "
+               . "VALUES ('$pid', '$title', '$imgurl','$grp_access')");
     }
-    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=categoryConfigAdmin",2,_MD_NEWCATADDED);
-    exit();
+    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?"
+                  . "op=categoryConfigAdmin", 2, _MD_NEWCATADDED);
+    exit;
 }
 
 function addDownload() {
-    global $_CONF,$_USER,$_FM_TABLES,$filemgmt_FileStoreURL,$filemgmt_FileSnapURL,$filemgmt_FileStore,$filemgmt_SnapStore;
-    global $myts,$eh;
+    global $_CONF, $_USER, $_FM_TABLES,
+           $filemgmt_FileStore, $filemgmt_SnapStore, $myts, $eh;
 
     $filename = $myts->makeTboxData4Save($_FILES['newfile']['name']);
     $url = $myts->makeTboxData4Save(rawurlencode($filename));
@@ -978,9 +1000,9 @@ function addDownload() {
     }
     // Check if Description blank
     if ($description=="") {
-           $eh->show("1105");
+        $eh->show("1105");
     }
-     // Check if a file was uploaded
+    // Check if a file was uploaded
     if ($_FILES['newfile']['size'] == 0) {
         $eh->show("1017");
     }
@@ -991,36 +1013,41 @@ function addDownload() {
         $cid = 0;
     }
 
-    if (uploadNewFile($_FILES["newfile"],$filemgmt_FileStore)) {
+    if (uploadNewFile($_FILES["newfile"], $filemgmt_FileStore)) {
         $AddNewFile = true;
     }
-    if (uploadNewFile($_FILES["newfileshot"],$filemgmt_SnapStore)) {
+    if (uploadNewFile($_FILES["newfileshot"], $filemgmt_SnapStore)) {
         $AddNewFile = true;
     }
 
-    if ($AddNewFile){
-        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedetail']} (cid, title, url, homepage, version, size, logourl, submitter, status, date, hits, rating, votes, comments) VALUES ('$cid', '$title', '$url', '$homepage', '$version', '$size', '$logourl', '$submitter', 1, ".time().", 0, 0, 0,'$commentoption')");
+    if ($AddNewFile) {
+        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedetail']} "
+               . "(cid, title, url, homepage, version, size, "
+               . "logourl, submitter, status, date, hits, rating, votes, comments) "
+               . "VALUES ('$cid', '$title', '$url', '$homepage', '$version', '$size', '$logourl', "
+               . "'$submitter', 1, " . time() . ", 0, 0, 0,'$commentoption')");
         $newid = DB_insertID();
-        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedesc']} (lid, description) VALUES ($newid, '$description')");
+        DB_query("INSERT INTO {$_FM_TABLES['filemgmt_filedesc']} "
+               . "(lid, description) VALUES ($newid, '$description')");
         if ($duplicatefile) {
-            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php",2,_MD_NEWDLADDED_DUPFILE);
+            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php", 2, _MD_NEWDLADDED_DUPFILE);
         } elseif ($duplicatesnap) {
-            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php",2,_MD_NEWDLADDED_DUPSNAP);
+            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php", 2, _MD_NEWDLADDED_DUPSNAP);
         } else {
-            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php",2,_MD_NEWDLADDED);
+            redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php", 2, _MD_NEWDLADDED);
         }
-        exit();
-
+        exit;
     } else {
-        redirect_header("index.php",2,_MD_ERRUPLOAD."");
-        exit();
+        redirect_header("index.php", 2, _MD_ERRUPLOAD . "");
+        exit;
     }
-
 }
 
 
 function approve() {
-    global $_FM_TABLES,$_TABLES,$_CONF,$myts,$eh,$filemgmt_FileStore,$filemgmt_SnapStore,$filemgmt_Emailoption,$filemgmtFilePermissions;
+    global $_FM_TABLES, $_TABLES, $_CONF, $myts, $eh,
+           $filemgmt_FileStore, $filemgmt_SnapStore,
+           $filemgmt_Emailoption, $filemgmtFilePermissions;
 
     $lid = 0;
     if (isset($_POST['lid'])) {
@@ -1052,7 +1079,7 @@ function approve() {
 
     // Comment out this check if you want to allow duplicate filelistings for same file in the repository
     // Check for duplicate files of the same filename (actual filename in repository)
-    if ($numrows>0) {
+    if ($numrows > 0) {
         $eh->show("1108");
     }
 
@@ -1064,76 +1091,87 @@ function approve() {
     $commentoption = $_POST["commentoption"];
 
     // Move file from tmp directory under the document filestore to the main file directory
-    // Now to extract the temporary names for both the file and optional thumbnail. I've used th platform field which I'm not using now for anything.
-    $tmpnames = explode(";",DB_getItem($_FM_TABLES['filemgmt_filedetail'],'platform',"lid='$lid'"));
+    // Now to extract the temporary names for both the file and optional thumbnail.
+    // I've used th platform field which I'm not using now for anything.
+    $tmpnames = explode(";", DB_getItem($_FM_TABLES['filemgmt_filedetail'], 'platform', "lid='$lid'"));
     $tmpfilename = $tmpnames[0];
     $tmpshotname = $tmpnames[1];
-    $tmp = $filemgmt_FileStore ."tmp/" . $tmpfilename;
-    if (file_exists($tmp) && (!is_dir($tmp))) {                      // if this temporary file was really uploaded?
+    $tmp = $filemgmt_FileStore . "tmp/" . $tmpfilename;
+    if (file_exists($tmp) && (!is_dir($tmp))) {  // if this temporary file was really uploaded?
         $newfile = $filemgmt_FileStore .$name;
-        COM_errorLOG("File move from ".$tmp. " to " .$newfile );
-        $rename = @rename ($tmp,$newfile);
-        COM_errorLOG("Results of rename is: ".$rename);
-        $chown = @chmod ($newfile,$filemgmtFilePermissions);
-        if (!file_exists($newfile )) {
-            COM_errorLOG("Filemgmt upload approve error: New file does not exist after move of tmp file: '".$newfile ."'");
+        COM_errorLog("File move from " . $tmp . " to " . $newfile);
+        $rename = @rename($tmp, $newfile);
+        COM_errorLog("Results of rename is: " . $rename);
+        $chown = @chmod($newfile, $filemgmtFilePermissions);
+        if (!file_exists($newfile)) {
+            COM_errorLog("Filemgmt upload approve error: "
+                       . "New file does not exist after move of tmp file: '" . $newfile . "'");
             $AddNewFile = false;    // Set false again - in case it was set true above for actual file
             $eh->show("1101");
         } else {
-           $AddNewFile = true;
+            $AddNewFile = true;
         }
     } else {
-        COM_errorLOG("Filemgmt upload approve error: Temporary file does not exist: '".$tmp ."'");
+        COM_errorLog("Filemgmt upload approve error: Temporary file does not exist: '" . $tmp . "'");
         $eh->show("1101");
     }
 
-    if ($tmpshotname !="") {
-        $tmp  = $filemgmt_SnapStore ."tmp/" . $tmpshotname;
+    if ($tmpshotname != "") {
+        $tmp = $filemgmt_SnapStore . "tmp/" . $tmpshotname;
         if (file_exists($tmp) && (!is_dir($tmp))) {                // if this temporary Thumbnail was really uploaded?
-            $newfile = $filemgmt_SnapStore .$shotname;
-            $rename = @rename ($tmp,$newfile);
-            $chown = @chmod ($newfile,$filemgmtFilePermissions);
-            if (!file_exists($newfile )) {
-                COM_errorLOG("Filemgmt upload approve error: New file does not exist after move of tmp file: '".$newfile ."'");
+            $newfile = $filemgmt_SnapStore . $shotname;
+            $rename = @rename($tmp, $newfile);
+            $chown = @chmod ($newfile, $filemgmtFilePermissions);
+            if (!file_exists($newfile)) {
+                COM_errorLog("Filemgmt upload approve error: "
+                           . "New file does not exist after move of tmp file: '" . $newfile . "'");
                 $AddNewFile = false;    // Set false again - in case it was set true above for actual file
                 $eh->show("1101");
             }
         } else {
-            COM_errorLOG("Filemgmt upload approve error: Temporary file does not exist: '".$tmp ."'");
+            COM_errorLog("Filemgmt upload approve error: Temporary file does not exist: '" . $tmp . "'");
             $eh->show("1101");
         }
     }
     if ($AddNewFile) {
-        DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} SET cid='$cid', title='$title', url='$url', homepage='$homepage', version='$version', size='$size', logourl='$logourl', status=1, date=".time() .", comments='$commentoption' WHERE lid='$lid'");
-        DB_query("UPDATE {$_FM_TABLES['filemgmt_filedesc']} SET description='$description' where lid='$lid'");
+        DB_query("UPDATE {$_FM_TABLES['filemgmt_filedetail']} "
+               . "SET cid='$cid', title='$title', url='$url', homepage='$homepage', "
+               . "version='$version', size='$size', logourl='$logourl', status=1, "
+               . "date=" . time() . ", comments='$commentoption' WHERE lid='$lid'");
+        DB_query("UPDATE {$_FM_TABLES['filemgmt_filedesc']} "
+               . "SET description='$description' WHERE lid='$lid'");
 
         // Send a email to submitter notifying them that file was approved
         if ($filemgmt_Emailoption) {
-            $result = DB_query("SELECT username, email FROM {$_TABLES['users']} a, {$_FM_TABLES['filemgmt_filedetail']} b WHERE a.uid=b.submitter AND b.lid='$lid'");
-            list ($submitter_name, $emailaddress) = DB_fetchArray($result);
-            $mailtext  = sprintf(_MD_HELLO,$submitter_name);
-            $mailtext .= ",\n\n" ._MD_WEAPPROVED. " " .$title. " \n" ._MD_THANKSSUBMIT. "\n\n";
+            $result = DB_query("SELECT username, email FROM {$_TABLES['users']} a, "
+                             . "{$_FM_TABLES['filemgmt_filedetail']} b "
+                             . "WHERE a.uid=b.submitter AND b.lid='$lid'");
+            list($submitter_name, $emailaddress) = DB_fetchArray($result);
+            $mailtext  = sprintf(_MD_HELLO, $submitter_name);
+            $mailtext .= ",\n\n" . _MD_WEAPPROVED . " " . $title . " \n" . _MD_THANKSSUBMIT . "\n\n";
             $mailtext .= "{$_CONF["site_name"]}\n";
             $mailtext .= "{$_CONF['site_url']}\n";
-            //COM_errorLOG("email: ".$emailaddress.", text: ".$mailtext);
-            if (function_exists(COM_mail) ) {
-                COM_mail($emailaddress,_MD_APPROVED,$mailtext);
+            //COM_errorLog("email: " . $emailaddress.", text: " . $mailtext);
+            if (function_exists(COM_mail)) {
+                COM_mail($emailaddress, _MD_APPROVED, $mailtext);
             } else {
-                mail($emailaddress ,"{$_CONF["site_name"]}: " . _MD_UPLOADAPPROVED ,$mailtext, "From: {$_CONF["site_name"]} <{$_CONF["site_mail"]}>\nReturn-Path: <{$_CONF["site_mail"]}>\nX-Mailer: GeekLog $VERSION" );
+                mail($emailaddress, "{$_CONF["site_name"]}: " . _MD_UPLOADAPPROVED ,
+                     $mailtext, "From: {$_CONF["site_name"]} <{$_CONF["site_mail"]}>\n"
+                              . "Return-Path: <{$_CONF["site_mail"]}>\nX-Mailer: GeekLog $VERSION");
             }
-         }
+        }
     }
-    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=listNewDownloads",2,_MD_NEWDLADDED);
-    exit();
+    redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php?op=listNewDownloads", 2, _MD_NEWDLADDED);
+    exit;
 }
 
 
 function filemgmtConfigAdmin() {
-    global $filemgmt_AllUserAccess, $filemgmt_AllowUserUploads,$LANG_FM02;
+    global $LANG_FM02;
     global $mydownloads_perpage, $mydownloads_popular, $mydownloads_newdownloads, $mydownloads_trimdesc, $mydownloads_dlreport;
     global $mydownloads_selectpriv, $mydownloads_uploadselect, $mydownloads_publicpriv, $mydownloads_uploadpublic;
     global $mydownloads_useshots, $mydownloads_shotwidth, $mydownloads_whatsnew, $filemgmt_Emailoption;
-    global $filemgmt_FileStoreURL,$filemgmt_FileSnapURL, $filemgmt_FileStore, $filemgmt_SnapStore, $filemgmt_SnapCat, $filemgmt_SnapCatURL;
+    global $filemgmt_FileStoreURL, $filemgmt_FileSnapURL, $filemgmt_FileStore, $filemgmt_SnapStore, $filemgmt_SnapCat, $filemgmt_SnapCatURL;
 
     $display = '';
     $display .= COM_startBlock(_MD_ADMINTITLE);
@@ -1177,7 +1215,7 @@ function filemgmtConfigAdmin() {
         <option value="50">50</option>
        </select><br' . XHTML . '>';
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_DLREPORT . ' </td><td>';
-    if ($mydownloads_dlreport==1) {
+    if ($mydownloads_dlreport == 1) {
         $display .= '<input type="radio" name="xmydownloads_dlreport" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_dlreport" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1185,7 +1223,7 @@ function filemgmtConfigAdmin() {
         $display .= '<input type="radio" name="xmydownloads_dlreport" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_TRIMDESC . ' </td><td>';
-    if ($mydownloads_trimdesc==1) {
+    if ($mydownloads_trimdesc == 1) {
         $display .= '<input type="radio" name="xmydownloads_trimdesc" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_trimdesc" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1193,7 +1231,7 @@ function filemgmtConfigAdmin() {
         $display .= '<input type="radio" name="xmydownloads_trimdesc" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_WHATSNEWDESC . ' </td><td>';
-    if ($mydownloads_whatsnew==1) {
+    if ($mydownloads_whatsnew == 1) {
         $display .= '<input type="radio" name="xmydownloads_whatsnew" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_whatsnew" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1201,8 +1239,8 @@ function filemgmtConfigAdmin() {
         $display .= '<input type="radio" name="xmydownloads_whatsnew" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
     $display .= '</td></tr><tr><td colspan="2"><hr' . XHTML . '>';
-      $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_SELECTPRIV . ' </td><td>';
-    if ($mydownloads_selectpriv==1) {
+    $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_SELECTPRIV . ' </td><td>';
+    if ($mydownloads_selectpriv == 1) {
         $display .= '<input type="radio" name="xmydownloads_selectpriv" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_selectpriv" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1210,23 +1248,23 @@ function filemgmtConfigAdmin() {
         $display .= '<input type="radio" name="xmydownloads_selectpriv" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_UPLOADSELECT . ' </td><td>';
-    if ($mydownloads_uploadselect==1) {
+    if ($mydownloads_uploadselect == 1) {
         $display .= '<input type="radio" name="xmydownloads_uploadselect" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_uploadselect" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
         $display .= '<input type="radio" name="xmydownloads_uploadselect" value="1"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_uploadselect" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
-      $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_ACCESSPRIV . ' </td><td>';
-    if ($mydownloads_publicpriv==1) {
+    $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_ACCESSPRIV . ' </td><td>';
+    if ($mydownloads_publicpriv == 1) {
         $display .= '<input type="radio" name="xmydownloads_publicpriv" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_publicpriv" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
         $display .= '<input type="radio" name="xmydownloads_publicpriv" value="1"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
-        $display .= '<input type="radio" name="xmydownloads_publicpriv" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO .'&nbsp;';
+        $display .= '<input type="radio" name="xmydownloads_publicpriv" value="0" checked="checked"' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     }
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_UPLOADPUBLIC . ' </td><td>';
-    if ($mydownloads_uploadpublic==1) {
+    if ($mydownloads_uploadpublic == 1) {
         $display .= '<input type="radio" name="xmydownloads_uploadpublic" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_uploadpublic" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1235,7 +1273,7 @@ function filemgmtConfigAdmin() {
     }
     $display .= '</td></tr><tr><td colspan="2"><hr' . XHTML . '>';
     $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_USESHOTS . ' </td><td>';
-    if ($mydownloads_useshots==1) {
+    if ($mydownloads_useshots == 1) {
         $display .= '<input type="radio" name="xmydownloads_useshots" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="xmydownloads_useshots" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
     } else {
@@ -1244,13 +1282,13 @@ function filemgmtConfigAdmin() {
     }
     $display .= '</td></tr>';
     $display .= '<tr><td style="white-space:nowrap;">' . _MD_IMGWIDTH . ' </td><td>';
-    if($mydownloads_shotwidth!=''){
-       $display .= '<input type="text" size="10" name="xmydownloads_shotwidth" value="' . $mydownloads_shotwidth . '"' . XHTML . '>';
-    }else{
-       $display .= '<input type="text" size="10" name="xmydownloads_shotwidth" value="140"' . XHTML . '>';
+    if ($mydownloads_shotwidth != '') {
+        $display .= '<input type="text" size="10" name="xmydownloads_shotwidth" value="' . $mydownloads_shotwidth . '"' . XHTML . '>';
+    } else {
+        $display .= '<input type="text" size="10" name="xmydownloads_shotwidth" value="140"' . XHTML . '>';
     }
 
-    $display .= '</td></tr><tr><td style="white-space:nowrap;">'._MD_EMAILOPTION.'</td><td>';
+    $display .= '</td></tr><tr><td style="white-space:nowrap;">' . _MD_EMAILOPTION . '</td><td>';
     if ($filemgmt_Emailoption == true) {
         $display .= '<input type="radio" name="my_emailoption" value="1" checked="checked"' . XHTML . '>&nbsp;' . _MD_YES . '&nbsp;';
         $display .= '<input type="radio" name="my_emailoption" value="0" ' . XHTML . '>&nbsp;' . _MD_NO . '&nbsp;';
@@ -1295,11 +1333,10 @@ function filemgmtConfigAdmin() {
 
 function filemgmtConfigChange($op='') {
     global $_TABLES, $_CONF, $_FM_CONF;
-    global $filemgmt_AllUserAccess, $filemgmt_AllowUserUploads;
     global $mydownloads_perpage, $mydownloads_popular, $mydownloads_newdownloads, $mydownloads_trimdesc, $mydownloads_dlreport;
     global $mydownloads_selectpriv, $mydownloads_uploadselect, $mydownloads_publicpriv, $mydownloads_uploadpublic;
     global $mydownloads_useshots, $mydownloads_shotwidth, $mydownloads_whatsnew, $filemgmt_Emailoption;
-    global $filemgmt_FileStoreURL,$filemgmt_FileSnapURL, $filemgmt_FileStore, $filemgmt_SnapStore, $filemgmt_SnapCat, $filemgmt_SnapCatURL;
+    global $filemgmt_FileStoreURL, $filemgmt_FileSnapURL, $filemgmt_FileStore, $filemgmt_SnapStore, $filemgmt_SnapCat, $filemgmt_SnapCatURL;
 
     $configfile = $_CONF['path'] . 'plugins/filemgmt/filemgmt.php';
 
@@ -1323,7 +1360,6 @@ function filemgmtConfigChange($op='') {
         $my_filestore               = $_CONF['path_html'] . 'filemgmt_data/files/';
         $my_snapstore               = $_CONF['path_html'] . 'filemgmt_data/snaps/';
         $my_snapcat                 = $_CONF['path_html'] . 'filemgmt_data/category_snaps/';
-
     } else {
         $xmydownloads_popular       = $_POST['xmydownloads_popular'];
         $xmydownloads_newdownloads  = $_POST['xmydownloads_newdownloads'];
@@ -1352,42 +1388,42 @@ function filemgmtConfigChange($op='') {
     $feature1_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = 'filemgmt.user'");
     $feature2_id = DB_getItem($_TABLES['features'], 'ft_id', "ft_name = 'filemgmt.upload'");
 
-    if ($xmydownloads_selectpriv != $mydownloads_selectpriv ) {
+    if ($xmydownloads_selectpriv != $mydownloads_selectpriv) {
         // Note: assuming "Logged-in Users" group is 13 - always has been
         $result = DB_query("SELECT COUNT(*) FROM {$_TABLES['access']} WHERE acc_ft_id = '$feature1_id' AND acc_grp_id = 13");
         list($nrows) = DB_fetchArray($result);
         if ($xmydownloads_selectpriv == 1 && $nrows == 0) {   // Enable and there is no record now
-            COM_errorLog('Granting Logged-In users access to filemgmt.user feature',1);
+            COM_errorLog('Granting Logged-In users access to filemgmt.user feature', 1);
             DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ('$feature1_id', 13)");
         } elseif ($xmydownloads_selectpriv == 0 && $nrows == 1) {  // Disable and there is a record
-            COM_errorLog('Removing Logged-In users access with filemgmt.user feature',1);
+            COM_errorLog('Removing Logged-In users access with filemgmt.user feature', 1);
             DB_query("DELETE FROM {$_TABLES['access']} WHERE acc_grp_id = 13 AND acc_ft_id = '$feature1_id'");
         }
     }
-    if ($xmydownloads_publicpriv != $mydownloads_publicpriv ) {
+    if ($xmydownloads_publicpriv != $mydownloads_publicpriv) {
         $result = DB_query("SELECT COUNT(*) FROM {$_TABLES['access']} WHERE acc_ft_id = '$feature1_id' AND acc_grp_id = 2");
         list($nrows) = DB_fetchArray($result);
         if ($xmydownloads_publicpriv == 1 && $nrows == 0) {   // Enable and there is no record now
-            COM_errorLog('Granting anonymous access to filemgmt.user feature',1);
+            COM_errorLog('Granting anonymous access to filemgmt.user feature', 1);
             DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ('$feature1_id', 2)");
         } elseif ($xmydownloads_publicpriv == 0 && $nrows == 1) {  // Disable and there is a record
-            COM_errorLog('Removing anonymous access with filemgmt.user feature',1);
+            COM_errorLog('Removing anonymous access with filemgmt.user feature', 1);
             DB_query("DELETE FROM {$_TABLES['access']} WHERE acc_grp_id = 2 AND acc_ft_id = '$feature1_id'");
         }
     }
-    if ($xmydownloads_uploadselect != $mydownloads_uploadselect ) {
+    if ($xmydownloads_uploadselect != $mydownloads_uploadselect) {
         // Note: assuming "Logged-in Users" group is 13 - always has been
         $result = DB_query("SELECT COUNT(*) FROM {$_TABLES['access']} WHERE acc_ft_id = '$feature2_id' AND acc_grp_id = 13");
         list($nrows) = DB_fetchArray($result);
         if ($xmydownloads_uploadselect == 1 && $nrows == 0) {   // Enable and there is no record now
-            COM_errorLog('Granting Logged-In users upload privilage to filemgmt.user feature',1);
+            COM_errorLog('Granting Logged-In users upload privilage to filemgmt.user feature', 1);
             DB_query("INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES ('$feature2_id', 13)");
         } elseif ($xmydownloads_uploadselect == 0 && $nrows == 1) {  // Disable and there is a record
-            COM_errorLog('Removing Logged-In users upload privilage with filemgmt.user feature',1);
+            COM_errorLog('Removing Logged-In users upload privilage with filemgmt.user feature', 1);
             DB_query("DELETE FROM {$_TABLES['access']} WHERE acc_grp_id = 13 AND acc_ft_id = '$feature2_id'");
         }
     }
-    if ($xmydownloads_uploadpublic != $mydownloads_uploadpublic ) {
+    if ($xmydownloads_uploadpublic != $mydownloads_uploadpublic) {
         $result = DB_query("SELECT COUNT(*) FROM {$_TABLES['access']} WHERE acc_ft_id = '$feature2_id' AND acc_grp_id = 2");
         list($nrows) = DB_fetchArray($result);
         if ($xmydownloads_uploadpublic == 1 && $nrows == 0) {   // Enable and there is no record now
@@ -1455,39 +1491,39 @@ function filemgmtConfigChange($op='') {
 }
 
 function uploadNewFile($newfile, $directory) {
-    global $myts,$eh,$filemgmtDuplicatesAllowed,$filemgmtFilePermissions;
+    global $myts, $eh, $filemgmtDuplicatesAllowed, $filemgmtFilePermissions;
 
-    if ($newfile["name"]!="") {
+    if ($newfile["name"] != "") {
         $name = $newfile['name'];        // this is the real name of your file
         $tmp  = $newfile['tmp_name'];    // temporary name of file in temporary directory on server
         $name = $myts->makeTboxData4Save($name);
         $logourl = rawurlencode($name);
-        COM_errorLOG("AddNewFileShot - Upload filename  is " .$directory.$myts->makeTboxData4Save($name));
-        if (is_uploaded_file ($tmp)) {             // is this temporary file really uploaded?
-            $newfile = $directory.$name;
-            if(!file_exists($newfile)) {   // Check to see the snapfile already exists
+        COM_errorLog("AddNewFileShot - Upload filename  is " . $directory.$myts->makeTboxData4Save($name));
+        if (is_uploaded_file($tmp)) {             // is this temporary file really uploaded?
+            $newfile = $directory . $name;
+            if (!file_exists($newfile)) {   // Check to see the snapfile already exists
                 $returnMove = move_uploaded_file($tmp, $newfile);    // move temp file to upload directory
                 if (!$returnMove) {
-                    COM_errorLOG("Filemgmt File add by admin error: New file could not be created: ".$tmp." to ".$name);
+                    COM_errorLog("Filemgmt File add by admin error: New file could not be created: " . $tmp . " to " . $name);
                     $eh->show("1106");
                     return false;
                 } else {
-                    $chown =@chmod ($newfile,$filemgmtFilePermissions);
-                    COM_errorLOG("File uploaded and moved ok");
+                    $chown = @chmod($newfile, $filemgmtFilePermissions);
+                    COM_errorLog("File uploaded and moved ok");
                     return true;
                 }
             } else {
                 // Allow duplicate file names, user may want to have two filelisting to same file or has already copied the files manually
-                COM_errorLOG("Filemgmt - Warning: Added new filelisting for a file that already exists ". $directory.$name);
+                COM_errorLog("Filemgmt - Warning: Added new filelisting for a file that already exists " . $directory . $name);
                 if (!$filemgmtDuplicatesAllowed) {
                     $eh->show("1108");
                     return false;
                 } else {
-                   return true;
+                    return true;
                 }
             }
         } else {
-            COM_errorLOG("Filemgmt upload error: Temporary file does not exist: '".$tmp ."'");
+            COM_errorLog("Filemgmt upload error: Temporary file does not exist: '" . $tmp . "'");
             $eh->show("1107");
             return false;
         }
@@ -1498,7 +1534,7 @@ function uploadNewFile($newfile, $directory) {
 
 
 function filemgmt_comments($firstcomment) {
-    global $_USER,$_CONF;
+    global $_CONF;
 
     $lid = 0;
     if (isset($_GET['lid'])) {
@@ -1510,9 +1546,9 @@ function filemgmt_comments($firstcomment) {
         $file = COM_applyFilter($_GET['filename']);
     }
     if ($firstcomment) {
-        $story=$comment_id;
-        $pid=0;
-        $type="filemgmt";
+        $story = $comment_id;
+        $pid = 0;
+        $type = "filemgmt";
         echo COM_refresh($_CONF['site_url'] . "/comment.php?sid=$story&amp;pid=$pid&amp;type=$type");
         exit;
     }
@@ -1533,40 +1569,28 @@ if (empty($_FM_CONF['filemgmt_FileStoreURL'])) {
         // Set default values and write over the config file
         filemgmtConfigChange('init');
         // Read in the new values
-        include ($_CONF['path'] .'plugins/filemgmt/filemgmt.php');
+        include ($_CONF['path'] . 'plugins/filemgmt/filemgmt.php');
     }
 }
 
 //@@@@@20080917add CSRF checks ---->
 $op_ary = array();
-$op_ary[]= "filemgmtConfigChange";  // 設定：変更を保存
-$op_ary[]= "addCat";                // カテゴリ：追加
-$op_ary[]= "modCatS";               // カテゴリ：変更を保存
-$op_ary[]= "delCat";                // カテゴリ：削除
-$op_ary[]= "addDownload";           // ファイルを追加：追加
-$op_ary[]= "approve";               // ダウンロード：承認
-$op_ary[]= "delNewDownload";        // ダウンロード：削除
-$op_ary[]= "ignoreBrokenDownloads"; // 破損ファイル：無視
-$op_ary[]= "delBrokenDownloads";    // 破損ファイル：承認
-$op_ary[]= "modDownloadS";          // ダウンロード情報変更 : 実行
-$op_ary[]= "delDownload";           // ダウンロード情報変更 : 削除
-$op_ary[]= "delVote";               // ダウンロード評価：削除
-
-//case "listBrokenDownloads": // 破損ファイル
-//case "modDownload":         // ダウンロード情報変更
-//case "filemgmtConfigAdmin": // 設定
-//case "categoryConfigAdmin": // カテゴリ
-//case "newfileConfigAdmin":  // ファイルを追加
-//case "listNewDownloads":    // ダウンロード
-//"modCat":                   // カテゴリ：編集
-//$op_ary[]=  "comment":      // **
-//$op_ary[]=   "addSubCat":   // **
-
-
+$op_ary[]= "filemgmtConfigChange";
+$op_ary[]= "addCat";
+$op_ary[]= "modCatS";
+$op_ary[]= "delCat";
+$op_ary[]= "addDownload";
+$op_ary[]= "approve";
+$op_ary[]= "delNewDownload";
+$op_ary[]= "ignoreBrokenDownloads";
+$op_ary[]= "delBrokenDownloads";
+$op_ary[]= "modDownloadS";
+$op_ary[]= "delDownload";
+$op_ary[]= "delVote";
 if (in_array($op, $op_ary)) {
-    if (!SEC_checkToken()){
+    if (!SEC_checkToken()) {
         COM_accessLog("User {$_USER['username']} tried to illegally and failed CSRF checks. filemgmt $op");
-        echo COM_refresh($_CONF['site_admin_url'].'/plugins.php');
+        echo COM_refresh($_CONF['site_admin_url'] . '/plugins.php');
         exit;
     }
 }
@@ -1628,8 +1652,8 @@ switch ($op) {
         break;
     case "filemgmtConfigChange":
         filemgmtConfigChange();
-        redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php",2,_MD_CONFIGUPDATED);
-        exit();
+        redirect_header("{$_CONF['site_admin_url']}/plugins/filemgmt/index.php", 2, _MD_CONFIGUPDATED);
+        exit;
         break;
     case "categoryConfigAdmin":
         categoryConfigAdmin();

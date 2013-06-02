@@ -39,25 +39,27 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.php') !== false) {
 function newdownloadgraphic($time, $status) {
     global $_CONF;
 
+    $functionretval = '';
     $count = 7;
-    $startdate = (time()-(86400 * $count));
+    $startdate = time() - (86400 * $count);
     if ($startdate < $time) {
-        if($status==1){
+        if ($status == 1) {
             $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/newred.gif" alt="' . _MD_NEWTHISWEEK . '"' . XHTML . '>';
-        }elseif($status==2){
+        } elseif ($status == 2) {
             $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/update.gif" alt="' . _MD_UPTHISWEEK . '"' . XHTML . '>';
-            }
         }
-        return $functionretval;
+    }
+    return $functionretval;
 }
 
 function popgraphic($hits) {
-        global $_CONF, $mydownloads_popular;
+    global $_CONF, $mydownloads_popular;
 
-        if ($hits >= $mydownloads_popular) {
-            $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/pop.gif" alt="' . _MD_POPULAR . '"' . XHTML . '>';
-        }
-        return $functionretval;
+    $functionretval = '';
+    if ($hits >= $mydownloads_popular) {
+        $functionretval = '&nbsp;<img src="' . $_CONF['site_url'] . '/filemgmt/images/pop.gif" alt="' . _MD_POPULAR . '"' . XHTML . '>';
+    }
+    return $functionretval;
 }
 
 //updates rating data in itemtable for a given item
@@ -65,10 +67,10 @@ function updaterating($sel_id) {
     global $_FM_TABLES;
     $sel_id = intval($sel_id);
     $voteresult = DB_query("SELECT rating FROM {$_FM_TABLES['filemgmt_votedata']} WHERE lid = '$sel_id'");
-    $votesDB = DB_numROWS($voteresult);
+    $votesDB = DB_numRows($voteresult);
     $totalrating = 0;
     if ($votesDB > 0) {
-           while(list($rating)=DB_fetchARRAY($voteresult)){
+           while (list($rating) = DB_fetchArray($voteresult)) {
             $totalrating += $rating;
         }
         $finalrating = $totalrating/$votesDB;
@@ -79,7 +81,7 @@ function updaterating($sel_id) {
 
 //returns the total number of items in items table that are accociated with a given table $table id
 function getTotalItems($sel_id, $status='') {
-    global $_FM_TABLES,$mytree;
+    global $_FM_TABLES, $mytree;
     $count = 0;
     $arr = array();
     $sel_id = intval($sel_id);
@@ -93,7 +95,7 @@ function getTotalItems($sel_id, $status='') {
     $count = $thing;
     $arr = $mytree->getAllChildId($sel_id);
     $size = sizeof($arr);
-    for($i=0;$i<$size;$i++){
+    for ($i=0; $i < $size; $i++) {
         $sql = "SELECT count(*) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
         $sql .= "WHERE a.cid='{$arr[$i]}}' AND a.status='$status' $mytree->filtersql";
@@ -119,55 +121,30 @@ function formatTimestamp($usertimestamp) {
 
 function PrettySize($size) {
     $mb = 1024*1024;
-    if ( $size > $mb ) {
-        $mysize = sprintf ("%01.2f",$size/$mb) . " MB";
-    }
-    elseif ( $size >= 1024 ) {
-        $mysize = sprintf ("%01.2f",$size/1024) . " KB";
-    }
-    else {
-        $mysize = sprintf(_MD_NUMBYTES,$size);
+    if ($size > $mb) {
+        $mysize = sprintf("%01.2f", $size/$mb) . " MB";
+    } elseif ($size >= 1024) {
+        $mysize = sprintf("%01.2f", $size/1024) . " KB";
+    } else {
+        $mysize = sprintf(_MD_NUMBYTES, $size);
     }
     return $mysize;
 }
 
 
-function myTextForm($url , $value) {
-    return "<form action='$url' method='post'><input type='submit' value='$value' /></form>\n";
-}
-
-function themecenterposts($title, $content) {
- $retval .= "<table border='0' cellpadding='3' cellspacing='5' width='100%'>"
-    ."<tr>"
-    ."<td><div class='indextitle'>$title</div><br /></td>"
-    ."</tr>"
-    ."<tr><td>$content</td>"
-    ."</tr>"
-    ."<tr><td style=\"text-align:right;\">&nbsp;</td>"
-    ."</tr>"
-    ."</table>";
-
- return $retval;
-}
-
 function redirect_header($url, $time=3, $message='') {
-    $display .= "<html><head>\n";
-    $display .= "<meta http-equiv='Content-Type' content='text/html;' />\n";
-    $display .= "<meta http-equiv='Refresh' content='$time; url=$url' />\n";
-    $display .= "</head><body>\n";
-    $display .= COM_startBlock();
-    $display .= "";
-    if ( $message!="" ) {
-        $display .= "<h4>".$message."</h4>\n";
+    $headercode = '<meta http-equiv="Refresh" content="' . $time . ';url=' . $url . '"' . XHTML . '>' . LB;
+    $display = COM_startBlock();
+    if ($message != '') {
+        $display .= '<h4>' . $message . '</h4>';
     }
-    $display .= "\n";
-    $display .= sprintf(_IFNOTRELOAD,$url);
-    $display .= "\n";
+    $display .= sprintf(_IFNOTRELOAD, $url);
     $display .= COM_endBlock();
     if (function_exists('COM_createHTMLDocument')) {
-        $display = COM_createHTMLDocument($display);
+        $information = array('headercode' => $headercode);
+        $display = COM_createHTMLDocument($display, $information);
     } else {
-        $display = COM_siteHeader() . $display . COM_siteFooter();
+        $display = COM_siteHeader('menu', '', $headercode) . $display . COM_siteFooter();
     }
     echo $display;
 }
@@ -255,7 +232,6 @@ function convertorderbyout($orderby) {
         case 'rating ASC':
             $orderby = 'ratingA';
             break;
-
         case 'title DESC':
             $orderby = 'titleD';
             break;
@@ -278,12 +254,12 @@ function convertorderbyout($orderby) {
 
 function randomfilename() {
 
-    $length=10;
-    srand((double)microtime()*1000000);
+    $length = 10;
+    srand((double)microtime() * 1000000);
     $possible_charactors = "abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     $string = "";
-    while(strlen($string)<$length) {
-        $string .= substr($possible_charactors, rand()%(strlen($possible_charactors)),1);
+    while (strlen($string) < $length) {
+        $string .= substr($possible_charactors, rand() % (strlen($possible_charactors)), 1);
     }
     return($string);
 }

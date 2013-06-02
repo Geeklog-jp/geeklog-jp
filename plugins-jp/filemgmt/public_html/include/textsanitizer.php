@@ -37,26 +37,26 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'textsanitizer.php') !== false) {
 
 class MyTextSanitizer {
 
-    
+
     /*
     * Constructor of this class
     * Gets allowed html tags from admin config settings
-    * <br> should not be allowed since nl2br will be used 
+    * <br> should not be allowed since nl2br will be used
     * when storing data
     */
-    function MyTextSanitizer(){
+    function MyTextSanitizer() {
     }
 
-    function &getInstance(){
+    function &getInstance() {
         return new MyTextSanitizer();
     }
-            
+
      /*
      * Rewritten by Nathan Codding - Feb 6, 2001.
      * - Goes through the given string, and replaces xxxx://yyyy with an HTML <a> tag linking
      *     to that URL
      * - Goes through the given string, and replaces www.xxxx.yyyy[zzzz] with an HTML <a> tag linking
-     *     to http://www.xxxx.yyyy[/zzzz] 
+     *     to http://www.xxxx.yyyy[/zzzz]
      * - Goes through the given string, and replaces xxxx@yyyy with an HTML mailto: tag linking
      *        to that email address
      * - Only matches these 2 patterns either after a space, or at the beginning of a line
@@ -67,12 +67,12 @@ class MyTextSanitizer {
     function makeClickable($text) {
             // pad it with a space so we can match things at the start of the 1st line.
         $ret = " " . $text;
-    
+
         // matches an "xxxx://yyyy" URL at the start of a line, or after a space.
         // xxxx can only be alpha characters.
         // yyyy is anything up to the first space, newline, or comma.
         $ret = preg_replace("#([\n ])([a-z]+?)://([^, \n\r]+)#i", "\\1<a href=\"\\2://\\3\" target=\"_blank\">\\2://\\3</a>", $ret);
-    
+
         // matches a "www.xxxx.yyyy[/zzzz]" kinda lazy URL thing
         // Must contain at least 2 dots. xxxx contains either alphanum, or "-"
         // yyyy contains either alphanum, "-", or "."
@@ -80,19 +80,19 @@ class MyTextSanitizer {
         // This is slightly restrictive - it's not going to match stuff like "forums.foo.com"
         // This is to keep it from getting annoying and matching stuff that's not meant to be a link.
         $ret = preg_replace("#([\n ])www\.([a-z0-9\-]+)\.([a-z0-9\-.\~]+)((?:/[^, \n\r]*)?)#i", "\\1<a href=\"http://www.\\2.\\3\\4\" target=\"_blank\">www.\\2.\\3\\4</a>", $ret);
-    
+
         // matches an email@domain type address at the start of a line, or after a space.
         // Note: before the @ sign, the only valid characters are the alphanums and "-", "_", or ".".
         // After the @ sign, we accept anything up to the first space, linebreak, or comma.
         $ret = preg_replace("#([\n ])([a-z0-9\-_.]+?)@([^, \n\r]+)#i", "\\1<a href=\"mailto:\\2@\\3\">\\2@\\3</a>", $ret);
-    
+
         // Remove our padding..
         $ret = substr($ret, 1);
-    
+
         return($ret);
     }
 
-    function xoopsCodeDecode($text){
+    function xoopsCodeDecode($text) {
         $patterns = array();
         $replacements = array();
         $patterns[] = "/\[url=(['\"]?)(http[s]?:\/\/[^\"']*)\\1](.*)\[\/url\]/sU";
@@ -105,26 +105,26 @@ class MyTextSanitizer {
         $replacements[] = "<span style='font-size: \\2;'>\\3</span>";
         $patterns[] = "/\[font=(['\"]?)([^\"']*)\\1](.*)\[\/font\]/sU";
         $replacements[] = "<span style='font-family: \\2;'>\\3</span>";
-        $patterns[] = "/\[email]([^\"]*)\[\/email\]/sU";    
-        $replacements[] = "<a href='mailto:\\1'>\\1</a>"; 
-        $patterns[] = "/\[b](.*)\[\/b\]/sU";    
-        $replacements[] = "<b>\\1</b>"; 
-        $patterns[] = "/\[i](.*)\[\/i\]/sU";    
-        $replacements[] = "<i>\\1</i>"; 
-        $patterns[] = "/\[u](.*)\[\/u\]/sU";    
+        $patterns[] = "/\[email]([^\"]*)\[\/email\]/sU";
+        $replacements[] = "<a href='mailto:\\1'>\\1</a>";
+        $patterns[] = "/\[b](.*)\[\/b\]/sU";
+        $replacements[] = "<b>\\1</b>";
+        $patterns[] = "/\[i](.*)\[\/i\]/sU";
+        $replacements[] = "<i>\\1</i>";
+        $patterns[] = "/\[u](.*)\[\/u\]/sU";
         $replacements[] = "<u>\\1</u>";
-        //$patterns[] = "/\[li](.*)\[\/li\]/sU";    
+        //$patterns[] = "/\[li](.*)\[\/li\]/sU";
         //$replacements[] = "<li>\\1</li>";
         $patterns[] = "/\[img align=(['\"]?)(left|right)\\1]([^\"\(\)\?\&]*)\[\/img\]/sU";
         $replacements[] = "<img src='\\3' align='\\2' alt'/' />";
         $patterns[] = "/\[img]([^\"\(\)\?\&]*)\[\/img\]/sU";
         $replacements[] = "<img src='\\1' alt'/' />";
         $text = preg_replace($patterns, $replacements, $text);
-        $text = str_replace("[quote]", "<div style='text-align:left;width:85%;'><small>"._QUOTEC."</small><hr /><small><blockquote>", $text);
+        $text = str_replace("[quote]", "<div style='text-align:left;width:85%;'><small>" . _QUOTEC . "</small><hr /><small><blockquote>", $text);
         $text = str_replace("[/quote]", "</blockquote></small><hr /></div>", $text);
-        //$text = str_replace("[ul]","<ul>",$text);
-        //$text = str_replace("[/ul]","</ul>",$text);
-        //$text = str_replace("[hr]","<hr />",$text);
+        //$text = str_replace("[ul]","<ul>", $text);
+        //$text = str_replace("[/ul]","</ul>", $text);
+        //$text = str_replace("[hr]","<hr />", $text);
         return $text;
     }
 
@@ -143,11 +143,11 @@ class MyTextSanitizer {
         return $input;
     }
 
-    
-    function oopsNl2Br($text) { 
-        $text = preg_replace("/(\015\012)|(\015)|(\012)/","<br />",$text);
-        return $text; 
-    } 
+
+    function oopsNl2Br($text) {
+        $text = preg_replace("/(\015\012)|(\015)|(\012)/","<br />", $text);
+        return $text;
+    }
 
     /*
     * if magic_quotes_gpc is off, add back slashes
@@ -155,7 +155,7 @@ class MyTextSanitizer {
     function oopsAddSlashes($text) {
         if (!get_magic_quotes_gpc()) {
             $text = addslashes($text);
-        } 
+        }
         return $text;
     }
 
@@ -185,7 +185,7 @@ class MyTextSanitizer {
     */
     function oopsHtmlSpecialChars($text) {
         $text = htmlspecialchars($text);
-        $text = str_replace("'","&#039;",$text);
+        $text = str_replace("'", "&#039;", $text);
         $text = preg_replace("/&amp;/i", "&", $text);
         return $text;
     }
@@ -196,7 +196,7 @@ class MyTextSanitizer {
     */
     function sanitizeForDisplay($text, $allowhtml = 0, $smiley = 1, $bbcode = 1) {
         //$text = $this->oopsStripSlashesRT($text);
-        if ( $allowhtml == 0 ) {
+        if ($allowhtml == 0) {
             $text = $this->oopsHtmlSpecialChars($text);
         } else {
             $config =& $GLOBALS['xoopsConfig'];
@@ -204,10 +204,10 @@ class MyTextSanitizer {
             $text = strip_tags($text, $allowed);
             $text = $this->makeClickable($text);
         }
-        if ( $smiley == 1 ) {
+        if ($smiley == 1) {
             $text = $this->smiley($text);
         }
-        if ( $bbcode == 1 ) {
+        if ($bbcode == 1) {
             $text = $this->xoopsCodeDecode($text);
         }
         $text = $this->oopsNl2Br($text);
@@ -220,7 +220,7 @@ class MyTextSanitizer {
     */
     function sanitizeForPreview($text, $allowhtml = 0, $smiley = 1, $bbcode = 1) {
         $text = $this->oopsStripSlashesGPC($text);
-        if ( $allowhtml == 0 ) {
+        if ($allowhtml == 0) {
             $text = $this->oopsHtmlSpecialChars($text);
         } else {
             $config =& $GLOBALS['xoopsConfig'];
@@ -228,10 +228,10 @@ class MyTextSanitizer {
             $text = strip_tags($text, $allowed);
             $text = $this->makeClickable($text);
         }
-        if ( $smiley == 1 ) {
+        if ($smiley == 1) {
             $text = $this->smiley($text);
         }
-        if ( $bbcode == 1 ) {
+        if ($bbcode == 1) {
             $text = $this->xoopsCodeDecode($text);
         }
         $text = $this->oopsNl2Br($text);
@@ -243,7 +243,7 @@ class MyTextSanitizer {
     *  Used for saving textbox form data.
     *  Adds slashes if magic_quotes_gpc is off.
     */
-    function makeTboxData4Save($text){
+    function makeTboxData4Save($text) {
         //$text = $this->undoHtmlSpecialChars($text);
         $text = $this->oopsAddSlashes($text);
         return $text;
@@ -253,33 +253,33 @@ class MyTextSanitizer {
     *  Used for displaying textbox form data from DB.
     *  Smilies can also be used.
     */
-    function makeTboxData4Show($text,$smiley=0){
-        $text = $this->sanitizeForDisplay($text,0,$smiley,0); //do HtmlSpecialChars
+    function makeTboxData4Show($text, $smiley=0) {
+        $text = $this->sanitizeForDisplay($text, 0, $smiley, 0); //do HtmlSpecialChars
         return $text;
     }
 
     /*
     *  Used when textbox data in DB is to be editted in html form.
-    *  "&amp;" must be converted back to "&" to maintain the correct 
+    *  "&amp;" must be converted back to "&" to maintain the correct
     *  ISO encoding values, which is needed for some multi-bytes chars.
     */
-    function makeTboxData4Edit($text){
+    function makeTboxData4Edit($text) {
         //$text = $this->oopsStripSlashesRT($text);
         $text = $this->oopsHtmlSpecialChars($text);
         return $text;
     }
 
-    /* 
+    /*
     *  Called when previewing textbox form data submitted from a form.
     *  Smilies can be used if needed
     *  Use makeTboxData4PreviewInForm when textbox data is to be
     *  previewed in textbox again
     */
-    function makeTboxData4Preview($text,$smiley=0){
-        $text = $this->sanitizeForPreview($text,0,$smiley,0); //do HtmlSpecialChars
+    function makeTboxData4Preview($text, $smiley=0) {
+        $text = $this->sanitizeForPreview($text, 0, $smiley, 0); //do HtmlSpecialChars
         return $text;
     }
-    function makeTboxData4PreviewInForm($text){
+    function makeTboxData4PreviewInForm($text) {
         $text = $this->oopsStripSlashesGPC($text);
         $text = $this->oopsHtmlSpecialChars($text);
         return $text;
@@ -290,7 +290,7 @@ class MyTextSanitizer {
     *  Called before saving first-time or editted textarea
     *  data into DB
     */
-    function makeTareaData4Save($text){
+    function makeTareaData4Save($text) {
         $text = $this->oopsAddSlashes($text);
         return $text;
     }
@@ -298,15 +298,15 @@ class MyTextSanitizer {
     /*
     *   Called before displaying textarea form data from DB
     */
-    function makeTareaData4Show($text, $allowhtml=1, $smiley=0, $bbcode=0){
-        $text = $this->sanitizeForDisplay($text,$allowhtml,$smiley,$bbcode); 
+    function makeTareaData4Show($text, $allowhtml=1, $smiley=0, $bbcode=0) {
+        $text = $this->sanitizeForDisplay($text, $allowhtml, $smiley, $bbcode);
         return $text;
     }
 
     /*
     *   Called when textarea data in DB is to be editted in html form
     */
-    function makeTareaData4Edit($text){
+    function makeTareaData4Edit($text) {
         //if magic_quotes_runtime is on, do stipslashes
         //$text = $this->oopsStripSlashesRT($text);
         $text = $this->oopsHtmlSpecialChars($text);
@@ -314,11 +314,11 @@ class MyTextSanitizer {
     }
 
     /*
-    *   Called when previewing textarea data which was submitted 
+    *   Called when previewing textarea data which was submitted
     *   via an html form
     */
-    function makeTareaData4Preview($text, $allowhtml=1, $smiley=0, $bbcode=0){
-        $text = $this->sanitizeForPreview($text,$allowhtml,$smiley,$bbcode); 
+    function makeTareaData4Preview($text, $allowhtml=1, $smiley=0, $bbcode=0) {
+        $text = $this->sanitizeForPreview($text, $allowhtml, $smiley, $bbcode);
         return $text;
     }
 
@@ -327,7 +327,7 @@ class MyTextSanitizer {
     *  html form.
     *  This time, text area data is inserted into textarea again
     */
-    function makeTareaData4PreviewInForm($text){
+    function makeTareaData4PreviewInForm($text) {
         //if magic_quotes_gpc is on, do stipslashes
         $text = $this->oopsStripSlashesGPC($text);
         $text = $this->oopsHtmlSpecialChars($text);
@@ -337,10 +337,10 @@ class MyTextSanitizer {
     /*
     *  Use this function when you need to output textarea value inside
     *  quotes. For example, meta keywords are saved as textarea value
-    *  but it is displayed inside <meta> tag keywords attribute with 
+    *  but it is displayed inside <meta> tag keywords attribute with
     *  quotes around it. This can be also used for textbox values.
     */
-    function makeTareaData4InsideQuotes($text){
+    function makeTareaData4InsideQuotes($text) {
         //$text = $this->oopsStripSlashesRT($text);
         $text = $this->oopsHtmlSpecialChars($text);
         return $text;
@@ -354,14 +354,14 @@ class MyTextSanitizer {
         $replacement = "####";
         foreach ($xoopsBadWords as $bad) {
                   $bad = quotemeta($this->undoHtmlSpecialChars($bad));
-            $patterns[] = "/(\s)".$bad."/siU";
-            $replacements[] = "\\1".$replacement."";
-            $patterns[] = "/^".$bad."/siU";
+            $patterns[] = "/(\s)" . $bad . "/siU";
+            $replacements[] = "\\1" . $replacement."";
+            $patterns[] = "/^" . $bad . "/siU";
             $replacements[] = $replacement;
-            $patterns[] = "/(\n)".$bad."/siU";
-            $replacements[] = "\\1".$replacement."";
-            $patterns[] = "/]".$bad."/siU";
-            $replacements[] = "]".$replacement."";
+            $patterns[] = "/(\n)" . $bad . "/siU";
+            $replacements[] = "\\1" . $replacement . "";
+            $patterns[] = "/]" . $bad . "/siU";
+            $replacements[] = "]" . $replacement . "";
             $text = preg_replace($patterns, $replacements, $text);
            }
            return $text;

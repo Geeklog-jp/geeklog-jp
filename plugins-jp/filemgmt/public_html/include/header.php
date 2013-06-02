@@ -36,28 +36,28 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'header.php') !== false) {
 }
 
 $FilemgmtUser  = false;
-$FilemgmtAdmin = false;
-
-if (SEC_hasRights("filemgmt.user") OR $mydownloads_publicpriv == 1) {
+if (SEC_hasRights('filemgmt.user') OR $mydownloads_publicpriv == 1) {
     $FilemgmtUser = true;
 }
-if (SEC_hasRights("filemgmt.edit")) {
+
+$FilemgmtAdmin = false;
+if (SEC_hasRights('filemgmt.edit')) {
     $FilemgmtAdmin = true;
 }
+
+$uid = 1;    // Set to annonymous GL User ID
 if (isset($_USER['uid'])) {
-    $uid=$_USER['uid'];
-} else {
-    $uid=1;    // Set to annonymous GL User ID
+    $uid = $_USER['uid'];
 }
 
 if ((!$FilemgmtUser) && (!$FilemgmtAdmin)) {
     $display .= COM_startBlock(_GL_ERRORNOACCESS);
-    $display .= _MD_USER." ".$_USER['username']. " " ._GL_NOUSERACCESS;
+    $display .= _MD_USER . " " . $_USER['username'] . " " . _GL_NOUSERACCESS;
     $display .= COM_endBlock();
     if (!isset($_USER['username'])) {
         $_USER['username'] = 'anonymous';
     }
-    COM_errorLog("UID:$uid ({$_USER['username']}), Remote address is: {$_SERVER['REMOTE_ADDR']} " . _GL_NOUSERACCESS,1);
+    COM_errorLog("UID:$uid ({$_USER['username']}), Remote address is: {$_SERVER['REMOTE_ADDR']} " . _GL_NOUSERACCESS, 1);
     if (function_exists('COM_createHTMLDocument')) {
         $display = COM_createHTMLDocument($display);
     } else {
@@ -66,17 +66,5 @@ if ((!$FilemgmtUser) && (!$FilemgmtAdmin)) {
     COM_output($display);
     exit;
 }
-
-function OpenTable($width="99%") {
- $retval .= "&nbsp;<table width='".$width."' border='0' cellspacing='1' cellpadding='0'><tr><td valign='top'>\n";
- $retval .= "<table width='100%' border='0' cellspacing='1' cellpadding='8'><tr><td valign='top'>\n";
- return $retval;
-}
- 
-function CloseTable() {
- $retval .= "</td></tr></table></td></tr></table>\n";
- return $retval;
-}
-
 
 ?>
