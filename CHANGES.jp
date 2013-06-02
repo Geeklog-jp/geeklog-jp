@@ -1,3 +1,7 @@
+2013-06-03  Yoshinori Tahara  <dengen>
+
+	* filemgmt: コードを整理・整形しました。
+
 2013-05-28  Yoshinori Tahara  <dengen>
 
 	* filemgmt: SQLインジェクション対策を施しました。
