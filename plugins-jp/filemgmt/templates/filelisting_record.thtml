@@ -30,7 +30,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="width:15%; display:{show_snapshoticon};">
+                            <td style="width:15%;">
                                 <a href="{snapshot_url}" {target} title="{LANG_CLICK2SEE}">{snapshot_icon}{LANG_SCREENSHOT}</a>
                             </td>
 
