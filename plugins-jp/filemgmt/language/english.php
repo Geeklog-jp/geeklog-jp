@@ -114,7 +114,9 @@ $LANG_FILEMGMT = array(
     'all_html_allowed' => 'All HTML is allowed',
     'no_new_files'  => 'No new files',
     'no_comments'   => 'No new comments',
-    'more'          => '<em>more ...</em>'
+    'more'          => '<em>more ...</em>',
+    'stats_page_title' => 'Page Title',
+    'stats_hits' => 'Hits'
 );
 
 $PLG_filemgmt_MESSAGE1 = 'Filemgmt Plugin Install Aborted<br>File: plugins/filemgmt/filemgmt.php is not writeable';
