@@ -1,3 +1,7 @@
+2013-06-09  Yoshinori Tahara  <dengen>
+
+	* filemgmt: サイト情報の表示の乱れを修正しました。
+
 2013-06-04  Yoshinori Tahara  <dengen>
 
 	* filemgmt: ファイル情報のレイアウトの乱れを修正しました。
