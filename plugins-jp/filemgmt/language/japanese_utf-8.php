@@ -79,7 +79,7 @@ $LANG_FILEMGMT= array(
     'hits' => 'ダウンロード回数',
     'Filelisting' => 'ファイルリスト',
     'DownloadReport' => 'ファイル毎のダウンロード履歴',
-    'StatsMsg1' => 'ダウンロード回数の上位10位',
+    'StatsMsg1' => 'ダウンロード回数(上位10位)',
     'StatsMsg2' => 'このサイトにはファイル管理プラグイン用の定義ファイルがないか、定義ファイルにアクセスした人がいないようです。',
     'usealtheader' => 'Alt. Headerを使用してください。',
     'url' => 'URL',
@@ -118,7 +118,9 @@ $LANG_FILEMGMT= array(
     'all_html_allowed' => 'すべてのHTMLを許可',
     'no_new_files'  => '-',
     'no_comments'   => '-',
-    'more'          => '<em>続きを読む</em>'
+    'more'          => '<em>続きを読む</em>',
+    'stats_page_title' => 'タイトル',
+    'stats_hits' => 'DL回数'
 );
 
 $PLG_filemgmt_MESSAGE1 = 'ファイル管理プラグインのインストールを中止しました。<br>ファイル: plugins/filemgmt/filemgmt.php に書き込みできません。';

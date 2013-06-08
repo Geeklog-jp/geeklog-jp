@@ -344,11 +344,6 @@ function plugin_showstats_filemgmt($showsitestats)
 {
     global $LANG_FILEMGMT, $_FM_TABLES, $_CONF;
 
-    $stat_templates = new Template($_CONF['path_layout'] . 'stats');
-    $stat_templates->set_file(array(
-        'itemstats' => 'itemstatistics.thtml',
-        'statrow'   => 'singlestat.thtml'));
-    $stat_templates->set_var('xhtml', XHTML);
     if ($showsitestats == 1) {
         $sql = "SELECT COUNT(*), SUM(hits) FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
@@ -358,29 +353,47 @@ function plugin_showstats_filemgmt($showsitestats)
         $retval .= '<tr><td>' . $LANG_FILEMGMT['nofiles'] . '</td>';
         $retval .= '<td align="right">' . $total_files . ' (' . $total_downloads . ')&nbsp;&nbsp;&nbsp;</td></tr></table>';
     } else {
+        require_once $_CONF['path_system'] . 'lib-admin.php';
+        $retval = '';
         $sql  = "SELECT a.lid, a.title, hits FROM {$_FM_TABLES['filemgmt_filedetail']} a ";
         $sql .= "LEFT JOIN {$_FM_TABLES['filemgmt_cat']} b ON a.cid=b.cid ";
         $sql .= filemgmt_buildAccessSql('WHERE');
         $sql .= " AND hits > 0 ORDER BY hits desc LIMIT 10";
         $result = DB_query($sql);
         $nrows  = DB_numRows($result);
-        $retval .= COM_startBlock($LANG_FILEMGMT['StatsMsg1']);
         if ($nrows > 0) {
-            $stat_templates->set_var('item_label', 'Page Title');
-            $stat_templates->set_var('stat_name', 'Hits');
-            for ($i = 0; $i < $nrows && $i < 10; $i++) {
-                list($lid, $title, $hits) = DB_fetchArray($result);
-                $stat_templates->set_var('item_url', $_CONF[site_url]. '/filemgmt/index.php?id=' . $lid);
-                $stat_templates->set_var('item_text', $title);
-                $stat_templates->set_var('item_stat', $hits);
-                $stat_templates->parse('stat_row', 'statrow', true);
+            $header_arr = array(
+                array('text'         => $LANG_FILEMGMT['stats_page_title'],
+                      'field'        => 'sid',
+                      'header_class' => 'stats-header-title'
+                ),
+                array('text'         => $LANG_FILEMGMT['stats_hits'],
+                      'field'        => 'hits',
+                      'header_class' => 'stats-header-count',
+                      'field_class'  => 'stats-list-count'
+                )
+            );
+            $data_arr = array();
+            $text_arr = array('has_menu' => false,
+                              'title'    => $LANG_FILEMGMT['StatsMsg1'],
+                              'form_url' => $_CONF['site_url'] . '/stats.php'
+            );
+            for ($i = 0; $i < $nrows; $i++) {
+                $A = DB_fetchArray($result);
+                $title = stripslashes($A['title']);
+                $url = COM_buildUrl($_CONF['site_url']. '/filemgmt/index.php?id=' . $A['lid']);
+                $sid = COM_createLink($title, $url);
+                $hits = COM_numberFormat($A['hits']);
+                $data_arr[] = array('title' => $title,
+                                    'sid'   => $sid,
+                                    'hits'  => $hits);
             }
-            $stat_templates->parse('output', 'itemstats');
-            $retval .= $stat_templates->finish($stat_templates->get_var('output'));
+            $retval .= ADMIN_simpleList('', $header_arr, $text_arr, $data_arr);
         } else {
+            $retval .= COM_startBlock($LANG_FILEMGMT['StatsMsg1']);
             $retval .= $LANG_FILEMGMT['StatsMsg2'];
+            $retval .= COM_endBlock();
         }
-        $retval .= COM_endBlock();
     }
     return $retval;
 }
