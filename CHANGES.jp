@@ -1,3 +1,8 @@
+2013-06-17  Yoshinori Tahara  <dengen>
+
+	* filemgmt: $_CONF['comment_on_same_page'] = 0 (off)の時に、コメント追
+	  加やコメント削除ができない（SQLエラーが発生する）問題を修正しました。
+
 2013-06-09  Yoshinori Tahara  <dengen>
 
 	* filemgmt: サイト情報の表示の乱れを修正しました。
