@@ -186,9 +186,15 @@ function plugin_savecomment_filemgmt($title, $comment, $id, $pid, $postmode)
 
     $retval = '';
 
-    $ret = CMT_saveComment($title, $comment, $id, $pid, 'filemgmt', $postmode);
+    $sid = $id;
+    if (strpos($sid, 'fileid_') === FALSE) {
+        $sid = 'fileid_' . $id;
+    }
+    $id = str_replace('fileid_', '', $id);
+
+    $ret = CMT_saveComment($title, $comment, $sid, $pid, 'filemgmt', $postmode);
     if ($ret > 0) { // failure
-        $retval = CMT_commentform($title, $comment, $id, $pid, 'filemgmt',
+        $retval = CMT_commentform($title, $comment, $sid, $pid, 'filemgmt',
                                   $LANG03[14], $postmode);
         if (!defined('COMMENT_ON_SAME_PAGE') || !COMMENT_ON_SAME_PAGE) {
             if (function_exists('COM_createHTMLDocument')) {
@@ -198,7 +204,7 @@ function plugin_savecomment_filemgmt($title, $comment, $id, $pid, $postmode)
             }
         }
     } else { // success
-        $comments = DB_count($_TABLES['comments'], 'sid', $id);
+        $comments = DB_count($_TABLES['comments'], 'sid', $sid);
         DB_change($_FM_TABLES['filemgmt_filedetail'], 'comments', $comments, 'lid', $id);
         $retval = COM_refresh(COM_buildUrl($_CONF['site_url'] . "/filemgmt/index.php?id=$id"));
     }
@@ -221,8 +227,14 @@ function plugin_deletecomment_filemgmt($cid, $id)
 
     $retval = '';
 
+    $sid = $id;
+    if (strpos($sid, 'fileid_') === FALSE) {
+        $sid = 'fileid_' . $id;
+    }
+    $id = str_replace('fileid_', '', $id);
+
     if (SEC_hasRights('filemgmt.edit')) {
-        CMT_deleteComment($cid, $id, 'filemgmt');
+        CMT_deleteComment($cid, $sid, 'filemgmt');
         $retval = COM_refresh($_CONF['site_url'] . "/filemgmt/index.php?id=$id");
     } else {
         COM_errorLog("User {$_USER['username']} (IP: {$_SERVER['REMOTE_ADDR']}) "
@@ -251,7 +263,12 @@ function plugin_displaycomment_filemgmt($id, $commentid, $title, $order, $format
 {
     global $LANG_FILEMGMT, $_TABLES, $_FM_TABLES, $_CONF, $LANG01;
 
+    $sid = $id;
+    if (strpos($sid, 'fileid_') === FALSE) {
+        $sid = 'fileid_' . $id;
+    }
     $id = str_replace('fileid_', '', $id);
+
     /* Plugin specific code to display relevant content above the comment thread */
     /* Example: Display the file details */
     include $_CONF['path_html'] . 'filemgmt/include/functions.php';
@@ -313,7 +330,7 @@ function plugin_displaycomment_filemgmt($id, $commentid, $title, $order, $format
     /* Get formatted comment thread */
     $delete_option = SEC_hasRights('filemgmt.edit');
 
-    $display .= CMT_userComments("fileid_$id", $title, 'filemgmt', $order, $format, $commentid, $page, $view, $delete_option);
+    $display .= CMT_userComments($sid, $title, 'filemgmt', $order, $format, $commentid, $page, $view, $delete_option);
 
     return $display;
 }
