@@ -185,8 +185,7 @@ $LANG01 = array(
     139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
     'facebook' => 'Login with Facebook',
     'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn',
-    'ctl' => 'Clear Cache'
+    'linkedin' => 'Login with LinkedIn'
 );
 
 ###############################################################################
@@ -428,7 +427,7 @@ $LANG_MYACCOUNT = array(
 $LANG05 = array(
     1 => '沒有新聞可顯示',
     2 => '沒有新文章可顯示。',
-    3 => '',
+    3 => '這也許是真的沒有新主題或是你的 %s 設定得太過限制性。',
     4 => '今天頭條',
     5 => '下頁',
     6 => '上頁',
@@ -675,18 +674,6 @@ $LANG12 = array(
 ###############################################################################
 
 ###############################################################################
-# admin/logviewer.php
-
-$LANG_LOGVIEW = array(
-    'log_viewer' => 'Log Viewer',
-    'info' => 'Geeklog log file administration.',
-    'logs' => 'Logs',
-    'view' => 'View Log File',
-    'clear' => 'Clear Log File',
-    'log_file' => 'Log File'
-);
-
-###############################################################################
 # admin/auth.inc.php
 
 $LANG20 = array(
@@ -930,8 +917,7 @@ $LANG27 = array(
     52 => 'Story',
     53 => 'Image',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home',
-    'autotag_desc_topic' => '[topic: id alternate title] - Displays a link to a topic using the ID as the title. An alternate title may be specified but is not required.'
+    'breadcrumb_root' => 'Home'
 );
 
 ###############################################################################
@@ -1344,14 +1330,8 @@ $MESSAGE = array(
     113 => 'Your account has been created successfully. {site_url}',
     114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
     115 => 'Remote service has been disabled.',
-    116 => 'Loading...',
-    117 => 'Help page is not found.',
-    118 => 'Click to select a date',
-    119 => 'More..',
-    120 => 'Send this?',
     400 => 'Not all required fields have been passed validation',
-    401 => 'Please enter Fullname',
-    500 => 'The Template Cache has been successfully cleared.'
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1482,8 +1462,7 @@ $LANG_BUTTONS = array(
 $LANG_404 = array(
     1 => '404 錯誤',
     2 => '咦，我到處都看過了但找不到<b>%s</b>.',
-    3 => "<p>很抱歉，但你要求的檔不存在。請檢查<a href=\"{$_CONF['site_url']}\">主頁</a>或<a href=\"{$_CONF['site_url']}/search.php\">搜索頁</a>看看能發現什麽。",
-    4 => "<p>We're sorry, but the page you have requested does not exist. We recommend going back to this <a href=\"%s\">related page</a>, or you may want to check the <a href=\"{$_CONF['site_url']}/\">home page</a>, or the <a href=\"{$_CONF['site_url']}/search.php\">search page</a> to see if you can find what you lost."
+    3 => "<p>很抱歉，但你要求的檔不存在。請檢查<a href=\"{$_CONF['site_url']}\">主頁</a>或<a href=\"{$_CONF['site_url']}/search.php\">搜索頁</a>看看能發現什麽。"
 );
 
 ###############################################################################
@@ -1835,7 +1814,6 @@ $LANG_confignames['Core'] = array(
     'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => '才當成分',
     'path_themes' => '畫面主題的路徑',
-    'cache_templates' => 'Cache Templates?',
     'disable_new_user_registration' => '關閉新登記',
     'allow_user_themes' => '允許用戶版面主題',
     'allow_user_language' => '允許用戶語言',
@@ -1960,7 +1938,6 @@ $LANG_confignames['Core'] = array(
     'aftersave_user' => '存續用戶後',
     'show_right_blocks' => '總是顯示右邊的元件?',
     'showfirstasfeatured' => '顯示第一個文章為特載文章?',
-    'template_comments' => 'Template Comments in Output?',
     'backend' => '啟動新聞供應(RSS Feeds)?',
     'rdf_file' => '新聞供應輸出檔案夾',
     'rdf_limit' => '新聞供應速度',
@@ -1995,7 +1972,6 @@ $LANG_confignames['Core'] = array(
     'commentspeedlimit' => '評論速度限定',
     'comment_limit' => '評論限定',
     'comment_mode' => '評論方式',
-    'comment_order' => 'Comment Order',
     'comment_code' => '評論默認',
     'comment_edit' => 'Allow Comment Edit?',
     'comment_edittime' => 'Comment Edit Time (seconds)',
@@ -2188,8 +2164,7 @@ $LANG_configselects['Core'] = array(
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
     28 => array('No access' => 0, 'Use' => 2),
     29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
-    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none'),
-    31 => array('Newest First' => 'DESC', 'Oldest First' => 'ASC')
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
 );
 
 ###############################################################################

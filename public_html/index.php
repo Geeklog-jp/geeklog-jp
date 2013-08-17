@@ -85,7 +85,7 @@ function fixTopic(&$A, $tid_list)
 
 // See if user has access to view topic else display message.
 // This check has already been done in lib-common so re check to figure out if 
-// 404 message needs to be displayed.
+// message needs to be displayed.
 $topic_check = '';
 if (isset($_GET['topic'])) {
     $topic_check = COM_applyFilter($_GET['topic']);
@@ -94,14 +94,53 @@ if (isset($_GET['topic'])) {
 }
 if ($topic_check != '') {
     if ($topic_check != DB_getItem($_TABLES['topics'], 'tid', "tid = '$topic_check' " . COM_getPermSQL('AND'))) {
-        COM_handle404();  
+        // This will eventually be a 404 error. Copied code from below this time
+        // just to keep the same user exerience        
+        $display = '';
+        if (!isset ($_CONF['hide_no_news_msg']) ||
+                ($_CONF['hide_no_news_msg'] == 0)) {
+            $display .= COM_startBlock ($LANG05[1], '',
+                        COM_getBlockTemplate ('_msg_block', 'header')) . $LANG05[2];
+            if (!empty ($topic_check)) {
+                $topicname = DB_getItem ($_TABLES['topics'], 'topic',
+                                         "tid = '$topic_check'");
+                $display .= sprintf ($LANG05[3], $topicname);
+            }
+            $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        }
+    
+        $display .= PLG_showCenterblock (3, $page, $topic_check); // bottom blocks
+        
+        $header = '';
+        
+        if ($topic)
+        {
+            // Meta Tags
+            if ($_CONF['meta_tags'] > 0) {
+                $result = DB_query ("SELECT meta_description, meta_keywords FROM {$_TABLES['topics']} WHERE tid = '{$topic}'");
+                $A = DB_fetchArray ($result);
+        
+                $meta_description = stripslashes($A['meta_description']);
+                $meta_keywords = stripslashes($A['meta_keywords']);
+                $header .= COM_createMetaTags($meta_description, $meta_keywords);
+            }
+        }
+        
+        $display = COM_createHTMLDocument($display, array('breadcrumbs' => $breadcrumbs, 'headercode' => $header, 'rightblock' => true));
+        
+        // Output page
+        COM_output($display);
+        exit();    
     }
 }
 
 
+$newstories = false;
 $displayall = false;
 if (isset ($_GET['display'])) {
-    if (($_GET['display'] == 'all') && (empty ($topic))) {
+    if (($_GET['display'] == 'new') && (empty ($topic))) {
+        $newstories = true;
+    } else if (($_GET['display'] == 'all') && (empty ($topic))) {
         $displayall = true;
     }
 }
@@ -119,7 +158,7 @@ if (isset ($_GET['page'])) {
 
 $display = '';
 
-if (!$displayall) {
+if (!$newstories && !$displayall) {
     // give plugins a chance to replace this page entirely
     $newcontent = PLG_showCenterblock (0, $page, $topic);
     if (!empty ($newcontent)) {
@@ -204,6 +243,10 @@ if ($maxstories == 0) {
     $maxstories = $_CONF['limitnews'];
 }
 
+if(function_exists('CUSTOM_MOBILE_is_cellular') && CUSTOM_MOBILE_is_cellular()) {
+    $maxstories = $CUSTOM_MOBILE_CONF['max_stories'];
+}
+
 $limit = $maxstories;
 if ($limit < 1) {
     $limit = 1;
@@ -217,22 +260,12 @@ if (empty ($archivetid)) {
 } else {
     $asql .= ' OR statuscode = ' . STORY_ARCHIVE_ON_EXPIRE . ") AND ta.tid != '$archivetid'";
 }
-$expiresql = DB_query($asql);
+$expiresql = DB_query ($asql);
 while (list ($sid, $expiretopic, $title, $expire, $statuscode) = DB_fetchArray ($expiresql)) {
     if ($statuscode == STORY_ARCHIVE_ON_EXPIRE) {
         if (!empty ($archivetid) ) {
             COM_errorLog("Archive Story: $sid, Topic: $archivetid, Title: $title, Expired: $expire");
-
-            // Delete all topic references to story except topic default
-            $asql = "DELETE FROM {$_TABLES['topic_assignments']} WHERE type = 'article' AND id = '{$sid}' AND tdefault = 0";
-            DB_query ($asql);
-            
-            // Now move over story to archive topic
-            $asql = "UPDATE {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta  
-                    SET ta.tid = '$archivetid', s.frontpage = '0', s.featured = '0' 
-                    WHERE s.sid='{$sid}' AND ta.type = 'article' AND ta.id = s.sid AND ta.tdefault = 1";
-            DB_query ($asql);
-            
+            DB_query ("UPDATE {$_TABLES['stories']} SET tid = '$archivetid', frontpage = '0', featured = '0' WHERE sid='{$sid}'");
         }
     } else if ($statuscode == STORY_DELETE_ON_EXPIRE) {
         COM_errorLog("Delete Story and comments: $sid, Topic: $expiretopic, Title: $title, Expired: $expire");
@@ -240,7 +273,6 @@ while (list ($sid, $expiretopic, $title, $expire, $statuscode) = DB_fetchArray (
     }
 }
 
-// Figure out different settings to display stories in a topic
 $sql = " (date <= NOW()) AND (draft_flag = 0)";
 
 if (empty ($topic)) {
@@ -258,7 +290,7 @@ if (!empty($topic)) {
         $tid_list = "'" . $topic . "'";
     }
     $sql .= " AND (ta.tid IN({$tid_list}) AND (ta.inherit = 1 OR (ta.inherit = 0 AND ta.tid = '{$topic}')))";
-} else {
+} elseif (!$newstories) {
     $sql .= " AND frontpage = 1 AND ta.tdefault = 1";
 }
 
@@ -278,6 +310,20 @@ if (!empty($U['tids'])) {
 
 $sql .= COM_getTopicSQL ('AND', 0, 'ta') . ' ';
 
+if ($newstories) {
+    switch ($_DB_dbms) {
+    case 'mysql':
+        $sql .= "AND (date >= (date_sub(NOW(), INTERVAL {$_CONF['newstoriesinterval']} SECOND))) ";
+        break;
+    case 'pgsql':
+        $sql .= "AND (date >= (NOW() - INTERVAL '{$_CONF['newstoriesinterval']} SECOND')) ";
+        break;
+    case 'mssql':
+        $sql .= "AND (date >= (date_sub(NOW(), INTERVAL {$_CONF['newstoriesinterval']} SECOND))) ";
+        break;
+    }
+}
+
 $offset = ($page - 1) * $limit;
 $userfields = 'u.uid, u.username, u.fullname';
 if ($_CONF['allow_user_photo'] == 1) {
@@ -296,7 +342,7 @@ $msql['mysql'] = "SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate, "
          . $userfields . ", t.topic, t.imageurl "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta,{$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND"
-         . " ta.type = 'article' AND ta.id = s.sid " . COM_getLangSQL('sid', 'AND', 's') . " AND "
+         . " ta.type = 'article' AND ta.id = s.sid AND"
          . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";     
 
 $msql['mssql'] = "SELECT s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, cast(s.introtext as text) as introtext, cast(s.bodytext as text) as bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, "
@@ -305,7 +351,7 @@ $msql['mssql'] = "SELECT s.sid, s.uid, s.draft_flag, ta.tid, s.date, s.title, ca
          . $userfields . ", t.topic, t.imageurl "
          . "FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta, {$_TABLES['users']} AS u, "
          . "{$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND"
-         . " ta.type = 'article' AND ta.id = s.sid " . COM_getLangSQL('sid', 'AND', 's') . " AND "
+         . " ta.type = 'article' AND ta.id = s.sid AND"
          . $sql . " GROUP BY s.sid ORDER BY featured DESC, date DESC LIMIT $offset, $limit";   
          
 $msql['pgsql'] = "SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate,
@@ -313,9 +359,9 @@ $msql['pgsql'] = "SELECT s.*, ta.tid, UNIX_TIMESTAMP(s.date) AS unixdate,
             {$userfields}, t.topic, t.imageurl
             FROM {$_TABLES['stories']} AS s, {$_TABLES['topic_assignments']} AS ta, {$_TABLES['users']} AS u,
             {$_TABLES['topics']} AS t WHERE (s.uid = u.uid) AND (ta.tid = t.tid) AND 
-            ta.type = 'article' AND ta.id = s.sid " . COM_getLangSQL('sid', 'AND', 's') . " AND 
+            ta.type = 'article' AND ta.id = s.sid AND
             {$sql} GROUP BY s.sid, ta.tid, expireunix, {$userfields}, t.topic, t.imageurl ORDER BY featured DESC, date DESC LIMIT {$offset}, {$limit}";   
-
+         
 $result = DB_query ($msql);
 
 $nrows = DB_numRows ($result);
@@ -367,28 +413,28 @@ if ( $A = DB_fetchArray( $result ) ) {
             ($_CONF['hide_main_page_navigation'] == 0)) {
         if (empty ($topic)) {
             $base_url = $_CONF['site_url'] . '/index.php';
+            if ($newstories) {
+                $base_url .= '?display=new';
+            }
         } else {
             $base_url = $_CONF['site_url'] . '/index.php?topic=' . $topic;
         }
         $display .= COM_printPageNavigation ($base_url, $page, $num_pages);
     }
 } else { // no stories to display
-    if ($page == 1) {
-        if (!isset ($_CONF['hide_no_news_msg']) ||
-                ($_CONF['hide_no_news_msg'] == 0)) {
-            $display .= COM_startBlock ($LANG05[1], '',
-                        COM_getBlockTemplate ('_msg_block', 'header')) . $LANG05[2];
-            $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+    if (!isset ($_CONF['hide_no_news_msg']) ||
+            ($_CONF['hide_no_news_msg'] == 0)) {
+        $display .= COM_startBlock ($LANG05[1], '',
+                    COM_getBlockTemplate ('_msg_block', 'header')) . $LANG05[2];
+        if (!empty ($topic)) {
+            $topicname = DB_getItem ($_TABLES['topics'], 'topic',
+                                     "tid = '$topic'");
+            $display .= sprintf ($LANG05[3], $topicname);
         }
-    
-        $display .= PLG_showCenterblock (3, $page, $topic); // bottom blocks
-    } else {
-        $topic_url = '';
-        if (!empty($topic)) {
-            $topic_url = $_CONF['site_url'] . '/index.php?topic=' . $topic;
-        }        
-        COM_handle404($topic_url);    
+        $display .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     }
+
+    $display .= PLG_showCenterblock (3, $page, $topic); // bottom blocks
 }
 
 $header = '';

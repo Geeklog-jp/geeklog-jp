@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- search/resultauthdatehits.thtml { -->
 
 <tr>
   <td>{data}</td>
@@ -6,4 +7,4 @@
   <td>{data3}</td>
 </tr>
 
-{# end {templatelocation} #}
+<!-- } search/resultauthdatehits.thtml -->

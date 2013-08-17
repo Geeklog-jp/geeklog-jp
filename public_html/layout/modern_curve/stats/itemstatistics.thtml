@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- stats/itemstatistics.thtml { -->
 
 <table class="itemstatistics">
   <thead>
@@ -14,4 +15,4 @@
 
 </table>
 
-{# end {templatelocation} #}
+<!-- } stats/itemstatistics.thtml -->

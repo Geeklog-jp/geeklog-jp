@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- storytext.thtml { -->
 
 <div class="storytext">
   <h2 class="story_title">{start_storylink_anchortag}{story_title}{end_storylink_anchortag}</h2>
@@ -34,8 +35,6 @@
   <div class="story_introtext">
     {story_text_no_br}
   </div>
-  
-  {related_topics}
 
   <ul class="navi">
     <li>{page_selector}</li>
@@ -50,4 +49,4 @@
   </ul>
 </div>
 
-{# end {templatelocation} #}
+<!-- } storytext.thtml -->

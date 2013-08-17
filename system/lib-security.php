@@ -299,47 +299,8 @@ function SEC_hasConfigAcess()
 }
 
 /**
-* Checks to see if current user has access to a admin moderation page
+* Checks to see if current user has access to a topic
 *
-* @return       boolean 	
-*
-*/
-function SEC_hasModerationAccess()
-{
-    global $_CONF;
-    
-    $hasAccess = false;
-    
-    if (SEC_hasRights('story.moderate')) {
-        $hasAccess = true;
-    }
-
-    if ($_CONF['listdraftstories'] == 1) {
-        if (SEC_hasRights('story.edit')) {
-            $hasAccess = true;
-        }
-    }
-    
-    if ($_CONF['commentsubmission'] == 1) {
-        if (SEC_hasRights('comment.moderate')) {
-            $hasAccess = true;
-        }
-    }
-
-    if ($_CONF['usersubmission'] == 1) {
-        if (SEC_hasRights('user.edit') && SEC_hasRights('user.delete')) {
-            $hasAccess = true;
-        }
-    }
-    
-    if (PLG_isModerator()) {
-        $hasAccess = false;
-    }
-    
-    return $hasAccess;
-}
-
-/**
 * Checks to see if current user has access to a topic
 *
 * @param        string      $tid        ID for topic to check on
@@ -796,7 +757,7 @@ function SEC_authenticate($username, $password, &$uid)
         }
     } else {
         $tmp = $LANG01[32] . ": '" . $username . "'";
-        COM_accessLog($tmp);
+        COM_errorLog($tmp, 1);
         return -1;
     }
 }
@@ -2028,24 +1989,10 @@ function SEC_collectRemoteOAuthModules()
             while (($filename = @readdir($folder)) !== false) {
                 $pos = strpos($filename, '.auth.class.php');
                 if ($pos && (substr($filename, strlen($filename) - 4) == '.php')) {
-                    // See if login template file exists
-                    $file_exists = false;
                     $mod = substr($filename, 0, $pos);
                     $def_thtml = $_CONF['path_layout'] . 'loginform_oauth.thtml';
                     $thtml = $_CONF['path_layout'] . 'loginform_' . $mod . '.thtml';
                     if (file_exists($def_thtml) || file_exists($thtml)) {
-                        $file_exists = true;    
-                    } else {
-                        // See if default theme is being used
-                        if (!empty($_CONF['path_layout_default'])) {
-                            $def_thtml = $_CONF['path_layout_default'] . 'loginform_oauth.thtml';
-                            $thtml = $_CONF['path_layout_default'] . 'loginform_' . $mod . '.thtml';
-                            if (file_exists($def_thtml) || file_exists($thtml)) {
-                                $file_exists = true;
-                            }
-                        }
-                    }
-                    if ($file_exists) {
                         // Check to see if there is a config value to enable or disable login method
                         if (isset($_CONF[$mod . '_login'])) {
                             if ($_CONF[$mod . '_login']) {

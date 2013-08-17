@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/syndication/feededitor.thtml { -->
 
 {start_feed_editor}
 <form action="{site_admin_url}/syndication.php" method="post" id="admin-feededitor" class="compact">
@@ -68,4 +69,4 @@
 </form>
 {end_block}
 
-{# end {templatelocation} #}
+<!-- } admin/syndication/feededitor.thtml -->

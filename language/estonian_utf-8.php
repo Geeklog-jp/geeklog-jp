@@ -183,8 +183,7 @@ $LANG01 = array(
     139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
     'facebook' => 'Login with Facebook',
     'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn',
-    'ctl' => 'Clear Cache'
+    'linkedin' => 'Login with LinkedIn'
 );
 
 ###############################################################################
@@ -426,7 +425,7 @@ $LANG_MYACCOUNT = array(
 $LANG05 = array(
     1 => 'Pole midagi näidata',
     2 => 'Pole midagi näidata. Võimalik, et selles rubriigis pole ühtegi lugu, mida näidata või on sinu kasutajaeelistused liiga kitsendavad, et näidata neid',
-    3 => '',
+    3 => ' rubriigis %s',
     4 => 'Tänane peaartikkel',
     5 => 'Järgmine',
     6 => 'Eelmine',
@@ -673,18 +672,6 @@ $LANG12 = array(
 ###############################################################################
 
 ###############################################################################
-# admin/logviewer.php
-
-$LANG_LOGVIEW = array(
-    'log_viewer' => 'Log Viewer',
-    'info' => 'Geeklog log file administration.',
-    'logs' => 'Logs',
-    'view' => 'View Log File',
-    'clear' => 'Clear Log File',
-    'log_file' => 'Log File'
-);
-
-###############################################################################
 # admin/auth.inc.php
 
 $LANG20 = array(
@@ -928,8 +915,7 @@ $LANG27 = array(
     52 => 'Story',
     53 => 'Image',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home',
-    'autotag_desc_topic' => '[topic: id alternate title] - Displays a link to a topic using the ID as the title. An alternate title may be specified but is not required.'
+    'breadcrumb_root' => 'Home'
 );
 
 ###############################################################################
@@ -1342,14 +1328,8 @@ $MESSAGE = array(
     113 => 'Your account has been created successfully. {site_url}',
     114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
     115 => 'Remote service has been disabled.',
-    116 => 'Loading...',
-    117 => 'Help page is not found.',
-    118 => 'Click to select a date',
-    119 => 'More..',
-    120 => 'Send this?',
     400 => 'Kõik väljad ei läbinud kontrolli',
-    401 => 'Palun sisesta täisnimi',
-    500 => 'The Template Cache has been successfully cleared.'
+    401 => 'Palun sisesta täisnimi'
 );
 
 ###############################################################################
@@ -1480,8 +1460,7 @@ $LANG_BUTTONS = array(
 $LANG_404 = array(
     1 => 'Viga/Error 404',
     2 => 'Ma otsisin igalt poolt, kuid ei leidnud otsitud lehte: <b>%s</b>.',
-    3 => "<p>Mul on kahju, kuid soovitud  faili ei ole. Palun vaata kindlasti <a href=\"{$_CONF['site_url']}\">pealehele </a> või <a href=\"{$_CONF['site_url']}/search.php\">otsimislehele,</a> et otsitavat leida.",
-    4 => "<p>We're sorry, but the page you have requested does not exist. We recommend going back to this <a href=\"%s\">related page</a>, or you may want to check the <a href=\"{$_CONF['site_url']}/\">home page</a>, or the <a href=\"{$_CONF['site_url']}/search.php\">search page</a> to see if you can find what you lost."
+    3 => "<p>Mul on kahju, kuid soovitud  faili ei ole. Palun vaata kindlasti <a href=\"{$_CONF['site_url']}\">pealehele </a> või <a href=\"{$_CONF['site_url']}/search.php\">otsimislehele,</a> et otsitavat leida."
 );
 
 ###############################################################################
@@ -1833,7 +1812,6 @@ $LANG_confignames['Core'] = array(
     'doctype' => 'DOCTYPE Deklaratsioon',
     'menu_elements' => 'Menüü elemendid',
     'path_themes' => 'Skeemide asukoht',
-    'cache_templates' => 'Cache Templates?',
     'disable_new_user_registration' => 'Keela uue kasutaja registreerimine',
     'allow_user_themes' => 'Luba kasutaja skeem',
     'allow_user_language' => 'Luba kasutaja keel',
@@ -1958,7 +1936,6 @@ $LANG_confignames['Core'] = array(
     'aftersave_user' => 'Pärast kasutaja salvestamist',
     'show_right_blocks' => 'Näita alati paremplokki?',
     'showfirstasfeatured' => 'Näita esimest lugu pealoona?',
-    'template_comments' => 'Template Comments in Output?',
     'backend' => 'Luba lõimed?',
     'rdf_file' => 'Lõimede väljundkaust',
     'rdf_limit' => 'Lõimede limiit',
@@ -1993,7 +1970,6 @@ $LANG_confignames['Core'] = array(
     'commentspeedlimit' => 'Kommenteerimise kiirusepiirang',
     'comment_limit' => 'Kommentaaride piir',
     'comment_mode' => 'Kommentaaride viis',
-    'comment_order' => 'Comment Order',
     'comment_code' => 'Vaikimisi kommenteerimine',
     'comment_edit' => 'Luba kommentaaride muutmine?',
     'comment_edittime' => 'Kommentaaride muutmise aeg (sekundid)',
@@ -2186,8 +2162,7 @@ $LANG_configselects['Core'] = array(
     27 => array('Klikke (ksv.)' => 'hits|asc', 'Klikke (kahan.)' => 'hits|desc', 'Aeg (ksv.)' => 'date|asc', 'Aeg (kahan.)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
     28 => array('No access' => 0, 'Use' => 2),
     29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
-    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none'),
-    31 => array('Newest First' => 'DESC', 'Oldest First' => 'ASC')
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
 );
 
 ###############################################################################

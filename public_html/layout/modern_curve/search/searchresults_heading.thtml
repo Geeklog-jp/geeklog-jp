@@ -1,7 +1,8 @@
-{# begin {templatelocation} #}
+
+<!-- search/searchresults_heading.thtml { -->
 
 <tr>
   {heading_columns}
 </tr>
 
-{# end {templatelocation} #}
+<!-- } search/searchresults_heading.thtml -->

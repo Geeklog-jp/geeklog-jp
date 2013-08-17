@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- preferences/excludeblock.thtml { -->
 
 <fieldset>
   <legend>{lang_exclude_title}</legend>
@@ -17,4 +18,4 @@
   </dl>
 </fieldset>
 
-{# end {templatelocation} #}
+<!-- } preferences/excludeblock.thtml -->

@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/story/storyeditor.thtml { -->
 
 <form name="frmstory" action="{site_admin_url}/story.php" method="post" enctype="multipart/form-data" id="frmstory" class="compact">
 
@@ -34,10 +35,10 @@
       <dd class="description">{publish_date_explanation}</dd>
 
       <dt><label for="admin-storyeditor-title">{lang_title}</label></dt>
-      <dd><input type="text" maxlength="128" onkeyup="TitleToId('admin-storyeditor-title','admin-storyeditor-sid');" value="{story_title}" value="{story_title}" name="title" id="admin-storyeditor-title" class="size6"{xhtml}></dd>
+      <dd><input type="text" maxlength="255" value="{story_title}" name="title" id="admin-storyeditor-title" class="size6"{xhtml}></dd>
 
       <dt><label for="admin-storyeditor-page_title">{lang_page_title}</label></dt>
-      <dd><input type="text" maxlength="128" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="size6"{xhtml}></dd>
+      <dd><input type="text" maxlength="255" value="{page_title}" name="page_title" id="admin-storyeditor-page_title" class="size6"{xhtml}></dd>
 
       <dt><label>{lang_topic}</label></dt>
       <dd>{topic_selection}</dd>
@@ -50,11 +51,11 @@
 
       <dt><label for="admin-storyeditor-archiveflag">{lang_archivetitle}</label></dt>
       <dd>
-        <label for="admin-storyeditor-archiveflag">{lang_enabled}</label>&nbsp;
+        {lang_enabled}&nbsp;
         <input type="checkbox" value="1" {is_checked2} onclick="enablearchive(this);" name="archiveflag" id="admin-storyeditor-archiveflag"{xhtml}>
-        <input type="checkbox" name="statuscode" id="storycode10" value="10" {is_checked3}{xhtml}>{lang_optionarchive}
-        &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>
-        &nbsp;<label for="storycode11">{lang_optiondelete}</label>
+        <input type="radio" name="statuscode" id="storycode10" value="10" {is_checked3}{xhtml}>{lang_optionarchive}
+        &nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="statuscode" id="storycode11" value="11" {is_checked4}{xhtml}>
+        &nbsp;{lang_optiondelete}
       </dd>
 
       <dt><label for="admin-storyeditor-expire_month">{lang_archivetitle}({lang_date})</label></dt>
@@ -96,10 +97,10 @@
         </select>
       </dd>
 
-      <dt><label for="cmt_close_flag">{lang_cmt_disable}:</label></dt>
+      <dt><label>{lang_cmt_disable}:</label></dt>
       <dd>
-        <label for="cmt_close_flag">{lang_enabled}</label>&nbsp;
-        <input type="checkbox" name="cmt_close_flag" id="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
+        {lang_enabled}&nbsp;
+        <input type="checkbox" name="cmt_close_flag" value="1" {is_checked5} onclick="enablecmtclose(this);"{xhtml}>
            &nbsp;
            <span dir="ltr">
            <select name="cmt_close_month">
@@ -127,7 +128,7 @@
       </dd>
 
       <dt><label for="admin-storyeditor-sid">{lang_sid}</label></dt>
-      <dd><input type="text" maxlength="128" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="size5"{xhtml}></dd>
+      <dd><input type="text" maxlength="40" value="{story_id}" name="sid" id="admin-storyeditor-sid" class="size5"{xhtml}></dd>
 
       <dt{hide_meta}><label for="admin-storyeditor-metadescription">{lang_metadescription}</label></dt>
       <dd{hide_meta}><textarea cols="70" rows="2" name="meta_description" id="admin-storyeditor-metadescription" class="wide">{meta_description}</textarea></dd>
@@ -155,13 +156,17 @@
         {image_form_elements}
       </dd>
 
-      <dt>{lang_story_stats}</dt>
-      <dd><div class="clearfix">
-            <span class="story_stats">{lang_hits}: {story_hits}</span>
-            <span class="story_stats">{lang_comments}: {story_comments}</span>
-            <span class="story_stats">{lang_trackbacks}: {story_trackbacks}</span>
-            <span class="story_stats">{lang_emails}: {story_emails}</span>
-          </div></dd>
+      <dt>{lang_hits}</dt>
+      <dd>{story_hits}</dd>
+
+      <dt>{lang_comments}</dt>
+      <dd>{story_comments}</dd>
+
+      <dt>{lang_trackbacks}</dt>
+      <dd>{story_trackbacks}</dd>
+
+      <dt>{lang_emails}</dt>
+      <dd>{story_emails}</dd>
     </dl>
 
     <fieldset>
@@ -203,4 +208,4 @@
 
 </form>
 
-{# end {templatelocation} #}
+<!-- } admin/story/storyeditor.thtml -->

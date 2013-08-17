@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- users/profile.thtml { -->
 
 {start_block_userprofile}
   <dl id="profile-userprofile">
@@ -47,4 +48,4 @@
   </ul>
 {end_block}
 
-{# end {templatelocation} #}
+<!-- } users/profile.thtml -->

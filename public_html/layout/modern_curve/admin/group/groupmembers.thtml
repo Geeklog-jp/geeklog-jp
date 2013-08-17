@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/group/groupmembers.thtml { -->
 
 <script type="text/JavaScript" src="{site_url}/javascript/moveusers.js"></script>
 
@@ -43,4 +44,4 @@
 
 </form>
 
-{# end {templatelocation} #}
+<!-- } admin/group/groupmembers.thtml -->

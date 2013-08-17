@@ -1,6 +1,7 @@
-{# begin {templatelocation} #}
+
+<!-- blockfooter-related.thtml { -->
 
   </div>
 </div>
 
-{# end {templatelocation} #}
+<!-- } blockfooter-related.thtml -->

@@ -77,7 +77,7 @@ if (!SEC_hasRights('topic.edit')) {
 function edittopic ($tid = '')
 {
     global $_CONF, $_GROUPS, $_TABLES, $_USER, $LANG04, $LANG27, $LANG_ACCESS,
-           $LANG_ADMIN, $MESSAGE, $_SCRIPTS;
+           $LANG_ADMIN, $MESSAGE;
 
     $retval = '';
 
@@ -104,8 +104,6 @@ function edittopic ($tid = '')
         }
     }
 
-    $_SCRIPTS->setJavaScriptFile('title_2_id', '/javascript/title_2_id.js');
-    
     $token = SEC_createToken();
 
     $retval .= COM_startBlock ($LANG27[1], '',
@@ -470,13 +468,8 @@ function savetopic($tid,$topic,$inherit,$hidden,$parent_id,$imageurl,$meta_descr
                 // $tid is the archive topic
                 // - if it wasn't already, mark all its stories "archived" now
                 if ($archive_tid != $tid) {
-                    $sql = "UPDATE {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta 
-                            SET s.featured = 0, s.frontpage = 0, s.statuscode = " . STORY_ARCHIVE_ON_EXPIRE . "
-                            WHERE ta.type = 'article' AND ta.tid = '$tid' AND ta.id = s.sid";
-                    DB_query($sql);
-                    
-                    $sql = "UPDATE {$_TABLES['topics']} SET archive_flag = 0 WHERE archive_flag = 1";
-                    DB_query($sql);
+                    DB_query ("UPDATE {$_TABLES['stories']} SET featured = 0, frontpage = 0, statuscode = " . STORY_ARCHIVE_ON_EXPIRE . " WHERE tid = '$tid'");
+                    DB_query ("UPDATE {$_TABLES['topics']} SET archive_flag = 0 WHERE archive_flag = 1");
                 }
                 
                 // Set hidden and inherit to false since archive topic now
@@ -486,13 +479,8 @@ function savetopic($tid,$topic,$inherit,$hidden,$parent_id,$imageurl,$meta_descr
                 // $tid is not the archive topic
                 // - if it was until now, reset the "archived" status of its stories
                 if ($archive_tid == $tid) {
-                    $sql = "UPDATE {$_TABLES['stories']} s, {$_TABLES['topic_assignments']} ta
-                            SET s.statuscode = 0
-                            WHERE ta.type = 'article' AND ta.tid = '$tid' AND ta.id = s.sid";
-                    DB_query($sql);
-                    
-                    $sql = "UPDATE {$_TABLES['topics']} SET archive_flag = 0 WHERE archive_flag = 1";
-                    DB_query($sql);
+                    DB_query ("UPDATE {$_TABLES['stories']} SET statuscode = 0 WHERE tid = '$tid'");
+                    DB_query ("UPDATE {$_TABLES['topics']} SET archive_flag = 0 WHERE archive_flag = 1");
                 }
             }
             
@@ -558,17 +546,114 @@ function savetopic($tid,$topic,$inherit,$hidden,$parent_id,$imageurl,$meta_descr
 *
 * Lists all the topics and their icons.
 *
+* @return   string      HTML for the topic list
+*
+*/
+function listtopics()
+{
+    global $_CONF, $_TABLES, $LANG27, $LANG_ACCESS, $LANG_ADMIN;
+
+    require_once( $_CONF['path_system'] . 'lib-admin.php' );
+
+    $retval = '';
+
+    $retval .= COM_startBlock ($LANG27[8], '',
+                               COM_getBlockTemplate ('_admin_block', 'header'));
+
+    $topic_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/topic');
+    $topic_templates->set_file(array('list'=>'topiclist.thtml', 'item'=>'listitem.thtml'));
+    $topic_templates->set_var('lang_newtopic', $LANG_ADMIN['create_new']);
+    $topic_templates->set_var('lang_adminhome', $LANG27[18]);
+    $topic_templates->set_var('lang_instructions', $LANG27[9]);
+    $topic_templates->set_var('begin_row', '<tr align="center" valign="bottom">');
+
+    $result = DB_query("SELECT * FROM {$_TABLES['topics']}");
+    $nrows = DB_numRows($result);
+    $counter = 1;
+
+    $menu_arr = array (
+        array('url' => $_CONF['site_admin_url'] . '/topic.php?mode=edit',
+              'text' => $LANG_ADMIN['create_new']),
+        array('url' => $_CONF['site_admin_url'],
+              'text' => $LANG_ADMIN['admin_home']));
+    $menu = ADMIN_createMenu(
+        $menu_arr,
+        $LANG27[9],
+        $_CONF['layout_url'] . "/images/icons/topic.png"
+    );
+    $topic_templates->set_var('top_menu', $menu);
+
+    for ($i = 0; $i < $nrows; $i++) {
+        $A = DB_fetchArray($result);
+
+        $access = SEC_hasAccess($A['owner_id'],$A['group_id'],$A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']);
+
+        if ($access > 0) {
+            if ($access == 3) {
+                $access = $LANG_ACCESS['edit'];
+            } else {
+                $access = $LANG_ACCESS['readonly'];
+            }
+
+            $topic_templates->set_var('topic_id', $A['tid']);
+            $topic_templates->set_var('topic_name', stripslashes ($A['topic']));
+            $topic_templates->set_var('topic_access', $access);
+            if ($A['is_default'] == 1) {
+                $topic_templates->set_var ('default_topic', $LANG27[24]);
+            } else {
+                $topic_templates->set_var ('default_topic', '');
+            }
+            if (empty ($A['imageurl'])) {
+                $topic_templates->set_var ('image_tag', '');
+            } else {
+                $imageurl = COM_getTopicImageUrl ($A['imageurl']);
+                $topic_templates->set_var ('image_tag', '<img src="' . $imageurl
+                                           . '" alt=""' . XHTML . '>');
+            }
+            if ($counter == 5) {
+                $counter = 1;
+                $topic_templates->set_var('end_row','</tr>');
+                $topic_templates->parse('list_row','item',true);
+                $topic_templates->set_var('begin_row','<tr align="center" valign="bottom">');
+            } else {
+                if ($i == $nrows - 1) {
+                    $topic_templates->set_var('end_row','</tr>');
+                } else {
+                    $topic_templates->set_var('end_row','');
+                }
+
+                $topic_templates->parse('list_row','item',true);
+                $topic_templates->set_var('begin_row','');
+                $counter = $counter + 1;
+            }
+        }
+    }
+    $topic_templates->parse('output', 'list');
+    $retval .= $topic_templates->finish($topic_templates->get_var('output'));
+    $retval .= COM_endBlock (COM_getBlockTemplate ('_admin_block', 'footer'));
+
+    return $retval;
+}
+
+
+/**
+* Displays a list of topics
+*
+* Lists all the topics and their icons.
+*
 * @param    string      $token  Security token to use in list
 * @return   string      HTML for the topic list
 *
 */
-function listTopics($token)
+function draft_listTopics($token)
 {
-    global $_CONF, $_TABLES, $LANG27, $LANG_ACCESS, $LANG_ADMIN, $_SCRIPTS;
+    global $_CONF, $_TABLES, $LANG27, $LANG_ACCESS, $LANG_ADMIN;
 
     require_once $_CONF['path_system'] . 'lib-admin.php';
 
+    global $_SCRIPTS;
     $_SCRIPTS->setJavaScriptFile('admin.topic', '/javascript/admin.topic.js');
+
 
     $retval = '';
 
@@ -694,9 +779,6 @@ function moveTopics($tid, $where)
     }
 
     DB_query("UPDATE {$_TABLES['topics']} SET sortnum = $order WHERE tid = '$tid'");
-    
-    PLG_itemSaved($tid, 'topic');
-    
 }
 
 /**
@@ -985,13 +1067,16 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     $display .= COM_showMessageFromParameter();
     moveTopics(COM_applyFilter($_GET['tid']), COM_applyFilter($_GET['where']));
     reorderTopics();
-    $display .= listTopics(SEC_createToken());
+    $display .= draft_listTopics(SEC_createToken());
     $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG27[8]));
 
 } else { // 'cancel' or no mode at all
     $display .= COM_showMessageFromParameter();
+
+//    $display .= listtopics();
+
     reorderTopics();
-    $display .= listTopics(SEC_createToken());
+    $display .= draft_listTopics(SEC_createToken());
 
     $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG27[8]));
 }

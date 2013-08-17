@@ -200,35 +200,6 @@ CSS) or move the link around.</li>
 featured and archived stories.</li>
 </ol>
 
-<h2><a name="changes">Theme changes in Geeklog 2.0.1</a></h2>
-
-<ul>
-<li>Added the template variable {related_topics} to <tt>featuredstorytext.thtml</tt> and <tt>storytext.thtml</tt></li>li>
-<li>Removed <tt>topicoption.thtml</tt> and <tt>topicoption_off.thtml</tt>.
-    Added <tt>topicnavigation.thtml</tt> which uses blocks to reduce the number of template files.</li>
-<li>Renamed <tt>page_navigation.thtml</tt> to <tt>pagenavigation.thtml</tt>
-    to be consistent.</li>
-<li>Removed <tt>menuitem.thtml</tt>, <tt>menuitem_last.thtml</tt> and <tt>menuitem_none.thtml</tt>.
-    Added <tt>menunavigation.thtml</tt> which uses blocks to reduce the number of template files.</li>
-<li>Removed <tt>adminoption.thtml</tt> and <tt>adminoption_off.thtml</tt>.
-    Added <tt>adminavigation.thtml</tt> which uses blocks to reduce the number of template files.</li>    
-<li>Removed <tt>adminoption.thtml</tt> and <tt>adminoption_off.thtml</tt>.
-    Added <tt>adminavigation.thtml</tt> which uses blocks to reduce the number of template files.</li>    
-<li>Removed <tt>useroption.thtml</tt> and <tt>useroption.thtml</tt>.
-    Added <tt>usernavigation.thtml</tt> which uses blocks to reduce the number of template files.</li>
-<li>Removed <tt>listitem.thtml</tt>. <tt>list.thtml</tt> now uses blocks to reduce the number of template files.</li>
-<li>Removed <tt>admin/moderation/moderation.thtml</tt>, <tt>admin/moderation/ccitem.thtml</tt> and <tt>admin/moderation/ccrow.thtml</tt>.
-    Added <tt>admin/commandcontrol.thtml</tt> which uses blocks to reduce the number of template files.</li>
-<li>Added <tt>/images/icons/moderation.png</tt>image for Admin Moderation page.</li>
-<li>Changed list id of "admin-moderation" to "admin-commandcontrol". This affects the Denim, Modern Curve and Proffesional CSS themes.</li>
-<li>Moved all images from <tt>/tooltips/images/</tt> to <tt>/images/tooltips/</tt> and updated all tooltip template files under the <tt>/tooltips/</tt> directory to reflect the change.</li>
-<li>Moved all images from <tt>/navbar/images/</tt> to <tt>/images/navbar/</tt> and updated required css files (different for each theme). Removed unused images for navbar from Denim and Modern Curve themes.</li>
-<li>Updated <tt>/admin/blocks/blockeditor.thtml</tt> and added in cache_time labels and input for all themes.</li>
-<li>Updated <tt>/admin/common/edit_topics.thtml</tt> so it can use jQuery (by adding ids to a number of elements) for all themes.</li>
-<li>Added <tt>/admin/envcheck.thtml</tt> and related css for ne Enviroment Check Admin page.</li>
-<li>Updated <tt>/admin/topic/storyeditor.thtml</tt>, <tt>/admin/topic/storyeditor_advanced.thtml</tt> and <tt>/admin/topic/topiceditor.thtml</tt>. Ids can now be upto 128 characters long so changed max length (for Topic Name as well). Also added javascript which runs topic_2_id.js which converts titles to nice looking ids.</li>
-</ul>
-
 <h2><a name="changes">Theme changes in Geeklog 2.0.0</a></h2>
 
 <p>As of Geeklog 2.0.0 there are now 2 theme engines in Geeklog. Currently the themes Demin and Modern Curve use the 2.0.0 theme engine. The Professional and Professional CSS themes use the 1.8.1 engine. 
@@ -245,7 +216,6 @@ The 1.8.1 theme engine will eventually be removed from Geeklog so if you are dev
 <li>Replace topic folder in admin folder. Lots of changes with these files.</li>  
 <li>For topic selection control you need to add the template variable {topic_selection} to the files /admin/block/blockeditor.thtml, /admin/block/defaultblockeditor.thtml, /admin/story/storyeditor.thtml, /admin/story/ storyeditor_advenced.thtml, /submit/submitstory.thtml, and /submit/submitstory_advanced.thtml.</li>
 <li>Comments on same page changed a lot of things. Copy paste the complete comment folder and custom the commentbar.thtml and comment.thtml files as necessary.</li>
-<li>The page navigation uses a new file called page_navigation.thtml.</li>
 <li>New css for static pages, stories and blocks editors.</li>
 </ul>
 

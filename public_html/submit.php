@@ -63,16 +63,23 @@ function submissionform($type = 'story', $mode = '')
     $last = COM_checkSpeedlimit ('submit');
 
     if ($last > 0) {
-        $retval .= COM_showMessageText($LANG12[30] . $last . $LANG12[31], $LANG12[26]);
+        $retval .= COM_startBlock ($LANG12[26], '',
+                           COM_getBlockTemplate ('_msg_block', 'header'))
+            . $LANG12[30]
+            . $last
+            . $LANG12[31]
+            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
     } else {
         if (COM_isAnonUser() &&
             (($_CONF['loginrequired'] == 1) || ($_CONF['submitloginrequired'] == 1))) {
             $retval .= SEC_loginRequiredForm();
             return $retval;
         } else {
-            $retval .= COM_startBlock($LANG12[19])
-                    . $LANG12[9]
-                    . COM_endBlock();
+            if(!function_exists('CUSTOM_MOBILE_is_cellular') || !CUSTOM_MOBILE_is_cellular()) {
+                $retval .= COM_startBlock($LANG12[19])
+                        . $LANG12[9]
+                        . COM_endBlock();
+            }
 
             if ((strlen($type) > 0) && ($type <> 'story')) {
                 $formresult = PLG_showSubmitForm($type);
@@ -128,8 +135,13 @@ function submitstory()
         } 
         $storyform->set_var('noscript', COM_getNoScript(false, '', $link_message));
         
-        // Setup Advanced Editor
-        COM_setupAdvancedEditor('/javascript/submitstory_adveditor.js');
+        // Add JavaScript
+        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
+        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
+        $js = 'document.getElementById("advanced_editor").style.display="";';                 
+        $_SCRIPTS->setJavaScript($js, true);
+        $_SCRIPTS->setJavaScriptFile('submitstory_fckeditor', '/javascript/submitstory_fckeditor.js');         
+        
         
         if ($story->EditElements('postmode') == 'html') {
             $storyform->set_var ('show_texteditor', 'none');
@@ -326,7 +338,12 @@ function savesubmission($type, $A)
     $last = COM_checkSpeedlimit ('submit');
 
     if ($last > 0) {
-        $retval = COM_showMessageText($LANG12[30] . $last . $LANG12[31], $LANG12[26]);
+        $retval = COM_startBlock ($LANG12[26], '',
+                           COM_getBlockTemplate ('_msg_block', 'header'))
+            . $LANG12[30]
+            . $last
+            . $LANG12[31]
+            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         $retval = COM_createHTMLDocument($retval);
 
         return $retval;
@@ -346,12 +363,8 @@ function savesubmission($type, $A)
         } elseif (empty ($retval)) {
             // plugin should include its own redirect - but in case handle
             // it here and redirect to the main page
-            PLG_submissionSaved($type);
-            
             return COM_refresh ($_CONF['site_url'] . '/index.php');
         } else {
-            PLG_submissionSaved($type);
-            
             return $retval;
         }
     }
@@ -359,11 +372,12 @@ function savesubmission($type, $A)
 
     if (!empty($A['title']) && !empty($A['introtext']) && TOPIC_checkTopicSelectionControl()) {
         $retval = savestory ($A);
-        
-        PLG_submissionSaved($type);
     } else {
-        $retval = COM_showMessageText($LANG12[23], $LANG12[22]) // return missing fields error
-                . submissionform($type);
+        $retval = COM_startBlock ($LANG12[22], '',
+                           COM_getBlockTemplate ('_msg_block', 'header'))
+            . $LANG12[23] // return missing fields error
+            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
+            . submissionform($type);
         $retval = COM_createHTMLDocument($retval);
     }
 

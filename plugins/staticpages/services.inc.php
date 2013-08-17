@@ -69,7 +69,10 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
     $output = '';
 
     if (!SEC_hasRights('staticpages.edit')) {
-        $output .= COM_showMessageText($LANG_STATIC['access_denied_msg'], $LANG_STATIC['access_denied']);
+        $output .= COM_startBlock($LANG_STATIC['access_denied'], '',
+                                  COM_getBlockTemplate('_msg_block', 'header'));
+        $output .= $LANG_STATIC['access_denied_msg'];
+        $output .= COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
         $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG_STATIC['access_denied']));
 
         return PLG_RET_AUTH_FAILED;
@@ -228,10 +231,6 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             $args['draft_flag'] = 'on';
         }
         
-        if (empty($args['cache_time'])) {
-            $args['cache_time'] = 0;
-        }        
-        
         if (empty($args['template_flag'])) {
             $args['template_flag'] = '';
         }
@@ -277,7 +276,6 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
     $sp_old_id = $args['sp_old_id'];
     $sp_centerblock = $args['sp_centerblock'];
     $draft_flag = $args['draft_flag'];
-    $cache_time = $args['cache_time'];
     $template_flag = $args['template_flag'];
     $template_id = $args['template_id'];
     $sp_help = '';
@@ -392,15 +390,6 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             $sp_php = 0;
         }
         
-        // If PHP page then no cache
-        if ($sp_php == 0) {
-            if ($cache_time < 0) {
-                $cache_time = 0;
-            }
-        } else {
-            $cache_time = 0;
-        }
-        
         // If marked as a template then set id to nothing and other default settings
         if ($template_flag == 1) {
             $template_id = '';
@@ -409,7 +398,6 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             $sp_label = "";
             $sp_centerblock = 0;
             $sp_php = 0;
-            $cache_time = 0;
             $sp_inblock = 0;
             $sp_nf = 0;
             
@@ -482,9 +470,9 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
             $datecreated = date('Y-m-d H:i:s');
         }
         
-        DB_save($_TABLES['staticpage'], 'sp_id,sp_title,sp_page_title, sp_content,created,modified,sp_hits,sp_format,sp_onmenu,sp_label,commentcode,meta_description,meta_keywords,template_flag,template_id,draft_flag,cache_time,owner_id,group_id,'
+        DB_save($_TABLES['staticpage'], 'sp_id,sp_title,sp_page_title, sp_content,created,modified,sp_hits,sp_format,sp_onmenu,sp_label,commentcode,meta_description,meta_keywords,template_flag,template_id,draft_flag,owner_id,group_id,'
                 .'perm_owner,perm_group,perm_members,perm_anon,sp_php,sp_nf,sp_centerblock,sp_help,sp_where,sp_inblock,postmode',
-                "'$sp_id','$sp_title','$sp_page_title','$sp_content','$datecreated',NOW(),$sp_hits,'$sp_format',$sp_onmenu,'$sp_label','$commentcode','$meta_description','$meta_keywords',$template_flag,'$template_id',$draft_flag,$cache_time,$owner_id,$group_id,"
+                "'$sp_id','$sp_title','$sp_page_title','$sp_content','$datecreated',NOW(),$sp_hits,'$sp_format',$sp_onmenu,'$sp_label','$commentcode','$meta_description','$meta_keywords',$template_flag,'$template_id',$draft_flag,$owner_id,$group_id,"
                         ."$perm_owner,$perm_group,$perm_members,$perm_anon,'$sp_php','$sp_nf',$sp_centerblock,'$sp_help',$sp_where,"
                         ."'$sp_inblock','$postmode'");
 
@@ -506,20 +494,12 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
         if (empty($sp_old_id) || ($sp_id == $sp_old_id)) {
             if (!$template_flag) {
                 PLG_itemSaved($sp_id, 'staticpages');
-                
-               // Clear Cache    
-                $cacheInstance = 'staticpage__' . $sp_id . '__';
-                CACHE_remove_instance($cacheInstance);                      
             } else {
                 // If template then have to notify of all pages that use this template that a change to the page happened
                 $sql = "SELECT sp_id FROM {$_TABLES['staticpage']} WHERE template_id = '{$sp_id}'";
                 $result = DB_query($sql);
                 while ($A = DB_fetchArray($result)) {
                     PLG_itemSaved($A['sp_id'], 'staticpages');
-                    
-                   // Clear Cache    
-                    $cacheInstance = 'staticpage__' . $A['sp_id'] . '__';
-                    CACHE_remove_instance($cacheInstance);                          
                 }
             }
         } else {
@@ -528,20 +508,12 @@ function service_submit_staticpages($args, &$output, &$svc_msg)
                       array(DB_escapeString($sp_old_id), 'staticpages'));
             if (!$template_flag) {
                 PLG_itemSaved($sp_id, 'staticpages', $sp_old_id);
-                
-                // Clear Cache    
-                $cacheInstance = 'staticpage__' . $sp_old_id . '__';
-                CACHE_remove_instance($cacheInstance);                    
             } else {
                 // If template then have to notify of all pages that use this template that a change to the page happened
                 $sql = "SELECT sp_id FROM {$_TABLES['staticpage']} WHERE template_id = '{$sp_id}'";
                 $result = DB_query($sql);
                 while ($A = DB_fetchArray($result)) {
                     PLG_itemSaved($A['sp_id'], 'staticpages');
-                    
-                    // Clear Cache    
-                    $cacheInstance = 'staticpage__' . $A['sp_id'] . '__';
-                    CACHE_remove_instance($cacheInstance);                        
                 }                
             }
         }
@@ -591,7 +563,10 @@ function service_delete_staticpages($args, &$output, &$svc_msg)
     $sp_id = $args['sp_id'];
 
     if (!SEC_hasRights ('staticpages.delete')) {
-        $output .= COM_showMessageText($LANG_STATIC['access_denied_msg'], $LANG_STATIC['access_denied']);
+        $output .= COM_startBlock ($LANG_STATIC['access_denied'], '',
+                                    COM_getBlockTemplate ('_msg_block', 'header'));
+        $output .= $LANG_STATIC['access_denied_msg'];
+        $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG_STATIC['access_denied']));
         if ($_USER['uid'] > 1) {
             return PLG_RET_PERMISSION_DENIED;
@@ -613,10 +588,6 @@ function service_delete_staticpages($args, &$output, &$svc_msg)
     
     PLG_itemDeleted($sp_id, 'staticpages');
 
-    // Clear Cache    
-    $cacheInstance = 'staticpage__' . $sp_id . '__';
-    CACHE_remove_instance($cacheInstance);    
-
     return PLG_RET_OK;
 }
 
@@ -630,7 +601,7 @@ function service_delete_staticpages($args, &$output, &$svc_msg)
  */
 function service_get_staticpages($args, &$output, &$svc_msg)
 {
-    global $_CONF, $_TABLES, $LANG_ACCESS, $LANG12, $LANG_STATIC, $_SP_CONF, $topic;
+    global $_CONF, $_TABLES, $LANG_ACCESS, $LANG12, $LANG_STATIC, $_SP_CONF;
 
     $output = '';
 
@@ -638,7 +609,6 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                                     'sp_hits',
                                     'sp_format',
                                     'draft_flag',
-                                    'cache_time',
                                     'owner_id',
                                     'group_id',
                                     'perm_owner',
@@ -692,18 +662,12 @@ function service_get_staticpages($args, &$output, &$svc_msg)
             if (! empty($perms)) {
                 $perms .= ' AND';
             }
-            if (isset($args['template'])) {
-                // Allow the viewing of a template since it is being retrieved by another staticpage
-                $perms .= '(draft_flag = 0)';
-            } else {
-                // Usually normal user cannot view staticpage that is a draft or template 
-                $perms .= '(draft_flag = 0) AND (template_flag = 0)';
-            } 
+            $perms .= '(draft_flag = 0) AND (template_flag = 0)';
         }
         if (! empty($perms)) {
             $perms = ' AND ' . $perms;
         }
-       
+        
         // Topic Permissions
         $topic_perms = COM_getTopicSQL('', 0, 'ta');
         if ($topic_perms != "") {
@@ -712,8 +676,7 @@ function service_get_staticpages($args, &$output, &$svc_msg)
             if (COM_onFrontpage()) {
                 $topic_perms .= " OR (ta.tid = '" . TOPIC_HOMEONLY_OPTION . "' OR ta.tid = '" . TOPIC_ALL_OPTION . "'))";
             } else {
-                // $topic_perms .= " OR ta.tid = '" . TOPIC_ALL_OPTION . "')";
-                $topic_perms .= " OR (ta.tid = '" . TOPIC_HOMEONLY_OPTION . "' OR ta.tid = '" . TOPIC_ALL_OPTION . "'))";
+                $topic_perms .= " OR ta.tid = '" . TOPIC_ALL_OPTION . "')";
             }
         }
         $topic_perms .= " GROUP BY sp_id";        
@@ -722,8 +685,8 @@ function service_get_staticpages($args, &$output, &$svc_msg)
         $sql['mysql'] = "SELECT sp_title,sp_page_title,sp_content,sp_hits,created,modified,sp_format,"
                       . "commentcode,meta_description,meta_keywords,template_flag,template_id,draft_flag,"
                       . "owner_id,group_id,perm_owner,perm_group,"
-                      . "perm_members,perm_anon,sp_help,sp_php,sp_inblock,cache_time "
-                      . "FROM {$_TABLES['staticpage']}, {$_TABLES['topic_assignments']} ta "
+                      . "perm_members,perm_anon,sp_help,sp_php,"
+                      . "sp_inblock FROM {$_TABLES['staticpage']}, {$_TABLES['topic_assignments']} ta "
                       . "WHERE (sp_id = '$page')" . $perms
                       . " AND ta.type = 'staticpages' AND ta.id = sp_id " . $topic_perms;
         $sql['mssql'] = "SELECT sp_title,sp_page_title,"
@@ -732,7 +695,7 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                       . "CAST(meta_description AS text) AS meta_description,"
                       . "CAST(meta_keywords AS text) AS meta_keywords,template_flag,template_id,draft_flag,"
                       . "owner_id,group_id,perm_owner,perm_group,perm_members,"
-                      . "perm_anon,sp_help,sp_php,sp_inblock,cache_time "
+                      . "perm_anon,sp_help,sp_php,sp_inblock "
                       . "FROM {$_TABLES['staticpage']}, {$_TABLES['topic_assignments']} ta WHERE (sp_id = '$page')"
                       . $perms
                       . " AND ta.type = 'staticpages' AND ta.id = sp_id " . $topic_perms;
@@ -740,7 +703,7 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                       . "created,modified,sp_format,"
                       . "commentcode,meta_description,meta_keywords,template_flag,template_id,draft_flag,"
                       . "owner_id,group_id,perm_owner,perm_group,"
-                      . "perm_members,perm_anon,sp_help,sp_php,sp_inblock,cache_time "
+                      . "perm_members,perm_anon,sp_help,sp_php,"
                       . "sp_inblock FROM {$_TABLES['staticpage']}, {$_TABLES['topic_assignments']} ta "
                       . "WHERE (sp_id = '$page')" . $perms
                       . " AND ta.type = 'staticpages' AND ta.id = sp_id " . $topic_perms;
@@ -755,10 +718,43 @@ function service_get_staticpages($args, &$output, &$svc_msg)
             $output = DB_fetchArray($result, false);
 
             // WE ASSUME $output doesn't have any confidential fields
-            // Generate output now (omly if not grabing a template since template is combined with variables first and then generated)
-            if (!isset($args['template'])) {
-                $output['sp_content'] = SP_render_content($page, $output['sp_content'], $output['sp_php'], $output['cache_time'], $output['template_id']);
-            }
+            
+            
+            if ($output['template_id'] != '') {
+                
+                $retval = '';
+                $mode = '';
+                
+                $xmlObject = simplexml_load_string($output['sp_content']);
+                
+                // create array of XML data
+                $tag = array();    
+                foreach($xmlObject->variable as $variable) {
+                    $key = $variable["name"] . '';
+                    $value = $variable->data;
+                    $tag[$key] = $value;
+                }    
+            
+                // Loop through variables to replace any autotags first
+                foreach ($tag as &$value) {
+                    $value = PLG_replaceTags($value);
+                }
+                
+                $args = array(
+                            'sp_id' => $output['template_id'],
+                            'mode'  => $mode,
+                            'gl_svc' => ''
+                             );
+                $svc_msg = array();    
+            
+                if (PLG_invokeService('staticpages', 'get', $args, $retval, $svc_msg) == PLG_RET_OK) {
+                    $retval['sp_content'] = str_replace(array_keys($tag), array_values($tag), $retval['sp_content']);
+                    
+                    $output['sp_content'] = $retval['sp_content'];
+                }
+            }            
+            
+
         } else { // an error occured (page not found, access denied, ...)
 
             /**
@@ -791,8 +787,13 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                         $output = COM_createHTMLDocument($output, array('rightblock' => true));
                     }
                 } else {
+                    $output .= COM_startBlock($LANG_ACCESS['accessdenied'], '',
+                                COM_getBlockTemplate('_msg_block', 'header'));
+                    $output .= $LANG_STATIC['deny_msg'];
+                    $output .= COM_endBlock(COM_getBlockTemplate('_msg_block',
+                                                                 'footer'));
                     if ($mode !== 'autotag') {
-                        COM_handle404();   
+                        $output = COM_createHTMLDocument($output, array('rightblock' => true));
                     }
                 }
             }
@@ -807,6 +808,7 @@ function service_get_staticpages($args, &$output, &$svc_msg)
             $output['id']           = $page;
             $output['title']        = $output['sp_title'];
             $output['page_title']   = $output['sp_page_title'];
+            //$output['category']     = array($output['sp_tid']);
             $output['category']     = TOPIC_getTopicIdsForObject('staticpages', $page);
             $output['content']      = $output['sp_content'];
             $output['content_type'] = 'html';
@@ -840,15 +842,15 @@ function service_get_staticpages($args, &$output, &$svc_msg)
         $order = " ORDER BY modified DESC";
         $sql = array();
         $sql['mysql'] = "SELECT sp_id,sp_title,sp_page_title,sp_content,sp_hits,created,modified,sp_format,meta_description,meta_keywords,template_flag,template_id,draft_flag,owner_id,"
-                ."group_id,perm_owner,perm_group,perm_members,perm_anon,sp_help,sp_php,sp_inblock,cache_time "
-                ." FROM {$_TABLES['staticpage']}" . $perms . $order . $limit;
+                ."group_id,perm_owner,perm_group,perm_members,perm_anon,sp_help,sp_php,"
+                ."sp_inblock FROM {$_TABLES['staticpage']}" . $perms . $order . $limit;
         $sql['mssql'] = "SELECT sp_id,sp_title,sp_page_title,CAST(sp_content AS text) AS sp_content,sp_hits,"
                 ."created,modified,sp_format,CAST(meta_description AS text) AS meta_description,CAST(meta_keywords AS text) AS meta_keywords,template_flag,template_id,draft_flag,owner_id,group_id,perm_owner,perm_group,perm_members,"
-                ."perm_anon,sp_help,sp_php,sp_inblock,cache_time FROM {$_TABLES['staticpage']}"
+                ."perm_anon,sp_help,sp_php,sp_inblock FROM {$_TABLES['staticpage']}"
                 . $perms . $order . $limit;
         $sql['pgsql'] = "SELECT sp_id,sp_title,sp_page_title,sp_content,sp_hits,created,modified,sp_format,meta_description,meta_keywords,template_flag,template_id,draft_flag,owner_id,"
-                ."group_id,perm_owner,perm_group,perm_members,perm_anon,sp_help,sp_php,sp_inblock,cache_time "
-                ."FROM {$_TABLES['staticpage']}" . $perms . $order . $limit;
+                ."group_id,perm_owner,perm_group,perm_members,perm_anon,sp_help,sp_php,"
+                ."sp_inblock FROM {$_TABLES['staticpage']}" . $perms . $order . $limit;
         $result = DB_query($sql);
 
         $count = 0;
@@ -870,8 +872,7 @@ function service_get_staticpages($args, &$output, &$svc_msg)
                 $output_item['page_title']   = $output_item['sp_page_title'];
                 //$output_item['category']     = array($output_item['sp_tid']);
                 $output_item['category']     = TOPIC_getTopicIdsForObject('staticpages', $page);
-                //$output_item['content']      = $output_item['sp_content'];
-                $output['content']           = SP_render_content($output['sp_id'], $output['sp_content'], $output['sp_php'], $output['cache_time'], $output['template_id']);
+                $output_item['content']      = $output_item['sp_content'];
                 $output_item['content_type'] = 'html';
 
                 $owner_data = SESS_getUserDataFromId($output_item['owner_id']);

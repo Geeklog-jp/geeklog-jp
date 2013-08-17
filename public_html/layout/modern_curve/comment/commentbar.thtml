@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- comment/commentbar.thtml { -->
 
 <ul class="status">
   <li>{start_storylink_anchortag}<strong>{story_title}</strong>{end_storylink_anchortag}</li>
@@ -34,14 +35,9 @@
         <input type="{reply_hidden_or_submit}" name="reply" value="{lang_reply}" class="submit"{xhtml}>
       </li>
     </ul>
-    <div style="{show_link_to_commenteditform}">
-        [
-        <a class="button" href="#commenteditform">{lang_reply}</a>
-        ]
-    </div>
   </div>
 </form>
 
 <p class="disclaimer">{lang_disclaimer}</p>
 
-{# end {templatelocation} #}
+<!-- } comment/commentbar.thtml -->

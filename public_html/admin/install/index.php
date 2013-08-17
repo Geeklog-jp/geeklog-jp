@@ -143,6 +143,7 @@ function INST_installEngine($install_type, $install_step)
             if (strcasecmp($LANG_CHARSET, 'utf-8') == 0) {
                 $utf8 = true;
             }
+            $utf8 = true; // use utf-8 only in japanese mode
         }
 
         if ($install_type == 'install') {
@@ -183,6 +184,11 @@ function INST_installEngine($install_type, $install_step)
         if ($install_type == 'install') {
             $display .= '
                 <p><label class="' . $form_label_dir . '">' . $LANG_INSTALL[92] . ' ' . INST_helpLink('utf8') . '</label> <input type="checkbox" name="utf8"' . ($utf8 ? ' checked="checked"' : '') . XHTML . '></p>';
+        } else {
+            if ($utf8) {
+                $display .= '
+                <input type="hidden" name="utf8" value="on"'. XHTML .'>';
+            }
         }
 
 
@@ -749,7 +755,7 @@ function INST_permissionWarning($files)
  */
 function INST_showReturnFormData($post_data)
 {
-    global $mode, $dbconfig_path, $language, $LANG_INSTALL;
+    global $mode, $dbconfig_path, $language, $LANG_INSTALL, $LANG_INSTALL_JP;
 
     $display = '
         <form action="index.php" method="post">
@@ -966,6 +972,7 @@ $display .= '<head>
 <body dir="' . $LANG_DIRECTION . '">
     <div class="header-navigation-container">
         <div class="header-navigation-line">
+            <a href="' . 'precheck.php' . '" class="header-navigation">' . (isset($LANG_INSTALL_JP) ? $LANG_INSTALL_JP[1] : 'Pre-Installation Check (in Japanese)') . '</a>&nbsp;&nbsp;&nbsp;
             <a href="rescue.php" class="header-navigation">' . $LANG_INSTALL[109] . '</a>&nbsp;&nbsp;&nbsp;
             <a href="' . $LANG_INSTALL[87] . '" class="header-navigation">' . $LANG_INSTALL[1] . '</a>&nbsp;&nbsp;&nbsp;
         </div>
@@ -1040,7 +1047,9 @@ if (INST_phpOutOfDate()) {
 
         $display .= '<h1 class="heading">' . $LANG_INSTALL[3] . '</h1>' . LB;
 
-        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
+        require_once $siteconfig_path; // We need siteconfig.php for core $_CONF['path'] values.
+        if (!file_exists($gl_path . $dbconfig_file) && !file_exists($gl_path . 'public_html/' . $dbconfig_file)
+                                                    && !file_exists($_CONF['path'] . $dbconfig_file)) {
             // If the file/directory is not located in the default location
             // or in public_html have the user enter its location.
             $form_fields .= '<p><label class="' . $form_label_dir . '"><code>db-config.php</code></label> ' . LB
@@ -1049,9 +1058,13 @@ if (INST_phpOutOfDate()) {
             $num_errors++;
         } else {
             // See whether the file/directory is located in the default place or in public_html
-            $dbconfig_path = file_exists($gl_path . $dbconfig_file)
-                                ? $gl_path . $dbconfig_file
-                                : $gl_path . 'public_html/' . $dbconfig_file;
+            if (file_exists($gl_path . $dbconfig_file)) {
+                $dbconfig_path = $gl_path . $dbconfig_file;
+            } else if (file_exists($gl_path . 'public_html/' . $dbconfig_file)) {
+                $dbconfig_path = $gl_path . 'public_html/' . $dbconfig_file;
+            } else {
+                $dbconfig_path = $_CONF['path'] . $dbconfig_file;
+            }
         }
 
         if ($num_errors == 0) {
@@ -1123,7 +1136,6 @@ if (INST_phpOutOfDate()) {
             // Files to check if writable
             $file_list = array( $_PATH['db-config.php'],
                                 $gl_path . 'data/',
-                                $gl_path . 'data/layout_cache/',
                                 $gl_path . 'logs/error.log',
                                 $_PATH['public_html/'] . 'siteconfig.php',
                                 $_PATH['public_html/'] . 'backend/geeklog.rss',
@@ -1134,8 +1146,7 @@ if (INST_phpOutOfDate()) {
             if (!isset($_CONF['allow_mysqldump']) && $_DB_dbms == 'mysql') {
                 array_splice($file_list, 1, 0, $gl_path . 'backups/');
             }
-            $check_selinux = false;
-            $cmd_selinux = '';
+
             foreach ($file_list as $file) {
                 if (!is_writable($file)) {
                     if (is_file($file)) {
@@ -1144,16 +1155,7 @@ if (INST_phpOutOfDate()) {
                         $perm_should_be = '777';
                     }
                     $permission = sprintf("%3o", @fileperms($file) & 0777);
-                    $check_perm = 0;
-                    for ($i=0; $i<strlen($permission); $i++) {
-                        if ($permission[$i] >= $perm_should_be[$i])
-                            $check_perm++;
-                    }
-                    if ($check_perm >= 3) {
-                        $check_selinux = true;
-                        $cmd_selinux .= $file . ' ';
-                    }
-                    $display_permissions    .= '<p class="clearboth"><label class="' . $perms_label_dir . '"><code>' . $file . '</code></label>' . LB
+                    $display_permissions    .= '<p><label class="' . $perms_label_dir . '"><code>' . $file . '</code></label>' . LB
                                             . ' <span class="permissions-list">' . $LANG_INSTALL[12] . ' '. $perm_should_be .'</span> ('
                                             . $LANG_INSTALL[13] . ' ' . $permission . ')</p>' . LB ;
                     $chmod_string .= $file . ' ' ;
@@ -1162,18 +1164,11 @@ if (INST_phpOutOfDate()) {
             }
 
             $display_step = 1;
+
             /**
              * Display permissions, etc
              */
-            if ($check_selinux){
-                $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
-                $display .= $LANG_INSTALL[110];
-                $cmd = 'chcon -Rt httpd_user_rw_content_t '.$cmd_selinux;
-                $display .= '<p class="codeblock"><code>' . $cmd . LB 
-                    . '</code></p><br ' . XHTML . '>' . LB;
-                $display_step++;
-            }
-            else if ($num_wrong) {
+            if ($num_wrong && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
                 // If any files have incorrect permissions.
 
                 $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
@@ -1193,7 +1188,7 @@ if (INST_phpOutOfDate()) {
                 // Also, list the auto-generated chmod command for advanced users
                 $display .= '<div class="file-permissions">' . LB
                     . $display_permissions . '</div>' . LB
-                    . '<h2 class="clearboth">' . $LANG_INSTALL[98] . '</h2>' . LB
+                    . '<h2>' . $LANG_INSTALL[98] . '</h2>' . LB
                     . '<p>' . $LANG_INSTALL[99] . '</p>' . LB
                     . '<p class="codeblock"><code>' . $chmod_string . LB 
                     . '</code></p><br ' . XHTML . '>' . LB;
@@ -1316,10 +1311,6 @@ if (INST_phpOutOfDate()) {
 
         // Run the installation function
         INST_installEngine($mode, $step); 
-
-        // Clear the Geeklog Cache        
-        INST_clearCache();
-
         break;
 
     } // End switch ($mode)

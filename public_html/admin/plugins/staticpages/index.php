@@ -102,9 +102,13 @@ function staticpageeditor_form($A)
         } 
         $sp_template->set_var('noscript', COM_getNoScript(false, '', $link_message));        
         
-        // Setup Advanced Editor
-        COM_setupAdvancedEditor('/staticpages/adveditor.js');
-        
+        // Add JavaScript
+        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
+        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
+        $js = 'document.getElementById("advanced_editor").style.display="";';                 
+        $_SCRIPTS->setJavaScript($js, true);
+        $_SCRIPTS->setJavaScriptFile('staticpages_fckeditor', '/javascript/staticpages_fckeditor.js');
+
         $sp_template->set_var('lang_expandhelp', $LANG24[67]);
         $sp_template->set_var('lang_reducehelp', $LANG24[68]);
         $sp_template->set_var('lang_toolbar', $LANG24[70]);
@@ -324,10 +328,6 @@ function staticpageeditor_form($A)
         $sp_template->set_var('draft_flag_checked', '');
     }
     $sp_template->set_var('lang_draft', $LANG_STATIC['draft']);
-    
-    $sp_template->set_var('lang_cache_time', $LANG_STATIC['cache_time']);
-    $sp_template->set_var('lang_cache_time_desc', $LANG_STATIC['cache_time_desc']);
-    $sp_template->set_var('cache_time', $A['cache_time']);
 
     $curtime = COM_getUserDateTimeFormat($A['unixdate']);
     $sp_template->set_var('lang_lastupdated', $LANG_STATIC['date']);
@@ -639,7 +639,6 @@ function staticpageeditor($sp_id, $mode = '', $editor = '')
         $A['commentcode'] = $_SP_CONF['comment_code'];
         $A['sp_where'] = 1; // default new pages to "top of page"
         $A['draft_flag'] = $_SP_CONF['draft_flag'];
-        $A['cache_time'] = 0;
         $A['template_flag'] = ''; // Defaults to not a template
         $A['template_id'] = ''; // Defaults to None
         if ($_USER['advanced_editor'] == 1) {
@@ -684,7 +683,10 @@ function staticpageeditor($sp_id, $mode = '', $editor = '')
 
         $retval = staticpageeditor_form($A);
     } else {
-        $retval = COM_showMessageText($LANG_STATIC['deny_msg'], $LANG_ACCESS['accessdenied']);
+        $retval = COM_startBlock($LANG_ACCESS['accessdenied'], '',
+                        COM_getBlockTemplate('_msg_block', 'header'))
+                . $LANG_STATIC['deny_msg']
+                . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
     }
 
     return $retval;
@@ -718,7 +720,6 @@ function staticpageeditor($sp_id, $mode = '', $editor = '')
 * @param string meta_description
 * @param string meta_keywords
 * @param string draft_flag       Flag: save as draft
-* @param string cache_time       Cache time of page
 *
 */
 function submitstaticpage($sp_id, $sp_title,$sp_page_title, $sp_content, $sp_hits,
@@ -727,7 +728,7 @@ function submitstaticpage($sp_id, $sp_title,$sp_page_title, $sp_content, $sp_hit
                           $perm_members, $perm_anon, $sp_php, $sp_nf,
                           $sp_old_id, $sp_centerblock, $sp_help,
                           $sp_where, $sp_inblock, $postmode, $meta_description,
-                          $meta_keywords, $draft_flag, $template_flag, $template_id, $cache_time)
+                          $meta_keywords, $draft_flag, $template_flag, $template_id)
 {
     $retval = '';
 
@@ -746,7 +747,6 @@ function submitstaticpage($sp_id, $sp_title,$sp_page_title, $sp_content, $sp_hit
                 'template_flag' => $template_flag,
                 'template_id' => $template_id,
                 'draft_flag' => $draft_flag,
-                'cache_time' => $cache_time,
                 'owner_id' => $owner_id,
                 'group_id' => $group_id,
                 'perm_owner' => $perm_owner,
@@ -837,9 +837,6 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
         if (!isset($_POST['draft_flag'])) {
             $_POST['draft_flag'] = '';
         }
-        if (!isset($_POST['cache_time'])) {
-            $_POST['cache_time'] = 0;
-        }
         if (!isset($_POST['template_flag'])) {
             $_POST['template_flag'] = '';
         }
@@ -856,7 +853,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty($LANG_ADMIN['delete']) && SEC_che
             $sp_help,
             COM_applyFilter($_POST['sp_where'], true), $_POST['sp_inblock'],
             COM_applyFilter($_POST['postmode']), $_POST['meta_description'],
-            $_POST['meta_keywords'], $_POST['draft_flag'], $_POST['template_flag'], $_POST['template_id'], COM_applyFilter($_POST['cache_time'], true)); 
+            $_POST['meta_keywords'], $_POST['draft_flag'], $_POST['template_flag'], $_POST['template_id']); 
     } else {
         $display = COM_refresh($_CONF['site_admin_url'] . '/index.php');
     }

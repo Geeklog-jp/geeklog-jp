@@ -90,10 +90,8 @@ function CMT_commentBar( $sid, $title, $type, $order, $mode, $ccode = 0 )
 
     if ( $ccode == 0 && !COMMENT_ON_SAME_PAGE) {
         $commentbar->set_var( 'reply_hidden_or_submit', 'submit' );
-        $commentbar->set_var( 'show_link_to_commenteditform', 'display:none;' );
     } else {
         $commentbar->set_var( 'reply_hidden_or_submit', 'hidden' );
-        $commentbar->set_var( 'show_link_to_commenteditform', '' );
     }
     $commentbar->set_var( 'num_comments', COM_numberFormat( $nrows ));
     $commentbar->set_var( 'comment_type', $type );
@@ -236,6 +234,7 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
                          $cpage = 1 )
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $LANG03, $MESSAGE, $_IMAGE_TYPE;
+    global $CUSTOM_MOBILE_UA;
 
     $indent = 0;  // begin with 0 indent
     $retval = ''; // initialize return value
@@ -329,10 +328,6 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         // determines indentation for current comment
         if ($mode == 'threaded' || $mode == 'nested') {
             $indent = ($A['indent'] - $A['pindent']) * $_CONF['comment_indent'];
-            // set the maximum indentation level to 16
-            if ($indent > 400) {
-                $indent = 400;
-            }
         }
 
         // Filemgmt plugin is doing special processing.
@@ -582,10 +577,15 @@ function CMT_getComment( &$comments, $mode, $type, $order, $delete_option = fals
         // create a reply to link
         $reply_link = '';
         if ($ccode == 0) {
+            $a_title = $A['title'];
+            if ( $CUSTOM_MOBILE_UA > 1 ) {
+                $a_title = mb_convert_encoding($A['title'], 'SJIS-win');
+            }
             if (COMMENT_ON_SAME_PAGE) {
                 $reply_link = $plgurl ."?$plgid=" . $A['sid']
                             . '&amp;' . CMT_PID . '=' . $A['cid']
                             . '&amp;' . CMT_TYPE . '=' . $A['type']
+                            . '&amp;title=' . urlencode($a_title)
                             . '&amp;mode=' . $mode
                             . '&amp;order=' . $order
                             . '&amp;cpage=' . $cpage
@@ -663,7 +663,7 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
     }
 
     if( $order != 'ASC' && $order != 'DESC' ) {
-        $order = $_CONF['comment_order'];
+        $order = 'ASC';
     }
 
     if( empty( $mode )) {
@@ -772,19 +772,7 @@ function CMT_userComments( $sid, $title, $type='article', $order='', $mode='', $
 
         $thecomments = '';
         $result = DB_query( $q );
-        
-        if (DB_numRows($result) == 0) {
-            if ($page > 1) {
-                list($plgurl, $plgid) = CMT_getCommentUrlId($type);
-                $plglink = '';
-                if (!empty($plgurl)) {
-                    $plglink = "$plgurl?$plgid=$sid";
-                }
-                // Requested invalid page                
-                COM_handle404($plglink);   
-            }
-        }
-        
+
         $thecomments .= CMT_getComment( $result, $mode, $type, $order,
                                         $delete_option, false, $ccode, $page );
 
@@ -911,9 +899,15 @@ function CMT_commentForm($title, $comment, $sid, $pid='0', $type, $mode, $postmo
 
         if ($last > 0) {
             if (COMMENT_ON_SAME_PAGE) {
-                $retval .= COM_showMessageText($LANG03[45], $MESSAGE[40]);
+                $retval .= COM_startBlock ($MESSAGE[40], '',
+                                   COM_getBlockTemplate ('_msg_block', 'header'))
+                    . $LANG03[45]
+                    . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
             } else {
-                $retval .= COM_showMessageText($LANG03[7] . $last . $LANG03[8], $LANG12[26]);
+                $retval .= COM_startBlock ($LANG12[26], '',
+                                   COM_getBlockTemplate ('_msg_block', 'header'))
+                    . $LANG03[7] . $last . $LANG03[8]
+                    . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
             }
         } else {
 
@@ -970,7 +964,7 @@ function CMT_commentForm($title, $comment, $sid, $pid='0', $type, $mode, $postmo
                 $start = COM_newTemplate($_CONF['path_layout'] . 'comment');
                 $start->set_file(array('comment' => 'startcomment.thtml'));
                 $start->set_var('hide_if_preview', 'style="display:none"');
-                $start->set_var( 'area_id', 'commentpreview' );
+                $start->set_var( 'area_id', 'commentperview' );
 
                 // Clean up all the vars
                 $A = array();
@@ -1034,9 +1028,12 @@ function CMT_commentForm($title, $comment, $sid, $pid='0', $type, $mode, $postmo
                 } 
                 $comment_template->set_var('noscript', COM_getNoScript(false, '', $link_message));
                 
-                // Setup Advanced Editor
-                COM_setupAdvancedEditor('/javascript/submitcomment_adveditor.js');
-
+                // Add JavaScript
+                $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
+                // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
+                $js = 'document.getElementById("advanced_editor").style.display="";';                 
+                $_SCRIPTS->setJavaScript($js, true);
+                $_SCRIPTS->setJavaScriptFile('submitcomment_fckeditor', '/javascript/submitcomment_fckeditor.js');
             } else {
                 $comment_template->set_file('form', 'commentform.thtml');
             }
@@ -1079,9 +1076,9 @@ function CMT_commentForm($title, $comment, $sid, $pid='0', $type, $mode, $postmo
                     $sid = str_replace('fileid_', '', $sid);
                 }
 
-                $formurl = "$plgurl?$plgid=$sid#commentpreview";
+                $formurl = "$plgurl?$plgid=$sid#commentperview";
             } else {
-                $formurl = $_CONF['site_url'] . '/comment.php#commentpreview'; // commentpreview needed for when showing replies on the same page
+                $formurl = $_CONF['site_url'] . '/comment.php';
             }
 
             if ($mode == 'edit' || $mode == $LANG03[28]) { //edit modes
@@ -1366,27 +1363,14 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
         DB_unlockTable($_TABLES['comments']);
         
         // Update Comment Feeds
-        COM_rdfUpToDateCheck('comment');    
-        
-        // Delete What's New block cache so it can get updated again
-        if ($_CONF['whatsnew_cache_time'] > 0 AND !$_CONF['hidenewcomments']) {
-            $cacheInstance = 'whatsnew__'; // remove all whatsnew instances
-            CACHE_remove_instance($cacheInstance);        
-        }        
+        COM_rdfUpToDateCheck('comment');        
         
         // notify parent of new comment
         // Must occur after table unlock, only with valid $cid and $pid
         // NOTE: This could be modified to send notifications to all parents in the comment tree
         //       with only a modification to the below SELECT statement
-        //       See: http://wiki.geeklog.net/index.php/CommentAlgorithm
         if ($_CONF['allow_reply_notifications'] == 1 && $cid > 0 && $pid > 0) {
-            // $sql = "SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = $pid"; // Used in Geeklog 2.0.0 and before. Notification sent only if someone directly replies to the comment (not a reply of a reply)
-            $sql = "SELECT cn.cid, cn.uid, cn.deletehash "
-               . "FROM {$_TABLES['comments']} AS c, {$_TABLES['comments']} AS c2, "
-               . "{$_TABLES['commentnotifications']} AS cn "
-               . "WHERE c2.cid = cn.cid AND (c.lft >= c2.lft AND c.lft <= c2.rht) "
-               . "AND c.cid = $pid GROUP BY cn.uid";
-         	$result = DB_query($sql);
+        	$result = DB_query("SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = $pid");
         	$A = DB_fetchArray($result);
         	if ($A !== false) {
         		CMT_sendReplyNotification($A);
@@ -1413,12 +1397,6 @@ function CMT_saveComment($title, $comment, $sid, $pid, $type, $postmode)
         
         // Update Comment Feeds
         COM_rdfUpToDateCheck('comment');
-        
-        // Delete What's New block cache so it can get updated again
-        if ($_CONF['whatsnew_cache_time'] > 0 AND !$_CONF['hidenewcomments']) {
-            $cacheInstance = 'whatsnew__'; // remove all whatsnew instances
-            CACHE_remove_instance($cacheInstance);        
-        }        
     }
 
     // save user notification information
@@ -1577,12 +1555,6 @@ function CMT_deleteComment ($cid, $sid, $type)
         
         // Update Comment Feeds
         COM_rdfUpToDateCheck('comment');
-        
-        // Delete What's New block cache so it can get updated again
-        if ($_CONF['whatsnew_cache_time'] > 0 AND !$_CONF['hidenewcomments']) {
-            $cacheInstance = 'whatsnew__'; // remove all whatsnew instances
-            CACHE_remove_instance($cacheInstance);        
-        }        
     } else {
         DB_unlockTable ($_TABLES['comments']);
         COM_errorLog("CMT_deleteComment: {$_USER['uid']} from {$_SERVER['REMOTE_ADDR']} tried "
@@ -1616,7 +1588,10 @@ function CMT_reportAbusiveComment ($cid, $type)
     COM_clearSpeedlimit ($_CONF['speedlimit'], 'mail');
     $last = COM_checkSpeedlimit ('mail');
     if ($last > 0) {
-        $retval .= COM_showMessageText($LANG12[30] . $last . $LANG12[31], $LANG12[26]);
+        $retval .= COM_startBlock ($LANG12[26], '',
+                            COM_getBlockTemplate ('_msg_block', 'header'))
+                . $LANG12[30] . $last . $LANG12[31]
+                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
 
         return $retval;
     }
@@ -1815,12 +1790,6 @@ function CMT_handleEditSubmit($mode = null)
             DB_save($_TABLES['commentedits'],'cid,uid,time',"$cid,$uid,NOW()");
             
             COM_rdfUpToDateCheck('comment');
-            
-            // Delete What's New block cache so it can get updated again
-            if ($_CONF['whatsnew_cache_time'] > 0 AND !$_CONF['hidenewcomments']) {
-                $cacheInstance = 'whatsnew__'; // remove all whatsnew instances
-                CACHE_remove_instance($cacheInstance);        
-            }            
         } else {
             return COM_refresh (COM_buildUrl ($_CONF['site_admin_url'] . "/moderation.php"));
         }
@@ -2009,13 +1978,7 @@ function CMT_approveModeration($cid)
 
     // notify of new published comment
     if ($_CONF['allow_reply_notifications'] == 1 && $A['pid'] > 0) {
-        // $sql = "SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = $pid"; // Used in Geeklog 2.0.0 and before. Notification sent only if someone directly replies to the comment (not a reply of a reply)
-        $sql = "SELECT cn.cid, cn.uid, cn.deletehash "
-           . "FROM {$_TABLES['comments']} AS c, {$_TABLES['comments']} AS c2, "
-           . "{$_TABLES['commentnotifications']} AS cn "
-           . "WHERE c2.cid = cn.cid AND (c.lft >= c2.lft AND c.lft <= c2.rht) "
-           . "AND c.cid = {$A['pid']} GROUP BY cn.uid";
-        $result = DB_query($sql);        
+        $result = DB_query("SELECT cid, uid, deletehash FROM {$_TABLES['commentnotifications']} WHERE cid = {$A['pid']}");
         $B = DB_fetchArray($result);
         if ($B !== false) {
             CMT_sendReplyNotification($B);
@@ -2024,12 +1987,6 @@ function CMT_approveModeration($cid)
     
     // Update Comment Feeds
     COM_rdfUpToDateCheck('comment');
-    
-    // Delete What's New block cache so it can get updated again
-    if ($_CONF['whatsnew_cache_time'] > 0 AND !$_CONF['hidenewcomments']) {
-        $cacheInstance = 'whatsnew__'; // remove all whatsnew instances
-        CACHE_remove_instance($cacheInstance);        
-    }
 
     return $A['sid'];
 }
@@ -2192,7 +2149,7 @@ function CMT_handleView($format, $order, $page, $view = true)
         }
     }
     if ($cid <= 0) {
-        COM_handle404();
+        return COM_refresh($_CONF['site_url'] . '/index.php');
     }
 
     $sql = "SELECT sid, title, type FROM {$_TABLES['comments']} WHERE cid = $cid";
@@ -2204,7 +2161,7 @@ function CMT_handleView($format, $order, $page, $view = true)
     $display = PLG_displayComment($type, $sid, $cid, $title,
                                   $order, $format, $page, $view);
     if (!$display) {
-        COM_handle404();   
+        return COM_refresh($_CONF['site_url'] . '/index.php');
     }
     
     $display = COM_showMessageFromParameter() . $display;
@@ -2348,7 +2305,7 @@ function CMT_handleComment($mode='', $type='', $title='', $sid='', $format='')
     }
 
     if (!empty($_REQUEST['title'])) {
-        $title = $_REQUEST['title']; // apply filters later in CMT_commentForm or CMT_saveComment
+        $title = COM_applyFilter($_REQUEST['title']);
     }
 
     if (!empty($_REQUEST[CMT_UID])) {

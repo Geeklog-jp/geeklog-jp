@@ -37,7 +37,7 @@
 
 $_SQL[] = "
 CREATE TABLE {$_TABLES['staticpage']} (
-  sp_id varchar(128) NOT NULL default '',
+  sp_id varchar(40) NOT NULL default '',
   sp_title varchar(128) NOT NULL default '',
   sp_page_title varchar(128) NOT NULL default '',
   sp_content text NOT NULL,
@@ -52,7 +52,6 @@ CREATE TABLE {$_TABLES['staticpage']} (
   meta_keywords TEXT NULL,  
   template_flag tinyint(1) unsigned default '0',
   template_id varchar(40) NOT NULL default '',
-  cache_time INT NOT NULL DEFAULT '0',
   draft_flag tinyint(1) unsigned default '0',
   owner_id mediumint(8) unsigned NOT NULL default '1',
   group_id mediumint(8) unsigned NOT NULL default '1',

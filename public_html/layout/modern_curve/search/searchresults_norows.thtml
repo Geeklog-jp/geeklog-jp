@@ -1,5 +1,6 @@
-{# begin {templatelocation} #}
+
+<!-- search/searchresults_norows.thtml { -->
 
 <p id="searchresults_norows">{no_rows_msg}</p>
 
-{# end {templatelocation} #}
+<!-- } search/searchresults_norows.thtml -->

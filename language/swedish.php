@@ -186,8 +186,7 @@ $LANG01 = array(
     139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
     'facebook' => 'Login with Facebook',
     'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn',
-    'ctl' => 'Clear Cache'
+    'linkedin' => 'Login with LinkedIn'
 );
 
 ###############################################################################
@@ -429,7 +428,7 @@ $LANG_MYACCOUNT = array(
 $LANG05 = array(
     1 => 'Det finns inga nyheter',
     2 => 'Det finns inga artiklar att visa.  Antingen finns det inga artiklar, eller så är dina artikelinställningar för restriktiva.',
-    3 => '',
+    3 => ' i ämnet %s',
     4 => 'Dagens huvudartikel',
     5 => 'Nästa',
     6 => 'Föregående',
@@ -676,18 +675,6 @@ $LANG12 = array(
 ###############################################################################
 
 ###############################################################################
-# admin/logviewer.php
-
-$LANG_LOGVIEW = array(
-    'log_viewer' => 'Log Viewer',
-    'info' => 'Geeklog log file administration.',
-    'logs' => 'Logs',
-    'view' => 'View Log File',
-    'clear' => 'Clear Log File',
-    'log_file' => 'Log File'
-);
-
-###############################################################################
 # admin/auth.inc.php
 
 $LANG20 = array(
@@ -931,8 +918,7 @@ $LANG27 = array(
     52 => 'Story',
     53 => 'Image',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home',
-    'autotag_desc_topic' => '[topic: id alternate title] - Displays a link to a topic using the ID as the title. An alternate title may be specified but is not required.'
+    'breadcrumb_root' => 'Home'
 );
 
 ###############################################################################
@@ -1345,14 +1331,8 @@ $MESSAGE = array(
     113 => 'Your account has been created successfully. {site_url}',
     114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
     115 => 'Remote service has been disabled.',
-    116 => 'Loading...',
-    117 => 'Help page is not found.',
-    118 => 'Click to select a date',
-    119 => 'More..',
-    120 => 'Send this?',
     400 => 'Not all required fields have been passed validation',
-    401 => 'Please enter Fullname',
-    500 => 'The Template Cache has been successfully cleared.'
+    401 => 'Please enter Fullname'
 );
 
 ###############################################################################
@@ -1483,8 +1463,7 @@ $LANG_BUTTONS = array(
 $LANG_404 = array(
     1 => '404 Error',
     2 => 'Jösses,  jag har letat överallt, men jag kan inte hitta <b>%s</b>.',
-    3 => "<p>Vi beklagar, men filen du söker existerar inte.  Leta gärna på vår <a href=\"{$_CONF['site_url']}\">förstasida</a> eller använd <a href=\"{$_CONF['site_url']}/search.php\">söksidan</a> för att försöka lokalisera det du söker.",
-    4 => "<p>We're sorry, but the page you have requested does not exist. We recommend going back to this <a href=\"%s\">related page</a>, or you may want to check the <a href=\"{$_CONF['site_url']}/\">home page</a>, or the <a href=\"{$_CONF['site_url']}/search.php\">search page</a> to see if you can find what you lost."
+    3 => "<p>Vi beklagar, men filen du söker existerar inte.  Leta gärna på vår <a href=\"{$_CONF['site_url']}\">förstasida</a> eller använd <a href=\"{$_CONF['site_url']}/search.php\">söksidan</a> för att försöka lokalisera det du söker."
 );
 
 ###############################################################################
@@ -1836,7 +1815,6 @@ $LANG_confignames['Core'] = array(
     'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => 'Menu Elements',
     'path_themes' => 'Themes Path',
-    'cache_templates' => 'Cache Templates?',
     'disable_new_user_registration' => 'Disable New Registrations',
     'allow_user_themes' => 'Allow User Themes',
     'allow_user_language' => 'Allow User Language',
@@ -1961,7 +1939,6 @@ $LANG_confignames['Core'] = array(
     'aftersave_user' => 'After Saving User',
     'show_right_blocks' => 'Always Show Right Blocks?',
     'showfirstasfeatured' => 'Show First Story as Featured?',
-    'template_comments' => 'Template Comments in Output?',
     'backend' => 'Enable Feeds?',
     'rdf_file' => 'Syndication Output Folder',
     'rdf_limit' => 'Feed Limit',
@@ -1996,7 +1973,6 @@ $LANG_confignames['Core'] = array(
     'commentspeedlimit' => 'Comment Speed Limit',
     'comment_limit' => 'Comment Limit',
     'comment_mode' => 'Comment Mode',
-    'comment_order' => 'Comment Order',
     'comment_code' => 'Comment Default',
     'comment_edit' => 'Allow Comment Edit?',
     'comment_edittime' => 'Comment Edit Time (seconds)',
@@ -2189,8 +2165,7 @@ $LANG_configselects['Core'] = array(
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
     28 => array('No access' => 0, 'Use' => 2),
     29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
-    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none'),
-    31 => array('Newest First' => 'DESC', 'Oldest First' => 'ASC')
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
 );
 
 ###############################################################################

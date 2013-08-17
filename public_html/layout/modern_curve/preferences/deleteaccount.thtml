@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- preferences/deleteaccount.thtml { -->
 
 <dl class="notes">
   <dt>{lang_deleteaccount}</dt>
@@ -14,4 +15,4 @@
   </dd>
 </dl>
 
-{# end {templatelocation} #}
+<!-- } preferences/deleteaccount.thtml -->

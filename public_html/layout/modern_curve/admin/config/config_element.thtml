@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/config/config_element.thtml { -->
 
 <!-- BEGIN validation_error_block -->
 <div class="validation_error_block"><span></span>{validation_error_message}</div>
@@ -76,4 +77,4 @@
 </td></tr>
 <!-- END unkeyed-add-button -->
 
-{# end {templatelocation} #}
+<!-- } admin/config/config_element.thtml -->

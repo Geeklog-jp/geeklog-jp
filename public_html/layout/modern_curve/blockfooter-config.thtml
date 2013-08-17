@@ -1,7 +1,7 @@
-{# begin {templatelocation} #}
+<!-- blockfooter-config.thtml { -->
 
     </ul>
   </div>
 </div>
 
-{# end {templatelocation} #}
+<!-- } blockfooter-config.thtml -->

@@ -1,8 +1,9 @@
-{# begin {templatelocation} #}
+
+<!-- stats/singlesummary.thtml { -->
 
     <tr>
       <th>{item_text}</th>
       <td>{item_stat}</td>
     </tr>
 
-{# end {templatelocation} #}
+<!-- } stats/singlesummary.thtml -->

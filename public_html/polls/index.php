@@ -45,7 +45,7 @@
 require_once '../lib-common.php';
 
 if (!in_array('polls', $_PLUGINS)) {
-    COM_handle404();
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
 
@@ -167,7 +167,8 @@ if (empty($pid)) {
     $polltopic = $A['topic'];
     if (empty($polltopic)) {
         // poll doesn't exist or user doesn't have access
-        COM_handle404($_CONF['site_url'] . '/polls/index.php');
+        $display .= COM_showMessageText(sprintf($LANG25[12], $pid));
+        $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_POLLS['pollstitle']));
     } else {
         // Meta Tags
         $headercode = '';
@@ -181,7 +182,11 @@ if (empty($pid)) {
             $display .= COM_showMessage($msg, 'polls');
         }
         if (isset($_POST['aid'])) {
-            $display .= COM_showMessageText($LANG_POLLS['answer_all'] . ' "' . $polltopic . '"', $LANG_POLLS['not_saved']);
+            $display .= COM_startBlock (
+                    $LANG_POLLS['not_saved'], '',
+                    COM_getBlockTemplate ('_msg_block', 'header'))
+                . $LANG_POLLS['answer_all'] . ' "' . $polltopic . '"'
+                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
         }
         if (DB_getItem($_TABLES['polltopics'], 'is_open', "pid = '$pid'") != 1) {
             $aid = -1; // poll closed - show result
