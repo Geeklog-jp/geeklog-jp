@@ -1,5 +1,3 @@
-{# begin {templatelocation} #}        
-        
         <tr class="pluginRow{cssidb}">
             <td class="poll_answer_text" style="width:20%">{answer_text}</td>
             <td class="poll_answer_bar">
@@ -11,5 +9,3 @@
                 {remark_text}
             </td>
         </tr>
-        
-{# end {templatelocation} #}

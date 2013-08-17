@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/lists/searchmenu.thtml { -->
 
 <form action="{form_url}" method="post" class="admin-topmenu basic">
   <fieldset>
@@ -35,4 +36,4 @@
   </fieldset>
 </form>
 
-{# end {templatelocation} #}
+<!-- } admin/lists/searchmenu.thtml -->

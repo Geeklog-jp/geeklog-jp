@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- navbar/navbar.thtml { -->
 
 <div id="navcontainer">
   <ul id="navlist" class="clearfix">
@@ -7,4 +8,4 @@
 </div>
 <div class="clearboth"></div>
 
-{# end {templatelocation} #}
+<!-- } navbar/navbar.thtml -->

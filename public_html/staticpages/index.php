@@ -44,7 +44,7 @@
 require_once '../lib-common.php';
 
 if (!in_array('staticpages', $_PLUGINS)) {
-    COM_handle404();
+    echo COM_refresh($_CONF['site_url'] . '/index.php');
     exit;
 }
 

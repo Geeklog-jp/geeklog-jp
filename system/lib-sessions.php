@@ -89,6 +89,12 @@ function SESS_sessionCheck()
     $logged_in = 0;
     $userdata = Array();
 
+    // for cellular phones which has no Cookies.
+    if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+        $_COOKIE[$_CONF['cookie_session']] = CUSTOM_MOBILE_load_session();
+        CUSTOM_MOBILE_debug("cookie_session in SESS_sessionCheck: " . $_COOKIE[$_CONF['cookie_session']]);
+    }
+
     // Check for a cookie on the users's machine.  If the cookie exists, build
     // an array of the users info and setup the theme.
 
@@ -368,8 +374,16 @@ function SESS_newSession($userid, $remote_ip, $lifespan, $md5_based=0)
         if ($_SESS_VERBOSE) COM_errorLog("Assigned the following session id: $sessid",1);
         if ($_SESS_VERBOSE) COM_errorLog("*************leaving SESS_newSession*****************",1);
         if ($md5_based == 1) {
+            // Cellular phones IP address is changed frequently. So, seve it.
+            if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+                CUSTOM_MOBILE_save_session($md5_sessid, $remote_ip);
+            }
             return $md5_sessid;
         } else {
+            // Cellular phones IP address is changed frequently. So, save it.
+            if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+                CUSTOM_MOBILE_save_session($sessid, $remote_ip);
+            }
             return $sessid;
         }
     } else {
@@ -432,6 +446,13 @@ function SESS_getUserIdFromSession($sessid, $cookietime, $remote_ip, $md5_based=
     }
 
     $mintime = time() - $cookietime;
+
+    // Cellular phones IP address is changed frequently. So, load saived one.
+    if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+        CUSTOM_MOBILE_debug("remote_ip: $remote_ip");
+        $remote_ip = CUSTOM_MOBILE_load_ip();
+        CUSTOM_MOBILE_debug("remote_ip from mobile session: $remote_ip");
+    }
 
     if ($md5_based == 1) {
         $sql = "SELECT uid FROM {$_TABLES['sessions']} WHERE "
@@ -503,6 +524,11 @@ function SESS_endUserSession($userid)
 
     DB_delete($_TABLES['sessions'], 'uid', $userid);
 
+    // for cellular phones which has no Cookies.
+    if( function_exists( 'CUSTOM_MOBILE_is_cellular' ) && CUSTOM_MOBILE_is_cellular()) {
+        CUSTOM_MOBILE_remove_session($sessid);
+    }
+
     return 1;
 }
 
@@ -564,28 +590,6 @@ function SESS_getUserDataFromId($userid)
     return $myrow;
 }
 
-
-/**
-* Gets the Session ID from the User Id
-*
-* Returns the session id associated with the user if available.
-* This is not for anonymous users. If no match found, returns an empty string.
-*
-* @param        int      $uid         User Id to retrieve session Id for
-* @return       string                Session ID
-*/
-function SESS_getSessionIdFromUserId($uid)
-{
-    global $_TABLES;
-
-    $retval = '';
-    if ($uid > 1) {
-        $retval = DB_getItem($_TABLES['sessions'], "sess_id", "uid = $uid");
-    }
-
-    return $retval;   
-}
-
 /**
 * Retrieves a session variable from the db
 *
@@ -615,17 +619,14 @@ function SESS_getVariable($variable)
 *
 * @param        string      $variable   Variable name to update
 * @param        string      $value      Value of variable
-* @param        string      $session_id Session ID of variable to update (0 = current session)
 * @return       boolean     always true for some reason
 *
 */
-function SESS_setVariable($variable, $value, $session_id = 0)
+function SESS_setVariable($variable, $value)
 {
     global $_TABLES, $_CONF, $_USER;
     
-    if ($session_id == 0) {
-        $session_id = $_USER['session_id'];
-    }
+    $session_id = $_USER['session_id'];
 
     if ( $_CONF['cookie_ip'] == 1) { // $md5_based  Indicates if sessid is MD5 hash
         $sql = "UPDATE {$_TABLES['sessions']} SET $variable = '$value' WHERE (md5_sess_id = '$session_id')";

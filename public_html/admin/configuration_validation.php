@@ -199,15 +199,6 @@ $_CONF_VALIDATE['Core']['onlyrootfeatures'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['aftersave_story'] = array(
     'rule' => array('inList', array('admin', 'home', 'list', 'item'), true)
 );
-$_CONF_VALIDATE['Core']['related_topics'] = array(
-    'rule' => array('inList', array(0, 1, 2), false)
-);
-$_CONF_VALIDATE['Core']['related_topics_max'] = array('rule' => 'numeric');
-$_CONF_VALIDATE['Core']['whats_related'] = array(
-    'rule' => array('inList', array(0, 1, 2, 3), false)
-);    
-$_CONF_VALIDATE['Core']['whats_related_max'] = array('rule' => 'numeric');
-$_CONF_VALIDATE['Core']['whats_related_trim'] = array('rule' => 'numeric');
 
 /* Subgroup Stories and Trackback, Tab Trackback */
 $_CONF_VALIDATE['Core']['trackback_enabled'] = array('rule' => 'boolean');
@@ -246,12 +237,10 @@ $_CONF_VALIDATE['Core']['path_themes'] = array(
     'message' => isset($LANG_VALIDATION['path_themes']) ? 
                  $LANG_VALIDATION['path_themes'] : $LANG_VALIDATION['default']
 );
-$_CONF_VALIDATE['Core']['cache_templates'] = array('rule' => 'boolean');
 
 /* Subgroup Theme, Tab Advanced Settings */
 $_CONF_VALIDATE['Core']['show_right_blocks'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['showfirstasfeatured'] = array('rule' => 'boolean');
-$_CONF_VALIDATE['Core']['template_comments'] = array('rule' => 'boolean');
 
 /* Subgroup Blocks, Tab Admin Block */
 $_CONF_VALIDATE['Core']['sort_admin'] = array('rule' => 'boolean');
@@ -278,11 +267,11 @@ $_CONF_VALIDATE['Core']['hidenewcomments'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['hidenewtrackbacks'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['hidenewplugins'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['title_trim_length'] = array('rule' => 'numeric');
-$_CONF_VALIDATE['Core']['whatsnew_cache_time'] = array('rule' => 'numeric');
 
 /* Subgroup Users and Submissions, Tab Users */
 $_CONF_VALIDATE['Core']['disable_new_user_registration'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_user_themes'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['allow_user_language'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_user_photo'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_username_change'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_account_delete'] = array('rule' => 'boolean');
@@ -356,9 +345,6 @@ $_CONF_VALIDATE['Core']['comment_limit'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['comment_mode'] = array(
     'rule' => array('inList', array('flat', 'nested', 'nocomment', 'threaded'), true)
 );
-$_CONF_VALIDATE['Core']['comment_order'] = array(
-    'rule' => array('inList', array('DESC', 'ASC'), true)
-);
 $_CONF_VALIDATE['Core']['comment_code'] = array(
     'rule' => array('inList', array(0, -1), false)
 );
@@ -422,7 +408,6 @@ $_CONF_VALIDATE['Core']['language'] = array(
     'message' => isset($LANG_VALIDATION['language']) ? 
                  $LANG_VALIDATION['language'] : $LANG_VALIDATION['default']
 );
-$_CONF_VALIDATE['Core']['allow_user_language'] = array('rule' => 'boolean');
 
 /* Subgroup Language, Tab Locale */
 $_CONF_VALIDATE['Core']['locale']     = array('rule' => 'stringOrEmpty');

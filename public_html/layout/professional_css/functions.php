@@ -46,8 +46,7 @@ function theme_config_professional_css()
 {
     return array(
         'image_type' => 'png',
-        'doctype' => 'xhtml10strict', 
-        'supported_version_theme' => '2.0.0' // support new theme format for the later Geeklog 2.0.0
+        'doctype' => 'xhtml10strict'
     );
 }
 
@@ -57,10 +56,8 @@ function theme_config_professional_css()
 function theme_css_professional_css()
 {
     global $_CONF, $LANG_DIRECTION;
-    
     return array(
         array(
-            'name' => 'theme',
             'file' => '/layout/' . $_CONF['theme'] . '/style.css'
         )
     );
@@ -72,10 +69,7 @@ function theme_css_professional_css()
 function theme_js_libs_professional_css()
 {
     return array(
-       array(
-            'library'  => 'jquery',
-            'footer' => true // Not requred, default = true
-        )
+        'jquery'
     );
 }
 
@@ -85,17 +79,10 @@ function theme_js_libs_professional_css()
 function theme_js_files_professional_css()
 {
     global $_CONF;
-    
     return array(
-       array(
-            'file'      => '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js',
-            'footer'    => true, // Not requred, default = true
-            'priority'  => 100 // Not requred, default = 100
-        ),
-        array(
-            'file'     => '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
-        )        
-    );    
+        '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
+        '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js'
+    );
 }
 
 /**
@@ -104,6 +91,8 @@ function theme_js_files_professional_css()
 function theme_init_professional_css()
 {
     global $_BLOCK_TEMPLATE, $_CONF;
+
+    $_CONF['supported_version_theme'] = '2.0.0'; // support new theme format for the later Geeklog 2.0
 
     /*
      * For left/right block support there is no longer any need for the theme to

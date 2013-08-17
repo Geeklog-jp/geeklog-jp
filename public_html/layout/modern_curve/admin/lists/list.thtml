@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/lists/list.thtml { -->
 
 {search_menu}
 
@@ -25,4 +26,4 @@
 
 {google_paging}
 
-{# end {templatelocation} #}
+<!-- } admin/lists/list.thtml -->

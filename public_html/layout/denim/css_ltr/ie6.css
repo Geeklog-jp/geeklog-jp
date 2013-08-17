@@ -146,12 +146,12 @@ pre {
 --------------------------------------*/
 
 /* Title */
-.block-message dt {
+#block-message dt {
   border: 1px solid #32567B;
 }
 
 /* Message */
-.block-message dd {
+#block-message dd {
   font-weight: bold;
   border-bottom: 1px solid #BEBEBE;
   border-left:   1px solid #BEBEBE;
@@ -329,7 +329,7 @@ input.search {
   Moderation Page
 --------------------------------------*/
 
-.admin-commandcontrol:after {
+#admin-moderation:after {
   content: ".";
   display: block;
   height: 0;
@@ -337,12 +337,12 @@ input.search {
   visibility: hidden;
 }
 
-.admin-commandcontrol {
+#admin-moderation {
   overflow: auto;
   width: 100%;
 }
 
-.admin-commandcontrol li {
+#admin-moderation li {
   width: 12.48%;
 }
 
@@ -469,7 +469,7 @@ select.opt {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 16.61%;
 	}
 }
@@ -491,7 +491,7 @@ select.opt {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 19.98%;
 	}
 }
@@ -549,7 +549,7 @@ select.opt {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 24.94%;
 	}
 
@@ -605,7 +605,7 @@ select.opt {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 33.24%;
 	}
 }

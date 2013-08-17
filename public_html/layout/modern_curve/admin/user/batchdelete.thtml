@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- admin/user/batchdelete.thtml { -->
 
 <p>{lang_instruction}</p>
 
@@ -24,4 +25,4 @@
   </fieldset>
 </form>
 
-{# end {templatelocation} #}
+<!-- } admin/user/batchdelete.thtml -->

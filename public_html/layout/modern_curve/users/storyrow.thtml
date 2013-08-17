@@ -1,5 +1,6 @@
-{# begin {templatelocation} #}
+
+<!-- users/storyrow.thtml { -->
 
 <p class="storyrow">{row_number}{story_title}{story_date}</p>
 
-{# end {templatelocation} #}
+<!-- } users/storyrow.thtml -->

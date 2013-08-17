@@ -1,4 +1,5 @@
-{# begin {templatelocation} #}
+
+<!-- preferences/displayprefs.thtml { -->
 
 <div id="pe_layout" class="jsenabled_hide">
   {display_block}
@@ -15,4 +16,4 @@
   {privacy_block}
 </div>
 
-{# end {templatelocation} #}
+<!-- } preferences/displayprefs.thtml -->

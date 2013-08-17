@@ -1,5 +1,6 @@
-{# begin {templatelocation} #}
+
+<!-- admin/lists/header.thtml { -->
 
 <th class="{class}"{th_subtags}>{header_text}</th>
 
-{# end {templatelocation} #}
+<!-- } admin/lists/header.thtml -->

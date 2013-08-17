@@ -35,7 +35,7 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'lib-mbyte.php') !== false) {
 
 // This function is supposed to display only language files in selection drop-
 // downs that are utf-8
-function MBYTE_languageList ($charset = 'utf-8', $multilanguage = false)
+function MBYTE_languageList ($charset = 'utf-8')
 {
     global $_CONF;
 
@@ -73,14 +73,7 @@ function MBYTE_languageList ($charset = 'utf-8', $multilanguage = false)
                 }
                 $lngname .= ' (' . trim ($lngadd) . ')';
             }
-            // Multi language content
-            if ($multilanguage) {
-                if (in_array($file,$_CONF['language_files'])) {
-                    $language[$file] = $lngname;
-                }
-            } else {
-                $language[$file] = $lngname;
-            }
+            $language[$file] = $lngname;
         }
     }
     asort ($language);

@@ -940,8 +940,8 @@ function PLGINT_getOptionsforMenus($var_names, $required_names, $function_name)
 */
 function PLG_getCCOptions()
 {
-    $var_names = array('adminlabel', 'adminurl', 'plugin_image', 'admingroup');
-    $required_names = array(true, true, true, false);
+    $var_names = array('adminlabel', 'adminurl', 'plugin_image');
+    $required_names = array(true, true, true);
     $function_name = 'plugin_cclabel_';
     $plgresults = PLGINT_getOptionsforMenus($var_names, $required_names, $function_name);
 
@@ -973,8 +973,8 @@ function PLG_getCCOptions()
 */
 function PLG_getAdminOptions()
 {
-    $var_names = array('adminlabel', 'adminurl', 'numsubmissions', 'admingroup');
-    $required_names = array(true, true, false, false);
+    $var_names = array('adminlabel', 'adminurl', 'numsubmissions');
+    $required_names = array(true, true, false);
     $function_name = 'plugin_getadminoption_';
     $plgresults = PLGINT_getOptionsforMenus($var_names, $required_names, $function_name);
 
@@ -1274,9 +1274,7 @@ function PLG_userInfoChanged($uid)
 {
     global $_PLUGINS;
 
-    $all_plugins = array_merge($_PLUGINS, array('topic'));
-    
-    foreach ($all_plugins as $pi_name) {       
+    foreach ($_PLUGINS as $pi_name) {
         $function = 'plugin_user_changed_' . $pi_name;
         if (function_exists($function)) {
             $function($uid);
@@ -1568,9 +1566,9 @@ function PLG_collectTags($type = 'tagname')
     }
 
     // ensure that we're picking up the Core autotags
+
     require_once $_CONF['path_system'] . 'lib-story.php';
     require_once $_CONF['path_system'] . 'lib-user.php';
-    require_once $_CONF['path_system'] . 'lib-topic.php';
 
     if (! is_array($_PLUGINS)) {
         /** as a side effect of parsing autotags in templates, we may end
@@ -1579,7 +1577,7 @@ function PLG_collectTags($type = 'tagname')
          */
         $_PLUGINS = array();
     }
-    $all_plugins = array_merge($_PLUGINS, array('story', 'user', 'topic'));
+    $all_plugins = array_merge($_PLUGINS, array('story', 'user'));
     
     $autolinkModules = array();
 
@@ -2018,46 +2016,6 @@ function PLG_feedUpdateCheck($plugin, $feed, $topic, $update_data, $limit, $upda
 }
 
 /**
-* Ask plugins if they want to add something to Geeklog's Related Items list.
-*
-* @return   array   A list of clickable links with the key being the timestamp
-*
-*/
-function PLG_getRelatedItems($types, $tids, $max, $trim)
-{
-    global $_PLUGINS, $_CONF;
-
-    $relateditems =  array();
-    $returneditems =  array();
-    
-    $args[1] = $tids;
-    $args[2] = $max;
-    $args[3] = $trim;
-    
-    if (in_array('article', $types) || in_array('story', $types) || empty($types)) {
-        require_once $_CONF['path_system'] . 'lib-story.php';
-        $returneditems = plugin_getrelateditems_story($tids, $max, $trim);
-    }      
-
-    foreach ($_PLUGINS as $pi_name) {
-        // If no types (plugins) passed then assume all
-        if (empty($types) OR in_array($pi_name, $types)) {
-            $relateditems = PLG_callFunctionForOnePlugin('plugin_getrelateditems_' . $pi_name, $args); 
-            if (is_array($relateditems)) {
-                $returneditems = $returneditems + $relateditems;
-            }            
-        }
-    }
-    
-    $relateditems = PLG_callFunctionForOnePlugin('CUSTOM_getrelateditems', $args); 
-    if (is_array($relateditems)) {
-        $returneditems = $returneditems + $relateditems;
-    }     
-
-    return $returneditems;
-}
-
-/**
 * Ask plugins if they want to add something to Geeklog's What's New block.
 *
 * @return   array   array($headlines[], $bylines[], $content[$entries[]])
@@ -2388,82 +2346,6 @@ function PLG_runScheduledTask()
 }
 
 /**
-* "Generic" plugin API: Save submission
-*
-* Called whenever Geeklog saves a submission into the database.
-* Plugins can define their own 'submissionsaved' function to be notified whenever
-* an submission is saved.
-*
-* @param    string  $type   type of the item, e.g. 'article'
-*
-*/
-function PLG_submissionSaved($type)
-{
-    global $_CONF, $_PLUGINS;
-    
-    $t = explode('.', $type);
-    $plg_type = $t[0];    
-    
-    // Treat template system like a plugin (since belong to core group)
-    $plugintypes[] = 'template';
-    require_once $_CONF['path_system'] . 'lib-template.php';
-
-    $plugintypes = array_merge($plugintypes, $_PLUGINS);
-
-    foreach ($plugintypes as $pi_name) {
-        if ($pi_name != $plg_type) {
-            $function = 'plugin_submissionsaved_' . $pi_name;
-            if (function_exists($function)) {
-                $function($type);
-            }
-        }
-    }
-
-    if (function_exists('CUSTOM_submissionsaved')) {
-        CUSTOM_itemsaved($type);
-    }
-
-    return false; // for backward compatibility
-}
-
-/**
-* "Generic" plugin API: Delete submission
-*
-* Called whenever Geeklog removes a submission from the database.
-* Plugins can define their own 'submissiondeleted' function to be notified whenever
-* an submission is deleted.
-*
-* @param    string  $type   type of the item, e.g. 'article'
-*
-*/
-function PLG_submissionDeleted($type)
-{
-    global $_CONF, $_PLUGINS;
-
-    $t = explode('.', $type);
-    $plg_type = $t[0];
-    
-    // Treat template system like a plugin (since belong to core group)
-    $plugintypes[] = 'template';
-    require_once $_CONF['path_system'] . 'lib-template.php';
-
-    $plugintypes = array_merge($plugintypes, $_PLUGINS);
-
-    foreach ($plugintypes as $pi_name) {
-        if ($pi_name != $plg_type) {
-            $function = 'plugin_submissiondeleted_' . $pi_name;
-            if (function_exists($function)) {
-                $function($type);
-            }
-        }
-    }    
-
-    if (function_exists('CUSTOM_submissiondeleted')) {
-        CUSTOM_itemdeleted($type);
-    }
-}
-
-/**
 * "Generic" plugin API: Save item
 *
 * To be called (eventually) whenever Geeklog saves an item into the database.
@@ -2481,20 +2363,15 @@ function PLG_submissionDeleted($type)
 */
 function PLG_itemSaved($id, $type, $old_id = '')
 {
-    global $_CONF, $_PLUGINS;
-    
+    global $_PLUGINS;
+
     $t = explode('.', $type);
-    $plg_type = $t[0];    
-    
-    // Treat template system like a plugin (since belong to core group)
-    $plugintypes[] = 'template';
-    require_once $_CONF['path_system'] . 'lib-template.php';
+    $plg_type = $t[0];
 
-    $plugintypes = array_merge($plugintypes, $_PLUGINS);
-
-    foreach ($plugintypes as $pi_name) {
-        if ($pi_name != $plg_type) {
-            $function = 'plugin_itemsaved_' . $pi_name;
+    $plugins = count($_PLUGINS);
+    for ($save = 0; $save < $plugins; $save++) {
+        if ($_PLUGINS[$save] != $plg_type) {
+            $function = 'plugin_itemsaved_' . $_PLUGINS[$save];
             if (function_exists($function)) {
                 $function($id, $type, $old_id);
             }
@@ -2523,25 +2400,20 @@ function PLG_itemSaved($id, $type, $old_id = '')
 */
 function PLG_itemDeleted($id, $type)
 {
-    global $_CONF, $_PLUGINS;
+    global $_PLUGINS;
 
     $t = explode('.', $type);
     $plg_type = $t[0];
-    
-    // Treat template system like a plugin (since belong to core group)
-    $plugintypes[] = 'template';
-    require_once $_CONF['path_system'] . 'lib-template.php';
 
-    $plugintypes = array_merge($plugintypes, $_PLUGINS);
-
-    foreach ($plugintypes as $pi_name) {
-        if ($pi_name != $plg_type) {
-            $function = 'plugin_itemdeleted_' . $pi_name;
+    $plugins = count($_PLUGINS);
+    for ($del = 0; $del < $plugins; $del++) {
+        if ($_PLUGINS[$del] != $plg_type) {
+            $function = 'plugin_itemdeleted_' . $_PLUGINS[$del];
             if (function_exists($function)) {
                 $function($id, $type);
             }
         }
-    }    
+    }
 
     if (function_exists('CUSTOM_itemdeleted')) {
         CUSTOM_itemdeleted($id, $type);
@@ -2890,18 +2762,9 @@ function PLG_afterSaveSwitch($target, $item_url, $plugin, $message = '')
 */
 function PLG_configChange($group, $changes)
 {
-    global $_CONF, $_PLUGINS;
+    global $_PLUGINS;
 
-    // Treat articles like a plugin (since belong to core group)
-    $plugintypes[] = 'article';
-    require_once $_CONF['path_system'] . 'lib-story.php';
-    // Treat template system like a plugin (since belong to core group)
-    $plugintypes[] = 'template';
-    require_once $_CONF['path_system'] . 'lib-template.php';
-
-    $plugintypes = array_merge($plugintypes, $_PLUGINS);
-
-    foreach ($plugintypes as $pi_name) {
+    foreach ($_PLUGINS as $pi_name) {
         $args = array();
         $args[1] = $group;
 

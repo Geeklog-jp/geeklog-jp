@@ -1,7 +1,8 @@
-{# begin {templatelocation} #}
+
+<!-- admin/user/reminder.thtml { -->
 
 <ul id="reminder-submit" class="submit">
   <li><input type="submit" name="mode" value="{action_reminder}" class="submit"{xhtml}>&nbsp;{lang_reminder}</li>
 </ul>
 
-{# end {templatelocation} #}
+<!-- } admin/user/reminder.thtml -->

@@ -1,5 +1,6 @@
-{# begin {templatelocation} #}
+
+<!-- lists/table/page_sort.thtml { -->
 
 <th class="admin-list-headerfield"{sort_subtags}>{sort_text}{sort_selected}</th>
 
-{# end {templatelocation} #}
+<!-- } lists/table/page_sort.thtml -->

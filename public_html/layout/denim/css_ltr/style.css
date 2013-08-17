@@ -1,3 +1,4 @@
+@charset "utf-8";
 
 body, div,
 p, blockquote, pre, code,
@@ -116,6 +117,15 @@ textarea {
   width: 75%;
   min-height: 60px;
 }
+
+/* Mac(in Form 2 byte font display as europe fonts) { */
+input,
+select,
+textarea {
+/*  font-family: arial,verdana,tahoma,helvetica,sans-serif; */
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;
+}
+/* } Mac */
 
 hr {
   height: 1px;
@@ -266,8 +276,7 @@ select {
   line-height: 28px;
 }
 
-select.multiple,
-select[multiple="multiple"] {
+select.multiple {
   height: auto;
 }
 
@@ -366,16 +375,6 @@ button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
   padding: 0;
-}
-
-a.button:link,
-a.button:visited {
-  color: #444;
-}
-
-a.button:hover {
-  color: #222;
-  text-decoration: none;
 }
 
 
@@ -818,7 +817,7 @@ a.pluginButton:hover {
   color: blue;
   text-align: center;
   padding-top: 2px;
-  background:center url(../images/navbar/button_over.gif);
+  background:center url(../navbar/images/button_over.gif);
   background-repeat: repeat-x;
   display: block;
   height: 19px;
@@ -866,7 +865,6 @@ a.pluginButton:hover {
 
 .wide {
   width: 98%;
-  resize: vertical;
 }
 
 .separator {
@@ -1380,20 +1378,20 @@ h4 img {
   System Message Block
 --------------------------------------*/
 
-.block-message {
+#block-message {
   margin: 1.5em 0;
   padding: 0;
   border-radius: 6px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.block-message dl {
+#block-message dl {
   margin: 0;
   padding: 0;
 }
 
 /* Title */
-.block-message dt {
+#block-message dt {
   margin: 0;
   padding: 4px 8px;
   background: #3E6C9A;
@@ -1405,7 +1403,7 @@ h4 img {
 }
 
 /* Message */
-.block-message dd {
+#block-message dd {
   margin: 0;
   padding: 8px 12px;
   background: #E7E7E7;
@@ -1416,7 +1414,7 @@ h4 img {
   border-radius: 0px 0px 6px 6px;
 }
 
-.block-message p {
+#block-message p {
   margin: 0.2em 0;
   line-height: 1.25;
 }
@@ -1497,20 +1495,6 @@ h4 img {
   margin: 0;
   padding: 0 5px;
   white-space: nowrap;
-}
-
-/* Group Label */
-#leftblocks .sideoption_group_label,
-#rightblocks .sideoption_group_label {
-  color: #630;
-  font-size: 103%;
-  height: 1.6em;
-  line-height: 1.6em;
-  overflow: hidden;
-  margin: 0;
-  padding: 0 5px;
-  white-space: nowrap;
-  border-bottom: 1px dotted #ccc;
 }
 
 #leftblocks .noliststyle,
@@ -1710,14 +1694,6 @@ div.third-party-login {
   line-height: 1.7em;
 }
 
-.story_introtext:after {
-  content: "";
-  display: block;
-  clear: both;
-  height: 1px;
-  overflow: hidden;
-}
-
 /* Topic Icon */
 .story_image {
   float: right; /* rtl */
@@ -1803,31 +1779,20 @@ div.third-party-login {
 .gl-tooltip span {
   margin-left: -999em;
   position: absolute;
-  text-align: left; /* rtl */
+  text-align: left;
   width: 250px;
 }
 .gl-tooltip:hover span {
-  border-radius: 8px;
-  -moz-border-radius: 8px;
-  -webkit-border-radius: 8px;
-  box-shadow: 2px 2px 8px #666;
-  -webkit-box-shadow: 2px 2px 8px #666;
-  -moz-box-shadow: 2px 2px 8px #666;
-  font-size: 1em;
-  text-align: left; /* rtl */
-  white-space:normal;
+  border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
+  box-shadow: 2px 2px 8px #666; -webkit-box-shadow: 2px 2px 8px #666; -moz-box-shadow: 2px 2px 8px #666;
+  font-size: 1em; text-align: left; white-space:normal;
   font-family: Calibri, Tahoma, Geneva, sans, sans-serif;
-  position: absolute;
-  left: 2.2em; /* rtl */
-  top: 2.2em;
-  z-index: 99;
+  position: absolute; left: 2.2em; top: 2.2em; z-index: 99;
   margin-left: 0; width: 250px;
 }
 .gl-tooltip:hover img.icon {
-  border: 0;
-  margin: -15px 0 0 -51px; /* rtl */
-  float: left;
-  position: absolute;
+  border: 0; margin: -15px 0 0 -51px;
+  float: left; position: absolute;
 }
 #gl-tooltip-icon {
   border: 0;
@@ -1837,7 +1802,7 @@ div.third-party-login {
   display: block; padding: 0.2em 0 0.6em 0.4em;
 }
 span.classic     { padding: 0.8em 1em; }
-span.custom      { padding: 0.5em 0.8em 0.8em 2em; } /* rtl */
+span.custom      { padding: 0.5em 0.8em 0.8em 2em; }
 span.classic     { background: #EEEEEC; border: 2px solid #555753; }
 span.critical    { background: #F5F0F0; border: 2px solid #A40000; }
 span.help        { background: #EDF0F2; border: 2px solid #204A87; }
@@ -1870,10 +1835,6 @@ span.warning  em { color: #CE5C00; }
 /*--------------------------------------
   Comment Block
 --------------------------------------*/
-
-#commentarea {
-  clear: both;
-}
 
 /* Comment Information (Story Title | Comment Number | Username) */
 .commentbar_status {
@@ -1921,7 +1882,7 @@ span.warning  em { color: #CE5C00; }
   margin: 0.5em 0 1em;
 }
 
-#commentpreview {
+#commentperview {
   margin:0;
   background:transparent;
   border:1px dashed grey;
@@ -1977,20 +1938,13 @@ span.warning  em { color: #CE5C00; }
 .level-0   { margin-left: 0; } /* rtl */
 .level-25  { margin-left: 16px; } /* rtl */
 .level-50  { margin-left: 32px; } /* rtl */
-.level-75  { margin-left: 48px; } /* rtl */
-.level-100 { margin-left: 64px; } /* rtl */
-.level-125 { margin-left: 80px; } /* rtl */
-.level-150 { margin-left: 96px; } /* rtl */
-.level-175 { margin-left: 112px; } /* rtl */
-.level-200 { margin-left: 128px; } /* rtl */
-.level-225 { margin-left: 144px; } /* rtl */
-.level-250 { margin-left: 160px; } /* rtl */
-.level-275 { margin-left: 176px; } /* rtl */
-.level-300 { margin-left: 192px; } /* rtl */
-.level-325 { margin-left: 208px; } /* rtl */
-.level-350 { margin-left: 224px; } /* rtl */
-.level-375 { margin-left: 240px; } /* rtl */
-.level-400 { margin-left: 256px; } /* rtl */
+.level-100 { margin-left: 48px; } /* rtl */
+.level-125 { margin-left: 64px; } /* rtl */
+.level-150 { margin-left: 80px; } /* rtl */
+.level-175 { margin-left: 96px; } /* rtl */
+.level-200 { margin-left: 112px; } /* rtl */
+.level-225 { margin-left: 128px; } /* rtl */
+.level-250 { margin-left: 144px; } /* rtl */
 
 /* Comment Information  */
 .comment_status {
@@ -2624,14 +2578,14 @@ dd#profile-user_photo {
   Moderation Page
 --------------------------------------*/
 
-.admin-commandcontrol {
+#admin-moderation {
   list-style-position: outside;
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.admin-commandcontrol li {
+#admin-moderation li {
   float: left; /* rtl */
   width: 12.5%;
   height: 8em;
@@ -2640,7 +2594,7 @@ dd#profile-user_photo {
   text-align: center;
 }
 
-.admin-commandcontrol a {
+#admin-moderation a {
   display: block;
   font-size: 90%;
   margin: 5px 0;
@@ -2719,13 +2673,6 @@ b.status_black {
   padding: 1em 0;
   border-top: 1px solid #CCC;
   border-bottom: none;
-}
-
-/* Story Stats */
-.story_stats {
-  display: inline-block;
-  float: left; /* rtl */
-  margin-right: 2em; /* rtl */
 }
 
 /*--------------------------------------
@@ -2919,48 +2866,6 @@ body.center-right #config_content {
   display: none;
 }
 
-/*--------------------------------------
-  Enviroment Check  
---------------------------------------*/
-
-.pathtext {
-  font-size:11px;
-  color:#666;
-}
-
-.pathtext-status {
-  text-align:right;
-  white-space:nowrap;
-}
-
-.yes, .iswriteable {
-  font-weight: bold;
-  color: #46882b;
-}
-.no, .notok, .notwriteable {
-  font-weight: bold;
-  color: #cc0000;
-}
-
-/* PHPInfo Panel style and button */
-#panel_phpinfo {
-  padding:5px;
-  width:600px;
-  margin: auto;
-  text-align:center;
-}
-#toggle_phpinfo {
-  padding:5px;
-  width:200px;
-  margin: auto;
-  text-align:center;
-  border:solid 1px #c3c3c3;
-}
-
-#panel_phpinfo {
-  padding:50px;
-  display:none;
-}
 
 /***************************************************************************************************/
 /* Note: If you want to disable the Responsive Web Design, please delete the code below this line. */
@@ -3078,7 +2983,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 16.66%;
 	}
 
@@ -3304,7 +3209,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 20%;
 	}
 
@@ -3362,7 +3267,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 25%;
 	}
 
@@ -3714,13 +3619,6 @@ body.center-right #config_content {
 	  -webkit-border-bottom-right-radius: 8px;
 	}
 
-	/* Group Label */
-	#leftblocks .sideoption_group_label,
-	#rightblocks .sideoption_group_label {
-	  font-size: 16px;
-	  border: none;
-	}
-
 	#save_button,
 	.submit {
 	  text-align: center;
@@ -3863,7 +3761,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	.admin-commandcontrol li {
+	#admin-moderation li {
 	  width: 33.33%;
 	}
 }

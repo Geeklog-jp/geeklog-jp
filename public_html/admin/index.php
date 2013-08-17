@@ -21,51 +21,15 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #
 ###############################################################################
+//
+// $Id: index.php,v 1.9 2006/10/01 19:13:37 dhaun Exp $
 
-/**
-* Geeklog common function library
-*/
-require_once '../lib-common.php';
-
-/**
-* Security check to ensure user even belongs on this page
-*/
-require_once 'auth.inc.php';
+require_once('../lib-common.php');
 
 // MAIN
 if (isset ($_GET['mode']) && ($_GET['mode'] == 'logout')) {
     print COM_refresh($_CONF['site_url'] . '/users.php?mode=logout');
 }
-
-/**
-* Display a reminder to execute the security check script
-*
-* @return   string      HTML for security reminder (or empty string)
-*/
-function security_check_reminder()
-{
-    global $_CONF, $_TABLES, $_IMAGE_TYPE, $MESSAGE;
-
-    $retval = '';
-
-    if (!SEC_inGroup ('Root')) {
-        return $retval;
-    }
-
-    $done = DB_getItem ($_TABLES['vars'], 'value', "name = 'security_check'");
-    if ($done != 1) {
-        $retval .= COM_showMessage(92);
-    }
-
-    return $retval;
-}
-
-$display = COM_showMessageFromParameter()
-         .  security_check_reminder()
-         .  COM_commandControl();
-
-$display = COM_createHTMLDocument($display, array('pagetitle' => $LANG29[34]));
-
-COM_output($display);
+print COM_refresh($_CONF['site_admin_url'] . '/moderation.php');
 
 ?>
