@@ -66,10 +66,10 @@ $_CA_DEFAULT['hidecalendarmenu']    = 0;
 $_CA_DEFAULT['personalcalendars']     = 1;
 $_CA_DEFAULT['showupcomingevents']    = 1;
 $_CA_DEFAULT['upcomingeventsrange']   = 14; // days
-$_CA_DEFAULT['event_types']           = "記念日,約束,誕生日,打ち合わせ,"
-                                    ."セミナー,休日,会議,用事,"
-                                    ."個人の用事,電話,特別な行事,"
-                                    ."旅行,休暇";
+$_CA_DEFAULT['event_types']           = "Anniversary,Appointment,Birthday,Business,"
+                                    ."Education,Holiday,Meeting,Miscellaneous,"
+                                    ."Personal,Phone Call,Special Occasion,"
+                                    ."Travel,Vacation";
 
 // Whether to use 12 hour (am/pm) or 24 hour mode
 $_CA_DEFAULT['hour_mode'] = 12; // 12 hour am/pm or 24 hour format

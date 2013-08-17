@@ -218,9 +218,9 @@ if ($_CONF['trackback_enabled'] || $_CONF['pingback_enabled']) {
         $display .= ADMIN_simpleList("", $header_arr, $text_arr, $data_arr);
 
     } else {
-        $display .= COM_startBlock ($LANG10[25]);
+        $display .= COM_startBlock($LANG10[25]);
         $display .= $LANG10[26];
-        $display .= COM_endBlock ();
+        $display .= COM_endBlock();
     }
 }
 

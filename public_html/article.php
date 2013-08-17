@@ -110,8 +110,7 @@ if (empty ($sid) && !empty ($_POST['cmt_sid'])) {
     $sid = COM_applyFilter ($_POST['cmt_sid']);
 }
 if (empty ($sid)) {
-    echo COM_refresh ($_CONF['site_url'] . '/index.php');
-    exit();
+    COM_handle404();
 }
 
 // Get topic
@@ -151,13 +150,10 @@ if ($A['count'] > 0) {
     }
 
     if ($output == STORY_PERMISSION_DENIED) {
-        $display = COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                 . $LANG_ACCESS['storydenialmsg']
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display = COM_showMessageText($LANG_ACCESS['storydenialmsg'], $LANG_ACCESS['accessdenied']);
         $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG_ACCESS['accessdenied']));
     } elseif ( $output == STORY_INVALID_SID ) {
-        $display .= COM_refresh($_CONF['site_url'] . '/index.php');
+        COM_handle404();
     } elseif (($mode == 'print') && ($_CONF['hideprintericon'] == 0)) {
         $story_template = COM_newTemplate($_CONF['path_layout'] . 'article');
         $story_template->set_file('article', 'printable.thtml');
@@ -289,8 +285,6 @@ if ($A['count'] > 0) {
 
         $story_template = COM_newTemplate($_CONF['path_layout'] . 'article');
         $story_template->set_file('article','article.thtml');
-        
-        $story_template->postprocess_fn = 'PLG_replaceTags';
  
         $story_template->set_var('story_id', $story->getSid());
         $story_template->set_var('story_title', $pagetitle);
@@ -362,7 +356,7 @@ if ($A['count'] > 0) {
     */
         $related = STORY_whatsRelated($story->displayElements('related'),
                                       $story->displayElements('uid'),
-                                      $story->displayElements('tid'));
+                                      $story->getSid());
         if (!empty ($related)) {
             $related = COM_startBlock ($LANG11[1], '',
                 COM_getBlockTemplate ('whats_related_block', 'header'))
@@ -450,7 +444,7 @@ if ($A['count'] > 0) {
         $display = COM_createHTMLDocument($display, array('pagetitle' => $pagetitle, 'breadcrumbs' => $breadcrumbs, 'headercode' => $headercode));
     }
 } else {
-    $display .= COM_refresh($_CONF['site_url'] . '/index.php');
+    COM_handle404();  
 }
 
 COM_output($display);

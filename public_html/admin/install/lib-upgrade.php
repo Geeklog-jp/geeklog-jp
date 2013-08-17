@@ -49,10 +49,6 @@ function INST_doDatabaseUpgrades($current_gl_version)
 
     $_DB->setDisplayError(true);
 
-    // Disable incompatible plugins beforehand to prevent an error
-    require_once 'disable-plugins.php';
-    GEEKLOGJP_disablePlugins();
-
     // Because the upgrade sql syntax can vary from dbms-to-dbms we are
     // leaving that up to each Geeklog database driver
 
@@ -499,6 +495,16 @@ function INST_doDatabaseUpgrades($current_gl_version)
             $current_gl_version = '2.0.0';
             $_SQL = '';
             break;
+
+        case '2.0.0':
+            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_2.0.0_to_2.0.1.php';
+            INST_updateDB($_SQL);
+
+            update_ConfValuesFor201();
+
+            $current_gl_version = '2.0.1';
+            $_SQL = '';
+            break;
             
         default:
             $done = true;
@@ -883,8 +889,6 @@ function INST_autoinstallNewPlugins()
         }
     }
 
-    require_once 'disable-plugins.php';
-
     // automatically install all new plugins that come with a autoinstall.php
     foreach ($newplugins as $pi_name) {
         $plugin_inst = $_CONF['path'] . 'plugins/' . $pi_name
@@ -908,10 +912,6 @@ function INST_autoinstallNewPlugins()
 
             $inst_parms = $auto_install($pi_name);
             if (($inst_parms === false) || empty($inst_parms)) {
-                continue; // with next plugin
-            }
-
-            if ($_GEEKLOGJP_pi_preinstall[$pi_name] == FALSE) {
                 continue; // with next plugin
             }
 

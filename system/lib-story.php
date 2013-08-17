@@ -45,7 +45,7 @@ if ($_CONF['allow_user_photo']) {
 }
 
 // this must be kept in sync with the actual size of 'sid' in the db ...
-define('STORY_MAX_ID_LENGTH', 40);
+define('STORY_MAX_ID_LENGTH', 128);
 
 // Story Record Options for the STATUS Field
 if (!defined ('STORY_ARCHIVE_ON_EXPIRE')) {
@@ -104,8 +104,6 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             'archivearticle'   => 'archivestorytext.thtml',
             'archivebodytext'  => 'archivestorybodytext.thtml'
             ));
-    
-    $article->postprocess_fn = 'PLG_replaceTags';
 
     $article->set_var( 'site_name', $_CONF['site_name'] );
     $article->set_var( 'story_date', $story->DisplayElements('date') );
@@ -217,7 +215,6 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     $article->set_var('lang_permalink', $LANG01[127]);
 
     $show_comments = true;
-    
     // n = Full display of article. p = 'Preview' mode.
     if ((($index != 'n') && ($index != 'p')) || !empty($query)) {
         $attributes = ' class="non-ul"';
@@ -237,13 +234,24 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             )
         );
     } else {
+        $article->set_var('story_title_link', $story->DisplayElements('title'));
+    }
+    
+    if ($index == 'n') {
         if ($_CONF['supported_version_theme'] == '1.8.1') {
             $article->set_var('breadcrumb_trail', TOPIC_breadcrumbs('article', $story->getSid()));
         }
-        $article->set_var('story_title_link', $story->DisplayElements('title'));
+        
+        if ($_CONF['related_topics'] > 0) {
+            $article->set_var('related_topics', TOPIC_relatedTopics('article', $story->getSid(), $_CONF['related_topics_max']));
+        }
+    } elseif ($index != 'p') {
+        if ($_CONF['related_topics'] > 1) {
+            $article->set_var('related_topics', TOPIC_relatedTopics('article', $story->getSid(), $_CONF['related_topics_max']));
+        }
     }
 
-    if(( $index == 'n' ) || ( $index == 'p' ))
+    if (( $index == 'n' ) || ( $index == 'p' ))
     {
         if( empty( $bodytext ))
         {
@@ -553,7 +561,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
 * @return   array   an array of strings of form <a href="...">link</a>
 *
 */
-function STORY_extractLinks( $fulltext, $maxlength = 26 )
+function STORY_extractLinks($fulltext, $maxlength = 26)
 {
     $rel = array();
 
@@ -589,54 +597,135 @@ function STORY_extractLinks( $fulltext, $maxlength = 26 )
 *
 * @param        string      $related    contents of gl_stories 'related' field
 * @param        int         $uid        user id of the author
-* @param        int         $tid        topic id
+* @param        int         $sid        story id
 * @return       string      HTML-formatted list of links
 */
 
-function STORY_whatsRelated( $related, $uid, $tid )
+function STORY_whatsRelated($related, $uid, $sid)
 {
     global $_CONF, $_TABLES, $LANG24;
 
-    // get the links from the story text
-    if (!empty ($related)) {
-        $rel = explode ("\n", $related);
+    // Is it enabled?
+    // Disabled' => 0, 'Enabled' => 1, 'Enabled (No Links)' => 2, 'Enabled (No Outbound Links)' => 3
+    if ($_CONF['whats_related']) {
+        // get the links from the story text
+        if ($_CONF['whats_related'] != 2) {
+            if (!empty ($related)) {
+                $rel = explode ("\n", $related);
+            } else {
+                $rel = array ();
+            }
+
+            // Used to hunt out duplicates. Stores urls that have already passed filters            
+            $urls = array();
+        
+            foreach ($rel as $key => &$value) {
+                if (preg_match("/<a[^>]*href=[\"']([^\"']*)[\"'][^>]*>(.*?)<\/a>/i",
+                               $value, $matches) === 1) {
+                    
+                    // Go through array and remove links with no link text except link. Since a max of only 23 characters of link text showen then compare only this    
+                    if (substr($matches[1] , 0, 23) != substr($matches[2] , 0, 23)) {
+                        // Check if outbound links (if needed)
+                        $passd_check = false;
+                        if ($_CONF['whats_related'] == 3) { // no outbound links
+                            if ($_CONF['site_url'] == substr($matches[1] , 0, strlen($_CONF['site_url']))) {
+                                $passd_check = true; 
+                            }
+                        } else {
+                            $passd_check = true;    
+                        }
+                            
+                        if ($passd_check) {    
+                            // Go through array and remove any duplicates of this link
+                            if (in_array($matches[1], $urls)) {
+                               // remove it from the array
+                               unset($rel[$key]);                       
+                            } else {
+                                $urls[] = $matches[1];
+                                // Now Check Words
+                                $value = '<a href="' . $matches[1] . '">'
+                                       . COM_checkWords($matches[2]) . '</a>';
+                           }
+                       } else {
+                           // remove it from the array
+                           unset($rel[$key]);
+                       }
+                   } else {
+                       // remove it from the array
+                       unset($rel[$key]);
+                   }
+                } else {
+                    $value = COM_checkWords($value);
+                }
+            }
+        }
+        
+        $topics = array();
+        if (!COM_isAnonUser() || (( $_CONF['loginrequired'] == 0 ) &&
+               ( $_CONF['searchloginrequired'] == 0))) {
+            // add a link to "search by author"
+            if( $_CONF['contributedbyline'] == 1 )
+            {
+                $author = $LANG24[37] . ' ' . COM_getDisplayName($uid);
+                if ($_CONF['whats_related_trim'] > 0 && (MBYTE_strlen($author) > $_CONF['whats_related_trim'])) {
+                    $author = substr($author, 0, $_CONF['whats_related_trim'] - 3 ) . '...';
+                }                
+                $topics[] = "<a href=\"{$_CONF['site_url']}/search.php?mode=search&amp;type=stories&amp;author=$uid\">$author</a>";
+            }
+    
+            // Retrieve topics
+            $tids = TOPIC_getTopicIdsForObject('article', $sid, 0);
+            foreach ($tids as $tid) {
+                // add a link to "search by topic"
+                $topic = $LANG24[38] . ' ' . stripslashes(DB_getItem( $_TABLES['topics'], 'topic', "tid = '$tid'" ));
+                // trim topics if needed
+                if ($_CONF['whats_related_trim'] > 0 && (MBYTE_strlen($topic) > $_CONF['whats_related_trim'])) {
+                    $topic = substr($topic, 0, $_CONF['whats_related_trim'] - 3 ) . '...';
+                }
+                $topics[] = '<a href="' . $_CONF['site_url']
+                       . '/search.php?mode=search&amp;type=stories&amp;topic=' . $tid
+                       . '">' . $topic . '</a>';          
+            }               
+        }
+    
+        // If line limit then split between related links and topics
+        if ($_CONF['whats_related_max'] > 0) {
+            if ($_CONF['whats_related_max'] < 3) {
+                $rel = array(); // Reset related links so at least user search and default topic search is displayed 
+                $topics = array_slice($topics, 0, 2);
+            } else {
+                $rel_max_num_items = intval($_CONF['whats_related_max'] / 2);
+                $topic_max_num_items = $rel_max_num_items;
+                if (($rel_max_num_items + $topic_max_num_items) != $_CONF['whats_related_max']) {
+                    $topic_max_num_items = $topic_max_num_items + 1;
+                }
+                // Now check if we have enough topics to display else give it to links
+                $topic_num_items = count($topics);
+                $rel_num_items = count($rel);
+                $added_flag = false;
+                if ($topic_num_items < $topic_max_num_items) {
+                    $rel_max_num_items = $rel_max_num_items + ($topic_max_num_items - $topic_num_items);
+                    $added_flag = true;
+                }
+                if (!$added_flag AND ($rel_num_items < $rel_max_num_items)) {
+                    $topic_max_num_items = $topic_max_num_items + ($rel_max_num_items - $rel_num_items);
+                }
+                $rel = array_slice($rel, 0, $rel_max_num_items);
+                $topics = array_slice($topics, 0, $topic_max_num_items);
+            
+            }
+        }
+        $result = array_merge($rel, $topics);
+
+        $related = '';
+        if( count( $result ) > 0 ) {
+            $related = COM_makeList($result, 'list-whats-related');
+        }
     } else {
-        $rel = array ();
+        $related = '';
     }
-
-    foreach ($rel as &$value) {
-        if (preg_match("/<a[^>]*href=[\"']([^\"']*)[\"'][^>]*>(.*?)<\/a>/i",
-                       $value, $matches) === 1) {
-            $value = '<a href="' . $matches[1] . '">'
-                   . COM_checkWords($matches[2]) . '</a>';
-        } else {
-            $value = COM_checkWords($value);
-        }
-    }
-
-    if( !COM_isAnonUser() || (( $_CONF['loginrequired'] == 0 ) &&
-           ( $_CONF['searchloginrequired'] == 0 ))) {
-        // add a link to "search by author"
-        if( $_CONF['contributedbyline'] == 1 )
-        {
-            $author = COM_getDisplayName( $uid );
-            $rel[] = "<a href=\"{$_CONF['site_url']}/search.php?mode=search&amp;type=stories&amp;author=$uid\">{$LANG24[37]} $author</a>";
-        }
-
-        // add a link to "search by topic"
-        $topic = DB_getItem( $_TABLES['topics'], 'topic', "tid = '$tid'" );
-        $rel[] = '<a href="' . $_CONF['site_url']
-               . '/search.php?mode=search&amp;type=stories&amp;topic=' . $tid
-               . '">' . $LANG24[38] . ' ' . stripslashes( $topic ) . '</a>';
-    }
-
-    $related = '';
-    if( count( $rel ) > 0 )
-    {
-        $related = COM_makeList( $rel, 'list-whats-related' );
-    }
-
-    return( $related );
+    
+    return $related;
 }
 
 /**
@@ -778,6 +867,64 @@ function STORY_updateLastArticlePublished()
  * aren't a plugin (and likely never will be), implementing some of the API
  * functions here will save us from doing special handling elsewhere.
  */
+
+/**
+* Return list of articles for the Related Items block
+*
+* @param    array   $tids list of topic ids
+* @param    int     $max  maximum number of items to return
+* @param    int     $trim max length of text
+* @return   array   array of links to related articles with unix timestamp as key
+*
+*/
+function plugin_getrelateditems_story($tids, $max, $trim)
+{
+    global $_CONF, $_TABLES;
+
+    $where_sql = '';
+    $archivetid = DB_getItem($_TABLES['topics'], 'tid', "archive_flag=1");
+    if (!empty($archivetid)) {
+        $where_sql = " AND (ta.tid <> '$archivetid')";
+    }
+
+    // Find the newest stories the user has access too
+    $sql = "SELECT sid, title, UNIX_TIMESTAMP(date) s_date 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta  
+        WHERE ta.type = 'article' AND ta.id = sid AND (ta.tid IN ('" . implode( "','", $tids ) . "')) 
+        AND (date <= NOW()) AND (draft_flag = 0)" . $where_sql . COM_getPermSQL( 'AND' ) . COM_getLangSQL( 'sid', 'AND' ) . " 
+        GROUP BY sid ORDER BY s_date DESC LIMIT {$max}";
+
+    $result = DB_query($sql);
+    $nrows = DB_numRows($result);
+
+    $newstories = array();
+    if ($nrows > 0) {
+        for ($x = 0; $x < $nrows; $x++) {
+            $A = DB_fetchArray($result);
+
+            $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                . $A['sid']);            
+
+            $title = COM_undoSpecialChars(stripslashes( $A['title']));
+            if ($trim > 0) {
+                $titletouse = COM_truncate($title, $trim, '...');
+            } else {
+                $titletouse = $title;
+            }
+            if ($title != $titletouse) {
+                $attr = array('title' => htmlspecialchars($title));
+            } else {
+                $attr = array();
+            }
+            $astory = str_replace('$', '&#36;', $titletouse);
+            $astory = str_replace(' ', '&nbsp;', $astory);
+
+            $newstories[$A['s_date']] = COM_createLink($astory, $url, $attr);
+        }
+    }
+
+    return $newstories;
+} 
  
 /**
 * Return new Story comments for the What's New block
@@ -870,6 +1017,9 @@ function plugin_getiteminfo_story($sid, $what, $uid = 0, $options = array())
         case 'date-created':
             $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
             break;
+        case 'date-modified':
+            $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
+            break;
         case 'description':
             $fields[] = 'introtext';
             $fields[] = 'bodytext';
@@ -936,6 +1086,9 @@ function plugin_getiteminfo_story($sid, $what, $uid = 0, $options = array())
             switch ($p) {
             case 'date-created':
                 $props['date-created'] = $A['unixdate'];
+                break;
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
                 break;
             case 'description':
                 $props['description'] = trim(PLG_replaceTags(stripslashes($A['introtext']) . ' ' . stripslashes($A['bodytext'])));
@@ -1091,8 +1244,9 @@ function plugin_itemlist_story()
         $plugin = new Plugin();
         $plugin->submissionlabel = $LANG29[35];
         $plugin->submissionhelpfile = 'ccstorysubmission.html';
-        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,ta.tid FROM {$_TABLES['storysubmission']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 " . COM_getTopicSQL ('AND') . " ORDER BY date ASC";
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,uid,date,ta.tid FROM {$_TABLES['storysubmission']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 " . COM_getTopicSQL ('AND') . " ORDER BY date ASC";
         $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[37]);
         $plugin->addSubmissionHeading($LANG29[14]);
         $plugin->addSubmissionHeading($LANG29[15]);
 
@@ -1159,8 +1313,9 @@ function plugin_itemlist_story_draft()
         $plugin = new Plugin();
         $plugin->submissionlabel = $LANG29[35] . ' (' . $LANG24[34] . ')';
         $plugin->submissionhelpfile = 'ccdraftsubmission.html';
-        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,tid FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND draft_flag = 1 " . COM_getTopicSQL ('AND') . COM_getPermSQL ('AND', 0, 3) . " ORDER BY date ASC";
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,uid,date,tid FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND draft_flag = 1 " . COM_getTopicSQL ('AND') . COM_getPermSQL ('AND', 0, 3) . " ORDER BY date ASC";
         $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[37]);
         $plugin->addSubmissionHeading($LANG29[14]);
         $plugin->addSubmissionHeading($LANG29[15]);
 
@@ -1243,11 +1398,7 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
     if ($op == 'tagname' ) {
         return 'story';
     } elseif ($op == 'permission' || $op == 'nopermission') {
-        if ($op == 'permission') {
-            $flag = true;
-        } else {
-            $flag = false;
-        }
+        $flag = ($op == 'permission');
         $tagnames = array();
 
         if (isset($_GROUPS['Story Admin'])) {
@@ -1257,8 +1408,10 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
                                    "grp_name = 'Story Admin'");
         }
         $owner_id = SEC_getDefaultRootUser();
-
-        if (COM_getPermTag($owner_id, $group_id, $_CONF['autotag_permissions_story'][0], $_CONF['autotag_permissions_story'][1], $_CONF['autotag_permissions_story'][2], $_CONF['autotag_permissions_story'][3]) == $flag) {
+        $p = 'autotag_permissions_story';
+        if (COM_getPermTag($owner_id, $group_id,
+            $_CONF[$p][0], $_CONF[$p][1],
+            $_CONF[$p][2], $_CONF[$p][3]) == $flag) {
             $tagnames[] = 'story';
         }
         
@@ -1271,8 +1424,11 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
             );        
     } else {
         $sid = COM_applyFilter($autotag['parm1']);
+        $sid = COM_switchLanguageIdForObject($sid);
         if (! empty($sid)) {
-            $result = DB_query("SELECT COUNT(*) AS count FROM {$_TABLES['stories']} WHERE sid = '$sid'" . COM_getPermSql('AND'));
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['stories']} "
+                . "WHERE sid = '$sid'" . COM_getPermSql('AND'));
             $A = DB_fetchArray($result);
             if ($A['count'] > 0) {
 
@@ -1413,10 +1569,7 @@ function plugin_displaycomment_article($id, $cid, $title, $order, $format, $page
                        $format, $cid, $page, $view, $delete_option,
                        $A['commentcode']);
     } else {
-        $retval .= COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $LANG_ACCESS['storydenialmsg']
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_ACCESS['storydenialmsg'], $LANG_ACCESS['accessdenied']);
     }
 
     return $retval;
@@ -1450,11 +1603,36 @@ function plugin_getfeednames_article()
     return $feeds;
 }
 
+/**
+* Config Option has changed. (use plugin api)
+*
+* @return   nothing
+*
+*/
+function plugin_configchange_article($group, $changes = array())
+{
+    global $_TABLES, $_CONF;
 
-
-
-
-
+    // If trim length changes then need to redo all related url's for articles
+    if ($group == 'Core' AND in_array('whats_related_trim', $changes)) {
+        $sql = "SELECT sid, introtext, bodytext FROM {$_TABLES['stories']}";  
+        $result = DB_query($sql);
+        $nrows = DB_numRows($result);
+        if ($nrows > 0) {
+            for ($x = 0; $x < $nrows; $x++) {
+                $A = DB_fetchArray ($result);
+                // Should maybe retrieve through story service but just grab from database and apply any autotags
+                // This is all the related story column should really need
+                $fulltext = PLG_replaceTags($A['introtext']) . ' ' . PLG_replaceTags($A['bodytext']);
+                $related =  DB_escapeString(implode("\n", STORY_extractLinks($fulltext, $_CONF['whats_related_trim'])));
+                if (!empty($related)) {
+                    DB_query("UPDATE {$_TABLES['stories']} SET related = '$related' WHERE sid = '{$A['sid']}'");                    
+                }
+            }
+            
+        }
+    }
+}
 
 /*
  * START SERVICES SECTION
@@ -1781,9 +1959,7 @@ function service_submit_story($args, &$output, &$svc_msg)
                     'image/png'   => '.png'
                     ));
             if (!$upload->setPath($_CONF['path_images'] . 'articles')) {
-                $output = COM_startBlock ($LANG24[30], '', COM_getBlockTemplate ('_msg_block', 'header'));
-                $output .= $upload->printErrors (false);
-                $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+                $output = COM_showMessageText($upload->printErrors(false), $LANG24[30]);
                 $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG24[30]));
                 echo $output;
                 exit;
@@ -1814,10 +1990,7 @@ function service_submit_story($args, &$output, &$svc_msg)
             $upload->uploadFiles();
 
             if ($upload->areErrors()) {
-                $retval = COM_startBlock ($LANG24[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-                $retval .= $upload->printErrors(false);
-                $retval .= COM_endBlock(COM_getBlockTemplate ('_msg_block', 'footer'));
+                $retval = COM_showMessageText($upload->printErrors(false), $LANG24[30]);
                 $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG24[30]));
                 echo $retval;
                 exit;

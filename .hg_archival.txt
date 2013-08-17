@@ -1,0 +1,5 @@
+repo: d04bf7580545b02a4d2fa0dcb689fe3834f1c7c1
+node: f9971705d9f1abfeec46c0a496a456c3700fba5c
+branch: HEAD
+latesttag: geeklog_2_0_0_stable
+latesttagdistance: 205

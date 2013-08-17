@@ -212,12 +212,13 @@ function ADMIN_simpleList($fieldfunction, $header_arr, $text_arr,
 * @param    array   $options        array of options - intially just used for the Check-All feature
 * @param    array   $form_arr       optional extra forms at top or bottom
 * @param    bool    $showsearch     whether to show the search functionality
+* @param    string  $pagenavurl     additional url values that page navigation may need for any additonal filters
 * @return   string                  HTML output of function
 *
 */
 function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             $query_arr, $defsort_arr, $filter = '', $extra = '',
-            $options = '', $form_arr='', $showsearch = true)
+            $options = '', $form_arr='', $showsearch = true, $pagenavurl = '')
 {
     global $_CONF, $_TABLES, $LANG_ADMIN, $LANG_ACCESS, $LANG01, $_IMAGE_TYPE, $MESSAGE;
 
@@ -429,8 +430,13 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $admin_templates->clear_var('class');
         $admin_templates->clear_var('header_text');
     }
+    
 
-    if ($has_extras) {
+    if (!empty($query_arr['query_group'])){ # add group by to sql
+        $group_by_sql = " GROUP BY {$query_arr['query_group']}";
+    }    
+
+    if ($has_extras && $showsearch) {
         /**
         * default query limit if no other ch osen.
         * @todo maybe this could be a setting from the list?
@@ -462,7 +468,7 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             }
             $filter_str .= ")";
         }
-        $num_pages_sql = $sql . $filter_str;
+        $num_pages_sql = $sql . $filter_str . $group_by_sql;
         $num_pages_result = DB_query($num_pages_sql);
         $num_rows = DB_numRows($num_pages_result);
         $num_pages = ceil ($num_rows / $limit);
@@ -482,10 +488,6 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         if (!empty($extra)) $use_fieldfunction = 2;
         else $use_fieldfunction = 1;
     } else $use_fieldfunction = 0;
-
-    if (!empty($query_arr['query_group'])){ # add group by to sql
-        $group_by_sql = " GROUP BY {$query_arr['query_group']}";
-    }
     
     # SQL
     $sql .= "$filter_str $group_by_sql $order_sql $limit;";
@@ -545,7 +547,7 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
         $admin_templates->set_var('message', $message);
     }
 
-    if ($has_extras) { # now make google-paging
+    if ($has_extras && $showsearch) {
         $hasargs = strstr( $form_url, '?' );
         if( $hasargs ) {
             $sep = '&amp;';
@@ -553,9 +555,9 @@ function ADMIN_list($component, $fieldfunction, $header_arr, $text_arr,
             $sep = '?';
         }
         if (!empty($query)) { # port query to next page
-            $base_url = $form_url . $sep . 'q=' . urlencode($query) . "&amp;query_limit=$query_limit$order_var_link&amp;direction=$direction";
+            $base_url = $form_url . $sep . 'q=' . urlencode($query) . "&amp;query_limit=$query_limit$order_var_link&amp;direction=$direction$pagenavurl";
         } else {
-            $base_url = $form_url . $sep ."query_limit=$query_limit$order_var_link&amp;direction=$direction";
+            $base_url = $form_url . $sep ."query_limit=$query_limit$order_var_link&amp;direction=$direction$pagenavurl";
         }
 
         if ($num_pages > 1) { # print actual google-paging
@@ -1049,7 +1051,7 @@ function ADMIN_getListField_stories($fieldname, $fieldvalue, $A, $icon_arr)
         }
         break;
         
-    case 'topic_ids':
+    case 'tid':
         $retval = TOPIC_getTopicAdminColumn('article', $A['sid']);
         break;
 
@@ -1318,7 +1320,7 @@ function ADMIN_getListField_moderation($fieldname, $fieldvalue, $A, $icon_arr)
         break;
 
     default:
-        if (($fieldname == 3) && (($type == 'story') || ($type == 'story_draft'))) {
+        if (($fieldname == 4) && (($type == 'story') || ($type == 'story_draft'))) {
             $retval = TOPIC_getTopicAdminColumn('article', $A[0]);
         } elseif (($fieldname == 2) && ($type == 'comment')) {
             $commenttext = COM_getTextContent($A['comment']);
