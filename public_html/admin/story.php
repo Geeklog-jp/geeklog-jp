@@ -171,7 +171,7 @@ function liststories($current_topic = '')
         $header_arr[] = array('text' => $LANG24[7], 'field' => 'username', 'sort' => true); // author
     }
     $header_arr[] = array('text' => $LANG24[15], 'field' => 'unixdate', 'sort' => true); // date
-    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'topic_ids', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'tid', 'sort' => true);
     $header_arr[] = array('text' => $LANG24[32], 'field' => 'featured', 'sort' => true);
 
     if (SEC_hasRights ('story.ping') && ($_CONF['trackback_enabled'] ||
@@ -188,6 +188,8 @@ function liststories($current_topic = '')
 
     $menu_arr[] = array('url' => $_CONF['site_admin_url'],
                         'text' => $LANG_ADMIN['admin_home']);
+    
+    $form_arr = array('bottom' => '', 'top' => '');
 
     $retval .= COM_startBlock($LANG24[22], '',
                               COM_getBlockTemplate('_admin_block', 'header'));
@@ -218,9 +220,12 @@ function liststories($current_topic = '')
         'query_fields' => array('title', 'introtext', 'bodytext', 'sid', 'tid'),
         'default_filter' => $excludetopics . COM_getPermSQL('AND')
     );
-
+    
+    // Add in topic filter so it is remembered with paging
+    $pagenavurl = '&amp;tid=' . $current_topic;
+    
     $retval .= ADMIN_list('story', 'ADMIN_getListField_stories', $header_arr,
-                          $text_arr, $query_arr, $defsort_arr, $filter);
+                          $text_arr, $query_arr, $defsort_arr, $filter, '', '', $form_arr, true, $pagenavurl);
     $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     return $retval;
@@ -310,13 +315,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
     // Load HTML templates
     $story_templates = COM_newTemplate($_CONF['path_layout'] . 'admin/story');
     if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
-        $thtml = $_CONF['path_layout'] . 'admin/story/storyeditor_advanced.' . $_CONF['language'] . '.thtml';
-        if (file_exists($thtml)) {
-            $thtml = 'storyeditor_advanced.' . $_CONF['language'] . '.thtml';
-        } else {
-            $thtml = 'storyeditor_advanced.thtml';
-        }
-        $story_templates->set_file('editor', $thtml);
+        $story_templates->set_file(array('editor'=>'storyeditor_advanced.thtml'));
         $advanced_editormode = true;
         $story_templates->set_var ('change_editormode', 'onchange="change_editmode(this);"');
 
@@ -340,13 +339,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
             $story_templates->set_var ('show_htmleditor', 'none');
         }
     } else {
-        $thtml = $_CONF['path_layout'] . 'admin/story/storyeditor.' . $_CONF['language'] . '.thtml';
-        if (file_exists($thtml)) {
-            $thtml = 'storyeditor.' . $_CONF['language'] . '.thtml';
-        } else {
-            $thtml = 'storyeditor.thtml';
-        }
-        $story_templates->set_file('editor', $thtml);
+        $story_templates->set_file(array('editor' => 'storyeditor.thtml'));
         $advanced_editormode = false;
     }
      $story_templates->set_var('hour_mode',      $_CONF['hour_mode']);
@@ -697,8 +690,12 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         }
     }
     $story_templates->set_var('post_options',$post_options );
+    $allowed_tags = array('code', 'raw');
+    if ($_CONF['allow_page_breaks'] == 1) {
+        $allowed_tags = array_merge($allowed_tags, array('page_break'));
+    }
     $story_templates->set_var('lang_allowed_html',
-                              COM_allowedHTML('story.edit'));
+                              COM_allowedHTML('story.edit', false, 1, $allowed_tags));
     $fileinputs = '';
     $saved_images = '';
     if ($_CONF['maximagesperarticle'] > 0) {
@@ -734,6 +731,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
 
     // Add JavaScript
     $_SCRIPTS->setJavaScriptFile('story_editor', '/javascript/story_editor.js');
+    $_SCRIPTS->setJavaScriptFile('title_2_id', '/javascript/title_2_id.js');
 
     // Loads jQuery UI datepicker
     $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
@@ -741,7 +739,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
     $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
 
     $langCode = COM_getLangIso639Code();
-    $toolTip  = 'Click and select a date';	// Should be translated
+    $toolTip  = $MESSAGE[118];
     $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
 
     $_SCRIPTS->setJavaScript(
@@ -752,13 +750,8 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         . "});", TRUE, TRUE
     );
 
-    if ($advanced_editormode) {
-        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-        $js = 'document.getElementById("advanced_editor").style.display="";';
-        $_SCRIPTS->setJavaScript($js, true);
-        $_SCRIPTS->setJavaScriptFile('storyeditor_fckeditor', '/javascript/storyeditor_fckeditor.js');
-    }
+    // Setup Advanced Editor
+    COM_setupAdvancedEditor('/javascript/storyeditor_adveditor.js');
     
     $story_templates->set_var('saved_images', $saved_images);
     $story_templates->set_var('image_form_elements', $fileinputs);
@@ -875,8 +868,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         COM_errorLog ('Attempted to delete story sid=' . $sid);
         echo COM_refresh ($_CONF['site_admin_url'] . '/story.php');
     } else if ($type == 'submission') {
-        $tid = DB_getItem ($_TABLES['storysubmission'], 'tid', "sid = '$sid'");
-        if (SEC_hasTopicAccess ($tid) < 3) {
+        if (TOPIC_hasMultiTopicAccess('article', $sid) < 3) {
             COM_accessLog ("User {$_USER['username']} tried to illegally delete story submission $sid.");
             echo COM_refresh ($_CONF['site_admin_url'] . '/index.php');
         } else if (SEC_checkToken()) {

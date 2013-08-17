@@ -216,26 +216,32 @@ function plugin_autotags_links($op, $content = '', $autotag = '')
     } else if ($op == 'parse') {
         $lid = COM_applyFilter($autotag['parm1']);
         if (! empty($lid)) {
-            $url = COM_buildUrl($_CONF['site_url']
-                            . '/links/portal.php?what=link&amp;item=' . $lid);
-            if (empty($autotag['parm2'])) {
-                $result = DB_query("SELECT url, title FROM {$_TABLES['links']} WHERE lid = '$lid'");
-                list($siteurl, $linktext) = DB_fetchArray($result);
-                $linktext = stripslashes($linktext);
-            } else {
-                $linktext = $autotag['parm2'];
-                $siteurl = DB_getItem($_TABLES['links'], 'url', "lid = '$lid'");
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['links']} "
+                . "WHERE lid = '$lid'" . COM_getPermSql('AND'));
+            $A = DB_fetchArray($result);
+            if ($A['count'] > 0) {
+                $url = COM_buildUrl($_CONF['site_url']
+                                . '/links/portal.php?what=link&amp;item=' . $lid);
+                if (empty($autotag['parm2'])) {
+                    $result = DB_query("SELECT url, title FROM {$_TABLES['links']} WHERE lid = '$lid'");
+                    list($siteurl, $linktext) = DB_fetchArray($result);
+                    $linktext = stripslashes($linktext);
+                } else {
+                    $linktext = $autotag['parm2'];
+                    $siteurl = DB_getItem($_TABLES['links'], 'url', "lid = '$lid'");
+                }
+                $class = 'ext-link';
+                if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
+                    $class .= '-rtl';
+                }
+                $attr = array(
+                            'title' => $siteurl,
+                            'class' => $class
+                             );
+                $link = COM_createLink($linktext, $url, $attr);
+                $content = str_replace($autotag['tagstr'], $link, $content);
             }
-            $class = 'ext-link';
-            if ((!empty($LANG_DIRECTION)) && ($LANG_DIRECTION == 'rtl')) {
-                $class .= '-rtl';
-            }
-            $attr = array(
-                        'title' => $siteurl,
-                        'class' => $class
-                         );
-            $link = COM_createLink($linktext, $url, $attr);
-            $content = str_replace($autotag['tagstr'], $link, $content);
         }
 
         return $content;
@@ -330,11 +336,11 @@ function plugin_showstats_links ($showsitestats)
                                 'hits' => $hits
                           );
         }
-        $retval .= ADMIN_simpleList ('', $header_arr, $text_arr, $data_arr);
+        $retval .= ADMIN_simpleList('', $header_arr, $text_arr, $data_arr);
     } else {
-        $retval .= COM_startBlock ($LANG_LINKS_STATS['stats_headline']);
+        $retval .= COM_startBlock($LANG_LINKS_STATS['stats_headline']);
         $retval .= $LANG_LINKS_STATS['stats_no_hits'];
-        $retval .= COM_endBlock ();
+        $retval .= COM_endBlock();
     }
 
     return $retval;
@@ -787,6 +793,11 @@ function plugin_upgrade_links()
             $current_version = '2.1.2';
             break;
             
+        case '2.1.2':
+
+            $current_version = '2.1.3';
+            break;            
+            
         default:
             $done = true;
         }
@@ -984,11 +995,8 @@ function plugin_savesubmission_links($A)
             && ($A['url'] != 'http://')) {
         $retval = plugin_save_submit_links($A);
     } else {
-        $retval .= COM_startBlock ($LANG12[22], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[23]
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_links();
+        $retval .= COM_showMessageText($LANG12[23], $LANG12[22])
+                .  plugin_submit_links();
         $retval = COM_createHTMLDocument($retval);
     }
 
@@ -1080,11 +1088,8 @@ function plugin_save_submit_links($A)
         }
     }
     if (!$validcat) {
-        $retval .= COM_startBlock($LANG12[22], '',
-                       COM_getBlockTemplate('_msg_block', 'header'))
-                . $LANG12[23]
-                . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'))
-                . submissionform('links');
+        $retval .= COM_showMessageText($LANG12[23], $LANG12[22])
+                .  submissionform('links');
         $retval = COM_createHTMLDocument($retval);
 
         return $retval;

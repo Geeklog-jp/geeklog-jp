@@ -1,5 +1,3 @@
-@charset "utf-8";
-
 /*==============================================================================
   Title       : Common Style
   Author      : Fumito Arakawa as Phize (http://phize.net/) and Geeklog Japanese
@@ -111,8 +109,8 @@ textarea {
   -ms-box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-   /* font-family: arial,verdana,tahoma,helvetica,sans-serif; */
-   font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Osaka, "ＭＳ Ｐゴシック", Verdana, Arial, Helvetica, sans-serif;  */
+/* font-family: arial,verdana,tahoma,helvetica,sans-serif; */
+  font-family: Verdana, Arial, Meiryo, "Hiragino Kaku Gothic Pro", sans-serif;
 }
 /* } Mac */
 
@@ -464,4 +462,11 @@ ul.compact li {
 .gl-pagenav span a:hover {
   background: transparent;
   border: none;
+}
+
+/*--------------------------------------
+  Breadcrumbs Navigation
+--------------------------------------*/
+.bc_navigation {
+  margin: 1.12em 0;
 }

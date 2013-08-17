@@ -199,7 +199,7 @@ function phpblock_calendar( $help='', $title='' )
                     if( !$headline ) {
                         if($z == 2) {
                             if( $numRows > 0 ) {
-                                $retval .= '<p><b>' . $LANG_CAL_1[23] . '</b><br' . XHTML . '>';
+                                $retval .= '<b>' . $LANG_CAL_1[23] . '</b><br' . XHTML . '>';
                             }
                         } else {
                             if( $totalrows > 0 ) {
@@ -438,11 +438,8 @@ function plugin_savesubmission_calendar($A)
 
     // check for missing textfields
     if (empty ($A['title']) || empty ($A['start_month']) || empty ($A['start_day']) || empty ($A['start_year'])) {
-        $retval .= COM_startBlock ($LANG12[22], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[23]
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_calendar ($A['calendar_type']);
+        $retval .= COM_showMessageText($LANG12[23], $LANG12[22])
+                .  plugin_submit_calendar($A['calendar_type']);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_1[27]));
 
         return $retval;
@@ -684,7 +681,7 @@ function plugin_getheadercode_calendar()
 */
 function plugin_submit_calendar($mode = 'master')
 {
-    global $_CONF, $_CA_CONF, $LANG_CAL_1, $LANG12, $_SCRIPTS;
+    global $_CONF, $_CA_CONF, $LANG_CAL_1, $LANG12, $MESSAGE, $_SCRIPTS;
 
     if (isset($_POST['calendar_type'])) {
         $mode = $_POST['calendar_type'];
@@ -742,7 +739,7 @@ function plugin_submit_calendar($mode = 'master')
     $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
 
     $langCode = COM_getLangIso639Code();
-    $toolTip  = 'Click and select a date';	// Should be translated
+    $toolTip  = $MESSAGE[118];
     $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
 
     $_SCRIPTS->setJavaScript(
@@ -1190,15 +1187,21 @@ function plugin_autotags_calendar ($op, $content = '', $autotag = '')
     } else if ($op == 'parse') {
         $eid = COM_applyFilter($autotag['parm1']);
         if (! empty($eid)) {
-            $url = $_CONF['site_url'] . '/calendar/event.php?eid=' . $eid;
-            if (empty ($autotag['parm2'])) {
-                $linktext = stripslashes (DB_getItem ($_TABLES['events'],
-                                          'title', "eid = '$eid'"));
-            } else {
-                $linktext = $autotag['parm2'];
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['events']} "
+                . "WHERE eid = '$eid'" . COM_getPermSql('AND'));
+            $A = DB_fetchArray($result);
+            if ($A['count'] > 0) {
+                $url = $_CONF['site_url'] . '/calendar/event.php?eid=' . $eid;
+                if (empty ($autotag['parm2'])) {
+                    $linktext = stripslashes (DB_getItem ($_TABLES['events'],
+                                              'title', "eid = '$eid'"));
+                } else {
+                    $linktext = $autotag['parm2'];
+                }
+                $link = COM_createLink($linktext, $url);
+                $content = str_replace ($autotag['tagstr'], $link, $content);
             }
-            $link = COM_createLink($linktext, $url);
-            $content = str_replace ($autotag['tagstr'], $link, $content);
         }
 
         return $content;
@@ -1634,6 +1637,11 @@ function plugin_upgrade_calendar()
             calendar_update_Zipcode_1_1_2();
             
             $current_version = '1.1.3';
+            break;            
+
+        case '1.1.3':
+            
+            $current_version = '1.1.4';
             break;            
 
         default:

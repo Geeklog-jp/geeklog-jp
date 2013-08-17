@@ -46,7 +46,8 @@ function theme_config_denim()
 {
     return array(
         'image_type' => 'png',
-        'doctype'    => 'xhtml10transitional'
+        'doctype'    => 'xhtml10transitional', 
+        'supported_version_theme' => '2.0.0' // support new theme format for the later Geeklog 2.0.0
     );
 }
 
@@ -59,6 +60,7 @@ function theme_css_denim()
 
     return array(
         array(
+            'name' => 'theme',            
             'file'       => '/layout/' . $_CONF['theme'] . '/css_' . $LANG_DIRECTION . '/style.css',
             'attributes' => array('media' => 'all')
         )
@@ -70,7 +72,12 @@ function theme_css_denim()
  */
 function theme_js_libs_denim()
 {
-    return array('jquery');
+    return array(
+       array(
+            'library'  => 'jquery',
+            'footer' => true // Not requred, default = true
+        )
+    );
 }
 
 /**
@@ -81,8 +88,12 @@ function theme_js_files_denim()
     global $_CONF;
 
     return array(
-        '/layout/' . $_CONF['theme'] . '/javascript/script.js'
-    );
+       array(
+            'file'      => '/layout/' . $_CONF['theme'] . '/javascript/script.js',
+            'footer'    => true, // Not requred, default = true
+            'priority'  => 100 // Not requred, default = 100
+        )        
+    );    
 }
 
 /**
@@ -91,8 +102,6 @@ function theme_js_files_denim()
 function theme_init_denim()
 {
     global $_BLOCK_TEMPLATE, $_CONF;
-
-    $_CONF['supported_version_theme'] = '2.0.0'; // support new theme format for the later Geeklog 2.0
 
     $_CONF['left_blocks_in_footer'] = 1;
 
