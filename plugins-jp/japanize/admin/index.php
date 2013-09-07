@@ -140,22 +140,23 @@ DB_query($sql);
 $T = new Template($_CONF['path'] . 'plugins/japanize/templates/admin');
 $T->set_file('admin', 'index.thtml');
 $T->set_var(array(
-	'xhtml'             => XHTML,
-	'lang_piname'       => JAPANIZE_str('piname'),
-	'lang_execute'      => JAPANIZE_str('execute'),
-	'lang_japanize_all' => JAPANIZE_str('japanize_all'),
-	'lang_restore_all'  => JAPANIZE_str('restore_all'),
-	'lang_cancel'       => JAPANIZE_str('cancel'),
-	'icon_url'          => plugin_geticon_japanize(),
-	'msgs'              => $msgs,
 	'checked1'          => ($checked[1] ? ' checked="checked"' : ''),
 	'checked2'          => ($checked[2] ? ' checked="checked"' : ''),
 	'checked3'          => ($checked[3] ? ' checked="checked"' : ''),
 	'checked4'          => ($checked[4] ? ' checked="checked"' : ''),
 	'checked5'          => ($checked[5] ? ' checked="checked"' : ''),
 	'checked6'          => ($checked[6] ? ' checked="checked"' : ''),
+	'icon_url'          => plugin_geticon_japanize(),
+	'lang_cancel'       => JAPANIZE_str('cancel'),
+	'lang_execute'      => JAPANIZE_str('execute'),
+	'lang_japanize_all' => JAPANIZE_str('japanize_all'),
+	'lang_piname'       => JAPANIZE_str('piname'),
+	'lang_restore_all'  => JAPANIZE_str('restore_all'),
+	'msgs'              => $msgs,
+	'site_admin_url'    => $_CONF['site_admin_url'],
 	'token_name'        => CSRF_TOKEN,
 	'token_value'       => SEC_createToken(),
+	'xhtml'             => XHTML,
 ));
 $T->parse('output', 'admin');
 $content = $T->finish($T->get_var('output'));
