@@ -1,5 +1,10 @@
 2013-09-07  Kenji ITO  <mystralkk>
 
+	* テーマエディタープラグインで不要なHTTPヘッダーを出力していたバグ
+	  (Issue #225)に対応しました。
+
+2013-09-07  Kenji ITO  <mystralkk>
+
 	* japanizeプラグインで管理画面のURLが間違っていたバグ(Issue #229)に対応
 	  しました。
 
