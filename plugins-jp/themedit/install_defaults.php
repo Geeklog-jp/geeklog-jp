@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/install_defaults.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2013 - geeklog AT mystral-kk DOT net                   |
 // +---------------------------------------------------------------------------+
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -184,14 +184,14 @@ function plugin_initconfig_themedit() {
 		// Main
 		$c->add('enable_all_themes', $_THM_DEFAULT['enable_all_themes'], 'select', 0, 0, 0, 10, TRUE, $me);
 		$c->add('enable_all_files', $_THM_DEFAULT['enable_all_files'], 'select', 0, 0, 0, 20, TRUE, $me);
-		$c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, null, 30, TRUE, $me);
-		$c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, null, 40, TRUE, $me);
+		$c->add('allowed_themes', $_THM_DEFAULT['allowed_themes'], '%text', 0, 0, NULL, 30, TRUE, $me);
+		$c->add('allowed_files', $_THM_DEFAULT['allowed_files'], '%text', 0, 0, NULL, 40, TRUE, $me);
 		$c->add('resync_database', $_THM_DEFAULT['resync_database'], 'select', 0, 0, 1, 50, TRUE, $me);
 		$c->add('allow_upload', $_THM_DEFAULT['allow_upload'], 'select', 0, 0, 0, 60, TRUE, $me);
-		$c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, null, 70, TRUE, $me);
-		$c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, null, 80, TRUE, $me);
-		$c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, null, 90, TRUE, $me);
-		$c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, null, 100, TRUE, $me);
+		$c->add('image_width', $_THM_DEFAULT['image_width'], 'text', 0, 0, NULL, 70, TRUE, $me);
+		$c->add('image_height', $_THM_DEFAULT['image_height'], 'text', 0, 0, NULL, 80, TRUE, $me);
+		$c->add('image_max_col', $_THM_DEFAULT['image_max_col'], 'text', 0, 0, NULL, 90, TRUE, $me);
+		$c->add('upload_max_size', $_THM_DEFAULT['upload_max_size'], 'text', 0, 0, NULL, 100, TRUE, $me);
 	}
 	
 	return TRUE;

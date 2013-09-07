@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/themedit/upload.php                             |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2013 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
