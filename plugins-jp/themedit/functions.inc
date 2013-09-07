@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/themedit/functions.inc                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2012 - geeklog AT mystral-kk DOT net                   |
+// | Copyright (C) 2006-2013 - geeklog AT mystral-kk DOT net                   |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -205,9 +205,7 @@ function plugin_upgrade_themedit() {
 function plugin_getheadercode_themedit() {
 	global $_CONF;
 	
-	$header = '<meta http-equiv="Content-Script-Type" content="text/javascript"'
-			. XHTML . '>' . LB
-			. '<script type="text/javascript" src="' . THEMEDIT_BASE_URL
+	$header = '<script type="text/javascript" src="' . THEMEDIT_BASE_URL
 			. '/js/selection.js' . '"></script>' . LB;
 	return $header;
 }
