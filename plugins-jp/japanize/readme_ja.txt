@@ -2,9 +2,10 @@
 Geeklog 日本語化（Japanize)プラグイン
 tsuchi AT geeklog DOT jp
 2008/09/27
-2011/02/07 update
-2012/12/31 modified & updated by mystral-kk (geeklog AT mystral-kk DOT net)
-2013/01/02 modified & updated by mystral-kk (geeklog AT mystral-kk DOT net)
+2011/02/07         update
+2012/12/31 v2.0.0  modified & updated by mystral-kk (geeklog AT mystral-kk DOT net)
+2013/01/02 v2.0.1  modified & updated by mystral-kk (geeklog AT mystral-kk DOT net)
+2013/09/07 v2.0.2  a minor bug fix (geeklog AT mystral-kk DOT net)
 
 --------------------------------------------------------------------------------
 概要: Geeklog-1.6.x - 2.0.0 を日本人流にするプラグインです
