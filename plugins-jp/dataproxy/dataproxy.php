@@ -474,27 +474,51 @@ class Dataproxy
 		return (self::$_uid === 1);
 	}
 	
+	/**
+	* Checks if a given string is a validate date expression
+	*
+	* @param   string   &$date  a string to be checked
+	* @return  boolean          true = valid, false = otherwise
+	*/
+	private function _checkDate(&$date)
+	{
+		$retval = false;
+		$date = trim($date);
+		
+		if (strlen($date) === 8) {	// Maybe without delimiters
+			$date = substr($date, 0, 4) . '-' . substr($date, 4, 2) . '-'
+				  . substr($date, 6, 2);
+		}
+		
+		if (strlen($date) > 4) {
+			$delim = substr($date, 4, 1);
+			$parts = explode($delim, $date, 3);
+			
+			if (count($parts) === 3) {
+				$retval = checkdate($parts[1], $parts[2], $parts[0]);
+				
+				if ($retval) {
+					$date = sprintf('%4d-%02d-%02d', $parts[0], $parts[1], $parts[2]);
+				}
+			}
+		}
+		
+		return $retval;
+	}
+	
 	public function setDateStart($datestart = '')
 	{
-		if (!empty($datestart)) {
-			$delim = substr($datestart, 4, 1);
-			
-			if (!empty($delim)) {
-				$DS = explode($delim, $datestart);
-				self::$startDate = mktime(0, 0, 0, $DS[1], $DS[2], $DS[0]);
-			}
+		if ($this->_checkDate($datestart)) {
+			$DS = explode('-', $datestart);
+			self::$startDate = mktime(0, 0, 0, $DS[1], $DS[2], $DS[0]);
 		}
 	}
 	
 	public function setDateEnd($dateend = '')
 	{
-		if (!empty($dateend)) {
-			$delim = substr($dateend, 4, 1);
-			
-			if (!empty($delim)) {
-				$DE = explode($delim, $dateend);
-				self::$endDate = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
-			}
+		if ($this->_checkDate($dateend)) {
+			$DE = explode('-', $dateend);
+			self::$endDate = mktime(23, 59, 59, $DE[1], $DE[2], $DE[0]);
 		}
 	}
 	
