@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | public_html/admin/plugins/dbman/download.php                              |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2008-2014 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -54,8 +54,8 @@ if (!SEC_hasRights('dbman.edit')) {
 // Checks if filename contains directory, or if filename ends with '.sql' or '.sql.gz'
 $filename = COM_applyFilter($_GET['filename']);
 
-if (($filename !== basename($filename)) OR
-	(!preg_match('/\.sql$/i', $filename) AND !preg_match('/\.sql\.gz$/i', $filename))) {
+if (($filename !== basename($filename)) ||
+	(!preg_match('/\.sql$/i', $filename) && !preg_match('/\.sql\.gz$/i', $filename))) {
 	// Invalid file name was designated.
 	COM_errorLog("Invalid file name was designated for download.  User id: {$_USER['uid']}, Username: {$_USER['username']}, IP: {$_SERVER['REMOTE_ADDR']}", 1);
 	$display = COM_siteHeader()
