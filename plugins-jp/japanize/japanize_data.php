@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/japanize/japanize_data.php                                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2013 by the following authors:                         |
+// | Copyright (C) 2009-2014 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
 // |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
@@ -26,7 +26,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'japanize_data.php') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'japanize_data.php') !== false) {
 	die('This file cannot be used on its own.');
 }
 
@@ -212,8 +212,8 @@ $_JAPANIZE_DATA[1] = array(
 	),
 	array(
 		'ja' => "UPDATE {$_TABLES['users']} "
-			. "SET username = '" . addslashes('ゲストユーザー') . "', "
-			. "    fullname = '" . addslashes('ゲストユーザー') . "' "
+			. "SET username = '" . DB_escapeString('ゲストユーザー') . "', "
+			. "    fullname = '" . DB_escapeString('ゲストユーザー') . "' "
 			. "WHERE (uid = 1) ",
 		'en' => "UPDATE {$_TABLES['users']} "
 			. "SET username = 'Anonymous', fullname = 'Anonymous' "
@@ -221,8 +221,8 @@ $_JAPANIZE_DATA[1] = array(
 	),
 	array(
 		'ja' => "UPDATE {$_TABLES['users']} "
-			. "SET fullname= '" . addslashes('サイト管理者') . "', homepage='"
-			. addslashes($_CONF['site_url']) . "' "
+			. "SET fullname= '" . DB_escapeString('サイト管理者') . "', homepage='"
+			. DB_escapeString($_CONF['site_url']) . "' "
 			. "WHERE (uid = 2) ",
 		'en' => "UPDATE {$_TABLES['users']} "
 			. "SET fullname= 'Geeklog SuperUser', homepage='http://www.geeklog.net/' "
@@ -230,30 +230,30 @@ $_JAPANIZE_DATA[1] = array(
 	),
 	array(
 		'ja' => "UPDATE {$_TABLES['stories']} "
-			. "SET title = '" . addslashes('Geeklogへようこそ!') . "', "
-			. "introtext = '" . addslashes("<p>無事インストールが完了したようですね。おめでとうございます。できれば、<a href=\"docs/japanese/index.html\">docs ディレクトリ</a>のすべての文書に一通り目を通しておいてください。Geeklogはユーザーを中心としたセキュリティモデルを実装しています。Geeklogを管理・運用するにはこの仕組みを理解する必要があります。</p>\n<p>サイトにログインするには、次のアカウントを使用してください:</p>\n<p>ユーザー名: <strong>Admin</strong><br />\nパスワード: <strong>password</strong></p><p><strong>ログインしたら、忘れずに<a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">パスワードを変更</a>してください。</strong></p><p>Geeklogのサポートは、<a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。追加ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。</p>") . "' "
+			. "SET title = '" . DB_escapeString('Geeklogへようこそ!') . "', "
+			. "introtext = '" . DB_escapeString("<p>無事インストールが完了したようですね。おめでとうございます。できれば、<a href=\"docs/japanese/index.html\">docs ディレクトリ</a>のすべての文書に一通り目を通しておいてください。Geeklogはユーザーを中心としたセキュリティモデルを実装しています。Geeklogを管理・運用するにはこの仕組みを理解する必要があります。</p>\n<p>サイトにログインするには、次のアカウントを使用してください:</p>\n<p>ユーザー名: <strong>Admin</strong><br />\nパスワード: <strong>password</strong></p><p><strong>ログインしたら、忘れずに<a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">パスワードを変更</a>してください。</strong></p><p>Geeklogのサポートは、<a href=\"http://www.geeklog.jp\">Geeklog Japanese</a>へ。追加ドキュメントは <a href=\"http://wiki.geeklog.jp\">Geeklog Wiki ドキュメント</a>をどうぞ。</p>") . "' "
 					. "WHERE (sid = 'welcome') ",
 		'en' => "UPDATE {$_TABLES['stories']} "
 			. "SET title = 'Welcome to Geeklog!', "
-			. "introtext = '" . addslashes("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/english/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>") . "' "
+			. "introtext = '" . DB_escapeString("<p>Welcome and let me be the first to congratulate you on installing Geeklog. Please take the time to read everything in the <a href=\"docs/english/index.html\">docs directory</a>. Geeklog now has enhanced, user-based security.  You should thoroughly understand how these work before you run a production Geeklog Site.</p>\n<p>To log into your new Geeklog site, please use this account:</p>\n<p>Username: <b>Admin</b><br />\nPassword: <b>password</b></p><p><b>And don't forget to <a href=\"{$_CONF['site_url']}/usersettings.php?mode=edit\">change your password</a> after logging in!</b></p>") . "' "
 			. "WHERE (sid = 'welcome') ",
 	),
 	array(
 		'ja' => "UPDATE {$_TABLES['storysubmission']} "
-			. "SET title = '" . addslashes('セキュリティを確認してください。') . "', "
-			. "introtext = '" . addslashes("<p>インストールが終了したら、次のことを実行してセキュリティを高めてください。</p><ol>\n<li>Adminアカウントのパスワードを変更する。</li>\n<li>installディレクトリを削除する（もう必要ありません）。</li>\n</ol>") . "' "
+			. "SET title = '" . DB_escapeString('セキュリティを確認してください。') . "', "
+			. "introtext = '" . DB_escapeString("<p>インストールが終了したら、次のことを実行してセキュリティを高めてください。</p><ol>\n<li>Adminアカウントのパスワードを変更する。</li>\n<li>installディレクトリを削除する（もう必要ありません）。</li>\n</ol>") . "' "
 			. "WHERE (sid = 'security-reminder') ",
 		'en' => "UPDATE {$_TABLES['storysubmission']} "
 			. "SET title = 'Are you secure?', "
-			. "introtext = '" . addslashes("<p>This is a reminder to secure your site once you have Geeklog up and running. What you should do:</p>\n\n<ol>\n<li>Change the default password for the Admin account.</li>\n<li>Remove the install directory (you won't need it any more).</li>\n</ol>") . "' "
+			. "introtext = '" . DB_escapeString("<p>This is a reminder to secure your site once you have Geeklog up and running. What you should do:</p>\n\n<ol>\n<li>Change the default password for the Admin account.</li>\n<li>Remove the install directory (you won't need it any more).</li>\n</ol>") . "' "
 			. "WHERE (sid = 'security-reminder') ",
 	),
 	array(
 		'ja' => "UPDATE {$_TABLES['topics']} "
-			. "SET topic = '" . addslashes('おしらせ') . "' "
+			. "SET topic = '" . DB_escapeString('おしらせ') . "' "
 			. "WHERE (tid = 'General') ",
 		'en' => "UPDATE {$_TABLES['topics']} "
-			. "SET topic = '" . addslashes('General News') . "' "
+			. "SET topic = '" . DB_escapeString('General News') . "' "
 			. "WHERE (tid = 'General') ",
 	),
 );
@@ -277,12 +277,12 @@ if (DB_checkTableExists('events')) {
 if (DB_checkTableExists('linkcategories')) {
 	$_JAPANIZE_DATA[1][] = array(
 		'ja' => "UPDATE {$_TABLES['linkcategories']} "
-			. "SET description = '" . addslashes('Geeklog関係のサイト') . "' "
-			. "WHERE (cid = '" . addslashes('geeklog-sites') . "') ",
+			. "SET description = '" . DB_escapeString('Geeklog関係のサイト') . "' "
+			. "WHERE (cid = '" . DB_escapeString('geeklog-sites') . "') ",
 		'en' => "UPDATE {$_TABLES['linkcategories']} "
 			. "SET description = '"
-			. addslashes('Sites using or related to the Geeklog CMS') . "' "
-			. "WHERE (cid = '" . addslashes('geeklog-sites') . "') ",
+			. DB_escapeString('Sites using or related to the Geeklog CMS') . "' "
+			. "WHERE (cid = '" . DB_escapeString('geeklog-sites') . "') ",
 	);
 }
 
@@ -295,8 +295,8 @@ if (DB_checkTableExists('links')) {
 				. "owner_id, group_id, perm_owner, perm_group, "
 				. "perm_members, perm_anon) "
 				. "VALUES ('geeklog.jp', 'geeklog-sites', 'http://www.geeklog.jp/', "
-				. "'" . addslashes('Geeklog日本公式サイト') . "', '"
-				. addslashes('Geeklog Japanese') . "', 0, NOW(), 1, {$group_id}, "
+				. "'" . DB_escapeString('Geeklog日本公式サイト') . "', '"
+				. DB_escapeString('Geeklog Japanese') . "', 0, NOW(), 1, {$group_id}, "
 				. "3, 3, 2, 2) ",
 			'en' => "DELETE FROM {$_TABLES['links']} "
 				. "WHERE (lid = 'geeklog.jp')",
@@ -437,6 +437,11 @@ $_JAPANIZE_DATA[2] = array(
 		'group' => 'Comment Submitters',
 	),
 	array(
+		'en'    => 'Has full access to File Manager',
+		'ja'    => 'ファイルマネージャー管理者',
+		'group' => 'Filemanager Admin',
+	),
+	array(
 		'en'    => 'Users in this group can administer the Autotags plugin',
 		'ja'    => 'Autotagsプラグイン管理者',
 		'group' => 'Autotags Admin',
@@ -453,7 +458,7 @@ $_JAPANIZE_DATA[2] = array(
 	),
 	array(
 		'en'    => 'Users in this group can administer the sitemap plugin',
-		'ja'    => 'サイトマップ管理者',
+		'ja'    => 'Sitemapプラグイン管理者',
 		'group' => 'Sitemap Admin',
 	),
 	array(
@@ -463,7 +468,7 @@ $_JAPANIZE_DATA[2] = array(
 	),
 	array(
 		'en'    => 'Has full access to Mycaljp features',
-		'ja'    => 'Mycaljp管理者',
+		'ja'    => 'Mycaljpプラグイン管理者',
 		'group' => 'Mycaljp Admin',
 	),
 // 	array(
@@ -537,10 +542,10 @@ $_JAPANIZE_DATA[3] = array(
 	array(
 		'type' => 'sql',
 		'en'   => "UPDATE {$_TABLES['blocks']} "
-					. "SET title = 'About Geeklog', content = '" . addslashes('<p><strong>Welcome to Geeklog!</strong></p><p>If you\'re already familiar with Geeklog - and especially if you\'re not: There have been many improvements to Geeklog since earlier versions that you might want to read up on. Please read the <a href="docs/changes.html">release notes</a>. If you need help, please see the <a href="docs/support.html">support options</a>.</p>') . "' "
+					. "SET title = 'About Geeklog', content = '" . DB_escapeString('<p><strong>Welcome to Geeklog!</strong></p><p>If you\'re already familiar with Geeklog - and especially if you\'re not: There have been many improvements to Geeklog since earlier versions that you might want to read up on. Please read the <a href="docs/changes.html">release notes</a>. If you need help, please see the <a href="docs/support.html">support options</a>.</p>') . "' "
 					. "WHERE (name = 'first_block') ",
 		'ja'   => "UPDATE {$_TABLES['blocks']} "
-					. "SET title = 'Geeklogについて', content = '" . addslashes('<p><strong>ようこそ、Geeklogへ!</strong><p>Geeklogについてのサポートは、 <a href="http://www.geeklog.jp">Geeklog Japanese</a>へ。ドキュメントは <a href="http://wiki.geeklog.jp">Geeklog Wiki ドキュメント</a>をどうぞ。') . "' "
+					. "SET title = 'Geeklogについて', content = '" . DB_escapeString('<p><strong>ようこそ、Geeklogへ!</strong><p>Geeklogについてのサポートは、 <a href="http://www.geeklog.jp">Geeklog Japanese</a>へ。ドキュメントは <a href="http://wiki.geeklog.jp">Geeklog Wiki ドキュメント</a>をどうぞ。') . "' "
 					. "WHERE (name = 'first_block') ",
 	),
 );
@@ -561,22 +566,22 @@ $_JAPANIZE_DATA[4] = array(
 				'en' => 'en-gb',
 			),
 			
-			// 管理者ブロック･･･リンクをソートする=FALSE
+			// 管理者ブロック･･･リンクをソートする=false
 			'sort_admin' => array(
-				'ja' => FALSE,
-				'en' => TRUE,
+				'ja' => false,
+				'en' => true,
 			),
 			
 			// 話題ブロック･･･記事投稿数を表示する=いいえ
 			'showsubmissioncount' => array(
-				'ja' => FALSE,
-				'en' => TRUE,
+				'ja' => false,
+				'en' => true,
 			),
 			
 			// 話題ブロック･･･Homeへのリンクを表示しない=はい
 			'hide_home_link' => array(
-				'ja' => TRUE,
-				'en' => FALSE,
+				'ja' => true,
+				'en' => false,
 			),
 			
 			// コメント･･･コメント形状=flat
@@ -633,10 +638,16 @@ $_JAPANIZE_DATA[4] = array(
 				'en' => $locale['en']['timeonly'],
 			),
 			
-			// hour_mode 時間制
+			// hour_mode･･･時間制
 			'hour_mode' => array(
 				'ja' => 24,
 				'en' => 12,
+			),
+			
+			// decimal_count･･･小数点以下の桁数
+			'decimal_count' => array(
+				'ja' => 0,
+				'en' => 2,
 			),
 			
 			// timezone タイムゾーン
@@ -647,8 +658,8 @@ $_JAPANIZE_DATA[4] = array(
 			
 			// アドバンストエディタ
 			'advanced_editor' => array(
-				'ja' => FALSE,
-				'en' => TRUE,
+				'ja' => true,
+				'en' => false,
 			),
 			
 			// HTMLフィルタ･･･ユーザーHTML
@@ -744,121 +755,26 @@ $_JAPANIZE_DATA[5] = array(
 
 // 6. 権限のツールチップを変更する
 $_JAPANIZE_DATA[6] = array(
-	'story.edit' => array(
-		'ja' => '記事を編集する権限',
-		'en' => 'Access to story editor',
-	),
-	'story.moderate' => array(
-		'ja' => '承認待ちの記事を承認・却下する権限',
-		'en' => 'Ability to moderate pending stories',
-	),
-	'links.moderate' => array(
-		'ja' => '承認待ちのリンクを承認・却下する権限',
-		'en' => 'Ability to moderate pending links',
-	),
-	'links.edit' => array(
-		'ja' => 'リンクを編集する権限',
-		'en' => 'Access to links editor',
-	),
-	'user.edit' => array(
-		'ja' => 'ユーザーを編集する権限',
-		'en' => 'Access to user editor',
-	),
-	'user.delete' => array(
-		'ja' => 'ユーザーを削除する権限',
-		'en' => 'Ability to delete a user',
-	),
-	'user.mail' => array(
-		'ja' => 'メンバーにメールを送信する権限',
-		'en' => 'Ability to send email to members',
-	),
-	'calendar.moderate' => array(
-		'ja' => '承認待ちのイベントを承認・却下する権限',
-		'en' => 'Ability to moderate pending events',
-	),
-	'calendar.edit' => array(
-		'ja' => 'イベントを編集する権限',
-		'en' => 'Access to event editor',
+// 権限名の降順
+	'block.delete' => array(
+		'ja' => 'ブロックを削除する権限',
+		'en' => 'Ability to delete a block',
 	),
 	'block.edit' => array(
 		'ja' => 'ブロックを編集する権限',
 		'en' => 'Access to block editor',
 	),
-	'topic.edit' => array(
-		'ja' => '話題を編集する権限',
-		'en' => 'Access to topic editor',
+	'calendar.edit' => array(
+		'ja' => 'イベントを編集する権限',
+		'en' => 'Access to event editor',
 	),
-	'polls.edit' => array(
-		'ja' => 'アンケートを編集する権限',
-		'en' => 'Access to polls editor',
-	),
-	'plugin.edit' => array(
-		'ja' => 'プラグインを編集する権限',
-		'en' => 'Access to plugin editor',
-	),
-	'group.edit' => array(
-		'ja' => 'グループを編集する権限',
-		'en' => 'Ability to edit groups',
-	),
-	'group.delete' => array(
-		'ja' => 'グループを削除する権限',
-		'en' => 'Ability to delete groups',
-	),
-	'block.delete' => array(
-		'ja' => 'ブロックを削除する権限',
-		'en' => 'Ability to delete a block',
-	),
-	'staticpages.edit' => array(
-		'ja' => '静的ページを編集する権限',
-		'en' => 'Ability to edit a static page',
-	),
-	'staticpages.delete' => array(
-		'ja' => '静的ページを削除する権限',
-		'en' => 'Ability to delete a static page',
-	),
-	'story.submit' => array(
-		'ja' => '承認待ちなしで記事を掲載する権限',
-		'en' => 'May skip the story submission queue',
-	),
-	'links.submit' => array(
-		'ja' => '承認待ちなしでリンクを掲載する権限',
-		'en' => 'May skip the links submission queue',
+	'calendar.moderate' => array(
+		'ja' => '承認待ちのイベントを承認・却下する権限',
+		'en' => 'Ability to moderate pending events',
 	),
 	'calendar.submit' => array(
 		'ja' => '承認待ちなしでイベントを掲載する権限',
 		'en' => 'May skip the event submission queue',
-	),
-	'staticpages.PHP' => array(
-		'ja' => '静的ページでPHPを使用する権限',
-		'en' => 'Ability use PHP in static pages',
-	),
-	'spamx.admin' => array(
-		'ja' => 'Spam-xプラグインを管理する権限',
-		'en' => 'Full access to Spam-x plugin',
-	),
-	'story.ping' => array(
-		'ja' => '記事の更新ピング、ピングバック、トラックバックを送信する権限',
-		'en' => 'Ability to send pings, pingbacks, or trackbacks for stories',
-	),
-	'syndication.edit' => array(
-		'ja' => 'フィードを管理する権限',
-		'en' => 'Access to Content Syndication',
-	),
-	'webservices.atompub' => array(
-		'ja' => 'Atompubウェブサービスを使用する権限',
-		'en' => 'May use Atompub Webservices (if restricted)',
-	),
-	'plugin.install' => array(
-		'ja' => 'プラグインをインストール・アンインストールする権限',
-		'en' => 'Can install/uninstall plugins',
-	),
-	'plugin.upload' => array(
-		'ja' => 'プラグインを新規にアップロードする権限',
-		'en' => 'Can upload new plugins',
-	),
-	'group.assign' => array(
-		'ja' => 'ユーザーをグループに加入させる権限',
-		'en' => 'Ability to assign users to groups',
 	),
 	'comment.moderate' => array(
 		'ja' => '承認待ちのコメントを承認・却下する権限',
@@ -868,10 +784,124 @@ $_JAPANIZE_DATA[6] = array(
 		'ja' => '承認待ちなしでコメントを投稿する権限',
 		'en' => 'Comments are automatically published',
 	),
+	'filemanager.admin' => array(
+		'ja' => 'ファイルマネージャーを使用する権限',
+		'en' => 'Ability to use File Manager',
+	),
+	'group.assign' => array(
+		'ja' => 'ユーザーをグループに加入させる権限',
+		'en' => 'Ability to assign users to groups',
+	),
+	'group.delete' => array(
+		'ja' => 'グループを削除する権限',
+		'en' => 'Ability to delete groups',
+	),
+	'group.edit' => array(
+		'ja' => 'グループを編集する権限',
+		'en' => 'Ability to edit groups',
+	),
 	'htmlfilter.skip' => array(
 		'ja' => 'HTMLフィルターをバイパスする権限',
 		'en' => 'Skip filtering posts for HTML',
 	),
+	'japanize.edit' => array(
+		'ja' => 'Japanizeプラグインを管理する権限',
+		'en' => 'Access to Japanize editor',
+	),
+	'links.edit' => array(
+		'ja' => 'リンクを編集する権限',
+		'en' => 'Access to links editor',
+	),
+	'links.moderate' => array(
+		'ja' => '承認待ちのリンクを承認・却下する権限',
+		'en' => 'Ability to moderate pending links',
+	),
+	'links.submit' => array(
+		'ja' => '承認待ちなしでリンクを掲載する権限',
+		'en' => 'May skip the links submission queue',
+	),
+	'ogp.edit' => array(
+		'ja' => 'OGP (Open Graph Protocol)プラグインを管理する権限',
+		'en' => 'Access to Open Graph Protocol editor',
+	),
+	'plugin.edit' => array(
+		'ja' => 'プラグインを編集する権限',
+		'en' => 'Access to plugin editor',
+	),
+	'polls.edit' => array(
+		'ja' => 'アンケートを編集する権限',
+		'en' => 'Access to polls editor',
+	),
+	'plugin.install' => array(
+		'ja' => 'プラグインをインストール・アンインストールする権限',
+		'en' => 'Can install/uninstall plugins',
+	),
+	'plugin.upload' => array(
+		'ja' => 'プラグインを新規にアップロードする権限',
+		'en' => 'Can upload new plugins',
+	),
+	'spamx.admin' => array(
+		'ja' => 'Spam-xプラグインを管理する権限',
+		'en' => 'Full access to Spam-x plugin',
+	),
+	'spamx.skip' => array(
+		'ja' => 'スパムチェックをバイパスする権限',
+		'en' => 'Skip checking posts for Spam',
+	),
+	'staticpages.delete' => array(
+		'ja' => '静的ページを削除する権限',
+		'en' => 'Ability to delete a static page',
+	),
+	'staticpages.edit' => array(
+		'ja' => '静的ページを編集する権限',
+		'en' => 'Ability to edit a static page',
+	),
+	'staticpages.PHP' => array(
+		'ja' => '静的ページでPHPを使用する権限',
+		'en' => 'Ability use PHP in static pages',
+	),
+	'story.edit' => array(
+		'ja' => '記事を編集する権限',
+		'en' => 'Access to story editor',
+	),
+	'story.moderate' => array(
+		'ja' => '承認待ちの記事を承認・却下する権限',
+		'en' => 'Ability to moderate pending stories',
+	),
+	'story.ping' => array(
+		'ja' => '記事の更新ピング、ピングバック、トラックバックを送信する権限',
+		'en' => 'Ability to send pings, pingbacks, or trackbacks for stories',
+	),
+	'story.submit' => array(
+		'ja' => '承認待ちなしで記事を掲載する権限',
+		'en' => 'May skip the story submission queue',
+	),
+	'syndication.edit' => array(
+		'ja' => 'フィードを管理する権限',
+		'en' => 'Access to Content Syndication',
+	),
+	'topic.edit' => array(
+		'ja' => '話題を編集する権限',
+		'en' => 'Access to topic editor',
+	),
+	'user.delete' => array(
+		'ja' => 'ユーザーを削除する権限',
+		'en' => 'Ability to delete a user',
+	),
+	'user.edit' => array(
+		'ja' => 'ユーザーを編集する権限',
+		'en' => 'Access to user editor',
+	),
+	'user.mail' => array(
+		'ja' => 'メンバーにメールを送信する権限',
+		'en' => 'Ability to send email to members',
+	),
+	'webservices.atompub' => array(
+		'ja' => 'Atompubウェブサービスを使用する権限',
+		'en' => 'May use Atompub Webservices (if restricted)',
+	),
+
+// コンフィギュレーションのタブ
 	'config.Core.tab_site' => array(
 		'ja' => 'コンフィギュレーションの「サイト」タブにアクセスする権限',
 		'en' => 'Access to configure site',
@@ -1112,10 +1142,6 @@ $_JAPANIZE_DATA[6] = array(
 		'ja' => 'コンフィギュレーションの「静的ページ - 新着情報ブロック」タブにアクセスする権限',
 		'en' => 'Access to configure static pages what\'s new block',
 	),
-	'japanize.edit' => array(
-		'ja' => 'Japanizeプラグインを管理する権限',
-		'en' => 'Access to Japanize editor',
-	),
 	'config.calendar.tab_autotag_permissions' => array(
 		'ja' => 'コンフィギュレーションの「カレンダー - 自動タグのパーミッション」タブにアクセスする権限',
 		'en' => 'Access to configure event autotag usage permissions',
@@ -1124,12 +1150,24 @@ $_JAPANIZE_DATA[6] = array(
 		'ja' => 'コンフィギュレーションの「カレンダー - パーミッションのデフォルト」タブにアクセスする権限',
 		'en' => 'Access to configure event default permissions',
 	),
-	'ogp.edit' => array(
-		'ja' => 'OGP (Open Graph Protocol)プラグインを管理する権限',
-		'en' => 'Access to Open Graph Protocol editor',
+	'config.Filemanager.tab_general' => array(
+		'ja' => 'コンフィギュレーションの「ファイルマネージャー - 全般」タブにアクセスする権限',
+		'en' => 'Access to configure Filemanager General Settings',
 	),
-	'spamx.skip' => array(
-		'ja' => 'スパムチェックをバイパスする権限',
-		'en' => 'Skip checking posts for Spam',
+	'config.Filemanager.tab_upload' => array(
+		'ja' => 'コンフィギュレーションの「ファイルマネージャー - アップロード」タブにアクセスする権限',
+		'en' => 'Access to configure Filemanager Upload Settings',
+	),
+	'config.Filemanager.tab_images' => array(
+		'ja' => 'コンフィギュレーションの「ファイルマネージャー - 画像」タブにアクセスする権限',
+		'en' => 'Access to configure Filemanager Images Settings',
+	),
+	'config.Filemanager.tab_videos' => array(
+		'ja' => 'コンフィギュレーションの「ファイルマネージャー - ビデオ」タブにアクセスする権限',
+		'en' => 'Access to configure Filemanager Videos Settings',
+	),
+	'config.Filemanager.tab_audios' => array(
+		'ja' => 'コンフィギュレーションの「ファイルマネージャー - オーディオ」タブにアクセスする権限',
+		'en' => 'Access to configure Filemanager Audios Settings',
 	),
 );
