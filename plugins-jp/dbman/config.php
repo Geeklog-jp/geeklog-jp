@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/dbman/config.php                                          |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2008-2012 mystral-kk - geeklog AT mystral-kk DOT net        |
+// | Copyright (C) 2008-2014 mystral-kk - geeklog AT mystral-kk DOT net        |
 // |                                                                           |
 // | Constructed with the Universal Plugin                                     |
 // | Copyright (C) 2002 by the following authors:                              |
@@ -30,7 +30,7 @@
 // | Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.           |
 // +---------------------------------------------------------------------------+
 
-if (stripos($_SERVER['PHP_SELF'], 'config.php') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'config.php') !== false) {
     die('This file can not be used on its own.');
 }
 
@@ -42,7 +42,7 @@ global $_DB_table_prefix, $_CONF;
 // the Dbman plugin's config array
 $_DBMAN_CONF = array();
 
-$_DBMAN_CONF['pi_version'] = '0.7.1';					// Plugin Version
+$_DBMAN_CONF['pi_version'] = '0.7.2';					// Plugin Version
 $_DBMAN_CONF['gl_version'] = '1.6.0';					// GL Version plugin for
 $_DBMAN_CONF['pi_url']     = 'http://mystral-kk.net/';	// Plugin Homepage
 $_DBMAN_CONF['GROUPS']     = array(
