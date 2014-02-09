@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/japanize/functions.inc                                    |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2013 by the following authors:                         |
+// | Copyright (C) 2009-2014 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
 // |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
@@ -26,7 +26,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'functions.inc') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'functions.inc') !== false) {
 	die('This file cannot be used on its own.');
 }
 
@@ -285,7 +285,7 @@ function plugin_upgrade_japanize() {
 		 . "WHERE (pi_name = 'japanize') ";
 	DB_query($sql);
 
-	return TRUE;
+	return true;
 }
 
 function plugin_autouninstall_japanize() {
@@ -307,7 +307,7 @@ function plugin_autouninstall_japanize() {
 # * @return        boolean       Returns true if moderator
 # */
 # function plugin_ismoderator_japanize() {
-# 	return TRUE;
+# 	return true;
 # }
 # 
 function plugin_geticon_japanize() {
@@ -326,7 +326,7 @@ function plugin_cclabel_japanize() {
 			plugin_geticon_japanize()
 		);
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 
@@ -351,7 +351,7 @@ function plugin_getadminoption_japanize() {
 			(string) $count . '/6'
 		);
 	} else {
-		return FALSE;
+		return false;
 	}
 }
 

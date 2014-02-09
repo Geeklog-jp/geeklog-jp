@@ -5,7 +5,7 @@
 // +---------------------------------------------------------------------------+
 // | geeklog/plugins/japanize/autoinstall.php                                  |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2009-2013 by the following authors:                         |
+// | Copyright (C) 2009-2014 by the following authors:                         |
 // |                                                                           |
 // | Authors: Tsuchi           - tsuchi AT geeklog DOT jp                      |
 // |          mystral-kk       - geeklog AT mystral-kk DOT net                 |
@@ -26,7 +26,7 @@
 // |                                                                           |
 // +---------------------------------------------------------------------------+
 
-if (strpos(strtolower($_SERVER['PHP_SELF']), 'autoinstall.php') !== FALSE) {
+if (stripos($_SERVER['PHP_SELF'], 'autoinstall.php') !== false) {
 	die('This file cannot be used on its own.');
 }
 
@@ -46,7 +46,7 @@ function plugin_autoinstall_japanize($pi_name) {
 			'pi_name'         => 'japanize',
 			'pi_display_name' => 'Japanize',
 			'pi_version'      => $_JPN_CONF['version'],
-			'pi_gl_version'   => '1.6.0',
+			'pi_gl_version'   => '2.1.0',
 			'pi_homepage'     => 'http://www.geeklog.jp/filemgmt/index.php?id=340',
 		),
 		'groups'          => array(
@@ -72,8 +72,9 @@ function plugin_load_configuration_japanize($pi_name) {
 }
 
 function plugin_compatible_with_this_version_japanize($pi_name) {
-	return function_exists('COM_truncate') AND
-		   function_exists('MBYTE_strpos') AND
-		   function_exists('SEC_createToken') AND
+	return function_exists('DB_escapeString') &&
+		   function_exists('COM_truncate') &&
+		   function_exists('MBYTE_strpos') &&
+		   function_exists('SEC_createToken') &&
 		   !function_exists('custom_mail');
 }
