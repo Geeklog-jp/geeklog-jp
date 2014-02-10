@@ -684,7 +684,19 @@ $_JAPANIZE_DATA[4] = array(
 			'censormode' => array(
 				'ja' => 0,
 				'en' => 1,
-			)
+			),
+			
+			// コメントフィード･･･記事のタグ
+			'comment_feeds_article_tag' => array(
+				'ja' => "<p>[元の記事: <a href=\"%s\">%s</a>%s%s]\n",
+				'en' => "<p>[Original Article: <a href=\"%s\">%s</a>%s%s]\n",
+			),
+			
+			// コメントフィード･･･コメントの投稿者のタグ
+			'comment_feeds_comment_author_tag' => array(
+				'ja' => ", Comment By: <a href=\"%s\">%s</a>",
+				'en' => ", コメント投稿者: <a href=\"%s\">%s</a>",
+			),
 		),
 		
 		'calendar' => array(
