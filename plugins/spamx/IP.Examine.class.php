@@ -30,11 +30,8 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'BaseCommand.class.php';
 * @package Spam-X
 *
 */
-class IP extends BaseCommand {
-    /**
-     * No Constructor - use BaseCommand constructor
-     */
-
+class IP extends BaseCommand
+{
     /**
      * The execute method examines the IP address a comment is coming from,
      * comparing it against a blacklist of banned IP addresses.
@@ -42,7 +39,7 @@ class IP extends BaseCommand {
      * @param   string  $comment    Comment text to examine
      * @return  int                 0: no spam, else: spam detected
      */
-    function execute($comment)
+    public function execute($comment)
     {
         return $this->_process($_SERVER['REMOTE_ADDR']);
     }
@@ -60,7 +57,7 @@ class IP extends BaseCommand {
      * @param   string  $type       Type of comment ('article', etc)
      * @return  int                 0: no spam, else: spam detected
      */
-    function reexecute($comment, $date, $ip, $type)
+    public function reexecute($comment, $date, $ip, $type)
     {
         return $this->_process($ip);
     }
@@ -71,14 +68,13 @@ class IP extends BaseCommand {
      * @param   string  $iptocheck  IP address to check
      * @param   string  $CIDR       IP address range to check against
      * @return  boolean             true if IP falls into the CIDR, else false
-     * @access  private
      * @todo    CIDR support for IPv6 addresses
      *
      * Original author: Ian B, taken from
      * @link http://www.php.net/manual/en/function.ip2long.php#71939
      *
      */
-    function _matchCIDR($iptocheck, $CIDR)
+    private function _matchCIDR($iptocheck, $CIDR)
     {
         // not for IPv6 addresses
         if (strpos($iptocheck, ':') !== false) {
@@ -128,16 +124,15 @@ class IP extends BaseCommand {
     /**
      * Private internal method to match an IP address against an address range
      *
-     * @param   string  $ip     IP address to check
-     * @param   string  $range  IP address range to check against
-     * @return  boolean         true if IP falls into the IP range, else false
-     * @access  private
-     *
      * Original authors: dh06 and Stephane, taken from
      * @link http://www.php.net/manual/en/function.ip2long.php#70707
      *
+     * @param   string  $ip     IP address to check
+     * @param   string  $range  IP address range to check against
+     * @return  boolean         true if IP falls into the IP range, else false
+     *
      */
-    function _matchRange($ip, $range)
+    private function _matchRange($ip, $range)
     {
         // not for IPv6 addresses
         if (strpos($ip, ':') !== false) {
@@ -146,11 +141,11 @@ class IP extends BaseCommand {
 
         $d = strpos($range, '-');
         if ($d !== false) {
-           $from = ip2long(trim(substr($range, 0, $d)));
-           $to = ip2long(trim(substr($range, $d + 1)));
+            $from = ip2long(trim(substr($range, 0, $d)));
+            $to = ip2long(trim(substr($range, $d + 1)));
 
-           $ip = ip2long($ip);
-           return (($ip >= $from) && ($ip <= $to));
+            $ip = ip2long($ip);
+            return (($ip >= $from) && ($ip <= $to));
         }
 
         return false;
@@ -162,17 +157,12 @@ class IP extends BaseCommand {
      *
      * @param   strint  $ip     IP address of comment poster
      * @return  int             0: no spam, else: spam detected
-     * @access  private
      */
-    function _process($ip)
+    private function _process($ip)
     {
-        global $_CONF, $_TABLES, $_USER, $LANG_SX00, $result;
+        global $_CONF, $_TABLES, $LANG_SX00;
 
-        if (isset($_USER['uid']) && ($_USER['uid'] > 1)) {
-            $uid = $_USER['uid'];
-        } else {
-            $uid = 1;
-        }
+        $uid = $this->getUid();
 
         /**
          * Include Blacklist Data
@@ -180,7 +170,8 @@ class IP extends BaseCommand {
         $result = DB_query("SELECT value FROM {$_TABLES['spamx']} WHERE name='IP'", 1);
         $nrows = DB_numRows($result);
 
-        $ans = 0;
+        $ans = PLG_SPAM_NOT_FOUND;
+
         for ($i = 0; $i < $nrows; $i++) {
             list($val) = DB_fetchArray($result);
 
@@ -190,11 +181,12 @@ class IP extends BaseCommand {
             } elseif (strpos($val, '-') !== false) {
                 $matches = $this->_matchRange($ip, $val);
             } else {
-                $matches = (preg_match("#$val#i", $ip) == 0 ? false : true);
+                $matches = preg_match("#^{$val}$#i", $ip);
             }
 
             if ($matches) {
-                $ans = 1; // quit on first positive match
+                $ans = PLG_SPAM_FOUND;	// quit on first positive match
+                $this->updateStat('IP', $val);
                 SPAMX_log($LANG_SX00['foundspam'] . $val .
                           $LANG_SX00['foundspam2'] . $uid .
                           $LANG_SX00['foundspam3'] . $ip);

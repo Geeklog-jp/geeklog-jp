@@ -56,7 +56,7 @@ $LANG01 = array(
     11 => 'Articoli',
     12 => 'Blocchi',
     13 => 'Argomenti',
-    14 => '',
+    14 => 'Command &amp; Control',
     15 => '',
     16 => '',
     17 => 'Utenti',
@@ -82,7 +82,7 @@ $LANG01 = array(
     37 => 'Nessun articolo dagli utenti',
     38 => 'Pubblicazione del Contenuto',
     39 => 'Aggiorna',
-    40 => '',
+    40 => 'Error in password request, invalid username',
     41 => 'Utenti non registrati',
     42 => 'Inviato da:',
     43 => 'Rispondi a Questo',
@@ -182,9 +182,15 @@ $LANG01 = array(
     137 => 'Warning: Javascript required to enable functionality',
     138 => "Click <a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">here</a> to disable the advanced editor and use the default editor which does not require JavaScript",
     139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
+    140 => 'Allowed Autotags:',
     'facebook' => 'Login with Facebook',
     'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn'
+    'linkedin' => 'Login with LinkedIn',
+    'google' => 'Login with Google',
+    'microsoft' => 'Login with Microsoft',
+    'yahoo' => 'Login with Yahoo',
+    'ctl' => 'Clear Cache',
+    'filemanager' => 'File Manager'
 );
 
 ###############################################################################
@@ -404,7 +410,10 @@ $LANG04 = array(
     165 => 'Usa l\'Editor Avanzato',
     166 => 'Re-synch Remote Account',
     167 => 'Remote login',
-    168 => 'You may also login with one on of the below remote authentication services'
+    168 => 'You may also login with one on of the below remote authentication services',
+    'user_login' => 'User Login',
+    'user_login_message' => 'Please login below. You must enter both a username and password.',
+    'user_logged_in_message' => "You are already logged in. Whould you like to <a href=\"{$_CONF['site_url']}/users.php?mode=logout\" rel=\"nofollow\">logout</a>?"
 );
 
 ###############################################################################
@@ -426,7 +435,7 @@ $LANG_MYACCOUNT = array(
 $LANG05 = array(
     1 => 'Non ci sono Notizie da visualizzare',
     2 => '<br' . XHTML . '>Non ci sono nuovi articoli da visualizzare. Questo perché o non ci sono nuovi articoli relativi a questo argomento o le tue preferenze utente sono troppo restrittive ',
-    3 => 'per l\'argomento <b>%s</b>',
+    3 => '',
     4 => 'Articolo del giorno',
     5 => 'Successivo',
     6 => 'Precedente',
@@ -673,6 +682,85 @@ $LANG12 = array(
 ###############################################################################
 
 ###############################################################################
+# admin/logviewer.php
+
+$LANG_LOGVIEW = array(
+    'log_viewer' => 'Log Viewer',
+    'info' => 'Geeklog log file administration.',
+    'logs' => 'Logs',
+    'view' => 'View Log File',
+    'clear' => 'Clear Log File',
+    'log_file' => 'Log File'
+);
+
+###############################################################################
+# admin/envcheck.php - distribution integrity checker
+
+$LANG_ENVCHECK = array(
+    'correct_perms' => 'Please correct the issues identified below. Once they have been corrected, use the <b>Recheck</b> button to validate the environment.',
+    'current' => 'Current',
+    'current_php_settings' => 'Current PHP Settings',
+    'directory_permissions' => 'Directory Permissions',
+    'enabled' => 'Enabled',
+    'env_check' => 'Environment Check',
+    'file_permissions' => 'File Permissions',
+    'file_uploads' => 'Many features of Geeklog require the ability to upload files, this should be enabled.',
+    'filesystem_check' => 'Directory / File Permissions',
+    'gd_lib' => 'GD Libraries',
+    'gd_not_found' => 'Unable to locate the GD library functions.  Please ensure that the GD libraries were compiled into PHP or select an alternate graphics library.',
+    'gd_ok' => 'GD Libraries v2 are installed.',
+    'gd_v1' => 'GD Libraries v1 is installed - This version does not fully support JPG image processing so there may be some quality issues.',
+    'graphics' => 'Graphics Library',
+    'libraries' => 'Libraries',
+    'hosting_env' => 'Hosting Environment Check',
+    'imagemagick' => 'ImageMagick Programs',
+    'im_not_found' => 'Unable to locate the <strong>convert</strong> executable for ImageMagick.',
+    'im_ok' => 'The <strong>convert</strong> executable appears to be valid.',
+    'memory_limit' => 'It is recommended that you have at least 48M of memory enabled on your site.',
+    'not_writable' => 'NOT WRITABLE',
+    'notes' => 'Notes',
+    'not_found' => 'Not Found',
+    'netpbm' => 'NetPBM Library',
+    'np_ok' => 'The NetPBM library is installed',
+    'np_not_found' => 'The NetPBM executables were not found.',
+    'openssl_library' => 'OpenSSL Library',
+    'openssl_ok' => 'The OpenSSL library is loaded. This library is required if you wish to use the OAuth user login method with Geeklog.',
+    'openssl_not_found' => 'The OpenSSL library is not loaded. This is required <strong>only</strong> if you wish to use the OAuth user login method with Geeklog.',
+    'off' => 'Off',
+    'ok' => 'OK',
+    'on' => 'On',
+    'open_basedir' => 'If <strong>open_basedir</strong> restrictions are enabled on your site, it may cause permission problems during the install. The File System Check below should point out any issues.',
+    'php_req_version' => 'Geeklog requires PHP version 5.2.0 or newer.',
+    'php_settings' => 'PHP Settings',
+    'php_version' => 'PHP Version',
+    'php_warning' => 'If any of the items below are marked in <span class="no">red</span>, you may encounter problems with your Geeklog site.  Check with your hosting provider for information on changing any of these PHP settings.',
+    'post_max_size' => 'Geeklog allows you to upload plugins, images, and files. You should allow at least 8M for the maximum post size.',
+    'recheck' => 'Recheck Environment',
+    'recommended' => 'Recommended',
+    'register_globals' => 'If PHP\'s <strong>register_globals</strong> is enabled, it can create security issues.',
+    'safe_mode' => 'If PHP\'s <strong>safe_mode</strong> is enabled, some functions of Geeklog may not work correctly. Specifically the Media Gallery plugin.',
+    'setting' => 'Setting',
+    'unable_mkdir' => 'Unable to create directory',
+    'upload_max_filesize' => 'Geeklog allows you to upload plugins, images, and files. You should allow at least 8M for the upload size.',
+    'not_checked' => 'Skipped',
+    'bypass_note' => 'Since either Safe Mode or open_basedir restrictions were detected, the check for graphic libraries were skipped.',
+    'not_used_note' => 'No graphic libraries are set to be used by Geeklog.',
+    'location' => 'Location',
+    'status' => 'Status',
+    'item' => 'Item',
+    'jhead' => 'jhead Program',
+    'jhead_not_found' => 'Unable to locate the jhead executable.',
+    'jhead_ok' => 'The jhead executable is installed.',
+    'jpegtran' => 'jpegtran Program',
+    'jpegtran_not_found' => 'Unable to locate the jpegtran executable.',
+    'jpegtran_ok' => 'The jpegtran executable is installed.',
+    'showhide_phpinfo' => 'Show/Hide Full PHP Info',
+    'view_online' => 'Click here %s to view online',
+    'no_new_items' => 'No New Items',
+    'max_execution_time' => 'Geeklog recommends the PHP default value of 30 seconds as a minimum, but plugin uploads and other operations may take longer than this depending upon your hosting environment.  If safe_mode (above) is Off, you may be able to increase this by modifying the value of <b>max_execution_time</b> in your php.ini file.'
+);
+
+###############################################################################
 # admin/auth.inc.php
 
 $LANG20 = array(
@@ -757,7 +845,9 @@ $LANG21 = array(
     66 => 'Autotag',
     67 => 'Seleziona per consentire "autotag"',
     68 => 'Il flusso per questo portale é troppo lungo per mostrarlo. Scegli il numero massimo per articoli da importare nel blocco nella configurazione dei blocchi, o un numero massimo globale nella configurazione di Geeklog.',
-    69 => 'Plugin Name'
+    69 => 'Plugin Name',
+    'cache_time' => 'Cache Time',
+    'cache_time_desc' => 'This block will be cached for no longer than this many seconds. If 0 caching is disabled. (3600 = 1 hour,  86400 = 1 day)'
 );
 
 ###############################################################################
@@ -855,7 +945,9 @@ $LANG24 = array(
     89 => 'Meta Description',
     90 => 'Meta Keywords',
     91 => 'É possibile estendere il tempo scadenza.',
-    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.',
+    'cache_time' => 'Cache Time',
+    'cache_time_desc' => 'This article will be cached for no longer than this many seconds. If 0 caching is disabled. If -1 cached until article is edited again. (3600 = 1 hour,  86400 = 1 day)'
 );
 
 ###############################################################################
@@ -915,8 +1007,16 @@ $LANG27 = array(
     51 => 'No',
     52 => 'Story',
     53 => 'Image',
+    54 => 'Selected',
+    55 => 'Assigned',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home'
+    'breadcrumb_root' => 'Home',
+    'autotag_desc_topic' => '[topic: id alternate title] - Displays a link to a topic using the ID as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_related_topics' => '[related_topics:id type:plugin max:max_items_listed] - Creates a clickable horizontal list of related topics based on the item id and type.',
+    'autotag_desc_related_items' => '[related_items:id type:plugin max:max_items_listed trim:max_length include:plugin] - Create a clickable list of related items based on the item id and type.',
+    'no_related_items' => 'No related items found.',
+    'topics:' => 'Topics:',
+    'filed_under:' => 'Filed under:'
 );
 
 ###############################################################################
@@ -1036,13 +1136,18 @@ $LANG29 = array(
     34 => 'Console di Amministrazione',
     35 => 'Inserimento Articolo',
     36 => 'Parent or Comment',
-    37 => '',
+    37 => 'Author',
     38 => 'Invia',
     39 => 'Non ci sono inserimenti da moderare al momento',
     40 => 'Inserimenti Utente',
     41 => 'Commenti Inviati',
     42 => 'Nome utente',
-    43 => 'Auto-Pubblicare Commenti?'
+    43 => 'Auto-Pubblicare Commenti?',
+    'core' => 'Core',
+    'plugins' => 'Plugins',
+    'tools' => 'Tools',
+    'users' => 'Users',
+    'submissions_desc' => 'To modify or delete a user submssion, click on that item\'s edit icon below. To approve and delete multiple submissions use the radio options in the lists and then click submit.'
 );
 
 ###############################################################################
@@ -1329,8 +1434,14 @@ $MESSAGE = array(
     113 => 'Your account has been created successfully. {site_url}',
     114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
     115 => 'Remote service has been disabled.',
+    116 => 'Loading...',
+    117 => 'Help page is not found.',
+    118 => 'Click to select a date',
+    119 => 'More..',
+    120 => 'Send this?',
     400 => 'Non tutti i campi sono stati validati con successo.',
-    401 => 'Inserisci il tuo nome completo'
+    401 => 'Inserisci il tuo nome completo',
+    500 => 'The Template Cache has been successfully cleared.'
 );
 
 ###############################################################################
@@ -1461,7 +1572,8 @@ $LANG_BUTTONS = array(
 $LANG_404 = array(
     1 => 'Errore 404',
     2 => 'Attenzione, Abbiamo cercato in tutto il sito ma l\'argomento <b>%s</b> non é stato trovato.',
-    3 => 'Siamo spiacenti, ma il file da te richiesto non esiste. Prego controlla nella pagina principale o nella pagina di ricerca per vedere se puoi trovare quanto da te richiesto.'
+    3 => 'Siamo spiacenti, ma il file da te richiesto non esiste. Prego controlla nella pagina principale o nella pagina di ricerca per vedere se puoi trovare quanto da te richiesto.',
+    4 => "<p>We're sorry, but the page you have requested does not exist. We recommend going back to this <a href=\"%s\">related page</a>, or you may want to check the <a href=\"{$_CONF['site_url']}/\">home page</a>, or the <a href=\"{$_CONF['site_url']}/search.php\">search page</a> to see if you can find what you lost."
 );
 
 ###############################################################################
@@ -1747,7 +1859,8 @@ $LANG_frontpagecodes = array(
 
 $LANG_postmodes = array(
     'plaintext' => 'Testo non formattato',
-    'html' => 'Testo in formato HTML'
+    'html' => 'Testo in formato HTML',
+    'wikitext' => 'Wiki-style format'
 );
 
 $LANG_sortcodes = array(
@@ -1802,6 +1915,7 @@ $LANG_confignames['Core'] = array(
     'backup_path' => 'Backup',
     'path_data' => 'Data',
     'path_images' => 'Immagini',
+    'path_editors' => 'Advanced Editors',
     'path_pear' => 'Percorso per PEAR',
     'have_pear' => 'Hai installato PEAR?',
     'mail_settings' => 'Impostazioni Posta ',
@@ -1813,6 +1927,7 @@ $LANG_confignames['Core'] = array(
     'doctype' => 'Declarazione DOCTYPE',
     'menu_elements' => 'Elementi del Menu',
     'path_themes' => 'Percorse dei Stili',
+    'cache_templates' => 'Cache Templates?',
     'disable_new_user_registration' => 'Disabilita Nuove Registrazioni',
     'allow_user_themes' => 'Permetti Stili Personali',
     'allow_user_language' => 'Permetti Lingue Personali',
@@ -1833,6 +1948,15 @@ $LANG_confignames['Core'] = array(
     'twitter_login' => 'Enable OAuth Login Method Twitter',
     'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
     'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
+    'google_login' => 'Enable OAuth Login Method Google',
+    'google_consumer_key' => 'Google OAuth Consumer Key',
+    'google_consumer_secret' => 'Google OAuth Consumer Secret',
+    'microsoft_login' => 'Enable OAuth Login Method Microsoft',
+    'microsoft_consumer_key' => 'Microsoft OAuth Consumer Key',
+    'microsoft_consumer_secret' => 'Microsoft OAuth Consumer Secret',
+    'yahoo_login' => 'Enable OAuth Login Method Yahoo',
+    'yahoo_consumer_key' => 'Yahoo OAuth Consumer Key',
+    'yahoo_consumer_secret' => 'Yahoo OAuth Consumer Secret',
     'spamx' => 'Azioni Spam-X',
     'sort_admin' => 'Ordina Collegamenti',
     'language' => 'Lingua',
@@ -1884,6 +2008,7 @@ $LANG_confignames['Core'] = array(
     'speedlimit' => 'Limite di velocita per Pubblicazioni',
     'skip_preview' => 'Salta Anteprima in pubblicazioni',
     'advanced_editor' => 'Editor Avanzato?',
+    'advanced_editor_name' => 'Advanced Editor Name?',
     'wikitext_editor' => 'Editor Wikitext?',
     'cron_schedule_interval' => 'Intervallo per Cron',
     'sortmethod' => 'Ordina Argomenti',
@@ -1906,6 +2031,7 @@ $LANG_confignames['Core'] = array(
     'hidenewtrackbacks' => 'Nascondi Nuovi Trackback',
     'hidenewplugins' => 'Nascondi gli Inserimenti dei Nuovi Plug-in',
     'title_trim_length' => 'Limita Lunghezza del Titolo',
+    'whatsnew_cache_time' => 'Max Cache Time',
     'trackback_enabled' => 'Trackback Abilitato?',
     'pingback_enabled' => 'Pingback Abilitato?',
     'ping_enabled' => 'Ping Abilitato?',
@@ -1934,9 +2060,16 @@ $LANG_confignames['Core'] = array(
     'hide_main_page_navigation' => 'Nascondere La Navigazione sulla Pagina Principale?',
     'onlyrootfeatures' => 'Solo Root puó metter "In Vetrina"',
     'aftersave_story' => 'Dopo Aver Salvato l\'Articolo',
+    'related_topics' => 'Related Topics',
+    'related_topics_max' => 'Max Related Topics to Display',
+    'whats_related' => 'What\'s Related',
+    'whats_related_max' => 'Max What\'s Related to Display',
+    'whats_related_trim' => 'What\'s Related Title Length',
+    'default_cache_time_article' => 'Default Article Cache Time',
     'aftersave_user' => 'Dopo Aver Salvato l\'Utente',
     'show_right_blocks' => 'Mostrare Sempre I blocchi a Destra?',
     'showfirstasfeatured' => 'Mostrare il Primo Articolo come "In Vetrina"?',
+    'template_comments' => 'Template Comments in Output?',
     'backend' => 'Abilitare Flussi?',
     'rdf_file' => 'Cartella di Uscita Syndication',
     'rdf_limit' => 'Limite per Flussi',
@@ -1971,6 +2104,7 @@ $LANG_confignames['Core'] = array(
     'commentspeedlimit' => 'Limite Velocitá per Commenti',
     'comment_limit' => 'Limite di Commenti',
     'comment_mode' => 'Modo per Commenti',
+    'comment_order' => 'Comment Order',
     'comment_code' => 'Predefinito per Commenti',
     'comment_edit' => 'Permettere Modifica dei Commenti?',
     'comment_edittime' => 'Tempo per Modifica dei Commenti (secondi)',
@@ -1991,6 +2125,8 @@ $LANG_confignames['Core'] = array(
     'compressed_output' => 'Inviare i dati in Formato Compresso?',
     'frame_options' => 'Protezione contro "clickjacking"',
     'page_navigation_max_pages' => 'Max Pages for Navigation',
+    'default_cache_time_block' => 'Default Block Cache Time',
+    'titletoid' => 'Enable Title To Id?',
     'censormode' => 'Attivare Modo Censurato?',
     'censorreplace' => 'Sostituire Il Testo Censurato Con',
     'censorlist' => 'Lista di Parole Censurate',
@@ -2023,11 +2159,40 @@ $LANG_confignames['Core'] = array(
     'search_def_sort' => 'Ordine Predefinito',
     'autotag_permissions_story' => '[story: ] Permissions',
     'autotag_permissions_user' => '[user: ] Permissions',
+    'autotag_permissions_topic' => '[topic: ] Permissions',
+    'autotag_permissions_related_topics' => '[related_topics: ] Permissions',
+    'autotag_permissions_related_items' => '[related_items: ] Permissions',
     'multiple_breadcrumbs' => 'Multiple Breadcrumbs',
     'disable_breadcrumbs_topics' => 'Disable Topic Breadcrumbs',
     'disable_breadcrumbs_articles' => 'Disable Article Breadcrumbs',
     'disable_breadcrumbs_plugins' => 'Disable Plugins Breadcrumbs',
-    'breadcrumb_root_site_name' => 'Site Name as Breadcrumb Root?'
+    'breadcrumb_root_site_name' => 'Site Name as Breadcrumb Root?',
+    'filemanager_disabled' => 'Disable Filemanager?',
+    'filemanager_browse_only' => 'Browse only mode?',
+    'filemanager_default_view_mode' => 'Default view mode',
+    'filemanager_show_confirmation' => 'Show confirmation?',
+    'filemanager_search_box' => 'Show search box?',
+    'filemanager_file_sorting' => 'File sorting',
+    'filemanager_chars_only_latin' => 'Allow only latin chars?',
+    'filemanager_date_format' => 'Date time format',
+    'filemanager_logger' => 'Enable logger?',
+    'filemanager_show_thumbs' => 'Show thumbnails?',
+    'filemanager_generate_thumbnails' => 'Generate thumbnails?',
+    'filemanager_upload_restrictions' => 'Allowed file extensions',
+    'filemanager_upload_overwrite' => 'Overwrite existing file?',
+    'filemanager_upload_images_only' => 'Upload images only?',
+    'filemanager_upload_file_size_limit' => 'Upload file size limit (MiB)',
+    'filemanager_unallowed_files' => 'Unallowed files',
+    'filemanager_unallowed_dirs' => 'Unallowed directories',
+    'filemanager_unallowed_files_regexp' => 'Regular expression for unallowed files',
+    'filemanager_unallowed_dirs_regexp' => 'Regular expression for unallowed directories',
+    'filemanager_images_ext' => 'Image file extensions',
+    'filemanager_show_video_player' => 'Show video player?',
+    'filemanager_videos_ext' => 'Video file extensions',
+    'filemanager_videos_player_width' => 'Video player width (px)',
+    'filemanager_videos_player_height' => 'Video player height (px)',
+    'filemanager_show_audio_player' => 'Show audio player?',
+    'filemanager_audios_ext' => 'Audio file extensions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -2038,7 +2203,8 @@ $LANG_configsubgroups['Core'] = array(
     'sg_users' => 'Utenti ed Inserimenti',
     'sg_images' => 'Immagini',
     'sg_locale' => 'Langue e Localizzazioni',
-    'sg_misc' => 'Varie'
+    'sg_misc' => 'Varie',
+    'sg_filemanager' => 'Filemanager'
 );
 
 $LANG_fs['Core'] = array(
@@ -2054,6 +2220,7 @@ $LANG_fs['Core'] = array(
     'fs_admin_block' => 'Blocco Ammin',
     'fs_locale' => 'Localizzazione',
     'fs_language' => 'Lingua',
+    'fs_multilanguage' => 'Multi-Language Content',
     'fs_debug' => 'Debug',
     'fs_cookies' => 'Cookie',
     'fs_login' => 'Impostazioni di Accesso',
@@ -2086,7 +2253,12 @@ $LANG_fs['Core'] = array(
     'fs_webservices' => 'Servizi Web',
     'fs_autotag_permissions' => 'Autotag Usage Permissions',
     'fs_breadcrumbs' => 'Breadcrumbs',
-    'fs_pass' => 'Password Settings'
+    'fs_pass' => 'Password Settings',
+    'fs_filemanager_general' => 'General Settings',
+    'fs_filemanager_upload' => 'Upload',
+    'fs_filemanager_images' => 'Images',
+    'fs_filemanager_videos' => 'Videos',
+    'fs_filemanager_audios' => 'Audios'
 );
 
 $LANG_tab['Core'] = array(
@@ -2129,7 +2301,12 @@ $LANG_tab['Core'] = array(
     'tab_iplookup' => 'IP Lookup',
     'tab_permissions' => 'Permissions',
     'tab_webservices' => 'Webservices',
-    'tab_topics' => 'Topics'
+    'tab_topics' => 'Topics',
+    'tab_filemanager_general' => 'General Settings',
+    'tab_filemanager_upload' => 'Upload',
+    'tab_filemanager_images' => 'Images',
+    'tab_filemanager_videos' => 'Videos',
+    'tab_filemanager_audios' => 'Audios'
 );
 
 $LANG_configselects['Core'] = array(
@@ -2138,7 +2315,7 @@ $LANG_configselects['Core'] = array(
     2 => array('Non accettare' => 0, 'Salva solo gli ultimi' => 1, 'Permetti Multipli Inserimenti' => 2),
     3 => array('Trackback Abilitato' => 0, 'Trackback Disabilitato' => -1),
     4 => array('Non controllare nulla' => 0, 'Confronta con l\'indirizzo del sito' => 1, 'Confronta con l\'intero indirizzo' => 2, 'Confronta con Entrambi' => 3, 'Confronta IP con IP del sito' => 4, 'Confronta IP con l\'indirizzo del sito' => 5, 'Controlla IP e l\'intero indirizzo' => 6, 'Controlla IP, l\'intero indirizzo, e l\'indirizzo del sito' => 7),
-    5 => array('Testo non formattato' => 'plaintext', 'Testo in formato HTML' => 'html'),
+    5 => array('Testo non formattato' => 'plaintext', 'Testo in formato HTML' => 'html', 'Wiki-style Format' => 'wikitext'),
     6 => array('12' => 12, '24' => 24),
     7 => array('Ultima Pagina' => 'last', 'Prima Pagina' => 'first', 'Ogni Pagina' => 'all'),
     8 => array('Destra' => 'right', 'Sinistra' => 'left'),
@@ -2157,13 +2334,18 @@ $LANG_configselects['Core'] = array(
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('Elevata' => 'DENY', 'Stessa Origine' => 'SAMEORIGIN', '(disabilitata)' => ''),
     23 => array('Disabilitati' => 0, 'Abilitati' => 1, 'Abilitati (Predefiniti solo per la homepage)' => 2),
-    24 => array('Contribuisci' => 'contribute', 'Home' => 'home', 'Ricerca Avanzata' => 'search', 'Directory' => 'directory', 'Il Mio Account' => 'prefs', 'Inserimenti di Plug-in' => 'plugins', 'Inserimenti personalizzati' => 'custom', 'Statistiche del Sito' => 'stats'),
+    24 => array('Contribuisci' => 'contribute', 'Home' => 'home', 'Ricerca Avanzata' => 'search', 'Directory' => 'directory', 'Login' => 'login', 'Il Mio Account' => 'prefs', 'Inserimenti di Plug-in' => 'plugins', 'Inserimenti personalizzati' => 'custom', 'Statistiche del Sito' => 'stats'),
     25 => array('Nuove Storie' => 'story', 'Nuovi Commenti' => 'comment', 'Nuovi Trackback' => 'trackback', 'Nuovi Pingback' => 'pingback', 'Nuovi Utenti' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
     27 => array('Visite (asc)' => 'hits|asc', 'Visite (desc)' => 'hits|desc', 'Data (asc)' => 'date|asc', 'Data (desc)' => 'date|desc', 'Titolo (asc)' => 'title|asc', 'Titolo (desc)' => 'title|desc', 'Autore (asc)' => 'uid|asc', 'Autore (desc)' => 'uid|desc'),
     28 => array('Nessun Accesso' => 0, 'Utilizzo' => 2),
     29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
-    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none'),
+    31 => array('Newest First' => 'DESC', 'Oldest First' => 'ASC'),
+    32 => array('Disabled' => 0, 'Just Article Pages' => 1, 'Articles and Topics' => 2),
+    33 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (No Links)' => 2, 'Enabled (No Outbound Links)' => 3),
+    34 => array('grid' => 'grid', 'list' => 'list'),
+    35 => array('default' => 'default', 'Name (asc)' => 'NAME_ASC', 'Name (desc)' => 'NAME_DESC', 'Type (asc)' => 'TYPE_ASC', 'Type (desc)' => 'TYPE_DESC', 'Modified (asc)' => 'MODIFIED_ASC', 'Modified (desc)' => 'MODIFIED_DESC')
 );
 
 ###############################################################################

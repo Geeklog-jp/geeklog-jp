@@ -727,7 +727,7 @@ class Date
             }
         } else if (preg_match('/^([0-9]{4,4})-?(' .
                          '(0[1-9]|1[0-2])-?(0[1-9]|[12][0-9]|3[01])|' . // [mm]-[dd]
-                         'W(0[1-9]|[1-4][0-9]|5[1-3])-?([1-7])|' .       // ISO week date
+                         'W(0[1-9]|[1-4][0-9]|5[0-3])-?([1-7])|' .       // ISO week date
                          '(0(0[1-9]|[1-9][0-9])|[12][0-9]{2,2}|3([0-5][0-9]|6[1-6]))' . // [ddd]
                          ')([T\s]?' .
                          '([01][0-9]|2[0-3])(:?' .            // [hh]
@@ -3524,8 +3524,8 @@ class Date
     /**
      * sets time zone to the default time zone
      *
-     * If PHP version >= 5.1.0, uses the php.ini configuration directive
-     * 'date.timezone' if set and valid, else the value returned by
+     * If PHP version >= 5.1.0, uses date_default_timezone_get(),
+     * else the value returned by
      * '{@link http://www.php.net/date date("e")}'
      * if valid, else the default specified if the global
      * constant '$GLOBALS["_DATE_TIMEZONE_DEFAULT"]', which if itself
@@ -3543,7 +3543,7 @@ class Date
     {
         if (function_exists('version_compare') &&
             version_compare(phpversion(), "5.1.0", ">=") &&
-            (Date_TimeZone::isValidID($hs_id = ini_get("date.timezone")) ||
+            (Date_TimeZone::isValidID($hs_id = date_default_timezone_get()) ||
              Date_TimeZone::isValidID($hs_id = date("e"))
              )
             ) {
@@ -3602,8 +3602,8 @@ class Date
      *  - {@link http://www.php.net/manual/en/timezones.php}
      *
      * If no time-zone is specified and PHP version >= 5.1.0, the time
-     * zone is set automatically to the php.ini configuration directive
-     * 'date.timezone' if set and valid, else the value returned by
+     * zone is set automatically to the output of date_default_timezone_get()
+     * if set and valid, else the value returned by
      * '{@link http://www.php.net/date date("e")}'
      * if valid, else the default specified if the global
      * constant '$GLOBALS["_DATE_TIMEZONE_DEFAULT"]', which if itself

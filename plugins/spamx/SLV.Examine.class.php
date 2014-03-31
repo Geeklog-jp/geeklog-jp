@@ -31,29 +31,21 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'SLVbase.class.php';
 * @package Spam-X
 *
 */
-class SLV extends BaseCommand {
-    /**
-     * No Constructor Use BaseCommand constructor
-     */
-
+class SLV extends BaseCommand
+{
     /**
      * Here we do the work
      */
-    function execute ($comment)
+    public function execute($comment)
     {
-        global $_USER, $LANG_SX00;
+        global $LANG_SX00;
 
-        $ans = 0;
-
-        if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
-            $uid = $_USER['uid'];
-        } else {
-            $uid = 1;
-        }
+        $ans = PLG_SPAM_NOT_FOUND;
+        $uid = $this->getUid();
 
         $slv = new SLVbase();
         if ($slv->CheckForSpam ($comment)) {
-            $ans = 1;
+            $ans = PLG_SPAM_FOUND;
             SPAMX_log ($LANG_SX00['foundspam'] . 'Spam Link Verification (SLV)'.
                        $LANG_SX00['foundspam2'] . $uid .
                        $LANG_SX00['foundspam3'] . $_SERVER['REMOTE_ADDR']);

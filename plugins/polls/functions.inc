@@ -248,11 +248,11 @@ function plugin_showstats_polls ($showsitestats)
             $voters = COM_NumberFormat ($A['voters']);
             $data_arr[] = array ('pid' => $pid, 'voters' => $voters);
         }
-        $retval .= ADMIN_simpleList ('', $header_arr, $text_arr, $data_arr);
+        $retval .= ADMIN_simpleList('', $header_arr, $text_arr, $data_arr);
     } else {
-        $retval .= COM_startBlock ($LANG_POLLS['stats_top10']);
+        $retval .= COM_startBlock($LANG_POLLS['stats_top10']);
         $retval .= $LANG_POLLS['stats_none'];
-        $retval .= COM_endBlock ();
+        $retval .= COM_endBlock();
     }
 
     return $retval;
@@ -736,13 +736,12 @@ function POLLS_pollsave($pid, $aid)
 
     // This always does an insert so no need to provide key_field and key_value args
     DB_query("INSERT INTO {$_TABLES['pollvoters']} (ipaddress,date,pid) VALUES ('{$_SERVER['REMOTE_ADDR']}'," . time() . ",'$pid')");
-    $retval .= COM_startBlock ($LANG_POLLS['savedvotetitle'], '',
-                       COM_getBlockTemplate ('_msg_block', 'header'))
-        . $LANG_POLLS['savedvotemsg'] . ' "'
-        . DB_getItem ($_TABLES['polltopics'], 'topic', "pid = '{$pid}'")
-        . '"'
-        . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-        . POLLS_pollResults($pid);
+    $retval .= COM_showMessageText(
+                  $LANG_POLLS['savedvotemsg'] . ' "'
+                  . DB_getItem($_TABLES['polltopics'], 'topic', "pid = '{$pid}'") . '"',
+                  $LANG_POLLS['savedvotetitle']
+               )
+            .  POLLS_pollResults($pid);
 
     return $retval;
 }
@@ -1016,14 +1015,12 @@ function plugin_displaycomment_polls ($id, $cid, $title, $order, $format, $page,
                 (SEC_hasAccess ($A['owner_id'], $A['group_id'],
                     $A['perm_owner'], $A['perm_group'], $A['perm_members'],
                     $A['perm_anon']) == 3));
-        $retval .= CMT_userComments ($id, $title, 'polls', $order, $format,
-                                     $cid, $page, $view, $delete_option,
-                                     $A['commentcode']);
+        $retval .= CMT_userComments($id, $title, 'polls', $order, $format,
+                                    $cid, $page, $view, $delete_option,
+                                    $A['commentcode']);
     } else {
-        $retval .= COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                        COM_getBlockTemplate ('_msg_block', 'header'))
-                . $LANG_POLLS['deny_msg']
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_POLLS['deny_msg'], $LANG_ACCESS['accessdenied'])
+                .  COM_endBlock(COM_getBlockTemplate ('_msg_block', 'footer'));
     }
 
     return $retval;
@@ -1273,7 +1270,18 @@ function plugin_upgrade_polls()
             polls_update_ConfigSecurity_2_1_3();
 
             $current_version = '2.1.4';
-            break;            
+            break;
+
+        case '2.1.4':
+            if (isset($_UPDATES[$current_version])) {
+                $_SQL = $_UPDATES[$current_version];
+                foreach ($_SQL as $sql) {
+                    DB_query($sql);
+                }
+            }
+
+            $current_version = '2.1.5';
+            break;             
 
         default:
             $done = true;
@@ -1571,53 +1579,60 @@ function plugin_autotags_polls($op, $content = '', $autotag = '')
             );
     } elseif ($op == 'parse') {
         $pid = COM_applyFilter($autotag['parm1']);
-        $showall = false;
-
-        switch ($autotag['tag']) {
-        case 'poll':
-            if (!empty($autotag['parm2'])) {
-                $title = COM_applyFilter($autotag['parm2']);
-            } else {
-                $title = DB_getItem($_TABLES['polltopics'], 'topic',
-                                    "pid = '$pid'");
-            }
-
-            $retval = COM_createLink($title, $_CONF['site_url']
-                            . '/polls/index.php?pid=' . $pid . '&amp;aid=-1');
-            break;
-
-        case 'poll_vote':
-        case 'poll_result':
-            $px = explode(' ', trim($autotag['parm2']));
-            $css_class = "poll-autotag";
-
-            if (is_array($px)) {
-                foreach ($px as $part) {
-                    if (substr($part, 0, 6) == 'class:') {
-                        $a = explode(':', $part);
-                        $css_class = $a[1];
-                    } elseif (substr($part, 0, 8) == 'showall:') {
-                        $a = explode(':', $part);
-                        $val = $a[1];
-                        if ($val == 1) {
-                            $showall = true;
-                        }
+        if (! empty($pid)) {
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['polltopics']} "
+                . "WHERE pid = '$pid'");
+            $A = DB_fetchArray($result);
+            if ($A['count'] > 0) {
+                switch ($autotag['tag']) {
+                case 'poll':
+                    if (!empty($autotag['parm2'])) {
+                        $title = COM_applyFilter($autotag['parm2']);
                     } else {
-                        break;
+                        $title = DB_getItem($_TABLES['polltopics'], 'topic',
+                                            "pid = '$pid'");
                     }
+
+                    $retval = COM_createLink($title, $_CONF['site_url']
+                                    . '/polls/index.php?pid=' . $pid . '&amp;aid=-1');
+                    break;
+
+                case 'poll_vote':
+                case 'poll_result':
+                    $showall = false;
+                    $px = explode(' ', trim($autotag['parm2']));
+                    $css_class = "poll-autotag";
+
+                    if (is_array($px)) {
+                        foreach ($px as $part) {
+                            if (substr($part, 0, 6) == 'class:') {
+                                $a = explode(':', $part);
+                                $css_class = $a[1];
+                            } elseif (substr($part, 0, 8) == 'showall:') {
+                                $a = explode(':', $part);
+                                $val = $a[1];
+                                if ($val == 1) {
+                                    $showall = true;
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+
+                    if ($autotag['tag'] == 'poll_vote') {
+                        $retval = POLLS_showPoll(0, $pid, $showall, 2);
+                    } else {
+                        $retval = POLLS_pollResults($pid, 0,'', '', 1, 2);
+                    }
+                    $retval = '<div class="' . $css_class . '">' . $retval . '</div>';
+                    break;
                 }
-            }
 
-            if ($autotag['tag'] == 'poll_vote') {
-                $retval = POLLS_showPoll(0, $pid, $showall, 2);
-            } else {
-                $retval = POLLS_pollResults($pid, 0,'', '', 1, 2);
+                $content = str_replace($autotag['tagstr'], $retval, $content);
             }
-            $retval = '<div class="' . $css_class . '">' . $retval . '</div>';
-            break;
         }
-
-        $content = str_replace($autotag['tagstr'], $retval, $content);
     }
 
     return $content;

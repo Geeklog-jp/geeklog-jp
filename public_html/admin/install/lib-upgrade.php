@@ -400,6 +400,7 @@ function INST_doDatabaseUpgrades($current_gl_version)
             $config->set('path_data', $_CONF['path'] . 'data/');
             $config->set('path_images', $html_path . 'images/');
             $config->set('path_themes', $html_path . 'layout/');
+            $config->set('path_editors', $html_path . 'editors/');
             $config->set('rdf_file', $html_path . 'backend/geeklog.rss');
             $config->set('path_pear', $_CONF['path_system'] . 'pear/');
 
@@ -493,6 +494,17 @@ function INST_doDatabaseUpgrades($current_gl_version)
             update_StoryTopicAssignmentsFor200();
             
             $current_gl_version = '2.0.0';
+            $_SQL = '';
+            break;
+
+        case '2.0.0':
+            require_once $_CONF['path'] . 'sql/updates/' . $_DB_dbms . '_2.0.0_to_2.1.0.php';
+            INST_updateDB($_SQL);
+
+            update_addFilemanager();
+            update_ConfValuesFor210();
+
+            $current_gl_version = '2.1.0';
             $_SQL = '';
             break;
             

@@ -125,6 +125,63 @@ function configmanager_select_default_perm_cookie_timeout_helper()
 }
 
 /**
+ * Helper function: Provide advanced editors dropdown
+ *
+ * @return   array   Array of (filename, displayname) pairs
+ *
+ */
+function configmanager_select_advanced_editor_name_helper()
+{
+    global $_CONF;
+
+    $editors = array();
+
+    // gets all installed Advanced Editors
+    $editorFiles = array();
+    $fd = opendir($_CONF['path_editors']);
+    clearstatcache();
+    while (($dir = @readdir($fd)) == TRUE) {
+        if (is_dir($_CONF['path_editors'] . $dir) &&
+                $dir <> '.' && 
+                $dir <> '..' &&
+                $dir <> 'CVS' &&
+                substr($dir, 0 , 1) <> '.') {
+            $editorFiles[] = $dir;
+        }
+    }
+
+    usort($editorFiles, 'strcasecmp');
+
+    foreach ($editorFiles as $editor) {
+        $name = '';
+        if (file_exists($_CONF['path_editors'] . $editor . '/functions.php')) {
+            require_once $_CONF['path_editors'] . $editor . '/functions.php';
+            $function = 'adveditor_config_' . $editor;
+            if (function_exists($function)) {
+                $config = $function();
+                $name = $config['name'];
+            }
+        }
+        if (empty($name)) {
+            $words = explode('_', $editor);
+            $bwords = array();
+            foreach ($words as $th) {
+                if ((strtolower($th[0]) == $th[0]) &&
+                    (strtolower($th[1]) == $th[1])) {
+                    $bwords[] = ucfirst($th);
+                } else {
+                    $bwords[] = $th;
+                }
+            }
+            $name = implode(' ', $bwords);
+        }
+        $editors[$name] = $editor;
+    }
+
+    return $editors;
+}
+
+/**
  * Custom validation rule for copyrightyear
  * 
  * @param string $rule String of rule name
@@ -506,9 +563,11 @@ if (array_key_exists('set_action', $_POST) && SEC_checkToken()){
         );
     }
     
-    //$display = $config->get_ui($conf_group, array_key_exists('subgroup', $_POST)
-    //                                        ?  $_POST['subgroup'] : null);
-    $subgroup = array_key_exists('subgroup', $_POST)
+    // notify plugins when config item enabled or disabled 
+    $config_item[] = $_POST['name'];
+    PLG_configChange($conf_group, $config_item);
+    
+        $subgroup = array_key_exists('subgroup', $_POST)
               ? COM_applyFilter($_POST['subgroup']) : null;
     $display = $config->get_ui($conf_group, $subgroup);
 } elseif (array_key_exists('form_submit', $_POST) && SEC_checkToken()) {

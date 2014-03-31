@@ -63,12 +63,7 @@ function submissionform($type = 'story', $mode = '')
     $last = COM_checkSpeedlimit ('submit');
 
     if ($last > 0) {
-        $retval .= COM_startBlock ($LANG12[26], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[30]
-            . $last
-            . $LANG12[31]
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG12[30] . $last . $LANG12[31], $LANG12[26]);
     } else {
         if (COM_isAnonUser() &&
             (($_CONF['loginrequired'] == 1) || ($_CONF['submitloginrequired'] == 1))) {
@@ -104,6 +99,9 @@ function submitstory()
 {
     global $_CONF, $_TABLES, $_USER, $LANG01, $LANG12, $LANG24, $_SCRIPTS;
 
+    // Add JavaScript
+    $_SCRIPTS->setJavaScriptFile('postmode_control', '/javascript/postmode_control.js');
+
     $retval = '';
 
     $story = new Story();
@@ -133,13 +131,8 @@ function submitstory()
         } 
         $storyform->set_var('noscript', COM_getNoScript(false, '', $link_message));
         
-        // Add JavaScript
-        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-        $js = 'document.getElementById("advanced_editor").style.display="";';                 
-        $_SCRIPTS->setJavaScript($js, true);
-        $_SCRIPTS->setJavaScriptFile('submitstory_fckeditor', '/javascript/submitstory_fckeditor.js');         
-        
+        // Setup Advanced Editor
+        COM_setupAdvancedEditor('/javascript/submitstory_adveditor.js');
         
         if ($story->EditElements('postmode') == 'html') {
             $storyform->set_var ('show_texteditor', 'none');
@@ -201,8 +194,15 @@ function submitstory()
     $storyform->set_var('story_introtext', $story->EditElements('introtext'));
     $storyform->set_var('story_bodytext', $story->EditElements('bodytext'));
     $storyform->set_var('lang_postmode', $LANG12[36]);
-    $storyform->set_var('story_postmode_options', COM_optionList($_TABLES['postmodes'],'code,name',$story->EditElements('postmode')));
-    $storyform->set_var('allowed_html', COM_allowedHTML());
+    $postmode = $story->EditElements('postmode');
+    $storyform->set_var('story_postmode_options',
+        COM_optionList($_TABLES['postmodes'], 'code,name', $postmode));
+    $allowed_html = '';
+    foreach (array('plaintext', 'html') as $pm) {
+        $allowed_html .= COM_allowedHTML('story.edit', false, 1, $pm);
+    }
+    $allowed_html .= COM_allowedAutotags();
+    $storyform->set_var('allowed_html', $allowed_html);
     $storyform->set_var('story_uid', $story->EditElements('uid'));
     $storyform->set_var('story_sid', $story->EditElements('sid'));
     $storyform->set_var('story_date', $story->EditElements('unixdate'));
@@ -236,13 +236,14 @@ function sendNotification ($table, $story)
     global $_CONF, $_TABLES, $LANG01, $LANG08, $LANG24, $LANG29, $LANG_ADMIN;
 
     $title = COM_undoSpecialChars( $story->displayElements('title') );
-    if ($A['postmode'] == 'html') {
-        $A['introtext'] = strip_tags ($A['introtext']);
-    }
     $introtext = COM_undoSpecialChars( $story->displayElements('introtext') . "\n" . $story->displayElements('bodytext') );
+    if ($story->_postmode == 'html') {
+        $introtext = strip_tags($introtext);
+    } else {
+        $introtext = str_replace('<br' . XHTML . '>', "\n", $introtext);
+    }
     $storyauthor = COM_getDisplayName( $story->displayelements('uid') );
-    $topic = stripslashes(DB_getItem ($_TABLES['topics'], 'topic',
-                                       'tid = \''.$story->displayElements('tid').'\''));
+    $topic = TOPIC_getTopicAdminColumn('article', $story->getSid());
     $mailbody = "$LANG08[31]: {$title}\n"
               . "$LANG24[7]: {$storyauthor}\n"
               . "$LANG08[32]: " . strftime ($_CONF['date']) . "\n"
@@ -336,12 +337,7 @@ function savesubmission($type, $A)
     $last = COM_checkSpeedlimit ('submit');
 
     if ($last > 0) {
-        $retval = COM_startBlock ($LANG12[26], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[30]
-            . $last
-            . $LANG12[31]
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval = COM_showMessageText($LANG12[30] . $last . $LANG12[31], $LANG12[26]);
         $retval = COM_createHTMLDocument($retval);
 
         return $retval;
@@ -361,8 +357,12 @@ function savesubmission($type, $A)
         } elseif (empty ($retval)) {
             // plugin should include its own redirect - but in case handle
             // it here and redirect to the main page
+            PLG_submissionSaved($type);
+            
             return COM_refresh ($_CONF['site_url'] . '/index.php');
         } else {
+            PLG_submissionSaved($type);
+            
             return $retval;
         }
     }
@@ -370,12 +370,11 @@ function savesubmission($type, $A)
 
     if (!empty($A['title']) && !empty($A['introtext']) && TOPIC_checkTopicSelectionControl()) {
         $retval = savestory ($A);
+        
+        PLG_submissionSaved($type);
     } else {
-        $retval = COM_startBlock ($LANG12[22], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[23] // return missing fields error
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . submissionform($type);
+        $retval = COM_showMessageText($LANG12[23], $LANG12[22]) // return missing fields error
+                . submissionform($type);
         $retval = COM_createHTMLDocument($retval);
     }
 

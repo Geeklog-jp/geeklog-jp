@@ -2,11 +2,11 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Spam-X                                                              |
+// | Spam-X                                                                    |
 // +---------------------------------------------------------------------------+
 // | configuration_validation.php                                              |
 // |                                                                           |
-// | List of validation rules for the Links plugin configurations                          |
+// | List of validation rules for the Links plugin configurations              |
 // +---------------------------------------------------------------------------+
 // | Copyright (C) 2007-2010 by the following authors:                         |
 // |                                                                           |
@@ -39,8 +39,10 @@ $_CONF_VALIDATE['spamx']['logging'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['spamx']['timeout'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['spamx']['notification_email'] = array('rule' => 'email');
 $_CONF_VALIDATE['spamx']['spamx_action'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['spamx']['max_age'] = array('rule' => 'numeric');
 // Modules
 $_CONF_VALIDATE['spamx']['sfs_enabled'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['spamx']['sfs_confidence'] = array('rule' => array('range', 0, 101));
 $_CONF_VALIDATE['spamx']['snl_enabled'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['spamx']['snl_num_links'] = array('rule' => 'numeric');
 

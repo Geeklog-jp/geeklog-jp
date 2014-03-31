@@ -1,5 +1,4 @@
-
-<!-- admin/block/blockeditor.thtml { -->
+{# begin {templatelocation} #}
 
 {start_block_editor}
 <form action="{site_admin_url}/block.php" method="post" id="admin-blockeditor" class="compact">
@@ -46,9 +45,13 @@
           <option value="portal" {portal_selected}>{lang_portalblock}</option>
         </select>
       </dd>
+      
+      <dt><label for="admin-blockeditor-cachetime">{lang_cachetime}</label></dt>
+      <dd><input type="text" size="8" value="{cache_time}" name="cache_time" id="admin-blockeditor-cachetime" class="size1"{xhtml}></dd>
+      <dd class="description">{lang_cachetime_desc}</dd>        
     </dl>
 
-    <fieldset>
+    <fieldset id="fs-phpblock-options">
       <legend>{lang_phpblockoptions}</legend>
 
       <dl class="form_block">
@@ -58,7 +61,7 @@
       </dl>
     </fieldset>
 
-    <fieldset>
+    <fieldset id="fs-portal-options">
       <legend>{lang_portalblockoptions}</legend>
 
       <dl class="form_block">
@@ -73,7 +76,7 @@
       </dl>
     </fieldset>
 
-    <fieldset>
+    <fieldset id="fs-normal-options">
       <legend>{lang_normalblockoptions}</legend>
 
       <dl class="form_block">
@@ -115,4 +118,5 @@
 
 </form>
 {end_block}
-<!-- } admin/block/blockeditor.thtml -->
+
+{# end {templatelocation} #}

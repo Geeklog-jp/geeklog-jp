@@ -1,7 +1,7 @@
 {doctype}
 <html{lang_attribute}{xmlns}>
   <head profile="http://www.w3.org/2003/g/data-view">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"{xhtml}>
+    <meta http-equiv="Content-Type" content="text/html; charset={charset}"{xhtml}>
     <title>{page_title_and_site_name}</title>
 
     <meta http-equiv="Content-Script-Type" content="text/javascript"{xhtml}>
@@ -15,7 +15,7 @@
 {plg_headercode}
   </head>
   <body dir="{direction}" class="{layout_columns}">
-<!-- header.thtml { -->
+{# begin {templatelocation} #}
 
 <!-- #container { -->
     <div id="container">
@@ -49,10 +49,10 @@
         <!--[if !IE]> Using conditional comments to avoid Win IE 6 bugs. <![endif]-->
         <!--[if !IE]> (When combined with multiple floating elements, floating bug duplicate last element content) <![endif]-->
         <!--[if !IE]> #centerblocks { <![endif]-->
-        <!-- Center Block Container -->
+        {# Center Block Container #}
         <div id="centerblocks">
           <p class="welcome_msg">{welcome_msg}&nbsp;{datetime}</p>
           <div id="centerblocks-content">
           {breadcrumb_trail}
 
-<!-- } header.thtml -->
+{# end {templatelocation} #}
