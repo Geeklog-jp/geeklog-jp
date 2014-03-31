@@ -51,8 +51,6 @@ pre {
   white-space: pre;
   border: 1px solid #DDD;
   border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
 }
 
 q:before {
@@ -156,8 +154,6 @@ fieldset {
   margin: 0 0 1em 0;
   padding: 8px 12px;
   border: 1px solid #CCC;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
   border-radius: 4px;
 }
 
@@ -251,8 +247,6 @@ select {
   border: 1px solid #ccc;
   padding: 4px;
   outline: none;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
   border-radius: 3px;
   font-size: 13px;
   color: #555;
@@ -266,7 +260,8 @@ select {
   line-height: 28px;
 }
 
-select.multiple {
+select.multiple,
+select[multiple="multiple"] {
   height: auto;
 }
 
@@ -280,8 +275,6 @@ input[type="email"]:focus,
 textarea:focus {
   border: 1px solid #aaa;
   color: #222;
-  -moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
-  -webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
   box-shadow:  0 0 3px rgba(0,0,0,.2);
 }
 
@@ -293,18 +286,14 @@ input[type="submit"],
 input[type="reset"],
 input[type="button"] {
   background: #eee; /* Old browsers */
-  background: #eee -moz-linear-gradient(top, rgba(255,255,255,.2) 0%, rgba(0,0,0,.2) 100%); /* FF3.6+ */
-  background: #eee -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.2)), color-stop(100%,rgba(0,0,0,.2))); /* Chrome,Safari4+ */
   background: #eee -webkit-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Chrome10+,Safari5.1+ */
   background: #eee -o-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* Opera11.10+ */
   background: #eee -ms-linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* IE10+ */
-  background: #eee linear-gradient(top, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
+  background: #eee linear-gradient(to bottom, rgba(255,255,255,.2) 0%,rgba(0,0,0,.2) 100%); /* W3C */
   border: 1px solid #aaa;
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
   padding: 4px 9px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
   border-radius: 3px;
   color: #444;
   display: inline-block;
@@ -323,12 +312,10 @@ input[type="reset"]:hover,
 input[type="button"]:hover {
   color: #222;
   background: #ddd; /* Old browsers */
-  background: #ddd -moz-linear-gradient(top, rgba(255,255,255,.3) 0%, rgba(0,0,0,.3) 100%); /* FF3.6+ */
-  background: #ddd -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.3)), color-stop(100%,rgba(0,0,0,.3))); /* Chrome,Safari4+ */
   background: #ddd -webkit-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Chrome10+,Safari5.1+ */
   background: #ddd -o-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* Opera11.10+ */
   background: #ddd -ms-linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* IE10+ */
-  background: #ddd linear-gradient(top, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
+  background: #ddd linear-gradient(to bottom, rgba(255,255,255,.3) 0%,rgba(0,0,0,.3) 100%); /* W3C */
   border: 1px solid #888;
   border-top: 1px solid #aaa;
   border-left: 1px solid #aaa;
@@ -341,12 +328,10 @@ input[type="reset"]:active,
 input[type="button"]:active {
   border: 1px solid #666;
   background: #ccc; /* Old browsers */
-  background: #ccc -moz-linear-gradient(top, rgba(255,255,255,.35) 0%, rgba(10,10,10,.4) 100%); /* FF3.6+ */
-  background: #ccc -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,.35)), color-stop(100%,rgba(10,10,10,.4))); /* Chrome,Safari4+ */
   background: #ccc -webkit-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Chrome10+,Safari5.1+ */
   background: #ccc -o-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* Opera11.10+ */
   background: #ccc -ms-linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* IE10+ */
-  background: #ccc linear-gradient(top, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* W3C */
+  background: #ccc linear-gradient(to bottom, rgba(255,255,255,.35) 0%,rgba(10,10,10,.4) 100%); /* W3C */
 }
 
 .button.full-width,
@@ -365,6 +350,16 @@ button::-moz-focus-inner,
 input::-moz-focus-inner {
   border: 0;
   padding: 0;
+}
+
+a.button:link,
+a.button:visited {
+  color: #444;
+}
+
+a.button:hover {
+  color: #222;
+  text-decoration: none;
 }
 
 
@@ -807,7 +802,7 @@ a.pluginButton:hover {
   color: blue;
   text-align: center;
   padding-top: 2px;
-  background:center url(../navbar/images/button_over.gif);
+  background:center url(../images/navbar/button_over.gif);
   background-repeat: repeat-x;
   display: block;
   height: 19px;
@@ -855,6 +850,7 @@ a.pluginButton:hover {
 
 .wide {
   width: 98%;
+  resize: vertical;
 }
 
 .separator {
@@ -1368,20 +1364,20 @@ h4 img {
   System Message Block
 --------------------------------------*/
 
-#block-message {
+.block-message {
   margin: 1.5em 0;
   padding: 0;
   border-radius: 6px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-#block-message dl {
+.block-message dl {
   margin: 0;
   padding: 0;
 }
 
 /* Title */
-#block-message dt {
+.block-message dt {
   margin: 0;
   padding: 4px 8px;
   background: #3E6C9A;
@@ -1393,7 +1389,7 @@ h4 img {
 }
 
 /* Message */
-#block-message dd {
+.block-message dd {
   margin: 0;
   padding: 8px 12px;
   background: #E7E7E7;
@@ -1404,7 +1400,7 @@ h4 img {
   border-radius: 0px 0px 6px 6px;
 }
 
-#block-message p {
+.block-message p {
   margin: 0.2em 0;
   line-height: 1.25;
 }
@@ -1485,6 +1481,20 @@ h4 img {
   margin: 0;
   padding: 0 5px;
   white-space: nowrap;
+}
+
+/* Group Label */
+#leftblocks .sideoption_group_label,
+#rightblocks .sideoption_group_label {
+  color: #630;
+  font-size: 103%;
+  height: 1.6em;
+  line-height: 1.6em;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 5px;
+  white-space: nowrap;
+  border-bottom: 1px dotted #ccc;
 }
 
 #leftblocks .noliststyle,
@@ -1572,6 +1582,31 @@ input[type="text"].search {
 /*--------------------------------------
   Login Form
 --------------------------------------*/
+
+/* authentication buttons */
+#login_facebook{left:0px;width:141px;}
+#login_facebook{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position:0 0;}
+
+#login_twitter{left:0px;width:141px;}
+#login_twitter{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -23px;}
+
+#login_linkedin{left:0px;width:141px;}
+#login_linkedin{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -44px;}
+
+#login_google{left:0px;width:141px;}
+#login_google{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -66px;}
+
+#login_yahoo{left:0px;width:141px;}
+#login_yahoo{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -88px;}
+
+#login_microsoft{left:0px;width:141px;}
+#login_microsoft{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -110px;}
+
+#login_github{left:0px;width:141px;}
+#login_github{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -132px;}
+
+#login_openid{left:0px;width:141px;}
+#login_openid{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -154px;}
 
 #loginform fieldset {
   margin-top: 15px;
@@ -1684,6 +1719,14 @@ div.third-party-login {
   line-height: 1.7em;
 }
 
+.story_introtext:after {
+  content: "";
+  display: block;
+  clear: both;
+  height: 1px;
+  overflow: hidden;
+}
+
 /* Topic Icon */
 .story_image {
   float: right; /* rtl */
@@ -1769,20 +1812,28 @@ div.third-party-login {
 .gl-tooltip span {
   margin-left: -999em;
   position: absolute;
-  text-align: left;
+  text-align: left; /* rtl */
   width: 250px;
 }
 .gl-tooltip:hover span {
-  border-radius: 8px; -moz-border-radius: 8px; -webkit-border-radius: 8px;
-  box-shadow: 2px 2px 8px #666; -webkit-box-shadow: 2px 2px 8px #666; -moz-box-shadow: 2px 2px 8px #666;
-  font-size: 1em; text-align: left; white-space:normal;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px #666;
+  -webkit-box-shadow: 2px 2px 8px #666;
+  font-size: 1em;
+  text-align: left; /* rtl */
+  white-space:normal;
   font-family: Calibri, Tahoma, Geneva, sans, sans-serif;
-  position: absolute; left: 2.2em; top: 2.2em; z-index: 99;
+  position: absolute;
+  left: 2.2em; /* rtl */
+  top: 2.2em;
+  z-index: 99;
   margin-left: 0; width: 250px;
 }
 .gl-tooltip:hover img.icon {
-  border: 0; margin: -15px 0 0 -51px;
-  float: left; position: absolute;
+  border: 0;
+  margin: -15px 0 0 -51px; /* rtl */
+  float: left;
+  position: absolute;
 }
 #gl-tooltip-icon {
   border: 0;
@@ -1792,7 +1843,7 @@ div.third-party-login {
   display: block; padding: 0.2em 0 0.6em 0.4em;
 }
 span.classic     { padding: 0.8em 1em; }
-span.custom      { padding: 0.5em 0.8em 0.8em 2em; }
+span.custom      { padding: 0.5em 0.8em 0.8em 2em; } /* rtl */
 span.classic     { background: #EEEEEC; border: 2px solid #555753; }
 span.critical    { background: #F5F0F0; border: 2px solid #A40000; }
 span.help        { background: #EDF0F2; border: 2px solid #204A87; }
@@ -1826,6 +1877,10 @@ span.warning  em { color: #CE5C00; }
   Comment Block
 --------------------------------------*/
 
+#commentarea {
+  clear: both;
+}
+
 /* Comment Information (Story Title | Comment Number | Username) */
 .commentbar_status {
   text-align: center;
@@ -1842,8 +1897,6 @@ span.warning  em { color: #CE5C00; }
   padding: 3px;
   background: none repeat scroll 0 0 #EEE;
   border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
 }
 
 #commentbar:after {
@@ -1872,7 +1925,7 @@ span.warning  em { color: #CE5C00; }
   margin: 0.5em 0 1em;
 }
 
-#commentperview {
+#commentpreview {
   margin:0;
   background:transparent;
   border:1px dashed grey;
@@ -1928,13 +1981,20 @@ span.warning  em { color: #CE5C00; }
 .level-0   { margin-left: 0; } /* rtl */
 .level-25  { margin-left: 16px; } /* rtl */
 .level-50  { margin-left: 32px; } /* rtl */
-.level-100 { margin-left: 48px; } /* rtl */
-.level-125 { margin-left: 64px; } /* rtl */
-.level-150 { margin-left: 80px; } /* rtl */
-.level-175 { margin-left: 96px; } /* rtl */
-.level-200 { margin-left: 112px; } /* rtl */
-.level-225 { margin-left: 128px; } /* rtl */
-.level-250 { margin-left: 144px; } /* rtl */
+.level-75  { margin-left: 48px; } /* rtl */
+.level-100 { margin-left: 64px; } /* rtl */
+.level-125 { margin-left: 80px; } /* rtl */
+.level-150 { margin-left: 96px; } /* rtl */
+.level-175 { margin-left: 112px; } /* rtl */
+.level-200 { margin-left: 128px; } /* rtl */
+.level-225 { margin-left: 144px; } /* rtl */
+.level-250 { margin-left: 160px; } /* rtl */
+.level-275 { margin-left: 176px; } /* rtl */
+.level-300 { margin-left: 192px; } /* rtl */
+.level-325 { margin-left: 208px; } /* rtl */
+.level-350 { margin-left: 224px; } /* rtl */
+.level-375 { margin-left: 240px; } /* rtl */
+.level-400 { margin-left: 256px; } /* rtl */
 
 /* Comment Information  */
 .comment_status {
@@ -2082,25 +2142,17 @@ span.warning  em { color: #CE5C00; }
   border-left-width: 1px; /* rtl */
   margin: 0;
   color: #111;
-  -moz-border-radius-topleft: 3px;
-  -webkit-border-top-left-radius: 3px;
   border-top-left-radius: 3px;
-  -moz-border-radius-topright: 3px;
-  -webkit-border-top-right-radius: 3px;
   border-top-right-radius: 3px;
   border-bottom-color: #FFF;
 }
 
 .li-navlist:first-child a {
   border-width: 1px;
-  -moz-border-radius-topleft: 3px; /* rtl */
-  -webkit-border-top-left-radius: 3px; /* rtl */
   border-top-left-radius: 3px; /* rtl */
 }
 
 .li-navlist:last-child a {
-  -moz-border-radius-topright: 3px; /* rtl */
-  -webkit-border-top-right-radius: 3px; /* rtl */
   border-top-right-radius: 3px; /* rtl */
 }
 
@@ -2186,7 +2238,7 @@ span.warning  em { color: #CE5C00; }
 
 #exclude_topic > .checkboxes-list > li,
 #boxesblock > .checkboxes-list > li {
-  display: inline;
+/*  display: inline;	*/
   margin-right: 0.5em; /* rtl */
 }
 
@@ -2381,8 +2433,6 @@ dd#profile-user_photo {
   padding: 10px 5px;
   line-height: 1.25;
   border-radius: 4px;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
@@ -2568,14 +2618,14 @@ dd#profile-user_photo {
   Moderation Page
 --------------------------------------*/
 
-#admin-moderation {
+.admin-commandcontrol {
   list-style-position: outside;
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-#admin-moderation li {
+.admin-commandcontrol li {
   float: left; /* rtl */
   width: 12.5%;
   height: 8em;
@@ -2584,7 +2634,7 @@ dd#profile-user_photo {
   text-align: center;
 }
 
-#admin-moderation a {
+.admin-commandcontrol a {
   display: block;
   font-size: 90%;
   margin: 5px 0;
@@ -2663,6 +2713,13 @@ b.status_black {
   padding: 1em 0;
   border-top: 1px solid #CCC;
   border-bottom: none;
+}
+
+/* Story Stats */
+.story_stats {
+  display: inline-block;
+  float: left; /* rtl */
+  margin-right: 2em; /* rtl */
 }
 
 /*--------------------------------------
@@ -2856,6 +2913,48 @@ body.center-right #config_content {
   display: none;
 }
 
+/*--------------------------------------
+  Enviroment Check  
+--------------------------------------*/
+
+.pathtext {
+  font-size:11px;
+  color:#666;
+}
+
+.pathtext-status {
+  text-align:right;
+  white-space:nowrap;
+}
+
+.yes, .iswriteable {
+  font-weight: bold;
+  color: #46882b;
+}
+.no, .notok, .notwriteable {
+  font-weight: bold;
+  color: #cc0000;
+}
+
+/* PHPInfo Panel style and button */
+#panel_phpinfo {
+  padding:5px;
+  width:600px;
+  margin: auto;
+  text-align:center;
+}
+#toggle_phpinfo {
+  padding:5px;
+  width:200px;
+  margin: auto;
+  text-align:center;
+  border:solid 1px #c3c3c3;
+}
+
+#panel_phpinfo {
+  padding:50px;
+  display:none;
+}
 
 /***************************************************************************************************/
 /* Note: If you want to disable the Responsive Web Design, please delete the code below this line. */
@@ -2973,7 +3072,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	#admin-moderation li {
+	.admin-commandcontrol li {
 	  width: 16.66%;
 	}
 
@@ -3199,7 +3298,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	#admin-moderation li {
+	.admin-commandcontrol li {
 	  width: 20%;
 	}
 
@@ -3257,7 +3356,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	#admin-moderation li {
+	.admin-commandcontrol li {
 	  width: 25%;
 	}
 
@@ -3609,6 +3708,13 @@ body.center-right #config_content {
 	  -webkit-border-bottom-right-radius: 8px;
 	}
 
+	/* Group Label */
+	#leftblocks .sideoption_group_label,
+	#rightblocks .sideoption_group_label {
+	  font-size: 16px;
+	  border: none;
+	}
+
 	#save_button,
 	.submit {
 	  text-align: center;
@@ -3751,7 +3857,7 @@ body.center-right #config_content {
 	  Moderation Page
 	--------------------------------------*/
 
-	#admin-moderation li {
+	.admin-commandcontrol li {
 	  width: 33.33%;
 	}
 }

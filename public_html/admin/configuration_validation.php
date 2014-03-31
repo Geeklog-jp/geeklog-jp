@@ -130,6 +130,11 @@ $_CONF_VALIDATE['Core']['path_images'] = array(
     'message' => isset($LANG_VALIDATION['path']) ? 
                  $LANG_VALIDATION['path'] : $LANG_VALIDATION['default']
 );
+$_CONF_VALIDATE['Core']['path_editors'] = array(
+    'rule' => 'path',
+    'message' => isset($LANG_VALIDATION['path']) ? 
+                 $LANG_VALIDATION['path'] : $LANG_VALIDATION['default']
+);
 
 /* Subgroup Site, Tab Pear */
 $_CONF_VALIDATE['Core']['have_pear'] = array('rule' => 'boolean');
@@ -199,6 +204,16 @@ $_CONF_VALIDATE['Core']['onlyrootfeatures'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['aftersave_story'] = array(
     'rule' => array('inList', array('admin', 'home', 'list', 'item'), true)
 );
+$_CONF_VALIDATE['Core']['related_topics'] = array(
+    'rule' => array('inList', array(0, 1, 2), false)
+);
+$_CONF_VALIDATE['Core']['related_topics_max'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['whats_related'] = array(
+    'rule' => array('inList', array(0, 1, 2, 3), false)
+);    
+$_CONF_VALIDATE['Core']['whats_related_max'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['whats_related_trim'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['default_cache_time_article'] = array('rule' => 'numeric');
 
 /* Subgroup Stories and Trackback, Tab Trackback */
 $_CONF_VALIDATE['Core']['trackback_enabled'] = array('rule' => 'boolean');
@@ -237,10 +252,12 @@ $_CONF_VALIDATE['Core']['path_themes'] = array(
     'message' => isset($LANG_VALIDATION['path_themes']) ? 
                  $LANG_VALIDATION['path_themes'] : $LANG_VALIDATION['default']
 );
+$_CONF_VALIDATE['Core']['cache_templates'] = array('rule' => 'boolean');
 
 /* Subgroup Theme, Tab Advanced Settings */
 $_CONF_VALIDATE['Core']['show_right_blocks'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['showfirstasfeatured'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['template_comments'] = array('rule' => 'boolean');
 
 /* Subgroup Blocks, Tab Admin Block */
 $_CONF_VALIDATE['Core']['sort_admin'] = array('rule' => 'boolean');
@@ -267,11 +284,11 @@ $_CONF_VALIDATE['Core']['hidenewcomments'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['hidenewtrackbacks'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['hidenewplugins'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['title_trim_length'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['whatsnew_cache_time'] = array('rule' => 'numeric');
 
 /* Subgroup Users and Submissions, Tab Users */
 $_CONF_VALIDATE['Core']['disable_new_user_registration'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_user_themes'] = array('rule' => 'boolean');
-$_CONF_VALIDATE['Core']['allow_user_language'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_user_photo'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_username_change'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['allow_account_delete'] = array('rule' => 'boolean');
@@ -292,6 +309,16 @@ $_CONF_VALIDATE['Core']['linkedin_consumer_secret'] = array('rule' => 'stringOrE
 $_CONF_VALIDATE['Core']['twitter_login'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['twitter_consumer_key'] = array('rule' => 'stringOrEmpty');
 $_CONF_VALIDATE['Core']['twitter_consumer_secret'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['google_login'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['google_consumer_key'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['google_consumer_secret'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['microsoft_login'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['microsoft_consumer_key'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['microsoft_consumer_secret'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['yahoo_login'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['yahoo_consumer_key'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['yahoo_consumer_secret'] = array('rule' => 'stringOrEmpty');
+
 $_CONF_VALIDATE['Core']['aftersave_user'] = array(
     'rule' => array('inList', array('admin', 'home', 'list', 'item'), true)
 );
@@ -332,11 +359,12 @@ $_CONF_VALIDATE['Core']['usersubmission'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['storysubmission'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['listdraftstories'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['postmode'] = array(
-    'rule' => array('inList', array('html', 'plaintext'), true)
+    'rule' => array('inList', array('html', 'plaintext', 'wikitext'), true)
 );
 $_CONF_VALIDATE['Core']['speedlimit'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['skip_preview'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['advanced_editor'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['advanced_editor_name'] = array('rule' => 'notEmpty');
 $_CONF_VALIDATE['Core']['wikitext_editor'] = array('rule' => 'boolean');
 
 /* Subgroup Users and Submissions, Tab Comments */
@@ -344,6 +372,9 @@ $_CONF_VALIDATE['Core']['commentspeedlimit'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['comment_limit'] = array('rule' => 'numeric');
 $_CONF_VALIDATE['Core']['comment_mode'] = array(
     'rule' => array('inList', array('flat', 'nested', 'nocomment', 'threaded'), true)
+);
+$_CONF_VALIDATE['Core']['comment_order'] = array(
+    'rule' => array('inList', array('DESC', 'ASC'), true)
 );
 $_CONF_VALIDATE['Core']['comment_code'] = array(
     'rule' => array('inList', array(0, -1), false)
@@ -408,6 +439,7 @@ $_CONF_VALIDATE['Core']['language'] = array(
     'message' => isset($LANG_VALIDATION['language']) ? 
                  $LANG_VALIDATION['language'] : $LANG_VALIDATION['default']
 );
+$_CONF_VALIDATE['Core']['allow_user_language'] = array('rule' => 'boolean');
 
 /* Subgroup Language, Tab Locale */
 $_CONF_VALIDATE['Core']['locale']     = array('rule' => 'stringOrEmpty');
@@ -468,6 +500,8 @@ $_CONF_VALIDATE['Core']['page_navigation_max_pages'] = array(
     'message' => isset($LANG_VALIDATION['page_navigation_max_pages']) ? 
                  $LANG_VALIDATION['page_navigation_max_pages'] : $LANG_VALIDATION['default']
 );
+$_CONF_VALIDATE['Core']['default_cache_time_block'] = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['titletoid'] = array('rule' => 'boolean');
 
 /* Subgroup Misc, Tab Debug */
 $_CONF_VALIDATE['Core']['rootdebug'] = array('rule' => 'boolean');
@@ -566,5 +600,50 @@ $_CONF_VALIDATE['Core']['disable_breadcrumbs_topics']   = array('rule' => 'boole
 $_CONF_VALIDATE['Core']['disable_breadcrumbs_articles'] = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['disable_breadcrumbs_plugins']  = array('rule' => 'boolean');
 $_CONF_VALIDATE['Core']['breadcrumb_root_site_name']    = array('rule' => 'boolean');
+
+// Subgroup Filemanager, Tab General Settings
+$_CONF_VALIDATE['Core']['filemanager_disabled']            = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_browse_only']         = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_default_view_mode']   = array(
+    'rule' => array('inList', array('grid', 'list'), true)
+);
+$_CONF_VALIDATE['Core']['filemanager_show_confirmation']   = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_search_box']          = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_file_sorting']        = array(
+    'inList',
+    array(
+        'default', 'NAME_ASC', 'NAME_DESC', 'TYPE_ASC', 'TYPE_DESC',
+        'MODIFIED_ASC', 'MODIFIED_DESC'
+    ),
+    true
+);
+$_CONF_VALIDATE['Core']['filemanager_chars_only_latin']    = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_date_format']         = array('rule' => 'notEmpty');
+$_CONF_VALIDATE['Core']['filemanager_logger']              = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_show_thumbs']         = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_generate_thumbnails'] = array('rule' => 'boolean');
+
+// Subgroup Filemanager, Tab Upload
+//$_CONF_VALIDATE['Core']['filemanager_upload_restrictions'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_upload_overwrite']       = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_upload_images_only']     = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_upload_file_size_limit'] = array('rule' => 'numeric');
+//$_CONF_VALIDATE['Core']['filemanager_unallowed_files'] = array('rule' => 'boolean');
+//$_CONF_VALIDATE['Core']['filemanager_unallowed_dirs'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_unallowed_files_regexp'] = array('rule' => 'stringOrEmpty');
+$_CONF_VALIDATE['Core']['filemanager_unallowed_dirs_regexp']  = array('rule' => 'stringOrEmpty');
+
+// Subgroup Filemanager, Tab Images
+//$_CONF_VALIDATE['Core']['filemanager_images_ext'] = array('rule' => 'boolean');
+
+// Subgroup Filemanager, Tab Videos
+$_CONF_VALIDATE['Core']['filemanager_show_video_player']    = array('rule' => 'boolean');
+//$_CONF_VALIDATE['Core']['filemanager_videos_ext'] = array('rule' => 'boolean');
+$_CONF_VALIDATE['Core']['filemanager_videos_player_width']  = array('rule' => 'numeric');
+$_CONF_VALIDATE['Core']['filemanager_videos_player_height'] = array('rule' => 'numeric');
+
+// Subgroup Filemanager, Tab Audios
+$_CONF_VALIDATE['Core']['filemanager_show_audio_player'] = array('rule' => 'boolean');
+//$_CONF_VALIDATE['Core']['filemanager_audios_ext'] = array('rule' => 'boolean');
 
 ?>

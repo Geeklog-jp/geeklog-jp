@@ -33,10 +33,16 @@
 
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['spamx']}] (
-    [name] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [value] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL 
+    [name] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    [value] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    [counter] [int] NOT NULL default (0),
+    [regdate] [datetime] NOT NULL
 ) ON [PRIMARY]
 ";
+
+$_SQL[] = "
+ALTER TABLE [dbo].[{$_TABLES['spamx']}] 
+ADD CONSTRAINT [PK_spamx] PRIMARY KEY CLUSTERED ([name], [value]) ON [PRIMARY]";
 
 $DEFVALUES[] = "INSERT INTO {$_TABLES['vars']} (name, value) VALUES ('spamx.counter', '0')";
 

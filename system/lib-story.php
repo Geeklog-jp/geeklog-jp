@@ -45,7 +45,7 @@ if ($_CONF['allow_user_photo']) {
 }
 
 // this must be kept in sync with the actual size of 'sid' in the db ...
-define('STORY_MAX_ID_LENGTH', 40);
+define('STORY_MAX_ID_LENGTH', 128);
 
 // Story Record Options for the STATUS Field
 if (!defined ('STORY_ARCHIVE_ON_EXPIRE')) {
@@ -75,25 +75,17 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
 
     static $storycounter = 0;
 
-    if( empty( $storytpl ))
-    {
+    if ($story->DisplayElements('featured') == 1) {
+        $article_filevar = 'featuredarticle';
+    } elseif ($story->DisplayElements('statuscode') == STORY_ARCHIVE_ON_EXPIRE AND $story->DisplayElements('expire') <= time()) {
+        $article_filevar = 'archivearticle';
+    } else {
+        $article_filevar = 'article';
+    }
+    
+    if (empty( $storytpl)) {
         $storytpl = 'storytext.thtml';
     }
-
-    $introtext = $story->displayElements('introtext');
-    $bodytext = $story->displayElements('bodytext');
-    $readmore = empty($bodytext)?0:1;
-    $numwords = COM_numberFormat(count(explode(' ', COM_getTextContent($bodytext))));
-    if (COM_onFrontpage()) {
-        $bodytext = '';
-    }
-
-    if( !empty( $query ))
-    {
-        $introtext = COM_highlightQuery($introtext, $query );
-        $bodytext  = COM_highlightQuery($bodytext, $query );
-    }
-
 
     $article = COM_newTemplate($_CONF['path_layout']);
     $article->set_file( array(
@@ -105,85 +97,28 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
             'archivebodytext'  => 'archivestorybodytext.thtml'
             ));
     
-    $article->postprocess_fn = 'PLG_replaceTags';
-
-    $article->set_var( 'site_name', $_CONF['site_name'] );
-    $article->set_var( 'story_date', $story->DisplayElements('date') );
-    $article->set_var( 'story_date_short', $story->DisplayElements('shortdate') );
-    $article->set_var( 'story_date_only', $story->DisplayElements('dateonly') );
-    if( $_CONF['hideviewscount'] != 1 ) {
-        $article->set_var( 'lang_views', $LANG01[106] );
-        $article->set_var( 'story_hits', $story->DisplayElements('hits') );
-    }
-    $article->set_var( 'story_id', $story->getSid() );
-
-    if ($_CONF['contributedbyline'] == 1) {
-        $article->set_var('lang_contributed_by', $LANG01[1]);
-        $article->set_var('contributedby_uid', $story->DisplayElements('uid'));
-
-        $fullname = $story->DisplayElements('fullname');
-        $username = $story->DisplayElements('username');
-        $article->set_var('contributedby_user', $username);
-        if (empty($fullname)) {
-            $article->set_var('contributedby_fullname', $username);
-        } else {
-            $article->set_var('contributedby_fullname',$fullname);
-        }
-
-        $authorname = COM_getDisplayName($story->DisplayElements('uid'),
-                                         $username, $fullname);
-        $article->set_var('contributedby_author', $authorname);
-        $article->set_var('author', $authorname);
-
-        if ($story->DisplayElements('uid') > 1) {
-            $profileUrl = $_CONF['site_url']
-                        . '/users.php?mode=profile&amp;uid='
-                        . $story->DisplayElements('uid');
-            $article->set_var('start_contributedby_anchortag',
-                    '<a class="storybyline" href="' . $profileUrl
-                    . '" rel="author">');
-            $article->set_var('end_contributedby_anchortag', '</a>');
-            $article->set_var('contributedby_url', $profileUrl);
-        }
-
-        $photo = '';
-        if ($_CONF['allow_user_photo'] == 1) {
-            $authphoto = $story->DisplayElements('photo');
-            if (empty($authphoto)) {
-                $authphoto = '(none)'; // user does not have a photo
-            }
-            $photo = USER_getPhoto($story->DisplayElements('uid'), $authphoto,
-                                   $story->DisplayElements('email'));
-        }
-        if (!empty($photo)) {
-            $article->set_var('contributedby_photo', $photo);
-            $article->set_var('author_photo', $photo);
-            $camera_icon = '<img src="' . $_CONF['layout_url']
-                         . '/images/smallcamera.' . $_IMAGE_TYPE . '" alt=""'
-                         . XHTML . '>';
-            $article->set_var('camera_icon',
-                              COM_createLink($camera_icon, $profileUrl));
-        } else {
-            $article->set_var ('contributedby_photo', '');
-            $article->set_var ('author_photo', '');
-            $article->set_var ('camera_icon', '');
-        }
-    }
-  
-    $topicname = $story->DisplayElements('topic');
+    $articleUrl = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                . $story->getSid());
+    $article->set_var('article_url', $articleUrl);
+    $article->set_var('story_title', $story->DisplayElements('title')); 
     
-    $article->set_var('story_topic_id', $story->DisplayElements('tid'));
-    $article->set_var('story_topic_name', $topicname);
+    // Date formatting set by user therefore cannot be cached
+    $article->set_var('story_date', $story->DisplayElements('date'), false, true);
 
+    // Story views increase with every visit so cannot be cached
+    if( $_CONF['hideviewscount'] != 1 ) {
+        $article->set_var('lang_views', $LANG01[106], false, true);
+        $article->set_var('story_hits', $story->DisplayElements('hits'), false, true);
+    }      
+    
+    // Topic Icon is user configurable so do not cache
+    $topicname = $story->DisplayElements('topic');
     $topicurl = $_CONF['site_url'] . '/index.php?topic=' . $story->DisplayElements('tid');
-    if(( !isset( $_USER['noicons'] ) OR ( $_USER['noicons'] != 1 )) AND
-            $story->DisplayElements('show_topic_icon') == 1 )
-    {
+    if(( !isset( $_USER['noicons'] ) OR ( $_USER['noicons'] != 1 )) AND $story->DisplayElements('show_topic_icon') == 1 ) {
         $imageurl = $story->DisplayElements('imageurl');
-        if( !empty( $imageurl ))
-        {
-            $imageurl = COM_getTopicImageUrl( $imageurl );
-            $article->set_var( 'story_topic_image_url', $imageurl );
+        if (!empty($imageurl)) {
+            $imageurl = COM_getTopicImageUrl($imageurl);
+            $article->set_var('story_topic_image_url', $imageurl, false, true);
             $topicimage = '<img src="' . $imageurl . '" class="float'
                         . $_CONF['article_image_align'] . '" alt="'
                         . $topicname . '" title="' . $topicname . '"' . XHTML . '>';
@@ -193,8 +128,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                     $topicurl,
                     array('rel'=>"category")
                 )
+                , false, true
             );
-            $article->set_var( 'story_topic_image', $topicimage );
+            $article->set_var('story_topic_image', $topicimage, false, true);
             $topicimage_noalign = '<img src="' . $imageurl . '" alt="'
                         . $topicname . '" title="' . $topicname . '"' . XHTML . '>';
             $article->set_var( 'story_anchortag_and_image_no_align',
@@ -203,344 +139,486 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                     $topicurl,
                     array('rel'=>"category")
                 )
+                , false, true
             );
-            $article->set_var( 'story_topic_image_no_align',
-                               $topicimage_noalign );
+            $article->set_var('story_topic_image_no_align', $topicimage_noalign, false, true);
         }
     }
-    $article->set_var( 'story_topic_url', $topicurl );
-
-    $recent_post_anchortag = '';
-    $articleUrl = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
-                                . $story->getSid());
-    $article->set_var('story_title', $story->DisplayElements('title'));
-    $article->set_var('lang_permalink', $LANG01[127]);
-
-    $show_comments = true;
     
-    // n = Full display of article. p = 'Preview' mode.
-    if ((($index != 'n') && ($index != 'p')) || !empty($query)) {
-        $attributes = ' class="non-ul"';
-        $attr_array = array('class' => 'non-ul');
-        if (!empty($query)) {
-            $attributes .= ' rel="bookmark"';
-            $attr_array['rel'] = 'bookmark';
-        }
-        $article->set_var('start_storylink_anchortag',
-                          '<a href="' . $articleUrl . '"' . $attributes . '>');
-        $article->set_var('end_storylink_anchortag', '</a>');
-        $article->set_var('story_title_link',
-            COM_createLink(
-                    $story->DisplayElements('title'),
-                    $articleUrl,
-                    $attr_array
-            )
-        );
+    // Main article content
+    if ($index == 'p') {
+        $introtext = $story->getPreviewText('introtext');
+        $bodytext  = $story->getPreviewText('bodytext');
     } else {
-        if ($_CONF['supported_version_theme'] == '1.8.1') {
-            $article->set_var('breadcrumb_trail', TOPIC_breadcrumbs('article', $story->getSid()));
-        }
-        $article->set_var('story_title_link', $story->DisplayElements('title'));
+        $introtext = $story->displayElements('introtext');
+        $bodytext  = $story->displayElements('bodytext');
     }
+    $readmore = empty($bodytext)?0:1;
+    $numwords = COM_numberFormat(count(explode(' ', COM_getTextContent($bodytext))));
+    if (COM_onFrontpage()) {
+        $bodytext = '';
+    }
+    if (!empty($query)) {
+        $introtext = COM_highlightQuery($introtext, $query );
+        $bodytext  = COM_highlightQuery($bodytext, $query );
+    }    
+    
+    // begin instance caching...
+    $cache_time = $story->DisplayElements('cache_time');
+    $current_article_tid = $story->DisplayElements('tid');
+    $retval = false; // If stays false will rebuild article and not used cache (checks done below)
 
-    if(( $index == 'n' ) || ( $index == 'p' ))
-    {
-        if( empty( $bodytext ))
-        {
-            $article->set_var( 'story_introtext', $introtext );
-            $article->set_var( 'story_text_no_br', $introtext );
+    if ($cache_time > 0 OR $cache_time == -1) {
+        $hash = CACHE_security_hash();
+        $cacheInstance = 'article__' . $story->getSid() . '_' . $index . $mode . '_' . $article_filevar . '_' . $current_article_tid . '_' . $hash . '_' . $_USER['theme'];
+        
+        if ($_CONF['cache_templates']) {
+            $retval = $article->check_instance($cacheInstance, $article_filevar);
+        } else {
+            $retval = CACHE_check_instance($cacheInstance);
         }
-        else
-        {
-            if(( $_CONF['allow_page_breaks'] == 1 ) and ( $index == 'n' ))
-            {
-                $story_page = 1;
-
-                // page selector
-                if( is_numeric( $mode ))
-                {
-                    $story_page = $mode;
-                    if( $story_page <= 0 )
-                    {
-                        $story_page = 1;
-                        $mode = 0;
-                    }
-                    elseif( $story_page > 1 )
-                    {
-                        $introtext = '';
-                    }
-                }
-                $article_array = explode( '[page_break]', $bodytext );
-                $pagelinks = COM_printPageNavigation(
-                    $articleUrl, $story_page, count( $article_array ),
-                    'mode=', $_CONF['url_rewrite'], $LANG01[118]);
-                if( count( $article_array ) > 1 )
-                {
-                    $bodytext = $article_array[$story_page - 1];
-                }
-                $article->set_var( 'page_selector', $pagelinks );
-
-                if (
-                     ( ($_CONF['page_break_comments'] == 'last')  and
-                       ($story_page < count($article_array)) )
-                    or
-                     ( ($_CONF['page_break_comments'] == 'first')  and
-                       ($story_page != 1) )
-                   )
-                {
-                    $show_comments = false;
-                }
-                $article->set_var( 'story_page', $story_page );
+        
+        if ($retval AND $cache_time == -1) {
+            // Cache file found so use it since no time limit set to recreate
+            
+        } elseif ($retval AND $cache_time > 0) {
+            $lu = CACHE_get_instance_update($cacheInstance);
+            $now = time();
+            if (($now - $lu) < $cache_time ) {
+                // Cache file found so use it since under time limit set to recreate
+                
+            } else {
+                // generate article and create cache file
+                // Cache time is not built into template caching so need to delete it manually and reset $retval
+                CACHE_remove_instance($cacheInstance); 
+                $retval = false;
             }
-
-            $article->set_var('story_introtext', $introtext
-                    . '<br' . XHTML . '><br' . XHTML . '>' . $bodytext);
-            $article->set_var('story_text_no_br', $introtext . ' ' . $bodytext);
+        } else {
+            // Need to reset especially if caching is disabled for a certain story but tempalte caching has been enabled for the theme 
+            $retval = false;
         }
-        $article->set_var( 'story_introtext_only', $introtext );
-        $article->set_var( 'story_bodytext_only', $bodytext );
-
-        if(( $_CONF['trackback_enabled'] || $_CONF['pingback_enabled'] ) &&
-                SEC_hasRights( 'story.ping' ))
-        {
-            $url = $_CONF['site_admin_url']
-                 . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
-            $article->set_var( 'send_trackback_link',
-                COM_createLink($LANG_TRB['send_trackback'], $url)
-            );
-            $pingico = '<img src="' . $_CONF['layout_url'] . '/images/sendping.'
-                . $_IMAGE_TYPE . '" alt="' . $LANG_TRB['send_trackback']
-                . '" title="' . $LANG_TRB['send_trackback'] . '"' . XHTML . '>';
-            $article->set_var( 'send_trackback_icon',
-                COM_createLink($pingico, $url)
-            );
-            $article->set_var( 'send_trackback_url', $url );
-            $article->set_var( 'lang_send_trackback_text',
-                               $LANG_TRB['send_trackback'] );
-        }
-        $article->set_var( 'story_display',
-                           ( $index == 'p' ) ? 'preview' : 'article' );
-        $article->set_var( 'story_counter', 0 );
     }
-    else
-    {
-        $article->set_var( 'story_introtext', $introtext );
-        $article->set_var( 'story_text_no_br', $introtext );
-        $article->set_var( 'story_introtext_only', $introtext );
 
-        if($readmore)
-        {
-            $article->set_var( 'lang_readmore', $LANG01[2] );
-            $article->set_var( 'lang_readmore_words', $LANG01[62] );
-            $article->set_var( 'readmore_words', $numwords );
-
-            $article->set_var( 'readmore_link',
-                COM_createLink(
-                    $LANG01[2],
-                    $articleUrl,
-                    array('class'=>'story-read-more-link')
-                )
-                . ' (' . $numwords . ' ' . $LANG01[62] . ') ' );
-            $article->set_var('start_readmore_anchortag', '<a href="'
-                    . $articleUrl . '" class="story-read-more-link">');
-            $article->set_var('end_readmore_anchortag', '</a>');
-            $article->set_var('read_more_class', 'class="story-read-more-link"');
+    if ($index == 'p' || !empty($query) || !$retval) {
+    // end of instance cache
+        $article->set_var('article_filevar','');
+        
+        $article->set_var( 'site_name', $_CONF['site_name'] );
+        //$article->set_var( 'story_date', $story->DisplayElements('date') );
+        $article->set_var( 'story_date_short', $story->DisplayElements('shortdate') );
+        $article->set_var( 'story_date_only', $story->DisplayElements('dateonly') );
+        $article->set_var( 'story_id', $story->getSid() );
+    
+        if ($_CONF['contributedbyline'] == 1) {
+            $article->set_var('lang_contributed_by', $LANG01[1]);
+            $article->set_var('contributedby_uid', $story->DisplayElements('uid'));
+    
+            $fullname = $story->DisplayElements('fullname');
+            $username = $story->DisplayElements('username');
+            $article->set_var('contributedby_user', $username);
+            if (empty($fullname)) {
+                $article->set_var('contributedby_fullname', $username);
+            } else {
+                $article->set_var('contributedby_fullname',$fullname);
+            }
+    
+            $authorname = COM_getDisplayName($story->DisplayElements('uid'),
+                                             $username, $fullname);
+            $article->set_var('contributedby_author', $authorname);
+            $article->set_var('author', $authorname);
+    
+            if ($story->DisplayElements('uid') > 1) {
+                $profileUrl = $_CONF['site_url']
+                            . '/users.php?mode=profile&amp;uid='
+                            . $story->DisplayElements('uid');
+                $article->set_var('start_contributedby_anchortag',
+                        '<a class="storybyline" href="' . $profileUrl
+                        . '" rel="author">');
+                $article->set_var('end_contributedby_anchortag', '</a>');
+                $article->set_var('contributedby_url', $profileUrl);
+            }
+    
+            $photo = '';
+            if ($_CONF['allow_user_photo'] == 1) {
+                $authphoto = $story->DisplayElements('photo');
+                if (empty($authphoto)) {
+                    $authphoto = '(none)'; // user does not have a photo
+                }
+                $photo = USER_getPhoto($story->DisplayElements('uid'), $authphoto,
+                                       $story->DisplayElements('email'));
+            }
+            if (!empty($photo)) {
+                $article->set_var('contributedby_photo', $photo);
+                $article->set_var('author_photo', $photo);
+                $camera_icon = '<img src="' . $_CONF['layout_url']
+                             . '/images/smallcamera.' . $_IMAGE_TYPE . '" alt=""'
+                             . XHTML . '>';
+                $article->set_var('camera_icon',
+                                  COM_createLink($camera_icon, $profileUrl));
+            } else {
+                $article->set_var ('contributedby_photo', '');
+                $article->set_var ('author_photo', '');
+                $article->set_var ('camera_icon', '');
+            }
         }
+      
+        $article->set_var('story_topic_id', $story->DisplayElements('tid'));
+        $article->set_var('story_topic_name', $topicname);
+    
+        $article->set_var( 'story_topic_url', $topicurl );
+    
+        $recent_post_anchortag = '';
 
-        if(( $story->DisplayElements('commentcode') >= 0 ) and ( $show_comments ))
+        $article->set_var('lang_permalink', $LANG01[127]);
+    
+        $show_comments = true;
+        // n = Full display of article. p = 'Preview' mode.
+        if ((($index != 'n') && ($index != 'p')) || !empty($query)) {
+            $attributes = ' class="non-ul"';
+            $attr_array = array('class' => 'non-ul');
+            if (!empty($query)) {
+                $attributes .= ' rel="bookmark"';
+                $attr_array['rel'] = 'bookmark';
+            }
+            $article->set_var('start_storylink_anchortag',
+                              '<a href="' . $articleUrl . '"' . $attributes . '>');
+            $article->set_var('end_storylink_anchortag', '</a>');
+            $article->set_var('story_title_link',
+                COM_createLink(
+                        $story->DisplayElements('title'),
+                        $articleUrl,
+                        $attr_array
+                )
+            );
+        } else {
+            $article->set_var('story_title_link', $story->DisplayElements('title'));
+        }
+        
+        if ($index == 'n') {
+            if ($_CONF['supported_version_theme'] == '1.8.1') {
+                $article->set_var('breadcrumb_trail', TOPIC_breadcrumbs('article', $story->getSid()));
+            }
+            
+            if ($_CONF['related_topics'] > 0) {
+                $article->set_var('related_topics', TOPIC_relatedTopics('article', $story->getSid(), $_CONF['related_topics_max']));
+            }
+        } elseif ($index != 'p') {
+            if ($_CONF['related_topics'] > 1) {
+                $article->set_var('related_topics', TOPIC_relatedTopics('article', $story->getSid(), $_CONF['related_topics_max']));
+            }
+        }
+    
+        if (( $index == 'n' ) || ( $index == 'p' ))
         {
-            $commentsUrl = COM_buildUrl( $_CONF['site_url']
-                    . '/article.php?story=' . $story->getSid() ) . '#comments';
-            $article->set_var( 'comments_url', $commentsUrl );
-            $article->set_var( 'comments_text',
-                    COM_numberFormat( $story->DisplayElements('comments') ) . ' ' . $LANG01[3] );
-            $article->set_var( 'comments_count',
-                    COM_numberFormat ( $story->DisplayElements('comments') ));
-            $article->set_var( 'lang_comments', $LANG01[3] );
-            $comments_with_count = sprintf( $LANG01[121], COM_numberFormat( $story->DisplayElements('comments') ));
-
-            if( $story->DisplayElements('comments') > 0 )
+            if( empty( $bodytext ))
             {
-                $result = DB_query( "SELECT UNIX_TIMESTAMP(date) AS day,username,fullname,{$_TABLES['comments']}.uid as cuid FROM {$_TABLES['comments']},{$_TABLES['users']} WHERE {$_TABLES['users']}.uid = {$_TABLES['comments']}.uid AND sid = '".$story->getSid()."' ORDER BY date DESC LIMIT 1" );
-                $C = DB_fetchArray( $result );
-
-                $recent_post_anchortag = '<span class="storybyline">'
-                        . $LANG01[27] . ': '
-                        . strftime( $_CONF['daytime'], $C['day'] ) . ' '
-                        . $LANG01[104] . ' ' . COM_getDisplayName ($C['cuid'],
-                                                $C['username'], $C['fullname'])
-                        . '</span>';
-                $article->set_var( 'comments_with_count', COM_createLink($comments_with_count, $commentsUrl));
-                $article->set_var( 'start_comments_anchortag', '<a href="'
-                        . $commentsUrl . '">' );
-                $article->set_var( 'end_comments_anchortag', '</a>' );
+                $article->set_var( 'story_introtext', $introtext );
+                $article->set_var( 'story_text_no_br', $introtext );
             }
             else
             {
-                $article->set_var( 'comments_with_count', $comments_with_count);
-                if ($_CONF['comment_on_same_page'] == true) {
-                    $recent_post_anchortag = COM_createLink($LANG01[60],
-                        $_CONF['site_url'] . '/article.php?story=' . $story->getSid()
-                            . '#commenteditform');
-                } else {
-                    $recent_post_anchortag = COM_createLink($LANG01[60],
-                        $_CONF['site_url'] . '/comment.php?sid=' . $story->getSid()
-                            . '&amp;pid=0&amp;type=article');
+                if(( $_CONF['allow_page_breaks'] == 1 ) and ( $index == 'n' ))
+                {
+                    $story_page = 1;
+    
+                    // page selector
+                    if (is_numeric($mode)) {
+                        $story_page = $mode;
+                        if ($story_page <= 0) {
+                            $story_page = 1;
+                            $mode = 0;
+                        } elseif ($story_page > 1) {
+                            $introtext = '';
+                        }
+                    }
+                    $article_array = explode( '[page_break]', $bodytext );
+                    $page_break_count = count($article_array);
+                    if ($story_page > $page_break_count) { // Can't have page count greate than actual number of pages
+                        $story_page = $page_break_count;
+                    }
+                    $pagelinks = COM_printPageNavigation(
+                        $articleUrl, $story_page, $page_break_count,
+                        'mode=', $_CONF['url_rewrite'], $LANG01[118]);
+                    if( count( $article_array ) > 1 )
+                    {
+                        $bodytext = $article_array[$story_page - 1];
+                    }
+                    $article->set_var( 'page_selector', $pagelinks );
+    
+                    if (
+                         ( ($_CONF['page_break_comments'] == 'last')  and
+                           ($story_page < count($article_array)) )
+                        or
+                         ( ($_CONF['page_break_comments'] == 'first')  and
+                           ($story_page != 1) )
+                       )
+                    {
+                        $show_comments = false;
+                    }
+                    $article->set_var( 'story_page', $story_page );
                 }
+    
+                $article->set_var('story_introtext', $introtext
+                        . '<br' . XHTML . '><br' . XHTML . '>' . $bodytext);
+                $article->set_var('story_text_no_br', $introtext . ' ' . $bodytext);
             }
-            if( $story->DisplayElements( 'commentcode' ) == 0 )
+            $article->set_var( 'story_introtext_only', $introtext );
+            $article->set_var( 'story_bodytext_only', $bodytext );
+    
+            if(( $_CONF['trackback_enabled'] || $_CONF['pingback_enabled'] ) &&
+                    SEC_hasRights( 'story.ping' ))
             {
-                if ($_CONF['comment_on_same_page'] == true) {
-                    $postCommentUrl = $_CONF['site_url'] . '/article.php?story='
-                                . $story->getSid() . '#commenteditform';
-                } else {
-                    $postCommentUrl = $_CONF['site_url'] . '/comment.php?sid='
-                                . $story->getSid() . '&amp;pid=0&amp;type=article';
-                }
-                $article->set_var( 'post_comment_link',
-                        COM_createLink($LANG01[60], $postCommentUrl,
-                                       array('rel' => 'nofollow')));
-            /*
-                $article->set_var( 'subscribe_link',
-                        COM_createLink('Nubbies', '', array('rel' => 'nofollow'))
-                                 );
-            */
-                $article->set_var( 'lang_post_comment', $LANG01[60] );
-                $article->set_var( 'start_post_comment_anchortag',
-                                   '<a href="' . $postCommentUrl
-                                   . '" rel="nofollow">' );
-                $article->set_var( 'end_post_comment_anchortag', '</a>' );
-            }
-        }
-
-        if(( $_CONF['trackback_enabled'] || $_CONF['pingback_enabled'] ) &&
-                ( $story->DisplayElements('trackbackcode') >= 0 ) && ( $show_comments ))
-        {
-            $num_trackbacks = COM_numberFormat( $story->DisplayElements('trackbacks') );
-            $trackbacksUrl = COM_buildUrl( $_CONF['site_url']
-                    . '/article.php?story=' . $story->getSid() ) . '#trackback';
-            $article->set_var( 'trackbacks_url', $trackbacksUrl );
-            $article->set_var( 'trackbacks_text', $num_trackbacks . ' '
-                                                  . $LANG_TRB['trackbacks'] );
-            $article->set_var( 'trackbacks_count', $num_trackbacks );
-            $article->set_var( 'lang_trackbacks', $LANG_TRB['trackbacks'] );
-            $article->set_var( 'trackbacks_with_count',
-                COM_createLink(
-                    sprintf( $LANG01[122], $num_trackbacks ),
-                    $trackbacksUrl
-                )
-            );
-
-            if(SEC_hasRights( 'story.ping' ))
-            {
-                $pingurl = $_CONF['site_admin_url']
-                    . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
+                $url = $_CONF['site_admin_url']
+                     . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
+                $article->set_var( 'send_trackback_link',
+                    COM_createLink($LANG_TRB['send_trackback'], $url)
+                );
                 $pingico = '<img src="' . $_CONF['layout_url'] . '/images/sendping.'
                     . $_IMAGE_TYPE . '" alt="' . $LANG_TRB['send_trackback']
                     . '" title="' . $LANG_TRB['send_trackback'] . '"' . XHTML . '>';
                 $article->set_var( 'send_trackback_icon',
-                    COM_createLink($pingico, $pingurl)
+                    COM_createLink($pingico, $url)
                 );
+                $article->set_var( 'send_trackback_url', $url );
+                $article->set_var( 'lang_send_trackback_text',
+                                   $LANG_TRB['send_trackback'] );
             }
-
-            if( $story->DisplayElements('trackbacks') > 0 )
+            $article->set_var( 'story_display',
+                               ( $index == 'p' ) ? 'preview' : 'article' );
+            $article->set_var( 'story_counter', 0 );
+        }
+        else
+        {
+            $article->set_var( 'story_introtext', $introtext );
+            $article->set_var( 'story_text_no_br', $introtext );
+            $article->set_var( 'story_introtext_only', $introtext );
+    
+            if($readmore)
             {
+                $article->set_var( 'lang_readmore', $LANG01[2] );
+                $article->set_var( 'lang_readmore_words', $LANG01[62] );
+                $article->set_var( 'readmore_words', $numwords );
+    
+                $article->set_var( 'readmore_link',
+                    COM_createLink(
+                        $LANG01[2],
+                        $articleUrl,
+                        array('class'=>'story-read-more-link')
+                    )
+                    . ' (' . $numwords . ' ' . $LANG01[62] . ') ' );
+                $article->set_var('start_readmore_anchortag', '<a href="'
+                        . $articleUrl . '" class="story-read-more-link">');
+                $article->set_var('end_readmore_anchortag', '</a>');
+                $article->set_var('read_more_class', 'class="story-read-more-link"');
+            }
+    
+            if(( $story->DisplayElements('commentcode') >= 0 ) and ( $show_comments ))
+            {
+                $commentsUrl = COM_buildUrl( $_CONF['site_url']
+                        . '/article.php?story=' . $story->getSid() ) . '#comments';
+                $article->set_var( 'comments_url', $commentsUrl );
+                $article->set_var( 'comments_text',
+                        COM_numberFormat( $story->DisplayElements('comments') ) . ' ' . $LANG01[3] );
+                $article->set_var( 'comments_count',
+                        COM_numberFormat ( $story->DisplayElements('comments') ));
+                $article->set_var( 'lang_comments', $LANG01[3] );
+                $comments_with_count = sprintf( $LANG01[121], COM_numberFormat( $story->DisplayElements('comments') ));
+    
+                if( $story->DisplayElements('comments') > 0 )
+                {
+                    $result = DB_query( "SELECT UNIX_TIMESTAMP(date) AS day,username,fullname,{$_TABLES['comments']}.uid as cuid FROM {$_TABLES['comments']},{$_TABLES['users']} WHERE {$_TABLES['users']}.uid = {$_TABLES['comments']}.uid AND sid = '".$story->getSid()."' ORDER BY date DESC LIMIT 1" );
+                    $C = DB_fetchArray( $result );
+    
+                    $recent_post_anchortag = '<span class="storybyline">'
+                            . $LANG01[27] . ': '
+                            . strftime( $_CONF['daytime'], $C['day'] ) . ' '
+                            . $LANG01[104] . ' ' . COM_getDisplayName ($C['cuid'],
+                                                    $C['username'], $C['fullname'])
+                            . '</span>';
+                    $article->set_var( 'comments_with_count', COM_createLink($comments_with_count, $commentsUrl));
+                    $article->set_var( 'start_comments_anchortag', '<a href="'
+                            . $commentsUrl . '">' );
+                    $article->set_var( 'end_comments_anchortag', '</a>' );
+                }
+                else
+                {
+                    $article->set_var( 'comments_with_count', $comments_with_count);
+                    if ($_CONF['comment_on_same_page'] == true) {
+                        $recent_post_anchortag = COM_createLink($LANG01[60],
+                            $_CONF['site_url'] . '/article.php?story=' . $story->getSid()
+                                . '#commenteditform');
+                    } else {
+                        $recent_post_anchortag = COM_createLink($LANG01[60],
+                            $_CONF['site_url'] . '/comment.php?sid=' . $story->getSid()
+                                . '&amp;pid=0&amp;type=article');
+                    }
+                }
+                if( $story->DisplayElements( 'commentcode' ) == 0 )
+                {
+                    if ($_CONF['comment_on_same_page'] == true) {
+                        $postCommentUrl = $_CONF['site_url'] . '/article.php?story='
+                                    . $story->getSid() . '#commenteditform';
+                    } else {
+                        $postCommentUrl = $_CONF['site_url'] . '/comment.php?sid='
+                                    . $story->getSid() . '&amp;pid=0&amp;type=article';
+                    }
+                    $article->set_var( 'post_comment_link',
+                            COM_createLink($LANG01[60], $postCommentUrl,
+                                           array('rel' => 'nofollow')));
+                /*
+                    $article->set_var( 'subscribe_link',
+                            COM_createLink('Nubbies', '', array('rel' => 'nofollow'))
+                                     );
+                */
+                    $article->set_var( 'lang_post_comment', $LANG01[60] );
+                    $article->set_var( 'start_post_comment_anchortag',
+                                       '<a href="' . $postCommentUrl
+                                       . '" rel="nofollow">' );
+                    $article->set_var( 'end_post_comment_anchortag', '</a>' );
+                }
+            }
+    
+            if(( $_CONF['trackback_enabled'] || $_CONF['pingback_enabled'] ) &&
+                    ( $story->DisplayElements('trackbackcode') >= 0 ) && ( $show_comments ))
+            {
+                $num_trackbacks = COM_numberFormat( $story->DisplayElements('trackbacks') );
+                $trackbacksUrl = COM_buildUrl( $_CONF['site_url']
+                        . '/article.php?story=' . $story->getSid() ) . '#trackback';
+                $article->set_var( 'trackbacks_url', $trackbacksUrl );
+                $article->set_var( 'trackbacks_text', $num_trackbacks . ' '
+                                                      . $LANG_TRB['trackbacks'] );
+                $article->set_var( 'trackbacks_count', $num_trackbacks );
+                $article->set_var( 'lang_trackbacks', $LANG_TRB['trackbacks'] );
                 $article->set_var( 'trackbacks_with_count',
                     COM_createLink(
                         sprintf( $LANG01[122], $num_trackbacks ),
                         $trackbacksUrl
                     )
                 );
+    
+                if(SEC_hasRights( 'story.ping' ))
+                {
+                    $pingurl = $_CONF['site_admin_url']
+                        . '/trackback.php?mode=sendall&amp;id=' . $story->getSid();
+                    $pingico = '<img src="' . $_CONF['layout_url'] . '/images/sendping.'
+                        . $_IMAGE_TYPE . '" alt="' . $LANG_TRB['send_trackback']
+                        . '" title="' . $LANG_TRB['send_trackback'] . '"' . XHTML . '>';
+                    $article->set_var( 'send_trackback_icon',
+                        COM_createLink($pingico, $pingurl)
+                    );
+                }
+    
+                if( $story->DisplayElements('trackbacks') > 0 )
+                {
+                    $article->set_var( 'trackbacks_with_count',
+                        COM_createLink(
+                            sprintf( $LANG01[122], $num_trackbacks ),
+                            $trackbacksUrl
+                        )
+                    );
+                }
+                else
+                {
+                    $article->set_var( 'trackbacks_with_count',
+                            sprintf( $LANG01[122], $num_trackbacks )
+                    );
+                }
+            }
+    
+            if(( $_CONF['hideemailicon'] == 1 ) ||
+               ( COM_isAnonUser() &&
+                    (( $_CONF['loginrequired'] == 1 ) ||
+                     ( $_CONF['emailstoryloginrequired'] == 1 ))))
+            {
+                $article->set_var( 'email_icon', '' );
             }
             else
             {
-                $article->set_var( 'trackbacks_with_count',
-                        sprintf( $LANG01[122], $num_trackbacks )
-                );
+                $emailUrl = $_CONF['site_url'] . '/profiles.php?sid=' . $story->getSid()
+                          . '&amp;what=emailstory';
+                $emailicon = '<img src="' . $_CONF['layout_url'] . '/images/mail.'
+                    . $_IMAGE_TYPE . '" alt="' . $LANG01[64] . '" title="'
+                    . $LANG11[2] . '"' . XHTML . '>';
+                $article->set_var( 'email_icon', COM_createLink($emailicon, $emailUrl));
+                $article->set_var( 'email_story_url', $emailUrl );
+                $article->set_var( 'lang_email_story', $LANG11[2] );
+                $article->set_var( 'lang_email_story_alt', $LANG01[64] );
             }
+            $printUrl = COM_buildUrl( $_CONF['site_url'] . '/article.php?story='
+                                      . $story->getSid() . '&amp;mode=print' );
+            if( $_CONF['hideprintericon'] == 1 )
+            {
+                $article->set_var( 'print_icon', '' );
+            }
+            else
+            {
+                $printicon = '<img src="' . $_CONF['layout_url']
+                    . '/images/print.' . $_IMAGE_TYPE . '" alt="' . $LANG01[65]
+                    . '" title="' . $LANG11[3] . '"' . XHTML . '>';
+                $article->set_var( 'print_icon',
+                    COM_createLink($printicon, $printUrl, array('rel' => 'nofollow'))
+                );
+                $article->set_var( 'print_story_url', $printUrl );
+                $article->set_var( 'lang_print_story', $LANG11[3] );
+                $article->set_var( 'lang_print_story_alt', $LANG01[65] );
+            }
+            $article->set_var( 'story_display', 'index' );
+    
+            $storycounter++;
+            $article->set_var( 'story_counter', $storycounter );
         }
+        
+        $article->set_var( 'recent_post_anchortag', $recent_post_anchortag );
+    
+        if (($index != 'p') AND SEC_hasRights('story.edit') AND
+                ($story->checkAccess() == 3) AND
+                (TOPIC_hasMultiTopicAccess('article', $story->DisplayElements('sid')) == 3)) {
+            $editUrl = $_CONF['site_admin_url'] . '/story.php?mode=edit&amp;sid='
+                . $story->getSid();
+            $editiconhtml = '<img src="' . $_CONF['layout_url']
+                . '/images/edit.' . $_IMAGE_TYPE . '" alt="' . $LANG01[4]
+                . '" title="' . $LANG01[4] . '"' . XHTML . '>';
+            $article->set_var( 'edit_link', COM_createLink($LANG01[4], $editUrl) );
+            $article->set_var( 'edit_url', $editUrl );
+            $article->set_var( 'lang_edit_text',  $LANG01[4] );
+            $article->set_var( 'edit_icon', COM_createLink($editiconhtml, $editUrl) );
+            $article->set_var( 'edit_image', $editiconhtml);
+        }
+    
+        if ($story->DisplayElements('featured') == 1) {
+            $article->set_var('lang_todays_featured_article', $LANG05[4]);
+            $article->parse('story_bodyhtml', 'featuredbodytext', true);
+            PLG_templateSetVars( 'featuredstorytext', $article );
+        } elseif ($story->DisplayElements('statuscode') == STORY_ARCHIVE_ON_EXPIRE AND $story->DisplayElements('expire') <= time()) {
+            $article->parse('story_bodyhtml', 'archivestorybodytext', true);
+            PLG_templateSetVars('archivestorytext', $article);
+        } else {
+            $article->parse('story_bodyhtml', 'bodytext', true);
+            PLG_templateSetVars('storytext', $article);
+        }
+    
+        PLG_templateSetVars($article_filevar, $article);
 
-        if(( $_CONF['hideemailicon'] == 1 ) ||
-           ( COM_isAnonUser() &&
-                (( $_CONF['loginrequired'] == 1 ) ||
-                 ( $_CONF['emailstoryloginrequired'] == 1 ))))
-        {
-            $article->set_var( 'email_icon', '' );
+        if ($index != 'p' AND ($cache_time > 0 OR $cache_time == -1)) {
+            $article->create_instance($cacheInstance, $article_filevar);
+            // CACHE_create_instance($cacheInstance, $article);
         }
-        else
-        {
-            $emailUrl = $_CONF['site_url'] . '/profiles.php?sid=' . $story->getSid()
-                      . '&amp;what=emailstory';
-            $emailicon = '<img src="' . $_CONF['layout_url'] . '/images/mail.'
-                . $_IMAGE_TYPE . '" alt="' . $LANG01[64] . '" title="'
-                . $LANG11[2] . '"' . XHTML . '>';
-            $article->set_var( 'email_icon', COM_createLink($emailicon, $emailUrl));
-            $article->set_var( 'email_story_url', $emailUrl );
-            $article->set_var( 'lang_email_story', $LANG11[2] );
-            $article->set_var( 'lang_email_story_alt', $LANG01[64] );
-        }
-        $printUrl = COM_buildUrl( $_CONF['site_url'] . '/article.php?story='
-                                  . $story->getSid() . '&amp;mode=print' );
-        if( $_CONF['hideprintericon'] == 1 )
-        {
-            $article->set_var( 'print_icon', '' );
-        }
-        else
-        {
-            $printicon = '<img src="' . $_CONF['layout_url']
-                . '/images/print.' . $_IMAGE_TYPE . '" alt="' . $LANG01[65]
-                . '" title="' . $LANG11[3] . '"' . XHTML . '>';
-            $article->set_var( 'print_icon',
-                COM_createLink($printicon, $printUrl, array('rel' => 'nofollow'))
-            );
-            $article->set_var( 'print_story_url', $printUrl );
-            $article->set_var( 'lang_print_story', $LANG11[3] );
-            $article->set_var( 'lang_print_story_alt', $LANG01[65] );
-        }
-        $article->set_var( 'story_display', 'index' );
-
-        $storycounter++;
-        $article->set_var( 'story_counter', $storycounter );
-    }
-    $article->set_var( 'article_url', $articleUrl );
-    $article->set_var( 'recent_post_anchortag', $recent_post_anchortag );
-
-    if (($index != 'p') AND SEC_hasRights('story.edit') AND
-            ($story->checkAccess() == 3) AND
-            (TOPIC_hasMultiTopicAccess('article', $story->DisplayElements('sid')) == 3)) {
-        $editUrl = $_CONF['site_admin_url'] . '/story.php?mode=edit&amp;sid='
-            . $story->getSid();
-        $editiconhtml = '<img src="' . $_CONF['layout_url']
-            . '/images/edit.' . $_IMAGE_TYPE . '" alt="' . $LANG01[4]
-            . '" title="' . $LANG01[4] . '"' . XHTML . '>';
-        $article->set_var( 'edit_link', COM_createLink($LANG01[4], $editUrl) );
-        $article->set_var( 'edit_url', $editUrl );
-        $article->set_var( 'lang_edit_text',  $LANG01[4] );
-        $article->set_var( 'edit_icon', COM_createLink($editiconhtml, $editUrl) );
-        $article->set_var( 'edit_image', $editiconhtml);
-    }
-
-    if( $story->DisplayElements('featured') == 1 )
-    {
-        $article->set_var( 'lang_todays_featured_article', $LANG05[4] );
-        $article->parse( 'story_bodyhtml', 'featuredbodytext', true );
-        PLG_templateSetVars( 'featuredstorytext', $article );
-        $article->parse( 'finalstory', 'featuredarticle' );
-    }
-    elseif( $story->DisplayElements('statuscode') == STORY_ARCHIVE_ON_EXPIRE AND $story->DisplayElements('expire') <= time() )
-    {
-        $article->parse( 'story_bodyhtml', 'archivestorybodytext', true );
-        PLG_templateSetVars( 'archivestorytext', $article );
-        $article->parse( 'finalstory', 'archivearticle' );
-    }
-    else
-    {
-        $article->parse( 'story_bodyhtml', 'bodytext', true );
-        PLG_templateSetVars( 'storytext', $article );
-        $article->parse( 'finalstory', 'article' );
+    } else {
+        PLG_templateSetVars($article_filevar, $article);
+        
+        if (!$_CONF['cache_templates']) { 
+            // $article->set_var($article_filevar, $retval);
+            // Hack: Cannot set the template variable directly with set_var since 
+            // this template variable was set with set_file which uses the templatecode array (set_var uses varvals array) 
+            // so have to update the templatecode array directly. This array really shouldn't be accessed this way
+            // and this hack should be changed in the future: either set_var or set_file functions need to allow update of the file template variable found in templatecode
+            $article->templateCode[$article_filevar] = $retval;
+        }        
     }
 
-    return $article->finish( $article->get_var( 'finalstory' ));
+    $article->parse('finalstory', $article_filevar);
+
+    return $article->finish($article->get_var('finalstory'));
 }
 
 /**
@@ -553,7 +631,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
 * @return   array   an array of strings of form <a href="...">link</a>
 *
 */
-function STORY_extractLinks( $fulltext, $maxlength = 26 )
+function STORY_extractLinks($fulltext, $maxlength = 26)
 {
     $rel = array();
 
@@ -589,54 +667,135 @@ function STORY_extractLinks( $fulltext, $maxlength = 26 )
 *
 * @param        string      $related    contents of gl_stories 'related' field
 * @param        int         $uid        user id of the author
-* @param        int         $tid        topic id
+* @param        int         $sid        story id
 * @return       string      HTML-formatted list of links
 */
 
-function STORY_whatsRelated( $related, $uid, $tid )
+function STORY_whatsRelated($related, $uid, $sid)
 {
     global $_CONF, $_TABLES, $LANG24;
 
-    // get the links from the story text
-    if (!empty ($related)) {
-        $rel = explode ("\n", $related);
+    // Is it enabled?
+    // Disabled' => 0, 'Enabled' => 1, 'Enabled (No Links)' => 2, 'Enabled (No Outbound Links)' => 3
+    if ($_CONF['whats_related']) {
+        // get the links from the story text
+        if ($_CONF['whats_related'] != 2) {
+            if (!empty ($related)) {
+                $rel = explode ("\n", $related);
+            } else {
+                $rel = array ();
+            }
+
+            // Used to hunt out duplicates. Stores urls that have already passed filters            
+            $urls = array();
+        
+            foreach ($rel as $key => &$value) {
+                if (preg_match("/<a[^>]*href=[\"']([^\"']*)[\"'][^>]*>(.*?)<\/a>/i",
+                               $value, $matches) === 1) {
+                    
+                    // Go through array and remove links with no link text except link. Since a max of only 23 characters of link text showen then compare only this    
+                    if (substr($matches[1] , 0, 23) != substr($matches[2] , 0, 23)) {
+                        // Check if outbound links (if needed)
+                        $passd_check = false;
+                        if ($_CONF['whats_related'] == 3) { // no outbound links
+                            if ($_CONF['site_url'] == substr($matches[1] , 0, strlen($_CONF['site_url']))) {
+                                $passd_check = true; 
+                            }
+                        } else {
+                            $passd_check = true;    
+                        }
+                            
+                        if ($passd_check) {    
+                            // Go through array and remove any duplicates of this link
+                            if (in_array($matches[1], $urls)) {
+                               // remove it from the array
+                               unset($rel[$key]);                       
+                            } else {
+                                $urls[] = $matches[1];
+                                // Now Check Words
+                                $value = '<a href="' . $matches[1] . '">'
+                                       . COM_checkWords($matches[2]) . '</a>';
+                           }
+                       } else {
+                           // remove it from the array
+                           unset($rel[$key]);
+                       }
+                   } else {
+                       // remove it from the array
+                       unset($rel[$key]);
+                   }
+                } else {
+                    $value = COM_checkWords($value);
+                }
+            }
+        }
+        
+        $topics = array();
+        if (!COM_isAnonUser() || (( $_CONF['loginrequired'] == 0 ) &&
+               ( $_CONF['searchloginrequired'] == 0))) {
+            // add a link to "search by author"
+            if( $_CONF['contributedbyline'] == 1 )
+            {
+                $author = $LANG24[37] . ' ' . COM_getDisplayName($uid);
+                if ($_CONF['whats_related_trim'] > 0 && (MBYTE_strlen($author) > $_CONF['whats_related_trim'])) {
+                    $author = substr($author, 0, $_CONF['whats_related_trim'] - 3 ) . '...';
+                }                
+                $topics[] = "<a href=\"{$_CONF['site_url']}/search.php?mode=search&amp;type=stories&amp;author=$uid\">$author</a>";
+            }
+    
+            // Retrieve topics
+            $tids = TOPIC_getTopicIdsForObject('article', $sid, 0);
+            foreach ($tids as $tid) {
+                // add a link to "search by topic"
+                $topic = $LANG24[38] . ' ' . stripslashes(DB_getItem( $_TABLES['topics'], 'topic', "tid = '$tid'" ));
+                // trim topics if needed
+                if ($_CONF['whats_related_trim'] > 0 && (MBYTE_strlen($topic) > $_CONF['whats_related_trim'])) {
+                    $topic = substr($topic, 0, $_CONF['whats_related_trim'] - 3 ) . '...';
+                }
+                $topics[] = '<a href="' . $_CONF['site_url']
+                       . '/search.php?mode=search&amp;type=stories&amp;topic=' . $tid
+                       . '">' . $topic . '</a>';          
+            }               
+        }
+    
+        // If line limit then split between related links and topics
+        if ($_CONF['whats_related_max'] > 0) {
+            if ($_CONF['whats_related_max'] < 3) {
+                $rel = array(); // Reset related links so at least user search and default topic search is displayed 
+                $topics = array_slice($topics, 0, 2);
+            } else {
+                $rel_max_num_items = intval($_CONF['whats_related_max'] / 2);
+                $topic_max_num_items = $rel_max_num_items;
+                if (($rel_max_num_items + $topic_max_num_items) != $_CONF['whats_related_max']) {
+                    $topic_max_num_items = $topic_max_num_items + 1;
+                }
+                // Now check if we have enough topics to display else give it to links
+                $topic_num_items = count($topics);
+                $rel_num_items = count($rel);
+                $added_flag = false;
+                if ($topic_num_items < $topic_max_num_items) {
+                    $rel_max_num_items = $rel_max_num_items + ($topic_max_num_items - $topic_num_items);
+                    $added_flag = true;
+                }
+                if (!$added_flag AND ($rel_num_items < $rel_max_num_items)) {
+                    $topic_max_num_items = $topic_max_num_items + ($rel_max_num_items - $rel_num_items);
+                }
+                $rel = array_slice($rel, 0, $rel_max_num_items);
+                $topics = array_slice($topics, 0, $topic_max_num_items);
+            
+            }
+        }
+        $result = array_merge($rel, $topics);
+
+        $related = '';
+        if( count( $result ) > 0 ) {
+            $related = COM_makeList($result, 'list-whats-related');
+        }
     } else {
-        $rel = array ();
+        $related = '';
     }
-
-    foreach ($rel as &$value) {
-        if (preg_match("/<a[^>]*href=[\"']([^\"']*)[\"'][^>]*>(.*?)<\/a>/i",
-                       $value, $matches) === 1) {
-            $value = '<a href="' . $matches[1] . '">'
-                   . COM_checkWords($matches[2]) . '</a>';
-        } else {
-            $value = COM_checkWords($value);
-        }
-    }
-
-    if( !COM_isAnonUser() || (( $_CONF['loginrequired'] == 0 ) &&
-           ( $_CONF['searchloginrequired'] == 0 ))) {
-        // add a link to "search by author"
-        if( $_CONF['contributedbyline'] == 1 )
-        {
-            $author = COM_getDisplayName( $uid );
-            $rel[] = "<a href=\"{$_CONF['site_url']}/search.php?mode=search&amp;type=stories&amp;author=$uid\">{$LANG24[37]} $author</a>";
-        }
-
-        // add a link to "search by topic"
-        $topic = DB_getItem( $_TABLES['topics'], 'topic', "tid = '$tid'" );
-        $rel[] = '<a href="' . $_CONF['site_url']
-               . '/search.php?mode=search&amp;type=stories&amp;topic=' . $tid
-               . '">' . $LANG24[38] . ' ' . stripslashes( $topic ) . '</a>';
-    }
-
-    $related = '';
-    if( count( $rel ) > 0 )
-    {
-        $related = COM_makeList( $rel, 'list-whats-related' );
-    }
-
-    return( $related );
+    
+    return $related;
 }
 
 /**
@@ -745,11 +904,10 @@ function STORY_doDeleteThisStoryNow($sid)
     // notify plugins
     PLG_itemDeleted($sid, 'article');
 
-    // update RSS feed and Older Stories block
+    // update RSS feed
     COM_rdfUpToDateCheck('article');
     COM_rdfUpToDateCheck('comment');
     STORY_updateLastArticlePublished();
-    COM_olderStuff();
     CMT_updateCommentcodes();
 }
 
@@ -778,6 +936,64 @@ function STORY_updateLastArticlePublished()
  * aren't a plugin (and likely never will be), implementing some of the API
  * functions here will save us from doing special handling elsewhere.
  */
+
+/**
+* Return list of articles for the Related Items block
+*
+* @param    array   $tids list of topic ids
+* @param    int     $max  maximum number of items to return
+* @param    int     $trim max length of text
+* @return   array   array of links to related articles with unix timestamp as key
+*
+*/
+function plugin_getrelateditems_story($tids, $max, $trim)
+{
+    global $_CONF, $_TABLES;
+
+    $where_sql = '';
+    $archivetid = DB_getItem($_TABLES['topics'], 'tid', "archive_flag=1");
+    if (!empty($archivetid)) {
+        $where_sql = " AND (ta.tid <> '$archivetid')";
+    }
+
+    // Find the newest stories the user has access too
+    $sql = "SELECT sid, title, UNIX_TIMESTAMP(date) s_date 
+        FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta  
+        WHERE ta.type = 'article' AND ta.id = sid AND (ta.tid IN ('" . implode( "','", $tids ) . "')) 
+        AND (date <= NOW()) AND (draft_flag = 0)" . $where_sql . COM_getPermSQL( 'AND' ) . COM_getLangSQL( 'sid', 'AND' ) . " 
+        GROUP BY sid ORDER BY s_date DESC LIMIT {$max}";
+
+    $result = DB_query($sql);
+    $nrows = DB_numRows($result);
+
+    $newstories = array();
+    if ($nrows > 0) {
+        for ($x = 0; $x < $nrows; $x++) {
+            $A = DB_fetchArray($result);
+
+            $url = COM_buildUrl($_CONF['site_url'] . '/article.php?story='
+                                . $A['sid']);            
+
+            $title = COM_undoSpecialChars(stripslashes( $A['title']));
+            if ($trim > 0) {
+                $titletouse = COM_truncate($title, $trim, '...');
+            } else {
+                $titletouse = $title;
+            }
+            if ($title != $titletouse) {
+                $attr = array('title' => htmlspecialchars($title));
+            } else {
+                $attr = array();
+            }
+            $astory = str_replace('$', '&#36;', $titletouse);
+            $astory = str_replace(' ', '&nbsp;', $astory);
+
+            $newstories[$A['s_date']] = COM_createLink($astory, $url, $attr);
+        }
+    }
+
+    return $newstories;
+} 
  
 /**
 * Return new Story comments for the What's New block
@@ -870,6 +1086,9 @@ function plugin_getiteminfo_story($sid, $what, $uid = 0, $options = array())
         case 'date-created':
             $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
             break;
+        case 'date-modified':
+            $fields[] = 'UNIX_TIMESTAMP(date) AS unixdate';
+            break;
         case 'description':
             $fields[] = 'introtext';
             $fields[] = 'bodytext';
@@ -936,6 +1155,9 @@ function plugin_getiteminfo_story($sid, $what, $uid = 0, $options = array())
             switch ($p) {
             case 'date-created':
                 $props['date-created'] = $A['unixdate'];
+                break;
+            case 'date-modified':
+                $props['date-modified'] = $A['unixdate'];
                 break;
             case 'description':
                 $props['description'] = trim(PLG_replaceTags(stripslashes($A['introtext']) . ' ' . stripslashes($A['bodytext'])));
@@ -1091,8 +1313,9 @@ function plugin_itemlist_story()
         $plugin = new Plugin();
         $plugin->submissionlabel = $LANG29[35];
         $plugin->submissionhelpfile = 'ccstorysubmission.html';
-        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,ta.tid FROM {$_TABLES['storysubmission']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 " . COM_getTopicSQL ('AND') . " ORDER BY date ASC";
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,uid,date,ta.tid FROM {$_TABLES['storysubmission']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 " . COM_getTopicSQL ('AND') . " ORDER BY date ASC";
         $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[37]);
         $plugin->addSubmissionHeading($LANG29[14]);
         $plugin->addSubmissionHeading($LANG29[15]);
 
@@ -1159,8 +1382,9 @@ function plugin_itemlist_story_draft()
         $plugin = new Plugin();
         $plugin->submissionlabel = $LANG29[35] . ' (' . $LANG24[34] . ')';
         $plugin->submissionhelpfile = 'ccdraftsubmission.html';
-        $plugin->getsubmissionssql = "SELECT sid AS id,title,date,tid FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND draft_flag = 1 " . COM_getTopicSQL ('AND') . COM_getPermSQL ('AND', 0, 3) . " ORDER BY date ASC";
+        $plugin->getsubmissionssql = "SELECT sid AS id,title,uid,date,tid FROM {$_TABLES['stories']}, {$_TABLES['topic_assignments']} ta WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND draft_flag = 1 " . COM_getTopicSQL ('AND') . COM_getPermSQL ('AND', 0, 3) . " ORDER BY date ASC";
         $plugin->addSubmissionHeading($LANG29[10]);
+        $plugin->addSubmissionHeading($LANG29[37]);
         $plugin->addSubmissionHeading($LANG29[14]);
         $plugin->addSubmissionHeading($LANG29[15]);
 
@@ -1187,9 +1411,6 @@ function plugin_moderationapprove_story_draft($sid)
     COM_rdfUpToDateCheck('article');
     COM_rdfUpToDateCheck('comment');
     STORY_updateLastArticlePublished();
-
-    // update Older Stories block
-    COM_olderStuff();
 }
 
 /**
@@ -1243,11 +1464,7 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
     if ($op == 'tagname' ) {
         return 'story';
     } elseif ($op == 'permission' || $op == 'nopermission') {
-        if ($op == 'permission') {
-            $flag = true;
-        } else {
-            $flag = false;
-        }
+        $flag = ($op == 'permission');
         $tagnames = array();
 
         if (isset($_GROUPS['Story Admin'])) {
@@ -1257,8 +1474,10 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
                                    "grp_name = 'Story Admin'");
         }
         $owner_id = SEC_getDefaultRootUser();
-
-        if (COM_getPermTag($owner_id, $group_id, $_CONF['autotag_permissions_story'][0], $_CONF['autotag_permissions_story'][1], $_CONF['autotag_permissions_story'][2], $_CONF['autotag_permissions_story'][3]) == $flag) {
+        $p = 'autotag_permissions_story';
+        if (COM_getPermTag($owner_id, $group_id,
+            $_CONF[$p][0], $_CONF[$p][1],
+            $_CONF[$p][2], $_CONF[$p][3]) == $flag) {
             $tagnames[] = 'story';
         }
         
@@ -1271,8 +1490,11 @@ function plugin_autotags_story($op, $content = '', $autotag = '')
             );        
     } else {
         $sid = COM_applyFilter($autotag['parm1']);
+        $sid = COM_switchLanguageIdForObject($sid);
         if (! empty($sid)) {
-            $result = DB_query("SELECT COUNT(*) AS count FROM {$_TABLES['stories']} WHERE sid = '$sid'" . COM_getPermSql('AND'));
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['stories']} "
+                . "WHERE sid = '$sid'");
             $A = DB_fetchArray($result);
             if ($A['count'] > 0) {
 
@@ -1335,7 +1557,11 @@ function plugin_savecomment_article($title, $comment, $id, $pid, $postmode)
     } else { // success
         $comments = DB_count($_TABLES['comments'], array('type', 'sid'), array('article', $id));
         DB_change($_TABLES['stories'], 'comments', $comments, 'sid', $id);
-        COM_olderStuff(); // update comment count in Older Stories block
+        
+        // Comment count in Older Stories block may have changed so delete cache 
+        $cacheInstance = 'olderarticles__'; // remove all olderarticles instances
+        CACHE_remove_instance($cacheInstance); 
+
         $retval = COM_refresh(COM_buildUrl($_CONF['site_url']
                               . "/article.php?story=$id"));
     }
@@ -1367,6 +1593,11 @@ function plugin_deletecomment_article($cid, $id)
         CMT_deleteComment($cid, $id, 'article');
         $comments = DB_count ($_TABLES['comments'], 'sid', $id);
         DB_change ($_TABLES['stories'], 'comments', $comments, 'sid', $id);
+        
+        // Comment count in Older Stories block may have changed so delete cache 
+        $cacheInstance = 'olderstories__'; // remove all olderstories instances
+        CACHE_remove_instance($cacheInstance); 
+        
         $retval .= COM_refresh(COM_buildUrl($_CONF['site_url']
                  . "/article.php?story=$id") . '#comments');
     } else {
@@ -1413,10 +1644,7 @@ function plugin_displaycomment_article($id, $cid, $title, $order, $format, $page
                        $format, $cid, $page, $view, $delete_option,
                        $A['commentcode']);
     } else {
-        $retval .= COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $LANG_ACCESS['storydenialmsg']
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_ACCESS['storydenialmsg'], $LANG_ACCESS['accessdenied']);
     }
 
     return $retval;
@@ -1450,11 +1678,54 @@ function plugin_getfeednames_article()
     return $feeds;
 }
 
+/**
+* Config Option has changed. (use plugin api)
+*
+* @return   nothing
+*
+*/
+function plugin_configchange_article($group, $changes = array())
+{
+    global $_TABLES, $_CONF;
 
-
-
-
-
+    // If trim length changes then need to redo all related url's for articles
+    if ($group == 'Core' AND in_array('whats_related_trim', $changes)) {
+        $sql = "SELECT sid, introtext, bodytext FROM {$_TABLES['stories']}";  
+        $result = DB_query($sql);
+        $nrows = DB_numRows($result);
+        if ($nrows > 0) {
+            for ($x = 0; $x < $nrows; $x++) {
+                $A = DB_fetchArray ($result);
+                // Should maybe retrieve through story service but just grab from database and apply any autotags
+                // This is all the related story column should really need
+                $fulltext = PLG_replaceTags($A['introtext']) . ' ' . PLG_replaceTags($A['bodytext']);
+                $related =  DB_escapeString(implode("\n", STORY_extractLinks($fulltext, $_CONF['whats_related_trim'])));
+                if (!empty($related)) {
+                    DB_query("UPDATE {$_TABLES['stories']} SET related = '$related' WHERE sid = '{$A['sid']}'");                    
+                }
+            }
+            
+        }
+    // For if any articles are being cached
+    } elseif ($group == 'Core' AND (in_array('site_name', $changes) OR
+                              in_array('contributedbyline', $changes) OR
+                              in_array('allow_user_photo', $changes) OR
+                              in_array('article_image_align', $changes) OR
+                              in_array('related_topics', $changes) OR
+                              in_array('related_topics_max', $changes) OR
+                              in_array('allow_page_breaks', $changes) OR
+                              in_array('page_break_comments', $changes) OR
+                              in_array('url_rewrite', $changes) OR
+                              in_array('hideviewscount', $changes) OR
+                              in_array('hideemailicon', $changes) OR
+                              in_array('loginrequired', $changes) OR
+                              in_array('emailstoryloginrequired', $changes) OR
+                              in_array('hideprintericon', $changes))) {
+        // If any Article options changed then delete all article cache 
+        $cacheInstance = 'article__';
+        CACHE_remove_instance($cacheInstance);
+    }
+}
 
 /*
  * START SERVICES SECTION
@@ -1781,9 +2052,7 @@ function service_submit_story($args, &$output, &$svc_msg)
                     'image/png'   => '.png'
                     ));
             if (!$upload->setPath($_CONF['path_images'] . 'articles')) {
-                $output = COM_startBlock ($LANG24[30], '', COM_getBlockTemplate ('_msg_block', 'header'));
-                $output .= $upload->printErrors (false);
-                $output .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+                $output = COM_showMessageText($upload->printErrors(false), $LANG24[30]);
                 $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG24[30]));
                 echo $output;
                 exit;
@@ -1814,10 +2083,7 @@ function service_submit_story($args, &$output, &$svc_msg)
             $upload->uploadFiles();
 
             if ($upload->areErrors()) {
-                $retval = COM_startBlock ($LANG24[30], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-                $retval .= $upload->printErrors(false);
-                $retval .= COM_endBlock(COM_getBlockTemplate ('_msg_block', 'footer'));
+                $retval = COM_showMessageText($upload->printErrors(false), $LANG24[30]);
                 $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG24[30]));
                 echo $retval;
                 exit;
@@ -1831,19 +2097,20 @@ function service_submit_story($args, &$output, &$svc_msg)
         }
 
         if ($_CONF['maximagesperarticle'] > 0) {
-            $errors = $story->insertImages();
+            $errors = $story->checkAttachedImages();
             if (count($errors) > 0) {
                 $output .= COM_startBlock($LANG24[54], '',
-                                COM_getBlockTemplate('_msg_block', 'header'));
+                               COM_getBlockTemplate('_msg_block', 'header'));
                 $output .= $LANG24[55] . LB . '<ul>' . LB;
                 foreach ($errors as $err) {
                     $output .= '<li>' . $err . '</li>' . LB;
                 }
                 $output .= '</ul>' . LB;
-                $output .= COM_endBlock(COM_getBlockTemplate('_msg_block',
-                                                             'footer'));
+                $output .= COM_endBlock(
+                               COM_getBlockTemplate('_msg_block', 'footer'));
                 $output .= storyeditor($sid);
-                $output = COM_createHTMLDocument($output, array('pagetitle' => $LANG24[54]));
+                $output = COM_createHTMLDocument($output,
+                              array('pagetitle' => $LANG24[54]));
                 echo $output;
                 exit;
             }
@@ -1860,11 +2127,10 @@ function service_submit_story($args, &$output, &$svc_msg)
             PLG_itemSaved($sid, 'article');
         }
 
-        // update feed(s) and Older Stories block
+        // update feed(s)
         COM_rdfUpToDateCheck('article', $story->DisplayElements('tid'), $sid);
         COM_rdfUpToDateCheck('comment');
         STORY_updateLastArticlePublished();
-        COM_olderStuff();
         CMT_updateCommentcodes();
 
         if ($story->type == 'submission') {

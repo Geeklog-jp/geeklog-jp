@@ -122,6 +122,8 @@ $LANG_STATIC = array(
     'draft' => 'Brouillon',
     'draft_yes' => 'Oui',
     'draft_no' => 'Non',
+    'cache_time' => 'Cache Time',
+    'cache_time_desc' => 'This staticpage content will be cached for no longer than this many seconds. If 0 caching is disabled (3600 = 1 hour,  86400 = 1 day). Staticpages with PHP enabled or are a template will not be cached.',
     'autotag_desc_staticpage' => '[staticpage: id titre alternatif] - Affiche un lien vers une page statique en utilisant le titre la page. Un titre alternatif peut être spécifié mais n\'est pas nécessaire.',
     'autotag_desc_staticpage_content' => '[staticpage_content: id] - Affiche le contenu d\'une page statique.'
 );
@@ -161,6 +163,7 @@ $LANG_confignames['staticpages'] = array(
     'comment_code' => 'Commentaires par défaut',
     'draft_flag' => 'Drapeux brouillon par défaut',
     'disable_breadcrumbs_staticpages' => 'Disable Breadcrumbs',
+    'default_cache_time' => 'Default Cache Time',
     'newstaticpagesinterval' => 'Interval des nouvelles pages statiques',
     'hidenewstaticpages' => 'Cacher les nouvelles pages statiques',
     'title_trim_length' => 'Couper la longueur des titres',

@@ -58,6 +58,16 @@ define('PLG_RET_PERMISSION_DENIED',   -2);  // access to item or object denied
 define('PLG_RET_AUTH_FAILED',         -3);  // authentication failed
 define('PLG_RET_PRECONDITION_FAILED', -4);  // a precondition was not met
 
+// Response codes for checking for a SPAM
+define('PLG_SPAM_NOT_FOUND',       0);
+define('PLG_SPAM_FOUND',           1);
+define('PLG_SPAM_UNSURE',          2);
+
+// Constants for actions when a SPAM was found
+define('PLG_SPAM_ACTION_NONE',     0);
+define('PLG_SPAM_ACTION_NOTIFY',   8);
+define('PLG_SPAM_ACTION_DELETE', 128);
+
 // buffer for function names for the center block API
 $PLG_bufferCenterAPI = array();
 $PLG_buffered = false;
@@ -470,10 +480,10 @@ function PLG_getCommentUrlId($type)
 function PLG_commentDelete($type, $cid, $id)
 {
     global $_CONF;
-    
+
     $args[1] = $cid;
     $args[2] = $id;
-    
+
     if ($type == 'article') {
         require_once $_CONF['path_system'] . 'lib-story.php';
     }      
@@ -496,13 +506,13 @@ function PLG_commentDelete($type, $cid, $id)
 function PLG_commentSave($type, $title, $comment, $id, $pid, $postmode)
 {
     global $_CONF;
-    
+
     $args[1] = $title;
     $args[2] = $comment;
     $args[3] = $id;
     $args[4] = $pid;
     $args[5] = $postmode;
-    
+
     if ($type == 'article') {
         require_once $_CONF['path_system'] . 'lib-story.php';
     }    
@@ -527,7 +537,7 @@ function PLG_commentSave($type, $title, $comment, $id, $pid, $postmode)
 function PLG_displayComment($type, $id, $cid, $title, $order, $format, $page, $view)
 {
     global $_CONF;
-    
+
     $args[1] = $id;
     $args[2] = $cid;
     $args[3] = $title;
@@ -535,7 +545,7 @@ function PLG_displayComment($type, $id, $cid, $title, $order, $format, $page, $v
     $args[5] = $format;
     $args[6] = $page;
     $args[7] = $view;
-    
+
     if ($type == 'article') {
         require_once $_CONF['path_system'] . 'lib-story.php';
     }      
@@ -940,8 +950,8 @@ function PLGINT_getOptionsforMenus($var_names, $required_names, $function_name)
 */
 function PLG_getCCOptions()
 {
-    $var_names = array('adminlabel', 'adminurl', 'plugin_image');
-    $required_names = array(true, true, true);
+    $var_names = array('adminlabel', 'adminurl', 'plugin_image', 'admingroup');
+    $required_names = array(true, true, true, false);
     $function_name = 'plugin_cclabel_';
     $plgresults = PLGINT_getOptionsforMenus($var_names, $required_names, $function_name);
 
@@ -973,8 +983,8 @@ function PLG_getCCOptions()
 */
 function PLG_getAdminOptions()
 {
-    $var_names = array('adminlabel', 'adminurl', 'numsubmissions');
-    $required_names = array(true, true, false);
+    $var_names = array('adminlabel', 'adminurl', 'numsubmissions', 'admingroup');
+    $required_names = array(true, true, false, false);
     $function_name = 'plugin_getadminoption_';
     $plgresults = PLGINT_getOptionsforMenus($var_names, $required_names, $function_name);
 
@@ -1274,7 +1284,9 @@ function PLG_userInfoChanged($uid)
 {
     global $_PLUGINS;
 
-    foreach ($_PLUGINS as $pi_name) {
+    $all_plugins = array_merge($_PLUGINS, array('topic'));
+
+    foreach ($all_plugins as $pi_name) {       
         $function = 'plugin_user_changed_' . $pi_name;
         if (function_exists($function)) {
             $function($uid);
@@ -1299,9 +1311,9 @@ function PLG_userInfoChanged($uid)
 function PLG_groupChanged($grp_id, $mode)
 {
     global $_PLUGINS;
-    
+
     $all_plugins = array_merge($_PLUGINS, array('story', 'block', 'topic'));
-    
+
     foreach ($all_plugins as $pi_name) {    
         $function = 'plugin_group_changed_' . $pi_name;
         if (function_exists($function)) {
@@ -1566,9 +1578,9 @@ function PLG_collectTags($type = 'tagname')
     }
 
     // ensure that we're picking up the Core autotags
-
     require_once $_CONF['path_system'] . 'lib-story.php';
     require_once $_CONF['path_system'] . 'lib-user.php';
+    require_once $_CONF['path_system'] . 'lib-topic.php';
 
     if (! is_array($_PLUGINS)) {
         /** as a side effect of parsing autotags in templates, we may end
@@ -1577,8 +1589,8 @@ function PLG_collectTags($type = 'tagname')
          */
         $_PLUGINS = array();
     }
-    $all_plugins = array_merge($_PLUGINS, array('story', 'user'));
-    
+    $all_plugins = array_merge($_PLUGINS, array('story', 'user', 'topic'));
+
     $autolinkModules = array();
 
     foreach ($all_plugins as $pi_name) {
@@ -1609,7 +1621,7 @@ function PLG_collectTags($type = 'tagname')
                 }
             }
         }
-    
+
     }
 
     return $autolinkModules;
@@ -1666,7 +1678,7 @@ function PLG_replaceTags($content, $plugin = '', $remove = false)
                         $taglength = $end_pos - $start_pos + 1;
                         $tag = MBYTE_substr($content, $start_pos, $taglength);
                         $parms = explode(' ', $tag);
-    
+
                         // Extra test to see if autotag was entered with a space
                         // after the module name
                         if (MBYTE_substr($parms[0], -1) == ':') {
@@ -1685,7 +1697,7 @@ function PLG_replaceTags($content, $plugin = '', $remove = false)
                                 $tagid = $parms[1];
                             }
                         }
-    
+
                         $newtag = array(
                             'module'    => $module,
                             'tag'       => $moduletag,
@@ -1705,7 +1717,7 @@ function PLG_replaceTags($content, $plugin = '', $remove = false)
                 }
             }
         }
-    
+
         // If we have found 1 or more AutoLink tag
         if (count($tags) > 0) {       // Found the [tag] - Now process them all
             foreach ($tags as $autotag) {
@@ -1741,9 +1753,9 @@ function PLG_supportingFeeds()
 
     require_once $_CONF['path_system'] . 'lib-story.php';
     require_once $_CONF['path_system'] . 'lib-comment.php';
-    
+
     $plugins = array();
-    
+
     $plugintypes[] = 'article';
     $plugintypes[] = 'comment';       
     $plugintypes = array_merge($plugintypes, $_PLUGINS);
@@ -1783,7 +1795,7 @@ function PLG_getFeedNames($plugin)
     global $_CONF, $_PLUGINS;
 
     $feeds = array();
-    
+
     if ($plugin == 'custom') {
         $function = 'CUSTOM_getfeednames';
         if (function_exists($function)) {
@@ -2016,6 +2028,46 @@ function PLG_feedUpdateCheck($plugin, $feed, $topic, $update_data, $limit, $upda
 }
 
 /**
+* Ask plugins if they want to add something to Geeklog's Related Items list.
+*
+* @return   array   A list of clickable links with the key being the timestamp
+*
+*/
+function PLG_getRelatedItems($types, $tids, $max, $trim)
+{
+    global $_PLUGINS, $_CONF;
+
+    $relateditems =  array();
+    $returneditems =  array();
+
+    $args[1] = $tids;
+    $args[2] = $max;
+    $args[3] = $trim;
+
+    if (in_array('article', $types) || in_array('story', $types) || empty($types)) {
+        require_once $_CONF['path_system'] . 'lib-story.php';
+        $returneditems = plugin_getrelateditems_story($tids, $max, $trim);
+    }      
+
+    foreach ($_PLUGINS as $pi_name) {
+        // If no types (plugins) passed then assume all
+        if (empty($types) OR in_array($pi_name, $types)) {
+            $relateditems = PLG_callFunctionForOnePlugin('plugin_getrelateditems_' . $pi_name, $args); 
+            if (is_array($relateditems)) {
+                $returneditems = $returneditems + $relateditems;
+            }            
+        }
+    }
+
+    $relateditems = PLG_callFunctionForOnePlugin('CUSTOM_getrelateditems', $args); 
+    if (is_array($relateditems)) {
+        $returneditems = $returneditems + $relateditems;
+    }     
+
+    return $returneditems;
+}
+
+/**
 * Ask plugins if they want to add something to Geeklog's What's New block.
 *
 * @return   array   array($headlines[], $bylines[], $content[$entries[]])
@@ -2090,14 +2142,14 @@ function PLG_getWhatsNewComment($type = '', $numreturn = 0, $uid = 0)
     if (($type == 'article') || ($type == 'story') || ($type == '')) {
         require_once $_CONF['path_system'] . 'lib-story.php';
         $whatsnew  = plugin_getwhatsnewcomment_story($numreturn, $uid);
-        
+
         if ($type == '') {
             $plugintypes = $_PLUGINS;
         }
     } else {
         $plugintypes[] = $type;
     }
-   
+
      if (!(($type == 'article') || ($type == 'story'))) {
         // Now check new comments for plugins
         foreach ($plugintypes as $pi_name) {
@@ -2106,7 +2158,7 @@ function PLG_getWhatsNewComment($type = '', $numreturn = 0, $uid = 0)
                 $supported = $fn_head();
                 if (is_array($supported) || ($numreturn > 0)) {
                     list($headline, $byline) = $supported;
-    
+
                     $fn_new = 'plugin_getwhatsnewcomment_' . $pi_name;
                     if (function_exists($fn_new)) {
                         $tempwhatsnew = $fn_new ($numreturn, $uid);
@@ -2141,7 +2193,7 @@ function PLG_getWhatsNewComment($type = '', $numreturn = 0, $uid = 0)
     }
 
     return $whatsnew;    
-    
+
 }
 
 /**
@@ -2179,10 +2231,9 @@ function PLG_checkforSpam($content, $action = -1)
         $function = 'plugin_checkforSpam_' . $pi_name;
         if (function_exists($function)) {
             $result = $function($content, $action);
-            if ($result > 0) { // Plugin found a match for spam
 
+            if ($result > PLG_SPAM_NOT_FOUND) { // Plugin found a match for spam
                 $result = PLG_spamAction($content, $action);
-
                 return $result;
             }
         }
@@ -2191,10 +2242,9 @@ function PLG_checkforSpam($content, $action = -1)
     $function = 'CUSTOM_checkforSpam';
     if (function_exists($function)) {
         $result = $function($content, $action);
-        if ($result > 0) { // Plugin found a match for spam
 
+        if ($result > PLG_SPAM_NOT_FOUND) { // Plugin found a match for spam
             $result = PLG_spamAction($content, $action);
-
             return $result;
         }
     }
@@ -2221,10 +2271,11 @@ function PLG_spamAction($content, $action = -1)
 {
     global $_PLUGINS;
 
-    $result = 0;
+    $result = PLG_SPAM_NOT_FOUND;
 
     foreach ($_PLUGINS as $pi_name) {
         $function = 'plugin_spamaction_' . $pi_name;
+
         if (function_exists($function)) {
             $res = $function($content, $action);
             $result = max($result, $res);
@@ -2232,6 +2283,7 @@ function PLG_spamAction($content, $action = -1)
     }
 
     $function = 'CUSTOM_spamaction';
+
     if (function_exists($function)) {
         $res = $function($content, $action);
         $result = max($result, $res);
@@ -2346,6 +2398,82 @@ function PLG_runScheduledTask()
 }
 
 /**
+* "Generic" plugin API: Save submission
+*
+* Called whenever Geeklog saves a submission into the database.
+* Plugins can define their own 'submissionsaved' function to be notified whenever
+* an submission is saved.
+*
+* @param    string  $type   type of the item, e.g. 'article'
+*
+*/
+function PLG_submissionSaved($type)
+{
+    global $_CONF, $_PLUGINS;
+
+    $t = explode('.', $type);
+    $plg_type = $t[0];    
+
+    // Treat template system like a plugin (since belong to core group)
+    $plugintypes[] = 'template';
+    require_once $_CONF['path_system'] . 'lib-template.php';
+
+    $plugintypes = array_merge($plugintypes, $_PLUGINS);
+
+    foreach ($plugintypes as $pi_name) {
+        if ($pi_name != $plg_type) {
+            $function = 'plugin_submissionsaved_' . $pi_name;
+            if (function_exists($function)) {
+                $function($type);
+            }
+        }
+    }
+
+    if (function_exists('CUSTOM_submissionsaved')) {
+        CUSTOM_itemsaved($type);
+    }
+
+    return false; // for backward compatibility
+}
+
+/**
+* "Generic" plugin API: Delete submission
+*
+* Called whenever Geeklog removes a submission from the database.
+* Plugins can define their own 'submissiondeleted' function to be notified whenever
+* an submission is deleted.
+*
+* @param    string  $type   type of the item, e.g. 'article'
+*
+*/
+function PLG_submissionDeleted($type)
+{
+    global $_CONF, $_PLUGINS;
+
+    $t = explode('.', $type);
+    $plg_type = $t[0];
+
+    // Treat template system like a plugin (since belong to core group)
+    $plugintypes[] = 'template';
+    require_once $_CONF['path_system'] . 'lib-template.php';
+
+    $plugintypes = array_merge($plugintypes, $_PLUGINS);
+
+    foreach ($plugintypes as $pi_name) {
+        if ($pi_name != $plg_type) {
+            $function = 'plugin_submissiondeleted_' . $pi_name;
+            if (function_exists($function)) {
+                $function($type);
+            }
+        }
+    }    
+
+    if (function_exists('CUSTOM_submissiondeleted')) {
+        CUSTOM_itemdeleted($type);
+    }
+}
+
+/**
 * "Generic" plugin API: Save item
 *
 * To be called (eventually) whenever Geeklog saves an item into the database.
@@ -2363,15 +2491,20 @@ function PLG_runScheduledTask()
 */
 function PLG_itemSaved($id, $type, $old_id = '')
 {
-    global $_PLUGINS;
+    global $_CONF, $_PLUGINS;
 
     $t = explode('.', $type);
-    $plg_type = $t[0];
+    $plg_type = $t[0];    
 
-    $plugins = count($_PLUGINS);
-    for ($save = 0; $save < $plugins; $save++) {
-        if ($_PLUGINS[$save] != $plg_type) {
-            $function = 'plugin_itemsaved_' . $_PLUGINS[$save];
+    // Treat template system like a plugin (since belong to core group)
+    $plugintypes[] = 'template';
+    require_once $_CONF['path_system'] . 'lib-template.php';
+
+    $plugintypes = array_merge($plugintypes, $_PLUGINS);
+
+    foreach ($plugintypes as $pi_name) {
+        if ($pi_name != $plg_type) {
+            $function = 'plugin_itemsaved_' . $pi_name;
             if (function_exists($function)) {
                 $function($id, $type, $old_id);
             }
@@ -2400,20 +2533,25 @@ function PLG_itemSaved($id, $type, $old_id = '')
 */
 function PLG_itemDeleted($id, $type)
 {
-    global $_PLUGINS;
+    global $_CONF, $_PLUGINS;
 
     $t = explode('.', $type);
     $plg_type = $t[0];
 
-    $plugins = count($_PLUGINS);
-    for ($del = 0; $del < $plugins; $del++) {
-        if ($_PLUGINS[$del] != $plg_type) {
-            $function = 'plugin_itemdeleted_' . $_PLUGINS[$del];
+    // Treat template system like a plugin (since belong to core group)
+    $plugintypes[] = 'template';
+    require_once $_CONF['path_system'] . 'lib-template.php';
+
+    $plugintypes = array_merge($plugintypes, $_PLUGINS);
+
+    foreach ($plugintypes as $pi_name) {
+        if ($pi_name != $plg_type) {
+            $function = 'plugin_itemdeleted_' . $pi_name;
             if (function_exists($function)) {
                 $function($id, $type);
             }
         }
-    }
+    }    
 
     if (function_exists('CUSTOM_itemdeleted')) {
         CUSTOM_itemdeleted($id, $type);
@@ -2545,7 +2683,7 @@ function PLG_getBlocksConfig($side, $topic='')
           $ret = array_merge($ret, $cust_items);
        }
     }
-    
+
     return $ret;
 }
 
@@ -2762,9 +2900,18 @@ function PLG_afterSaveSwitch($target, $item_url, $plugin, $message = '')
 */
 function PLG_configChange($group, $changes)
 {
-    global $_PLUGINS;
+    global $_CONF, $_PLUGINS;
 
-    foreach ($_PLUGINS as $pi_name) {
+    // Treat articles like a plugin (since belong to core group)
+    $plugintypes[] = 'article';
+    require_once $_CONF['path_system'] . 'lib-story.php';
+    // Treat template system like a plugin (since belong to core group)
+    $plugintypes[] = 'template';
+    require_once $_CONF['path_system'] . 'lib-template.php';
+
+    $plugintypes = array_merge($plugintypes, $_PLUGINS);
+
+    foreach ($plugintypes as $pi_name) {
         $args = array();
         $args[1] = $group;
 
@@ -2824,7 +2971,7 @@ function PLG_getConfigTooltip($group, $id)
 
         $retval = PLG_callFunctionForOnePlugin($function, $args);
     }
-    
+
     return $retval;
 }
 
@@ -3236,6 +3383,71 @@ function PLG_getParams($pi_name)
         $retval['info']['pi_version'] = $LANG_ADMIN['na'];
     }
     return $retval;
+}
+
+/**
+* This function is called from COM_siteHeader and other places where meta tags
+* are being built and will return additional meta tags.
+*
+* @param    string   $type     item type of the caller, e.g. 'article', 'staticpages'
+* @param    string   $id       id of the current item of the caller
+* @param    string   $myTags   meta tags the caller wants to add (optional)
+* @return   string             all meta tags
+* @since    Geeklog 2.1.0
+*
+*/
+function PLG_getMetaTags($type, $id, array $myTags = array())
+{
+    global $_CONF, $_PLUGINS;
+
+    $type = strtolower(trim($type));
+    $id   = trim($id);
+
+    require_once $_CONF['path_system'] . 'classes/metatags.class.php';
+
+    $charset     = COM_getCharset();
+    $htmlVersion = ($_CONF['doctype'] === 'xhtml5') ? 5 : 4;
+    $isXhtml     = (stripos($_CONF['doctype'], 'xhtml') === 0);
+
+    $obj = new Metatags($charset, $htmlVersion, $isXhtml);
+//  $obj->setLog($_CONF['path'] . 'logs/error.log');
+
+    // First, adds meta tags plugins want to add (the lowest priority)
+    foreach ($_PLUGINS as $pi_name) {
+        $function = 'plugin_getmetatags_' . $pi_name;
+
+        if (($type !== $pi_name) && function_exists($function)) {
+            $metatags = $function($type, $id);
+
+            if (is_array($metatags) && (count($metatags) > 0)) {
+                foreach ($metatags as $tag) {
+                    $obj->addTag($tag);
+                }
+            }
+        }
+    }
+
+    // Then, adds meta tags the custom function wants to add
+    $function = 'CUSTOM_getmetatags';
+
+    if (function_exists($function)) {
+        $metatags = $function($type, $id);
+
+        if (is_array($metatags) && (count($metatags) > 0)) {
+            foreach ($metatags as $tag) {
+                $obj->addTag($tag);
+            }
+        }
+    }
+
+    // Finally, adds meta tags the caller itself wants to add (the highest priority)
+    if (count($myTags) > 0) {
+        foreach ($myTags as $tag) {
+            $obj->addTag($tag);
+        }
+    }
+
+    return $obj->build();
 }
 
 ?>

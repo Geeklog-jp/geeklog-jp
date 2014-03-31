@@ -7,45 +7,87 @@
  *
  * @package Spam-X
  * @subpackage Modules
- * @abstract
  *
  */
-class BaseCommand {
-    /**
-     * 
-     * @access public 
-     */
+abstract class BaseCommand
+{
+    protected $result     = PLG_SPAM_ACTION_NONE;	// Result of execute command
+    protected $actionCode = PLG_SPAM_ACTION_NONE;	// Action code
 
-    var $result = null; // Result of execute command
-    var $num = 0; // Action Number	
+    abstract public function execute($comment);
 
     /**
-     * Constructor
-     * 
-     * @access public 
-     */
-    function BaseCommand()
+    * Returns one of the result codes defined in "lib-plugins.php"
+    *
+    * @return    int
+    */
+    public function getResult()
     {
-    } 
+        return $this->result;
+    }
 
-    function execute($comment)
+    /**
+    * Returns one of the action codes defined in "lib-plugins.php"
+    *
+    * @return    int
+    */
+    public function getActionCode()
     {
-        return 0;
-    } 
+        return $this->actionCode;
+    }
 
-    function result()
+    /**
+    * Returns the id of the current user
+    *
+    * @return    int
+    */
+    protected function getUid()
     {
-        global $result;
+        global $_USER;
 
-        return $result;
-    } 
+        if (isset($_USER['uid']) && ($_USER['uid'] > 1)) {
+            $uid = (int) $_USER['uid'];
+        } else {
+            $uid = 1;
+        }
 
-    function number()
+        return $uid;
+    }
+
+    /**
+    * Disables a specified user
+    *
+    * @param    int    $uid
+    **/
+    protected function disableUser($uid)
     {
-        global $num;
+        global $_TABLES, $_USER;
 
-        return $num;
-    } 
-} 
+        $this->result = PLG_SPAM_ACTION_DELETE;
+        DB_change($_TABLES['users'], 'status', USER_ACCOUNT_DISABLED,
+                  'uid', $uid);
+        SPAMX_log("User {$_USER['username']} banned for profile spam.");
+    }
+
+    /**
+    * Updates statistics of an spamx entry
+    *
+    * @param    string    $name    plugin name
+    * @param    string    $value   data
+    **/
+    protected function updateStat($name, $value)
+    {
+        global $_TABLES;
+
+        $name      = DB_escapeString($name);
+        $value     = DB_escapeString($value);
+        $timestamp = DB_escapeString(date('Y-m-d H:i:s'));
+
+        $sql = "UPDATE {$_TABLES['spamx']} "
+             . "SET counter = counter + 1, regdate = '{$timestamp}' "
+             . "WHERE name='{$name}' AND value='{$value}' ";
+        DB_query($sql, 1);
+    }
+}
 
 ?>

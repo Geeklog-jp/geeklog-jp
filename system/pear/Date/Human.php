@@ -68,7 +68,7 @@
  * @copyright 1997-2005 Allan Kent
  * @license   http://www.opensource.org/licenses/bsd-license.php
  *            BSD License
- * @version   Release: 1.5.0a2
+ * @version   Release: 1.5.0a4
  * @link      http://pear.php.net/package/Date
  * @since     Class available since Release 1.3
  */

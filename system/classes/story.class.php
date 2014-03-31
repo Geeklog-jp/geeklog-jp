@@ -2,13 +2,13 @@
 
 /* Reminder: always indent with 4 spaces (no tabs). */
 // +---------------------------------------------------------------------------+
-// | Geeklog 1.8                                                               |
+// | Geeklog 2.0                                                               |
 // +---------------------------------------------------------------------------+
 // | story.class.php                                                           |
 // |                                                                           |
 // | Geeklog Story Abstraction.                                                |
 // +---------------------------------------------------------------------------+
-// | Copyright (C) 2006-2011 by the following authors:                         |
+// | Copyright (C) 2006-2013 by the following authors:                         |
 // |                                                                           |
 // | Authors: Michael Jervis, mike AT fuckingbrit DOT com                      |
 // +---------------------------------------------------------------------------+
@@ -46,6 +46,8 @@
  * @author Michael Jervis, mike AT fuckingbrit DOT com
  *
  */
+
+require_once 'gltext.class.php';
 
 /**
  * Constants for stories:
@@ -109,9 +111,10 @@ class Story
     var $_title;
     var $_page_title;
     var $_meta_description;
-    var $_meta_keywords;    
+    var $_meta_keywords;
     var $_introtext;
     var $_bodytext;
+    var $_text_version;
     var $_postmode;
     var $_uid;
     var $_draft_flag;
@@ -130,6 +133,7 @@ class Story
     var $_expire;
     var $_advanced_editor_mode;
     var $_frontpage;
+    var $_cache_time;
     var $_owner_id;
     var $_group_id;
     var $_perm_owner;
@@ -137,7 +141,9 @@ class Story
     var $_perm_members;
     var $_perm_anon;
 
-    /* Misc display fields we also load from the database for a story: */
+    /**
+     * Misc display fields we also load from the database for a story:
+     */
     var $_username;
     var $_fullname;
     var $_photo;
@@ -180,11 +186,12 @@ class Story
            'draft_flag' => 1,
            'date' => 1,
            'title' => 1,
-           'page_title' => 1, 
+           'page_title' => 1,
            'meta_description' => 1,
-           'meta_keywords' => 1,           
+           'meta_keywords' => 1,
            'introtext' => 1,
            'bodytext' => 1,
+           'text_version' => 1,
            'hits' => 1,
            'numemails' => 1,
            'comments' => 1,
@@ -200,6 +207,7 @@ class Story
            'postmode' => 1,
            'advanced_editor_mode' => 1,
            'frontpage' => 1,
+           'cache_time' => 1,
            'owner_id' => 1,
            'group_id' => 1,
            'perm_owner' => 1,
@@ -305,6 +313,11 @@ class Story
                 STORY_AL_NUMERIC,
                 '_trackbacks'
               ),
+           'cache_time' => array
+              (
+                STORY_AL_NUMERIC,
+                '_cache_time'
+              ),
            'owner_id' => array
               (
                 STORY_AL_NUMERIC,
@@ -375,13 +388,13 @@ class Story
     }
 
     /**
-      * Loads a story object from an array (that's come back from the db..)
-      *
-      * Used from loadFromDatabase, and used on it's own from story list
-      * pages.
-      * @param  $story  array   Story array from db
-      * @return nowt?
-      */
+     * Loads a story object from an array (that's come back from the db..)
+     *
+     * Used from loadFromDatabase, and used on it's own from story list
+     * pages.
+     * @param  $story  array   Story array from db
+     * @return nowt?
+     */
     function loadFromArray($story)
     {
         /* Use the magic cheat array to quickly reload the whole story
@@ -393,7 +406,9 @@ class Story
             $varname = '_' . $fieldname;
 
             if (array_key_exists($fieldname, $story)) {
-                $this->{$varname} = stripslashes($story[$fieldname]);
+                // This is meaningless, and have a negative effect. (bug #0001655)
+                // $this->{$varname} = stripslashes($story[$fieldname]);
+                $this->{$varname} = $story[$fieldname];
             }
         }
 
@@ -440,28 +455,28 @@ class Story
 
         $sid = DB_escapeString(COM_applyFilter($sid));
 
+        $sql = array();
         if (!empty($sid) && (($mode == 'edit') || ($mode == 'view') || ($mode == 'clone'))) {
             if (empty($topic)) {
                 $topic_sql = ' AND ta.tdefault = 1';
             } else {
                 $topic_sql = " AND ta.tid = '{$topic}'";
             }
-            
-            $sql = array();
+
             /* Original
             $sql['mysql'] = "SELECT STRAIGHT_JOIN s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, "
                 . "u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl " . "FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t " . "WHERE (s.uid = u.uid) AND (s.tid = t.tid) AND (sid = '$sid')";
             */
-            $sql['mysql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl 
-                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta 
+            $sql['mysql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl
+                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta
                 WHERE ta.type = 'article' AND ta.id = sid {$topic_sql} AND (s.uid = u.uid) AND (ta.tid = t.tid) AND (sid = '$sid')";
 
-            $sql['mssql'] = "SELECT s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl 
-                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta 
+            $sql['mssql'] = "SELECT s.sid, s.uid, s.draft_flag, s.tid, s.date, s.title, CAST(s.introtext AS text) AS introtext, CAST(s.bodytext AS text) AS bodytext, s.text_version, s.hits, s.numemails, s.comments, s.trackbacks, s.related, s.featured, s.show_topic_icon, s.commentcode, s.trackbackcode, s.statuscode, s.expire, s.postmode, s.frontpage, s.cache_time, s.owner_id, s.group_id, s.perm_owner, s.perm_group, s.perm_members, s.perm_anon, s.advanced_editor_mode, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) AS expireunix, UNIX_TIMESTAMP(s.comment_expire) AS cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl
+                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta
                 WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND (s.uid = u.uid) AND (ta.tid = t.tid) AND (sid = '$sid')";
-            
-            $sql['pgsql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, UNIX_TIMESTAMP(s.comment_expire) as cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl 
-                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta 
+
+            $sql['pgsql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, UNIX_TIMESTAMP(s.expire) as expireunix, UNIX_TIMESTAMP(s.comment_expire) as cmt_expire_unix, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl
+                FROM {$_TABLES['stories']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta
                 WHERE ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1 AND (s.uid = u.uid) AND (ta.tid = t.tid) AND (sid = '$sid')";
         } elseif (!empty($sid) && ($mode == 'editsubmission')) {
             /* Original
@@ -472,16 +487,16 @@ class Story
             $sql['pgsql'] = 'SELECT  s.*, UNIX_TIMESTAMP(s.date) AS unixdate, '
                 . 'u.username, u.fullname, u.photo, u.email, t.topic, t.imageurl, t.group_id, ' . 't.perm_owner, t.perm_group, t.perm_members, t.perm_anon ' . 'FROM ' . $_TABLES['storysubmission'] . ' AS s, ' . $_TABLES['users'] . ' AS u, ' . $_TABLES['topics'] . ' AS t WHERE (s.uid = u.uid) AND' . ' (s.tid = t.tid) AND (sid = \'' . $sid . '\')';
             */
-            $sql['mysql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl, t.group_id, t.perm_owner, t.perm_group, t.perm_members, t.perm_anon 
-                FROM {$_TABLES['storysubmission']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta  
-                WHERE (s.uid = u.uid) AND  (ta.tid = t.tid) AND (sid = '$sid')  
+            $sql['mysql'] = "SELECT s.*, UNIX_TIMESTAMP(s.date) AS unixdate, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl, t.group_id, t.perm_owner, t.perm_group, t.perm_members, t.perm_anon
+                FROM {$_TABLES['storysubmission']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta
+                WHERE (s.uid = u.uid) AND  (ta.tid = t.tid) AND (sid = '$sid')
                 AND ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1";
-                
-            $sql['mssql'] = $sql['mysql'];                 
-                
-            $sql['pgsql'] = "SELECT  s.*, UNIX_TIMESTAMP(s.date) AS unixdate, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl, t.group_id, t.perm_owner, t.perm_group, t.perm_members, t.perm_anon  
-                FROM {$_TABLES['storysubmission']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta  
-                WHERE (s.uid = u.uid) AND  (ta.tid = t.tid) AND (sid = '$sid')  
+
+            $sql['mssql'] = $sql['mysql'];
+
+            $sql['pgsql'] = "SELECT  s.*, UNIX_TIMESTAMP(s.date) AS unixdate, u.username, u.fullname, u.photo, u.email, t.tid, t.topic, t.imageurl, t.group_id, t.perm_owner, t.perm_group, t.perm_members, t.perm_anon
+                FROM {$_TABLES['storysubmission']} AS s, {$_TABLES['users']} AS u, {$_TABLES['topics']} AS t, {$_TABLES['topic_assignments']} AS ta
+                WHERE (s.uid = u.uid) AND  (ta.tid = t.tid) AND (sid = '$sid')
                 AND ta.type = 'article' AND ta.id = sid AND ta.tdefault = 1";
         } elseif ($mode == 'edit') {
             $this->_sid = COM_makesid();
@@ -498,6 +513,12 @@ class Story
             } else {
                 $this->_show_topic_icon = 1;
             }
+            
+            if (isset($_CONF['default_cache_time_article'])) {
+                $this->_cache_time = $_CONF['default_cache_time_article'];
+            } else {
+                $this->_cache_time = 0;
+            }            
 
             if (COM_isAnonUser()) {
                 $this->_uid = 1;
@@ -517,7 +538,7 @@ class Story
             $this->_title = '';
             $this->_page_title = '';
             $this->_meta_description = '';
-            $this->_meta_keywords = '';            
+            $this->_meta_keywords = '';
             $this->_introtext = '';
             $this->_bodytext = '';
 
@@ -527,13 +548,15 @@ class Story
                 $this->_frontpage = 1;
             }
 
+            $this->_text_version = GLTEXT_LATEST_VERSION;
             $this->_hits = 0;
             $this->_comments = 0;
             $this->_trackbacks = 0;
             $this->_numemails = 0;
 
             if (($_CONF['advanced_editor'] && $_USER['advanced_editor']) &&
-                    ($_CONF['postmode'] != 'plaintext')) {
+                    ($_CONF['postmode'] !== 'plaintext') &&
+                    ($_CONF['postmode'] !== 'wikitext')) {
                 $this->_advanced_editor_mode = 1;
                 $this->_postmode = 'adveditor';
             } else {
@@ -543,6 +566,7 @@ class Story
 
             $this->_statuscode = 0;
             $this->_featured = 0;
+            $this->_cache_time = $_CONF['default_cache_time_article'];
             if (COM_isAnonUser()) {
                 $this->_owner_id = 1;
             } else {
@@ -594,7 +618,7 @@ class Story
                 $access = SEC_hasAccess($story['owner_id'], $story['group_id'],
                             $story['perm_owner'], $story['perm_group'],
                             $story['perm_members'], $story['perm_anon']);
-                
+
                 //$this->_access = min($access, SEC_hasTopicAccess($this->_tid));
                 //$this->_access = min($access, TOPIC_hasMultiTopicAccess('article', $sid));
                 if ($mode != 'view') {
@@ -633,6 +657,7 @@ class Story
             $this->_commentcode = $_CONF['comment_code'];
             $this->_trackbackcode = $_CONF['trackback_code'];
             $this->_featured = 0;
+            $this->_cache_time = $_CONF['default_cache_time_article'];
             $this->_expire = time();
             if ($_CONF['article_comment_close_enabled']) {
                 $this->_comment_expire = time() +
@@ -647,6 +672,7 @@ class Story
                 $this->_frontpage = 1;
             }
 
+            $this->_text_version = GLTEXT_LATEST_VERSION;
             $this->_comments = 0;
             $this->_trackbacks = 0;
             $this->_numemails = 0;
@@ -699,7 +725,7 @@ class Story
     {
         global $_TABLES,$_DB_dbms;
 
-        
+
         $tids = TOPIC_getTopicIdsForObject('topic');
         $archive_tid = DB_getItem($_TABLES['topics'], 'tid', 'archive_flag=1');
         if (!empty($tids) && !empty($archive_tid)) {
@@ -709,7 +735,7 @@ class Story
                 $this->_statuscode = STORY_ARCHIVE_ON_EXPIRE;
             }
         }
-        
+
         /* if a featured, non-draft, that goes live straight away, unfeature
          * other stories in same topic:
          */
@@ -794,7 +820,22 @@ class Story
         $this->_related = implode("\n", STORY_extractLinks($this->DisplayElements('introtext') . ' ' . $this->DisplayElements('bodytext')));
         $fields='';
         $values = '';
-        reset($this->_dbFields); 
+        reset($this->_dbFields);
+
+        $this->_text_version = GLTEXT_LATEST_VERSION;
+
+        // Apply HTML filter to the text just before save
+        // with the permissions of current editor
+        $this->_introtext = GLText::applyHTMLFilter(
+                $this->_introtext,
+                $this->_postmode,
+                'story.edit',
+                $this->_text_version);
+        $this->_bodytext = GLText::applyHTMLFilter(
+                $this->_bodytext,
+                $this->_postmode,
+                'story.edit',
+                $this->_text_version);
 
         /* This uses the database field array to generate a SQL Statement. This
          * means that when adding new fields to save and load, all we need to do
@@ -816,12 +857,12 @@ class Story
                     else
                     {
                         if(is_numeric($this->{$varname}))
-                        {              
+                        {
                             $values .= DB_escapeString($this->{$varname}).', ';
                         }
                         else
                         {
-                            $values .= '\''. DB_escapeString($this->{$varname}) . '\', ';     
+                            $values .= '\''. DB_escapeString($this->{$varname}) . '\', ';
                         }
                     }
                 }
@@ -832,16 +873,16 @@ class Story
         $values = substr($values, 0, strlen($values) - 2);
 
         DB_save($_TABLES['stories'],$fields,$values);
-        
+
         // Save Topics selected
-        TOPIC_saveTopicSelectionControl('article', $this->_sid);        
+        TOPIC_saveTopicSelectionControl('article', $this->_sid);
 
         if ($oldArticleExists) {
             /* Clean up the old story */
             DB_delete($_TABLES['stories'], 'sid', $checksid);
-            
+
             // Delete Topic Assignments for this old article id since we just created new ones
-            TOPIC_deleteTopicAssignments('article', $checksid);            
+            TOPIC_deleteTopicAssignments('article', $checksid);
         }
 
         if ($this->type == 'submission') {
@@ -860,7 +901,7 @@ class Story
      */
     function loadFromArgsArray(&$array)
     {
-        global $_TABLES;
+        global $_TABLES, $_CONF;
 
         /* magic_quotes_gpc cleanup routine now in submitstory() in
          * /public_html/admin/story.php
@@ -868,8 +909,12 @@ class Story
 
         $retval = STORY_LOADED_OK; // default to success
 
+
         /* Load the trivial stuff: */
         $this->_loadBasics($array);
+
+        // override the GLText version to the latest version
+        $this->_text_version = GLTEXT_LATEST_VERSION;
 
         /* Check to see if we have permission to edit this sid, and that this
          * sid is not a duplicate or anything horrible like that. ewww.
@@ -899,7 +944,7 @@ class Story
                                     $this->_perm_members, $this->_perm_anon);
 
         //if (($access < 3) || !SEC_hasTopicAccess($this->_tid) || !SEC_inGroup($this->_group_id)) {
-        if (($access < 3) || !TOPIC_hasMultiTopicAccess('topic') || !SEC_inGroup($this->_group_id)) {            
+        if (($access < 3) || !TOPIC_hasMultiTopicAccess('topic') || !SEC_inGroup($this->_group_id)) {
             return STORY_NO_ACCESS_PARAMS;
         }
 
@@ -910,19 +955,27 @@ class Story
         $this->_topic = $topic['topic'];
         $this->_imageurl = $topic['imageurl'];
 
-        /* Then load the title, page title, intro and body */
-        if (($array['postmode'] == 'html') || ($array['postmode'] == 'adveditor') || ($array['postmode'] == 'wikitext')) {
-            $this->_htmlLoadStory($array['title'], $array['page_title'], $array['introtext'], $array['bodytext']);
+        /* Load the title, page title */
+        $this->_title      = $this->_applyTitleFilter($array['title']);
+        $this->_page_title = $this->_applyTitleFilter($array['page_title']);
 
+        // fix for bug in advanced editor
+        if (in_array($array['postmode'], array('html', 'adveditor', 'wikitext'))) {
+            if ($_CONF['advanced_editor'] && ($array['bodytext'] == '<br' . XHTML . '>')) {
+                $array['bodytext'] = '';
+            }
+        }
+
+        /* Load the introtext, bodytext */
+        $this->_introtext = $this->_applyTextFilter($array['introtext'], $array['postmode']);
+        $this->_bodytext  = $this->_applyTextFilter($array['bodytext'],  $array['postmode']);
+
+        $this->_advanced_editor_mode = 0;
+        if (in_array($array['postmode'], array('html', 'adveditor', 'wikitext'))) {
             if ($this->_postmode == 'adveditor') {
                 $this->_advanced_editor_mode = 1;
                 $this->_postmode = 'html';
-            } else {
-                $this->_advanced_editor_mode = 0;
             }
-        } else {
-            $this->_advanced_editor_mode = 0;
-            $this->_plainTextLoadStory($array['title'], $array['page_title'], $array['introtext'], $array['bodytext']);
         }
 
         if (empty($this->_title) || empty($this->_introtext)) {
@@ -946,6 +999,9 @@ class Story
         } else {
             $this->_uid = $_USER['uid'];
         }
+
+        // initialize the GLText version to the latest version
+        $this->_text_version = GLTEXT_LATEST_VERSION;
 
         $this->_postmode = $_CONF['postmode'];
 
@@ -997,6 +1053,9 @@ class Story
             $array[$key] = COM_stripslashes($value);
         }
 
+        // initialize the GLText version to the latest version
+        $this->_text_version = GLTEXT_LATEST_VERSION;
+
         $this->_postmode = COM_applyFilter($array['postmode']);
         $this->_sid = COM_applyFilter($array['sid']);
         $this->_uid = COM_applyFilter($array['uid'], true);
@@ -1008,29 +1067,37 @@ class Story
         if (!isset($array['bodytext'])) {
             $array['bodytext'] = '';
         }
-        
+
         if (!isset($array['page_title'])) {
             $array['page_title'] = '';
         }
 
-        /* Then load the title, page title, intro and body */
-        if (($array['postmode'] == 'html') || ($array['postmode'] == 'adveditor')) {
-            $this->_htmlLoadStory($array['title'], $array['page_title'], $array['introtext'], $array['bodytext']);
+        /* Load the title, page title */
+        $this->_title      = $this->_applyTitleFilter($array['title']);
+        $this->_page_title = $this->_applyTitleFilter($array['page_title']);
 
+        // fix for bug in advanced editor
+        if (in_array($array['postmode'], array('html', 'adveditor'))) {
+            if ($_CONF['advanced_editor'] && ($array['bodytext'] == '<br' . XHTML . '>')) {
+                $array['bodytext'] = '';
+            }
+        }
+
+        /* Load the introtext, bodytext */
+        $this->_introtext = $this->_applyTextFilter($array['introtext'], $array['postmode']);
+        $this->_bodytext  = $this->_applyTextFilter($array['bodytext'],  $array['postmode']);
+
+        $this->_advanced_editor_mode = 0;
+        if (in_array($array['postmode'], array('html', 'adveditor'))) {
             if ($this->_postmode == 'adveditor') {
                 $this->_advanced_editor_mode = 1;
                 $this->_postmode = 'html';
-            } else {
-                $this->_advanced_editor_mode = 0;
             }
-        } else {
-            $this->_advanced_editor_mode = 0;
-            $this->_plainTextLoadStory($array['title'], $array['page_title'], $array['introtext'], $array['bodytext']);
         }
 
         if (!TOPIC_checkTopicSelectionControl()) {
             return STORY_EMPTY_REQUIRED_FIELDS;
-        }         
+        }
 
         if (empty($this->_title) || empty($this->_introtext)) {
             return STORY_EMPTY_REQUIRED_FIELDS;
@@ -1065,30 +1132,30 @@ class Story
             $this->_uid = $_USER['uid'];
         }
 
-        
+
         // Remove any autotags the user doesn't have permission to use
-        $this->_introtext = PLG_replaceTags($this->_introtext, '', true);
-        $this->_bodytext = PLG_replaceTags($this->_bodytext, '', true);           
+        $introtext = PLG_replaceTags($this->_introtext, '', true);
+        $bodytext = PLG_replaceTags($this->_bodytext, '', true);
 
         if (!TOPIC_hasMultiTopicAccess('topic')) {
             // user doesn't have access to one or more topics - bail
-            return STORY_NO_ACCESS_TOPIC;        
+            return STORY_NO_ACCESS_TOPIC;
         }
-        
+
 
         if (($_CONF['storysubmission'] == 1) && !SEC_hasRights('story.submit')) {
-            $this->_sid = DB_escapeString($this->_sid);
-            $this->_title = DB_escapeString($this->_title);
-            
-            $this->_introtext = DB_escapeString($this->_introtext);
-            $this->_bodytext = DB_escapeString($this->_bodytext);
-            $this->_postmode = DB_escapeString($this->_postmode);
-            DB_save($_TABLES['storysubmission'], 'sid,uid,title,introtext,bodytext,date,postmode',
-                        "{$this->_sid},{$this->_uid},'{$this->_title}'," .
-                        "'{$this->_introtext}','{$this->_bodytext}',NOW(),'{$this->_postmode}'");
-            
+            $sid = DB_escapeString($this->_sid);
+            $title = DB_escapeString($this->_title);
+
+            $introtext = DB_escapeString($introtext);
+            $bodytext = DB_escapeString($bodytext);
+            $postmode = DB_escapeString($this->_postmode);
+            DB_save($_TABLES['storysubmission'], 'sid,uid,title,introtext,bodytext,date,postmode,text_version',
+                        "$sid,{$this->_uid},'$title'," .
+                        "'$introtext','$bodytext',NOW(),'$postmode','{$this->_text_version}'");
+
             // Save Topics selected
-            TOPIC_saveTopicSelectionControl('article', $this->_sid);                  
+            TOPIC_saveTopicSelectionControl('article', $sid);
 
             return STORY_SAVED_SUBMISSION;
         } else {
@@ -1114,12 +1181,13 @@ class Story
             $this->_trackbackcode = $_CONF['trackback_code'];
             $this->_statuscode = 0;
             $this->_show_topic_icon = $_CONF['show_topic_icon'];
+            $this->_cache_time = $_CONF['default_cache_time_article'];
             if (COM_isAnonUser()) {
                 $this->_owner_id = 1;
             } else {
                 $this->_owner_id = $_USER['uid'];
             }
-            
+
             /*
             $this->_group_id = $T['group_id'];
             $this->_perm_owner = $T['perm_owner'];
@@ -1127,33 +1195,27 @@ class Story
             $this->_perm_members = $T['perm_members'];
             $this->_perm_anon = $T['perm_anon'];
             */
-            
+
             $this->saveToDatabase();
 
             PLG_itemSaved($this->_sid, 'article');
             COM_rdfUpToDateCheck('article');
             COM_rdfUpToDateCheck('comment');
             STORY_updateLastArticlePublished();
-            COM_olderStuff();
 
             return STORY_SAVED;
         }
     }
 
     /**
-     * Inserts image HTML into the place of Image Placeholders for stories
-     * with images.
+     * Replaces all special syntax tags in intro and body with image HTML
      *
-     * @return array    containing errors, or empty.
+     * @param    string      $text  Intro or Body text
+     * @return   string      processed text
      */
-    function insertImages()
+    function renderImageTags($text)
     {
         global $_CONF, $_TABLES, $LANG24;
-
-        // Grab member vars into locals:
-        $intro = $this->_introtext;
-        $body = $this->_bodytext;
-        $fulltext = "$intro $body";
 
         // check if we have a (different) old sid - the article_images table
         // will only be updated later! cf. bug #0001256
@@ -1164,11 +1226,11 @@ class Story
             $ai_sid = $this->_sid;
         }
 
-        $result = DB_query("SELECT ai_filename FROM {$_TABLES['article_images']} WHERE ai_sid = '{$ai_sid}' ORDER BY ai_img_num");
+        $result = DB_query("SELECT ai_filename FROM {$_TABLES['article_images']} "
+                         . "WHERE ai_sid = '{$ai_sid}' ORDER BY ai_img_num");
         $nrows = DB_numRows($result);
-        $errors = array();
-        $stdImageLoc = true;
 
+        $stdImageLoc = true;
         if (!strstr($_CONF['path_images'], $_CONF['path_html'])) {
             $stdImageLoc = false;
         }
@@ -1176,132 +1238,142 @@ class Story
         for ($i = 1; $i <= $nrows; $i++) {
             $A = DB_fetchArray($result);
 
+            $imgpath = '';
+
+            // If we are storing images on a "standard path" i.e. is
+            // available to the host web server, then the url to this
+            // image is based on the path to images, site url, articles
+            // folder and it's filename.
+            //
+            // Otherwise, we have to use the image handler to load the
+            // image from whereever else on the file system we're
+            // keeping them:
+            if ($stdImageLoc) {
+                $imgpath = substr($_CONF['path_images'], strlen($_CONF['path_html']));
+                $imgSrc = $_CONF['site_url'] . '/' . $imgpath . 'articles/' . $A['ai_filename'];
+            } else {
+                $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
+            }
+
             $sizeattributes = COM_getImgSizeAttributes($_CONF['path_images'] . 'articles/' . $A['ai_filename']);
 
-            $norm = '[image' . $i . ']';
-            $left = '[image' . $i . '_left]';
+            // Build image tags for each flavour of the image:
+            $img_noalign   = '<img ' . $sizeattributes . 'src="'                    . $imgSrc . '" alt=""' . XHTML . '>';
+            $img_leftalgn  = '<img ' . $sizeattributes . 'class="floatleft" src="'  . $imgSrc . '" alt=""' . XHTML . '>';
+            $img_rightalgn = '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""' . XHTML . '>';
+
+            // Are we keeping unscaled images?
+            if ($_CONF['keep_unscaled_image'] == 1) {
+                // Yes we are, so, we need to find out what the filename
+                // of the original, unscaled image is:
+                $lFilename_large = substr_replace($A['ai_filename'], '_original.',
+                                        strrpos($A['ai_filename'], '.'), 1);
+                $lFilename_large_complete = $_CONF['path_images'] . 'articles/' .
+                                                $lFilename_large;
+
+                // We need to map that filename to the right location
+                // or the fetch script:
+                if ($stdImageLoc) {
+                    $lFilename_large_URL = $_CONF['site_url'] . '/' . $imgpath .
+                                            'articles/' . $lFilename_large;
+                } else {
+                    $lFilename_large_URL = $_CONF['site_url'] .
+                                            '/getimage.php?mode=show&amp;image=' .
+                                            $lFilename_large;
+                }
+
+                // And finally, replace the [imageX_mode] tags with the
+                // image and its hyperlink (only when the large image
+                // actually exists)
+                $lLink_url  = '';
+                $lLink_attr = '';
+                if (file_exists($lFilename_large_complete)) {
+                    $lLink_url = $lFilename_large_URL;
+                    $lLink_attr = array('title' => $LANG24[57]);
+                }
+            }
+
+            $norm  = '[image' . $i . ']';
+            $left  = '[image' . $i . '_left]';
             $right = '[image' . $i . '_right]';
 
-            $unscalednorm = '[unscaled' . $i . ']';
-            $unscaledleft = '[unscaled' . $i . '_left]';
-            $unscaledright = '[unscaled' . $i . '_right]';
+            if (!empty($lLink_url)) {
+                $text = str_replace($norm,  COM_createLink($img_noalign,   $lLink_url, $lLink_attr), $text);
+                $text = str_replace($left,  COM_createLink($img_leftalgn,  $lLink_url, $lLink_attr), $text);
+                $text = str_replace($right, COM_createLink($img_rightalgn, $lLink_url, $lLink_attr), $text);
+            } else {
+                // We aren't wrapping our image tags in hyperlinks, so
+                // just replace the [imagex_mode] tags with the image:
+                $text = str_replace($norm,  $img_noalign,   $text);
+                $text = str_replace($left,  $img_leftalgn,  $text);
+                $text = str_replace($right, $img_rightalgn, $text);
+            }
+
+            // And insert the unscaled mode images:
+            if (($_CONF['allow_user_scaling'] == 1) and ($_CONF['keep_unscaled_image'] == 1)) {
+                if (file_exists($lFilename_large_complete)) {
+                    $imgSrc = $lFilename_large_URL;
+                    $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
+                }
+
+                $unscalednorm  = '[unscaled' . $i . ']';
+                $unscaledleft  = '[unscaled' . $i . '_left]';
+                $unscaledright = '[unscaled' . $i . '_right]';
+
+                $text = str_replace($unscalednorm,
+                    '<img ' . $sizeattributes . 'src="'               . $imgSrc . '" alt=""' . XHTML . '>', $text);
+                $text = str_replace($unscaledleft,
+                    '<img ' . $sizeattributes . 'align="left" src="'  . $imgSrc . '" alt=""' . XHTML . '>', $text);
+                $text = str_replace($unscaledright,
+                    '<img ' . $sizeattributes . 'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>', $text);
+            }
+        }
+
+        return $text;
+    }
+
+    /**
+     * Check if using attached images
+     *
+     * @return array    containing errors, or empty.
+     */
+    function checkAttachedImages()
+    {
+        global $_TABLES, $LANG24;
+
+        $text = $this->_introtext . ' ' . $this->_bodytext;
+
+        // check if we have a (different) old sid - the article_images table
+        // will only be updated later! cf. bug #0001256
+        if (! empty($this->_originalSid) &&
+                ($this->_sid != $this->_originalSid)) {
+            $ai_sid = $this->_originalSid;
+        } else {
+            $ai_sid = $this->_sid;
+        }
+
+        $result = DB_query("SELECT ai_filename FROM {$_TABLES['article_images']} "
+                         . "WHERE ai_sid = '{$ai_sid}' ORDER BY ai_img_num");
+        $nrows = DB_numRows($result);
+        $errors = array();
+        for ($i = 1; $i <= $nrows; $i++) {
+            $A = DB_fetchArray($result);
 
             // See how many times image $i is used in the fulltext of the article:
-            $icount = substr_count($fulltext, $norm) + substr_count($fulltext, $left) +
-                      substr_count($fulltext, $right);
-            // including unscaled.
-            $icount = $icount + substr_count($fulltext, $unscalednorm) +
-                      substr_count($fulltext, $unscaledleft)
-                      + substr_count($fulltext, $unscaledright);
+            $icount = substr_count($text, '[image'    . $i . ']')
+                    + substr_count($text, '[image'    . $i . '_left]')
+                    + substr_count($text, '[image'    . $i . '_right]')
+                    + substr_count($text, '[unscaled' . $i . ']')
+                    + substr_count($text, '[unscaled' . $i . '_left]')
+                    + substr_count($text, '[unscaled' . $i . '_right]');
 
             // If the image we are currently looking at wasn't used, we need
             // to log an error
             if ($icount == 0) {
                 // There is an image that wasn't used, create an error
                 $errors[] = $LANG24[48] . " #$i, {$A['ai_filename']}, " . $LANG24[53];
-            } else {
-                // We had no errors, so this image and all previous images
-                // are used, so we will then go and replace them
-                if (count($errors) == 0) {
-
-                    $imgpath = '';
-
-                    // If we are storing images on a "standard path" i.e. is
-                    // available to the host web server, then the url to this
-                    // image is based on the path to images, site url, articles
-                    // folder and it's filename.
-                    //
-                    // Otherwise, we have to use the image handler to load the
-                    // image from whereever else on the file system we're
-                    // keeping them:
-                    if ($stdImageLoc) {
-                        $imgpath = substr($_CONF['path_images'], strlen($_CONF['path_html']));
-                        $imgSrc = $_CONF['site_url'] . '/' . $imgpath . 'articles/' . $A['ai_filename'];
-                    } else {
-                        $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
-                    }
-
-                    // Build image tags for each flavour of the image:
-                    $img_noalign = '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>';
-                    $img_leftalgn = '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""' . XHTML . '>';
-                    $img_rightalgn = '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""' . XHTML . '>';
-
-
-                    // Are we keeping unscaled images?
-                    if ($_CONF['keep_unscaled_image'] == 1) {
-                        // Yes we are, so, we need to find out what the filename
-                        // of the original, unscaled image is:
-                        $lFilename_large = substr_replace($A['ai_filename'], '_original.',
-                                                strrpos($A['ai_filename'], '.'), 1);
-                        $lFilename_large_complete = $_CONF['path_images'] . 'articles/' .
-                                                        $lFilename_large;
-
-                        // We need to map that filename to the right location
-                        // or the fetch script:
-                        if ($stdImageLoc) {
-                            $lFilename_large_URL = $_CONF['site_url'] . '/' . $imgpath .
-                                                    'articles/' . $lFilename_large;
-                        } else {
-                            $lFilename_large_URL = $_CONF['site_url'] .
-                                                    '/getimage.php?mode=show&amp;image=' .
-                                                    $lFilename_large;
-                        }
-
-                        // And finally, replace the [imageX_mode] tags with the
-                        // image and its hyperlink (only when the large image
-                        // actually exists)
-                        $lLink_url  = '';
-                        $lLink_attr = '';
-                        if (file_exists($lFilename_large_complete)) {
-                            $lLink_url = $lFilename_large_URL;
-                            $lLink_attr = array('title' => $LANG24[57]);
-                        }
-                    }
-
-                    if (!empty($lLink_url)) {
-                        $intro = str_replace($norm,  COM_createLink($img_noalign,   $lLink_url, $lLink_attr), $intro);
-                        $body  = str_replace($norm,  COM_createLink($img_noalign,   $lLink_url, $lLink_attr), $body);
-                        $intro = str_replace($left,  COM_createLink($img_leftalgn,  $lLink_url, $lLink_attr), $intro);
-                        $body  = str_replace($left,  COM_createLink($img_leftalgn,  $lLink_url, $lLink_attr), $body);
-                        $intro = str_replace($right, COM_createLink($img_rightalgn, $lLink_url, $lLink_attr), $intro);
-                        $body  = str_replace($right, COM_createLink($img_rightalgn, $lLink_url, $lLink_attr), $body);
-                    } else {
-                        // We aren't wrapping our image tags in hyperlinks, so
-                        // just replace the [imagex_mode] tags with the image:
-                        $intro = str_replace($norm,  $img_noalign,   $intro);
-                        $body  = str_replace($norm,  $img_noalign,   $body);
-                        $intro = str_replace($left,  $img_leftalgn,  $intro);
-                        $body  = str_replace($left,  $img_leftalgn,  $body);
-                        $intro = str_replace($right, $img_rightalgn, $intro);
-                        $body  = str_replace($right, $img_rightalgn, $body);
-                    }
-
-                    // And insert the unscaled mode images:
-                    if (($_CONF['allow_user_scaling'] == 1) and ($_CONF['keep_unscaled_image'] == 1)) {
-                        if (file_exists($lFilename_large_complete)) {
-                            $imgSrc = $lFilename_large_URL;
-                            $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
-                        }
-
-                        $intro = str_replace($unscalednorm, '<img ' . $sizeattributes . 'src="' .
-                                             $imgSrc . '" alt=""' . XHTML . '>', $intro);
-                        $body  = str_replace($unscalednorm, '<img ' . $sizeattributes . 'src="' .
-                                             $imgSrc . '" alt=""' . XHTML . '>', $body);
-                        $intro = str_replace($unscaledleft, '<img ' . $sizeattributes .
-                                             'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>', $intro);
-                        $body  = str_replace($unscaledleft, '<img ' . $sizeattributes .
-                                             'align="left" src="' . $imgSrc . '" alt=""' . XHTML . '>', $body);
-                        $intro = str_replace($unscaledright, '<img ' . $sizeattributes .
-                                             'align="right" src="' . $imgSrc. '" alt=""' . XHTML . '>', $intro);
-                        $body  = str_replace($unscaledright, '<img ' . $sizeattributes .
-                                             'align="right" src="' . $imgSrc . '" alt=""' . XHTML . '>', $body);
-                    }
-                }
             }
         }
-
-        $this->_introtext = $intro;
-        $this->_bodytext  = $body;
 
         return $errors;
     }
@@ -1310,9 +1382,7 @@ class Story
      * This replaces all article image HTML in intro and body with
      * GL special syntax
      *
-     * @param    string      $sid    ID for story to parse
-     * @param    string      $intro  Intro text
-     * @param    string      $body   Body text
+     * @param    string      $text  Intro or Body text
      * @return   string      processed text
      *
      */
@@ -1348,8 +1418,8 @@ class Story
         for ($i = 0; $i < $count; $i++) {
             $A = $this->_storyImages[$i];
 
-            $imageX = '[image' . ($i + 1) . ']';
-            $imageX_left = '[image' . ($i + 1) . '_left]';
+            $imageX       = '[image' . ($i + 1) . ']';
+            $imageX_left  = '[image' . ($i + 1) . '_left]';
             $imageX_right = '[image' . ($i + 1) . '_right]';
 
             $sizeattributes = COM_getImgSizeAttributes($_CONF['path_images'] . 'articles/' . $A['ai_filename']);
@@ -1383,8 +1453,8 @@ class Story
                 $imgSrc = $_CONF['site_url'] . '/getimage.php?mode=articles&amp;image=' . $A['ai_filename'];
             }
 
-            $norm = $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
-            $left = $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""' . XHTML . '>'
+            $norm  = $lLinkPrefix . '<img ' . $sizeattributes . 'src="' . $imgSrc . '" alt=""' . XHTML . '>' . $lLinkSuffix;
+            $left  = $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatleft" src="' . $imgSrc . '" alt=""' . XHTML . '>'
                     . $lLinkSuffix;
             $right = $lLinkPrefix . '<img ' . $sizeattributes . 'class="floatright" src="' . $imgSrc . '" alt=""' . XHTML . '>'
                     . $lLinkSuffix;
@@ -1400,8 +1470,8 @@ class Story
 
                 if (file_exists($lFilename_large_complete)) {
                     $sizeattributes = COM_getImgSizeAttributes($lFilename_large_complete);
-                    $norm = '<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
-                    $left = '<img ' . $sizeattributes . 'align="left" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
+                    $norm  = '<img ' . $sizeattributes . 'src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
+                    $left  = '<img ' . $sizeattributes . 'align="left" src="'  . $lFilename_large_URL . '" alt=""' . XHTML . '>';
                     $right = '<img ' . $sizeattributes . 'align="right" src="' . $lFilename_large_URL . '" alt=""' . XHTML . '>';
                 }
 
@@ -1603,7 +1673,7 @@ class Story
             $return = $this->_page_title;
 
             break;
-            
+
         case 'meta_description':
             $return = $this->_meta_description;
 
@@ -1613,7 +1683,7 @@ class Story
             $return = $this->_meta_keywords;
 
             break;
-                    
+
         case 'draft_flag':
             if (isset($this->_draft_flag) && ($this->_draft_flag == 1)) {
                 $return = true;
@@ -1622,14 +1692,27 @@ class Story
             }
 
             break;
-
-        case 'introtext':
-            $return = $this->_editText($this->_introtext);
+            
+        case 'cache_time':
+            if ($this->_cache_time < -1 OR $this->_cache_time == '') {
+                $return  = $_CONF['default_cache_time_article'];
+            } else {
+                $return = intval($this->_cache_time);
+            }
 
             break;
 
+        case 'introtext':
         case 'bodytext':
-            $return = $this->_editText($this->_bodytext);
+            $return = (strtolower($item) == 'introtext') ?
+                $this->_introtext : $this->_bodytext;
+            if ($this->_text_version == GLTEXT_FIRST_VERSION) {
+                $return = $this->replaceImages($return);
+            }
+            $return = GLText::getEditText(
+                          $return,
+                          $this->_postmode,
+                          $this->_text_version);
 
             break;
 
@@ -1671,27 +1754,18 @@ class Story
         switch (strtolower($item))
         {
         case 'introtext':
-            if ($this->_postmode == 'plaintext') {
-                $return = COM_nl2br($this->_introtext);
-            } elseif ($this->_postmode == 'wikitext') {
-                $return = COM_renderWikiText($this->_editUnescape($this->_introtext));
-            } else {
-                $return = $this->_introtext;
-            }
-
-            $return = PLG_replaceTags($this->_displayEscape($return));
-            break;
-
         case 'bodytext':
-            if (($this->_postmode == 'plaintext') && !(empty($this->_bodytext))) {
-                $return = COM_nl2br($this->_bodytext);
-            } elseif (($this->_postmode == 'wikitext') && !(empty($this->_bodytext))) {
-                $return = COM_renderWikiText($this->_editUnescape($this->_bodytext));
-            } elseif (!empty($this->_bodytext)) {
-                $return = $this->_displayEscape($this->_bodytext);
+            $return = (strtolower($item) == 'introtext') ?
+                $this->_introtext : $this->_bodytext;
+            if ($this->_text_version == GLTEXT_FIRST_VERSION) {
+                $return = $this->replaceImages($return);
             }
+            $return = GLText::getDisplayText(
+                          $return,
+                          $this->_postmode,
+                          $this->_text_version);
+            $return = $this->renderImageTags($return);
 
-            $return = PLG_replaceTags($return);
             break;
 
         case 'title':
@@ -1713,7 +1787,7 @@ class Story
             $return = $this->_meta_keywords;
 
             break;
-            
+
         case 'shortdate':
             $return = strftime($_CONF['shortdate'], $this->_date);
 
@@ -1752,7 +1826,7 @@ class Story
             }
 
             break;
-            
+
         case 'commentcode':
             // check to see if comment_time has passed
             if ($this->_comment_expire != 0 && (time() > $this->_comment_expire) && $this->_commentcode == 0 ) {
@@ -1777,6 +1851,28 @@ class Story
         return $return;
     }
 
+    /**
+     * Returns text ready for preview.
+     *
+     * @param   string    $item   Item to fetch. Valid only bodytext and introtext.
+     * @return  string    text for preview in edit mode
+     */
+    function getPreviewText($item)
+    {
+        $text = (strtolower($item) == 'introtext') ?
+            $this->_introtext : $this->_bodytext;
+        if ($this->_text_version == GLTEXT_FIRST_VERSION) {
+            $text = $this->replaceImages($text);
+        }
+        $text = GLText::getPreviewText(
+                    $text,
+                    $this->_postmode,
+                    'story.edit',
+                    $this->_text_version);
+        $text = $this->renderImageTags($text);
+
+        return $text;
+    }
 
     /**
      * Perform a security check and return permission level.
@@ -1804,135 +1900,11 @@ class Story
      * @param   string     $in      Text to escpae
      * @return  string     escaped string
      */
-    function _displayEscape($in)
+    function _displayEscape($text)
     {
-        $return = str_replace('$', '&#36;', $in);
-        $return = str_replace('{', '&#123;', $return);
-        $return = str_replace('}', '&#125;', $return);
-        return $return;
-    }
-
-    /**
-     * Unescapes certain HTML for editing again.
-     *
-     * @access Private
-     * @param   string  $in Text escaped to unescape for editing
-     * @return  string  Unescaped string
-     */
-    function _editUnescape($in)
-    {
-        if (($this->_postmode == 'html') || ($this->_postmode == 'wikitext')) {
-            /* Raw and code blocks need entity decoding. Other areas do not.
-             * otherwise, annoyingly, &lt; will end up as < on preview 1, on
-             * preview 2 it'll be stripped by KSES. Can't beleive I missed that
-             * in rewrite phase 1.
-             *
-             * First, raw
-             */
-            $inlower = MBYTE_strtolower($in);
-            $buffer = $in;
-            $start_pos = MBYTE_strpos($inlower, '[raw]');
-            if( $start_pos !== false ) {
-                $out = '';
-                while( $start_pos !== false ) {
-                    /* Copy in to start to out */
-                    $out .= MBYTE_substr($buffer, 0, $start_pos);
-                    /* Find end */
-                    $end_pos = MBYTE_strpos($inlower, '[/raw]');
-                    if( $end_pos !== false ) {
-                        /* Encode body and append to out */
-                        $encoded = html_entity_decode(MBYTE_substr($buffer, $start_pos, $end_pos - $start_pos));
-                        $out .= $encoded . '[/raw]';
-                        /* Nibble in */
-                        $inlower = MBYTE_substr($inlower, $end_pos + 6);
-                        $buffer = MBYTE_substr($buffer, $end_pos + 6);
-                    } else { // missing [/raw]
-                        // Treat the remainder as code, but this should have been
-                        // checked prior to calling:
-                        $out .= html_entity_decode(MBYTE_substr($buffer, $start_pos + 5));
-                        $inlower = '';
-                    }
-                    $start_pos = MBYTE_strpos($inlower, '[raw]');
-                }
-                // Append remainder:
-                if( $buffer != '' ) {
-                    $out .= $buffer;
-                }
-                $in = $out;
-            }
-            /*
-             * Then, code
-             */
-            $inlower = MBYTE_strtolower($in);
-            $buffer = $in;
-            $start_pos = MBYTE_strpos($inlower, '[code]');
-            if( $start_pos !== false ) {
-                $out = '';
-                while( $start_pos !== false ) {
-                    /* Copy in to start to out */
-                    $out .= MBYTE_substr($buffer, 0, $start_pos);
-                    /* Find end */
-                    $end_pos = MBYTE_strpos($inlower, '[/code]');
-                    if( $end_pos !== false ) {
-                        /* Encode body and append to out */
-                        $encoded = html_entity_decode(MBYTE_substr($buffer, $start_pos, $end_pos - $start_pos));
-                        $out .= $encoded . '[/code]';
-                        /* Nibble in */
-                        $inlower = MBYTE_substr($inlower, $end_pos + 7);
-                        $buffer = MBYTE_substr($buffer, $end_pos + 7);
-                    } else { // missing [/code]
-                        // Treat the remainder as code, but this should have been
-                        // checked prior to calling:
-                        $out .= html_entity_decode(MBYTE_substr($buffer, $start_pos + 6));
-                        $inlower = '';
-                    }
-                    $start_pos = MBYTE_strpos($inlower, '[code]');
-                }
-                // Append remainder:
-                if( $buffer != '' ) {
-                    $out .= $buffer;
-                }
-                $in = $out;
-            }
-            return $in;
-        } else {
-            // advanced editor or plaintext can handle themselves...
-            return $in;
-        }
-    }
-
-    /**
-     * Returns text ready for the edit fields.
-     *
-     * @access Private
-     * @param   string  $in Text to prepare for editing
-     * @return  string  Escaped String
-     */
-    function _editText($in)
-    {
-        $out = '';
-
-        $out = $this->replaceImages($in);
-        
-        // Remove any autotags the user doesn't have permission to use
-        $out = PLG_replaceTags($out, '', true);        
-
-        if ($this->_postmode == 'plaintext') {
-            $out = COM_undoClickableLinks($out);
-            $out = $this->_displayEscape($out);
-        } elseif ($this->_postmode == 'wikitext') {
-            $out = $this->_editUnescape($in);
-        } else {
-            // html
-            $out = str_replace('<pre><code>', '[code]', $out);
-            $out = str_replace('</code></pre>', '[/code]', $out);
-            $out = str_replace('<!--raw--><span class="raw">', '[raw]', $out);
-            $out = str_replace('</span><!--/raw-->', '[/raw]', $out);
-            $out = $this->_editUnescape($out);
-            $out = $this->_displayEscape(htmlspecialchars($out));
-        }
-
-        return $out;
+        return str_replace(
+            array('$',     '{',      '}',      '\\'),
+            array('&#36;', '&#123;', '&#125;', '&#92;'), $text);
     }
 
     /**
@@ -1957,7 +1929,7 @@ class Story
                 if (($vartype == STORY_AL_ALPHANUM) || ($vartype == STORY_AL_NUMERIC)) {
                     $this->{$varname} = COM_applyFilter($array[$key], $vartype);
                 } elseif ($vartype == STORY_AL_ANYTHING) {
-                    $this->{$varname} = $array[$key];                
+                    $this->{$varname} = $array[$key];
                 } elseif (($array[$key] === 'on') || ($array[$key] === 1)) {
                     // If it's a checkbox that is on
                     $this->{$varname} = 1;
@@ -2044,13 +2016,13 @@ class Story
         }
 
         if (array_key_exists('expire_hour', $array)) {
-            $expire_ampm = COM_applyFilter($array['expire_ampm']);
-            $expire_hour = COM_applyFilter($array['expire_hour'], true);
+            $expire_ampm   = COM_applyFilter($array['expire_ampm']);
+            $expire_hour   = COM_applyFilter($array['expire_hour'], true);
             $expire_minute = COM_applyFilter($array['expire_minute'], true);
             $expire_second = COM_applyFilter($array['expire_second'], true);
-            $expire_year = COM_applyFilter($array['expire_year'], true);
-            $expire_month = COM_applyFilter($array['expire_month'], true);
-            $expire_day = COM_applyFilter($array['expire_day'], true);
+            $expire_year   = COM_applyFilter($array['expire_year'], true);
+            $expire_month  = COM_applyFilter($array['expire_month'], true);
+            $expire_day    = COM_applyFilter($array['expire_day'], true);
 
             if ($expire_ampm == 'pm') {
                 if ($expire_hour < 12) {
@@ -2069,17 +2041,17 @@ class Story
         }
 
         $this->_expire = $expiredate;
-        
+
         // comment expire time
         if (isset($array['cmt_close_flag'])) {
-            $cmt_close_ampm = COM_applyFilter($array['cmt_close_ampm']);
-            $cmt_close_hour = COM_applyFilter($array['cmt_close_hour'], true);
+            $cmt_close_ampm   = COM_applyFilter($array['cmt_close_ampm']);
+            $cmt_close_hour   = COM_applyFilter($array['cmt_close_hour'], true);
             $cmt_close_minute = COM_applyFilter($array['cmt_close_minute'], true);
             $cmt_close_second = COM_applyFilter($array['cmt_close_second'], true);
-            $cmt_close_year = COM_applyFilter($array['cmt_close_year'], true);
-            $cmt_close_month = COM_applyFilter($array['cmt_close_month'], true);
-            $cmt_close_day = COM_applyFilter($array['cmt_close_day'], true);
-            
+            $cmt_close_year   = COM_applyFilter($array['cmt_close_year'], true);
+            $cmt_close_month  = COM_applyFilter($array['cmt_close_month'], true);
+            $cmt_close_day    = COM_applyFilter($array['cmt_close_day'], true);
+
             if ($cmt_close_ampm == 'pm') {
                 if ($cmt_close_hour < 12) {
                     $cmt_close_hour = $cmt_close_hour + 12;
@@ -2102,12 +2074,21 @@ class Story
         /* Then grab the permissions */
 
         // Convert array values to numeric permission values
-        if (is_array($array['perm_owner']) || is_array($array['perm_group']) ||
-                is_array($array['perm_members']) ||
-                is_array($array['perm_anon'])) {
+        if (is_array($array['perm_owner']) ||
+            is_array($array['perm_group']) ||
+            is_array($array['perm_members']) ||
+            is_array($array['perm_anon'])) {
 
-            list($this->_perm_owner, $this->_perm_group, $this->_perm_members, $this->_perm_anon) = SEC_getPermissionValues($array['perm_owner'], $array['perm_group'], $array['perm_members'], $array['perm_anon']);
-
+            list($this->_perm_owner,
+                 $this->_perm_group,
+                 $this->_perm_members,
+                 $this->_perm_anon) =
+                     SEC_getPermissionValues(
+                         $array['perm_owner'],
+                         $array['perm_group'],
+                         $array['perm_members'],
+                         $array['perm_anon']
+                     );
         } else {
             $this->_perm_owner   = $array['perm_owner'];
             $this->_perm_group   = $array['perm_group'];
@@ -2116,70 +2097,39 @@ class Story
         }
     }
 
-    /**
-     * This is the importantest bit. This function must load the title, page title, intro
-     * and body of the article from the post array, providing all appropriate
-     * conversions of HTML mode content into the nice safe form that geeklog
-     * can then (simply) spit back out into the page on render. After doing a
-     * magic tags replacement.
-     *
-     * This DOES NOT ADDSLASHES! We do that on DB store, because we want to
-     * keep our internal variables in "display mode", not in db mode or anything.
-     *
-     * @param $title		string  posttitle, only had stripslashes if necessary
-     * @param $page_title	string  pagetitle, only had stripslashes if necessary
-     * @param $intro    	string  introtext, only had stripslashes if necessary
-     * @param $body     	string   bodytext, only had stripslashes if necessary
-     * @return nothing
-     * @access private
-     */
-    function _htmlLoadStory($title, $page_title, $intro, $body)
+    function _applyTitleFilter($title)
     {
-        global $_CONF;
-
-        // fix for bug in advanced editor
-        if ($_CONF['advanced_editor'] && ($body == '<br' . XHTML . '>')) {
-            $body = '';
-        }
-
-        $this->_title = htmlspecialchars(strip_tags(COM_checkWords($title)));
-        $this->_page_title = htmlspecialchars(strip_tags(COM_checkWords($page_title)));
-
-        // Remove any autotags the user doesn't have permission to use
-        $intro = PLG_replaceTags($intro, '', true);
-        $body = PLG_replaceTags($body, '', true);        
-        $this->_introtext = COM_checkHTML(COM_checkWords($intro), 'story.edit');
-        $this->_bodytext = COM_checkHTML(COM_checkWords($body), 'story.edit');
+//        return htmlspecialchars(strip_tags(COM_checkWords($title)));
+        return htmlspecialchars(strip_tags(COM_checkWords($title)),
+                                ENT_QUOTES, COM_getEncodingt());
     }
 
-
-    /**
-     * This is the second most importantest bit. This function must load the
-     * title, page title, intro and body of the article from the post array, removing all
-     * HTML mode content into the nice safe form that geeklog can then (simply)
-     * spit back out into the page on render. After doing a magic tags
-     * replacement. And COM_nl2br.
-     *
-     * This DOES NOT ADDSLASHES! We do that on DB store, because we want to
-     * keep our internal variables in "display mode", not in db mode or anything.
-     *
-     * @param $title    	string  posttitle, only had stripslashes if necessary
-     * @param $page_title	string  pagetitle, only had stripslashes if necessary
-     * @param $intro    	string  introtext, only had stripslashes if necessary
-     * @param $body     	string   bodytext, only had stripslashes if necessary
-     * @return nothing
-     * @access private
-     */
-    function _plainTextLoadStory($title, $page_title, $intro, $body)
+    function _applyTextFilter($text, $postmode)
     {
-        $this->_title = htmlspecialchars(strip_tags(COM_checkWords($title)));
-        $this->_page_title = htmlspecialchars(strip_tags(COM_checkWords($page_title)));
-        
-        // Remove any autotags the user doesn't have permission to use
-        $intro = PLG_replaceTags($intro, '', true);
-        $body = PLG_replaceTags($body, '', true);
-        $this->_introtext = COM_makeClickableLinks(htmlspecialchars(COM_checkWords($intro)));
-        $this->_bodytext = COM_makeClickableLinks(htmlspecialchars(COM_checkWords($body)));
+        if ($this->_text_version == GLTEXT_FIRST_VERSION) {
+
+            // first version
+
+            // Remove any autotags the user doesn't have permission to use
+            $text = PLG_replaceTags($text, '', true);
+            $text = COM_checkWords($text);
+
+            if (in_array($postmode, array('html', 'adveditor', 'wikitext'))) {
+                // html or wikitext
+                $text = GLText::checkHTML($text, 'story.edit');
+            } else {
+                // plaintext
+                $text = COM_makeClickableLinks(htmlspecialchars($text));
+            }
+        } else {
+
+            // latest version
+
+            // Now not do anything here to hold the raw text.
+            // And do all of the text processing just before display.
+        }
+
+        return $text;
     }
 
     /**
@@ -2188,8 +2138,6 @@ class Story
      */
     function _sanitizeData()
     {
-        global $_CONF;
-
         if (empty($this->_hits)) {
             $this->_hits = 0;
         }
@@ -2223,5 +2171,4 @@ class Story
 
 /**************************************************************************/
 }
-
 ?>
