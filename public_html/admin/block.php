@@ -170,7 +170,7 @@ function editdefaultblock ($A, $access)
 function editblock ($bid = '')
 {
     global $_CONF, $_GROUPS, $_TABLES, $_USER, $LANG01, $LANG21, $LANG_ACCESS,
-           $LANG_ADMIN, $MESSAGE;
+           $LANG_ADMIN, $MESSAGE, $_SCRIPTS;
 
     $retval = '';
 
@@ -179,7 +179,7 @@ function editblock ($bid = '')
 
         $sql['mssql'] = "SELECT bid, is_enabled, name, type, title, blockorder, cast(content as text) as content, rdfurl, ";
         $sql['mssql'] .= "rdfupdated, rdflimit, onleft, phpblockfn, help, owner_id,group_id, ";
-        $sql['mssql'] .= "perm_owner, perm_group, perm_members, perm_anon, allow_autotags FROM {$_TABLES['blocks']} WHERE bid ='$bid'";
+        $sql['mssql'] .= "perm_owner, perm_group, perm_members, perm_anon, allow_autotags, cache_time FROM {$_TABLES['blocks']} WHERE bid ='$bid'";
 
         $sql['pgsql'] = "SELECT * FROM {$_TABLES['blocks']} WHERE bid ='$bid'";
         
@@ -207,6 +207,7 @@ function editblock ($bid = '')
         $A['title'] = '';
         $A['tid'] = '';
         $A['blockorder'] = 0;
+        $A['cache_time'] = $_CONF['default_cache_time_block'];
         $A['content'] = '';
         $A['allow_autotags'] = 0;
         $A['rdfurl'] = '';
@@ -292,6 +293,10 @@ function editblock ($bid = '')
     } elseif ($A['type'] == 'portal') {
         $block_templates->set_var('portal_selected', 'selected="selected"');
     }
+    $block_templates->set_var('lang_cachetime', $LANG21['cache_time']);
+    $block_templates->set_var('lang_cachetime_desc', $LANG21['cache_time_desc']);
+    $block_templates->set_var('cache_time', $A['cache_time']);
+    
     $block_templates->set_var('lang_accessrights', $LANG_ACCESS['accessrights']);
     $block_templates->set_var('lang_owner', $LANG_ACCESS['owner']);
     $ownername = COM_getDisplayName ($A['owner_id']);
@@ -345,6 +350,24 @@ function editblock ($bid = '')
             COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer')));
     $block_templates->parse('output', 'editor');
     $retval .= $block_templates->finish($block_templates->get_var('output'));
+
+    // Shows/Hides relevant block options dynamically
+    $_SCRIPTS->setJavaScript("
+jQuery(function () {
+    var $ = jQuery;
+    $('#admin-blockeditor-type').on('change', function () {
+        var fs, i, fieldsets = ['normal', 'phpblock', 'portal'];
+        
+        for (i = 0; i < 3; i++) {
+            if (this.value === fieldsets[i]) {
+                $('#fs-' + fieldsets[i] + '-options').show();
+            } else {
+                $('#fs-' + fieldsets[i] + '-options').hide();
+            }
+        }
+    })
+    .trigger('change');
+});", true, true);
 
     return $retval;
 }
@@ -536,7 +559,7 @@ function cmpDynamicBlocks($a, $b)
 * @return   string                  HTML redirect or error message
 *
 */
-function saveblock($bid, $name, $title, $help, $type, $blockorder, $content, $rdfurl, $rdfupdated, $rdflimit, $phpblockfn, $onleft, $owner_id, $group_id, $perm_owner, $perm_group, $perm_members, $perm_anon, $is_enabled, $allow_autotags)
+function saveblock($bid, $name, $title, $help, $type, $blockorder, $content, $rdfurl, $rdfupdated, $rdflimit, $phpblockfn, $onleft, $owner_id, $group_id, $perm_owner, $perm_group, $perm_members, $perm_anon, $is_enabled, $allow_autotags, $cache_time)
 {
     global $_CONF, $_TABLES, $LANG01, $LANG21, $MESSAGE, $_USER;
 
@@ -587,6 +610,10 @@ function saveblock($bid, $name, $title, $help, $type, $blockorder, $content, $rd
         } else {
             $allow_autotags = 0;
         }
+        
+        if ($cache_time < -1 OR $cache_time == "") {
+            $cache_time = $_CONF['default_cache_time_block'];
+        }        
 
         if ($type == 'portal') {
             $content = '';
@@ -605,9 +632,7 @@ function saveblock($bid, $name, $title, $help, $type, $blockorder, $content, $rd
             $rdfurl = COM_sanitizeUrl ($rdfurl, array ('http', 'https'));
         }
         if ($type == 'gldefault') {
-            if ($name != 'older_stories') {
-                $content = '';
-            }
+            $content = '';
             $rdfurl = '';
             $rdfupdated = '';
             $rdflimit = 0;
@@ -652,26 +677,25 @@ function saveblock($bid, $name, $title, $help, $type, $blockorder, $content, $rd
         }
 
         if ($bid > 0) {
-            DB_save($_TABLES['blocks'],'bid,name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags,rdf_last_modified,rdf_etag',"$bid,'$name','$title','$help','$type','$blockorder','$content','$rdfurl','$rdfupdated','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags,NULL,NULL");
+            DB_save($_TABLES['blocks'],'bid,name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags,cache_time,rdf_last_modified,rdf_etag',"$bid,'$name','$title','$help','$type','$blockorder','$content','$rdfurl','$rdfupdated','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags,$cache_time,NULL,NULL");
         } else {
             $sql = array();
             $sql['mysql'] = $sql['mssql'] = "INSERT INTO {$_TABLES['blocks']} "
-             .'(name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags) '
-             ."VALUES ('$name','$title','$help','$type','$blockorder','$content','$rdfurl','$rdfupdated','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags)";
+             .'(name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags,cache_time) '
+             ."VALUES ('$name','$title','$help','$type','$blockorder','$content','$rdfurl','$rdfupdated','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags,$cache_time)";
             
              $sql['pgsql'] = "INSERT INTO {$_TABLES['blocks']} "
-             .'(bid,name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags) '
-             ."VALUES ((SELECT NEXTVAL('{$_TABLES['blocks']}_bid_seq')),'$name','$title','$help','$type','$blockorder','$content','$rdfurl','$rdfupdated','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags)";
+             .'(bid,name,title,help,type,blockorder,content,rdfurl,rdfupdated,rdflimit,phpblockfn,onleft,owner_id,group_id,perm_owner,perm_group,perm_members,perm_anon,is_enabled,allow_autotags,cache_time) '
+             ."VALUES ((SELECT NEXTVAL('{$_TABLES['blocks']}_bid_seq')),'$name','$title','$help','$type','$blockorder','$content','$rdfurl','1970-01-01','$rdflimit','$phpblockfn',$onleft,$owner_id,$group_id,$perm_owner,$perm_group,$perm_members,$perm_anon,$is_enabled,$allow_autotags,$cache_time)";
              
              DB_query($sql);
              $bid = DB_insertId();
         }
 
-        if (($type == 'gldefault') && ($name == 'older_stories')) {
-            COM_olderStuff ();
-        }
-        
         TOPIC_saveTopicSelectionControl('block', $bid);
+        
+        $cacheInstance = 'block__' . $bid . '__';  // remove any of this blocks instances if exists
+        CACHE_remove_instance($cacheInstance);            
         
         return COM_refresh ($_CONF['site_admin_url'] . '/block.php?msg=11');
     } else {
@@ -830,6 +854,9 @@ function deleteBlock ($bid)
     TOPIC_deleteTopicAssignments('block', $bid);
     
     DB_delete ($_TABLES['blocks'], 'bid', $bid);
+    
+    $cacheInstance = 'block__' . $bid . '__';  // remove any of this blocks instances if exists
+    CACHE_remove_instance($cacheInstance);            
 
     return COM_refresh ($_CONF['site_admin_url'] . '/block.php?msg=12');
 }
@@ -900,6 +927,10 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
     if (isset ($_POST['allow_autotags'])) {
         $allow_autotags = $_POST['allow_autotags'];
     }
+    $cache_time = $_CONF['default_cache_time_block'];
+    if (isset ($_POST['cache_time'])) {
+        $cache_time = COM_applyFilter ($_POST['cache_time'], true);
+    }    
     $display .= saveblock ($bid, $_POST['name'], $_POST['title'],
                     $help, $_POST['type'], $_POST['blockorder'], $content,
                     $rdfurl, $rdfupdated,
@@ -908,7 +939,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
                     COM_applyFilter ($_POST['group_id'], true),
                     $_POST['perm_owner'], $_POST['perm_group'],
                     $_POST['perm_members'], $_POST['perm_anon'],
-                    $is_enabled, $allow_autotags);
+                    $is_enabled, $allow_autotags, $cache_time);
 } elseif ($mode == 'edit') {
     $tmp = editblock($bid);
     $display = COM_createHTMLDocument($tmp, array('pagetitle' => $LANG21[3]));

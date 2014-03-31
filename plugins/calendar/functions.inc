@@ -199,7 +199,7 @@ function phpblock_calendar( $help='', $title='' )
                     if( !$headline ) {
                         if($z == 2) {
                             if( $numRows > 0 ) {
-                                $retval .= '<p><b>' . $LANG_CAL_1[23] . '</b><br' . XHTML . '>';
+                                $retval .= '<b>' . $LANG_CAL_1[23] . '</b><br' . XHTML . '>';
                             }
                         } else {
                             if( $totalrows > 0 ) {
@@ -438,11 +438,8 @@ function plugin_savesubmission_calendar($A)
 
     // check for missing textfields
     if (empty ($A['title']) || empty ($A['start_month']) || empty ($A['start_day']) || empty ($A['start_year'])) {
-        $retval .= COM_startBlock ($LANG12[22], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-            . $LANG12[23]
-            . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'))
-            . plugin_submit_calendar ($A['calendar_type']);
+        $retval .= COM_showMessageText($LANG12[23], $LANG12[22])
+                .  plugin_submit_calendar($A['calendar_type']);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_1[27]));
 
         return $retval;
@@ -684,7 +681,7 @@ function plugin_getheadercode_calendar()
 */
 function plugin_submit_calendar($mode = 'master')
 {
-    global $_CONF, $_CA_CONF, $LANG_CAL_1, $LANG12, $_SCRIPTS;
+    global $_CONF, $_CA_CONF, $LANG_CAL_1, $LANG12, $MESSAGE, $_SCRIPTS;
 
     if (isset($_POST['calendar_type'])) {
         $mode = $_POST['calendar_type'];
@@ -735,20 +732,25 @@ function plugin_submit_calendar($mode = 'master')
         exit;
     }
     // otherwise non-admin or admin-personal. do personal form or public submission.
-	
-    // Loads jQuery UI datepicker
+
+    // Loads jQuery UI datepicker and timepicker-addon
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.slider');
     $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
     $_SCRIPTS->setJavaScriptLibrary('jquery-ui-i18n');
-    $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon-i18n');
+    $_SCRIPTS->setJavaScriptFile('datetimepicker', '/javascript/datetimepicker.js');
 
     $langCode = COM_getLangIso639Code();
-    $toolTip  = 'Click and select a date';	// Should be translated
+    $toolTip  = $MESSAGE[118];
     $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
 
     $_SCRIPTS->setJavaScript(
         "jQuery(function () {"
-        . "  geeklog.datepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
-        . "  geeklog.datepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.hour_mode = {$_CONF['hour_mode']};"
+        . "  geeklog.datetimepicker.options.stepMinute = 15;"
+        . "  geeklog.datetimepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datetimepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
         . "});", TRUE, TRUE
     );
 
@@ -1186,19 +1188,25 @@ function plugin_autotags_calendar ($op, $content = '', $autotag = '')
     } elseif ($op == 'description') {
         return array (
             'event' => $LANG_CAL_1['autotag_desc_event']
-            );        
+        );        
     } else if ($op == 'parse') {
         $eid = COM_applyFilter($autotag['parm1']);
         if (! empty($eid)) {
-            $url = $_CONF['site_url'] . '/calendar/event.php?eid=' . $eid;
-            if (empty ($autotag['parm2'])) {
-                $linktext = stripslashes (DB_getItem ($_TABLES['events'],
-                                          'title', "eid = '$eid'"));
-            } else {
-                $linktext = $autotag['parm2'];
+            $result = DB_query("SELECT COUNT(*) AS count "
+                . "FROM {$_TABLES['events']} "
+                . "WHERE eid = '$eid'");
+            $A = DB_fetchArray($result);
+            if ($A['count'] > 0) {
+                $url = $_CONF['site_url'] . '/calendar/event.php?eid=' . $eid;
+                if (empty ($autotag['parm2'])) {
+                    $linktext = stripslashes (DB_getItem ($_TABLES['events'],
+                                              'title', "eid = '$eid'"));
+                } else {
+                    $linktext = $autotag['parm2'];
+                }
+                $link = COM_createLink($linktext, $url);
+                $content = str_replace ($autotag['tagstr'], $link, $content);
             }
-            $link = COM_createLink($linktext, $url);
-            $content = str_replace ($autotag['tagstr'], $link, $content);
         }
 
         return $content;
@@ -1609,15 +1617,15 @@ function plugin_upgrade_calendar()
                 // Set new Tab column to whatever fieldset is
                 $sql = "UPDATE {$_TABLES['conf_values']} SET tab = fieldset WHERE group_name = 'calendar'";
                 DB_query($sql);
-                
+
                 calendar_update_ConfValues_1_1_1();
             }
-            
+
             calendar_update_ConfigSecurity_1_1_1();
 
             $current_version = '1.1.2';
             break;
-            
+
         case '1.1.2':
             if (isset($_UPDATES[$current_version])) {
                 $_SQL = $_UPDATES[$current_version];
@@ -1632,8 +1640,13 @@ function plugin_upgrade_calendar()
 
             calendar_update_ConfigSecurity_1_1_2();
             calendar_update_Zipcode_1_1_2();
-            
+
             $current_version = '1.1.3';
+            break;            
+
+        case '1.1.3':
+
+            $current_version = '1.1.4';
             break;            
 
         default:
@@ -2168,9 +2181,9 @@ function plugin_getconfigtooltip_calendar($id)
 function plugin_getBlocks_calendar($side, $topic='')
 {
     global $_TABLES, $_CONF, $_CA_CONF, $LANG_CAL_1;
-    
+
     $retval = array();
-    
+
     $owner_id = SEC_getDefaultRootUser();
 
     // Check permissions first
@@ -2180,7 +2193,7 @@ function plugin_getBlocks_calendar($side, $topic='')
             if (($side=='left' && $_CA_CONF['block_isleft'] == 1) || ($side=='right' && $_CA_CONF['block_isleft'] == 0)) { 
                 // Create a block
                 $display = phpblock_calendar();
-                
+
                 $retval[] = array('name'           => 'events',
                                   'type'           => 'dynamic',
                                   'onleft'         => $_CA_CONF['block_isleft'],
@@ -2192,7 +2205,7 @@ function plugin_getBlocks_calendar($side, $topic='')
             }
         }
     }
-    
+
     return $retval;
 }
 
@@ -2212,11 +2225,11 @@ function plugin_getBlocks_calendar($side, $topic='')
 function plugin_getBlocksConfig_calendar($side, $topic='')
 {
     global $_TABLES, $_CONF, $_CA_CONF, $LANG_CAL_1;
-    
+
     $retval = array();
-    
+
     $owner_id = SEC_getDefaultRootUser();
-    
+
     // Check permissions first
     if (SEC_hasAccess($owner_id, $_CA_CONF['block_group_id'], $_CA_CONF['block_permissions'][0], $_CA_CONF['block_permissions'][1], $_CA_CONF['block_permissions'][2], $_CA_CONF['block_permissions'][3])) {
         if (($side=='left' && $_CA_CONF['block_isleft'] == 1) || ($side=='right' && $_CA_CONF['block_isleft'] == 0)) { 
@@ -2235,7 +2248,7 @@ function plugin_getBlocksConfig_calendar($side, $topic='')
                               );
         }
     }
-    
+
     return $retval;
 }
 
@@ -2251,7 +2264,7 @@ function plugin_getBlocksConfig_calendar($side, $topic='')
 function plugin_group_changed_calendar($grp_id, $mode)
 {
     global $_TABLES, $_GROUPS, $_CA_CONF;
-    
+
     if ($mode == 'delete') {
         // Change any deleted group ids to Polls Admin if exist, if does not change to root group
         $new_group_id = 0;
@@ -2267,21 +2280,21 @@ function plugin_group_changed_calendar($grp_id, $mode)
                 }
             }
         }    
-        
+
         // Update Events with new group id
         $sql = "UPDATE {$_TABLES['events']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
         $result = DB_query($sql);
-        
+
         // Update Events with new group id
         $sql = "UPDATE {$_TABLES['personal_events']} SET group_id = $new_group_id WHERE group_id = $grp_id";        
         $result = DB_query($sql);
-        
+
         // Update Events Block group if need be
         if ($_CA_CONF['block_group_id'] == $grp_id) {
             // Now save it to the configuration
             $c = config::get_instance();
             $c->set('block_group_id', $new_group_id, 'calendar');
-            
+
         }
    }
 }
@@ -2330,7 +2343,7 @@ function plugin_itemsaved_calendar($id, $type, $old_id)
         if ($key > 0) {
             // Update config
             $_CA_CONF['block_topic'][$key] = $id;
-            
+
             // Now save it to the configuration
             $c = config::get_instance();
             $c->set('block_topic', $_CA_CONF['block_topic'], 'calendar');
@@ -2358,7 +2371,7 @@ function plugin_itemdeleted_calendar($id, $type)
         if ($key > 0) {
             // delete item from config
             unset($_CA_CONF['block_topic'][$key]);
-            
+
             // Now save it to the configuration
             $c = config::get_instance();
             $c->set('block_topic', $_CA_CONF['block_topic'], 'calendar');

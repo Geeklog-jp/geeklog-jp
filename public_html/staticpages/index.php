@@ -44,7 +44,7 @@
 require_once '../lib-common.php';
 
 if (!in_array('staticpages', $_PLUGINS)) {
-    echo COM_refresh($_CONF['site_url'] . '/index.php');
+    COM_handle404();
     exit;
 }
 
@@ -88,6 +88,25 @@ if (isset($_GET['msg'])) {
     if ($msg <= 0) {
         $msg = 0;
     }
+}
+
+// Handle just template staticpage security here, rest done in services.     
+// Cannot view template staticpages directly. If template staticpage bail here 
+// if user doesn't have edit rights. 
+if (DB_getItem($_TABLES['staticpage'], 'template_flag', "sp_id = '$page'") == 1) {
+    if (SEC_hasRights('staticpages.edit')) {
+        $perms = SP_getPerms('', '3');
+        if (!empty($perms)) {
+            $perms = ' AND ' . $perms;
+        }
+        if (DB_getItem($_TABLES['staticpage'], 'sp_id', "sp_id = '$page'" . $perms) == '') {
+            COM_handle404();
+            exit;
+        }
+    } else {
+        COM_handle404();
+        exit;
+    }        
 }
 
 $retval = SP_returnStaticpage($page, $display_mode, $comment_order, $comment_mode, $comment_page, $msg, $query);

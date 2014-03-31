@@ -617,6 +617,7 @@ class config {
         if ($this->config_array['Core']['allow_user_themes'] == 1 && !empty($_USER['theme'])) {
             $theme = $_USER['theme'];
         }
+        $this->config_array['Core']['path_themes'] =  $this->config_array['Core']['path_html'] . 'layout/'; // Cannot be set by admin anymore
         $this->config_array['Core']['path_layout'] = $this->config_array['Core']['path_themes'] . $theme . '/';
         $this->config_array['Core']['layout_url'] = $this->config_array['Core']['site_url'] . '/layout/' . $theme;
     }
@@ -1135,7 +1136,7 @@ class config {
      * @param  mixed  $selectionArray Array of option of select element
      * @param  bool   $deleteable If configuration is deleteable
      * @param  bool   $allow_reset Allow set and unset of configuration
-     * @return
+     * @return string
      */
     function _UI_get_conf_element($group, $name, $display_name, $type, $val,
                                   $selectionArray = null , $deletable = false,
@@ -1315,7 +1316,7 @@ class config {
      * @param  mixed  $selectionArray Array of option of select element
      * @param  bool   $deleteable If configuration is deleteable
      * @param  bool   $allow_reset Allow set and unset of configuration
-     * @return
+     * @return string
      */
     function _UI_get_conf_element_2($group, $name, $display_name, $type, $val,
                                   $selectionArray = null , $deletable = false,

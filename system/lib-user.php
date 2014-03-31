@@ -317,7 +317,7 @@ function USER_createAccount($username, $email, $passwd = '', $fullname = '', $ho
         DB_query("INSERT INTO {$_TABLES['userindex']} (uid,etids) VALUES ($uid, '-')");
     }
 
-    DB_query("INSERT INTO {$_TABLES['usercomment']} (uid,commentmode,commentlimit) VALUES ($uid,'{$_CONF['comment_mode']}','{$_CONF['comment_limit']}')");
+    DB_query("INSERT INTO {$_TABLES['usercomment']} (uid,commentmode,commentorder,commentlimit) VALUES ($uid,'{$_CONF['comment_mode']}','{$_CONF['comment_order']}','{$_CONF['comment_limit']}')");
     DB_query("INSERT INTO {$_TABLES['userinfo']} (uid) VALUES ($uid)");
 
     // call custom registration function and plugins
@@ -594,7 +594,9 @@ function USER_emailMatches ($email, $domain_list)
         $email_domain = substr ($email, strpos ($email, '@') + 1);
 
         foreach ($domains as $domain) {
-            if (preg_match ("#$domain#i", $email_domain)) {
+            $domain = trim($domain);	// To fix bug #0001701
+
+            if (preg_match("#{$domain}#i", $email_domain)) {
                 $match_found = true;
                 break;
             }
@@ -860,7 +862,7 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     $result = DB_query("SELECT {$_TABLES['users']}.uid,username,fullname,regdate,homepage,about,location,pgpkey,photo,email,status FROM {$_TABLES['userinfo']},{$_TABLES['users']} WHERE {$_TABLES['userinfo']}.uid = {$_TABLES['users']}.uid AND {$_TABLES['users']}.uid = $uid");
     $nrows = DB_numRows($result);
     if ($nrows == 0) { // no such user
-        return COM_refresh($_CONF['site_url'] . '/index.php');
+        COM_handle404();
     }
     $A = DB_fetchArray($result);
 
@@ -869,7 +871,7 @@ function USER_showProfile($uid, $preview = false, $msg = 0, $plugin = '')
     }
 
     if ($A['status'] != USER_ACCOUNT_ACTIVE && !SEC_hasRights('user.edit')) {
-        return COM_refresh($_CONF['site_url'] . '/index.php');
+        COM_handle404();
     }
     
     $display_name = COM_getDisplayName($uid, $A['username'], $A['fullname']);

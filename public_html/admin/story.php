@@ -171,7 +171,7 @@ function liststories($current_topic = '')
         $header_arr[] = array('text' => $LANG24[7], 'field' => 'username', 'sort' => true); // author
     }
     $header_arr[] = array('text' => $LANG24[15], 'field' => 'unixdate', 'sort' => true); // date
-    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'topic_ids', 'sort' => true);
+    $header_arr[] = array('text' => $LANG_ADMIN['topic'], 'field' => 'tid', 'sort' => true);
     $header_arr[] = array('text' => $LANG24[32], 'field' => 'featured', 'sort' => true);
 
     if (SEC_hasRights ('story.ping') && ($_CONF['trackback_enabled'] ||
@@ -188,6 +188,8 @@ function liststories($current_topic = '')
 
     $menu_arr[] = array('url' => $_CONF['site_admin_url'],
                         'text' => $LANG_ADMIN['admin_home']);
+    
+    $form_arr = array('bottom' => '', 'top' => '');
 
     $retval .= COM_startBlock($LANG24[22], '',
                               COM_getBlockTemplate('_admin_block', 'header'));
@@ -218,9 +220,12 @@ function liststories($current_topic = '')
         'query_fields' => array('title', 'introtext', 'bodytext', 'sid', 'tid'),
         'default_filter' => $excludetopics . COM_getPermSQL('AND')
     );
-
+    
+    // Add in topic filter so it is remembered with paging
+    $pagenavurl = '&amp;tid=' . $current_topic;
+    
     $retval .= ADMIN_list('story', 'ADMIN_getListField_stories', $header_arr,
-                          $text_arr, $query_arr, $defsort_arr, $filter);
+                          $text_arr, $query_arr, $defsort_arr, $filter, '', '', $form_arr, true, $pagenavurl);
     $retval .= COM_endBlock(COM_getBlockTemplate('_admin_block', 'footer'));
 
     return $retval;
@@ -266,9 +271,8 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         }
         $result = $story->loadFromArgsArray($_POST);
 
-        // in preview mode, we now need to re-insert the images
         if ($_CONF['maximagesperarticle'] > 0) {
-            $errors = $story->insertImages();
+            $errors = $story->checkAttachedImages();
             if (count($errors) > 0) {
                 $msg = $LANG24[55] . LB . '<ul>' . LB;
                 foreach ($errors as $err) {
@@ -578,6 +582,10 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
     } else {
         $story_templates->set_var('show_topic_icon_checked', '');
     }
+    $story_templates->set_var('lang_cachetime', $LANG24['cache_time']);
+    $story_templates->set_var('lang_cachetime_desc', $LANG24['cache_time_desc']);
+    $story_templates->set_var('cache_time', $story->EditElements('cache_time'));    
+    
     $story_templates->set_var('lang_draft', $LANG24[34]);
     if ($story->EditElements('draft_flag')) {
         $story_templates->set_var('is_checked', 'checked="checked"');
@@ -680,9 +688,11 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         }
     }
     $post_options = COM_optionList($_TABLES['postmodes'],'code,name',$postmode);
+    $postmode_list = 'plaintext,html';
 
     // If Advanced Mode - add post option and set default if editing story created with Advanced Editor
     if ($_CONF['advanced_editor'] && $_USER['advanced_editor']) {
+        $postmode_list .= ',adveditor';
         if ($story->EditElements('advanced_editor_mode') == 1 OR $story->EditElements('postmode') == 'adveditor') {
             $post_options .= '<option value="adveditor" selected="selected">'.$LANG24[86].'</option>';
         } else {
@@ -690,6 +700,7 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         }
     }
     if ($_CONF['wikitext_editor']) {
+        $postmode_list .= ',wikitext';
         if ($story->EditElements('postmode') == 'wikitext') {
             $post_options .= '<option value="wikitext" selected="selected">'.$LANG24[88].'</option>';
         } else {
@@ -697,8 +708,17 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
         }
     }
     $story_templates->set_var('post_options',$post_options );
-    $story_templates->set_var('lang_allowed_html',
-                              COM_allowedHTML('story.edit'));
+    $postmode_array = explode(',', $postmode_list);
+    $allowed_html = '';
+    foreach ($postmode_array as $pm) {
+        $allowed_html .= COM_allowedHTML('story.edit', false, 1, $pm);
+    }
+    $allowed_tags = array('code', 'raw');
+    if ($_CONF['allow_page_breaks'] == 1) {
+        $allowed_tags = array_merge($allowed_tags, array('page_break'));
+    }
+    $allowed_html .= COM_allowedAutotags(false, $allowed_tags);
+    $story_templates->set_var('lang_allowed_html', $allowed_html);
     $fileinputs = '';
     $saved_images = '';
     if ($_CONF['maximagesperarticle'] > 0) {
@@ -734,31 +754,37 @@ function storyeditor($sid = '', $mode = '', $errormsg = '')
 
     // Add JavaScript
     $_SCRIPTS->setJavaScriptFile('story_editor', '/javascript/story_editor.js');
+    if ($_CONF['titletoid']) {
+        $_SCRIPTS->setJavaScriptFile('title_2_id', '/javascript/title_2_id.js');
+        $story_templates->set_var('titletoid', true);
+    }     
+    $_SCRIPTS->setJavaScriptFile('postmode_control', '/javascript/postmode_control.js');    
 
-    // Loads jQuery UI datepicker
+    // Loads jQuery UI datepicker and timepicker-addon
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.slider');
+//    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.button');
     $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
     $_SCRIPTS->setJavaScriptLibrary('jquery-ui-i18n');
-    $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon-i18n');
+//    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-slideraccess');
+    $_SCRIPTS->setJavaScriptFile('datetimepicker', '/javascript/datetimepicker.js');
 
     $langCode = COM_getLangIso639Code();
-    $toolTip  = 'Click and select a date';	// Should be translated
+    $toolTip  = $MESSAGE[118];
     $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
 
     $_SCRIPTS->setJavaScript(
         "jQuery(function () {"
-        . "  geeklog.datepicker.set('publish', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
-        . "  geeklog.datepicker.set('expire', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
-        . "  geeklog.datepicker.set('cmt_close', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.hour_mode = {$_CONF['hour_mode']};"
+        . "  geeklog.datetimepicker.set('publish', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datetimepicker.set('expire', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datetimepicker.set('cmt_close', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
         . "});", TRUE, TRUE
     );
 
-    if ($advanced_editormode) {
-        $_SCRIPTS->setJavaScriptFile('fckeditor','/fckeditor/fckeditor.js');
-        // Hide the Advanced Editor as Javascript is required. If JS is enabled then the JS below will un-hide it
-        $js = 'document.getElementById("advanced_editor").style.display="";';
-        $_SCRIPTS->setJavaScript($js, true);
-        $_SCRIPTS->setJavaScriptFile('storyeditor_fckeditor', '/javascript/storyeditor_fckeditor.js');
-    }
+    // Setup Advanced Editor
+    COM_setupAdvancedEditor('/javascript/storyeditor_adveditor.js');
     
     $story_templates->set_var('saved_images', $saved_images);
     $story_templates->set_var('image_form_elements', $fileinputs);
@@ -875,8 +901,7 @@ if (($mode == $LANG_ADMIN['delete']) && !empty ($LANG_ADMIN['delete'])) {
         COM_errorLog ('Attempted to delete story sid=' . $sid);
         echo COM_refresh ($_CONF['site_admin_url'] . '/story.php');
     } else if ($type == 'submission') {
-        $tid = DB_getItem ($_TABLES['storysubmission'], 'tid', "sid = '$sid'");
-        if (SEC_hasTopicAccess ($tid) < 3) {
+        if (TOPIC_hasMultiTopicAccess('article', $sid) < 3) {
             COM_accessLog ("User {$_USER['username']} tried to illegally delete story submission $sid.");
             echo COM_refresh ($_CONF['site_admin_url'] . '/index.php');
         } else if (SEC_checkToken()) {

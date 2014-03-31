@@ -2,7 +2,7 @@
 <html{html_attribute}{xmlns}>
 
 <head profile="http://www.w3.org/2003/g/data-view">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"{xhtml}>
+<meta http-equiv="Content-Type" content="text/html; charset={charset}"{xhtml}>
 <title>{page_title_and_site_name}</title>
 <meta http-equiv="Content-Script-Type" content="text/javascript"{xhtml}>
 <meta http-equiv="Content-Style-Type" content="text/css"{xhtml}>
@@ -19,10 +19,7 @@
 {feed_url}
 {rel_links}
 {plg_headercode}
-<!--[if lt IE 7]><link rel="stylesheet" type="text/css" href="{layout_url}/css_{direction}/ie6.css"{xhtml}>
-<script type="text/javascript" src="{layout_url}/javascript/iepngfix.js"></script><![endif]-->
-<!--[if IE 7]><link rel="stylesheet" type="text/css" href="{layout_url}/css_{direction}/ie7.css"{xhtml}><![endif]-->
-<!--[if IE 8]><link rel="stylesheet" type="text/css" href="{layout_url}/css_{direction}/ie8.css"{xhtml}><![endif]-->
+<!--[if lt IE 8]><link rel="stylesheet" type="text/css" href="{layout_url}/css_{direction}/ie8.css"{xhtml}><![endif]-->
 <!--[if lt IE 9]><script type="text/javascript" src="{layout_url}/javascript/respond.min.js"></script><![endif]-->
 </head>
 

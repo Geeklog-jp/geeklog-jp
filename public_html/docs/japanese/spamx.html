@@ -1,16 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="ja">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
   <title>Spam-Xプラグイン | Geeklogドキュメント</title>
-  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet">
-  <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet">
-  <meta name="robots" content="noindex">
+  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet" />
+  <link rel="stylesheet" type="text/css" href="docstyle.css" title="Dev Stylesheet" />
+  <meta name="robots" content="noindex" />
 </head>
 
 <body>
-<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.jp" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog Documentation" width="243" height="90" /></a></p>
 <div class="menu"><a href="index.html">Geeklogドキュメント</a> - Geeklog Spam-Xプラグイン</div>
 
 <h1>Geeklog Spam-Xプラグイン</h1>
@@ -38,7 +38,7 @@
 <li>ユーザーのプロフィール</li>
 </ul>
 
-<h2><a name="modules">モジュールの種類</a></h2>
+<h2><a name="module_types">モジュールの種類</a></h2>
 
 <p>Spam-Xプラグインは、コメントスパム送信者の変化に対して容易に対応できるよう、拡張性を重視して開発されました。<a href="#examine">検出(Examine)</a>、<a href="#action">アクション(Action)</a>、<a href="#admin">管理(Admin)</a>モジュールの3種類があります。新規モジュールは1個のファイルに収められているので、該当ディレクトリに追加しさえすれば、プラグインの機能を追加できます。</p>
 
@@ -64,7 +64,7 @@
 
 <p>SLVはRuss Jonesが<a href="http://www.linksleeve.org/">www.linksleeve.org</a>で運営している無料のサービスです。</p>
 
-<p><strong><a name="slvprivacy">プライバシーポリシーの表示</a></strong><br>
+<p><strong><a name="slvprivacy">プライバシーポリシーの表示</a></strong><br />
 SLVを使用しているということは、自分のサイトから第三者のサイトに情報を送信していることになるということを強調しておいた方がよいでしょう。法体系によっては、ユーザーにこの事実を告知する必要があるかもしれません。ご自分の地域のプライバシーに関する法律を確認してください。</p>
 
 <p>運用している状況によっては（たとえば、企業のイントラネットなど）、情報を外部のサイトに送信することが望ましくない場合もあるでしょう。その場合は、 <tt>SLV.Examine.class.php</tt>, <tt>SLVbase.class.php</tt>, <tt>SLVreport.Action.class.php</tt>, <tt>SLVwhitelist.Admin.class.php</tt> の4つのファイルをSpam-Xのディレクトリ(<tt>/path/to/geeklog/plugins/spamx</tt>)から削除すれば、SLVを無効にできます。単にSpam-Xプラグインを無効にする（または、アンインストールする）だけでもよいです。</p>
@@ -82,9 +82,9 @@ SLVを使用しているということは、自分のサイトから第三者�
 
 <h3><a name="ip">IPフィルター(IP Filter)</a></h3>
 
-<p>1つないし少数のIPアドレスから送信されるスパムに出くわすこともあります。IPフィルターモジュールに追加することで、これらのIPアドレスから送信されるスパムを自動的にブロックできます。</p>
+<p>1つないし少数のIPアドレスから送信されるスパムに出くわすこともあります。IPフィルターモジュールを追加することで、これらのIPアドレスから送信されるスパムを自動的にブロックできます。</p>
 
-<p>IPアドレスを1つずつだけでなく、<a href="http://en.wikipedia.org/wiki/CIDR" title="Classless Inter-Domain Routing">CIDR</a>表記や<i>開始アドレス</i>-<i>終了アドレス</i> という形式で、IPアドレスの範囲を指定することもできます。</p>
+<p>単一のIPアドレスだけでなく、<a href="http://en.wikipedia.org/wiki/CIDR" title="Classless Inter-Domain Routing">CIDR</a>表記や<i>開始アドレス</i>-<i>終了アドレス</i> という形式で、IPアドレスの範囲を指定することもできます。</p>
 
 <p>IPアドレスが実際にはあまりよい判断基準にはならないということに注意してください。インターネットサービスプロバイダやホスティングサービスの中にはスパムの温床として知られているものもありますが、それらのIPアドレスをブロックしてもあまり役には立たないでしょう。スパム送信者はインターネットへ接続し直すときに新しいIPアドレスを取得するのに対し、ブロックされたIPアドレスは他の罪もないユーザーが使用することがよくあるからです。</p>
 
@@ -106,22 +106,21 @@ SLVを使用しているということは、自分のサイトから第三者�
 
 <h3><a name="sfs">Stop Forum Spam (SFS)</a></h3>
 
-<p>Stop Forum Spam is a centralized, server-based service that provides lists of 
-ips, usernames and email addresses of know spammers of forums and blogs. With this 
-module enabled, on new user registrations the ip of the user and email address 
-will be checked against the SFS database. If found the Geeklog user account will 
-not be created.</p>
+<p>Stop Forum Spamは集約されたサーバーを基にするサービスで、
+掲示板やブログの既知のスパム送信者のIPアドレス、ユーザー名、メールアドレスのリストを提供します。
+このモジュールを有効にすると、新規ユーザーの登録の際に、ユーザーのIPアドレスとメールアドレスを
+SFSのデータベースでチェックします。該当データが見つかった場合、
+Geeklog上のユーザーアカウントは作成されません。</p>
 
-<p>SFS is a free service and can be found at <a
-href="http://www.stopforumspam.com/">www.stopforumspam.com</a>.
+<p>SFSはフリーのサービスで、<a
+href="http://www.stopforumspam.com/">www.stopforumspam.com</a>で運営されています。</p>
 
 <h3><a name="snl">Spam Number of Links (SNL)</a></h3>
 
-<p>With this module enabled you can limit the number of links that appear in a 
-post and user profile. To enable the module and set the number of links you need 
-to update the Spam-X configuration. If enabled you should allow at least 1 link 
-to take into account when a user creates a profile since Homepage is a default 
-user field.</p>
+<p>このモジュールを有効にすると、投稿とユーザーのプロフィールに含まれるリンクの数を制限することができます。
+このモジュールを有効にしてリンクの数を設定するには、
+コンフィギュレーションからSpam-Xの設定を変更する必要があります。有効にする場合は、リンク数を少なくとも1個に設定した方がよいでしょう。
+ホームページのフィールドは既定でプロフィールのページに作成されるからです。</p>
 
 <h2><a name="action">アクションモジュール</a></h2>
 
@@ -129,20 +128,20 @@ user field.</p>
 
 <p>その名前が示すとおり、<b>管理者メールアクション(Mail Admin Action)</b> モジュールはスパムを検出したときに、サイト管理者にメールで通知します。多数の通知メールが送られる可能性があるため、デフォルトでは無効になっています。</p>
 
-<p>アクションモジュールは使用する前に個別に有効にする必要があります(一方、検出モジュールはSpam-Xのディレクトリに放り込むだけで有効になります。)。このため、すべてのアクションモジュールは独自の番号を持っています。有効にしたいすべてのモジュールの番号を足し合わせた数値を、「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザーと投稿」の「<a href="config.html#desc_spamx">Spam-X</a>」に入力します。</p>
+<p>アクションモジュールは使用する前に個別に有効にする必要があります(一方、検出モジュールはSpam-Xのディレクトリにファイルを入れるだけで有効になります。)。このため、すべてのアクションモジュールは独自の番号を持っています。有効にしたいすべてのモジュールの番号を足し合わせた数値を、「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザーと投稿」の「<a href="config.html#desc_spamx">Spam-X</a>」に入力します。</p>
 
 <h3>例</h3>
 
 <p>削除アクションモジュールの数字は 128、管理者メールアクションモジュールは 8 です。両方のモジュールを有効にするには、128 + 8 = 136 を入力します。</p>
 
-<p>SLV検出モジュールは、他の検出モジュールが捕捉したスパム投稿を確実にSLVに通知します<strong>SLVアクション(SLV Action)</strong> モジュールによって補完されています。このモジュールは削除アクションモジュールと連動しているので、削除アクションモジュールを有効にすると、SLVアクションモジュールも有効になります。</p>
+<p>SLV検出モジュールは、他の検出モジュールが捕捉したスパム投稿を確実にSLVに通知します。<strong>SLVアクション(SLV Action)</strong> モジュールによって補完されています。このモジュールは削除アクションモジュールと連動しているので、削除アクションモジュールを有効にすると、SLVアクションモジュールも有効になります。</p>
 
 
 <h2><a name="admin">管理モジュール</a></h2>
 
 <p><a href="#personal">パーソナルブラックリスト</a>、<a href="#ip">IPフィルター</a>、<a href="#ipofurl">URLのIPフィルター</a>、<a href="#header">HTTPヘッダーフィルター</a>モジュール用の管理モジュールは新しい項目を追加するためのフォームを提供します。既存の項目を削除するには、単にその項目をクリックするだけです。</p>
 
-<p><strong>SLVホワイトリスト</strong>管理モジュールを使えば、SLVに通報したくないURLを追加できます。サイトに投稿されるデータにたまたまある特定のURLが頻繁に含まれているが、SLVにスパムと判定されてほしくないときに役に立ちます。<br>自分のサイトのURL(つまり、「管理者用メニュー - コンフィギュレーション - Geeklog - サイト」の「<a href="config.html#desc_site_url">サイトURL</a>」)は自動的にホワイトリストに登録されるので、このモジュールで新たに登録する必要はありません。</p>
+<p><strong>SLVホワイトリスト</strong>管理モジュールを使えば、SLVに通報したくないURLを追加できます。サイトに投稿されるデータにたまたまある特定のURLが頻繁に含まれているが、SLVにスパムと判定されてほしくないときに役に立ちます。<br />自分のサイトのURL(つまり、「管理者用メニュー - コンフィギュレーション - Geeklog - サイト」の「<a href="config.html#desc_site_url">サイトURL</a>」)は自動的にホワイトリストに登録されるので、このモジュールで新たに登録する必要はありません。</p>
 
 <p><strong>ログ閲覧</strong>モジュールを使用すれば、Spam-Xログファイルの閲覧・クリアができます。ログファイルには、スパム送信元のIPアドレスやユーザーID（登録ユーザーがスパムを投稿した場合）、検出モジュール名などの追加情報が含まれています。</p>
 
@@ -158,7 +157,7 @@ user field.</p>
 
 <h2><a name="trackback">トラックバックスパム</a></h2>
 
-<p><a href="trackback.html">トラックバック</a>もまた、Geeklogに受け入れられる前にSpam-Xプラグインで検査されます。トラックバックの場合、追加できるチェックがあります。トラックバックを送信してきたサイトが自分のサイトへのバックリンクを含んでいるかどうかをチェックするよう、設定できます。その上、トラックバックURLに含まれるサイトのIPアドレスがトラックバック送信元のIPアドレスと一致するかをチェックすることもできます。これらの検査に合格しないトラックバックはふつう、スパムです。詳細は、<a href="config.html#desc_check_trackback_link">設定用のドキュメント</a>を参照してください。</p>
+<p><a href="trackback.html">トラックバック</a>もまた、Geeklogが受け入れる前にSpam-Xプラグインで検査されます。トラックバックの場合、追加できるチェックがあります。トラックバックを送信してきたサイトが自分のサイトへのバックリンクを含んでいるかどうかをチェックするよう、設定できます。さらに、トラックバックURLに含まれるサイトのIPアドレスがトラックバック送信元のIPアドレスと一致するかをチェックすることもできます。これらの検査に合格しないトラックバックはふつう、スパムです。詳細は、<a href="config.html#desc_check_trackback_link">設定用のドキュメント</a>を参照してください。</p>
 
 <h2><a name="config.php">コンフィギュレーション</a></h2>
 
@@ -176,7 +175,7 @@ user field.</p>
   <td><code>はい(true)</code></td>
   <td>はい(true)にすると、スパムと認識された投稿がログファイル(<tt>spamx.log</tt>)に記録されます。</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_timeout">タイムアウト(timeout)</a></td>
   <td>5（秒）</td>
   <td>SLVなどの外部サービスと通信する際のタイムアウトとなる秒数を指定します。</td>
@@ -184,16 +183,33 @@ user field.</p>
 <tr>
   <td><a name="desc_notification_email">メールで通知する(notification_email)</a></td>
   <td><code>「管理者用メニュー - コンフィギュレーション - Geeklog - サイト」の「サイトのメールアドレス」の設定値</code></td>
-  <td>管理者メール<a href="#action">アクションモジュール</a>が有効になっている場合、スパム通知の送信先Eメールアドレスを指定します。</td>
+  <td>管理者メール<a href="#action">アクションモジュール</a>が有効になっている場合、スパム通知の送信先メールアドレスを指定します。指定しない場合は、サイトのメールアドレス($_CONF['site_mail'])に送信されます。</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_spamx_action">Spam-Xの動作(action)</a></td>
   <td>128</td>
   <td>「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザーと投稿」の「<a href="config.html#desc_spamx">Spam-X</a>」が設定されていない場合に備えるための設定です。言い換えれば、「管理者用メニュー - コンフィギュレーション - Geeklog - ユーザーと投稿」の「Spam-X」の設定の方が優先します。</td>
 </tr>
+<tr>
+  <td><a name="desc_max_age">スパム記録の保存日数(max_age)</a></td>
+  <td>0</td>
+  <td>Spam-Xの記録をデータベースに保存する最大の日数を指定します(0 = 無制限に保存)。SLVホワイトリストの記録は削除しません。</td>
+ </tr></tr>
+<tr>
+  <td><a name="desc_records_delete">削除する記録の種類(records_delete)</a></td>
+  <td><code>'email', 'IP'</code></td>
+  <td>スパム記録の保存日数に達した時に削除する記録の種類を指定します。デフォルトでは次のものがあります:<ul>
+    <li>'Personal' = パーソナルブラックリスト</li>
+    <li>'HTTPHeader' = HTTPヘッダーブラックリスト</li>
+    <li>'IP' = IPフィルター</li>
+    <li>'IPofUrl' = URLのIPフィルター</li>
+    <li>'email' = Stop Forum Spamのブラックリスト</li>
+    <li>'SLVwhitelist' = SLVホワイトリスト</li>
+  </ul></td>
+</tr>
 </table>
 
-<h3><a name="main">モジュール</a></h3>
+<h3><a name="modules">モジュール</a></h3>
 
 <table>
 <tr><th style="width:25%">項目(変数)</th>
@@ -202,18 +218,23 @@ user field.</p>
 </tr>
 <tr>
   <td><a name="desc_sfs_enabled">Stop Forum Spamモジュールを有効(sfs_enabled)</a></td>
-  <td><code>true</code></td>
-  <td>Stop Forum Spam (SFS)モジュールを有効にするかどうか。有効ならユーザー新規登録時にEmailアドレスとユーザーIPをStopForumSpam.comを参照してSpam判定します。</td>
+  <td><code>いいえ(false)</code></td>
+  <td>Stop Forum Spam (SFS)モジュールを有効にするかどうかを指定します。有効にすると、ユーザー新規登録時にユーザーのメールアドレスとIPアドレスをStopForumSpam.comに照会してスパム判定を行います。</td>
 </tr>
-<tr class="r2">
+<tr>
+  <td><a name="desc_sfs_confidence">信頼スコアの閾値(sfs_confidence)</a></td>
+  <td><code>25</code></td>
+  <td>Stop Forum Spamの信頼スコアの閾値(パーセント)で、この値を超えると、検証しているフィールドが望ましくない活動を行うことになることを示すかなり良い目安になります。1から100の範囲で入力します。</td>
+</tr>
+<tr>
   <td><a name="desc_snl_enabled">Spam Number of Linksモジュールを有効(snl_enabled)</a></td>
-  <td><code>true</code></td>
-  <td>Spam Number of Links (SNL)モジュールを有効にするかどうか。If enabled it will only allow a specified number of links in a post or when a user creates or updates their profile.</td>
+  <td><code>いいえ(false)</code></td>
+  <td>Spam Number of Links (SNL)モジュールを有効にするかどうかを指定します。有効にすると、ユーザーが投稿したり、プロフィールを作成・更新したりする際に、含まれるリンクの数を指定された数に制限するようになります。</td>
 </tr>
 <tr>
   <td><a name="desc_snl_num_links">リンク数(snl_num_links)</a></td>
   <td>5</td>
-  <td>The maximum number of links allowed in a post or profile before it is considered spam.</td>
+  <td>投稿やプロフィールでリンクと見なさないリンクの最大数。</td>
 </tr>
 </table>
 
@@ -223,7 +244,7 @@ user field.</p>
 <p>Spam-Xプラグインの詳細情報とサポート掲示板は、<a href="http://www.pigstye.net/gplugs/staticpages/index.php/spamx" rel="nofollow">Spam-Xプラグインのホームページ</a>と<a href="http://wiki.geeklog.net/wiki/index.php/Dealing_with_Spam">Geeklog Wiki</a>にあります。</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト</a>、<a href="http://wiki.geeklog.jp/">Geeklogドキュメント日本語版作成プロジェクト</a><br>
+    <a href="http://wiki.geeklog.net/">Geeklogドキュメント作成プロジェクト</a>、<a href="http://wiki.geeklog.jp/">Geeklogドキュメント日本語版作成プロジェクト</a><br />
     本ページのすべての商標と著作権はそれぞれの所有者に帰属します。Geeklogはコピーレフトです。
 </div>
 </body>

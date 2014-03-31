@@ -160,7 +160,8 @@ $LANG_INSTALL = array(
     106 => 'PostgreSQL',
     107 => 'データベースのパスワードが必要です。',
     108 => 'データベースドライバーがありません!',
-    109 => '緊急レスキューツール'
+    109 => '緊急レスキューツール',
+    110 => 'The permissions seem to be correct but the install script still cannot write to the Geeklog directory. If you happen to be on SELinux, make sure the httpd process has write permissions for the same, try this out:'
 );
 
 // +---------------------------------------------------------------------------+

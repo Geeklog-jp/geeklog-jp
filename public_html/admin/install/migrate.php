@@ -838,6 +838,8 @@ if (INST_phpOutOfDate()) {
         $_CONF['path_images'] = $html_path . 'images/';
         $config->set('path_themes', $html_path . 'layout/');
         $_CONF['path_themes'] = $html_path . 'layout/';
+        $config->set('path_editors', $html_path . 'editors/');
+        $_CONF['path_editors'] = $html_path . 'editors/';
         $config->set('rdf_file', $html_path . 'backend/geeklog.rss');
         $_CONF['rdf_file'] = $html_path . 'backend/geeklog.rss';
         $config->set('path_pear', $_CONF['path_system'] . 'pear/');
@@ -1002,13 +1004,10 @@ if (INST_phpOutOfDate()) {
                 && ($_OLD_CONF['site_url'] != $_CONF['site_url'])) {
 
             INST_updateSiteUrl($_OLD_CONF['site_url'], $_CONF['site_url']);
-
-        } else {
-
-            // refresh "Older Stories" block
-            COM_olderStuff();
-
         }
+        
+        // Clear the Geeklog Cache incase paths etc. in cache files        
+        INST_clearCache();        
 
         /** 
          * Import complete.

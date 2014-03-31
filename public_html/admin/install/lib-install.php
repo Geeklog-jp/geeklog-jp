@@ -56,7 +56,7 @@ if (!defined('VERSION')) {
     * This constant defines Geeklog's version number. It will be written to
     * siteconfig.php and the database (in the latter case minus any suffix).
     */
-    define('VERSION', '2.0.0');
+    define('VERSION', '2.1.0');
 }
 if (!defined('XHTML')) {
     define('XHTML', ' /');
@@ -1050,6 +1050,9 @@ function INST_fixPathsAndUrls($path, $path_html, $site_url, $site_admin_url)
     if (! file_exists($_CONF['path_images'] . 'articles')) {
         $config->set('path_images', $path_html . 'images/');
     }
+    if (! file_exists($_CONF['path_editors'] . 'ckeditor')) {
+        $config->set('path_editors', $path_html . 'editors/');
+    }
     if (substr($_CONF['rdf_file'], strlen($path_html)) != $path_html) {
         // this may not be correct but neither was the old value apparently ...
         $config->set('rdf_file', $path_html . 'backend/geeklog.rss');
@@ -1366,6 +1369,91 @@ function INST_cleanString($str)
     $str = strip_tags($str);
 
     return $str;
+}
+
+function INST_clearCacheDirectories($path, $needle = '')
+{
+    if ( $path[strlen($path)-1] != '/' ) {
+        $path .= '/';
+    }
+    if ($dir = @opendir($path)) {
+        while ($entry = readdir($dir)) {
+            if ($entry == '.' || $entry == '..' || is_link($entry) || $entry == '.svn' || $entry == 'index.html') {
+                continue;
+            } elseif (is_dir($path . $entry)) {
+                INST_clearCacheDirectories($path . $entry, $needle);
+                @rmdir($path . $entry);
+            } elseif (empty($needle) || strpos($entry, $needle) !== false) {
+                @unlink($path . $entry);
+            }
+        }
+        @closedir($dir);
+    }
+}
+
+
+function INST_clearCache($plugin='')
+{
+    global $_CONF;
+
+    if (!empty($plugin)) {
+        $plugin = '__' . $plugin . '__';
+    }
+
+    INST_clearCacheDirectories($_CONF['path'] . 'data/layout_cache/', $plugin);
+    INST_clearCacheDirectories($_CONF['path'] . 'data/layout_css/', $plugin);
+}
+
+function INST_checkCacheDir($path,$template,$classCounter)
+{
+    $permError = 0;
+
+    // special test to see if existing cache files exist and are writable...
+    if ( $dh = @opendir($path) ) {
+        while (($file = readdir($dh)) !== false ) {
+            if ( $file == '.' || $file == '..' || $file == '.svn') {
+                continue;
+            }
+            if ( is_dir($path.$file) ) {
+                $rc = INST_checkCacheDir($path.$file.'/',$template,$classCounter);
+                if ( $rc > 0 ) {
+                    $permError = 1;
+                }
+            } else {
+                $ok = INST_isWritable($path.$file);
+                if ( !$ok ) {
+                    $template->set_var('location',$path.$file);
+                    $template->set_var('status', $ok ? '<span class="yes">OK</span>' : '<span class="Unwriteable">NOT WRITABLE</span>');
+                    $template->set_var('rowclass',($classCounter % 2)+1);
+                    $classCounter++;
+                    $template->parse('perm','perms',true);
+                    if  ( !$ok ) {
+                        $permError = 1;
+                    }
+                }
+            }
+        }
+        closedir($dh);
+    }
+    return $permError;
+}
+
+/**
+ * Replaces all newlines in a string with <br> or <br />,
+ * depending on the detected setting.  Ported from "lib-common.php"
+ * 
+ * @param    string    $string  The string to modify
+ * @return   string             The modified string
+ */
+function INST_nl2br($string)
+{
+    if (! defined('XHTML')) {
+        define('XHTML', '');
+    }
+
+    $replace = '<br' . XHTML . '>';
+    $find = array("\r\n", "\n\r", "\r", "\n");
+    return str_replace($find, $replace, $string);
 }
 
 ?>

@@ -321,7 +321,10 @@ function loginform($hide_forgotpw_link = false, $userstatus = -1)
         $cfg['message'] = $LANG04[117];
         $cfg['hide_forgotpw_link'] = true;
         $cfg['no_newreg_link']     = true;
-    } else {
+    } elseif ($userstatus == -2) { // No error user just visited page to login
+        $cfg['title']   = $LANG04['user_login'];
+        $cfg['message'] = $LANG04['user_login_message'];
+    } else { // Status should be -1 which is login error        
         $cfg['title']   = $LANG04[65];
         $cfg['message'] = $LANG04[66];
     }
@@ -343,10 +346,7 @@ function newuserform ($msg = '')
     $retval = '';
 
     if (!empty ($msg)) {
-        $retval .= COM_startBlock ($LANG04[21], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                . $msg
-                . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($msg, $LANG04[21]);
     }
     $user_templates = COM_newTemplate($_CONF['path_layout'] . 'users');
     $user_templates->set_file('regform', 'registrationform.thtml');
@@ -459,10 +459,7 @@ function displayLoginErrorAndAbort($msg, $message_title, $message_text)
         // and need to control the login process
         CUSTOM_loginErrorHandler($msg);
     } else {
-        $retval = COM_startBlock($message_title, '',
-                                 COM_getBlockTemplate('_msg_block', 'header'))
-                . $message_text
-                . COM_endBlock(COM_getBlockTemplate('_msg_block', 'footer'));
+        $retval = COM_showMessageText($message_text, $message_title);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $message_title));
 
         header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
@@ -639,7 +636,7 @@ case 'profile':
         }
         $display .= USER_showProfile($uid, false, $msg, $plugin);
     } else {
-        $display .= COM_refresh ($_CONF['site_url'] . '/index.php');
+        COM_handle404();
     }
     break;
 
@@ -660,10 +657,7 @@ case 'user':
 
 case 'create':
     if ($_CONF['disable_new_user_registration']) {
-        $display .= COM_startBlock ($LANG04[22], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'))
-                 . $LANG04[122]
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_showMessageText($LANG04[122], $LANG04[22]);
         $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG04[22]));
     } else {
         $email = COM_applyFilter ($_POST['email']);
@@ -679,10 +673,10 @@ case 'getpassword':
     COM_clearSpeedlimit ($_CONF['passwordspeedlimit'], 'password');
     $last = COM_checkSpeedlimit ('password');
     if ($last > 0) {
-        $display .= COM_startBlock ($LANG12[26], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'))
-                 . sprintf ($LANG04[93], $last, $_CONF['passwordspeedlimit'])
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_showMessageText(
+                        sprintf($LANG04[93], $last, $_CONF['passwordspeedlimit']),
+                        $LANG12[26]
+        );
     } else {
         $display .= getpasswordform ();
     }
@@ -749,10 +743,10 @@ case 'emailpasswd':
     COM_clearSpeedlimit ($_CONF['passwordspeedlimit'], 'password');
     $last = COM_checkSpeedlimit ('password');
     if ($last > 0) {
-        $display .= COM_startBlock ($LANG12[26], '',
-                           COM_getBlockTemplate ('_msg_block', 'header'))
-                 . sprintf ($LANG04[93], $last, $_CONF['passwordspeedlimit'])
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_showMessageText(
+                        sprintf($LANG04[93], $last, $_CONF['passwordspeedlimit']),
+                        $LANG12[26]
+        );
         $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG12[26]));
     } else {
         $username = COM_applyFilter ($_POST['username']);
@@ -772,10 +766,7 @@ case 'emailpasswd':
 
 case 'new':
     if ($_CONF['disable_new_user_registration']) {
-        $display .= COM_startBlock ($LANG04[22], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'))
-                 . $LANG04[122]
-                 . COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $display .= COM_showMessageText($LANG04[122], $LANG04[22]);
     } else {
         // Call custom registration and account record create function
         // if enabled and exists
@@ -902,16 +893,14 @@ default:
             !$_CONF['disable_new_user_registration'] &&
             isset($_GET['oauth_login'])) {
         // Here we go with the handling of OAuth authentification.
-
-        $active_service = false;
         $modules = SEC_collectRemoteOAuthModules();
         $active_service = (count($modules) == 0) ? false : in_array($_GET['oauth_login'], $modules);
         if (!$active_service) {
             $status = -1;
+            COM_errorLog("OAuth login failed - there was no consumer available for the service:" . $_GET['oauth_login']);
         } else {
             $query = array_merge($_GET, $_POST);
             $service = $query['oauth_login'];
-            $callback_url = $_CONF['site_url'] . '/users.php?oauth_login=' . $service;
 
             COM_clearSpeedlimit($_CONF['login_speedlimit'], $service);
             if (COM_checkSpeedlimit($service, $_CONF['login_attempts']) > 0) {
@@ -921,42 +910,23 @@ default:
             require_once $_CONF['path_system'] . 'classes/oauthhelper.class.php';
 
             $consumer = new OAuthConsumer($service);
-            $callback_query_string = $consumer->getCallback_query_string();
-            $cancel_query_string = $consumer->getCancel_query_string();
 
-            if (!isset($query[$callback_query_string]) && (empty($cancel_query_string) || !isset($query[$cancel_query_string]))) {
-                $url = $consumer->find_identity_info($callback_url, $query);
-                if (empty($url)) {
-                    COM_updateSpeedlimit('login');
-                    COM_updateSpeedlimit($service);
-                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=110');
-                    exit;
-                } else {
-                    header('Location: ' . $url);
-                    exit;
-                }
-            } elseif (isset($query[$callback_query_string])) {
-                $oauth_userinfo = $consumer->sreq_userinfo_response($query);
-                if (empty($oauth_userinfo)) {
-                    COM_updateSpeedlimit('login');
-                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=111');
-                    exit;
-                } else {
-                    $consumer->doAction($oauth_userinfo);
-                }
-            } elseif (!empty($cancel_query_string) && isset($query[$cancel_query_string])) {
-                    COM_updateSpeedlimit('login');
-                    echo COM_refresh($_CONF['site_url'] . '/users.php?msg=112');
-                    exit;
-            } else {
+            $callback_url = $_CONF['site_url'] . '/users.php?oauth_login=' . $service;
+
+            $consumer->setRedirectURL($callback_url);
+            $oauth_userinfo = $consumer->authenticate_user();
+            if ( $oauth_userinfo === false ) {
                 COM_updateSpeedlimit('login');
-                echo COM_refresh($_CONF['site_url'] . '/users.php?msg=91');
+                COM_errorLog("OAuth Error: " . $consumer->error);
+                echo COM_refresh($_CONF['site_url'] . '/users.php?msg=110'); // OAuth authentication error
                 exit;
             }
-        }
 
+            $consumer->doAction($oauth_userinfo);
+
+        }        
     } else {
-        $status = -1;
+        $status = -2; // User just visited login page no error. -1 = error
     }
 
     if ($status == USER_ACCOUNT_ACTIVE) { // logged in AOK.
@@ -1116,13 +1086,20 @@ default:
                 displayLoginErrorAndAbort(82, $LANG04[113], $LANG04[112]);
             } else { // Show login form
                 if(($msg != 69) && ($msg != 70)) {
-                    if ($_CONF['custom_registration'] AND
-                            function_exists('CUSTOM_loginErrorHandler')) {
-                        // Typically this will be used if you have a custom
-                        // main site page and need to control the login process
-                        $display .= CUSTOM_loginErrorHandler($msg);
+                    if (COM_isAnonUser()) {
+                        if ($_CONF['custom_registration'] AND
+                                function_exists('CUSTOM_loginErrorHandler')) {
+                            // Typically this will be used if you have a custom
+                            // main site page and need to control the login process
+                            $display .= CUSTOM_loginErrorHandler($msg);
+                        } else {
+                            $display .= loginform(false, $status);
+                        }
                     } else {
-                        $display .= loginform(false, $status);
+                        // user is already logged in
+                        $display .= COM_startBlock ($LANG04['user_login']);
+                        $display .= '<p>' . $LANG04['user_logged_in_message'] . '</p>';
+                        $display .= COM_endBlock ();
                     }
                 }
             }

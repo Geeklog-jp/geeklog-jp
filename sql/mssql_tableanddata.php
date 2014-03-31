@@ -32,7 +32,7 @@ CREATE TABLE [dbo].[{$_TABLES['access']}] (
 
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['article_images']}] (
-    [ai_sid] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [ai_sid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [ai_img_num] [tinyint] NOT NULL ,
     [ai_filename] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
@@ -45,10 +45,10 @@ CREATE TABLE [dbo].[{$_TABLES['blocks']}] (
     [name] [varchar] (48) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [type] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [title] [varchar] (48) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-    [tid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [blockorder] [numeric](5, 0) NOT NULL ,
     [content] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [allow_autotags] [tinyint] NOT NULL ,
+    [cache_time] [int] NOT NULL DEFAULT '0',
     [rdfurl] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [rdfupdated] [varchar] (50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [rdf_last_modified] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -112,12 +112,10 @@ $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['comments']}] (
     [cid] [numeric](10, 0) IDENTITY (1, 1) NOT NULL ,
     [type] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [sid] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [sid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [date] [datetime] NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [comment] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
-    [score] [smallint] NULL ,
-    [reason] [smallint] NULL ,
     [pid] [numeric](10, 0) NULL ,
     [lft] [numeric](10, 0) NULL ,
     [rht] [numeric](10, 0) NULL ,
@@ -132,7 +130,7 @@ $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['commentsubmissions']}] (
   [cid] [int] IDENTITY (1,1) NOT NULL,
   [type] [varchar] (30) NOT NULL default 'article',
-  [sid] [varchar](40) NOT NULL,
+  [sid] [varchar](128) NOT NULL,
   [date] [datetime] default NULL,
   [title] [varchar] (128) default NULL,
   [comment] [NTEXT],
@@ -263,7 +261,7 @@ CREATE TABLE [dbo].[{$_TABLES['sessions']}] (
     [uid] [int] NOT NULL ,
     [md5_sess_id] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL, 
     [whos_online] [tinyint] NOT NULL, 
-    [topic] [varchar] (20) NOT NULL
+    [topic] [varchar] (128) NOT NULL, 
 ) ON [PRIMARY]
 ";
 
@@ -292,7 +290,7 @@ CREATE TABLE [dbo].[{$_TABLES['statuscodes']}] (
 
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['stories']}] (
-    [sid] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [sid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [uid] [int] NOT NULL ,
     [draft_flag] [tinyint] NULL ,
     [date] [datetime] NULL ,
@@ -300,6 +298,7 @@ CREATE TABLE [dbo].[{$_TABLES['stories']}] (
     [page_title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [introtext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [bodytext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [text_version] [tinyint] NOT NULL DEFAULT (1),
     [hits] [numeric](8, 0) NOT NULL ,
     [numemails] [numeric](8, 0) NOT NULL ,
     [comments] [numeric](8, 0) NOT NULL ,
@@ -317,6 +316,7 @@ CREATE TABLE [dbo].[{$_TABLES['stories']}] (
     [frontpage] [tinyint] NULL ,
     [meta_description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [meta_keywords] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [cache_time] [int] NOT NULL DEFAULT '0',
     [owner_id] [int] NOT NULL ,
     [group_id] [int] NOT NULL ,
     [perm_owner] [tinyint] NOT NULL ,
@@ -330,10 +330,10 @@ $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['storysubmission']}] (
     [sid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [uid] [int] NOT NULL ,
-    [tid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [introtext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [bodytext] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [text_version] [tinyint] NOT NULL DEFAULT (1),
     [date] [datetime] NULL ,
     [postmode] [varchar] (10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL
 ) ON [PRIMARY]
@@ -343,8 +343,8 @@ $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['syndication']}] (
     [fid] [numeric](10, 0) IDENTITY (1, 1) NOT NULL ,
     [type] [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [topic] [varchar] (48) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [header_tid] [varchar] (48) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [topic] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [header_tid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [format] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [limits] [varchar] (5) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [content_length] [numeric](5, 0) NOT NULL ,
@@ -372,9 +372,9 @@ CREATE TABLE [dbo].[{$_TABLES['tokens']}] (
 
 $_SQL[] = "
 CREATE TABLE  [dbo].[{$_TABLES['topic_assignments']}] (
-  [tid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+  [tid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
   [type]  [varchar] (30) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
-  [id]  [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL, 
+  [id]  [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL, 
   [inherit] [tinyint] NOT NULL, 
   [tdefault] [tinyint] NOT NULL
 ) ON [PRIMARY]
@@ -382,8 +382,8 @@ CREATE TABLE  [dbo].[{$_TABLES['topic_assignments']}] (
 
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['topics']}] (
-    [tid] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [topic] [varchar] (48) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
+    [tid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [topic] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [imageurl] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [meta_description] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [meta_keywords] [varchar] (5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -391,7 +391,7 @@ CREATE TABLE [dbo].[{$_TABLES['topics']}] (
     [limitnews] [smallint] NULL ,
     [is_default] [tinyint] NOT NULL ,
     [archive_flag] [tinyint]  NULL ,
-    [parent_id] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+    [parent_id] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
     [inherit] [tinyint] NOT NULL,
     [hidden] [tinyint] NOT NULL,
     [owner_id] [numeric](8, 0) NOT NULL ,
@@ -406,7 +406,7 @@ CREATE TABLE [dbo].[{$_TABLES['topics']}] (
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['trackback']}] (
     [cid] [numeric](10, 0) IDENTITY (1, 1) NOT NULL ,
-    [sid] [varchar] (40) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
+    [sid] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
     [url] [varchar] (255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [title] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
     [blog] [varchar] (80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL ,
@@ -502,7 +502,7 @@ CREATE TABLE [dbo].[{$_TABLES['users']}] (
 $_SQL[] = "
 CREATE TABLE [dbo].[{$_TABLES['vars']}] (
     [name] [varchar] (20) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL ,
-    [value] [varchar] (128) COLLATE SQL_Latin1_General_CP1_CI_AS NULL
+    [value] [varchar] (128) NULL
 ) ON [PRIMARY]
 ";
 
@@ -1296,6 +1296,12 @@ $_SQL[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (58,1
 $_SQL[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (59,16) ";
 $_SQL[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (60,16) ";
 $_SQL[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (61,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (62,17) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (63,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (64,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (65,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (66,16) ";
+$_DATA[] = "INSERT INTO {$_TABLES['access']} (acc_ft_id, acc_grp_id) VALUES (67,16) ";
 
 
 $_SQL[] = "
@@ -1423,6 +1429,12 @@ INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (59, 'config.Core.tab_iplookup', 'Access to configure IP lookup', 0)
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (60, 'config.Core.tab_permissions', 'Access to configure default permissions for story, topic, block and autotags', 0)
 INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (61, 'config.Core.tab_webservices', 'Access to configure webservices', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (62, 'filemanager.admin', 'Ability to use File Manager', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (63, 'config.Filemanager.tab_general', 'Access to configure Filemanager General Settings', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (64, 'config.Filemanager.tab_upload', 'Access to configure Filemanager Upload Settings', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (65, 'config.Filemanager.tab_images', 'Access to configure Filemanager Images Settings', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (66, 'config.Filemanager.tab_videos', 'Access to configure Filemanager Videos Settings', 0)
+INSERT INTO {$_TABLES['features']} (ft_id, ft_name, ft_descr, ft_gl_core) VALUES (67, 'config.Filemanager.tab_audios', 'Access to configure Filemanager Audios Settings', 0)
 
 set identity_insert {$_TABLES['features']} off
 ";
@@ -1464,6 +1476,7 @@ $_SQL[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, 
 $_SQL[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (14,NULL,1)";
 $_SQL[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (15,NULL,1)";
 $_SQL[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (16,NULL,1)";
+$_SQL[] = "INSERT INTO {$_TABLES['group_assignments']} (ug_main_grp_id, ug_uid, ug_grp_id) VALUES (17,NULL,1) ";
 
 // Traditionally, grp_id 1 = Root, 2 = All Users, 13 = Logged-In Users
 $_SQL[] = "
@@ -1485,6 +1498,7 @@ INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALU
 INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES (14, 'Comment Admin', 'Can moderate comments', 1)
 INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES (15, 'Comment Submitters', 'Can submit comments', 0)
 INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES (16, 'Configuration Admin', 'Has full access to configuration', 1)
+INSERT INTO {$_TABLES['groups']} (grp_id, grp_name, grp_descr, grp_gl_core) VALUES (17, 'Filemanager Admin', 'Has full access to File Manager', 1)
 
 set identity_insert {$_TABLES['groups']} off
 ";
@@ -1533,7 +1547,6 @@ $_SQL[] = "INSERT INTO {$_TABLES['topic_assignments']} (tid, type, id, inherit, 
 $_SQL[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('General','General News','/images/topics/topic_news.png','A topic that contains general news related posts.','News, Post, Information',1,10,6,2,3,2,2,2)";
 $_SQL[] = "INSERT INTO {$_TABLES['topics']} (tid, topic, imageurl, meta_description, meta_keywords, sortnum, limitnews, group_id, owner_id, perm_owner, perm_group, perm_members, perm_anon) VALUES ('Geeklog','Geeklog','/images/topics/topic_gl.png','A topic that contains posts about Geeklog.','Geeklog, Posts, Information',2,10,6,2,3,2,2,2)";
 
-$_SQL[] = "INSERT INTO {$_TABLES['usercomment']} (uid, commentmode, commentorder, commentlimit) VALUES (1,'nested','ASC',100)";
 $_SQL[] = "INSERT INTO {$_TABLES['usercomment']} (uid, commentmode, commentorder, commentlimit) VALUES (2,'nested','ASC',100)";
 
 $_SQL[] = "INSERT INTO {$_TABLES['userindex']} (uid, tids, etids, aids, boxes, noboxes, maxstories) VALUES (1,'','-','','',0,NULL)";

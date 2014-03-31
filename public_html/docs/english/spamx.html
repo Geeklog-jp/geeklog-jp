@@ -1,13 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Geeklog Documentation - Geeklog Spam-X Plugin</title>
-  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet">
-  <meta name="robots" content="noindex">
+  <link rel="stylesheet" type="text/css" href="../docstyle.css" title="Dev Stylesheet" />
+  <meta name="robots" content="noindex" />
 </head>
 
 <body>
-<p><a href="http://www.geeklog.net/" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog" width="243" height="90"></a></p>
+<p><a href="http://www.geeklog.net/" style="background:transparent"><img src="../images/newlogo.gif" alt="Geeklog" width="243" height="90" /></a></p>
 <div class="menu"><a href="index.html">Geeklog Documentation</a> - Geeklog Spam-X Plugin</div>
 
 <h1>Geeklog Spam-X Plugin</h1>
@@ -41,7 +42,7 @@ arise.</p>
 <li>A user's profile</li>
 </ul>
 
-<h2><a name="modules">Module Types</a></h2>
+<h2><a name="module_types">Module Types</a></h2>
 
 <p>The Spam-X plugin was built to be expandable to easily adapt to changes the
 comment spammers might make.  There are three types of modules: <a
@@ -76,7 +77,7 @@ itself when a spammer starts spamming for their site. And it can only get
 better (in terms of accuracy and reaction speed) the more sites use it.</p>
 
 <p>SLV is a free service run by Russ Jones at <a
-href="http://www.linksleeve.org/">www.linksleeve.org</a>.
+href="http://www.linksleeve.org/">www.linksleeve.org</a>.</p>
 
 <p><strong><a name="slvprivacy">Privacy Notice:</a></strong>
 It should be stressed that using SLV means that information from your site
@@ -167,7 +168,7 @@ will be checked against the SFS database. If found the Geeklog user account will
 not be created.</p>
 
 <p>SFS is a free service and can be found at <a
-href="http://www.stopforumspam.com/">www.stopforumspam.com</a>.
+href="http://www.stopforumspam.com/">www.stopforumspam.com</a>.</p>
 
 <p><strong><a name="sfsprivacy">Privacy Notice:</a></strong>
 Enabling SFS means that user information (ip and email address) from your site 
@@ -222,7 +223,7 @@ new entries. To delete an existing entry, simply click on it.</p>
 <p>With the <strong>SLV Whitelist</strong> admin module you can add URLs that
 you don't want to be reported to SLV. This is useful when posts on your site
 happen to contain certain URLs quite often but you don't want those to be
-considered spam by SLV.<br>Note that your site's URL (i.e. <a
+considered spam by SLV.<br />Note that your site's URL (i.e. <a
 href="config.html#desc_site_url">$_CONF['site_url']</a>) is automatically
 whitelisted, so you don't need to add it here.</p>
 
@@ -284,7 +285,7 @@ panel:</p>
   <td>Whether to log recognized spam posts in the <tt>spamx.log</tt> logfile
     (if set to <code>true</code>) or not (<code>false</code>).</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_timeout">timeout</a></td>
   <td>5</td>
   <td>Timeout (in seconds) for contacting external services such as SLV and SFS.</td>
@@ -295,7 +296,7 @@ panel:</p>
   <td>Email address to which spam notifications are sent when the Mail Admin
     <a href="#action">action module</a> is enabled.</td>
 </tr>
-<tr class="r2">
+<tr>
   <td><a name="desc_spamx_action">spamx_action</a></td>
   <td>128</td>
   <td>This only exists as a fallback in case <a
@@ -303,9 +304,26 @@ panel:</p>
     configuration is not set. I.e. <code>$_CONF['spamx']</code> takes
     precedence.</td>
 </tr>
+<tr>
+  <td><a name="desc_max_age">max_age</a></td>
+  <td>0</td>
+  <td>The max age in days to keep Spam-X records since there last update (0 = infinite). SLV Whitelist records will not be deleted.</td>
+</tr>
+<tr>
+  <td><a name="desc_records_delete">records_delete</a></td>
+  <td><code>'email', 'IP'</code></td>
+  <td>The Spam-X record types to delete when max age is reached. Default types include:<ul>
+    <li>Personal Blacklist = 'Personal'</li>
+    <li>HTTP Header Blacklist = 'HTTPHeader'</li>
+    <li>IP Blacklist = 'IP'</li>
+    <li>IP of URL Blacklist = 'IPofUrl'</li>
+    <li>SFS Email Blacklist = 'email'</li>
+    <li>SLV Whitelist = 'SLVwhitelist'</li>
+  </ul></td>
+</tr>
 </table>
 
-<h3><a name="main">Modules</a></h3>
+<h3><a name="modules">Modules</a></h3>
 
 <table>
 <tr><th style="width:25%">Variable</th>
@@ -317,7 +335,12 @@ panel:</p>
   <td><code>true</code></td>
   <td>Whether the Stop Forum Spam (SFS) module is enabled or not. If enabled then email and ip addresses of new user registrations will be checked with StopForumSpam.com to see if they are spam.</td>
 </tr>
-<tr class="r2">
+<tr>
+  <td><a name="desc_sfs_confidence">sfs_confidence</a></td>
+  <td><code>25</code></td>
+  <td>The threshold for the Stop Forum Spam confidence score (as a percentage) which is a reasonably good indicator that the field under test, would result in unwanted activity. The range of this inputed value must be from 1 to 100.</td>
+</tr>
+<tr>
   <td><a name="desc_snl_enabled">snl_enabled</a></td>
   <td><code>true</code></td>
   <td>Whether the Spam Number of Links (SNL) module is enabled or not. If enabled it will only allow a specified number of links in a post or when a user creates or updates their profile.</td>
@@ -337,7 +360,7 @@ href="http://wiki.geeklog.net/wiki/index.php/Dealing_with_Spam">Geeklog
 Wiki</a>.</p>
 
 <div class="footer">
-    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br>
+    <a href="http://wiki.geeklog.net/">The Geeklog Documentation Project</a><br />
     All trademarks and copyrights on this page are owned by their respective owners. Geeklog is copyleft.
 </div>
 </body>

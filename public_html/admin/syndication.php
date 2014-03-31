@@ -234,7 +234,7 @@ function editfeed ($fid = 0, $type = '')
         $fid = $A['fid'];
     }
     if ($fid == 0) {
-        if (!empty ($type)) { // set defaults
+        if (!empty($type)) { // set defaults
             $A['fid'] = $fid;
             $A['type'] = $type;
             $A['topic'] = '::all';
@@ -455,13 +455,47 @@ function savefeed ($A)
     } else {
         $A['is_enabled'] = 0;
     }
-    if (empty ($A['title']) || empty ($A['description']) ||
-            empty ($A['filename'])) {
+
+    // Make sure correct format returned and correct file extenstion
+    $A['filename'] = COM_sanitizeFilename($A['filename'], true);
+    $file_parts = pathinfo($A['filename']);
+    $A['filename'] = ''; // Clear out filename. If it doesn't get recreated then we know there is an error
+    if (!empty($file_parts['filename'])) {
+        $formats = find_feedFormats();
+        foreach ($formats as $f) {
+            if ($A['format'] == ($f['name'] . '-' . $f['version'])) {
+                switch($f['name'])
+                {
+                    case 'Atom':
+                        if (!in_array(@$file_parts['extension'], array('atm', 'xml'))) {
+                            $file_parts['extension'] = 'xml';
+                        }
+
+                        $A['filename'] = $file_parts['filename'] . '.' . $file_parts['extension'];
+                        break;
+
+                    case 'RSS':
+                        if (!in_array(@$file_parts['extension'], array('rss', 'xml'))) {
+                            $file_parts['extension'] = 'rss';
+                        }
+
+                        $A['filename'] = $file_parts['filename'] . '.' . $file_parts['extension'];
+                        break;
+
+                    case 'RDF':
+                        $A['filename'] = $file_parts['filename'] . '.rdf';
+                        break;
+                }
+            }
+        }
+    }
+    if (empty($A['title']) || empty($A['description']) ||
+            empty($A['filename'])) {
         $retval = COM_showMessageText($LANG33[39], $LANG33[38])
                 . editfeed ($A['fid'], $A['type']);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG33[38]));
         return $retval;
-    }
+    }    
 
     $result = DB_query("SELECT COUNT(*) AS count FROM {$_TABLES['syndication']} WHERE filename = '{$A['filename']}' AND (fid <> '{$A['fid']}')");
     $C = DB_fetchArray($result);
@@ -483,19 +517,33 @@ function savefeed ($A)
     }
 
     // we can compensate if these are missing ...
-    if (empty ($A['charset'])) {
+	if (!empty($A['charset'])) {
+		$A['charset'] = preg_replace('/[^0-9a-zA-Z_\-]/', '', $A['charset']);
+	}
+
+    if (empty($A['charset'])) {
         $A['charset'] = $_CONF['default_charset'];
-        if (empty ($A['charset'])) {
+        if (empty($A['charset'])) {
             $A['charset'] = 'UTF-8';
         }
     }
-    if (empty ($A['language'])) {
+
+    if (!empty($A['language'])) {
+		$A['language'] = preg_replace('/[^0-9a-zA-Z_\.\-]/', '', $A['language']);
+	}
+
+    if (empty($A['language'])) {
         $A['language'] = $_CONF['rdf_language'];
-        if (empty ($A['language'])) {
+        if (empty($A['language'])) {
             $A['language'] = $_CONF['locale'];
         }
     }
-    if (empty ($A['content_length']) || ($A['content_length'] < 0)) {
+
+	if (!empty($A['content_length'])) {
+		$A['content_length'] = intval($A['content_length'], 10);
+	}
+
+    if (empty($A['content_length']) || ($A['content_length'] < 0)) {
         $A['content_length'] = 0;
     }
 
@@ -562,14 +610,14 @@ if (isset($_REQUEST['mode'])) {
     $mode = $_REQUEST['mode'];
 }
 if ($mode == 'edit') {
-    if (empty ($_REQUEST['fid'])) {
+    if (empty($_REQUEST['fid'])) {
         $display .= newfeed ();
     } else {
         $display .= editfeed (COM_applyFilter($_REQUEST['fid']));
         $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG33[24]));
     }
 }
-elseif (($mode == $LANG33[1]) && !empty ($LANG33[1]))
+elseif (($mode == $LANG33[1]) && !empty($LANG33[1]))
 {
     $display .= editfeed (0, COM_applyFilter($_REQUEST['type']));
     $display = COM_createHTMLDocument($display, array('pagetitle' => $LANG33[24]));
