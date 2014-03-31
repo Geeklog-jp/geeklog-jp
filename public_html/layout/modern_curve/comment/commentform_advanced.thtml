@@ -1,9 +1,9 @@
-
-<!-- comment/commentform_advanced.thtml { -->
+{# begin {templatelocation} #}
 
 {noscript}
 <div id="advanced_editor" style="display:none;">
-    {start_block_postacomment}
+  {start_block_postacomment}
+  <div id="commenteditform">
     <form action="{form_url}" method="post" onsubmit='set_postcontent();' id="commentform_advanced" class="linear">
       <div class="user_basic">
         <dl>
@@ -68,7 +68,8 @@
         </ul>
       </div>
     </form>
-    {end_block}
+  </div>
+  {end_block}
 </div>
 
-<!-- } comment/commentform_advanced.thtml -->
+{# end {templatelocation} #}

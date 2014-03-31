@@ -29,30 +29,36 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'BaseCommand.class.php';
  * @package Spam-X
  *
  */
-class DeleteComment extends BaseCommand {
+class DeleteComment extends BaseCommand
+{
     /**
      * Constructor
      * Numbers are always binary digits and added together to make call
      */
-    function DeleteComment()
+    public function __construct()
     {
-        global $num;
-
-        $num = 128;
+        $this->actionCode = PLG_SPAM_ACTION_DELETE;
     } 
 
-    function execute($comment)
+    public function execute($comment)
     {
-        global $result, $_CONF, $_TABLES, $LANG_SX00;
-        $result = 128;
+        global $_CONF, $_TABLES, $LANG_SX00;
+
+        $this->result = PLG_SPAM_ACTION_DELETE;
 
         // update count of deleted spam posts
-        DB_change ($_TABLES['vars'], 'value', 'value + 1', 'name', 'spamx.counter', '', true);
-
+        $sql['mysql'] = "UPDATE {$_TABLES['vars']} "
+                      . "SET value = value + 1 "
+                      . "WHERE name = 'spamx.counter' ";
+        $sql['mssql'] = $sql['mysql'];
+        $sql['pgsql'] = "UPDATE {$_TABLES['vars']} "
+                      . "SET value = CAST(value AS int) + 1 "
+                      . "WHERE name = 'spamx.counter' ";
+        DB_query($sql);
         SPAMX_log($LANG_SX00['spamdeleted']);
 
-        return 1;
-    } 
-} 
+        return PLG_SPAM_FOUND;
+    }
+}
 
 ?>

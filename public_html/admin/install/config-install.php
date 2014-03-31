@@ -36,6 +36,9 @@ if (strpos(strtolower($_SERVER['PHP_SELF']), 'config-install.php') !== false) {
 function install_config()
 {
     global $_CONF, $_TABLES;
+    
+    
+    // Parameters for add function:  $param_name, $default_value, $type, $subgroup, $fieldset=null, $selection_array=null, $sort=0, $set=true, $group='Core', $tab=null
 
     $me = 'Core';
     
@@ -90,6 +93,7 @@ function install_config()
     $c->add('backup_path','','text',0,3,NULL,110,TRUE, $me, 3);
     $c->add('path_data','','text',0,3,NULL,120,TRUE, $me, 3);
     $c->add('path_images','','text',0,3,NULL,130,TRUE, $me, 3);
+    $c->add('path_editors','','text',0,3,NULL,132,TRUE, $me, 3);
 
     $c->add('tab_pear', NULL, 'tab', 0, 4, NULL, 0, TRUE, $me, 4);
     $c->add('fs_pear', NULL, 'fieldset', 0, 4, NULL, 0, TRUE, $me, 4);
@@ -140,6 +144,12 @@ function install_config()
     $c->add('hide_main_page_navigation',0,'select',1,7,0,1310,TRUE, $me, 7);
     $c->add('onlyrootfeatures',0,'select',1,7,0,1320,TRUE, $me, 7);
     $c->add('aftersave_story','list','select',1,7,9,1330,TRUE, $me, 7);
+    $c->add('related_topics',1,'select',1,7,32,1340,TRUE, $me, 7);
+    $c->add('related_topics_max',6,'text',1,7,NULL,1350,TRUE, $me, 7);
+    $c->add('whats_related',1,'select',1,7,33,1360,TRUE, $me, 7);
+    $c->add('whats_related_max',0,'text',1,7,NULL,1370,TRUE, $me, 7);
+    $c->add('whats_related_trim',26,'text',1,7,NULL,1380,TRUE, $me, 7);
+    $c->add('default_cache_time_article',0,'text',1,7,NULL,1390,TRUE, $me, 7);
 
     $c->add('tab_trackback', NULL, 'tab', 1, 8, NULL, 0, TRUE, $me, 8);
     $c->add('fs_trackback', NULL, 'fieldset', 1, 8, NULL, 0, TRUE, $me, 8);
@@ -165,11 +175,13 @@ function install_config()
     $c->add('doctype','html401strict','select',2,10,21,195,TRUE, $me, 10);
     $c->add('menu_elements',array('contribute','search','stats','directory','plugins'),'%select',2,10,24,200,TRUE, $me, 10);
     $c->add('path_themes','','text',2,10,NULL,210,TRUE, $me, 10);
+    $c->add('cache_templates',TRUE,'select',2,10,1,220,TRUE, $me, 10);
 
     $c->add('tab_theme_advanced', NULL, 'tab', 2, 11, NULL, 0, TRUE, $me, 11);
     $c->add('fs_theme_advanced', NULL, 'fieldset', 2, 11, NULL, 0, TRUE, $me, 11);
     $c->add('show_right_blocks',FALSE,'select',2,11,1,1350,TRUE, $me, 11);
     $c->add('showfirstasfeatured',0,'select',2,11,0,1360,TRUE, $me, 11);
+    $c->add('template_comments',FALSE,'select',2,11,1,1370,TRUE, $me, 11);    
 
     // Subgroup: Blocks
     $c->add('sg_blocks', NULL, 'subgroup', 3, 0, NULL, 0, TRUE, $me, 0);
@@ -203,6 +215,7 @@ function install_config()
     $c->add('hidenewtrackbacks',0,'select',3,15,0,1030,TRUE, $me, 15);
     $c->add('hidenewplugins',0,'select',3,15,0,1040,TRUE, $me, 15);
     $c->add('title_trim_length',20,'text',3,15,NULL,1050,TRUE, $me, 15);
+    $c->add('whatsnew_cache_time',3600,'text',3,15,NULL,1060,TRUE, $me, 15);
 
     // Subgroup: Users and Submissions
     $c->add('sg_users', NULL, 'subgroup', 4, 0, NULL, 0, TRUE, $me, 0);
@@ -211,7 +224,7 @@ function install_config()
     $c->add('fs_users', NULL, 'fieldset', 4, 16, NULL, 0, TRUE, $me, 16);
     $c->add('disable_new_user_registration',FALSE,'select',4,16,0,220,TRUE, $me, 16);
     $c->add('allow_user_themes',1,'select',4,16,0,230,TRUE, $me, 16);
-    $c->add('allow_user_language',1,'select',4,16,0,240,TRUE, $me, 16);
+    // $c->add('allow_user_language',1,'select',4,16,0,240,TRUE, $me, 16); Moved to Language Tab
     $c->add('allow_user_photo',1,'select',4,16,0,250,TRUE, $me, 16);
     $c->add('allow_username_change',0,'select',4,16,0,260,TRUE, $me, 16);
     $c->add('allow_account_delete',0,'select',4,16,0,270,TRUE, $me, 16);
@@ -229,6 +242,15 @@ function install_config()
     $c->add('twitter_login',0,'select',4,16,1,356,TRUE, $me, 16);
     $c->add('twitter_consumer_key','','text',4,16,NULL,357,TRUE, $me, 16);
     $c->add('twitter_consumer_secret','','text',4,16,NULL,358,TRUE, $me, 16);
+    $c->add('google_login',0,'select',4,16,1,359,TRUE, $me, 16);
+    $c->add('google_consumer_key','','text',4,16,NULL,360,TRUE, $me, 16);
+    $c->add('google_consumer_secret','','text',4,16,NULL,361,TRUE, $me, 16);    
+    $c->add('microsoft_login',0,'select',4,16,1,362,TRUE, $me, 16);
+    $c->add('microsoft_consumer_key','','text',4,16,NULL,363,TRUE, $me, 16);
+    $c->add('microsoft_consumer_secret','','text',4,16,NULL,364,TRUE, $me, 16);    
+    $c->add('yahoo_login',0,'select',4,16,1,365,TRUE, $me, 16);
+    $c->add('yahoo_consumer_key','','text',4,16,NULL,366,TRUE, $me, 16);
+    $c->add('yahoo_consumer_secret','','text',4,16,NULL,367,TRUE, $me, 16);    
     $c->add('aftersave_user','item','select',4,16,9,1340,TRUE, $me, 16);
     
     $c->add('tab_spamx', NULL, 'tab', 4, 17, NULL, 0, TRUE, $me, 17);
@@ -270,6 +292,7 @@ function install_config()
     $c->add('speedlimit',45,'text',4,20,NULL,820,TRUE, $me, 20);
     $c->add('skip_preview',0,'select',4,20,0,830,TRUE, $me, 20);
     $c->add('advanced_editor',FALSE,'select',4,20,1,840,TRUE, $me, 20);
+    $c->add('advanced_editor_name','ckeditor','select',4,20,NULL,845,TRUE, $me, 20);
     $c->add('wikitext_editor',FALSE,'select',4,20,1,850,TRUE, $me, 20);
 
     $c->add('tab_comments', NULL, 'tab', 4, 21, NULL, 0, TRUE, $me, 21);
@@ -277,6 +300,7 @@ function install_config()
     $c->add('commentspeedlimit',45,'text',4,21,NULL,1640,TRUE, $me, 21);
     $c->add('comment_limit',100,'text',4,21,NULL,1650,TRUE, $me, 21);
     $c->add('comment_mode','nested','select',4,21,11,1660,TRUE, $me, 21);
+    $c->add('comment_order','ASC','select',4,21,31,1665,TRUE, $me, 21);
     $c->add('comment_code',0,'select',4,21,17,1670,TRUE, $me, 21);
     $c->add('comment_edit',0,'select',4,21,0,1680,TRUE, $me, 21);
     $c->add('commentsubmission',0,'select',4,21,0, 1682, TRUE, $me, 21);
@@ -335,14 +359,16 @@ function install_config()
     $c->add('tab_language', NULL, 'tab', 6, 28, NULL, 0, TRUE, $me, 28);
     $c->add('fs_language', NULL, 'fieldset', 6, 28, NULL, 0, TRUE, $me, 28);
     $c->add('language','english','select',6,28,NULL,350,TRUE, $me, 28);
-    $c->add('language_files',array('en'=>'english_utf-8', 'de'=>'german_formal_utf-8'),'*text',6,28,NULL,470,FALSE, $me, 28);
-    $c->add('languages',array('en'=>'English', 'de'=>'Deutsch'),'*text',6,28,NULL,480,FALSE, $me, 28);
+    $c->add('allow_user_language',1,'select',6,28,0,360,TRUE, $me, 28);
+    $c->add('fs_multilanguage', NULL, 'fieldset', 6, 29, NULL, 0, TRUE, $me, 28);
+    $c->add('language_files',array('en'=>'english_utf-8', 'de'=>'german_formal_utf-8'),'*text',6,29,NULL,470,FALSE, $me, 28);
+    $c->add('languages',array('en'=>'English', 'de'=>'Deutsch'),'*text',6,29,NULL,480,FALSE, $me, 28);
 
     $c->add('tab_locale', NULL, 'tab', 6, 29, NULL, 0, TRUE, $me, 29);
     $c->add('fs_locale', NULL, 'fieldset', 6, 29, NULL, 0, TRUE, $me, 29);
     $c->add('locale','en_GB','text',6,29,NULL,360,TRUE, $me, 29);
     $c->add('date','%A, %B %d %Y @ %I:%M %p %Z','text',6,29,NULL,370,TRUE, $me, 29);
-    $c->add('daytime','%m/%d %I:%M%p','text',6,29,NULL,380,TRUE, $me, 29);
+    $c->add('daytime','%Y-%m-%d %H:%M','text',6,29,NULL,380,TRUE, $me, 29);
     $c->add('shortdate','%x','text',6,29,NULL,390,TRUE, $me, 29);
     $c->add('dateonly','%d-%b','text',6,29,NULL,400,TRUE, $me, 29);
     $c->add('timeonly','%I:%M%p','text',6,29,NULL,410,TRUE, $me, 29);
@@ -382,6 +408,8 @@ function install_config()
     $c->add('compressed_output',0,'select',7,31,1,1756,TRUE, $me, 31);
     $c->add('frame_options','DENY','select',7,31,22,1758,TRUE, $me, 31);
     $c->add('page_navigation_max_pages',7,'text',7,31,NULL,1800,TRUE, $me, 31);
+    $c->add('default_cache_time_block',0,'text',7,31,NULL,1810,TRUE, $me, 31);
+    $c->add('titletoid',0,'select',7,31,1,1820,TRUE, $me, 31);
 
     $c->add('tab_debug', NULL, 'tab', 7, 32, NULL, 0, TRUE, $me, 32);
     $c->add('fs_debug', NULL, 'fieldset', 7, 32, NULL, 0, TRUE, $me, 32);
@@ -422,6 +450,9 @@ function install_config()
     $c->add('fs_autotag_permissions', NULL, 'fieldset', 7, 41, NULL, 0, TRUE, $me, 37);
     $c->add('autotag_permissions_story', array(2, 2, 2, 2), '@select', 7, 41, 28, 1870, TRUE, $me, 37);
     $c->add('autotag_permissions_user', array(2, 2, 2, 2), '@select', 7, 41, 28, 1880, TRUE, $me, 37);
+    $c->add('autotag_permissions_topic', array(2, 2, 2, 2), '@select', 7, 41, 28, 1890, TRUE, $me, 37);
+    $c->add('autotag_permissions_related_topics', array(2, 2, 0, 0), '@select', 7, 41, 28, 1900, TRUE, $me, 37);
+    $c->add('autotag_permissions_related_items', array(2, 2, 0, 0), '@select', 7, 41, 28, 1910, TRUE, $me, 37);
 
     $c->add('tab_webservices', NULL, 'tab', 7, 40, NULL, 0, TRUE, $me, 40);
     $c->add('fs_webservices', NULL, 'fieldset', 7, 40, NULL, 0, TRUE, $me, 40);
@@ -436,6 +467,103 @@ function install_config()
     $c->add('disable_breadcrumbs_articles', 0, 'select', 7, 45, 0, 2020, TRUE, $me, 45);
     $c->add('disable_breadcrumbs_plugins', 0, 'select', 7, 45, 0, 2030, TRUE, $me, 45);
     $c->add('breadcrumb_root_site_name', 0, 'select', 7, 45, 0, 2040, TRUE, $me, 45);
+
+    // Subgroup: File Manager
+    $sg  =  8;		// subgroup
+    $fs  = 46;		// fieldset
+    $tab = 46;		// tab
+    $so  = 2050;	// sort
+
+    // Subgroup: File Manager - General Settings
+    $c->add('sg_filemanager', NULL, 'subgroup', $sg, $fs, NULL, 0, TRUE, $me, 0);
+
+    $c->add('tab_filemanager_general', NULL, 'tab', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+    $c->add('fs_filemanager_general', NULL, 'fieldset', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+
+    $c->add('filemanager_disabled', FALSE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_browse_only', FALSE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_default_view_mode', 'grid', 'select', $sg, $fs, 34, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_show_confirmation', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_search_box', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_file_sorting', 'default', 'select', $sg, $fs, 35, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_chars_only_latin', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_date_format', 'Y-m-d H:i:s', 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_logger', FALSE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_show_thumbs', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_generate_thumbnails', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+
+    // Subgroup: File Manager - Upload
+    $fs++;
+    $tab++;
+
+    $c->add('tab_filemanager_upload', NULL, 'tab', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+    $c->add('fs_filemanager_upload', NULL, 'fieldset', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+
+    $c->add('filemanager_upload_restrictions', array('jpg', 'jpeg', 'gif', 'png', 'svg', 'txt', 'pdf', 'odp', 'ods', 'odt', 'rtf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'ogv', 'mp4', 'webm', 'ogg', 'mp3', 'wav'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_upload_overwrite', FALSE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_upload_images_only', FALSE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_upload_file_size_limit', 16, 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_unallowed_files', array('.htaccess'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_unallowed_dirs', array('_thumbs', '.CDN_ACCESS_LOGS', 'cloudservers'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_unallowed_files_regexp', '/^\\./uis', 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_unallowed_dirs_regexp', '/^\\./uis', 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+
+    // Subgroup: File Manager - Images
+    $fs++;
+    $tab++;
+
+    $c->add('tab_filemanager_images', NULL, 'tab', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+    $c->add('fs_filemanager_images', NULL, 'fieldset', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+
+    $c->add('filemanager_images_ext', array('jpg', 'jpeg', 'gif', 'png', 'svg'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+
+    // Subgroup: File Manager - Videos
+    $fs++;
+    $tab++;
+
+    $c->add('tab_filemanager_videos', NULL, 'tab', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+    $c->add('fs_filemanager_videos', NULL, 'fieldset', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+
+    $c->add('filemanager_show_video_player', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_videos_ext', array('ogv', 'mp4', 'webm'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_videos_player_width', 400, 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_videos_player_height', 222, 'text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
+
+    // Subgroup: File Manager - Audios
+    $fs++;
+    $tab++;
+
+    $c->add('tab_filemanager_audios', NULL, 'tab', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+    $c->add('fs_filemanager_audios', NULL, 'fieldset', $sg, $fs, NULL, 0, TRUE, $me, $tab);
+
+    $c->add('filemanager_show_audio_player', TRUE, 'select', $sg, $fs, 1, $so, TRUE, $me, $tab);
+    $so += 10;
+    $c->add('filemanager_audios_ext', array('ogg', 'mp3', 'wav'), '%text', $sg, $fs, NULL, $so, TRUE, $me, $tab);
+    $so += 10;
 }
 
 ?>

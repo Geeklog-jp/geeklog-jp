@@ -439,7 +439,7 @@ select {
   margin-top:5px;
   margin-bottom:5px;
 }
-#commentperview {
+#commentpreview {
   margin:0;
   background:transparent;
   border:1px dashed grey;
@@ -971,7 +971,7 @@ a.pluginButton:hover {
   color:blue;
   text-align:center;
   padding-top:2px;
-  background:center url(navbar/images/button_over.gif);
+  background:center url(images/navbar/button_over.gif);
   background-repeat:repeat-x;
   display:block;
   height:19px;
@@ -1000,7 +1000,7 @@ a.pluginButton:hover {
 }
 #navcontainer a {
   float:left;
-  background:url("navbar/images/tableftJ.gif") no-repeat left top;
+  background:url("images/navbar/tableftJ.gif") no-repeat left top;
   margin:0px;
   padding:0px 0px 0px 5px;
   text-decoration:none;
@@ -1008,7 +1008,7 @@ a.pluginButton:hover {
 #navcontainer a span {
   float:left;
   display:block;
-  background:url("navbar/images/tabrightJ.gif") no-repeat right top;
+  background:url("images/navbar/tabrightJ.gif") no-repeat right top;
   padding:5px 15px 4px 6px;
   color:#24618E;
 }
@@ -1027,14 +1027,14 @@ a.pluginButton:hover {
   background-position:100% -42px;
 }
 #navcontainer a#current span {
-  background:url("navbar/images/tabrightI.gif") no-repeat left top;
+  background:url("images/navbar/tabrightI.gif") no-repeat left top;
   background-position:100% -42px;
   color:#FFFFFF;
 }
 #navcontainer a:link#current,
 #navcontainer a:visited#current,
 #navcontainer a:hover#current {
-  background:url("navbar/images/tableftI.gif") no-repeat left top;
+  background:url("images/navbar/tableftI.gif") no-repeat left top;
   background-position:0% -42px;
 }
 
@@ -1113,6 +1113,11 @@ div.gl-pagenav span a {
    text-decoration: underline;
  }
   
+/* Breadcrumbs Navigation *********************************************************************/
+.bc_navigation {
+   margin: 13px 0;
+}
+
 /* Common CSS for on-hover tooltip feature  *********************************************************************/
 a.gl-tooltip {
     border-bottom: 1px dotted #000000; color: #000000; outline: none;
@@ -1229,6 +1234,31 @@ div.third-party-login {
   width: 164px;
 }
 
+/* authentication buttons */
+#login_facebook{left:0px;width:141px;}
+#login_facebook{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position:0 0;}
+
+#login_twitter{left:0px;width:141px;}
+#login_twitter{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -23px;}
+
+#login_linkedin{left:0px;width:141px;}
+#login_linkedin{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -44px;}
+
+#login_google{left:0px;width:141px;}
+#login_google{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -66px;}
+
+#login_yahoo{left:0px;width:141px;}
+#login_yahoo{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -88px;}
+
+#login_microsoft{left:0px;width:141px;}
+#login_microsoft{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -110px;}
+
+#login_github{left:0px;width:141px;}
+#login_github{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -132px;}
+
+#login_openid{left:0px;width:141px;}
+#login_openid{background:url('/images/oauth-login-with-sprite.png') no-repeat; background-position: 0 -154px;}
+
 /* Admin basic form ***********************************************************/
 .admin_basic {
   padding: 0.5em 2em;
@@ -1294,3 +1324,44 @@ div.third-party-login {
   margin: 0 5px 0 0;
   vertical-align: middle;
 }
+
+/* Enviroment Check form ******************************************************/
+.pathtext {
+  font-size:11px;
+  color:#666;
+}
+
+.pathtext-status {
+  text-align:right;
+  white-space:nowrap;
+}
+
+.yes, .iswriteable {
+  font-weight: bold;
+  color: #46882b;
+}
+.no, .notok, .notwriteable {
+  font-weight: bold;
+  color: #cc0000;
+}
+
+/* PHPInfo Panel style and button */
+#panel_phpinfo {
+  padding:5px;
+  margin: auto;
+  width:600px;
+  text-align:center;
+}
+#toggle_phpinfo {
+  padding:5px;
+  width:200px;
+  margin: auto;
+  text-align:center;
+  border:solid 1px #c3c3c3;
+}
+
+#panel_phpinfo {
+  padding:50px;
+  display:none;
+}
+

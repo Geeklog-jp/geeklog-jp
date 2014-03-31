@@ -78,35 +78,46 @@ function CALENDAR_editEvent ($mode, $A, $msg = '')
            $LANG_CAL_ADMIN, $LANG10, $LANG12, $LANG_ACCESS, $LANG_ADMIN,
            $MESSAGE, $_SCRIPTS;
 
-    // Loads jQuery UI datepicker
+    // Loads jQuery UI datepicker and timepicker-addon
+    $_SCRIPTS->setJavaScriptLibrary('jquery.ui.slider');
     $_SCRIPTS->setJavaScriptLibrary('jquery.ui.datepicker');
     $_SCRIPTS->setJavaScriptLibrary('jquery-ui-i18n');
-    $_SCRIPTS->setJavaScriptFile('datepicker', '/javascript/datepicker.js');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon');
+    $_SCRIPTS->setJavaScriptLibrary('jquery-ui-timepicker-addon-i18n');
+    $_SCRIPTS->setJavaScriptFile('datetimepicker', '/javascript/datetimepicker.js');
+
+    // Add JavaScript
+    $_SCRIPTS->setJavaScriptFile('postmode_control', '/javascript/postmode_control.js');
 
     $langCode = COM_getLangIso639Code();
-    $toolTip  = 'Click and select a date';	// Should be translated
+    $toolTip  = $MESSAGE[118];
     $imgUrl   = $_CONF['site_url'] . '/images/calendar.png';
 
     $_SCRIPTS->setJavaScript(
         "jQuery(function () {"
-        . "  geeklog.datepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
-        . "  geeklog.datepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.hour_mode = {$_CONF['hour_mode']};"
+        . "  geeklog.datetimepicker.options.stepMinute = 15;"
+        . "  geeklog.datetimepicker.set('start', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
+        . "  geeklog.datetimepicker.set('end', '{$langCode}', '{$toolTip}', '{$imgUrl}');"
         . "});", TRUE, TRUE
     );
 
     $retval = '';
 
     if (!empty ($msg)) {
-        $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
-                        COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $msg;
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($msg, $LANG_CAL_ADMIN[2]);
     }
 
     $event_templates = COM_newTemplate($_CONF['path'] . 'plugins/calendar/templates/admin');
     $event_templates->set_file('editor','eventeditor.thtml');
-    $event_templates->set_var('lang_allowed_html',
-                              COM_allowedHTML('calendar.edit'));
+
+    $allowed = '';
+    foreach (array('plaintext', 'html') as $pm) {
+        $allowed .= COM_allowedHTML('calendar.edit', false, 1, $pm);
+    }
+    $allowed .= COM_allowedAutotags();
+
+    $event_templates->set_var('lang_allowed_html', $allowed);
     $event_templates->set_var('lang_postmode', $LANG_CAL_ADMIN[3]);
 
     if ($mode <> 'editsubmission' AND !empty($A['eid'])) {
@@ -114,10 +125,7 @@ function CALENDAR_editEvent ($mode, $A, $msg = '')
         $access = SEC_hasAccess($A['owner_id'],$A['group_id'],$A['perm_owner'],$A['perm_group'],$A['perm_members'],$A['perm_anon']);
         if ($access == 0 OR $access == 2) {
             // Uh, oh!  User doesn't have access to this object
-            $retval .= COM_startBlock ($LANG_ACCESS['accessdenied'], '',
-                               COM_getBlockTemplate ('_msg_block', 'header'));
-            $retval .= $LANG_CAL_ADMIN[17];
-            $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+            $retval .= COM_showMessageText($LANG_CAL_ADMIN[17], $LANG_ACCESS['accessdenied']);
             COM_accessLog("User {$_USER['username']} tried to illegally submit or edit event $eid.");
             return $retval;
         }
@@ -445,10 +453,7 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
                              $start_year, $start_month, $start_day);
         $timestart = $start_hour . ':' . $start_minute . ':00';
     } else {
-        $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $LANG_CAL_ADMIN[23];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_CAL_ADMIN[23], $LANG_CAL_ADMIN[2]);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_ADMIN[2]));
 
         return $retval;
@@ -457,20 +462,14 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
         $dateend = sprintf('%4d-%02d-%02d', $end_year, $end_month, $end_day);
         $timeend = $end_hour . ':' . $end_minute . ':00';
     } else {
-        $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $LANG_CAL_ADMIN[24];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_CAL_ADMIN[24], $LANG_CAL_ADMIN[2]);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_ADMIN[2]));
 
         return $retval;
     }
     if ($allday == 0) {
         if (strtotime($dateend) < strtotime($datestart)) {
-            $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
-                                COM_getBlockTemplate ('_msg_block', 'header'));
-            $retval .= $LANG_CAL_ADMIN[25];
-            $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+            $retval .= COM_showMessageText($LANG_CAL_ADMIN[25], $LANG_CAL_ADMIN[2]);
             $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_ADMIN[2]));
 
             return $retval;
@@ -577,10 +576,7 @@ function CALENDAR_saveEvent ($eid, $title, $event_type, $url, $allday,
             17
         );
     } else {
-        $retval .= COM_startBlock ($LANG_CAL_ADMIN[2], '',
-                            COM_getBlockTemplate ('_msg_block', 'header'));
-        $retval .= $LANG_CAL_ADMIN[10];
-        $retval .= COM_endBlock (COM_getBlockTemplate ('_msg_block', 'footer'));
+        $retval .= COM_showMessageText($LANG_CAL_ADMIN[10], $LANG_CAL_ADMIN[2]);
         $retval = COM_createHTMLDocument($retval, array('pagetitle' => $LANG_CAL_ADMIN[2]));
 
         return $retval;

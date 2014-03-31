@@ -57,7 +57,7 @@ $LANG01 = array(
     11 => '文章',
     12 => '組件',
     13 => '主題',
-    14 => '',
+    14 => 'Command &amp; Control',
     15 => '',
     16 => '',
     17 => '用戶',
@@ -83,7 +83,7 @@ $LANG01 = array(
     37 => '沒有文章',
     38 => '內容辛迪加',
     39 => '使新',
-    40 => '',
+    40 => 'Error in password request, invalid username',
     41 => '客人',
     42 => '作者:',
     43 => '回復這個',
@@ -183,9 +183,15 @@ $LANG01 = array(
     137 => 'Warning: Javascript required to enable functionality',
     138 => "Click <a href=\"{$_CONF['site_url']}/usersettings.php\" rel=\"nofollow\">here</a> to disable the advanced editor and use the default editor which does not require JavaScript",
     139 => "Click <a href=\"{$_CONF['site_url']}/\" rel=\"nofollow\">here</a> to return to the homepage",
+    140 => 'Allowed Autotags:',
     'facebook' => 'Login with Facebook',
     'twitter' => 'Login with Twitter',
-    'linkedin' => 'Login with LinkedIn'
+    'linkedin' => 'Login with LinkedIn',
+    'google' => 'Login with Google',
+    'microsoft' => 'Login with Microsoft',
+    'yahoo' => 'Login with Yahoo',
+    'ctl' => 'Clear Cache',
+    'filemanager' => 'File Manager'
 );
 
 ###############################################################################
@@ -405,7 +411,10 @@ $LANG04 = array(
     165 => 'Use Advanced Editor',
     166 => 'Re-synch Remote Account',
     167 => 'Remote login',
-    168 => 'You may also login with one on of the below remote authentication services'
+    168 => 'You may also login with one on of the below remote authentication services',
+    'user_login' => 'User Login',
+    'user_login_message' => 'Please login below. You must enter both a username and password.',
+    'user_logged_in_message' => "You are already logged in. Whould you like to <a href=\"{$_CONF['site_url']}/users.php?mode=logout\" rel=\"nofollow\">logout</a>?"
 );
 
 ###############################################################################
@@ -427,7 +436,7 @@ $LANG_MYACCOUNT = array(
 $LANG05 = array(
     1 => '沒有新聞可顯示',
     2 => '沒有新文章可顯示。',
-    3 => '這也許是真的沒有新主題或是你的 %s 設定得太過限制性。',
+    3 => '',
     4 => '今天頭條',
     5 => '下頁',
     6 => '上頁',
@@ -674,6 +683,85 @@ $LANG12 = array(
 ###############################################################################
 
 ###############################################################################
+# admin/logviewer.php
+
+$LANG_LOGVIEW = array(
+    'log_viewer' => 'Log Viewer',
+    'info' => 'Geeklog log file administration.',
+    'logs' => 'Logs',
+    'view' => 'View Log File',
+    'clear' => 'Clear Log File',
+    'log_file' => 'Log File'
+);
+
+###############################################################################
+# admin/envcheck.php - distribution integrity checker
+
+$LANG_ENVCHECK = array(
+    'correct_perms' => 'Please correct the issues identified below. Once they have been corrected, use the <b>Recheck</b> button to validate the environment.',
+    'current' => 'Current',
+    'current_php_settings' => 'Current PHP Settings',
+    'directory_permissions' => 'Directory Permissions',
+    'enabled' => 'Enabled',
+    'env_check' => 'Environment Check',
+    'file_permissions' => 'File Permissions',
+    'file_uploads' => 'Many features of Geeklog require the ability to upload files, this should be enabled.',
+    'filesystem_check' => 'Directory / File Permissions',
+    'gd_lib' => 'GD Libraries',
+    'gd_not_found' => 'Unable to locate the GD library functions.  Please ensure that the GD libraries were compiled into PHP or select an alternate graphics library.',
+    'gd_ok' => 'GD Libraries v2 are installed.',
+    'gd_v1' => 'GD Libraries v1 is installed - This version does not fully support JPG image processing so there may be some quality issues.',
+    'graphics' => 'Graphics Library',
+    'libraries' => 'Libraries',
+    'hosting_env' => 'Hosting Environment Check',
+    'imagemagick' => 'ImageMagick Programs',
+    'im_not_found' => 'Unable to locate the <strong>convert</strong> executable for ImageMagick.',
+    'im_ok' => 'The <strong>convert</strong> executable appears to be valid.',
+    'memory_limit' => 'It is recommended that you have at least 48M of memory enabled on your site.',
+    'not_writable' => 'NOT WRITABLE',
+    'notes' => 'Notes',
+    'not_found' => 'Not Found',
+    'netpbm' => 'NetPBM Library',
+    'np_ok' => 'The NetPBM library is installed',
+    'np_not_found' => 'The NetPBM executables were not found.',
+    'openssl_library' => 'OpenSSL Library',
+    'openssl_ok' => 'The OpenSSL library is loaded. This library is required if you wish to use the OAuth user login method with Geeklog.',
+    'openssl_not_found' => 'The OpenSSL library is not loaded. This is required <strong>only</strong> if you wish to use the OAuth user login method with Geeklog.',
+    'off' => 'Off',
+    'ok' => 'OK',
+    'on' => 'On',
+    'open_basedir' => 'If <strong>open_basedir</strong> restrictions are enabled on your site, it may cause permission problems during the install. The File System Check below should point out any issues.',
+    'php_req_version' => 'Geeklog requires PHP version 5.2.0 or newer.',
+    'php_settings' => 'PHP Settings',
+    'php_version' => 'PHP Version',
+    'php_warning' => 'If any of the items below are marked in <span class="no">red</span>, you may encounter problems with your Geeklog site.  Check with your hosting provider for information on changing any of these PHP settings.',
+    'post_max_size' => 'Geeklog allows you to upload plugins, images, and files. You should allow at least 8M for the maximum post size.',
+    'recheck' => 'Recheck Environment',
+    'recommended' => 'Recommended',
+    'register_globals' => 'If PHP\'s <strong>register_globals</strong> is enabled, it can create security issues.',
+    'safe_mode' => 'If PHP\'s <strong>safe_mode</strong> is enabled, some functions of Geeklog may not work correctly. Specifically the Media Gallery plugin.',
+    'setting' => 'Setting',
+    'unable_mkdir' => 'Unable to create directory',
+    'upload_max_filesize' => 'Geeklog allows you to upload plugins, images, and files. You should allow at least 8M for the upload size.',
+    'not_checked' => 'Skipped',
+    'bypass_note' => 'Since either Safe Mode or open_basedir restrictions were detected, the check for graphic libraries were skipped.',
+    'not_used_note' => 'No graphic libraries are set to be used by Geeklog.',
+    'location' => 'Location',
+    'status' => 'Status',
+    'item' => 'Item',
+    'jhead' => 'jhead Program',
+    'jhead_not_found' => 'Unable to locate the jhead executable.',
+    'jhead_ok' => 'The jhead executable is installed.',
+    'jpegtran' => 'jpegtran Program',
+    'jpegtran_not_found' => 'Unable to locate the jpegtran executable.',
+    'jpegtran_ok' => 'The jpegtran executable is installed.',
+    'showhide_phpinfo' => 'Show/Hide Full PHP Info',
+    'view_online' => 'Click here %s to view online',
+    'no_new_items' => 'No New Items',
+    'max_execution_time' => 'Geeklog recommends the PHP default value of 30 seconds as a minimum, but plugin uploads and other operations may take longer than this depending upon your hosting environment.  If safe_mode (above) is Off, you may be able to increase this by modifying the value of <b>max_execution_time</b> in your php.ini file.'
+);
+
+###############################################################################
 # admin/auth.inc.php
 
 $LANG20 = array(
@@ -758,7 +846,9 @@ $LANG21 = array(
     66 => '自動標籤',
     67 => '打勾來准許自動標籤',
     68 => '這入口組件的新聞饋入太長. 請在組件設定區裏設定最多文章數限，或在志樂的全面設定區裏設定最多文章數限。',
-    69 => 'Plugin Name'
+    69 => 'Plugin Name',
+    'cache_time' => 'Cache Time',
+    'cache_time_desc' => 'This block will be cached for no longer than this many seconds. If 0 caching is disabled. (3600 = 1 hour,  86400 = 1 day)'
 );
 
 ###############################################################################
@@ -856,7 +946,9 @@ $LANG24 = array(
     89 => 'Meta Description',
     90 => 'Meta Keywords',
     91 => 'You can always hit "Preview" to extend the expiry time.',
-    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.'
+    'autotag_desc_story' => '[story: id alternate title] - Displays a link to a Story using the Story Title as the title. An alternate title may be specified but is not required.',
+    'cache_time' => 'Cache Time',
+    'cache_time_desc' => 'This article will be cached for no longer than this many seconds. If 0 caching is disabled. If -1 cached until article is edited again. (3600 = 1 hour,  86400 = 1 day)'
 );
 
 ###############################################################################
@@ -916,8 +1008,16 @@ $LANG27 = array(
     51 => 'No',
     52 => 'Story',
     53 => 'Image',
+    54 => 'Selected',
+    55 => 'Assigned',
     'breadcrumb_separator' => '>',
-    'breadcrumb_root' => 'Home'
+    'breadcrumb_root' => 'Home',
+    'autotag_desc_topic' => '[topic: id alternate title] - Displays a link to a topic using the ID as the title. An alternate title may be specified but is not required.',
+    'autotag_desc_related_topics' => '[related_topics:id type:plugin max:max_items_listed] - Creates a clickable horizontal list of related topics based on the item id and type.',
+    'autotag_desc_related_items' => '[related_items:id type:plugin max:max_items_listed trim:max_length include:plugin] - Create a clickable list of related items based on the item id and type.',
+    'no_related_items' => 'No related items found.',
+    'topics:' => 'Topics:',
+    'filed_under:' => 'Filed under:'
 );
 
 ###############################################################################
@@ -1037,13 +1137,18 @@ $LANG29 = array(
     34 => '命令和控制',
     35 => '已遞交的文章',
     36 => 'Parent or Comment',
-    37 => '',
+    37 => 'Author',
     38 => '遞交',
     39 => '此時沒有遞交的東西',
     40 => '申請的用戶',
     41 => 'Comment Submissions',
     42 => 'Username',
-    43 => 'Auto-publish Comments?'
+    43 => 'Auto-publish Comments?',
+    'core' => 'Core',
+    'plugins' => 'Plugins',
+    'tools' => 'Tools',
+    'users' => 'Users',
+    'submissions_desc' => 'To modify or delete a user submssion, click on that item\'s edit icon below. To approve and delete multiple submissions use the radio options in the lists and then click submit.'
 );
 
 ###############################################################################
@@ -1330,8 +1435,14 @@ $MESSAGE = array(
     113 => 'Your account has been created successfully. {site_url}',
     114 => 'Your re-synch with your remote account has failed but your other account information has been successfully saved.',
     115 => 'Remote service has been disabled.',
+    116 => 'Loading...',
+    117 => 'Help page is not found.',
+    118 => 'Click to select a date',
+    119 => 'More..',
+    120 => 'Send this?',
     400 => 'Not all required fields have been passed validation',
-    401 => 'Please enter Fullname'
+    401 => 'Please enter Fullname',
+    500 => 'The Template Cache has been successfully cleared.'
 );
 
 ###############################################################################
@@ -1462,7 +1573,8 @@ $LANG_BUTTONS = array(
 $LANG_404 = array(
     1 => '404 錯誤',
     2 => '咦，我到處都看過了但找不到<b>%s</b>.',
-    3 => "<p>很抱歉，但你要求的檔不存在。請檢查<a href=\"{$_CONF['site_url']}\">主頁</a>或<a href=\"{$_CONF['site_url']}/search.php\">搜索頁</a>看看能發現什麽。"
+    3 => "<p>很抱歉，但你要求的檔不存在。請檢查<a href=\"{$_CONF['site_url']}\">主頁</a>或<a href=\"{$_CONF['site_url']}/search.php\">搜索頁</a>看看能發現什麽。",
+    4 => "<p>We're sorry, but the page you have requested does not exist. We recommend going back to this <a href=\"%s\">related page</a>, or you may want to check the <a href=\"{$_CONF['site_url']}/\">home page</a>, or the <a href=\"{$_CONF['site_url']}/search.php\">search page</a> to see if you can find what you lost."
 );
 
 ###############################################################################
@@ -1748,7 +1860,8 @@ $LANG_frontpagecodes = array(
 
 $LANG_postmodes = array(
     'plaintext' => '普通文字',
-    'html' => 'HTML 格式'
+    'html' => 'HTML 格式',
+    'wikitext' => 'Wiki-style format'
 );
 
 $LANG_sortcodes = array(
@@ -1803,6 +1916,7 @@ $LANG_confignames['Core'] = array(
     'backup_path' => '備份',
     'path_data' => '數據',
     'path_images' => '圖像',
+    'path_editors' => 'Advanced Editors',
     'path_pear' => 'Pear 路徑',
     'have_pear' => '有 Pear 嗎?',
     'mail_settings' => '電郵設定',
@@ -1814,6 +1928,7 @@ $LANG_confignames['Core'] = array(
     'doctype' => 'DOCTYPE Declaration',
     'menu_elements' => '才當成分',
     'path_themes' => '畫面主題的路徑',
+    'cache_templates' => 'Cache Templates?',
     'disable_new_user_registration' => '關閉新登記',
     'allow_user_themes' => '允許用戶版面主題',
     'allow_user_language' => '允許用戶語言',
@@ -1834,6 +1949,15 @@ $LANG_confignames['Core'] = array(
     'twitter_login' => 'Enable OAuth Login Method Twitter',
     'twitter_consumer_key' => 'Twitter OAuth Consumer Key',
     'twitter_consumer_secret' => 'Twitter OAuth Consumer Secret',
+    'google_login' => 'Enable OAuth Login Method Google',
+    'google_consumer_key' => 'Google OAuth Consumer Key',
+    'google_consumer_secret' => 'Google OAuth Consumer Secret',
+    'microsoft_login' => 'Enable OAuth Login Method Microsoft',
+    'microsoft_consumer_key' => 'Microsoft OAuth Consumer Key',
+    'microsoft_consumer_secret' => 'Microsoft OAuth Consumer Secret',
+    'yahoo_login' => 'Enable OAuth Login Method Yahoo',
+    'yahoo_consumer_key' => 'Yahoo OAuth Consumer Key',
+    'yahoo_consumer_secret' => 'Yahoo OAuth Consumer Secret',
     'spamx' => 'Spam-X 作用',
     'sort_admin' => '排列聯結',
     'language' => '語言',
@@ -1885,6 +2009,7 @@ $LANG_confignames['Core'] = array(
     'speedlimit' => '登稿速度限制',
     'skip_preview' => '登稿時跳過預覽',
     'advanced_editor' => '進階編輯器?',
+    'advanced_editor_name' => 'Advanced Editor Name?',
     'wikitext_editor' => 'Wikitext 編輯器?',
     'cron_schedule_interval' => 'Cron 時間表間隔',
     'sortmethod' => '題目分類',
@@ -1907,6 +2032,7 @@ $LANG_confignames['Core'] = array(
     'hidenewtrackbacks' => '隱藏新跡回',
     'hidenewplugins' => '隱藏新插件條目',
     'title_trim_length' => '題目長度裁減',
+    'whatsnew_cache_time' => 'Max Cache Time',
     'trackback_enabled' => '啟動跡回?',
     'pingback_enabled' => '啟動Ping回?',
     'ping_enabled' => '啟動Ping?',
@@ -1935,9 +2061,16 @@ $LANG_confignames['Core'] = array(
     'hide_main_page_navigation' => '隱藏主頁底的頁數導航?',
     'onlyrootfeatures' => '只有根用戶能指定特載文章?',
     'aftersave_story' => '存續文章後',
+    'related_topics' => 'Related Topics',
+    'related_topics_max' => 'Max Related Topics to Display',
+    'whats_related' => 'What\'s Related',
+    'whats_related_max' => 'Max What\'s Related to Display',
+    'whats_related_trim' => 'What\'s Related Title Length',
+    'default_cache_time_article' => 'Default Article Cache Time',
     'aftersave_user' => '存續用戶後',
     'show_right_blocks' => '總是顯示右邊的元件?',
     'showfirstasfeatured' => '顯示第一個文章為特載文章?',
+    'template_comments' => 'Template Comments in Output?',
     'backend' => '啟動新聞供應(RSS Feeds)?',
     'rdf_file' => '新聞供應輸出檔案夾',
     'rdf_limit' => '新聞供應速度',
@@ -1972,6 +2105,7 @@ $LANG_confignames['Core'] = array(
     'commentspeedlimit' => '評論速度限定',
     'comment_limit' => '評論限定',
     'comment_mode' => '評論方式',
+    'comment_order' => 'Comment Order',
     'comment_code' => '評論默認',
     'comment_edit' => 'Allow Comment Edit?',
     'comment_edittime' => 'Comment Edit Time (seconds)',
@@ -1992,6 +2126,8 @@ $LANG_confignames['Core'] = array(
     'compressed_output' => 'Send compressed output?',
     'frame_options' => 'Protection against "clickjacking"',
     'page_navigation_max_pages' => 'Max Pages for Navigation',
+    'default_cache_time_block' => 'Default Block Cache Time',
+    'titletoid' => 'Enable Title To Id?',
     'censormode' => '檢查方式?',
     'censorreplace' => '檢查代替文字',
     'censorlist' => '檢查列',
@@ -2024,11 +2160,40 @@ $LANG_confignames['Core'] = array(
     'search_def_sort' => 'Default Sort Order',
     'autotag_permissions_story' => '[story: ] Permissions',
     'autotag_permissions_user' => '[user: ] Permissions',
+    'autotag_permissions_topic' => '[topic: ] Permissions',
+    'autotag_permissions_related_topics' => '[related_topics: ] Permissions',
+    'autotag_permissions_related_items' => '[related_items: ] Permissions',
     'multiple_breadcrumbs' => 'Multiple Breadcrumbs',
     'disable_breadcrumbs_topics' => 'Disable Topic Breadcrumbs',
     'disable_breadcrumbs_articles' => 'Disable Article Breadcrumbs',
     'disable_breadcrumbs_plugins' => 'Disable Plugins Breadcrumbs',
-    'breadcrumb_root_site_name' => 'Site Name as Breadcrumb Root?'
+    'breadcrumb_root_site_name' => 'Site Name as Breadcrumb Root?',
+    'filemanager_disabled' => 'Disable Filemanager?',
+    'filemanager_browse_only' => 'Browse only mode?',
+    'filemanager_default_view_mode' => 'Default view mode',
+    'filemanager_show_confirmation' => 'Show confirmation?',
+    'filemanager_search_box' => 'Show search box?',
+    'filemanager_file_sorting' => 'File sorting',
+    'filemanager_chars_only_latin' => 'Allow only latin chars?',
+    'filemanager_date_format' => 'Date time format',
+    'filemanager_logger' => 'Enable logger?',
+    'filemanager_show_thumbs' => 'Show thumbnails?',
+    'filemanager_generate_thumbnails' => 'Generate thumbnails?',
+    'filemanager_upload_restrictions' => 'Allowed file extensions',
+    'filemanager_upload_overwrite' => 'Overwrite existing file?',
+    'filemanager_upload_images_only' => 'Upload images only?',
+    'filemanager_upload_file_size_limit' => 'Upload file size limit (MiB)',
+    'filemanager_unallowed_files' => 'Unallowed files',
+    'filemanager_unallowed_dirs' => 'Unallowed directories',
+    'filemanager_unallowed_files_regexp' => 'Regular expression for unallowed files',
+    'filemanager_unallowed_dirs_regexp' => 'Regular expression for unallowed directories',
+    'filemanager_images_ext' => 'Image file extensions',
+    'filemanager_show_video_player' => 'Show video player?',
+    'filemanager_videos_ext' => 'Video file extensions',
+    'filemanager_videos_player_width' => 'Video player width (px)',
+    'filemanager_videos_player_height' => 'Video player height (px)',
+    'filemanager_show_audio_player' => 'Show audio player?',
+    'filemanager_audios_ext' => 'Audio file extensions'
 );
 
 $LANG_configsubgroups['Core'] = array(
@@ -2039,7 +2204,8 @@ $LANG_configsubgroups['Core'] = array(
     'sg_users' => '用戶及提交物',
     'sg_images' => '圖像',
     'sg_locale' => '語言及地區',
-    'sg_misc' => '其他'
+    'sg_misc' => '其他',
+    'sg_filemanager' => 'Filemanager'
 );
 
 $LANG_fs['Core'] = array(
@@ -2055,6 +2221,7 @@ $LANG_fs['Core'] = array(
     'fs_admin_block' => '管理員組件',
     'fs_locale' => '地區',
     'fs_language' => '語言',
+    'fs_multilanguage' => 'Multi-Language Content',
     'fs_debug' => '調試',
     'fs_cookies' => 'Cookies',
     'fs_login' => '登入設定',
@@ -2087,7 +2254,12 @@ $LANG_fs['Core'] = array(
     'fs_webservices' => 'Webservices',
     'fs_autotag_permissions' => 'Autotag Usage Permissions',
     'fs_breadcrumbs' => 'Breadcrumbs',
-    'fs_pass' => 'Password Settings'
+    'fs_pass' => 'Password Settings',
+    'fs_filemanager_general' => 'General Settings',
+    'fs_filemanager_upload' => 'Upload',
+    'fs_filemanager_images' => 'Images',
+    'fs_filemanager_videos' => 'Videos',
+    'fs_filemanager_audios' => 'Audios'
 );
 
 $LANG_tab['Core'] = array(
@@ -2130,7 +2302,12 @@ $LANG_tab['Core'] = array(
     'tab_iplookup' => 'IP Lookup',
     'tab_permissions' => 'Permissions',
     'tab_webservices' => 'Webservices',
-    'tab_topics' => 'Topics'
+    'tab_topics' => 'Topics',
+    'tab_filemanager_general' => 'General Settings',
+    'tab_filemanager_upload' => 'Upload',
+    'tab_filemanager_images' => 'Images',
+    'tab_filemanager_videos' => 'Videos',
+    'tab_filemanager_audios' => 'Audios'
 );
 
 $LANG_configselects['Core'] = array(
@@ -2139,7 +2316,7 @@ $LANG_configselects['Core'] = array(
     2 => array('Reject' => 0, 'Only Keep Latest' => 1, 'Allow Multiple Posts' => 2),
     3 => array('Trackback Enabled' => 0, 'Trackback Disabled' => -1),
     4 => array('Don\'t Check Anything' => 0, 'Check against Site URL' => 1, 'Check full URL' => 2, 'Check against Site URL and full URL' => 3, 'Check IP against Site IP' => 4, 'Check IP and Site URL' => 5, 'Check IP and Full URL' => 6, 'Check IP, Full URL, and Site URL' => 7),
-    5 => array('Plain Old Text' => 'plaintext', 'HTML Formatted' => 'html'),
+    5 => array('Plain Old Text' => 'plaintext', 'HTML Formatted' => 'html', 'Wiki-style Format' => 'wikitext'),
     6 => array('12' => 12, '24' => 24),
     7 => array('Last Page' => 'last', 'First Page' => 'first', 'Every Page' => 'all'),
     8 => array('Right' => 'right', 'Left' => 'left'),
@@ -2158,13 +2335,18 @@ $LANG_configselects['Core'] = array(
     21 => array('HTML 4.01 Transitional' => 'html401transitional', 'HTML 4.01 Strict' => 'html401strict', 'XHTML 1.0 Transitional' => 'xhtml10transitional', 'XHTML 1.0 Strict' => 'xhtml10strict', 'HTML5' => 'html5', 'HTML5 with XHTML syntax' => 'xhtml5'),
     22 => array('Strict' => 'DENY', 'Same Origin' => 'SAMEORIGIN', '(disabled)' => ''),
     23 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (Default for Homepage only)' => 2),
-    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
+    24 => array('Contribute' => 'contribute', 'Home' => 'home', 'Advanced Search' => 'search', 'Directory' => 'directory', 'Login' => 'login', 'My Account' => 'prefs', 'Plugin Entries' => 'plugins', 'Custom Entries' => 'custom', 'Site Statistics' => 'stats'),
     25 => array('New Stories' => 'story', 'New Comments' => 'comment', 'New Trackbacks' => 'trackback', 'New Pingbacks' => 'pingback', 'New Users' => 'user'),
     26 => array('G (General Audiences)' => 'G', 'PG (Parental Guidance)' => 'PG', 'R (Restricted)' => 'R', 'X (Explicit)' => 'X'),
     27 => array('Hits (asc)' => 'hits|asc', 'Hits (desc)' => 'hits|desc', 'Date (asc)' => 'date|asc', 'Date (desc)' => 'date|desc', 'Title (asc)' => 'title|asc', 'Title (desc)' => 'title|desc', 'Author (asc)' => 'uid|asc', 'Author (desc)' => 'uid|desc'),
     28 => array('No access' => 0, 'Use' => 2),
     29 => array('md5' => 0, 'sha1' => 1, 'sha256' => 2, 'sha512' => 3, 'blowfish' => 4),
-    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none')
+    30 => array('Start' => 'start', 'End' => 'end', 'None' => 'none'),
+    31 => array('Newest First' => 'DESC', 'Oldest First' => 'ASC'),
+    32 => array('Disabled' => 0, 'Just Article Pages' => 1, 'Articles and Topics' => 2),
+    33 => array('Disabled' => 0, 'Enabled' => 1, 'Enabled (No Links)' => 2, 'Enabled (No Outbound Links)' => 3),
+    34 => array('grid' => 'grid', 'list' => 'list'),
+    35 => array('default' => 'default', 'Name (asc)' => 'NAME_ASC', 'Name (desc)' => 'NAME_DESC', 'Type (asc)' => 'TYPE_ASC', 'Type (desc)' => 'TYPE_DESC', 'Modified (asc)' => 'MODIFIED_ASC', 'Modified (desc)' => 'MODIFIED_DESC')
 );
 
 ###############################################################################

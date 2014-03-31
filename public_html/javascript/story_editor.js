@@ -55,9 +55,10 @@
     }
 
     $(function() {
-        var cmt_close_flag = $("input[name='cmt_close_flag']").attr("checked");
+        var cmt_close_flag = $("input[name='cmt_close_flag']")[0].checked;
         var s = $("select");
-        if (cmt_close_flag !== "checked") {
+
+        if (!cmt_close_flag) {
             s.filter("[name='cmt_close_month']").attr("disabled","disabled");
             s.filter("[name='cmt_close_day']").attr("disabled","disabled");
             s.filter("[name='cmt_close_year']").attr("disabled","disabled");
@@ -66,8 +67,9 @@
             s.filter("[name='cmt_close_ampm']").attr("disabled","disabled");
         }
 
-        var archiveflag = $("input[name='archiveflag']").attr("checked");
-        if (archiveflag !== "checked") {
+        var archiveflag = $("input[name='archiveflag']")[0].checked;
+
+        if (!archiveflag) {
             s.filter("[name='expire_month']").attr("disabled","disabled");
             s.filter("[name='expire_day']").attr("disabled","disabled");
             s.filter("[name='expire_year']").attr("disabled","disabled");
@@ -76,6 +78,7 @@
             s.filter("[name='expire_ampm']").attr("disabled","disabled");
             s.filter("[name='storycode10']").attr("disabled","disabled");
             s.filter("[name='storycode11']").attr("disabled","disabled");
+            $("#storycode11").attr("disabled", "disabled");
         }
     });
 
@@ -144,6 +147,21 @@
         }
 
     }
+
+    $(function() {
+        var elem = document.getElementById('sel_editmode');
+        if (elem) {
+            if (elem.addEventListener) {
+                elem.addEventListener('change', modifyNavlist, false);
+            } else if (elem.attachEvent) {
+                elem.attachEvent('onchange', modifyNavlist);
+            }
+        }
+        function modifyNavlist() {
+            var navlistcount = document.getElementById('navlist').getElementsByTagName('li').length;
+            showhideEditorDiv('editor', navlistcount - 6);
+        }
+    });
 
     /* Enable if you want to have toolbar only auto-collapse when not editing in field */
     /*

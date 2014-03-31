@@ -465,3 +465,10 @@ ul.compact li {
   background: transparent;
   border: none;
 }
+
+/*--------------------------------------
+  Breadcrumbs Navigation
+--------------------------------------*/
+.bc_navigation {
+  margin: 1.12em 0;
+}

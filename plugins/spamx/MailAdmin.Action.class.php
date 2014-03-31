@@ -30,27 +30,18 @@ require_once $_CONF['path'] . 'plugins/spamx/' . 'BaseCommand.class.php';
  * @package Spam-X
  *
  */
-class MailAdmin extends BaseCommand {
-    /**
-     * Constructor
-     */
-    function MailAdmin()
+class MailAdmin extends BaseCommand
+{
+    public function __construct()
     {
-        global $num;
-
-        $num = 8;
+        $this->actionCode = PLG_SPAM_ACTION_NOTIFY;
     } 
 
-    function execute($comment)
+    public function execute($comment)
     {
-        global $result, $_CONF, $_USER, $LANG_SX00, $_SPX_CONF;
+        global $_CONF, $LANG_SX00, $_SPX_CONF;
 
-        if (isset ($_USER['uid']) && ($_USER['uid'] > 1)) {
-            $uid = $_USER['uid'];
-        } else {
-            $uid = 1;
-        }
-        $uid .= '@' . $_SERVER['REMOTE_ADDR'];
+        $uid = $this->getUid() . '@' . $_SERVER['REMOTE_ADDR'];
         $msg = sprintf ($LANG_SX00['emailmsg'],
                         $_CONF['site_name'], $uid, $comment);
 
@@ -82,10 +73,10 @@ class MailAdmin extends BaseCommand {
             $email_address = $_SPX_CONF['notification_email'];
         }
         COM_mail($email_address, $subject, $msg);
-        $result = 8;
+        $this->result = PLG_SPAM_ACTION_NOTIFY;
         SPAMX_log('Mail Sent to Admin');
 
-        return 0;
+        return PLG_SPAM_NOT_FOUND;
     }
 }
 

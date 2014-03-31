@@ -526,6 +526,7 @@ function INST_installEngine($install_type, $install_step)
                         $config->set('path_data', $gl_path . 'data/');
                         $config->set('path_images', $html_path . 'images/');
                         $config->set('path_themes', $html_path . 'layout/');
+                        $config->set('path_editors', $html_path . 'editors/');
                         $config->set('rdf_file', $html_path . 'backend/geeklog.rss');
                         $config->set('path_pear', $_CONF['path_system'] . 'pear/');
                         $config->set('cookie_path', INST_guessCookiePath(urldecode($site_url)));
@@ -650,6 +651,10 @@ function INST_installEngine($install_type, $install_step)
                 }
                 break;
         }
+        
+        // Clear the Geeklog Cache        
+        INST_clearCache();
+
         break;
 
     /**
@@ -1136,17 +1141,31 @@ if (INST_phpOutOfDate()) {
             // Files to check if writable
             $file_list = array( $_PATH['db-config.php'],
                                 $gl_path . 'data/',
+                                $gl_path . 'data/layout_cache/',
                                 $gl_path . 'logs/error.log',
                                 $_PATH['public_html/'] . 'siteconfig.php',
                                 $_PATH['public_html/'] . 'backend/geeklog.rss',
                                 $_PATH['public_html/'] . 'images/articles/',
                                 $_PATH['public_html/'] . 'images/topics/',
-                                $_PATH['public_html/'] . 'images/userphotos' );
+                                $_PATH['public_html/'] . 'images/userphotos',
+                                $_PATH['public_html/'] . 'filemanager/scripts/filemanager.config.js',
+                                $_PATH['public_html/'] . 'images/library/File/',
+                                $_PATH['public_html/'] . 'images/library/Flash/',
+                                $_PATH['public_html/'] . 'images/library/Image/',
+                                $_PATH['public_html/'] . 'images/library/Image/_thumbs/',
+                                $_PATH['public_html/'] . 'images/library/Image/icons/',
+                                $_PATH['public_html/'] . 'images/library/Media/',
+                                $_PATH['public_html/'] . 'images/_thumbs/',
+                                $_PATH['public_html/'] . 'images/_thumbs/articles/',
+                                $_PATH['public_html/'] . 'images/_thumbs/library/Image/',
+                                $_PATH['public_html/'] . 'images/_thumbs/userphotos/',
+			);
 
             if (!isset($_CONF['allow_mysqldump']) && $_DB_dbms == 'mysql') {
                 array_splice($file_list, 1, 0, $gl_path . 'backups/');
             }
-
+            $check_selinux = false;
+            $cmd_selinux = '';
             foreach ($file_list as $file) {
                 if (!is_writable($file)) {
                     if (is_file($file)) {
@@ -1155,7 +1174,16 @@ if (INST_phpOutOfDate()) {
                         $perm_should_be = '777';
                     }
                     $permission = sprintf("%3o", @fileperms($file) & 0777);
-                    $display_permissions    .= '<p><label class="' . $perms_label_dir . '"><code>' . $file . '</code></label>' . LB
+                    $check_perm = 0;
+                    for ($i=0; $i<strlen($permission); $i++) {
+                        if ($permission[$i] >= $perm_should_be[$i])
+                            $check_perm++;
+                    }
+                    if ($check_perm >= 3) {
+                        $check_selinux = true;
+                        $cmd_selinux .= $file . ' ';
+                    }
+                    $display_permissions    .= '<p class="clearboth"><label class="' . $perms_label_dir . '"><code>' . $file . '</code></label>' . LB
                                             . ' <span class="permissions-list">' . $LANG_INSTALL[12] . ' '. $perm_should_be .'</span> ('
                                             . $LANG_INSTALL[13] . ' ' . $permission . ')</p>' . LB ;
                     $chmod_string .= $file . ' ' ;
@@ -1164,11 +1192,18 @@ if (INST_phpOutOfDate()) {
             }
 
             $display_step = 1;
-
             /**
              * Display permissions, etc
              */
-            if ($num_wrong && (strtoupper(substr(PHP_OS, 0, 3)) !== 'WIN')) {
+            if ($check_selinux){
+                $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
+                $display .= $LANG_INSTALL[110];
+                $cmd = 'chcon -Rt httpd_user_rw_content_t '.$cmd_selinux;
+                $display .= '<p class="codeblock"><code>' . $cmd . LB 
+                    . '</code></p><br ' . XHTML . '>' . LB;
+                $display_step++;
+            }
+            else if ($num_wrong) {
                 // If any files have incorrect permissions.
 
                 $display .= '<h1 class="heading">' . $LANG_INSTALL[101] . ' ' . $display_step . ' - ' . $LANG_INSTALL[97] . '</h1>' . LB;
@@ -1188,7 +1223,7 @@ if (INST_phpOutOfDate()) {
                 // Also, list the auto-generated chmod command for advanced users
                 $display .= '<div class="file-permissions">' . LB
                     . $display_permissions . '</div>' . LB
-                    . '<h2>' . $LANG_INSTALL[98] . '</h2>' . LB
+                    . '<h2 class="clearboth">' . $LANG_INSTALL[98] . '</h2>' . LB
                     . '<p>' . $LANG_INSTALL[99] . '</p>' . LB
                     . '<p class="codeblock"><code>' . $chmod_string . LB 
                     . '</code></p><br ' . XHTML . '>' . LB;
@@ -1311,6 +1346,7 @@ if (INST_phpOutOfDate()) {
 
         // Run the installation function
         INST_installEngine($mode, $step); 
+
         break;
 
     } // End switch ($mode)
