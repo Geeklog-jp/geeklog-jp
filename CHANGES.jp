@@ -6,3 +6,7 @@
 
 	* geeklog-2.0-jpブランチを作成: CHANGES.jpをCHANGES-2.0.jpに名前を
 	  変更し、新たにCHANGES.jpを作成しました。
+
+2014-05-05  Tetsuko Komma  <ivysoho>
+
+	* 日本語ドキュメントのhistory.htmlを翻訳しました。
