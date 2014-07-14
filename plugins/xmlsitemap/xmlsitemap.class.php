@@ -428,7 +428,7 @@ class SitemapXML
     */
     public function create()
     {
-        global $_CONF;
+        global $_XMLSMAP_CONF;
 
         $this->_num_entries = 0;
         $sitemap = '';
@@ -482,8 +482,10 @@ class SitemapXML
                                       .  $timezone;
                             }
                         }
-
-                        $sitemap .= '    <lastmod>' . $date . '</lastmod>' . self::LB;
+                        
+                        if (in_array($type, $_XMLSMAP_CONF['lastmod'])) {
+                            $sitemap .= '    <lastmod>' . $date . '</lastmod>' . self::LB;
+                        }
                     }
 
                     // Priority
@@ -601,7 +603,7 @@ class SitemapXML
 
             switch ($dest) {
                 case 'google':
-                    $url = 'www.google.com/webmasters/tools/ping?sitemap='
+                    $url = 'http://www.google.com/webmasters/tools/ping?sitemap='
                          . urlencode($sitemap);
                     break;
 

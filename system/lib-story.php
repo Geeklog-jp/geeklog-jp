@@ -104,6 +104,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
     
     // Date formatting set by user therefore cannot be cached
     $article->set_var('story_date', $story->DisplayElements('date'), false, true);
+    $article->set_var('story_datetime', $story->DisplayElements('datetime'), false, true );    
 
     // Story views increase with every visit so cannot be cached
     if( $_CONF['hideviewscount'] != 1 ) {
@@ -126,7 +127,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 COM_createLink(
                     $topicimage,
                     $topicurl,
-                    array('rel'=>"category")
+                    array()
                 )
                 , false, true
             );
@@ -137,7 +138,7 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                 COM_createLink(
                     $topicimage_noalign,
                     $topicurl,
-                    array('rel'=>"category")
+                    array()
                 )
                 , false, true
             );
@@ -451,6 +452,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                         $recent_post_anchortag = COM_createLink($LANG01[60],
                             $_CONF['site_url'] . '/comment.php?sid=' . $story->getSid()
                                 . '&amp;pid=0&amp;type=article');
+						if ($_CONF['show_comments_at_replying'] == true) {
+							$recent_post_anchortag .= '#commenteditform';
+						}
                     }
                 }
                 if( $story->DisplayElements( 'commentcode' ) == 0 )
@@ -461,6 +465,9 @@ function STORY_renderArticle( &$story, $index='', $storytpl='storytext.thtml', $
                     } else {
                         $postCommentUrl = $_CONF['site_url'] . '/comment.php?sid='
                                     . $story->getSid() . '&amp;pid=0&amp;type=article';
+						if ($_CONF['show_comments_at_replying'] == true) {
+							$postCommentUrl .= '#commenteditform';
+						}
                     }
                     $article->set_var( 'post_comment_link',
                             COM_createLink($LANG01[60], $postCommentUrl,

@@ -736,7 +736,7 @@ function _postprocess($str)
                 if ($this->debug & 4) {
                     echo "<p><b>subst:</b> varname $varname does not reference a file</p>\n";
                 }
-                return true;
+                return "";
             }
 
             if (!is_readable($filename)) {
@@ -744,7 +744,7 @@ function _postprocess($str)
                 if ($this->debug & 4) {
                     echo "<p><b>subst:</b> file $filename Does Not Exist or is not readable</p>\n";
                 }
-                return true;
+                return "";
             }
 
             $p = pathinfo($filename);
@@ -769,7 +769,7 @@ function _postprocess($str)
                 if ($this->debug & 4) {
                     echo "<p><b>subst:</b> varname $varname does not reference a file</p>\n";
                 }
-                return true;
+                return "";
             }
 
             ob_start();
@@ -1487,8 +1487,8 @@ function _postprocess($str)
         if ($in_php) {
             $tmplt = preg_replace(
                       array(
-                            '/\{([-\w\d_\[\]]+)\}/',                              // matches {identifier}
-                            '/\{([-\w\d_\[\]]+)((:u|:s|:t\d+)+)\}/',              // matches {identifier} with optional :s, :u or :t### suffix
+                            '/\{([-\.\w\d_\[\]]+)\}/',                              // matches {identifier}
+                            '/\{([-\.\w\d_\[\]]+)((:u|:s|:t\d+)+)\}/',              // matches {identifier} with optional :s, :u or :t### suffix
                            ),
                       array(
                             '$this->get_var(\'\1\')',
@@ -1498,8 +1498,8 @@ function _postprocess($str)
         } else {
             $tmplt = preg_replace(
                       array(
-                            '/\{([-\w\d_\[\]]+)\}/',                              // matches {identifier}
-                            '/\{([-\w\d_\[\]]+)((:u|:s|:t\d+)+)\}/',              // matches {identifier} with optional :s, :u or :t### suffix
+                            '/\{([-\.\w\d_\[\]]+)\}/',                              // matches {identifier}
+                            '/\{([-\.\w\d_\[\]]+)((:u|:s|:t\d+)+)\}/',              // matches {identifier} with optional :s, :u or :t### suffix
                            ),
                       array(
                             '<?php echo $this->val_echo(\'\1\'); ?>',
@@ -1559,7 +1559,7 @@ function _postprocess($str)
         if (strpos($tmplt, '!}') !== false || strpos($tmplt, '$}') !== false) {
             $tmplt = preg_replace_callback(
                       array('/\{\!\!(if|elseif|while|echo|global|autotag) (([^\\\']|\\\\|\\\')+?) \!\!\}/',
-                            '/\{\!\!(set) ([-\w\d_\[\]]+) (([^\\\']|\\\\|\\\')+?) \!\!\}/',       // sets a variable
+                            '/\{\!\!(set) ([-\.\w\d_\[\]]+) (([^\\\']|\\\\|\\\')+?) \!\!\}/',       // sets a variable
                             '/\{(\$LANG[\w\d_]+)\[(\')?([\w\d_]+)(?(2)\')\] (([^\\\']|\\\\|\\\')+?) \$\}/',       // Substitutable language independence
                            ),
                       array($this, 'parse_extended_callback'),
@@ -1569,14 +1569,14 @@ function _postprocess($str)
         if (strpos($tmplt, '{!') !== false) {
             $tmplt = preg_replace(
                 array(
-                      '/\{!(if|elseif|while) ([-\w\d_\[\]]+)\}/',
+                      '/\{!(if|elseif|while) ([-\.\w\d_\[\]]+)\}/',
                       '/\{!else(|!| !)\}/',
                       '/\{!end(if|while|for)(|!| !)\}/',                    // for is not yet supported but here for future use
-                      '/\{!loop ([-\w\d_\[\]]+)(|!| !)\}/',
+                      '/\{!loop ([-\.\w\d_\[\]]+)(|!| !)\}/',
                       '/\{!endloop(|!| !)\}/',
-                      '/\{!(inc|dec)(\+(echo))? ([-\w\d_\[\]]+)(|!| !)\}/',
+                      '/\{!(inc|dec)(\+(echo))? ([-\.\w\d_\[\]]+)(|!| !)\}/',
                       '/\{!(break|continue)( \d+)?(|!| !)\}/',
-                      '/\{!unset ([-\w\d_\[\]]+)(|!| !)\}/',                // unsets a variable
+                      '/\{!unset ([-\.\w\d_\[\]]+)(|!| !)\}/',                // unsets a variable
                      ),
                 array(
                       '<?php \1 ($this->var_notempty(\'\2\')): ?>',         // if exists and is non-zero
