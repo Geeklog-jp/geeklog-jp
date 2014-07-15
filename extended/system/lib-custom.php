@@ -205,17 +205,17 @@ function CUSTOM_userCreate($uid, $bulkimport = false)
     }
 
     // Ensure all data is prepared correctly before inserts, quotes may need to
-    // be escaped with addslashes()
+    // be escaped with DB_escapeString()
     $email = '';
     if (isset ($_POST['email'])) {
         $email = COM_applyFilter ($_POST['email']);
-        $email = addslashes ($email);
+        $email = DB_escapeString ($email);
     }
 
     $homepage = '';
     if (isset ($_POST['homepage'])) {
         $homepage = COM_applyFilter ($_POST['homepage']);
-        $homepage = addslashes ($homepage);
+        $homepage = DB_escapeString($homepage);
     }
 
     $fullname = '';
@@ -223,7 +223,7 @@ function CUSTOM_userCreate($uid, $bulkimport = false)
         // COM_applyFilter would strip special characters, e.g. quotes, so
         // we only strip HTML
         $fullname = strip_tags ($_POST['fullname']);
-        $fullname = addslashes ($fullname);
+        $fullname = DB_escapeString($fullname);
     }
 
     // Note: In this case, we can trust the $uid variable to contain the new
@@ -548,7 +548,7 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
                 "An error has occurred: $errno $errstr @ $errline of $errfile");
         COM_errorLog("Error Handler: $errno $errstr @ $errline of $errfile");
     }
-    echo("
+    echo "
         <html>
             <head>
                 <title>{$_CONF['site_name']} - An error occurred.</title>
@@ -575,7 +575,7 @@ function CUSTOM_handleError($errno, $errstr, $errfile, $errline, $errcontext)
                 </div>
             </body>
         </html>
-        ");
+        ";
     exit;
 }
 */
