@@ -1,18 +1,21 @@
 <?php
 // +---------------------------------------------------------------------------+
-// | CAPTCHA v4 Plugin                                                         |
+// | CAPTCHA v3.5 Plugin                                                       |
 // +---------------------------------------------------------------------------+
 // | This is the English language page for the CAPTCHA Plugin                  |
 // +---------------------------------------------------------------------------|
-// | Copyright (C) 2002,2005,2006,2007 by the following authors:               |
+// | Copyright (C) 2009-2014 by the following authors:                         |
 // |                                                                           |
-// | Author:                                                                   |
-// | Mark R. Eavns         -    mevans@ecsnet.com                              |
-// | Hiroron               -    hiroron AT hiroron DOT com                     |
+// | ben           ben AT geeklog DOT fr                                     |
+// |                                                                           |
+// | Based on the original CAPTCHA Plugin                                      |
+// | Copyright (C) 2007 by the following authors:                              |
+// |                                                                           |
+// | Mark R. Evans - mark AT glfusion DOT org                                  | 
 // +---------------------------------------------------------------------------|
 // |                                                                           |
 // | If you translate this file, please consider uploading a copy at           |
-// |    http://www.mediagallery.org so others can benefit from your            |
+// |    http://geeklog.net so others can benefit from your                     |
 // |    translation.  Thank you!                                               |
 // |                                                                           |
 // | This program is free software; you can redistribute it and/or             |
@@ -48,76 +51,83 @@ $LANG_CP00 = array (
     'warning'           => 'Warning! Plugin is still Enabled',
     'enabled'           => 'Disable plugin before uninstalling.',
     'readme'            => 'CAPTCHA Plugin Installation',
-    'installdoc'        => "<a href=\"{$_CONF['site_admin_url']}/plugins/captcha/install_doc.html\">Install Document</a>",
-    'overview'          => 'CAPTCHA is a native Geeklog plugin that provides an additional layer of security for spambots. <br /><br />A CAPTCHA (an acronym for "Completely Automated Public Turing test to tell Computers and Humans Apart", trademarked by Carnegie Mellon University) is a type of challenge-response test used in computing to determine whether or not the user is human.  By presenting a difficult to read graphic of letters and numbers, it is assumed that only a human could read and enter the characters properly.  By implementing the CAPTCHA test, it should help reduce the number of Spambot entries on your site.',
-    'details'           => 'The CAPTCHA plugin will use static (already generated) CAPTCHA images unless you configure CAPTCHA to build dynamic images using either the GD Graphic Library or ImageMagick.  In order to use either GD libraries or ImageMagick, they must support True Type fonts.  Check with your hosting provider to determine if they support TTF.',
-    'preinstall_check'  => 'CAPTCHA has the following requirements:',
-    'geeklog_check'     => 'Geeklog v1.4.1 or greater, version reported is <b>%s</b>.',
-    'php_check'         => 'PHP v4.3.0 or greater, version reported is <b>%s</b>.',
-    'preinstall_confirm' => "For full details on installing CAPTCHA, please refer to the <a href=\"{$_CONF['site_admin_url']}/plugins/captcha/install_doc.html\">Installation Manual</a>.",
-    'captcha_help'      => 'Enter the bolded text, case sensitive!',
+    'installdoc'        => "<a href=\"http://geeklog.fr/wiki/plugins:captcha\" target=\"_blank\">online wiki</a>",
+    'overview'          => 'CAPTCHA is a native geeklog plugin that provides an additional layer of security for spambots. <br /><br />A CAPTCHA (an acronym for "Completely Automated Public Turing test to tell Computers and Humans Apart", trademarked by Carnegie Mellon University) is a type of challenge-response test used in computing to determine whether or not the user is human.By implementing the CAPTCHA test, it should help reduce the number of Spambot entries on your site.',
+    'details'           => '',
+    'preinstall_check'  => '',
+    'geeklog_check'     => '',
+    'php_check'         => '',
+    'preinstall_confirm' => "",
+    'captcha_help'      => '',
     'bypass_error'      => "You have attempted to bypass the CAPTCHA processing at this site, please use the New User link to register.",
-    'bypass_error_blank' => "You have attempted to bypass the CAPTCHA processing at this site, please enter a valid CAPTCHA phrase.",
-    'entry_error'       => 'The entered CAPTCHA string did not match the characters on the graphic, please try again. <b>This is case sensitive.</b>',
-    'captcha_info'      => 'The CAPTCHA Plugin provides another layer of protection against SpamBots for your Geeklog site.  See the <a href="%s">Online Documentation Wiki</a> for more info.',
+    'bypass_error_blank' => "You have attempted to bypass the CAPTCHA processing at this site.",
+    'entry_error'       => 'Our filter indicates an error. Please, read carefully the instructions below.',
+    'captcha_info'      => 'The CAPTCHA Plugin provides another layer of protection against SpamBots for your geeklog site.  See the <a href="%s">Online Documentation Wiki</a> for more info.',
     'enabled_header'    => 'Current CAPTCHA Settings',
     'view_logfile'      => 'View CAPTCHA Logfile',
     'log_viewer'        => 'Geeklog Log Viewer',
-    'setting_all'       => 'ALL',
-    'setting_general'   => 'General',
-    'setting_auth_sister' => 'Auth Sister',
     'on'                => 'On',
     'off'               => 'Off',
-    'anonymous_only'    => 'Anonymous Only',
-    'enable_comment'    => 'Enable Comment',
-    'enable_story'      => 'Enable Story',
-    'enable_registration' => 'Enable Registration',
-    'enable_contact'    => 'Enable Contact',
-    'enable_emailstory' => 'Enable Email Story',
-    'enable_forum'      => 'Enable Forum',
-    'enable_mediagallery' => 'Enable Media Gallery (Postcards)',
-    'captcha_alt'       => 'You must enter the graphic text - contact Site Admin if you are unable to read the graphic',
     'save'              => 'Save',
     'cancel'            => 'Cancel',
     'success'           => 'Configuration Options successfully saved.',
-    'gfx_driver'        => 'Graphics Driver',
-    'gfx_format'        => 'Graphics Format',
-    'convert_path'      => 'Full Path to ImageMagick\'s convert utility',
-    'gd_libs'           => 'GD Libs',
-    'gd_sister_libs'    => 'GD Libs(Auth Sister)',
-    'imagemagick'       => 'ImageMagick',
-    'static_images'     => 'Use Static Images',
-    'image_set'			=> 'Static Image Set',
-    'debug'             => 'Debug',
-    'configuration'     => 'CAPTCHA Configuration',
-    'integration'       => 'CAPTCHA Integration',
-    'reload'            => 'New Image',
-    'reload_failed'     => 'Sorry, cannot autoreload CAPTCHA image\nSubmit the form and a new CAPTCHA will be loaded',
-    'reload_too_many'   => 'You may only request up to 5 image refreshes',
-    'session_expired'   => 'Your CAPTCHA Session has expired, please try again',
-    'remoteusers'       => 'Force CAPTCHA for all Remote Users',
+	'captcha'           => 'Security',
+	'question'          => 'The action below is for testing whether you are a human visitor and to prevent automated spam submissions. Un-lock to submit the form...',
+	'what_code'         => '',
+    'view_log'          => 'Views/Clear the Geeklog Log Files.',
+    'file'              => 'File:',
+    'view_file'         => 'View Log File',
+    'clear_file'        => 'Clear Log File',
+    'file_cleared'      => 'Log File Cleared',
+	'txtLock'           => 'Locked : form can\'t be submited',
+	'txtUnlock'         => 'Unlocked : form can be submited',
 );
 
 $PLG_captcha_MESSAGE1 = 'CAPTCHA plugin upgrade: Update completed successfully.';
 $PLG_captcha_MESSAGE2 = 'CAPTCHA plugin upgrade failed - check error.log';
+$PLG_captcha_MESSAGE3 = 'CAPTCHA Plugin Successfully Installed';
 
-$LANG_CP10 = array (
-    'auth_sister'       => 'Setting Auth Sister',
-    'auth_sister_package' => 'Setting Sister(Package)',
-    'sister_mes_a'      => 'Character string added to message head',
-    'sister_mes_b'      => 'Character string added at the message end',
-    'sister_len_min'    => 'Number of minimum characters of answer sentences',
-    'sister_len_max'    => 'Number of maximum characters of answer sentences',
-    'sister_outlen'     => 'Error sentence outside character number range',
-    'sister_image'      => 'Sister Image file',
-    'new_sister_image'  => 'Sister Image is newly up-loaded',
-    'sister_font'       => 'TTF font',
-    'new_sister_font'   => 'TTF font is newly up-loaded',
-    'sister_fsize'      => 'Font size',
-    'sister_fx'         => 'X coordinates of Font',
-    'sister_fy'         => 'Y coordinates of Font',
-    'sister_words'      => 'Sister dictionary',
-    'sister_css'        => 'Sister Style Sheet',
+// Localization of the Admin Configuration UI
+$LANG_configsections['captcha'] = array(
+    'label' => 'Captcha',
+    'title' => 'Captcha Configuration'
+);
+
+$LANG_confignames['captcha'] = array(
+    'anonymous_only' => 'Anonymous Only',
+	'remoteusers' => 'Force CAPTCHA for all Remote Users',
+	'debug' => 'Debug',
+	'enable_comment' => 'Enable Comment',
+	'enable_contact' => 'Enable Contact',
+	'enable_emailstory' => 'Enable Email Story',
+	'enable_forum' => 'Enable Forum',
+	'enable_registration' => 'Enable Registration',
+	'enable_mediagallery' => 'Enable Media Gallery (Postcards)',
+	'enable_rating' => 'Enable Rating Plugin Support',
+	'enable_story' => 'Enable Story',
+	'enable_calendar' => 'Enable Calendar Plugin Support',
+	'enable_links' => 'Enable Links Plugin Support',
+	'logging' => 'Log invalid CAPTCHA attempts',
+	'input_id' => 'Custom id for invisible input',
+	'use_slider' => 'Enable CAPTCHA slider',
+);
+
+$LANG_configsubgroups['captcha'] = array(
+    'sg_main' => 'Main Settings'
+);
+
+$LANG_tab['captcha'] = array(
+    'tab_main' => 'General Captcha Settings'
+);
+ 
+$LANG_fs['captcha'] = array(
+    'fs_config' => 'CAPTCHA Configuration',
+    'fs_integration' => 'CAPTCHA Integration'    
+);
+
+// Note: entries 0 is the same as in $LANG_configselects['Core']
+$LANG_configselects['captcha'] = array(
+    0 => array('True' => 1, 'False' => 0)
 );
 
 ?>
