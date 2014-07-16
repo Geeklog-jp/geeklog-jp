@@ -2,8 +2,8 @@
 
 PLUGIN=		captcha
 
-FILES=		README.txt autoinstall.php config.php functions.inc upgrade.inc
-DIRS=		class images language sql templates
+FILES=		autoinstall.php configuration_validation.php functions.inc install_defaults.php LICENSE 
+DIRS=		language sql templates
 
 include ../../GNUmakefile.plugins
 include ../../GNUmakefile.common
