@@ -1,8 +1,42 @@
 NEWS
 
-							Geeklog Japanese
+							Geeklog Japan
 
 このファイルではGeeklog日本語版のリリースに関する情報を簡潔に紹介します。
+
+Geeklog 2.1.0-jp-1.0					2014年 7月1?日
+
+  o Geeklog 2.0.0-jp-1.0からの変更
+
+    インストーラ
+
+	* 日本語化を無くしました。日本語化は日本語化プラグインを実行してください。
+
+    日本語版テーマ
+
+	* Professional_css、Mobile、およびWAIproCSSをGeeklog 2.1.0に対応させ
+	  ました。
+
+    日本語拡張版プラグイン
+
+    - Autotags バージョン 1.1.1 を同梱
+    - Calendarjp バージョン 1.1.6 を同梱
+    - Captcha バージョン 3.5.5 を同梱（本家版に差し替え）
+    - CustomMenu バージョン 0.7.0 を同梱
+    - Dataproxy バージョン 2.0.0 を同梱
+    - Dbman バージョン 0.7.1 を同梱
+    - Filemgmt バージョン 1.6.0.jp3 を同梱
+    - Forum バージョン 2.9.0hg を同梱
+    - Japanize バージョン 2.1.0 を同梱（アップグレード）
+    - Mycaljp バージョン 2.2.0 を同梱
+    - Nmoxtopicown バージョン 1.0.12 を同梱
+    - Sitemap バージョン 2.0.0 を同梱
+    - Theme Editor バージョン 1.2.1 を同梱
+
+    日本語拡張版カスタム関数
+
+      変更はありません。
+      同梱しているカスタム関数はlib-custom.phpを参照してください。
 
 
 Geeklog 2.0.0-jp-1.0					2013年 4月10日
