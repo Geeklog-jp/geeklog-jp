@@ -47,6 +47,7 @@ function theme_config_mobile()
     return array(
         'image_type' => 'png',
         'doctype' => 'xhtml10strict'
+        'supported_version_theme' => '2.0.0' // support new theme format for the later Geeklog 2.0.0
     );
 }
 
@@ -58,7 +59,6 @@ function theme_css_mobile()
     global $_CONF, $LANG_DIRECTION;
     return array(
         array(
-            'file' => '/layout/' . $_CONF['theme'] . '/style.css'
         )
     );
 }
@@ -341,7 +341,7 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
-    } else {
+    } else if ($_CONF['disable_new_user_registration']==0) {
     // 新規登録
         	$footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/users.php?mode=new" accesskey="' . $akey . '">会員登録</a>' );
