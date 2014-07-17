@@ -1,11 +1,11 @@
 Geeklog日本語版
 
-							2013年 4月10日
-							Geeklog Japanese
+							2014年 7月1*日
+							Geeklog Japan
 
 1. 概要
 
-Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡張版を提供
+Geeklog Japanでは、Geeklog日本語標準版およびGeeklog日本語拡張版を提供
 しています。
 
 標準版はGeeklogを元に、オリジナルのGeeklogに対して以下の変更を加えたものです。
@@ -21,7 +21,7 @@ Geeklog Japaneseでは、Geeklog日本語標準版およびGeeklog日本語拡�
 Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ をご覧ください。
 
 
-2. Geeklog 2.0.0-jp-1.0の内容
+2. Geeklog 2.1.0-jp-1.0の内容
 
 オリジナルのGeeklogに対して、以下のソースファイルを追加、修正しています。
 
@@ -43,10 +43,7 @@ Geeklog日本語版の詳細な情報については http://www.geeklog.jp/ を�
     o インストーラーの修正
 
 	public_html/admin/install/index.php
-	public_html/admin/install/LocalizeGeeklog.php
-		インストール時にサイトを日本語化するためのプログラム。
-		コンフィギュレーションやテーブル構造、ブロックのタイトルなどを
-		日本語化します。
+		インストールのエンコードをUTF-8固定にしています。
 
 	public_html/admin/install/disable-plugins.php
 		インストール時に、プログラムで指定しているプラグイン以外は無効
