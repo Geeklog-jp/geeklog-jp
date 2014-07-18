@@ -1,7 +1,8 @@
 2014-07-17  Tetsuko Komma  <ivysoho>
 
 	* モバイルテーマ mobile をGeeklog 2.1.0にアップデートしました。
-	* public_html/admin/install/disable-plugins.php プラグイン対応状況を反映させました。
+	* public_html/admin/install/disable-plugins.php プラグイン対応状況を
+	  反映させました。
 	* ドキュメントを2.1.0 に修正。Geeklog Japan名称改正を反映しました。
 	* テーマのコメントに、Geeklog Japan名称改正を反映させました。
 
