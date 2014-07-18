@@ -10,24 +10,25 @@ Geeklog 2.1.0-jp-1.0					2014年 7月1?日
 
     インストーラ
 
-	* 日本語化を無くしました。日本語化は日本語化プラグインを実行してください。
+	* 日本語化を日本語化プラグインで行うようにしました。
+	  (日本語化には日本語化プラグインの実行が必要です。)
 
     日本語版テーマ
 
-	* Professional_css、Mobile、およびWAIproCSSをGeeklog 2.1.0に対応させ
+	* Professional_css、Mobile、およびWAIproCSSをGeeklog 2.1.0に対応し
 	  ました。
 
     日本語拡張版プラグイン
 
     - Autotags バージョン 1.1.1 を同梱
     - Calendarjp バージョン 1.1.6 を同梱
-    - Captcha バージョン 3.5.5 を同梱（本家版に差し替え）
+    - Captcha バージョン 3.5.5 を同梱(本家版に差し替え)
     - CustomMenu バージョン 0.7.0 を同梱
     - Dataproxy バージョン 2.0.0 を同梱
     - Dbman バージョン 0.7.1 を同梱
     - Filemgmt バージョン 1.6.0.jp3 を同梱
     - Forum バージョン 2.9.0hg を同梱
-    - Japanize バージョン 2.1.0 を同梱（アップグレード）
+    - Japanize バージョン 2.1.0 を同梱(アップグレード)
     - Mycaljp バージョン 2.2.0 を同梱
     - Nmoxtopicown バージョン 1.0.12 を同梱
     - Sitemap バージョン 2.0.0 を同梱
@@ -604,7 +605,7 @@ Geeklog 1.7.0-jp-1.2					2010年8月15日
 
 		   ("CREATE TABLE (..."というエラーが出たらsqlが残っています。
 		   sqlディレクトリの削除と、PhpMyAdminなどを使ってgroupsテー
-		   ブルから'GoogleMaps Admin'を手動で削除してください）
+		   ブルから'GoogleMaps Admin'を手動で削除してください)
 
 
 
