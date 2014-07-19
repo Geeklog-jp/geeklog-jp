@@ -4,6 +4,7 @@
 {noscript}
 <div id="advanced_editor" style="display:none;">
 {start_block_postacomment}
+<div id="commenteditform">
 <form action="{form_url}" method="post" onsubmit='set_postcontent();' id="commentform_advanced" class="linear">
   <fieldset>
     <legend>投稿情報</legend><!-- Geeklog Japanese -->
@@ -70,6 +71,7 @@
     </ul>
   </fieldset>
 </form>
+</div>
 {end_block}
 </div>
 

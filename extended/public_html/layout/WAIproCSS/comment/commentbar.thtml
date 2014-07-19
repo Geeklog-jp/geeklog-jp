@@ -37,9 +37,18 @@
         <input type="{reply_hidden_or_submit}" name="reply" value="{lang_reply}" class="submit"{xhtml}>
       </li>
     </ul>
+    {jump_link_for_commenteditform}
   </fieldset>
 </form>
 
 <p class="disclaimer">{lang_disclaimer}</p>
+
+<!-- BEGIN commenteditform_jumplink -->
+ 	<div>
+ 	[
+ 	<a class="button" href="#commenteditform">{lang_reply}</a>
+ 	]
+ 	</div>
+<!-- END commenteditform_jumplink -->
 
 <!-- } comment/commentbar.thtml -->
