@@ -10,7 +10,7 @@
       <div class="block-left" id="block-left-search">
         <h2>{button_search}</h2>
         <div class="block-left-content">
-          <form action="{site_url}/search.php" method="get" id="searchform" class="basic">
+          <form action="{site_url}/search.php" method="get" id="searchform" class="basic" role="search">
             <fieldset>
               <legend>{button_search}</legend>
               <ul>

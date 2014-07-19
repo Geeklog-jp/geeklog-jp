@@ -1,4 +1,4 @@
-<!-- featuredstorytext.thtml { -->
+{# begin {templatelocation} #}
 
 <div class="featuredstorytext">
   <h2>{start_storylink_anchortag}{story_title}{end_storylink_anchortag}</h2>
@@ -33,6 +33,8 @@
     <li>{edit_icon}</li>
   </ul>
 
+{related_topics}
+
   <ul class="navi">
     <li>{page_selector}</li>
     <li>{post_comment_link}</li>
@@ -45,4 +47,4 @@
   </ul>
 </div>
 
-<!-- } featuredstorytext.thtml -->
+{# end {templatelocation} #}

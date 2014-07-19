@@ -1,8 +1,6 @@
-
-<!-- archivestorytext.thtml { -->
+{# begin {templatelocation} #}
 
 <div class="archivestorytext">
-  {breadcrumb_trail}
   <h2>{story_title_link}</h2>
 
   <ul class="status">
@@ -34,6 +32,8 @@
     <li>{edit_icon}</li>
   </ul>
 
+{related_topics}
+
   <ul class="navi">
     <li>{page_selector}</li>
     <li>{post_comment_link}</li>
@@ -46,4 +46,4 @@
   </ul>
 </div>
 
-<!-- } archivestorytext.thtml -->
+{# end {templatelocation} #}

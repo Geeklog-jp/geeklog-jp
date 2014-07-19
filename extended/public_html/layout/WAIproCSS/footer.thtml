@@ -18,7 +18,7 @@
 
   <!-- #footer { -->
   <!-- フッタコンテナ -->
-  <div id="footer">
+  <div id="footer" role="contentinfo">
 <p class="back"><a href="#header">ページの先頭へ戻る</a></p>
     <ul>
       <li class="copyright_notice"><address>{copyright_notice}</address></li>

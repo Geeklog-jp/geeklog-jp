@@ -46,7 +46,8 @@ function theme_config_WAIproCSS()
 {
     return array(
         'image_type' => 'gif',
-        'doctype' => 'xhtml10transitional'
+        'doctype' => 'xhtml10transitional',
+        'supported_version_theme' => '2.0.0' // support new theme format for the later Geeklog 2.0.0
     );
 }
 
@@ -56,8 +57,10 @@ function theme_config_WAIproCSS()
 function theme_css_WAIproCSS()
 {
     global $_CONF, $LANG_DIRECTION;
+   
     return array(
         array(
+            'name' => 'theme',
             'file' => '/layout/' . $_CONF['theme'] . '/style.css'
         )
     );
@@ -69,7 +72,10 @@ function theme_css_WAIproCSS()
 function theme_js_libs_WAIproCSS()
 {
     return array(
-        'jquery'
+       array(
+            'library'  => 'jquery',
+            'footer' => true // Not requred, default = true
+        )
     );
 }
 
@@ -79,10 +85,17 @@ function theme_js_libs_WAIproCSS()
 function theme_js_files_WAIproCSS()
 {
     global $_CONF;
+   
     return array(
-        '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
-        '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js'
-    );
+       array(
+            'file'      => '/layout/' . $_CONF['theme'] . '/javascript/fix_html.js',
+            'footer'    => true, // Not requred, default = true
+            'priority'  => 100 // Not requred, default = 100
+        ),
+        array(
+            'file'     => '/layout/' . $_CONF['theme'] . '/javascript/confirm.js',
+        )        
+    );    
 }
 
 /**
@@ -91,9 +104,6 @@ function theme_js_files_WAIproCSS()
 function theme_init_WAIproCSS()
 {
     global $_BLOCK_TEMPLATE, $_CONF;
-
-    $_CONF['supported_version_theme'] = '2.0.0'; // support new theme format for the later Geeklog 2.0
-
     $_CONF['left_blocks_in_footer'] = 1;
 
     /*
@@ -115,9 +125,10 @@ function theme_init_WAIproCSS()
     $_BLOCK_TEMPLATE['admin_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
     $_BLOCK_TEMPLATE['section_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
 
-    if (!COM_isAnonUser()) {
+    if (! COM_isAnonUser()) {
         $_BLOCK_TEMPLATE['user_block'] = 'blockheader-list.thtml,blockfooter-list.thtml';
     }
 }
 
 ?>
+

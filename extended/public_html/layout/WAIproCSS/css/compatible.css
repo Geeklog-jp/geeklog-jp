@@ -642,7 +642,7 @@ a.pluginButton:hover {
   color: blue;
   text-align: center;
   padding-top: 2px;
-  background: transparent url(../navbar/images/button_over.gif) repeat-x 50% 50%;
+  background: transparent url(../images/navbar/button_over.gif) repeat-x 50% 50%;
   display: block;
   height: 19px;
   text-decoration: none;

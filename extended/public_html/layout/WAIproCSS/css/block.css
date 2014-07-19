@@ -50,19 +50,19 @@ li.listitem {
     システムメッセージ等です。
 --------------------------------------*/
 
-div#centerblocks div#block-message {
+div#centerblocks div.block-message {
   margin: 2em 1em;
   padding: 0;
   border: 1px solid #000000;
 }
 
-div#centerblocks div#block-message dl {
+div#centerblocks div.block-message dl {
   margin: 0;
   padding: 0;
 }
 
 /* タイトル */
-div#centerblocks div#block-message dl dt {
+div#centerblocks div.block-message dl dt {
   margin: 0;
   padding: 8px;
   background: #555555;
@@ -71,7 +71,7 @@ div#centerblocks div#block-message dl dt {
 }
 
 /* メッセージ */
-div#centerblocks div#block-message dl dd {
+div#centerblocks div.block-message dl dd {
   margin: 0;
   padding: 8px;
   background: #eeeeee;

@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.6.0 for Geeklog2.0.0
+  バージョン: 2.7.0 for Geeklog2.1.0
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -57,15 +57,14 @@ Geeklogのテーマである「ProfessionalCSS」のデザインを元に、
 音声でのネットサーフ（音声読み上げ）を考慮し、ヘッダ領域に含まれていた左ブロックをフッタ領域に移動させ記事(中央ブロック)を先読みするようになっています。
 CSSでの表示（視覚上）は左ブロック→中央ブロックー右ブロックの順にしています。
 また、グローバルナビゲーションと左右ブロックの聞き飛ばしが出来るようページ内リンクを設定しています。聞き飛ばしの部分はCSSで視覚上は見えないように設定しています。
-(音声の読上げを確認するのにホームページリーダー3.04を使用、Ver.2.4.0からPC-Talker XPを使用)
+(音声の読上げを確認するのにホームページリーダー3.04を使用、Ver.2.4.0からPC-Talker XP、その後PC-Talker7を使用)
 
 音声で読み上げないようにする記述をしている部分があります（ホームページリーダー3.02では反映されません）。今後ＯＳ標準でスクリーンリーダー（画面読み上げ）が普及の兆しであるので記述しておきます。
 
 音声読上げソフトを利用されている方が、メニューなどを聞き飛ばした後、現在地がわかるよう「ここから記事」のようなテキストを入れてあります。
 
 レイアウトのサイズ指定方法は、エラスティックレイアウト(em指定)を使用しているので、テキストズームで拡大・縮小された時でもレイアウトの崩れはほとんどないので、文字が読みやすくなっています。
-(「Windows XP Internet Explorer6、7、8の文字サイズ最大、Internet Explorer7、8の拡大レベル200%、Opera12.01のズーム200%、 Firefox15.0.1の文字サイズだけ変更拡大×３及び拡大×４、Safari5.1.7のテスキトのみ拡大×３及び拡大×４、Google Chrome22.0.1229.79のText Zoom拡大×４」「Windows7 Internet Explorer9の文字サイズ最大及び拡大レベル200%」「Mac OS X バージョン10.7.4 Safari6.0のテキストのみ拡大×４及び拡大×４、Firefox15.0.1の文字サイズだけ変更拡大×３及び拡大×４」で確認)
-Windows XP Internet Explorer6で文字サイズを最小にすると不具合がある事は確認しております。
+(「Windows 7 Internet Explorer8,9,10,11の拡大レベル200%、Opera21.0のズーム200%、 Firefox30.0の文字サイズだけ変更拡大×３及び拡大×４、Google Chrome36.0.1985.125のText Zoom拡大×４」「Mac OS X バージョン10.7.5 Safari6.1.5のテキストのみ拡大×４及び拡大×４、Firefox30.0の文字サイズだけ変更拡大×３及び拡大×４」で確認)
 
 配色は、コントラストや色差、明度差に配慮しています。
 聴覚障害の方が情報を理解しやすいように、レイアウトが解りやすいデザインにしています。
@@ -124,8 +123,10 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   +WAIproCSS ------ 「WAIproCSS」テーマディレクトリ
     +admin
     +article
+    +breadcrumbs
     +comment
-    +forum
+    +custommenu
+    +lists
     +navbar
     +preferences ---- テンプレートファイル・ディレクトリ
     +profiles          
@@ -150,6 +151,8 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
     +javascript ---- JavaScriptディレクトリ
     | |
     | +fix_html.js - Geeklogのカラム数に応じてbody要素のclass属性を書き換えます。
+    |
+    +jquery_ui
     |
     +README -------- 「WAIproCSS」テーマのドキュメント(このファイル)
     |
@@ -240,20 +243,19 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
   +css/admin.css -------------------- インポート用スタイルシート(管理者ページ)
     +css/admin/common.css ----------- 共通スタイル(管理者ページ)
     +css/admin/block.css ------------ ブロックエディタスタイル(管理者ページ)
-    +css/admin/event.css ------------ イベントエディタスタイル(管理者ページ)
     +css/admin/group.css ------------ グループエディタスタイル(管理者ページ)
     +css/admin/lists.css ------------ リストスタイル(管理者ページ)
-    +css/admin/moderation.css ------- 管理画面スタイル(管理者ページ)
+    +css/admin/commandcontrol.css --- 管理画面スタイル(管理者ページ)
     +css/admin/plugins.css ---------- プラグインページスタイル(管理者ページ)
     +css/admin/story.css ------------ 記事エディタスタイル(管理者ページ)
     +css/admin/topic.css ------------ 話題エディタスタイル(管理者ページ)
     +css/admin/trackback.css -------- トラックバックページスタイル(管理者ページ)
     +css/admin/user.css ------------- ユーザエディタスタイル(管理者ページ)
+    +css/admin/configuration.css ---- コンフィギュレーションページスタイル(管理者ページ)
 
   プラグインスタイルシート
     +css/plugin.css ------------------- インポート用スタイルシート(プラグイン)
     +css/plugin/sitecalendar.css ---- サイトカレンダスタイル(プラグイン)
-    +css/plugin/forum.css ----------- フォーラムスタイル(プラグイン)
     +css/plugin/japanize.css ----------- Japanizeスタイル(プラグイン)
 
   カスタムテーマスタイルシート
@@ -358,6 +360,10 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
   * 更新
   + 追加
   - 削除
+
+■Ver.2.7.0(2014-07-19)
+　・Geeklog 2.1.0に合わせて、ファイルを追加・修正・削除しました。
+  ・ヘッダ、フッタ、ナビ、サーチの部分に今後必要と思われるrole属性を追記しました。(*header.thtml,footer.thtml,leftblocks.thtml)
 
 ■Ver.2.6.0(2012-10-07)
 　・Geeklog 2.0.0に合わせて、ファイルを追加・修正しました。

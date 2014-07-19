@@ -55,7 +55,7 @@
      <dl class="authority">
       <dt>{lang_rights}</dt>
       <dd class="description">{lang_rightsmsg}</dd>
-      <dd><table>{rights_options}</table></dd>
+      <dd><table style="100%;">{rights_options}</table></dd>
     </dl>
   </fieldset>
 

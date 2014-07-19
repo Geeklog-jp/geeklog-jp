@@ -150,3 +150,10 @@ div.warningsmall {
 div#se_bottom {
   margin-top: 15px;
 }
+
+/* Story Stats */
+span.story_stats {
+  display: inline-block;
+  float: left;
+  margin-right: 2em;
+}
