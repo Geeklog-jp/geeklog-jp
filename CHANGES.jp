@@ -1,3 +1,11 @@
+2014-07-21  Tetsuko Komma  <ivysoho>
+
+	* professional_css をGeeklog 2.1.0にアップデートしました。
+	* professional_css と denimの記事編集日本語版テンプレートにCache設定を
+	  追加して2.1.0に対応させました。
+	* テーマprofessional_cssで、Geeklog 2.1.0で不要になったファイルを削除
+	  しました。
+
 2014-07-20  Masuko Koeda  <milk851>
 
 	* テーマWAIproCSSの不要なファイルを削除しました。
