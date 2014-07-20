@@ -2,7 +2,7 @@
 
 /*==============================================================================
   Title       : professional compatible Style
-  Author      : dengen - Yoshinori Tahara (http://www.trybase.com/~dengen/log/) and Geeklog Japan
+  Author      : dengen - Yoshinori Tahara (http://www.trybase.com/~dengen/log/) and Geeklog Japanese
   Description : For all layout
                 Add Professional style to ProfessionalCSS.
   Apply       : All
@@ -584,7 +584,7 @@ a.pluginButton:hover {
   color:blue;
   text-align:center;
   padding-top:2px;
-  background:center url(../navbar/images/button_over.gif);
+  background:center url(../images/navbar/button_over.gif);
   background-repeat:repeat-x;
   display:block;
   height:19px;
