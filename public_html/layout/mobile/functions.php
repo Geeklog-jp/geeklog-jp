@@ -47,7 +47,6 @@ function theme_config_mobile()
     return array(
         'image_type' => 'png',
         'doctype' => 'xhtml10strict'
-        'supported_version_theme' => '2.0.0' // support new theme format for the later Geeklog 2.0.0
     );
 }
 
@@ -291,12 +290,12 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
      */
 	$akey = 1;
 	
-    // ホーム
+    // ホ�Eム
     $footer->set_var( 'mn_tohome', '<a href="'. $_CONF['site_url'] .
                       '/" accesskey="' . $akey . '">' . $LANG01['68'] . '</a>' );
 	$akey ++;
 	
-    // ログイン/ログアウト
+    // ログイン/ログアウチE
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
         	$footer->set_var( 'mn_login_or_logout',
 						  '<a href="'. $_CONF['site_url'] .
@@ -331,13 +330,13 @@ function mobile_siteFooter( $rightblock = -1, $custom = '' )
                       '/search.php" accesskey="' . $akey . '">' . $LANG01['75'] . '</a>' );
 	$akey ++;
 	
-    // ブロック
+    // ブロチE��
     $footer->set_var( 'mn_block', '<a href="' . $_CONF['site_url'] .
                       '/mobileblocks.php" accesskey="' . $akey . '">サブメニュー</a>' );
 	$akey ++;
 	
     if (!empty ($_USER['uid']) && ($_USER['uid'] > 1)) {
-    // マイアカウント
+    // マイアカウンチE
         $footer->set_var( 'mn_myaccount', '<a href="' . $_CONF['site_url'] .
                       '/usersettings.php?mode=edit" accesskey="' . $akey . '">' . $LANG01['48'] . '</a>' );
 	$akey ++;
