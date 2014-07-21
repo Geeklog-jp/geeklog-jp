@@ -1,3 +1,8 @@
+2014-07-21  Masuko Koeda  <milk851>
+
+	* テーマWAIproCSSで不要なファイルを削除しました。
+	* Revision 85e289f06c52で追加されたファイルは不要なので削除しました。
+
 2014-07-21  Tetsuko Komma  <ivysoho>
 
 	* professional_css をGeeklog 2.1.0にアップデートしました。
