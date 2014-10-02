@@ -1,3 +1,8 @@
+2014-10-02  Masuko Koeda  <milk851>
+	* テーマWAIproCSSで検索フォーム部分がアセシブルではなかったので、
+	  title属性を追記しました。
+	* 修正したので、バージョンをVer.2.7.1に変更しました。
+
 2014-08-03  Yoshinori Tahara  <dengen>
 
 	* calendarjpプラグイン: calendarプラグイン バージョン1.1.4の変更を
