@@ -1,3 +1,7 @@
+2014-10-03  Masuko Koeda  <milk851>
+	* テーマprofessional_cssとWAIproCSSでlang属性が表示されなかったので、
+	  表示されるよう変数を修正しました。
+
 2014-10-02  Masuko Koeda  <milk851>
 	* テーマWAIproCSSで検索フォーム部分がアセシブルではなかったので、
 	  title属性を追記しました。
