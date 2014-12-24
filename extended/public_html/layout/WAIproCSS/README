@@ -1,6 +1,6 @@
 /*==============================================================================
   タイトル  : Geeklog用WAIproCSSテーマ
-  バージョン: 2.7.0 for Geeklog2.1.0
+  バージョン: 2.7.1 for Geeklog2.1.0
   著者      : Hisakatsu Katoh as ネット素浪人 (contact is katoq.AT.b-lines.DOT.jp)
               Masuko koeda as みるく(http://white-stage.com/)
   説明      : Geeklog用のテーマ「ProfessionalCSS」を基本に, アクセシィビリティに配慮した「WAIproCSS」です。
@@ -363,6 +363,7 @@ WAIproCSSテーマをベースにしたカスタマイズを行うには、上�
 
 ■Ver.2.7.1(2014-10-01)
 　・検索フォーム部分がアセシブルではなかったので、title属性を追記しました。(*leftblocks.thtml)
+　・lang属性が表示されなかったので、表示されるよう変数を修正(*header.thtml)
 
 ■Ver.2.7.0(2014-07-19)
 　・Geeklog 2.1.0に合わせて、ファイルを追加・修正・削除しました。
