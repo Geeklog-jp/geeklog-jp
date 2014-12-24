@@ -1,3 +1,6 @@
+2014-12-24  Masuko Koeda  <milk851>
+	* テーマWAIproCSSのバージョンを修正しました。
+
 2014-10-03  Masuko Koeda  <milk851>
 	* テーマprofessional_cssとWAIproCSSでlang属性が表示されなかったので、
 	  表示されるよう変数を修正しました。
