@@ -1,3 +1,9 @@
+2015-02-05  Tetsuko Komma  <ivysoho>
+
+	* Autotagsプラグインのいくつかのファイルの改行コードをLFに調整しました。
+	* public_html/admin/install/rescue.phpのコンフィギュレーション設定から
+	  Geeklog 2.1から再び不要になった'path_themes'を削除しました。
+
 2014-12-24  Masuko Koeda  <milk851>
 	* テーマWAIproCSSのバージョンを修正しました。
 
