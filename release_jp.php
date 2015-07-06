@@ -1,4 +1,4 @@
 <?php
-  $release_no = "1.1.beta1";
-  $release_date = "Sat Jul 26 00:22:02 UTC 2014";
+  $release_no = "1.1";
+  $release_date = "Mon Jul  6 11:17:16 UTC 2015";
 ?>
