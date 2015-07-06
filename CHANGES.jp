@@ -1,3 +1,9 @@
+2015-07-06  Kenji ITO <mystralkk>
+
+	* クロスサイトスクリプティングを防ぐために、ファイルマネージャーで
+	  使用されているWideImageライブラリー付属のデモ・テスト用のコードを
+	  削除しました。
+
 2015-02-13  Tetsuko Komma  <ivysoho>
 
 	* lib-common.php エラーメッセージのヘッダーをエンコードをUTF-8にして
